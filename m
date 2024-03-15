@@ -1,243 +1,120 @@
-Return-Path: <linux-media+bounces-7144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C37D87D08D
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 16:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578F987D0A4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 16:51:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F6291C22648
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 15:44:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89CED1C226E5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 15:51:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639373F9E0;
-	Fri, 15 Mar 2024 15:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B28845942;
+	Fri, 15 Mar 2024 15:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbDzCpVc"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BpSkZhko"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5AE45972
-	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 15:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74CD4086B
+	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 15:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710517468; cv=none; b=gL6yaMCRiVmItvUFGYjv8dERala1Xnq5fsMNdZGB9HhuQnxxmC9SknI+AsSc7aoNiJ489vSz094c6lWLsTWN4T8aqTV5uFkBfSw37htx/m4NhLSd+bADniOcqyJnlTgCATKBzRlNzN4WVsLJsTx139G5v9nPNeakwPN3l2Fkla0=
+	t=1710517841; cv=none; b=fJtd8MGCOX+34ue9QqbA2oz3ikOyYzSTYZ2FUxK6YXeWWx3cu1dVzql1DtRQoMqlOuQJFETe4Uvl60po6ca69mFASejYFpJKrDAhnQniLub3YfH7F5Bs0D6vcp3Gsg4at6466k7raLQ1qLbj9dvH8uGYjx+SMimSAFIi3nENCIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710517468; c=relaxed/simple;
-	bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qr5Dp8QNzUhe0wmcp43SLyoYh9kyuPBVlPPlNi0O18TIFTaHqRj1DVhqzUbH6x6hMWquIZv48/zSjSuRd6oaLSHqkpk0dYg0Ew/DjgBnlmUjsdl/J8HCkGVP4Pg9z8KgIV3pYdrIPE/46jdgjuy7UD0+Q02N0/6jR+2Jby54a6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbDzCpVc; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710517468; x=1742053468;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zLFKLaDgu7A9t4PnNE41buDweQyJlPexb7inSJDieTs=;
-  b=KbDzCpVc/FxxIfNCiBLdM9q1sMyonQh1fvtX5zI7quD6rwA2hUaZjWFz
-   jLNr7CY/5MUV0j4UAss+3JmuhMNg69W5IwbjsOsQsT8WT4dGymeinvT71
-   XDx5IXl0M3CIqXqEgHP3HBDAPfRwSR0rP0g1PZf5OwT1b/urEOIPPxRFp
-   a/qGnOXn2bRAJke97XNjJhHxFBANv/KVdhiyQwN3YTp0KAuDsD41CsDx2
-   5coD6CfHAJvbjq6JvgfZqWGtGchXHCYsebVKqvaMxdFEQC61G0Yi+XLEs
-   61N24rzxKRRMSh2qyi8LGNWLqAKJRjQlNjjhlAHH9a0bKhIui4o8G+Ie0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5261110"
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="5261110"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 08:44:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,128,1708416000"; 
-   d="scan'208";a="17324368"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 08:44:14 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rl9jA-000EYb-0Z;
-	Fri, 15 Mar 2024 15:44:12 +0000
-Date: Fri, 15 Mar 2024 23:43:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
-	sylvain.petinot@foss.st.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, kernel@collabora.com,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-Message-ID: <202403152358.DM9q4q25-lkp@intel.com>
-References: <20240315085158.1213159-3-julien.massot@collabora.com>
+	s=arc-20240116; t=1710517841; c=relaxed/simple;
+	bh=TwSkaYlUCetTup9eOgljpGzy2R9XYVMQTBRDsFcheHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TRPCS7Ax3Dk8enQdv9DmHRfAMsqqHhwiVxYaE6AekX88XywNfhbo53Jw29RZSJBS3+5hhFWYfswOKKLlqVMukEkAk6EMi8lHV0GFX3g6jShkMwrH+EOZIRwncXMXXux7NI0G7pAbDObvgAiTjY5dZwvzSPPQvp9dcw1MxTV41Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BpSkZhko; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710517838;
+	bh=TwSkaYlUCetTup9eOgljpGzy2R9XYVMQTBRDsFcheHY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BpSkZhkoPLKrQI65lpHTbVK2VB21JSE/GWwXMiphNCXE1hnBcecbiXh4FXw/FjsFv
+	 m1WH6ogg7eBswuzZI754VA8d+8GW3SWwLRmCDmoNavwgX9SAZJCXYBPc3+QxiBv2zs
+	 4jp387XT8+0BwIuAPToLIXczr523kRVODxO8dl9iLjskBrjQyBKpuXQcFtE+zwQDqG
+	 LHsLibhHK7l4yawR77ps2+5KW5y0cSOapywZl81ooaleWYYYNMOXEd4iZn+dVWUDe3
+	 MgUiK/yFFOcCSU9ukiOOB/kmDRdktyzrmovl2kuA0vyvN5GJNHEfLYYMFK85DcjG0S
+	 3eXJ7NnzG7Mdg==
+Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6B8BF3782110;
+	Fri, 15 Mar 2024 15:50:37 +0000 (UTC)
+Message-ID: <c106f1a9-f423-4cdc-acde-5491100e5f69@collabora.com>
+Date: Fri, 15 Mar 2024 16:50:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240315085158.1213159-3-julien.massot@collabora.com>
-
-Hi Julien,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master next-20240315]
-[cannot apply to sailus-media-tree/streams linus/master v6.8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/media-i2c-st-vgxy61-Use-sub-device-active-state/20240315-165346
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240315085158.1213159-3-julien.massot%40collabora.com
-patch subject: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 8f68022f8e6e54d1aeae4ed301f5a015963089b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240315/202403152358.DM9q4q25-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403152358.DM9q4q25-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/media/i2c/st-vgxy61.c:11:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/i2c/st-vgxy61.c:709:16: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-     709 |                 code->code = MEDIA_BUS_FMT_META_8;
-         |                              ^
-   drivers/media/i2c/st-vgxy61.c:1251:19: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-    1251 |         meta_fmt->code = MEDIA_BUS_FMT_META_8;
-         |                          ^
-   drivers/media/i2c/st-vgxy61.c:1309:29: error: use of undeclared identifier 'MEDIA_BUS_FMT_META_8'
-    1309 |         desc->entry[1].pixelcode = MEDIA_BUS_FMT_META_8;
-         |                                    ^
->> drivers/media/i2c/st-vgxy61.c:1326:6: error: use of undeclared identifier 'V4L2_SUBDEV_ROUTE_FL_IMMUTABLE'
-    1326 |                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-         |                                  ^
->> drivers/media/i2c/st-vgxy61.c:1336:17: error: invalid application of 'sizeof' to an incomplete type 'struct v4l2_subdev_route[]'
-    1336 |                 .num_routes = ARRAY_SIZE(routes),
-         |                               ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> drivers/media/i2c/st-vgxy61.c:1891:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
-    1891 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                     ^
-   drivers/media/i2c/st-vgxy61.c:1893:23: error: use of undeclared identifier 'MEDIA_PAD_FL_INTERNAL'
-    1893 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-         |                                     ^
-   7 warnings and 7 errors generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 13/38] media: v4l: subdev: Copy argument back to user
+ also for S_ROUTING
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+ hongju.wang@intel.com, hverkuil@xs4all.nl,
+ Andrey Konovalov <andrey.konovalov@linaro.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dmitry Perchanov <dmitry.perchanov@intel.com>,
+ "Ng, Khai Wen" <khai.wen.ng@intel.com>,
+ Alain Volmat <alain.volmat@foss.st.com>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-14-sakari.ailus@linux.intel.com>
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20240313072516.241106-14-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-vim +/MEDIA_BUS_FMT_META_8 +709 drivers/media/i2c/st-vgxy61.c
 
-   698	
-   699	static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
-   700					 struct v4l2_subdev_state *sd_state,
-   701					 struct v4l2_subdev_mbus_code_enum *code)
-   702	{
-   703		if (code->pad == VGXY61_PAD_META ||
-   704		    (code->pad == VGXY61_PAD_SOURCE &&
-   705		     code->stream == VGXY61_STREAM_META)) {
-   706			if (code->index > 0)
-   707				return -EINVAL;
-   708	
- > 709			code->code = MEDIA_BUS_FMT_META_8;
-   710			return 0;
-   711		}
-   712	
-   713		if (code->index >= ARRAY_SIZE(vgxy61_supported_codes))
-   714			return -EINVAL;
-   715	
-   716		code->code = vgxy61_supported_codes[code->index].code;
-   717	
-   718		return 0;
-   719	}
-   720	
+On 3/13/24 08:24, Sakari Ailus wrote:
+> As the user needs to know what went wrong for S_ROUTING, copy array
+> arguments back to the user.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
+> ---
+>   drivers/media/v4l2-core/v4l2-ioctl.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index d125d23e4e61..95bd56145d38 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -3415,11 +3415,14 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+>   	 * FIXME: subdev IOCTLS are partially handled here and partially in
+>   	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
+>   	 * defined here as part of the 'v4l2_ioctls' array. As
+> -	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
+> -	 * in case of failure, but it is not defined here as part of the
+> +	 * VIDIOC_SUBDEV_[GS]_ROUTING needs to return results to applications
+> +	 * even in case of failure, but it is not defined here as part of the
+>   	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
+>   	 */
+> -	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
+> +	if (cmd == VIDIOC_SUBDEV_G_ROUTING || cmd == VIDIOC_SUBDEV_S_ROUTING)
+> +		always_copy = true;
+> +
+> +	if (err < 0 && !always_copy)
+>   		goto out;
+>   
+>   	if (has_array_args) {
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
