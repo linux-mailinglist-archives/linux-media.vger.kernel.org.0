@@ -1,140 +1,95 @@
-Return-Path: <linux-media+bounces-7125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82CB87CC66
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 12:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBFB87CD31
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 13:23:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 649E5282C53
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:36:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8613282304
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 12:23:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C049A1B809;
-	Fri, 15 Mar 2024 11:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPewBaXE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D61E1C6BD;
+	Fri, 15 Mar 2024 12:22:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5F51B7E1
-	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 11:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6E41C692;
+	Fri, 15 Mar 2024 12:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710502579; cv=none; b=n7trHqNfTrf1XvZnfFBmgt1e6jhK+Vn35GoqH0s0wPBHJDJIT6bF7+/Z2Y98H6edj78NCbvfNoN4rQV44ExisFsR5h6QBj/9AjO8CgzErmAxUb34cXdORKQOj4OcLOUvsVJrvSGHsBfp8uwaKnERJBTf4HWST+WbGepZ2TdfJa8=
+	t=1710505367; cv=none; b=dSdzeGDw6K9rc6lBQA1spARoutjNfU546KTwcv0IYIpLFELBUp4F7+fypH4E14shedFfEhhLW+x4teTc4qFEhP6abzMqUH1kdCoPoyoiYARCdjgnpOw9v8awbGpB0afDM10xzgodH3uFMK9u3XP16IFazDABhm6DGWWkS9YLCWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710502579; c=relaxed/simple;
-	bh=UU6200A5l/xhlbHtNlMuxDdLg5eVbBzYUHSUvxdTTmA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uzis952vQC4twR0WZs8nwoykRSRacdu30BDNhfUBbqovrH5k1qfUfcOsGg0JtPyg0cWT3vULNnDnwBbTvHnKCmW4/hnRBCSER1cjf3fvCIeGTzaI52OVhqI8EJYjpw1h4sX7Thj9kOZIRg7JcPEL/3yUOHXLV09eF8fyyo2fYUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPewBaXE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB616C433C7;
-	Fri, 15 Mar 2024 11:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710502578;
-	bh=UU6200A5l/xhlbHtNlMuxDdLg5eVbBzYUHSUvxdTTmA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OPewBaXERuzpzdTl4HpVa51y9aIfwEKPD+zTi3kBLMGDfWIoJ/rboiBruimYX+/0h
-	 SkP437iHd/uH4CsxbQMuDwfia6dpwNItKMaxxvGeXC0gRO0hd3rOYD8viY4q9zFy89
-	 5Lw7M70I+qp9Lkyrvwt6/c0Yxhh091yj48kCqwW3QXsed877v1e9x7G86vL9zS2qT4
-	 D1iHE/HGVCwcHgb/3mOJ8xsHIZuo40q/PD08iGXiEy87dC0nN+d9g/X7yC59NPje47
-	 WumJfuKg93yjjj4lQUnglnaEW0DYKaptdEtqRD/daOFKN7PSX7JF+IpwvhsXlusQJw
-	 hShoBih7wyW1g==
-Message-ID: <63bb33ad-9687-4023-aa4e-253d83b5d458@kernel.org>
-Date: Fri, 15 Mar 2024 12:36:12 +0100
+	s=arc-20240116; t=1710505367; c=relaxed/simple;
+	bh=DN0kuGMMIWqvC+2KXvdlZoq9OKvpT+42t63G3rdXcUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RYvEBQm2zQ5lfh3veBfXhCYCbm6LU/VP+LGww5Uk7IhmthNKpFCt5qORqP6YUS/v0Rx9e8yBn4XqzI67JFGR3iiWYiL4cWOqcMvzpqhgNnctghy2DPvdpkPkiUe73Xl9YfkPDd4zZzF5/fjCtx4nEoe5h4PWcxvxPJ8+ARnPCTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a9e.versanet.de ([83.135.90.158] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rl6Zn-0000H4-Sa; Fri, 15 Mar 2024 13:22:19 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ mchehab@kernel.org, Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: sfr@canb.auug.org.au, liujianfeng1994@gmail.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, sigmaris@gmail.com, knaerzche@gmail.com
+Subject:
+ Re: [PATCH v3 2/2] dt-bindings: media: rockchip-vpu: Add rk3588 vpu
+ compatible string
+Date: Fri, 15 Mar 2024 13:22:18 +0100
+Message-ID: <9414316.4vTCxPXJkl@diego>
+In-Reply-To: <20231231151112.3994194-3-liujianfeng1994@gmail.com>
+References:
+ <20231231151112.3994194-1-liujianfeng1994@gmail.com>
+ <20231231151112.3994194-3-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: dt-bindings: st-vgxy61: relax data-lanes
- restriction
-Content-Language: en-US
-To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
- sylvain.petinot@foss.st.com
-Cc: linux-media@vger.kernel.org, kernel@collabora.com
-References: <20240315090345.1213957-1-julien.massot@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240315090345.1213957-1-julien.massot@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 15/03/2024 10:03, Julien Massot wrote:
-> The ST VGXY61 sensors support multiple lane numbers, as
-> well as lane mapping.
+Am Sonntag, 31. Dezember 2023, 16:11:12 CET schrieb Jianfeng Liu:
+> Add Hantro G1 VPU compatible string for RK3588.
+> RK3588 has the same Hantro G1 ip as RK3568, which are both
+> known as VDPU121 in TRM of RK3568 and RK3588.
+> 
+> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
 > ---
-> Changes in v2:
-> Add minimum/maximum items to restrict lane index to 1..4.
-> ---
+>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> index c57e1f488..16886bccf 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> @@ -31,6 +31,9 @@ properties:
+>        - items:
+>            - const: rockchip,rk3228-vpu
+>            - const: rockchip,rk3399-vpu
+> +      - items:
+> +          - const: rockchip,rk3588-vpu
+> +          - const: rockchip,rk3568-vpu
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+at least the rk3588 has multiple v{d/e{.}pu blocks, so this compatible
+is very misleading. As you mention in the commit description already,
+this describes the vdpu121, so can we please use that in the compatible
+as well to distinguish this one from the others that hopefully will come
+later?
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+Thanks
+Heiko
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
-
-Please kindly resend and include all necessary To/Cc entries.
-
-
-Best regards,
-Krzysztof
 
 
