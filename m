@@ -1,287 +1,214 @@
-Return-Path: <linux-media+bounces-7100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1241C87C8DD
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 07:50:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D13687C92C
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 08:29:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3186A1F21D20
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 06:50:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F398282266
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 07:29:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8C014005;
-	Fri, 15 Mar 2024 06:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB8DF1755A;
+	Fri, 15 Mar 2024 07:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uOF1tiDl"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="O+tn2mIr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F018114003
-	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 06:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD0D171AB;
+	Fri, 15 Mar 2024 07:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710485009; cv=none; b=icm+WBuAu505+JjEVruF/5C7h5nn7RBjG4vIQxxRfpagISngKWtpkH/UpRjAfWQkBBN9Rbx93FbSjrQgxvpamnfXfj80lYZX7Rj2LFRCZuil2lqlXQbjQOmQjYa5b1vcEP3v8VxVd63hqWpEPsOKrENvsGbeXoZEUkA5pnLfFps=
+	t=1710487607; cv=none; b=ZQDiwpaj8DB8l071UgymfMFGDsa4w3VUtsvy68kxVNOHVUzFBcB+aYKAX+iFjHx+hA30A3SRCg2qWOqvYOjraphipGfZ9j2X6vwUG+CfLg2dV6fYe+hv/jC3agRJEqulE7YjgcSZELA6233Nqq78/YPUmBgLA6zyjYLD+hIOrOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710485009; c=relaxed/simple;
-	bh=YWb36XWaxlwwwL/EDnVoKMRte2z3NDGGw0DTYOP73l0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rW+cQwhI+1O/3UkLQJOhbnnBd5cRVODro9iT4Cq9Ib4Opm5t5yao7ICmt2aCX6BYtfnFbdBwxE7tBrU89/tb+aDEo+H76INMlO281G3EfyfeImkTEtOLU5yT+0o10RqMMVwN/SS+VHsFpKM6/dNbYLBb/7qL6gotvyrC+RM6g78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uOF1tiDl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (unknown [103.251.226.70])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CEAAE4;
-	Fri, 15 Mar 2024 07:42:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710484981;
-	bh=YWb36XWaxlwwwL/EDnVoKMRte2z3NDGGw0DTYOP73l0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uOF1tiDlT2wml151YU2Mr5g96AZzWfum4ZUUBji2408UYS+NYKmjKvQuF/spw+piv
-	 uN8/gBpCFg9bd5iDV8Q1n9E4UvJhJrOYny6aH4MGfKSoZFYIzQU8QyjWsBxvJ3b/UX
-	 ADwFBqMQirFFggqTuVktYjxcYtip0FCwFEk2Vv38=
-Message-ID: <7b3724aa-04ac-463c-834a-3902fae4b505@ideasonboard.com>
-Date: Fri, 15 Mar 2024 12:13:15 +0530
+	s=arc-20240116; t=1710487607; c=relaxed/simple;
+	bh=aBEmUGt6spix4FOPw4HW2i7wWQIGfaCXLKiWvR1CvtM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W+irk+3jOSr2aqErkcm6kzflTkSJhhPtaZQCFpzOY4Og6oVVsv4BpoidJpsX5fbly29Ia4f+Gk0OKBNNa8JMiPeHDE/pHy9zVnr6CU09Mm62oTLd/mw6HT/c3vmFFGtlxpEB5eAw+BVSQE/A4lwZmFhYJwbUYxZbAdMAeQJ3cY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=O+tn2mIr; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 5910135ee29d11eeb8927bc1f75efef4-20240315
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=yWtLl6WaCIrsB4FIY5b+16SN3rcRg3wXKdgtsLrlIEc=;
+	b=O+tn2mIrDZOwRoZT03BsfOO7jzzD9zEehK2+jMQSl1EcaHWZyoNdxCCJQ6SSpdGVyhOSyUl1rglnM6LLGdkRsvIaem6Xu457vdunq62YjUnoEKOA7PK4aqRGTZbdfDFlKBC3AMQR0hMS1VRUfE92poDV1IWK6Zz+Y3J6Qy1qyis=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:b91d4561-7bf1-49ef-bb6d-393d9ea74dfb,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6f543d0,CLOUDID:43118981-4f93-4875-95e7-8c66ea833d57,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 5910135ee29d11eeb8927bc1f75efef4-20240315
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 720401467; Fri, 15 Mar 2024 15:26:32 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 15 Mar 2024 15:26:30 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 15 Mar 2024 15:26:30 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, "Yunfei
+ Dong" <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: add decoder command to support stateless decoder
+Date: Fri, 15 Mar 2024 15:26:29 +0800
+Message-ID: <20240315072629.27738-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: imx219: Use dev_err_probe on probe
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>, linux-media@vger.kernel.org,
- dave.stevenson@raspberrypi.com, sakari.ailus@linux.intel.com,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20240311090042.30280-1-umang.jain@ideasonboard.com>
- <Ze7shcxM/v1+FHCm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <b949d192-9ea5-489a-91a9-2b055ec47b22@ideasonboard.com>
- <20240314152147.GB2441@pendragon.ideasonboard.com>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20240314152147.GB2441@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--8.498300-8.000000
+X-TMASE-MatchedRID: H6JCIvDuX7+GVqG4eYPDVkZakoam9+aepQH4ogtVQP2xK/qamqYywXY3
+	TcMnBmkfThbvLLI8RvP+WuUgR5Gm1cJHVFWeMALEHcQQBuf4ZFsuhg66Itb65fzaSz3Z/4aaecZ
+	f3B8j81qQ5zXuXE7cooAy6p60ZV62fJ5/bZ6npdiyO81X3yak84h7iKx2XmBbBXO9QsFmS8iQqa
+	5F+eWEV9XjWmP/eZGnc0jrJpxlhMB+3BndfXUhXQ==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--8.498300-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: D8F9687C570A89AD469DD8A683BE20B1C7ACB5943D3B5497361E2F29E5FEB1372000:8
+X-MTK: N
 
-HI Laurent,
+The supported decoder commands are different for stateless and
+stateful architecture. Adding stateless decoder commands to fix
+below v4l2-compliance test error.
 
-On 14/03/24 8:51 pm, Laurent Pinchart wrote:
-> Hi Umang,
->
-> On Thu, Mar 14, 2024 at 06:51:04PM +0530, Umang Jain wrote:
->> On 11/03/24 5:05 pm, Tommaso Merciai wrote:
->>> On Mon, Mar 11, 2024 at 02:30:42PM +0530, Umang Jain wrote:
->>>> Drop dev_err() and use the dev_err_probe() helper on probe path.
->>>>
->>>> No functional changes intended.
->>>>
->>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>>> ---
->>>>    drivers/media/i2c/imx219.c | 64 +++++++++++++++++++-------------------
->>>>    1 file changed, 32 insertions(+), 32 deletions(-)
->>>>
->>>> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
->>>> index e17ef2e9d9d0..acd27e2ef849 100644
->>>> --- a/drivers/media/i2c/imx219.c
->>>> +++ b/drivers/media/i2c/imx219.c
->>>> @@ -551,8 +551,9 @@ static int imx219_init_controls(struct imx219 *imx219)
->>>>    
->>>>    	if (ctrl_hdlr->error) {
->>>>    		ret = ctrl_hdlr->error;
->>>> -		dev_err(&client->dev, "%s control init failed (%d)\n",
->>>> -			__func__, ret);
->>>> +		dev_err_probe(&client->dev, ret,
->>>> +			      "%s control init failed\n",
->>>> +			      __func__);
-> ctrl_hdlr->error can never be -EPROBE_DEFER, is dev_err_probe() really
-> useful here ?
+Codec ioctls:
+    VIDIOC_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+    VIDIOC_TRY_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+ test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+    VIDIOC_G_ENC_INDEX returned -1 (Inappropriate ioctl for device)
+ test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+    VIDIOC_DECODER_CMD returned -1 (Invalid argument)
+    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+    fail: v4l2-test-codecs.cpp(126): ret
+ test VIDIOC_(TRY_)DECODER_CMD: FAIL
 
-is dev_err_probe() really /only/ about -EPROBE_DEFER ?  or all probe() 
-errors?
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 65 +++++++++++++++++--
+ 1 file changed, 59 insertions(+), 6 deletions(-)
 
-The documentation is explicitly stating for dev_Err_probe()
-
-```
-  * Note that it is deemed acceptable to use this function for error
-  * prints during probe even if the @err is known to never be -EPROBE_DEFER.
-  * The benefit compared to a normal dev_err() is the standardized format
-  * of the error code and the fact that the error code is returned.
-  *
-
-```
->
->>>>    		goto error;
->>>>    	}
->>>>    
->>>> @@ -1025,15 +1026,15 @@ static int imx219_identify_module(struct imx219 *imx219)
->>>>    
->>>>    	ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
->>>>    	if (ret) {
->>>> -		dev_err(&client->dev, "failed to read chip id %x\n",
->>>> -			IMX219_CHIP_ID);
->>>> -		return ret;
->>>> +		return dev_err_probe(&client->dev, ret,
->>>> +				     "failed to read chip id %x\n",
->>>> +				     IMX219_CHIP_ID);
->>>>    	}
->>> I think you can remove also here the curve brakets we don't need that
->>> anymore.
->> I think multi-line single statement like this one, is better with { ...
->> } and is actually preferred?
->>
->> I actually got a review-comment about this long ago(don't remember when)
->> in a non-related, kernel patch series.
->>
->> I'll leaving this upto maintainers probably
-> I think the preferred coding style in the media subsystem is to leave
-> the curly brackets out for all single statements, even if the statement
-> spans multiple lines.
-
-ack
->
->>>>    
->>>>    	if (val != IMX219_CHIP_ID) {
->>>> -		dev_err(&client->dev, "chip id mismatch: %x!=%llx\n",
->>>> -			IMX219_CHIP_ID, val);
->>>> -		return -EIO;
->>>> +		return dev_err_probe(&client->dev, -EIO,
->>>> +				     "chip id mismatch: %x!=%llx\n",
->>>> +				     IMX219_CHIP_ID, val);
->>>>    	}
->>> ditto
->>>
->>>>    
->>>>    	return 0;
->>>> @@ -1048,35 +1049,36 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
->>>>    	int ret = -EINVAL;
->>>>    
->>>>    	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
->>>> -	if (!endpoint) {
->>>> -		dev_err(dev, "endpoint node not found\n");
->>>> -		return -EINVAL;
->>>> -	}
->>>> +	if (!endpoint)
->>>> +		return dev_err_probe(dev, -EINVAL, "endpoint node not found\n");
-> Same here, what's the advantage of using dev_err_probe() when you
-> hardcode the error value to something different than -EPROBE_DEFER ?
-> Same below.
->
->>>>    
->>>>    	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
->>>> -		dev_err(dev, "could not parse endpoint\n");
->>>> +		dev_err_probe(dev, -EINVAL, "could not parse endpoint\n");
-> This I like even less. -EINVAL is meaningless here, it's not even
-> guaranteed to be the error code that the function will return.
->
->>>>    		goto error_out;
->>>>    	}
->>>>    
->>>>    	/* Check the number of MIPI CSI2 data lanes */
->>>>    	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
->>>>    	    ep_cfg.bus.mipi_csi2.num_data_lanes != 4) {
->>>> -		dev_err(dev, "only 2 or 4 data lanes are currently supported\n");
->>>> +		dev_err_probe(dev, -EINVAL,
->>>> +			      "only 2 or 4 data lanes are currently supported\n");
->>>>    		goto error_out;
->>>>    	}
->>>>    	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
->>>>    
->>>>    	/* Check the link frequency set in device tree */
->>>>    	if (!ep_cfg.nr_of_link_frequencies) {
->>>> -		dev_err(dev, "link-frequency property not found in DT\n");
->>>> +		dev_err_probe(dev, -EINVAL,
->>>> +			      "link-frequency property not found in DT\n");
->>>>    		goto error_out;
->>>>    	}
->>>>    
->>>>    	if (ep_cfg.nr_of_link_frequencies != 1 ||
->>>>    	   (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
->>>>    	    IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
->>>> -		dev_err(dev, "Link frequency not supported: %lld\n",
->>>> -			ep_cfg.link_frequencies[0]);
->>>> +		dev_err_probe(dev, -EINVAL,
->>>> +			      "Link frequency not supported: %lld\n",
->>>> +			      ep_cfg.link_frequencies[0]);
->>>>    		goto error_out;
->>>>    	}
->>>>    
->>>> @@ -1108,30 +1110,27 @@ static int imx219_probe(struct i2c_client *client)
->>>>    
->>>>    	imx219->regmap = devm_cci_regmap_init_i2c(client, 16);
->>>>    	if (IS_ERR(imx219->regmap)) {
->>>> -		ret = PTR_ERR(imx219->regmap);
->>>> -		dev_err(dev, "failed to initialize CCI: %d\n", ret);
->>>> -		return ret;
->>>> +		return dev_err_probe(dev, PTR_ERR(imx219->regmap),
->>>> +				     "failed to initialize CCI\n");
->>>>    	}
->>> ditto
->>>
->>>>    
->>>>    	/* Get system clock (xclk) */
->>>>    	imx219->xclk = devm_clk_get(dev, NULL);
->>>>    	if (IS_ERR(imx219->xclk)) {
->>>> -		dev_err(dev, "failed to get xclk\n");
->>>> -		return PTR_ERR(imx219->xclk);
->>>> +		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
->>>> +				     "failed to get xclk\n");
-> This change makes sense, the clock provider may not have probed yet
-> (even if it's quite unlikely).
->
->>>>    	}
->>> ditto
->>>
->>>>    
->>>>    	imx219->xclk_freq = clk_get_rate(imx219->xclk);
->>>>    	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
->>>> -		dev_err(dev, "xclk frequency not supported: %d Hz\n",
->>>> -			imx219->xclk_freq);
->>>> -		return -EINVAL;
->>>> +		return dev_err_probe(dev, -EINVAL,
->>>> +				     "xclk frequency not supported: %d Hz\n",
->>>> +				     imx219->xclk_freq);
->>>>    	}
->>> ditto
->>>
->>>>    
->>>>    	ret = imx219_get_regulators(imx219);
->>>> -	if (ret) {
->>>> -		dev_err(dev, "failed to get regulators\n");
->>>> -		return ret;
->>>> -	}
->>>> +	if (ret)
->>>> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
-> Same here.
->
->>>>    
->>>>    	/* Request optional enable pin */
->>>>    	imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
->>>> @@ -1183,20 +1182,21 @@ static int imx219_probe(struct i2c_client *client)
->>>>    
->>>>    	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
->>>>    	if (ret) {
->>>> -		dev_err(dev, "failed to init entity pads: %d\n", ret);
->>>> +		dev_err_probe(dev, ret, "failed to init entity pads\n");
->>>>    		goto error_handler_free;
->>>>    	}
->>>>    
->>>>    	imx219->sd.state_lock = imx219->ctrl_handler.lock;
->>>>    	ret = v4l2_subdev_init_finalize(&imx219->sd);
->>>>    	if (ret < 0) {
->>>> -		dev_err(dev, "subdev init error: %d\n", ret);
->>>> +		dev_err_probe(dev, ret, "subdev init error\n");
->>>>    		goto error_media_entity;
->>>>    	}
->>>>    
->>>>    	ret = v4l2_async_register_subdev_sensor(&imx219->sd);
->>>>    	if (ret < 0) {
->>>> -		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
->>>> +		dev_err_probe(dev, ret,
->>>> +			      "failed to register sensor sub-device\n");
->>>>    		goto error_subdev_cleanup;
->>>>    	}
->>>>    
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+index ba742f0e391d..90579dd92cae 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+@@ -80,21 +80,20 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx *ctx,
+ 	return &ctx->q_data[MTK_Q_DATA_DST];
+ }
+ 
+-static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+-				struct v4l2_decoder_cmd *cmd)
++static int mtk_vcodec_stateful_try_decoder_cmd(struct file *file, void *priv,
++					       struct v4l2_decoder_cmd *cmd)
+ {
+ 	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+ }
+ 
+-
+-static int vidioc_decoder_cmd(struct file *file, void *priv,
+-				struct v4l2_decoder_cmd *cmd)
++static int mtk_vcodec_stateful_decoder_cmd(struct file *file, void *priv,
++					   struct v4l2_decoder_cmd *cmd)
+ {
+ 	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+ 	struct vb2_queue *src_vq, *dst_vq;
+ 	int ret;
+ 
+-	ret = vidioc_try_decoder_cmd(file, priv, cmd);
++	ret = mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -128,6 +127,60 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static int mtk_vcodec_stateless_try_decoder_cmd(struct file *file, void *priv,
++						struct v4l2_decoder_cmd *cmd)
++{
++	return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
++}
++
++static int mtk_vcodec_stateless_decoder_cmd(struct file *file, void *priv,
++					    struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++	int ret;
++
++	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
++	if (ret)
++		return ret;
++
++	mtk_v4l2_vdec_dbg(3, ctx, "decoder cmd=%u", cmd->cmd);
++	switch (cmd->cmd) {
++	case V4L2_DEC_CMD_FLUSH:
++		/*
++		 * If the flag of output buffer is set with V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF,
++		 * this command will prevent dequeueing the capture buffer containing the last
++		 * decoded frame. Or do nothing
++		 */
++		break;
++
++	default:
++		mtk_v4l2_vdec_err(ctx, "invalid stateless decoder cmd=%u", cmd->cmd);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int vidioc_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++
++	if (ctx->dev->vdec_pdata->uses_stateless_api)
++		return mtk_vcodec_stateless_try_decoder_cmd(file, priv, cmd);
++	else
++		return mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
++}
++
++static int vidioc_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++
++	if (ctx->dev->vdec_pdata->uses_stateless_api)
++		return mtk_vcodec_stateless_decoder_cmd(file, priv, cmd);
++	else
++		return mtk_vcodec_stateful_decoder_cmd(file, priv, cmd);
++}
++
+ void mtk_vdec_unlock(struct mtk_vcodec_dec_ctx *ctx)
+ {
+ 	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
+-- 
+2.18.0
 
 
