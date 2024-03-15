@@ -1,79 +1,164 @@
-Return-Path: <linux-media+bounces-7160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7161-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849DF87D50D
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 21:38:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 712BB87D6AC
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 23:36:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5E9B1C2287B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 20:38:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E70FFB2183D
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 22:36:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9481155C33;
-	Fri, 15 Mar 2024 20:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D482D548F0;
+	Fri, 15 Mar 2024 22:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJwPEyXy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czmJwfRr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF7C54BD2;
-	Fri, 15 Mar 2024 20:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2E2179AB
+	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 22:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710535056; cv=none; b=BwhfUFAPJw1SY7ame6CcLG0n7awEi+e4RSLI6YUB1vInRrESGjIOKTSi5DpQ4+2TS9wiVxcppsnHhVqXuX5sl7z8JLoXtyEnFW/x96v+SdPpMoDKEgquxjJF391GVcYAG6Z/ZTAaSLMGCiY6BLl7GBZhAdhKbNPdXp67NGFlj4E=
+	t=1710542190; cv=none; b=UcCljhOWwFjLCsy7LI/YV2mK1ms+wSAU3gSVR7JxNuQ9bEPsGJb2cu78KctR0Fd6A2YMdjYahgCQXj2yIerWbpKREfeqXU6OfSaXogvD8QsmSuh6OG+owgid5RUctBJeMl+Kt6/W81+lyL5lPC3zUGRQ+5KLCTZCGJsdBinHP4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710535056; c=relaxed/simple;
-	bh=k/+QP+0pqlN9fdfJ0QydLQh082QFIfNBvpR1AbkDP3s=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=qfSSNuMtBkUsGR4nD9wLOUAxeFelNrboPDnuyh26FPED9e+ygk8bUUrj6GH7iG/MLoCr62MfacC1S3kamEwkDgf0QmNzbjq6YiQ0pk78Zr/TOl3dtHLQaksXRRTF4+azHHUKsQXfa62cZBDJ5qbrg7kTJWVLlKdqdLWoKLoITgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJwPEyXy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CCA03C43601;
-	Fri, 15 Mar 2024 20:37:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710535055;
-	bh=k/+QP+0pqlN9fdfJ0QydLQh082QFIfNBvpR1AbkDP3s=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=UJwPEyXyZLpas9fNfiCpANnRdGXsXtsheLOzfA/MC8gQL2AM6bkCnwYF7cS6vlgC7
-	 0n9zTFeDmubF+9lr54V7lDBrSmvbIVPekpmF9z+A3dRMjb5EWZpohZOt7P+i4E6r5j
-	 YQsLdAIB8FJVcqJYMXVjhxTk05L7rK8VRKj73MUIHwDh7cyU2lQgIDTrAo9I9f2Kfh
-	 uJh3WLsVdcjDx0mOSFEPFg73smxZn3L4hy1xg2M+Gu3L7tcSMhfGsx2m0VFMaz+9Vv
-	 mACNyteCvKalDfLHRmE/IcMD82wB+uHqc3HQfahrCrxcVIR05US0MfXsboeGN5bbG5
-	 sfN2VV4Dof1eg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C47DED95053;
-	Fri, 15 Mar 2024 20:37:35 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.9-rc1] media updates
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20240315103113.26f9dad4@coco.lan>
-References: <20240315103113.26f9dad4@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20240315103113.26f9dad4@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.9-1
-X-PR-Tracked-Commit-Id: b14257abe7057def6127f6fb2f14f9adc8acabdb
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: eb7cca1faf9883d7b4da792281147dbedc449238
-Message-Id: <171053505580.29375.6567152831261898962.pr-tracker-bot@kernel.org>
-Date: Fri, 15 Mar 2024 20:37:35 +0000
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1710542190; c=relaxed/simple;
+	bh=fIeglJFOFFzBUWQD1ferbO/RhnNMG+Ak9BJ34PUlydE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HI+rTEEoOU4MGM3mxczhJHV7qGySgQi8rLU+5aH6+LMNZvWZx7Csk801BoGJtI3aRRsfomWhnMfSF3qIMvz1HznxYzjKrkoVTpS5toAMISkGbO12Th6jMI/4Dc201MgMC/3a+rplsqTdR7uaJywTb0ZfefRxBTROGZHV8EhOD/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czmJwfRr; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710542187; x=1742078187;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fIeglJFOFFzBUWQD1ferbO/RhnNMG+Ak9BJ34PUlydE=;
+  b=czmJwfRr2p5ze7dfCybcNLoY6Qq4Z/KHF7MpVgmOda6zcS3JobostU14
+   3J8bb/fwEj6c9joAwWibuomUURdH9zaTKeXXiwSvmisWgV2GcLxYdb4AA
+   W7DJ4c//1+88t4EZ8cR/DufkKbusLTlCJSlh9FVENrGKevzXVab3pc6Nj
+   5G68uBToMMMifJ58khpx8NB/BbmQsQYYLlt2UAzF5qHYK6OrMelT4CCLz
+   7PlThJahkXDIiAakz9EZA/wwBcauAB1AScty6ZOpiJ5qBq7BMD7p/dr7e
+   bzuEuWPiLG4hgPsnWL5CocpUtBku5+K8lN5alGATF1HgmhggR/5Lhl4Cn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="8375532"
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="8375532"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 15:36:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="13281627"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 15 Mar 2024 15:36:24 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rlGA2-000Eqj-0f;
+	Fri, 15 Mar 2024 22:36:22 +0000
+Date: Sat, 16 Mar 2024 06:35:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, benjamin.mugnier@foss.st.com,
+	sylvain.petinot@foss.st.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	kernel@collabora.com, Julien Massot <julien.massot@collabora.com>
+Subject: Re: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
+Message-ID: <202403160651.QB9YWHsu-lkp@intel.com>
+References: <20240315085158.1213159-3-julien.massot@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240315085158.1213159-3-julien.massot@collabora.com>
 
-The pull request you sent on Fri, 15 Mar 2024 10:31:13 +0100:
+Hi Julien,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.9-1
+kernel test robot noticed the following build errors:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/eb7cca1faf9883d7b4da792281147dbedc449238
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master next-20240315]
+[cannot apply to sailus-media-tree/streams linus/master v6.8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thank you!
+url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/media-i2c-st-vgxy61-Use-sub-device-active-state/20240315-165346
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240315085158.1213159-3-julien.massot%40collabora.com
+patch subject: [PATCH 2/4] media: i2c: st-vgxy61: Add support for embedded data
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240316/202403160651.QB9YWHsu-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240316/202403160651.QB9YWHsu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403160651.QB9YWHsu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_enum_mbus_code':
+>> drivers/media/i2c/st-vgxy61.c:709:30: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+     709 |                 code->code = MEDIA_BUS_FMT_META_8;
+         |                              ^~~~~~~~~~~~~~~~~~~~
+         |                              MEDIA_BUS_FMT_Y8_1X8
+   drivers/media/i2c/st-vgxy61.c:709:30: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/i2c/st-vgxy61.c: In function '__vgxy61_set_fmt':
+   drivers/media/i2c/st-vgxy61.c:1251:26: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+    1251 |         meta_fmt->code = MEDIA_BUS_FMT_META_8;
+         |                          ^~~~~~~~~~~~~~~~~~~~
+         |                          MEDIA_BUS_FMT_Y8_1X8
+   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_get_frame_desc':
+   drivers/media/i2c/st-vgxy61.c:1309:36: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+    1309 |         desc->entry[1].pixelcode = MEDIA_BUS_FMT_META_8;
+         |                                    ^~~~~~~~~~~~~~~~~~~~
+         |                                    MEDIA_BUS_FMT_Y8_1X8
+   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_init_state':
+>> drivers/media/i2c/st-vgxy61.c:1326:34: error: 'V4L2_SUBDEV_ROUTE_FL_IMMUTABLE' undeclared (first use in this function); did you mean 'V4L2_SUBDEV_ROUTE_FL_ACTIVE'?
+    1326 |                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                  V4L2_SUBDEV_ROUTE_FL_ACTIVE
+   drivers/media/i2c/st-vgxy61.c: In function 'vgxy61_probe':
+>> drivers/media/i2c/st-vgxy61.c:1891:37: error: 'MEDIA_PAD_FL_INTERNAL' undeclared (first use in this function); did you mean 'MEDIA_PAD_FL_SOURCE'?
+    1891 |                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
+         |                                     ^~~~~~~~~~~~~~~~~~~~~
+         |                                     MEDIA_PAD_FL_SOURCE
+
+
+vim +709 drivers/media/i2c/st-vgxy61.c
+
+   698	
+   699	static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
+   700					 struct v4l2_subdev_state *sd_state,
+   701					 struct v4l2_subdev_mbus_code_enum *code)
+   702	{
+   703		if (code->pad == VGXY61_PAD_META ||
+   704		    (code->pad == VGXY61_PAD_SOURCE &&
+   705		     code->stream == VGXY61_STREAM_META)) {
+   706			if (code->index > 0)
+   707				return -EINVAL;
+   708	
+ > 709			code->code = MEDIA_BUS_FMT_META_8;
+   710			return 0;
+   711		}
+   712	
+   713		if (code->index >= ARRAY_SIZE(vgxy61_supported_codes))
+   714			return -EINVAL;
+   715	
+   716		code->code = vgxy61_supported_codes[code->index].code;
+   717	
+   718		return 0;
+   719	}
+   720	
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
