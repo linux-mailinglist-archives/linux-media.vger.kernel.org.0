@@ -1,231 +1,193 @@
-Return-Path: <linux-media+bounces-7117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F12487CB62
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:30:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A6787CBCE
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 12:01:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83A041C21762
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 10:30:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B79F28389E
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:01:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9138018EB8;
-	Fri, 15 Mar 2024 10:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E86A51A58E;
+	Fri, 15 Mar 2024 11:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NafJHbAd"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0KrHfQjm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0E17C60;
-	Fri, 15 Mar 2024 10:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6638D18035
+	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 11:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498628; cv=none; b=HTSRLu1Bu608sGzZ60MVsvdilCWLgJifAnKc8lINssdWARF+o8buug6Mz4hXcZnxy62GcRhdczFSvGoiuPG2yJbngGso9xDep5PO3RGaUdyKD6N9BS94/jr7JjJDqe9zItnqhkzsJ0FBs3mvcircqWaGgRq+MA7cQakyWn3YK0Y=
+	t=1710500481; cv=none; b=cnTSZ3LOeeNkoBgp3MNABAZwu2zQWgJ1tgWLLf4YdbtSPEVwiC8Z+9qICJqxATqIZNnVwAtdC4SZTWTGgMXe98YrnchOfAlqY0Du1nsCInKACzF3pDNQm1AjxquX7j1lNvcp5+bOa185kKJ6DF95XqPFPlQGiz2D9fIpmznm9hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498628; c=relaxed/simple;
-	bh=Wi/QbN+8ipUEYeOAbUm86xpNE3oPJ0g7EhQMoF7njRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXKTIOUk00g4+5zjNfG2GDawnIz7TH+cFMzYHHKnREqj7fwftVmLgx+zhwWFQg5DA48Ob9bYQJ6yebW4GWJ2DabbjWmdCPReBTj8JBBuAoaEYoZF4XWX1VOv4kUbk6qxvf02O/gK44jwoVGTfXODSo0AZ1GiMiMMWVeKE46jOp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NafJHbAd; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1710498618;
-	bh=Wi/QbN+8ipUEYeOAbUm86xpNE3oPJ0g7EhQMoF7njRU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NafJHbAd9/omf5ShUyuD5GKzQhS3XJhF4WMagWXntKDm3n8ti0taj0esJziU84Mdp
-	 WxYGljPwkXxB/PIz9ZLteJsSqXoYKViMdBJzKwxa4hy1ptRIMx8uVa3dNz6zuawAiD
-	 BT6Otsgt/kFOBfErLJb6+zoetXvFppHZ86JA1bLOb2cBtH40Cs1Lr/UdGQjmk1R6D1
-	 sc2FoITqwOwvMCEk7Qf8hjr9Tku2FW4ps+x36BQYhVeob6INGvf88oXDqrVGj72evN
-	 ojyf3oZ8szTOXxre1VJoYt0ebtUIYWZdugBIh++MpGJXZ2oS3Wmx5TepO4gGVBoWhb
-	 d/+ulbrcypKuw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9D6383782083;
-	Fri, 15 Mar 2024 10:30:18 +0000 (UTC)
-Date: Fri, 15 Mar 2024 11:30:17 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH] media: mediatek: vcodec: add decoder command to support
- stateless decoder
-Message-ID: <20240315094706.xcpjy5s4fjtjvn7j@basti-XPS-13-9310>
-References: <20240315072629.27738-1-yunfei.dong@mediatek.com>
+	s=arc-20240116; t=1710500481; c=relaxed/simple;
+	bh=1bp9ya6mUTdhU/FzzsHERh5njunu+iph5TE1N9ar6zQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MkbapEP2ax+ZfFVrWRMlyq4Nbdu5H1EIguKuWlxLOL23F+05tk0v1fyusmDfU2gOx7HSDgCCuhEHQKcFXI2e+Z/31tSnHC3uqZXPtENd0dL8z4ymAbRM2+J/bT6d6vlrWBpYLP3dLUO5tY/8czUSZyugF48wHP69kZ+a1TzUjI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0KrHfQjm; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-430a65e973bso7787631cf.3
+        for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 04:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710500478; x=1711105278; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
+        b=0KrHfQjmpkRwbZCaWB6aajlxkeTQyJaR8SGhkW4gyLoWycW5Qew46jI8Be9qx5IYtK
+         23SNd5WFJKrFAXslqZOFC4QiP1I9S1IaEaJebnLvO2BYpYV4UTKGly2/tbIPdQK1DUq9
+         0JO49ZAaGVTigrafNhSQ1Hj7Los5xAvfpL6Dbxg17oJjGybV30eChz5hbJhfC1ZfllMk
+         CuLEuA/gpmhPK9G9kVbyiGQGuT815tuj8oO6P9tPp0boSOxptEZJipuvOlKlP9ZXSpZC
+         40Z5M9Xui3/tpBwEMpfRG4p3DKmlVtJvsjTpNZgqsaehUv2yaf1sEITHqWV1evE81874
+         shPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710500478; x=1711105278;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
+        b=Dta4MfRvqg70vn6eTdu/fHK4oCrsEZ/lijzoT9yY2Rg/VkgrYyGpneOTomHUzhCNsq
+         x44jS7Tkv5q+dwNGRDOY4X+G1sFik0+Zk5HwXWFdtrWJwDu5vrUo7mI531VUxypw26vE
+         I/spUKPrAfZJXqteV2iziW3xdwgG6WBaZgH83OpYJgl/DFDVLVSTcH1Uzi6hNe6dgE4Y
+         a7jKbIu5wrF/0ZqsKwKoJbQpe0+dmb/cf1D2UD2XYv1/MpvBWtJCC5AlWL8waV2U18Wa
+         lGvQqtebi2seALnshRUYIMDgVSyxSzUMmThBu/o3F0BtnjBzlKRyd2m12K6SQPk2rWtb
+         Yxww==
+X-Forwarded-Encrypted: i=1; AJvYcCVdA8Q9ENLEpRjjthQABLkDq63+HUbkqkmEaQwzq0QkyYTZe/Ctsy/JikI3kPbSeZA5wxCdrl9Rwh0MTg0GjNkutYuMxBfZZ4p6aNU=
+X-Gm-Message-State: AOJu0YwBiodqj74Fn59+bOyUskYbmUJK3N3vrkXAUgoVRjJ6EQP6NIqY
+	sIdU0w4Q1PcOKXM8QBRLaZnHaGC0wlAS4bANTjUiN046rPN90dZqorKOpoZHorg=
+X-Google-Smtp-Source: AGHT+IEVOOgZFoxsLMo3B/9DgMlPg+8mCIQzmFSjWr5NC1POGFlHlr6r0UtoZZxyVjffb0W7416VFg==
+X-Received: by 2002:ac8:5783:0:b0:42e:b90c:c5a9 with SMTP id v3-20020ac85783000000b0042eb90cc5a9mr5156478qta.51.1710500478406;
+        Fri, 15 Mar 2024 04:01:18 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id p3-20020a05622a00c300b0042ef88b7daesm1838670qtw.19.2024.03.15.04.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Mar 2024 04:01:17 -0700 (PDT)
+Message-ID: <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
+Date: Fri, 15 Mar 2024 12:01:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240315072629.27738-1-yunfei.dong@mediatek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+ <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+ <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hey Yunfei,
 
-On 15.03.2024 15:26, Yunfei Dong wrote:
->The supported decoder commands are different for stateless and
->stateful architecture. Adding stateless decoder commands to fix
 
-s/Adding/Add/
+On 13/03/2024 18:23, Mark Brown wrote:
+> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+>> On 26/02/2024 17:09, Mark Brown wrote:
+> 
+>>>> +	case MT6357_ZCD_CON2:
+>>>> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
+>>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
+>>>> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
+>>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
+>>>> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
+>>>> +		break;
+> 
+>>> It would probably be less code and would definitely be clearer and
+>>> simpler to just read the values when we need them rather than constatly
+>>> keeping a cache separate to the register cache.
+> 
+>> Actually you must save the values because the gain selected by the user will
+>> be override to do a ramp => volume_ramp(.....):
+>> - When you switch on the HP, you start from gain=-40db to final_gain
+>> (selected by user).
+>> - When you switch off the HP, you start from final_gain (selected by user)
+>> to gain=-40db.
+> 
+> You can just read the value back when you need to do a ramp?
 
->below v4l2-compliance test error.
+You can't. Because you will read -40db when HP isn't playing sound. That 
+is why the gain is saved into the struct.
 
-s/below v4l2-compliance test error./the v4l2-compliance test error below./
+Let me know, when you change de gain to do a ramp down (start from user 
+gain to gain=-40db), next time for the ramp up, how/where do you find 
+the user gain ?
 
->
->Codec ioctls:
->    VIDIOC_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
->    VIDIOC_TRY_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
-> test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->    VIDIOC_G_ENC_INDEX returned -1 (Inappropriate ioctl for device)
-> test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->    VIDIOC_DECODER_CMD returned -1 (Invalid argument)
->    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
->    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
->    fail: v4l2-test-codecs.cpp(126): ret
-> test VIDIOC_(TRY_)DECODER_CMD: FAIL
->
->Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->---
-> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 65 +++++++++++++++++--
-> 1 file changed, 59 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->index ba742f0e391d..90579dd92cae 100644
->--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->@@ -80,21 +80,20 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx *ctx,
-> 	return &ctx->q_data[MTK_Q_DATA_DST];
-> }
->
->-static int vidioc_try_decoder_cmd(struct file *file, void *priv,
->-				struct v4l2_decoder_cmd *cmd)
->+static int mtk_vcodec_stateful_try_decoder_cmd(struct file *file, void *priv,
->+					       struct v4l2_decoder_cmd *cmd)
 
-In some cases you seem to name these functions with the prefix
-`mtk_vdec` and sometimes with the prefix `mtk_vcodec` but all of these
-are for decoders, so could you settle for one naming scheme? Also as
-these functions are static I don't think it is strictly necessary to add
-a prefix for each function.
+> 
+>> Also, the microphone's gain change when it's enabled/disabled.
+> 
+> I don't understand what this means?
 
-> {
-> 	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
-> }
->
->-
->-static int vidioc_decoder_cmd(struct file *file, void *priv,
->-				struct v4l2_decoder_cmd *cmd)
->+static int mtk_vcodec_stateful_decoder_cmd(struct file *file, void *priv,
->+					   struct v4l2_decoder_cmd *cmd)
-> {
-> 	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
-> 	struct vb2_queue *src_vq, *dst_vq;
-> 	int ret;
->
->-	ret = vidioc_try_decoder_cmd(file, priv, cmd);
->+	ret = mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
-> 	if (ret)
-> 		return ret;
->
->@@ -128,6 +127,60 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
-> 	return 0;
-> }
->
->+static int mtk_vcodec_stateless_try_decoder_cmd(struct file *file, void *priv,
->+						struct v4l2_decoder_cmd *cmd)
->+{
->+	return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
->+}
->+
->+static int mtk_vcodec_stateless_decoder_cmd(struct file *file, void *priv,
->+					    struct v4l2_decoder_cmd *cmd)
->+{
->+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
->+	int ret;
->+
->+	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
->+	if (ret)
->+		return ret;
->+
->+	mtk_v4l2_vdec_dbg(3, ctx, "decoder cmd=%u", cmd->cmd);
->+	switch (cmd->cmd) {
->+	case V4L2_DEC_CMD_FLUSH:
->+		/*
->+		 * If the flag of output buffer is set with V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF,
+When microphone isn't capturing, the gain read back from the register is 
+0dB. I've put some logs in my code and do capture to show how it works:
 
-s/output/the output/
-s/is set with/equals/
+root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
+10 recorded_file.wav
+[Mar15 09:31] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
+[  +0.000126] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_dai_int_adda_prepare 'Capture' rate = 48000
+[  +0.107688] mt6357-sound mt6357-sound: TOTO set mic to stored value
+[ +10.072648] mt6357-sound mt6357-sound: TOTO set mic to 0dB
 
->+		 * this command will prevent dequeueing the capture buffer containing the last
->+		 * decoded frame. Or do nothing
->+		 */
->+		break;
->+
+root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
+10 recorded_file.wav
+[Mar15 09:32] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
+[  +0.000133] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_dai_int_adda_prepare 'Capture' rate = 48000
+[  +0.109418] mt6357-sound mt6357-sound: TOTO set mic to stored value
+[ +10.164197] mt6357-sound mt6357-sound: TOTO set mic to 0dB
 
-Please remove this newline.
 
->+	default:
->+		mtk_v4l2_vdec_err(ctx, "invalid stateless decoder cmd=%u", cmd->cmd);
->+		return -EINVAL;
->+	}
->+
->+	return 0;
->+}
->+
->+static int vidioc_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
->+{
->+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
->+
->+	if (ctx->dev->vdec_pdata->uses_stateless_api)
->+		return mtk_vcodec_stateless_try_decoder_cmd(file, priv, cmd);
->+	else
+> 
+>>>> +	/* ul channel swap */
+>>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
+> 
+>>> On/off controls should end in Switch.
+> 
+>> Sorry, I don't understand your comment. Can you reword it please ?
+> 
+> See control-names.rst.  Run mixer-test on a card with this driver and
+> fix all the issues it reports.
 
-As these conditional branches contain return statements you can skip the
-else.
-E.g.
-	if (ctx->dev->vdec_pdata->uses_stateless_api)
-		return mtk_vcodec_stateless_try_decoder_cmd(file, priv, cmd);
-   return mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
+Ok the name is the issue for you AFAII.
+This control isn't for on/off but swap Left and Right.
+ From the codec documentation:
+"Swaps audio UL L/R channel before UL SRC"
+This control is overkill, I will remove it
 
->+		return mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
->+}
->+
->+static int vidioc_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
->+{
->+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
->+
->+	if (ctx->dev->vdec_pdata->uses_stateless_api)
->+		return mtk_vcodec_stateless_decoder_cmd(file, priv, cmd);
->+	else
+I'm stuck to run mixer-test, please check the following message: 
+https://lore.kernel.org/all/7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com/
 
-Same as mentioned above.
 
->+		return mtk_vcodec_stateful_decoder_cmd(file, priv, cmd);
->+}
->+
-> void mtk_vdec_unlock(struct mtk_vcodec_dec_ctx *ctx)
-> {
-> 	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
->-- 
->2.18.0
->
+-- 
+Regards,
+Alexandre
 
