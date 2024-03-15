@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-7132-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7133-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9D087CEF2
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 15:32:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDDD87CF1E
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 15:38:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D771C1C21CDC
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 14:32:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F12E1F23189
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 14:38:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364CF481BA;
-	Fri, 15 Mar 2024 14:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05AB83A1A6;
+	Fri, 15 Mar 2024 14:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGoVIVh0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pfLF0Y3A"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FA04654E;
-	Fri, 15 Mar 2024 14:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C31CA9C;
+	Fri, 15 Mar 2024 14:38:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710513012; cv=none; b=cpVH86hydWdJ4Qzpoq98V6cuN56v29ytcRJbXje4FqW1AhjdMmFg5Gkfmv9HWDA+sLKD0JIesMoYA5ZoOvsrxhLplWZIvwvEhjMlLqLIdcmVsGKRIAwhhikJwKnH9lv4MUocuhr7whCFLKXKxSkIEgaz9N2VYQuXEK1OPQTVE9E=
+	t=1710513525; cv=none; b=bOXexNR1JbkyVzypQO4b02OIVLiVxMLj+Xx16gInpgSFOxoN9ZP7R5SCq8DaKemxtfHduyW22s8z+kadIBIcttmibWB0A4gKfdeFfr4P3GLtQgtXzSY4TtYgs5nrP8R6VFiPVKhQ0Yx7vj0ZPiyFKbdq/Y+IQrhLH6jd5ydleP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710513012; c=relaxed/simple;
-	bh=y9UTrQR60pzrt4WbzQGYuGVl4ayHy9bpcn+b1iICLzs=;
+	s=arc-20240116; t=1710513525; c=relaxed/simple;
+	bh=LWOPGxaWjPP8E3hvpb0v/9QUSjPMu3aHfXD/4e34bMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dR9sVnvUujKClsb4V7dv/waop4p4//JjtRvBkhblkYEnM8FGEh0EZ6hanhYz5u5U5XWzQu7iw9JYPN+LpRH3RHBRmyNtmZUIqm+MawkhRroa4+d36EoXgSebrUOZwStbVAfv5DgJK6QiX1OD1KRmxcmOVU9EsRWnqMMrG30qiGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGoVIVh0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 094F5C433F1;
-	Fri, 15 Mar 2024 14:30:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LpcFp2rHkB65tXt1Mv34ewvyFxRr9QarR6tZRuKfDMvjWOZimwINXu9Al0stEifl2PxTtLes24JYOHimnka3+ukeLxCE0x5KTnUd9efr91zKoXfcFpSEZUxA6iTj2bsnlTpnmJd0slgX84koxkfxLCflVU0/ldcP0RJbIcaQ7Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pfLF0Y3A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37258C433C7;
+	Fri, 15 Mar 2024 14:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710513012;
-	bh=y9UTrQR60pzrt4WbzQGYuGVl4ayHy9bpcn+b1iICLzs=;
+	s=k20201202; t=1710513524;
+	bh=LWOPGxaWjPP8E3hvpb0v/9QUSjPMu3aHfXD/4e34bMg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGoVIVh0xKRjHYfUEkZgVdUX4aDhwpU4ARn/sMVBEI1COT2p7VK3grcrtYC4rTTjJ
-	 ufBJJQYQ6fgBenIL7SI5Vtyg+3H6cblDWDmW/KjsYbU92qjg0vuLKDdgHEqabV3fqZ
-	 QubJ4yaoz7eJ1YEnlTsz6HB7evsn2U31Qv5q3FLzFNJyCd8UDg9nclG+ZRnBnmQ5iV
-	 XypU7z9D2SLN6njnByNBVNOgwth6Korsr2Zz/bfQuEL8b9G6O6d1Gf7hOFk61HFFH1
-	 wY37D4Gq8RO5xPn/7OMApVE+XjQSIigrDkQZbIrErOAO1yhsQUS16ir+kCudsiDvZC
-	 fcwNBMRsCKuCw==
-Date: Fri, 15 Mar 2024 14:30:02 +0000
+	b=pfLF0Y3Aw17VSoUcFU9nXUe7DJBTJnsvXRSp5JM2LcK8rgXc6Uqcotv7Rmcu/5y0r
+	 /k6jI4bvcl7jt+qndKxRPxKCuZU89MT7ts52FJGGSvHCZWLkGEMpmCxiaerdnhxlP4
+	 eca3MDnsqT6qnrh/36IIbVKpEABMWOLcMD840rxSlrl3WJKTxBSuQiGU2islj0xuUz
+	 VXPkRyigmU8/GmAk0LgZFCWSwIVB7rmY+yJiXtDISqyjOeYDHvGXasd3yu4D+lLUKl
+	 bbYt5HZZ/xwVfB+zMv4jDhP1WyyDmY5pb+X7Fmh9+K/LpfAq+PwR3Wf4s4A1UU0UjJ
+	 J5HVGG/SCVpew==
+Date: Fri, 15 Mar 2024 14:38:37 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Alexandre Mergnat <amergnat@baylibre.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -59,15 +59,14 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Message-ID: <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
+	Nicolas Belin <nbelin@baylibre.com>,
+	Fabien Parent <fparent@baylibre.com>
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+Message-ID: <bf418207-7f13-4ced-8c21-2824dd07fab5@sirena.org.uk>
 References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
- <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
- <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
- <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
- <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
+ <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
+ <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,80 +74,55 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="K7ZVz5OiwuIdg9jd"
+	protocol="application/pgp-signature"; boundary="Y91BRilVEGdxtZCJ"
 Content-Disposition: inline
-In-Reply-To: <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
-X-Cookie: A well-known friend is a treasure.
+In-Reply-To: <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
+X-Cookie: If rash develops, discontinue use.
 
 
---K7ZVz5OiwuIdg9jd
+--Y91BRilVEGdxtZCJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Mar 15, 2024 at 12:01:12PM +0100, Alexandre Mergnat wrote:
-> On 13/03/2024 18:23, Mark Brown wrote:
-> > On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+On Tue, Mar 12, 2024 at 09:58:05AM +0100, Alexandre Mergnat wrote:
 
-> > > Actually you must save the values because the gain selected by the user will
-> > > be override to do a ramp => volume_ramp(.....):
-> > > - When you switch on the HP, you start from gain=-40db to final_gain
-> > > (selected by user).
-> > > - When you switch off the HP, you start from final_gain (selected by user)
-> > > to gain=-40db.
+> I'm a bit lost for mixer-test and pcm-test.
+> Currently, I cross-compile the alsa lib project to be able to build the
+> tests and put it on my board.
 
-> > You can just read the value back when you need to do a ramp?
+> I can execute it, but I still have 2 issues:
 
-> You can't. Because you will read -40db when HP isn't playing sound. That is
-> why the gain is saved into the struct.
+> 1) I've a lot of missing module in my environment (Encode.so, Encode.pm,
+> Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing perl
+> modules and install them in the rootfs
 
-> Let me know, when you change de gain to do a ramp down (start from user gain
-> to gain=-40db), next time for the ramp up, how/where do you find the user
-> gain ?
+These tests are both simple C programs...
 
-In the register.  You only need to reset the gain to -40dB at the start
-of the ramp.
+> 2) I don't know how to configure pcm-test.conf &
+> Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
 
-> > > Also, the microphone's gain change when it's enabled/disabled.
+The configuration is optional.
 
-> > I don't understand what this means?
+> My test cmd:
+> ./run_kselftest.sh -c alsa
 
-> When microphone isn't capturing, the gain read back from the register is
-> 0dB. I've put some logs in my code and do capture to show how it works:
+Just run the programs directly.  I'm only asking for the output from two
+of them anyway.
 
-Is this a property of the hardware or a property of your driver?
-
-> > > > > +	/* ul channel swap */
-> > > > > +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
-
-> > > > On/off controls should end in Switch.
-
-> > > Sorry, I don't understand your comment. Can you reword it please ?
-
-> > See control-names.rst.  Run mixer-test on a card with this driver and
-> > fix all the issues it reports.
-
-> Ok the name is the issue for you AFAII.
-> This control isn't for on/off but swap Left and Right.
-> From the codec documentation:
-> "Swaps audio UL L/R channel before UL SRC"
-> This control is overkill, I will remove it
-
-This is turning the swapping on and off.
-
---K7ZVz5OiwuIdg9jd
+--Y91BRilVEGdxtZCJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0W2oACgkQJNaLcl1U
-h9Crogf9HxYF3MaL/A3dUDm+Alxsez+w+9hdE05vA2xnAX7B+y66KyZ57bCm9SK1
-IfemHS3DsYz5DdY34Hgti1XBNCkxr4eo+QuYp5LlAht11IR9r2kxbjI9GOgW9KQt
-9b79rtSUodUf75NWoUdTJdR3XUeZaPfpNyY2JAYAKtb/NYF7wZ+2qY4H0Ghh9qQL
-zNno8ER/qk2DHIlyp8Io/7INq46g9k/XLKciK1nNFvwDhilREphfN6W7q/WD+9Dq
-b91sqdSD7ssMFD0b/KEMDBV7AoIiQv+2OaVSUB1SrD1N2E1GZiEFdpASy0ehuSOc
-/RK5R2ZA3NuKgt42DmLEW1b+Gn9Zlw==
-=TlBs
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0XWwACgkQJNaLcl1U
+h9BnLAf/e1vJ3Zr2d9fJBV1LV7sal34lcNVLD3JRrMKuk6bdnA2S2RYAgOf0UJwl
+cRuGTcq2lBneNaYnb9jgaf1C7i5kuXvnMG0IJuqVBrTZwiN5SbGhpmdvZj6HLwPu
+a8Q5MEwz/DrIXqjghxcXr5bjKi6XJ/9RRB1QpfxQFIwAOYQPNAG2F0j4SrD8zcbA
+O2dO4KRIjYUBBnpP5maQh3R3yr+TEEdolkib2FyoHL2jo2Vv1zOiTK2382kuTnKA
+y+GgUm8tQ4HiGZdAJqZAPh+Of86A9Rwl2133Tp1dxkFWlOamtyhfYbPESyNchUrV
+qduBr5NQ0tnTuAoEKttdYckFHYq6Bg==
+=FScF
 -----END PGP SIGNATURE-----
 
---K7ZVz5OiwuIdg9jd--
+--Y91BRilVEGdxtZCJ--
 
