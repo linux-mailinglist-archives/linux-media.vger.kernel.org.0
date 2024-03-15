@@ -1,89 +1,231 @@
-Return-Path: <linux-media+bounces-7116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE00487CB58
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:27:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F12487CB62
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 11:30:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FF191F2249B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 10:27:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83A041C21762
+	for <lists+linux-media@lfdr.de>; Fri, 15 Mar 2024 10:30:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6941918AED;
-	Fri, 15 Mar 2024 10:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9138018EB8;
+	Fri, 15 Mar 2024 10:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NafJHbAd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8710518050
-	for <linux-media@vger.kernel.org>; Fri, 15 Mar 2024 10:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0E17C60;
+	Fri, 15 Mar 2024 10:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498471; cv=none; b=lDtvYf5RkXo8LyZcCyNASpeHeCvGZztT9YAmyCP4edaU2NVHaY26wdiYnxqJssztLlNhb8nftnOxwHpocl+F6lnaunqmZjQ6xFsZ6RVaMrqOUlYoDeJeeM9QDEE2JGdBYlO55GC58ufyCPDsu0eCHPwtrsAXsXyLFgXSXDDo1+A=
+	t=1710498628; cv=none; b=HTSRLu1Bu608sGzZ60MVsvdilCWLgJifAnKc8lINssdWARF+o8buug6Mz4hXcZnxy62GcRhdczFSvGoiuPG2yJbngGso9xDep5PO3RGaUdyKD6N9BS94/jr7JjJDqe9zItnqhkzsJ0FBs3mvcircqWaGgRq+MA7cQakyWn3YK0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498471; c=relaxed/simple;
-	bh=jeP2eruWFUgFMxu2DnK40OlV6dygicRJOGlyMU7RJSM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q07LjizC7yQZYR4QKNveQcCfaj9ojo4PQuzmlvptbK7IumRfPJ+T4Fqt+uZKQrIVrw3ECa6brloT25n9UX5VA9VwC0WPXQ/xPpGAS9R3fQJfEz/Bu7TCdwIbKIdH4POf+ozrrhm+eAJIMpBL1n099/LFfc1FeQf7sEbB69rFxT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1rl4Ov-0004uj-1u;
-	Fri, 15 Mar 2024 10:02:57 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-	by slave0 with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1rl4Ou-0058qY-36;
-	Fri, 15 Mar 2024 10:02:57 +0000
-From: Jenkins <jenkins@linuxtv.org>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org
-Cc: builder@linuxtv.org
-Subject: Re: [GIT PULL for v6.9-rc1] media updates (#99930)
-Date: Fri, 15 Mar 2024 10:02:56 +0000
-Message-Id: <20240315100256.1225637-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240315103113.26f9dad4@coco.lan>
-References: 
+	s=arc-20240116; t=1710498628; c=relaxed/simple;
+	bh=Wi/QbN+8ipUEYeOAbUm86xpNE3oPJ0g7EhQMoF7njRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXKTIOUk00g4+5zjNfG2GDawnIz7TH+cFMzYHHKnREqj7fwftVmLgx+zhwWFQg5DA48Ob9bYQJ6yebW4GWJ2DabbjWmdCPReBTj8JBBuAoaEYoZF4XWX1VOv4kUbk6qxvf02O/gK44jwoVGTfXODSo0AZ1GiMiMMWVeKE46jOp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NafJHbAd; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710498618;
+	bh=Wi/QbN+8ipUEYeOAbUm86xpNE3oPJ0g7EhQMoF7njRU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NafJHbAd9/omf5ShUyuD5GKzQhS3XJhF4WMagWXntKDm3n8ti0taj0esJziU84Mdp
+	 WxYGljPwkXxB/PIz9ZLteJsSqXoYKViMdBJzKwxa4hy1ptRIMx8uVa3dNz6zuawAiD
+	 BT6Otsgt/kFOBfErLJb6+zoetXvFppHZ86JA1bLOb2cBtH40Cs1Lr/UdGQjmk1R6D1
+	 sc2FoITqwOwvMCEk7Qf8hjr9Tku2FW4ps+x36BQYhVeob6INGvf88oXDqrVGj72evN
+	 ojyf3oZ8szTOXxre1VJoYt0ebtUIYWZdugBIh++MpGJXZ2oS3Wmx5TepO4gGVBoWhb
+	 d/+ulbrcypKuw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9D6383782083;
+	Fri, 15 Mar 2024 10:30:18 +0000 (UTC)
+Date: Fri, 15 Mar 2024 11:30:17 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH] media: mediatek: vcodec: add decoder command to support
+ stateless decoder
+Message-ID: <20240315094706.xcpjy5s4fjtjvn7j@basti-XPS-13-9310>
+References: <20240315072629.27738-1-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240315072629.27738-1-yunfei.dong@mediatek.com>
 
-From: builder@linuxtv.org
+Hey Yunfei,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20240315103113.26f9dad4@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/387226/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/20240315103113.26f9dad4@coco.lan
+On 15.03.2024 15:26, Yunfei Dong wrote:
+>The supported decoder commands are different for stateless and
+>stateful architecture. Adding stateless decoder commands to fix
 
-gpg: Signature made Fri 15 Mar 2024 06:30:02 AM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
-gpg:                 aka "[jpeg image of size 3594]" [never]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mauro.chehab@intel.com>" [ultimate]
+s/Adding/Add/
 
+>below v4l2-compliance test error.
 
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0001-media-fimc-lite-drop-unused-flite_hw_set_camera_pola.patch doesn't apply:
-Applying patch patches/0001-media-fimc-lite-drop-unused-flite_hw_set_camera_pola.patch
-patching file drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h
-Hunk #1 FAILED at 134.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.h
-Patch patches/0001-media-fimc-lite-drop-unused-flite_hw_set_camera_pola.patch does not apply (enforce with -f)
+s/below v4l2-compliance test error./the v4l2-compliance test error below./
 
+>
+>Codec ioctls:
+>    VIDIOC_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+>    VIDIOC_TRY_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+> test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>    VIDIOC_G_ENC_INDEX returned -1 (Inappropriate ioctl for device)
+> test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>    VIDIOC_DECODER_CMD returned -1 (Invalid argument)
+>    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+>    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+>    fail: v4l2-test-codecs.cpp(126): ret
+> test VIDIOC_(TRY_)DECODER_CMD: FAIL
+>
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>---
+> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 65 +++++++++++++++++--
+> 1 file changed, 59 insertions(+), 6 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>index ba742f0e391d..90579dd92cae 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>@@ -80,21 +80,20 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx *ctx,
+> 	return &ctx->q_data[MTK_Q_DATA_DST];
+> }
+>
+>-static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+>-				struct v4l2_decoder_cmd *cmd)
+>+static int mtk_vcodec_stateful_try_decoder_cmd(struct file *file, void *priv,
+>+					       struct v4l2_decoder_cmd *cmd)
+
+In some cases you seem to name these functions with the prefix
+`mtk_vdec` and sometimes with the prefix `mtk_vcodec` but all of these
+are for decoders, so could you settle for one naming scheme? Also as
+these functions are static I don't think it is strictly necessary to add
+a prefix for each function.
+
+> {
+> 	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+> }
+>
+>-
+>-static int vidioc_decoder_cmd(struct file *file, void *priv,
+>-				struct v4l2_decoder_cmd *cmd)
+>+static int mtk_vcodec_stateful_decoder_cmd(struct file *file, void *priv,
+>+					   struct v4l2_decoder_cmd *cmd)
+> {
+> 	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+> 	struct vb2_queue *src_vq, *dst_vq;
+> 	int ret;
+>
+>-	ret = vidioc_try_decoder_cmd(file, priv, cmd);
+>+	ret = mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
+> 	if (ret)
+> 		return ret;
+>
+>@@ -128,6 +127,60 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
+> 	return 0;
+> }
+>
+>+static int mtk_vcodec_stateless_try_decoder_cmd(struct file *file, void *priv,
+>+						struct v4l2_decoder_cmd *cmd)
+>+{
+>+	return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
+>+}
+>+
+>+static int mtk_vcodec_stateless_decoder_cmd(struct file *file, void *priv,
+>+					    struct v4l2_decoder_cmd *cmd)
+>+{
+>+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+>+	int ret;
+>+
+>+	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
+>+	if (ret)
+>+		return ret;
+>+
+>+	mtk_v4l2_vdec_dbg(3, ctx, "decoder cmd=%u", cmd->cmd);
+>+	switch (cmd->cmd) {
+>+	case V4L2_DEC_CMD_FLUSH:
+>+		/*
+>+		 * If the flag of output buffer is set with V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF,
+
+s/output/the output/
+s/is set with/equals/
+
+>+		 * this command will prevent dequeueing the capture buffer containing the last
+>+		 * decoded frame. Or do nothing
+>+		 */
+>+		break;
+>+
+
+Please remove this newline.
+
+>+	default:
+>+		mtk_v4l2_vdec_err(ctx, "invalid stateless decoder cmd=%u", cmd->cmd);
+>+		return -EINVAL;
+>+	}
+>+
+>+	return 0;
+>+}
+>+
+>+static int vidioc_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
+>+{
+>+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+>+
+>+	if (ctx->dev->vdec_pdata->uses_stateless_api)
+>+		return mtk_vcodec_stateless_try_decoder_cmd(file, priv, cmd);
+>+	else
+
+As these conditional branches contain return statements you can skip the
+else.
+E.g.
+	if (ctx->dev->vdec_pdata->uses_stateless_api)
+		return mtk_vcodec_stateless_try_decoder_cmd(file, priv, cmd);
+   return mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
+
+>+		return mtk_vcodec_stateful_try_decoder_cmd(file, priv, cmd);
+>+}
+>+
+>+static int vidioc_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
+>+{
+>+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+>+
+>+	if (ctx->dev->vdec_pdata->uses_stateless_api)
+>+		return mtk_vcodec_stateless_decoder_cmd(file, priv, cmd);
+>+	else
+
+Same as mentioned above.
+
+>+		return mtk_vcodec_stateful_decoder_cmd(file, priv, cmd);
+>+}
+>+
+> void mtk_vdec_unlock(struct mtk_vcodec_dec_ctx *ctx)
+> {
+> 	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
+>-- 
+>2.18.0
+>
 
