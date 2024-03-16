@@ -1,202 +1,138 @@
-Return-Path: <linux-media+bounces-7170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9823587D943
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 09:14:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6333B87D9AD
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 10:47:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F22FB21511
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 08:14:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEA17B20E43
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 09:47:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A5BF9F0;
-	Sat, 16 Mar 2024 08:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C3717984;
+	Sat, 16 Mar 2024 09:46:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="k/LSJ+5C"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XO0kuuAW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53692E574;
-	Sat, 16 Mar 2024 08:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A42314290
+	for <linux-media@vger.kernel.org>; Sat, 16 Mar 2024 09:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710576835; cv=none; b=PzKavr6oIsiw2d6gudGBe77ciukafKjEy/c/ob9sxC3cB5+nfjzCCGUsWfdiYGuAqBwkyolq2vjUdJyhb5eq+xLoh9G/b/IpBw0ONKEC0G1usYVV0IxyuJNhv8J3XYbvI7O2uIbeph5NJ0Q8xrM7n1eeZcR1M/pOBHMUywR+xZI=
+	t=1710582418; cv=none; b=Y7b8gCrbcegy4GRHpXBndD9TDU64tMKOjQYGgFGa1HiWZkZ39Jnm4ZIGgNNHP5Q01kY5fPmx8d9uCwHzvpicd2fjhWWISMvMOtiP0iAH6Mn0XQW2+crVl5llXgIr8F6TEGrDdP3yj8tks1uxe8LLGKnD4v9vJayG6q02UVK1I8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710576835; c=relaxed/simple;
-	bh=MG0yFGZd8NGqG68fXGVPGoIIF4RPiMFDjImRupyiJQQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UaML/KbE0Y1S27rmVypnTb75bqpovRIdeawKYPk68MKhtZACFZX2gwzL7zKPUUq9KX99giAmCdWNXBrnr7iz9e1A+yiCuhCQ/OkHz4QboFUQKoGIyG1Mb2BIN+0kvDYVSuPMKMd9rp+/QMg/3P8wtk77wsTUuWj4+NPlxVUjRFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=k/LSJ+5C; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 1d52b13ee36d11eeb8927bc1f75efef4-20240316
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ymrk5mBiwUCU/ytZC04QGRDtL4o+ZcHTqKjjTVEao+s=;
-	b=k/LSJ+5CwS6xKfszSqocImu22Twza7pP2Rxvi28l9T/LbZ3BrEc8FkCR8er8PK6kcLuH14q2M1cTL6zxeoYP6gHn9E/5xwxO+hdCb6Hn5KQzaqiUrB/SCd8zwJDfFoiow6YzNDeaGwVb6qXe1ITp49L+wg6NBU27qm938xHTpoM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:ce905900-684c-4264-b148-b9df08d4c87e,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:931df6ff-c16b-4159-a099-3b9d0558e447,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 1d52b13ee36d11eeb8927bc1f75efef4-20240316
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1081411707; Sat, 16 Mar 2024 16:13:47 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 16 Mar 2024 16:13:46 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 16 Mar 2024 16:13:45 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] media: mediatek: vcodec: add decoder command to support stateless decoder
-Date: Sat, 16 Mar 2024 16:13:44 +0800
-Message-ID: <20240316081344.4262-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1710582418; c=relaxed/simple;
+	bh=DMtx0/3geiYhVdzSo4B/B12kXf6OyeqliMzNBLNMbFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OhpeiXlR4irmmQgkiAmpc3YrWUC6LewF1MZtSSYqvKgV0A4ti31GNd5MsydwTCO/il+srKlujUwnzeJ6BkQy1x7uTzRZ8a6uqjri+SGiaIKH6HFlchoeiLwIpJTFvoy0lTYHpVX6nz3aHGgwrFxGXQuEOlRbOVuqomFJYlyPc2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XO0kuuAW; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d49ca33dcaso755561fa.3
+        for <linux-media@vger.kernel.org>; Sat, 16 Mar 2024 02:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1710582414; x=1711187214; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fUW/FIbXtZhpkOcYQxCVkz21OR+E2wEaVF3lBWv8kQM=;
+        b=XO0kuuAWVGXCHp3fBjnEyHI4y5M/FWfeRaQfsebasvPkOSqgc+ysKHwFuqvoLiKNv7
+         +vZAGYRFQoxVNccE517ZYtEyNrDOKyo4tfTzr/TT48xXKspdub2fFo2OPrboxx1jpBbs
+         xC3KuHO0/5FAmElYt3foCnetcTFgV18IOdMxj93145Jj1Wd48R5YvR03EXWuiMWQL49I
+         G56mAKnD6dvHxLw6i5L40G4WYrzwiBtEIxPkX2fRIoOiHhxtBCzfKFKLogqPwIYrNtej
+         w4iNIAk57yxvtZGju5y5oEpkK4klCozTuoQkcLo2CowFeAOGC8p8vMbjvdJhKxj50eRa
+         /0pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710582414; x=1711187214;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUW/FIbXtZhpkOcYQxCVkz21OR+E2wEaVF3lBWv8kQM=;
+        b=e6Csb4irvMruFdhjXGqaNYa8jLU0dHRvB5CFyJTsSYZIsBJQ1W++pp1dDCbVcAvZP6
+         AV8vHgJDqP+aSwSr5zTUGnFvxGUxwWazTKe/vIqkOtepjRLvfJKuL9lJCo3CZnPpgq81
+         5i0gQQH3ENaPPgUHhDSmcr39fc/j0AIQxfIy3NVGOceksBS7wxgpBhjX9yGbh72jl8Tl
+         1pdZld4AOzIcP8rvxLp1Nm+GLEcZBKn1xEjSR0H/mz/N6HTJn+PTBrj9euQJ2Ol0jBnb
+         8NGZjR/7Z+W9BocgxYAa7Z4RV9aX5t4wyxOcFO6ZTl306WqBRnVTjTgi/9DkTt9Dqv8C
+         XZww==
+X-Forwarded-Encrypted: i=1; AJvYcCX+JWcMh77deMqts6LUB3ovYSgtnj0k54qL9DI0tFpI/Q0KWGzyPRJMW6iBZ1KleC6S6/54kvkfYUCCAofWQ+XBGt+QX7V84GM5sIM=
+X-Gm-Message-State: AOJu0YxP+WX3e2C165J17cs5/i4ORJMEaR0wSPIx4uZXuQgPZyKW0qAi
+	C8bcptxNFMAv9bxVB9FoJMiH6t4izSstj/mUBUgjd1xZ/9R0m5medfBWX5uX7pU=
+X-Google-Smtp-Source: AGHT+IEDsDdll7w3geO/Tp+xb2ClYrnmkqXOFWJIa3xlfSDYbiyEsikoRMXqjej+3H6Huqwl5UJ7qA==
+X-Received: by 2002:a19:ca51:0:b0:513:b061:1815 with SMTP id h17-20020a19ca51000000b00513b0611815mr4296285lfj.18.1710582414145;
+        Sat, 16 Mar 2024 02:46:54 -0700 (PDT)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id u19-20020ac25193000000b00513a76b310esm921223lfi.60.2024.03.16.02.46.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Mar 2024 02:46:53 -0700 (PDT)
+Date: Sat, 16 Mar 2024 10:46:52 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Markus Elfring <Markus.Elfring@web.de>,
+	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
+ rcsi2_parse_dt()
+Message-ID: <20240316094652.GC2092253@ragnatech.se>
+References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
+ <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
+ <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+ <ZeWnD9YrXLWJYmhT@kekkonen.localdomain>
+ <cc121bef-8bca-44e6-81aa-bf8e682bdaf5@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <cc121bef-8bca-44e6-81aa-bf8e682bdaf5@moroto.mountain>
 
-The supported decoder commands are different for stateless and
-stateful architecture. Add stateless decoder commands to fix
-the v4l2-compliance test error below.
+Hi Dan,
 
-Codec ioctls:
-    VIDIOC_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
-    VIDIOC_TRY_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
- test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-    VIDIOC_G_ENC_INDEX returned -1 (Inappropriate ioctl for device)
- test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-    VIDIOC_DECODER_CMD returned -1 (Invalid argument)
-    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
-    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
-    fail: v4l2-test-codecs.cpp(126): ret
- test VIDIOC_(TRY_)DECODER_CMD: FAIL
+On 2024-03-04 14:16:56 +0300, Dan Carpenter wrote:
+> On Mon, Mar 04, 2024 at 10:48:47AM +0000, Sakari Ailus wrote:
+> > Hi Dan,
+> > 
+> > On Fri, Mar 01, 2024 at 04:42:01PM +0300, Dan Carpenter wrote:
+> > > Sakari Ailus pointed out in another thread that we could use __free()
+> > > instead.  Something like this:
+> > > 
+> > 
+> > Looks good to me.
+> 
+> Thanks for checking!  I've never used these before.
+> 
+> > 
+> > We could merge this with your SoB (pending Niklas's review). :-) The driver
+> > has been since moved under drivers/media/platform/renesas/rcar-vin/ .
+> 
+> Alright.  I can resend this as a proper patch.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-changed with v1:
-- remove the static function prefix.
-- fix some messages not reasonable.
----
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 60 +++++++++++++++++--
- 1 file changed, 54 insertions(+), 6 deletions(-)
+Please do.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-index ba742f0e391d..c2b64a528028 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-@@ -80,21 +80,18 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx *ctx,
- 	return &ctx->q_data[MTK_Q_DATA_DST];
- }
- 
--static int vidioc_try_decoder_cmd(struct file *file, void *priv,
--				struct v4l2_decoder_cmd *cmd)
-+static int stateful_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
- {
- 	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
- }
- 
--
--static int vidioc_decoder_cmd(struct file *file, void *priv,
--				struct v4l2_decoder_cmd *cmd)
-+static int stateful_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
- {
- 	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
- 	struct vb2_queue *src_vq, *dst_vq;
- 	int ret;
- 
--	ret = vidioc_try_decoder_cmd(file, priv, cmd);
-+	ret = stateful_try_decoder_cmd(file, priv, cmd);
- 	if (ret)
- 		return ret;
- 
-@@ -128,6 +125,57 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static int stateless_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
-+{
-+	return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
-+}
-+
-+static int stateless_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
-+{
-+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
-+	if (ret)
-+		return ret;
-+
-+	mtk_v4l2_vdec_dbg(3, ctx, "decoder cmd=%u", cmd->cmd);
-+	switch (cmd->cmd) {
-+	case V4L2_DEC_CMD_FLUSH:
-+		/*
-+		 * If the flag of the output buffer is equals V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF,
-+		 * this command will prevent dequeueing the capture buffer containing the last
-+		 * decoded frame. Or do nothing
-+		 */
-+		break;
-+	default:
-+		mtk_v4l2_vdec_err(ctx, "invalid stateless decoder cmd=%u", cmd->cmd);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int vidioc_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
-+{
-+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
-+
-+	if (ctx->dev->vdec_pdata->uses_stateless_api)
-+		return stateless_try_decoder_cmd(file, priv, cmd);
-+
-+	return stateful_try_decoder_cmd(file, priv, cmd);
-+}
-+
-+static int vidioc_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
-+{
-+	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
-+
-+	if (ctx->dev->vdec_pdata->uses_stateless_api)
-+		return stateless_decoder_cmd(file, priv, cmd);
-+
-+	return stateful_decoder_cmd(file, priv, cmd);
-+}
-+
- void mtk_vdec_unlock(struct mtk_vcodec_dec_ctx *ctx)
- {
- 	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
+I do find the idea of scoped operations and the syntax
+
+    struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
+
+a bit foreign in a C context. But I think the intention is clear and it 
+allows us to avoid having the remember to free the fwnode in error paths 
+which is a nice thing.
+
+> 
+> regards,
+> dan carpenter
+> 
+
 -- 
-2.18.0
-
+Kind Regards,
+Niklas Söderlund
 
