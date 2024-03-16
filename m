@@ -1,93 +1,79 @@
-Return-Path: <linux-media+bounces-7169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD6D87D91E
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 08:13:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9823587D943
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 09:14:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73887B2178D
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 07:13:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F22FB21511
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 08:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3584E14F7F;
-	Sat, 16 Mar 2024 07:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A5BF9F0;
+	Sat, 16 Mar 2024 08:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzHvVfZD"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="k/LSJ+5C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4535A1429B;
-	Sat, 16 Mar 2024 07:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53692E574;
+	Sat, 16 Mar 2024 08:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710573168; cv=none; b=ZVY9AEoNKvw1sFoI/ML8lG+Y8vp2Q2+xWHpTy7Q2B1sleO0OD949LbtHQQh4cj9BHF68U4LHATGZtpvvCpxds+BE6ZSbKjYMF/bUOmOCYL8wzykKQpuO8sB2VS8rfj+taEraNVYzaZHF5R6lhMsWVI2+NTsgq5hHtZJWLXgPfZw=
+	t=1710576835; cv=none; b=PzKavr6oIsiw2d6gudGBe77ciukafKjEy/c/ob9sxC3cB5+nfjzCCGUsWfdiYGuAqBwkyolq2vjUdJyhb5eq+xLoh9G/b/IpBw0ONKEC0G1usYVV0IxyuJNhv8J3XYbvI7O2uIbeph5NJ0Q8xrM7n1eeZcR1M/pOBHMUywR+xZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710573168; c=relaxed/simple;
-	bh=Ek6dyKj8WW1L3vP81KbqdCF+pb4i+hUZKKzEqkEtix0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ow4z/NK2T9GnpCx62IoV1Ad82ZaRzgtqm65srkvNXQn9sOa2q/+q95xExzuu1+jzeHi5vJwiVBs2fvDcwN4ceikXsjEjHYisbUCgdssqo+iYhj/nRrU+mS7+PTqSzFKiG3emFEC+GntQLDT4C9JR6yqgpyrkWotNMlrGyx/t8Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AzHvVfZD; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e6082eab17so2556564b3a.1;
-        Sat, 16 Mar 2024 00:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710573166; x=1711177966; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xbRqb26QfAthS3CJVq90TpB3Bg3AO5IdQEZJltedfdA=;
-        b=AzHvVfZDnxomLjAtprgD6gmZi9nvCRnjoEqnjZlFGkGxKHTCtHbYkcus88sHW9Zt0x
-         sIgTKZetNgWsJKIYxHYpRhE8Mc3trSnESMHyOuaPto481UkSGgV3zdctnnERXRZpoh87
-         /bRpwUf4QH/wIvLQNfk/fW5k/CS4Z9jhScIFy9qY8JFG50HDydjwoEwaceGvGPpNMOjk
-         7crp+5qfJQZLFT/6cuf2a4sy5fh8qumFXZgU9azfydrKBTuMfKeGYhVX6qQZrwiKoAl8
-         NFOdFF1qY7UxZe6P+Mq9E69/H61B57HiSZzn0s81rKYatxlib6+qBPuftvtekMLp5auR
-         gjsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710573166; x=1711177966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xbRqb26QfAthS3CJVq90TpB3Bg3AO5IdQEZJltedfdA=;
-        b=Krq2L15w+yibaybs3gPCHVb/+7ETQHKyBHCGucxjjPRaNX2jBZroOLzeFOL4llMsdE
-         ROOZrFqmyCoL1QtF/SYS0MnIF2LLN1tjm7+JPwjn85dqc0rO1N6M5AZCdEaFS0JLMy8c
-         QprYq4lMg++lLi3eLCUUnwqEeT8DUvDBzD17QMGoXJdmH1ejZWqZ6oAEyDv0lZxKGC41
-         QdMFDTFhv5W+halYb6hJ9q9Kh/vRfAe9nKNx5xzBjcGgctnewpsHavV03SMqkfbMiQnb
-         EE9azQN+3yzIjyRK0MzTuZa3NDDzYdOdgmavFvkmEio+kTLXKavPmZ2p9Eoza9Aci/18
-         Xrng==
-X-Forwarded-Encrypted: i=1; AJvYcCV4pnVVsMzerAkvJ3xgb6roNCVScweI1FT6d3msCercpSYDKWiAHQqPDVlZiOZQ2e1xbSv/GpxGDyOb6CXivcMLcJ61WSOfGYU6HkBaxIbU1VKJD0Q2RrXMAFl+/fB1MBByDyxVvSIDQGg=
-X-Gm-Message-State: AOJu0YzBq8HFjrkvKWDkkfie4Om0zlfbjSTuFMZMh04jGVRlMNQjfXec
-	pvc1qhlPkKA9DDWaCzdjf6nSKtwbOGS3guPP2mT7jAN0vyKn3+7yRdptyK72WDtT8g==
-X-Google-Smtp-Source: AGHT+IF92osGMjBCD+MCHjDpfd5vqx22XGS+49u2F24YM0gP/VESBebJfFcTUfO83t7VsmWelMNYrQ==
-X-Received: by 2002:a05:6a00:9a4:b0:6e6:98e4:99a1 with SMTP id u36-20020a056a0009a400b006e698e499a1mr8212531pfg.14.1710573166168;
-        Sat, 16 Mar 2024 00:12:46 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.133.103])
-        by smtp.gmail.com with ESMTPSA id x18-20020aa784d2000000b006e5a915a9e7sm4574651pfn.10.2024.03.16.00.12.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 00:12:45 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	heiko@sntech.de,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	liujianfeng1994@gmail.com,
-	sfr@canb.auug.org.au
-Subject: [PATCH v4 2/2] dt-bindings: media: rockchip-vpu: Add rk3588 vdpu121 compatible string
-Date: Sat, 16 Mar 2024 15:11:00 +0800
-Message-Id: <20240316071100.2419369-3-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240316071100.2419369-1-liujianfeng1994@gmail.com>
-References: <20240316071100.2419369-1-liujianfeng1994@gmail.com>
+	s=arc-20240116; t=1710576835; c=relaxed/simple;
+	bh=MG0yFGZd8NGqG68fXGVPGoIIF4RPiMFDjImRupyiJQQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UaML/KbE0Y1S27rmVypnTb75bqpovRIdeawKYPk68MKhtZACFZX2gwzL7zKPUUq9KX99giAmCdWNXBrnr7iz9e1A+yiCuhCQ/OkHz4QboFUQKoGIyG1Mb2BIN+0kvDYVSuPMKMd9rp+/QMg/3P8wtk77wsTUuWj4+NPlxVUjRFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=k/LSJ+5C; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 1d52b13ee36d11eeb8927bc1f75efef4-20240316
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ymrk5mBiwUCU/ytZC04QGRDtL4o+ZcHTqKjjTVEao+s=;
+	b=k/LSJ+5CwS6xKfszSqocImu22Twza7pP2Rxvi28l9T/LbZ3BrEc8FkCR8er8PK6kcLuH14q2M1cTL6zxeoYP6gHn9E/5xwxO+hdCb6Hn5KQzaqiUrB/SCd8zwJDfFoiow6YzNDeaGwVb6qXe1ITp49L+wg6NBU27qm938xHTpoM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:ce905900-684c-4264-b148-b9df08d4c87e,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6f543d0,CLOUDID:931df6ff-c16b-4159-a099-3b9d0558e447,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 1d52b13ee36d11eeb8927bc1f75efef4-20240316
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1081411707; Sat, 16 Mar 2024 16:13:47 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 16 Mar 2024 16:13:46 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 16 Mar 2024 16:13:45 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
+ Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2] media: mediatek: vcodec: add decoder command to support stateless decoder
+Date: Sat, 16 Mar 2024 16:13:44 +0800
+Message-ID: <20240316081344.4262-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,31 +81,122 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Add Hantro G1 VPU compatible string for RK3588.
-RK3588 has the same Hantro G1 ip as RK3568, which are both
-known as VDPU121 in TRM of RK3568 and RK3588.
+The supported decoder commands are different for stateless and
+stateful architecture. Add stateless decoder commands to fix
+the v4l2-compliance test error below.
 
-Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+Codec ioctls:
+    VIDIOC_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+    VIDIOC_TRY_ENCODER_CMD returned -1 (Inappropriate ioctl for device)
+ test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+    VIDIOC_G_ENC_INDEX returned -1 (Inappropriate ioctl for device)
+ test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+    VIDIOC_DECODER_CMD returned -1 (Invalid argument)
+    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+    VIDIOC_TRY_DECODER_CMD returned -1 (Invalid argument)
+    fail: v4l2-test-codecs.cpp(126): ret
+ test VIDIOC_(TRY_)DECODER_CMD: FAIL
+
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+changed with v1:
+- remove the static function prefix.
+- fix some messages not reasonable.
+---
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 60 +++++++++++++++++--
+ 1 file changed, 54 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-index c57e1f488..4f667db91 100644
---- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-@@ -31,6 +31,9 @@ properties:
-       - items:
-           - const: rockchip,rk3228-vpu
-           - const: rockchip,rk3399-vpu
-+      - items:
-+          - const: rockchip,rk3588-vdpu121
-+          - const: rockchip,rk3568-vpu
-
-   reg:
-     maxItems: 1
---
-2.34.1
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+index ba742f0e391d..c2b64a528028 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+@@ -80,21 +80,18 @@ static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx *ctx,
+ 	return &ctx->q_data[MTK_Q_DATA_DST];
+ }
+ 
+-static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+-				struct v4l2_decoder_cmd *cmd)
++static int stateful_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
+ {
+ 	return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+ }
+ 
+-
+-static int vidioc_decoder_cmd(struct file *file, void *priv,
+-				struct v4l2_decoder_cmd *cmd)
++static int stateful_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
+ {
+ 	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
+ 	struct vb2_queue *src_vq, *dst_vq;
+ 	int ret;
+ 
+-	ret = vidioc_try_decoder_cmd(file, priv, cmd);
++	ret = stateful_try_decoder_cmd(file, priv, cmd);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -128,6 +125,57 @@ static int vidioc_decoder_cmd(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static int stateless_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
++}
++
++static int stateless_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++	int ret;
++
++	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, cmd);
++	if (ret)
++		return ret;
++
++	mtk_v4l2_vdec_dbg(3, ctx, "decoder cmd=%u", cmd->cmd);
++	switch (cmd->cmd) {
++	case V4L2_DEC_CMD_FLUSH:
++		/*
++		 * If the flag of the output buffer is equals V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF,
++		 * this command will prevent dequeueing the capture buffer containing the last
++		 * decoded frame. Or do nothing
++		 */
++		break;
++	default:
++		mtk_v4l2_vdec_err(ctx, "invalid stateless decoder cmd=%u", cmd->cmd);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int vidioc_try_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++
++	if (ctx->dev->vdec_pdata->uses_stateless_api)
++		return stateless_try_decoder_cmd(file, priv, cmd);
++
++	return stateful_try_decoder_cmd(file, priv, cmd);
++}
++
++static int vidioc_decoder_cmd(struct file *file, void *priv, struct v4l2_decoder_cmd *cmd)
++{
++	struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(priv);
++
++	if (ctx->dev->vdec_pdata->uses_stateless_api)
++		return stateless_decoder_cmd(file, priv, cmd);
++
++	return stateful_decoder_cmd(file, priv, cmd);
++}
++
+ void mtk_vdec_unlock(struct mtk_vcodec_dec_ctx *ctx)
+ {
+ 	mutex_unlock(&ctx->dev->dec_mutex[ctx->hw_id]);
+-- 
+2.18.0
 
 
