@@ -1,95 +1,128 @@
-Return-Path: <linux-media+bounces-7174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1B387DA0B
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 12:59:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A9D87DA2B
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 13:22:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31CC5282038
-	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 11:59:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8A5A1F2187F
+	for <lists+linux-media@lfdr.de>; Sat, 16 Mar 2024 12:22:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 702C017993;
-	Sat, 16 Mar 2024 11:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9350518AED;
+	Sat, 16 Mar 2024 12:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mfg1.brcemail.com header.i=@mfg1.brcemail.com header.b="fSELvGGx"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="l2MVLw3N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mfg1.brcemail.com (mfg1.brcemail.com [216.169.98.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA4E1C2D
-	for <linux-media@vger.kernel.org>; Sat, 16 Mar 2024 11:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.169.98.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527C517BAF;
+	Sat, 16 Mar 2024 12:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710590388; cv=none; b=jBtdoFX0K8hqvoz67aQB7K2kcGJ2l1apahT/y0hqJ7Fva842MHtwuKnQyLe0wdY+im0I6LBiki4jbln5foHJozOmIAyzOCe0s9LFWG1VvwdyPbkco3Itg9/pmsaDpqAG5QWT45yfQMZEjdULHJjgTbCIPE3FCfY++pdynk7+/3s=
+	t=1710591726; cv=none; b=qENxKKprhmujOW1hrfMIUMqnWK9LMvbZls34tzRDMj/ZV3S2mvLuWmVxoU0LW1Wau7yk5RZbKus70uK2QuAKrv93/nJwrj5A0ZuBk4CrKlAdgGKlQ986EGj+MLZnZ5No89WncpQK3T6BY5jKYz6yE7jCiuetX0YkAjAH/+GumdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710590388; c=relaxed/simple;
-	bh=NG+xwPXU/kvLpvjh+4mBQiQLbL1ePaJWhYXmNlK+rdc=;
-	h=From:Date:Subject:Message-Id:To:MIME-Version:Content-Type; b=ohGuu9OZexGTG4X7lyxe9atYyJWlR6Ort1UMkJvAIcd7llxyorPY870iVYEEl2wEafrdOAgvq1jKCKMGIJ5/O9NSR9/f1t2GNSTtFJ+BwfP/J1zn6Mu8/RnK8uwIVK70augduy74fRHi5+yS3RMFTsFkuV5AIxmWJB27Qcoii14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mfg1.brcemail.com; spf=pass smtp.mailfrom=bounces.mfg1.brcemail.com; dkim=pass (1024-bit key) header.d=mfg1.brcemail.com header.i=@mfg1.brcemail.com header.b=fSELvGGx; arc=none smtp.client-ip=216.169.98.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mfg1.brcemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bounces.mfg1.brcemail.com
-DKIM-Signature: v=1; a=rsa-sha256; d=mfg1.brcemail.com; s=api;
-	c=relaxed/simple; t=1710590377;
-	h=from:date:subject:reply-to:to:list-unsubscribe:list-unsubscribe-post;
-	bh=NG+xwPXU/kvLpvjh+4mBQiQLbL1ePaJWhYXmNlK+rdc=;
-	b=fSELvGGxgqLXqGCL+mJJzCwn9EhK7fQtKqlnht5qUq1yoBzrS3m4mpIgyfExm1QPoafKmownxPd
-	tZO+eMPPdLalEP7TVkgQh1my6KmASxI7JanH96BtfJ0fEmO8UOt8v1cZTaw9tXJXpBMQpMuwIZwoL
-	kq2B+kL9dX7e+NgJ5Nk=
-From: Sophia Wang <Leo@mfg1.brcemail.com>
-Date: Sat, 16 Mar 2024 11:59:37 +0000
-Subject: =?utf-8?b?8J+RjQ==?=
-Message-Id: <4umjueriv2l1.8fCi5g4iHO5dzcVGQfJShg2@tracking.mfg1.brcemail.com>
-Reply-To: Sophia Wang <sales@jcmolding.com>
-Sender: Sophia Wang <Leo@mfg1.brcemail.com>
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-X-Msg-EID: 8fCi5g4iHO5dzcVGQfJShg2
+	s=arc-20240116; t=1710591726; c=relaxed/simple;
+	bh=XxGy920P9DR0EZIW7+Yb4OcOzn4dQ1bS2DyY+nDGDIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yv4HNYmF6VG173Pawvguc04uzb8bSNik+oauAq4sEM8wSxuDxeW07tTIrvQ/MypOSLFa0mT1uZxmo7//x5MmIlT6MCUq+bADk0E3ExoObxNayDfzjpD8TUQe3LOQOrcp8yC88md7qB6K1KzWBSzUlDemIsDsoljndkAZSEnZRbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=l2MVLw3N; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1710591699; x=1711196499; i=markus.elfring@web.de;
+	bh=/QEqgj+Ltvb5OtOACFmXDcDy9+HrKk324HPLGGfFo/0=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=l2MVLw3NsJrTFcF3Yy3k+a3aQzrwT0E160jWyKi9qpmd3akGxhV4YYElzHRJV225
+	 96irb6BJc6lfHaUObWetKgUsqUGK0ejZglw8HV/tMS2vlKSGwiJQ28TUt2NJGZDV+
+	 zW6o5WopqgFzOwy6lWyb6n6y9E2iuEYprpfB9VSNFHBnbz7KjOPjN/BQKHXkTHfO9
+	 EexQ3Ax72k3D8ggTaJ/+pIpQcNnYOk/VOYVyaJCcT2q7KlsZT8q6H+LzeiSQulPWl
+	 V6Jbflimsg+dltdy77kCgQj9etUzVeuojDy/2Oyyh7gHozzCBBTJCqlB6h8SgBsDw
+	 0bj+iPIit2VqLpb3sg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MJFhJ-1rWP0411x5-00KlSo; Sat, 16
+ Mar 2024 13:21:39 +0100
+Message-ID: <aa212ffb-1786-4b86-95cc-f2ee0cd455bf@web.de>
+Date: Sat, 16 Mar 2024 13:21:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: media: rcar-csi2: Use common error handling code in
+ rcsi2_parse_dt()
+Content-Language: en-GB
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
+ <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
+ <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+ <ZeWnD9YrXLWJYmhT@kekkonen.localdomain>
+ <cc121bef-8bca-44e6-81aa-bf8e682bdaf5@moroto.mountain>
+ <20240316094652.GC2092253@ragnatech.se>
+ <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:CYSazAyFcqwG1K8ccAxElR2MFdI5csaNRfKL+ujpwkyo75gM003
+ sMdgTgvdVoJrXQqCpIJj8HopF1R1OxI9nPHiSzk7esSS/5NYTTfIlgcVjVkkgwZEbs7216C
+ EmoXtU4prJmU/9IoNYgX3mpnRvbl5gb+CtrmeoTjC2mz0nI1in6INRD7iQygE7G9GbfJqI4
+ hkJTtovI1y/iB5bGh0omQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vkl82kTfK7s=;dI3oT/euE+q6zJprge2r7OksWoN
+ y+lxnkJvAhGefLtmu4hbfogcGfAA5IK3XcSyWPTCm6pBxqb3ENZhR7YQ15RTd0ycw8fRjuNJ2
+ 8hip2ZKvg/3cdQxL3fbNdynx4kk2mSv9PI56RDP6PTjl4FPZ/QQMGrwo01R+FMBN+VZVMBlA0
+ fcQBJrxNrdQVk0Gge534xgeLY5MZWIwZCdern3as+xezRNoRKLCo7KJYuNnmMLp8GLZhlbsJX
+ p5WZZo/3MSWAHrifuqusg9QTdalqtiYQwZtLfRNBmhnS1OZhreoiiXJBxcqjsNNFgEjQ7sxqK
+ OoDhHzNDmKO6ydMziKB/TVB/HYiViICXeRmnUym8DoTDFeQ8BNFKhzfM1ugpQBMETa36BNdv+
+ UfUb3npTGPcTQnjENWrXFhblDUC2oTqgp9YEK6PRh/TD5AD43eN704VlyalWMXY3CymQO5oeO
+ DM93HPfmqQE9XSwQFny/gMwvU0plaUwh2UKUiATd1DYutEd0SX5lL+39MWPyt+mMtFiWEWp+Z
+ KDBHP7dJ/07uVclbXQaJ+LuGm/m0ZR7HN1MzywA9oDYZUMoGZXmcj27/GMiScFgX/Xzc2r05o
+ eZLtGxx/YH9qXy9oK3JWJPSjpU8V/IkbXym6pZ6RP/Xpd24gwTOk3XsWxHyawQwxjNFOOsYZs
+ M3xygpKuYZPdWF9rBa2Za65h6XDDW1ccdAda+Xg/plMjnRsGA2jn1MiV/vhJSSFLhBQcgdfzA
+ SEBs4paGpOwy7+QAFHgkJq5125wLhiuNua1Czq3tNywIB/eKuBZNiAf5IbiLit1oN33DEE+60
+ mKtP++GiXuLFsR3YsPeJnUlOs4HhEGdUJGNLSK/o81GfM=
 
-SEkuTGludXgtTWVkaWE6CiAgICAgICAgICAgICAgICAgIFRvIGNvc3QgZG93biB5b3VyIGlu
-dmVzdG1lbnQgYW5kIHByb2R1Y3Rz4oCZIGNvc3QgYnkgcHJvZmVzc2lvbmFsIGVuZ2luZWVy
-CldoYXQgSSBzYWlkIGNvc3RpbmcgZG93biwgaXQgZG9lc27igJl0IG1lYW4gdG8gbWFrZSBs
-b3dlciBxdWFsaXR5LiBXZSBqdXN0IHByb3ZpZGVkIHF1YWxpdHkgbW9sZHMgYW5kIHByb2R1
-Y3RzIGFuZCBkbyBtb3JlIGFuYWx5c2lzIG9uIHRoZSBwcm9kdWN0cyB0byBhdm9pZCBhbnkg
-bWlzdGFrZS4KIE91ciBjYXBhY2l0eSBhcyBiZWxvdzoKMS4JQ29vcmRpbmF0ZSBkZXNpZ24g
-cHJvZHVjdHMKMi4JUHJvdG90eXBlIG1ha2luZwozLglXZSBpbmR1c3RyaWFsaXplIHlvdXIg
-ZGVzaWduCjQuCUJvdGggbWV0YWwgYW5kIHBsYXN0aWMgbW9sZCBhbmQgbW9sZGluZyBtYWtp
-bmc7IG1pZGRsZSBhbmQgc21hbGwgc2l6ZSBtb2xkCjUuCVByb2R1Y3RzIGFzc2VtYmx5IGFu
-ZCB0ZXN0aW5nLgpPdXIgY3VzdG9tZXJzIGxpa2UgQmFybmVtIGFuZCBBU0EgcGxhc3RpYyBm
-cm9tIEl0YWx5IGV0Yy4gRXZlcnkgeWVhciBJIHZpc2l0ZWQgdGhlbSBvbmNlIHRvIGRpc2N1
-c3MgZnV0dXJlIGNvb3BlcmF0aW9uLgpPdXIgc3Ryb25nIHBvaW50IGlzIHRvIG1ha2Ugc21h
-bGwgdG8gbWlkZGxlIHF1YW50aXR5IGN1c3RvbWl6ZWQgcHJvZHVjdHMgCldlbGNvbWUgdG8g
-Y29udGFjdCB1cy4KaHR0cDovL3RyYWNraW5nLm1mZzEuYnJjZW1haWwuY29tL3RyYWNraW5n
-L2NsaWNrP2Q9dlJ1WlhKN1FRQ3U2djZUWHBQZU81ODZ4QWN6azU1S0VLX2s5MGt6NkJKVm9Z
-WW5tQzZYdzF2Q3dlRVZMNFhKNnVUaGl0bU8xdy1mNEdNVXlaZnY3dE1nbWxiYl81anpKVHJ3
-Rk9YdGlOeE01RHdRSjNGVzJuMUp2S0lmZFRZWklzTWpLc0Z5M05FWVdwRmVjc3l3LWM0S09q
-dDRNbUEzQl9wU1dqWTB4QkFJejVGY190VXRVOURhdUhfS1RuZjFjY3FtMjhvcjVfeWJ4OV9C
-TWQwMzFUYmJNaU1CMnFNSUdMMXRzd2RMajBENVdzdTZxREpVTUVuNVQxTDZCUEw5WlYtM3Vm
-cFFPcWM0dlpDaVp4MGJJZmg0MQpodHRwOi8vdHJhY2tpbmcubWZnMS5icmNlbWFpbC5jb20v
-dHJhY2tpbmcvY2xpY2s/ZD12UnVaWEo3UVFDdTZ2NlRYcFBlTzU4NnhBY3prNTVLRUtfazkw
-a3o2QkpWb1lZbm1DNlh3MXZDd2VFVkw0WEo2dVRoaXRtTzF3LWY0R01VeVpmdjd0TWdtbGJi
-XzVqekpUcndGT1h0aU54T18tanAzN04ycnJkQlV0d2U3N2lLREc3NkJYY1dKbmNISTU0THpk
-SWZLcERFaTBVU3A2eEt2MFhtSzdWRGxvUktNUms4WGNMcENNUk83QXFiNzgzSWJxdjlJeEoz
-MVNybjhfRVZma1dWWXJibmlaOHVBcWF3ZnVBTWRQajRpMGFuZ29QMW53Q1VBNlVMUER3X2NV
-X0FUUjdSMU1NSDU4R3BTX0JYcjdlT2lRN0kxClNvcGhpYQoKPGEgaHJlZj0iaHR0cDovL3Ry
-YWNraW5nLm1mZzEuYnJjZW1haWwuY29tL3RyYWNraW5nL3Vuc3Vic2NyaWJlP2Q9U1VmWlNR
-amg4YkMxbnR6V0R6VW9sQjBIZF9YZXFGTmsxdDdKSGVQOVpnMGZOcHNaWDNkeUVyY3BRdzN5
-eHVOd2xtbkFBbnB0clZRLXd5ZTRZdlBscEdEeEVTekF0TGw3aEl2QjNWWHBTdEtSc1RRdGp4
-aVdvNTFnQVRCZVFtWDQ5MmswbHhLdFlwaXUxWDFOVlY1ZUZEZFVmaHVHa21ob3lwaVZzNlFP
-RXFBZllWWkxaMHJOOTJvZG5UYUxWcjB1M1hLQlI3eTdPcVhlbWViVjZyQkNOWDlMVzN4d0Ey
-b0p5Mk5HWE1JcG93aWpURWFITmRrNjlCUmo5bVBkQjRNbXhTcExCdXZyeF9XZzgwbUJOZ3Uz
-SjRoWkhXMEhCWnlIdWVzc0NNVVVPbmlxMGdaTWFYT3RKYmVkTDRJQzBPTk9VZHJHbkZzUkE4
-b21jZ3l0OEJWcFdSanI0aHNHZVZSaFh4SmpRV21vaDNPSE9jNlVsYUV2cDA0WkJlSmg5UV9k
-amFtalJFN2VNMERrRDFHLVljN2o1b3ZEVTFEUHVlam0yLXhIVVJvb3h6c05fdGxSczBGdy12
-ZXprQkIyZjVZQWo3UkZMaTZQZjhQSlNGQzExeDRXa2ZvWnBpYXQwd2d6eUFRR19CaTNsV1Zv
-MCI+VW5zdWJzY3JpYmU8L2E+
+> I said I would send a couple of these but then Markus went ahead and
+> sent the patches that I was going to write...
+
+I dared also to touch some software components.
+
+
+>                                                And then it was like,
+> "Oh, these have some questionable style issues"
+
+The patch review is still evolving, isn't it?
+
+
+> so it wasn't clear what was happening and I lost track.
+
+I find such information surprising.
+
+
+There are various source code places left over which could be adjusted somehow.
+
+Some contributors would appreciate further clarifications according to
+desirable collateral evolution.
+
+See also:
+question about kernel cocci and cleanup.h
+2024-03-07
+https://lore.kernel.org/cocci/CO1PR11MB49149F1167679926A2917E0997202@CO1PR11MB4914.namprd11.prod.outlook.com/
+
+Regards,
+Markus
 
