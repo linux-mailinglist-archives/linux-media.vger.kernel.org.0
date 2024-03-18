@@ -1,160 +1,199 @@
-Return-Path: <linux-media+bounces-7200-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7201-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508DB87EA4A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:43:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0AD87EA5A
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:49:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F57C1C21447
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 13:43:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B76501F2273C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 13:49:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08A87482C7;
-	Mon, 18 Mar 2024 13:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 248ED4A990;
+	Mon, 18 Mar 2024 13:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="abOwOHg1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D0C249EB
-	for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 13:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC2E4CB20;
+	Mon, 18 Mar 2024 13:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710769383; cv=none; b=bhAH4aES0FDyV+kXjQDOqfy1qqbVrtFGmhhoX/T2xgPqSppdZMY/eA0yqn03Y+k9DopdEs3oG/pEDj94jz/NSlIQrexwcShCgoe6PnRr7J1czsS5Mrp349nmyy7EKuWIKD529D/MfdPa7Gvcc/zrdExuKLPib9fWkwEB2sys4iY=
+	t=1710769750; cv=none; b=DnVJtgyOA7o1PoQGxZiV2q2fQ4CLQ1Nh6eKsyi75XFHMG8b0TFlxwMGNiItIIard5uHI1qQ+lorXr1klZg+aNfW1SpTn67GJnBduchNErLJUNeT52REG7oPD27fCzMfXWxCZRRPYZLeaFgDMzvCXH7IWHR7hEqlSRMDsNbgFQgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710769383; c=relaxed/simple;
-	bh=MPYIrWQo7f/oCpusVUqhbq5DupRNT50AgkJ6O13nREs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XywD9dnC1sfGcpzlp7jbDkVjGECteYCfVnsrqlW/mZULw8ghhU2EzHztL6Oittzindjk9X5EfdfKBWhshTbZh0/DA87oxMBOGTxfWXbMG/WuXgRHJ5RAnP0VztPsMFcvmjCu+Ey2cdPUrdoI46O2XJiDMY57qXye0zGYznCCxag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B229EC433C7;
-	Mon, 18 Mar 2024 13:43:02 +0000 (UTC)
-Message-ID: <a6652d2e-8fb7-4532-bb98-62c22aeec07c@xs4all.nl>
-Date: Mon, 18 Mar 2024 14:43:00 +0100
+	s=arc-20240116; t=1710769750; c=relaxed/simple;
+	bh=JLG8sukgDM2O23Tr0HIpeWmUSEr+XlkIyVAeaAqkV9w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FkzqLCBK1SkgS16NBWKfFRFd1zisDZOvHXt3efFdiLiiw4LJrF2JhzcJZZ3qaMN4nD9C0MNVyc8lHWWcKhrwp/NmZWgut1yVj12VN8CV+2RITxujiGBuJcWID++4RF5m7Od9mw/ZgEL9wON4CmTvnZgIPGEFCa1EsajSPG9W4L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=abOwOHg1; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710769746;
+	bh=JLG8sukgDM2O23Tr0HIpeWmUSEr+XlkIyVAeaAqkV9w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=abOwOHg1MxXA9XUrHhafmXL36GzADANXBqlafBo90/SEwYHmogN5aclvdhIWQ/FE7
+	 ZM2Hi5vA0vCJv+XQaYLWaGhmF/SsLXHZ5k3uNf2KPLTdnZKWM76LHu6w1AQCyvMC5v
+	 NHszyuYNY5oQkwZXBPzbujX6NPX5A6DpS2wr6p6KAi3xpZLv94/TOlakQFbGhc+enj
+	 ldebTtMNhSTnbQe1Qz3NQOWGV9Uv+uGwCgJbGTv0oIMe+Lnb7VwF5onbeTrFd8UptC
+	 rHL0GU6aOSPH27LUwjaAYQa5B7v1qwEqgt/LIHOGmBkrHfMXUKMCqKLjs2iZb38ix9
+	 KXScahMujO8wQ==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2A6EB3781183;
+	Mon, 18 Mar 2024 13:49:06 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	hverkuil-cisco@xs4all.nl,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v21.1 3/9] media: test-drivers: Set REQBUFS minimum number of buffers
+Date: Mon, 18 Mar 2024 14:48:56 +0100
+Message-Id: <20240318134856.110687-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR 6.9] Imagination E5010 JPEG encoder
-Content-Language: en-US, nl
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- linux-media@vger.kernel.org
-References: <20240309151528.ayphvdpnj2crvycv@basti-XPS-13-9310>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240309151528.ayphvdpnj2crvycv@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/03/2024 4:15 pm, Sebastian Fricke wrote:
-> Hey Hans & Mauro,
-> 
-> These patches add support for the Imagination E5010 JPEG encoder.
-> 
-> Please pull.
-> 
-> The following changes since commit b14257abe7057def6127f6fb2f14f9adc8acabdb:
-> 
->   media: rcar-isp: Disallow unbind of devices (2024-03-07 16:35:13 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.9-e5010-jpeg-encoder
-> 
-> for you to fetch changes up to 146a5dc5f8baee4178a1cdfa483aa3c94273ce5e:
-> 
->   media: imagination: Add E5010 JPEG Encoder driver (2024-03-09 16:10:43 +0100)
-> 
-> ----------------------------------------------------------------
-> Adds support for the E5010-JPEG-encoder
-> 
-> ----------------------------------------------------------------
-> Devarsh Thakkar (3):
->       media: dt-bindings: Add Imagination E5010 JPEG Encoder
->       media: jpeg: Add reference quantization and huffman tables
+Instead of using 'min_queued_buffers' field to specify the
+minimum number of buffers to be allocated when calling REQBUF
+use 'min_reqbufs_allocation' field which is dedicated to this
+purpose.
 
-This should be added to v4l2-jpeg.c. There are also a few other
-changes I'd like to see, see my reply to this patch.
+Change the minimum requested buffers to 2 for vivid-meta-out
+and vivid-touch-cap drivers when creating the queues.
+That allows to remove code which prohibe to allocate only
+one buffer in their respective queue setup functions.
 
-The other two patches are OK, but since a v7 is needed anyway, I'll
-add a few comments to patch 3/3 as well.
+While at it rename vivid_create_queue() parameter.
 
-Regards,
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 21.1:
+- Change min requested buffers for vivid-meta-out and vivid-touch-cap.
+- Remove useless call in their queue setup functions.
 
-	Hans
+ drivers/media/test-drivers/vimc/vimc-capture.c     | 2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c      | 8 ++++----
+ drivers/media/test-drivers/vivid/vivid-meta-out.c  | 4 ----
+ drivers/media/test-drivers/vivid/vivid-touch-cap.c | 4 ----
+ 4 files changed, 5 insertions(+), 13 deletions(-)
 
->       media: imagination: Add E5010 JPEG Encoder driver
-> 
->  .../bindings/media/img,e5010-jpeg-enc.yaml         |   75 +
->  MAINTAINERS                                        |    7 +
->  drivers/media/platform/Kconfig                     |    1 +
->  drivers/media/platform/Makefile                    |    1 +
->  drivers/media/platform/imagination/Kconfig         |   12 +
->  drivers/media/platform/imagination/Makefile        |    3 +
->  .../media/platform/imagination/e5010-core-regs.h   |  585 ++++++++
->  .../media/platform/imagination/e5010-jpeg-enc-hw.c |  267 ++++
->  .../media/platform/imagination/e5010-jpeg-enc-hw.h |   42 +
->  .../media/platform/imagination/e5010-jpeg-enc.c    | 1553 ++++++++++++++++++++
->  .../media/platform/imagination/e5010-jpeg-enc.h    |  169 +++
->  .../media/platform/imagination/e5010-mmu-regs.h    |  311 ++++
->  include/media/jpeg-enc-reftables.h                 |  112 ++
->  include/media/jpeg.h                               |    4 +
->  14 files changed, 3142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->  create mode 100644 drivers/media/platform/imagination/Kconfig
->  create mode 100644 drivers/media/platform/imagination/Makefile
->  create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
->  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
->  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
->  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
->  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
->  create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
->  create mode 100644 include/media/jpeg-enc-reftables.h
-> 
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index 2a2d19d23bab..97693561f1e4 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
+ 	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
+ 		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_queued_buffers = 2;
++	q->min_reqbufs_allocation = 2;
+ 	q->lock = &vcapture->lock;
+ 	q->dev = v4l2_dev->dev;
+ 
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index 159c72cbb5bf..e2d4f10003f3 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
+ static int vivid_create_queue(struct vivid_dev *dev,
+ 			      struct vb2_queue *q,
+ 			      u32 buf_type,
+-			      unsigned int min_queued_buffers,
++			      unsigned int min_reqbufs_allocation,
+ 			      const struct vb2_ops *ops)
+ {
+ 	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
+@@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
+ 						  &vb2_vmalloc_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_queued_buffers = supports_requests[dev->inst] ? 0 : min_queued_buffers;
++	q->min_reqbufs_allocation = min_reqbufs_allocation;
+ 	q->lock = &dev->mutex;
+ 	q->dev = dev->v4l2_dev.dev;
+ 	q->supports_requests = supports_requests[dev->inst];
+@@ -1364,7 +1364,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 	if (dev->has_meta_out) {
+ 		/* initialize meta_out queue */
+ 		ret = vivid_create_queue(dev, &dev->vb_meta_out_q,
+-					 V4L2_BUF_TYPE_META_OUTPUT, 1,
++					 V4L2_BUF_TYPE_META_OUTPUT, 2,
+ 					 &vivid_meta_out_qops);
+ 		if (ret)
+ 			return ret;
+@@ -1373,7 +1373,7 @@ static int vivid_create_queues(struct vivid_dev *dev)
+ 	if (dev->has_touch_cap) {
+ 		/* initialize touch_cap queue */
+ 		ret = vivid_create_queue(dev, &dev->vb_touch_cap_q,
+-					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 1,
++					 V4L2_BUF_TYPE_VIDEO_CAPTURE, 2,
+ 					 &vivid_touch_cap_qops);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+index 4a569a6e58be..82ab3b26914e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+@@ -18,7 +18,6 @@ static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+ 				struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 	unsigned int size =  sizeof(struct vivid_meta_out_buf);
+ 
+ 	if (!vivid_is_webcam(dev))
+@@ -31,9 +30,6 @@ static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+ 		sizes[0] = size;
+ 	}
+ 
+-	if (q_num_bufs + *nbuffers < 2)
+-		*nbuffers = 2 - q_num_bufs;
+-
+ 	*nplanes = 1;
+ 	return 0;
+ }
+diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+index 4b3c6ea0afde..3888c21b4d0c 100644
+--- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+@@ -13,7 +13,6 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+ 				 struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 	struct v4l2_pix_format *f = &dev->tch_format;
+ 	unsigned int size = f->sizeimage;
+ 
+@@ -24,9 +23,6 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+ 		sizes[0] = size;
+ 	}
+ 
+-	if (q_num_bufs + *nbuffers < 2)
+-		*nbuffers = 2 - q_num_bufs;
+-
+ 	*nplanes = 1;
+ 	return 0;
+ }
+-- 
+2.40.1
 
 
