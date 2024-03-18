@@ -1,139 +1,241 @@
-Return-Path: <linux-media+bounces-7188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5089687E519
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 09:42:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A893C87E52B
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 09:48:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 064381F222D4
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 08:42:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C83561C20FBF
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 08:48:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A30FD28DAE;
-	Mon, 18 Mar 2024 08:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E4DD28DBF;
+	Mon, 18 Mar 2024 08:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gWzGAQRd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uWzEOytt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09B225757
-	for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 08:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7044C28E1B;
+	Mon, 18 Mar 2024 08:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710751322; cv=none; b=OyRFuIDkhG8GFsss6sMcmZqCJ2TwLhWdszqAvbAMTeHK+vpLJI05wtIqALJ8xFCTsh0PwK3Ou0GpQZHHfv92RzGM2zn8adUI/Hh2J59oQ6J7hLOAWc94eJ8k4eaVkn+pXKplGKQLPBRb3lQ1Ype9QGbICK9ydRPXRnZYd3kcCPM=
+	t=1710751669; cv=none; b=Wb0pRYQW6fA8K6LKmK1NYh33/ZATS/Jq/8yj1bcIhjO17vEDCDz3EHfaMQ3mIhCOO5gFui2RHoeo9w3if+UrkW3wqOmXxIV07sMBidaIm7ZKa0FnQ68zUDjIdq/6yTldGoaUpUhIZLzBBagR8VZDVVINM3BDAKw0c6G1frtOBOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710751322; c=relaxed/simple;
-	bh=/Ao+rO9SYdti3VAE+xg23jyg7XXRQAwBbXmqo0PcSys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Un0XFj2DsHK5GuDLH8ZYskR1ZeCal9unuVz8TSCbYmARj9dVRzGDeTQccjGZK6QWzOF2E6IGbJeJT11g3lD0wbY4xY1Nr+bfRghKqBIRP0U4CDmMEKiXlZFapyRDo8olB2sRukGNgcf+7egtCayhW25trUVqOw0w7PvPfLMCW+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gWzGAQRd; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso3859989276.3
-        for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 01:41:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1710751319; x=1711356119; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VIYSHAzUIRDojyXoAAjEUNZdKBZsmGjQo4tf8URh/nU=;
-        b=gWzGAQRds3KPLEur/AKy97iaStaFYbCPhFa77YwxLX5x5pRyScgPw38g3pkPRKWcNs
-         QeHRlakv/Y6IXjTlJ40zQGdrKeCmsd4nwXb/upaPBy1Lufq0Aq59Fmni4jXmN/LClpjY
-         xLqU2nV8kppFIi/0SqxJE7091klTmwXQz3+AOfapy8NWk+Z7tKECRFYpcQmvuFmjkgZs
-         d5E3nELDFKNyMiDVv2n5eLJXe/VPgllbSOj0xSCK1jUUWwgO4+AbJAjpIEFT30jhEUlV
-         bZ9da+uV/kOrTLywy007+LeZbajHzJGfwNQAGuSslC1HjUuNvW16DKTvo4r5KaBYKfWw
-         8Ibg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710751319; x=1711356119;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VIYSHAzUIRDojyXoAAjEUNZdKBZsmGjQo4tf8URh/nU=;
-        b=OuYIWZENYHILBEzrq/PFUgjiIM66LsIATMDoHdRUN4o5p9djsvh3KiC3xjPanfP2Zz
-         l+5YfouJBoIF4s2ydTNzOjdofLRj65Z3USFSMhtXryKzr5khOoaEQUH6C55cJMSZI4ua
-         aNveQWMoNqTVVF2B3Ths4bYv18jvN7z5UNFpPwKyhSPISVgqypW7KWcS+eqW9zg+3/4t
-         IqNMBQA881t7lhDC5UQTVrHOjBxYdrdSn1xlU+pNP9LTMq4OcCeTfs/6F4gD+4uTvpmm
-         2qI3lOI0wE28vg4XGlofe4cUV+gkOB19CcT8Sb6kectGlUbUZp3IEan0zC8+pjQ5IEaj
-         k5xQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtAQWC6JakQV34G7QkDLuiNY37a4vEDGKyH2rsBzOjRTcU9J6qX6B+55LgJUUl+ATAhf8xzO0s9HE83YaBeau/C9LRDVJRB2ilvrM=
-X-Gm-Message-State: AOJu0Yw5w7M3sbr6LbzpCEZGEBKNLfNeJ2vnTq7QtNEBbVNWnUxd534I
-	mRkdXzYfaUz3DYYcEeclrhJtMacrpv4OGS7mZWwmtAIAImNkkoh9MJYyQlx/ghfqgMom1syxzl0
-	KCzjbuQo6FJL6TKlEmvKl9pRU/b+WYikmxqvW4w==
-X-Google-Smtp-Source: AGHT+IF8wwv3ZYqOOUIu6PR6XNV2RjVzHn8LILTUbDnyIninSmaNrCNUbexvDIyHwBt+lTK8AMVnuSEbUvEpBilkN18=
-X-Received: by 2002:a5b:a84:0:b0:dc2:4f34:c964 with SMTP id
- h4-20020a5b0a84000000b00dc24f34c964mr9280814ybq.23.1710751318958; Mon, 18 Mar
- 2024 01:41:58 -0700 (PDT)
+	s=arc-20240116; t=1710751669; c=relaxed/simple;
+	bh=M+nAJgZSbHlik3v29OC83Fa+Gmr9WGGqm5p13HBc6PU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z46CsDgzuCHeI8PWmbsWLnyXSKYt8htZ0jRV3rYaboMel01n/KkSfwDW7yCcnKoryDSztwWdazmLJeOCP2s8EwXkFGoljQpRaCZ9QXFjXOS4GNHU4XjIBz3PQNSYqr1P5kGfKneXDSCjAkqU+U60m9y6ozWuwsmMNCuHoM4N3/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uWzEOytt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 745F7CC;
+	Mon, 18 Mar 2024 09:47:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710751639;
+	bh=M+nAJgZSbHlik3v29OC83Fa+Gmr9WGGqm5p13HBc6PU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uWzEOyttmezRS4OYMkDvhaEOW6oIm0ByuXMlLm+F08YxFY+DFttNiV21tutoQXs7W
+	 Ig7rgx3AMBdcgNZlwiJhRqZcV9sVaEMmOib2vWgIVF1QiT7TKeQ/sulJPL7zQEusSR
+	 GIR3J/K8FHjlUbEcf2DABSwoDJVVXFlC/R/rNySU=
+Date: Mon, 18 Mar 2024 17:47:35 +0900
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc: linux-kernel@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
+	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2] media: rkisp1: Adapt to different SoCs having
+ different size limits
+Message-ID: <Zff_p_f39dwBATDB@pyrite.rasen.tech>
+References: <20240315230245.1385902-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240315-mc-graph-fix-v1-1-91d59d752614@ideasonboard.com>
-In-Reply-To: <20240315-mc-graph-fix-v1-1-91d59d752614@ideasonboard.com>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Mon, 18 Mar 2024 08:41:23 +0000
-Message-ID: <CAEmqJPoMmneTZAjJgOMRpd_B_236jh8NU8bpnaK6Odvnd1zcWg@mail.gmail.com>
-Subject: Re: [PATCH] media: mc: Fix graph walk in media_pipeline_start
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240315230245.1385902-1-megi@xff.cz>
 
-Hi Tomi,
+Hi Ondrej,
 
-Thank you for this fix.
+On Sat, Mar 16, 2024 at 12:02:41AM +0100, Ondřej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+> 
+> - RK3399 has input/output limit of main path 4416 x 3312
+> - PX30 has input/output limit of main path 3264 x 2448
+> - i.MX8MP has input/output limit of main path 4096 x 3072
+> 
+> Use rkisp1_info struct to encode the limits.
+> 
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
 
-On Fri, 15 Mar 2024 at 15:13, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> The graph walk tries to follow all links, even if they are not between
-> pads. This causes a crash with, e.g. a MEDIA_LNK_FL_ANCILLARY_LINK link.
->
-> Fix this by allowing the walk to proceed only for MEDIA_LNK_FL_DATA_LINK
-> links.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Fixes: ae219872834a ("media: mc: entity: Rewrite media_pipeline_start()")
+Looks good to me.
 
-I was having problems with the Raspberry Pi Camera v3 module (IMX708 +
-DW9817 VCM) that would crash in media_pipeline_start().  This patch
-fixes the issue for me, so
-
-Tested-by: Naushir Patuck <naush@raspberrypi.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
 > ---
->  drivers/media/mc/mc-entity.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 543a392f8635..fcafe5c59052 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -627,6 +627,12 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
->                 return 0;
->         }
->
-> +       if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) != MEDIA_LNK_FL_DATA_LINK) {
-> +               dev_dbg(walk->mdev->dev,
-> +                       "media pipeline: skipping link (not data-link)\n");
-> +               return 0;
-> +       }
-> +
->         /* Get the local pad and remote pad. */
->         if (link->source->entity == pad->entity) {
->                 local = link->source;
->
-> ---
-> base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
-> change-id: 20240315-mc-graph-fix-8a2a245d7346
->
-> Best regards,
-> --
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->
->
+> v2:
+> - adapt to i.MX8MP merged for v6.9
+> 
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h  | 6 ++++--
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c     | 5 +++--
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     | 6 ++++++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c     | 9 +++++----
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c | 4 ++--
+>  5 files changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 26573f6ae575..b4c958b93629 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -34,8 +34,6 @@ struct regmap;
+>  #define RKISP1_ISP_SD_SINK			BIT(1)
+>  
+>  /* min and max values for the widths and heights of the entities */
+> -#define RKISP1_ISP_MAX_WIDTH			4032
+> -#define RKISP1_ISP_MAX_HEIGHT			3024
+>  #define RKISP1_ISP_MIN_WIDTH			32
+>  #define RKISP1_ISP_MIN_HEIGHT			32
+>  
+> @@ -140,6 +138,8 @@ enum rkisp1_feature {
+>   * @isr_size: number of entries in the @isrs array
+>   * @isp_ver: ISP version
+>   * @features: bitmask of rkisp1_feature features implemented by the ISP
+> + * @max_width: maximum input frame width
+> + * @max_height: maximum input frame height
+>   *
+>   * This structure contains information about the ISP specific to a particular
+>   * ISP model, version, or integration in a particular SoC.
+> @@ -151,6 +151,8 @@ struct rkisp1_info {
+>  	unsigned int isr_size;
+>  	enum rkisp1_cif_isp_version isp_ver;
+>  	unsigned int features;
+> +	unsigned int max_width;
+> +	unsigned int max_height;
+>  };
+>  
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> index 4202642e0523..841e58c20f7f 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> @@ -307,6 +307,7 @@ static int rkisp1_csi_set_fmt(struct v4l2_subdev *sd,
+>  			      struct v4l2_subdev_state *sd_state,
+>  			      struct v4l2_subdev_format *fmt)
+>  {
+> +	struct rkisp1_csi *csi = to_rkisp1_csi(sd);
+>  	const struct rkisp1_mbus_info *mbus_info;
+>  	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+>  
+> @@ -326,10 +327,10 @@ static int rkisp1_csi_set_fmt(struct v4l2_subdev *sd,
+>  
+>  	sink_fmt->width = clamp_t(u32, fmt->format.width,
+>  				  RKISP1_ISP_MIN_WIDTH,
+> -				  RKISP1_ISP_MAX_WIDTH);
+> +				  csi->rkisp1->info->max_width);
+>  	sink_fmt->height = clamp_t(u32, fmt->format.height,
+>  				   RKISP1_ISP_MIN_HEIGHT,
+> -				   RKISP1_ISP_MAX_HEIGHT);
+> +				   csi->rkisp1->info->max_height);
+>  
+>  	fmt->format = *sink_fmt;
+>  
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index bb0202386c70..0535ce57e862 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -510,6 +510,8 @@ static const struct rkisp1_info px30_isp_info = {
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+>  		  | RKISP1_FEATURE_SELF_PATH
+>  		  | RKISP1_FEATURE_DUAL_CROP,
+> +	.max_width = 3264,
+> +	.max_height = 2448,
+>  };
+>  
+>  static const char * const rk3399_isp_clks[] = {
+> @@ -531,6 +533,8 @@ static const struct rkisp1_info rk3399_isp_info = {
+>  	.features = RKISP1_FEATURE_MIPI_CSI2
+>  		  | RKISP1_FEATURE_SELF_PATH
+>  		  | RKISP1_FEATURE_DUAL_CROP,
+> +	.max_width = 4416,
+> +	.max_height = 3312,
+>  };
+>  
+>  static const char * const imx8mp_isp_clks[] = {
+> @@ -551,6 +555,8 @@ static const struct rkisp1_info imx8mp_isp_info = {
+>  	.isp_ver = RKISP1_V_IMX8MP,
+>  	.features = RKISP1_FEATURE_MAIN_STRIDE
+>  		  | RKISP1_FEATURE_DMA_34BIT,
+> +	.max_width = 4096,
+> +	.max_height = 3072,
+>  };
+>  
+>  static const struct of_device_id rkisp1_of_match[] = {
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index e45a213baf49..f787a7e91e3e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -517,6 +517,7 @@ static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
+>  				      struct v4l2_subdev_state *sd_state,
+>  				      struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> +	struct rkisp1_isp *isp = to_rkisp1_isp(sd);
+>  	const struct rkisp1_mbus_info *mbus_info;
+>  
+>  	if (fse->pad == RKISP1_ISP_PAD_SINK_PARAMS ||
+> @@ -539,9 +540,9 @@ static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
+>  		return -EINVAL;
+>  
+>  	fse->min_width = RKISP1_ISP_MIN_WIDTH;
+> -	fse->max_width = RKISP1_ISP_MAX_WIDTH;
+> +	fse->max_width = isp->rkisp1->info->max_width;
+>  	fse->min_height = RKISP1_ISP_MIN_HEIGHT;
+> -	fse->max_height = RKISP1_ISP_MAX_HEIGHT;
+> +	fse->max_height = isp->rkisp1->info->max_height;
+>  
+>  	return 0;
+>  }
+> @@ -772,10 +773,10 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+>  
+>  	sink_fmt->width = clamp_t(u32, format->width,
+>  				  RKISP1_ISP_MIN_WIDTH,
+> -				  RKISP1_ISP_MAX_WIDTH);
+> +				  isp->rkisp1->info->max_width);
+>  	sink_fmt->height = clamp_t(u32, format->height,
+>  				   RKISP1_ISP_MIN_HEIGHT,
+> -				   RKISP1_ISP_MAX_HEIGHT);
+> +				   isp->rkisp1->info->max_height);
+>  
+>  	/*
+>  	 * Adjust the color space fields. Accept any color primaries and
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index 6f3931ca5b51..e22cc2db24cf 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -494,10 +494,10 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+>  
+>  	sink_fmt->width = clamp_t(u32, format->width,
+>  				  RKISP1_ISP_MIN_WIDTH,
+> -				  RKISP1_ISP_MAX_WIDTH);
+> +				  rsz->rkisp1->info->max_width);
+>  	sink_fmt->height = clamp_t(u32, format->height,
+>  				   RKISP1_ISP_MIN_HEIGHT,
+> -				   RKISP1_ISP_MAX_HEIGHT);
+> +				   rsz->rkisp1->info->max_height);
+>  
+>  	/*
+>  	 * Adjust the color space fields. Accept any color primaries and
+> -- 
+> 2.44.0
+> 
 
