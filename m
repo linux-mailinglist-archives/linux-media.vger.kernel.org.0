@@ -1,139 +1,110 @@
-Return-Path: <linux-media+bounces-7193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07E487E6AB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 11:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A00987E822
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 12:09:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 693FB1F221FC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 10:06:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B7FE1F24056
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 11:09:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2522D058;
-	Mon, 18 Mar 2024 10:06:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D70AA3612C;
+	Mon, 18 Mar 2024 11:08:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EACC2D043;
-	Mon, 18 Mar 2024 10:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEFC636114;
+	Mon, 18 Mar 2024 11:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710756372; cv=none; b=kDUyuyV/vSvZYqur+nJROUFalItbcyCs478B97NZpMmlk17H4lKfev4g7oiuR8IP18O6AzTB1rlqIktvt6H7X8YfD5kE8c91/Ct8zice1No61EnPB8hX0Cd/wMS0L5PA+7AuGca4M6QkTEdemK18rsyGaoUnaddaQxBUWWG9a60=
+	t=1710760138; cv=none; b=oOEAC9Rk5czi7w2Gk+qFT4r8OmXb9+3To9qIw0cGe8H4c3nZhmWCpvSUPah4SbxOcnAlSnDjWqjtNNLFXqLj7WCuyevhhscMXBEvOBkO5/9PWEzHTTFZi0zy/gxubSSCQXkHO4C+jTRm2NEuYjl6pN89n/ROKUsXKjb7pHE8hHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710756372; c=relaxed/simple;
-	bh=RPnZJlihau7sJRd6TqoEUFRAI6uPe4HBOe2/3ut4XAw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aRm3aYsA03pvFD6zwXl9cfVpBx8Uj17bIL8fuqvbDUTt7E8WsEHLvP3pdCjA+USn0GknQRdNMh/vgkV8a9SCpFhw0CKa3QuVTPETax+2Wrki3OX2cgnMoG78mRpOa+VSgrh0ss4gEYNeeToN6bTxSA5ONXqU0JzuhCE3yKf7/dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5867BC433F1;
-	Mon, 18 Mar 2024 10:06:09 +0000 (UTC)
-Message-ID: <43d27ed7-94ff-4916-b1f3-07204b2f54ab@xs4all.nl>
-Date: Mon, 18 Mar 2024 11:06:09 +0100
+	s=arc-20240116; t=1710760138; c=relaxed/simple;
+	bh=1qp1+iIIl0oIp7/VnYGFV/kG/8O0XqPFjYk9KOA3cR0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T2ejr5OEI60fPLJMSw2y/ewsEMcrKnsxtaq6qM0BPS3hs7iSayhRbKzW3vaTzBElCUWMPy2Y0K20C4DB/HySkNqs0C1u/VBkgJYEglSHlLB/eh4gRu7keEozym6pT61wDegZ3hq3eUk3a3fKErTq5ldAaxThHmkI9UTojyclCUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.07,134,1708354800"; 
+   d="scan'208";a="198188828"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 18 Mar 2024 20:08:49 +0900
+Received: from localhost.localdomain (unknown [10.226.93.20])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2EBED4253BE5;
+	Mon, 18 Mar 2024 20:08:44 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Russell King <linux@armlinux.org.uk>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/3] Add clk_poll_disable_unprepare()
+Date: Mon, 18 Mar 2024 11:08:39 +0000
+Message-Id: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 3/9] media: test-drivers: Set REQBUFS minimum number
- of buffers
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, nicolas@ndufresne.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
- <20240314153226.197445-4-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240314153226.197445-4-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+Currently documentation related to disabling of clock do not state
+it is synchronous or asynchronous clock gating. So, make it clear it is
+driver dependent.
 
-On 14/03/2024 4:32 pm, Benjamin Gaignard wrote:
-> Instead of using 'min_queued_buffers' field to specify the
-> minimum number of buffers to be allocated when calling REQBUF
-> use 'min_reqbufs_allocation' field which is dedicated to this
-> purpose.
-> 
-> While at it rename vivid_create_queue() parameter.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/test-drivers/vimc/vimc-capture.c | 2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c  | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-> index 2a2d19d23bab..97693561f1e4 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-> @@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
->  	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
->  		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_queued_buffers = 2;
-> +	q->min_reqbufs_allocation = 2;
->  	q->lock = &vcapture->lock;
->  	q->dev = v4l2_dev->dev;
->  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-> index 159c72cbb5bf..11b8520d9f57 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-> @@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
->  static int vivid_create_queue(struct vivid_dev *dev,
->  			      struct vb2_queue *q,
->  			      u32 buf_type,
-> -			      unsigned int min_queued_buffers,
-> +			      unsigned int min_reqbufs_allocation,
->  			      const struct vb2_ops *ops)
->  {
->  	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
-> @@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
->  	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
->  						  &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_queued_buffers = supports_requests[dev->inst] ? 0 : min_queued_buffers;
-> +	q->min_reqbufs_allocation = min_reqbufs_allocation;
->  	q->lock = &dev->mutex;
->  	q->dev = dev->v4l2_dev.dev;
->  	q->supports_requests = supports_requests[dev->inst];
+The clk_disable_unprepare() doesn't guarantee that a clock is gated after
+the execution as it is driver dependent. The Renesas and most of the other
+platforms don't wait until clock is stopped because of performance reason.
+But these platforms wait while turning on the clock.
 
-How did you test this series? If I run the test-media script using the patch
-v4l2-compliance (the v9 series) I get two failures. Both are traced to code
-in vivid: meta_out_queue_setup() and touch_cap_queue_setup():
+The normal case for shutting down the clock is unbind/close/suspend or
+error paths in the driver. Not waiting for the shutting down the clock
+will improve the suspend time.
 
-Both have this code:
+But on RZ/G2L Camera Data Receiving Unit (CRU) IP, initially the vclk is
+on. Before enabling link reception, we need to wait for vclk to be off
+and after enabling reception, we need to turn the vlck on. Special cases
+like this requires a sync API for clock gating.
 
-        if (*nplanes) {
-                if (sizes[0] < size)
-                        return -EINVAL;
-        } else {
-                sizes[0] = size;
-        }
+Add clk_poll_disable_unprepare() to poll the clock gate operation that
+guarantees gating of clk after the execution.
 
-        if (q_num_bufs + *nbuffers < 2)
-                *nbuffers = 2 - q_num_bufs;
+v2->v3:
+ * Added WARN_ON(enable count non-zero) and return an error code (-EBUSY),
+   if the user is not the sole user of the clock and the enable count is
+   non-zero.
+ * Returned an error if there's no is_enabled() callback.
+RFC->v2:
+ * Updated cover letter description and header.
+ * Created patch#1 for updating existing documentation.
+ * Renamed clk_disable_unprepare_sync()-->clk_poll_disable_unprepare()
+ * Redesigned to make use of __clk_is_enabled() to poll the clock gating.
 
-        *nplanes = 1;
-        return 0;
+Biju Das (3):
+  clk: Update API documentation related to clock disable
+  clk: Add clk_poll_disable_unprepare()
+  media: platform: rzg2l-cru: rzg2l-video: Use
+    clk_poll_disable_unprepare()
 
-It's the *nbuffers assignment that is wrong. Looking at vivid-core.c I see
-that vivid_create_queue() is called with min_reqbufs_allocation set to 1 for
-these two devices. I think that should be 2, and then the code above can
-be dropped.
+ drivers/clk/clk.c                             | 32 +++++++++++-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  5 +-
+ include/linux/clk-provider.h                  |  3 +-
+ include/linux/clk.h                           | 49 ++++++++++++++++++-
+ 4 files changed, 85 insertions(+), 4 deletions(-)
 
-It is probably best to post a v21.1 3/9 patch only.
-
-Regards,
-
-	Hans
-
+-- 
+2.25.1
 
 
