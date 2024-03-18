@@ -1,140 +1,176 @@
-Return-Path: <linux-media+bounces-7205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B309187EB30
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 15:40:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 846CA87EB33
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 15:41:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 548BA1F226A7
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:40:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A44BF1C211CA
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82724EB34;
-	Mon, 18 Mar 2024 14:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GLIqyO0N"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49A54DA0B;
+	Mon, 18 Mar 2024 14:41:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2204DA0D
-	for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 14:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA391E48A
+	for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 14:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710772808; cv=none; b=te7cpUZpFcy5d+MB7RaQpwIAKZPKbHunRGVy40d9o5tk4oOkJaCbF9gdPlw80uTjH7fWTVdyRRRHU75tIV00OhgYXZIseA9284FEQkSNmGZHGbOkT+6Z1swrs9d6vWxm/kMkXpNVYPEzdgdbZFdZuMz0AMPlRsGoiuuPLYxcsok=
+	t=1710772877; cv=none; b=jQUpfETq/VDmFNDoQ6qP75LGRMiKFfXaCY9vMNMGqiSSHPD7uC5NGhIheNtiClee/B2q4W9x44Arfyzkrv8WgSuahfv6NkaGscKiLILlKL7u4rM8KyvzMftJXZ6GfY9HN1SSy/nMNEqF/bQW+Mn1R4wWu3ZlBXRoTngk27Chk/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710772808; c=relaxed/simple;
-	bh=IlAC/UAQd5MXYjl273/a718EIOUzFR+4LkQzxMq+JaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qPX03LNz0LAE+tMks9ncNP+QDqMHXG4Mpq/mXKJrVYfo73PeZxlSSPLHKKoKdJsREf+4GprenrWrAqgpn7IjD4vbfaM1+wLraqceuoRfgXKg+TqOxuChdIWK1Vim3jBH+yXnkK3kQH5FHDpS0/bOczqygsX5A9flP5rZny4WSjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GLIqyO0N; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc742543119so3867226276.0
-        for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 07:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710772804; x=1711377604; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZMlNnEWOpYXUGBNsiFKWdAeOcGOvC9+fZTDj9HH/epI=;
-        b=GLIqyO0NvbL6PtO9o/EISigaWGlmuZL/GrUApo/Dx7ucAbvJe+w+REXvhJXsxRSPQs
-         fPsrG7uRLH8+IX+ZfOKzlfFLlZx4So4e9j5nEWAc2ResSzjzwunIBEquRsPHIiG2Au/E
-         4jV0ZfNpT785PnMtjuyLDshMr9dMymP5sbqeePy2rRcqCDGzew63xaDk9CAgbdb/Kczg
-         BgIoNO+DqNv6ow7HCc7t2vqHqfHsbTZRb85SQMoTf4IxiRpOwtUF9TMWLrD3+KxdX4AE
-         brJXb/8xsmh6W7VxzOGR+eG3tneKsgHasgdOp0BefistIY+anu8TNQGHOZin5ZqffUyj
-         WxLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710772804; x=1711377604;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZMlNnEWOpYXUGBNsiFKWdAeOcGOvC9+fZTDj9HH/epI=;
-        b=j+kPdHAbfXkWttji4eBrqb4EyOyVTLeN9YfftqwItuw8oR0d/AnVp/710blQZJpUiO
-         /hCZQzGYE9OeZz5xGqbYxfgXiD5ziiH/c9I+gvTjk7TVFx6UBg0UiLd2fI/ovbD4FsrN
-         FlOxSfoM+MsyJTPklXhyatzf2lpiicMDbrljgbXWCax5v43kLgkMHONZCCUlSSLr+0YO
-         wbmWMmZNdkmHzaHt39+ceWmdZrvdgQ4NlXJsDyGHYBwq3y7iRZVFg+utq3AMdgqy8+XH
-         fzhW7+q96AA/E9OaOfHbA9dwj/dBqRSU6+ttJivFVFSAcuEp43wa8aEHXGJzz6Z4mdY1
-         lA1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVNN96KI5z39hPdgywZr/kCx1zdmEVgwSYSNzoSrSoFxvMzzpkbKvqVYFxmjV9bdSKhNHwpcZf01xFRUMNyLp+gMH5NecJFSKAhoMM=
-X-Gm-Message-State: AOJu0YxX/7/QT7wXRkp6uXaA7ghyc/PZW2oN1U1s6XgWhTNoGTexAL2X
-	XUPeJ3QU2YcsWQrwqwhdP+cjO7PcfCGQmautvtjEE1SSLkiYchAqCKg3du1JeQ+Ho6X6EYqrBSy
-	AxZiTk4H+Ts3r/qBqLzX3Q9QAxF+Ro9qztO5AxA==
-X-Google-Smtp-Source: AGHT+IEThwYsQiTWbzhJyLQT2bhri6zZ5h4WE+yPw/QIQxHFbJAdyafw0GpF8nLkJuL6ZdTQ3mAeQhmXFW/TggAVm3M=
-X-Received: by 2002:a05:6902:100a:b0:dd9:20d6:fd2 with SMTP id
- w10-20020a056902100a00b00dd920d60fd2mr2336963ybt.27.1710772804148; Mon, 18
- Mar 2024 07:40:04 -0700 (PDT)
+	s=arc-20240116; t=1710772877; c=relaxed/simple;
+	bh=7l7U8Wi8lcFiZN9p0xoLNypXpgIX3frCWIOIyK1PRlY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=RQoJR/x8P8U78SFSV+AjsaU9103sC8LqcmaF6zSAiYX/xImn2mqpEKT+PvTV/kVOI0rla/B/wN8pbAYqpyoNR2IWqUKeSl7R4IDc2hecVHjCAtjtFNBaYiSftdVEr/e1aRVqca6vTsPu2AsBiwQ+YM7lh//khuKwcLTLAeJekuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574DBC43394;
+	Mon, 18 Mar 2024 14:41:16 +0000 (UTC)
+Message-ID: <c8b0fec1-db0c-445d-a60b-e1d33bf4cc46@xs4all.nl>
+Date: Mon, 18 Mar 2024 15:41:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240315111046.22136-1-quic_jkona@quicinc.com>
-In-Reply-To: <20240315111046.22136-1-quic_jkona@quicinc.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 18 Mar 2024 15:39:27 +0100
-Message-ID: <CAPDyKFpOobCrmeeTaFhnwMMhoWGKC6qz9851VjVoDP2fBZEUzA@mail.gmail.com>
-Subject: Re: [PATCH V5 0/5] PM: domains: Add control for switching back and
- forth to HW control
-To: Jagadeesh Kona <quic_jkona@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Abel Vesa <abel.vesa@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL FOR 6.9] Imagination E5010 JPEG encoder
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ linux-media@vger.kernel.org
+References: <20240309151528.ayphvdpnj2crvycv@basti-XPS-13-9310>
+ <a6652d2e-8fb7-4532-bb98-62c22aeec07c@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <a6652d2e-8fb7-4532-bb98-62c22aeec07c@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-- trimmed cc list
+On 18/03/2024 2:43 pm, Hans Verkuil wrote:
+> On 09/03/2024 4:15 pm, Sebastian Fricke wrote:
+>> Hey Hans & Mauro,
+>>
+>> These patches add support for the Imagination E5010 JPEG encoder.
+>>
+>> Please pull.
+>>
+>> The following changes since commit b14257abe7057def6127f6fb2f14f9adc8acabdb:
+>>
+>>   media: rcar-isp: Disallow unbind of devices (2024-03-07 16:35:13 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.9-e5010-jpeg-encoder
+>>
+>> for you to fetch changes up to 146a5dc5f8baee4178a1cdfa483aa3c94273ce5e:
+>>
+>>   media: imagination: Add E5010 JPEG Encoder driver (2024-03-09 16:10:43 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Adds support for the E5010-JPEG-encoder
+>>
+>> ----------------------------------------------------------------
+>> Devarsh Thakkar (3):
+>>       media: dt-bindings: Add Imagination E5010 JPEG Encoder
+>>       media: jpeg: Add reference quantization and huffman tables
+> 
+> This should be added to v4l2-jpeg.c. There are also a few other
+> changes I'd like to see, see my reply to this patch.
+> 
+> The other two patches are OK, but since a v7 is needed anyway, I'll
+> add a few comments to patch 3/3 as well.
 
-On Fri, 15 Mar 2024 at 12:11, Jagadeesh Kona <quic_jkona@quicinc.com> wrote:
->
-> This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
-> and support in gdsc provider drivers to register respective callbacks and venus consumer
-> driver example using above API to switch the power domain(GDSC) to HW/SW modes dynamically
-> at runtime.
->
-> Changes in V5:
-> - Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
->   invoking ->get_hwmode_dev()callback in genpd_add_device()
-> - With above change, SW cached hwmode will contain correct value initially, and it will be
->   updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
->   to just return SW cached hwmode in 1st patch
-> - Updated commit text for 1st, 3rd, 4th and 5th patches
-> - Updated 3rd and 5th patches as per review comments received on V4 series
-> - Added R-By tags received in older series to 1st and 2nd patches
->
-> Previous series:
-> V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
-> V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/
-> V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
-> V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
->
-> Abel Vesa (1):
->   PM: domains: Add the domain HW-managed mode to the summary
->
-> Jagadeesh Kona (3):
->   clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
->   clk: qcom: Use HW_CTRL_TRIGGER flag to switch video GDSC to HW mode
->   venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
->     V6
->
-> Ulf Hansson (1):
->   PM: domains: Allow devices attached to genpd to be managed by HW
->
->  drivers/clk/qcom/gdsc.c                       | 37 +++++++++
->  drivers/clk/qcom/gdsc.h                       |  1 +
->  drivers/clk/qcom/videocc-sc7280.c             |  2 +-
->  drivers/clk/qcom/videocc-sm8250.c             |  4 +-
->  .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
->  drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
->  include/linux/pm_domain.h                     | 17 ++++
->  7 files changed, 157 insertions(+), 21 deletions(-)
->
+Actually, patch 3/3 has some issues as well, esp. regarding the selection
+API.
 
-This looks good to me! I can help to funnel the series through my
-pmdomain tree, if that's the preferred route? Bjorn/Konrad, please let
-me know.
+Note that I recommend that you test the selection API before posting a
+v7, since it is clear that it has never been used since it currently
+always returns -EINVAL.
 
-Kind regards
-Uffe
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>       media: imagination: Add E5010 JPEG Encoder driver
+>>
+>>  .../bindings/media/img,e5010-jpeg-enc.yaml         |   75 +
+>>  MAINTAINERS                                        |    7 +
+>>  drivers/media/platform/Kconfig                     |    1 +
+>>  drivers/media/platform/Makefile                    |    1 +
+>>  drivers/media/platform/imagination/Kconfig         |   12 +
+>>  drivers/media/platform/imagination/Makefile        |    3 +
+>>  .../media/platform/imagination/e5010-core-regs.h   |  585 ++++++++
+>>  .../media/platform/imagination/e5010-jpeg-enc-hw.c |  267 ++++
+>>  .../media/platform/imagination/e5010-jpeg-enc-hw.h |   42 +
+>>  .../media/platform/imagination/e5010-jpeg-enc.c    | 1553 ++++++++++++++++++++
+>>  .../media/platform/imagination/e5010-jpeg-enc.h    |  169 +++
+>>  .../media/platform/imagination/e5010-mmu-regs.h    |  311 ++++
+>>  include/media/jpeg-enc-reftables.h                 |  112 ++
+>>  include/media/jpeg.h                               |    4 +
+>>  14 files changed, 3142 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>  create mode 100644 drivers/media/platform/imagination/Kconfig
+>>  create mode 100644 drivers/media/platform/imagination/Makefile
+>>  create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
+>>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
+>>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
+>>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
+>>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
+>>  create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
+>>  create mode 100644 include/media/jpeg-enc-reftables.h
+>>
+> 
+> 
+
 
