@@ -1,336 +1,129 @@
-Return-Path: <linux-media+bounces-7180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7181-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833CF87DDDD
-	for <lists+linux-media@lfdr.de>; Sun, 17 Mar 2024 16:19:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E1087E204
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 03:03:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE7B41F213B1
-	for <lists+linux-media@lfdr.de>; Sun, 17 Mar 2024 15:18:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4771AB23CDD
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 02:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F921C6A8;
-	Sun, 17 Mar 2024 15:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F49B208A8;
+	Mon, 18 Mar 2024 02:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aohLG6+H"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cl4LJpQb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5A41C680;
-	Sun, 17 Mar 2024 15:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5701E87E;
+	Mon, 18 Mar 2024 02:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710688729; cv=none; b=UwEE9rhf9k8Zvd0swacxUBQ9E+I6dH6le4McAhw0vwnvOi2X83qu0H2Guak4PsAu+b3eQxZ3zXy6ZqHWWZBd2NvLYeA/r1N3LJTlxbXrX1wogIyngVAGHx58v9doF+WmgzK9a1Z3zUKCeP1U3qYB2RL+feZN3lzUwUN67JGhnK0=
+	t=1710727384; cv=none; b=Mt8QUMmDUCeuERpl31klCv8Z3z2MpGXziKj32es2c4DvLZAd8aAXPYRsk7P/ZWh7SVTzG9IYzZ7sQtM+bdCGGYJN/BacN5XkLcdvhCyN9wszOZMEwH8ZDxBQ11yI/X90tfgMVIEs5gN2MTjehDZ02WXz1tUJA7ACkbeq75r9sfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710688729; c=relaxed/simple;
-	bh=7pTYg4neY3p4a4Eucf5XUJ2jnY24udS5Z7ZaC2XMr5g=;
+	s=arc-20240116; t=1710727384; c=relaxed/simple;
+	bh=s2DTcYQv5t1E/AgG3AGAU+YYi9lLQeVvZlKV3Acyq9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ODfwZbmrbpINOPtKz8JLssoBmM84NG1+CeVbsH+zdjGyd897sP848aF9epEQ6TkoEFk7snJhKJ8to+xYkii9Fs38nAyoZ6T3E2RBT38giqY1nslClV07RhTUzTay4OKo1xIu0y2BasHo9fbCiK5CKqhD4VtRkpBGmCALttAbtvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aohLG6+H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9280AC433C7;
-	Sun, 17 Mar 2024 15:18:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710688729;
-	bh=7pTYg4neY3p4a4Eucf5XUJ2jnY24udS5Z7ZaC2XMr5g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aohLG6+HBu84r95klNM5SxVDvXwgCrhGVslsuhs4tJMW+oMEL7KaqVBwqSTU/frnb
-	 QIhzVRbH6nSZ1Okc2ThoBAXWXrNx8gjWOdfX6MDFd2CWK8ohrt70QknEzIc9Cx2ACI
-	 NyfIXCSyJhlTCi3Ne4u+c7rbXsyPprPWNPp9JTNJtZd0AOKL9j4abuvxK1kfYO0BcS
-	 Skal6AJOwuO5bQJZqgEEkPku/VbZdB5t56+7ALRR37fhZW7uklRd6XnV3AkH/G00Et
-	 66lMhqxAXmQO1Q8SXG4GNNt0hTC+5WvlTjMZmOnJnxo3ZM62YHtogZziJN4KJsrXBn
-	 GgElVk0YpPs6w==
-Date: Sun, 17 Mar 2024 15:18:45 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v5 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
- Deserializer
-Message-ID: <20240317-petty-backache-b10d0fde62cf@spud>
-References: <20240313094922.311743-1-julien.massot@collabora.com>
- <20240313094922.311743-3-julien.massot@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3bmTEdiAyqp1q3XaGdbWkeJM3kHW5qwF7yN9BjkHqVGg/t7dHtsrpD7+yTCqM9P3FPHRtNpJJKCASiuEem/IqH6KTWcozmje7etvBacyIyaxpwI8sdKcQt1LKVivU/UqrsNMCCI0NgkVVXhO1bL1wlWJvt5T2JwbZCQ5+bh41I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cl4LJpQb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nzZSUZc1IlLbKe81oj0XpOImEHMN1QwfDar40WlDId8=; b=Cl4LJpQbj38gTTSZEQUZ+1vpu3
+	kfvxEgbVIrASKys6zjX6NXQRWu09Lgn3IV65yLbtH4dUG8GB1Yqrznlf5YYQk37UR4dpnqVOEhv1o
+	w2K5FOiZ3xKMvsyJFyxhLSnZwjPs1HCtxbr+tuF9JhbtLngwAWn7usG/oNe+6woPNU7cNjWJxlJqD
+	ln0QmERP5F9CIT9MIbbXqzH0GBZ4M10aRQSSRBzUQIDZ7/9+/IL2GfU9AJDXFI35koQIIJJU8jO3B
+	QMSHsOqDU3V3fvm5V+tc15IIGsSZnzBfpqlpQEctTDCEj3pPcRujHYO3Wr1dAgj7vx/NrDvJcf1hE
+	buU9lkcQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rm2Ky-00000006zOo-2Ad2;
+	Mon, 18 Mar 2024 02:02:53 +0000
+Date: Sun, 17 Mar 2024 19:02:52 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZfegzB341oNc_Ocz@infradead.org>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="V1m849K/NnwfOyE3"
-Content-Disposition: inline
-In-Reply-To: <20240313094922.311743-3-julien.massot@collabora.com>
-
-
---V1m849K/NnwfOyE3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Mar 13, 2024 at 10:49:20AM +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
->=20
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
-> Change since v4:
->  - Add compatible for MAX96714 and use it as a fallback for MAX96714F
->  - Remove extra '|' for decriptions
->  - Reference 'i2c-gate' instead of 'i2c-controller'
->=20
-> Change since v3:
->  - Renamed file to maxim,max96714.yaml dropped the 'f' suffix
->  - Removed mention to C-PHY since it's not supported by MAX96714 deserial=
-izers
->  - Removed bus-type requirement on CSI endpoint since the device only sup=
-port D-PHY
->  - Removed the clock-lanes property in the dt example
->=20
-> Change since v2:
->  - remove reg description
->  - rename enable gpio to powerdown
->  - use generic node name: i2c, serializer, deserializer
-> ---
->  .../bindings/media/i2c/maxim,max96714.yaml    | 176 ++++++++++++++++++
->  1 file changed, 176 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max=
-96714.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.y=
-aml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
-> new file mode 100644
-> index 000000000000..59b116092834
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
-> @@ -0,0 +1,176 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 Collabora Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/maxim,max96714.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim MAX96714 GMSL2 to CSI-2 Deserializer
-> +
-> +maintainers:
-> +  - Julien Massot <julien.massot@collabora.com>
-> +
-> +description:
-> +  The MAX96714 deserializer converts GMSL2 serial inputs into MIPI
-> +  CSI-2 D-PHY formatted output. The device allows the GMSL2 link to
-> +  simultaneously transmit bidirectional control-channel data while forwa=
-rd
-> +  video transmissions are in progress. The MAX96714 can connect to one
-> +  remotely located serializer using industry-standard coax or STP
-> +  interconnects. The device cans operate in pixel or tunnel mode. In pix=
-el mode
-> +  the MAX96714 can select individual video stream, while the tunnel mode=
- forward all
-> +  the MIPI data received by the serializer.
-> +
-> +  The GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
-> +  forward direction and 187.5Mbps in the reverse direction.
-> +  MAX96714F only supports a fixed rate of 3Gbps in the forward direction.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - enum:
-> +          - maxim,max96714
+On Mon, Mar 04, 2024 at 06:01:37PM -0800, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
+> 
+> The page providers which try to reuse the same pages will
+> need to hold onto the ref, even if page gets released from
+> the pool - as in releasing the page from the pp just transfers
+> the "ownership" reference from pp to the provider, and provider
+> will wait for other references to be gone before feeding this
+> page back into the pool.
 
-There's only once device here, make it const rather than enum.
+The word hook always rings a giant warning bell for me, and looking into
+this series I am concerned indeed.
 
-> +      - items:
-> +          - enum:
-> +              - maxim,max96714f
-> +          - const: maxim,max96714 # fallback for 'f' variant
+The only provider provided here is the dma-buf one, and that basically
+is the only sensible one for the documented design.  So instead of
+adding hooks that random proprietary crap can hook into, why not hard
+code the dma buf provide and just use a flag?  That'll also avoid
+expensive indirect calls.
 
-Drop the comment btw, it doesn't make sense given you have an enum that
-will allow for more devices and it being a fallback is obvious. That
-said, given what you told me on the last version
-| Yes there are a few differences visible to the software, for example the=
-=20
-| GMSL
-| link rate since MAX96714 support 6 and 3 Gbps, while MAX96714F only=20
-| supports 3Gbps.
-| the registers map is the same, but a few values are not possible with=20
-| the 'f' version.
-I don't think your ordering here is correct. The 96714 should fall back
-to the 96714f, not the opposite that you have here, as the f is the
-version which supports fewer features.
-
-I think this should be:
-
-oneOf:
-  - const: maxim,max96714f
-  - items:
-      - enum:
-          - maxim,max96714
-      - const: maxim,max96714f
-
-Cheers,
-Conor.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Specifier for the GPIO connected to the PWDNB pin.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
-> +        description: GMSL Input
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            description:
-> +              Endpoint for GMSL2-Link port.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI-2 Output port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +              lane-polarities:
-> +                minItems: 1
-> +                maxItems: 5
-> +
-> +              link-frequencies:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +    required:
-> +      - port@1
-> +
-> +  i2c-gate:
-> +    $ref: /schemas/i2c/i2c-gate.yaml
-> +    unevaluatedProperties: false
-> +    description:
-> +      The MAX96714 will pass through and forward the I2C requests from t=
-he
-> +      incoming I2C bus over the GMSL2 link. Therefore it supports an i2c=
--gate
-> +      subnode to configure a serializer.
-> +
-> +  port0-poc-supply:
-> +    description: Regulator providing Power over Coax for the GMSL port
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        deserializer@28 {
-> +            compatible =3D "maxim,max96714f", "maxim,max96714";
-> +            reg =3D <0x28>;
-> +            powerdown-gpios =3D <&main_gpio0 37 GPIO_ACTIVE_LOW>;
-> +
-> +            ports {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +                port@0 {
-> +                    reg =3D <0>;
-> +                    max96714_gmsl_in: endpoint {
-> +                        remote-endpoint =3D <&max96917f_gmsl_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg =3D <1>;
-> +                    max96714_csi_out: endpoint {
-> +                        data-lanes =3D <1 2 3 4>;
-> +                        link-frequencies =3D /bits/ 64 <400000000>;
-> +                        remote-endpoint =3D <&csi_in>;
-> +                    };
-> +                };
-> +            };
-> +
-> +            i2c-gate {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +
-> +                serializer@40 {
-> +                    compatible =3D "maxim,max96717f", "maxim,max96717";
-> +                    reg =3D <0x40>;
-> +                    gpio-controller;
-> +                    #gpio-cells =3D <2>;
-> +                    #clock-cells =3D <0>;
-> +
-> +                    ports {
-> +                        #address-cells =3D <1>;
-> +                        #size-cells =3D <0>;
-> +
-> +                        port@0 {
-> +                            reg =3D <0>;
-> +                            max96717f_csi_in: endpoint {
-> +                                bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                                data-lanes =3D <1 2>;
-> +                                lane-polarities =3D <1 0 1>;
-> +                                remote-endpoint =3D <&sensor_out>;
-> +                            };
-> +                        };
-> +
-> +                        port@1 {
-> +                            reg =3D <1>;
-> +                            max96917f_gmsl_out: endpoint {
-> +                                remote-endpoint =3D <&max96714_gmsl_in>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> --=20
-> 2.44.0
->=20
-
---V1m849K/NnwfOyE3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfcJ1QAKCRB4tDGHoIJi
-0sDBAP9GEUPIFsPY6//epmj9GOulmny5jElBVcYVxjogXV215QD+MwDcMQOYPQfM
-NU6k9TMsTfO8dx/JMAgXdL1rLXJQDw4=
-=HOwF
------END PGP SIGNATURE-----
-
---V1m849K/NnwfOyE3--
 
