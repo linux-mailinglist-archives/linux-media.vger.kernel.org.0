@@ -1,126 +1,139 @@
-Return-Path: <linux-media+bounces-7192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832E087E65F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 10:52:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D07E487E6AB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 11:06:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12FA1B2115B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 09:52:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 693FB1F221FC
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 10:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E39012E414;
-	Mon, 18 Mar 2024 09:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AeGSMcSO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2522D058;
+	Mon, 18 Mar 2024 10:06:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BD52D059;
-	Mon, 18 Mar 2024 09:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EACC2D043;
+	Mon, 18 Mar 2024 10:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710755479; cv=none; b=aPgjqnlFiUezLz33ortKfmdxES6UR4NzK3cfo2X5yBtXowHNtRs+3HKggGR5Qnexkq+cPOod1V0zF4Vm2JDXTUGTtFwmAP66A/zDAOhtEosUxO3yp4hZpuxcmDEddJN/fjjik7bkch8wySfv7Fl4bxLpq3F9IvYDuCg75fWzEv4=
+	t=1710756372; cv=none; b=kDUyuyV/vSvZYqur+nJROUFalItbcyCs478B97NZpMmlk17H4lKfev4g7oiuR8IP18O6AzTB1rlqIktvt6H7X8YfD5kE8c91/Ct8zice1No61EnPB8hX0Cd/wMS0L5PA+7AuGca4M6QkTEdemK18rsyGaoUnaddaQxBUWWG9a60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710755479; c=relaxed/simple;
-	bh=WMYH0EFd48hByDNbMOqGjMtK7I1OeZsQbvStS1jV3V4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ez40H4T6pmaRVJnZq3SCxWu/L0aSCLhLvIEdvaoYLpztECysMBAsSllI/F5dvV0jPd6BHPlXSDPixq4dtnWVmVqKTTGZBQpbhllrfNIUCCm2ZPe2C2riFOh7o1Q3PQCO/Ifgsgra6ossY8YlGeqfPcRS32BCqFHCc7+iYG6b1eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AeGSMcSO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 899377E9;
-	Mon, 18 Mar 2024 10:50:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710755448;
-	bh=WMYH0EFd48hByDNbMOqGjMtK7I1OeZsQbvStS1jV3V4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=AeGSMcSOjyL7wHBJvSADZo+0GZk4EsSwk0p/SYrTdioS86SY7YhVnj/hIXFq/4a4v
-	 JShWt+K+KXyQtYJScnXn5+E1CcF7ET5banIJh+GMhggKbT+4DoO31Dcsrpnc49IOfU
-	 FV+dWR+GVQ5+WmfqXXIYpz/W5bobK7UwBUCP7RVo=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Mon, 18 Mar 2024 11:50:59 +0200
-Subject: [PATCH v2] media: mc: Fix graph walk in media_pipeline_start
+	s=arc-20240116; t=1710756372; c=relaxed/simple;
+	bh=RPnZJlihau7sJRd6TqoEUFRAI6uPe4HBOe2/3ut4XAw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aRm3aYsA03pvFD6zwXl9cfVpBx8Uj17bIL8fuqvbDUTt7E8WsEHLvP3pdCjA+USn0GknQRdNMh/vgkV8a9SCpFhw0CKa3QuVTPETax+2Wrki3OX2cgnMoG78mRpOa+VSgrh0ss4gEYNeeToN6bTxSA5ONXqU0JzuhCE3yKf7/dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5867BC433F1;
+	Mon, 18 Mar 2024 10:06:09 +0000 (UTC)
+Message-ID: <43d27ed7-94ff-4916-b1f3-07204b2f54ab@xs4all.nl>
+Date: Mon, 18 Mar 2024 11:06:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v21 3/9] media: test-drivers: Set REQBUFS minimum number
+ of buffers
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com
+References: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
+ <20240314153226.197445-4-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240314153226.197445-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240318-mc-graph-fix-v2-1-416a22bf7ce8@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAIIO+GUC/3WMQQ7CIBAAv9Ls2TWFQms9+Q/TwwpY9tDSgCGah
- r+LvXucSWZ2SC6yS3Btdoguc+KwVpCnBoyndXbItjLIVqq2ExoXg3OkzeOT33ghSVJpO3Sqh5p
- s0VV97O5TZc/pFeLnuGfxs39GWaDAUVg92kHLXqgbW0cprI9A0Z5NWGAqpXwBSc8t7q8AAAA=
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Naushir Patuck <naush@raspberrypi.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1568;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=WMYH0EFd48hByDNbMOqGjMtK7I1OeZsQbvStS1jV3V4=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBl+A6RqDpNvE4DCA0yX22yUxG50nVbACAzzHz5p
- HW0ow+JGZ2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZfgOkQAKCRD6PaqMvJYe
- 9aqTD/4y9/SjKbMaalcj5au3ilLw/G2bj6jw5moo/Eb4BdfjP+LLhF6SpMpdHpzAfvZn/lY6GLe
- ggaqK6xycbu6OyduHCXo+fk6P43g/EBVaFBfcPrze5sVMxarbbokLMNSysCWi7qOIuKLBG30gp6
- cC8y6PxE5yrlKWLhm8yxYSYpz9DBz4gPtl7AuoVB3Ozd+kSUp9d+EYVdblRUeW7A5QhXHuTHvCq
- LOglbTtXCo8uAf/cjayWMossioLhbR4Bj8hpJ1zjA3Es+ary4IT9ZxrGAunkgMYKlCbMShlvuB5
- CrSeT61/QS8frpoRGfpuqGz460iKtKCu24s9l1qyJaksRctFjT3E9eF8PUJz1F5D3CqHwaUzCsU
- D1bhRgJBWfUQFrd66NBzERgyMzWQWz476p5HF94dk+Er2vIYqzTctzcTfAzCvBvEoHfJzQNIpx3
- YQr8rGGDt3kLfA5FN4mRAG0ogqZGzSRmRmiJjTeFadFMSfU6KeTgpeI0OnfP8oPPY0P0XSI1jgi
- tq7M2zxfy8WvzPiJ2ZEeG5wkTAa8ECagjRbDaJ7oxg0eizWmI3hLWhFSCk/s003qKis3O4jJ1rq
- 9h0rgTuCcOLu+0YAEB/lUzdDhCY8cEpWJz5nV9NqXTs4olcWKU/pX8KiGreMoqfTWACXZOWqLUR
- zXSBicX9EhJjrfQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-The graph walk tries to follow all links, even if they are not between
-pads. This causes a crash with, e.g. a MEDIA_LNK_FL_ANCILLARY_LINK link.
+Hi Benjamin,
 
-Fix this by allowing the walk to proceed only for MEDIA_LNK_FL_DATA_LINK
-links.
+On 14/03/2024 4:32 pm, Benjamin Gaignard wrote:
+> Instead of using 'min_queued_buffers' field to specify the
+> minimum number of buffers to be allocated when calling REQBUF
+> use 'min_reqbufs_allocation' field which is dedicated to this
+> purpose.
+> 
+> While at it rename vivid_create_queue() parameter.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/test-drivers/vimc/vimc-capture.c | 2 +-
+>  drivers/media/test-drivers/vivid/vivid-core.c  | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+> index 2a2d19d23bab..97693561f1e4 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+> @@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
+>  	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
+>  		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	q->min_queued_buffers = 2;
+> +	q->min_reqbufs_allocation = 2;
+>  	q->lock = &vcapture->lock;
+>  	q->dev = v4l2_dev->dev;
+>  
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+> index 159c72cbb5bf..11b8520d9f57 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
+> @@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
+>  static int vivid_create_queue(struct vivid_dev *dev,
+>  			      struct vb2_queue *q,
+>  			      u32 buf_type,
+> -			      unsigned int min_queued_buffers,
+> +			      unsigned int min_reqbufs_allocation,
+>  			      const struct vb2_ops *ops)
+>  {
+>  	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
+> @@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
+>  	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
+>  						  &vb2_vmalloc_memops;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	q->min_queued_buffers = supports_requests[dev->inst] ? 0 : min_queued_buffers;
+> +	q->min_reqbufs_allocation = min_reqbufs_allocation;
+>  	q->lock = &dev->mutex;
+>  	q->dev = dev->v4l2_dev.dev;
+>  	q->supports_requests = supports_requests[dev->inst];
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Fixes: ae219872834a ("media: mc: entity: Rewrite media_pipeline_start()")
----
-Changes in v2:
-- Move the check a bit earlier, so that we don't do a debug print for
-  ancillary links using data link fields.
-- Link to v1: https://lore.kernel.org/r/20240315-mc-graph-fix-v1-1-91d59d752614@ideasonboard.com
----
- drivers/media/mc/mc-entity.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+How did you test this series? If I run the test-media script using the patch
+v4l2-compliance (the v9 series) I get two failures. Both are traced to code
+in vivid: meta_out_queue_setup() and touch_cap_queue_setup():
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 543a392f8635..3fd3dab81ea1 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -615,6 +615,12 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
- 	link = list_entry(entry->links, typeof(*link), list);
- 	media_pipeline_walk_pop(walk);
- 
-+	if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) != MEDIA_LNK_FL_DATA_LINK) {
-+		dev_dbg(walk->mdev->dev,
-+			"media pipeline: skipping link (not data-link)\n");
-+		return 0;
-+	}
-+
- 	dev_dbg(walk->mdev->dev,
- 		"media pipeline: exploring link '%s':%u -> '%s':%u\n",
- 		link->source->entity->name, link->source->index,
+Both have this code:
 
----
-base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
-change-id: 20240315-mc-graph-fix-8a2a245d7346
+        if (*nplanes) {
+                if (sizes[0] < size)
+                        return -EINVAL;
+        } else {
+                sizes[0] = size;
+        }
 
-Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+        if (q_num_bufs + *nbuffers < 2)
+                *nbuffers = 2 - q_num_bufs;
+
+        *nplanes = 1;
+        return 0;
+
+It's the *nbuffers assignment that is wrong. Looking at vivid-core.c I see
+that vivid_create_queue() is called with min_reqbufs_allocation set to 1 for
+these two devices. I think that should be 2, and then the code above can
+be dropped.
+
+It is probably best to post a v21.1 3/9 patch only.
+
+Regards,
+
+	Hans
+
 
 
