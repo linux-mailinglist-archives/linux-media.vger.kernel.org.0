@@ -1,176 +1,119 @@
-Return-Path: <linux-media+bounces-7206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846CA87EB33
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 15:41:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EE087EB3C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 15:43:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A44BF1C211CA
-	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:41:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E95C41F22516
+	for <lists+linux-media@lfdr.de>; Mon, 18 Mar 2024 14:43:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49A54DA0B;
-	Mon, 18 Mar 2024 14:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591BC4EB29;
+	Mon, 18 Mar 2024 14:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1YxgD98"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA391E48A
-	for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 14:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256E54EB20;
+	Mon, 18 Mar 2024 14:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710772877; cv=none; b=jQUpfETq/VDmFNDoQ6qP75LGRMiKFfXaCY9vMNMGqiSSHPD7uC5NGhIheNtiClee/B2q4W9x44Arfyzkrv8WgSuahfv6NkaGscKiLILlKL7u4rM8KyvzMftJXZ6GfY9HN1SSy/nMNEqF/bQW+Mn1R4wWu3ZlBXRoTngk27Chk/c=
+	t=1710772985; cv=none; b=jhpwEHsgKQo42oCxyCHbxZLqEYfIrepovHN2q4ZUZO3X00MZYcLbStrvMQ1GD0MDcr8oUcmTgzXq+DwCkeT7Fqfi3ssfEez3+qnn7YKYF0kJaTQoFDaeybyEo3GVSf7xMRasADB/CTILZYCuQPjns3kzh+WfT4kesC0Csx7ASjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710772877; c=relaxed/simple;
-	bh=7l7U8Wi8lcFiZN9p0xoLNypXpgIX3frCWIOIyK1PRlY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=RQoJR/x8P8U78SFSV+AjsaU9103sC8LqcmaF6zSAiYX/xImn2mqpEKT+PvTV/kVOI0rla/B/wN8pbAYqpyoNR2IWqUKeSl7R4IDc2hecVHjCAtjtFNBaYiSftdVEr/e1aRVqca6vTsPu2AsBiwQ+YM7lh//khuKwcLTLAeJekuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574DBC43394;
-	Mon, 18 Mar 2024 14:41:16 +0000 (UTC)
-Message-ID: <c8b0fec1-db0c-445d-a60b-e1d33bf4cc46@xs4all.nl>
-Date: Mon, 18 Mar 2024 15:41:14 +0100
+	s=arc-20240116; t=1710772985; c=relaxed/simple;
+	bh=8XRZKFmhwG03J49V6ap/MmSlr5bTXR1c8ykaNN3EyUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tvN9soys/21a61RXPbNOSdZ5WusMnTQ+N4MhfpLo9gEGr5apc4Gt1jRxoU0hoL5sjJxMlpyxwI7/WxJXhJig6vYFzJGi2Om0wgFS1EHI9YPtXjDe5rTvkM/L+Ix1KObcHfPmNiLZN3tL/B3NxXsVyyWXDE3XOi8sKLR+dHmby4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1YxgD98; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d4886a1cb4so48812691fa.0;
+        Mon, 18 Mar 2024 07:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710772982; x=1711377782; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D+l8ZhyeqD/9OLSlImJx3OI1bct+f0EYpDd6giz/+Wg=;
+        b=g1YxgD98CnRrob371nI16zno4BsJo1owCMffOSFp5nBWy1zWbNY6BpNN4PzMvs5KMp
+         8onFnIwzJC2cm8XQHWcQQ04eH0bR+09k3GdrvEgRyi4ci7ZzMSyn1cqKjUiFQ2mmc69O
+         sac5yy1ATXhdCnWoqSWpsg9GQfcFfZ+uEBMVJwYy1qt+PwIgQwfQtPtNnx66pcQY48YP
+         tQ5/TmXwH33Z2DPRmKdHuRYAIzEDCkLkBq5ws14SKvaXIpnXbjg35EXGqqcMiRqJULv8
+         XNSbOFy5L1Q/oFvXdEzsQUYy5Nt5+jSwo906Bh0p9MDb/DOkIAiBRzvKRiQ9St4nNdsg
+         cSNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710772982; x=1711377782;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D+l8ZhyeqD/9OLSlImJx3OI1bct+f0EYpDd6giz/+Wg=;
+        b=nMukcXCNyfJkPqcDG37TN21nHgqOpx2p7V0M3BYRnt8BIVSYUPn7DM+hHNdrowsZrQ
+         /lr5i2Tz+8pfzSnA0zusIaUOfnILUFEpb/mUM+BxRNdkumxUZ/GpBFxOcZuEX0rHAGXL
+         qRAuXQgdXtFfLgkrvvPF86Znzp/y2N4lEn1fnSPkFJg0iZxeW+8H78cHfyDOD4c3Daei
+         s/jJM9Vk2ab0c6q6wwn0TytaqugGWYtwYSisLIfaVynxpH5S3NjhzFp7cu8SRYWNC0zS
+         vVS2tNEQ657eQM8ocTxVibl/29kHHCLURie5GVzuhyiulocy6zT+bh79A/uM4WumMDgt
+         gwGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5DvPfbIDiK/il2shRiuE8w7lL7x/W7eRiH8W2wYB6IvFZxsh9xk9MYVpRU+0Hc8AtdEhWgSIO17zjPb3LwqhhVlejllm9U05BwjhHDBeBmaX699AYApNs8b3szawDik89Z8UMzerpxpN7iyQKw4NVYPS3TsCpuVWaIDH73LJDUHTOj38x
+X-Gm-Message-State: AOJu0YyO3LR9kaX4PEX7dB6kmITrPAJjTsZ9zJa5fblwOxD9yVaBP3Da
+	pFx3zlgeH1+IgMPsbvZ9LE4Lk6vVw2KOAnpBJvYBGI3rlKzK6HtW
+X-Google-Smtp-Source: AGHT+IEeK7CDPkehkXCOgtE1aicKlzl25lZb5Aw/miJHV0DZu1X1wA8KDViLzWgcMud0pbrJtQjEFw==
+X-Received: by 2002:a2e:9ccf:0:b0:2d4:49d2:a3d1 with SMTP id g15-20020a2e9ccf000000b002d449d2a3d1mr9002287ljj.1.1710772981978;
+        Mon, 18 Mar 2024 07:43:01 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id t9-20020a2e9c49000000b002d476327311sm1527486ljj.18.2024.03.18.07.43.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Mar 2024 07:43:01 -0700 (PDT)
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Ivan Bornyakov <brnkv.i1@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/6] Wave515 decoder IP support
+Date: Mon, 18 Mar 2024 17:42:15 +0300
+Message-ID: <20240318144225.30835-1-brnkv.i1@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR 6.9] Imagination E5010 JPEG encoder
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- linux-media@vger.kernel.org
-References: <20240309151528.ayphvdpnj2crvycv@basti-XPS-13-9310>
- <a6652d2e-8fb7-4532-bb98-62c22aeec07c@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <a6652d2e-8fb7-4532-bb98-62c22aeec07c@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 18/03/2024 2:43 pm, Hans Verkuil wrote:
-> On 09/03/2024 4:15 pm, Sebastian Fricke wrote:
->> Hey Hans & Mauro,
->>
->> These patches add support for the Imagination E5010 JPEG encoder.
->>
->> Please pull.
->>
->> The following changes since commit b14257abe7057def6127f6fb2f14f9adc8acabdb:
->>
->>   media: rcar-isp: Disallow unbind of devices (2024-03-07 16:35:13 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.9-e5010-jpeg-encoder
->>
->> for you to fetch changes up to 146a5dc5f8baee4178a1cdfa483aa3c94273ce5e:
->>
->>   media: imagination: Add E5010 JPEG Encoder driver (2024-03-09 16:10:43 +0100)
->>
->> ----------------------------------------------------------------
->> Adds support for the E5010-JPEG-encoder
->>
->> ----------------------------------------------------------------
->> Devarsh Thakkar (3):
->>       media: dt-bindings: Add Imagination E5010 JPEG Encoder
->>       media: jpeg: Add reference quantization and huffman tables
-> 
-> This should be added to v4l2-jpeg.c. There are also a few other
-> changes I'd like to see, see my reply to this patch.
-> 
-> The other two patches are OK, but since a v7 is needed anyway, I'll
-> add a few comments to patch 3/3 as well.
+Initial support for Wave515 multi-decoder IP among other refinements.
+This was tested on FPGA prototype, so wave5_dt_ids[] was not expanded.
 
-Actually, patch 3/3 has some issues as well, esp. regarding the selection
-API.
+Ivan Bornyakov (6):
+  media: chips-media: wave5: support decoding higher bit-depth profiles
+  media: chips-media: wave5: support reset lines
+  dt-bindings: media: cnm,wave521c: drop resets restriction
+  media: chips-media: wave5: separate irq setup routine
+  media: chips-media: wave5: refine SRAM usage
+  media: chips-media: wave5: support Wave515 decoder
 
-Note that I recommend that you test the selection API before posting a
-v7, since it is clear that it has never been used since it currently
-always returns -EINVAL.
+ .../bindings/media/cnm,wave521c.yaml          |   3 +-
+ .../platform/chips-media/wave5/wave5-helper.c |   3 -
+ .../platform/chips-media/wave5/wave5-hw.c     | 293 +++++++++++++-----
+ .../chips-media/wave5/wave5-regdefine.h       |   5 +
+ .../platform/chips-media/wave5/wave5-vdi.c    |  27 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         |  17 +-
+ .../chips-media/wave5/wave5-vpu-enc.c         |   2 -
+ .../platform/chips-media/wave5/wave5-vpu.c    |  33 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.h |   3 +-
+ .../chips-media/wave5/wave5-vpuconfig.h       |   9 +-
+ .../media/platform/chips-media/wave5/wave5.h  |   1 +
+ 11 files changed, 272 insertions(+), 124 deletions(-)
 
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>       media: imagination: Add E5010 JPEG Encoder driver
->>
->>  .../bindings/media/img,e5010-jpeg-enc.yaml         |   75 +
->>  MAINTAINERS                                        |    7 +
->>  drivers/media/platform/Kconfig                     |    1 +
->>  drivers/media/platform/Makefile                    |    1 +
->>  drivers/media/platform/imagination/Kconfig         |   12 +
->>  drivers/media/platform/imagination/Makefile        |    3 +
->>  .../media/platform/imagination/e5010-core-regs.h   |  585 ++++++++
->>  .../media/platform/imagination/e5010-jpeg-enc-hw.c |  267 ++++
->>  .../media/platform/imagination/e5010-jpeg-enc-hw.h |   42 +
->>  .../media/platform/imagination/e5010-jpeg-enc.c    | 1553 ++++++++++++++++++++
->>  .../media/platform/imagination/e5010-jpeg-enc.h    |  169 +++
->>  .../media/platform/imagination/e5010-mmu-regs.h    |  311 ++++
->>  include/media/jpeg-enc-reftables.h                 |  112 ++
->>  include/media/jpeg.h                               |    4 +
->>  14 files changed, 3142 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>  create mode 100644 drivers/media/platform/imagination/Kconfig
->>  create mode 100644 drivers/media/platform/imagination/Makefile
->>  create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
->>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
->>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
->>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
->>  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
->>  create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
->>  create mode 100644 include/media/jpeg-enc-reftables.h
->>
-> 
-> 
+-- 
+2.44.0
 
 
