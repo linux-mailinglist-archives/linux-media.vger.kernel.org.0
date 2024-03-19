@@ -1,316 +1,312 @@
-Return-Path: <linux-media+bounces-7241-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7242-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B5A87F4A5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 01:35:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9736C87F563
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 03:25:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26D20B21389
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 00:35:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B41CB1C21644
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 02:25:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6CEA29;
-	Tue, 19 Mar 2024 00:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA1B64CF9;
+	Tue, 19 Mar 2024 02:25:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G3C4LgSr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htVMaUpC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3948465;
-	Tue, 19 Mar 2024 00:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC464CE1;
+	Tue, 19 Mar 2024 02:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710808531; cv=none; b=sJiFhsLXRusDG5z4NlDb6tXEA5DAKdT1xpnFtKHzOYoFs1zjxu+O6j57G/oC23Bvm5FxK4Icb/dMu929ekOuL1wsZ3iCg7cNrkVDWWlkB6d0DtmblcjVgJzsZTl70sZC5Ll21nIRWquJ89qnITxEShhin9myCCKu732pcqYLJF8=
+	t=1710815104; cv=none; b=fHaC8nu+mzjCev5C7WBME5t165DwnVyaPeK2hAgy0c9rJXvMgsVz9VActgq0RFtzjzRl4najRaFu1QqtL4O2U19gLgZMNriSlhbAPabGFAyBRtLVgBi4XR+qI+UktFYHld61aKtQXBwQgtM/cu87tY6FOeSpFeSHtoCTiRJ7DWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710808531; c=relaxed/simple;
-	bh=evt/QjjewDa5FyHkyULrULdNpk3hc17dFGup/YxaVVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufHfjdC+LHL5wX0Qd4kNa6NF37p7R0jVrsgm5ScNk/WXWFlBnBUcFixddNSiolJ9buFK1/GSuVEA2sk6teAb27IhYMbWc3JqEf/4IfTJKqiJcc2hVtCUuyKFDLFcBINvhgLRmfOdi4r/7c/ffpDHro+r0X0sW0PxeY/jgoXA6Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G3C4LgSr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0614F480;
-	Tue, 19 Mar 2024 01:34:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710808500;
-	bh=evt/QjjewDa5FyHkyULrULdNpk3hc17dFGup/YxaVVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G3C4LgSr6TPfDOFVC1xkw6FIzkOyvHyt+X0wjg6d1WuuatSGibUEmxq6m8DoqBAkD
-	 F8tLyiV37TUekoASi3EGXifXz64wLX5nHt/UrArTJArUMrf1Ys0oAaVWkDhuO57//N
-	 N/4Cfk77ApWqTJYzr+Nr92IRGMNdxDcT7Ys/g2To=
-Date: Tue, 19 Mar 2024 02:35:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Michal Simek <michal.simek@amd.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] drm: xlnx: zynqmp_dpsub: Set input live format
-Message-ID: <20240319003523.GW13682@pendragon.ideasonboard.com>
-References: <20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com>
- <20240312-dp-live-fmt-v2-5-a9c35dc5c50d@amd.com>
+	s=arc-20240116; t=1710815104; c=relaxed/simple;
+	bh=FC6+/aI7BBUs6BF1uhfaUOKbhxkDFustrqUVR7+Fhf8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rjNFsoIRu0dsI3nrzWL11AGn1D2OPROEZXU1cgNnSLvNA6Vi4hHWESadpkPLx9bmFZ/fGKwQ3meZMgutziXBjHEHTl0yAId/+09MXbnOJ6dYSJMKGfYCjTubfn5O1qBCj+Kyf+jRWfjUe1RXsVL/UxQMpR13VwUKIME6Tb21zRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htVMaUpC; arc=none smtp.client-ip=209.85.166.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7cc77e74b5cso64526139f.2;
+        Mon, 18 Mar 2024 19:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710815101; x=1711419901; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3jXxbFRn7aUJ8vbwC+W7tuBl2ook1tIt1JLVdpl6uzA=;
+        b=htVMaUpCuCtfkhNCQI/ADf6QmutFJAv7FbLnuQQpq7j0EYCTtYY5/bKgiTFROMwl3L
+         9dYhCyuT0kbwwPMkyLNlAP82UMU6EPf10QZpRjaEt7xGuhxXaIe0bb9kUb2/rhwpzVlw
+         vw1Hwd5xW09rM33sQ8MwOBT0a+NVbggFncXA+eR/aI9lapf6ANIALO2tChCX78VU3FPq
+         wyz3JBMdP/rCbLKRPP9lmwXSffKhP5e/78egdlVDH4jYmGCy9wjY03LWlLrNVurGz5Yx
+         xFWEviDDbF2I5mm60+GXwEdK4JXmJhWkEBnGEBpswDVJiTTucGdHzyYBaVaO23DVXDH+
+         O8+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710815101; x=1711419901;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3jXxbFRn7aUJ8vbwC+W7tuBl2ook1tIt1JLVdpl6uzA=;
+        b=Fp8QDJ/unDmNTj0MyNueJ0v5q5LSHRQg11EF89Fw+NfsxeBXH1fuZOxNu74kDmQ0SA
+         lxCUQ2wCA4fiYSB9CAzoWrJmWLUe0PTaCO+rccHWc/aJCRx7UoOgqAUHwYiAIP1irroA
+         45s5YeqVSNkzNlPwyoEZ5D/Z4BB3gB6R9H12l2aHR17Uq6e1GzVk2pM/k79DPiWKxa76
+         hR1vtzYOxuEVHVZHnD9veKngraRAUzMCxwu7yNh6z/VO0Xim+lxTmuunhiQ14ZI0ib1l
+         CkxtEcQZyhqQ0HF41c2EQD9fnMYKZgsIFTaIkx6FLO5Ye/wiDhmP/OSuTaqKd5P0Q95C
+         RJRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXK95OdDfn+XjpsdF0TIrQiI6BadlYzx6FfMtPZExWDD8o6NXYF/BQAXLmwtUSKS/iIbqmb6Ydka/ilepFma9BQu0QU3NrVcagpZ5DATatVLSQUDrZNHD/jU3MzM3iitsdykAO+3Kvuxj4=
+X-Gm-Message-State: AOJu0YwBiKD0DqVRdmtUhKZH4HPvnBm3Bm17cimD9bu+/VaaU9U+U3ry
+	Zl8XRJzEbnCAdQoURehWsDQNDY5WWx2tnp912serR7zlpRS0tTC2czx1P1FPJS/6GHT2LL3k3+J
+	yFmVdqCLdp1e5KoBhYJBi2i4DcuI=
+X-Google-Smtp-Source: AGHT+IGnWR3B9g/WoAwOtaoEM89k4iilEqv+3OCoq6B4OwhrLulsTXLE02G/egyZDtycYkHZLV95uXfPr1KhQx7ol+4=
+X-Received: by 2002:a05:6e02:1142:b0:366:a289:2fc6 with SMTP id
+ o2-20020a056e02114200b00366a2892fc6mr10994035ill.7.1710815100818; Mon, 18 Mar
+ 2024 19:25:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240312-dp-live-fmt-v2-5-a9c35dc5c50d@amd.com>
+References: <1710150841-26991-1-git-send-email-shengjiu.wang@nxp.com> <399da377-c2b6-4226-9108-8a1e776b6f3b@xs4all.nl>
+In-Reply-To: <399da377-c2b6-4226-9108-8a1e776b6f3b@xs4all.nl>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 19 Mar 2024 10:24:49 +0800
+Message-ID: <CAA+D8APgFvATshUJCNxCynJsYr_6=A+V=xf5qFpimd4i4g1ygg@mail.gmail.com>
+Subject: Re: [PATCH v14 00/16] Add audio support in v4l2 framework
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Anatoliy,
+On Mon, Mar 18, 2024 at 11:56=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> =
+wrote:
+>
+> Hi Shengjiu,
+>
+> I was about to prepare a pull request for this when I realized that
+> entries for the new drivers need to be added to the MAINTAINERS file.
+>
+> Can you post patches 'v14 17/16' and 'v14/18/16' adding entries for each
+> new driver?
 
-Thank you for the patch.
+Ok,  How about the change below?
 
-On Tue, Mar 12, 2024 at 05:55:02PM -0700, Anatoliy Klymenko wrote:
-> Program live video input format according to selected media bus format.
-> 
-> In the bridge mode of operation, DPSUB is connected to FPGA CRTC which
-> almost certainly supports a single media bus format as its output. Expect
-> this to be delivered via the new bridge atomic state. Program DPSUB
-> registers accordingly.
+VIRTUAL MEM2MEM DRIVER FOR AUDIO
+M:      Hans Verkuil <hverkuil@xs4all.nl>
+M:      Shengjiu Wang <shengjiu.wang@gmail.com>
+L:      linux-media@vger.kernel.org
+S:      Maintained
+W:      https://linuxtv.org
+T:      git git://linuxtv.org/media_tree.git
+F:      drivers/media/test-drivers/vim2m-audio.c
 
-No line breaks within paragraphs. Add a blank line if you want to
-paragraphs, remove the line break otherwise.
+NXP ASRC V4L2 MEM2MEM DRIVERS
+M:      Shengjiu Wang <shengjiu.wang@gmail.com>
+L:      linux-media@vger.kernel.org
+S:      Maintained
+W:      https://linuxtv.org
+T:      git git://linuxtv.org/media_tree.git
+F:      drivers/media/platform/nxp/imx-asrc.c
 
-> Update zynqmp_disp_layer_set_format() API to fit both live and non-live
-> layer types.
-> 
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c | 93 +++++++++++++++++++++++++++++++-------
->  drivers/gpu/drm/xlnx/zynqmp_disp.h |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_dp.c   | 13 ++++--
->  drivers/gpu/drm/xlnx/zynqmp_kms.c  |  2 +-
->  4 files changed, 87 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index dd48fa60fa9a..0cacd597f4b8 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -383,7 +383,7 @@ static const struct zynqmp_disp_format avbuf_live_fmts[] = {
->  				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
->  		.sf		= scaling_factors_666,
->  	}, {
-> -		.bus_fmt	= MEDIA_BUS_FMT_UYVY8_1X24,
-> +		.bus_fmt	= MEDIA_BUS_FMT_RBG888_1X24,
+best regards
+wang shengjiu
 
-Does this belong to a previous patch ?
-
->  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_BPC_8 |
->  				  ZYNQMP_DISP_AV_BUF_LIVE_CONFIG_FMT_RGB,
->  		.sf		= scaling_factors_888,
-> @@ -433,19 +433,28 @@ static void zynqmp_disp_avbuf_set_format(struct zynqmp_disp *disp,
->  					 const struct zynqmp_disp_format *fmt)
->  {
->  	unsigned int i;
-> -	u32 val;
-> +	u32 val, reg;
->  
-> -	val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
-> -	val &= zynqmp_disp_layer_is_video(layer)
-> -	    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
-> -	    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
-> -	val |= fmt->buf_fmt;
-> -	zynqmp_disp_avbuf_write(disp, ZYNQMP_DISP_AV_BUF_FMT, val);
-> +	layer->disp_fmt = fmt;
-> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE) {
-> +		reg = ZYNQMP_DISP_AV_BUF_FMT;
-> +		val = zynqmp_disp_avbuf_read(disp, ZYNQMP_DISP_AV_BUF_FMT);
-> +		val &= zynqmp_disp_layer_is_video(layer)
-> +		    ? ~ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MASK
-> +		    : ~ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_MASK;
-> +		val |= fmt->buf_fmt;
-> +	} else {
-> +		reg = zynqmp_disp_layer_is_video(layer)
-> +		    ? ZYNQMP_DISP_AV_BUF_LIVE_VID_CONFIG
-> +		    : ZYNQMP_DISP_AV_BUF_LIVE_GFX_CONFIG;
-> +		val = fmt->buf_fmt;
-> +	}
-> +	zynqmp_disp_avbuf_write(disp, reg, val);
->  
->  	for (i = 0; i < ZYNQMP_DISP_AV_BUF_NUM_SF; i++) {
-> -		unsigned int reg = zynqmp_disp_layer_is_video(layer)
-> -				 ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
-> -				 : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
-> +		reg = zynqmp_disp_layer_is_video(layer)
-> +		    ? ZYNQMP_DISP_AV_BUF_VID_COMP_SF(i)
-> +		    : ZYNQMP_DISP_AV_BUF_GFX_COMP_SF(i);
->  
->  		zynqmp_disp_avbuf_write(disp, reg, fmt->sf[i]);
->  	}
-> @@ -984,23 +993,73 @@ void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
->  	zynqmp_disp_blend_layer_disable(layer->disp, layer);
->  }
->  
-> +struct zynqmp_disp_bus_to_drm {
-> +	u32 bus_fmt;
-> +	u32 drm_fmt;
-> +};
-> +
-> +/**
-> + * zynqmp_disp_reference_drm_format - Get reference DRM format corresponding
-> + * to the given media bus format.
-> + * @bus_format: Media bus format
-> + *
-> + * Map media bus format to some DRM format that represents the same color space
-> + * and chroma subsampling as the @bus_format video signal. These DRM format
-> + * properties are required to program the blender.
-> + *
-> + * Return: DRM format code corresponding to @bus_format
-> + */
-> +static u32 zynqmp_disp_reference_drm_format(u32 bus_format)
-> +{
-> +	static const struct zynqmp_disp_bus_to_drm format_map[] = {
-> +		{
-> +			.bus_fmt = MEDIA_BUS_FMT_RGB666_1X18,
-> +			.drm_fmt = DRM_FORMAT_RGB565,
-> +		}, {
-> +			.bus_fmt = MEDIA_BUS_FMT_RBG888_1X24,
-> +			.drm_fmt = DRM_FORMAT_RGB888,
-> +		}, {
-> +			.bus_fmt = MEDIA_BUS_FMT_UYVY8_1X16,
-> +			.drm_fmt = DRM_FORMAT_YUV422,
-> +		}, {
-> +			.bus_fmt = MEDIA_BUS_FMT_VUY8_1X24,
-> +			.drm_fmt = DRM_FORMAT_YUV444,
-> +		}, {
-> +			.bus_fmt = MEDIA_BUS_FMT_UYVY10_1X20,
-> +			.drm_fmt = DRM_FORMAT_P210,
-> +		},
-
-Hmmmm... Looking at this, I think you should have both bus_fmt and
-drm_fmt in zynqmp_disp_format. It seems it would simplify the code flow
-and make things more readable. If you would like me to give it a try,
-please let me know.
-
-> +	};
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(format_map); ++i)
-> +		if (format_map[i].bus_fmt == bus_format)
-> +			return format_map[i].drm_fmt;
-> +
-> +	return DRM_FORMAT_INVALID;
-> +}
-> +
->  /**
->   * zynqmp_disp_layer_set_format - Set the layer format
->   * @layer: The layer
-> - * @info: The format info
-> + * @drm_or_bus_format: DRM or media bus format
->   *
->   * Set the format for @layer to @info. The layer must be disabled.
->   */
->  void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
-> -				  const struct drm_format_info *info)
-> +				  u32 drm_or_bus_format)
->  {
->  	unsigned int i;
->  
-> -	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
-> -	layer->drm_fmt = info;
-> -
-> +	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, drm_or_bus_format);
->  	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
->  
-> +	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
-> +		drm_or_bus_format = zynqmp_disp_reference_drm_format(drm_or_bus_format);
-> +
-> +	layer->drm_fmt = drm_format_info(drm_or_bus_format);
-> +	if (!layer->drm_fmt)
-> +		return;
-> +
->  	if (layer->mode == ZYNQMP_DPSUB_LAYER_LIVE)
->  		return;
->  
-> @@ -1008,7 +1067,7 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
->  	 * Set pconfig for each DMA channel to indicate they're part of a
->  	 * video group.
->  	 */
-> -	for (i = 0; i < info->num_planes; i++) {
-> +	for (i = 0; i < layer->drm_fmt->num_planes; i++) {
->  		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
->  		struct xilinx_dpdma_peripheral_config pconfig = {
->  			.video_group = true,
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> index 88c285a12e23..9f9a5f50ffbc 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-> @@ -55,7 +55,7 @@ u32 *zynqmp_disp_layer_formats(struct zynqmp_disp_layer *layer,
->  void zynqmp_disp_layer_enable(struct zynqmp_disp_layer *layer);
->  void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer);
->  void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
-> -				  const struct drm_format_info *info);
-> +				  u32 drm_or_bus_format);
->  int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
->  			     struct drm_plane_state *state);
->  
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index a0d169ac48c0..fc6b1d783c28 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1281,7 +1281,8 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
->  {
->  	enum zynqmp_dpsub_layer_id layer_id;
->  	struct zynqmp_disp_layer *layer;
-> -	const struct drm_format_info *info;
-> +	struct drm_bridge_state *bridge_state;
-> +	u32 bus_fmt;
->  
->  	if (dp->dpsub->connected_ports & BIT(ZYNQMP_DPSUB_PORT_LIVE_VIDEO))
->  		layer_id = ZYNQMP_DPSUB_LAYER_VID;
-> @@ -1291,10 +1292,14 @@ static void zynqmp_dp_disp_enable(struct zynqmp_dp *dp,
->  		return;
->  
->  	layer = dp->dpsub->layers[layer_id];
-> +	bridge_state = drm_atomic_get_new_bridge_state(old_bridge_state->base.state,
-> +						       old_bridge_state->bridge);
-> +	if (WARN_ON(!bridge_state))
-> +		return;
-> +
-> +	bus_fmt = bridge_state->input_bus_cfg.format;
-> +	zynqmp_disp_layer_set_format(layer, bus_fmt);
->  
-> -	/* TODO: Make the format configurable. */
-> -	info = drm_format_info(DRM_FORMAT_YUV422);
-> -	zynqmp_disp_layer_set_format(layer, info);
->  	zynqmp_disp_layer_enable(layer);
->  
->  	if (layer_id == ZYNQMP_DPSUB_LAYER_GFX)
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index bf9fba01df0e..d96b3f3f2e3a 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -111,7 +111,7 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
->  		if (old_state->fb)
->  			zynqmp_disp_layer_disable(layer);
->  
-> -		zynqmp_disp_layer_set_format(layer, new_state->fb->format);
-> +		zynqmp_disp_layer_set_format(layer, new_state->fb->format->format);
->  	}
->  
->  	zynqmp_disp_layer_update(layer, new_state);
-> 
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Thank you,
+>
+>         Hans
+>
+> On 11/03/2024 10:53 am, Shengjiu Wang wrote:
+> > Audio signal processing also has the requirement for memory to
+> > memory similar as Video.
+> >
+> > This asrc memory to memory (memory ->asrc->memory) case is a non
+> > real time use case.
+> >
+> > User fills the input buffer to the asrc module, after conversion, then =
+asrc
+> > sends back the output buffer to user. So it is not a traditional ALSA p=
+layback
+> > and capture case.
+> >
+> > It is a specific use case,  there is no reference in current kernel.
+> > v4l2 memory to memory is the closed implementation,  v4l2 current
+> > support video, image, radio, tuner, touch devices, so it is not
+> > complicated to add support for this specific audio case.
+> >
+> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
+> > use case in ALSA.  Now the "memory->asrc->memory" needs
+> > to reuse the code in asrc driver, so the first 3 patches is for refinin=
+g
+> > the code to make it can be shared by the "memory->asrc->memory"
+> > driver.
+> >
+> > The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+> > user applications only use the ioctl of v4l2 framework.
+> >
+> > Other change is to add memory to memory support for two kinds of i.MX A=
+SRC
+> > module.
+> >
+> > changes in v14:
+> > - document the reservation of 'AUXX' fourcc format.
+> > - add v4l2_audfmt_to_fourcc() definition.
+> >
+> > changes in v13
+> > - change 'pixelformat' to 'audioformat' in dev-audio-mem2mem.rst
+> > - add more description for clock drift in ext-ctrls-audio-m2m.rst
+> > - Add "media: v4l2-ctrls: add support for fraction_bits" from Hans
+> >   to avoid build issue for kernel test robot
+> >
+> > changes in v12
+> > - minor changes according to comments
+> > - drop min_buffers_needed =3D 1 and V4L2_CTRL_FLAG_UPDATE flag
+> > - drop bus_info
+> >
+> > changes in v11
+> > - add add-fixed-point-test-controls in vivid.
+> > - add v4l2_ctrl_fp_compose() helper function for min and max
+> >
+> > changes in v10
+> > - remove FIXED_POINT type
+> > - change code base on media: v4l2-ctrls: add support for fraction_bits
+> > - fix issue reported by kernel test robot
+> > - remove module_alias
+> >
+> > changes in v9:
+> > - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+> > - add MEDIA_INTF_T_V4L_AUDIO
+> > - add media controller support
+> > - refine the vim2m-audio to support 8k<->16k conversion.
+> >
+> > changes in v8:
+> > - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+> > - update doc for FIXED_POINT
+> > - address comments for imx-asrc
+> >
+> > changes in v7:
+> > - add acked-by from Mark
+> > - separate commit for fixed point, m2m audio class, audio rate controls
+> > - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+> > - remove used fmts
+> > - address other comments for Hans
+> >
+> > changes in v6:
+> > - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+> >   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_par=
+t_two.
+> > - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+> > - fix warning by kernel test rebot
+> > - remove some unused format V4L2_AUDIO_FMT_XX
+> > - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+> > - rename audm2m to viaudm2m.
+> >
+> > changes in v5:
+> > - remove V4L2_AUDIO_FMT_LPCM
+> > - define audio pixel format like V4L2_AUDIO_FMT_S8...
+> > - remove rate and format in struct v4l2_audio_format.
+> > - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+> > - updata document accordingly.
+> >
+> > changes in v4:
+> > - update document style
+> > - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commi=
+t
+> >
+> > changes in v3:
+> > - Modify documents for adding audio m2m support
+> > - Add audio virtual m2m driver
+> > - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+> > - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+> > - with modification in v4l-utils, pass v4l2-compliance test.
+> >
+> > changes in v2:
+> > - decouple the implementation in v4l2 and ALSA
+> > - implement the memory to memory driver as a platfrom driver
+> >   and move it to driver/media
+> > - move fsl_asrc_common.h to include/sound folder
+> >
+> > Hans Verkuil (1):
+> >   media: v4l2-ctrls: add support for fraction_bits
+> >
+> > Shengjiu Wang (15):
+> >   ASoC: fsl_asrc: define functions for memory to memory usage
+> >   ASoC: fsl_easrc: define functions for memory to memory usage
+> >   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+> >   ASoC: fsl_asrc: register m2m platform device
+> >   ASoC: fsl_easrc: register m2m platform device
+> >   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+> >   media: v4l2: Add audio capture and output support
+> >   media: uapi: Define audio sample format fourcc type
+> >   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+> >   media: uapi: Add audio rate controls support
+> >   media: uapi: Declare interface types for Audio
+> >   media: uapi: Add an entity type for audio resampler
+> >   media: vivid: add fixed point test controls
+> >   media: imx-asrc: Add memory to memory driver
+> >   media: vim2m-audio: add virtual driver for audio memory to memory
+> >
+> >  .../media/mediactl/media-types.rst            |   11 +
+> >  .../userspace-api/media/v4l/buffer.rst        |    6 +
+> >  .../userspace-api/media/v4l/common.rst        |    1 +
+> >  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+> >  .../userspace-api/media/v4l/devices.rst       |    1 +
+> >  .../media/v4l/ext-ctrls-audio-m2m.rst         |   59 +
+> >  .../userspace-api/media/v4l/pixfmt-audio.rst  |  100 ++
+> >  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+> >  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+> >  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+> >  .../media/v4l/vidioc-querycap.rst             |    3 +
+> >  .../media/v4l/vidioc-queryctrl.rst            |   11 +-
+> >  .../media/videodev2.h.rst.exceptions          |    3 +
+> >  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+> >  drivers/media/platform/nxp/Kconfig            |   13 +
+> >  drivers/media/platform/nxp/Makefile           |    1 +
+> >  drivers/media/platform/nxp/imx-asrc.c         | 1256 +++++++++++++++++
+> >  drivers/media/test-drivers/Kconfig            |   10 +
+> >  drivers/media/test-drivers/Makefile           |    1 +
+> >  drivers/media/test-drivers/vim2m-audio.c      |  793 +++++++++++
+> >  drivers/media/test-drivers/vivid/vivid-core.h |    2 +
+> >  .../media/test-drivers/vivid/vivid-ctrls.c    |   26 +
+> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-api.c      |    1 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     |   93 +-
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+> >  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
+> >  include/media/v4l2-ctrls.h                    |   13 +-
+> >  include/media/v4l2-dev.h                      |    2 +
+> >  include/media/v4l2-ioctl.h                    |   34 +
+> >  .../fsl =3D> include/sound}/fsl_asrc_common.h   |   60 +
+> >  include/uapi/linux/media.h                    |    2 +
+> >  include/uapi/linux/v4l2-controls.h            |    9 +
+> >  include/uapi/linux/videodev2.h                |   50 +-
+> >  sound/soc/fsl/fsl_asrc.c                      |  144 ++
+> >  sound/soc/fsl/fsl_asrc.h                      |    4 +-
+> >  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+> >  sound/soc/fsl/fsl_easrc.c                     |  233 +++
+> >  sound/soc/fsl/fsl_easrc.h                     |    6 +-
+> >  42 files changed, 3128 insertions(+), 27 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem=
+2mem.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-aud=
+io-m2m.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
+rst
+> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+> >  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+> >  rename {sound/soc/fsl =3D> include/sound}/fsl_asrc_common.h (60%)
+> >
+>
 
