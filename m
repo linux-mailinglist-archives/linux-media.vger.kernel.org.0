@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C7C87F7C1
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:48:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4F087F7E6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 08:00:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3932C282153
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:48:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 816FC1C21A27
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:00:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B612450A68;
-	Tue, 19 Mar 2024 06:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951D551031;
+	Tue, 19 Mar 2024 07:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LJ1mJ7q4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QNobSf7e"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F24F5EC;
-	Tue, 19 Mar 2024 06:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CCD50A6B;
+	Tue, 19 Mar 2024 07:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710830907; cv=none; b=SexP5hugU7UffmJOXIEJPr1ysEEHMPVlvVeM6wWqRDfiZCX02yU7mI4l4LD3XLlsmijXChL5mEBDNhxwSb8hLC8Xx2VSlxhDdL70qejWM5X3zR3V6+NZUnnHSpjst4ADkBadJJz419b+5cAwDIjv3XG3nzHoy5SOcVxZesQmix4=
+	t=1710831612; cv=none; b=j74A6RNX1i+iRWMkg/bHgAnvJ6d2EjmQrPSYAUgrisPZVHNcdmwRVXB0FTKUj+PhZYInrTdTISz/ITll9c/VL1PqZc/ZbtX9eXHNKufFmwu4IPBeMfMK5Ofmj6GM3PFjNNvFnSz5ZXrXYd378XQOqZWPar067Cfevi0WiXCmpxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710830907; c=relaxed/simple;
-	bh=wvCiicdGNkUxFjYHJfTUu6CUrf7ukrFRnI3I62d07j4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hXgEzsCuA3wbR1XBFx8CZzCiLMEREnr1j62SKC6IMLRfh3gmYpMQQRN5VwDrL7yB5+jV7ApwTByFgdV1TRL4vSH7250XCetbTao+Mo+op3TEs/B0olHv9zm+7105NjBpMv0vkaGf0q6x0g0vMVAShqcKtvMpktFAfticgKIJQhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LJ1mJ7q4; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1710831612; c=relaxed/simple;
+	bh=kDbKmZZNsINgi/dApLj0S6Istcg2gNirhdD5PgV7b14=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Rpio/lreB/NDx82Uf+26dRcG3vmrzUlZxohzwJUuzt3RUGvq3x8g+BjVqKGtFaT7wxUAyeygmhJKeDD0Nz51RT7C1CLCXLswAuz8ch/JV672boCQIKLF7xLppF2mwzOZ7b3xUL9zQ6NOAG/NRHvM0RJ7rOV3V/7aT3OyhTXmOgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QNobSf7e; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28D65480;
-	Tue, 19 Mar 2024 07:47:56 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 267CC480;
+	Tue, 19 Mar 2024 07:59:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710830877;
-	bh=wvCiicdGNkUxFjYHJfTUu6CUrf7ukrFRnI3I62d07j4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LJ1mJ7q4zQjJvuXCXwVJZdF33ikNbqwE+4pm+FlZtn8p8iVdaelFR5CYyL/LE0Anx
-	 2d0P4+ua02qqc3rOHrFILehIXLR49xXyXUo4aNyV5sl7+cg4D29HciieM4FdkV33tx
-	 aL+6v5AuotKJ5xN7fNm/jKWcVTvDhdktjVbm7xbc=
-Message-ID: <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
-Date: Tue, 19 Mar 2024 08:48:19 +0200
+	s=mail; t=1710831578;
+	bh=kDbKmZZNsINgi/dApLj0S6Istcg2gNirhdD5PgV7b14=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=QNobSf7eIH1lbcLm86zcCduCYuRJ/5Xr1+iXyQjTq4g/rX9LmAj1GOYg/PGpmLIIU
+	 aTezgoSvJwlwyJ278j9817D5v/R8hrRvds7hCHZ5GVOmJMXRVXKklbrVnUsrsJBkQI
+	 9HypUVoKRMdvFRpnslTAzIQhfJnSxSwk4I/KQyiE=
+Message-ID: <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
+Date: Tue, 19 Mar 2024 09:00:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,12 +53,13 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
  raspberrypi,rp1-cfe
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Naushir Patuck <naush@raspberrypi.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -72,7 +73,7 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
  <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
  <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -116,53 +117,48 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
+In-Reply-To: <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
-> On 18/03/2024 16:49, Tomi Valkeinen wrote:
->> Add DT bindings for raspberrypi,rp1-cfe.
+On 19/03/2024 08:48, Tomi Valkeinen wrote:
+> On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
+>> On 18/03/2024 16:49, Tomi Valkeinen wrote:
+>>> Add DT bindings for raspberrypi,rp1-cfe.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103 
+>>> +++++++++++++++++++++
+>>>   1 file changed, 103 insertions(+)
+>>>
+>>> diff --git 
+>>> a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml 
+>>> b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>>> new file mode 100644
+>>> index 000000000000..7b2beeaaab0e
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>>> @@ -0,0 +1,103 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103 +++++++++++++++++++++
->>   1 file changed, 103 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
->> new file mode 100644
->> index 000000000000..7b2beeaaab0e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
->> @@ -0,0 +1,103 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
+>> Use compatible as filename.
 > 
-> Use compatible as filename.
+> Ah, indeed. I changed the compatible quite late, adding the "rpi5" as 
+> versioning, and missed changing the file name.
+> 
+> I'll rename.
 
-Ah, indeed. I changed the compatible quite late, adding the "rpi5" as 
-versioning, and missed changing the file name.
+Actually, maybe it's better to have two compatibles, 
+"raspberrypi,rp1-cfe" as the generic one, and "raspberrypi,rpi5-rp1-cfe" 
+(or something similar) for RaspberryPi 5.
 
-I'll rename.
+And I'm not sure if the "rp1" part is relevant there, would 
+"raspberrypi,cfe" be just as fine? Naush?
 
   Tomi
-
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Raspberry Pi PiSP Camera Front End
-> 
-> 
->> +
->> +properties:
->> +  compatible:
->> +    const: raspberrypi,rpi5-rp1-cfe
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
 
 
