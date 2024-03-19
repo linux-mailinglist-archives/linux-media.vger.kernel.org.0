@@ -1,48 +1,73 @@
-Return-Path: <linux-media+bounces-7246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCF387F6C1
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:33:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A69B87F716
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:05:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 705431C21808
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 05:33:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B7B4282D0D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9834D446B7;
-	Tue, 19 Mar 2024 05:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF864CB45;
+	Tue, 19 Mar 2024 06:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tUB3kP8o"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qeX8sfCe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA5A40871;
-	Tue, 19 Mar 2024 05:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06C04594E
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 06:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710826430; cv=none; b=Rf5bsro/4Dz4T9XI7ar1JN+lb58UFrKlC/bmSSvJIfNgnEmkwTiNyaX6yy29WBSVHRK9CjCBA18qn089SWiDjb3tJs9xr9Q3WBMZ9DyJ2IOS5PwWt7DMc7ZaTSzage/G+ghYx3vMPRhuAk2wwrjaiEG/juw73Etk0rBLl0P1UHY=
+	t=1710828316; cv=none; b=CjD6VDcNmLCJ74CN/eZDuAoXrB+IEVNGgS74vJ6+bMRphI/W8cveBcFbySqDwRx8haLU20qdgcxW1V4orrIZWsd2QM+hKAHeq83PgD03dEZt6qmxns7o2yQwJaZGxGpdKbXlOjQUwNqHXp/qWc8y7AvFrJAuQsiLi0rVXpY3EkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710826430; c=relaxed/simple;
-	bh=hCDPkxTHGQvH545yk0oqwcxu6hu8OpzaJxwRoWq28dw=;
+	s=arc-20240116; t=1710828316; c=relaxed/simple;
+	bh=oNoGwPyzMcPI14i+W+frwGr1pCQ9rhAS4wUQuOg5yag=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gXzfH7kMWxRjT35BjlgBIPjo6mzERdtXhPa/EOOoq8vFzvdG7owGcOMbTAabW6e4SJEXZCZ4VjzIpELLuMQeTLPXH6JoIVWpDC4792gzsCSLkFdsJSyNqp7RtIXNjTcJZ88SoMuBDcqXDrDdpHch9wST4/rfPBWhgzgRrMUnscg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tUB3kP8o; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (unknown [103.86.18.138])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D13DABB2;
-	Tue, 19 Mar 2024 06:33:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710826396;
-	bh=hCDPkxTHGQvH545yk0oqwcxu6hu8OpzaJxwRoWq28dw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tUB3kP8ooFzLUJp5PVdQZaVmcckNaFyO3mHENmJd0B73CvFKbJMQxa0NYk9S5uDgE
-	 hoWnArFLcbqDE/gcAUcG3JeGgcvXEuFC4cmr6mFb2x6kGQs3CuAZnkwYKqaqfjIFVb
-	 7b4slumxNc0oawcY4UX0pTpe3cytnTIvaL3q1vmc=
-Message-ID: <64594704-4d2b-416f-952a-e6ff45828e35@ideasonboard.com>
-Date: Tue, 19 Mar 2024 11:03:35 +0530
+	 In-Reply-To:Content-Type; b=E3/0MzZqbTtTesymnhKQQGdxSlFfItIw2Qk7f5FGXcaFZPgAnhG0kSzsG1l+KipNPz8v3bK4tFtwNSIjH2wULy95B1P9bCSnjZA5Qh2u54XpNx0/KfLTMSlhOtVWw5rEGOFgZjVm0sr98W/L7aUFmqHhtPR7ugMQJDpJPMGyNT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qeX8sfCe; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d4886a1cb4so58708811fa.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 23:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710828313; x=1711433113; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JUwlqGmu3zo/ZxFiud12XQN4abG9MgdC/LpP0njGEvo=;
+        b=qeX8sfCevhWwFRAZtvILu2S2FqNo5MomjSB7MImPVbrob7lohNQcC7k3FQjg29w2dM
+         LIrawwVaGewslZCOAGlwo842Ws2VRi31HSlgoWrLlgrrec2pxAI46xzLLgBY6bvolUyJ
+         RjibWjrK0JHqmZEusqZy5pYHUXdU8eSiPIjP8WQbZ4poYJmnbHhhZ4PIQkeEX1PD1/g1
+         /dOqyNi4GqCpW+jJWP4uZ4s+fZz49A5tiLIGMxpD4mpHSyi/XXE+bfTD6sTrN/piUbUH
+         zjKD8ssFOmje1SJcnkEM5XUjQvzM5hhLfoZlov7OfPSa35fQ8UmfqrImZMMy7yrLX9kj
+         DsCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710828313; x=1711433113;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUwlqGmu3zo/ZxFiud12XQN4abG9MgdC/LpP0njGEvo=;
+        b=dtLWgbk823e0v6OpUfKIGkfFFtWXdn01uxV7JCTjuCSTzeB58MnPHcSdshOw2BRNsJ
+         aowJa/dGITilRcMCcmcoHUlo1Hc43QqxD9ht+YW5afBHi0uIqi2i9chQw6/FUOGgZ2mP
+         QH5jzesgZOp436d4d8X7wqvFytvinqnT/v9+kk6aIgvi+u1f3aw4nNKFzQ+DjRVi4WLO
+         /CW7HKpNDDv+JkUlu/d3USUXNLbHebIqeqEZb7WZpiRmTTNfAqAWitG4GE+KjG9KgzpC
+         LCifhC+lVSwIBz9V8Jd4tdAi9XGY9r7hgemhgySLFZcVthDqz//LJL0k+JIvzCROCJau
+         hm7A==
+X-Gm-Message-State: AOJu0YyFtoZNRCsjM6xq6fB9pUtFSwA2WBX0xPXHFdBVs1d2BOQ30V5I
+	sjNI4DPn38aQwkOnLCSMWlTfM5V0OYG6uPa2JaSffNCR0GDGenpcUlTJBnHxMF8=
+X-Google-Smtp-Source: AGHT+IGip/lqxVHcaqh60m0oeHsfa6TK2HtM+Jhz+KWIDIv0hSMHRjmfTJBFsC2RyHcCHnhHQdqPLQ==
+X-Received: by 2002:a2e:3a18:0:b0:2d4:ad34:85a5 with SMTP id h24-20020a2e3a18000000b002d4ad3485a5mr884906lja.37.1710828312937;
+        Mon, 18 Mar 2024 23:05:12 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id a89-20020a509ee2000000b00568c299eaedsm3347638edf.81.2024.03.18.23.05.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 23:05:12 -0700 (PDT)
+Message-ID: <28754b32-35c7-4285-a610-3e101da41047@linaro.org>
+Date: Tue, 19 Mar 2024 07:05:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,103 +75,94 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] media: imx335: Parse fwnode properties
+Subject: Re: [PATCH 0/4] media: raspberrypi: Support RPi5's CFE
 Content-Language: en-US
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: linux-media@vger.kernel.org,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Naushir Patuck
+ <naush@raspberrypi.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240308083312.90279-1-umang.jain@ideasonboard.com>
- <20240308083312.90279-3-umang.jain@ideasonboard.com>
- <Zeru90ETVmNP6ehn@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <Zeru90ETVmNP6ehn@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
+On 18/03/2024 16:49, Tomi Valkeinen wrote:
+> This series adds support to the CFE hardware block on RaspberryPi 5. The
+> CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
+> ISP.
+> 
+> This series is currently based on multiple other serieses:
+> 
+> - Sakari's "[PATCH v8 00/38] Generic line based metadata support, internal
+>   pads" for metadata support
+> - Laurent's "[PATCH 00/15] media: Add driver for the Raspberry Pi <5
+>   CSI-2 receiver" for a few new pixel formats and imx219 (for testing).
+> - Jacopo's "[PATCH v5 0/9] media: raspberrypi: Add support for PiSP Back
+>   End" for some shared uapi headers.
+> 
+> And to run this, one of course needs the basic RPi5 kernel support plus
+> relevant dts changes to enable the cfe and camera.
 
-On 08/03/24 4:26 pm, Tommaso Merciai wrote:
-> Hi Umang, Kieram,
->
-> On Fri, Mar 08, 2024 at 02:03:08PM +0530, Umang Jain wrote:
->> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
->>
->> Call the V4L2 fwnode device parser to handle controls that are
->> standardised by the framework.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/media/i2c/imx335.c | 13 ++++++++++++-
->>   1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
->> index 7162b0a3cef3..819ab3a6c5fc 100644
->> --- a/drivers/media/i2c/imx335.c
->> +++ b/drivers/media/i2c/imx335.c
->> @@ -1225,10 +1225,12 @@ static int imx335_init_controls(struct imx335 *imx335)
->>   {
->>   	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
->>   	const struct imx335_mode *mode = imx335->cur_mode;
->> +	struct v4l2_fwnode_device_properties props;
->>   	u32 lpfr;
->>   	int ret;
->>   
->> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
->> +	/* v4l2_fwnode_device_properties can add two more controls */
->> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
->>   	if (ret)
->>   		return ret;
->>   
->> @@ -1300,6 +1302,15 @@ static int imx335_init_controls(struct imx335 *imx335)
->>   		return ctrl_hdlr->error;
->>   	}
->>   
->> +	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
->> +					      &props);
->> +	if (ret)
->> +		return ret;
->> +
->>   	imx335->sd.ctrl_handler = ctrl_hdlr;
->>   
->>   	return 0;
-> Just a doubt on my side.
-> We don't need an error path to free ctrl_hdlr?
-> Or I'm missing something?
+Which makes it impossible to merge. Please work on decoupling.
 
-No, you are right.
-
-We need to free the ctrl_hdlr on error patch.
->
-> Something similar:
->
-> ret = v4l2_fwnode_device_parse(imx335->dev, &props);
-> if (ret)
-> 	goto free_ctrls;
->
-> ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
-> 	                              &props);
-> if (ret)
-> 	return ret;
->
-> free_ctrls:
-> 	v4l2_ctrl_handler_free(hdl);
-> 	return ret;
->
-> Thanks & Regards,
-> Tommaso
->
->> -- 
->> 2.43.0
->>
->>
+Best regards,
+Krzysztof
 
 
