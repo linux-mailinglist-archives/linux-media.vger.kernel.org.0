@@ -1,122 +1,104 @@
-Return-Path: <linux-media+bounces-7339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F401C880814
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 00:14:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D6F880819
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 00:17:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30EEE1C224D7
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 23:14:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D755C1F21F4D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 23:17:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 128A85F569;
-	Tue, 19 Mar 2024 23:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB925F879;
+	Tue, 19 Mar 2024 23:17:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="noo+pDI6"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="CtbjiIZZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445481E532
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 23:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15C61E532;
+	Tue, 19 Mar 2024 23:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710890087; cv=none; b=GzDh6ZxYrrR245FLDHGMl4Zf8Q9Kw6ZB+WANO9xj9W3H2AYhQTyVENA0XnOcLEHh3FnddaG1rTX3WUjxRZ9IzdKPvBPU54quI07kuZMg8Z9N1K77v/6k4q55xDmY4Ef6dkSH5jJRzrzjKyJqNL2vd2H1jbaKc1DRJXE6vCAhUpI=
+	t=1710890227; cv=none; b=mBBNba6+di33sYHjuct6MHYIg/SpckJR9ENBBVDsgyUtnmcZLm1h8AzZmAQPjJLNoGF8/c5OPv5Zla8hv2MFRnBN340d16rTXaBDkF3DJt+RwXu/i44k5WwPY+y9w5GqXsWUykBev1kcTgaghjSbe6JUfvqSLUzUSO6du4hSGB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710890087; c=relaxed/simple;
-	bh=jkzLVX+Z+syZVfPcKEQ01rl+LGQxityaK5kiFAQF1Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wo5uJHrG/vkuYXwsyrWuVmaOBUGzYKinvlE8c8DOjXLuIdb7Ep+doQJNqB4GYZOoWpFdnWBx4MOPY+Osv4eGCaluw8Qo+NAYXD00Ma1Wd8B6VTgHaGA4mQWR/AddqNqjkIpv3hYtv6b94GtzBvMt3ilZNhah4Y4JfnPgTGxRWPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=noo+pDI6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 169D5B1;
-	Wed, 20 Mar 2024 00:14:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710890056;
-	bh=jkzLVX+Z+syZVfPcKEQ01rl+LGQxityaK5kiFAQF1Ag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=noo+pDI6bXL42UFH41+FRILzx3CkzFHnr7Dasi14q+YxgVhg7d5VtNAs2o8TJqN2/
-	 HBTrcKeTxzyf25GPA4dBqCcyYFx/yfwIk9Odx7U+kJe/fU9Z4cpxMu3CtB+vUwG9p/
-	 PM51tR2nNZtgFf2P9JWG57ntDHxUktBjp6dFSBCE=
-Date: Wed, 20 Mar 2024 01:14:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 04/38] media: uapi: Document which mbus format fields
- are valid for metadata
-Message-ID: <20240319231440.GI8501@pendragon.ideasonboard.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-5-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1710890227; c=relaxed/simple;
+	bh=BFzKvRGNRoiy2oC6xsZEBAKqCMoBrZ+wlOEg9IuwYbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dx1SJu2pGTPJrVTFyY0372PwklqFeFXQHCMfRe8zSd91hqBpEqc3ys6rRL6DfmlJwqG4WJeehNOIpDXANVbzPbUk+56asVowSW/F2v5fWf2AAFKgJLG9vLqOJCwss3OUkZ6MTpMIuXiCvOkZpjofTZpOM/jIDWyyc5I0F03jdac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=CtbjiIZZ; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from localhost.localdomain (unknown [85.89.126.105])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 87CB640ADFF1;
+	Tue, 19 Mar 2024 23:16:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 87CB640ADFF1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1710890213;
+	bh=bK361IhiE+XMAZTsxOEj0ZXg25Ch4uk2S2o4xZFwevs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CtbjiIZZOBd/GIX9iUGfUhyJyEejdhVoS+R3KZqQ1kwulOhDw75ifvkprBVahyjo9
+	 ySOicKeGkCeYiVlww9iC1LWARppBVUfG6iKNM33C4Y2Pgm40ivwWZP3RpQ6duQe6zp
+	 Tnqk22FtM4gyFlLElMgNzkvPkl0ckh4j4niFs0ps=
+From: Pavel Sakharov <p.sakharov@ispras.ru>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Pavel Sakharov <p.sakharov@ispras.ru>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Arvind Yadav <Arvind.Yadav@amd.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	Fedor Pchelkin <pchelkin@ispras.ru>,
+	lvc-project@linuxtesting.org
+Subject: [PATCH] dma-buf: Fix NULL pointer dereference in sanitycheck()
+Date: Wed, 20 Mar 2024 04:15:23 +0500
+Message-ID: <20240319231527.1821372-1-p.sakharov@ispras.ru>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240313072516.241106-5-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+If due to a memory allocation failure mock_chain() returns NULL, it is
+passed to dma_fence_enable_sw_signaling() resulting in NULL pointer
+dereference there.
 
-Thank you for the patch.
+Call dma_fence_enable_sw_signaling() only if mock_chain() succeeds.
 
-On Wed, Mar 13, 2024 at 09:24:42AM +0200, Sakari Ailus wrote:
-> Now that metadata mbus formats have been added, it is necessary to define
-> which fields in struct v4l2_mbus_format are applicable to them (not many).
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/uapi/linux/v4l2-mediabus.h | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> index 6b07b73473b5..de1d6161bf62 100644
-> --- a/include/uapi/linux/v4l2-mediabus.h
-> +++ b/include/uapi/linux/v4l2-mediabus.h
-> @@ -19,12 +19,18 @@
->   * @width:	image width
->   * @height:	image height
->   * @code:	data format code (from enum v4l2_mbus_pixelcode)
-> - * @field:	used interlacing type (from enum v4l2_field)
-> - * @colorspace:	colorspace of the data (from enum v4l2_colorspace)
-> - * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding)
-> - * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding)
-> - * @quantization: quantization of the data (from enum v4l2_quantization)
-> - * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func)
-> + * @field:	used interlacing type (from enum v4l2_field), zero on metadata
-> + *		mbus codes
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-I would write "zero for metadata formats". Up to you.
+Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
+Signed-off-by: Pavel Sakharov <p.sakharov@ispras.ru>
 
-Shouldn't you also update
-Documentation/userspace-api/media/v4l/subdev-formats.rst ?
+---
+ drivers/dma-buf/st-dma-fence-chain.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> + * @colorspace:	colorspace of the data (from enum v4l2_colorspace), zero on
-> + *		metadata mbus codes
-> + * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding), zero
-> + *		on metadata mbus codes
-> + * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding), zero on
-> + *		metadata mbus codes
-> + * @quantization: quantization of the data (from enum v4l2_quantization), zero
-> + *		on metadata mbus codes
-> + * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func), zero
-> + *		on metadata mbus codes
->   * @flags:	flags (V4L2_MBUS_FRAMEFMT_*)
->   * @reserved:  reserved bytes that can be later used
->   */
+diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+index 9c2a0c082a76..ed4b323886e4 100644
+--- a/drivers/dma-buf/st-dma-fence-chain.c
++++ b/drivers/dma-buf/st-dma-fence-chain.c
+@@ -84,11 +84,11 @@ static int sanitycheck(void *arg)
+ 		return -ENOMEM;
 
--- 
-Regards,
+ 	chain = mock_chain(NULL, f, 1);
+-	if (!chain)
++	if (chain)
++		dma_fence_enable_sw_signaling(chain);
++	else
+ 		err = -ENOMEM;
 
-Laurent Pinchart
+-	dma_fence_enable_sw_signaling(chain);
+-
+ 	dma_fence_signal(f);
+ 	dma_fence_put(f);
+
+--
+2.44.0
+
 
