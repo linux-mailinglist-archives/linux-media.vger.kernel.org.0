@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7253-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4239987F750
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:30:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7672C87F7B8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:46:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1014B21876
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:30:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1CDB1F21981
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:46:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89D17C0A4;
-	Tue, 19 Mar 2024 06:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22655026A;
+	Tue, 19 Mar 2024 06:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T2zk/TEV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VQfXANPA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E49665190;
-	Tue, 19 Mar 2024 06:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5BF2628C;
+	Tue, 19 Mar 2024 06:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829805; cv=none; b=R3/p8CvD827TE70ZQ9OdzEnGzNFYSawj5/CaVvpTD/eFUKmSmJa4kt6QapNUxki7DXKbiLp1slvU+9D191URle3g1BS0Ucnz1T5zQqvHbF4nzT4UrrEHPUQGI/1s4JmjPFobHuwNVAYxsseWLJ5+s1otlk5jEWbktue45nUaPiM=
+	t=1710830781; cv=none; b=KJaG1hYhEyvgopGS1IiTzqlnww/WFKZ4Cix/kiDU3LXdT0ikvc28ElzruVRSEn56Qfj59X2ENjsL4ZpjJdV208GgQxglyIrDceNZPmAUpPGdBq5yhnYikzT7yHa4xP0EcvB/eS/YavJuDgZBuj1yDi3fXdZnDEZpZWG13PxwdmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829805; c=relaxed/simple;
-	bh=IlB5SC8elaxZxZ7jC3HSF6c2qr46rgiI44EFyJKcBPw=;
+	s=arc-20240116; t=1710830781; c=relaxed/simple;
+	bh=mdofvyXfkAU1Xd6z9oDpDBTYaE1qN9b5520d0v1yYgM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tiJyHDjnGZP2f0UTbCkfS6jxp14qkWZRh8NOyxOZXmFVdHVD5HM3oPEBOiORYjh3auMTDiBALIn7z0HFUxbdVk+pef6IO2j9+6MkpwjOfBQoYCRS3yi45XoEtiGXk+/auKHB/jCtFLD6nR1aRVucb/gWClUOpt7DiGI9TtYRL3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T2zk/TEV; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=GvTN9TMalL8B7Ldgw7TzT6TlplM6euKCMsrA0Fkys63oQztbtv1S/HQKjT3vb0KL3U0z8jB6K+ycTk3G4uZ0BVt+QEU9+UpGgETw4VLwKu6wXUnzg0h8K9ySdQEr+6ihadzc5zErpIym5D2BmjT+6hNwGZTfm9cxpMEB0ZbaV8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VQfXANPA; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28C44480;
-	Tue, 19 Mar 2024 07:29:34 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 160A1480;
+	Tue, 19 Mar 2024 07:45:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710829775;
-	bh=IlB5SC8elaxZxZ7jC3HSF6c2qr46rgiI44EFyJKcBPw=;
+	s=mail; t=1710830750;
+	bh=mdofvyXfkAU1Xd6z9oDpDBTYaE1qN9b5520d0v1yYgM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T2zk/TEVPl9lQ1LQ49Mw8Z8Zp8wh9ByIzkg6GBAaskM6rL9AfWIF2spIGOWMC6Kwn
-	 XD6sSUsGqoZnZ5mLza5kU47IKh2LciNXsAooFaXillAtkrpW/YahrY4echgMLvHxOz
-	 K/ZmBfp4LpLqA/ZEL8PJhw++saH9pW0NZsp0eczE=
-Message-ID: <fcea0340-68f0-4a16-9b47-4d9eb91ffb1a@ideasonboard.com>
-Date: Tue, 19 Mar 2024 08:29:57 +0200
+	b=VQfXANPANFMbcFXtwTvq3xg8eJD7hYlkzia6sC1seMMar4Jn9eLfhtzfXHezLuucI
+	 SwYTdrwewcaZuPBvOxlCtFv/QS7XF4QswvpDi7KgcDib6p50e/MnuoiE9sXzuhKd9l
+	 yfSKuQtAf2l4uL9xch7gb2GdkVFW29bbMkogBl8U=
+Message-ID: <22225e92-803d-4aaa-b75f-cfd1d7d8c279@ideasonboard.com>
+Date: Tue, 19 Mar 2024 08:46:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] media: raspberrypi: Support RPi5's CFE
+Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
+ raspberrypi,rp1-cfe
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -69,9 +70,8 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Florian Fainelli <florian.fainelli@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
- <28754b32-35c7-4285-a610-3e101da41047@linaro.org>
- <c6526c63-3e8d-46f3-abc2-3cc513617161@ideasonboard.com>
- <0c1820fb-fbc0-4aae-b0d4-b5bb5c996377@linaro.org>
+ <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
+ <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -116,59 +116,143 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <0c1820fb-fbc0-4aae-b0d4-b5bb5c996377@linaro.org>
+In-Reply-To: <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
-> On 19/03/2024 07:21, Tomi Valkeinen wrote:
->> Hi,
+On 19/03/2024 08:09, Krzysztof Kozlowski wrote:
+> On 18/03/2024 16:49, Tomi Valkeinen wrote:
+>> Add DT bindings for raspberrypi,rp1-cfe.
 >>
->> On 19/03/2024 08:05, Krzysztof Kozlowski wrote:
->>> On 18/03/2024 16:49, Tomi Valkeinen wrote:
->>>> This series adds support to the CFE hardware block on RaspberryPi 5. The
->>>> CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
->>>> ISP.
->>>>
->>>> This series is currently based on multiple other serieses:
->>>>
->>>> - Sakari's "[PATCH v8 00/38] Generic line based metadata support, internal
->>>>     pads" for metadata support
->>>> - Laurent's "[PATCH 00/15] media: Add driver for the Raspberry Pi <5
->>>>     CSI-2 receiver" for a few new pixel formats and imx219 (for testing).
->>>> - Jacopo's "[PATCH v5 0/9] media: raspberrypi: Add support for PiSP Back
->>>>     End" for some shared uapi headers.
->>>>
->>>> And to run this, one of course needs the basic RPi5 kernel support plus
->>>> relevant dts changes to enable the cfe and camera.
->>>
->>> Which makes it impossible to merge. Please work on decoupling.
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103 +++++++++++++++++++++
+>>   1 file changed, 103 insertions(+)
 >>
->> Yes, it's not for merging as I wrote: "So at the moment we cannot merge
->> this driver, but hopefully the dependencies will get merged before the
->> reviews on this one are done."
->>
->> I believe Sakari's and Jacopo's serieses should be very close to
->> merging, and those should satisfy the needs of the driver itself.
->>
->> The DT bindings example uses a header from RPi5 base support series, and
->> if merging the base support seems to take a long time, I guess I could
->> drop the include and just use numbers instead for RP1_INT_MIPI0 and
->> RP1_CLK_MIPI0_CFG. And change those back later when the base support is
->> merged.
+>> diff --git a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>> new file mode 100644
+>> index 000000000000..7b2beeaaab0e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>> @@ -0,0 +1,103 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Raspberry Pi PiSP Camera Front End
+>> +
+>> +maintainers:
+>> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>> +
+>> +description: |
+>> +  The Raspberry Pi PiSP Camera Front End is a module in Raspberrypi 5's RP1 I/O
+>> +  controller, that contains:
+>> +  - MIPI D-PHY
+>> +  - MIPI CSI-2 receiver
+>> +  - Simple image processor (called PiSP Front End, or FE)
+>> +
+>> +  The FE documentation is available at:
+>> +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+>> +
+>> +  The PHY and CSI-2 receiver part have no public documentation.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: raspberrypi,rpi5-rp1-cfe
+>> +
+>> +  reg:
+>> +    items:
+>> +      - description: CSI-2 registers
+>> +      - description: D-PHY registers
+>> +      - description: MIPI CFG (a simple top-level mux) registers
+>> +      - description: FE registers
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>> +    additionalProperties: false
+>> +    description: CSI-2 RX Port
 > 
-> The problem is that your patches cannot be tested by automated tools.
+> Only one port, so there is nothing to output to?
 
-Yes, I understand. I will send testable and mergeable patches when the 
-dependencies are in, and until that this series is do-not-merge. But as 
-reviews sometimes take a very long time, I think it's better to start 
-sooner than later.
+The CFE has DMA, so it writes to memory. But no other outputs.
 
-Is there a way to mark a series as "don't bother testing" for automated 
-tools? RFC in the subject? I considered making this RFC, but I felt the 
-patches themselves are not RFC quality. I've also seen DNI 
-(do-not-integrate) used somewhere, but I'm not sure that's universally 
-understood.
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        $ref: video-interfaces.yaml#
+>> +        unevaluatedProperties: false
+>> +
+>> +        properties:
+>> +          data-lanes:
+>> +            minItems: 1
+>> +            maxItems: 4
+>> +
+>> +          clock-lanes:
+>> +            maxItems: 1
+>> +
+>> +          clock-noncontinuous: true
+> 
+> Drop
+
+Hmm, I saw this used in multiple other bindings, and thought it means 
+the property is allowed and copied it here.
+
+If that's not the case, does this mean all the properties from 
+video-interfaces.yaml are allowed (even invalid ones, like pclk-sample)?
+
+>> +
+>> +        required:
+>> +          - clock-lanes
+>> +          - data-lanes
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clocks
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/rp1.h>
+>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>> +    #include <dt-bindings/mfd/rp1.h>
+>> +
+>> +    rpi1 {
+> 
+> soc
+
+That should actually be "rp1", not "rpi1". rp1 is the co-processor on 
+which the cfe is located, so it doesn't reside in the soc itself. But 
+perhaps that's not relevant, and "soc" is just a generic container that 
+should always be used?
+
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +      csi@110000 {
+> 
+> Fix the indentation. You switched back to 2 spaces here...
+
+Oops.
+
+>> +        compatible = "raspberrypi,rp1-cfe";
+>> +        reg = <0xc0 0x40110000  0x0 0x100>,
+>> +              <0xc0 0x40114000  0x0 0x100>,
+> 
+> Just one space before 0x0
+
+Ok.
 
   Tomi
 
