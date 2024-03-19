@@ -1,312 +1,139 @@
-Return-Path: <linux-media+bounces-7242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9736C87F563
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 03:25:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D436C87F5C0
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 03:52:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B41CB1C21644
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 02:25:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65DEC1F21967
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 02:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA1B64CF9;
-	Tue, 19 Mar 2024 02:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htVMaUpC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A6D37F7DF;
+	Tue, 19 Mar 2024 02:49:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC464CE1;
-	Tue, 19 Mar 2024 02:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D027F7CE
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 02:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710815104; cv=none; b=fHaC8nu+mzjCev5C7WBME5t165DwnVyaPeK2hAgy0c9rJXvMgsVz9VActgq0RFtzjzRl4najRaFu1QqtL4O2U19gLgZMNriSlhbAPabGFAyBRtLVgBi4XR+qI+UktFYHld61aKtQXBwQgtM/cu87tY6FOeSpFeSHtoCTiRJ7DWM=
+	t=1710816548; cv=none; b=NOEUmht5ExiCVJcvu4hRkT046kGUUP9Z3FlXrgJ98nfMAE/caOSgBjOdzIscDkfCfj2sdYEQRdMq7nPgL2DThjC6O7zvqQbMcT1TuKvKYjpb+MP0QiDdvXgeNLwnjsMiVaol5zsuW2aNQAJbsUk2IECY/66oDFQuqqzxNeMCeLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710815104; c=relaxed/simple;
-	bh=FC6+/aI7BBUs6BF1uhfaUOKbhxkDFustrqUVR7+Fhf8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rjNFsoIRu0dsI3nrzWL11AGn1D2OPROEZXU1cgNnSLvNA6Vi4hHWESadpkPLx9bmFZ/fGKwQ3meZMgutziXBjHEHTl0yAId/+09MXbnOJ6dYSJMKGfYCjTubfn5O1qBCj+Kyf+jRWfjUe1RXsVL/UxQMpR13VwUKIME6Tb21zRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htVMaUpC; arc=none smtp.client-ip=209.85.166.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7cc77e74b5cso64526139f.2;
-        Mon, 18 Mar 2024 19:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710815101; x=1711419901; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3jXxbFRn7aUJ8vbwC+W7tuBl2ook1tIt1JLVdpl6uzA=;
-        b=htVMaUpCuCtfkhNCQI/ADf6QmutFJAv7FbLnuQQpq7j0EYCTtYY5/bKgiTFROMwl3L
-         9dYhCyuT0kbwwPMkyLNlAP82UMU6EPf10QZpRjaEt7xGuhxXaIe0bb9kUb2/rhwpzVlw
-         vw1Hwd5xW09rM33sQ8MwOBT0a+NVbggFncXA+eR/aI9lapf6ANIALO2tChCX78VU3FPq
-         wyz3JBMdP/rCbLKRPP9lmwXSffKhP5e/78egdlVDH4jYmGCy9wjY03LWlLrNVurGz5Yx
-         xFWEviDDbF2I5mm60+GXwEdK4JXmJhWkEBnGEBpswDVJiTTucGdHzyYBaVaO23DVXDH+
-         O8+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710815101; x=1711419901;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3jXxbFRn7aUJ8vbwC+W7tuBl2ook1tIt1JLVdpl6uzA=;
-        b=Fp8QDJ/unDmNTj0MyNueJ0v5q5LSHRQg11EF89Fw+NfsxeBXH1fuZOxNu74kDmQ0SA
-         lxCUQ2wCA4fiYSB9CAzoWrJmWLUe0PTaCO+rccHWc/aJCRx7UoOgqAUHwYiAIP1irroA
-         45s5YeqVSNkzNlPwyoEZ5D/Z4BB3gB6R9H12l2aHR17Uq6e1GzVk2pM/k79DPiWKxa76
-         hR1vtzYOxuEVHVZHnD9veKngraRAUzMCxwu7yNh6z/VO0Xim+lxTmuunhiQ14ZI0ib1l
-         CkxtEcQZyhqQ0HF41c2EQD9fnMYKZgsIFTaIkx6FLO5Ye/wiDhmP/OSuTaqKd5P0Q95C
-         RJRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXK95OdDfn+XjpsdF0TIrQiI6BadlYzx6FfMtPZExWDD8o6NXYF/BQAXLmwtUSKS/iIbqmb6Ydka/ilepFma9BQu0QU3NrVcagpZ5DATatVLSQUDrZNHD/jU3MzM3iitsdykAO+3Kvuxj4=
-X-Gm-Message-State: AOJu0YwBiKD0DqVRdmtUhKZH4HPvnBm3Bm17cimD9bu+/VaaU9U+U3ry
-	Zl8XRJzEbnCAdQoURehWsDQNDY5WWx2tnp912serR7zlpRS0tTC2czx1P1FPJS/6GHT2LL3k3+J
-	yFmVdqCLdp1e5KoBhYJBi2i4DcuI=
-X-Google-Smtp-Source: AGHT+IGnWR3B9g/WoAwOtaoEM89k4iilEqv+3OCoq6B4OwhrLulsTXLE02G/egyZDtycYkHZLV95uXfPr1KhQx7ol+4=
-X-Received: by 2002:a05:6e02:1142:b0:366:a289:2fc6 with SMTP id
- o2-20020a056e02114200b00366a2892fc6mr10994035ill.7.1710815100818; Mon, 18 Mar
- 2024 19:25:00 -0700 (PDT)
+	s=arc-20240116; t=1710816548; c=relaxed/simple;
+	bh=wwHTQPZthILsVXhfMqmotRH/UpVeangEadzBrpidx1Y=;
+	h=Date:Message-ID:From:To:Subject; b=ui6e79xz0ZmwyNwZ0uHrnoFuRqyMlDC4u+cAGzNWg3oxv/O3oJt2gPZD+1C2JQQ0wAdxbVNdbJsfL/lr6E5+lV+aQ9hDeWFyTstVPYzZCD/rhGBZHqERRNsB/PzOQxUmPkpdTSKlkqgsUDa1TC23LzaGTMY53tX4TuTeWEG6IZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79606C43394
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 02:49:08 +0000 (UTC)
+Date: Tue, 19 Mar 2024 03:49:06 +0100
+Message-ID: <c155585afa8189eac1372c45c2e56376.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1710150841-26991-1-git-send-email-shengjiu.wang@nxp.com> <399da377-c2b6-4226-9108-8a1e776b6f3b@xs4all.nl>
-In-Reply-To: <399da377-c2b6-4226-9108-8a1e776b6f3b@xs4all.nl>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 19 Mar 2024 10:24:49 +0800
-Message-ID: <CAA+D8APgFvATshUJCNxCynJsYr_6=A+V=xf5qFpimd4i4g1ygg@mail.gmail.com>
-Subject: Re: [PATCH v14 00/16] Add audio support in v4l2 framework
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 18, 2024 at 11:56=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> =
-wrote:
->
-> Hi Shengjiu,
->
-> I was about to prepare a pull request for this when I realized that
-> entries for the new drivers need to be added to the MAINTAINERS file.
->
-> Can you post patches 'v14 17/16' and 'v14/18/16' adding entries for each
-> new driver?
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Ok,  How about the change below?
+Results of the daily build of media_tree:
 
-VIRTUAL MEM2MEM DRIVER FOR AUDIO
-M:      Hans Verkuil <hverkuil@xs4all.nl>
-M:      Shengjiu Wang <shengjiu.wang@gmail.com>
-L:      linux-media@vger.kernel.org
-S:      Maintained
-W:      https://linuxtv.org
-T:      git git://linuxtv.org/media_tree.git
-F:      drivers/media/test-drivers/vim2m-audio.c
+date:			Tue Mar 19 03:00:31 CET 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	b14257abe7057def6127f6fb2f14f9adc8acabdb
+v4l-utils git hash:	e429366f9a04338cc63ddeb1127e7a34b60ee482
+edid-decode git hash:	7a27b339cf5ee1ab431431a844418a7f7c16d167
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8613-g721ca29e
+sparse version:		v0.5.0-8613-g721ca29e
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a8f15603520a101f1beb6cee5f6d82d6278c5d47
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-NXP ASRC V4L2 MEM2MEM DRIVERS
-M:      Shengjiu Wang <shengjiu.wang@gmail.com>
-L:      linux-media@vger.kernel.org
-S:      Maintained
-W:      https://linuxtv.org
-T:      git git://linuxtv.org/media_tree.git
-F:      drivers/media/platform/nxp/imx-asrc.c
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-best regards
-wang shengjiu
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
->
-> Thank you,
->
->         Hans
->
-> On 11/03/2024 10:53 am, Shengjiu Wang wrote:
-> > Audio signal processing also has the requirement for memory to
-> > memory similar as Video.
-> >
-> > This asrc memory to memory (memory ->asrc->memory) case is a non
-> > real time use case.
-> >
-> > User fills the input buffer to the asrc module, after conversion, then =
-asrc
-> > sends back the output buffer to user. So it is not a traditional ALSA p=
-layback
-> > and capture case.
-> >
-> > It is a specific use case,  there is no reference in current kernel.
-> > v4l2 memory to memory is the closed implementation,  v4l2 current
-> > support video, image, radio, tuner, touch devices, so it is not
-> > complicated to add support for this specific audio case.
-> >
-> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
-> > use case in ALSA.  Now the "memory->asrc->memory" needs
-> > to reuse the code in asrc driver, so the first 3 patches is for refinin=
-g
-> > the code to make it can be shared by the "memory->asrc->memory"
-> > driver.
-> >
-> > The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
-> > user applications only use the ioctl of v4l2 framework.
-> >
-> > Other change is to add memory to memory support for two kinds of i.MX A=
-SRC
-> > module.
-> >
-> > changes in v14:
-> > - document the reservation of 'AUXX' fourcc format.
-> > - add v4l2_audfmt_to_fourcc() definition.
-> >
-> > changes in v13
-> > - change 'pixelformat' to 'audioformat' in dev-audio-mem2mem.rst
-> > - add more description for clock drift in ext-ctrls-audio-m2m.rst
-> > - Add "media: v4l2-ctrls: add support for fraction_bits" from Hans
-> >   to avoid build issue for kernel test robot
-> >
-> > changes in v12
-> > - minor changes according to comments
-> > - drop min_buffers_needed =3D 1 and V4L2_CTRL_FLAG_UPDATE flag
-> > - drop bus_info
-> >
-> > changes in v11
-> > - add add-fixed-point-test-controls in vivid.
-> > - add v4l2_ctrl_fp_compose() helper function for min and max
-> >
-> > changes in v10
-> > - remove FIXED_POINT type
-> > - change code base on media: v4l2-ctrls: add support for fraction_bits
-> > - fix issue reported by kernel test robot
-> > - remove module_alias
-> >
-> > changes in v9:
-> > - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
-> > - add MEDIA_INTF_T_V4L_AUDIO
-> > - add media controller support
-> > - refine the vim2m-audio to support 8k<->16k conversion.
-> >
-> > changes in v8:
-> > - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
-> > - update doc for FIXED_POINT
-> > - address comments for imx-asrc
-> >
-> > changes in v7:
-> > - add acked-by from Mark
-> > - separate commit for fixed point, m2m audio class, audio rate controls
-> > - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
-> > - remove used fmts
-> > - address other comments for Hans
-> >
-> > changes in v6:
-> > - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
-> >   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_par=
-t_two.
-> > - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
-> > - fix warning by kernel test rebot
-> > - remove some unused format V4L2_AUDIO_FMT_XX
-> > - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
-> > - rename audm2m to viaudm2m.
-> >
-> > changes in v5:
-> > - remove V4L2_AUDIO_FMT_LPCM
-> > - define audio pixel format like V4L2_AUDIO_FMT_S8...
-> > - remove rate and format in struct v4l2_audio_format.
-> > - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
-> > - updata document accordingly.
-> >
-> > changes in v4:
-> > - update document style
-> > - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commi=
-t
-> >
-> > changes in v3:
-> > - Modify documents for adding audio m2m support
-> > - Add audio virtual m2m driver
-> > - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
-> > - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
-> > - with modification in v4l-utils, pass v4l2-compliance test.
-> >
-> > changes in v2:
-> > - decouple the implementation in v4l2 and ALSA
-> > - implement the memory to memory driver as a platfrom driver
-> >   and move it to driver/media
-> > - move fsl_asrc_common.h to include/sound folder
-> >
-> > Hans Verkuil (1):
-> >   media: v4l2-ctrls: add support for fraction_bits
-> >
-> > Shengjiu Wang (15):
-> >   ASoC: fsl_asrc: define functions for memory to memory usage
-> >   ASoC: fsl_easrc: define functions for memory to memory usage
-> >   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
-> >   ASoC: fsl_asrc: register m2m platform device
-> >   ASoC: fsl_easrc: register m2m platform device
-> >   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
-> >   media: v4l2: Add audio capture and output support
-> >   media: uapi: Define audio sample format fourcc type
-> >   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
-> >   media: uapi: Add audio rate controls support
-> >   media: uapi: Declare interface types for Audio
-> >   media: uapi: Add an entity type for audio resampler
-> >   media: vivid: add fixed point test controls
-> >   media: imx-asrc: Add memory to memory driver
-> >   media: vim2m-audio: add virtual driver for audio memory to memory
-> >
-> >  .../media/mediactl/media-types.rst            |   11 +
-> >  .../userspace-api/media/v4l/buffer.rst        |    6 +
-> >  .../userspace-api/media/v4l/common.rst        |    1 +
-> >  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
-> >  .../userspace-api/media/v4l/devices.rst       |    1 +
-> >  .../media/v4l/ext-ctrls-audio-m2m.rst         |   59 +
-> >  .../userspace-api/media/v4l/pixfmt-audio.rst  |  100 ++
-> >  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
-> >  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
-> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
-> >  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
-> >  .../media/v4l/vidioc-querycap.rst             |    3 +
-> >  .../media/v4l/vidioc-queryctrl.rst            |   11 +-
-> >  .../media/videodev2.h.rst.exceptions          |    3 +
-> >  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
-> >  drivers/media/platform/nxp/Kconfig            |   13 +
-> >  drivers/media/platform/nxp/Makefile           |    1 +
-> >  drivers/media/platform/nxp/imx-asrc.c         | 1256 +++++++++++++++++
-> >  drivers/media/test-drivers/Kconfig            |   10 +
-> >  drivers/media/test-drivers/Makefile           |    1 +
-> >  drivers/media/test-drivers/vim2m-audio.c      |  793 +++++++++++
-> >  drivers/media/test-drivers/vivid/vivid-core.h |    2 +
-> >  .../media/test-drivers/vivid/vivid-ctrls.c    |   26 +
-> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-api.c      |    1 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     |   93 +-
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
-> >  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
-> >  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
-> >  include/media/v4l2-ctrls.h                    |   13 +-
-> >  include/media/v4l2-dev.h                      |    2 +
-> >  include/media/v4l2-ioctl.h                    |   34 +
-> >  .../fsl =3D> include/sound}/fsl_asrc_common.h   |   60 +
-> >  include/uapi/linux/media.h                    |    2 +
-> >  include/uapi/linux/v4l2-controls.h            |    9 +
-> >  include/uapi/linux/videodev2.h                |   50 +-
-> >  sound/soc/fsl/fsl_asrc.c                      |  144 ++
-> >  sound/soc/fsl/fsl_asrc.h                      |    4 +-
-> >  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
-> >  sound/soc/fsl/fsl_easrc.c                     |  233 +++
-> >  sound/soc/fsl/fsl_easrc.h                     |    6 +-
-> >  42 files changed, 3128 insertions(+), 27 deletions(-)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem=
-2mem.rst
-> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-aud=
-io-m2m.rst
-> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
-rst
-> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
-> >  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
-> >  rename {sound/soc/fsl =3D> include/sound}/fsl_asrc_common.h (60%)
-> >
->
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'partition' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'skip' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'intra_inter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx32p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx16p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'tx8p' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'y_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'uv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'comp_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'single_ref' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_mode' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'filter' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'mv_joint' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'sign' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'classes' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'bits' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'fp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'class0_hp' description in 'v4l2_vp9_frame_symbol_counts'
+include/media/v4l2-vp9.h:144: warning: Excess struct member 'hp' description in 'v4l2_vp9_frame_symbol_counts'
+
+
+date:			Tue Mar 19 03:18:54 CET 2024
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 5
+
+date:			Tue Mar 19 03:47:49 CET 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
