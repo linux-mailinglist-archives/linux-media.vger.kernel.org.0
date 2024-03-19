@@ -1,153 +1,215 @@
-Return-Path: <linux-media+bounces-7305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7420B87FD5A
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:07:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5FD87FD76
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:21:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5EFE1C21D9A
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 12:07:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D028D1C21DC8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 12:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA9A7F7D1;
-	Tue, 19 Mar 2024 12:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E6757F7D4;
+	Tue, 19 Mar 2024 12:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="XDfc9lPR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z822HIin"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1207F483
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 12:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F337F469
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 12:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710850054; cv=none; b=a+3UCJQSPAQ16Db+XkYxz9/vSNUf8326DnCh6Fk5ZD9V+cpLwsVroLILrkCI36DTZhZSF3ka0B1Rft9tbPxbl2bqD9OuW+3DAV8V7Vfv9FzS7BtDFMpKFjt4eSfzdKs2Fw/5hO0I33yfw3ZIgpyvjaoCPj76CpK2UidKiM+kEto=
+	t=1710850885; cv=none; b=agv8frahy56GnQFZeQuWLNWQbuvJF2Yg8YnW3+griQ8vtcQ/iVVvLVFp99F2ASkdUXut5D9NoP02DkVsjxrA9D9aJpWy2TcS23wV3t/Zp2+QFhhVhNHxPpJ8xq3Zhhe20iV1DzHI7CHg84DJFFzZjd2XJgZTPgLOYXpvxkbGNb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710850054; c=relaxed/simple;
-	bh=GChbCays4BH4ubocYsYyR4dSDch4TnJ+QJ+nvoABbAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ORvhOrwORsLx2y9UxOCByNKmciPQupXK879l8UFsWlIH4CwZrbMm21z6OGD4HY5dpXCs3ELAfG/aw0H/JkcsKR1+pSYXtyMSaPOglxmhoq48aUHRTNHK/66XZ7yHttLV/kAIEHPb0QYZMjMpK7HDdgwZle9ooRn05jBBwtmEeJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=XDfc9lPR; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-60a0599f6e5so50520667b3.3
-        for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 05:07:31 -0700 (PDT)
+	s=arc-20240116; t=1710850885; c=relaxed/simple;
+	bh=27rUfD7MEkKL14gEk9IYOPASgdy/NR3DmqlPtc7soRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fcYvuO4I1z9jN2XlUZcMfxXmzuSMEPEagOLX640nabIFXPOiHLqeTb5LOIKfXiuK1AtiRbmr61VJMd2WBjaQvTWwlAqe8O6QccfjrggpKmiy7MTAdpzV479iy90vWMvleAhWQjw9p8CHfv40J7K88aHGQ/eVOTcyGww7HflrcK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z822HIin; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a46aaf6081fso382639066b.2
+        for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 05:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1710850050; x=1711454850; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rX6FqjYsTmcxI0CafXHHy/zN0bbe59i8Tv6Xmz/oP5o=;
-        b=XDfc9lPRkPXNSE2YtbXONwBIVVBXuwOEbz5XOt0JuWFaZ2va+NUwsmDusZco1pDRZ0
-         gcfVWVPGQgHxVM0F49k9qUKryKoT/HRf+/mo+cUmnkoNYpq/+TYAlp4UWcQMP6aDXgKV
-         c1xT41F9Uiicc5iEivFdvUTZ5asxPywmsZWpD//VKqnfTO34RIzY87qxQzVXlwNB2Q5s
-         Yoofdl+ckPGU+U7sB6mfbdACrUR1JE9nr/Pz0T2wrn0d8mrs69c9MWSGYFGKnxBTRkzc
-         NC39A1XiT5P+4+l08PwWMTn7s+FdTtyvpJ2SJgz5vBkDNYMFACIvsSPywGm+e6OH22TI
-         v/Bw==
+        d=linaro.org; s=google; t=1710850882; x=1711455682; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cpmdw5XpaoCdxhyeSiy9tIIx/KXvYC3XE2r05d3ZaTE=;
+        b=z822HIinrcFoGOuuiOyWnphzPX3/2/EvUOAOCvGPLeeuUIPAs2A6SSOwEFuIZ/Im2w
+         L37c0vt4TZH4DG/nn12tqyx+w0YTlzXRd1K8otwzAEOKdkfzPmrzqSV4Yged714oEMPm
+         z6Wx0Mph5DkVHowKi2ejsnDUyhZxLolQwZN28fPCK91mXLg7jB40X8y+5nFvghV5xE76
+         HlOSb2207FKhhQp5pP+AvP6v6pbFApKMxidyzssarruG4T+b6BXbwoXLeoUxqC4aMl9z
+         +tXThoDGMNeIBDeAU5RzGjwuvufK47aL6blKbn4TDNyzU/rfXVxP6rH1KWN0L9k7Ddx8
+         aXxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710850050; x=1711454850;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rX6FqjYsTmcxI0CafXHHy/zN0bbe59i8Tv6Xmz/oP5o=;
-        b=WGuV7/fOuO79OBR+70kf21HHMjI/0sNwAK+9D8IOLVNGreXgfJQ0inAKHTfofbszSu
-         pZzo5WO15+U4S9BbMjkeGX+MUeoH21sQW73NETchcKafpDlMBPbEuk4w7mprjWZbPFO6
-         lPrPsG3h7xnv06qTFp4pz3KMtQMSgYzYYhYo2ha4/1UFs51oywlPYjiVsqnqY8xtfLvs
-         TUV6xsfpUbX/hu8is/qriiQetfR3pYhVGiaZf3T/gijk7UeCoxs/jf3zMAj85NwCwy3X
-         MiaEzLVuOBQI+/XX5hYZj8niuon5BzOie8CFA6mCLg4o5iHJi/worUXQXd5CubUKxl7t
-         3Ecw==
-X-Forwarded-Encrypted: i=1; AJvYcCUw6Xh3bqRDbhEUXmlYa+A8qA7sGrGB9LIZ+K0ipXA5VdSipUUovHtNPQ0bKCQt5s1xtYZYy9946jL0c5P+KQyAagAsnaA1E21Z5Oc=
-X-Gm-Message-State: AOJu0YzZ0TcsGUTzoC/4xDG4rGIbd5AB46jQFOYdQFzxgPoi7SvMSuw4
-	uqmDCRCETmNzNJicq9sV2dyTeLymnd13pXX9XzEQgitKJRbE4dAiLVDKrNvEjKp8cBUpi3g4kKP
-	x9P6FpLTGuxXza+9590KPMc1WhIWx81wW+VInAw==
-X-Google-Smtp-Source: AGHT+IHkYff9gRI+3nLTBu1WnjFBfTr5P64pcgUIFGI3+AFUIKdvd9tDcb3D2bv2DngJjhntPBwBd3qzjCQN4J1A6p8=
-X-Received: by 2002:a05:690c:2a8d:b0:610:e1df:a2fe with SMTP id
- ek13-20020a05690c2a8d00b00610e1dfa2femr1616124ywb.0.1710850050588; Tue, 19
- Mar 2024 05:07:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710850882; x=1711455682;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cpmdw5XpaoCdxhyeSiy9tIIx/KXvYC3XE2r05d3ZaTE=;
+        b=nyY7wODcxvf+MHcYRBbWNlfvzUhJFV9GTybPJFaXjhz005GJvVpGoo9LFitT/aatvB
+         fnQiYd7GknMTaBeAOR1nK3VlCqn7Kv40yUtKD0No9B54lSHF7CFNeF2btK48sDJ/TiMw
+         s1TqgKRWC03XHR0faKIvdAmL8G0haihANAbHVRWp3jLg3GhMWvv9DUsuBzQklA6aqXiP
+         BQK87y67ffZJW1yX07XlNOy596jQnx/+rzEtYkjanE8zwNGatxKLirDVUV1exSxj1jz4
+         0LmqZTGSGi9QmwUsbAqVuP3ObG8MHnO34hkceXnd3JadbUwMFpNs1/p0JZeHaJEIBM5v
+         On3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXNzWx6zTzR9nGuny4/2V6SIP3YjzvTwVBqjI720GjTyYRpxwEBH5biALdW9I72v1x1uNSdKnKyAsGvWCm1+PzZ0tsJpifElxxWeHk=
+X-Gm-Message-State: AOJu0YycrXU8+I8uFRtqhQEocgw6/TDQaGCqZ3Whbdvq1MF8HdXiZboG
+	hgJYP8sZMWso977IXIPjH6hlBJ05J0avCOWIB7jWlCgYlQ7SckCdLIHGyCVraQY=
+X-Google-Smtp-Source: AGHT+IGJWHELpCKZT/Ag+J7FKpx0IjsLI+DzsH9QFPIYshPca0SwbyJp9P8zi3nolpFX0cq2bvNAhw==
+X-Received: by 2002:a17:906:c30f:b0:a46:a662:e56f with SMTP id s15-20020a170906c30f00b00a46a662e56fmr1700440ejz.38.1710850882197;
+        Tue, 19 Mar 2024 05:21:22 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id g17-20020a170906199100b00a46a49d661fsm3918912ejd.210.2024.03.19.05.21.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Mar 2024 05:21:21 -0700 (PDT)
+Message-ID: <89d459dd-cc8c-4780-a56a-809e24343e69@linaro.org>
+Date: Tue, 19 Mar 2024 13:21:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
+ raspberrypi,rp1-cfe
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
- <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com> <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
- <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com> <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
+ <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
+ <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
+ <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
+ <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
  <5ca1d005-1beb-47ec-943a-9358ae3c6704@linaro.org>
-In-Reply-To: <5ca1d005-1beb-47ec-943a-9358ae3c6704@linaro.org>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Tue, 19 Mar 2024 12:06:54 +0000
-Message-ID: <CAEmqJPp7uGYe993L+ujth2mfRy66s8-S9FNxPY7vwkrboDq9yg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAEmqJPp7uGYe993L+ujth2mfRy66s8-S9FNxPY7vwkrboDq9yg@mail.gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAEmqJPp7uGYe993L+ujth2mfRy66s8-S9FNxPY7vwkrboDq9yg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 19/03/2024 13:06, Naushir Patuck wrote:
+> Hi,
+> 
+> On Tue, 19 Mar 2024 at 09:32, Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 19/03/2024 08:00, Tomi Valkeinen wrote:
+>>> On 19/03/2024 08:48, Tomi Valkeinen wrote:
+>>>> On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
+>>>>> On 18/03/2024 16:49, Tomi Valkeinen wrote:
+>>>>>> Add DT bindings for raspberrypi,rp1-cfe.
+>>>>>>
+>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>>> ---
+>>>>>>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103
+>>>>>> +++++++++++++++++++++
+>>>>>>   1 file changed, 103 insertions(+)
+>>>>>>
+>>>>>> diff --git
+>>>>>> a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>>>>>> b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..7b2beeaaab0e
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
+>>>>>> @@ -0,0 +1,103 @@
+>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
+>>>>>
+>>>>> Use compatible as filename.
+>>>>
+>>>> Ah, indeed. I changed the compatible quite late, adding the "rpi5" as
+>>>> versioning, and missed changing the file name.
+>>>>
+>>>> I'll rename.
+>>>
+>>> Actually, maybe it's better to have two compatibles,
+>>> "raspberrypi,rp1-cfe" as the generic one, and "raspberrypi,rpi5-rp1-cfe"
+>>> (or something similar) for RaspberryPi 5.
+>>>
+>>> And I'm not sure if the "rp1" part is relevant there, would
+>>> "raspberrypi,cfe" be just as fine? Naush?
+>>
+>> See writing bindings. Compatibles should be SoC specific. In some cases
+>> generic fallbacks make sense, in some note. But don't just choose
+>> "generic fallback" because you want. Provide rationale.
+> 
+> If the compatible is SoC specific, I suppose "raspberrypi,rp1-cfe"
+> would be the correct string.
 
-On Tue, 19 Mar 2024 at 09:32, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 19/03/2024 08:00, Tomi Valkeinen wrote:
-> > On 19/03/2024 08:48, Tomi Valkeinen wrote:
-> >> On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
-> >>> On 18/03/2024 16:49, Tomi Valkeinen wrote:
-> >>>> Add DT bindings for raspberrypi,rp1-cfe.
-> >>>>
-> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>> ---
-> >>>>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103
-> >>>> +++++++++++++++++++++
-> >>>>   1 file changed, 103 insertions(+)
-> >>>>
-> >>>> diff --git
-> >>>> a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
-> >>>> b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
-> >>>> new file mode 100644
-> >>>> index 000000000000..7b2beeaaab0e
-> >>>> --- /dev/null
-> >>>> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
-> >>>> @@ -0,0 +1,103 @@
-> >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>> +%YAML 1.2
-> >>>> +---
-> >>>> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
-> >>>
-> >>> Use compatible as filename.
-> >>
-> >> Ah, indeed. I changed the compatible quite late, adding the "rpi5" as
-> >> versioning, and missed changing the file name.
-> >>
-> >> I'll rename.
-> >
-> > Actually, maybe it's better to have two compatibles,
-> > "raspberrypi,rp1-cfe" as the generic one, and "raspberrypi,rpi5-rp1-cfe"
-> > (or something similar) for RaspberryPi 5.
-> >
-> > And I'm not sure if the "rp1" part is relevant there, would
-> > "raspberrypi,cfe" be just as fine? Naush?
->
-> See writing bindings. Compatibles should be SoC specific. In some cases
-> generic fallbacks make sense, in some note. But don't just choose
-> "generic fallback" because you want. Provide rationale.
+Sure, but then please think what if rp1 is on Rpi6, called exactly the
+same (rp1), with some minor differences? Could it be? I don't know, you
+are upstreaming this stuff. Just be also sure you read writing bindings
+document.
 
-If the compatible is SoC specific, I suppose "raspberrypi,rp1-cfe"
-would be the correct string.
+Best regards,
+Krzysztof
 
-Naush
-
->
-> Best regards,
-> Krzysztof
->
 
