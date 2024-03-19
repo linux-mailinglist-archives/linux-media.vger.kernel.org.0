@@ -1,310 +1,333 @@
-Return-Path: <linux-media+bounces-7299-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7300-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1174687FBAF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 11:21:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5642C87FC67
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 11:57:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC4582813D6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 10:21:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1E46B22A8E
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 10:57:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0FA67E10D;
-	Tue, 19 Mar 2024 10:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23A737E797;
+	Tue, 19 Mar 2024 10:56:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3dmr0PL"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="fQWUHAgT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11020002.outbound.protection.outlook.com [52.101.154.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2FD7D096;
-	Tue, 19 Mar 2024 10:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710843710; cv=none; b=SOqR/eqGprPrgIEwFdEAq6fiWawO8lX/1pyGgnNWFKava4f92LCMmOUx4cU13QBvXlpGJso83F3eUheh2WwRqTINWdE0/6Bo998FNZJ1qDp9Zl3l3tfFiUYIwEvA/L9ZZQzWWupWidiJ2/425mADx1DEOetJCnvrLwPFgLhBRLU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710843710; c=relaxed/simple;
-	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aYcMumMcROoCW5xjFG7cjWAIMRWyEu01N61TJZ521Ze9JqDbUXT8NNqz0GAfIxb1AuJIdMZujGXBrj/l36DbU+uyYUla3NUPvmMZzGK6qOMF7ZWlT3imp3wO3qrJb9Db/zMQIfiKIKWJPaJs3ctGSCMcXCwZi4ZYPgcDdnIhHow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3dmr0PL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61254C433F1;
-	Tue, 19 Mar 2024 10:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710843709;
-	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X3dmr0PLHavDuoM68/QuGgElb/8kOvBtF0DTtpAK++OG8G164ABhe+f9jC45EszTB
-	 Vs1lefCt9oyU5P53WzxO3QHshXXtv0DYzuxaTfuKUo+8yKJQ5s3WwTPP2WAD+HqjRv
-	 B/z3pDeF6O8KyQVjgywEhI083KLegBTcQzcKkTVTAvnlIv7Lg9AiM/7A+vJfX9nRd6
-	 iUt809Kkyh5bAq53RcaGdWdbDAKjlJPHJB9pH/uKrMQRSOBVTAxA49r3QyH2WRUhVW
-	 vQP95iqFE5cfQF0mH+ztO7zlAIh22ObIDKMEDkw5G+UwINPxqHMp637HmBeEDvfqA9
-	 NMCi2hrdoNsmQ==
-Date: Tue, 19 Mar 2024 11:21:47 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
-Message-ID: <20240319-gabby-marigold-poodle-c5a27f@houat>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
- <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
- <ZfQFLR2xO6vUpAJ9@intel.com>
- <20240318-abstract-myna-of-exercise-adfcde@houat>
- <ZfhnsgYfwe_3mpWx@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3F77E571;
+	Tue, 19 Mar 2024 10:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710845788; cv=fail; b=f5BYBMRbsayrKCqNAKg4C+sNYxqWhVEd+ww/GHOKJvthJmVF8uP4Kkg88iAFRUDvQDBMtTKi6fVg/u1GY35MCaFPk4G4cGflGvLYkHapkaySrjBmDG9armP3i6bvRlcJnyn3Oc4A3y6MLWXXJl5IgjU8nsk03tAbpcaer8D9xwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710845788; c=relaxed/simple;
+	bh=6dhviL0r4xWC6QlrDXKWXOiwTNF6aXqw+SGJklWV/C0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gfTBGcV8FzPO63BerV80cMLmgwRBmCvHur9Xk5mYsqGFbnNNSTXHla6QeEqMIvAQg2ChwACj8xoY7Qz9iXJ+kd/hv8du4ocV09vIAr1z731+dTiITCuA2wtFqPMsC3m8jW/6g/HxIurEuMMsVkI+oYsdMsYJtZyGdvYt24AdatU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=fQWUHAgT; arc=fail smtp.client-ip=52.101.154.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nn73V8RIIdTzmQl7CS45NAW5eGUqY4RQEZZFLqVnLPjdNpk4YaT2CekJj6i5rr8NQF/cOq26de09Ds4yeWBARVC8TcIidb8BDbm+YzgsXpyKMuz7diLaxjN3xUWHUHxjqzKSFyrYsuzhRBIWUfGvdcl4lOrRVsgbMK8jf61334U7HriayMFeCMUtYHEUU3wWv3/QrgFkNxapwYPZ0deVzMWdyw3gsAMGFIVM/Xg5nG+QuVbkg9YHnGp9f9z5O0ZRHtkTksYw24NqG43BpyVYl+H6rgezQxwgiFzih+GDQ9EF7JW/kSEvj7Hl6Dao5t88tjjrExvaRcTqLsnffAos6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yEWvRhnZqb+rmnr5Gw9p4lb2OYDvEo5spr9OuPj35IU=;
+ b=XdT76UDWPcj9drcU6YAQ8C+Ety5l4vUd4qwTWde24kZqYGq/Elo3zuYGaW4i9Ll9qls3GIEijzbQ5xlEyKEj8OUPf04ud8RsjTrhEenPX5ZdUgLwt4LmnE6/HM5wV1iTT5tL5799FuGJQUk2ymVsN+bvtUVC98jzpVbTK5/XjIrqg4XdbCPXNUDbBZo2iAduJwgtRzJ250QqJg6s6ouuJJ1so0yfAwuBBQHw/PPa5P4pUUOlT/cMo6hKt9cuDaJO+YtGD65v/S9vGkFfqM6opTpngybMWcjyHzHTx7HYDXRRBjcthfEBmOXiGDY0SLtl0dbUhe30T6ClYyIJnKXBqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yEWvRhnZqb+rmnr5Gw9p4lb2OYDvEo5spr9OuPj35IU=;
+ b=fQWUHAgTNH4ZaE+o4lXFGQb9xA6JBU0MvWEiORcAGRUVnMkmlfblqrvQH3V+frW26NFdCU5gqjvmM8PVMaeu85g7PedgGWqqfHHXDGcPTh6aTVx5aEq35+atFa5q8KZScVl5P5iqTN9fQVM+9bgI1RlkmMNSIpYhdbZ8hA7p4ug=
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
+ PU4P216MB1486.KORP216.PROD.OUTLOOK.COM (2603:1096:301:cd::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7386.28; Tue, 19 Mar 2024 10:56:22 +0000
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::5b8:35f1:821f:4f57]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::5b8:35f1:821f:4f57%2]) with mapi id 15.20.7386.017; Tue, 19 Mar 2024
+ 10:56:22 +0000
+From: Nas Chung <nas.chung@chipsnmedia.com>
+To: Ivan Bornyakov <brnkv.i1@gmail.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, jackson.lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: RE: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
+Thread-Topic: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
+Thread-Index: AQHaeUKgZLecalKvxU2rcLnTilDrELE+3QHQ
+Date: Tue, 19 Mar 2024 10:56:22 +0000
+Message-ID:
+ <SL2P216MB1246F7FA7E95896AA2409C90FB2C2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+References: <20240318144225.30835-1-brnkv.i1@gmail.com>
+ <20240318144225.30835-6-brnkv.i1@gmail.com>
+In-Reply-To: <20240318144225.30835-6-brnkv.i1@gmail.com>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB1246:EE_|PU4P216MB1486:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ LbJ+0UzG1p74K8RuD3tp4nx31qcpDFr+j6qnPauihPOBFSdi9ggO0eTniCfmXlnP8dg9XondcqOsINWexLdsfekv0CChbmSAROdLz/g7j0R33FeoY9reZ/LExpweflP7WlCyr3NhGkX45qRQrlKTz8JcbeF/nH7sIK87Z1GA50ZJ2wsEyF6t6xzjUN9oLyDMLsgkYgKZ4FGO40CQI+AQXFemfUUPlRKQVQE9z4A3UN/9YTvEn2SIJgRm+LcJhqJFmLHXtENDRZjxePMSdYD9JIxKTBANgKfbiVEP6OCsq0s3A2XCtdCuwA7DV46+h3p/mwPp1j5LSUtumt4lb92Z8JjKxwsqxdPOUlHKmZ9q5aOihpIspOwTgZyCjmXd+5a2OEttOuAUND7rZ85dxFoUpV8m+9nvcTLt6d0EdIKIy+HyVEmRzehHJY4Qtv0WW1j7sDZ+bPSGLEHbUxno5RMvO6wdg/NlWWizTAcoTr/ABXUPkvaM9zi0V1DKzcS4w1d3I3CImQ9YX9SMjd/IpLtIJJIPxsmNZineVKH4ZXzmxmI/+9JsTtDpe2wMfdIOVyoyeFLxkS+HXCgfDKU/+vATUQqqKzrYaZFFIsG3sTCcY+fO34EX8KUCXChPwx9jKnBzF2qlA2u12SNNffIGb2Y2qvI7ZeGzxnRicDlWCK1F8A0=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?uOHawIdD5Ok6s+6IrT8R9/mQbORGGtdHFp0OsT+ByWTIYB49+mn8uSsq8fZT?=
+ =?us-ascii?Q?2qi5lBWOU/hXviOOG6SHlZHhlHeg5uWg5g5IR4E6NNL+fvNw8vYG9Rq1fwhg?=
+ =?us-ascii?Q?teB2O2sfXML5kW2SAI+AeaOy5xih3+wFesfjM+LQ0+Ls6UWAx2+xBeW2y9In?=
+ =?us-ascii?Q?FYg9te/AfZcnQYn8Sy046MOiX76letaKJfQB+xR65qKB+gOC89cqzihz+o+N?=
+ =?us-ascii?Q?I/CJ/4o1iOr+19smbziZ4604rwMyLoJ/E2MF/VcYqtZJa7EzF4Q8rVS35cwb?=
+ =?us-ascii?Q?/uIUc+eOQ4elBin3AxUIjd9xe62u1hEAWTEULnmvHnpZyG3X3fcb81qtJf8Q?=
+ =?us-ascii?Q?s/TZet/T7X2FYojLCAMlOZnY4HrIu+4exHribS6QGqy+4fXClco49rVLO7IE?=
+ =?us-ascii?Q?CYh8RbHqjKLtkQsvTnup7n+FnSvCmCvmgRNgJ0z0IXpz+N+jVd9B1WJ6FxWu?=
+ =?us-ascii?Q?a2139jNwNSsVbY9/4GOBfI8hBIIPFn2RdA61wA4rKGKxV28bGLS2RASIBh/v?=
+ =?us-ascii?Q?deXfptiRKr7FO4sbSi4jRbGybUiCfIQPhjJzpNcpNqCwwhpN4BdY+tcgIN0A?=
+ =?us-ascii?Q?lm5GBeDddRh5fkpU4qrPsSAZ9XWWjw0MU6Mnegc9JWXi8OKc62fyP7CqYPR4?=
+ =?us-ascii?Q?12ibsNokRBcOiU8Qb41KMd7kXnTK51kWe1BlqhrFbu9vmsAo+WaIn3f8M188?=
+ =?us-ascii?Q?ZR/zmzwql+u6WKAJZ6qk0SSleUUsNEjQgzYl5BO1JDGIdzIPYcyTJl7dxbWN?=
+ =?us-ascii?Q?OOSNHQD//5omqXF7DaQQaprfV4GLGdezZ7DZf5Vzn144nafmQbalz+OAJbTI?=
+ =?us-ascii?Q?f2Yn8JvjQVAnxCOiQGIXML6zCVS49svqk/dW1dCPLgQwnzFPU8W3HH2Al6qM?=
+ =?us-ascii?Q?zZs2bRnCdANkvSh30qvp2sbfB3zWEpLIPCdUeRN4AcsGUdlPfltVQVmwGc+1?=
+ =?us-ascii?Q?kkUhr/YkPQAfMCT8SaYWdg6FoS4ZvNuwWFpfacZP+a+r2j3NjiPQkKmbUYUr?=
+ =?us-ascii?Q?emnhcGTqYeZRnKsdZveP2Y7coxnWesIWKNg0jNASH1I83efltvH6CPGQ5icE?=
+ =?us-ascii?Q?wFd9p8yY69WgYr1975RO1FQS3vkLgJfD1lMfygOpDFLQolisTbVUOGz4HEuL?=
+ =?us-ascii?Q?ldkDNs366IFjIi2T8uEf2qzQV25yJ+uN+FERABXKZWWNdwLoAXqrjtYf5Tfv?=
+ =?us-ascii?Q?tjfWlzgHBa7eWTtaBw+vqTKx0YRS0jspu6nO3RD2rgQKtQBhzbWLCl6PxJvo?=
+ =?us-ascii?Q?Mc+e0MF9dd3qsnIUXR6u4x+/8BlJizF5sKcqtQ3qSOrhvjRqd3mE2ykC03rM?=
+ =?us-ascii?Q?krT2BkClat6KJ0cMhFglx/gFe9vFIRT+OKroS8x8jHaegty6QSbkeXJ/tT0D?=
+ =?us-ascii?Q?WatQ9/XR5fKbASCE2KXKkJffaFqv9aCddrqH48Ky+Halzy573N64PEakDPHn?=
+ =?us-ascii?Q?oMoiQ3vay/NIe36hEWCmXCw+h2dQ3+pvNdJC+UIn7fIoF5JZWSNJzQNwH3uP?=
+ =?us-ascii?Q?b39nlxCoqDq0Iznj7Pgg2KkQVtTOaOjmqFqGTeO/1v0TVkaf/MRzQ5+Hjnxc?=
+ =?us-ascii?Q?LTW3Xzg8powMFQiXrHfMy8hRImh7jcZklwrLUZOl?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6n43iydiwru5gl6x"
-Content-Disposition: inline
-In-Reply-To: <ZfhnsgYfwe_3mpWx@intel.com>
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b6bcc3a-2b0f-4784-5069-08dc48033728
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2024 10:56:22.7075
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 99KcoM/A+n6/XtdOeXn8Oi44ymZlTFJbLBdSiRFRbOms1UaCore+VQFErIXbb6IAGrM9IrmfCEi9IHtUJB7mml7G5CJ2Vj+HhbuQ/Erf26Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1486
 
+Hi, Ivan.
 
---6n43iydiwru5gl6x
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>-----Original Message-----
+>From: Ivan Bornyakov <brnkv.i1@gmail.com>
+>Sent: Monday, March 18, 2024 11:42 PM
+>To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>
+>Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; Philipp Zabel
+><p.zabel@pengutronix.de>; Rob Herring <robh@kernel.org>; Krzysztof
+>Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+><conor+dt@kernel.org>; linux-media@vger.kernel.org; linux-
+>kernel@vger.kernel.org; devicetree@vger.kernel.org
+>Subject: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
+>
+>Allocate SRAM memory on module probe, free on remove. There is no need
+>to allocate on device open, free on close, the memory is the same every
+>time.
 
-On Mon, Mar 18, 2024 at 06:11:30PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Mon, Mar 18, 2024 at 02:49:47PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
-> > > > Infoframes in KMS is usually handled by a bunch of low-level helpers
-> > > > that require quite some boilerplate for drivers. This leads to
-> > > > discrepancies with how drivers generate them, and which are actually
-> > > > sent.
-> > > >=20
-> > > > Now that we have everything needed to generate them in the HDMI
-> > > > connector state, we can generate them in our common logic so that
-> > > > drivers can simply reuse what we precomputed.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/Kconfig                            |   1 +
-> > > >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++=
-++++++++++++
-> > > >  drivers/gpu/drm/drm_connector.c                    |  14 +
-> > > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
-> > > >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
-> > > >  include/drm/drm_atomic_state_helper.h              |   8 +
-> > > >  include/drm/drm_connector.h                        | 133 +++++++++
-> > > >  7 files changed, 492 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > > index 872edb47bb53..ad9c467e20ce 100644
-> > > > --- a/drivers/gpu/drm/Kconfig
-> > > > +++ b/drivers/gpu/drm/Kconfig
-> > > > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
-> > > >  	  If in doubt, say "N".
-> > > > =20
-> > > >  config DRM_KMS_HELPER
-> > > >  	tristate
-> > > >  	depends on DRM
-> > > > +	select DRM_DISPLAY_HDMI_HELPER
-> > > >  	help
-> > > >  	  CRTC helpers for KMS drivers.
-> > > > =20
-> > > >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-> > > >          bool "Enable refcount backtrace history in the DP MST help=
-ers"
-> > > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gp=
-u/drm/drm_atomic_state_helper.c
-> > > > index e66272c0d006..2bf53666fc9d 100644
-> > > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > > @@ -36,10 +36,12 @@
-> > > >  #include <drm/drm_plane.h>
-> > > >  #include <drm/drm_print.h>
-> > > >  #include <drm/drm_vblank.h>
-> > > >  #include <drm/drm_writeback.h>
-> > > > =20
-> > > > +#include <drm/display/drm_hdmi_helper.h>
-> > > > +
-> > > >  #include <linux/slab.h>
-> > > >  #include <linux/dma-fence.h>
-> > > > =20
-> > > >  /**
-> > > >   * DOC: atomic state reset and initialization
-> > > > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connect=
-or *connector,
-> > > >  	}
-> > > > =20
-> > > >  	return -EINVAL;
-> > > >  }
-> > > > =20
-> > > > +static int hdmi_generate_avi_infoframe(const struct drm_connector =
-*connector,
-> > > > +				       struct drm_connector_state *state)
-> > > > +{
-> > > > +	const struct drm_display_mode *mode =3D
-> > > > +		connector_state_get_mode(state);
-> > > > +	struct drm_connector_hdmi_infoframe *infoframe =3D
-> > > > +		&state->hdmi.infoframes.avi;
-> > > > +	struct hdmi_avi_infoframe *frame =3D
-> > > > +		&infoframe->data.avi;
-> > > > +	bool is_full_range =3D state->hdmi.is_full_range;
-> > > > +	enum hdmi_quantization_range rgb_quant_range =3D
-> > > > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION=
-_RANGE_LIMITED;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret =3D drm_hdmi_avi_infoframe_from_display_mode(frame, connector=
-, mode);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	frame->colorspace =3D state->hdmi.output_format;
-> > > > +
-> > > > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_qu=
-ant_range);
-> > >=20
-> > > drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
-> >=20
-> > I guess it's not really a problem anymore if we drop YUV422 selection,
-> > but I'll add a comment.
-> >=20
-> > > > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
-> > > > +	drm_hdmi_avi_infoframe_bars(frame, state);
-> > > > +
-> > > > +	infoframe->set =3D true;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > <snip>
-> > > > +
-> > > > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> > > > +	write_or_clear_infoframe(c,				\
-> > > > +				 &(c)->hdmi.infoframes.i,	\
-> > > > +				 &(os)->hdmi.infoframes.i,	\
-> > > > +				 &(ns)->hdmi.infoframes.i)
-> > >=20
-> > > This macro feels like pointless obfuscation to me.
-> >=20
-> > I'll remove it then.
-> >=20
-> > > <snip>
-> > > > @@ -1984,20 +2063,73 @@ struct drm_connector {
-> > > > =20
-> > > >  	/**
-> > > >  	 * @hdmi: HDMI-related variable and properties.
-> > > >  	 */
-> > > >  	struct {
-> > > > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
-> > > > +		/**
-> > > > +		 * @vendor: HDMI Controller Vendor Name
-> > > > +		 */
-> > > > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
-> > > > +
-> > > > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
-> > > > +		/**
-> > > > +		 * @product: HDMI Controller Product Name
-> > > > +		 */
-> > > > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstrin=
-g;
-> > > > +
-> > > >  		/**
-> > > >  		 * @supported_formats: Bitmask of @hdmi_colorspace
-> > > >  		 * supported by the controller.
-> > > >  		 */
-> > > >  		unsigned long supported_formats;
-> > > > =20
-> > > >  		/**
-> > > >  		 * @funcs: HDMI connector Control Functions
-> > > >  		 */
-> > > >  		const struct drm_connector_hdmi_funcs *funcs;
-> > > > +
-> > > > +		/**
-> > > > +		 * @infoframes: Current Infoframes output by the connector
-> > > > +		 */
-> > > > +		struct {
-> > > > +			/**
-> > > > +			 * @lock: Mutex protecting against concurrent access to
-> > > > +			 * the infoframes, most notably between KMS and ALSA.
-> > > > +			 */
-> > > > +			struct mutex lock;
-> > > > +
-> > > > +			/**
-> > > > +			 * @audio: Current Audio Infoframes structure. Protected
-> > > > +			 * by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe audio;
-> > > > +
-> > > > +			/**
-> > > > +			 * @avi: Current AVI Infoframes structure. Protected by
-> > > > +			 * @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe avi;
-> > > > +
-> > > > +			/**
-> > > > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
-> > > > +			 * Infoframes structure. Protected by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe hdr_drm;
-> > > > +
-> > > > +			/**
-> > > > +			 * @spd: Current SPD Infoframes structure. Protected by
-> > > > +			 * @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe spd;
-> > > > +
-> > > > +			/**
-> > > > +			 * @vendor: Current HDMI Vendor Infoframes structure.
-> > > > +			 * Protected by @lock.
-> > > > +			 */
-> > > > +			struct drm_connector_hdmi_infoframe hdmi;
-> > > > +		} infoframes;
-> > > >  	} hdmi;
-> > >=20
-> > > What's the deal with this bloat? These are already tracked in the
-> > > connector's state so this looks entirely redundant.
-> >=20
-> > The next patch in this series is about adding debugfs entries to read
-> > the infoframes, and thus we need to care about concurrency between
-> > debugfs files accesses and commits. Copying the things we care about
-> > from the state to the entity is the typical solution for that, but I
-> > guess we could also take the proper locks and access the current
-> > connector state.
->=20
-> Yeah, just lock and dump the latest state. That is the only thing
-> that should of interest to anyone in userspace.
->=20
-> Also are you actually adding some kind of ad-hoc state dump things
-> just for these? Why not do whatever is needed to include them in
-> the normal .atomic_state_print() stuff?
+If there is no decoder/encoder instance, driver don't need to allocate SRAM=
+ memory.
+The main reason of allocating the memory in open() is to allow other module=
+s to
+use more SRAM memory, if wave5 is not working.
 
-Yeah, part of the reason for the whole thing is so we can make
-edid-decode check the sanity of generated infoframes, for both v4l2 and
-DRM. Hans has been working on it and has a prototype based on this work.
+>
+>Also use gen_pool_size() to determine SRAM memory size to be allocated
+>instead of separate "sram-size" DT property to reduce duplication.
+>
+>Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+>---
+> .../platform/chips-media/wave5/wave5-helper.c |  3 ---
+> .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++---------
+> .../chips-media/wave5/wave5-vpu-dec.c         |  2 --
+> .../chips-media/wave5/wave5-vpu-enc.c         |  2 --
+> .../platform/chips-media/wave5/wave5-vpu.c    | 12 +++++------
+> .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
+> 6 files changed, 16 insertions(+), 25 deletions(-)
+>
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>index 8433ecab230c..ec710b838dfe 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+>@@ -29,9 +29,6 @@ void wave5_cleanup_instance(struct vpu_instance *inst)
+> {
+> 	int i;
+>
+>-	if (list_is_singular(&inst->list))
+>-		wave5_vdi_free_sram(inst->dev);
+>-
+> 	for (i =3D 0; i < inst->fbc_buf_count; i++)
+> 		wave5_vpu_dec_reset_framebuffer(inst, i);
+>
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+>b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+>index 3809f70bc0b4..ee671f5a2f37 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+>@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
+>*vpu_dev, struct vpu_buf *array,
+> void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
+> {
+> 	struct vpu_buf *vb =3D &vpu_dev->sram_buf;
+>+	dma_addr_t daddr;
+>+	void *vaddr;
+>+	size_t size;
+>
+>-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
+>+	if (!vpu_dev->sram_pool || vb->vaddr)
+> 		return;
+>
+>-	if (!vb->vaddr) {
+>-		vb->size =3D vpu_dev->sram_size;
+>-		vb->vaddr =3D gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
+>-					       &vb->daddr);
+>-		if (!vb->vaddr)
+>-			vb->size =3D 0;
+>+	size =3D gen_pool_size(vpu_dev->sram_pool);
+>+	vaddr =3D gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
+>+	if (vaddr) {
+>+		vb->vaddr =3D vaddr;
+>+		vb->daddr =3D daddr;
+>+		vb->size =3D size;
+> 	}
+>
+> 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
+>0x%p\n",
+>@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device *vpu_dev)
+> 	if (!vb->size || !vb->vaddr)
+> 		return;
+>
+>-	if (vb->vaddr)
+>-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
+>-			      vb->size);
+>+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
+>>size);
+>
+> 	memset(vb, 0, sizeof(*vb));
+> }
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>index aa0401f35d32..84dbe56216ad 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>@@ -1854,8 +1854,6 @@ static int wave5_vpu_open_dec(struct file *filp)
+> 		goto cleanup_inst;
+> 	}
+>
+>-	wave5_vdi_allocate_sram(inst->dev);
+>-
+> 	return 0;
+>
+> cleanup_inst:
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>index 8bbf9d10b467..86ddcb82443b 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>@@ -1727,8 +1727,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+> 		goto cleanup_inst;
+> 	}
+>
+>-	wave5_vdi_allocate_sram(inst->dev);
+>-
+> 	return 0;
+>
+> cleanup_inst:
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>index f3ecadefd37a..2a0a70dd7062 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>@@ -178,16 +178,11 @@ static int wave5_vpu_probe(struct platform_device
+>*pdev)
+> 		return ret;
+> 	}
+>
+>-	ret =3D of_property_read_u32(pdev->dev.of_node, "sram-size",
+>-				   &dev->sram_size);
+>-	if (ret) {
+>-		dev_warn(&pdev->dev, "sram-size not found\n");
+>-		dev->sram_size =3D 0;
+>-	}
+>-
 
-But you're right, we should probably add them to atomic_state_print too
+Required SRAM size is different from each wave5 product.
+And, SoC vendor also can configure the different SRAM size
+depend on target SoC specification even they use the same wave5 product.
 
-Maxime
+Thanks.
+Nas.
 
---6n43iydiwru5gl6x
-Content-Type: application/pgp-signature; name="signature.asc"
+> 	dev->sram_pool =3D of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> 	if (!dev->sram_pool)
+> 		dev_warn(&pdev->dev, "sram node not found\n");
+>+	else
+>+		wave5_vdi_allocate_sram(dev);
+>
+> 	dev->product_code =3D wave5_vdi_read_register(dev,
+>VPU_PRODUCT_CODE_REGISTER);
+> 	ret =3D wave5_vdi_init(&pdev->dev);
+>@@ -259,6 +254,8 @@ static int wave5_vpu_probe(struct platform_device
+>*pdev)
+> err_clk_dis:
+> 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+>
+>+	wave5_vdi_free_sram(dev);
+>+
+> 	return ret;
+> }
+>
+>@@ -275,6 +272,7 @@ static void wave5_vpu_remove(struct platform_device
+>*pdev)
+> 	v4l2_device_unregister(&dev->v4l2_dev);
+> 	wave5_vdi_release(&pdev->dev);
+> 	ida_destroy(&dev->inst_ida);
+>+	wave5_vdi_free_sram(dev);
+> }
+>
+> static const struct wave5_match_data ti_wave521c_data =3D {
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>index fa62a85080b5..8d88381ac55e 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>@@ -749,7 +749,6 @@ struct vpu_device {
+> 	struct vpu_attr attr;
+> 	struct vpu_buf common_mem;
+> 	u32 last_performance_cycles;
+>-	u32 sram_size;
+> 	struct gen_pool *sram_pool;
+> 	struct vpu_buf sram_buf;
+> 	void __iomem *vdb_register;
+>--
+>2.44.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZflnOgAKCRDj7w1vZxhR
-xUAqAP9osiLRyY8KJXAT50DTQ35ZRT/BcFN/QtqCr8oS2BcaLgD6Ah6rT5bLm/2W
-gzaTbZzUgiazFZ2uVZtKSGrqf8eYswM=
-=afLz
------END PGP SIGNATURE-----
-
---6n43iydiwru5gl6x--
 
