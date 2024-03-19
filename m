@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7254-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7672C87F7B8
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:46:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C7C87F7C1
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:48:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1CDB1F21981
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:46:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3932C282153
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:48:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22655026A;
-	Tue, 19 Mar 2024 06:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B612450A68;
+	Tue, 19 Mar 2024 06:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VQfXANPA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LJ1mJ7q4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5BF2628C;
-	Tue, 19 Mar 2024 06:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F24F5EC;
+	Tue, 19 Mar 2024 06:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710830781; cv=none; b=KJaG1hYhEyvgopGS1IiTzqlnww/WFKZ4Cix/kiDU3LXdT0ikvc28ElzruVRSEn56Qfj59X2ENjsL4ZpjJdV208GgQxglyIrDceNZPmAUpPGdBq5yhnYikzT7yHa4xP0EcvB/eS/YavJuDgZBuj1yDi3fXdZnDEZpZWG13PxwdmI=
+	t=1710830907; cv=none; b=SexP5hugU7UffmJOXIEJPr1ysEEHMPVlvVeM6wWqRDfiZCX02yU7mI4l4LD3XLlsmijXChL5mEBDNhxwSb8hLC8Xx2VSlxhDdL70qejWM5X3zR3V6+NZUnnHSpjst4ADkBadJJz419b+5cAwDIjv3XG3nzHoy5SOcVxZesQmix4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710830781; c=relaxed/simple;
-	bh=mdofvyXfkAU1Xd6z9oDpDBTYaE1qN9b5520d0v1yYgM=;
+	s=arc-20240116; t=1710830907; c=relaxed/simple;
+	bh=wvCiicdGNkUxFjYHJfTUu6CUrf7ukrFRnI3I62d07j4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GvTN9TMalL8B7Ldgw7TzT6TlplM6euKCMsrA0Fkys63oQztbtv1S/HQKjT3vb0KL3U0z8jB6K+ycTk3G4uZ0BVt+QEU9+UpGgETw4VLwKu6wXUnzg0h8K9ySdQEr+6ihadzc5zErpIym5D2BmjT+6hNwGZTfm9cxpMEB0ZbaV8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VQfXANPA; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=hXgEzsCuA3wbR1XBFx8CZzCiLMEREnr1j62SKC6IMLRfh3gmYpMQQRN5VwDrL7yB5+jV7ApwTByFgdV1TRL4vSH7250XCetbTao+Mo+op3TEs/B0olHv9zm+7105NjBpMv0vkaGf0q6x0g0vMVAShqcKtvMpktFAfticgKIJQhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LJ1mJ7q4; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 160A1480;
-	Tue, 19 Mar 2024 07:45:50 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28D65480;
+	Tue, 19 Mar 2024 07:47:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710830750;
-	bh=mdofvyXfkAU1Xd6z9oDpDBTYaE1qN9b5520d0v1yYgM=;
+	s=mail; t=1710830877;
+	bh=wvCiicdGNkUxFjYHJfTUu6CUrf7ukrFRnI3I62d07j4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VQfXANPANFMbcFXtwTvq3xg8eJD7hYlkzia6sC1seMMar4Jn9eLfhtzfXHezLuucI
-	 SwYTdrwewcaZuPBvOxlCtFv/QS7XF4QswvpDi7KgcDib6p50e/MnuoiE9sXzuhKd9l
-	 yfSKuQtAf2l4uL9xch7gb2GdkVFW29bbMkogBl8U=
-Message-ID: <22225e92-803d-4aaa-b75f-cfd1d7d8c279@ideasonboard.com>
-Date: Tue, 19 Mar 2024 08:46:13 +0200
+	b=LJ1mJ7q4zQjJvuXCXwVJZdF33ikNbqwE+4pm+FlZtn8p8iVdaelFR5CYyL/LE0Anx
+	 2d0P4+ua02qqc3rOHrFILehIXLR49xXyXUo4aNyV5sl7+cg4D29HciieM4FdkV33tx
+	 aL+6v5AuotKJ5xN7fNm/jKWcVTvDhdktjVbm7xbc=
+Message-ID: <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
+Date: Tue, 19 Mar 2024 08:48:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,7 +71,7 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
  <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
- <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
+ <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -116,11 +116,11 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
+In-Reply-To: <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/03/2024 08:09, Krzysztof Kozlowski wrote:
+On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
 > On 18/03/2024 16:49, Tomi Valkeinen wrote:
 >> Add DT bindings for raspberrypi,rp1-cfe.
 >>
@@ -139,121 +139,30 @@ On 19/03/2024 08:09, Krzysztof Kozlowski wrote:
 >> +%YAML 1.2
 >> +---
 >> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
+> 
+> Use compatible as filename.
+
+Ah, indeed. I changed the compatible quite late, adding the "rpi5" as 
+versioning, and missed changing the file name.
+
+I'll rename.
+
+  Tomi
+
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
 >> +title: Raspberry Pi PiSP Camera Front End
->> +
->> +maintainers:
->> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
->> +
->> +description: |
->> +  The Raspberry Pi PiSP Camera Front End is a module in Raspberrypi 5's RP1 I/O
->> +  controller, that contains:
->> +  - MIPI D-PHY
->> +  - MIPI CSI-2 receiver
->> +  - Simple image processor (called PiSP Front End, or FE)
->> +
->> +  The FE documentation is available at:
->> +  https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
->> +
->> +  The PHY and CSI-2 receiver part have no public documentation.
+> 
+> 
 >> +
 >> +properties:
 >> +  compatible:
 >> +    const: raspberrypi,rpi5-rp1-cfe
->> +
->> +  reg:
->> +    items:
->> +      - description: CSI-2 registers
->> +      - description: D-PHY registers
->> +      - description: MIPI CFG (a simple top-level mux) registers
->> +      - description: FE registers
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/$defs/port-base
->> +    additionalProperties: false
->> +    description: CSI-2 RX Port
 > 
-> Only one port, so there is nothing to output to?
-
-The CFE has DMA, so it writes to memory. But no other outputs.
-
->> +
->> +    properties:
->> +      endpoint:
->> +        $ref: video-interfaces.yaml#
->> +        unevaluatedProperties: false
->> +
->> +        properties:
->> +          data-lanes:
->> +            minItems: 1
->> +            maxItems: 4
->> +
->> +          clock-lanes:
->> +            maxItems: 1
->> +
->> +          clock-noncontinuous: true
 > 
-> Drop
-
-Hmm, I saw this used in multiple other bindings, and thought it means 
-the property is allowed and copied it here.
-
-If that's not the case, does this mean all the properties from 
-video-interfaces.yaml are allowed (even invalid ones, like pclk-sample)?
-
->> +
->> +        required:
->> +          - clock-lanes
->> +          - data-lanes
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - clocks
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/rp1.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/mfd/rp1.h>
->> +
->> +    rpi1 {
 > 
-> soc
-
-That should actually be "rp1", not "rpi1". rp1 is the co-processor on 
-which the cfe is located, so it doesn't reside in the soc itself. But 
-perhaps that's not relevant, and "soc" is just a generic container that 
-should always be used?
-
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +      csi@110000 {
+> Best regards,
+> Krzysztof
 > 
-> Fix the indentation. You switched back to 2 spaces here...
-
-Oops.
-
->> +        compatible = "raspberrypi,rp1-cfe";
->> +        reg = <0xc0 0x40110000  0x0 0x100>,
->> +              <0xc0 0x40114000  0x0 0x100>,
-> 
-> Just one space before 0x0
-
-Ok.
-
-  Tomi
 
 
