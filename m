@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-7251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE42187F73F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:24:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4239987F750
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:30:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D5321C21AFF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:24:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1014B21876
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 06:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8CEF7BAE5;
-	Tue, 19 Mar 2024 06:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89D17C0A4;
+	Tue, 19 Mar 2024 06:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="moxpIdJp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T2zk/TEV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CB04597B
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 06:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E49665190;
+	Tue, 19 Mar 2024 06:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829445; cv=none; b=Ypd9/ibD5AV9qq0+wYP1q+VbkDBKqIf7i6DzXaWejz4HRcJe3cTAUk8JKMsgYufT+o9lK7xnKsJW+pJEJO7wUJj8Z5AAkiAQg9jaBOgOZAd/bMFkKvl2mi8edvKXW/wAw85YLApRSNEZx0RrHGPNojrLs4Elx/hhKh+9xllyD/4=
+	t=1710829805; cv=none; b=R3/p8CvD827TE70ZQ9OdzEnGzNFYSawj5/CaVvpTD/eFUKmSmJa4kt6QapNUxki7DXKbiLp1slvU+9D191URle3g1BS0Ucnz1T5zQqvHbF4nzT4UrrEHPUQGI/1s4JmjPFobHuwNVAYxsseWLJ5+s1otlk5jEWbktue45nUaPiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829445; c=relaxed/simple;
-	bh=O8ZHjCzCd6yTdchuxxyQKs4qTuIQFweQIDH0/+X/kCQ=;
+	s=arc-20240116; t=1710829805; c=relaxed/simple;
+	bh=IlB5SC8elaxZxZ7jC3HSF6c2qr46rgiI44EFyJKcBPw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bgGCbcAVJH7ZPc9YlUhCou4P3hYvT4iUAZhgqfeM56DJGsjcAmADebLUOGRFgAJcn0Nu5dnZ7oP7qXgdkyLHmYn6JEq8IkedSJFv7vP0yDYQVIJhanUs26prifw5MpjJb+Rypp0mH6rJmjNbJpeDiOlf+Ub4P3WGEDix8n1cOic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=moxpIdJp; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a466a27d30aso666360166b.1
-        for <linux-media@vger.kernel.org>; Mon, 18 Mar 2024 23:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710829442; x=1711434242; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vf3cHCFPsCEbDAPk/mIfBfxsqpfYW1qbahksa0pw4zc=;
-        b=moxpIdJpU8sXci/AMLdxINAKWo8q4GLgVGagDmcZhASCDBqBPCdv33AWsIW/0l6T0/
-         EUlqBpDklH2QnotqSMCnK/7nrnK21sFZ4BiXsmmr14UPq7vrJB6QSJgDxAetN3lkFcAg
-         3Hzl/hvuVdWstU1ML8fmTWBtN35eeMZslAXFo9K/WLeELthjTsOPftiGGXBYlL0WYG/c
-         pO/BdixpEa0BbI90WLuE3GRHMAkyg4rNvADAQyDGTZFNievWcd/hNGYq87mXoE3nKrH7
-         EAM6sAq35w5bJyW9cXpM+864QCfXo4fl9Qi7xdLNOOgs2MGemVeGZ2m4XsEnongR6Gee
-         kVrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710829442; x=1711434242;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vf3cHCFPsCEbDAPk/mIfBfxsqpfYW1qbahksa0pw4zc=;
-        b=ou9Ah14AUjt+Q+XhGlNozLngZNfcDsjHcevgobRV8RN4NAhWdaldttJ4+C4VFnveTd
-         hKfcAKMpbR0Qp6e8xXzlI2SgVNi1UrxAKMNll2tHVF9NFS0bE0JpHazGuFU8+rRBDHLh
-         vvAy0DRke0A33YiRtkAjyH4dyY2GBx5eLaDq1z/ONftYN2YwbM8sAu/2mc/OcXcnR9et
-         mFHCQIAJ/HkHcZWsfvRGVxuiLD2WCnEl/z3jng3E3mjuc6VxMQMVAAHpKHCLVharVXd1
-         R535jfpmYERKKXluHeZf02EdWNY/XGqU+xt3+cxm/raZ0nrj955z3NZ7i5qp04zmqbnO
-         Vjzw==
-X-Gm-Message-State: AOJu0Yzhu+JFfyVl8SRWC7IMXwU514Bw6c4bG+NjG3vUlVWh78KMmlMd
-	qYrF3okvxR60Sq/ynnCr8S39ACnLOfTmZ20glwWSkVKg2Dr4Cpga1o8ULaYp3+lHsWqULoiD22M
-	V
-X-Google-Smtp-Source: AGHT+IEmxUogVI8oxNM0m+UAVT3RyZfJ6XE3FEDGA5K4p9XL8pTgCUgihnzXUOXNjAjoOMI5fu2o6g==
-X-Received: by 2002:a17:906:79c9:b0:a45:f705:777c with SMTP id m9-20020a17090679c900b00a45f705777cmr797225ejo.40.1710829442047;
-        Mon, 18 Mar 2024 23:24:02 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id l8-20020a17090612c800b00a46aab70226sm3302072ejb.180.2024.03.18.23.23.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 23:24:01 -0700 (PDT)
-Message-ID: <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
-Date: Tue, 19 Mar 2024 07:23:59 +0100
+	 In-Reply-To:Content-Type; b=tiJyHDjnGZP2f0UTbCkfS6jxp14qkWZRh8NOyxOZXmFVdHVD5HM3oPEBOiORYjh3auMTDiBALIn7z0HFUxbdVk+pef6IO2j9+6MkpwjOfBQoYCRS3yi45XoEtiGXk+/auKHB/jCtFLD6nR1aRVucb/gWClUOpt7DiGI9TtYRL3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T2zk/TEV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28C44480;
+	Tue, 19 Mar 2024 07:29:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710829775;
+	bh=IlB5SC8elaxZxZ7jC3HSF6c2qr46rgiI44EFyJKcBPw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T2zk/TEVPl9lQ1LQ49Mw8Z8Zp8wh9ByIzkg6GBAaskM6rL9AfWIF2spIGOWMC6Kwn
+	 XD6sSUsGqoZnZ5mLza5kU47IKh2LciNXsAooFaXillAtkrpW/YahrY4echgMLvHxOz
+	 K/ZmBfp4LpLqA/ZEL8PJhw++saH9pW0NZsp0eczE=
+Message-ID: <fcea0340-68f0-4a16-9b47-4d9eb91ffb1a@ideasonboard.com>
+Date: Tue, 19 Mar 2024 08:29:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,17 +50,9 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
- raspberrypi,rp1-cfe
+Subject: Re: [PATCH 0/4] media: raspberrypi: Support RPi5's CFE
 Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, Naushir Patuck
@@ -94,92 +60,116 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  <laurent.pinchart@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
- <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+ <28754b32-35c7-4285-a610-3e101da41047@linaro.org>
+ <c6526c63-3e8d-46f3-abc2-3cc513617161@ideasonboard.com>
+ <0c1820fb-fbc0-4aae-b0d4-b5bb5c996377@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <0c1820fb-fbc0-4aae-b0d4-b5bb5c996377@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18/03/2024 16:49, Tomi Valkeinen wrote:
-> Add DT bindings for raspberrypi,rp1-cfe.
+On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
+> On 19/03/2024 07:21, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> On 19/03/2024 08:05, Krzysztof Kozlowski wrote:
+>>> On 18/03/2024 16:49, Tomi Valkeinen wrote:
+>>>> This series adds support to the CFE hardware block on RaspberryPi 5. The
+>>>> CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
+>>>> ISP.
+>>>>
+>>>> This series is currently based on multiple other serieses:
+>>>>
+>>>> - Sakari's "[PATCH v8 00/38] Generic line based metadata support, internal
+>>>>     pads" for metadata support
+>>>> - Laurent's "[PATCH 00/15] media: Add driver for the Raspberry Pi <5
+>>>>     CSI-2 receiver" for a few new pixel formats and imx219 (for testing).
+>>>> - Jacopo's "[PATCH v5 0/9] media: raspberrypi: Add support for PiSP Back
+>>>>     End" for some shared uapi headers.
+>>>>
+>>>> And to run this, one of course needs the basic RPi5 kernel support plus
+>>>> relevant dts changes to enable the cfe and camera.
+>>>
+>>> Which makes it impossible to merge. Please work on decoupling.
+>>
+>> Yes, it's not for merging as I wrote: "So at the moment we cannot merge
+>> this driver, but hopefully the dependencies will get merged before the
+>> reviews on this one are done."
+>>
+>> I believe Sakari's and Jacopo's serieses should be very close to
+>> merging, and those should satisfy the needs of the driver itself.
+>>
+>> The DT bindings example uses a header from RPi5 base support series, and
+>> if merging the base support seems to take a long time, I guess I could
+>> drop the include and just use numbers instead for RP1_INT_MIPI0 and
+>> RP1_CLK_MIPI0_CFG. And change those back later when the base support is
+>> merged.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103 +++++++++++++++++++++
->  1 file changed, 103 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
-> new file mode 100644
-> index 000000000000..7b2beeaaab0e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
+> The problem is that your patches cannot be tested by automated tools.
 
-Use compatible as filename.
+Yes, I understand. I will send testable and mergeable patches when the 
+dependencies are in, and until that this series is do-not-merge. But as 
+reviews sometimes take a very long time, I think it's better to start 
+sooner than later.
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Raspberry Pi PiSP Camera Front End
+Is there a way to mark a series as "don't bother testing" for automated 
+tools? RFC in the subject? I considered making this RFC, but I felt the 
+patches themselves are not RFC quality. I've also seen DNI 
+(do-not-integrate) used somewhere, but I'm not sure that's universally 
+understood.
 
-
-> +
-> +properties:
-> +  compatible:
-> +    const: raspberrypi,rpi5-rp1-cfe
-
-
-
-Best regards,
-Krzysztof
+  Tomi
 
 
