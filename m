@@ -1,55 +1,35 @@
-Return-Path: <linux-media+bounces-7319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F98B87FFBF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 15:39:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE279880061
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 16:15:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85C2D1F262F3
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:39:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECFA81C228C4
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 15:15:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 815E462818;
-	Tue, 19 Mar 2024 14:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YaA7GB8E"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFCAF657C3;
+	Tue, 19 Mar 2024 15:15:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE4BA38
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 14:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AAD657B6
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 15:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710859125; cv=none; b=HAxhrviYyirGOPhno0+pxg59z+vWWiAkMIR/uPopdTfk9QGX9MpqRoHjAN0VPZrrYyP+DtjgxcM7BmPUdi9GcYE5hs7fEviidqIEaeqhbhDZww/PMRC8PLtfyCnw9HEqZeSEIBabiUXsMqoDzDD7etGm+TCA5MYsFOxtw7Sauck=
+	t=1710861339; cv=none; b=m4j6HCt0XB82k/kACuoMVW+j93IWb1OJuEWENCf3yvy84m7EhGMjd1M5C4GVljiaBQq+kfRfRIHUhYVaAD/Zy4ythqgUcXM0KUJlmHR5mR6Hlf+CCFmUHiL8Tw6x+ekLm2wN24wH+TwQTnNCsZ8v8IYktNaN+V6/qeqHn2Wgx7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710859125; c=relaxed/simple;
-	bh=dszI2Xwrv/OAYEfQULjv+546emqZR5EyOa/lIxxX3rI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VDHoPYY0BRPFHX3YWm0f8Sizt6VtYfcPQ1XqCQjybtTfB78Bt06M+mjTfO+xMSBqTywgVB+1/C7oJuBUKDCiGyV4W63XcNuOSjje6xk1C5ETallfNbvklNTIsdw9CZ9R42Hy3GUjBYZqh1DruY2hdMt0xOxZcFcihGZCrI7hcHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YaA7GB8E; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1710859122;
-	bh=dszI2Xwrv/OAYEfQULjv+546emqZR5EyOa/lIxxX3rI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YaA7GB8ERw0AnbUaBJmiQ5sJyVNxUKHq6IWuxvIEBj5YV5XYR5JQ5yPr3ZXZW5Nxf
-	 L4eubsjdJ3ZsAwoY5hRqweCV9xxuNCb0Cf4wRmHKe2WKsmUsbLgyzJrb118a+1deC9
-	 DT03QRM6Q7QerFxWJe0rdEw2/ndrMePepmOVDVwblU+z+GBmtPWNCin9RLUOVqbhuG
-	 133jqPMolYiSAAR2ybu8flhYWNo5sPAA18oQE+qA93U2pa5e86/QeKEsfwojde3DuO
-	 01+qizliu3szKf6qILQQK4Ab29RKYT06JvsBwLdyMJ1ot5/yy+BcMJmQFrk05mm9Fi
-	 rWPCpc4U7QM4g==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 04B8F3780016;
-	Tue, 19 Mar 2024 14:38:40 +0000 (UTC)
-Message-ID: <b9ff9d89-ac54-46c5-ac9f-8b83fe604dc9@collabora.com>
-Date: Tue, 19 Mar 2024 15:38:39 +0100
+	s=arc-20240116; t=1710861339; c=relaxed/simple;
+	bh=f4vi6qNMMFMd+j4wRF1nC7s6KSGBEyuZXzNBvECPtlk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=AmsmUyeWP0dqoTLMmaKIsx4OsnhCxWMc65qaBUBrx8q6fTDgE65JZ2cQqm9OAtRJt1PiAObunHHqF7FugV+DuwApNlN/yhcYBURIaL3mzZ9i/2HhOUf00TaZ3ya5aKD9PmOgGwZiw9vidIwI4LzG9jMhoXVkg3I3mTIx2qHeK9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E8AC433C7;
+	Tue, 19 Mar 2024 15:15:37 +0000 (UTC)
+Message-ID: <369cc35b-9625-4512-bb7a-7d5ccfe28e5c@xs4all.nl>
+Date: Tue, 19 Mar 2024 16:15:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,156 +37,171 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 09/38] media: Documentation: v4l: Document internal
- source pads
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
- hongju.wang@intel.com, hverkuil@xs4all.nl,
- Andrey Konovalov <andrey.konovalov@linaro.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- "Ng, Khai Wen" <khai.wen.ng@intel.com>,
- Alain Volmat <alain.volmat@foss.st.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-10-sakari.ailus@linux.intel.com>
- <f4e9ebbe-29a6-4f7e-9420-c6c46293d762@collabora.com>
- <ZfmXW4tkh3FOKXU8@kekkonen.localdomain>
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <ZfmXW4tkh3FOKXU8@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.10] Add imx-asrc m2m audio rate control driver
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Mark Brown <broonie@kernel.org>,
+ alsa-devel@alsa-project.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
-On 3/19/24 14:47, Sakari Ailus wrote:
-> Hi Julien,
-> 
-> On Fri, Mar 15, 2024 at 04:32:59PM +0100, Julien Massot wrote:
->>
->>
->> On 3/13/24 08:24, Sakari Ailus wrote:
->>> Document internal source pads, pads that have both SINK and INTERNAL flags
->>> set. Use the IMX219 camera sensor as an example.
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>>    .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
->>>    1 file changed, 145 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>> index a387e8a15b8d..1808f40f63e3 100644
->>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->>> @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
->>>    sub-device and a (pad, stream) pair. For sub-devices that do not support
->>>    multiplexed streams the 'stream' field is always 0.
->>> +.. _v4l2-subdev-internal-source-pads:
->>> +
->>> +Internal source pads and routing
->>> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> +
->>> +Cases where a single sub-device source pad is traversed by multiple streams, one
->>> +or more of which originate from within the sub-device itself, are special as
->>> +there is no external sink pad for such routes. In those cases, the sources of
->>> +the internally generated streams are represented by internal source pads, which
->>> +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
->>> +pad flag set.
->>> +
->>> +Internal pads have all the properties of an external pad, including formats and
->>> +selections. The format in this case is the source format of the stream. An
->>> +internal pad always has a single stream only (0).
->>> +
->>> +Routes from an internal source pad to an external source pad are typically not
->>> +modifiable but they can be activated and deactivated using the
->>> +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
->>> +on driver capabilities.
->>> +
->>>    Interaction between routes, streams, formats and selections
->>>    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> @@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
->>>       the configurations along the stream towards the receiver, using
->>>       :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
->>>       stream endpoint in each sub-device.
->>> +
->>> +Internal pads setup example
->>> +^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> +
->>> +A simple example of a multiplexed stream setup might be as follows:
->>> +
->>> +- An IMX219 camera sensor source sub-device, with one sink pad (0), one source pad
->>> +  (1), an internal sink pad (2) that represents the source of embedded
->> The pixel pad is an internal pad as well ?
-> 
-> How about:
-> 
-> - An IMX219 camera sensor source sub-device, with one internal sink pad
->    (0) for image data, one source pad (1), an internal sink pad (2) that
->    represents the source of embedded
-sure looks good to me!
+Hi Mauro,
 
->   
->>
->>> +  data. There are two routes, one from the sink pad to the source, and another
->>> +  from the internal sink pad to the source pad. Both streams are always active,
->>> +  i.e. there is no need to separately enable the embedded data stream. The
->>> +  sensor uses the CSI-2 bus.
->>> +
->>> +- A CSI-2 receiver in the SoC (Receiver). The receiver has a single sink pad
->>> +  (pad 0), connected to the bridge, and two source pads (pads 1-2), going to the
->>> +  DMA engine. The receiver demultiplexes the incoming streams to the source
->>> +  pads.
->>> +
->>> +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
->>> +  connected to a single source pad in the receiver.
->>> +
->>> +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
->>> +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
->>> +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
->>> +
->>> +To configure this pipeline, the userspace must take the following steps:
->>> +
->>> +1) Set up media links between entities: connect the sensors to the bridge,
->>> +   bridge to the receiver, and the receiver to the DMA engines. This step does
->>> +   not differ from normal non-multiplexed media controller setup.
->>> +
->>> +2) Configure routing
->>> +
->>> +.. flat-table:: Camera sensor. There are no configurable routes.
->>> +    :header-rows: 1
->>> +
->>> +    * - Sink Pad/Stream
->>> +      - Source Pad/Stream
->>> +      - Routing Flags
->>> +      - Comments
->>> +    * - 0/0
->>> +      - 1/0
->> - 1/0
->> - 0/0
->>> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
->>> +      - Pixel data stream from the sink pad
->>> +    * - 2/0
->>> +      - 1/1
->> - 0/1
->>> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
->>> +      - Metadata stream from the internal sink pad
->>
->> In latest patch "[PATCH v6 05/15] media: i2c: imx219: Add embedded data
->> support"
->> we have:
->> - 0 -> source pad
->> - 1 -> pixel/image
->> - 2 -> EDATA
->>
->> This is also what you did for ov2740.
-> 
-> Yes, these were leftovers from the CCS example. I've fixed them.
-> 
->>
->> With that fixed:
->> Reviewed-by Julien Massot <julien.massot@collabora.com>
-> 
-> Thank you!
-> 
+This adds support for the imx-asrc m2m audio rate control driver. Most of these
+patches add support for the new v4l-audioX device nodes and related types,
+and adding support for fixed point control types.
+
+The ASoC patches have been acked by Mark Brown.
+
+It also adds a vim2m-audio test driver so we can test the v4l-audio infrastructure.
+
+Since V4L2 is fourcc-based all the way, directly using snd_pcm_format_t values
+is not an option: fourcc's are expected to be printable characters, and it is
+pretty much certain that there are applications that show it like that to the
+end-user. The utilities in v4l-utils certainly do, and it is in fact a
+perfectly reasonable thing to do. So instead we map the snd_pcm_format_t value
+to a fourcc with v4l2_audfmt_to_fourcc and map it back with v4l2_fourcc_to_audfmt.
+
+This PR is using v15 of the patch series:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=12460
+
+And the corresponding v4l-utils patch series is here:
+
+https://patchwork.linuxtv.org/user/todo/linux-media/?series=12074
+
+Regards,
+
+	Hans
+
+The following changes since commit b14257abe7057def6127f6fb2f14f9adc8acabdb:
+
+  media: rcar-isp: Disallow unbind of devices (2024-03-07 16:35:13 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-audio
+
+for you to fetch changes up to af06c8792653c42d1f126505ec9180255091d94e:
+
+  media: vim2m-audio: add virtual driver for audio memory to memory (2024-03-19 15:55:38 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      media: v4l2-ctrls: add support for fraction_bits
+
+Shengjiu Wang (15):
+      ASoC: fsl_asrc: define functions for memory to memory usage
+      ASoC: fsl_easrc: define functions for memory to memory usage
+      ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+      ASoC: fsl_asrc: register m2m platform device
+      ASoC: fsl_easrc: register m2m platform device
+      media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+      media: v4l2: Add audio capture and output support
+      media: uapi: Define audio sample format fourcc type
+      media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+      media: uapi: Add audio rate controls support
+      media: uapi: Declare interface types for Audio
+      media: uapi: Add an entity type for audio resampler
+      media: vivid: add fixed point test controls
+      media: imx-asrc: Add memory to memory driver
+      media: vim2m-audio: add virtual driver for audio memory to memory
+
+ Documentation/userspace-api/media/mediactl/media-types.rst    |   11 +
+ Documentation/userspace-api/media/v4l/buffer.rst              |    6 +
+ Documentation/userspace-api/media/v4l/common.rst              |    1 +
+ Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst   |   71 +++
+ Documentation/userspace-api/media/v4l/devices.rst             |    1 +
+ Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst |   59 +++
+ Documentation/userspace-api/media/v4l/pixfmt-audio.rst        |  100 ++++
+ Documentation/userspace-api/media/v4l/pixfmt.rst              |    1 +
+ Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst     |    2 +
+ Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst  |    4 +
+ Documentation/userspace-api/media/v4l/vidioc-g-fmt.rst        |    4 +
+ Documentation/userspace-api/media/v4l/vidioc-querycap.rst     |    3 +
+ Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst    |   11 +-
+ Documentation/userspace-api/media/videodev2.h.rst.exceptions  |    3 +
+ MAINTAINERS                                                   |   17 +
+ drivers/media/common/videobuf2/videobuf2-v4l2.c               |    4 +
+ drivers/media/platform/nxp/Kconfig                            |   13 +
+ drivers/media/platform/nxp/Makefile                           |    1 +
+ drivers/media/platform/nxp/imx-asrc.c                         | 1256 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/test-drivers/Kconfig                            |   10 +
+ drivers/media/test-drivers/Makefile                           |    1 +
+ drivers/media/test-drivers/vim2m-audio.c                      |  793 ++++++++++++++++++++++++++++++++
+ drivers/media/test-drivers/vivid/vivid-core.h                 |    2 +
+ drivers/media/test-drivers/vivid/vivid-ctrls.c                |   26 ++
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c                 |    9 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c                      |    1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                     |   93 +++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c                     |   10 +
+ drivers/media/v4l2-core/v4l2-dev.c                            |   21 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                          |   66 +++
+ drivers/media/v4l2-core/v4l2-mem2mem.c                        |   13 +-
+ include/media/v4l2-ctrls.h                                    |   13 +-
+ include/media/v4l2-dev.h                                      |    2 +
+ include/media/v4l2-ioctl.h                                    |   34 ++
+ {sound/soc/fsl => include/sound}/fsl_asrc_common.h            |   60 +++
+ include/uapi/linux/media.h                                    |    2 +
+ include/uapi/linux/v4l2-controls.h                            |    9 +
+ include/uapi/linux/videodev2.h                                |   50 +-
+ sound/soc/fsl/fsl_asrc.c                                      |  144 ++++++
+ sound/soc/fsl/fsl_asrc.h                                      |    4 +-
+ sound/soc/fsl/fsl_asrc_dma.c                                  |    2 +-
+ sound/soc/fsl/fsl_easrc.c                                     |  233 ++++++++++
+ sound/soc/fsl/fsl_easrc.h                                     |    6 +-
+ 43 files changed, 3145 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+ create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+ create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+ rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
 
