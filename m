@@ -1,218 +1,255 @@
-Return-Path: <linux-media+bounces-7315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B2987FF0B
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:47:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACC787FF28
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:57:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E5DB1F22B0E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:47:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0CEC61F249E3
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:57:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7ADD8061F;
-	Tue, 19 Mar 2024 13:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C682481745;
+	Tue, 19 Mar 2024 13:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Th3vDRgi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XvMIDRR9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E94D8004F
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 13:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB0C81734;
+	Tue, 19 Mar 2024 13:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710856036; cv=none; b=ZiJe/nEoeC6dOH/VI0Hxx9cLoD+4pEURDdFPyj1khTo+grcg6b0ZYOT+OIxP0bBd/vkK7SytfaXBFpXMfbMe0h9vbll1tT/Mxfjf3G0n68XhWw5Tfi1zFkTrPVM44w8kK2wMl8mh//HguPnAqDRwyCL1XFNFWLiTI/ZIubv6DeY=
+	t=1710856622; cv=none; b=nOoBpsGMq4Lknz4Rt2DlMurdUJnlsTWV0jqxgXOGravJ1W7yNoWYeSfs7Fws8l98xdqDauPAZXQui4+lL6eaoD6hodSMCGsUCNww4rxwS87rLp9xnJJDpYabmbsT+dcNEku538scOCq2VQ4AHYpjCjOdQzCWQF6/4VjcFAn/YfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710856036; c=relaxed/simple;
-	bh=U81OeYVZBANqfIy3A8NTA6kN2ZNwLOwqkzstbbsI+mY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKoPW1wcUxzm5g5o+Z/kSQglrw4jJ83uGQc4pCCoLFWx0sepj3tZUpKFUPWrwooYQRrJFXyvfHaEaEFRVWLwfvp3PuS1X3rRJRQ3/yl/GQPyVmXiFXgiw0Z8PG7Mn8wnQreOfIEsv2X/HldL5bYaoyj8T7kSlYA/XLD/FbvgrM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Th3vDRgi; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710856035; x=1742392035;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U81OeYVZBANqfIy3A8NTA6kN2ZNwLOwqkzstbbsI+mY=;
-  b=Th3vDRgioSomwBMd0kanwc+KgIr1lMKhT3XstY8mmZygHCxfUvy5zKJ5
-   cUE3y7fjGvmTjA0qoKxTMR/lY0BqmSs8SaouxEioDkvTUv4QDGnm/7+fd
-   qlci4crUHMwcOgyw1CCCJ52gwhr4z+TUTdK30dw3wT/RXpH9ntda/Bhh1
-   brcu7ZQRXvN4fEe8v0gZfHa69bSjtdNZAfymlOmimxRvnMwgYvLRdveTS
-   QOs1LNJLt9aEKhySAZ7NNDE+tNvr4fkNYjh7P9tTLPcbWaeTwB+9cEevB
-   /rkyfOyNqXeDu/O+1iABGd1VBosOO3N2HhBlZZM+gbh341X2uX371pgWR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="23184180"
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="23184180"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:47:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="44767911"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:47:11 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id CE62C11F853;
-	Tue, 19 Mar 2024 15:47:07 +0200 (EET)
-Date: Tue, 19 Mar 2024 13:47:07 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-	hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 09/38] media: Documentation: v4l: Document internal
- source pads
-Message-ID: <ZfmXW4tkh3FOKXU8@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-10-sakari.ailus@linux.intel.com>
- <f4e9ebbe-29a6-4f7e-9420-c6c46293d762@collabora.com>
+	s=arc-20240116; t=1710856622; c=relaxed/simple;
+	bh=FNnVUxP5kKoCDRumiMd76zCH0Ns7cHeJNwsmi1pOsnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FMsg3eDgBCML1KCiZu8f+MzQCKHPYapIKErCISaDUda/T4uhuqI0KC0C1IbQoERikXIE7Hb6MQif8EVgLYgUeEARp/+aZQec9f51LiMhuVg4D/Ai2FHf7JIZqFcpI5rxWb2kAJJcbhqpn5maBz4QKRq6p2jMYMuh9z6wtp/CcbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XvMIDRR9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C7EAC80;
+	Tue, 19 Mar 2024 14:56:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710856591;
+	bh=FNnVUxP5kKoCDRumiMd76zCH0Ns7cHeJNwsmi1pOsnw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XvMIDRR9CVXFv0oazyi54aW3lVKYAUvu/LlHjBOe+IupZ05gQ7GDsIubTwsG2DYs0
+	 K1KrJeIgXUWIarv+X2aNE1uJTxtaW5EnpgbciDnvY0e2qdhsicd6cSw9fq1Lng/DSw
+	 xv80yR5R5wU7s4sOaVTer2bX7CMkaJ/SRCYEA5r8=
+Message-ID: <aaf0faf8-7041-4510-9e02-1ec896baf4ae@ideasonboard.com>
+Date: Tue, 19 Mar 2024 15:56:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4e9ebbe-29a6-4f7e-9420-c6c46293d762@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
+ raspberrypi,rp1-cfe
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Naushir Patuck
+ <naush@raspberrypi.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
+ <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
+ <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
+ <22225e92-803d-4aaa-b75f-cfd1d7d8c279@ideasonboard.com>
+ <8caabb1a-dfba-48d5-a794-a26d0286bad2@linaro.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <8caabb1a-dfba-48d5-a794-a26d0286bad2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Julien,
+On 19/03/2024 11:31, Krzysztof Kozlowski wrote:
+> On 19/03/2024 07:46, Tomi Valkeinen wrote:
+>>>> +  reg:
+>>>> +    items:
+>>>> +      - description: CSI-2 registers
+>>>> +      - description: D-PHY registers
+>>>> +      - description: MIPI CFG (a simple top-level mux) registers
+>>>> +      - description: FE registers
+>>>> +
+>>>> +  interrupts:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  clocks:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  port:
+>>>> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>>>> +    additionalProperties: false
+>>>> +    description: CSI-2 RX Port
+>>>
+>>> Only one port, so there is nothing to output to?
+>>
+>> The CFE has DMA, so it writes to memory. But no other outputs.
+> 
+> You still might have some sort of pipeline, e.g. some post processing
+> block. But if this is end block, then I guess it's fine.
 
-On Fri, Mar 15, 2024 at 04:32:59PM +0100, Julien Massot wrote:
+There is a processing block, FE. But it's considered part of the same 
+module.
+
+Whether that's exactly correct or not, I'm not sure. I don't have 
+detailed hardware docs, but my understanding of the architecture is that 
+we have the D-PHY, CSI-2 RX and FE blocks, and a "MIPI CFG" wrapper 
+around these (with some CSI-2 & FE muxing and interrupt status flags). 
+These are all considered to be part of the same CFE module, and thus we 
+represent it here as a single node.
+
+In the patch 4 I explain a bit more about the HW blocks, but maybe it 
+would've been beneficial to have some description here too. Here's the 
+relevant part:
+
+> +The PiSP Camera Front End (CFE) is a module which combines a CSI-2 receiver with
+> +a simple ISP, called the Front End (FE).
+> +
+> +The CFE has four DMA engines and can write frames from four separate streams
+> +received from the CSI-2 to the memory. One of those streams can also be routed
+> +directly to the FE, which can do minimal image processing, write two versions
+> +(e.g. non-scaled and downscaled versions) of the received frames to memory and
+> +provide statistics of the received frames.
+
+
+>>>> +
+>>>> +    properties:
+>>>> +      endpoint:
+>>>> +        $ref: video-interfaces.yaml#
+>>>> +        unevaluatedProperties: false
+>>>> +
+>>>> +        properties:
+>>>> +          data-lanes:
+>>>> +            minItems: 1
+>>>> +            maxItems: 4
+>>>> +
+>>>> +          clock-lanes:
+>>>> +            maxItems: 1
+>>>> +
+>>>> +          clock-noncontinuous: true
+>>>
+>>> Drop
+>>
+>> Hmm, I saw this used in multiple other bindings, and thought it means
+>> the property is allowed and copied it here.
+>>
+>> If that's not the case, does this mean all the properties from
+>> video-interfaces.yaml are allowed (even invalid ones, like pclk-sample)?
+> 
+> Yes, that's the meaning of unevaluatedProperties you have a bit above.
+> 
+>>
+>>>> +
+>>>> +        required:
+>>>> +          - clock-lanes
+>>>> +          - data-lanes
+>>>> +
+>>>> +required:
+>>>> +  - compatible
+>>>> +  - reg
+>>>> +  - interrupts
+>>>> +  - clocks
+>>>> +
+>>>> +additionalProperties: false
+>>>> +
+>>>> +examples:
+>>>> +  - |
+>>>> +    #include <dt-bindings/clock/rp1.h>
+>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>> +    #include <dt-bindings/mfd/rp1.h>
+>>>> +
+>>>> +    rpi1 {
+>>>
+>>> soc
+>>
+>> That should actually be "rp1", not "rpi1". rp1 is the co-processor on
+>> which the cfe is located, so it doesn't reside in the soc itself. But
+> 
+> Where is the co-processor located?
+
+RP1 is a separate chip on the board, behind PCIe. It contains multiple 
+blocks, dealing with I/O (like this CSI-2, but also USB, eth, ...). To 
+the driver the CFE just shows up as a normal memory mapped IP. Afaics, 
+in theory CFE could as well be in the main SoC itself, so, for an 
+example, I don't see "soc" as a bad parent node.
+
+  Tomi
+
+>> perhaps that's not relevant, and "soc" is just a generic container that
+>> should always be used?
+> 
+> Does not have to be soc, but rp1 is not generic.
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 > 
 > 
-> On 3/13/24 08:24, Sakari Ailus wrote:
-> > Document internal source pads, pads that have both SINK and INTERNAL flags
-> > set. Use the IMX219 camera sensor as an example.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >   .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
-> >   1 file changed, 145 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index a387e8a15b8d..1808f40f63e3 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
-> >   sub-device and a (pad, stream) pair. For sub-devices that do not support
-> >   multiplexed streams the 'stream' field is always 0.
-> > +.. _v4l2-subdev-internal-source-pads:
-> > +
-> > +Internal source pads and routing
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Cases where a single sub-device source pad is traversed by multiple streams, one
-> > +or more of which originate from within the sub-device itself, are special as
-> > +there is no external sink pad for such routes. In those cases, the sources of
-> > +the internally generated streams are represented by internal source pads, which
-> > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-> > +pad flag set.
-> > +
-> > +Internal pads have all the properties of an external pad, including formats and
-> > +selections. The format in this case is the source format of the stream. An
-> > +internal pad always has a single stream only (0).
-> > +
-> > +Routes from an internal source pad to an external source pad are typically not
-> > +modifiable but they can be activated and deactivated using the
-> > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
-> > +on driver capabilities.
-> > +
-> >   Interaction between routes, streams, formats and selections
-> >   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > @@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
-> >      the configurations along the stream towards the receiver, using
-> >      :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
-> >      stream endpoint in each sub-device.
-> > +
-> > +Internal pads setup example
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +A simple example of a multiplexed stream setup might be as follows:
-> > +
-> > +- An IMX219 camera sensor source sub-device, with one sink pad (0), one source pad
-> > +  (1), an internal sink pad (2) that represents the source of embedded
-> The pixel pad is an internal pad as well ?
-
-How about:
-
-- An IMX219 camera sensor source sub-device, with one internal sink pad
-  (0) for image data, one source pad (1), an internal sink pad (2) that
-  represents the source of embedded
- 
 > 
-> > +  data. There are two routes, one from the sink pad to the source, and another
-> > +  from the internal sink pad to the source pad. Both streams are always active,
-> > +  i.e. there is no need to separately enable the embedded data stream. The
-> > +  sensor uses the CSI-2 bus.
-> > +
-> > +- A CSI-2 receiver in the SoC (Receiver). The receiver has a single sink pad
-> > +  (pad 0), connected to the bridge, and two source pads (pads 1-2), going to the
-> > +  DMA engine. The receiver demultiplexes the incoming streams to the source
-> > +  pads.
-> > +
-> > +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
-> > +  connected to a single source pad in the receiver.
-> > +
-> > +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
-> > +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
-> > +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> > +
-> > +To configure this pipeline, the userspace must take the following steps:
-> > +
-> > +1) Set up media links between entities: connect the sensors to the bridge,
-> > +   bridge to the receiver, and the receiver to the DMA engines. This step does
-> > +   not differ from normal non-multiplexed media controller setup.
-> > +
-> > +2) Configure routing
-> > +
-> > +.. flat-table:: Camera sensor. There are no configurable routes.
-> > +    :header-rows: 1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 0/0
-> > +      - 1/0
-> - 1/0
-> - 0/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from the sink pad
-> > +    * - 2/0
-> > +      - 1/1
-> - 0/1
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Metadata stream from the internal sink pad
 > 
-> In latest patch "[PATCH v6 05/15] media: i2c: imx219: Add embedded data
-> support"
-> we have:
-> - 0 -> source pad
-> - 1 -> pixel/image
-> - 2 -> EDATA
+> Best regards,
+> Krzysztof
 > 
-> This is also what you did for ov2740.
 
-Yes, these were leftovers from the CCS example. I've fixed them.
-
-> 
-> With that fixed:
-> Reviewed-by Julien Massot <julien.massot@collabora.com>
-
-Thank you!
-
--- 
-Regards,
-
-Sakari Ailus
 
