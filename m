@@ -1,164 +1,150 @@
-Return-Path: <linux-media+bounces-7255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4F087F7E6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 08:00:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE75E87F7FF
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 08:03:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 816FC1C21A27
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:00:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74B262825D8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 07:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951D551031;
-	Tue, 19 Mar 2024 07:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9317535BA;
+	Tue, 19 Mar 2024 07:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QNobSf7e"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="NOzqJoaY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CCD50A6B;
-	Tue, 19 Mar 2024 07:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A5A51004;
+	Tue, 19 Mar 2024 07:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710831612; cv=none; b=j74A6RNX1i+iRWMkg/bHgAnvJ6d2EjmQrPSYAUgrisPZVHNcdmwRVXB0FTKUj+PhZYInrTdTISz/ITll9c/VL1PqZc/ZbtX9eXHNKufFmwu4IPBeMfMK5Ofmj6GM3PFjNNvFnSz5ZXrXYd378XQOqZWPar067Cfevi0WiXCmpxU=
+	t=1710831792; cv=none; b=o9mM2ljE8DRFaau08T+xWwoz3u1UEmQKGzvuqxApp+HRLQ7TYNmAM/19Dt7b3eseghx1dcW2Cvs3Z4ymODR2CunYx0gAOoem0wb7Y0RDfRuH5fqui+fVUdepiuD+4y2llpD+4f36qxh7pz7TCTBLbxe/PlQSxXKtQHWNeyJ5lUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710831612; c=relaxed/simple;
-	bh=kDbKmZZNsINgi/dApLj0S6Istcg2gNirhdD5PgV7b14=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Rpio/lreB/NDx82Uf+26dRcG3vmrzUlZxohzwJUuzt3RUGvq3x8g+BjVqKGtFaT7wxUAyeygmhJKeDD0Nz51RT7C1CLCXLswAuz8ch/JV672boCQIKLF7xLppF2mwzOZ7b3xUL9zQ6NOAG/NRHvM0RJ7rOV3V/7aT3OyhTXmOgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QNobSf7e; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 267CC480;
-	Tue, 19 Mar 2024 07:59:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710831578;
-	bh=kDbKmZZNsINgi/dApLj0S6Istcg2gNirhdD5PgV7b14=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=QNobSf7eIH1lbcLm86zcCduCYuRJ/5Xr1+iXyQjTq4g/rX9LmAj1GOYg/PGpmLIIU
-	 aTezgoSvJwlwyJ278j9817D5v/R8hrRvds7hCHZ5GVOmJMXRVXKklbrVnUsrsJBkQI
-	 9HypUVoKRMdvFRpnslTAzIQhfJnSxSwk4I/KQyiE=
-Message-ID: <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
-Date: Tue, 19 Mar 2024 09:00:00 +0200
+	s=arc-20240116; t=1710831792; c=relaxed/simple;
+	bh=kMFVJS0mwaelbOKmlq0njw8ctU1/N3lf+fxys1Y9ZqE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IMb0BKrzQ482eA7RhFclAGXLRJzfLd7Gy6Bs7fdAgiVMzn7kvUIidE7Ju2gzibxrif/VzLiE55aCIvyFd5YboY6vXymsgLaGng15O4JFRsClsi6LkV8WEDGsEJLbbV747e9oPwWEuHN54Q7npn232/9TP7jy6jXiEC2CkurSC1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=NOzqJoaY; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: b8b93d66e5be11eeb8927bc1f75efef4-20240319
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=EYOFrIPj763jT3PLRcGM0ZquAZ54oz4DX2bz2jRJwIg=;
+	b=NOzqJoaYD0glVemcO98kmk7rjBVtRt4i8gruD4EErhnteiPf8iqcOJZbDZiqSVRuvV1VmeSz7UU70R7uXHf9FBGr7RpDRMeFzUGQ9D2BudIOizZHgg4NEHZH0FMv9H0LV3oRmbsBGOLiht26xPwratN/RzlDo6d+so8RV+2YUxg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:bcb19b6d-8a66-4aca-a5b3-bcebfa572858,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:d5850f00-c26b-4159-a099-3b9d0558e447,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: b8b93d66e5be11eeb8927bc1f75efef4-20240319
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <shawn.sung@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 613645592; Tue, 19 Mar 2024 15:03:00 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 19 Mar 2024 15:02:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 19 Mar 2024 15:02:58 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+	<shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v2 00/14] Rename mtk_drm_* to mtk_*
+Date: Tue, 19 Mar 2024 15:02:43 +0800
+Message-ID: <20240319070257.6443-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
- raspberrypi,rp1-cfe
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Naushir Patuck <naush@raspberrypi.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
- <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
- <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
- <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On 19/03/2024 08:48, Tomi Valkeinen wrote:
-> On 19/03/2024 08:23, Krzysztof Kozlowski wrote:
->> On 18/03/2024 16:49, Tomi Valkeinen wrote:
->>> Add DT bindings for raspberrypi,rp1-cfe.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>   .../bindings/media/raspberrypi,rp1-cfe.yaml        | 103 
->>> +++++++++++++++++++++
->>>   1 file changed, 103 insertions(+)
->>>
->>> diff --git 
->>> a/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml 
->>> b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
->>> new file mode 100644
->>> index 000000000000..7b2beeaaab0e
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/raspberrypi,rp1-cfe.yaml
->>> @@ -0,0 +1,103 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/media/raspberrypi,rp1-cfe.yaml#
->>
->> Use compatible as filename.
-> 
-> Ah, indeed. I changed the compatible quite late, adding the "rpi5" as 
-> versioning, and missed changing the file name.
-> 
-> I'll rename.
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-Actually, maybe it's better to have two compatibles, 
-"raspberrypi,rp1-cfe" as the generic one, and "raspberrypi,rpi5-rp1-cfe" 
-(or something similar) for RaspberryPi 5.
+Rename some unnecessary  "mtk_drm_*" to "mtk_*" because:
+- Lower the matches when searching the native drm_* codes
+- Reduce the code
 
-And I'm not sure if the "rp1" part is relevant there, would 
-"raspberrypi,cfe" be just as fine? Naush?
+Changes in v2:
+- Sort header files alphabetically
+- Seperate patches for renaming .c files to avoid conflicts
 
-  Tomi
+Hsiao Chien Sung (14):
+  drm/mediatek: Rename "mtk_drm_crtc" to "mtk_crtc"
+  drm/mediatek: Rename "mtk_drm_ddp_comp" to "mtk_ddp_comp"
+  drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+  drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+  drm/mediatek: Rename "mtk_drm_hdmi" to "mtk_hdmi"
+  drm/mediatek: Rename files "mtk_drm_crtc.h" to "mtk_crtc.h"
+  drm/mediatek: Rename files "mtk_drm_crtc.c" to "mtk_crtc.c"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.h" to "mtk_ddp_comp.h"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.c" to "mtk_ddp_comp.c"
+  drm/mediatek: Rename files "mtk_drm_plane.h" to "mtk_plane.h"
+  drm/mediatek: Rename files "mtk_drm_plane.c" to "mtk_plane.c"
+  drm/mediatek: Rename files "mtk_drm_gem.h" to "mtk_gem.h"
+  drm/mediatek: Rename files "mtk_drm_gem.c" to "mtk_gem.c"
+  drm/mediatek: Rename mtk_ddp_comp functions
+
+ drivers/gpu/drm/mediatek/Makefile             |  12 +-
+ .../mediatek/{mtk_drm_crtc.c => mtk_crtc.c}   | 213 +++++++++---------
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |  28 +++
+ .../{mtk_drm_ddp_comp.c => mtk_ddp_comp.c}    |  51 +++--
+ .../{mtk_drm_ddp_comp.h => mtk_ddp_comp.h}    |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   4 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  30 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  32 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   6 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |   4 +-
+ .../drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} |  65 +++---
+ .../drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} |  23 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |  14 +-
+ drivers/gpu/drm/mediatek/mtk_padding.c        |   4 +-
+ .../mediatek/{mtk_drm_plane.c => mtk_plane.c} |  26 +--
+ .../mediatek/{mtk_drm_plane.h => mtk_plane.h} |   4 +-
+ 26 files changed, 275 insertions(+), 286 deletions(-)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c} (82%)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.c => mtk_ddp_comp.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.h => mtk_ddp_comp.h} (98%)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} (76%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} (62%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.c => mtk_plane.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.h => mtk_plane.h} (95%)
+
+--
+2.18.0
 
 
