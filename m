@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-7314-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7315-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808887FED3
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:27:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B2987FF0B
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:47:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D62E1F227B8
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:27:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E5DB1F22B0E
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9957A8002D;
-	Tue, 19 Mar 2024 13:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7ADD8061F;
+	Tue, 19 Mar 2024 13:47:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hA60o7bR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Th3vDRgi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59887F7C1
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 13:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E94D8004F
+	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 13:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710854867; cv=none; b=Yy5xw4tcgGWjTqLMqLj+DJyIFIRmtWnX5+B/Ch1i2iIZJfSm90LZx5dsLldLHxZNxjmiNJGuE0GhvaauNx5Y/xviFxrjtxzap4O/Q6lEXLUzlD0pYCBkYQDbR0GVKA37D3QywkqeusR1PHWRVHbdzHzY5ItGTgc3FPsbDZL7kvQ=
+	t=1710856036; cv=none; b=ZiJe/nEoeC6dOH/VI0Hxx9cLoD+4pEURDdFPyj1khTo+grcg6b0ZYOT+OIxP0bBd/vkK7SytfaXBFpXMfbMe0h9vbll1tT/Mxfjf3G0n68XhWw5Tfi1zFkTrPVM44w8kK2wMl8mh//HguPnAqDRwyCL1XFNFWLiTI/ZIubv6DeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710854867; c=relaxed/simple;
-	bh=oBUbVhNO10LoVPnIxcfgtHjka6SyoAWdIiP0ws/U8B4=;
+	s=arc-20240116; t=1710856036; c=relaxed/simple;
+	bh=U81OeYVZBANqfIy3A8NTA6kN2ZNwLOwqkzstbbsI+mY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvO9EMRrPaiUCY1yjB5pffdP3C5woYEOneoAFyAdpzMjh6zXUTnvZrFc6hjvzljkbKOOFp5klbvnN++NR3PPSSxGMrJWxtdJTHET09kozGe4liL2Ra1vfxFwKKEh8UUuaSHc6cZfN2AC/j7nOjc8CiTFvG5rKCgoxElpCqau0l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hA60o7bR; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZKoPW1wcUxzm5g5o+Z/kSQglrw4jJ83uGQc4pCCoLFWx0sepj3tZUpKFUPWrwooYQRrJFXyvfHaEaEFRVWLwfvp3PuS1X3rRJRQ3/yl/GQPyVmXiFXgiw0Z8PG7Mn8wnQreOfIEsv2X/HldL5bYaoyj8T7kSlYA/XLD/FbvgrM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Th3vDRgi; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710854865; x=1742390865;
+  t=1710856035; x=1742392035;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oBUbVhNO10LoVPnIxcfgtHjka6SyoAWdIiP0ws/U8B4=;
-  b=hA60o7bRjntBsTCiBKcgm4ZadOo2U8tYwmylyX5li5MDUT4vrsTbkXnC
-   So6CgU3ukihJFy8lVSrOisu7VqVQ04BwmlEZrqa0XL41GMfolQCpZb/3v
-   yqOteHqEX8XtXERY2pRwwyWvbvzKItUyMJ6mE/LY4eaFBartb1tYQVJxk
-   dvPrJ+oRWTjYH/1z5FxV25XT3uEv1vubgaYgh1hyDD/6P8aNYANgGqgqk
-   ydsn1WzPHOlpEg+PZt2f2/L3hZabpxa+PSAuNtjujJCkZLZVSNZuGiBlK
-   OE1WXmwAR14BD1JqEM8lIsjroWGPWXsv8lkbL1eBzTxRb3pu2smNWDOmc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="17126226"
+  bh=U81OeYVZBANqfIy3A8NTA6kN2ZNwLOwqkzstbbsI+mY=;
+  b=Th3vDRgioSomwBMd0kanwc+KgIr1lMKhT3XstY8mmZygHCxfUvy5zKJ5
+   cUE3y7fjGvmTjA0qoKxTMR/lY0BqmSs8SaouxEioDkvTUv4QDGnm/7+fd
+   qlci4crUHMwcOgyw1CCCJ52gwhr4z+TUTdK30dw3wT/RXpH9ntda/Bhh1
+   brcu7ZQRXvN4fEe8v0gZfHa69bSjtdNZAfymlOmimxRvnMwgYvLRdveTS
+   QOs1LNJLt9aEKhySAZ7NNDE+tNvr4fkNYjh7P9tTLPcbWaeTwB+9cEevB
+   /rkyfOyNqXeDu/O+1iABGd1VBosOO3N2HhBlZZM+gbh341X2uX371pgWR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="23184180"
 X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="17126226"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:27:45 -0700
+   d="scan'208";a="23184180"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:47:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="18383751"
+   d="scan'208";a="44767911"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:27:42 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:47:11 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1CA9211F853;
-	Tue, 19 Mar 2024 15:27:40 +0200 (EET)
-Date: Tue, 19 Mar 2024 13:27:40 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CE62C11F853;
+	Tue, 19 Mar 2024 15:47:07 +0200 (EET)
+Date: Tue, 19 Mar 2024 13:47:07 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Julien Massot <julien.massot@collabora.com>
 Cc: linux-media@vger.kernel.org,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+	hongju.wang@intel.com, hverkuil@xs4all.nl,
 	Andrey Konovalov <andrey.konovalov@linaro.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 03/38] media: uapi: Add generic serial metadata mbus
- formats
-Message-ID: <ZfmSzM7kL_Si2pRW@kekkonen.localdomain>
+Subject: Re: [PATCH v8 09/38] media: Documentation: v4l: Document internal
+ source pads
+Message-ID: <ZfmXW4tkh3FOKXU8@kekkonen.localdomain>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-4-sakari.ailus@linux.intel.com>
- <ff9d63d0-528a-4afb-a85a-fcb8633fec07@ideasonboard.com>
+ <20240313072516.241106-10-sakari.ailus@linux.intel.com>
+ <f4e9ebbe-29a6-4f7e-9420-c6c46293d762@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,33 +83,136 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ff9d63d0-528a-4afb-a85a-fcb8633fec07@ideasonboard.com>
+In-Reply-To: <f4e9ebbe-29a6-4f7e-9420-c6c46293d762@collabora.com>
 
-Moi,
+Hi Julien,
 
-On Thu, Mar 14, 2024 at 09:30:50AM +0200, Tomi Valkeinen wrote:
-> On 13/03/2024 09:24, Sakari Ailus wrote:
-> > Add generic serial metadata mbus formats. These formats describe data
-> > width and packing but not the content itself. The reason for specifying
-> > such formats is that the formats as such are fairly device specific but
-> > they are still handled by CSI-2 receiver drivers that should not be aware
-> > of device specific formats. What makes generic metadata formats possible
-> > is that these formats are parsed by software only, after capturing the
-> > data to system memory.
-> > 
-> > Also add a definition for "Data unit" to cover what is essentially a pixel
-> > but is not image data.
+On Fri, Mar 15, 2024 at 04:32:59PM +0100, Julien Massot wrote:
 > 
-> The CCS spec talks about legacy packing and optimized packing for 16+ bit
-> formats. You cover only the "legacy" ones here. Did you look at those?
+> 
+> On 3/13/24 08:24, Sakari Ailus wrote:
+> > Document internal source pads, pads that have both SINK and INTERNAL flags
+> > set. Use the IMX219 camera sensor as an example.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
+> >   1 file changed, 145 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index a387e8a15b8d..1808f40f63e3 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
+> >   sub-device and a (pad, stream) pair. For sub-devices that do not support
+> >   multiplexed streams the 'stream' field is always 0.
+> > +.. _v4l2-subdev-internal-source-pads:
+> > +
+> > +Internal source pads and routing
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +Cases where a single sub-device source pad is traversed by multiple streams, one
+> > +or more of which originate from within the sub-device itself, are special as
+> > +there is no external sink pad for such routes. In those cases, the sources of
+> > +the internally generated streams are represented by internal source pads, which
+> > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> > +pad flag set.
+> > +
+> > +Internal pads have all the properties of an external pad, including formats and
+> > +selections. The format in this case is the source format of the stream. An
+> > +internal pad always has a single stream only (0).
+> > +
+> > +Routes from an internal source pad to an external source pad are typically not
+> > +modifiable but they can be activated and deactivated using the
+> > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> > +on driver capabilities.
+> > +
+> >   Interaction between routes, streams, formats and selections
+> >   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > @@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
+> >      the configurations along the stream towards the receiver, using
+> >      :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+> >      stream endpoint in each sub-device.
+> > +
+> > +Internal pads setup example
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +A simple example of a multiplexed stream setup might be as follows:
+> > +
+> > +- An IMX219 camera sensor source sub-device, with one sink pad (0), one source pad
+> > +  (1), an internal sink pad (2) that represents the source of embedded
+> The pixel pad is an internal pad as well ?
 
-The reason is that the bus data layout of the new packing at higher bit
-depth matches with packing at lower bit depths (half to be precise). That's
-why there's no need to define formats for the new packing methods at higher
-bit depths (the driver simply uses the packing at half of the bit depth).
+How about:
+
+- An IMX219 camera sensor source sub-device, with one internal sink pad
+  (0) for image data, one source pad (1), an internal sink pad (2) that
+  represents the source of embedded
+ 
+> 
+> > +  data. There are two routes, one from the sink pad to the source, and another
+> > +  from the internal sink pad to the source pad. Both streams are always active,
+> > +  i.e. there is no need to separately enable the embedded data stream. The
+> > +  sensor uses the CSI-2 bus.
+> > +
+> > +- A CSI-2 receiver in the SoC (Receiver). The receiver has a single sink pad
+> > +  (pad 0), connected to the bridge, and two source pads (pads 1-2), going to the
+> > +  DMA engine. The receiver demultiplexes the incoming streams to the source
+> > +  pads.
+> > +
+> > +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
+> > +  connected to a single source pad in the receiver.
+> > +
+> > +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
+> > +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
+> > +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> > +
+> > +To configure this pipeline, the userspace must take the following steps:
+> > +
+> > +1) Set up media links between entities: connect the sensors to the bridge,
+> > +   bridge to the receiver, and the receiver to the DMA engines. This step does
+> > +   not differ from normal non-multiplexed media controller setup.
+> > +
+> > +2) Configure routing
+> > +
+> > +.. flat-table:: Camera sensor. There are no configurable routes.
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink Pad/Stream
+> > +      - Source Pad/Stream
+> > +      - Routing Flags
+> > +      - Comments
+> > +    * - 0/0
+> > +      - 1/0
+> - 1/0
+> - 0/0
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Pixel data stream from the sink pad
+> > +    * - 2/0
+> > +      - 1/1
+> - 0/1
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Metadata stream from the internal sink pad
+> 
+> In latest patch "[PATCH v6 05/15] media: i2c: imx219: Add embedded data
+> support"
+> we have:
+> - 0 -> source pad
+> - 1 -> pixel/image
+> - 2 -> EDATA
+> 
+> This is also what you did for ov2740.
+
+Yes, these were leftovers from the CCS example. I've fixed them.
+
+> 
+> With that fixed:
+> Reviewed-by Julien Massot <julien.massot@collabora.com>
+
+Thank you!
 
 -- 
-Terveisin,
+Regards,
 
 Sakari Ailus
 
