@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7317-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACC787FF28
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:57:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8045F87FF45
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 15:04:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0CEC61F249E3
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:57:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20A8D1F259D3
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:04:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C682481745;
-	Tue, 19 Mar 2024 13:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B80F81742;
+	Tue, 19 Mar 2024 14:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XvMIDRR9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oY53iuOU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB0C81734;
-	Tue, 19 Mar 2024 13:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374352E400;
+	Tue, 19 Mar 2024 14:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710856622; cv=none; b=nOoBpsGMq4Lknz4Rt2DlMurdUJnlsTWV0jqxgXOGravJ1W7yNoWYeSfs7Fws8l98xdqDauPAZXQui4+lL6eaoD6hodSMCGsUCNww4rxwS87rLp9xnJJDpYabmbsT+dcNEku538scOCq2VQ4AHYpjCjOdQzCWQF6/4VjcFAn/YfI=
+	t=1710857039; cv=none; b=G5KYBIiLOZeYUi/iXHDwWU+TfaH3xpIX57LNbTNCGDi5Zp7UzvKVbIWk3/cPs6aLGLriX9Zqz7KW8Xzy7D/KXdAHIxLQW7Qcy5uoE9Bb22kpdo2+JVrGgkkWk8sawWCeBACsRo1RissBvpYSV6aj+Y88FpeAr3ht1GR2Wk6CJfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710856622; c=relaxed/simple;
-	bh=FNnVUxP5kKoCDRumiMd76zCH0Ns7cHeJNwsmi1pOsnw=;
+	s=arc-20240116; t=1710857039; c=relaxed/simple;
+	bh=A6u0zf6zkyvIBB6bB5G5ap2zNeorlqoksH2AJuDLOB0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FMsg3eDgBCML1KCiZu8f+MzQCKHPYapIKErCISaDUda/T4uhuqI0KC0C1IbQoERikXIE7Hb6MQif8EVgLYgUeEARp/+aZQec9f51LiMhuVg4D/Ai2FHf7JIZqFcpI5rxWb2kAJJcbhqpn5maBz4QKRq6p2jMYMuh9z6wtp/CcbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XvMIDRR9; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=lEkjLJF4dQV4Wbg8GF5ozpHRAdI6mn68HxAZIiZJDcM3FJS51z00KtGomKyORRy8Do4C9fNXvnv1XqGQyLlOwfU5M/rloWU7/pvY+GYUcsYTPHe1RKC4YSnpXZ3RwytWbgSMQ6HsnvZ1KuxLcbqgHwYh9Z+7M71J+WAJQNvXaB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oY53iuOU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C7EAC80;
-	Tue, 19 Mar 2024 14:56:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 497B8480;
+	Tue, 19 Mar 2024 15:03:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710856591;
-	bh=FNnVUxP5kKoCDRumiMd76zCH0Ns7cHeJNwsmi1pOsnw=;
+	s=mail; t=1710857009;
+	bh=A6u0zf6zkyvIBB6bB5G5ap2zNeorlqoksH2AJuDLOB0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XvMIDRR9CVXFv0oazyi54aW3lVKYAUvu/LlHjBOe+IupZ05gQ7GDsIubTwsG2DYs0
-	 K1KrJeIgXUWIarv+X2aNE1uJTxtaW5EnpgbciDnvY0e2qdhsicd6cSw9fq1Lng/DSw
-	 xv80yR5R5wU7s4sOaVTer2bX7CMkaJ/SRCYEA5r8=
-Message-ID: <aaf0faf8-7041-4510-9e02-1ec896baf4ae@ideasonboard.com>
-Date: Tue, 19 Mar 2024 15:56:54 +0200
+	b=oY53iuOUsvbOSB2Gdhr6s3p3inDWth4vJ5dcXuzmr/+i5X0TO8sk9gAL7PERc1cC5
+	 OfdTv0RIniRviwVt74GBUYiv0EXGRAHAmYzV/rM7/sINi36Qy2THIV74lttBiHVZDA
+	 G9uVQV+EstYok1dTWCat02xZ2OE4bP1riY7NCvU8=
+Message-ID: <0401eb0f-0172-4371-9a16-f51b6b885b55@ideasonboard.com>
+Date: Tue, 19 Mar 2024 16:03:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,12 +53,12 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for
  raspberrypi,rp1-cfe
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Naushir Patuck <naush@raspberrypi.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -71,9 +71,15 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
  <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com>
- <3834dd0a-6dd0-45b1-8b9c-0c840aaf8cf2@linaro.org>
- <22225e92-803d-4aaa-b75f-cfd1d7d8c279@ideasonboard.com>
- <8caabb1a-dfba-48d5-a794-a26d0286bad2@linaro.org>
+ <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
+ <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com>
+ <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
+ <5ca1d005-1beb-47ec-943a-9358ae3c6704@linaro.org>
+ <CAEmqJPp7uGYe993L+ujth2mfRy66s8-S9FNxPY7vwkrboDq9yg@mail.gmail.com>
+ <89d459dd-cc8c-4780-a56a-809e24343e69@linaro.org>
+ <CAEmqJPrLP3j37Kcj0mX23x00p=gWuxZPNSUTRGNkcEqsUJ2MjQ@mail.gmail.com>
+ <9d238cd6-0e11-4775-bc00-7df50f0a6638@linaro.org>
+ <CAEmqJPoVFRUBRnuvRaeWg6vxDaNMzdFzgj2_Gi5bxh5nacdmDw@mail.gmail.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -118,138 +124,53 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <8caabb1a-dfba-48d5-a794-a26d0286bad2@linaro.org>
+In-Reply-To: <CAEmqJPoVFRUBRnuvRaeWg6vxDaNMzdFzgj2_Gi5bxh5nacdmDw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 19/03/2024 11:31, Krzysztof Kozlowski wrote:
-> On 19/03/2024 07:46, Tomi Valkeinen wrote:
->>>> +  reg:
->>>> +    items:
->>>> +      - description: CSI-2 registers
->>>> +      - description: D-PHY registers
->>>> +      - description: MIPI CFG (a simple top-level mux) registers
->>>> +      - description: FE registers
->>>> +
->>>> +  interrupts:
->>>> +    maxItems: 1
->>>> +
->>>> +  clocks:
->>>> +    maxItems: 1
->>>> +
->>>> +  port:
->>>> +    $ref: /schemas/graph.yaml#/$defs/port-base
->>>> +    additionalProperties: false
->>>> +    description: CSI-2 RX Port
+On 19/03/2024 15:05, Naushir Patuck wrote:
+> On Tue, 19 Mar 2024 at 13:02, Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 19/03/2024 13:57, Naushir Patuck wrote:
+>>>>>>
+>>>>>> See writing bindings. Compatibles should be SoC specific. In some cases
+>>>>>> generic fallbacks make sense, in some note. But don't just choose
+>>>>>> "generic fallback" because you want. Provide rationale.
+>>>>>
+>>>>> If the compatible is SoC specific, I suppose "raspberrypi,rp1-cfe"
+>>>>> would be the correct string.
+>>>>
+>>>> Sure, but then please think what if rp1 is on Rpi6, called exactly the
+>>>> same (rp1), with some minor differences? Could it be?
 >>>
->>> Only one port, so there is nothing to output to?
+>>> Yes, this is definitely possible.  In such cases, I would expect the
+>>> hardware to have a version register that would be queried by the
+>>> driver to adjust for minor differences, and the compatible string
+>>> remains the same.  Does that seem reasonable?
 >>
->> The CFE has DMA, so it writes to memory. But no other outputs.
+>> The "would expect" is concerning. The register(s) must be there already,
+>> with proper value.
+>>
 > 
-> You still might have some sort of pipeline, e.g. some post processing
-> block. But if this is end block, then I guess it's fine.
+> A version register already exists in the current hardware, so we will
+> update it to identify future hardware revisions.
 
-There is a processing block, FE. But it's considered part of the same 
-module.
+But that's a version register for the FE block, not for the whole 
+module, right? Are you suggesting that you'll make sure the FE version 
+will be changed every time anything in the bigger CFE block is changed, 
+and thus the FE version would also reflect the whole CFE version?
 
-Whether that's exactly correct or not, I'm not sure. I don't have 
-detailed hardware docs, but my understanding of the architecture is that 
-we have the D-PHY, CSI-2 RX and FE blocks, and a "MIPI CFG" wrapper 
-around these (with some CSI-2 & FE muxing and interrupt status flags). 
-These are all considered to be part of the same CFE module, and thus we 
-represent it here as a single node.
+Can there be versions without the FE block, with just the CSI-2 parts?
 
-In the patch 4 I explain a bit more about the HW blocks, but maybe it 
-would've been beneficial to have some description here too. Here's the 
-relevant part:
+Also, I'm still wondering about the RP1 part there in the compatible 
+string. Is it necessary? The CFE is located in the RP1 co-processor, but 
+is that relevant?
 
-> +The PiSP Camera Front End (CFE) is a module which combines a CSI-2 receiver with
-> +a simple ISP, called the Front End (FE).
-> +
-> +The CFE has four DMA engines and can write frames from four separate streams
-> +received from the CSI-2 to the memory. One of those streams can also be routed
-> +directly to the FE, which can do minimal image processing, write two versions
-> +(e.g. non-scaled and downscaled versions) of the received frames to memory and
-> +provide statistics of the received frames.
-
-
->>>> +
->>>> +    properties:
->>>> +      endpoint:
->>>> +        $ref: video-interfaces.yaml#
->>>> +        unevaluatedProperties: false
->>>> +
->>>> +        properties:
->>>> +          data-lanes:
->>>> +            minItems: 1
->>>> +            maxItems: 4
->>>> +
->>>> +          clock-lanes:
->>>> +            maxItems: 1
->>>> +
->>>> +          clock-noncontinuous: true
->>>
->>> Drop
->>
->> Hmm, I saw this used in multiple other bindings, and thought it means
->> the property is allowed and copied it here.
->>
->> If that's not the case, does this mean all the properties from
->> video-interfaces.yaml are allowed (even invalid ones, like pclk-sample)?
-> 
-> Yes, that's the meaning of unevaluatedProperties you have a bit above.
-> 
->>
->>>> +
->>>> +        required:
->>>> +          - clock-lanes
->>>> +          - data-lanes
->>>> +
->>>> +required:
->>>> +  - compatible
->>>> +  - reg
->>>> +  - interrupts
->>>> +  - clocks
->>>> +
->>>> +additionalProperties: false
->>>> +
->>>> +examples:
->>>> +  - |
->>>> +    #include <dt-bindings/clock/rp1.h>
->>>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>>> +    #include <dt-bindings/mfd/rp1.h>
->>>> +
->>>> +    rpi1 {
->>>
->>> soc
->>
->> That should actually be "rp1", not "rpi1". rp1 is the co-processor on
->> which the cfe is located, so it doesn't reside in the soc itself. But
-> 
-> Where is the co-processor located?
-
-RP1 is a separate chip on the board, behind PCIe. It contains multiple 
-blocks, dealing with I/O (like this CSI-2, but also USB, eth, ...). To 
-the driver the CFE just shows up as a normal memory mapped IP. Afaics, 
-in theory CFE could as well be in the main SoC itself, so, for an 
-example, I don't see "soc" as a bad parent node.
+Is there a versioning for the whole RP1 chip? Maybe it's going to the 
+wrong direction if we use the board/SoC for this compatible name, as 
+it's actually the RP1 where the CFE is located in, not the SoC.
 
   Tomi
-
->> perhaps that's not relevant, and "soc" is just a generic container that
->> should always be used?
-> 
-> Does not have to be soc, but rp1 is not generic.
-> 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
 
 
