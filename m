@@ -1,127 +1,169 @@
-Return-Path: <linux-media+bounces-7309-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439F587FE22
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:08:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6083187FE6A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 14:14:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2C27283601
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:08:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18EBB2851E4
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 13:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9075F81AB4;
-	Tue, 19 Mar 2024 13:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD21483A10;
+	Tue, 19 Mar 2024 13:10:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="dIiK6hiS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OQUTd8Iv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63F81AAF
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 13:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BA183CAE;
+	Tue, 19 Mar 2024 13:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710853598; cv=none; b=i5V70CqUesp5wPyNTnDwf2QRXKHBQ9W741hlBNYxys+iUesbq56dIMai4r9kXQgw4NtwjIBJ6S45j3bJhzTzVKPalhXQ/56O39DZ4nkAVmCdvK/0vmxo1zZxKikgmj+vPGseg24RkcX9thmCo9JKGVJZqIjsuVsGOX+t/xB9im0=
+	t=1710853820; cv=none; b=XzGRX+r/wUZwV7HfQhFiMPnwwjPPrbPq5w+Q/aT2dyR2eyu1jCIxckI+qdp0wfJ9UimVKuEWwmHVAahD3i/WHPJ3v5BCb3g6wLCltmgztFMXP3QDFTHgIHRn5lswLIhXWRmhImdr6Hsg416TDpY1X0cDkcjVirx+N/9YomsjFN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710853598; c=relaxed/simple;
-	bh=iFwpR9R7RZZeceWMUF41RxivvYImNs6l8Lwq8or5egI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kf44aiJwGNp9sJaCmCGr4lniIQidRDpeqm1pqBwZVFysoZbhnEc1iNOpZ+ifLvflimvGv0Jx9V8Zjvhm0x+p2qgkgsaebtgdxFgDActMiPDy6CtRv1A9oXOjIHy5Smwm1dzqcwCdzGvM84HG5F5v/nPUbz9hEgfmI3/QJGzx0s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=dIiK6hiS; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5a217378ad8so1787256eaf.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 06:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1710853595; x=1711458395; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qWQmoFTqSmJhXM5+bL76nUjgEzlqyYQgelxWMRXy8Ng=;
-        b=dIiK6hiSnaRhVWOMXh9IgaA4caxDXontuV687CQUa+WN3xyM0Rk3EsD+JJDnM11WQb
-         FSLValr/YHzJuOIaHyLmfxW/br2Fc2br/WLs06nnrbx8dI8WcplTF8xuAYJaQFY0ZiR9
-         Yo36qWyYJS9D5iQvHNrpI89FACBGtAVSjRYL6VezwIhRtBajsdO7SBO4+v/ynNKzzdTm
-         OxGvGCd6c1xBSO7xGPwsheVXHvoOSO4S90GE6Zt9xta2/zLnFh1zQcoCMQLTR4pfInWX
-         XFo7KRcmG0EXqKj2hSZPlJ1GY7MJXe0iNAm56Um8cLrp9SZ2TcbEOh341pE5EI0uf+HS
-         arbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710853595; x=1711458395;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qWQmoFTqSmJhXM5+bL76nUjgEzlqyYQgelxWMRXy8Ng=;
-        b=saqYcW9Mm5Bz35MYaYe9GyyXpwSr2euR6QdeZPtPeAO+2kw2GBZxCMwOqvz4vbBtKe
-         pugmb/FXKs76iBhpHJAyRZrVxU4tgWXTd9KWaamifIsHvcrWhmR6lvms5F86869agEio
-         El7MYJ7LiAGvGt6EDgi0xI3d7HJVxLApf9FVtyu84nqb0x+bZume83ABkWCi88hreN/t
-         JsVfktP+lqwXtFN35ixdXTOjlslVUOp+c22sA9yODufg7aYIGH/qFVvvsMyxGbYMYETZ
-         ZyJhFtVbs6rUAQMheSLG9Bd/70LZbGcLR5QKK5bSwPYo23CtC4se7IuCwmPUKDrK6dE/
-         0NgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXxmDI6nGViXYu5OmTLBvNA0qlaXhgc2hze7zSwhrIJ49K7SvcN9LuBzRH490r0mc6AvznBvXqSFc9Rma+j8owqW9e0/4hIk7qT/w=
-X-Gm-Message-State: AOJu0YzyyENNeH9vnIxt9koRL12uDVxw0i9c922mRZCXpuDrb5nziaLk
-	R2V9cLzhgsX34NrPmc+LCy9JBQI4KkYLGaOjNZ+cNgX8RGUOY8GHfR9B5AC66ulbJFOyxcRDB5S
-	MYDOLctGEogP7urAxtuARXnZJ73yiuzCsCY46aw==
-X-Google-Smtp-Source: AGHT+IH3b3a+/tMGFlUi3v6nRTbIFl0E8v2mS/C2QE82azOisrsdw64JHJ4uQYcHiIPKJCLl570m8xpxERqaK0CKzQ4=
-X-Received: by 2002:a05:6358:5e0d:b0:17e:b64b:e0f6 with SMTP id
- q13-20020a0563585e0d00b0017eb64be0f6mr2588285rwn.30.1710853595605; Tue, 19
- Mar 2024 06:06:35 -0700 (PDT)
+	s=arc-20240116; t=1710853820; c=relaxed/simple;
+	bh=SpyapOi+YNjXiDlh3WYtvbhPHkpVL36i0qOTdjclph0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KY5rSWrqv23AMwo+fKWDY/S1jtfV2TZ5VnbubpQOCgvT1U1OZDn5g9dUo/+L5dHAyLFtYDp4dUXosObMvm/g8QCQO+m3tBWiFyalpMFMWmdmadgfVeBIuhgYanFhdDeLcJlAPNBHBfKGyR8pnqzLtmKdVw0Vskl+oSwjG6avw4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OQUTd8Iv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.105] (unknown [103.86.18.138])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F756C80;
+	Tue, 19 Mar 2024 14:09:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710853788;
+	bh=SpyapOi+YNjXiDlh3WYtvbhPHkpVL36i0qOTdjclph0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OQUTd8IvUiJQefhyc0KfsTRBDB2wMr4qpIRGCnB2T8ZQ+ZRzuKmi91XN77DNfsT7V
+	 CUoF8VZ9lWbnJHErxDD/O/swhh3/jXwuIPoyH9J3vzU38J1Z0kHsz4sF17YYEUjOZQ
+	 7V7XT1mcQUyE/q8ylxXtXoEEl3AIfX6Kks+4EEvk=
+Message-ID: <4bb01eb0-bf53-43f2-a488-7959aadacc3b@ideasonboard.com>
+Date: Tue, 19 Mar 2024 18:40:06 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com>
- <20240318-rp1-cfe-v1-2-ac6d960ff22d@ideasonboard.com> <eb854c43-1e92-4c19-bfd3-1bde94924319@linaro.org>
- <f97faeb9-8a6b-47c6-9317-daca88257802@ideasonboard.com> <30430e0e-70de-4831-97ad-974e350a2e54@ideasonboard.com>
- <5ca1d005-1beb-47ec-943a-9358ae3c6704@linaro.org> <CAEmqJPp7uGYe993L+ujth2mfRy66s8-S9FNxPY7vwkrboDq9yg@mail.gmail.com>
- <89d459dd-cc8c-4780-a56a-809e24343e69@linaro.org> <CAEmqJPrLP3j37Kcj0mX23x00p=gWuxZPNSUTRGNkcEqsUJ2MjQ@mail.gmail.com>
- <9d238cd6-0e11-4775-bc00-7df50f0a6638@linaro.org>
-In-Reply-To: <9d238cd6-0e11-4775-bc00-7df50f0a6638@linaro.org>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Tue, 19 Mar 2024 13:05:59 +0000
-Message-ID: <CAEmqJPoVFRUBRnuvRaeWg6vxDaNMzdFzgj2_Gi5bxh5nacdmDw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] media: i2c: Add imx283 camera sensor driver
+Content-Language: en-US
+To: linux-media@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ willl will <will@willwhang.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240313070705.91140-1-umang.jain@ideasonboard.com>
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20240313070705.91140-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Mar 2024 at 13:02, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Hello,
+
+Ping for review and also the streams API streams_mask issue mentioned 
+below.
+
+Is anyone interested in looking at this particular issue?
+
+On 13/03/24 12:36 pm, Umang Jain wrote:
+> Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
+>    
+> The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
+> Square Pixel for Color Cameras.
+>      
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank/link freq control support
+> - Test pattern support control
+> - Arbitrary horizontal and vertical cropping
+> - Supported resolution:
+>     - 5472x3648 @ 20fps (SRGGB12)
+>     - 5472x3648 @ 25fps (SRGGB10)
+>     - 2736x1824 @ 50fps (SRGGB12)
 >
-> On 19/03/2024 13:57, Naushir Patuck wrote:
-> >>>>
-> >>>> See writing bindings. Compatibles should be SoC specific. In some cases
-> >>>> generic fallbacks make sense, in some note. But don't just choose
-> >>>> "generic fallback" because you want. Provide rationale.
-> >>>
-> >>> If the compatible is SoC specific, I suppose "raspberrypi,rp1-cfe"
-> >>> would be the correct string.
-> >>
-> >> Sure, but then please think what if rp1 is on Rpi6, called exactly the
-> >> same (rp1), with some minor differences? Could it be?
-> >
-> > Yes, this is definitely possible.  In such cases, I would expect the
-> > hardware to have a version register that would be queried by the
-> > driver to adjust for minor differences, and the compatible string
-> > remains the same.  Does that seem reasonable?
+> The driver is tested on mainline branch v6.8-rc2 on IMX8MP Debix-SOM-A.
+> Additional testing has been done on RPi5 with the downstream BSP.
 >
-> The "would expect" is concerning. The register(s) must be there already,
-> with proper value.
+> Changes in v3:
+> - fix headers includes
+> - Improve #define(s) readability
+> - Drop __func__ from error logs
+> - Use HZ_PER_MHZ instead of MEGA
+> - mdsel* variables should be u8
+> - Use container_of_const() instead of container_of()
+> - Use clamp() used of clamp_t variant
+> - Use streams API imx283_{enable|disable}_streams (**NOTE**)
+> - Properly fix PM runtime handling
+>    (pm_ptr(), DEFINE_RUNTIME_DEV_PM_OPS,
+>     imx283_runtime_suspend, imx283_runtime_resume)
+> - Fix format modifiers, signed-ness at various places
+>
+>
+> **NOTE**
+> There is streams mask issue, as no routes are defined with 1 pad:
+> For testing, I have the following applied locally:
+> ```
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4c6198c48dd6..38545d779620 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -2115,8 +2115,10 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+>          if (pad >= sd->entity.num_pads)
+>                  return -EINVAL;
+>   
+> -       if (!streams_mask)
+> -               return 0;
+> +       if (!streams_mask) {
+> +               dev_err(sd->dev, "no streams mask, returning ....\n");
+> +               //return 0;
+> +       }
+>   
+>          /* Fallback on .s_stream() if .enable_streams() isn't available. */
+>          if (!sd->ops->pad || !sd->ops->pad->enable_streams)
+> ```
+>
+> changes in v2 (summary):
+> - Use u32 wherever possible
+> - Use MEGA macro instead of self defined MHZ() macro
+> - Properly refine regs using CCI
+> - Drop tracking of current mode. Shifted to infer from active state directly.
+>    (Laurent's review)
+> - Cont. from above: Pass the struct imx283_mode to functions whereever required.
+> - Remove unused comments
+> - Remove custom mutex. Use control handler one instead.
+> - Drop imx283_reset_colorspace() and inline
+> - Set colorspace field properly (drop _DEFAULTS)
+> - Use __maybe_unused for imx283_power_on() and imx283_power_off()
+> - Store controls  v4l2_ctrl handles for those required, not all.
+> - Drop imx283_free_controls(). Use v4l2_ctrl_handler_free
+> - fix reset-gpios handling and add it to DT schema
+> - fix data-lanes property in DT schema
+> - fix IMX283 Kconfig
+> - Remove unused macros
+> - Alphabetical case consistency
+>
+> Kieran Bingham (1):
+>    media: i2c: Add imx283 camera sensor driver
+>
+> Umang Jain (1):
+>    media: dt-bindings: media: Add bindings for IMX283
+>
+>   .../bindings/media/i2c/sony,imx283.yaml       |  107 ++
+>   MAINTAINERS                                   |    9 +
+>   drivers/media/i2c/Kconfig                     |   10 +
+>   drivers/media/i2c/Makefile                    |    1 +
+>   drivers/media/i2c/imx283.c                    | 1596 +++++++++++++++++
+>   5 files changed, 1723 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+>   create mode 100644 drivers/media/i2c/imx283.c
 >
 
-A version register already exists in the current hardware, so we will
-update it to identify future hardware revisions.
-
-Regards,
-Naush
 
