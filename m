@@ -1,223 +1,310 @@
-Return-Path: <linux-media+bounces-7298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8655D87FB78
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 11:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1174687FBAF
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 11:21:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BA00282DD5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 10:09:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC4582813D6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 10:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 625E27D41C;
-	Tue, 19 Mar 2024 10:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0FA67E10D;
+	Tue, 19 Mar 2024 10:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="C494AfRt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3dmr0PL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11020003.outbound.protection.outlook.com [52.101.154.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701467D3F3;
-	Tue, 19 Mar 2024 10:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710842978; cv=fail; b=uSext8IIDJwI+KMAuh63hgVXncXMMOnXWkPs93wn2n2qj5DaqJ2u3AijvAHTlyT5vUsrKh5DwdWPfak6i2O2OS1WSDmkGUkSIed3SuaognWXzXBzLfJe6IzjyyVoALbhUjfe86yEl98EzSPwjAc/orsCg/1QymcRgnkcmhsn7pg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710842978; c=relaxed/simple;
-	bh=NreBM692kpUMFx9SVpaMKPThm/S3tjPRv04tfYhzV2g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GuynL3OPmMXUS4tKlQgtNsV4vse0FDERmK4BKMpA30WFQanktwjQuLpC9C4IagLQQup0NVuxq6BmjYrJeP9o8KlDI7qS18EzjO0a+8fIjGW6540hSElKbVz1E2VPQmg0gu89mULV8Vki71QLnmPeprUgSkvcRa+bPKR57eWKPSQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=C494AfRt; arc=fail smtp.client-ip=52.101.154.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CObwN20GqqJibGDKqXdqPLfy4pZdNu8dEe26oBv6Zo12gXW5Qax+QeCaxJiSPrATI8uEvYTiz16a52ACkdeLkpWep4DpW+N54QjgIKCWPZQdrgM8+8z2Q/PJBOtywBKSsahd9R6W09S7mn1D4NUJa9I+BjaWZbD67YT+3pj4bo5lNBmbe7Ewm8ym8FwOqhJs4cXHogm1ZFN0Y4WhAVaGHPPqarQnB3DgQp4plGPgg60HvalV72eb1NA4j41oDb1k2+VLGo9PZNu/FA7bIjPXuL1NtRLvX+f5hkzF/y/dYrND4PStlP09AfHOo9jEEgUbodHZ1zJk5ScRxipRkdlTPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jVVpaYHC02JCpLAsLbbu3mQeVx+GOF4AhkfhGrgaoqM=;
- b=iy84SJe4Q6boj5JMc3fZteFePgxmz6WkH+FlApHINvfUpZyMZIlM+BWsXpFjQTbXenVBFJHSLAjIElZ7LDtGnnzHWMkTVcm3HUQJyUtGWHIcotqN7VnL+qotqLm5XDPv639mi+U6P2rJ3XVrvrIIBwVqxKmQmpXtUhRnxn//x93WIzgfmgXxMzJu4Td7EmPmqbrF1Vv1Qpd+idmp5iy2TfMgJMvav8IUwT2B8m953fhmoCdJW2Gs7tL2D89pzn8lyDhf067TH8BGnvs6QossBAHDnRBTAK9K3Y1PWqK5WKH/xaL5Gn7wqI/vhonL7HfJBxH9K0BNgpNitbgMGbccTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jVVpaYHC02JCpLAsLbbu3mQeVx+GOF4AhkfhGrgaoqM=;
- b=C494AfRtlVx+R2fCtgNGBesABiN8C90b0o+fAEUqDEF5QJQdTT8+GDMfHGbvomG0ryH6xqZ8IJbj5d5O5gMZgn/RS0WgKtmqgw6RbfaBaguiAGC1xDIfgs8n5ubFNxpAnjtdYSI2ZFeIFB3IVsuC6eqZFLmcfG3QIf9cEVO2jJY=
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- SE1P216MB1272.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7386.28; Tue, 19 Mar 2024 10:09:32 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::5b8:35f1:821f:4f57]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::5b8:35f1:821f:4f57%2]) with mapi id 15.20.7386.017; Tue, 19 Mar 2024
- 10:09:32 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: Ivan Bornyakov <brnkv.i1@gmail.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, jackson.lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: RE: [PATCH 1/6] media: chips-media: wave5: support decoding higher
- bit-depth profiles
-Thread-Topic: [PATCH 1/6] media: chips-media: wave5: support decoding higher
- bit-depth profiles
-Thread-Index: AQHaeUKavgcckUHy2EygGbh2NtXhZrE+1aEA
-Date: Tue, 19 Mar 2024 10:09:32 +0000
-Message-ID:
- <SL2P216MB1246E9790DF5FE273D555768FB2C2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-References: <20240318144225.30835-1-brnkv.i1@gmail.com>
- <20240318144225.30835-2-brnkv.i1@gmail.com>
-In-Reply-To: <20240318144225.30835-2-brnkv.i1@gmail.com>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB1246:EE_|SE1P216MB1272:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Jx+MyReY2HHakkaHe4qLQapFF4ocuhDRt5sMAhofJFjSj3Alh6pKY8MHduzz7w/EwICr3d5qOOCNdJq2Uhp/0TKFG2AvfgBrZdfAdlCUxFjWYWWKANmfoBXCb56WIcnKjjdYBBKpjGFmaUh4E+Qdu5jdQ3/EtILbu4BzsyIhfF+z2EEnaN+VsvsZCstFH69IqsI4Mc1Y+0b3Fl5mK/Skw7p5x+Gy23F9/j2vkeOVx890rGeVUGvXA56VP8gAeVxjHpvfVqvCQn3XO9jn/vWy9DqW+9SWvv5Obrm20HiqXoc8ETB/eD4HLgtzz+txWXUOas05F1rTLrj5EdARjmCn0exzDaJ6QLatty8NaODmSIijOPCYHcGM997pWjIpPM3bHS7YtRDs2R2yx8x7JnEtN/IpNgPNRZAmLpOCiyc+oJ+7holycXelCrk7YZyRy+IcqY9qzGYtHKnb9E2LvbJ7qfm7u0aepVbOVITQkdrUicTQTMDwU5E2HLNBaJhGEz08YfFTcoSiqUmzvXFQMi0nBtX90gnTp7EJ2dE/kkjlJOXjeFC7rv23D+PlxuvdDY1yRX0GSkeDAKhn8JewsG7Tl7yuzdXbnSxI2uRmLpRZq133IvLsmvoAZMjIezMjUirDQRLTxN2qk7qogPQU9JkNATkc11cEqlXSR/CYpMXsmic=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?5K/bNWo5En52ygQlmCHn6CuRqCV0VxDLZ1JomXlqFlA/ZhPYlM+6m9epwlSU?=
- =?us-ascii?Q?rBNwXoe7G9zU0ac6jqtnBLIVsQaQb67/Cc8QWDv/sM7782/ZkRds7Oz0O5zR?=
- =?us-ascii?Q?l54TkSigqCeJ/uRjw93F6XndvtB0tCbbeGfs1uCP/ZwjmvcZjVv04DXlvHu7?=
- =?us-ascii?Q?Rkf24P9IkGu1WbVedVRNOvSLmSwJDlYduyyXtvqo5Nvn9PUPKAZrn42JwF+l?=
- =?us-ascii?Q?vJO5YMUh8mnWFwgGnVI5YSxl7p+89DZaOu6jvpGaBu3IoFDFinZNJZPveQYw?=
- =?us-ascii?Q?dIL5W73V8qy6gPmjO9/UkRBn8DJofzmvqT/5S+ahew7tnRqzhQS6InW4Z9QE?=
- =?us-ascii?Q?649w09I+WOi9d0FI23EWBXuLpQ+DJXoI8NOPKAasnW2XPcOh4UDjhHli14t3?=
- =?us-ascii?Q?N/UYBgl/GvV3BRgPKIQ08DQv4ZkZJsER6MizAvkD0gCuFNihhME1n2haTzTX?=
- =?us-ascii?Q?TpCcLtfA92H0aHFuBXry1ISn6mIBEmrxqIlzu4/WytkvsNR+qcBY19L9xw9k?=
- =?us-ascii?Q?dVF0JJuqvpVVH09rH3pBAAcd90JtxCGh011RIfwkTkrOnaUo3yC8wszdWCIF?=
- =?us-ascii?Q?+/bnv8ni0i63Znb/Jm9FfbuK1HAo5hKg0qc9w8FNVuzFh5FI16owU7BGWPn3?=
- =?us-ascii?Q?NLA91JM0S/uq9wN3AC6uVbyTCofj566pIQXy6kXKrz2vNdRJHafa6BN6W7PB?=
- =?us-ascii?Q?3X5MOyP+eAvRIsgytPsr573gfVN3mZXnqvl0SKFFNeRDRT/3g35WHpp2J3Av?=
- =?us-ascii?Q?5hXgOG8hpoBpyWvvrgRkuFbCc/6tzSc8xBRqNrPl+STY7TqdJ/lLOwlw/SCM?=
- =?us-ascii?Q?/JcIdy9tWk0AvoIor/mNuuoL6J2PlhSQyyVl+Z53XFngLG0GpDtldkFhv5iz?=
- =?us-ascii?Q?Vb7HV6HXO+GzaDlXhfz81jHxgJ5rvNTz0agyTjNHGRBQVQyZ1H/PbFc6nPje?=
- =?us-ascii?Q?NK+JXL/xvOuwhqERnjcFvNBR+6dOB19UYmz8O1VNPeahGy1xtradA+kG0zeX?=
- =?us-ascii?Q?8MBu6tUDzFblr7vFy0h/AfxOAIg2dxyk/MXM39yOrycj4mTsNMP2WSCPE/5z?=
- =?us-ascii?Q?KMhbRivuuVoTXiMXtBQ/waB2fXrz525tNr8rj2WnmH7BIPFmwiq8FVvkr8zX?=
- =?us-ascii?Q?o8PYapBG50hk+Y5lF2rF37Yiw0AN9WGH6FGDx0FmgQ78n7WcZgsg3zWx5jQP?=
- =?us-ascii?Q?4VzPKr7EC1z0tblXJfUdIka3clOoMuJiLCvBJ/WzrMeSU8852xnOfJd0Ca6c?=
- =?us-ascii?Q?3ZSHAcWG84k3Mb0szsLrMNPe5E/d7/aQ+zOI+eBmAGx8fvaQK0ROrwy9tsF6?=
- =?us-ascii?Q?tmNwcxBNBJCluM1PzwsaB9bqc4bTO+k8H6//faijoZGCr4D9HQo1go06b/hW?=
- =?us-ascii?Q?KDgUsjUenkWOgUsZm9Z+YJ+rp7YqHOwg/FZCVawGM022yzmMptcLmjFhp00c?=
- =?us-ascii?Q?cOTZej6X+8Qub6hxGM1iao8Ts2gctF3PUdmTIPaOcxSuVes6pKLiYDjB4xJ3?=
- =?us-ascii?Q?GFqdqVmZ1IwSA2TTVyyyzNEb5NNanc6oXsFs51AiIxDOuAl1pi6WK6Dc61Vd?=
- =?us-ascii?Q?bnq49dlq4ZDUMiAPoBPFEiVb6w4Sl3OLU2i9nIRk?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2FD7D096;
+	Tue, 19 Mar 2024 10:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710843710; cv=none; b=SOqR/eqGprPrgIEwFdEAq6fiWawO8lX/1pyGgnNWFKava4f92LCMmOUx4cU13QBvXlpGJso83F3eUheh2WwRqTINWdE0/6Bo998FNZJ1qDp9Zl3l3tfFiUYIwEvA/L9ZZQzWWupWidiJ2/425mADx1DEOetJCnvrLwPFgLhBRLU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710843710; c=relaxed/simple;
+	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aYcMumMcROoCW5xjFG7cjWAIMRWyEu01N61TJZ521Ze9JqDbUXT8NNqz0GAfIxb1AuJIdMZujGXBrj/l36DbU+uyYUla3NUPvmMZzGK6qOMF7ZWlT3imp3wO3qrJb9Db/zMQIfiKIKWJPaJs3ctGSCMcXCwZi4ZYPgcDdnIhHow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3dmr0PL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61254C433F1;
+	Tue, 19 Mar 2024 10:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710843709;
+	bh=LQRJqrShl8lL6hDmy7i+nFgigQ3aCd966E5AFrLN2Y8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X3dmr0PLHavDuoM68/QuGgElb/8kOvBtF0DTtpAK++OG8G164ABhe+f9jC45EszTB
+	 Vs1lefCt9oyU5P53WzxO3QHshXXtv0DYzuxaTfuKUo+8yKJQ5s3WwTPP2WAD+HqjRv
+	 B/z3pDeF6O8KyQVjgywEhI083KLegBTcQzcKkTVTAvnlIv7Lg9AiM/7A+vJfX9nRd6
+	 iUt809Kkyh5bAq53RcaGdWdbDAKjlJPHJB9pH/uKrMQRSOBVTAxA49r3QyH2WRUhVW
+	 vQP95iqFE5cfQF0mH+ztO7zlAIh22ObIDKMEDkw5G+UwINPxqHMp637HmBeEDvfqA9
+	 NMCi2hrdoNsmQ==
+Date: Tue, 19 Mar 2024 11:21:47 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v9 20/27] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <20240319-gabby-marigold-poodle-c5a27f@houat>
+References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
+ <20240311-kms-hdmi-connector-state-v9-20-d45890323344@kernel.org>
+ <ZfQFLR2xO6vUpAJ9@intel.com>
+ <20240318-abstract-myna-of-exercise-adfcde@houat>
+ <ZfhnsgYfwe_3mpWx@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2226b28c-4b46-4c10-a2d6-08dc47fcabff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2024 10:09:32.2617
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uwJQOwQuS/e/ssXcbd0Xg2fNLAHdhuGgxnG26K3cd3xmGXVegTlHs+pBbMnVgcWzEhd5ZpzZ7+RorAZBcrfZ+lzsD6x39CY3a65P0Yg5MgY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB1272
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6n43iydiwru5gl6x"
+Content-Disposition: inline
+In-Reply-To: <ZfhnsgYfwe_3mpWx@intel.com>
 
-Hi, Ivan.
 
->-----Original Message-----
->From: Ivan Bornyakov <brnkv.i1@gmail.com>
->Sent: Monday, March 18, 2024 11:42 PM
->To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
-><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>
->Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; Philipp Zabel
-><p.zabel@pengutronix.de>; Rob Herring <robh@kernel.org>; Krzysztof
->Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
-><conor+dt@kernel.org>; linux-media@vger.kernel.org; linux-
->kernel@vger.kernel.org; devicetree@vger.kernel.org
->Subject: [PATCH 1/6] media: chips-media: wave5: support decoding higher
->bit-depth profiles
->
->Add support for decoding higher than 8 bit-depth profiles by scaling FBC
->buffer stride and size by the factor of (bitdepth / 8).
->
->Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
->---
-> .../platform/chips-media/wave5/wave5-vpu-dec.c    | 15 ++-------------
-> 1 file changed, 2 insertions(+), 13 deletions(-)
->
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->index ef227af72348..aa0401f35d32 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->@@ -1055,6 +1055,7 @@ static int wave5_prepare_fb(struct vpu_instance
->*inst)
-> 	int ret, i;
-> 	struct v4l2_m2m_buffer *buf, *n;
-> 	struct v4l2_m2m_ctx *m2m_ctx =3D inst->v4l2_fh.m2m_ctx;
->+	u32 bitdepth =3D inst->codec_info-
->>dec_info.initial_info.luma_bitdepth;
->
-> 	linear_num =3D v4l2_m2m_num_dst_bufs_ready(m2m_ctx);
-> 	non_linear_num =3D inst->fbc_buf_count;
->@@ -1063,7 +1064,7 @@ static int wave5_prepare_fb(struct vpu_instance
->*inst)
-> 		struct frame_buffer *frame =3D &inst->frame_buf[i];
-> 		struct vpu_buf *vframe =3D &inst->frame_vbuf[i];
->
->-		fb_stride =3D inst->dst_fmt.width;
->+		fb_stride =3D ALIGN(inst->dst_fmt.width * bitdepth / 8, 32);
-> 		fb_height =3D ALIGN(inst->dst_fmt.height, 32);
-> 		luma_size =3D fb_stride * fb_height;
->
->@@ -1408,22 +1409,10 @@ static int wave5_vpu_dec_start_streaming(struct
->vb2_queue *q, unsigned int count
-> 		if (ret)
-> 			goto free_bitstream_vbuf;
-> 	} else if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
->-		struct dec_initial_info *initial_info =3D
->-			&inst->codec_info->dec_info.initial_info;
->-
-> 		if (inst->state =3D=3D VPU_INST_STATE_STOP)
-> 			ret =3D switch_state(inst, VPU_INST_STATE_INIT_SEQ);
-> 		if (ret)
-> 			goto return_buffers;
->-
->-		if (inst->state =3D=3D VPU_INST_STATE_INIT_SEQ) {
->-			if (initial_info->luma_bitdepth !=3D 8) {
->-				dev_info(inst->dev->dev, "%s: no support for %d
->bit depth",
->-					 __func__, initial_info->luma_bitdepth);
->-				ret =3D -EINVAL;
->-				goto return_buffers;
->-			}
->-		}
-> 	}
->
+--6n43iydiwru5gl6x
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-TI wave521C version cannot support 10bit decoding.
-So, We need above error checking codes.
-How about adding support_10bit flag in wave5_match_data like below ?
-static const struct wave5_match_data ti_wave521c_data =3D {
-	.support_10bit =3D false;
-};
+On Mon, Mar 18, 2024 at 06:11:30PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Mar 18, 2024 at 02:49:47PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Fri, Mar 15, 2024 at 10:22:05AM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Mon, Mar 11, 2024 at 03:49:48PM +0100, Maxime Ripard wrote:
+> > > > Infoframes in KMS is usually handled by a bunch of low-level helpers
+> > > > that require quite some boilerplate for drivers. This leads to
+> > > > discrepancies with how drivers generate them, and which are actually
+> > > > sent.
+> > > >=20
+> > > > Now that we have everything needed to generate them in the HDMI
+> > > > connector state, we can generate them in our common logic so that
+> > > > drivers can simply reuse what we precomputed.
+> > > >=20
+> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > ---
+> > > >  drivers/gpu/drm/Kconfig                            |   1 +
+> > > >  drivers/gpu/drm/drm_atomic_state_helper.c          | 323 +++++++++=
+++++++++++++
+> > > >  drivers/gpu/drm/drm_connector.c                    |  14 +
+> > > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+> > > >  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+> > > >  include/drm/drm_atomic_state_helper.h              |   8 +
+> > > >  include/drm/drm_connector.h                        | 133 +++++++++
+> > > >  7 files changed, 492 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > > > index 872edb47bb53..ad9c467e20ce 100644
+> > > > --- a/drivers/gpu/drm/Kconfig
+> > > > +++ b/drivers/gpu/drm/Kconfig
+> > > > @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+> > > >  	  If in doubt, say "N".
+> > > > =20
+> > > >  config DRM_KMS_HELPER
+> > > >  	tristate
+> > > >  	depends on DRM
+> > > > +	select DRM_DISPLAY_HDMI_HELPER
+> > > >  	help
+> > > >  	  CRTC helpers for KMS drivers.
+> > > > =20
+> > > >  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+> > > >          bool "Enable refcount backtrace history in the DP MST help=
+ers"
+> > > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gp=
+u/drm/drm_atomic_state_helper.c
+> > > > index e66272c0d006..2bf53666fc9d 100644
+> > > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > > @@ -36,10 +36,12 @@
+> > > >  #include <drm/drm_plane.h>
+> > > >  #include <drm/drm_print.h>
+> > > >  #include <drm/drm_vblank.h>
+> > > >  #include <drm/drm_writeback.h>
+> > > > =20
+> > > > +#include <drm/display/drm_hdmi_helper.h>
+> > > > +
+> > > >  #include <linux/slab.h>
+> > > >  #include <linux/dma-fence.h>
+> > > > =20
+> > > >  /**
+> > > >   * DOC: atomic state reset and initialization
+> > > > @@ -912,10 +914,143 @@ hdmi_compute_config(const struct drm_connect=
+or *connector,
+> > > >  	}
+> > > > =20
+> > > >  	return -EINVAL;
+> > > >  }
+> > > > =20
+> > > > +static int hdmi_generate_avi_infoframe(const struct drm_connector =
+*connector,
+> > > > +				       struct drm_connector_state *state)
+> > > > +{
+> > > > +	const struct drm_display_mode *mode =3D
+> > > > +		connector_state_get_mode(state);
+> > > > +	struct drm_connector_hdmi_infoframe *infoframe =3D
+> > > > +		&state->hdmi.infoframes.avi;
+> > > > +	struct hdmi_avi_infoframe *frame =3D
+> > > > +		&infoframe->data.avi;
+> > > > +	bool is_full_range =3D state->hdmi.is_full_range;
+> > > > +	enum hdmi_quantization_range rgb_quant_range =3D
+> > > > +		is_full_range ? HDMI_QUANTIZATION_RANGE_FULL : HDMI_QUANTIZATION=
+_RANGE_LIMITED;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret =3D drm_hdmi_avi_infoframe_from_display_mode(frame, connector=
+, mode);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	frame->colorspace =3D state->hdmi.output_format;
+> > > > +
+> > > > +	drm_hdmi_avi_infoframe_quant_range(frame, connector, mode, rgb_qu=
+ant_range);
+> > >=20
+> > > drm_hdmi_avi_infoframe_quant_range() doesn't handle YCbCr currently.
+> >=20
+> > I guess it's not really a problem anymore if we drop YUV422 selection,
+> > but I'll add a comment.
+> >=20
+> > > > +	drm_hdmi_avi_infoframe_colorimetry(frame, state);
+> > > > +	drm_hdmi_avi_infoframe_bars(frame, state);
+> > > > +
+> > > > +	infoframe->set =3D true;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > <snip>
+> > > > +
+> > > > +#define UPDATE_INFOFRAME(c, os, ns, i)				\
+> > > > +	write_or_clear_infoframe(c,				\
+> > > > +				 &(c)->hdmi.infoframes.i,	\
+> > > > +				 &(os)->hdmi.infoframes.i,	\
+> > > > +				 &(ns)->hdmi.infoframes.i)
+> > >=20
+> > > This macro feels like pointless obfuscation to me.
+> >=20
+> > I'll remove it then.
+> >=20
+> > > <snip>
+> > > > @@ -1984,20 +2063,73 @@ struct drm_connector {
+> > > > =20
+> > > >  	/**
+> > > >  	 * @hdmi: HDMI-related variable and properties.
+> > > >  	 */
+> > > >  	struct {
+> > > > +#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
+> > > > +		/**
+> > > > +		 * @vendor: HDMI Controller Vendor Name
+> > > > +		 */
+> > > > +		unsigned char vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] __nonstring;
+> > > > +
+> > > > +#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
+> > > > +		/**
+> > > > +		 * @product: HDMI Controller Product Name
+> > > > +		 */
+> > > > +		unsigned char product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] __nonstrin=
+g;
+> > > > +
+> > > >  		/**
+> > > >  		 * @supported_formats: Bitmask of @hdmi_colorspace
+> > > >  		 * supported by the controller.
+> > > >  		 */
+> > > >  		unsigned long supported_formats;
+> > > > =20
+> > > >  		/**
+> > > >  		 * @funcs: HDMI connector Control Functions
+> > > >  		 */
+> > > >  		const struct drm_connector_hdmi_funcs *funcs;
+> > > > +
+> > > > +		/**
+> > > > +		 * @infoframes: Current Infoframes output by the connector
+> > > > +		 */
+> > > > +		struct {
+> > > > +			/**
+> > > > +			 * @lock: Mutex protecting against concurrent access to
+> > > > +			 * the infoframes, most notably between KMS and ALSA.
+> > > > +			 */
+> > > > +			struct mutex lock;
+> > > > +
+> > > > +			/**
+> > > > +			 * @audio: Current Audio Infoframes structure. Protected
+> > > > +			 * by @lock.
+> > > > +			 */
+> > > > +			struct drm_connector_hdmi_infoframe audio;
+> > > > +
+> > > > +			/**
+> > > > +			 * @avi: Current AVI Infoframes structure. Protected by
+> > > > +			 * @lock.
+> > > > +			 */
+> > > > +			struct drm_connector_hdmi_infoframe avi;
+> > > > +
+> > > > +			/**
+> > > > +			 * @hdr_drm: Current DRM (Dynamic Range and Mastering)
+> > > > +			 * Infoframes structure. Protected by @lock.
+> > > > +			 */
+> > > > +			struct drm_connector_hdmi_infoframe hdr_drm;
+> > > > +
+> > > > +			/**
+> > > > +			 * @spd: Current SPD Infoframes structure. Protected by
+> > > > +			 * @lock.
+> > > > +			 */
+> > > > +			struct drm_connector_hdmi_infoframe spd;
+> > > > +
+> > > > +			/**
+> > > > +			 * @vendor: Current HDMI Vendor Infoframes structure.
+> > > > +			 * Protected by @lock.
+> > > > +			 */
+> > > > +			struct drm_connector_hdmi_infoframe hdmi;
+> > > > +		} infoframes;
+> > > >  	} hdmi;
+> > >=20
+> > > What's the deal with this bloat? These are already tracked in the
+> > > connector's state so this looks entirely redundant.
+> >=20
+> > The next patch in this series is about adding debugfs entries to read
+> > the infoframes, and thus we need to care about concurrency between
+> > debugfs files accesses and commits. Copying the things we care about
+> > from the state to the entity is the typical solution for that, but I
+> > guess we could also take the proper locks and access the current
+> > connector state.
+>=20
+> Yeah, just lock and dump the latest state. That is the only thing
+> that should of interest to anyone in userspace.
+>=20
+> Also are you actually adding some kind of ad-hoc state dump things
+> just for these? Why not do whatever is needed to include them in
+> the normal .atomic_state_print() stuff?
 
-> 	return ret;
->--
->2.44.0
+Yeah, part of the reason for the whole thing is so we can make
+edid-decode check the sanity of generated infoframes, for both v4l2 and
+DRM. Hans has been working on it and has a prototype based on this work.
 
+But you're right, we should probably add them to atomic_state_print too
+
+Maxime
+
+--6n43iydiwru5gl6x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZflnOgAKCRDj7w1vZxhR
+xUAqAP9osiLRyY8KJXAT50DTQ35ZRT/BcFN/QtqCr8oS2BcaLgD6Ah6rT5bLm/2W
+gzaTbZzUgiazFZ2uVZtKSGrqf8eYswM=
+=afLz
+-----END PGP SIGNATURE-----
+
+--6n43iydiwru5gl6x--
 
