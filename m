@@ -1,109 +1,254 @@
-Return-Path: <linux-media+bounces-7388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2654B880D08
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 09:30:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7344880C5F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 08:49:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9B961F2429C
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 08:30:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CC861F217D0
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 07:49:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DC72C68F;
-	Wed, 20 Mar 2024 08:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2DF24B33;
+	Wed, 20 Mar 2024 07:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="noP2sn+w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MoLsBL9t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic304-19.consmr.mail.sg3.yahoo.com (sonic304-19.consmr.mail.sg3.yahoo.com [106.10.242.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4CA374C3
-	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 08:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.242.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D7136AE7
+	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 07:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710923432; cv=none; b=EHeasZe4iGMvWZXSNNySg5LUDQ2V2skoiU22qF186piElXYCOeMYXbes81GoXq+3tAN3xx/aggtZOpRUbr3x+ZmbyPamipl8IK5fImSEbQNS00CSF5zJRmXi5XaEgf+cdjyi36q6/ghaZu/TUPBsQqy9c7LtYotHYHvkgkO9x6s=
+	t=1710920976; cv=none; b=dwGxzAXnhcGFxy/2Kn951a1YIQD8ZAh1xO0DhTWwcclf83CDCE3YD6ScOx3Y1k4W6sYRGXlR4c7WRkgkofU7hkrxyy989lwn5Jyvc5Jk0iwSIOEA/2KejTLDyQRplM3/1WYP25LJI0EBIxayQfgcMLwCbF3Oz+g+xGhOg6A6JI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710923432; c=relaxed/simple;
-	bh=vM7ouAyWEuJjASToGDROx3MVONyts0rJcZqkzfTUCu8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=gjp00VsiBat8QWJl46QW75z1R5NhBAAVnl39F35wc5wATeCXPvEmu1xITx8CBCKF4D/VtRNALHsRcitsydZ66DgK+62R6Qx8Rvd4fKZJgxJxLBcJzQPhoQgQCprB5R+yHbrIkNblOjNNcdkj4f9sa6X36TvPv2gluQg1RBOxr0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org; spf=fail smtp.mailfrom=fedoraproject.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=noP2sn+w; arc=none smtp.client-ip=106.10.242.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fedoraproject.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710923426; bh=vM7ouAyWEuJjASToGDROx3MVONyts0rJcZqkzfTUCu8=; h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To; b=noP2sn+wewTlwTNPKUkJIuq1bZAv2S/KdKHstSoat3jpFxPPeXZI1TE21YxPLRHMVUjP40tB43CpDm9xIEC66CXvihN5jPaA+fSQMarx7WApFWP88GDPQ0Rtfs92W+ZagSzp/i+/4lrM1JQIXmqYXYC2lJtO5RJGFg3FC5hXiUtetoNwymqJZ2J0eJemo2on+VigMrT1Fd7g82MsPJ30mEp14dypkUm3fI7KvhzsIl+FvZt+jNQgqxq6D/m9u73W5wQzhZiN6AC2LPYbTMH/7+To5LYJLQDnW6yI/et8G23yNVCZlWkkctkVewx9/SMUkPcs8PWOHM0flRkhZDFbUw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710923426; bh=SSKkUaQm717VrK1PDxsX1I4ImxowrMjAYRvOhvP0nNz=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=kiUNAB/pE/sOzpQ9H1NvwMSGSRlDpQYVeh2botDg/6yEtEqI/3okFHMMjmBE/36LNj75lehd01xxcjM4z4HLosltEWHxjfyoWHKZOOOST0pKsobNKYpjfYxgaNZSn33JJQhhv3fbix9jAwAsDp/9hq+OHnzFu+kuHL6BzF3ulz+e+LPpDKxfG29Ap4J+xzEwCPCRZZecFWIV5RQzYX0D/u/7DgYki+GVrYitFiMZck339r1B5OgGLaKbEK2i8ea3K47pj5sMVcPNuRcmYPcvDxTPU1JoeAEJRsUHv9ZmZYCb52oYCy+wA0TfGf87+ahv01e9vjfPiSgvylr5MBQInw==
-X-YMail-OSG: FO7QXWEVM1l6dPUS_cbMyn4NtrTsh9cbiBZ22GoTkeVhN62eDidheaAvMzivnvB
- gQ0bTIh6BN0oiMtEmFnEDPcNxIUGuThJfyoiduWA1cx2dkJV9h1B7Weq0bkeFhN1fKwoGdYZ7MnH
- Lu3s.J8HTvUPvaC4xnCAcXT.Bh9mTqzaEw1b_H6PyyqjhrtXHkRqESBU5a.md27r1W1PIYIqbK4c
- lrTGucaJH8q112JfkafZB4XFaBOYzT62489gOkuAb.TNwz_IzSuV8JYGbVx0BO209SaxrDzQG.jq
- 7wvqMnDHHK41McV4iBXBfNp7txA6Vi8dgDdP6HsokZ2PUIHFLYJ6MFbcjpuaZGY_VwAXei0fQP3o
- 8BgtcFkI7yhciYs6vVgaxZ3tj.FEzDJ01HirmZLOnWHHvAO8sqg_7hQ_MFFcqhV4z8g1I_BQ_cHJ
- 5Ftl0ZmEFfklYcWKzBLOc7443HBQCLJlYRcFCOE4bdr9S3XF0vTNeS2g2.2PHRGk6ZJcrY8hT29L
- Okbrz.lF_o4Sgxn3mTMi1CJsLj_pQx7VPkxvRY2CXuGoQxLCE4e5iLTrGLKEHik.JyuXxOUVSlMS
- sYjk6KUiFosv1q_hgaeXjTK0WLaHeJiWdvG6XrUGt_T_zn8JXyXYjmvL8h.FeFzUBbm.qwkzobG9
- 77haExagGdHTP6l2XIO2qv70rmaJIcVOKzc2ZxHbGtTk7D8TS6FJfmoN7h4gfi1Epsm1V6q5aeqK
- u61f8vQJ_Fy3.bFUj1tPP0TTa4JNllCWzdR3pdp2dY2RGzH4.QA0gdxI5HXHKSKpTOIsF2IyvVrP
- GyeIVpt2mmlD6xRUBxEpVvtJerQBqmBiCSAZEvWf0gZ01JFqXbfKf2uO9L9_STAsvuZrHQUOutTu
- zDhdBQU_MpXxEjtedal48amVRDxA_LQrmhbgNGFP_BaFtpDuRltnQH5Hhzz_ODrBeFJgxTU1BeX8
- Sh_BSU53QftexN8yC8eubv.C8GRZKHALeD7Wh8j4zMiBpj.tLGziC1VmO.8Y__Te28HT2Q6EkL_g
- Y8zogasANLd20SyvXGseb.bRX0WEZJRnte9_93fUxuQW_FwDZKgMNH7UvYmZ4yRml_LqikUH8fGn
- t2cDf5cA8Nojq2u5x8NTN8O1Iv245NlMEm288Ht0b3iCR35NFIgpVR1YMHIxuu_6pv4tp.QKIJPp
- FWXfUTlhzjRDzEOj_6FNc1sdRb.XZsq57nBOCliY6yFxC0a3RQDu.e6zESSeOLbL.v1eoheSg62U
- V91DeUqAFglKy5XR41sXuY2C91zenk0Dq4pK4l0UGfXydwVt9Ksxxkv5cOjLpCWSVqErwXScOfah
- zudVeDMy.wTUSRrLn6NLgZGnXmVAoO7jULt3GcTRxyOnFLYBN5SEmDpXPyJDj0rACzuIO4qZeLQn
- sllD2NdfQ6kyehUAISNyhksQEcNOy.vX34a7VkA483OFvJhH8wkVKuSrP0mJ_hupj7CaocZpX5ZZ
- cYXZQ5Zw.i.8W7.daKPo.56_oMEaWf27fOUr7VUk8WmYqtLE6OZIFOy2Hm_vWSBDlguD3PG4ygeU
- 4QgOYT8skcPquD9IDZv_JLC2uRZH1C_rxM2xrLWnMfGJuntXXGsTVQloiCfbQ0_wUdEV5hEaIdzf
- WWbDYPrBpG.4JhkXY2uNtClKhX48SUA67uoyAf2K.OsAzLTlCicHkID9QWga8qm0DtBgq9zjzXAb
- Jq73g01p2_6L_Ri8VqX9C.7sdoxVFVRlQgO0MkfirBV4JajH3ipRix1VziDJaTPGWQmYBpPO8GXC
- AB.GdS3vtkVWfn7NYf7iMbdfS9fORHXs_fb7C92s52JrVptDBmKIicHAOlk7sIusqDawto.jBTL5
- v2GBqxRf3OsqjIVmybxo3k0D4MBtKQYhzhQJKTALPCzHhezMJMZ_VuL3A6vMGlAuHaSKbNvM.9Y8
- nQzPVdh3Ol4KamhmQdVj8G4gR8os8id1ngyMPF6iZyKUPWBzwB7dqpRQ2aODb8O3hOD62fmN6E_I
- AUPApIM5SmO9DAd1iLIBFaKzBl_a4.RjtiwRIMv_pbJ0zAJrMFdifFUD3sUSFX_DnQ7vTBIIjXxQ
- tprGBgFILwP3ON2.AOXe64zcGw.yu0UN4yoDMyOMeDRM85yq9mmIeBIUT0UyxIxDaTPEqt9R5OM2
- nWT8pow82zexmADMg7y1WrssMu5pRc3i.pWa0wg.Yv8QY_i5PxAIyb1x9wgUFG5rAIa6n4c9SlCG
- r5ca_aFP_SqlU362KQuRzg5xpH8p5SjZbrrDkjFG0PMMHCYAqJorS6jXZM83DHEwsMoBRccMR2ed
- fv3kL3vrwgf.v70vvda0tag--
-X-Sonic-MF: <pjp@fedoraproject.org>
-X-Sonic-ID: aa3910ca-7ec8-40e5-8b54-81bb575e253b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.sg3.yahoo.com with HTTP; Wed, 20 Mar 2024 08:30:26 +0000
-Date: Wed, 20 Mar 2024 07:39:32 +0000 (UTC)
-From: P J P <pjp@fedoraproject.org>
-Reply-To: P J P <pj.pandit@yahoo.in>
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc: "yasunari.takiguchi@sony.com" <yasunari.takiguchi@sony.com>
-Message-ID: <1813944346.4222082.1710920372587@mail.yahoo.com>
-In-Reply-To: <20240311100407.1271331-1-ppandit@redhat.com>
-References: <20240311100407.1271331-1-ppandit@redhat.com>
-Subject: Re: [PATCH] media: cxd2880: Add terminating new line to Kconfig
+	s=arc-20240116; t=1710920976; c=relaxed/simple;
+	bh=v7XnBOoTZjRQsMXaAc3qgvfHmSnS+uVZQ4//fuOgWMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XtHsJFjjD3X3LFBrKvUwqAXlukfA034UiD6Hf6lY0U3hDeAaiDNCEZ26JHj/whVsAmeculsAQ4k0nzvn63Vw+yLQRxIcHCe7sydbu+++fO/wr9IWVsHy4OApriLyBwESRbwyJSs5HUsuAOYOGIQwaV6K5PORyQ8964clbhewsDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MoLsBL9t; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710920974; x=1742456974;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v7XnBOoTZjRQsMXaAc3qgvfHmSnS+uVZQ4//fuOgWMQ=;
+  b=MoLsBL9tTT0OkEsIf9LcWytMFZO9+0Fb26uWS8GXW69APVq8IRamX86m
+   cPjlL3+WAIwRg40cs+DZc2O6Z4b4seuL+Pvh1cVHIszSfxprcHkl3jCAX
+   eF80l54YDz5O+syNexO5wSbZf13krofbRmir8udITyo4yAkZoyFWBC7QM
+   mWOyG6tbp+hzYN826gyFTNXW59vH24ImNmIj31XtuhT+vQHtEnNk777gu
+   SqPDcKhcKDsw+Vh01olKKprN2TlOSUr3y+PQ7YgiXuSWWqt9Vy3Vm2YvM
+   Qq13eXLjzvxtq6o32RJuqJdtHeEb4YiI55Y7RykXiW5fnlrC/SK4hpYoI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="6037761"
+X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
+   d="scan'208";a="6037761"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 00:49:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,139,1708416000"; 
+   d="scan'208";a="13976901"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 00:49:31 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C0A8511F853;
+	Wed, 20 Mar 2024 09:49:27 +0200 (EET)
+Date: Wed, 20 Mar 2024 07:49:27 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, bingbu.cao@intel.com,
+	hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 01/38] media: mc: Add INTERNAL pad flag
+Message-ID: <ZfqVB3dagHQXcoRx@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-2-sakari.ailus@linux.intel.com>
+ <86a51397-d0a9-4875-a3e8-fb4526b340f4@ideasonboard.com>
+ <20240319221707.GD8501@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.22129 YMailNorrin
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319221707.GD8501@pendragon.ideasonboard.com>
 
->From: Prasad Pandit <pjp@fedoraproject.org>
->diff --git a/drivers/media/dvb-frontends/cxd2880/Kconfig b/drivers/media/d=
-vb-frontends/cxd2880/Kconfig
->index 9d989676e800..94a8e0b936b9 100644
->--- a/drivers/media/dvb-frontends/cxd2880/Kconfig
->+++ b/drivers/media/dvb-frontends/cxd2880/Kconfig
->@@ -5,4 +5,4 @@ config DVB_CXD2880
-> =C2=A0 =C2=A0depends on DVB_CORE && SPI
-> =C2=A0 =C2=A0default m if !MEDIA_SUBDRV_AUTOSELECT
-> =C2=A0 =C2=A0help
->-=C2=A0=C2=A0=C2=A0 =C2=A0 Say Y when you want to support this frontend.
->\ No newline at end of file
->+=C2=A0=C2=A0=C2=A0 =C2=A0 Say Y when you want to support this frontend.
->--=20
->2.44.0
+Hi Laurent,
 
-Ping...! (just checking)
----
-=C2=A0 -Prasad
+On Wed, Mar 20, 2024 at 12:17:07AM +0200, Laurent Pinchart wrote:
+> On Thu, Mar 14, 2024 at 09:17:08AM +0200, Tomi Valkeinen wrote:
+> > On 13/03/2024 09:24, Sakari Ailus wrote:
+> > > Internal source pads will be used as routing endpoints in V4L2
+> > > [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+> > > Internal source pads are pads that have both SINK and INTERNAL flags set.
+> > > 
+> > > Also prevent creating links to pads that have been flagged as internal and
+> > > initialising SOURCE pads with INTERNAL flag set.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >   .../userspace-api/media/mediactl/media-types.rst       |  8 ++++++++
+> > >   drivers/media/mc/mc-entity.c                           | 10 ++++++++--
+> > >   include/uapi/linux/media.h                             |  1 +
+> > >   3 files changed, 17 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > index 6332e8395263..f55ef055bcf8 100644
+> > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+> > >   .. _MEDIA-PAD-FL-SINK:
+> > >   .. _MEDIA-PAD-FL-SOURCE:
+> > >   .. _MEDIA-PAD-FL-MUST-CONNECT:
+> > > +.. _MEDIA-PAD-FL-INTERNAL:
+> > >   
+> > >   .. flat-table:: Media pad flags
+> > >       :header-rows:  0
+> > > @@ -381,6 +382,13 @@ Types and flags used to represent the media graph elements
+> > >   	  enabled links even when this flag isn't set; the absence of the flag
+> > >   	  doesn't imply there is none.
+> > >   
+> > > +    *  -  ``MEDIA_PAD_FL_INTERNAL``
+> > > +       -  The internal flag indicates an internal pad that has no external
+> > > +	  connections. Such a pad shall not be connected with a link.
+> 
+> I would expand this slightly, as it's the only source of documentation
+> regarding internal pads.
+
+Patch 9 adds more documentation, this patch is for MC only.
+
+> 
+>        -  The internal flag indicates an internal pad that has no external
+> 	  connections. This can be used to model, for instance, the pixel array
+> 	  internal to an image sensor. As they are internal to entities,
+> 	  internal pads shall not be connected with links.
+
+I'd drop the sentence related to sensors.
+
+> 
+> > > +
+> > > +	  The internal flag may currently be present only in a source pad where
+> > 
+> > s/source/sink/
+> > 
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > +	  it indicates that the :ref:``stream <media-glossary-stream>``
+> > > +	  originates from within the entity.
+> > >   
+> > >   One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+> > >   must be set for every pad.
+> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > > index 0e28b9a7936e..1973e9e1013e 100644
+> > > --- a/drivers/media/mc/mc-entity.c
+> > > +++ b/drivers/media/mc/mc-entity.c
+> > > @@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> > >   		iter->index = i++;
+> > >   
+> > >   		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > > -					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> > > +					     MEDIA_PAD_FL_SOURCE)) != 1 ||
+> > > +		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
+> > > +		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
+> > >   			ret = -EINVAL;
+> > >   			break;
+> > >   		}
+> 
+> This may become more readable written as a switch statement:
+> 
+> 		const u32 pad_flags_mask = MEDIA_PAD_FL_SINK |
+> 					   MEDIA_PAD_FL_SOURCE |
+> 					   MEDIA_PAD_FL_INTERNAL;
+> 
+> 		switch (iter->flags & pad_flags_mask) {
+> 		case MEDIA_PAD_FL_SINK:
+> 		case MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL:
+> 		case MEDIA_PAD_FL_SOURCE:
+> 			break;
+> 
+> 		default:
+> 			ret = -EINVAL;
+> 			break;
+> 		}
+> 
+> 		if (ret)
+> 			break;
+> 
+> And now that I've written this, I'm not too sure anymore :-) Another
+> option would be
+> 
+> 
+> 	const u32 pad_flags = iter->flags & (MEDIA_PAD_FL_SINK |
+> 					     MEDIA_PAD_FL_SOURCE |
+> 					     MEDIA_PAD_FL_INTERNAL);
+> 
+> 	if (pad_flags != MEDIA_PAD_FL_SINK &&
+> 	    pad_flags != MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL
+> 	    pad_flags != MEDIA_PAD_FL_SOURCE) {
+> 		ret = -EINVAL;
+> 		break;
+> 	}
+> 
+> Up to you.
+
+I'd prefer to keep it as-is since the original check is testing two
+independent things instead of merging them: that only either SINK or SOURCE
+is set, and then separately that if INTERNAL is set, then SINK is set, too.
+
+Of the two options you suggested, I prefer the latter.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thank you!
+
+> 
+> > > @@ -1112,7 +1114,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
+> > >   
+> > >   	for (i = 0; i < entity->num_pads; i++) {
+> > >   		if ((entity->pads[i].flags &
+> > > -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
+> > > +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
+> > > +		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
+> > >   			continue;
+> > >   
+> > >   		if (entity->pads[i].sig_type == sig_type)
+> > > @@ -1142,6 +1145,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+> > >   		return -EINVAL;
+> > >   	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+> > >   		return -EINVAL;
+> > > +	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
+> > > +	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
+> > > +		return -EINVAL;
+> > >   
+> > >   	link = media_add_link(&source->links);
+> > >   	if (link == NULL)
+> > > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> > > index 1c80b1d6bbaf..80cfd12a43fc 100644
+> > > --- a/include/uapi/linux/media.h
+> > > +++ b/include/uapi/linux/media.h
+> > > @@ -208,6 +208,7 @@ struct media_entity_desc {
+> > >   #define MEDIA_PAD_FL_SINK			(1U << 0)
+> > >   #define MEDIA_PAD_FL_SOURCE			(1U << 1)
+> > >   #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
+> > > +#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
+> > >   
+> > >   struct media_pad_desc {
+> > >   	__u32 entity;		/* entity ID */
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
 
