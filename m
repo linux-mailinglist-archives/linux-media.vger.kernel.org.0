@@ -1,260 +1,198 @@
-Return-Path: <linux-media+bounces-7438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7439-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5666881547
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 17:12:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A5188158F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 17:23:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AAD8283624
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:12:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3A63280EAE
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB4D54BFC;
-	Wed, 20 Mar 2024 16:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958FC55E7B;
+	Wed, 20 Mar 2024 16:23:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P2HkANNr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFktWE8/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439F75466C
-	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 16:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAE555774
+	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 16:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710951161; cv=none; b=F/kNTZlFZ0t1rSDfKnobk61sx6KZJlyuvoZ00wKotU2P2vqpzHlQvMFLSG0reHqDvBs8xpPAqqzR915QzlINjtDt20LgfHAxFFOEuJ6Y4cqMuoPOhSKqerMvfR2oIdTWAU34l6iV8H/zotgBUiY4cqtqHg2FhysxlJWKMSMzt5Q=
+	t=1710951810; cv=none; b=CY/MQHuGiTyaQfxKGVYvfcDudD1qJe4yYRV/FunNtxNuWCI+ynKc6Y/LH5CLSaqhTjH3j4hIKawpV+87mf0kNnaPGa8Hr8jtIU17y+P27TZo0dfXAlOGL/TO3TW4tUmSQgE3kzM5pEw25oMKyRcRRkggyYANU5L5LZhxrDu+2UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710951161; c=relaxed/simple;
-	bh=91XMpLG2akQ92yHfsX86vnzQBDTtg0DrCMSJa/o9yO4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pjga8P1/fAtG9EUIryupn20IZxYwXdZS1Tsk0HGQ0NNe1CeInyWALlq7w+d9YgPA4uHfjQEDmeMY7fAqES7HWoW6jYDAQZnDzFsKjjijlh3H1j5UJ7ioo5vU7gKGrgBVHToDjDlvkfScHmWRRIHXZTQPy1cXqUU/m5ubtxn9glE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P2HkANNr; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4146fe16a1aso1553135e9.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 09:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710951158; x=1711555958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OHaerxnf+Io0STbXSxPOeYL0uihrNa0TldEwjw3BQgY=;
-        b=P2HkANNrIh9s2b3Z8sHdSJS1AuOEmHWlY4Ai6PXERrqviAxxrJ8+WA2dFyijKYkVsW
-         OZ5z0mX9mpf1J/tGdILxw6425soHVce2qy+f4Xn+MvG8AJScIniAOZr1NXdYiveBKssn
-         Ttr2SEvO8cYbBsmV2syKGjowWY2K/6trVJfGb84sxRU84LXoyFCxvqzkkWbNrxhIAee7
-         WGmnQsDY0bUGFum7YG6WmbOeksAd5qF2KR2aG+J4CBFQ9kurDEUI8QACiqyKBccNxmXi
-         H0s9g/WSLGqA20SUWdM+8NW/YnZpUJukUe5L8b52Z0tRtBKZi22TzhIIsn6wOW3Z54Ee
-         UuYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710951158; x=1711555958;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OHaerxnf+Io0STbXSxPOeYL0uihrNa0TldEwjw3BQgY=;
-        b=uguJWj9lV8i3st9EmqwZg3KQ8IMuAPZTGt7LsW+85bGOBUVE4ORTrVg0qzDr0LsGK4
-         9+x93hdxCF96siEyCxFfUfAr3IeF2LYXgSoG5ITvaYAc3RlI1QSeBMt7l3f2nGu7es4d
-         FnwdkDUHzgoIZ5ENQibAxDvYpNVkoqJy6WoNX5APJoFAvcAPiJRbLNonv0yFIPv7H7EW
-         kl7kLh1Sony7Mj8M3Zn+iuE749iJhTYUl+YzIP/AcrIZB9jUVUFKkkp8XaBOR/rTkkp/
-         PzzF9W6JZg5IVmEMaWkeBvvkDi2YoCod/iBxtaVSLjy83rtnmhy/8GbWYDxKbT+c7Y2V
-         rqYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWo8EXl2GXFeIcvjEh2npSru79LYCaCNNAFIYGZVnn1f3kL/e3czIHwspbsInMtGwBum/zeSsduAepGPH+DrjSmBA53yb6XdsJIdzU=
-X-Gm-Message-State: AOJu0YyDCFjGT3Bvc866ty6nh5jKa1C340yXpQ8zRGum9kJ6b4pAFMlg
-	NGpdhEaQEdekcZJB9F7pVd9RXtJbCnmxLBar0JMzFzNNoQggNbgZriWfba+wCV4=
-X-Google-Smtp-Source: AGHT+IGUmqwc0fjYKojLrdrN0jIAX9AbIj172jwSl+A63IlFH6oYl/Bmn8K+Tv5YFkUwdiy9Xj10ig==
-X-Received: by 2002:a05:600c:4fc8:b0:414:6172:8366 with SMTP id o8-20020a05600c4fc800b0041461728366mr5260918wmq.15.1710951157618;
-        Wed, 20 Mar 2024 09:12:37 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id by19-20020a056000099300b0034174875850sm7821180wrb.70.2024.03.20.09.12.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 09:12:37 -0700 (PDT)
-Message-ID: <bbbb5983-f870-48ce-ab7d-c424266e78d9@linaro.org>
-Date: Wed, 20 Mar 2024 16:12:36 +0000
+	s=arc-20240116; t=1710951810; c=relaxed/simple;
+	bh=mhbM7/yQkHu0JUGJem58TiFNg79AyZnp/j+lqpUqmPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBx5lHyp5XSWPxSilBMv5wKbk1bM/4yARmx0EAtZBRo7DKPcxUq8fksBm31tjmVo5PxtW8f8Y/5KNfrWldZT+QnBfrUkytkbxAFHaXHZqVhs3K9l8RwRgmJQH29nifL4wId3FU6SxaBgH+vP/SKk2GKyIHv5zrBcER58Hm3RH5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFktWE8/; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710951809; x=1742487809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mhbM7/yQkHu0JUGJem58TiFNg79AyZnp/j+lqpUqmPU=;
+  b=dFktWE8/xokebemLRREZFA1O+w+8K9E/mevSq63nx2zJ3rFGJz0SMd4/
+   6gcEgbvXMpnG0ggLfrFI1UrE/w364iKmd8f2cQ99XtNmBtwDKUe6F/sxt
+   f3lV3WiFPrthyISkpTFYjgk1nkxQRbMzuW6hdmu/7ME0ZjD4YVXgHM5os
+   L2tQyqVPLFik1qIddWrjC41aJJwT2M1kBbcGfxZZ6r1c04D07EU43371d
+   2Ajok0wfn9uQVnKhW5Jzy1WG+gtYqNlmaYs8M37Oy/F5tSFTqoBgLtTR4
+   inUTOTKpXWJGtcasRsBfX/5GQkACIqpS9ifgEANWVchPmcdGCdWUPtj5F
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="8838289"
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="8838289"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 09:23:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="18791719"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 09:23:04 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 23AAB11F853;
+	Wed, 20 Mar 2024 18:23:01 +0200 (EET)
+Date: Wed, 20 Mar 2024 16:23:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 03/38] media: uapi: Add generic serial metadata mbus
+ formats
+Message-ID: <ZfsNZU5Ewpp-0WZ2@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-4-sakari.ailus@linux.intel.com>
+ <20240319225948.GG8501@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] media: qcom: camss: Add CSID gen3 driver
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konrad.dybcio@linaro.org,
- mchehab@kernel.org, quic_yon@quicinc.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-References: <20240320141136.26827-1-quic_depengs@quicinc.com>
- <20240320141136.26827-6-quic_depengs@quicinc.com>
- <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
-In-Reply-To: <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319225948.GG8501@pendragon.ideasonboard.com>
 
-On 20/03/2024 15:40, Bryan O'Donoghue wrote:
-> +static const struct csid_format csid_formats[] = {
-> +    {
-> +        MEDIA_BUS_FMT_UYVY8_1X16,
-> +        DATA_TYPE_YUV422_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        2,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_VYUY8_1X16,
-> +        DATA_TYPE_YUV422_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        2,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_YUYV8_1X16,
-> +        DATA_TYPE_YUV422_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        2,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_YVYU8_1X16,
-> +        DATA_TYPE_YUV422_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        2,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SBGGR8_1X8,
-> +        DATA_TYPE_RAW_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGBRG8_1X8,
-> +        DATA_TYPE_RAW_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGRBG8_1X8,
-> +        DATA_TYPE_RAW_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SRGGB8_1X8,
-> +        DATA_TYPE_RAW_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SBGGR10_1X10,
-> +        DATA_TYPE_RAW_10BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
-> +        10,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGBRG10_1X10,
-> +        DATA_TYPE_RAW_10BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
-> +        10,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGRBG10_1X10,
-> +        DATA_TYPE_RAW_10BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
-> +        10,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SRGGB10_1X10,
-> +        DATA_TYPE_RAW_10BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
-> +        10,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_Y8_1X8,
-> +        DATA_TYPE_RAW_8BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
-> +        8,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_Y10_1X10,
-> +        DATA_TYPE_RAW_10BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
-> +        10,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SBGGR12_1X12,
-> +        DATA_TYPE_RAW_12BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
-> +        12,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGBRG12_1X12,
-> +        DATA_TYPE_RAW_12BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
-> +        12,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGRBG12_1X12,
-> +        DATA_TYPE_RAW_12BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
-> +        12,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SRGGB12_1X12,
-> +        DATA_TYPE_RAW_12BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
-> +        12,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SBGGR14_1X14,
-> +        DATA_TYPE_RAW_14BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
-> +        14,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGBRG14_1X14,
-> +        DATA_TYPE_RAW_14BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
-> +        14,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SGRBG14_1X14,
-> +        DATA_TYPE_RAW_14BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
-> +        14,
-> +        1,
-> +    },
-> +    {
-> +        MEDIA_BUS_FMT_SRGGB14_1X14,
-> +        DATA_TYPE_RAW_14BIT,
-> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
-> +        14,
-> +        1,
-> +    },
-> +};
+Hi Laurent,
 
-Also please consider including/reviewing Gjorgji's patchset which 
-reworks the declaration of resources.
+On Wed, Mar 20, 2024 at 12:59:48AM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Mar 13, 2024 at 09:24:41AM +0200, Sakari Ailus wrote:
+> > Add generic serial metadata mbus formats. These formats describe data
+> > width and packing but not the content itself. The reason for specifying
+> > such formats is that the formats as such are fairly device specific but
+> > they are still handled by CSI-2 receiver drivers that should not be aware
+> > of device specific formats. What makes generic metadata formats possible
+> > is that these formats are parsed by software only, after capturing the
+> > data to system memory.
+> > 
+> > Also add a definition for "Data unit" to cover what is essentially a pixel
+> > but is not image data.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/glossary.rst          |   9 +
+> >  .../media/v4l/subdev-formats.rst              | 258 ++++++++++++++++++
+> >  include/uapi/linux/media-bus-format.h         |   9 +
+> >  3 files changed, 276 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+> > index ef0ab601b5bf..7078141894c5 100644
+> > --- a/Documentation/userspace-api/media/glossary.rst
+> > +++ b/Documentation/userspace-api/media/glossary.rst
+> > @@ -25,6 +25,15 @@ Glossary
+> >  
+> >  	See :ref:`cec`.
+> >  
+> > +.. _media-glossary-data-unit:
+> > +
+> > +    Data unit
+> > +
+> > +	Unit of data transported by a bus. On parallel buses, the data unit
+> > +	consists of one or more related samples while on serial buses the data
+> > +	unit is logical. If the data unit is image data, it may also be called a
+> > +	pixel.
+> 
+> I'm pretty sure nobody will be able to understand what this means, but I
+> don't have a better proposal at the moment.
+> 
+> > +
+> >      Device Driver
+> >  	Part of the Linux Kernel that implements support for a hardware
+> >  	component.
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > index eb3cd20b0cf2..cbd475f7cae9 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > @@ -8306,3 +8306,261 @@ The following table lists the existing metadata formats.
+> >  	both sides of the link and the bus format is a fixed
+> >  	metadata format that is not configurable from userspace.
+> >  	Width and height will be set to 0 for this format.
+> > +
+> > +Generic Serial Metadata Formats
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +Generic serial metadata formats are used on serial buses where the actual data
+> > +content is more or less device specific but the data is transmitted and received
+> > +by multiple devices that do not process the data in any way, simply writing
+> > +it to system memory for processing in software at the end of the pipeline.
+> > +
+> > +The more specific variant describing the actual data is used on the internal
+> > +source pad of the originating sub-device.
+> 
+> Maybe this paragraph would be best added in the patch that adds the
+> specific metadata formats, you could then mention one of them as an
+> example:
+> 
+> The exact format of the data generated by the device is reported on the
+> internal source pad of the originating sub-device, using one of the more
+> specific metadata formats such as MEDIA_BUS_FMT_CCS_EMBEDDED.
 
-https://lore.kernel.org/lkml/20240319173935.481-4-quic_grosikop@quicinc.com/T/
+I'd really like to get rid of the "internal source" pads as the naming is
+really confusing (it's present still in this version but not in many
+locations). They're sink pads after all, so I'd call them such. In a few
+locations there's text that explains they do represent sources of data
+within the sub-device itself.
 
----
-bod
+> 
+> > +
+> > +"b" in an array cell signifies a byte of data, followed by the number of the bit
+> 
+> s/bit$/byte/
+
+Uh, yes.
+
+> 
+> > +and finally the bit number in subscript. "X" indicates a padding bit.
+> 
+> We use a lower-case x in pixfmt-rgb.rst, I would do the same here. We
+> also use single quotes there, turning "b" and "x" into 'b' and 'x'.
+
+This is documentation, not C source code where we'd want to denote a single
+character. Double quotes should thus be used instead.
+
+I'll switch to lower case X.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thank you!
+
+-- 
+Regards,
+
+Sakari Ailus
 
