@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-7442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66668817BD
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 20:15:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790C2881879
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 21:17:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B901B226E4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 19:15:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3505E281712
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 20:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7FD485640;
-	Wed, 20 Mar 2024 19:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C648E85949;
+	Wed, 20 Mar 2024 20:17:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B1VWiDKI"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="xR4qmmjm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F6D85626;
-	Wed, 20 Mar 2024 19:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F15E85933;
+	Wed, 20 Mar 2024 20:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710962119; cv=none; b=TSN4hwVK2XrMe3K+P2zYbkW5djcfSSvStO+0f0UHusx6UnoHMJOf4lIfmXlUbT5nwbwvPjxlMTca1x8ULLlRex4xlbiMmlvDTIcQpelNgxxpZJL7ddSGYB3pR2aURJ9zkNlpsuvh0IYjfxXZc/6GuUoXAHsFq0qil2akS+Fvl8Y=
+	t=1710965821; cv=none; b=V9w8SbhYRbS6T/R/torpGsv3IFbXXixJlu/QcUKc8o8+byD7gRrOtpW5m0MtnlAPAsuTFQo5e7Y/bfsc8ktQ6wV6Bg+41iLoyY6Smq3U6DYcDNVBs7PUpzfgbFlSCCBOgDFOnE9KSu0v7FmSG8AUtqCP7V4hNIkuTni6e4gk5xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710962119; c=relaxed/simple;
-	bh=z+JJu0xQoW3dM54mrpxZ3kL3VRvxY9C0AzdnCinEaxc=;
+	s=arc-20240116; t=1710965821; c=relaxed/simple;
+	bh=nj7MzyFExeNZhnwzBI8kDS3G0ZyqJ2Qb0WQL/c4YNTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ljCXjXV6U49IYwqZigBfPKSpZgYFdRN7iPxndATNITuP4JtV6t5Kek+9N9iQt+90lC8x917VD7ih19JnHfDMnOpU95UKel+eNyk1gtuk74KFqubWS7gM485Z90fW5zYRWYVW9avNdmg0+2liHu2xAh9PYyEG6DklgRlnQymQAYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=B1VWiDKI; arc=none smtp.client-ip=46.235.227.194
+	 Content-Type:Content-Disposition:In-Reply-To; b=tuKtofglu3UHcMUNuCTW2sg5dgBG4dvtla/igviHQVjKGadCnxwFTEHPez441vIic/hiIyFdom6NkwyFgDJvqAfLMGLBKyiVRYIJeZCTnDPyp+eqIO9a4dLeXgi9YLw/rD2PX0Dp7rFKsl94QYJyzVMTiPdTAQN+8aCDQ4mUGZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=xR4qmmjm; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1710962115;
-	bh=z+JJu0xQoW3dM54mrpxZ3kL3VRvxY9C0AzdnCinEaxc=;
+	s=mail; t=1710965817;
+	bh=nj7MzyFExeNZhnwzBI8kDS3G0ZyqJ2Qb0WQL/c4YNTQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B1VWiDKI1tUhF4pRktoC0eVPZNgiRldDLP2xGOb75MPTlScONOBZX0rX4t3ATjZVG
-	 oGRD9jWNegiZ6o80vmfWoCL7PCBh7MmHCrGLPGKT/aTG5+qcEKrRUuk2VvR5nkegrv
-	 UCa5mSiGxrbyTF+FvV0iWAftyrJmb6mhk9A92+N9Ih+LgUP2gRWKLZSIuMngwTu9U8
-	 Krpx6FxqZCTBuiKaPTl01PEWE0UI26CNo7wd0SsWBMkKcwvzcoQiaiW6UjmIm49p7s
-	 XeAn6D7Zm8HIEu17xszWTg4ck4Vgqneq6usFWY33lTKV2CAC4Tm/KPWbR/eAjOheuj
-	 mZjW/02iYvGQA==
+	b=xR4qmmjmVsPHZiwnD1RdLOW7zqjrJdorBZiwzDr7tAN4XceB3s8mavvGGo/RQpYbq
+	 NErdndNsfObCsEajJM53XCuwRLGcmy53XT9RFdZTSH4PbU0himWp5bJ6ziSE6/gwZP
+	 C+3wBjpB+7JYKlT9V2UvkOAawuOAjtG47Vn/INijwJydYJtYlKn1YjaMJ9KMRhBYOi
+	 0gexHeXZAZViBT6JVTZzrmy3WYVRDysem/ZwN1/lwkMbWa5LfMAOOKPzCA7feecy/A
+	 gzWzdXJxx9r6eEj1gU7PBa9Hud6lVpNwRFiE+hXGibLtyr3PO+MHEey9XOkFsgFNhO
+	 cgoeR/01S4SaQ==
 Received: from mercury (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 99D173780BFE;
-	Wed, 20 Mar 2024 19:15:15 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 762FA37814A4;
+	Wed, 20 Mar 2024 20:16:57 +0000 (UTC)
 Received: by mercury (Postfix, from userid 1000)
-	id 3C9B21060704; Wed, 20 Mar 2024 20:15:15 +0100 (CET)
-Date: Wed, 20 Mar 2024 20:15:15 +0100
+	id F3F9B1060704; Wed, 20 Mar 2024 21:16:56 +0100 (CET)
+Date: Wed, 20 Mar 2024 21:16:56 +0100
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Cc: linux-kernel@vger.kernel.org, 
@@ -63,10 +63,11 @@ Cc: linux-kernel@vger.kernel.org,
 	Chris Morgan <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>, 
 	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 1/4] dt-bindings: iommu: rockchip: Fix rk3588 variant
-Message-ID: <uund5em6hnexqpzxj3iazpu5gjbfwtdcolhkit4cljgfldiqyf@4jmgeh6aaw7v>
+Subject: Re: [PATCH 2/4] media: dt-binding: media: Document =?utf-8?Q?rk35?=
+ =?utf-8?B?ODjigJlz?= vepu121
+Message-ID: <uxdndbyetuxxt6icjw7ptlsq6h2ltup7dc35vwbs2i3qvmid2c@33gztzqf7ehm>
 References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
- <20240320173736.2720778-2-linkmauve@linkmauve.fr>
+ <20240320173736.2720778-3-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,98 +75,80 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hcmholarfddiyvvu"
+	protocol="application/pgp-signature"; boundary="h5b2n4ltpigo6emq"
 Content-Disposition: inline
-In-Reply-To: <20240320173736.2720778-2-linkmauve@linkmauve.fr>
+In-Reply-To: <20240320173736.2720778-3-linkmauve@linkmauve.fr>
 
 
---hcmholarfddiyvvu
-Content-Type: text/plain; charset=utf-8
+--h5b2n4ltpigo6emq
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Emmanuel,
+Hi,
 
-On Wed, Mar 20, 2024 at 06:37:30PM +0100, Emmanuel Gil Peyrot wrote:
-> The documentation got added in f8aa519976b38e67aae02d2db3e2998513305e80,
-> but it hasn=E2=80=99t been added to the driver so it was unused.
+On Wed, Mar 20, 2024 at 06:37:31PM +0100, Emmanuel Gil Peyrot wrote:
+> This encoder-only device is present four times on this SoC, and should
+> support everything the rk3568 vepu supports (so JPEG, H.264 and VP8
+> encoding).
 >=20
 > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 > ---
+>  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml          | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu=
+=2Eyaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> index 9d90d8d0565a..947ad699cc5e 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> @@ -17,6 +17,7 @@ properties:
+>    compatible:
+>      enum:
+>        - rockchip,rk3568-vepu
+> +      - rockchip,rk3588-vepu121
 
-Everything is fine with f8aa519976b38e67aae02d2db3e2998513305e80
-(well the patch description could be better :)) and this patch is
-just wrong. The documentation explicitly adds the combination of
-rk3588-iommu with rk3568-iommu as fallback. The idea is, that the
-driver handles it just like an rk3568 iommu. If some differences
-are found in the future, the driver can switch to handle the more
-specific compatible without any DT changes (which is ABI).
+Looks like they are fully compatible. In that case it's better to
+use a fallback compatible (i.e. like the iommu binding), which does
+not need any drivers changes. So binding should be like this:
 
-I suggest watching this presentation:
+compatible:
+  oneOf:
+    - const: rockchip,rk3568-vepu
+    - items:
+      - enum:
+          - rockchip,rk3588-vepu121
+      - const: rockchip,rk3568-vepu
 
-https://www.youtube.com/watch?v=3D6iguKSJJfxo
+Then in DT (i.e. the following patch) you use
+
+compatible =3D "rockchip,rk3588-vepu121", "rockchip,rk3568-vepu";
+
+And patch 4/4 can be dropped.
 
 Greetings,
 
 -- Sebastian
 
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 2 +-
->  drivers/iommu/rockchip-iommu.c            | 3 +++
->  2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
-dts/rockchip/rk3588s.dtsi
-> index 87b83c87bd55..2a23b4dc36e4 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -704,7 +704,7 @@ vp3: port@3 {
->  	};
-> =20
->  	vop_mmu: iommu@fdd97e00 {
-> -		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		compatible =3D "rockchip,rk3588-iommu";
->  		reg =3D <0x0 0xfdd97e00 0x0 0x100>, <0x0 0xfdd97f00 0x0 0x100>;
->  		interrupts =3D <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH 0>;
->  		clocks =3D <&cru ACLK_VOP>, <&cru HCLK_VOP>;
-> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iomm=
-u.c
-> index da79d9f4cf63..da0e93c139d1 100644
-> --- a/drivers/iommu/rockchip-iommu.c
-> +++ b/drivers/iommu/rockchip-iommu.c
-> @@ -1361,6 +1361,9 @@ static const struct of_device_id rk_iommu_dt_ids[] =
-=3D {
->  	{	.compatible =3D "rockchip,rk3568-iommu",
->  		.data =3D &iommu_data_ops_v2,
->  	},
-> +	{	.compatible =3D "rockchip,rk3588-iommu",
-> +		.data =3D &iommu_data_ops_v2,
-> +	},
->  	{ /* sentinel */ }
->  };
-> =20
-> --=20
-> 2.44.0
->=20
-
---hcmholarfddiyvvu
+--h5b2n4ltpigo6emq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmX7Nb8ACgkQ2O7X88g7
-+po3QA//ZGRsC3BtWsJE9IZElMcFAVIscBSPpnfwYskq0O3KIoMWwvFQGlHgRQ9G
-dAvpcGMTmFuhv3ZIqiltdO/+bIeOUztINGSzbWNz7uGhpXvTkVkjFzraNUnUKvNh
-oR3U29wGba+FJJODcJ3uSapaPsX8RbCk/nZ2dV32SC1/XK6nOeKXHiqGHJoDNzKL
-OIBE8QDo5+YuElwXkDFs336VtOo1jsyUTefahIfAlJh0MNCXJ8Gq+IoK9Rb0gBH5
-HFmrJY4GodMvwQcNrAIW+FHnV/QNXIGZmbf57ktHUDU3oXqqTr313xTLwcbQO9bL
-Go7UEqWBQV2iUtfsz8eKnmh001LQ6iPyBW/Da+Xv979UrgGemV4yZbn9gZnWeDiC
-wUAnrdQGuyQBNYmdAL5LucuDnoWupwuPI6v6UuxkWI7aTUvESvuNGDHEK2ZhV15U
-Y1Cz3x6g1o9RXKeMST767Xd1AOC/Zs3sunicG3elgWRvMEThrweqZ35fM9b5LSeW
-q2JvJ5C85XF1Ast3dIXZ6EM/WwozjzzCGV+YjX8g7rmx/+3AixhXyzVLKHM81/j8
-YVEwVmIXpBlwxf9mnUyduc7buIGMPYAevwrdk8R08ROhJN5D0YDEfvMGkiPRFiNx
-TTunFW/jz6+B0GOKl9HomDGWAowhIlJvpJWLRtQ3uetHzFgW9LI=
-=7AoS
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmX7RC4ACgkQ2O7X88g7
++pq/5g/+IlGV2VBxSGO7OhBFSPRfHCOwTmN5HMpgyVmMQ0b/V+5c4KFuNR5EJJL/
+X0ysDd35GBI8qi8M9h3SziSkGjMqyW+HEWKvsTX+nk+AiQav93ze2cVJdcbbHvh8
+HGJc1Wu3FxvjIpTGResLeDEPxYxJLtABD+jUE7/897Ra15JBmVRkhutCMljxKZve
+lu4/9vWD2D0gDLOlo3Foxrt4zPrGzQuRQQ+0ATrc+auWQmxgXqztnNJXjDBvOfoo
++6822tBJH03S0dp1/i+rmkZO9qPSqh2dcLURkAThhr5YI7fmHhjGjKfo/aDXvmBD
+olNJcBjTtkswotDHN/i/arBcQIgPyYAZgoKSwVGR9yq+PbRJyliF63pFVlXZSfIc
+rOEU3+5j5ydliUe8VKV1mVJBzvTB47xnccHSS89CjhhrovYl2u8wDNexy9YWo4WN
+tB2msuOHWH+m3YbVAln6IYRt5OxX0MF5rhoFiB5HFWY9xpfmhUFAaUKPfwCibWDp
+WjH4S2VHQh2kFfyjPvTMSZME6QPCKkgCaxOkyEJFVUABge2Bb/fZHx2yekNghF7i
+GpEYx+FuzFMkli7dcJ+gPX4rEQLkb4wEiUnW0+yIvB+5L660JARx7i+uDakR/C9Z
+59dOdJSv6tFDkvu/rqTeQBKssjO5505TiDVwYcn55iFKCMGcUk0=
+=pn+0
 -----END PGP SIGNATURE-----
 
---hcmholarfddiyvvu--
+--h5b2n4ltpigo6emq--
 
