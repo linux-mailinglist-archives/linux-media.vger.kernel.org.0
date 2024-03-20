@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302848814EB
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:51:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D9F8814F1
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:51:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D97851F2173D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 15:51:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D330C1C20908
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 15:51:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9BC53E13;
-	Wed, 20 Mar 2024 15:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E65153E09;
+	Wed, 20 Mar 2024 15:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cU2sRpIa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNT3PTMl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1CE50A67;
-	Wed, 20 Mar 2024 15:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A686153E08;
+	Wed, 20 Mar 2024 15:51:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710949855; cv=none; b=ulEfHBNIv5r5CjmJQ8vn0bP4i/03Atq8di/naEenqDf3xG6y2s5rbCsdZ1XavUWa2mfitp0ZIDjwZb1TdRi1fupfFE/uCGX7MvWpBZiR+zYl50tQwgrYU3+rbU4Vme5se8Q6NVtOPB49GNX9aqvjApBG7g3cYBayl1he2Kg+8FA=
+	t=1710949909; cv=none; b=p+V4s+1Z0eFjzS4GSafEN6iOzB1EBGPx2HT2Xkn3mVSg5GDzmDffzM4f0uLvp6Rm71SaqANvLxh9T60EeVOOmkVQ3ANKVrC03dFE/0PpZuE3ZQdlV2HtUR2RKXhH+PHnmGfqtK3ej+vBvNDaYSKM/1YXx3RnC2CbdVF2ymeNiMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710949855; c=relaxed/simple;
-	bh=3M2/MRa3mxVheg+/qgqOA9qWKs5MyMfpTEcMNPQUqeo=;
+	s=arc-20240116; t=1710949909; c=relaxed/simple;
+	bh=6HfxyXsWffR7CKM+gX5oNx5Fym5bBdIUaRaVh18Z/SU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=czA6gpiM7hOts0y0l+2SUINwuncBBvD8hSHepeWDHzll9I+gk8Sm3LNMsf0ebuOcOwKuF5A+5ZMvZAQ71NnevAMe7o40EuywlM/Mh4E7cQdJYECetlm0PiKVQjdAJX3QqwNbd9g6UC8r8BcsQK+DJr9J/LmQBhdtyUzfpdpjUlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cU2sRpIa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6DCC433F1;
-	Wed, 20 Mar 2024 15:50:51 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=aGamdZrKhlg2l4WtWdosSDm4alNbteF5MK7jRen5SG7dwDfN4dipqa6aCrTO96a1yVnHcUSLF6dkGwQWmijlNfu4USyUK6Hy8Bh6gScUbLptKNSjyfbLWDv5x7vJurLWNAUpCARx9UCwLb2PkXXtGcXXj0sCLqI/klohEZuNJWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNT3PTMl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6909EC433F1;
+	Wed, 20 Mar 2024 15:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710949854;
-	bh=3M2/MRa3mxVheg+/qgqOA9qWKs5MyMfpTEcMNPQUqeo=;
+	s=k20201202; t=1710949909;
+	bh=6HfxyXsWffR7CKM+gX5oNx5Fym5bBdIUaRaVh18Z/SU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cU2sRpIa4igrphsdnsBfwJ69VYOWWkPujjb1/qOXcDr7ldCPj7HZAPhZ2Q2ADQ2TS
-	 cxH9/PPX5ePbpQZQ9bpOp5WEglqs2XPU2DCE5EKFnXw+T0ORVq1S2O5oYfkMEZHMwU
-	 73lrFkBknFkoaDDmsHeaRYjLD8mMCWu2/A1CeZZbIr91yy9qYTv57jWFT+oZ08OX5A
-	 UFnHAdOSc2VPHK3DfIk+gbC4XquOGyT60IvWYaEFRZZWzwd9w/NOILrrCpPnu5Onzn
-	 Gvm6aJzLDBZvPXLQ8CgNoNx/f613aWt0L/bcG4sO333G194rtERGc7Z7r5rE13RoGV
-	 GprXBwrTEVjhA==
-Message-ID: <ed340373-3d5f-4cf3-bbb9-573b6e2f12b4@kernel.org>
-Date: Wed, 20 Mar 2024 16:50:48 +0100
+	b=KNT3PTMl7ol1fr2Z5SbRyI7CGz14cifXcq4py36pkIbQf44WC1O5JHd/+MBKIRNSd
+	 eLqj5hIcwsYDVFrjXo8vQxFsiMvBRhrquQGe8ztz3X2NBB73kVq2mTK1epC5Qw+Nao
+	 56R3c4FuXLHXvk4UqvAJAy07EvRVK7jkxLQVYuoGzyFXvFYXOxamFxsrMG2W8iWgks
+	 XhuuqXCjzVqt7F5m5CZI2X32xFoFYxX2sZ/Y+giKGtn0JJARRi+alXyJjWQhAITwOH
+	 ASG2WnWjKINFxvMc5GI4bXXf7Du/S2l8IzfNaZx+83Zf6KZQLLDV8aT1s9pUJch0KR
+	 /Z85j8h1CD7wA==
+Message-ID: <bef76969-17df-42d0-82aa-59a75a488cb0@kernel.org>
+Date: Wed, 20 Mar 2024 16:51:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] media: qcom: camss: Add sm8550 resources
+Subject: Re: [PATCH v2 1/8] media: qcom: camss: Add CAMSS_8550 enum
 To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, andersson@kernel.org,
  konrad.dybcio@linaro.org, mchehab@kernel.org, quic_yon@quicinc.com
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org
 References: <20240320141136.26827-1-quic_depengs@quicinc.com>
- <20240320141136.26827-8-quic_depengs@quicinc.com>
+ <20240320141136.26827-2-quic_depengs@quicinc.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,46 +103,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240320141136.26827-8-quic_depengs@quicinc.com>
+In-Reply-To: <20240320141136.26827-2-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 20/03/2024 15:11, Depeng Shao wrote:
->  
-> +static const struct camss_resources sm8550_resources = {
-> +	.version = CAMSS_8550,
-> +	.pd_name = "top",
-> +	.csiphy_res = csiphy_res_8550,
-> +	.csid_res = csid_res_8550,
-> +	.vfe_res = vfe_res_8550,
-> +	.icc_res = icc_res_sm8550,
-> +	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
-> +	.csiphy_num = ARRAY_SIZE(csiphy_res_8550),
-> +	.csid_num = ARRAY_SIZE(csid_res_8550),
-> +	.vfe_num = ARRAY_SIZE(vfe_res_8550),
-> +};
-> +
->  static const struct of_device_id camss_dt_match[] = {
->  	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
->  	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
-> @@ -2189,6 +2533,7 @@ static const struct of_device_id camss_dt_match[] = {
->  	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
->  	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
->  	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
-> +	{ .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
+> From: Yongsheng Li <quic_yon@quicinc.com>
+> 
+> Adds a CAMSS SoC identifier for the sm8550.
 
-Please run scripts/checkpatch.pl and fix reported warnings. Some
-warnings can be ignored, but the code here looks like it needs a fix.
-Feel free to get in touch if the warning is not clear.
+Why?
 
-Do not ignore checkpatch warnings.
-
-Also, because you did not post bindings, I am afraid of sneaking here
-stuff which is not accepted upstream. Therefore please post DTS in
-separate patchset, for public review.
->  	{ }
+> 
+> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/camss/camss.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index ac15fe23a702..2f63206a8463 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -78,6 +78,7 @@ enum camss_version {
+>  	CAMSS_845,
+>  	CAMSS_8250,
+>  	CAMSS_8280XP,
+> +	CAMSS_8550,
 >  };
->  
+
+What is the point of this patch alone? What does it change? Why adding
+enum? In the next patch, are you going to add one line to some
+kerneldoc? Another patch, one function?
 
 Best regards,
 Krzysztof
