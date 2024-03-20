@@ -1,197 +1,142 @@
-Return-Path: <linux-media+bounces-7403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7404-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C035B8811BA
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 13:36:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0D888127D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 14:43:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39BA61F2458E
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 12:36:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 481331F25062
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 13:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366CF3FE20;
-	Wed, 20 Mar 2024 12:36:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E8694642B;
+	Wed, 20 Mar 2024 13:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUlEARJr"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fs/pI/jS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358D92E821;
-	Wed, 20 Mar 2024 12:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B211CD1D;
+	Wed, 20 Mar 2024 13:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710938160; cv=none; b=JJxOOyfy8dk0KGdoWneFPjAON+QALaq92IUlqiBtjmLuxx7B1xMA+6+vz6A3e1l8RO/mt5bWzXrqt+y0IHr/VdDj/y6qvnFAMHX6Etolw9xHIcHCofBYiAlq0SzwvIIKuP2XJL6UFUKdeiCEVYU2hDmXGLrenG5LVYvD5i64uHM=
+	t=1710942175; cv=none; b=FcLVOnGknZz1W3ZHxF+eY0+AsqNXbAbZ1kwMCzJF4w8JufDrUt5s+DV1tHh2QV158VcrTpjMpuFAPdNgANzOPhsgYZ1hApnTRuYp2zBjJkCkL6ACyj+mJjW3fCMn2fQwOIH/eMi+gdqoElOTRE1Z7LiWdJxo5GGaNEgmqapdJkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710938160; c=relaxed/simple;
-	bh=xhP26pSgEUFLaf6nmg+YHggFajvAX/TZ2zrW7LxTpNc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YE3LQ3Qa2RqL2wCCLYrEVY86satzJTyAs/Br6U2ycqqE0pOAXTNLLlJstdIeMFGDJiT4ySKVo2aSJPhAyixguDKvZSZ+Ohc86H5PFxgMrvynLghv6TUR07dQGIwRWnjo8OFUUQFpAlrYI5/BLh9PFyqDzy9r4Qkys9dqqKDg5rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUlEARJr; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5c66b093b86so692293a12.0;
-        Wed, 20 Mar 2024 05:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710938158; x=1711542958; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QkgG1cL/5B4fNhZbtl14ktJjjgymucoxHqvalG67OVc=;
-        b=IUlEARJrFwLyQ9shcdmhqPF8hRxhnXrTPOwSsVTzT5x/pJbRP+4dI8LxrdnhdIiDKr
-         hnZM8L2QWTHSHjPQbWpCoA/xLNPiSiSlfjZKZQIfgE6qR56/Ba/fifwFGYsZ2Z5Ajl/L
-         IlWveAXs5tsQeTN6ZqauhdTkRtD5GqC9sO02xCQTtinNhEQK0UJ9sLwT5qzYwj11YIIQ
-         WFjSvQqPe5VirW8N4dJRo5GF/834Cro9PZJ19FqpmkMjLNIcAplTxgXbP5pWHPwAfi4F
-         KpF/Pyd1Fm5IC6rYIMnTwDemf6eeoPrFQcc8lbgCR/ncsD8APzZ/mL4hnwMVBUXWB5ro
-         Xn+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710938158; x=1711542958;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QkgG1cL/5B4fNhZbtl14ktJjjgymucoxHqvalG67OVc=;
-        b=aK9VURkyEp2z84LBbXcSHUgEdRGDIE4XjDU83o1eC/ZraVT2dHZh1kvwEJuuB7s01D
-         cTqggH+0wFIYrxI6+lLK6xNZPMOPvBMkr2awAWEHr+o2RJB/68t9DE6O6M7qVnEub+Gv
-         9ZXae9k3yCQUiV+HlbOhvBJYUG6leqecZWP007g0G9PAVXEA+M9F+QKMm9blNC3ABZtq
-         CC4QsRGSARVVcbwXDXWIJumjOQZ3JMhMNesirMyF5XFmbLiXO+D0rdoplh8wt4nLPqrK
-         kFMFlTMEHHLkAHdYzp+EbxcOpDuBdZUWBTqM3KN6+k/0gG9ni0dcj+vrvbWl5cNgFEWi
-         NVbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVleVyvqJpvkR6Fq7WTeqSKLpk9C+4weHVPyM0eD4x/GtZgQe78zW/GNiNvNVFDOlNFO6uFUDjlGWD47n0YaDsxUBIS3JbXrgoT7GoSGQn2TIMyHZD1fAxtnAZ4SBXChxrK22oVuEA1kA==
-X-Gm-Message-State: AOJu0YyUEXRjlGCjoaW03rB7w6Fj2iKiKDWNC3g2E+kld1TqNo1uInxB
-	le0e718kZRtZC5bFBBPz60tN471HFo2zC0BmM7+RhnzrnFAiaEzdI5JwnYfHhfbk8acNn0+SGL0
-	V/dorEozc0kAZQ1eicGW2K8+n5C4=
-X-Google-Smtp-Source: AGHT+IHluuILnheUcmIRRFLg/VWXy6bNItVeObCj2+bK0X6rHBxK/wswlqQZqNhDlGb2BsxHpXvCykbTtvDgNnW+2Hg=
-X-Received: by 2002:a17:90b:30d1:b0:29f:6971:b89 with SMTP id
- hi17-20020a17090b30d100b0029f69710b89mr7534391pjb.3.1710938158173; Wed, 20
- Mar 2024 05:35:58 -0700 (PDT)
+	s=arc-20240116; t=1710942175; c=relaxed/simple;
+	bh=AH7TDRqzam+wc6fjabuqQvfYB0R0X9EFttJ6umY4PSQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sl3ZtGoL/DZpSn6WK0diLavyTHT4AxjYr0FlmN7dMRh2cuBlnGU3CJb9R6Rgkn33SbJoqnnvzV1ats3FDTMS6gX1qxiX6HdA9SWBFdKWBC5BdOY1PfnCkZp78qQZDGtnS+9b5DynovGJ0Aa/oo22fYQfmOk2N8Sx0vzfjFpQrFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fs/pI/jS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42KBj2LR018340;
+	Wed, 20 Mar 2024 13:42:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=qcppdkim1; bh=uBlYCP3C3SsY5VY7iT+E
+	kSZrVAy7mvH1RiFc+YVnXWs=; b=fs/pI/jSlJ3k9yDvQYIFFV66BXQgClx281cs
+	N2/R2+P7hGaBclpkdIeKGJzWNSO//JGUld99YwUfAV5iozVE3v3IgdHHSIGymKpb
+	6e1GYTKZtgJLldVD8jqQXHe6sQXtDmBkG2VHvHVz9bFA+9x7mpWo2VK8WKD4IpbA
+	dZz1UquuHD3VduhwH2mbGz2psn6eBsHFNTluO9BiSfGL/SfCLLs3U4If5lluwCyk
+	/ZLvMSRwrd8jMGoIcrU492gMl54+orXVpfzpv/X3396x9tZ1jY2w+PAp3KDaaC+e
+	2rexs7wN24j5xX/06eZOKnHwcJncjOBZkp/kecjjaa6Y0MvPlA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wyxq90aks-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 13:42:48 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42KDglHC018116
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 13:42:47 GMT
+Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 20 Mar 2024 06:42:44 -0700
+From: Depeng Shao <quic_depengs@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <quic_yon@quicinc.com>
+CC: <quic_depengs@quicinc.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH v1 0/8] media: qcom: camss: Add sm8550 support
+Date: Wed, 20 Mar 2024 19:12:19 +0530
+Message-ID: <20240320134227.16587-1-quic_depengs@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231129093113.255161-1-paul.elder@ideasonboard.com> <20231129093113.255161-2-paul.elder@ideasonboard.com>
-In-Reply-To: <20231129093113.255161-2-paul.elder@ideasonboard.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 20 Mar 2024 07:35:46 -0500
-Message-ID: <CAHCN7xLOu5qfxNihEYuSXxuxxH=S_+7nDkX1H=ziDW3QvaErQA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
-To: Paul Elder <paul.elder@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, 
-	umang.jain@ideasonboard.com, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Marek Vasut <marex@denx.de>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Frank Li <Frank.Li@nxp.com>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: QWba4sJliUw1Gsk6Xdg3aWU3CO0qUDL5
+X-Proofpoint-GUID: QWba4sJliUw1Gsk6Xdg3aWU3CO0qUDL5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-20_09,2024-03-18_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=852
+ clxscore=1011 priorityscore=1501 impostorscore=0 suspectscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403200107
 
-On Wed, Nov 29, 2023 at 3:31=E2=80=AFAM Paul Elder <paul.elder@ideasonboard=
-.com> wrote:
->
-> The ISP supports both CSI and parallel interfaces, where port 0
-> corresponds to the former and port 1 corresponds to the latter. Since
-> the i.MX8MP's ISPs are connected by the parallel interface to the CSI
-> receiver, set them both to port 1.
->
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+SM8550 is a Qualcomm flagship SoC. This series adds support to
+bring up the CSIPHY, CSID, VFE/RDI interfaces in SM8550.
 
-Paul, are you able to resend this now that the driver part has been
-merged into the main branch?
+SM8550 provides
 
-If you can't, I can resend it on your behalf.
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 8 x CSI PHY
 
-thanks,
+This series is rebased based on：
+https://patchew.org/linux/20240222-b4-camss-sc8280xp-v6-0-0e0e6a2f8962@linaro.org/
 
-adam
+The changes are verified on SM8550 AIM300 board, the base dts for AIM300 is
+https://patchew.org/linux/20231117101817.4401-1-quic._5Ftengfan@quicinc.com/
 
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/=
-dts/freescale/imx8mp.dtsi
-> index c9a610ba4836..25579d4c58f2 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1604,6 +1604,56 @@ isi_in_1: endpoint {
->                                 };
->                         };
->
-> +                       isp_0: isp@32e10000 {
-> +                               compatible =3D "fsl,imx8mp-isp";
-> +                               reg =3D <0x32e10000 0x10000>;
-> +                               interrupts =3D <GIC_SPI 74 IRQ_TYPE_LEVEL=
-_HIGH>;
-> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROO=
-T>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
-,
-> +                                        <&clk IMX8MP_CLK_MEDIA_APB_ROOT>=
-;
-> +                               clock-names =3D "isp", "aclk", "hclk";
-> +                               assigned-clocks =3D <&clk IMX8MP_CLK_MEDI=
-A_ISP>;
-> +                               assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_500M>;
-> +                               assigned-clock-rates =3D <500000000>;
-> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_ISP>;
-> +                               fsl,blk-ctrl =3D <&media_blk_ctrl 0>;
-> +                               status =3D "disabled";
-> +
-> +                               ports {
-> +                                       #address-cells =3D <1>;
-> +                                       #size-cells =3D <0>;
-> +
-> +                                       port@1 {
-> +                                               reg =3D <1>;
-> +                                       };
-> +                               };
-> +                       };
-> +
-> +                       isp_1: isp@32e20000 {
-> +                               compatible =3D "fsl,imx8mp-isp";
-> +                               reg =3D <0x32e20000 0x10000>;
-> +                               interrupts =3D <GIC_SPI 75 IRQ_TYPE_LEVEL=
-_HIGH>;
-> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROO=
-T>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
-,
-> +                                        <&clk IMX8MP_CLK_MEDIA_APB_ROOT>=
-;
-> +                               clock-names =3D "isp", "aclk", "hclk";
-> +                               assigned-clocks =3D <&clk IMX8MP_CLK_MEDI=
-A_ISP>;
-> +                               assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_500M>;
-> +                               assigned-clock-rates =3D <500000000>;
-> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_ISP>;
-> +                               fsl,blk-ctrl =3D <&media_blk_ctrl 1>;
-> +                               status =3D "disabled";
-> +
-> +                               ports {
-> +                                       #address-cells =3D <1>;
-> +                                       #size-cells =3D <0>;
-> +
-> +                                       port@1 {
-> +                                               reg =3D <1>;
-> +                                       };
-> +                               };
-> +                       };
-> +
->                         dewarp: dwe@32e30000 {
->                                 compatible =3D "nxp,imx8mp-dw100";
->                                 reg =3D <0x32e30000 0x10000>;
-> --
-> 2.39.2
->
+Depeng Shao (3):
+  media: qcom: camss: Add new params for csid_device
+  media: qcom: camss: Add CSID gen3 driver
+  media: qcom: camss: Add sm8550 support
+
+Yongsheng Li (5):
+  media: qcom: camss: Add CAMSS_8550 enum
+  media: qcom: camss: Add subdev notify support
+  media: qcom: camss: Add new csiphy driver 2-1-2
+  media: qcom: camss: Add new VFE driver for SM8550
+  media: qcom: camss: Add sm8550 resources
+
+ drivers/media/platform/qcom/camss/Makefile    |   3 +
+ .../platform/qcom/camss/camss-csid-gen3.c     | 639 ++++++++++++++++++
+ .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
+ .../media/platform/qcom/camss/camss-csid.c    |  19 +
+ .../media/platform/qcom/camss/camss-csid.h    |  10 +
+ .../platform/qcom/camss/camss-csiphy-2-1-2.c  | 343 ++++++++++
+ .../media/platform/qcom/camss/camss-csiphy.c  |   1 +
+ .../media/platform/qcom/camss/camss-csiphy.h  |   3 +
+ .../media/platform/qcom/camss/camss-vfe-780.c | 455 +++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c |   7 +
+ drivers/media/platform/qcom/camss/camss-vfe.h |   3 +
+ .../media/platform/qcom/camss/camss-video.c   |   1 +
+ drivers/media/platform/qcom/camss/camss.c     | 395 +++++++++++
+ drivers/media/platform/qcom/camss/camss.h     |   8 +
+ 14 files changed, 1913 insertions(+)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csiphy-2-1-2.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
+
+-- 
+2.17.1
+
 
