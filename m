@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-7343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E45880849
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 00:48:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C90D88085C
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 01:03:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A718D1F229AC
-	for <lists+linux-media@lfdr.de>; Tue, 19 Mar 2024 23:48:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A03221C22219
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 00:03:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E535FBA8;
-	Tue, 19 Mar 2024 23:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43EF3622;
+	Wed, 20 Mar 2024 00:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pX7iBXa0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E0ht3dhy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386D75FB8C
-	for <linux-media@vger.kernel.org>; Tue, 19 Mar 2024 23:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AA8628
+	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 00:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710892118; cv=none; b=a4hkgh+BkMihMJ7ON+CfbDjcql4CNnWwAMY0hF1VdN6eTXOIqzL2S2efBCyDhXwapyGUT+cRZ4IgKoKF3cQf4MYnbmwCOjyfGF7pQA2J41a+P3gYznCjqfYL32MXJSRls4CvMG9uYSzsx0VtLRaqLf69vpoSubj72aI9I6CAWks=
+	t=1710892986; cv=none; b=EtukpaLmgmOiZ4yCKkzDqIU2sY0HMNIvXc862qbVolcnDeuzM2jdA4SGkmZd69APDhazB/YFXAJIQTvb0ayZvLCgW8QBrg+nkt+arHxV+9KCnlzaqdbQ9OU1jXC1wN9aK/6AIqkHiGytUGqXc0fIScEi01nRpjCSD9MnX65MFLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710892118; c=relaxed/simple;
-	bh=0wpjR2/7PMMTE3gaf0t3mX/1e/5KURM6QHb5FxeI8JY=;
+	s=arc-20240116; t=1710892986; c=relaxed/simple;
+	bh=3O7IsOhJxBaSGRsNW+e7an8h22XjF6yBWgbsM7PDtgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gn3vo6A/9ybmQbp1ZTgx4SbYstUKSz4isvYnND6amYpe5OZZzwzmTFIVn5/nYiIJR2BuCfsFxgyr4x1VmkUsNz7BdCUxPmB+kUds+dZVzY4iL8g7EjM9LAhEjPhcryInMnsqssYjj00d/IOnK3BGh7xfQ7dZbiLHVBD+vo+SKZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pX7iBXa0; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=sVPcuB+eYf3/XkflDA9OFXpAY7yKcuhEQs0zlet6brlrXtUq9mOD+h1sNh+oCUXL6qzTvDI9C4vJidQ35TW+zLj8ouoLWnx2vf8ftj+9+pxxaUDQdvVvPNIhLufSUmF7uqjZ2eD0qOAlCV9zqlywaDmNqqEhwoRM0OS6sOObK90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E0ht3dhy; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63C59B1;
-	Wed, 20 Mar 2024 00:48:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89AB3B1;
+	Wed, 20 Mar 2024 01:02:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710892087;
-	bh=0wpjR2/7PMMTE3gaf0t3mX/1e/5KURM6QHb5FxeI8JY=;
+	s=mail; t=1710892956;
+	bh=3O7IsOhJxBaSGRsNW+e7an8h22XjF6yBWgbsM7PDtgU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pX7iBXa0vaExWrKhtBi7AVCyABlrK435mmNsX8oQyVjv9meDBIWskoz2QJHA3gQf4
-	 kOtseF4cwRtWwYgwb0EnbyjZ66CElo7QHLq5v5EMFVsppYVYEpZvZ0RrkYVBtDsJJS
-	 0KWrFZmuHsiGytCPVMWHgKmvaIgVwwnwcj/qOXFQ=
-Date: Wed, 20 Mar 2024 01:48:31 +0200
+	b=E0ht3dhyN5+dMjLpqRl2szanc8EZWJuETRFP0GvsKytIrH7HY3pvOij+wNoYAO+ha
+	 rlYPmnJIGGX0wXrZ9MVe3S35Po+Fj/maJHa87ADEAOIw8nhyNpy8apy9ptvCuR1IpU
+	 UHCl/WyXijqDMljeK/0mukx5J4uX2CYxkn/wrOT4=
+Date: Wed, 20 Mar 2024 02:03:00 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -51,11 +51,11 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 07/38] media: Documentation: Additional streams
- generally don't harm capture
-Message-ID: <20240319234831.GL8501@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v8 08/38] media: Documentation: Document embedded data
+ guidelines for camera sensors
+Message-ID: <20240320000300.GM8501@pendragon.ideasonboard.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-8-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-9-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,59 +64,96 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240313072516.241106-8-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240313072516.241106-9-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Mar 13, 2024 at 09:24:45AM +0200, Sakari Ailus wrote:
-> Having extra streams on the source end of the link that cannot be captured
-> by the sink sub-device generally are not an issue, at least not on CSI-2
-> bus. Still document that there may be hardware specific limitations. For
-
-s/hardware specific/hardware-specific/
-
-> example on parallel bus this might not work on all cases.
-
-s/bus/buses/
-
+On Wed, Mar 13, 2024 at 09:24:46AM +0200, Sakari Ailus wrote:
+> Document how embedded data support should be implemented for camera
+> sensors, and when and how CCS embedded data format should be referenced.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  Documentation/userspace-api/media/v4l/dev-subdev.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../media/drivers/camera-sensor.rst           | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index f375b820ab68..a387e8a15b8d 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -529,9 +529,9 @@ the its sink pad and allows to route them individually to one of its source
->  pads.
->  
->  Subdevice drivers that support multiplexed streams are compatible with
-> -non-multiplexed subdev drivers, but, of course, require a routing configuration
-> -where the link between those two types of drivers contains only a single
-> -stream.
-> +non-multiplexed subdev drivers. However, if the driver at the sink end of a link
-> +does not support streams, then only the stream 0 on source end may be
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index 919a50e8b9d9..92545538b855 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -102,3 +102,32 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+>  values programmed by the register sequences. The default values of these
+>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+>  independently of the sensor's mounting rotation.
+> +
+> +Embedded data
+> +-------------
+> +
+> +Many sensors, mostly raw sensors, support embedded data which is used to convey
+> +the sensor configuration for the captured frame back to the host. While CSI-2 is
+> +the most common bus used by such sensors, embedded data can be available on
+> +other bus types as well.
+> +
+> +Embedded data support shall use an internal source pad (a pad that has
 
-s/the stream 0 on source end/stream 0 of the source/
+s/source pad/sink pad/
 
-> +captured. There may be additional hardware specific limitations.
+Or do we call those "internal source pad" ?
 
-s/hardware specific/hardware-specific/
+As this is uAPI documentation, it is mainly targetting (in my opinion)
+userspace developers. I would write "Embedded data support uses ..." to
+describe the behaviour seen from userspace, instead of using "shall" to
+describe the requirements towards drivers.
 
-Or maybe
+> +``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+> +<MEDIA-PAD-FL-INTERNAL>`` flags set) and route to the external pad. If embedded
+> +data output can be disabled in hardware, it should be possible to disable the
+> +embedded data route via ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
 
-There may be additional limitations specific to the sink device.
+You should mention the image pad here too:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Such sensors expose two internal sink pads (pads that have both the
+``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+<MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
+embedded data streams. Each of those pads produces a single stream, and the
+sub-device routes those streams to the external (source) pad. If embedded data
+output can be disabled in hardware, the sub-device allows disabling the
+embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
 
->  
->  Understanding streams
->  ^^^^^^^^^^^^^^^^^^^^^
+> +
+> +In general, changing the embedded data format from the driver-configured values
+> +is not supported. The height of the metadata is hardware specific and the width
+
+s/hardware specific/device-specific/
+
+> +is that (or less of that) of the image width, as configured on the pixel data
+> +stream.
+> +
+> +CCS and non-CCS embedded data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Embedded data which is compliant with CCS definitions shall use ``CCS embedded
+> +data format <MEDIA-BUS-FMT-CCS-EMBEDDED>``. Device specific embedded data which
+
+You should clarify here that you're talking about the internal sink pad.
+
+s/Device specific/Only device-specific/
+
+> +is compliant up to MIPI CCS embedded data levels 1 or 2 only shall refer to CCS
+
+s/up to/with the/
+s/only shall/may/
+
+> +embedded data formats and document the level of conformance. The rest of the
+> +device specific embedded data format shall be documented in the context of the
+
+s/device specific/device-specific/
+
+> +data format itself.
+
+Not sure what you mean by the context in the last sentence.
 
 -- 
 Regards,
