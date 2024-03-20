@@ -1,198 +1,168 @@
-Return-Path: <linux-media+bounces-7439-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7440-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A5188158F
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 17:23:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 439308815D6
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 17:42:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3A63280EAE
-	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:23:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A9C6B23BD7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Mar 2024 16:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958FC55E7B;
-	Wed, 20 Mar 2024 16:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175944C8A;
+	Wed, 20 Mar 2024 16:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFktWE8/"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EeA4rQl3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAE555774
-	for <linux-media@vger.kernel.org>; Wed, 20 Mar 2024 16:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76A6522F;
+	Wed, 20 Mar 2024 16:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710951810; cv=none; b=CY/MQHuGiTyaQfxKGVYvfcDudD1qJe4yYRV/FunNtxNuWCI+ynKc6Y/LH5CLSaqhTjH3j4hIKawpV+87mf0kNnaPGa8Hr8jtIU17y+P27TZo0dfXAlOGL/TO3TW4tUmSQgE3kzM5pEw25oMKyRcRRkggyYANU5L5LZhxrDu+2UY=
+	t=1710952905; cv=none; b=tCBfyR7UMA2x3Y2AqfP551oxrj0HkRHlzdgz16lC9mjOy/dJFl/Zw5T6otiKNLJjdB0SdMF1f8fHbjmlI8L16M4mmv6ndwV9UsOByjTS/Z3D2OvZPxmwBN0JBcz1BkKLQbGpSVnsqH8R2dkrzosSqi2FzH9mhIQ8wvyh87y7/Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710951810; c=relaxed/simple;
-	bh=mhbM7/yQkHu0JUGJem58TiFNg79AyZnp/j+lqpUqmPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBx5lHyp5XSWPxSilBMv5wKbk1bM/4yARmx0EAtZBRo7DKPcxUq8fksBm31tjmVo5PxtW8f8Y/5KNfrWldZT+QnBfrUkytkbxAFHaXHZqVhs3K9l8RwRgmJQH29nifL4wId3FU6SxaBgH+vP/SKk2GKyIHv5zrBcER58Hm3RH5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFktWE8/; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710951809; x=1742487809;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mhbM7/yQkHu0JUGJem58TiFNg79AyZnp/j+lqpUqmPU=;
-  b=dFktWE8/xokebemLRREZFA1O+w+8K9E/mevSq63nx2zJ3rFGJz0SMd4/
-   6gcEgbvXMpnG0ggLfrFI1UrE/w364iKmd8f2cQ99XtNmBtwDKUe6F/sxt
-   f3lV3WiFPrthyISkpTFYjgk1nkxQRbMzuW6hdmu/7ME0ZjD4YVXgHM5os
-   L2tQyqVPLFik1qIddWrjC41aJJwT2M1kBbcGfxZZ6r1c04D07EU43371d
-   2Ajok0wfn9uQVnKhW5Jzy1WG+gtYqNlmaYs8M37Oy/F5tSFTqoBgLtTR4
-   inUTOTKpXWJGtcasRsBfX/5GQkACIqpS9ifgEANWVchPmcdGCdWUPtj5F
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="8838289"
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="8838289"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 09:23:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="18791719"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 09:23:04 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 23AAB11F853;
-	Wed, 20 Mar 2024 18:23:01 +0200 (EET)
-Date: Wed, 20 Mar 2024 16:23:01 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 03/38] media: uapi: Add generic serial metadata mbus
- formats
-Message-ID: <ZfsNZU5Ewpp-0WZ2@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-4-sakari.ailus@linux.intel.com>
- <20240319225948.GG8501@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1710952905; c=relaxed/simple;
+	bh=h9EePanYJCjU+5awKtHjb+P8VEkK1Dd+2tmFtrEfLXA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SvHcxxHcCk5H50wBYv1u0vLfTAHa3Ld3SpqOK2LHFpk00KJYPLmdqwBjdy0wAi6y4o1XICtLX6K8jMfNUTwe8k6uS3HpLaoohYlV797+P323TomQqbObCOh2XcfRGc4skUiD7k+5dT2YXq3cn1mgfRbx5yEQ1n6UVBdiNSVPYnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EeA4rQl3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42KEjfKT018922;
+	Wed, 20 Mar 2024 16:41:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=ZRPw8Xlah0NCXTfcYmJ5cZjvfxE3sPSCdds+KCoFvME=; b=Ee
+	A4rQl3Y+IFM7lk3I2ORDmw4cT7OqFLMd6U/9irknMHMHLACf9v6XE765jOcvMmBV
+	6juQp+g+k3x1mjUKeQCDrh4Ro0cFzQpV5qImLM1p3vRlzR5cccislk/+oNK3BsAT
+	88NHdVrYzNxYZm6IBGOjJlyScFeSMdyZ1ZQMFfZUDR5EiIwqXtoMrEIif5JdiPMr
+	+XQqQMp+OMzBz/+5F3RYC5ZFGPBdbbuaYWVOss5FsfXfDLb4e4uTceTV8Q3ToiTw
+	Tc39lJrwbLY2oajvF2+qJhQAXb0DkL7B26DZyQiHe6UFhxJI+33ovbAqrfdEBAmo
+	nyIyuxNLJzedWfaDoVwg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wyvrms1h0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 16:41:23 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42KGfNRI031218
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 16:41:23 GMT
+Received: from [10.251.44.126] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 20 Mar
+ 2024 09:41:20 -0700
+Message-ID: <2f2a8047-d885-4c65-9b07-23b79f1ca2a8@quicinc.com>
+Date: Wed, 20 Mar 2024 18:41:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240319225948.GG8501@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] media: qcom: camss: Add subdev notify support
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Depeng Shao
+	<quic_depengs@quicinc.com>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
+        <quic_yon@quicinc.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240320141136.26827-1-quic_depengs@quicinc.com>
+ <20240320141136.26827-3-quic_depengs@quicinc.com>
+ <21d2139f-8547-466a-9be1-fbeae1194869@linaro.org>
+From: "Gjorgji Rosikopulos (Consultant)" <quic_grosikop@quicinc.com>
+In-Reply-To: <21d2139f-8547-466a-9be1-fbeae1194869@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: g2LAgO8VsWYBj4AO1qFpgmVMj3jwzEis
+X-Proofpoint-GUID: g2LAgO8VsWYBj4AO1qFpgmVMj3jwzEis
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-20_10,2024-03-18_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 phishscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2403140001
+ definitions=main-2403200133
 
-Hi Laurent,
+Hi Bryan,
 
-On Wed, Mar 20, 2024 at 12:59:48AM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
+On 3/20/2024 6:08 PM, Bryan O'Donoghue wrote:
+> On 20/03/2024 14:11, Depeng Shao wrote:
+>> From: Yongsheng Li <quic_yon@quicinc.com>
+>>
+>> The buf done irq and register update register are moved
+>> to CSID in SM8550, so but the write master configuration
+>> in VFE, in case adapt existing code logic. So add buf
+>> done and register related subdev event, and use the notify
+>> interface in the v4l2_device structure to communicate
+>> between CSID and VFE driver.
 > 
-> Thank you for the patch.
 > 
-> On Wed, Mar 13, 2024 at 09:24:41AM +0200, Sakari Ailus wrote:
-> > Add generic serial metadata mbus formats. These formats describe data
-> > width and packing but not the content itself. The reason for specifying
-> > such formats is that the formats as such are fairly device specific but
-> > they are still handled by CSI-2 receiver drivers that should not be aware
-> > of device specific formats. What makes generic metadata formats possible
-> > is that these formats are parsed by software only, after capturing the
-> > data to system memory.
-> > 
-> > Also add a definition for "Data unit" to cover what is essentially a pixel
-> > but is not image data.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/glossary.rst          |   9 +
-> >  .../media/v4l/subdev-formats.rst              | 258 ++++++++++++++++++
-> >  include/uapi/linux/media-bus-format.h         |   9 +
-> >  3 files changed, 276 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-> > index ef0ab601b5bf..7078141894c5 100644
-> > --- a/Documentation/userspace-api/media/glossary.rst
-> > +++ b/Documentation/userspace-api/media/glossary.rst
-> > @@ -25,6 +25,15 @@ Glossary
-> >  
-> >  	See :ref:`cec`.
-> >  
-> > +.. _media-glossary-data-unit:
-> > +
-> > +    Data unit
-> > +
-> > +	Unit of data transported by a bus. On parallel buses, the data unit
-> > +	consists of one or more related samples while on serial buses the data
-> > +	unit is logical. If the data unit is image data, it may also be called a
-> > +	pixel.
+> Shouldn't it be possible to just have a function to write internally ?
 > 
-> I'm pretty sure nobody will be able to understand what this means, but I
-> don't have a better proposal at the moment.
+> You know the indexes of the CSID -> VFE connection.
 > 
-> > +
-> >      Device Driver
-> >  	Part of the Linux Kernel that implements support for a hardware
-> >  	component.
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > index eb3cd20b0cf2..cbd475f7cae9 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > @@ -8306,3 +8306,261 @@ The following table lists the existing metadata formats.
-> >  	both sides of the link and the bus format is a fixed
-> >  	metadata format that is not configurable from userspace.
-> >  	Width and height will be set to 0 for this format.
-> > +
-> > +Generic Serial Metadata Formats
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Generic serial metadata formats are used on serial buses where the actual data
-> > +content is more or less device specific but the data is transmitted and received
-> > +by multiple devices that do not process the data in any way, simply writing
-> > +it to system memory for processing in software at the end of the pipeline.
-> > +
-> > +The more specific variant describing the actual data is used on the internal
-> > +source pad of the originating sub-device.
+> The subdev notify is I think not the right fit for this purpose within
+> our driver.
 > 
-> Maybe this paragraph would be best added in the patch that adds the
-> specific metadata formats, you could then mention one of them as an
-> example:
-> 
-> The exact format of the data generated by the device is reported on the
-> internal source pad of the originating sub-device, using one of the more
-> specific metadata formats such as MEDIA_BUS_FMT_CCS_EMBEDDED.
 
-I'd really like to get rid of the "internal source" pads as the naming is
-really confusing (it's present still in this version but not in many
-locations). They're sink pads after all, so I'd call them such. In a few
-locations there's text that explains they do represent sources of data
-within the sub-device itself.
+<snip>
 
 > 
-> > +
-> > +"b" in an array cell signifies a byte of data, followed by the number of the bit
+> I'm really not sure I see a good reason for this.
 > 
-> s/bit$/byte/
-
-Uh, yes.
-
+> Why can't we just define calls between vfe and csid similar to
 > 
-> > +and finally the bit number in subscript. "X" indicates a padding bit.
-> 
-> We use a lower-case x in pixfmt-rgb.rst, I would do the same here. We
-> also use single quotes there, turning "b" and "x" into 'b' and 'x'.
+> drivers/media/platform/qcom/camss/camss-csid.c:        ret = vfe_get(vfe);
 
-This is documentation, not C source code where we'd want to denote a single
-character. Double quotes should thus be used instead.
 
-I'll switch to lower case X.
+Maybe we need to rethink and redesign this part of the driver.
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+In the initial version when this driver was introduced the CSID was
+independent device from hw perspective,
+and represented as separate sub-device.
 
-Thank you!
+With the newer architectures CSID was part of IFE hw (handled by the VFE
+sub-device in this driver)
+and vfe_get was introduced, but i believe it was not an issue because
+the CISD still was kind of independent.
 
--- 
+In the patch series:
+"https://lore.kernel.org/lkml/20240319173935.481-4-quic_grosikop@quicinc.com/T/"
+
+We try to decouple CSID from VFE and remove direct dependency
+introducing parent_dev_ops,
+where depending of the topology and parent device (VFE in this case or
+other parent in future chipsets which contain CSID)
+can reuse the code.
+
+I am not sure if introducing parent_dev_ops is right way to go but we
+can discuss further and see how to extend the driver
+in proper way.
+
+Just to add i am not saying that adding direct calls to VFE is not
+proper but just close the door for other sub-device contain CSID to use
+the code. :-)
+
+
 Regards,
+~Gjorgji
 
-Sakari Ailus
+> 
+> ---
+> bod
+> 
 
