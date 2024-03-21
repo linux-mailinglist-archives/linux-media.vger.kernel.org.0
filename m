@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-7519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF84885EC9
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:55:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B21A1885ED8
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:57:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 228382829B9
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:55:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 669E01F21B05
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4DBA433BD;
-	Thu, 21 Mar 2024 16:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB9F313699C;
+	Thu, 21 Mar 2024 16:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uX8/m8k/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mbB7XFAt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F77CBE6F
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 16:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBD2136999
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 16:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039495; cv=none; b=lSmwN+cM6kNzULK0hTplliOzDi0wUkDklLxRcDAPC+yMiOjWzyOURO4aK22sOtGdhLOfOiHpGkNfopd8GhAnApF8mtAuT7MSiPT4J87kK9S6XSE7wTA5y01TAfTEJcEA4mZR3PlSsabrCUKaXsDDiU6ukmtSP/gijHrfP98qL68=
+	t=1711039761; cv=none; b=BGzjZU57yG4lbwsql/ZsqsgSBCW5W1P/yHo+HS4XuKbaO5Obg2QxRCLxB5eXBFpXg5pQE9CsyqY1pQS5G+WqwMk0kkJtFFhW7FPCKHlBQkWDHVn9Iu160VXHLv2/lF7vcqkZ2ie1FcUrrtPCwM9IzeOBE+VMUE6QUzUF+vPfDfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039495; c=relaxed/simple;
-	bh=2PVzQKdG95CZSSyL66rT4NRx5lgenVPiDTxsvmUUhmw=;
+	s=arc-20240116; t=1711039761; c=relaxed/simple;
+	bh=rKwAXE4YWCnhHwVn8oa5KoAHnmZbpQF2SM7QcBrIFpY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjqikNCV9FFhyPQIC/5VEcC8e+TFbxR2+nLxLETNIBdu2vgFzq2OJgouISN7BkNNfyf6MREmCPdVYK/EyeZAQ10AjcsvqWQ4Mq65P+gZ6Wh0MN30zN2Vb+yzcSfnnDgUWE21J3nYl9SjOgfwlEQB5lRrfVlHgvZe0sCGhlLQZVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uX8/m8k/; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Swpb1TxRrYTlXhXqQZEGbrbJ3IFUqisEY0CBlu1ZeQsGl0IMEEPwn2oj2zobfLGbxklFLf+o0RO0YWXcfsu3rqHRQunS43CWfIKFoQ7+65gwu6SXv7GCtR6B1x3rvwdlgzL7gumVt/21Ak5Fb7AvC0e19syyhnrDszL7LmiFwjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mbB7XFAt; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89E08672;
-	Thu, 21 Mar 2024 17:44:23 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9BB2672;
+	Thu, 21 Mar 2024 17:48:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711039463;
-	bh=2PVzQKdG95CZSSyL66rT4NRx5lgenVPiDTxsvmUUhmw=;
+	s=mail; t=1711039729;
+	bh=rKwAXE4YWCnhHwVn8oa5KoAHnmZbpQF2SM7QcBrIFpY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uX8/m8k/zFzAr5u/om/na44TdPd/Qp95r63VRMsPy8UbeMopPMr1SyGN/s/lrF8Nb
-	 iyBgO3FEh5r6ZQoMzlwpjXtk8mTfd5c3iBYvacYGwIXSTMmInK1vy7l+ga37ZmhCO2
-	 33UrUsCzRKs8/zrx3FxMubi1TiBy1wqTV/lXCTKU=
-Date: Thu, 21 Mar 2024 18:44:48 +0200
+	b=mbB7XFAtg7ekEdnHChT2QYMxO/y2b7N2tQ2kFRNt6nfiX+RrBJTe+S6mMVWzRymXN
+	 lYFSKykVuDKme+vEW2xCHlxWz/l9m4K5YyB0MIabVh5X1xc5CH6jEmfcEEstVkhwck
+	 FLTa7sfGkOZQAVFdp71AY04rtLpEdkeEATgSLEmQ=
+Date: Thu, 21 Mar 2024 18:49:14 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -51,10 +51,11 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 22/38] media: ccs: Support frame descriptors
-Message-ID: <20240321164448.GC9582@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v8 23/38] media: uapi: ccs: Add media bus code for MIPI
+ CCS embedded data
+Message-ID: <20240321164914.GD9582@pendragon.ideasonboard.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-23-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-24-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,186 +64,79 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240313072516.241106-23-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240313072516.241106-24-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Mar 13, 2024 at 09:25:00AM +0200, Sakari Ailus wrote:
-> Provide information on the frame layout using frame descriptors.
+On Wed, Mar 13, 2024 at 09:25:01AM +0200, Sakari Ailus wrote:
+> Add new MIPI CCS embedded data media bus code
+> (MEDIA_BUS_FMT_CCS_EMBEDDED).
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/i2c/ccs/ccs-core.c  | 60 +++++++++++++++++++++++++++++++
->  drivers/media/i2c/ccs/ccs-quirk.h |  7 ++++
->  drivers/media/i2c/ccs/ccs.h       |  4 +++
->  3 files changed, 71 insertions(+)
+>  .../media/v4l/subdev-formats.rst              | 28 +++++++++++++++++++
+>  include/uapi/linux/media-bus-format.h         |  3 ++
+>  2 files changed, 31 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 0efbc63534bc..9cc2080b73ec 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -25,6 +25,7 @@
->  #include <linux/slab.h>
->  #include <linux/smiapp.h>
->  #include <linux/v4l2-mediabus.h>
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-cci.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -245,6 +246,33 @@ static int ccs_read_all_limits(struct ccs_sensor *sensor)
->  	return ret;
->  }
->  
-> +static u8 ccs_mipi_csi2_data_type(unsigned int bpp)
-> +{
-> +	switch (bpp) {
-> +	case 6:
-> +		return MIPI_CSI2_DT_RAW6;
-> +	case 7:
-> +		return MIPI_CSI2_DT_RAW7;
-> +	case 8:
-> +		return MIPI_CSI2_DT_RAW8;
-> +	case 10:
-> +		return MIPI_CSI2_DT_RAW10;
-> +	case 12:
-> +		return MIPI_CSI2_DT_RAW12;
-> +	case 14:
-> +		return MIPI_CSI2_DT_RAW14;
-> +	case 16:
-> +		return MIPI_CSI2_DT_RAW16;
-> +	case 20:
-> +		return MIPI_CSI2_DT_RAW20;
-> +	case 24:
-> +		return MIPI_CSI2_DT_RAW24;
-> +	default:
-> +		WARN_ON(1);
-> +		return 0;
-> +	}
-> +}
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index cbd475f7cae9..c8f982411e70 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -8564,3 +8564,31 @@ and finally the bit number in subscript. "X" indicates a padding bit.
+>        - X
+>        - X
+>        - X
 > +
->  static int ccs_read_frame_fmt(struct ccs_sensor *sensor)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> @@ -2632,6 +2660,37 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
->  	return ret;
->  }
->  
-> +static int ccs_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *desc)
-> +{
-> +	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> +	struct v4l2_mbus_frame_desc_entry *entry = desc->entry;
+> +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
 > +
-> +	if (ccs_has_quirk(sensor, frame_desc))
-> +		return ccs_call_quirk(sensor, frame_desc, desc);
+> +MIPI CCS Embedded Data Formats
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
+> +metadata format for sensor embedded data, which is used to store the register
+> +configuration used for capturing a given frame. The format is defined in the CCS
+> +specification. The media bus code for this format is
+> +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
+> +
+> +The CCS embedded data format definition includes three levels:
+> +
+> +1. Padding within CSI-2 bus :ref:`Data unit <media-glossary-data-unit>` as
 
-I would introduce the quirk later, along with the patch that will use
-it.
+s/Data unit/Data Unit/
+
+> +   documented in the MIPI CCS specification.
+> +
+> +2. The tagged data format as documented in the MIPI CCS specification.
+> +
+> +3. Register addresses and register documentation as documented in the MIPI CCS
+> +   specification.
+> +
+> +The format definition shall be used only by devices that fulfill all three
+> +levels above.
+
+Hmmmm... Do we need to mandate level 3 ? There are lots of sensors that
+comply with the first two levels but have their own register set. Would
+you like a sensor-specific embedded data format for each of them ? If
+so, how would we document it without essentially copying the datasheet ?
 
 > +
-> +	switch (sensor->hwcfg.csi_signalling_mode) {
-> +	case CCS_CSI_SIGNALING_MODE_CSI_2_DPHY:
-> +	case CCS_CSI_SIGNALING_MODE_CSI_2_CPHY:
-> +		desc->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +		break;
-> +	default:
-> +		/* FIXME: CCP2 support */
-> +		return -EINVAL;
-> +	}
+> +This mbus code are only used for "2-byte simplified tagged data format" (code
+> +0xa) but their use may be extended further in the future, to cover other CCS
+> +embedded data format codes.
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index d4c1d991014b..03f7e9ab517b 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -183,4 +183,7 @@
+>  #define MEDIA_BUS_FMT_META_20			0x8006
+>  #define MEDIA_BUS_FMT_META_24			0x8007
+>  
+> +/* Specific metadata formats. Next is 0x9002. */
+> +#define MEDIA_BUS_FMT_CCS_EMBEDDED		0x9001
 > +
-> +	entry->pixelcode = sensor->csi_format->code;
-> +	entry->stream = CCS_STREAM_PIXEL;
-> +	entry->bus.csi2.dt =
-> +		sensor->csi_format->width == sensor->csi_format->compressed ?
-> +		ccs_mipi_csi2_data_type(sensor->csi_format->compressed) :
-
-Functionally equivalent,
-
-		ccs_mipi_csi2_data_type(sensor->csi_format->width) :
-
-would be clearer I think. The way it's written today made me wonder why
-you want the DT for the compressed format, which is not what you're
-doing.
-
-> +		CCS_DEFAULT_COMPRESSED_DT;
-> +	entry++;
-> +	desc->num_entries++;
-> +
-> +	return 0;
-> +}
-> +
->  static int ccs_get_skip_frames(struct v4l2_subdev *subdev, u32 *frames)
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> @@ -3054,6 +3113,7 @@ static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
->  	.set_selection = ccs_set_selection,
->  	.enable_streams = ccs_enable_streams,
->  	.disable_streams = ccs_disable_streams,
-> +	.get_frame_desc = ccs_get_frame_desc,
->  };
->  
->  static const struct v4l2_subdev_sensor_ops ccs_sensor_ops = {
-> diff --git a/drivers/media/i2c/ccs/ccs-quirk.h b/drivers/media/i2c/ccs/ccs-quirk.h
-> index 392c97109617..3e1d9eaa33fa 100644
-> --- a/drivers/media/i2c/ccs/ccs-quirk.h
-> +++ b/drivers/media/i2c/ccs/ccs-quirk.h
-> @@ -36,6 +36,7 @@ struct ccs_sensor;
->   *			 access may be done by the caller (default read
->   *			 value is zero), else negative error code on error
->   * @flags: Quirk flags
-> + * @frame_desc: Obtain the frame descriptor
->   */
->  struct ccs_quirk {
->  	int (*limits)(struct ccs_sensor *sensor);
-> @@ -46,6 +47,8 @@ struct ccs_quirk {
->  	int (*init)(struct ccs_sensor *sensor);
->  	int (*reg_access)(struct ccs_sensor *sensor, bool write, u32 *reg,
->  			  u32 *val);
-> +	int (*frame_desc)(struct ccs_sensor *sensor,
-> +			  struct v4l2_mbus_frame_desc *desc);
->  	unsigned long flags;
->  };
->  
-> @@ -62,6 +65,10 @@ struct ccs_reg_8 {
->  		.val = _val,		\
->  	}
->  
-> +#define ccs_has_quirk(sensor, _quirk)					\
-> +	((sensor)->minfo.quirk &&					\
-> +	 (sensor)->minfo.quirk->_quirk)
-> +
->  #define ccs_call_quirk(sensor, _quirk, ...)				\
->  	((sensor)->minfo.quirk &&					\
->  	 (sensor)->minfo.quirk->_quirk ?				\
-> diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-> index 4725e6eca8d0..adb152366ea2 100644
-> --- a/drivers/media/i2c/ccs/ccs.h
-> +++ b/drivers/media/i2c/ccs/ccs.h
-> @@ -46,6 +46,8 @@
->  
->  #define CCS_COLOUR_COMPONENTS		4
->  
-> +#define CCS_DEFAULT_COMPRESSED_DT	0x30
-
-I'd write
-
-#define CCS_DEFAULT_COMPRESSED_DT	MIPI_CSI2_DT_USER_DEFINED(0)
-
-> +
->  #define SMIAPP_NAME			"smiapp"
->  #define CCS_NAME			"ccs"
->  
-> @@ -175,6 +177,8 @@ struct ccs_csi_data_format {
->  #define CCS_PAD_SRC			1
->  #define CCS_PADS			2
->  
-> +#define CCS_STREAM_PIXEL		0
-> +
->  struct ccs_binning_subtype {
->  	u8 horizontal:4;
->  	u8 vertical:4;
+>  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 
 -- 
 Regards,
