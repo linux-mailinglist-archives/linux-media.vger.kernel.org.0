@@ -1,569 +1,295 @@
-Return-Path: <linux-media+bounces-7483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA11D885B57
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:03:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF3A885BA4
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:29:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD8C91C2061B
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 15:03:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AD48284E80
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 15:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD32086134;
-	Thu, 21 Mar 2024 15:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6956B86265;
+	Thu, 21 Mar 2024 15:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4ZynKkm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALr9eIGz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3645085287;
-	Thu, 21 Mar 2024 15:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE868624F;
+	Thu, 21 Mar 2024 15:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711033407; cv=none; b=Yu8UQJsl1c1IIEtsSe9yIs4JWehuRWh8rA6iaQz82sTpOmwD18GIueXCkrgkGlGsojIrFwRFkvrV7LxlIUTX+i2bJ97vUBggKjwlzIpHrxwhYQEIIn8bWWsYDPgpGdQ4Zw3Jw6wBKKA9Tjrfl5WGFor6Uivc6pnibY4m7PCyEDg=
+	t=1711034966; cv=none; b=nu5zw5BSXkM/Yoad+2YDw/0lLdkMwPusH9PSbshln8wNzA0NW3jxxg8aMET+QJxfEXB9N/U/Ghea3PrFekpo+kV5dYoizqX5DPClFx3NARvyZq3WjVEGOwpVpy8mq8M7Z3mirMZZMBRXbryCT0/bN/F9rcSZTFDqIIZ2RPZHYYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711033407; c=relaxed/simple;
-	bh=y2r9d3hQrbzb1NpNgY14hPEsDHieyGirqV1PX1VFdiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AJWiZmDFhoUNVNPWZSh7WPIb0oEQkxFMgZX39kIy7Na1mqF7sNffA0kLHMJuDvXeVF+Dko+7UbBpBRhVpXYB5RWKN/M0sw55mBJPlYBrybzY8u0NTwt51BFDd9lhAT5ZlRyw90x59asSz8RYPKwMJJeA0nqVbMzwTSb/btAasFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4ZynKkm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B259FC433F1;
-	Thu, 21 Mar 2024 15:03:24 +0000 (UTC)
+	s=arc-20240116; t=1711034966; c=relaxed/simple;
+	bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZJG3o6X9Ruk3sygC4LUQBLaIsH+XQqXGSbnqLxrBmzejlHScaxrlzWSh6evwKR64zG+Y7aFbd0Qkm4dvU4YeAxVOE5cf6Z19SlzQuUlm7LzqC2fZSjHuKvRLc3ZJZeiFcqQ5KmOC7hJIE72dzySmqMRifq+Q6wKkmKFfg+w9ECg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALr9eIGz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25367C433F1;
+	Thu, 21 Mar 2024 15:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711033407;
-	bh=y2r9d3hQrbzb1NpNgY14hPEsDHieyGirqV1PX1VFdiE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H4ZynKkmTFt7/mbMd0MYIVIqwu72oBYczn6eBUAda9Gt5FbUvBXcLAMuiyqhdsiIW
-	 NVMqJd461uFpMjlkqgslyVkhjhCYB6lsESF2urR3m+4i4GQQTQbHS6BWGpldcov0Ii
-	 zSfqB6+tE/HgEMkHm4jGghfwk/Tr7R9IrEP0BdrDdeqF4QBvV5PZ2zsM154nPIoEND
-	 GZDX6PQY2oQW78qKMExZ8RVf3irDsAQ5nW+TmBkp3F/F/t3dDowPfI9tmUXAnAptBQ
-	 E1ilnjIdI7UWGQ2LCO6mFkahEDTnvDBTpbE6vuSx+bVMoAYPva3acYgKDn6aYj9Qnr
-	 TiXCUe85hvq6g==
-Date: Thu, 21 Mar 2024 16:03:20 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, tfiga@chromium.org,
- m.szyprowski@samsung.com, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-Subject: Re: [PATCH v21 7/9] media: v4l2: Add REMOVE_BUFS ioctl
-Message-ID: <20240321160320.1b7f5e64@coco.lan>
-In-Reply-To: <2bcbe941-ffc8-4b95-a5d1-0bcb9c2ddcb6@xs4all.nl>
-References: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
-	<20240314153226.197445-8-benjamin.gaignard@collabora.com>
-	<20240321151442.0487b53f@coco.lan>
-	<2bcbe941-ffc8-4b95-a5d1-0bcb9c2ddcb6@xs4all.nl>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1711034966;
+	bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ALr9eIGziUwPlxCH820QT7e6XLKtwlm4vlc96HP45r7+l55sUTkhC3dRZ0wnZRhwD
+	 YG4jbIY/IEvjI17CK+xo0p7ibeEwLIEBKIdBbT4X9xJEd9fMALfQmycvOAfVIjVwa1
+	 /Ih5X3INPHtQ8qBMj6/RMGv0XVecfmjwL6+9/0e9stWTbbXUmBuJ7ONdwuHJFe2Bst
+	 vyiq0KeXClLUxLCUPI32mOeSd9YdR0qH7g363dZxIHk3zbuecHqgX7Ow4EcUFx2ub6
+	 LE5wUNfqHfe7cqUg/IGk2vbUY9mIbuoR74fhX1KtbyG4efOriCs98s98pgoSP5ZVvE
+	 X035DVJcLNzJw==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v10 00/27] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Thu, 21 Mar 2024 16:28:56 +0100
+Message-Id: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADhS/GUC/43SzWrDMAwA4FcpPs/Dlvy7095j7ODachu6JpCEw
+ Ch994nBlg6D2UnIQp8Q1k0sNA+0iJfDTcy0DcswjZxo9XQQ+ZzGE8mh8IMABaiCNvJyXeS5XAe
+ Zp3GkvE6zXNa0knTa+eDJ+QhecPt5WLj4+U1vmsPbP5BNSyWVCcqaUtFZ83qheaSP52k+iXdWN
+ 9ilCKojAUvaR4SSSim+NBL+Slqh7kjIEkI4qprIYPKNZHZJQ+hIhqXsnQJtAypHjWR3CZTvSJY
+ lZzGQjsWhabdzP5LhadCRHEvVHHPJ0UdytZH8gwQ9ybMUqknVelszQSOFXcLudoElqi65ijo6c
+ 2yk+CDp3t9FloqxISoERPP3nu73+xdMs2UrAgMAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9524; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKl/ghz/5i2672/x+FPyQe4MSZnvc8RL/zTU9214znLpx
+ 8Imzd/GHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZhINTfDf+93dv2GT/fXnHjh
+ cTLXi+PGw/gDu27+i62r7T27YO/zqB6G/xmepvN+vpw4q2jHsczLDcWP5366YPiyiqHsF2tB6Ga
+ zckYA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Em Thu, 21 Mar 2024 15:24:43 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+Hi,
 
-> On 21/03/2024 3:14 pm, Mauro Carvalho Chehab wrote:
-> > Em Thu, 14 Mar 2024 16:32:24 +0100
-> > Benjamin Gaignard <benjamin.gaignard@collabora.com> escreveu:
-> >   
-> >> VIDIOC_REMOVE_BUFS ioctl allows to remove buffers from a queue.
-> >> The number of buffers to remove in given by count field of
-> >> struct v4l2_remove_buffers and the range start at the index
-> >> specified in the same structure.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >> ---
-> >> changes in version 21:
-> >> - Be more careful about checking remove_bufs type field vs queue type.
-> >> - Add documentation about type checking error.
-> >> - Always set capabilities flags field.
-> >>
-> >>  .../userspace-api/media/v4l/user-func.rst     |  1 +
-> >>  .../media/v4l/vidioc-remove-bufs.rst          | 85 +++++++++++++++++++
-> >>  .../media/v4l/vidioc-reqbufs.rst              |  1 +
-> >>  .../media/common/videobuf2/videobuf2-core.c   | 38 +++++++++
-> >>  .../media/common/videobuf2/videobuf2-v4l2.c   | 20 ++++-
-> >>  drivers/media/v4l2-core/v4l2-dev.c            |  3 +
-> >>  drivers/media/v4l2-core/v4l2-ioctl.c          | 30 +++++++
-> >>  include/media/v4l2-ioctl.h                    |  4 +
-> >>  include/media/videobuf2-core.h                | 10 +++
-> >>  include/media/videobuf2-v4l2.h                |  2 +
-> >>  include/uapi/linux/videodev2.h                | 17 ++++
-> >>  11 files changed, 210 insertions(+), 1 deletion(-)
-> >>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-remove-bufs.rst
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
-> >> index 15ff0bf7bbe6..6f661138801c 100644
-> >> --- a/Documentation/userspace-api/media/v4l/user-func.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
-> >> @@ -62,6 +62,7 @@ Function Reference
-> >>      vidioc-query-dv-timings
-> >>      vidioc-querystd
-> >>      vidioc-reqbufs
-> >> +    vidioc-remove-bufs
-> >>      vidioc-s-hw-freq-seek
-> >>      vidioc-streamon
-> >>      vidioc-subdev-enum-frame-interval
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-remove-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-remove-bufs.rst
-> >> new file mode 100644
-> >> index 000000000000..0cbc8c7313b7
-> >> --- /dev/null
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-remove-bufs.rst
-> >> @@ -0,0 +1,85 @@
-> >> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> >> +.. c:namespace:: V4L
-> >> +
-> >> +.. _VIDIOC_REMOVE_BUFS:
-> >> +
-> >> +************************
-> >> +ioctl VIDIOC_REMOVE_BUFS
-> >> +************************
-> >> +
-> >> +Name
-> >> +====
-> >> +
-> >> +VIDIOC_REMOVE_BUFS - Removes buffers from a queue
-> >> +
-> >> +Synopsis
-> >> +========
-> >> +
-> >> +.. c:macro:: VIDIOC_REMOVE_BUFS
-> >> +
-> >> +``int ioctl(int fd, VIDIOC_REMOVE_BUFS, struct v4l2_remove_buffers *argp)``
-> >> +
-> >> +Arguments
-> >> +=========
-> >> +
-> >> +``fd``
-> >> +    File descriptor returned by :c:func:`open()`.
-> >> +
-> >> +``argp``
-> >> +    Pointer to struct :c:type:`v4l2_remove_buffers`.
-> >> +
-> >> +Description
-> >> +===========
-> >> +
-> >> +Applications can optionally call the :ref:`VIDIOC_REMOVE_BUFS` ioctl to
-> >> +remove buffers from a queue.
-> >> +:ref:`VIDIOC_CREATE_BUFS` ioctl support is mandatory to enable :ref:`VIDIOC_REMOVE_BUFS`.
-> >> +This ioctl is available if the ``V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS`` capability
-> >> +is set on the queue when :c:func:`VIDIOC_REQBUFS` or :c:func:`VIDIOC_CREATE_BUFS`
-> >> +are invoked.
-> >> +
-> >> +.. c:type:: v4l2_remove_buffers
-> >> +
-> >> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.5cm}|
-> >> +
-> >> +.. flat-table:: struct v4l2_remove_buffers
-> >> +    :header-rows:  0
-> >> +    :stub-columns: 0
-> >> +    :widths:       1 1 2
-> >> +
-> >> +    * - __u32
-> >> +      - ``index``
-> >> +      - The starting buffer index to remove. This field is ignored if count == 0.
-> >> +    * - __u32
-> >> +      - ``count``
-> >> +      - The number of buffers to be removed with indices 'index' until 'index + count - 1'.
-> >> +        All buffers in this range must be valid and in DEQUEUED state.
-> >> +        :ref:`VIDIOC_REMOVE_BUFS` will always check the validity of ``type`, if it is
-> >> +        invalid it returns ``EINVAL`` error code.
-> >> +        If count is set to 0 :ref:`VIDIOC_REMOVE_BUFS` will do nothing and return 0.
-> >> +    * - __u32
-> >> +      - ``type``
-> >> +      - Type of the stream or buffers, this is the same as the struct
-> >> +	:c:type:`v4l2_format` ``type`` field. See
-> >> +	:c:type:`v4l2_buf_type` for valid values.
-> >> +    * - __u32
-> >> +      - ``reserved``\ [13]
-> >> +      - A place holder for future extensions. Drivers and applications
-> >> +	must set the array to zero.
-> >> +
-> >> +Return Value
-> >> +============
-> >> +
-> >> +On success 0 is returned, on error -1 and the ``errno`` variable is set
-> >> +appropriately. The generic error codes are described at the
-> >> +:ref:`Generic Error Codes <gen-errors>` chapter.  
-> > 
-> > It is not enough to just return an error code. it should also describe
-> > what will be the expected behavior after the call. Something like:
-> > 
-> > 	If an error occurs, no buffers will be freed and one of the
-> > 	error codes below will be returned:  
-> 
-> That's good to have. That is indeed not stated explicitly.
-> 
-> >   
-> >> +
-> >> +EBUSY
-> >> +    File I/O is in progress.
-> >> +    One or more of the buffers in the range ``index`` to ``index + count - 1`` are not
-> >> +    in DEQUEUED state.
-> >> +
-> >> +EINVAL
-> >> +    One or more of the buffers in the range ``index`` to ``index + count - 1`` do not
-> >> +    exist in the queue.
-> >> +    The buffer type (``type`` field) is not valid.  
-> > 
-> > IMO, it needs also another error code: as there's a minimal number of
-> > buffers to be queued (let's say, 2), what happens if there are currently
-> > 3 buffers allocated and an ioctl is called to free 2 buffers?
-> > 
-> > IMO, it shall return an error code and not free any buffers.  
-> 
-> Note the requirement that all buffers you want to remove have to be in dequeued
-> state. So you can never remove buffers that are still in flight. An attempt to
-> do that results in EBUSY.
-> 
-> So there is no need for an other error code.
-> 
-> > 
-> > The best would be to return a code different than EINVAL. Maybe E2BIG?
-> >   
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> index 0b3a41a45d05..bbc22dd76032 100644
-> >> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> >> @@ -121,6 +121,7 @@ aborting or finishing any DMA in progress, an implicit
-> >>  .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
-> >>  .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
-> >>  .. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
-> >> +.. _V4L2-BUF-CAP-SUPPORTS-REMOVE-BUFS:
-> >>  
-> >>  .. raw:: latex
-> >>  
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> >> index 009cea95d662..0b2b48e1b2df 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> >> @@ -1691,6 +1691,44 @@ int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb)
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
-> >>  
-> >> +int vb2_core_remove_bufs(struct vb2_queue *q, unsigned int start, unsigned int count)
-> >> +{
-> >> +	unsigned int i, ret = 0;
-> >> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-> >> +
-> >> +	if (count == 0)
-> >> +		return 0;
-> >> +
-> >> +	if (count > q_num_bufs)
-> >> +		return -EINVAL;  
-> > 
-> > It also needs:
-> > 
-> > 	if (q_num_bufs - count < q->min_reqbufs_allocation && q_num_bufs != count)
-> > 		return <some error code>;
-> > 
-> > e. g. it shall not accept keeping, for instance, just one buffer allocated.  
-> 
-> That's perfectly fine. The min_reqbufs_allocation is specific to VIDIOC_REQBUFS
-> (hence the name). If you use CREATE_BUFS/REMOVE_BUFS, then you are fully responsible
-> for allocating and removing buffers.
-> 
-> This is something that was discussed in earlier revisions of this series.
-> 
-> It is actually rather ugly that REQBUFS does this, but we need to keep that behavior
-> since that's how REQBUFS worked historically.
-> 
-> VIDIOC_CREATE_BUFS was never affected by this, so if you want to allocate N
-> buffers with CREATE_BUFS, then you'll never get more than N buffers (you might get
-> less, of course).
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-OK.
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-So, after doing the documentation change, feel free to add:
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> >   
-> >> +
-> >> +	if (start > q->max_num_buffers - count)
-> >> +		return -EINVAL;
-> >> +
-> >> +	mutex_lock(&q->mmap_lock);
-> >> +
-> >> +	/* Check that all buffers in the range exist */
-> >> +	for (i = start; i < start + count; i++) {
-> >> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
-> >> +
-> >> +		if (!vb) {
-> >> +			ret = -EINVAL;
-> >> +			goto unlock;
-> >> +		}
-> >> +		if (vb->state != VB2_BUF_STATE_DEQUEUED) {
-> >> +			ret = -EBUSY;
-> >> +			goto unlock;
-> >> +		}
-> >> +	}
-> >> +	__vb2_queue_free(q, start, count);
-> >> +	dprintk(q, 2, "%u buffers removed\n", count);
-> >> +
-> >> +unlock:
-> >> +	mutex_unlock(&q->mmap_lock);
-> >> +	return ret;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(vb2_core_remove_bufs);
-> >> +
-> >>  /*
-> >>   * vb2_start_streaming() - Attempt to start streaming.
-> >>   * @q:		videobuf2 queue
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> index 03e8080a68a8..293f3d5f1c4e 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> @@ -685,7 +685,7 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
-> >>  		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT;
-> >>  	}
-> >>  
-> >> -	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-> >> +	*caps |= V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-> >>  	if (q->io_modes & VB2_MMAP)
-> >>  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
-> >>  	if (q->io_modes & VB2_USERPTR)
-> >> @@ -1001,6 +1001,24 @@ EXPORT_SYMBOL_GPL(vb2_poll);
-> >>  
-> >>  /* vb2 ioctl helpers */
-> >>  
-> >> +int vb2_ioctl_remove_bufs(struct file *file, void *priv,
-> >> +			  struct v4l2_remove_buffers *d)
-> >> +{
-> >> +	struct video_device *vdev = video_devdata(file);
-> >> +
-> >> +	if (vdev->queue->type != d->type)
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (d->count == 0)
-> >> +		return 0;
-> >> +
-> >> +	if (vb2_queue_is_busy(vdev->queue, file))
-> >> +		return -EBUSY;
-> >> +
-> >> +	return vb2_core_remove_bufs(vdev->queue, d->index, d->count);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(vb2_ioctl_remove_bufs);
-> >> +
-> >>  int vb2_ioctl_reqbufs(struct file *file, void *priv,
-> >>  			  struct v4l2_requestbuffers *p)
-> >>  {
-> >> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> >> index d13954bd31fd..e39e9742fdb5 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> >> @@ -722,6 +722,9 @@ static void determine_valid_ioctls(struct video_device *vdev)
-> >>  		SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF, vidioc_prepare_buf);
-> >>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMON, vidioc_streamon);
-> >>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
-> >> +		/* VIDIOC_CREATE_BUFS support is mandatory to enable VIDIOC_REMOVE_BUFS */
-> >> +		if (ops->vidioc_create_bufs)
-> >> +			SET_VALID_IOCTL(ops, VIDIOC_REMOVE_BUFS, vidioc_remove_bufs);
-> >>  	}
-> >>  
-> >>  	if (is_vid || is_vbi || is_meta) {
-> >> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> >> index 6e7b8b682d13..5aeff5519407 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> >> @@ -489,6 +489,14 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
-> >>  	v4l_print_format(&p->format, write_only);
-> >>  }
-> >>  
-> >> +static void v4l_print_remove_buffers(const void *arg, bool write_only)
-> >> +{
-> >> +	const struct v4l2_remove_buffers *p = arg;
-> >> +
-> >> +	pr_cont("type=%s, index=%u, count=%u\n",
-> >> +		prt_names(p->type, v4l2_type_names), p->index, p->count);
-> >> +}
-> >> +
-> >>  static void v4l_print_streamparm(const void *arg, bool write_only)
-> >>  {
-> >>  	const struct v4l2_streamparm *p = arg;
-> >> @@ -2092,6 +2100,7 @@ static int v4l_overlay(const struct v4l2_ioctl_ops *ops,
-> >>  static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
-> >>  				struct file *file, void *fh, void *arg)
-> >>  {
-> >> +	struct video_device *vfd = video_devdata(file);
-> >>  	struct v4l2_requestbuffers *p = arg;
-> >>  	int ret = check_fmt(file, p->type);
-> >>  
-> >> @@ -2100,6 +2109,10 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
-> >>  
-> >>  	memset_after(p, 0, flags);
-> >>  
-> >> +	p->capabilities = 0;
-> >> +	if (is_valid_ioctl(vfd, VIDIOC_REMOVE_BUFS))
-> >> +		p->capabilities = V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS;
-> >> +
-> >>  	return ops->vidioc_reqbufs(file, fh, p);
-> >>  }
-> >>  
-> >> @@ -2133,6 +2146,7 @@ static int v4l_dqbuf(const struct v4l2_ioctl_ops *ops,
-> >>  static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
-> >>  				struct file *file, void *fh, void *arg)
-> >>  {
-> >> +	struct video_device *vfd = video_devdata(file);
-> >>  	struct v4l2_create_buffers *create = arg;
-> >>  	int ret = check_fmt(file, create->format.type);
-> >>  
-> >> @@ -2143,6 +2157,10 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
-> >>  
-> >>  	v4l_sanitize_format(&create->format);
-> >>  
-> >> +	create->capabilities = 0;
-> >> +	if (is_valid_ioctl(vfd, VIDIOC_REMOVE_BUFS))
-> >> +		create->capabilities = V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS;
-> >> +
-> >>  	ret = ops->vidioc_create_bufs(file, fh, create);
-> >>  
-> >>  	if (create->format.type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-> >> @@ -2161,6 +2179,17 @@ static int v4l_prepare_buf(const struct v4l2_ioctl_ops *ops,
-> >>  	return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
-> >>  }
-> >>  
-> >> +static int v4l_remove_bufs(const struct v4l2_ioctl_ops *ops,
-> >> +			   struct file *file, void *fh, void *arg)
-> >> +{
-> >> +	struct v4l2_remove_buffers *remove = arg;
-> >> +
-> >> +	if (ops->vidioc_remove_bufs)
-> >> +		return ops->vidioc_remove_bufs(file, fh, remove);
-> >> +
-> >> +	return -ENOTTY;
-> >> +}
-> >> +
-> >>  static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
-> >>  				struct file *file, void *fh, void *arg)
-> >>  {
-> >> @@ -2910,6 +2939,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
-> >>  	IOCTL_INFO(VIDIOC_ENUM_FREQ_BANDS, v4l_enum_freq_bands, v4l_print_freq_band, 0),
-> >>  	IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
-> >>  	IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, v4l_print_query_ext_ctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
-> >> +	IOCTL_INFO(VIDIOC_REMOVE_BUFS, v4l_remove_bufs, v4l_print_remove_buffers, INFO_FL_PRIO | INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_remove_buffers, type)),
-> >>  };
-> >>  #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
-> >>  
-> >> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-> >> index edb733f21604..bdbb7e542321 100644
-> >> --- a/include/media/v4l2-ioctl.h
-> >> +++ b/include/media/v4l2-ioctl.h
-> >> @@ -163,6 +163,8 @@ struct v4l2_fh;
-> >>   *	:ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
-> >>   * @vidioc_prepare_buf: pointer to the function that implements
-> >>   *	:ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
-> >> + * @vidioc_remove_bufs: pointer to the function that implements
-> >> + *	:ref:`VIDIOC_REMOVE_BUFS <vidioc_remove_bufs>` ioctl
-> >>   * @vidioc_overlay: pointer to the function that implements
-> >>   *	:ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
-> >>   * @vidioc_g_fbuf: pointer to the function that implements
-> >> @@ -422,6 +424,8 @@ struct v4l2_ioctl_ops {
-> >>  				  struct v4l2_create_buffers *b);
-> >>  	int (*vidioc_prepare_buf)(struct file *file, void *fh,
-> >>  				  struct v4l2_buffer *b);
-> >> +	int (*vidioc_remove_bufs)(struct file *file, void *fh,
-> >> +				  struct v4l2_remove_buffers *d);
-> >>  
-> >>  	int (*vidioc_overlay)(struct file *file, void *fh, unsigned int i);
-> >>  	int (*vidioc_g_fbuf)(struct file *file, void *fh,
-> >> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> >> index b9333e2c7797..955237ac503d 100644
-> >> --- a/include/media/videobuf2-core.h
-> >> +++ b/include/media/videobuf2-core.h
-> >> @@ -870,6 +870,16 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
-> >>   */
-> >>  int vb2_core_prepare_buf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb);
-> >>  
-> >> +/**
-> >> + * vb2_core_remove_bufs() -
-> >> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> >> + * @start:	first index of the range of buffers to remove.
-> >> + * @count:	number of buffers to remove.
-> >> + *
-> >> + *  Return: returns zero on success; an error code otherwise.
-> >> + */
-> >> +int vb2_core_remove_bufs(struct vb2_queue *q, unsigned int start, unsigned int count);
-> >> +
-> >>  /**
-> >>   * vb2_core_qbuf() - Queue a buffer from userspace
-> >>   *
-> >> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-> >> index 5a845887850b..77ce8238ab30 100644
-> >> --- a/include/media/videobuf2-v4l2.h
-> >> +++ b/include/media/videobuf2-v4l2.h
-> >> @@ -334,6 +334,8 @@ int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i);
-> >>  int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i);
-> >>  int vb2_ioctl_expbuf(struct file *file, void *priv,
-> >>  	struct v4l2_exportbuffer *p);
-> >> +int vb2_ioctl_remove_bufs(struct file *file, void *priv,
-> >> +			  struct v4l2_remove_buffers *p);
-> >>  
-> >>  /* struct v4l2_file_operations helpers */
-> >>  
-> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> >> index a8015e5e7fa4..2663213b76a4 100644
-> >> --- a/include/uapi/linux/videodev2.h
-> >> +++ b/include/uapi/linux/videodev2.h
-> >> @@ -1036,6 +1036,7 @@ struct v4l2_requestbuffers {
-> >>  #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
-> >>  #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
-> >>  #define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
-> >> +#define V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS		(1 << 8)
-> >>  
-> >>  /**
-> >>   * struct v4l2_plane - plane info for multi-planar buffers
-> >> @@ -2624,6 +2625,20 @@ struct v4l2_create_buffers {
-> >>  	__u32			reserved[5];
-> >>  };
-> >>  
-> >> +/**
-> >> + * struct v4l2_remove_buffers - VIDIOC_REMOVE_BUFS argument
-> >> + * @index:	the first buffer to be removed
-> >> + * @count:	number of buffers to removed
-> >> + * @type:	enum v4l2_buf_type
-> >> + * @reserved:	future extensions
-> >> + */
-> >> +struct v4l2_remove_buffers {
-> >> +	__u32			index;
-> >> +	__u32			count;
-> >> +	__u32			type;
-> >> +	__u32			reserved[13];
-> >> +};
-> >> +
-> >>  /*
-> >>   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
-> >>   *
-> >> @@ -2723,6 +2738,8 @@ struct v4l2_create_buffers {
-> >>  #define VIDIOC_DBG_G_CHIP_INFO  _IOWR('V', 102, struct v4l2_dbg_chip_info)
-> >>  
-> >>  #define VIDIOC_QUERY_EXT_CTRL	_IOWR('V', 103, struct v4l2_query_ext_ctrl)
-> >> +#define VIDIOC_REMOVE_BUFS	_IOWR('V', 104, struct v4l2_remove_buffers)
-> >> +
-> >>  
-> >>  /* Reminder: when adding new ioctls please add support for them to
-> >>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */  
-> > 
-> > 
-> > 
-> > Thanks,
-> > Mauro  
-> 
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
 
-Thanks,
-Mauro
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v10:
+- Drop the YUV422 fallback, and adjust the tests accordingly
+- Fix HDMI infoframe handling
+- Remove the infoframe copy in drm_connector
+- Add a TODO that drm_hdmi_avi_infoframe_quant_range() only works for
+  RGB
+- Add a TODO for the YUV420 selection
+- Fix a few bugs in vc4
+- Change the logging from driver to KMS for the helpers
+- Drop UPDATE_INFOFRAME macro
+- Add infoframe code logging
+- Document the selection of 8bpc for VIC1
+- Rename state to conn_state where relevant
+- Link to v9: https://lore.kernel.org/r/20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org
+
+Changes in v9:
+- Generate every infoframe but the HDMI vendor one if has_hdmi_infoframe
+  isn't set
+- Fix typos in the doc
+- Removed undef for inexisting macro
+- Improve the Broadcast RGB sanitation test
+- Make EDID bytes array const
+- Link to v8: https://lore.kernel.org/r/20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org
+
+Changes in v8:
+- Drop applied patches
+- Drop the YUV limited range mention in the Broadcast RGB documentation
+- Rephrase the vc4_dummy_plane removal commit log
+- Move infroframe mutex initialisation to the main drm_connector_init
+  function to make sure it's always initialised
+- Link to v7: https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+Changes in v7:
+- Rebased on top of current next
+- Only consider the Broadcast RGB property if the output format is RGB,
+  and use a limited range otherwise
+- Document the fact that Broadcast RGB only applies if the output format
+  is RGB
+- Add some test to make sure we always get a limited range if we have a
+  YCbCr output format.
+- Link to v6: https://lore.kernel.org/r/20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org
+
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (27):
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  690 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  265 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  152 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  143 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   80 +-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1736 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1059 +++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  643 +-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  233 +++
+ 21 files changed, 4853 insertions(+), 769 deletions(-)
+---
+base-commit: 43d95569d4f1651692d6e84af890692232b7b891
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
 
