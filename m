@@ -1,159 +1,138 @@
-Return-Path: <linux-media+bounces-7549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7550-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F888862B7
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:51:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D588862C1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:53:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F925281E15
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 21:51:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE6201F2169E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 21:53:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D340F13665C;
-	Thu, 21 Mar 2024 21:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 804E013666D;
+	Thu, 21 Mar 2024 21:53:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NZV2QWSA"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PlqQ1VCd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EB585265;
-	Thu, 21 Mar 2024 21:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2766613665C
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 21:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711057854; cv=none; b=IOQHJwkzr1YWwTfNyKKMxMIrF/cw2aWQtMCKhGNYm5QFBUSZtZ5oSGVrcGZflTn185AE+omqJLtpb0DZmBETDw+DcDZGP21pzzQtPheMyCdUpYkK5oOHofIy/qVPYjefY2w10VACUUdhTAB1Rh+qIOQAE8bfSBkRWQzjK1ctOUo=
+	t=1711058003; cv=none; b=Jo5kiMcT+Pnh9au4QYzjTomOJn6qeEFhXxLLSi+/cIaNzVW3/UvqF0p2b5IPRZBVALYLBZ04rI+mAHfm9l5ZQi3lXLUluOKeF0X58sUPjfCf9skY0x7pZ7K7oxDJtiW/hsFSDwFX7xCyO0t2fT4s3jbJH08GB5IXliuPqA0gHOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711057854; c=relaxed/simple;
-	bh=J6Q5KrblvIFdFdPlNLV9Bza7Y3y5LbZwjsEH/L+x6n4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mcZJF8nd6mCXBWbOQLAgKo5ZdsoUW2QM+enXVdPnAALWgNohoYCguHAu4TOJ84QAf/aD6cf2X0HnbEkEu7DU+sGe7N7uLjhLshPmq8a+6RR3tZ459iERiy8FGcBe1MWNa2PLXTXHnoKYvMNXU6bkUu5af77gWPNDiuN7dSuAaZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NZV2QWSA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19FC22B3;
-	Thu, 21 Mar 2024 22:50:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711057822;
-	bh=J6Q5KrblvIFdFdPlNLV9Bza7Y3y5LbZwjsEH/L+x6n4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZV2QWSA4DJuLLTv9fwat9dvmvxFai2XrvzmtFlx88Hzz9xHjtVml5BcCoeo0dsuE
-	 IFVk3CBz2J9hOEe3ozAXT3XsoKIYRmOVH+qR3j37J4Yoc0M5ubpjxktVZHIFdq9wYA
-	 IIM22plX4u9Ugw73CCrWOsBv/MZFYQa2ZMqzHfDY=
-Date: Thu, 21 Mar 2024 23:50:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 1/6] media: uvcvideo: Fix negative modulus calculation
-Message-ID: <20240321215047.GA20938@pendragon.ideasonboard.com>
-References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
- <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org>
- <20240212225940.GA19316@pendragon.ideasonboard.com>
- <CANiDSCuoskaERyyzuLen+ReGHBNnOrFducbWYAvFQ6HfbUCPcg@mail.gmail.com>
- <20240219104046.GB13043@pendragon.ideasonboard.com>
- <CANiDSCsqYHModDZCi2hooDYsFgu+bN_OioBGEJQJuZgdiJO=ug@mail.gmail.com>
+	s=arc-20240116; t=1711058003; c=relaxed/simple;
+	bh=WcvvS3OEkLFjYszouDsgraWVfjBu7sarLCU390aYOas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ttivquCknxUARp+H1eGi/zgVmhBEBEx8gG7D0GwVlSkXV+SD3EEVjLjBai1UjZJGUmVY4qAC3VAwEQOqgHkIfRd8V9XaYgzmlWKcnAnvFYS5NGusYtNB/ASPEF5gqR5Qu43cjGsojC3TfRDFULB1fKWxvpEdLSxlH12pOAmiUGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PlqQ1VCd; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711057998;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U9xIbt5IRGyj4Yh6zUnaudYx8WQHO3ZjhO4k+FGux7M=;
+	b=PlqQ1VCdMmQb7CMTnF3ueOxvUYjQ2qNPWK23J+ZUf5kHQCWRjNcVhSKum6isUXV0J+FTi5
+	n/eN/oYuBh7sHBT/nWyYjuxY7t7NP5XlalCvGwwHoPYgw3boDPE9z69TpfaZgmdYBUcs5x
+	JkugC/OTPO2xUvTJTEevnUtGTAxfKcc=
+Date: Fri, 22 Mar 2024 05:53:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsqYHModDZCi2hooDYsFgu+bN_OioBGEJQJuZgdiJO=ug@mail.gmail.com>
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Ricardo,
+Hi,
 
-On Mon, Feb 19, 2024 at 04:07:12PM +0100, Ricardo Ribalda wrote:
-> On Mon, 19 Feb 2024 at 11:40, Laurent Pinchart wrote:
-> > On Mon, Feb 19, 2024 at 11:28:03AM +0100, Ricardo Ribalda wrote:
-> > > On Mon, 12 Feb 2024 at 23:59, Laurent Pinchart wrote:
-> > > > On Wed, Mar 15, 2023 at 02:30:12PM +0100, Ricardo Ribalda wrote:
-> > > > > If head is 0, last will be addressing the index 0 instead of clock->size
-> > > > > -1. Luckily clock->head is unsiged, otherwise it would be addressing
-> > > > > 0xffffffff.
-> > > >
-> > > > I'm not following you. In the expression
-> > > >
-> > > >         (clock->head - 1) % clock->size
-> > > >
-> > > > clock->head is an unsigned int, and 1 as a signed int, so the result of
-> > > > the subtraction is promoted to an unsigned int. When clock->head is 0, the expression evaluates to
-> > > >
-> > > >         0xffffffff % clock->size
-> > > >
-> > > > clock->size is a power of two (hardcoded to 32 at the moment), so the
-> > > > expression evaluates to 31, as intended.
-> > > >
-> > > > Am I missing something ?
-> > >
-> > > Take a look to: https://godbolt.org/z/xYeqTx6ba
-> > >
-> > > The expression only works because the size is a power of two. In this
-> > > set I am allowing sizes that are not powers of two.
-> >
-> > Could you then update the commit message to explain that ?
-> >
-> > I'll review the rest of the series this week.
-> Thanks
-> 
-> Will update with the following text after the review:
-> 
-> The tail of the list lives at the position before the head. This is
-> mathematically noted as
-> ```
-> (head-1)  mod size.
-> ```
-> 
-> Unfortunately C, does not have a modulus operator, but a remainder
-> operator (%).
-> The reminder operation has a different result than the modulus if
-> (head -1) is a negative number and size is not a power of two.
-> 
-> Adding size to (head-1) allows the code to run with any value of size.
 
-Could you please add
+On 2024/3/21 23:29, Maxime Ripard wrote:
+> Infoframes in KMS is usually handled by a bunch of low-level helpers
+> that require quite some boilerplate for drivers. This leads to
+> discrepancies with how drivers generate them, and which are actually
+> sent.
+>
+> Now that we have everything needed to generate them in the HDMI
+> connector state, we can generate them in our common logic so that
+> drivers can simply reuse what we precomputed.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/Kconfig                            |   1 +
+>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
+>   drivers/gpu/drm/drm_connector.c                    |  14 +
+>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+>   include/drm/drm_atomic_state_helper.h              |   8 +
+>   include/drm/drm_connector.h                        | 109 +++++++
+>   7 files changed, 483 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 16029435b750..3d3193c7aa5f 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+>   	  If in doubt, say "N".
+>   
+>   config DRM_KMS_HELPER
+>   	tristate
+>   	depends on DRM
+> +	select DRM_DISPLAY_HDMI_HELPER
 
-This does not change the current behaviour of the driver, as the size is
-always a power of two, but prepares for reworks that will change the
-size to a non power of two.
+Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
+emerged with default config.
 
-or something similar ?
 
-> > > > > Nontheless, this is not the intented behaviour and should be fixed.
-> > > > >
-> > > > > Fixes: 66847ef013cc ("[media] uvcvideo: Add UVC timestamps support")
+: drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+: drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
+: drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
+make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
 
-I think this should be dropped, the patch doesn't fix an issue, but
-prepares for further changes that add new features. I'd also like to
-update the commit message to avoid stating "Fix", to avoid this being
-picked for stable kernels automatically.
+make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
 
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_video.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > > index d4b023d4de7c..4ff4ab4471fe 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
-> > > > >               goto done;
-> > > > >
-> > > > >       first = &clock->samples[clock->head];
-> > > > > -     last = &clock->samples[(clock->head - 1) % clock->size];
-> > > > > +     last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
-> > > > >
-> > > > >       /* First step, PTS to SOF conversion. */
-> > > > >       delta_stc = buf->pts - (1UL << 31);
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:240: __sub-make] Error 2
+
+>   	help
+>   	  CRTC helpers for KMS drivers.
+>   
+>   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>           bool "Enable refcount backtrace history in the DP MST helpers"
 
 -- 
-Regards,
+Best regards,
+Sui
 
-Laurent Pinchart
 
