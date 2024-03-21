@@ -1,284 +1,201 @@
-Return-Path: <linux-media+bounces-7511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E64E885C1A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:38:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FE4885C79
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09A531F26390
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 15:38:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F4A6281547
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 15:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A972126F1C;
-	Thu, 21 Mar 2024 15:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmG7GGX2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE028625F;
+	Thu, 21 Mar 2024 15:47:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DEC12C540;
-	Thu, 21 Mar 2024 15:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A360723778;
+	Thu, 21 Mar 2024 15:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711035044; cv=none; b=IlIQrbip5Kq9PkT7xOyRz+X49MOCf3v6Oo1yNHZbfqKDhmxS0RyfSYIPwfdnj+61OXjJXf8nuy4rBBQN2ro/oug/xfYbrnAfsuq89Ep7e8+BaHdO909JVzfnuejiZj3UyfDrHNR5fV+c9B33FoLrR37oBCwK4cJ2pSaFKiv3mHY=
+	t=1711036027; cv=none; b=MKZNQXRtCB6ChqsCZOv7tVj3GdWEX2XBoZEfdlAoGybVSOOgNZ+taEIS/BlxSs4e14+GEAuSOivo+px8hytsZUhz9xE8uE4g1KS45Ru5Zk4/ZSOz37lPMbyDFh4WTK5HGNQmwPYGG6f8DLhTKpMlqmxOu+fqeIrVkIbg+2Ko+NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711035044; c=relaxed/simple;
-	bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K0bXJNsX6DKnfef2Jj/LefgAOCcUbCllsDSP0crUlG38AuzaZ9i5wGCc1Qs0tqaSYPjmOmYaPsA4JMHi0xsiI3T7eKvPackerOgdMMjJUuzFdhm+kI4SzBmq9OhetDuBZdkHG2GC6g42wtE+cmDLVJHSRzOAoApdZ9aHd91IH6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmG7GGX2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A2DC43141;
-	Thu, 21 Mar 2024 15:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711035043;
-	bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZmG7GGX2U5IClgnL/614IHFa4Vc+uz40X9fqO/LOgBkIIDzXCtOZPc3SGQkv3pGYr
-	 32hTqDhkefM6wwsVBvoHdK0XRsik2dhamU/YP2lnDxZlVW4AndYmKFrEi9/kH7TQIi
-	 JuGA2EbnZApQ5z7MGEXJ1wZ2MKC+A/TjkVh6zpFrMB8gVxlDdeqRom4V9Rk3/TgH0J
-	 TfdlCKt9+S30ZAii2qBuvhicwe1ddL8+PwcxvJ9lFrOpJYnzSN1PLjTcMytI93ZRh7
-	 xkWYJA62MK7CUCyqjyRvKsyrAz5oLN6RK4yyFxgG/X1+7qK6tDAndCsEAZ/GUKlFMt
-	 UVgpK3nKwxxSA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 21 Mar 2024 16:29:23 +0100
-Subject: [PATCH v10 27/27] drm/sun4i: hdmi: Switch to HDMI connector
+	s=arc-20240116; t=1711036027; c=relaxed/simple;
+	bh=thSvwB8rR3BM2oBG9DuRpKkR95kWQmdAazTxYk9K/a8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pmTr6xREPn5W0ciPF2w2T5nfTU0IU7jI/HSZKBET3QQvriCwQ7CkvEiSCoad4sGqLEFVF2+viXzaEj3BrrD1tmZdcmBICWoH16+D8Ejl2ncWQOpWvKMk0pJUZIR08XrQ/B8tXZi2G4wYzucJ3aXcH+RIZpDfgRHIKaqXSOfqnhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E823FC433C7;
+	Thu, 21 Mar 2024 15:47:04 +0000 (UTC)
+Message-ID: <e4b2fc02-977f-4eb6-be7a-a4493a5a3931@xs4all.nl>
+Date: Thu, 21 Mar 2024 16:47:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] media: uvcvideo: Lock video streams and queues
+ while unregistering
+Content-Language: en-US, nl
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20231122-guenter-mini-v5-0-15d8cd8ed74f@chromium.org>
+ <20231122-guenter-mini-v5-1-15d8cd8ed74f@chromium.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231122-guenter-mini-v5-1-15d8cd8ed74f@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240321-kms-hdmi-connector-state-v10-27-e6c178361898@kernel.org>
-References: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
-In-Reply-To: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7059; i=mripard@kernel.org;
- h=from:subject:message-id; bh=0BOJwsJkmVC7ISwyuAdKqvHspV8sorXf1ygF6kiUUOo=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKl/goJzX3svWJo/8XR2u0Hx5N+9nxX3+wlslBLJuTrft
- 9Xt9vfijlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEyEyZORYevuFzX/U0uP3tk/
- uXfORqbE1/FLjBNvVyp+K+z3XWnTmcbI8E2fsaGlz+eydXGbLk/cPLk1c1Mkbu+7e/PW1MSqS+H
- OvAA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+Hi Ricardo,
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+On 22/11/2023 12:45 pm, Ricardo Ribalda wrote:
+> From: Guenter Roeck <linux@roeck-us.net>
+> 
+> The call to uvc_disconnect() is not protected by any mutex.
+> This means it can and will be called while other accesses to the video
+> device are in progress. This can cause all kinds of race conditions,
+> including crashes such as the following.
+> 
+> usb 1-4: USB disconnect, device number 3
+> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> PGD 0 P4D 0
+> Oops: 0000 [#1] PREEMPT SMP PTI
+> CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> Code: <...>
+> RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> Call Trace:
+>  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+>  usb_set_interface+0x1a3/0x2b7
+>  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+>  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+>  uvc_start_streaming+0x28/0x5d [uvcvideo]
+>  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+>  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+>  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+>  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+>  __video_do_ioctl+0x33d/0x42a
+>  video_usercopy+0x34e/0x5ff
+>  ? video_ioctl2+0x16/0x16
+>  v4l2_ioctl+0x46/0x53
+>  do_vfs_ioctl+0x50a/0x76f
+>  ksys_ioctl+0x58/0x83
+>  __x64_sys_ioctl+0x1a/0x1e
+>  do_syscall_64+0x54/0xde
+> 
+> usb_set_interface() should not be called after the USB device has been
+> unregistered. However, in the above case the disconnect happened after
+> v4l2_ioctl() was called, but before the call to usb_ifnum_to_if().
+> 
+> Acquire various mutexes in uvc_unregister_video() to fix the majority
+> (maybe all) of the observed race conditions.
+> 
+> The uvc_device lock prevents races against suspend and resume calls
+> and the poll function.
+> 
+> The uvc_streaming lock prevents races against stream related functions;
+> for the most part, those are ioctls. This lock also requires other
+> functions using this lock to check if a video device is still registered
+> after acquiring it. For example, it was observed that the video device
+> was already unregistered by the time the stream lock was acquired in
+> uvc_ioctl_streamon().
+> 
+> The uvc_queue lock prevents races against queue functions, Most of
+> those are already protected by the uvc_streaming lock, but some
+> are called directly. This is done as added protection; an actual race
+> was not (yet) observed.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Reviewed-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 08fcd2ffa727..ded2cb6ce14f 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1907,14 +1907,22 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  {
+>  	struct uvc_streaming *stream;
+>  
+> +	mutex_lock(&dev->lock);
+> +
+>  	list_for_each_entry(stream, &dev->streams, list) {
+>  		if (!video_is_registered(&stream->vdev))
+>  			continue;
+>  
+> +		mutex_lock(&stream->mutex);
+> +		mutex_lock(&stream->queue.mutex);
+> +
+>  		video_unregister_device(&stream->vdev);
+>  		video_unregister_device(&stream->meta.vdev);
+>  
+>  		uvc_debugfs_cleanup_stream(stream);
+> +
+> +		mutex_unlock(&stream->queue.mutex);
+> +		mutex_unlock(&stream->mutex);
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2d1880c61b50..7ac085aa0a35 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -35,34 +35,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -81,18 +75,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -141,11 +139,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -194,23 +193,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -252,10 +254,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -273,15 +280,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -636,14 +649,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+Part of the problem here is that video_unregister_device does not stop streaming.
 
--- 
-2.44.0
+For 'normal' drivers that leave most of the locking to the core framework and
+that use the standard vb2_fop_* and vb2_ioctl_* helpers, instead of calling
+video_unregister_device, they call vb2_video_unregister_device(). This will
+safely unregister the device and stop streaming at the same time.
+
+Since after the device is unregistered the only file operation that is accepted
+is close(), it will be impossible to restart streaming.
+
+In other words, this guarantees that when the disconnect function exits there
+is nothing streaming anymore.
+
+This makes it much easier to deal with disconnects, and I think this should
+happen here as well. I wonder if this will obsolete patch 3/3 and perhaps
+2/3.
+
+I don't think taking the queue.mutex is needed, especially if you stop
+streaming here.
+
+Regards,
+
+	Hans
+
+>  	}
+>  
+>  	uvc_status_unregister(dev);
+> @@ -1925,6 +1933,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  	if (media_devnode_is_registered(dev->mdev.devnode))
+>  		media_device_unregister(&dev->mdev);
+>  #endif
+> +	mutex_unlock(&dev->lock);
+>  }
+>  
+>  int uvc_register_video_device(struct uvc_device *dev,
+> 
 
 
