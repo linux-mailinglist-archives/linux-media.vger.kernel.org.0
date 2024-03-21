@@ -1,138 +1,123 @@
-Return-Path: <linux-media+bounces-7550-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D588862C1
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00986886345
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 23:26:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE6201F2169E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 21:53:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93B741F233FC
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 804E013666D;
-	Thu, 21 Mar 2024 21:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBB1136991;
+	Thu, 21 Mar 2024 22:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PlqQ1VCd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhRjKsFj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2766613665C
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 21:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322B513791A;
+	Thu, 21 Mar 2024 22:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711058003; cv=none; b=Jo5kiMcT+Pnh9au4QYzjTomOJn6qeEFhXxLLSi+/cIaNzVW3/UvqF0p2b5IPRZBVALYLBZ04rI+mAHfm9l5ZQi3lXLUluOKeF0X58sUPjfCf9skY0x7pZ7K7oxDJtiW/hsFSDwFX7xCyO0t2fT4s3jbJH08GB5IXliuPqA0gHOk=
+	t=1711059931; cv=none; b=oqqzY2nAD7FYUA+Pl3U/q9Rhw6QBM2Gqyx/6HtcxFz7t6jlFM84UhQ3xpT/ZZUs3Kb3M7YF092138/VfqraMDbu1i8h44r0f0y003FOwGONmrT7rNrcnIoy7Fe/XSSkwlg6Jy5MoWEnlFJY9u4tp4bydH0Jlsnsk9cPj31H90c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711058003; c=relaxed/simple;
-	bh=WcvvS3OEkLFjYszouDsgraWVfjBu7sarLCU390aYOas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ttivquCknxUARp+H1eGi/zgVmhBEBEx8gG7D0GwVlSkXV+SD3EEVjLjBai1UjZJGUmVY4qAC3VAwEQOqgHkIfRd8V9XaYgzmlWKcnAnvFYS5NGusYtNB/ASPEF5gqR5Qu43cjGsojC3TfRDFULB1fKWxvpEdLSxlH12pOAmiUGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PlqQ1VCd; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711057998;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U9xIbt5IRGyj4Yh6zUnaudYx8WQHO3ZjhO4k+FGux7M=;
-	b=PlqQ1VCdMmQb7CMTnF3ueOxvUYjQ2qNPWK23J+ZUf5kHQCWRjNcVhSKum6isUXV0J+FTi5
-	n/eN/oYuBh7sHBT/nWyYjuxY7t7NP5XlalCvGwwHoPYgw3boDPE9z69TpfaZgmdYBUcs5x
-	JkugC/OTPO2xUvTJTEevnUtGTAxfKcc=
-Date: Fri, 22 Mar 2024 05:53:07 +0800
+	s=arc-20240116; t=1711059931; c=relaxed/simple;
+	bh=KV1cqdEWouuF9AZNPJszbFGwtds7bB206s9mEHm38IY=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=k8YkGFUKBCC0BeIxwy9Du6cbpVAawpB0ADU4w5LYcDupoY0BkBQ9feOx6GuDXiyooC1iQOL066R329RaF4voZUSPQXnSP12w0S2M37HR7etZKMW47KHXb4fLV4fbolvVFLVpybMd0BMZblZDLREC/ZEr9bhej25z93gzOC01P6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhRjKsFj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB606C433C7;
+	Thu, 21 Mar 2024 22:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711059931;
+	bh=KV1cqdEWouuF9AZNPJszbFGwtds7bB206s9mEHm38IY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=lhRjKsFjoMXVNpayNroILS0ygmnonPsjJ3uvr2+RVILA/g48y/YGCQrtQiMiMMj6e
+	 kF/UT1WFAZUL41Jt3DvwiDMM7Vc37F5y04cBhGYI7DUoLJH5aeFdFmDYcp+DgQzZXQ
+	 +jbySrQHsxnpT+M5T3jGxKjtWh/ouwD6lb0B09ZbiPm+bsRxZUprOq/Fe+PaKEeq6G
+	 usSTwEn0klpCUepXRR8YvBDEXGEtQXGKMinN3GEdgrzho7UevbflmAviDtQZCKxREe
+	 FfPPrrXcoT3+WiNxJnbbmSh45+FQGTl/Cq6jDy4vBMFe76rnAGuIyioJwiy3xG5qGq
+	 whLWO4I6Tw29A==
+Date: Thu, 21 Mar 2024 17:25:29 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-
-Hi,
+From: Rob Herring <robh@kernel.org>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Michal Simek <michal.simek@amd.com>, Rob Herring <robh+dt@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ linux-media@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>, 
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+Message-Id: <171105992875.3043233.18321806946234735413.robh@kernel.org>
+Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
 
 
-On 2024/3/21 23:29, Maxime Ripard wrote:
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
->
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Thu, 21 Mar 2024 13:43:46 -0700, Anatoliy Klymenko wrote:
+> DO NOT MERGE. REFERENCE ONLY.
+> 
+> Add binding for AMD/Xilinx Video Timing Controller and Test Pattern
+> Generator.
+> 
+> Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node.
+> 
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 > ---
->   drivers/gpu/drm/Kconfig                            |   1 +
->   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
->   drivers/gpu/drm/drm_connector.c                    |  14 +
->   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->   include/drm/drm_atomic_state_helper.h              |   8 +
->   include/drm/drm_connector.h                        | 109 +++++++
->   7 files changed, 483 insertions(+)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 16029435b750..3d3193c7aa5f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->   	  If in doubt, say "N".
->   
->   config DRM_KMS_HELPER
->   	tristate
->   	depends on DRM
-> +	select DRM_DISPLAY_HDMI_HELPER
+>  .../bindings/display/xlnx/xlnx,v-tpg.yaml          |  87 ++++++++++
+>  .../devicetree/bindings/display/xlnx/xlnx,vtc.yaml |  65 ++++++++
+>  include/dt-bindings/media/media-bus-format.h       | 177 +++++++++++++++++++++
+>  3 files changed, 329 insertions(+)
+> 
 
-Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
-emerged with default config.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:35:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:45:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
+./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:49:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
 
-: drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
-drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
-: drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
-: drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
-make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: bus-format: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: xlnx,bridge: missing type definition
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml: xlnx,pixels-per-clock: missing type definition
 
-make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
+doc reference errors (make refcheckdocs):
 
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:240: __sub-make] Error 2
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com
 
->   	help
->   	  CRTC helpers for KMS drivers.
->   
->   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->           bool "Enable refcount backtrace history in the DP MST helpers"
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
--- 
-Best regards,
-Sui
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
