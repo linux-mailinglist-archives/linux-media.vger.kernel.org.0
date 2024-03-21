@@ -1,94 +1,116 @@
-Return-Path: <linux-media+bounces-7452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D828855D5
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348C1885603
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:48:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57066281B97
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:35:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E476528224C
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:48:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF49C14275;
-	Thu, 21 Mar 2024 08:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="1ZrnHCJ7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4F82837E;
+	Thu, 21 Mar 2024 08:48:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9246CC2E6;
-	Thu, 21 Mar 2024 08:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718851BDE5;
+	Thu, 21 Mar 2024 08:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711010125; cv=none; b=EBRGSrVids14V0lgD2WRu8X3HJKKYbqb8pUWOBpeLf7Zb4anM3xEE06YGB6bXGNjmL5j/8kGjgtwEMDMjEnGButWgZAKUqW4LLlbtciS5sruftlyJWOXk+6bioIzbVxuRuy1oJJhV4NX3zwDF6E3/mmwcBb4ajW2SZ8rws35dhE=
+	t=1711010883; cv=none; b=eOCWhAaLK5hLHo9Vzi7IWUDF7LJS27dsRFICrlCyGzN14GZUj5LIjJyD6t0sBpmvGft1PFWfEULtaMcs3v+bPbh3sCHiRTsrt4U71AJy+7mDYOLIOTL6P++9S/dfPbrLlPTnMBSTibJ3X4dwsbxs4XlONJMA1WKXKWuq6KHPq6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711010125; c=relaxed/simple;
-	bh=IIW6SQQLgLtDClFTOxTHaTcvrjEa+NJrpFMbCdwEEwk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PxBvvCU83LJ2QqWhDM8KkQKdTnGgCW3A90spFCHfPI4t5hAHmn/130QbqLYgjvO1bUYA6bso5D1jCP/U6r8E7vr8xwoPFqD38ZPQ5hdYo1yF7VkHETnaNrmBBUqHb0fFR8jF02LeIRpDUiBZ0I8vRu/t5kkg+tPxp+73397cYk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=1ZrnHCJ7; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711010121;
-	bh=IIW6SQQLgLtDClFTOxTHaTcvrjEa+NJrpFMbCdwEEwk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=1ZrnHCJ766YQlCIASvqysbAjbHcfbkuX1Qdhm6mI6cy5OiUasCwAjTlU3RdY65h9K
-	 R7FTO3MyniSsnvZrxjet1GyCus0KoAdGFKy8l/I316cO8yzgWhnT0XWU5NQcDNOIqx
-	 hbvO9QMctus6Nf+qDQkREb6mxp2YXPnb4c7eT5C1esd1SXQ8OdTJoAFkQ9ErSZK4qF
-	 vtM1V+UClNRJm0Fuv+z7tLvXxKbhgrzuOy7ARD/SLyBWBQvDm0RC8zPITxzIKnvWu7
-	 6IkkNp6UrqKpmOtdvq9A6gzXGRNPLuc3kKBxQsSkFPNgv5qZAmhqoR4l24z81r51yj
-	 jW4hK58giEUNA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E57B53780BFE;
-	Thu, 21 Mar 2024 08:35:20 +0000 (UTC)
-Message-ID: <87800bcf-564b-4a8d-a866-3dba0ead6190@collabora.com>
-Date: Thu, 21 Mar 2024 09:35:20 +0100
+	s=arc-20240116; t=1711010883; c=relaxed/simple;
+	bh=jC7DMV4s7D8STLTAJFfyaKYItQwdwJmIzld+olmPC1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rb8ffiSZaUbBXUfWkAPzwMjhidgbCwlK0lezxnfX9ID8aR5KdSZG1CDtz4i2I3mVHRapkUZp1wzcflmx0yOrlxtfW5qcmhpXczeMUzwf91Za9UjLfMEgreSehY1zo6/WuL3UW8SeduSZDLBkOeL3z8ScW230fOsvkpHbq71PzvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a9e.versanet.de ([83.135.90.158] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rnE5N-0007Gb-C8; Thu, 21 Mar 2024 09:47:41 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Chris Morgan <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev
+Subject:
+ Re: [PATCH 2/4] media: dt-binding: media: Document
+ =?UTF-8?B?cmszNTg44oCZcw==?= vepu121
+Date: Thu, 21 Mar 2024 09:47:39 +0100
+Message-ID: <855507987.0ifERbkFSE@diego>
+In-Reply-To: <4c05d3c0-aa79-4ce0-918c-7d0967ace520@linaro.org>
+References:
+ <20240320173736.2720778-1-linkmauve@linkmauve.fr>
+ <20240320173736.2720778-3-linkmauve@linkmauve.fr>
+ <4c05d3c0-aa79-4ce0-918c-7d0967ace520@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: mediatek: vcodec: Handle invalid decoder vsi
-Content-Language: en-US
-To: Irui Wang <irui.wang@mediatek.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, nicolas.dufresne@collabora.com,
- sebastian.fricke@collabora.com
-Cc: Longfei Wang <longfei.wang@mediatek.com>,
- Maoguang Meng <maoguang.meng@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240321014754.6540-1-irui.wang@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240321014754.6540-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Il 21/03/24 02:47, Irui Wang ha scritto:
-> Handle invalid decoder vsi in vpu_dec_init to ensure the decoder vsi is
-> valid for future use.
-> 
-> Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
-> 
+Am Donnerstag, 21. M=E4rz 2024, 09:14:51 CET schrieb Krzysztof Kozlowski:
+> On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
+> > This encoder-only device is present four times on this SoC, and should
+> > support everything the rk3568 vepu supports (so JPEG, H.264 and VP8
+> > encoding).
+> >=20
+> > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+> > ---
+> >  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml          | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-ve=
+pu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> > index 9d90d8d0565a..947ad699cc5e 100644
+> > --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> > +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> > @@ -17,6 +17,7 @@ properties:
+> >    compatible:
+> >      enum:
+> >        - rockchip,rk3568-vepu
+> > +      - rockchip,rk3588-vepu121
+>=20
+> What is 121?
 
-There shouldn't be extra lines between Fixes: and S-o-b: tags, but I guess this
-can be fixed while applying the patch.
+That is the strange naming of the ip block inside the soc.
 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+I.e. the rk3588 TRM lists a number of different video encoders and decoders:
+=2D VDPU121 is decoding h.263 and mpeg1,2,4
+=2D VDPU381 is decoding h.265, h.264 and some more
+=2D VDPU720 is decoding jpeg
+=2D VDPU981 decodes AV1
+=2D VEPU121 is the jpeg encoder above
+=2D VEPU580 encodes h.264 and h.265
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Each of those are separate IP blocks with their own io-memory, their own
+interrupts and their own iommus, etc.
+
+
+Heiko
 
 
 
