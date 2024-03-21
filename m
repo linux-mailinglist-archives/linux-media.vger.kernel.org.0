@@ -1,130 +1,112 @@
-Return-Path: <linux-media+bounces-7461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E6A8857BB
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:03:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0167D8857D6
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:13:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 450D21C22503
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:03:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 944581F211E4
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:13:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BE757884;
-	Thu, 21 Mar 2024 11:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6803C5812A;
+	Thu, 21 Mar 2024 11:12:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PX3tBLGT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UrV3KXCb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC5954FB7;
-	Thu, 21 Mar 2024 11:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAA857311;
+	Thu, 21 Mar 2024 11:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711019007; cv=none; b=VJd7lO5zrdepwD+BimCyquN4NsGfZwM7Kp/KffiGAPbDHYvaO2UVUFYqWKLQcdnDh8QwvIC6Rkk+lAFL/3tyi49a8NCT4JbXoJ/lU1+qF0vCSE79kbx8eHnsoUSC8E1CiWFwJepTg7oxtRmyV8DRSCKZZQatP74ttUn1eq7fO1M=
+	t=1711019576; cv=none; b=bjwt9goHlpGc95U+y+TMIDncvTQ2fcP8e0uH9yTPkEWSMV7WUnnMmjYaPrkxdS02cBQJLQqge5mbCN7vLPzjrOz25KZUoxxIS3zw7O+2obed+Bjg7CFKO6FEs/0y8cTuw24N0FlfFEE3c2WeaFCTD5nKOMBZdTESDcnbtacPMMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711019007; c=relaxed/simple;
-	bh=9wK2K43cRuiqRx7FuDm4G45EzjSKz7jVZM0dDOD9C9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xs9mmmxBeJTm1HRbjvRcK+MDlT/FZTpmhiRHKbKUcZ9IpkcWeX/y2S5FNjef0h7MXpJFUzbknyQWY9EdBrEDY4W7JkR7XQsquj4VTz8N0nHAcYH0mrvKBi3yogAteto/Nfl/rTU5ZRRPS6+YXRW+rX+sHLVGqR7yKJoIpCGPkFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PX3tBLGT; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d21cdbc85bso13599391fa.2;
-        Thu, 21 Mar 2024 04:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711019004; x=1711623804; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZT0UhNpGDPoNyLRvJypE7r2h5AAoACQ2X91BMbmvyVM=;
-        b=PX3tBLGTTRpfQcxWnnLWbOw10v9aHKFjVGRcjeds9JEkFZG7/o2gHwczoQueYdxI5m
-         3h9EXhwJNZFW3D4TfvuXYqkLoYxf0DWGiOqZZn3lpO+ebikBdL1VsV3Ka2rSiq1ksozQ
-         M5lPOMWp4Cq1ozgixLMR1xnIrFU1zl0q5QfPjJX0TD5tcQlaK1tFMqtdSWxWj8+ObZuJ
-         jyIf9iC4viITucFbpSzo4wASuW2+eM2xUbN0an74XrSjwC9cLLNnJkGiuLW1UBOtoE1N
-         wY3i6bGLj3XmNCmvdsndY/nan10KEXF3/bJbchxkkuPcJO51tICQqAPPu/NHo3MLNDCE
-         x+lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711019004; x=1711623804;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZT0UhNpGDPoNyLRvJypE7r2h5AAoACQ2X91BMbmvyVM=;
-        b=AMA7G+k4tvBNeT24ls2ftR6T0+ykJlbhUTVaP664bDAZmb6BspOOMIkKPNWQ0sTFFu
-         SX0LpO/hwdH4xJxLhZkK1lI2UxdUkxE66mjXgWkiil6hkbcDsAdzE+RBlhyL9YqPUq82
-         ZRe3SqmZDzQm3QvMC6tg/0kZsGmq1QExNZGh3ZSk66hKV9rcfs9K4JJpU7JUpdy5pWzp
-         4BaWphh8oMZ/xgFPZGdScST4c+6Va1sSCSlLFNDY6P/lQgVHU5XOM8a030ZPP4PfIWvX
-         UvQIt9Nq3HSzqYffBCCAx0trM/PLWdVgHTkykc4ndZpTfGv2aLijgROzTqFjKvy7lh2h
-         672A==
-X-Forwarded-Encrypted: i=1; AJvYcCU1XjWBT8kZpulnXl804e6YDMT0WExWojuIYjaZmaeb5HiXIRW7ixJJeof19+Cigsc0n6Z0L4flgtUWv+Pd6OZikKqpZZgys1sLx8D2haK7Gh8mKqpnLApE2kuH4oeHtbIOOb5qL99qzCFqx/lsDeBa5j73foj5e/8cd+Lw8/UWVct8FBuH
-X-Gm-Message-State: AOJu0YwTNAPrOB/7B/0n6t0R2KXyGfDa+WrN7LAnuqQHUaK6K5TiZLwn
-	x+HK1FH9GTAu4Y2QuXo8XtwyAA/0IIcsZy2x6ku7RlIkWSEomNLC
-X-Google-Smtp-Source: AGHT+IFBAAv1s69tHA7UUCCGycmG2dMXcvO3vaRNPikbG0TYdCU7n7qeQNQs6HEN36YcV+g/bPFlCw==
-X-Received: by 2002:a2e:a274:0:b0:2d3:1bd0:6bcf with SMTP id k20-20020a2ea274000000b002d31bd06bcfmr2790438ljm.8.1711019003547;
-        Thu, 21 Mar 2024 04:03:23 -0700 (PDT)
-Received: from localhost.localdomain ([178.70.43.28])
-        by smtp.gmail.com with ESMTPSA id z7-20020a2e8e87000000b002d434d11402sm2390630ljk.15.2024.03.21.04.03.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Mar 2024 04:03:23 -0700 (PDT)
-Date: Thu, 21 Mar 2024 14:03:21 +0300
-From: Ivan Bornyakov <brnkv.i1@gmail.com>
-To: Nas Chung <nas.chung@chipsnmedia.com>
-Cc: Brandon Brnich <b-brnich@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: Re: RE: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
-Message-ID: <i6m7svnr6zutg57leeamepj67ajgddwe2phs6rluyozeg3m37p@jfkrlqss26rz>
-References: <20240318144225.30835-1-brnkv.i1@gmail.com>
- <20240318144225.30835-6-brnkv.i1@gmail.com>
- <SL2P216MB1246F7FA7E95896AA2409C90FB2C2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <hpqhbksvyfbqjumopk2k2drxri2ycb6j2dbdo74cfymcd7blgx@kzomazfosfwg>
- <20240319210106.awn33cm7ex33g65b@udba0500997>
- <SL2P216MB12468C7256CE2468EE088E7CFB322@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
+	s=arc-20240116; t=1711019576; c=relaxed/simple;
+	bh=Y1vEpjXP+hUSiO75YanMSSda5LJPJ5/Uc3Fh6hMJB3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lAKzFF8EdZlYtlGsv/9MQwBd/kIn05dbdPpZhNs8KcTIBGWcjSGLm7wf62fr1MFH3TA+KNjNsT4vme8qGcS5OAtvrhBtCcN6+evZPCTV8hVpOL/vkny4wTGKfHEjejnGROAvy9F5r/Dwr7fsXc1VjevofAwzgMRPHetWmUEECX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UrV3KXCb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from umang.jain (unknown [103.86.18.138])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38DAA7E9;
+	Thu, 21 Mar 2024 12:12:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711019545;
+	bh=Y1vEpjXP+hUSiO75YanMSSda5LJPJ5/Uc3Fh6hMJB3o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UrV3KXCbceAkCKZa88ecK4iAyv7+O9XsMURdZ9UwMQtyXgLmKaGBzwTIUy+Bu3G8N
+	 v/GOwNpCak/bMAwk6yr8YUea/ANzV7YDIXSnB3DjZThiu0YUH6RdAHr1iFpGiRcI8r
+	 +EVXLV+Ak2lAmjKW7+olf1EHaBXsWtHf7Pb55Dyw=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v3 0/6] media: imx335: 2/4 lane ops and improvements
+Date: Thu, 21 Mar 2024 16:42:33 +0530
+Message-ID: <20240321111239.808735-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 21, 2024 at 01:52:03PM +0300, Ivan Bornyakov wrote:
-> Hi!
-> 
-> To sum up, there is 2 favourable approaches:
-> 
-> 1) to have dedicated SRAM partition for Wave5 VPU as suggested in this
-> patchset. In this approach SoC vendor can setup address range of said
-> partition to their needs, but other devices won't be able to use SRAM
-> memory reserved for Wave5 VPU, unless other device's SRAM memory needs
-> don't exceed the size of reserved partition.
-> 
-> Therefore it is sensible to substitute alloc/free on open/close with
-> alloc/free on open/close.
-> 
-> Advantages: driver code is simpler, no need for platform-specific defines
-> or DT properties. Wave5 is guaranteed to get SRAM memory.
-> 
-> Disadvantage: waste of SRAM memory while VPU is not in use
-> 
-> 2) allocate all available SRAM memory on open (free on close) from the
-> common SRAM pool, but limit maximum amount with SoC-specific define.
-> 
-> Advantage: less memory waste
-> 
-> Disadvantages: still need SoC-specific define or DT property, not much
-> differ from current state. Wave5 is not guaranteed to get SRAM memory.
-> 
-> Which of these approaches would be preferable?
-> 
+(Re-sending as previous time, I forgot to CC linux-media@, no wonder
+I didn't receive any feedback on this series).
 
-Personaly I would say, let's stick with simpler code while there are not
-too much mainline users. When someone runs into SRAM insufficiency
-because of Wave5 VPU driver, their patches will be welcomed :)
+Another batch of improvements of the imx335 driver.
+
+Patch 1/6 adds support for 2 or 4 lane operation modes.
+
+Patch 2/6 call the V4L2 fwnode device parser to handle controls that are
+standardised by the framework.
+
+Patch 3/6 introduces the use of CCI for registers access.
+
+Patch 4/5 uses decimal values for sizes registers (instead of
+hexadecimal). This improves overall readability
+
+Patch 5/6 fixes the height value discrepency. Accessible height is 1944,
+as per the data sheet in all-pixel scan mode.
+
+Patch 6/6 fixes the max analogue gain value.
+
+changes in v3:
+- fix patch 2/6 where we need to free ctrl handler
+  on error path.
+
+changes in v2:
+- New patch 4/6
+- Drop calculating the pixel clock from link freq.
+- CCI register address sort (incremental)
+- Fix cci_write for REG_HOLD handling and add a comment.
+- Remove  unused macros as part of 3/6
+
+Kieran Bingham (2):
+  media: imx335: Support 2 or 4 lane operation modes
+  media: imx335: Parse fwnode properties
+
+Umang Jain (4):
+  media: imx335: Use V4L2 CCI for accessing sensor registers
+  media: imx335: Use integer values for size registers
+  media: imx335: Fix active area height discrepency
+  media: imx335: Limit analogue gain value
+
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/imx335.c | 646 ++++++++++++++++++-------------------
+ 2 files changed, 310 insertions(+), 337 deletions(-)
+
+
+base-commit: 54ee11761885407056f4ca60309739e2db6b02dc
+-- 
+2.43.0
+
 
