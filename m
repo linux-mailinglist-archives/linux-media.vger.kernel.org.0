@@ -1,60 +1,64 @@
-Return-Path: <linux-media+bounces-7529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70CB885F6E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 18:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28869885F96
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 18:21:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56645282A62
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:16:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D13AC283ACF
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9AF224D7;
-	Thu, 21 Mar 2024 17:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C71828592D;
+	Thu, 21 Mar 2024 17:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iTzqPRxE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cwLrzB3g"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B5079C3
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 17:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879F58BE7
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 17:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711041375; cv=none; b=DpJey1hN/VjaLP0dURLURiQaRxmMMOamdxac5Dh01FRZMHfTjTMwYyUsBDvFFJVwiRrx1itXudUhS39xm5VNxD0lFDvTWmOUk4pZZCUARyxmGu6mwc7W2BOHJ/t261gSuc24+aVGxfffCmAJ655or19KcjHxG+jQSJzeGjiOjtc=
+	t=1711041639; cv=none; b=sM1j5uFi4ZnC8c5c3kXjuvKRyKPwAnbGb9hhBL+UpuIh4jqX9LfSkMTtgEPcn5QLecLgCGBtR8d39GxfuLruteg3koGwrkzVF4zBZ3E4sRs5F5vY+xzJZXzLJQQCruz8poRrG2pebvoS8md1RIUp0B0GUKxEljRx8vdZvFswzB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711041375; c=relaxed/simple;
-	bh=8wYkdg5QkQmFCw7qnKwH3Izob3IGSa5fgdhSH76mm98=;
+	s=arc-20240116; t=1711041639; c=relaxed/simple;
+	bh=FoLiPLs9lB+1ikhSZC2UIyAkMOIYjXvb7NSyBawBCnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tIVM/iZsVD9J22IdE15XvArGOP6ykjRA+B1DG2z5u1m4gp8v8dmXaxRhn/HQHL7CD65TNFzhCzzPsSDpYw8dAUQMwT/QelzgQW4RFxs7vjCCsg+9QX+VOyjkegbywSjNYPMl4064kvVLr6fogM1zl1UJjGHmQFE/yN+hvGc8ZgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iTzqPRxE; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=qDDYyhMS5J0WoaBSGi1nldzwILYshtbxl44bWVwgi7Egl8LPkWdQv3EVt1oFJUGbigSKMsHmnjFkZ7kqIoho55B17ey5iDmzMqf1JXt9ikNMexTh/bP4Tdmle77fvBfCPt29zn1GqaBv0tj2NofvwiAOe7+vZzSnvmErtgQHtuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cwLrzB3g; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 329412B3;
-	Thu, 21 Mar 2024 18:15:43 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 652AC2B3;
+	Thu, 21 Mar 2024 18:20:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711041343;
-	bh=8wYkdg5QkQmFCw7qnKwH3Izob3IGSa5fgdhSH76mm98=;
+	s=mail; t=1711041607;
+	bh=FoLiPLs9lB+1ikhSZC2UIyAkMOIYjXvb7NSyBawBCnY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iTzqPRxE+Nuj3DO19rYwMZxtGHHdDBciVG48+KNuph/Nmtf2PcwKaC/m2fCXD5R/s
-	 9RtcvsjwqVDeiqP6lz0bXAFQCSUgic1HaUTwI0gi4J8GvswYyG+PqHOrQgyAOys9lw
-	 WtEKKhc/2MlU8hRBzOmjjAwHBoqRHaOeljCLbS9c=
-Date: Thu, 21 Mar 2024 19:16:08 +0200
+	b=cwLrzB3gCruZx8TLmDrCpLx94hz10o1z7mFWkc240IKWF3TtK2gTEOniUHYLuo2Jb
+	 m5WbJSaCOB3zXBjuuaT9DryVUpwBVhhqfaF3Y7v2o0gAqkoRIVIKyGMAVvlmzc0/1N
+	 pp3heu2ZrcLCYPYYzGewLl2PNJgeO8enMI7rP5cU=
+Date: Thu, 21 Mar 2024 19:20:32 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, bingbu.cao@intel.com,
+	hongju.wang@intel.com, hverkuil@xs4all.nl,
 	Andrey Konovalov <andrey.konovalov@linaro.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 35/38] media: ov2740: Add support for embedded data
-Message-ID: <20240321171608.GL9582@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v8 01/38] media: mc: Add INTERNAL pad flag
+Message-ID: <20240321172032.GM9582@pendragon.ideasonboard.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-36-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-2-sakari.ailus@linux.intel.com>
+ <86a51397-d0a9-4875-a3e8-fb4526b340f4@ideasonboard.com>
+ <20240319221707.GD8501@pendragon.ideasonboard.com>
+ <ZfqVB3dagHQXcoRx@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,294 +67,178 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240313072516.241106-36-sakari.ailus@linux.intel.com>
+In-Reply-To: <ZfqVB3dagHQXcoRx@kekkonen.localdomain>
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Wed, Mar 13, 2024 at 09:25:13AM +0200, Sakari Ailus wrote:
-> Add support for embedded data. This introduces two internal pads for pixel
-> and embedded data streams. As the driver supports a single mode only,
-> there's no need for backward compatibility in mode selection.
+On Wed, Mar 20, 2024 at 07:49:27AM +0000, Sakari Ailus wrote:
+> On Wed, Mar 20, 2024 at 12:17:07AM +0200, Laurent Pinchart wrote:
+> > On Thu, Mar 14, 2024 at 09:17:08AM +0200, Tomi Valkeinen wrote:
+> > > On 13/03/2024 09:24, Sakari Ailus wrote:
+> > > > Internal source pads will be used as routing endpoints in V4L2
+> > > > [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+> > > > Internal source pads are pads that have both SINK and INTERNAL flags set.
+> > > > 
+> > > > Also prevent creating links to pads that have been flagged as internal and
+> > > > initialising SOURCE pads with INTERNAL flag set.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >   .../userspace-api/media/mediactl/media-types.rst       |  8 ++++++++
+> > > >   drivers/media/mc/mc-entity.c                           | 10 ++++++++--
+> > > >   include/uapi/linux/media.h                             |  1 +
+> > > >   3 files changed, 17 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > index 6332e8395263..f55ef055bcf8 100644
+> > > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+> > > >   .. _MEDIA-PAD-FL-SINK:
+> > > >   .. _MEDIA-PAD-FL-SOURCE:
+> > > >   .. _MEDIA-PAD-FL-MUST-CONNECT:
+> > > > +.. _MEDIA-PAD-FL-INTERNAL:
+> > > >   
+> > > >   .. flat-table:: Media pad flags
+> > > >       :header-rows:  0
+> > > > @@ -381,6 +382,13 @@ Types and flags used to represent the media graph elements
+> > > >   	  enabled links even when this flag isn't set; the absence of the flag
+> > > >   	  doesn't imply there is none.
+> > > >   
+> > > > +    *  -  ``MEDIA_PAD_FL_INTERNAL``
+> > > > +       -  The internal flag indicates an internal pad that has no external
+> > > > +	  connections. Such a pad shall not be connected with a link.
+> > 
+> > I would expand this slightly, as it's the only source of documentation
+> > regarding internal pads.
 > 
-> The embedded data is configured to be placed before the image data whereas
-> after the image data is the default.
+> Patch 9 adds more documentation, this patch is for MC only.
+
+That's my point, it's the only source of documentation for internal
+pads from an MC point of view, so expanding the documentation would be
+good :-)
+
+> > 
+> >        -  The internal flag indicates an internal pad that has no external
+> > 	  connections. This can be used to model, for instance, the pixel array
+> > 	  internal to an image sensor. As they are internal to entities,
+> > 	  internal pads shall not be connected with links.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 150 +++++++++++++++++++++++++++++++++----
->  1 file changed, 137 insertions(+), 13 deletions(-)
+> I'd drop the sentence related to sensors.
+
+I'm fine with another example, or a more generic explanation, but with
+that sentence dropped, I think this will leave the reader wondering what
+an internal pad is and what it's used for.
+
+> > > > +
+> > > > +	  The internal flag may currently be present only in a source pad where
+> > > 
+> > > s/source/sink/
+> > > 
+> > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > +	  it indicates that the :ref:``stream <media-glossary-stream>``
+> > > > +	  originates from within the entity.
+> > > >   
+> > > >   One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+> > > >   must be set for every pad.
+> > > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > > > index 0e28b9a7936e..1973e9e1013e 100644
+> > > > --- a/drivers/media/mc/mc-entity.c
+> > > > +++ b/drivers/media/mc/mc-entity.c
+> > > > @@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> > > >   		iter->index = i++;
+> > > >   
+> > > >   		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > > > -					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> > > > +					     MEDIA_PAD_FL_SOURCE)) != 1 ||
+> > > > +		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
+> > > > +		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
+> > > >   			ret = -EINVAL;
+> > > >   			break;
+> > > >   		}
+> > 
+> > This may become more readable written as a switch statement:
+> > 
+> > 		const u32 pad_flags_mask = MEDIA_PAD_FL_SINK |
+> > 					   MEDIA_PAD_FL_SOURCE |
+> > 					   MEDIA_PAD_FL_INTERNAL;
+> > 
+> > 		switch (iter->flags & pad_flags_mask) {
+> > 		case MEDIA_PAD_FL_SINK:
+> > 		case MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL:
+> > 		case MEDIA_PAD_FL_SOURCE:
+> > 			break;
+> > 
+> > 		default:
+> > 			ret = -EINVAL;
+> > 			break;
+> > 		}
+> > 
+> > 		if (ret)
+> > 			break;
+> > 
+> > And now that I've written this, I'm not too sure anymore :-) Another
+> > option would be
+> > 
+> > 
+> > 	const u32 pad_flags = iter->flags & (MEDIA_PAD_FL_SINK |
+> > 					     MEDIA_PAD_FL_SOURCE |
+> > 					     MEDIA_PAD_FL_INTERNAL);
+> > 
+> > 	if (pad_flags != MEDIA_PAD_FL_SINK &&
+> > 	    pad_flags != MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL
+> > 	    pad_flags != MEDIA_PAD_FL_SOURCE) {
+> > 		ret = -EINVAL;
+> > 		break;
+> > 	}
+> > 
+> > Up to you.
 > 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index df57f0096e98..7488b2535071 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -11,6 +11,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/nvmem-provider.h>
->  #include <linux/regmap.h>
-> +#include <media/mipi-csi2.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -71,11 +72,31 @@
->  #define OV2740_REG_ISP_CTRL00		0x5000
->  /* ISP CTRL01 */
->  #define OV2740_REG_ISP_CTRL01		0x5001
-> +
-> +/* Embedded data line location control */
-> +#define OV2740_REG_EMBEDDED_FLAG	0x5a08
-> +#define OV2740_EMBEDDED_FLAG_FOOTER	BIT(2) /* otherwise it's in header */
-> +#define OV2740_EMBEDDED_FLAG_MYSTERY	BIT(1)
->  /* Customer Addresses: 0x7010 - 0x710F */
->  #define CUSTOMER_USE_OTP_SIZE		0x100
->  /* OTP registers from sensor */
->  #define OV2740_REG_OTP_CUSTOMER		0x7010
->  
-> +enum {
-> +	OV2740_PAD_SOURCE,
-> +	OV2740_PAD_PIXEL,
-> +	OV2740_PAD_META,
-> +	OV2740_NUM_PADS,
-> +};
-> +
-> +enum {
-> +	OV2740_STREAM_PIXEL,
-> +	OV2740_STREAM_META,
-> +};
-> +
-> +#define OV2740_META_WIDTH		100U /* 97 bytes of actual data */
-> +#define OV2740_META_HEIGHT		1U
-> +
->  struct nvm_data {
->  	struct nvmem_device *nvmem;
->  	struct regmap *regmap;
-> @@ -513,7 +534,7 @@ static const struct ov2740_mode supported_modes_180mhz[] = {
->  
->  struct ov2740 {
->  	struct v4l2_subdev sd;
-> -	struct media_pad pad;
-> +	struct media_pad pads[OV2740_NUM_PADS];
->  	struct v4l2_ctrl_handler ctrl_handler;
->  
->  	/* V4L2 Controls */
-> @@ -976,6 +997,11 @@ static int ov2740_enable_streams(struct v4l2_subdev *sd,
->  	if (ret)
->  		goto out_pm_put;
->  
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
-> +			       OV2740_EMBEDDED_FLAG_MYSTERY);
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
->  			       OV2740_MODE_STREAMING);
->  	if (ret) {
-> @@ -1013,23 +1039,49 @@ static int ov2740_disable_streams(struct v4l2_subdev *sd,
->  	return ret;
->  }
->  
-> -static int ov2740_set_format(struct v4l2_subdev *sd,
-> -			     struct v4l2_subdev_state *sd_state,
-> -			     struct v4l2_subdev_format *fmt)
-> +static int __ov2740_set_format(struct v4l2_subdev *sd,
-> +			       struct v4l2_subdev_state *sd_state,
-> +			       struct v4l2_mbus_framefmt *format,
-> +			       enum v4l2_subdev_format_whence which,
-> +			       unsigned int pad, unsigned int stream)
->  {
-> +	struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
-> +		*meta_fmt;
->  	struct ov2740 *ov2740 = to_ov2740(sd);
->  	const struct ov2740_mode *mode;
->  	s32 vblank_def, h_blank;
->  
-> +	/*
-> +	 * Allow setting format on internal pixel pad as well as the source
-> +	 * pad's pixel stream (for compatibility).
+> I'd prefer to keep it as-is since the original check is testing two
+> independent things instead of merging them: that only either SINK or SOURCE
+> is set, and then separately that if INTERNAL is set, then SINK is set, too.
+> 
+> Of the two options you suggested, I prefer the latter.
 
-The internal image pad represents the pixel array, it should thus report
-the full pixel array size, and be unaffected by the selected mode.
+I prefer the latter too, and I think it's more readable than the current
+code. If we later end up having to test for more rules, we can separate
+the checks.
 
-> +	 */
-> +	if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
-> +	    stream == OV2740_STREAM_META) {
-
-As Julien pointed out, this isn't right.
-
-> +		*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
-> +		return 0;
-> +	}
-> +
-> +	pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
-> +	meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
-> +	src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +						   OV2740_STREAM_PIXEL);
-> +	src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +						    OV2740_STREAM_META);
-> +
->  	mode = v4l2_find_nearest_size(ov2740->supported_modes,
->  				      ov2740->supported_modes_count,
->  				      width, height,
-> -				      fmt->format.width, fmt->format.height);
-> +				      format->width, format->height);
-> +	ov2740_update_pad_format(mode, pix_fmt);
-> +	*format = *src_pix_fmt = *pix_fmt;
->  
-> -	ov2740_update_pad_format(mode, &fmt->format);
-> -	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> +	meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
-> +	meta_fmt->width = OV2740_META_WIDTH;
-> +	meta_fmt->height = OV2740_META_HEIGHT;
-> +	*src_meta_fmt = *meta_fmt;
-> +	src_meta_fmt->code = MEDIA_BUS_FMT_META_10;
->  
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
->  		return 0;
->  
->  	ov2740->cur_mode = mode;
-> @@ -1049,6 +1101,14 @@ static int ov2740_set_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int ov2740_set_format(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_format *fmt)
-> +{
-> +	return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
-> +				   fmt->pad, fmt->stream);
-> +}
-> +
->  static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
-
-You need to update this too, to enumerate the correct format on the
-different pads and streams.
-
-> @@ -1085,10 +1145,68 @@ static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
->  static int ov2740_init_state(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_state *sd_state)
->  {
-> +	struct v4l2_subdev_route routes[] = {
-> +		{
-> +			.sink_pad = OV2740_PAD_PIXEL,
-> +			.source_pad = OV2740_PAD_SOURCE,
-> +			.source_stream = OV2740_STREAM_PIXEL,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		}, {
-> +			.sink_pad = OV2740_PAD_META,
-> +			.source_pad = OV2740_PAD_SOURCE,
-> +			.source_stream = OV2740_STREAM_META,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		},
-> +	};
-> +	struct v4l2_subdev_krouting routing = {
-> +		.routes = routes,
-> +		.num_routes = ARRAY_SIZE(routes),
-> +	};
-> +	struct v4l2_subdev_state *active_state;
-> +	struct v4l2_mbus_framefmt format = { 0 };
->  	struct ov2740 *ov2740 = to_ov2740(sd);
-> +	int ret;
-> +
-> +	ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
-> +	if (ret)
-> +		return ret;
-> +
-> +	active_state = v4l2_subdev_get_locked_active_state(sd);
-
-There's a lockdep assertion that will trip when initializing any try
-state.
-
-> +
-> +	ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-> +
-> +	return __ov2740_set_format(sd, sd_state, &format,
-> +				   active_state == sd_state ?
-> +				   V4L2_SUBDEV_FORMAT_ACTIVE :
-> +				   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
-
-Move the code specific to the active state from __ov2740_set_format() to
-ov2740_set_format(), and drop the which parameter to
-__ov2740_set_format(). You'll simplify the code here.
-
-> +}
-> +
-> +static int ov2740_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *desc)
-> +{
-> +	struct v4l2_mbus_frame_desc_entry *entry = desc->entry;
-> +	struct v4l2_subdev_state *sd_state;
-> +	struct v4l2_mbus_framefmt *fmt;
-> +
-> +	desc->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +
-> +	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-> +					   OV2740_STREAM_PIXEL);
-> +	entry->pixelcode = fmt->code;
-> +	v4l2_subdev_unlock_state(sd_state);
-> +
-> +	entry->stream = OV2740_STREAM_PIXEL;
-> +	entry->bus.csi2.dt = MIPI_CSI2_DT_RAW10;
-> +	entry++;
-> +	desc->num_entries++;
-
-I think addressing entries explicitly would be clearer.
-
-	entry[0].stream = ...;
-	entry[0].bus.csi2.dt = ...;
-
-	...
-
-	desc->num_entries = 2;
-
-> +
-> +	entry->pixelcode = MEDIA_BUS_FMT_META_8;
-> +	entry->stream = OV2740_STREAM_META;
-> +	entry->bus.csi2.dt = MIPI_CSI2_DT_GENERIC_LONG(1);
-
-As Bingbu mentioned, this is not correct.
-
-> +	entry++;
-> +	desc->num_entries++;
->  
-> -	ov2740_update_pad_format(&ov2740->supported_modes[0],
-> -				 v4l2_subdev_state_get_format(sd_state, 0));
->  	return 0;
->  }
->  
-> @@ -1103,6 +1221,7 @@ static const struct v4l2_subdev_pad_ops ov2740_pad_ops = {
->  	.enum_frame_size = ov2740_enum_frame_size,
->  	.enable_streams = ov2740_enable_streams,
->  	.disable_streams = ov2740_disable_streams,
-> +	.get_frame_desc = ov2740_get_frame_desc,
->  };
->  
->  static const struct v4l2_subdev_ops ov2740_subdev_ops = {
-> @@ -1369,11 +1488,16 @@ static int ov2740_probe(struct i2c_client *client)
->  	}
->  
->  	ov2740->sd.state_lock = ov2740->ctrl_handler.lock;
-> -	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->  	ov2740->sd.entity.ops = &ov2740_subdev_entity_ops;
->  	ov2740->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> -	ov2740->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	ret = media_entity_pads_init(&ov2740->sd.entity, 1, &ov2740->pad);
-> +	ov2740->pads[OV2740_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> +	ov2740->pads[OV2740_PAD_PIXEL].flags =
-> +		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-> +	ov2740->pads[OV2740_PAD_META].flags =
-> +		MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL;
-> +	ret = media_entity_pads_init(&ov2740->sd.entity,
-> +				     ARRAY_SIZE(ov2740->pads), ov2740->pads);
->  	if (ret) {
->  		dev_err_probe(dev, ret, "failed to init entity pads\n");
->  		goto probe_error_v4l2_ctrl_handler_free;
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Thank you!
+> 
+> > > > @@ -1112,7 +1114,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
+> > > >   
+> > > >   	for (i = 0; i < entity->num_pads; i++) {
+> > > >   		if ((entity->pads[i].flags &
+> > > > -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
+> > > > +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
+> > > > +		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
+> > > >   			continue;
+> > > >   
+> > > >   		if (entity->pads[i].sig_type == sig_type)
+> > > > @@ -1142,6 +1145,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+> > > >   		return -EINVAL;
+> > > >   	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+> > > >   		return -EINVAL;
+> > > > +	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
+> > > > +	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
+> > > > +		return -EINVAL;
+> > > >   
+> > > >   	link = media_add_link(&source->links);
+> > > >   	if (link == NULL)
+> > > > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> > > > index 1c80b1d6bbaf..80cfd12a43fc 100644
+> > > > --- a/include/uapi/linux/media.h
+> > > > +++ b/include/uapi/linux/media.h
+> > > > @@ -208,6 +208,7 @@ struct media_entity_desc {
+> > > >   #define MEDIA_PAD_FL_SINK			(1U << 0)
+> > > >   #define MEDIA_PAD_FL_SOURCE			(1U << 1)
+> > > >   #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
+> > > > +#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
+> > > >   
+> > > >   struct media_pad_desc {
+> > > >   	__u32 entity;		/* entity ID */
 
 -- 
 Regards,
