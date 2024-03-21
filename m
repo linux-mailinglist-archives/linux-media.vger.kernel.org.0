@@ -1,57 +1,56 @@
-Return-Path: <linux-media+bounces-7466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D43D8857E0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F4E8857E2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:14:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF8461C21460
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:14:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA4211C2162B
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:14:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB89C5FDCC;
-	Thu, 21 Mar 2024 11:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D37D96026C;
+	Thu, 21 Mar 2024 11:13:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n674ajER"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SM2LfTqd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EA35FDAD;
-	Thu, 21 Mar 2024 11:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA725FF0E;
+	Thu, 21 Mar 2024 11:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711019594; cv=none; b=C89bAXrjEgbRKTrO/Jj+bw/J9UfXEU7Vo0a6g/thJorCs6Kd1L5fKdiq0gb/y10SCucii5I0B0e7GD/WxLxFZajPRhpUbJcOimPJ9YLFP9cR4x9Iz9UrRRjY1W9OPFX268fI3JyO59FU5wQ5z2iggzbd1CV1Z5+ISylmEh/Y5YM=
+	t=1711019598; cv=none; b=FX5sYsb3btdA4gsiN9cHV0DxuFlzBUbkPKZYW6MGeMKc0Y3erUJ4I52QUGsnWRKNUIMxvhJtLxLy5pFfSxfkZo0zTYUTfS/pfygFQ4AvP7Irkd6k8TFkEIBm2rAKjtf4GtlLIgkflK6aRyaEowldr9DP4DlNHvlxSAxQLarQfUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711019594; c=relaxed/simple;
-	bh=IRwMtyb4x/4E+/zf4v8H5ilEmr4iukiP6112eEdyElc=;
+	s=arc-20240116; t=1711019598; c=relaxed/simple;
+	bh=44YruKIFMTjc0cJLAC1iQg1GbtFM4OBpdvY6e1NRpRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MvDQNELtA7WvA2V/QPO0hN8s1nS2WbOI4iqI/IQzqJdoXbw2jXObxIWSXArcm/67w/sYx9Iiqx3Ca0O1pIW5jLxk1FALOdAjSjzpJRrFSR806Pw+H2t8XM4cY6ND7opb3Jfg8vEn/EIrjQi6kfZmPwROZqz8woMg7xdpR3jIkfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n674ajER; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=dMTE3ClKF0XcnJ2mcceIblk5gJiFuABBuLA6D/ihbtFhHK3hP8cnECxRtm74LWlcQOuUdK2m50AQZzfSmTSlPt6x89Oc5av74P8XxkgMOqM7fZYWrVx/oXXklMRoVI/pNy7nmowynL5q2C6ZW9ohK08HB8lQF8NuIO32M4o4d7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SM2LfTqd; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from umang.jain (unknown [103.86.18.138])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB33A8CC;
-	Thu, 21 Mar 2024 12:12:39 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C26A7E9;
+	Thu, 21 Mar 2024 12:12:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711019563;
-	bh=IRwMtyb4x/4E+/zf4v8H5ilEmr4iukiP6112eEdyElc=;
+	s=mail; t=1711019567;
+	bh=44YruKIFMTjc0cJLAC1iQg1GbtFM4OBpdvY6e1NRpRU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n674ajERnF2D6okJpw3NP6Zi0DrhiY62DoXu2d8IhWuklRVaTOqBu1zCvldsl/YaH
-	 SFppBdjMpZMCFx5IE/1lpQIFoFR1veF3e6SG2mJnT3NYR+tyMg+U/7KNB3/Dd2ZLZK
-	 vjddEGSzLDc3myVoaghSH/4gHT2cO0wOvE3sZtlQ=
+	b=SM2LfTqdemsZOTpaeS2hRoFb6OuXwSN7OB9Oz4BY03i8Wd+pob54j+3Ghhzmyvdwr
+	 l1aJFdhYV87ALyHTBPdITSrrflhS7Jwzyds9UGd+a59u2kiw6VFXp6nGhL9vhbSRaL
+	 7DXnjOejWSMiOss0yzBSSyRtogzZ9Ak3J/KbgHVY=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Alexander Shiyan <eagle.alexander923@gmail.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	open list <linux-kernel@vger.kernel.org>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>
-Subject: [PATCH v3 4/6] media: imx335: Use integer values for size registers
-Date: Thu, 21 Mar 2024 16:42:37 +0530
-Message-ID: <20240321111239.808735-5-umang.jain@ideasonboard.com>
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v3 5/6] media: imx335: Fix active area height discrepency
+Date: Thu, 21 Mar 2024 16:42:38 +0530
+Message-ID: <20240321111239.808735-6-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240321111239.808735-1-umang.jain@ideasonboard.com>
 References: <20240321111239.808735-1-umang.jain@ideasonboard.com>
@@ -63,41 +62,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Consider integer values for registers that are related to various
-sizes in the register map. This helps in improving the overall
-readability.
+The imx335 reports a recommended pixel area of - 2592x1944.
+The driver supported mode however limits it to height=1940.
 
-No functional changes intended in this patch.
+Fix the height discrepency by correctly the value of height
+(with updates to vblank and mode registers).
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 ---
- drivers/media/i2c/imx335.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/i2c/imx335.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index ae4341644a84..7609dbc537b1 100644
+index 7609dbc537b1..10a09830dbd6 100644
 --- a/drivers/media/i2c/imx335.c
 +++ b/drivers/media/i2c/imx335.c
-@@ -251,12 +251,12 @@ static const struct cci_reg_sequence mode_2592x1940_regs[] = {
+@@ -247,13 +247,13 @@ static const int imx335_tpg_val[] = {
+ };
+ 
+ /* Sensor mode registers */
+-static const struct cci_reg_sequence mode_2592x1940_regs[] = {
++static const struct cci_reg_sequence mode_2592x1944_regs[] = {
  	{IMX335_REG_MODE_SELECT, 0x01},
  	{IMX335_REG_MASTER_MODE, 0x00},
- 	{IMX335_REG_WINMODE, 0x04},
--	{IMX335_REG_HTRIMMING_START, 0x0180},
--	{IMX335_REG_HNUM, 0x0a20},
--	{IMX335_REG_Y_OUT_SIZE, 0x0794},
--	{IMX335_REG_AREA3_ST_ADR_1, 0x00b0},
--	{IMX335_REG_AREA3_WIDTH_1, 0x0f58},
--	{IMX335_REG_OPB_SIZE_V, 0x00},
-+	{IMX335_REG_HTRIMMING_START, 384},
-+	{IMX335_REG_HNUM, 2592},
-+	{IMX335_REG_Y_OUT_SIZE, 1940},
-+	{IMX335_REG_AREA3_ST_ADR_1, 176},
-+	{IMX335_REG_AREA3_WIDTH_1, 3928},
-+	{IMX335_REG_OPB_SIZE_V, 0},
- 	{IMX335_REG_XVS_XHS_DRV, 0x00},
- 	{CCI_REG8(0x3288), 0x21}, /* undocumented */
- 	{CCI_REG8(0x328a), 0x02}, /* undocumented */
+-	{IMX335_REG_WINMODE, 0x04},
+-	{IMX335_REG_HTRIMMING_START, 384},
++	{IMX335_REG_WINMODE, 0x00},
++	{IMX335_REG_HTRIMMING_START, 48},
+ 	{IMX335_REG_HNUM, 2592},
+-	{IMX335_REG_Y_OUT_SIZE, 1940},
++	{IMX335_REG_Y_OUT_SIZE, 1944},
+ 	{IMX335_REG_AREA3_ST_ADR_1, 176},
+ 	{IMX335_REG_AREA3_WIDTH_1, 3928},
+ 	{IMX335_REG_OPB_SIZE_V, 0},
+@@ -404,15 +404,15 @@ static const u32 imx335_mbus_codes[] = {
+ /* Supported sensor mode configurations */
+ static const struct imx335_mode supported_mode = {
+ 	.width = 2592,
+-	.height = 1940,
++	.height = 1944,
+ 	.hblank = 342,
+-	.vblank = 2560,
+-	.vblank_min = 2560,
++	.vblank = 2556,
++	.vblank_min = 2556,
+ 	.vblank_max = 133060,
+ 	.pclk = 396000000,
+ 	.reg_list = {
+-		.num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
+-		.regs = mode_2592x1940_regs,
++		.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
++		.regs = mode_2592x1944_regs,
+ 	},
+ };
+ 
 -- 
 2.43.0
 
