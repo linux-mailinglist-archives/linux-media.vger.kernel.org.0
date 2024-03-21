@@ -1,52 +1,51 @@
-Return-Path: <linux-media+bounces-7531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0533885FC6
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 18:31:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B2885FE8
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 18:38:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D13AC1C21E0D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:31:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2DD1B232DA
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:38:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6183B131745;
-	Thu, 21 Mar 2024 17:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D6A131E21;
+	Thu, 21 Mar 2024 17:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rRDT1B1k"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UvN/0jCs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD431FA2
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 17:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD2D28E7
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 17:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711042258; cv=none; b=i5LaIstDc2gSngzjIY32cQtGG+PGARAE+/00N9LlEOP5yFBZDef8+xWx6o4LdKFOZJwbaSfUiwbOWUGm2El5wDjj2ZDIDvbZ8/VB7mQky2hq7+uKJmUiyOWEFOV5hPFg/vgKjvEjIM/GHk0r23ZcwoxloDBqQJJG5lUyYm6KgP8=
+	t=1711042696; cv=none; b=HsvyNURO6w3e0r7KpjkyRVIj8jkNTYWFZk8G7pViGw1m6ZyBSjBvgOf315Adxm2r7UZtDG8/5z+pojnTyTCZo4Kqdant3SkVFpcyB3KMoKVGWIpPmUN4lQ8gEMPCTCJrxumNnCubUo1uxmk0JlqqRjG72Vf7oRnQXCgGYz3S/rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711042258; c=relaxed/simple;
-	bh=raWIDDGHNaMgoEWRUf9Ihhw002K+PSSlfskYeHhxQfA=;
+	s=arc-20240116; t=1711042696; c=relaxed/simple;
+	bh=G2uAhBrEpq8scx8bjBKt9PR83feLHiC7IUOZ2B/jeXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kv26moH+UbUTNJdlmiW+zLASXaee4fRHDGs5JuFHYqxJ7J0qcex5fSHpBQdYvIZqY+581ryiqIN/D4qccJLeh4DWnJUN6oMZaOa/PtTjrW7xJu626GXx6PZa4keh3UnJwH5YavJz4tV4RzjgQIvZ7qPzqv+ESA2MJ2gYb0GL5hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rRDT1B1k; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=XdtZ7Gy4Xc3/2RqvGnJAj8R5DngO9KR27SvaMM/+zWkL8alalKH0DS16VcIypasp2AL/8IRMqKVOiQINjILFF98esOQAqRSq1naKA0LWIxW1z0eesYU6gLD6dCzyyLbT5MMGzbuqW/PYm+P+oRS6bDfD+jLXzzqwDmpFR8kEa/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UvN/0jCs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9B602B3;
-	Thu, 21 Mar 2024 18:30:26 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 695192B3;
+	Thu, 21 Mar 2024 18:37:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711042227;
-	bh=raWIDDGHNaMgoEWRUf9Ihhw002K+PSSlfskYeHhxQfA=;
+	s=mail; t=1711042664;
+	bh=G2uAhBrEpq8scx8bjBKt9PR83feLHiC7IUOZ2B/jeXg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rRDT1B1kjoaisX5SGOmoU9Dlmh7aXllpbPYJvPM+vs5yuK6dczTWTiFS4G+p4FeJl
-	 tCf9U/laLAG6oOwammWkXy4ax6LikOLfYmZ4A25rNSHZIJfDIg6d961O6UKewlLA9X
-	 y4bFkmjREhPraCqXC7oWTRdezXpCZ+YyF9saFWpI=
-Date: Thu, 21 Mar 2024 19:30:52 +0200
+	b=UvN/0jCsXnaS2hrsVq06v9ibjIRsfWybEovfSUv3PwSrY0zm3EnUeIYS5PuA7UyKj
+	 y6lClymDDCPTPz7YTbd9aWVAEIWUnhzVymr+aIfbRh8jp/rKjV9NkZ2ORqbpKMl4S6
+	 X7GwgVLydTkgu16YM7jRLBZjl5dirArll5wbiER4=
+Date: Thu, 21 Mar 2024 19:38:09 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, bingbu.cao@intel.com,
-	hongju.wang@intel.com, hverkuil@xs4all.nl,
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
 	Andrey Konovalov <andrey.konovalov@linaro.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
@@ -54,15 +53,11 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
 Subject: Re: [PATCH v8 03/38] media: uapi: Add generic serial metadata mbus
  formats
-Message-ID: <20240321173052.GN9582@pendragon.ideasonboard.com>
+Message-ID: <20240321173809.GO9582@pendragon.ideasonboard.com>
 References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
  <20240313072516.241106-4-sakari.ailus@linux.intel.com>
- <ff9d63d0-528a-4afb-a85a-fcb8633fec07@ideasonboard.com>
- <ZfmSzM7kL_Si2pRW@kekkonen.localdomain>
- <4a20047b-559b-4877-8385-d22968499595@ideasonboard.com>
- <20240319223347.GF8501@pendragon.ideasonboard.com>
- <20240319230048.GH8501@pendragon.ideasonboard.com>
- <Zfqi0fsbRkvH_V7i@kekkonen.localdomain>
+ <20240319225948.GG8501@pendragon.ideasonboard.com>
+ <ZfsNZU5Ewpp-0WZ2@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,87 +66,119 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zfqi0fsbRkvH_V7i@kekkonen.localdomain>
+In-Reply-To: <ZfsNZU5Ewpp-0WZ2@kekkonen.localdomain>
 
-On Wed, Mar 20, 2024 at 08:48:17AM +0000, Sakari Ailus wrote:
-> On Wed, Mar 20, 2024 at 01:00:48AM +0200, Laurent Pinchart wrote:
-> > On Wed, Mar 20, 2024 at 12:33:48AM +0200, Laurent Pinchart wrote:
-> > > On Tue, Mar 19, 2024 at 04:20:35PM +0200, Tomi Valkeinen wrote:
-> > > > On 19/03/2024 15:27, Sakari Ailus wrote:
-> > > > > On Thu, Mar 14, 2024 at 09:30:50AM +0200, Tomi Valkeinen wrote:
-> > > > >> On 13/03/2024 09:24, Sakari Ailus wrote:
-> > > > >>> Add generic serial metadata mbus formats. These formats describe data
-> > > > >>> width and packing but not the content itself. The reason for specifying
-> > > > >>> such formats is that the formats as such are fairly device specific but
-> > > > >>> they are still handled by CSI-2 receiver drivers that should not be aware
-> > > > >>> of device specific formats. What makes generic metadata formats possible
-> > > > >>> is that these formats are parsed by software only, after capturing the
-> > > > >>> data to system memory.
-> > > > >>>
-> > > > >>> Also add a definition for "Data unit" to cover what is essentially a pixel
-> > > > >>> but is not image data.
-> > > > >>
-> > > > >> The CCS spec talks about legacy packing and optimized packing for 16+ bit
-> > > > >> formats. You cover only the "legacy" ones here. Did you look at those?
-> > > > > 
-> > > > > The reason is that the bus data layout of the new packing at higher bit
-> > > > > depth matches with packing at lower bit depths (half to be precise). That's
-> > > > > why there's no need to define formats for the new packing methods at higher
-> > > > > bit depths (the driver simply uses the packing at half of the bit depth).
-> > > > 
-> > > > Hmm. If we're capturing 10-bit raw format, say, with the width of 640 
-> > > > pixels, we'll configure the video stream format according to those. For 
-> > > > the embedded stream, we'll set it to V4L2_META_FMT_GENERIC_CSI2_10 and 
-> > > > 640 width, right?
-> > > > 
-> > > > If we're capturing 20-bit raw, we'll configure the video stream format 
-> > > > again accordingly, width to 640, and 20 bit fourcc/mbus code. If the 
-> > > > embedded stream uses the "legacy" packing, we'll set the format to 
-> > > > V4L2_META_FMT_GENERIC_CSI2_20 with width of 640, right?
-> > > > 
-> > > > But if it's using packed format for the embedded stream, we set the 
-> > > > format to V4L2_META_FMT_GENERIC_CSI2_10 and width to 1280?
-> > > > 
-> > > > Considering that the video and (line-based) embedded data come from the 
-> > > > same source, I'd expect the widths to be the same.
+Hi Sakari,
+
+On Wed, Mar 20, 2024 at 04:23:01PM +0000, Sakari Ailus wrote:
+> On Wed, Mar 20, 2024 at 12:59:48AM +0200, Laurent Pinchart wrote:
+> > On Wed, Mar 13, 2024 at 09:24:41AM +0200, Sakari Ailus wrote:
+> > > Add generic serial metadata mbus formats. These formats describe data
+> > > width and packing but not the content itself. The reason for specifying
+> > > such formats is that the formats as such are fairly device specific but
+> > > they are still handled by CSI-2 receiver drivers that should not be aware
+> > > of device specific formats. What makes generic metadata formats possible
+> > > is that these formats are parsed by software only, after capturing the
+> > > data to system memory.
 > > > 
-> > > I don't have a strong objection against multiplying the width, but we
-> > > need to figure out the impact on other kernel space components, as well
-> > > as on userspace. I suppose the media bus code for the embedded data
-> > > stream on the sensor source pad when using optimized packing and
-> > > capturing RAW20 images would be MEDIA_BUS_FMT_META_10 ? In that case I
-> > > think the sensor driver should be able to handle the width calculations
-> > > on its own, and the value would just be propagated by userspace.
+> > > Also add a definition for "Data unit" to cover what is essentially a pixel
+> > > but is not image data.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  .../userspace-api/media/glossary.rst          |   9 +
+> > >  .../media/v4l/subdev-formats.rst              | 258 ++++++++++++++++++
+> > >  include/uapi/linux/media-bus-format.h         |   9 +
+> > >  3 files changed, 276 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+> > > index ef0ab601b5bf..7078141894c5 100644
+> > > --- a/Documentation/userspace-api/media/glossary.rst
+> > > +++ b/Documentation/userspace-api/media/glossary.rst
+> > > @@ -25,6 +25,15 @@ Glossary
+> > >  
+> > >  	See :ref:`cec`.
+> > >  
+> > > +.. _media-glossary-data-unit:
+> > > +
+> > > +    Data unit
+> > > +
+> > > +	Unit of data transported by a bus. On parallel buses, the data unit
+> > > +	consists of one or more related samples while on serial buses the data
+> > > +	unit is logical. If the data unit is image data, it may also be called a
+> > > +	pixel.
 > > 
-> > This should be documented somewhere in this series by the way (not in
-> > this patch).
+> > I'm pretty sure nobody will be able to understand what this means, but I
+> > don't have a better proposal at the moment.
+> > 
+> > > +
+> > >      Device Driver
+> > >  	Part of the Linux Kernel that implements support for a hardware
+> > >  	component.
+> > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > index eb3cd20b0cf2..cbd475f7cae9 100644
+> > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > @@ -8306,3 +8306,261 @@ The following table lists the existing metadata formats.
+> > >  	both sides of the link and the bus format is a fixed
+> > >  	metadata format that is not configurable from userspace.
+> > >  	Width and height will be set to 0 for this format.
+> > > +
+> > > +Generic Serial Metadata Formats
+> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > +
+> > > +Generic serial metadata formats are used on serial buses where the actual data
+> > > +content is more or less device specific but the data is transmitted and received
+> > > +by multiple devices that do not process the data in any way, simply writing
+> > > +it to system memory for processing in software at the end of the pipeline.
+> > > +
+> > > +The more specific variant describing the actual data is used on the internal
+> > > +source pad of the originating sub-device.
+> > 
+> > Maybe this paragraph would be best added in the patch that adds the
+> > specific metadata formats, you could then mention one of them as an
+> > example:
+> > 
+> > The exact format of the data generated by the device is reported on the
+> > internal source pad of the originating sub-device, using one of the more
+> > specific metadata formats such as MEDIA_BUS_FMT_CCS_EMBEDDED.
 > 
-> This could go to the CCS driver documentation. I modified the last
-> paragraph and added a new one:
-> 
-> ------8<-----------
-> Devices supporting embedded data for bit depths greater than or equal to 16 may
-> support more dense packing or legacy single metadata byte per data unit, or both
-> of these. The supported embedded data formats can be enumerated and configured
-> on stream 1 of the source pad (1) of the CCS source sub-device.
-> 
-> The use of the denser packing results in embedded data lines being longer than
-> the pixel data in data units since the data units are smaller. In bytes the
-> embedded data lines are still not longer than the image data lines.
+> I'd really like to get rid of the "internal source" pads as the naming is
+> really confusing (it's present still in this version but not in many
+> locations). They're sink pads after all, so I'd call them such. In a few
+> locations there's text that explains they do represent sources of data
+> within the sub-device itself.
 
-Please document explicitly that e.g. V4L2_META_FMT_GENERIC_CSI2_10 is
-used for the RAW20 denser packing (in a general way that covers the
-other formats too). You should also explain more explicitly that the
-width is doubled in the relevant uAPI data structures.
+I thought we had agreed to use the term "internal sink pad", but I saw a
+patch in this series that consistently makes use of "internal source
+pad". Both are confusing for different reasons, but regardless of which
+one we pick (that discussion belongs to the other patch that documents
+the internal source pads), please make sure to use the same terms
+consistently through the series in v9.
 
-This is not limited to CCS but is applicable to other sensors too, so
-I'd like that documentation to be in a more generic place.
-
-> ------8<-----------
+> > > +
+> > > +"b" in an array cell signifies a byte of data, followed by the number of the bit
+> > 
+> > s/bit$/byte/
 > 
-> I believe the reason for the specs requiring embedded data lines not being
-> longer (in bytes) is most likely that some hardware may have issues
-> reciving the data otherwise for various reasons.
+> Uh, yes.
+> 
+> > > +and finally the bit number in subscript. "X" indicates a padding bit.
+> > 
+> > We use a lower-case x in pixfmt-rgb.rst, I would do the same here. We
+> > also use single quotes there, turning "b" and "x" into 'b' and 'x'.
+> 
+> This is documentation, not C source code where we'd want to denote a single
+> character. Double quotes should thus be used instead.
+
+We seem to use single quotes in format documentations, I'd continue
+doing so for consistency.
+
+> I'll switch to lower case X.
+> 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Thank you!
 
 -- 
 Regards,
