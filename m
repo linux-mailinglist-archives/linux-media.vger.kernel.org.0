@@ -1,75 +1,76 @@
-Return-Path: <linux-media+bounces-7448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6A788555D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:14:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA70C885572
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:16:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E5D41C21158
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:14:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44FAF1F2182D
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:16:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892C9657A7;
-	Thu, 21 Mar 2024 08:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBE37869C;
+	Thu, 21 Mar 2024 08:14:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X+2hDU40"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bpcTj5w7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B9A56450
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 08:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CAA7829A
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 08:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711008862; cv=none; b=q/54P1RBFs7aJalD3Ab48u6JfJr8wpRAwHRifxP2M3G9HZafTAH3BzKkJGZeKn/e5YEDhbEpOoHTSbvDpSRyEmjIKKb0V7STAkuHKeBm+epagj4YwV/MUEimQVJRGPzEFPvo4BLlebu0qDX2J47MlA4hoQWTi1n706G6vZjfJlE=
+	t=1711008897; cv=none; b=MjqF0hGZ34DDy8vTsIvZONsUBzTAriWq5HcMNqiRZi/5Epb8dkLR91uJRT9xjibOHeF0rViMOW58Xj2udOg16iEMPStOuaG+74jq5dGHd5ar6El3MDCJ8vaK3mVeW+Xs7Ae5ocnxXBeJ9eGTSaNi7S2u5ZGxRc+DvgvJJBr3R4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711008862; c=relaxed/simple;
-	bh=NE1DjEqYUIDEpaoAd/EnA12+5rqvcvizIxQLO8Vuu5k=;
+	s=arc-20240116; t=1711008897; c=relaxed/simple;
+	bh=QyEyGaUWJamL4qBLiU3qsxQbgR8JFUEDJ/D7kEW4/ls=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XhNJ7nJOiJzRYrH8KFxLHaVhcfcto614SkyrhvLLfPFLL4UAqiRF+Hc0P3jW9/i3u9tXX57L8bCwKO3wHR4rLlDs4luDdddm1SRIgX9mZFlyoiMe3oA0GtBrhAfMgRNM9Lp6BCjMHF67S0ZKAmepJIz6ZwBngRHlzGDXmceJf2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X+2hDU40; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:Content-Type; b=L3R3oR8BrH9NzpNR1tB4WrUkyi4g6cI+d9xwk4bWQQ98jUrZ22yTy/ao2+Rv9008xGkopyy6dSoZ0TOSwMNc7jFUFe0A/KS1Ka1tid9cnmzK3mVsRCS6XeNipTfZkK76CQqH+mU1uHARt8CqTGn8BOmHUizxVelfBlUVUHZROo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bpcTj5w7; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a46f60cc80aso86787966b.0
-        for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 01:14:18 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a46dd7b4bcbso87409066b.3
+        for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 01:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711008857; x=1711613657; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711008894; x=1711613694; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCOmmYreo3TqSmNJZGfyOp9uKTfz511Rez39xvtR9Uc=;
-        b=X+2hDU40w7CT83eLhbTL/SpkA6N1C5ad5Qrvk9ojy+Sgu3bwBAi+JBmDMY1Q9FWwyg
-         EhzYzvZA71Upn3xQOFK4BnVZI+6Ztcayzwld274tNy+0rXBo2JrFw+Jvg2/VGV0JU+Io
-         qkYI8LiVnYcxiaHR7U4Nz9zgVpXsLwxAxUqZvR2noKR4Uy49y+/Evt6yC8UfKNPMJSqP
-         DNf16rFOMIh+J70Pql4FsJS43jpEXKiDbdZGHb6y08yncHJj4WMs2p0Ej7Gt0MsHntC2
-         PmSd7seRQ72hpfzxUaSGVHaNIkbKbXq8oR4u/phoshYEb0ZTM53g/0oEPoOkneAgd4e1
-         lE/A==
+        bh=bumbK4Iq37XZI7PAaRcKjKb4r9QAOyHdGVrz+smI1ho=;
+        b=bpcTj5w7kTNSQfMJe2G/KX8vCtIhB4LOkuGcFyoXMv4/wpfxlwaXfgsVuCPIw6Lka8
+         WIBvVg6InbAXanTnxGToEEQWMobBWsWORtZdJCPsI9UtZTaMI4Uwex0Hf7FQLKsIdoWG
+         FjWubK+pQzEW13jvqFrxcuuFCk10M7VeETV2vsnmGnTelk/+Sedn+4SfDcg2fqjKU+XI
+         M6LSV0O74KrwSDKgUbcSbhCGOG4VKTz0IQ8EE7nPM3n22OW5cx+ghy/xkYT6DbgQ3mW8
+         SRubO2WFhYDoZG+dKttOwpSq7dXkKChKQx+0oOhnwBzRs2KdueVr7FQI6GySvsGbuVeS
+         Jolw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711008857; x=1711613657;
+        d=1e100.net; s=20230601; t=1711008894; x=1711613694;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NCOmmYreo3TqSmNJZGfyOp9uKTfz511Rez39xvtR9Uc=;
-        b=BRksUrDTXSyGKSDUi+L0p0vqe8z4AAZU8XcakNjE4zBMYxWjcHC8pDJm3SF4BmhMdk
-         CN/H8cVt7vh8SC8nX02EnU6PpisQk/H+jZ/x6/HgRkiY06X2284+Q3R4R1dJgaSimlMF
-         6NEeW4eSQYjyRkHs3dEngJKo+YdufCCQAOKuGbNoRHL0d6wzp1YtT+ixWesjverxVCOS
-         u/cm/DX4qyjXJJeN6dzZYK+FFcTOUCzicnuCrIoywpeevA34dxxeCZA8SbcgecUJiWsY
-         3Krsqm/W6+LwtL4iWQVsMPX23TapU21CiF65BKG6xp4y/EkbWscfYjcScup+uA6WnJcE
-         FZvw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8khOLAtSIypwnj89rRE9i5xPzzuPaljpw7s+aQrGRbCgMbfVuvsGPAA7IaBZ8JW6tc3OXdRiyJ58SW0RtefrcG+qAfYoATsHAaRs=
-X-Gm-Message-State: AOJu0YwRULXKiitVzmixUjkhF3arDuqEyg0c6gb/0n6cbPjd23kaLY+a
-	l+EhPz/W0iV5jtNw5pGWetsdnu/DS1/AKPrcridZmu3kFrlvx17dKcMr1XEN6O4=
-X-Google-Smtp-Source: AGHT+IEnXmwG0cHdNGYlJnnJKe3ix9zq7K84PQN1l6LAvZ3rQkl8g2fkP5DkSOeGZLtbFhZgNY15Sw==
-X-Received: by 2002:a17:906:6899:b0:a47:f6a:3673 with SMTP id n25-20020a170906689900b00a470f6a3673mr638500ejr.18.1711008857348;
-        Thu, 21 Mar 2024 01:14:17 -0700 (PDT)
+        bh=bumbK4Iq37XZI7PAaRcKjKb4r9QAOyHdGVrz+smI1ho=;
+        b=PfhoKKs9TX3kF1Dq+nnek7VS4k+D9/d0Q+PtAbQqXVqT9czFEPSxz/bUrb+d0F5GIb
+         Yla/UvR4a5g14k6u4Xq3DmrB6PFYauUpjQSB3P3pEVQ6IDdhEyW+Bk5cm/8Wg6HQ309T
+         OfAUG5HQ77evkqbcJci4Ou9mxI0run7/WJkkTsMxl6Z2f+hyH8avefkRrLriwSVKntQK
+         S2xN8MFRxN+E1aHcMCPdnrBR4OOdO/ND6Bvj6U4wNTFZQ5hIRBHmrJSvXNDg429gj3eV
+         pkQJBxqRPp8eXmiiZ4ftC7BCgpQf7hvSdVvrNJ9IEhIJ4W2n9nQLHkKHjwcSxWubIHQ1
+         Sj7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUvLlN0+7g5z/vp1+FRngAtGmxl5Mx5c9taz4I86QzO8A9yAdEnhFf16Q3stCADdTVpbYkGP3JSPIyJTR6DON3Av8ojty22VEGAA4I=
+X-Gm-Message-State: AOJu0YwqIq1mIA5Zvgm00h1oZIjy//HbVOVlcWZ585rAnAtcZOaj4m6M
+	D0IXtOhazkd3cQHcesRC8P92hG+xpbxb+i8WeFq7B4NLulnbzA9goK/4ANWQOyBvHLemAFtnxXU
+	D
+X-Google-Smtp-Source: AGHT+IHnQrPGnZT2/iidhGyn8HX5rcqqkqaLrfSr6V+AeAqqQrXxfQKRJGbNVs83QEsinhw56m91Kw==
+X-Received: by 2002:a17:906:2cc7:b0:a46:2e1b:a11f with SMTP id r7-20020a1709062cc700b00a462e1ba11fmr718296ejr.31.1711008894227;
+        Thu, 21 Mar 2024 01:14:54 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id dn21-20020a17090794d500b00a465ee3d2cesm8079853ejc.218.2024.03.21.01.14.14
+        by smtp.gmail.com with ESMTPSA id en6-20020a17090728c600b00a465a012cf1sm8283979ejc.18.2024.03.21.01.14.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 01:14:16 -0700 (PDT)
-Message-ID: <41f1b8a6-1f65-4cb9-9638-d63384b95318@linaro.org>
-Date: Thu, 21 Mar 2024 09:14:13 +0100
+        Thu, 21 Mar 2024 01:14:53 -0700 (PDT)
+Message-ID: <4c05d3c0-aa79-4ce0-918c-7d0967ace520@linaro.org>
+Date: Thu, 21 Mar 2024 09:14:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,7 +78,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: iommu: rockchip: Fix rk3588 variant
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH_2/4=5D_media=3A_dt-binding=3A_media=3A_Doc?=
+ =?UTF-8?Q?ument_rk3588=E2=80=99s_vepu121?=
 To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, linux-kernel@vger.kernel.org
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  Philipp Zabel <p.zabel@pengutronix.de>,
@@ -96,7 +98,7 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux.dev
 References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
- <20240320173736.2720778-2-linkmauve@linkmauve.fr>
+ <20240320173736.2720778-3-linkmauve@linkmauve.fr>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -143,45 +145,31 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240320173736.2720778-2-linkmauve@linkmauve.fr>
+In-Reply-To: <20240320173736.2720778-3-linkmauve@linkmauve.fr>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
-> The documentation got added in f8aa519976b38e67aae02d2db3e2998513305e80,
-
-Please use commit SHA () syntax (see submitting patches).
-
-> but it hasn’t been added to the driver so it was unused.
-
-Eh? That's not how this works.
-
+> This encoder-only device is present four times on this SoC, and should
+> support everything the rk3568 vepu supports (so JPEG, H.264 and VP8
+> encoding).
 > 
 > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 > ---
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 2 +-
-
-That's DTS, not bindings.
-
->  drivers/iommu/rockchip-iommu.c            | 3 +++
-
-Driver code cannot be combined with DTS in one patch.
-
->  2 files changed, 4 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml          | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 87b83c87bd55..2a23b4dc36e4 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -704,7 +704,7 @@ vp3: port@3 {
->  	};
->  
->  	vop_mmu: iommu@fdd97e00 {
-> -		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		compatible = "rockchip,rk3588-iommu";
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> index 9d90d8d0565a..947ad699cc5e 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+> @@ -17,6 +17,7 @@ properties:
+>    compatible:
+>      enum:
+>        - rockchip,rk3568-vepu
+> +      - rockchip,rk3588-vepu121
 
-NAK.
-
+What is 121?
 
 Best regards,
 Krzysztof
