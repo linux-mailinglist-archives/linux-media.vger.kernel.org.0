@@ -1,147 +1,130 @@
-Return-Path: <linux-media+bounces-7460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F9A8857B9
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:03:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E6A8857BB
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 12:03:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3FC3B21BD1
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:03:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 450D21C22503
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 11:03:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD82757332;
-	Thu, 21 Mar 2024 11:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BE757884;
+	Thu, 21 Mar 2024 11:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Pi+hn06g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PX3tBLGT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BF057323
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 11:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC5954FB7;
+	Thu, 21 Mar 2024 11:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711019000; cv=none; b=BzPwMjiMzXhl6j74caOUr+VstkiWizThZbDVeZc0qd/fPDEdsv+QOXUIckieilR/18XBpBRTAQiPjLFJ3+YD0I5/ChyKFnSOPbC0d7y78k1c/HP3I2x6UeELYZ06tiY8FQMbwpCPwHDyvAcIfoF5OdQY1E2vsUKyAmSN6tXfBKY=
+	t=1711019007; cv=none; b=VJd7lO5zrdepwD+BimCyquN4NsGfZwM7Kp/KffiGAPbDHYvaO2UVUFYqWKLQcdnDh8QwvIC6Rkk+lAFL/3tyi49a8NCT4JbXoJ/lU1+qF0vCSE79kbx8eHnsoUSC8E1CiWFwJepTg7oxtRmyV8DRSCKZZQatP74ttUn1eq7fO1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711019000; c=relaxed/simple;
-	bh=+tLWIIOaNdzsj2JQkOMtUjhgKY/hXK7DzOdn54/Iz+0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qATSZWVjqBSWYNMbMT1uXdtFEhdp0WMolB/Xa5uJ06VM1NwSrsI66ly1MaUxS/3OknixNx2SgI/v7o61npNlek0cqgo1BrzUIp2MGdJDxmWvfA33moP9pZwvoLyY71lu2ZupVnxpJdOPeGgYHSiT3NW7jV7S51RGSDh4yVxmJ64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Pi+hn06g; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711018993;
-	bh=+tLWIIOaNdzsj2JQkOMtUjhgKY/hXK7DzOdn54/Iz+0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pi+hn06gSDaEHH+ePRCSG4RZZGeRXh7WBqvHRd/cSWE80WjLz43y9BEM4MefP6xBl
-	 luFqmLwAKJM2gHL9TWXzNQt+yy5idMU9X74n0QY186FImbztQuYxLr1e7hVySeDDsW
-	 6bXIFLa3D4cW+wyNV/PcuBePC5uj2OuimSl8nAcmPm1qKYFr+gEm5bvODrOWMYZwKc
-	 QfBw4s89QLp8+XiG1dEpgjuVV3oksQ6UrSxhFzgMHqBshDLZ3oZjz6i9ambcMSlA56
-	 sLoCkprH2TFZd/VbjXoGEh3LIRX+VSQCFPpKNa+k2iOEM6SxUpf6Dp6D9njhqUn+DY
-	 tRMVy5av0Td1w==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3A5423781426;
-	Thu, 21 Mar 2024 11:03:13 +0000 (UTC)
-Message-ID: <13686368-326a-4d62-aea4-0ef04b247386@collabora.com>
-Date: Thu, 21 Mar 2024 12:03:12 +0100
+	s=arc-20240116; t=1711019007; c=relaxed/simple;
+	bh=9wK2K43cRuiqRx7FuDm4G45EzjSKz7jVZM0dDOD9C9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xs9mmmxBeJTm1HRbjvRcK+MDlT/FZTpmhiRHKbKUcZ9IpkcWeX/y2S5FNjef0h7MXpJFUzbknyQWY9EdBrEDY4W7JkR7XQsquj4VTz8N0nHAcYH0mrvKBi3yogAteto/Nfl/rTU5ZRRPS6+YXRW+rX+sHLVGqR7yKJoIpCGPkFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PX3tBLGT; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d21cdbc85bso13599391fa.2;
+        Thu, 21 Mar 2024 04:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711019004; x=1711623804; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZT0UhNpGDPoNyLRvJypE7r2h5AAoACQ2X91BMbmvyVM=;
+        b=PX3tBLGTTRpfQcxWnnLWbOw10v9aHKFjVGRcjeds9JEkFZG7/o2gHwczoQueYdxI5m
+         3h9EXhwJNZFW3D4TfvuXYqkLoYxf0DWGiOqZZn3lpO+ebikBdL1VsV3Ka2rSiq1ksozQ
+         M5lPOMWp4Cq1ozgixLMR1xnIrFU1zl0q5QfPjJX0TD5tcQlaK1tFMqtdSWxWj8+ObZuJ
+         jyIf9iC4viITucFbpSzo4wASuW2+eM2xUbN0an74XrSjwC9cLLNnJkGiuLW1UBOtoE1N
+         wY3i6bGLj3XmNCmvdsndY/nan10KEXF3/bJbchxkkuPcJO51tICQqAPPu/NHo3MLNDCE
+         x+lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711019004; x=1711623804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZT0UhNpGDPoNyLRvJypE7r2h5AAoACQ2X91BMbmvyVM=;
+        b=AMA7G+k4tvBNeT24ls2ftR6T0+ykJlbhUTVaP664bDAZmb6BspOOMIkKPNWQ0sTFFu
+         SX0LpO/hwdH4xJxLhZkK1lI2UxdUkxE66mjXgWkiil6hkbcDsAdzE+RBlhyL9YqPUq82
+         ZRe3SqmZDzQm3QvMC6tg/0kZsGmq1QExNZGh3ZSk66hKV9rcfs9K4JJpU7JUpdy5pWzp
+         4BaWphh8oMZ/xgFPZGdScST4c+6Va1sSCSlLFNDY6P/lQgVHU5XOM8a030ZPP4PfIWvX
+         UvQIt9Nq3HSzqYffBCCAx0trM/PLWdVgHTkykc4ndZpTfGv2aLijgROzTqFjKvy7lh2h
+         672A==
+X-Forwarded-Encrypted: i=1; AJvYcCU1XjWBT8kZpulnXl804e6YDMT0WExWojuIYjaZmaeb5HiXIRW7ixJJeof19+Cigsc0n6Z0L4flgtUWv+Pd6OZikKqpZZgys1sLx8D2haK7Gh8mKqpnLApE2kuH4oeHtbIOOb5qL99qzCFqx/lsDeBa5j73foj5e/8cd+Lw8/UWVct8FBuH
+X-Gm-Message-State: AOJu0YwTNAPrOB/7B/0n6t0R2KXyGfDa+WrN7LAnuqQHUaK6K5TiZLwn
+	x+HK1FH9GTAu4Y2QuXo8XtwyAA/0IIcsZy2x6ku7RlIkWSEomNLC
+X-Google-Smtp-Source: AGHT+IFBAAv1s69tHA7UUCCGycmG2dMXcvO3vaRNPikbG0TYdCU7n7qeQNQs6HEN36YcV+g/bPFlCw==
+X-Received: by 2002:a2e:a274:0:b0:2d3:1bd0:6bcf with SMTP id k20-20020a2ea274000000b002d31bd06bcfmr2790438ljm.8.1711019003547;
+        Thu, 21 Mar 2024 04:03:23 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id z7-20020a2e8e87000000b002d434d11402sm2390630ljk.15.2024.03.21.04.03.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 04:03:23 -0700 (PDT)
+Date: Thu, 21 Mar 2024 14:03:21 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: Brandon Brnich <b-brnich@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: Re: RE: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
+Message-ID: <i6m7svnr6zutg57leeamepj67ajgddwe2phs6rluyozeg3m37p@jfkrlqss26rz>
+References: <20240318144225.30835-1-brnkv.i1@gmail.com>
+ <20240318144225.30835-6-brnkv.i1@gmail.com>
+ <SL2P216MB1246F7FA7E95896AA2409C90FB2C2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <hpqhbksvyfbqjumopk2k2drxri2ycb6j2dbdo74cfymcd7blgx@kzomazfosfwg>
+ <20240319210106.awn33cm7ex33g65b@udba0500997>
+ <SL2P216MB12468C7256CE2468EE088E7CFB322@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR 6.9] Mediatek MT8186 encoder & media fix
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: linux-media@vger.kernel.org
-References: <20240313132019.6o6ave7mfy3sdvod@basti-XPS-13-9310>
- <17bca73f-9dd1-4fb0-a770-55244a9bd9d9@xs4all.nl>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <17bca73f-9dd1-4fb0-a770-55244a9bd9d9@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
 
-Il 21/03/24 11:55, Hans Verkuil ha scritto:
-> On 13/03/2024 2:20 pm, Sebastian Fricke wrote:
->> Hey Mauro & Hans,
->>
->> just a small media change, a little DT binding change and otherwise DTS
->> changes.
->>
->> Please pull.
->>
->> The following changes since commit b14257abe7057def6127f6fb2f14f9adc8acabdb:
->>
->>    media: rcar-isp: Disallow unbind of devices (2024-03-07 16:35:13 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.9-mt8186-video-encoder
->>
->> for you to fetch changes up to 48241e83cc161c24745a04c5660808b31a0ffe77:
->>
->>    arm64: dts: mediatek: mt8186: Add venc node (2024-03-09 15:50:26 +0100)
->>
->> ----------------------------------------------------------------
->> One small media fix and a DT binding addition for a video encoder on the
->> MT8186
->>
->> ----------------------------------------------------------------
->> Eugen Hristev (5):
->>        media: mediatek: vcodec: fix possible unbalanced PM counter
->>        dt-bindings: media: mtk-vcodec-encoder: fix non-vp8 clock name
->>        arm64: dts: mediatek: mt8192: fix vencoder clock name
->>        dt-bindings: media: mtk-vcodec-encoder: add compatible for mt8186
->>        arm64: dts: mediatek: mt8186: fix VENC power domain clocks
->>
->> Kyrie Wu (1):
->>        arm64: dts: mediatek: mt8186: Add venc node
+On Thu, Mar 21, 2024 at 01:52:03PM +0300, Ivan Bornyakov wrote:
+> Hi!
 > 
-> I'm confused: I didn't check all 6 patches, but at least several have
-> already been merged in the mainline kernel.
+> To sum up, there is 2 favourable approaches:
 > 
-> At least the dt-bindings patches must have come through AngeloGioacchino Del Regno
-> based on the SoB, instead of going through the media maintainers.
+> 1) to have dedicated SRAM partition for Wave5 VPU as suggested in this
+> patchset. In this approach SoC vendor can setup address range of said
+> partition to their needs, but other devices won't be able to use SRAM
+> memory reserved for Wave5 VPU, unless other device's SRAM memory needs
+> don't exceed the size of reserved partition.
 > 
-> The "media: mediatek: vcodec: fix possible unbalanced PM counter" patch, however,
-> is marked as Accepted, but it isn't in mainline.
+> Therefore it is sensible to substitute alloc/free on open/close with
+> alloc/free on open/close.
 > 
-> I *think* that Angelo intended to merge the dts changes only, and accidentally
-> included the dt-bindings as well?
+> Advantages: driver code is simpler, no need for platform-specific defines
+> or DT properties. Wave5 is guaranteed to get SRAM memory.
+> 
+> Disadvantage: waste of SRAM memory while VPU is not in use
+> 
+> 2) allocate all available SRAM memory on open (free on close) from the
+> common SRAM pool, but limit maximum amount with SoC-specific define.
+> 
+> Advantage: less memory waste
+> 
+> Disadvantages: still need SoC-specific define or DT property, not much
+> differ from current state. Wave5 is not guaranteed to get SRAM memory.
+> 
+> Which of these approaches would be preferable?
 > 
 
-Correct.
-
-At this point there's just one commit to pick for you (fix possible unbalanced...)
-Will be more careful next time, sorry about that.
-
-Cheers,
-Angelo
-
-> Regardless, this PR is messed up. Sebastian, can you dig into this?
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->>   .../bindings/media/mediatek,vcodec-encoder.yaml    | 31 +++++++++++-----------
->>   arch/arm64/boot/dts/mediatek/mt8186.dtsi           | 23 +++++++++++++++-
->>   arch/arm64/boot/dts/mediatek/mt8192.dtsi           |  2 +-
->>   .../mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c    |  4 ++-
->>   .../mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h    |  2 +-
->>   .../platform/mediatek/vcodec/encoder/venc_drv_if.c |  5 +++-
->>   6 files changed, 47 insertions(+), 20 deletions(-)
->>
-> 
-
--- 
+Personaly I would say, let's stick with simpler code while there are not
+too much mainline users. When someone runs into SRAM insufficiency
+because of Wave5 VPU driver, their patches will be welcomed :)
 
