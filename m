@@ -1,123 +1,97 @@
-Return-Path: <linux-media+bounces-7551-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7552-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00986886345
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 23:26:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D7C886359
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 23:33:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93B741F233FC
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:26:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1278B286D88
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 22:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBB1136991;
-	Thu, 21 Mar 2024 22:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECCC74C8A;
+	Thu, 21 Mar 2024 22:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhRjKsFj"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L9TjzxIn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322B513791A;
-	Thu, 21 Mar 2024 22:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287B81878
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 22:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711059931; cv=none; b=oqqzY2nAD7FYUA+Pl3U/q9Rhw6QBM2Gqyx/6HtcxFz7t6jlFM84UhQ3xpT/ZZUs3Kb3M7YF092138/VfqraMDbu1i8h44r0f0y003FOwGONmrT7rNrcnIoy7Fe/XSSkwlg6Jy5MoWEnlFJY9u4tp4bydH0Jlsnsk9cPj31H90c8=
+	t=1711060378; cv=none; b=MaXpVCdnTXlHW8yKTw/ZqpdwHIkYplckS1TkFWPcceXv9/33SUItbFd+ZNmCuDLguJVTpCvCTAI+P5jl8aMspH79WC1XEIchNouEb4anSTZXwadJluxUptY6z0VXriMRWsndNiZmKJo1t3BnpLwIVApF1owbA9JWOFcJiw4c6Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711059931; c=relaxed/simple;
-	bh=KV1cqdEWouuF9AZNPJszbFGwtds7bB206s9mEHm38IY=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=k8YkGFUKBCC0BeIxwy9Du6cbpVAawpB0ADU4w5LYcDupoY0BkBQ9feOx6GuDXiyooC1iQOL066R329RaF4voZUSPQXnSP12w0S2M37HR7etZKMW47KHXb4fLV4fbolvVFLVpybMd0BMZblZDLREC/ZEr9bhej25z93gzOC01P6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhRjKsFj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB606C433C7;
-	Thu, 21 Mar 2024 22:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711059931;
-	bh=KV1cqdEWouuF9AZNPJszbFGwtds7bB206s9mEHm38IY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=lhRjKsFjoMXVNpayNroILS0ygmnonPsjJ3uvr2+RVILA/g48y/YGCQrtQiMiMMj6e
-	 kF/UT1WFAZUL41Jt3DvwiDMM7Vc37F5y04cBhGYI7DUoLJH5aeFdFmDYcp+DgQzZXQ
-	 +jbySrQHsxnpT+M5T3jGxKjtWh/ouwD6lb0B09ZbiPm+bsRxZUprOq/Fe+PaKEeq6G
-	 usSTwEn0klpCUepXRR8YvBDEXGEtQXGKMinN3GEdgrzho7UevbflmAviDtQZCKxREe
-	 FfPPrrXcoT3+WiNxJnbbmSh45+FQGTl/Cq6jDy4vBMFe76rnAGuIyioJwiy3xG5qGq
-	 whLWO4I6Tw29A==
-Date: Thu, 21 Mar 2024 17:25:29 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1711060378; c=relaxed/simple;
+	bh=LDByoXQP6mgfnNEdlwk8vFKwzCc7LziPCgnb5onUzqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dJdgln9RUXJZf6q7jbm/FurTfhsrf9OKmioSnkTcf+v5tzGoaXdEaAo7tQ6LoF89k82LRTXcMXIL3/RLnt229rTMnB2AXs4/cASwDfy44hAUkwFbIhDiizbRwPv19ZJfX1kuipMPrhVSIz54rzzdji35ISpeb9s7a65VlA78UWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L9TjzxIn; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <a757ab17-e6ca-48f0-ac15-3bd97a4b542e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711060373;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/Lr4E9a605vheRZplDHsft6Dy8a9yDcfkpMMdUcuvw=;
+	b=L9TjzxInk/TWB9VgFgEsXwG/f8FNriy5FvYadItSTwGcAzvoA12wkLZQ4HgoyF2dDba9Jg
+	9uJgbyLizdtOIowlXJswVABXh0SqjoMlBM65MuohRBtPLZryPEFL5UivhGX4b6j/OLwY4o
+	zRhmZjc9BKnN5wdOGT6U55vpnnWFvWQ=
+Date: Fri, 22 Mar 2024 06:32:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>, Rob Herring <robh+dt@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- linux-media@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>, 
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-In-Reply-To: <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
-References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
- <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
-Message-Id: <171105992875.3043233.18321806946234735413.robh@kernel.org>
-Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+Subject: Re: [v10,03/27] drm/connector: hdmi: Create an HDMI sub-state
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+
+Hi,
 
 
-On Thu, 21 Mar 2024 13:43:46 -0700, Anatoliy Klymenko wrote:
-> DO NOT MERGE. REFERENCE ONLY.
-> 
-> Add binding for AMD/Xilinx Video Timing Controller and Test Pattern
-> Generator.
-> 
-> Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node.
-> 
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> ---
->  .../bindings/display/xlnx/xlnx,v-tpg.yaml          |  87 ++++++++++
->  .../devicetree/bindings/display/xlnx/xlnx,vtc.yaml |  65 ++++++++
->  include/dt-bindings/media/media-bus-format.h       | 177 +++++++++++++++++++++
->  3 files changed, 329 insertions(+)
-> 
+On 2024/3/21 23:28, Maxime Ripard wrote:
+> The next features we will need to share across drivers will need to
+> store some parameters for drivers to use, such as the selected output
+> format.
+>
+> Let's create a new connector sub-state dedicated to HDMI controllers,
+> that will eventually store everything we need.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:35:4: [warning] wrong indentation: expected 4 but found 3 (indentation)
-./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:45:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-./Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml:49:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: bus-format: missing type definition
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,v-tpg.yaml: xlnx,bridge: missing type definition
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/xlnx/xlnx,vtc.yaml: xlnx,pixels-per-clock: missing type definition
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+Best regards,
+Sui
 
 
