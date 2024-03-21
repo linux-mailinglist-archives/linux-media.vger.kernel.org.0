@@ -1,60 +1,68 @@
-Return-Path: <linux-media+bounces-7537-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7538-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2775B886043
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 19:05:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0847D88615E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 20:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 934381F2358D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 18:05:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F0901F223DD
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 19:58:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82CE1332BC;
-	Thu, 21 Mar 2024 18:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F49134431;
+	Thu, 21 Mar 2024 19:57:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kUfKPZnh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hFdkSsON"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB2612BF3E
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 18:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3E979F0;
+	Thu, 21 Mar 2024 19:57:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711044323; cv=none; b=OjDa8a+hnysPGW+eLu8mAV7tz5s0uMTvoPVBT/pCRMTy1xZuD7w3nJE5EOg457l2O0QuzGeTybIvENVenydx366YivEj4whFC9mlS1SSvzHlGB7fOaqty7I7Fx7QwCo7WmaOqlzyZn6qTlJTKcVcpsC9L1zZt7jej9wm1+zh2Hg=
+	t=1711051076; cv=none; b=ayYPLaYMucnWKwgxLE4XVxOuVUsj/aw8A7CdbdMKPmbDyUSklEuf/iXaa1XsLHaMOxjjG+MtCXDPqKuYuOTR9e1QNnm78gRgLrAfk4JlTIn6Tr4VZQh9dks2QX86s4GLWLqUkJhXZS2mqSAILCC34Gw51sdWzJVlq6tpcCe9ZAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711044323; c=relaxed/simple;
-	bh=1QmIiP1xvOQWPy1XCzmC6gbFdRtvhva9WJitEhk09Xs=;
+	s=arc-20240116; t=1711051076; c=relaxed/simple;
+	bh=o9Y3w5cecuIp0kCib8OIXk7mGz8FxiOO9/PPik6zBlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRkpZ8guPFHM7aBIGnDUSdXDulPYG8ZSsaTfjQmjXZrlinV9Bx/6C8cyPaB/ouCRktxxJuqf1LosucGt6HLALUl7yPFkebCbb0olK8mrfTC2es9gzX29AN4eM2Cz09MLyqcn7TH+p2FwvWk7UamxY1aeJ6oB/lQK2ARfLr5+jZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kUfKPZnh; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=c/8K8/0WF6P5/SYZA0IaGfGHLIDAMCL9t0VUyi7OyTPSuyxWe6bdYY3cckBAI4WcmiGWPs9rKTxivsw6icvS0nun0vKnHktxzPvMUEW24brPz9U19cJa8mX+gISUNaTDqZcTkCTfYJlfynrvpBNJYt/jnzLCFIqSkn2bvK4LJcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hFdkSsON; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1D32672;
-	Thu, 21 Mar 2024 19:04:50 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D9D42B3;
+	Thu, 21 Mar 2024 20:57:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711044291;
-	bh=1QmIiP1xvOQWPy1XCzmC6gbFdRtvhva9WJitEhk09Xs=;
+	s=mail; t=1711051044;
+	bh=o9Y3w5cecuIp0kCib8OIXk7mGz8FxiOO9/PPik6zBlY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kUfKPZnhMbks5lfnVNwz/1f1PgGFWY25zT0ulDUNqgvcFR3weyWAy2CD0qJZ0uBmQ
-	 HisaPa5PYOIX+O3rKiwnvsTyV1Iyoig2TJLd82r6a2fgVPFwN7wEzqepuXy1t3Vmx8
-	 iZk41yFvKteI1x1g35kT4I4XXPeyNb3jnvpCBYQ0=
-Date: Thu, 21 Mar 2024 20:05:15 +0200
+	b=hFdkSsON4YDxCyLKmhiOYtMMEEB7VZuXiyU++yOv/so8GqZNKk1XX9j8rEABz2xHK
+	 b4Pz0bA5yJ9qKPCkrF9DcX3VnX+3xqe+K8RUrZhTkcSWheHXkoQAbfDEcrJqZvtUJq
+	 16lkrWdN9LuXiQPA9s4qZxWu5p2K5Tmq8oN9cpYE=
+Date: Thu, 21 Mar 2024 21:57:49 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 25/38] media: ccs: Remove ccs_get_crop_compose helper
-Message-ID: <20240321180515.GU9582@pendragon.ideasonboard.com>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-26-sakari.ailus@linux.intel.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 09/15] media: bcm2835-unicam: Add support for
+ CCP2/CSI2 camera interface
+Message-ID: <20240321195749.GZ9582@pendragon.ideasonboard.com>
+References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com>
+ <20240301213231.10340-10-laurent.pinchart@ideasonboard.com>
+ <CAEmqJPqdfaND6vFoZgNALfzPf9-VM1XU0AyLs3V6OJe3WkDEng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,351 +71,173 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240313072516.241106-26-sakari.ailus@linux.intel.com>
+In-Reply-To: <CAEmqJPqdfaND6vFoZgNALfzPf9-VM1XU0AyLs3V6OJe3WkDEng@mail.gmail.com>
 
-Hi Sakari,
+Hi Naush,
 
-Thank you for the patch.
+On Wed, Mar 20, 2024 at 12:30:36PM +0000, Naushir Patuck wrote:
+> On Fri, 1 Mar 2024 at 21:32, Laurent Pinchart wrote:
+> >
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > Add a driver for the Unicam camera receiver block on BCM283x processors.
+> > It is represented as two video device nodes: unicam-image and
+> > unicam-embedded which are connected to an internal subdev (named
+> > unicam-subdev) in order to manage streams routing.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Co-developed-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
 
-On Wed, Mar 13, 2024 at 09:25:03AM +0200, Sakari Ailus wrote:
-> As it's now easier to obtain the necessary information on crop and compose
-> rectangles after moving to sub-device state, remove the
-> ccs_get_crop_compose helper.
+[snip]
+
+> > ---
+> >  MAINTAINERS                                   |    1 +
+> >  drivers/media/platform/Kconfig                |    1 +
+> >  drivers/media/platform/Makefile               |    1 +
+> >  drivers/media/platform/broadcom/Kconfig       |   23 +
+> >  drivers/media/platform/broadcom/Makefile      |    3 +
+> >  .../platform/broadcom/bcm2835-unicam-regs.h   |  255 ++
+> >  .../media/platform/broadcom/bcm2835-unicam.c  | 2607 +++++++++++++++++
+> >  7 files changed, 2891 insertions(+)
+> >  create mode 100644 drivers/media/platform/broadcom/Kconfig
+> >  create mode 100644 drivers/media/platform/broadcom/Makefile
+> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
+> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
+
+[snip]
+
+> > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > new file mode 100644
+> > index 000000000000..716c89b8a217
+> > --- /dev/null
+> > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > @@ -0,0 +1,2607 @@
+
+[snip]
+
+> > +static int unicam_start_streaming(struct vb2_queue *vq, unsigned int count)
+> > +{
+> > +       struct unicam_node *node = vb2_get_drv_priv(vq);
+> > +       struct unicam_device *unicam = node->dev;
+> > +       struct v4l2_subdev_state *state;
+> > +       struct unicam_buffer *buf;
+> > +       unsigned long flags;
+> > +       int ret;
+> > +       u32 pad, stream;
+> > +       u32 remote_pad = is_image_node(node) ? UNICAM_SD_PAD_SOURCE_IMAGE
+> > +                                            : UNICAM_SD_PAD_SOURCE_METADATA;
+> > +
+> > +       /* Look for the route for the given pad and stream. */
+> > +       state = v4l2_subdev_lock_and_get_active_state(&unicam->subdev.sd);
+> > +       ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
+> > +                                                   remote_pad, 0,
+> > +                                                   &pad, &stream);
+> > +       v4l2_subdev_unlock_state(state);
+> > +
+> > +       if (ret)
+> > +               goto err_return_buffers;
+> > +
+> > +       dev_dbg(unicam->dev, "Starting stream on %s: %u/%u -> %u/%u (%s)\n",
+> > +               unicam->subdev.sd.name, pad, stream, remote_pad, 0,
+> > +               is_metadata_node(node) ? "metadata" : "image");
+> > +
+> > +       /* The metadata node can't be started alone. */
+> > +       if (is_metadata_node(node)) {
+> > +               if (!unicam->node[UNICAM_IMAGE_NODE].streaming) {
+> > +                       dev_err(unicam->dev,
+> > +                               "Can't start metadata without image\n");
+> > +                       ret = -EINVAL;
+> > +                       goto err_return_buffers;
+> > +               }
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 130 ++++++++++++++-----------------
->  1 file changed, 58 insertions(+), 72 deletions(-)
+> There's a slight change of behaviour in this function when compared to
+> the downstream/BSP non-streams enabled driver.
 > 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 1f91af25eac6..6c7eb4f04070 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -2222,24 +2222,6 @@ static int ccs_get_format(struct v4l2_subdev *subdev,
->  	return rval;
->  }
->  
-> -static void ccs_get_crop_compose(struct v4l2_subdev *subdev,
-> -				 struct v4l2_subdev_state *sd_state,
-> -				 struct v4l2_rect **crops,
-> -				 struct v4l2_rect **comps)
-> -{
-> -	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	unsigned int i;
-> -
-> -	if (crops)
-> -		for (i = 0; i < subdev->entity.num_pads; i++)
-> -			crops[i] =
-> -				v4l2_subdev_state_get_crop(sd_state, i,
-> -							   CCS_STREAM_PIXEL);
-> -	if (comps)
-> -		*comps = v4l2_subdev_state_get_compose(sd_state, ssd->sink_pad,
-> -						       CCS_STREAM_PIXEL);
-> -}
-> -
->  /* Changes require propagation only on sink pad. */
->  static void ccs_propagate(struct v4l2_subdev *subdev,
->  			  struct v4l2_subdev_state *sd_state, int which,
-> @@ -2247,15 +2229,17 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect *comp, *crops[CCS_PADS];
-> +	struct v4l2_rect *comp, *crop;
->  	struct v4l2_mbus_framefmt *fmt;
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
-> -
-> +	comp = v4l2_subdev_state_get_compose(sd_state, ssd->sink_pad,
-> +					     CCS_STREAM_PIXEL);
->  	switch (target) {
->  	case V4L2_SEL_TGT_CROP:
-> -		comp->width = crops[CCS_PAD_SINK]->width;
-> -		comp->height = crops[CCS_PAD_SINK]->height;
-> +		crop = v4l2_subdev_state_get_crop(sd_state, CCS_PAD_SINK,
-> +						  CCS_STREAM_PIXEL);
-> +		comp->width = crop->width;
-> +		comp->height = crop->height;
->  		if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  			if (ssd == sensor->scaler) {
->  				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-> @@ -2269,13 +2253,15 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  		}
->  		fallthrough;
->  	case V4L2_SEL_TGT_COMPOSE:
-> -		*crops[CCS_PAD_SRC] = *comp;
-> +		crop = v4l2_subdev_state_get_crop(sd_state, CCS_PAD_SRC,
-> +						  CCS_STREAM_PIXEL);
-> +		*crop = *comp;
->  		fmt = v4l2_subdev_state_get_format(sd_state, CCS_PAD_SRC,
->  						   CCS_STREAM_PIXEL);
->  		fmt->width = comp->width;
->  		fmt->height = comp->height;
->  		if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
-> -			sensor->src_src = *crops[CCS_PAD_SRC];
-> +			sensor->src_src = *crop;
->  		break;
->  	default:
->  		WARN_ON_ONCE(1);
-> @@ -2416,7 +2402,7 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect *crops[CCS_PADS];
-> +	struct v4l2_rect *crop;
->  
->  	if (subdev == &sensor->src->sd && fmt->pad == CCS_PAD_META)
->  		return ccs_get_format(subdev, sd_state, fmt);
-> @@ -2458,12 +2444,13 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
->  		      CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
->  		      CCS_LIM(sensor, MAX_Y_OUTPUT_SIZE));
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, NULL);
-> +	crop = v4l2_subdev_state_get_crop(sd_state, ssd->sink_pad,
-> +					  CCS_STREAM_PIXEL);
->  
-> -	crops[ssd->sink_pad]->left = 0;
-> -	crops[ssd->sink_pad]->top = 0;
-> -	crops[ssd->sink_pad]->width = fmt->format.width;
-> -	crops[ssd->sink_pad]->height = fmt->format.height;
-> +	crop->left = 0;
-> +	crop->top = 0;
-> +	crop->width = fmt->format.width;
-> +	crop->height = fmt->format.height;
->  	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
->  
->  	mutex_unlock(&sensor->mutex);
-> @@ -2518,24 +2505,23 @@ static int scaling_goodness(struct v4l2_subdev *subdev, int w, int ask_w,
->  static void ccs_set_compose_binner(struct v4l2_subdev *subdev,
->  				   struct v4l2_subdev_state *sd_state,
->  				   struct v4l2_subdev_selection *sel,
-> -				   struct v4l2_rect **crops,
-> +				   struct v4l2_rect *sink_crop,
+> In the BSP driver, if the embedded data node has been enabled, we wait
+> for both image and embedded data nodes to have start_streaming()
+> called before starting the sensor (see
+> https://github.com/raspberrypi/linux/blob/c04af98514c26014a4f29ec87b3ece95626059bd/drivers/media/platform/bcm2835/bcm2835-unicam.c#L2559).
+> This is also the same for the Pi 5 CFE driver.
+> 
+> With the logic in this function, we only wait for start_streaming() on
+> the image node then start the sensor streaming immediately.  When
+> start_streaming() for the embedded data node is subsequently called,
+> we end up with the first N buffers missing and/or invalid as the HW
+> channel is enabled while the sensor is streaming.  I noticed this when
+> using libcamera where we start image then embedded node.  If I flip
+> things around (start embedded first then image), everything works as
+> expected.
+> 
+> Could we add back the test to ensure all nodes are streaming before
+> starting the sensor?
 
-const
+Yes, I don't think the current implementation is good. I'm not sure why
+the logic got changed, but I'll address it in the next version.
 
->  				   struct v4l2_rect *comp)
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	unsigned int i;
->  	unsigned int binh = 1, binv = 1;
->  	int best = scaling_goodness(
-> -		subdev,
-> -		crops[CCS_PAD_SINK]->width, sel->r.width,
-> -		crops[CCS_PAD_SINK]->height, sel->r.height, sel->flags);
-> +		subdev,	sink_crop->width, sel->r.width,
+> > +
+> > +               spin_lock_irqsave(&node->dma_queue_lock, flags);
+> > +               buf = list_first_entry(&node->dma_queue,
+> > +                                      struct unicam_buffer, list);
+> > +               dev_dbg(unicam->dev, "buffer %p\n", buf);
+> > +               node->cur_frm = buf;
+> > +               node->next_frm = buf;
+> > +               list_del(&buf->list);
+> > +               spin_unlock_irqrestore(&node->dma_queue_lock, flags);
+> > +
+> > +               unicam_start_metadata(unicam, buf);
+> > +               node->streaming = true;
+> > +               return 0;
+> > +       }
+> > +
+> > +       ret = pm_runtime_resume_and_get(unicam->dev);
+> > +       if (ret < 0) {
+> > +               dev_err(unicam->dev, "PM runtime resume failed: %d\n", ret);
+> > +               goto err_return_buffers;
+> > +       }
+> > +
+> > +       ret = video_device_pipeline_start(&node->video_dev, &unicam->pipe);
+> > +       if (ret < 0) {
+> > +               dev_dbg(unicam->dev, "Failed to start media pipeline: %d\n", ret);
+> > +               goto err_pm_put;
+> > +       }
+> > +
+> > +       spin_lock_irqsave(&node->dma_queue_lock, flags);
+> > +       buf = list_first_entry(&node->dma_queue,
+> > +                              struct unicam_buffer, list);
+> > +       dev_dbg(unicam->dev, "buffer %p\n", buf);
+> > +       node->cur_frm = buf;
+> > +       node->next_frm = buf;
+> > +       list_del(&buf->list);
+> > +       spin_unlock_irqrestore(&node->dma_queue_lock, flags);
+> > +
+> > +       unicam_start_rx(unicam, buf);
+> > +
+> > +       ret = v4l2_subdev_enable_streams(&unicam->subdev.sd, remote_pad, BIT(0));
+> > +       if (ret < 0) {
+> > +               dev_err(unicam->dev, "stream on failed in subdev\n");
+> > +               goto error_pipeline;
+> > +       }
+> > +
+> > +       node->streaming = true;
+> > +
+> > +       return 0;
+> > +
+> > +error_pipeline:
+> > +       video_device_pipeline_stop(&node->video_dev);
+> > +err_pm_put:
+> > +       pm_runtime_put_sync(unicam->dev);
+> > +err_return_buffers:
+> > +       unicam_return_buffers(node, VB2_BUF_STATE_QUEUED);
+> > +       return ret;
+> > +}
 
-s/\tsink_crop/ sink_crop/
-
-> +		sink_crop->height, sel->r.height, sel->flags);
-
-	int best = scaling_goodness(subdev, sink_crop->width, sel->r.width,
-				    sink_crop->height, sel->r.height,
-				    sel->flags);
-
->  
->  	for (i = 0; i < sensor->nbinning_subtypes; i++) {
->  		int this = scaling_goodness(
->  			subdev,
-> -			crops[CCS_PAD_SINK]->width
-> +			sink_crop->width
->  			/ sensor->binning_subtypes[i].horizontal,
->  			sel->r.width,
-> -			crops[CCS_PAD_SINK]->height
-> +			sink_crop->height
->  			/ sensor->binning_subtypes[i].vertical,
->  			sel->r.height, sel->flags);
-
-You know this is horrible to read, right ? :-)
-
->  
-> @@ -2550,8 +2536,8 @@ static void ccs_set_compose_binner(struct v4l2_subdev *subdev,
->  		sensor->binning_horizontal = binh;
->  	}
->  
-> -	sel->r.width = (crops[CCS_PAD_SINK]->width / binh) & ~1;
-> -	sel->r.height = (crops[CCS_PAD_SINK]->height / binv) & ~1;
-> +	sel->r.width = (sink_crop->width / binh) & ~1;
-> +	sel->r.height = (sink_crop->height / binv) & ~1;
->  }
->  
->  /*
-> @@ -2566,7 +2552,7 @@ static void ccs_set_compose_binner(struct v4l2_subdev *subdev,
->  static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  				   struct v4l2_subdev_state *sd_state,
->  				   struct v4l2_subdev_selection *sel,
-> -				   struct v4l2_rect **crops,
-> +				   struct v4l2_rect *sink_crop,
-
-const
-
->  				   struct v4l2_rect *comp)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(subdev);
-> @@ -2579,17 +2565,12 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  	unsigned int i;
->  	int best = INT_MIN;
->  
-> -	sel->r.width = min_t(unsigned int, sel->r.width,
-> -			     crops[CCS_PAD_SINK]->width);
-> -	sel->r.height = min_t(unsigned int, sel->r.height,
-> -			      crops[CCS_PAD_SINK]->height);
-> -
-> -	a = crops[CCS_PAD_SINK]->width
-> -		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.width;
-> -	b = crops[CCS_PAD_SINK]->height
-> -		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
-> -	max_m = crops[CCS_PAD_SINK]->width
-> -		* CCS_LIM(sensor, SCALER_N_MIN)
-> +	sel->r.width = min_t(unsigned int, sel->r.width, sink_crop->width);
-> +	sel->r.height = min_t(unsigned int, sel->r.height, sink_crop->height);
-> +
-> +	a = sink_crop->width * CCS_LIM(sensor, SCALER_N_MIN) / sel->r.width;
-> +	b = sink_crop->height * CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
-> +	max_m = sink_crop->width * CCS_LIM(sensor, SCALER_N_MIN)
->  		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
->  
->  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
-> @@ -2622,10 +2603,10 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  	for (i = 0; i < ntry; i++) {
->  		int this = scaling_goodness(
->  			subdev,
-> -			crops[CCS_PAD_SINK]->width
-> +			sink_crop->width
->  			/ try[i] * CCS_LIM(sensor, SCALER_N_MIN),
->  			sel->r.width,
-> -			crops[CCS_PAD_SINK]->height,
-> +			sink_crop->height,
->  			sel->r.height,
->  			sel->flags);
->  
-> @@ -2642,12 +2623,10 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  			continue;
->  
->  		this = scaling_goodness(
-> -			subdev, crops[CCS_PAD_SINK]->width
-> -			/ try[i]
-> +			subdev, sink_crop->width / try[i]
->  			* CCS_LIM(sensor, SCALER_N_MIN),
->  			sel->r.width,
-> -			crops[CCS_PAD_SINK]->height
-> -			/ try[i]
-> +			sink_crop->height / try[i]
->  			* CCS_LIM(sensor, SCALER_N_MIN),
->  			sel->r.height,
->  			sel->flags);
-> @@ -2660,17 +2639,15 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  	}
->  
->  	sel->r.width =
-> -		(crops[CCS_PAD_SINK]->width
-> -		 / scale_m
-> +		(sink_crop->width / scale_m
->  		 * CCS_LIM(sensor, SCALER_N_MIN)) & ~1;
-
-	sel->r.width = (sink_crop->width / scale_m
-		* CCS_LIM(sensor, SCALER_N_MIN)) & ~1;
-
->  	if (mode == SMIAPP_SCALING_MODE_BOTH)
->  		sel->r.height =
-> -			(crops[CCS_PAD_SINK]->height
-> -			 / scale_m
-> +			(sink_crop->height / scale_m
->  			 * CCS_LIM(sensor, SCALER_N_MIN))
->  			& ~1;
->  	else
-> -		sel->r.height = crops[CCS_PAD_SINK]->height;
-> +		sel->r.height = sink_crop->height;
->  
->  	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		sensor->scale_m = scale_m;
-> @@ -2684,17 +2661,20 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect *comp, *crops[CCS_PADS];
-> +	struct v4l2_rect *comp, *sink_crop;
-
-sink_crop can be const.
-
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
-> +	sink_crop = v4l2_subdev_state_get_crop(sd_state, CCS_PAD_SINK,
-> +					       CCS_STREAM_PIXEL);
-> +	comp = v4l2_subdev_state_get_compose(sd_state, ssd->sink_pad,
-> +					     CCS_STREAM_PIXEL);
->  
->  	sel->r.top = 0;
->  	sel->r.left = 0;
->  
->  	if (ssd == sensor->binner)
-> -		ccs_set_compose_binner(subdev, sd_state, sel, crops, comp);
-> +		ccs_set_compose_binner(subdev, sd_state, sel, sink_crop, comp);
->  	else
-> -		ccs_set_compose_scaler(subdev, sd_state, sel, crops, comp);
-> +		ccs_set_compose_scaler(subdev, sd_state, sel, sink_crop, comp);
->  
->  	*comp = sel->r;
->  	ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_COMPOSE);
-> @@ -2755,9 +2735,12 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect src_size = { 0 }, *crops[CCS_PADS], *comp;
-> +	struct v4l2_rect src_size = { 0 }, *crop, *comp;
-
-comp can be const.
-
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
-> +	crop = v4l2_subdev_state_get_crop(sd_state, sel->pad,
-> +					  CCS_STREAM_PIXEL);
-> +	comp = v4l2_subdev_state_get_compose(sd_state, ssd->sink_pad,
-> +					     CCS_STREAM_PIXEL);
->  
->  	if (sel->pad == ssd->sink_pad) {
->  		struct v4l2_mbus_framefmt *mfmt =
-> @@ -2781,7 +2764,7 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
->  	sel->r.left = min_t(int, sel->r.left, src_size.width - sel->r.width);
->  	sel->r.top = min_t(int, sel->r.top, src_size.height - sel->r.height);
->  
-> -	*crops[sel->pad] = sel->r;
-> +	*crop = sel->r;
->  
->  	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
->  		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
-> @@ -2806,14 +2789,17 @@ static int ccs_get_selection(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect *comp, *crops[CCS_PADS];
-> +	struct v4l2_rect *crop, *comp;
-
-const
-
->  	int ret;
->  
->  	ret = ccs_sel_supported(subdev, sel);
->  	if (ret)
->  		return ret;
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
-> +	crop = v4l2_subdev_state_get_crop(sd_state, sel->pad,
-> +					  CCS_STREAM_PIXEL);
-> +	comp = v4l2_subdev_state_get_compose(sd_state, ssd->sink_pad,
-> +					     CCS_STREAM_PIXEL);
->  
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
-> @@ -2835,7 +2821,7 @@ static int ccs_get_selection(struct v4l2_subdev *subdev,
->  		break;
->  	case V4L2_SEL_TGT_CROP:
->  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-> -		sel->r = *crops[sel->pad];
-> +		sel->r = *crop;
->  		break;
->  	case V4L2_SEL_TGT_COMPOSE:
->  		sel->r = *comp;
+[snip]
 
 -- 
 Regards,
