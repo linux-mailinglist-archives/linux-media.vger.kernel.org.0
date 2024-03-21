@@ -1,190 +1,165 @@
-Return-Path: <linux-media+bounces-7450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7451-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C4D88558A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACF58855A9
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 09:28:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F87E1F20CDB
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:18:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 571DB1F223EF
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 08:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C683878260;
-	Thu, 21 Mar 2024 08:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA245A117;
+	Thu, 21 Mar 2024 08:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h9DsC4hY"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Bbvb4oz8";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Jeo/faYo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4291C5A0FE
-	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 08:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5C31DFD2
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 08:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711008946; cv=none; b=pWNrFtSNgJxp09ITFnt80WFIxCN/Sr3bX4oZ1I5uEjkdv10zldLn9mpYe2gn6PAfkAY8F2x7sikoZaufM6ict9atyVaFQLgzY0Jj0TFE0QrNwCO5V+xu8rNQoPX+nGz3IB0LBpd+LT0JZG1825vO23Hzt64iQt/ILvi8IYNKwxM=
+	t=1711009694; cv=none; b=egVva5ltiNvBhaRn7APVeSE3YbnoHsBEJNAWZLoB1gXp9GbTt0iIkwbpMZrzjFZhGNzKnBp33kUKEUu3x6zUQnuDj8pobXA0hM4nHu2GdgwXPiSKUeghra81o+svvyuDrmOlSenUz757ookydryvCh+nOhdwQDDPNvb+4sv9YwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711008946; c=relaxed/simple;
-	bh=1oZTswTLCK7Z+3DMifQ0y7SMF5QBjEZ6wL1QP9Si9+o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YyPzWNPTlmU8Gc/th6YyJ9xWa8SJuEdkXhD9jLd2ryVip+UrbDpl3GGerQGCiqOZixqd92bBjkhm8ON548T+3X8ck6ymhegYb+epi03PmRZkXQ3SB9e5FGbCXGuJcN8UNYg3HWKMdj/tAxB1IMJ6ZW6qFOj7O1Ag0RBJ4ePwV3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h9DsC4hY; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a4707502aafso120298066b.0
-        for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 01:15:43 -0700 (PDT)
+	s=arc-20240116; t=1711009694; c=relaxed/simple;
+	bh=hmFnxZG0frELyPGrnQY/tUTjodSvdd5rbBbBZX6TNwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cUYWNYmEgUrvMeHPCFHCxrp8xOSV3I+u7ANGwBO+VqmYq3LCv65hHWVk9j1DVgfh/RmqjUJz04PGM/jEBkQHSg6XIHcRofEoZpgBpoum05IAIRXS6Gtxve2IF2m/98j1HHdTOkhs2GI5lPV9ijXsS7eGI9aY6oSk7blyS1UwJcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=Bbvb4oz8; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=Jeo/faYo reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711008941; x=1711613741; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=x816MoU6PHSK5OV4r96bOarzyV/+1Q+CoptfU+1txQM=;
-        b=h9DsC4hYNedfaO+Ai0bQHOhZ0aB9/CWWEM81HZ9i1ayIpBadnCqhLsd5nZUFPNf3oI
-         aUwkZILE/fY12sWcvQAMH6ASR+acgBNjk3V2jj0ZkuVy11AgumeCZ+zsmnFpPbgCi0mG
-         stzfpSZ9X9Pzn1SrV2v60xCOSsObuAKBnogmf2QpiSQAvxQ5St2vKB62e2ER2GnQwRup
-         AQYCkYiK2CLMG+Svu5efvPQ4cP/vl9FfVyeg6eiuvayMkI2r7U8DAFEsiKsvEEh+E3EI
-         pCZM+StDPBRdslQmUtIXLBTk+yNZQW4FpRXdgDk7WD8q9AQ2isl2U39E1+EyYMuq9282
-         gRbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711008941; x=1711613741;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x816MoU6PHSK5OV4r96bOarzyV/+1Q+CoptfU+1txQM=;
-        b=MPTCx9HqBWWPrS70N9m2fSD0+yvxfyXAD/DiXUnWJRGJN5ix0K3MYVzJcDC29tIMCU
-         WcVzyUZTzlT3tSNJuAyrM4K/rB37W+m77flwPojyiEr9+cr6YRPX1AFULTS/cfa8mzaL
-         CtOUWliyWe5qef6tLmPtr3+4QIjlMvFq9XS+G3uPfEHuwGwzEf0a7b4bO1WUzjpQDuea
-         /cf1D3Dw99yaEwbrmOBjLR9CNoqpqZRMa97deTBh+F6J0MJUYBro2ePul5w6Me6KhcSE
-         GB5VrPhGUpglWnkm0OXXDNkoBOUtwqPqyw/4eRbXzzn91ddVvJjK/LHKYMCeuYH99/88
-         KYWw==
-X-Forwarded-Encrypted: i=1; AJvYcCVkTYQm1t+aQf6BcgccvO3MJfg8DQD4oPgtWLAdqZ7ip01Dv3FQBFnqxsrS1yI/27Tdmr2zwxbH8PROcD6NxhojKi0qB3zC5kGm7FA=
-X-Gm-Message-State: AOJu0YxaqxyfTgJSannWrFs/JbagKIrusZ3G2RbOgYY2ZPgPPbijS5el
-	ljOEU+6kyw/KL8d9dXkLJpVunwn34S+q20KgYgJMMUWxNnFUbX4qqTWrfZseXaE=
-X-Google-Smtp-Source: AGHT+IEYkiatPL37N//Ix/BRdeKpjBwTSEgxXwfCLeLYT0Kun6SLo6VDUqL7zQG4KSTdCVIAtECJiQ==
-X-Received: by 2002:a17:907:b9cf:b0:a46:f563:a642 with SMTP id xa15-20020a170907b9cf00b00a46f563a642mr1790488ejc.7.1711008941627;
-        Thu, 21 Mar 2024 01:15:41 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id a4-20020a170906368400b00a44936527b5sm8253978ejc.99.2024.03.21.01.15.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 01:15:41 -0700 (PDT)
-Message-ID: <a60f6017-bd19-431e-8cff-7d73f6f114fe@linaro.org>
-Date: Thu, 21 Mar 2024 09:15:38 +0100
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1711009690; x=1742545690;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UivPSG3oxRpc+jkoFyuRewtFyXNkWl7e2bCcde0Nne4=;
+  b=Bbvb4oz8XEA+qkF1OxGY2cpQlvxl11lv3UD8hAI9KbSShUrSoRlw68JJ
+   pBelCqF0nXn70uZ6V3RGRZ0ebWVM7Zyx8l+9oKP0dr80huL+wlX7EywfR
+   rTT4D8WpOhwO3H8eH0tlxP7Prbxx0M6XCm5+mfuCsuot9FKYM/zecmIFv
+   DsyGCVo6sLx0QhwWgiWtPKMzd7sahmHi301ROczXeRHZ+bWaSxPadZOCS
+   7KOKmqcS3a5q1wbtseS9f8FVEqYr/12H2ePh/9ysNXZYuh0KL4LlnF8kn
+   O2EhwnakrpSs4W15KWhhG9etrWUbOktcOvo14XIloL6tytRXWI4nZ/m2O
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.07,142,1708383600"; 
+   d="scan'208";a="36022069"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 21 Mar 2024 09:28:02 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B5CA7160F29;
+	Thu, 21 Mar 2024 09:27:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1711009678;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UivPSG3oxRpc+jkoFyuRewtFyXNkWl7e2bCcde0Nne4=;
+	b=Jeo/faYo1f1SwVCbBjj0w+c2TRhDtyK0+a1s9O+5LZiT4ibUpZUQtbf/R/S/RLoQ42QSvY
+	Ct9jxpqSBKg9prJaV7gGxKP+lYa1BKcK+tzCRqsFve9m6rVLeYoHuJvHvAmfKX+u/D3nqf
+	Tamkuj/WwAbXtLXVE90R5XIAsNBP/VRDNAn8S7D9LCQwgxTwgUUlFmJpjDG4aAb/NnnI47
+	eQPJmkf87L4wOsLECjMg47G601X2ye/UVNiYLg/L44xVbq8/GpwIM35F7ieG2WJh2+cPmp
+	kwAbNXQ6Cqxsrt+O6T0QLcGOBN8NugdMWY7HFnIQ7fKyag1MXUZsO3SSgulPGA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 2/2] media: v4l: async: Properly check for a notifier initialised or registered
+Date: Thu, 21 Mar 2024 09:28:01 +0100
+Message-ID: <7831497.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <ZfqLRxUOwmh60gq1@kekkonen.localdomain>
+References: <20240311121741.1249976-1-sakari.ailus@linux.intel.com> <8691787.DvuYhMxLoT@steina-w> <ZfqLRxUOwmh60gq1@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add VEPU121 to rk3588
-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, linux-kernel@vger.kernel.org
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Chris Morgan <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev
-References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
- <20240320173736.2720778-4-linkmauve@linkmauve.fr>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240320173736.2720778-4-linkmauve@linkmauve.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
-> The TRM (version 1.0 page 385) lists five VEPU121 cores, but only four
-> interrupts are listed (on page 24), so I’ve only enabled four of them
-> for now.
-> 
-> Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++++
->  1 file changed, 80 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 2a23b4dc36e4..fe77b56ac9a0 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -2488,6 +2488,86 @@ gpio4: gpio@fec50000 {
->  		};
->  	};
->  
-> +	jpeg_enc0: video-codec@fdba0000 {
-> +		compatible = "rockchip,rk3588-vepu121";
-> +		reg = <0x0 0xfdba0000 0x0 0x800>;
-> +		interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
-> +		clock-names = "aclk", "hclk";
-> +		iommus = <&jpeg_enc0_mmu>;
-> +		power-domains = <&power RK3588_PD_VDPU>;
-> +	};
-> +
-> +	jpeg_enc0_mmu: iommu@fdba0800 {
-> +		compatible = "rockchip,rk3588-iommu";
+Hi Sakari,
 
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
+Am Mittwoch, 20. M=E4rz 2024, 08:07:51 CET schrieb Sakari Ailus:
+> Hi Alexander,
+>=20
+> On Thu, Mar 14, 2024 at 03:04:44PM +0100, Alexander Stein wrote:
+> > Hi Sakari,
+> >=20
+> > I suppose on of your intentions of this series is to replace my patch, =
+no?
+>=20
+> No, these are somewhat unrelated issues.
+
+Okay, thanks for confirmation.
+
+> >=20
+> > Am Montag, 11. M=E4rz 2024, 13:17:41 CET schrieb Sakari Ailus:
+> > > Properly check that a notifier was never initialised or register. Thi=
+s can
+> > > now be done by looking at the entry in the notifier list, not the V4L2
+> > > device or sub-device that are set in the initialiser now.
+> > >=20
+> > > Fixes: b8ec754ae4c5 ("media: v4l: async: Set v4l2_device and subdev i=
+n async notifier init")
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-async.c | 6 ++++--
+> > >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l=
+2-core/v4l2-async.c
+> > > index 2ff35d5d60f2..3b43d6285dfe 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > > @@ -630,12 +630,14 @@ EXPORT_SYMBOL(v4l2_async_nf_register);
+> > >  static void
+> > >  __v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+> > >  {
+> > > -	if (!notifier || (!notifier->v4l2_dev && !notifier->sd))
+> > > +	/* Return here if the notifier is never initialised or registered. =
+*/
+> > > +	if (!notifier->notifier_entry.next ||
+> >=20
+> > I don't like the idea checking the next pointer of a list.
+> > Despite that it's not even necessary.
+>=20
+> Actually I think we can drop the above change. But the list_del_init()
+> below is still necessary.
+
+I agree about the list_del_init() change.
 
 Best regards,
-Krzysztof
+Alexander
+
+> >=20
+> > Best regards,
+> > Alexander
+> >=20
+> > > +	    list_empty(&notifier->notifier_entry))
+> > >  		return;
+> > > =20
+> > >  	v4l2_async_nf_unbind_all_subdevs(notifier);
+> > > =20
+> > > -	list_del(&notifier->notifier_entry);
+> > > +	list_del_init(&notifier->notifier_entry);
+> > >  }
+> > > =20
+> > >  void v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+> > >=20
+> >=20
+> >=20
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
