@@ -1,439 +1,437 @@
-Return-Path: <linux-media+bounces-7513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30677885D2A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:14:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E56D885D50
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 17:21:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 543C71C215A6
-	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:14:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8782CB22A0C
+	for <lists+linux-media@lfdr.de>; Thu, 21 Mar 2024 16:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE25412C52B;
-	Thu, 21 Mar 2024 16:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C0812CD8F;
+	Thu, 21 Mar 2024 16:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PDzS3dqR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EiwkjJV3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8D712BF1C;
-	Thu, 21 Mar 2024 16:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3A312CD8C
+	for <linux-media@vger.kernel.org>; Thu, 21 Mar 2024 16:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711037671; cv=none; b=SaaIgFrXqTvDDpfni3EI0pTf/dhkybgtdGO7uNsNso8tZg/+ZVQYgLoYwP52D/TioI9F6PmtSHmjHX/OvfaSmt1Vo3MXYFBVaZF0amWMXQy07cTNyIbVep1e9wesZ7NH2Gjg3WUAV8BEn3vmjl7NHWlQmGXi2POyPxo79h02jK4=
+	t=1711038088; cv=none; b=gCj9pOv5v2jPeLv4gGrEaCvX7WndCFO6dyFeKTyz8gFHT8b4FUhN/HwnI5MPGcq7mV7Za+1b6Bm05AnEmI0BthpQ3ustfZJ9gWGN+mRPf2D+TxjirSJv2SGCuHjwNYcZF0CAGLWMmgV7GLUbOKNFykZ+NBylFHdVEVnDgZMw1rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711037671; c=relaxed/simple;
-	bh=ATHW4l7+VzEJVNd0oRtBB+PVPdz6XO1gVAyM0g7Xjxo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RR6q3j4hY0Dtq6wXFNk21WsrFXXvFtX/FSaw+vVtqjw67VCN3wriGLTWa1aYna88Mm+cFgzvL1acRGigiq2sBgCLCVInpXoEEwKXy0sXvOZ0HrJgqeFNE1YuSfRwmxS1X0Nmb5ZcVVWEZNq/VHLpHrzG6Omt+qG/SkDe6+J1+gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PDzS3dqR; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42LGE5hk069945;
-	Thu, 21 Mar 2024 11:14:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1711037645;
-	bh=2o0Am6MIlci3J2ucGV6hxCwC40MPoS38WdmWSHKq56E=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=PDzS3dqRrciOFBHz2lff6rUzOzk4PPEyHi2sjo3Css3FQyDbMARNarwl3nWfIMZ3N
-	 76av2G7nMVt7d0ULvUEp9FwEpannzIZbTz2u+yCwWn6emU4nWHYys9VsW8Q9VGZxoQ
-	 /WqXRVDY5Kz5kRilalPSDNjuRUCMm4nGHIJUM/BA=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42LGE53I017498
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 21 Mar 2024 11:14:05 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 21
- Mar 2024 11:14:05 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 21 Mar 2024 11:14:05 -0500
-Received: from localhost (udba0500997.dhcp.ti.com [128.247.81.249])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42LGE5UJ098485;
-	Thu, 21 Mar 2024 11:14:05 -0500
-Date: Thu, 21 Mar 2024 11:14:05 -0500
-From: Brandon Brnich <b-brnich@ti.com>
-To: Ivan Bornyakov <brnkv.i1@gmail.com>
-CC: Nas Chung <nas.chung@chipsnmedia.com>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jackson.lee"
-	<jackson.lee@chipsnmedia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 5/6] media: chips-media: wave5: refine SRAM usage
-Message-ID: <20240321161405.i3xnyuqnfwzyomex@udba0500997>
-References: <20240318144225.30835-1-brnkv.i1@gmail.com>
- <20240318144225.30835-6-brnkv.i1@gmail.com>
- <SL2P216MB1246F7FA7E95896AA2409C90FB2C2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <hpqhbksvyfbqjumopk2k2drxri2ycb6j2dbdo74cfymcd7blgx@kzomazfosfwg>
- <20240319210106.awn33cm7ex33g65b@udba0500997>
- <SL2P216MB12468C7256CE2468EE088E7CFB322@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
+	s=arc-20240116; t=1711038088; c=relaxed/simple;
+	bh=pGJMO0unieV6WDIhRllJQjfcz7CNQ7l2UM9wQmWXl24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEA7yrtBJtk8cMhI9YenNqNwKPbbLHUUPYSnqssb68wtcBu+J9SJHSztGUX+9HdccCpCZF9cMq7WgT1KzW8NWDpe2uHsUSkrvzmQJmaWfB+qKZ4U86vmi172PafJkqlyON3RzEh7SGGY4D6Xt5LOhnMtM04ME63tTJiSGBC1XOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EiwkjJV3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 570427E9;
+	Thu, 21 Mar 2024 17:20:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711038055;
+	bh=pGJMO0unieV6WDIhRllJQjfcz7CNQ7l2UM9wQmWXl24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EiwkjJV3a+IkQJgVceJVr8FJEJ6mhnMTB7mKQFrhovJv/2Gjfu/377He6p2xP1Ezs
+	 l+y6mcVwiFiaPcjVMC8zOULpups2LFNZZi2jJ8Adh7tyessNI9Fa8bGXPjajGktNCZ
+	 bifj0kwevEtwLnoCnRmoGAXyw0u0dn+zvvcovXbc=
+Date: Thu, 21 Mar 2024 18:21:20 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 19/38] media: ccs: Use {enable,disable}_streams
+ operations
+Message-ID: <20240321162120.GW8501@pendragon.ideasonboard.com>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-20-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <tg32tsfnj3pmboaaeslvrmf7wtvznagio3vtqot42iflz5lvh7@25s5ykv3dfuz>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20240313072516.241106-20-sakari.ailus@linux.intel.com>
 
-Hi Ivan, 
+Hi Sakari,
 
-On 13:52-20240321, Ivan Bornyakov wrote:
-> Hi!
-> 
-> On Thu, Mar 21, 2024 at 09:29:04AM +0000, Nas Chung wrote:
-> > Hi, Ivan and Brandon.
-> > 
-> > >-----Original Message-----
-> > >On 14:24-20240319, Ivan Bornyakov wrote:
-> > >> Hello, Nas
-> > >>
-> > >> On Tue, Mar 19, 2024 at 10:56:22AM +0000, Nas Chung wrote:
-> > >> > Hi, Ivan.
-> > >> >
-> > >> > >
-> > >> > >Allocate SRAM memory on module probe, free on remove. There is no
-> > >need
-> > >> > >to allocate on device open, free on close, the memory is the same
-> > >every
-> > >> > >time.
-> > >> >
-> > >> > If there is no decoder/encoder instance, driver don't need to
-> > >allocate SRAM memory.
-> > >> > The main reason of allocating the memory in open() is to allow other
-> > >modules to
-> > >> > use more SRAM memory, if wave5 is not working.
-> > >
-> > >I have to agree with this statement. Moving allocation to probe results
-> > >in wasting SRAM when VPU is not in use. VPU should only be allocating
-> > >SRAM
-> > >when a stream instance is running and free that back once all instances
-> > >close.
-> > >
-> > >> > >
-> > >> > >Also use gen_pool_size() to determine SRAM memory size to be
-> > >allocated
-> > >> > >instead of separate "sram-size" DT property to reduce duplication.
-> > >> > >
-> > >> > >Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
-> > >> > >---
-> > >> > > .../platform/chips-media/wave5/wave5-helper.c |  3 ---
-> > >> > > .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++-------
-> > >--
-> > >> > > .../chips-media/wave5/wave5-vpu-dec.c         |  2 --
-> > >> > > .../chips-media/wave5/wave5-vpu-enc.c         |  2 --
-> > >> > > .../platform/chips-media/wave5/wave5-vpu.c    | 12 +++++------
-> > >> > > .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
-> > >> > > 6 files changed, 16 insertions(+), 25 deletions(-)
-> > >> > >
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-> > >> > >index 8433ecab230c..ec710b838dfe 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-> > >> > >@@ -29,9 +29,6 @@ void wave5_cleanup_instance(struct vpu_instance
-> > >*inst)
-> > >> > > {
-> > >> > > 	int i;
-> > >> > >
-> > >> > >-	if (list_is_singular(&inst->list))
-> > >> > >-		wave5_vdi_free_sram(inst->dev);
-> > >> > >-
-> > >> > > 	for (i = 0; i < inst->fbc_buf_count; i++)
-> > >> > > 		wave5_vpu_dec_reset_framebuffer(inst, i);
-> > >> > >
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
-> > >> > >index 3809f70bc0b4..ee671f5a2f37 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
-> > >> > >@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
-> > >> > >*vpu_dev, struct vpu_buf *array,
-> > >> > > void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
-> > >> > > {
-> > >> > > 	struct vpu_buf *vb = &vpu_dev->sram_buf;
-> > >> > >+	dma_addr_t daddr;
-> > >> > >+	void *vaddr;
-> > >> > >+	size_t size;
-> > >> > >
-> > >> > >-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
-> > >> > >+	if (!vpu_dev->sram_pool || vb->vaddr)
-> > >> > > 		return;
-> > >> > >
-> > >> > >-	if (!vb->vaddr) {
-> > >> > >-		vb->size = vpu_dev->sram_size;
-> > >> > >-		vb->vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
-> > >> > >-					       &vb->daddr);
-> > >> > >-		if (!vb->vaddr)
-> > >> > >-			vb->size = 0;
-> > >> > >+	size = gen_pool_size(vpu_dev->sram_pool);
-> > >> > >+	vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
-> > >> > >+	if (vaddr) {
-> > >> > >+		vb->vaddr = vaddr;
-> > >> > >+		vb->daddr = daddr;
-> > >> > >+		vb->size = size;
-> > >> > > 	}
-> > >> > >
-> > >> > > 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
-> > >> > >0x%p\n",
-> > >> > >@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device
-> > >*vpu_dev)
-> > >> > > 	if (!vb->size || !vb->vaddr)
-> > >> > > 		return;
-> > >> > >
-> > >> > >-	if (vb->vaddr)
-> > >> > >-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
-> > >> > >-			      vb->size);
-> > >> > >+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
-> > >> > >>size);
-> > >> > >
-> > >> > > 	memset(vb, 0, sizeof(*vb));
-> > >> > > }
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-
-> > >dec.c
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > >> > >index aa0401f35d32..84dbe56216ad 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > >> > >@@ -1854,8 +1854,6 @@ static int wave5_vpu_open_dec(struct file
-> > >*filp)
-> > >> > > 		goto cleanup_inst;
-> > >> > > 	}
-> > >> > >
-> > >> > >-	wave5_vdi_allocate_sram(inst->dev);
-> > >> > >-
-> > >> > > 	return 0;
-> > >> > >
-> > >> > > cleanup_inst:
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-
-> > >enc.c
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > >> > >index 8bbf9d10b467..86ddcb82443b 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > >> > >@@ -1727,8 +1727,6 @@ static int wave5_vpu_open_enc(struct file
-> > >*filp)
-> > >> > > 		goto cleanup_inst;
-> > >> > > 	}
-> > >> > >
-> > >> > >-	wave5_vdi_allocate_sram(inst->dev);
-> > >> > >-
-> > >> > > 	return 0;
-> > >> > >
-> > >> > > cleanup_inst:
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > >> > >index f3ecadefd37a..2a0a70dd7062 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> > >> > >@@ -178,16 +178,11 @@ static int wave5_vpu_probe(struct
-> > >platform_device
-> > >> > >*pdev)
-> > >> > > 		return ret;
-> > >> > > 	}
-> > >> > >
-> > >> > >-	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
-> > >> > >-				   &dev->sram_size);
-> > >> > >-	if (ret) {
-> > >> > >-		dev_warn(&pdev->dev, "sram-size not found\n");
-> > >> > >-		dev->sram_size = 0;
-> > >> > >-	}
-> > >> > >-
-> > >> >
-> > >> > Required SRAM size is different from each wave5 product.
-> > >> > And, SoC vendor also can configure the different SRAM size
-> > >> > depend on target SoC specification even they use the same wave5
-> > >product.
-> > >> >
-> > >>
-> > >> One can limit iomem address range in SRAM node. Here is the example of
-> > >> how I setup Wave515 with SRAM:
-> > >>
-> > >> 	sram@2000000 {
-> > >> 		compatible = "mmio-sram";
-> > >> 		reg = <0x0 0x2000000 0x0 0x80000>;
-> > >> 		#address-cells = <1>;
-> > >> 		#size-cells = <1>;
-> > >> 		ranges = <0x0 0x0 0x2000000 0x80000>;
-> > >>
-> > >> 		wave515_vpu_sram: wave515-vpu-sram@0 {
-> > >> 			reg = <0x0 0x80000>;
-> > >> 			pool;
-> > >> 		};
-> > >> 	};
-> > >>
-> > >> 	wave515@410000 {
-> > >> 		compatible = "cnm,wave515";
-> > >> 		reg = <0x0 0x410000 0x0 0x10000>;
-> > >> 		clocks = <&clk_ref1>;
-> > >> 		clock-names = "videc";
-> > >> 		interrupt-parent = <&wave515_intc>;
-> > >> 		interrupts = <16 IRQ_TYPE_LEVEL_HIGH>;
-> > >> 		resets = <&wave515_reset 0>,
-> > >> 			 <&wave515_reset 4>,
-> > >> 			 <&wave515_reset 8>,
-> > >> 			 <&wave515_reset 12>;
-> > >> 		sram = <&wave515_vpu_sram>;
-> > >> 	};
-> > >>
-> > >> gen_pool_size() returns size of wave515_vpu_sram, no need for extra
-> > >> "sram-size" property.
-> > 
-> > Thanks for sharing the example.
-> > I agree that the "sram-size" property is not needed.
-> > 
-> > >
-> > >"sram-size" property does need to be removed, as this was the consensus
-> > >gathered from my patch[0]. However, I think your method is still taking
-> > 
-> > I missed the previous consensus for the sram-size property.
-> > Thanks for letting me know.
-> > 
-> > >a more static approach. One of the recommendations in my thread[1] was
-> > >making a list of known SRAM sizes given typical resolutions and
-> > >iterating through until a valid allocation is done. I don't think this
-> > >is the correct approach either based on Nas's comment that each Wave5
-> > >has different SRAM size requirement. It would clutter up the file too
-> > >much if each wave5 product had its own SRAM size mapping.
-> > >
-> > >Could another approach be to change Wave5 dts node to have property set
-> > >as "sram = <&sram>;" in your example, then driver calls
-> > >gen_pool_availble to get size remaining? From there, a check could be
-> > >put in place to make sure an unnecessary amount is not being allocated.
-> > 
-> > Ivan's approach looks good to me.
-> > It is similar to your first patch, which adds the sram-size property
-> > to configure different SRAM sizes for each device.
-> > And, Driver won't know unnecessary amount is allocated before parsing
-> > bitstream header.
+Thank you for the patch.
 
-I am aware of this, I should have been more specific. By unnecessary
-amount, I meant something greater than the max use case for device.
-Could we populate some macros that have max SRAM required for 4K stream?
-There's never a need to allocate more SRAM than that for a particular
-instance. If the amount available is less than that, then fine. But it
-should never be greater.
+On Wed, Mar 13, 2024 at 09:24:57AM +0200, Sakari Ailus wrote:
+> Switch from s_stream() video op to enable_streams() and disable_streams()
+> pad operations. They are preferred and required for streams support.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 187 +++++++++++++++----------------
+>  1 file changed, 88 insertions(+), 99 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 671540a8ab6a..9e70946653e9 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -1715,22 +1715,66 @@ static int ccs_power_off(struct device *dev)
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> - * Video stream management
+> + * V4L2 subdev video operations
+>   */
+>  
+> -static int ccs_start_streaming(struct ccs_sensor *sensor)
+> +static int ccs_pm_get_init(struct ccs_sensor *sensor)
 
-> > 
-> 
-> To sum up, there is 2 favourable approaches:
-> 
-> 1) to have dedicated SRAM partition for Wave5 VPU as suggested in this
-> patchset. In this approach SoC vendor can setup address range of said
-> partition to their needs, but other devices won't be able to use SRAM
-> memory reserved for Wave5 VPU, unless other device's SRAM memory needs
-> don't exceed the size of reserved partition.
-> 
-> Therefore it is sensible to substitute alloc/free on open/close with
-> alloc/free on open/close.
+This patch would have been easier to review if you had moved the
+function in a separate patch.
 
-Not sure what you mean here. Were you trying to refer to your
-substitution of alloc/free from open/close to probe/remove?
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> +	int rval;
+> +
+> +	/*
+> +	 * It can't use pm_runtime_resume_and_get() here, as the driver
+> +	 * relies at the returned value to detect if the device was already
+> +	 * active or not.
+> +	 */
+> +	rval = pm_runtime_get_sync(&client->dev);
+> +	if (rval < 0)
+> +		goto error;
+> +
+> +	/* Device was already active, so don't set controls */
+> +	if (rval == 1 && !sensor->handler_setup_needed)
+> +		return 0;
+> +
+> +	sensor->handler_setup_needed = false;
+> +
+> +	/* Restore V4L2 controls to the previously suspended device */
+> +	rval = __v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+> +
+> +	rval = __v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+> +
+> +	/* Keep PM runtime usage_count incremented on success */
+> +	return 0;
 
-If that is what you mean, and the decision is a specific carveout for
-SRAM, then I don't see a point in having allocation in open and close
-either since Wave5 would be the only IP that could use the pool.
+Missing blank line.
 
-> 
-> Advantages: driver code is simpler, no need for platform-specific defines
-> or DT properties. Wave5 is guaranteed to get SRAM memory.
-> 
-> Disadvantage: waste of SRAM memory while VPU is not in use
-> 
-> 2) allocate all available SRAM memory on open (free on close) from the
-> common SRAM pool, but limit maximum amount with SoC-specific define.
-> 
+> +error:
+> +	pm_runtime_put(&client->dev);
+> +	return rval;
+> +}
+> +
+> +static int ccs_enable_streams(struct v4l2_subdev *subdev,
+> +			      struct v4l2_subdev_state *state, u32 pad,
+> +			      u64 streams_mask)
+>  {
+> +	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+>  	unsigned int binning_mode;
+>  	int rval;
+>  
+> -	mutex_lock(&sensor->mutex);
+> +	if (pad != CCS_PAD_SRC)
+> +		return -EINVAL;
+> +
+> +	rval = ccs_pm_get_init(sensor);
+> +	if (rval)
+> +		return rval;
+>  
+>  	rval = ccs_write(sensor, CSI_DATA_FORMAT,
+>  			 (sensor->csi_format->width << 8) |
+>  			 sensor->csi_format->compressed);
+>  	if (rval)
+> -		goto out;
+> +		goto err_pm_put;
 
-Why does it have to be on SoC specific define? Max size required for
-SRAM in a 4K case is known. A call can be made to get the size of the
-pool and from there the driver can take a portion. Just make sure that
-portion is less than known value for 4K. 
+You could also have renamed the error label separately :-)
 
-> Advantage: less memory waste
-> 
-> Disadvantages: still need SoC-specific define or DT property, not much
-> differ from current state. Wave5 is not guaranteed to get SRAM memory.
-> 
+>  
+>  	/* Binning configuration */
+>  	if (sensor->binning_horizontal == 1 &&
+> @@ -1743,38 +1787,38 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
+>  
+>  		rval = ccs_write(sensor, BINNING_TYPE, binning_type);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  
+>  		binning_mode = 1;
+>  	}
+>  	rval = ccs_write(sensor, BINNING_MODE, binning_mode);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	/* Set up PLL */
+>  	rval = ccs_pll_configure(sensor);
+>  	if (rval)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	/* Analog crop start coordinates */
+>  	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	/* Analog crop end coordinates */
+>  	rval = ccs_write(sensor, X_ADDR_END,
+>  			 sensor->pa_src.left + sensor->pa_src.width - 1);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	rval = ccs_write(sensor, Y_ADDR_END,
+>  			 sensor->pa_src.top + sensor->pa_src.height - 1);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	/*
+>  	 * Output from pixel array, including blanking, is set using
+> @@ -1787,22 +1831,22 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
+>  		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
+>  				 sensor->scaler_sink.left);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  
+>  		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
+>  				 sensor->scaler_sink.top);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  
+>  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
+>  				 sensor->scaler_sink.width);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  
+>  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
+>  				 sensor->scaler_sink.height);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  	}
+>  
+>  	/* Scaling */
+> @@ -1810,20 +1854,20 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
+>  	    != CCS_SCALING_CAPABILITY_NONE) {
+>  		rval = ccs_write(sensor, SCALING_MODE, sensor->scaling_mode);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  
+>  		rval = ccs_write(sensor, SCALE_M, sensor->scale_m);
+>  		if (rval < 0)
+> -			goto out;
+> +			goto err_pm_put;
+>  	}
+>  
+>  	/* Output size from sensor */
+>  	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
+>  	if (rval < 0)
+> -		goto out;
+> +		goto err_pm_put;
+>  
+>  	if (CCS_LIM(sensor, FLASH_MODE_CAPABILITY) &
+>  	    (CCS_FLASH_MODE_CAPABILITY_SINGLE_STROBE |
+> @@ -1832,111 +1876,52 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
+>  	    sensor->hwcfg.strobe_setup->trigger != 0) {
+>  		rval = ccs_setup_flash_strobe(sensor);
+>  		if (rval)
+> -			goto out;
+> +			goto err_pm_put;
+>  	}
+>  
+>  	rval = ccs_call_quirk(sensor, pre_streamon);
+>  	if (rval) {
+>  		dev_err(&client->dev, "pre_streamon quirks failed\n");
+> -		goto out;
+> +		goto err_pm_put;
+>  	}
+>  
+>  	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_STREAMING);
+>  
+> -out:
+> -	mutex_unlock(&sensor->mutex);
+> -
+> -	return rval;
+> -}
+> -
+> -static int ccs_stop_streaming(struct ccs_sensor *sensor)
+> -{
+> -	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> -	int rval;
+> -
+> -	mutex_lock(&sensor->mutex);
+> -	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
+> -	if (rval)
+> -		goto out;
+> -
+> -	rval = ccs_call_quirk(sensor, post_streamoff);
+> -	if (rval)
+> -		dev_err(&client->dev, "post_streamoff quirks failed\n");
+> -
+> -out:
+> -	mutex_unlock(&sensor->mutex);
+> -	return rval;
+> -}
+> -
+> -/* -----------------------------------------------------------------------------
+> - * V4L2 subdev video operations
+> - */
+> -
+> -static int ccs_pm_get_init(struct ccs_sensor *sensor)
+> -{
+> -	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> -	int rval;
+> -
+> -	/*
+> -	 * It can't use pm_runtime_resume_and_get() here, as the driver
+> -	 * relies at the returned value to detect if the device was already
+> -	 * active or not.
+> -	 */
+> -	rval = pm_runtime_get_sync(&client->dev);
+> -	if (rval < 0)
+> -		goto error;
+> -
+> -	/* Device was already active, so don't set controls */
+> -	if (rval == 1 && !sensor->handler_setup_needed)
+> -		return 0;
+> -
+> -	sensor->handler_setup_needed = false;
+> +	sensor->streaming = true;
+>  
+> -	/* Restore V4L2 controls to the previously suspended device */
+> -	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
+> -	if (rval)
+> -		goto error;
+> +	return 0;
+>  
+> -	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
+> -	if (rval)
+> -		goto error;
+> +err_pm_put:
+> +	pm_runtime_mark_last_busy(&client->dev);
+> +	pm_runtime_put_autosuspend(&client->dev);
 
-Wave5 does not need SRAM to function properly so it doesn't have to be
-guaranteed. 
+On failures I tend not to use autosuspend, based on the idea that it may
+be easier to recover from a failure if the sensor got powered off. I'm
+not sure that's really relevant though.
 
-> Which of these approaches would be preferable?
-> 
-> > >
-> > >
-> > >[0]:
-> > >https://lore.kernel.org/lkml/99bf4d6d988d426492fffc8de9015751c323bd8a.cam
-> > >el@ndufresne.ca/
-> > >[1]: https://lore.kernel.org/lkml/9c5b7b2c-8a66-4173-dfe9-
-> > >5724ec5f733d@ti.com/
-> > >
-> > >Thanks,
-> > >Brandon
-> > >>
-> > >> > Thanks.
-> > >> > Nas.
-> > >> >
-> > >> > > 	dev->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
-> > >> > > 	if (!dev->sram_pool)
-> > >> > > 		dev_warn(&pdev->dev, "sram node not found\n");
-> > >> > >+	else
-> > >> > >+		wave5_vdi_allocate_sram(dev);
-> > >> > >
-> > >> > > 	dev->product_code = wave5_vdi_read_register(dev,
-> > >> > >VPU_PRODUCT_CODE_REGISTER);
-> > >> > > 	ret = wave5_vdi_init(&pdev->dev);
-> > >> > >@@ -259,6 +254,8 @@ static int wave5_vpu_probe(struct
-> > >platform_device
-> > >> > >*pdev)
-> > >> > > err_clk_dis:
-> > >> > > 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
-> > >> > >
-> > >> > >+	wave5_vdi_free_sram(dev);
-> > >> > >+
-> > >> > > 	return ret;
-> > >> > > }
-> > >> > >
-> > >> > >@@ -275,6 +272,7 @@ static void wave5_vpu_remove(struct
-> > >platform_device
-> > >> > >*pdev)
-> > >> > > 	v4l2_device_unregister(&dev->v4l2_dev);
-> > >> > > 	wave5_vdi_release(&pdev->dev);
-> > >> > > 	ida_destroy(&dev->inst_ida);
-> > >> > >+	wave5_vdi_free_sram(dev);
-> > >> > > }
-> > >> > >
-> > >> > > static const struct wave5_match_data ti_wave521c_data = {
-> > >> > >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> > >> > >b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> > >> > >index fa62a85080b5..8d88381ac55e 100644
-> > >> > >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> > >> > >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-> > >> > >@@ -749,7 +749,6 @@ struct vpu_device {
-> > >> > > 	struct vpu_attr attr;
-> > >> > > 	struct vpu_buf common_mem;
-> > >> > > 	u32 last_performance_cycles;
-> > >> > >-	u32 sram_size;
-> > >> > > 	struct gen_pool *sram_pool;
-> > >> > > 	struct vpu_buf sram_buf;
-> > >> > > 	void __iomem *vdb_register;
-> > >> > >--
-> > >> > >2.44.0
-> > >> >
-> > >>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  
+> -	/* Keep PM runtime usage_count incremented on success */
+> -	return 0;
+> -error:
+> -	pm_runtime_put(&client->dev);
+>  	return rval;
+>  }
+>  
+> -static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
+> +static int ccs_disable_streams(struct v4l2_subdev *subdev,
+> +			       struct v4l2_subdev_state *state, u32 pad,
+> +			       u64 streams_mask)
+>  {
+>  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+>  	int rval;
+>  
+> -	if (!enable) {
+> -		ccs_stop_streaming(sensor);
+> -		sensor->streaming = false;
+> -		pm_runtime_mark_last_busy(&client->dev);
+> -		pm_runtime_put_autosuspend(&client->dev);
+> -
+> -		return 0;
+> -	}
+> +	if (pad != CCS_PAD_SRC)
+> +		return -EINVAL;
+>  
+> -	rval = ccs_pm_get_init(sensor);
+> +	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
+>  	if (rval)
+>  		return rval;
+>  
+> -	sensor->streaming = true;
+> +	rval = ccs_call_quirk(sensor, post_streamoff);
+> +	if (rval)
+> +		dev_err(&client->dev, "post_streamoff quirks failed\n");
+>  
+> -	rval = ccs_start_streaming(sensor);
+> -	if (rval < 0) {
+> -		sensor->streaming = false;
+> -		pm_runtime_mark_last_busy(&client->dev);
+> -		pm_runtime_put_autosuspend(&client->dev);
+> -	}
+> +	sensor->streaming = false;
+> +	pm_runtime_mark_last_busy(&client->dev);
+> +	pm_runtime_put_autosuspend(&client->dev);
+>  
+> -	return rval;
+> +	return 0;
+>  }
+>  
+>  static int ccs_pre_streamon(struct v4l2_subdev *subdev, u32 flags)
+> @@ -1962,7 +1947,9 @@ static int ccs_pre_streamon(struct v4l2_subdev *subdev, u32 flags)
+>  		}
+>  	}
+>  
+> +	mutex_lock(&sensor->mutex);
+>  	rval = ccs_pm_get_init(sensor);
+> +	mutex_unlock(&sensor->mutex);
+>  	if (rval)
+>  		return rval;
+>  
+> @@ -3046,7 +3033,7 @@ static int ccs_init_state(struct v4l2_subdev *sd,
+>  }
+>  
+>  static const struct v4l2_subdev_video_ops ccs_video_ops = {
+> -	.s_stream = ccs_set_stream,
+> +	.s_stream = v4l2_subdev_s_stream_helper,
+>  	.pre_streamon = ccs_pre_streamon,
+>  	.post_streamoff = ccs_post_streamoff,
+>  };
+> @@ -3057,6 +3044,8 @@ static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
+>  	.set_fmt = ccs_set_format,
+>  	.get_selection = ccs_get_selection,
+>  	.set_selection = ccs_set_selection,
+> +	.enable_streams = ccs_enable_streams,
+> +	.disable_streams = ccs_disable_streams,
+>  };
+>  
+>  static const struct v4l2_subdev_sensor_ops ccs_sensor_ops = {
+
+-- 
+Regards,
+
+Laurent Pinchart
 
