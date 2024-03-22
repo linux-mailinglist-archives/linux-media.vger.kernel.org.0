@@ -1,51 +1,83 @@
-Return-Path: <linux-media+bounces-7639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E77E886ECF
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 15:40:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7E9886ED8
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 15:44:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 337A31F23F46
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:40:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16DED1C21F48
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:44:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93596481DD;
-	Fri, 22 Mar 2024 14:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A16D481D7;
+	Fri, 22 Mar 2024 14:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RLl8Xabd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 849AA3FB02
-	for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 14:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D570843ACB;
+	Fri, 22 Mar 2024 14:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711118449; cv=none; b=b1/JT7G7UB1ZLNUWqTdeCzmV+qa7pfdvbmVtYJSz3KtPDg4WR+HBUVBBO1GssfvTLVQFfjVVZFeV03UoCRkmMjB5wMuRx1LTJssYeBj+ZUK1BSm7C8K2OsmraR4/ghGrbsvjdmCeHHYXaZ/oRtfA7954RiTkOhwsrVnFKSkvC88=
+	t=1711118674; cv=none; b=Ggy9WwGPWtVG/AqrFaMtvZTG19sODIQQ2UcTQb9/wMeCmX7UpeA2Qbzv41kG6el0go3+1C1uMw2dVHhoitJhfh4/cwlkVPG9e8CUCyF3ynJSxTFpGIMgtbwR/P2qc3IOsHrtwOx63yJPwnB1sz1JXUB2IGSKroyt/Z8zE9rfWqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711118449; c=relaxed/simple;
-	bh=VmvTwIK00BUsWSa6IRrE06C6cD4KWMsHDZSl8m19mcU=;
+	s=arc-20240116; t=1711118674; c=relaxed/simple;
+	bh=fLvLAoxK4AgIfQuMHjJKO2hy8PqWwldmk3SToV5xSGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sVOY8Aib6vBxdAE4GgT8x6k6ZH+wlj4VgdArpFpQE0nINPUQcIK/wD0WpKOUbNefW7StXwJnkwkUqL7bB41Je9MkN0qk4it6zPpWKkcHFpbCVanroNvgslectPX7BoCJRmwMB4m5DWGzUnjhe7hLJYoyQPH191zOsVkCHI1LmBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 761098 invoked by uid 1000); 22 Mar 2024 10:40:46 -0400
-Date: Fri, 22 Mar 2024 10:40:46 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, Oliver Neukum <oneukum@suse.com>,
-  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-usb@vger.kernel.org,
-  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-  stable@vger.kernel.org
-Subject: Re: [PATCH v4] media: ucvideo: Add quirk for Logitech Rally Bar
-Message-ID: <588d2e1f-1cb5-4868-9160-11a36e8640d6@rowland.harvard.edu>
-References: <20240108-rallybar-v4-1-a7450641e41b@chromium.org>
- <20240204105227.GB25334@pendragon.ideasonboard.com>
- <ca89eb86-a566-422c-9448-d8d5254d54b8@suse.com>
- <6aade777-d97c-4c65-b542-14ce5b39abb6@rowland.harvard.edu>
- <20240213104725.GC5012@pendragon.ideasonboard.com>
- <CANiDSCvqEkzD_-pUExT2Aci9t_tfFPWusnjST5iF-5N9yiob4g@mail.gmail.com>
- <CANiDSCsqER=3OqzxRKYR_vs4as5aO1bfSXmFJtNmzw1kznd_wQ@mail.gmail.com>
- <20240322115734.GB31979@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kn4q4Pf7iWA+BmMbYytPGPhMATA3CUpnQsOolE+peGP1xhtUwJ0FLiwtb3ick23hdscao6zYQqvIKyMuuj9NA9GxXDqodDFFHNUPh8/OlxC4A8Erp1gmru0IbZZ/vyqeeqFk+u5gqNxGJI1yuVzPjP1MvWbGrDnCH+B/1Lo99Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RLl8Xabd; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513dc9d6938so2913413e87.2;
+        Fri, 22 Mar 2024 07:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711118671; x=1711723471; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ydPjZIhrdpBAx+xTo9vWQVbHzQe3rJLAV5yOy6IIdbM=;
+        b=RLl8XabdAZxIQSmkIp4JskFxZ7VbWXjYU1ZMm21JSmyUlMIPzsKsMW4scMRsVK/Tgm
+         wYSSq2uB8KkXCeMXm7eGcIWS+JQ8ZNM+5Nr2OOnlWLFE4AMIibl+Kx0Fyz0wtVgJS1IR
+         moFRNNMNO00a20DVr8CZQbfNeVA9WJ90cdS7rArso9ODGTTRtyccJlh6QHdpFMu2ozkf
+         3SueP0VAU2ThBWp3yFN14dHVDpf3MGSwWeruKipdHVzYUAknasv31YKFjtAfQC6Bwb2C
+         KxKe6LteVXo86dCSon285BRbI9DZGmgwvXfr6qmHTl0vsEZRvsKd7KhOU85tl38wiqBw
+         eRBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711118671; x=1711723471;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ydPjZIhrdpBAx+xTo9vWQVbHzQe3rJLAV5yOy6IIdbM=;
+        b=ZQrEtviifuBpMJzr5rIIQ42hDWncUdxyCkF72XMs2uYOPUGxHs1YZz4Gr2dRnjAvUZ
+         LcPnJERxIC4s0W10+ASypCkzIT9gu2DBKXx1ucOEry2814r34ZvXz5eKoThIqqPxbvL/
+         jVms0ZODN1AcgF1+bGjOqlSr7tXf4vaM/YCgIMUgxit1wVXOsuU+pP1rnx45b8UuDpD7
+         +prfP6xW7sN1IU764yOPjWiChMQVJTSNY+Gi67A2np2r731M0m2rJl5HGHj26REZa6eK
+         lxspCRsGPl3HLDhpypH7+Eb9U2+d5SkITxMil/tu2M5+fOr1SqXkHYsAO7sSgCw8p/Wi
+         Qomg==
+X-Forwarded-Encrypted: i=1; AJvYcCWIbEq7MGhh1SG9FGzzvxZFRIkhJ4MIsn3LO7pfiZCQ8hM35wyYY0nUjvHkR/0Lbvx7wN3EP6aiqWyvrD+YTHpu3yg1c0rFcDV4rdy7
+X-Gm-Message-State: AOJu0YyHjcxfWoYO1ZSjWdQ6BEmGj3NSx7VNcQxeXBYd2fm+8ElAipMu
+	qGlhlqwS9uViir8EjOWmH0KSZPVNYGGgVsSLycY79Qsnilws7CBEFA9X2xm+
+X-Google-Smtp-Source: AGHT+IEuuUGLVdqwKWOu7gZSFXVyRXmkiOxN7iaPO+pplXKWT/UMBkwDue6rk2yl6Rc0l/aWKolPLQ==
+X-Received: by 2002:a19:7714:0:b0:513:a39e:ae45 with SMTP id s20-20020a197714000000b00513a39eae45mr1736686lfc.62.1711118670520;
+        Fri, 22 Mar 2024 07:44:30 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-49-82.cust.vodafonedsl.it. [188.217.49.82])
+        by smtp.gmail.com with ESMTPSA id k37-20020a05600c1ca500b004140a3d34fasm3256054wms.41.2024.03.22.07.44.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 07:44:29 -0700 (PDT)
+Date: Fri, 22 Mar 2024 15:44:28 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/6] media: imx335: Parse fwnode properties
+Message-ID: <Zf2ZTFxKjPHgN9eU@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240321111239.808735-1-umang.jain@ideasonboard.com>
+ <20240321111239.808735-3-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,79 +86,91 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322115734.GB31979@pendragon.ideasonboard.com>
+In-Reply-To: <20240321111239.808735-3-umang.jain@ideasonboard.com>
 
-On Fri, Mar 22, 2024 at 01:57:34PM +0200, Laurent Pinchart wrote:
-> On Thu, Feb 29, 2024 at 05:57:38PM +0100, Ricardo Ribalda wrote:
-> > Oliver, friendly ping
+Hi Umang,
+
+On Thu, Mar 21, 2024 at 04:42:35PM +0530, Umang Jain wrote:
+> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > 
-> Seconded :-) We can help with the implementation, but we would like your
-> guidance on the direction you think this should take.
-
-Thirded  :-)  I want to hear what Oliver thinks about the original 
-patch.
-
-Alan Stern
-
-> > On Mon, 19 Feb 2024 at 16:13, Ricardo Ribalda wrote:
-> > >
-> > > Hi Oliver
-> > >
-> > > Would you prefer a version like this?
-> > >
-> > > https://lore.kernel.org/all/20231222-rallybar-v2-1-5849d62a9514@chromium.org/
-> > >
-> > > If so I can re-submit a version with the 3 vid/pids.  Alan, would you
-> > > be happy with that?
-> > >
-> > > Regards!
-> > >
-> > > On Tue, 13 Feb 2024 at 11:47, Laurent Pinchart wrote:
-> > > > On Mon, Feb 12, 2024 at 02:04:31PM -0500, Alan Stern wrote:
-> > > > > On Mon, Feb 12, 2024 at 01:22:42PM +0100, Oliver Neukum wrote:
-> > > > > > On 04.02.24 11:52, Laurent Pinchart wrote:
-> > > > > > > Hi Ricardo,
-> > > > > > >
-> > > > > > > Thank you for the patch.
-> > > > > >
-> > > > > > Hi,
-> > > > > >
-> > > > > > sorry for commenting on this late, but this patch has
-> > > > > > a fundamental issue. In fact this issue is the reason the
-> > > > > > handling for quirks is in usbcore at all.
-> > > > > >
-> > > > > > If you leave the setting/clearing of this flag to a driver you
-> > > > > > are introducing a race condition. The driver may or may not be
-> > > > > > present at the time a device is enumerated. And you have
-> > > > > > no idea how long the autosuspend delay is on a system
-> > > > > > and what its default policy is regarding suspending
-> > > > > > devices.
-> > > > > > That means that a device can have been suspended and
-> > > > > > resumed before it is probed. On a device that needs
-> > > > > > RESET_RESUME, we are in trouble.
-> > > > >
-> > > > > Not necessarily.  If the driver knows that one of these devices may
-> > > > > already have been suspend and resumed, it can issue its own preemptive
-> > > > > reset at probe time.
-> > > > >
-> > > > > > The inverse issue will arise if a device does not react
-> > > > > > well to RESET_RESUME. You cannot rule out that a device
-> > > > > > that must not be reset will be reset.
-> > > > >
-> > > > > That's a separate issue, with its own list of potential problems.
-> > > > >
-> > > > > > I am sorry, but it seems to me that the exceptions need
-> > > > > > to go into usbcore.
-> > > > >
-> > > > > If we do then we may want to come up with a better scheme for seeing
-> > > > > which devices need to have a quirk flag set.  A static listing probably
-> > > > > won't be good enough; the decision may have to be made dynamically.
-> > > >
-> > > > I don't mind either way personally. Oliver, could you try to find a good
-> > > > solution with Ricardo ? I'll merge the outcome.
+> Call the V4L2 fwnode device parser to handle controls that are
+> standardised by the framework.
 > 
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx335.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index c633ea1380e7..b8cf85984127 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -1227,10 +1227,12 @@ static int imx335_init_controls(struct imx335 *imx335)
+>  {
+>  	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
+>  	const struct imx335_mode *mode = imx335->cur_mode;
+> +	struct v4l2_fwnode_device_properties props;
+>  	u32 lpfr;
+>  	int ret;
+>  
+> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+> +	/* v4l2_fwnode_device_properties can add two more controls */
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1296,15 +1298,27 @@ static int imx335_init_controls(struct imx335 *imx335)
+>  		imx335->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+>  	if (ctrl_hdlr->error) {
+> -		dev_err(imx335->dev, "control init failed: %d\n",
+> -			ctrl_hdlr->error);
+> -		v4l2_ctrl_handler_free(ctrl_hdlr);
+> -		return ctrl_hdlr->error;
+> +		ret = ctrl_hdlr->error;
+> +		dev_err(imx335->dev, "control init failed: %d\n", ret);
+
+Don't know if we need this dev_err print here.
+If I'm not wrong this is already printed into the imx335_probe:
+
+ret = imx335_init_controls(imx335);
+if (ret) {
+	dev_err(imx335->dev, "failed to init controls: %d\n", ret);
+	goto error_power_off;
+}
+
+Apart of that looks good to me. :)
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+
+> +		goto free_ctrl_hdlr;
+>  	}
+>  
+> +	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
+> +	if (ret)
+> +		goto free_ctrl_hdlr;
+> +
+> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
+> +					      &props);
+> +	if (ret)
+> +		goto free_ctrl_hdlr;
+> +
+>  	imx335->sd.ctrl_handler = ctrl_hdlr;
+>  
+>  	return 0;
+> +
+> +free_ctrl_hdlr:
+> +	v4l2_ctrl_handler_free(ctrl_hdlr);
+> +	return ret;
+>  }
+>  
+>  /**
 > -- 
-> Regards,
+> 2.43.0
+
+Thanks & Regards,
+Tommaso
+
 > 
-> Laurent Pinchart
+> 
 
