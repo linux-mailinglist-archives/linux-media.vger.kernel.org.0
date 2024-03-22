@@ -1,243 +1,130 @@
-Return-Path: <linux-media+bounces-7651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B598873B0
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 20:15:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5385B887495
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 22:48:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 986671C2279C
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 19:15:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D8CFB22256
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 21:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A516878292;
-	Fri, 22 Mar 2024 19:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B255181AD4;
+	Fri, 22 Mar 2024 21:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PBwegXFB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z96sVxPo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2079.outbound.protection.outlook.com [40.107.94.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E717827D;
-	Fri, 22 Mar 2024 19:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711134924; cv=fail; b=kzPGc1udzO6Any0ynwJpy51Cyq47Yiql4AGbhyMQcfgVVsn079ew8mEB/I//3//h1y1myapG433tpPO6UY+/Q5aP3X8YVdwqad9UXPfJFJAyubSdQlwV6mFPpPhlb6viBYHCE2F56SJo4ykQ/hIUPhgpnA+/D8x8M+Mu1lU097M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711134924; c=relaxed/simple;
-	bh=WeyiG27G01fBtDxZerTB9sgCxS9FbYn14iaLc0NsPOc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LPDghXg1C5bUUbMBcfdYbUHFnN8wXoAMN7M863zmix33dX//gvTfMBSFy/qMuY8giQLAHBKsZ7pVzCj+7QaX9cClyWq0vO6iaAe2rsn5l52CoeoS5msKF8OCqBgboN4LhH+JtQLTNkv1wSh4cZxqATq2VqcvwfwrXRbhinprNJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PBwegXFB; arc=fail smtp.client-ip=40.107.94.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PK1ZbJx9DjmwOMhU30Klzm0ofl706Y37k902d6X2Sz67duUfkEiI7KEqJlM2jQGvTTQQGNHRuN/Avvqc7Uv0pVmPIYqB1vnrNEAzMzOs+38sbwjgrGZrzkDKVO+faRXPpySVInWgwgt6K926EcQXgyKC2d6/k26DEY8V+yarSTdRrrqHCSTDAjcGVF7yghuEd2yFDwy9BQTLxNiqy83WF21ygTDOJmXrLq/6mOkQW6asAjAUVmgxTfw7Y8PCWz4AgGAz8Pkis0pfRUxN23GDPoVhcR9QfEeQzFOusll2xMsRnMRyJlez1qP7nE2QIJ87RI++xeySoVC1pwnCGZSG5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MekdISDQ1TZM+qZpdyZAV0e7ISX0CrRPCmPcsenNYcc=;
- b=QmXXRKdMI7sNxcRBGiE84yx2KTaRER/lSC/X9mBwia+VIvyEb3fO15FDoAHPgEJiXEpu4QAHRg9YGAAkQP9RPItoSKTMLJw58I7LOeVIW0bkvzaoC+cQRk/ZLQtIXyLQdZR2LdAwFSiXmdrECvfq3SLSeoNx48EIyNkv+uEzHOxib7RPi8Hf00vys6m4fiuQlyzqG4YaXNGt3TjPQYDldMHunv1NBs/ZkxLJf0B6nIxP8Syu9GzIrqATWsSokfzjhfPllS2Nt2wSG1qkVM74h61KVaL8y3QWciwAIVnWno65tlT7ejdCyWreH4VvEdhb8EGtIDg9JlJKNMn0K4VSAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MekdISDQ1TZM+qZpdyZAV0e7ISX0CrRPCmPcsenNYcc=;
- b=PBwegXFBQ4ZXf2KRvu0pQWa31rrLPf6ZkBjHARlhOpb9xOzARz8N0D24fAN3Ur6iX28Vz10+Q3KzeFh1ilJQfJxUIiHE8+u0HY9vitvJ6ClZBInyVeqpPfOixwNvuxqGyO4TOKF5E5iwVqnzmkTqUmgAZ5lO40upNAKlpRL5DkE=
-Received: from MW4PR12MB7165.namprd12.prod.outlook.com (2603:10b6:303:21b::14)
- by BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Fri, 22 Mar
- 2024 19:15:19 +0000
-Received: from MW4PR12MB7165.namprd12.prod.outlook.com
- ([fe80::e039:187d:47be:afb7]) by MW4PR12MB7165.namprd12.prod.outlook.com
- ([fe80::e039:187d:47be:afb7%4]) with mapi id 15.20.7386.031; Fri, 22 Mar 2024
- 19:15:19 +0000
-From: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
-To: Maxime Ripard <mripard@kernel.org>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Simek,
- Michal" <michal.simek@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Jonas
- Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>
-Subject: RE: [PATCH v3 7/9] drm/atomic-helper: Add select_output_bus_format
- callback
-Thread-Topic: [PATCH v3 7/9] drm/atomic-helper: Add select_output_bus_format
- callback
-Thread-Index: AQHae9CO/Tr0AMCKj0CJVuI96JUP97FDg30AgACewkA=
-Date: Fri, 22 Mar 2024 19:15:19 +0000
-Message-ID:
- <MW4PR12MB71657AF1E6B7AC96647133D6E6312@MW4PR12MB7165.namprd12.prod.outlook.com>
-References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
- <20240321-dp-live-fmt-v3-7-d5090d796b7e@amd.com>
- <20240322-passionate-lyrebird-of-trust-819718@houat>
-In-Reply-To: <20240322-passionate-lyrebird-of-trust-819718@houat>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW4PR12MB7165:EE_|BY5PR12MB4116:EE_
-x-ms-office365-filtering-correlation-id: c32740b9-8d54-4425-2007-08dc4aa46a08
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- BTsU6HnpezvyIbpzsncy5OTa/XtfPCSs3xDhqa9GNChQQi6fF7DyTvXnLA16NR0PJ2Ke+Yus3yqaHCcg7+zBzwSZrhWYOAePPtwvdRw5Mcf59eZn/Y4PviLuf8RJ2FJnay8J8n2EDtcEgqyngWPjKuviHtVR1bldF/2stWunXmqRDXtX4985MgjmL0UNnVO5hDWUe5RKnj5Buu2aHj8Rzx+OejYAiDwcjmSpi5CEmk3ihgSAfek4QFPCFlrq0oKEsbpTMVXVsYgkdo/5Q4H8iNSu4LZhSut5plpLmXvbs73wncq+4VC+GfGxi8flADFCCD37hWfl2qT23dWs/TeXxm7yX5LATMIXe3IhyJmDjyiQW+EO5jPpd7YErz94FrwH/IrrevfsDDlVQNE3FZVjd8TYrSFJucBZx5IHy+PDRYrujbFPPQHaXKF/uak8kZMAYbTsYXPR86rK6cn7Ib8FcAlf0xnXcbnvc7SF1qBzC3jdh1zCdO1H6xwFzu/wat2Rm8mdmVpOvmmgJY1DPnOKq8IwXcXkeYEYbIoEbQbu9UxP6TCZN/MDaVwy/5qzA31LcJ5q7kjjOUNnwluSLMtHi1BgsBGvTqNrFKWiAQq2HgwiRMTjDhXJUUWMD+lQRc4vmz68cOJ9P+yxS2a2OZFZcXUkfMVcMhzQMIUNW6ce9fuG0lWTjK9oenwo93aYxq/d6JNH9/Lsno6O3Ab3igz+Q63/a5Zx0T87J6EQ+g9F/HY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB7165.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(7416005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?KwVGEThl6V86wqEtJ5G9O3uX7hgmT0GyVKgLZCMBA/BnvO6f2iW4UDohFzts?=
- =?us-ascii?Q?OQOKZlg8XR4CpWG7H1RMIYIkNKDbOhEHU3iOBiKN4Tr0ShyxGrgncUzXkzlq?=
- =?us-ascii?Q?IRPr3yjMOb8JdTmPkhzwRPiiqau4GTJc03NuVD0mDZDURgBr8Mb+0Y1QW+Ex?=
- =?us-ascii?Q?wjMBLQWnzeqBkTN6CwEEtGeJk56Q+RyUSe6UJX0ivhwPYqCFJHQ8g+9tT0OA?=
- =?us-ascii?Q?pw5kxJ5kxFj50Rj7kbN9RiKHPLsMQHw6Sby3Gs27fETEP2h9b/Ao905PVQEu?=
- =?us-ascii?Q?A2e5xorCC7UvWUlZvSHXPm8NqbFub7mplDCwGbi3lIOttjZ2d0AXoJGobJ6k?=
- =?us-ascii?Q?MBDgm7thnznKmLZuA9+qmhgWF7RTg8wtgBa/klpszrB0ZjqiJ8XTYin60Kut?=
- =?us-ascii?Q?voobEM1P0NWnv16ZHiSpp2WZq/S2RTTax3xI4TuyoYU9ncyPbQmtDiHXHykJ?=
- =?us-ascii?Q?HgJmmEZN7B+nedsxtNjF6O3KMpGpahrSm4Yy4XZ0UqLcq9nmRLUOH0GoGVBo?=
- =?us-ascii?Q?fsHlTm2OsghosQW8/tjtVRWdWJhXoNUE3+gtLp7wxETYsDPx0DC2BgPXO2lv?=
- =?us-ascii?Q?Bmv83rk+oliFgsvvYs+bcJcNfd+RoJrk1eESIH6lOIXWqkvrib5CdNidYzyz?=
- =?us-ascii?Q?P1s2kriqcwYYvYQ2sHzUikxYH+s16l4UQLpHZHyMk89szTzQ0g65x01NpY/A?=
- =?us-ascii?Q?tFHDYg2t7uQB/tG1OFUrROwaKvdExM2IcJw/w/Qr4arvucJYeYxcARiwIMoe?=
- =?us-ascii?Q?xIvU4zkAfhYDSAUTOotjd9L7uyWCfYzSnpRh9PxubKCZbWtIPPgnb24zXxgQ?=
- =?us-ascii?Q?HIHn8eATtPtymEJsMU3NHnHs/ETur/ERNHWtGHgTl0/2zweZVoL2SLa3ttVq?=
- =?us-ascii?Q?MOxsLXPurFpSzcNNIAVRDahJsPYTDrngSnHP2AVkQbhJhTg0sHcLn5QOY8wR?=
- =?us-ascii?Q?rohmbzJjMQ1amPkDMowRnKXN2++/SmlpNxhYYGl0mtxyoX4WcMflq07FPG+h?=
- =?us-ascii?Q?f5A9CnH4E+zV7GEnqGTlijDPq37d3irdERuaj+oGBaqcar+d4GKFGkreXeom?=
- =?us-ascii?Q?MfgJrmXqqcyBCaGmVQIBqtK1qUz0+4KhYmoGxJehdejnlFjeA0vnT0sdAkea?=
- =?us-ascii?Q?p0mBCA2eHTR+D/LYm16c+4iA3YGxvR3plvOOY80W/S/ozeLrsF7BkMciK2sI?=
- =?us-ascii?Q?NFacOvdojndK5pmAi3ulgsqYFRevIiSvkAsyMECw5yeRp+gnyE0nlDDrvOD0?=
- =?us-ascii?Q?WcWhITgHPZloc+8jRV1tJYo9JUVGAFPkpzcYPmnb+a7dWBJS4GWOx8Xg+0Kr?=
- =?us-ascii?Q?V+I93IKMjzL6J4dQXAxm8PTDGBkXJlFY0MOen5UpD/8Irju2ILx1VkYBHI6V?=
- =?us-ascii?Q?trdirIkDOWVKGK6qVVZFoDkfaWJ0lLiwVgzNrIqypXSalK/5/fcqo4fk39zl?=
- =?us-ascii?Q?tgYtnQZXKbRFQhxj3ehycStFkXfWX0ItI8+nn+iB6H/N7E/9oYv5HSRMJlgW?=
- =?us-ascii?Q?qymyy+Ukq+NLOt9EDO0JPI3/D06HbIeZywPtURpGTmtAXFy/aJOW0xoqZ3Jz?=
- =?us-ascii?Q?WV2kNRijHvOzoTrt6gY=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AF881753;
+	Fri, 22 Mar 2024 21:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711144104; cv=none; b=V5VKGJ5PPYrgOIdOFNnB6XwIN7nrKla/M94mlfBZEilwTAevjvy1qo0hv01FcYOK9OjApXcFxkEdrVA9Akn1U+IzRHrp9aErhLDvTpclDcLWviuONcpdhIpvNwDZwJFrdk7FsR5Zy0kZqGLR4LN5frgutLvqnWQUdRVTXcx82ig=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711144104; c=relaxed/simple;
+	bh=AjTmeRsXLG1tSJTuVMmO6vOG8c0fhKFKbcOIXvGXNe0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=COGUU05oqGaxPtkK5Nf+Mdu1Hi/zTUrk/ZLT6DxfupKSL9ftboJhXHztXgUpvRnArWpjnS6jU0SRvbZTJulEhuaPkHE1kjrpNDjvJfpH6r7haXu1Ks0Me7eGBY6qFoBZmFE8/8FPI/iQNjQ3U8fyRZ2bTP29W37Ta77+FGWn3DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z96sVxPo; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e73e8bdea2so2031136b3a.0;
+        Fri, 22 Mar 2024 14:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711144102; x=1711748902; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nQK5tb3Nw1ZoxZ8aMrSXrErJ9rtnHZb1a9z7kXmUAAI=;
+        b=Z96sVxPoDSLyVYOIYNlqWbjuOPepG4X2PzaPyLP3XdmkVvDzDAilLvPPdfbEfBqnee
+         hmIce/oEOI6xsDz8bylLLrZEHZFssKYO0sx4kKrBZ5nbmKvagqjmoBjcxfbx9j+Oalc2
+         DdLcVwl+6hr39GFSoyWHzMEjN6+0pHQpNXvK/2YK4PWK7Dxin/+ycugz+lR7/Ap0MKoy
+         SZKS4s4UkAsTo5TfQHfvkbXojCSiqaf8Nzw0CxBj6qYuPl9OMrsuxWuQHf7lMwMiSLVI
+         pgQjzLby6dW6eLCQWu6FHkccFKCKwwmmyiIKjNrUF1JhC1GcQ6fVPNpwX9wBsmFd1vEY
+         Hj0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711144102; x=1711748902;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nQK5tb3Nw1ZoxZ8aMrSXrErJ9rtnHZb1a9z7kXmUAAI=;
+        b=V4xVEstZJLNzJ6k1AB34Q99v8jzDpIojQAb7qjtshv4YLF2rUim6iekjv7Ar+DhXKZ
+         kejv2XTni1hOY6DJZ1hvtW+ZIr56g7i969qQ7JFAtE5QmD7efgxc1ejlA0kj66nc0moQ
+         6UvAAHB8YSPAdGahBFmAdd5yMILv6xe/5ys/zKfboeilD/DoR7kB45JOVv9ff20P+RhE
+         oDJP4Hy7s4Blm5GGQ+UHOjNvSTJrSNg0t8N3lXlz8r1Ogf/c4p11dzSS3FIgMq0ETrPo
+         mFtlFy5btbY1ClN9t98NSUQ53kRAlCDTJXmJYtWBpZhtOakMJ603SBvZWd2Qn2YBQmso
+         hkQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUv5kuTXWs8muYg/NfhNxAQngD/Go140rdT+LwbjdRwSicBZKSupdbrWEfyrkBysN+dAEeK/a17cmRXGv+HEQ78tjbybH089a5Q1iUsm2S2AmmoJDlt502Uy6HTD84jcxgUoXPoA5ENPuo=
+X-Gm-Message-State: AOJu0YxvV2FgQNoNxotGhVz+rLUwQbJdOU6ieFAIOrDabDKNG7zaX7Fi
+	j9f9ESSufUQf+2Yf7xy3x3BExDxuQspVAxrEUPnY2RMd9M2H74780X24rzO/
+X-Google-Smtp-Source: AGHT+IFu6vLzMaYsKuds4uUemNeUEL9Iv5gz6ZsPkXFYKeQTEq4g7nV6vk/JeeIFbxe7CJ53DpsPaA==
+X-Received: by 2002:a17:903:944:b0:1e0:84b5:d76 with SMTP id ma4-20020a170903094400b001e084b50d76mr1175359plb.52.1711144101986;
+        Fri, 22 Mar 2024 14:48:21 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+        by smtp.gmail.com with ESMTPSA id c5-20020a170902d48500b001dee4bd73e0sm226385plg.59.2024.03.22.14.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 14:48:21 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+	Dominik Behr <dbehr@chromium.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Simon Ser <contact@emersion.fr>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
+Date: Fri, 22 Mar 2024 14:48:01 -0700
+Message-ID: <20240322214801.319975-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB7165.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c32740b9-8d54-4425-2007-08dc4aa46a08
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2024 19:15:19.3705
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vs3wZcdgupwdjYK7S1camPKuIyqUx+QZDc5BHPVuDuGKXlksIlnUBz978UaEKQqEU53KP/9betpyP2qnn//ANA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4116
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+From: Rob Clark <robdclark@chromium.org>
 
-Thank you for the review.
+virtgpu "vram" GEM objects do not implement obj->get_sg_table().  But
+they also don't use drm_gem_map_dma_buf().  In fact they may not even
+have guest visible pages.  But it is perfectly fine to export and share
+with other virtual devices.
 
-> -----Original Message-----
-> From: Maxime Ripard <mripard@kernel.org>
-> Sent: Friday, March 22, 2024 2:45 AM
-> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Maarten Lankhor=
-st
-> <maarten.lankhorst@linux.intel.com>; Thomas Zimmermann
-> <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Daniel Vetter
-> <daniel@ffwll.ch>; Simek, Michal <michal.simek@amd.com>; Andrzej Hajda
-> <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Ro=
-bert
-> Foss <rfoss@kernel.org>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec
-> <jernej.skrabec@gmail.com>; Rob Herring <robh+dt@kernel.org>; Krzysztof
-> Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
-> <conor+dt@kernel.org>; Mauro Carvalho Chehab <mchehab@kernel.org>; Tomi
-> Valkeinen <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.=
-org;
-> linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org;
-> devicetree@vger.kernel.org; linux-media@vger.kernel.org
-> Subject: Re: [PATCH v3 7/9] drm/atomic-helper: Add select_output_bus_form=
-at
-> callback
->=20
-> On Thu, Mar 21, 2024 at 01:43:45PM -0700, Anatoliy Klymenko wrote:
-> > diff --git a/drivers/gpu/drm/drm_crtc_helper.c
-> > b/drivers/gpu/drm/drm_crtc_helper.c
-> > index 2dafc39a27cb..f2e12a3c4e5f 100644
-> > --- a/drivers/gpu/drm/drm_crtc_helper.c
-> > +++ b/drivers/gpu/drm/drm_crtc_helper.c
-> > @@ -1055,3 +1055,39 @@ int drm_helper_force_disable_all(struct
-> drm_device *dev)
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL(drm_helper_force_disable_all);
-> > +
-> > +/**
-> > + * drm_helper_crtc_select_output_bus_format - Select output media bus
-> > +format
-> > + * @crtc: The CRTC to query
-> > + * @crtc_state: The new CRTC state
-> > + * @supported_fmts: List of media bus format options to pick from
-> > + * @num_supported_fmts: Number of media bus formats in
-> > +@supported_fmts list
-> > + *
-> > + * Encoder drivers may call this helper to give the connected CRTC a
-> > +chance to
-> > + * select compatible or preffered media bus format to use over the
-> > +CRTC encoder
-> > + * link. Encoders should provide list of supported input
-> > +MEDIA_BUS_FMT_* for
-> > + * CRTC to pick from. CRTC driver is expected to select preferred
-> > +media bus
-> > + * format from the list and, once enabled, generate the signal accordi=
-ngly.
-> > + *
-> > + * Returns:
-> > + * Selected preferred media bus format or 0 if CRTC does not support
-> > +any from
-> > + * @supported_fmts list.
-> > + */
-> > +u32 drm_helper_crtc_select_output_bus_format(struct drm_crtc *crtc,
-> > +					     struct drm_crtc_state *crtc_state,
-> > +					     const u32 *supported_fmts,
-> > +					     unsigned int num_supported_fmts) {
-> > +	if (!crtc || !supported_fmts || !num_supported_fmts)
-> > +		return 0;
-> > +
-> > +	if (!crtc->helper_private ||
-> > +	    !crtc->helper_private->select_output_bus_format)
-> > +		return supported_fmts[0];
-> > +
-> > +	return crtc->helper_private->select_output_bus_format(crtc,
-> > +							crtc_state,
-> > +							supported_fmts,
-> > +							num_supported_fmts);
-> > +}
->=20
-> Again, the output of that selection must be found in the CRTC state, othe=
-rwise
-> CRTCs have no way to know which have been selected.
->=20
+Reported-by: Dominik Behr <dbehr@chromium.org>
+Fixes: 207395da5a97 ("drm/prime: reject DMA-BUF attach when get_sg_table is missing")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/drm_prime.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Yes, now I got it - thank you. I'll fix this in the next version.
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 7352bde299d5..64dd6276e828 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -582,7 +582,12 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
+ {
+ 	struct drm_gem_object *obj = dma_buf->priv;
+ 
+-	if (!obj->funcs->get_sg_table)
++	/*
++	 * drm_gem_map_dma_buf() requires obj->get_sg_table(), but drivers
++	 * that implement their own ->map_dma_buf() do not.
++	 */
++	if ((dma_buf->ops->map_dma_buf == drm_gem_map_dma_buf) &&
++	    !obj->funcs->get_sg_table)
+ 		return -ENOSYS;
+ 
+ 	return drm_gem_pin(obj);
+-- 
+2.44.0
 
-> Maxime
-
-Thank you,
-Anatoliy
 
