@@ -1,223 +1,174 @@
-Return-Path: <linux-media+bounces-7588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8B088688F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:53:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DCF8868F9
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 10:14:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8926D1F22F8E
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 08:53:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 729572870CB
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:14:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7069118EB9;
-	Fri, 22 Mar 2024 08:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA6C3E47B;
+	Fri, 22 Mar 2024 09:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MFre+2PB"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="a5QMxR3O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226761756B;
-	Fri, 22 Mar 2024 08:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAC6224CF;
+	Fri, 22 Mar 2024 09:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711097576; cv=none; b=IKhbVSghQ/bly3z13vbbNw/9lkGUWhXBLfBWNI8UkDNz9sdYS0w61F9uqjvWZymiYVaAnyi59znPPv4uIjGfjKCY3v4DVd7SehPsNnmHxx/xi+moup4Op383+V0x/jWVETOhbMGAv8+8QHEMLy0wTOi+CW3HhhZzTJgeqSlwo3c=
+	t=1711098766; cv=none; b=Zto5X7X6OnKspzP+6p3ISWGSjm3QkqZKPGCvUGFBwcIfiVLU3JyM9tcvsDy6kiiWT37cweUZTX2AkKAFtiIdD0mlidHGnr1XnRn7VCH3HxvjMgPxu4uqfYbmKQI7Z/U+HP/M/8GBV+SK0gtpO0QUxEkrsLzFz6qYiKuGU6zMOGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711097576; c=relaxed/simple;
-	bh=3oegq47ltFIRJJEOXX944ixoDHNgvAQ1oTzMXscYimU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aj4IdbvUFR0HSANANmHZOjAU6Vg8COZYPlJVZNUl6d0sqBbwbo1oUXmBwbbnfoYiXb0euluBaZqn3xFnFCiQH+U6JTjM+ZCdKXUZ1ao6FfSpXOAM9CnNUiAP4lA6KQPK0dJkenapjmrLl3nUadH1YTxmBNmkmLTeuZs9ge6HK5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MFre+2PB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C0B9BEB;
-	Fri, 22 Mar 2024 09:52:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711097545;
-	bh=3oegq47ltFIRJJEOXX944ixoDHNgvAQ1oTzMXscYimU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MFre+2PB5nSNkAJql7eMB29NDMRCcAJkp3SQ3VKDSua7DluWVK+dn2HGfFyJhfhVo
-	 tMDdb0W96UvU+V57XYkOqqu0xKTeW1Axuv7uclR0BhaoWGJR9KG1qtc6Y1hLRxPOQO
-	 tWfsUW+/9lGay5ofWd/0aiA/acigoQCEse9O4fJo=
-Date: Fri, 22 Mar 2024 10:52:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 2/6] media: uvcvideo: Ignore empty TS packets
-Message-ID: <20240322085249.GM18799@pendragon.ideasonboard.com>
-References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
- <20220920-resend-hwtimestamp-v9-2-55a89f46f6be@chromium.org>
- <20240321232602.GB20938@pendragon.ideasonboard.com>
- <CANiDSCt7Y4v3MUCoVyuzwLg6rq1=4MTUGtJ1+HkMMRY7sfjYjA@mail.gmail.com>
+	s=arc-20240116; t=1711098766; c=relaxed/simple;
+	bh=z2ZaLm52MTZ/6IxJzuG5Bzu3c/lyqbb4ISrKxikSWZg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y28vy/QW5hN4tKlDEjYYtAY7S6tOX3HRCqf0pbjgv2MBh57xfhIEm4sEAeqePWxqead0uDgxT3d07cbXQu2JnrMTAmG3izDnKoUBfLnc/1IcP0aslcSm+WPdow0v0pU3bsNrmKhvrEp1Ib6zy3p5V7bcDzzIJRRZ3eGx4saVGjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=a5QMxR3O; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 5232a530e82c11ee935d6952f98a51a9-20240322
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=D90IpDuiRkZ2VElRCOSMl6WQG52MAQH00jESrYAeQLQ=;
+	b=a5QMxR3Olhbb/PDdfEBe5ifvDTCnjqnwD/pPBq6wZ0iVJno8ETGShSZQVZ1f9br9Rd1SJdpNCs7No92PyswixDCZLvaY+hS7Cfiaiqe8Vn75NpY8QwQhilS0ynJdPN42OVx5OAqJVI/fwNXogZXx2JUpE44GDu61e2PKddmFIVY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:c6dcfcaf-b856-4b63-b639-ee2482826dd5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:7347b690-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 5232a530e82c11ee935d6952f98a51a9-20240322
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <shawn.sung@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 289813932; Fri, 22 Mar 2024 17:12:35 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 22 Mar 2024 17:12:33 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 22 Mar 2024 17:12:33 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+	<shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v5 00/14] Rename mtk_drm_* to mtk_*
+Date: Fri, 22 Mar 2024 17:12:18 +0800
+Message-ID: <20240322091232.26387-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCt7Y4v3MUCoVyuzwLg6rq1=4MTUGtJ1+HkMMRY7sfjYjA@mail.gmail.com>
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--16.176100-8.000000
+X-TMASE-MatchedRID: llTo18AJfvE/5uXNh96gfjl/LoO+pjoA1cuIRwt/4Mjb6Y+fnTZUL80U
+	/azwU24yYfroVIh1m0C4hZmY35M3T0FKjjgcgwapaK+MsTwM+1mH7D1bP/FcOjRCaZSKE/Os4+n
+	0olV+QL9dLrRNHKRnTPYqYU8vzTMop11fUZKoS3wD2WXLXdz+AXcF/0kiqyh4WEBoeOCrJbXnU/
+	zlxreh3uLzNWBegCW2wgn7iDBesS28QIu4z6HhEH7cGd19dSFd
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--16.176100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	8A0A66182036D317C5888BA94D5703FDE618A200F98EA02E9DCEEF6437B83D4F2000:8
+X-MTK: N
 
-On Fri, Mar 22, 2024 at 09:22:39AM +0100, Ricardo Ribalda wrote:
-> Hi Laurent
-> 
-> Hi, I added some minor modifications, hope that it is fine with you.
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-They look fine to me, thanks.
+Rename some unnecessary  "mtk_drm_*" to "mtk_*" to:
+- Lower the matches when searching the native drm_* codes
+- Reduce the code size
 
-> On Fri, 22 Mar 2024 at 00:26, Laurent Pinchart wrote:
-> > On Wed, Mar 15, 2023 at 02:30:13PM +0100, Ricardo Ribalda wrote:
-> > > Some SunplusIT cameras took a borderline interpretation of the UVC 1.5
-> > > standard, and fill the PTS and SCR fields with invalid data if the
-> > > package does not contain data.
-> > >
-> > > "STC must be captured when the first video data of a video frame is put
-> > > on the USB bus."
-> > >
-> > > Eg:
-> >
-> > "Some SunplusIT devices send, e.g.,"
-> >
-> > >
-> > > buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
-> > > buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
-> > > buffer: 0xa7755c00 len 000668 header:0x8c stc 73779dba sof 070c pts 7376d37a
-> >
-> > "while the UVC specification meant that the first two packets shouldn't
-> > have had the SCR bit set in the header."
-> >
-> > >
-> > > This borderline/buggy interpretation has been implemented in a variety
-> > > of devices, from directly SunplusIT and from other OEMs that rebrand
-> > > SunplusIT products. So quirking based on VID:PID will be problematic.
-> > >
-> > > All the affected modules have the following extension unit:
-> > > VideoControl Interface Descriptor:
-> > >   guidExtensionCode         {82066163-7050-ab49-b8cc-b3855e8d221d}
-> > >
-> > > But the vendor plans to use that GUID in the future and fix the bug,
-> > > this means that we should use heuristic to figure out the broken
-> > > packets.
-> >
-> > Because it would have been too easy otherwise of course :-)
-> >
-> > >
-> > > This patch takes care of this.
-> > >
-> > > lsusb of one of the affected cameras:
-> > >
-> > > Bus 001 Device 003: ID 1bcf:2a01 Sunplus Innovation Technology Inc.
-> > > Device Descriptor:
-> > >   bLength                18
-> > >   bDescriptorType         1
-> > >   bcdUSB               2.01
-> > >   bDeviceClass          239 Miscellaneous Device
-> > >   bDeviceSubClass         2 ?
-> > >   bDeviceProtocol         1 Interface Association
-> > >   bMaxPacketSize0        64
-> > >   idVendor           0x1bcf Sunplus Innovation Technology Inc.
-> > >   idProduct          0x2a01
-> > >   bcdDevice            0.02
-> > >   iManufacturer           1 SunplusIT Inc
-> > >   iProduct                2 HanChen Wise Camera
-> > >   iSerial                 3 01.00.00
-> > >   bNumConfigurations      1
-> > >
-> > > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> > > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_video.c | 20 +++++++++++++++++++-
-> > >  1 file changed, 19 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > index 4ff4ab4471fe..1f416c494acc 100644
-> > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > @@ -478,6 +478,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> > >       ktime_t time;
-> > >       u16 host_sof;
-> > >       u16 dev_sof;
-> > > +     u32 dev_stc;
-> > >
-> > >       switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
-> > >       case UVC_STREAM_PTS | UVC_STREAM_SCR:
-> > > @@ -526,6 +527,23 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> > >       if (dev_sof == stream->clock.last_sof)
-> > >               return;
-> > >
-> > > +     dev_stc = get_unaligned_le32(&data[header_size - 6]);
-> > > +
-> > > +     /*
-> > > +      * STC (Source Time Clock) is the clock used by the camera. The UVC 1.5
-> > > +      * standard states that it "must be captured when the first video data
-> > > +      * of a video frame is put on the USB bus".
-> > > +      * Most of the vendors, clear the `UVC_STREAM_SCR` bit when the data is
-> > > +      * not valid, other vendors always set the `UVC_STREAM_SCR` bit and
-> > > +      * expect that the driver only samples the stc if there is data on the
-> > > +      * packet.
-> > > +      * Ignore all the hardware timestamp information if there is no data
-> > > +      * and stc and sof are zero.
-> > > +      */
-> >
-> > I'd like to expand this a bit (partly to make sure I understand the
-> > issue correctly):
-> >
-> >         /*
-> >          * STC (Source Time Clock) is the clock used by the camera. The UVC 1.5
-> >          * standard states that it "must be captured when the first video data
-> >          * of a video frame is put on the USB bus". This is generally understood
-> >          * as requiring devices to clear the payload header's SCR bit before
-> >          * the first packet containing video data.
-> >          *
-> >          * Most vendors follow that interpretation, but some (namely SunplusIT)
-> namely SunplusIT on some devices
-> >          * always set the `UVC_STREAM_SCR` bit, fill the SCR field with 0's,
-> >          * and expect that the driver only processes the SCR if there is data in
-> >          * the packet.
-> >          *
-> >          * Ignore all the hardware timestamp information if we haven't received
-> >          * any data for this frame yet, the packet contains no data, and both
-> >          * STC and SOF are zero. This heuristics should be safe on compliant
-> >          * devices. This should be safe with compliant devices, as in the very
-> >          * unlikely case where a UVC 1.1 device would send timing information
-> >          * only before the first packet containing data, and both STC and SOF
-> >          * happen to be zero for a particular frame, we would only miss one
-> >          * clock sample and the clock recovery algorithm wouldn't suffer from
-> one clock sample from many
-> >          * this condition.
-> >          */
-> >
-> > Is this correct (and fine with you) ? If so,
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > > +     if (buf && buf->bytesused == 0 && len == header_size &&
-> > > +         dev_stc == 0 && dev_sof == 0)
-> > > +             return;
-> > > +
-> > >       stream->clock.last_sof = dev_sof;
-> > >
-> > >       host_sof = usb_get_current_frame_number(stream->dev->udev);
-> > > @@ -564,7 +582,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-> > >       spin_lock_irqsave(&stream->clock.lock, flags);
-> > >
-> > >       sample = &stream->clock.samples[stream->clock.head];
-> > > -     sample->dev_stc = get_unaligned_le32(&data[header_size - 6]);
-> > > +     sample->dev_stc = dev_stc;
-> > >       sample->dev_sof = dev_sof;
-> > >       sample->host_sof = host_sof;
-> > >       sample->host_time = time;
-> > >
+Changes in v5:
+- Fix typo in the commit message
 
--- 
-Regards,
+Changes in v4:
+- Fix patch error
 
-Laurent Pinchart
+Changes in v3:
+- Fix typo and patch error
+
+Changes in v2:
+- Sort header files alphabetically
+- Seperate patches for renaming .c files to avoid conflicts
+
+This series is based on c958e86e9cc1b of mediatek-drm-next.
+
+
+Hsiao Chien Sung (14):
+  drm/mediatek: Rename "mtk_drm_crtc" to "mtk_crtc"
+  drm/mediatek: Rename "mtk_drm_ddp_comp" to "mtk_ddp_comp"
+  drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+  drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+  drm/mediatek: Rename "mtk_drm_hdmi" to "mtk_hdmi"
+  drm/mediatek: Rename files "mtk_drm_crtc.h" to "mtk_crtc.h"
+  drm/mediatek: Rename files "mtk_drm_crtc.c" to "mtk_crtc.c"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.h" to "mtk_ddp_comp.h"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.c" to "mtk_ddp_comp.c"
+  drm/mediatek: Rename files "mtk_drm_plane.h" to "mtk_plane.h"
+  drm/mediatek: Rename files "mtk_drm_plane.c" to "mtk_plane.c"
+  drm/mediatek: Rename files "mtk_drm_gem.h" to "mtk_gem.h"
+  drm/mediatek: Rename files "mtk_drm_gem.c" to "mtk_gem.c"
+  drm/mediatek: Rename mtk_ddp_comp functions
+
+ drivers/gpu/drm/mediatek/Makefile             |  12 +-
+ .../mediatek/{mtk_drm_crtc.c => mtk_crtc.c}   | 210 +++++++++---------
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |  28 +++
+ .../{mtk_drm_ddp_comp.c => mtk_ddp_comp.c}    |  51 +++--
+ .../{mtk_drm_ddp_comp.h => mtk_ddp_comp.h}    |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   4 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  30 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  32 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   6 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |   4 +-
+ .../drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} |  65 +++---
+ .../drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} |  23 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |  14 +-
+ drivers/gpu/drm/mediatek/mtk_padding.c        |   4 +-
+ .../mediatek/{mtk_drm_plane.c => mtk_plane.c} |  26 +--
+ .../mediatek/{mtk_drm_plane.h => mtk_plane.h} |   4 +-
+ 26 files changed, 275 insertions(+), 283 deletions(-)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c} (82%)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.c => mtk_ddp_comp.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.h => mtk_ddp_comp.h} (98%)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} (76%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} (62%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.c => mtk_plane.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.h => mtk_plane.h} (95%)
+
+--
+2.18.0
+
 
