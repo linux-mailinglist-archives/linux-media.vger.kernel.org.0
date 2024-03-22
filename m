@@ -1,224 +1,115 @@
-Return-Path: <linux-media+bounces-7572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7573-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27528864C4
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 02:30:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5CC88662F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 06:32:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 278211F238D8
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 01:30:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3494B1F24A16
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 05:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54BF9168C4;
-	Fri, 22 Mar 2024 01:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB0EBA27;
+	Fri, 22 Mar 2024 05:29:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="F09LJkwG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGUtFSoT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A538488;
-	Fri, 22 Mar 2024 01:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880343D0A9;
+	Fri, 22 Mar 2024 05:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711070909; cv=none; b=GoaVCFrRdC7vY3bt/LBbTYdpZcCDsS4m4zqqU3zgRflihIjh+oEDmIBSnWHGBfeDOHzoEfG1Mx25RbujjecKox5+2BD/6DNH/waVxVgBNHb9cCW4cs/ne96CneLOa9w/yow7xJvKJUkXFmoKy5ITz8pHxy4MghnwGQIC+nTqwxI=
+	t=1711085381; cv=none; b=XqDyr5BEwE+5ymjtLZWFPvY78MbVlZi0Up6GY72qYLVChpt+1uWn8aXGYPzvRdin5eUIwLcMHuGSitV5hu+KbmoHiQ1DT4KltYb88w3MgKIpeDrzWpii/8VxULjmf1GYnyJfVtUr5GXV+rCS2hJSW+jsjPpa9xhuGAqyFDyK6wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711070909; c=relaxed/simple;
-	bh=J8PAlSvS6S+W1VRK68CambaGaXTQwsBaBwUnbIpWu58=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LhTR7+4LjJ6k/VtrfR60gn1yNsJhnZCTtoFQKQ2zK3kgo+0sUv7AX8aLN/AECKFdAwRSgH2wM8sJUl/8lQV5nsn9cwBnST2Iww2kdR9VfotcfPGJtjnwr6QcfsS1kmdio19hF2g7vz/TSh3apwu1pUgwSXxGKgzyXaMs8LR7r4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=F09LJkwG; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 72e0c0dce7eb11eeb8927bc1f75efef4-20240322
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=o1k/aUAzB2fs9zIPVErc6M8VvXwK6zQtTbz3WRA0EkE=;
-	b=F09LJkwGTMZOwtUeUNXmbEMSjo4aKm64Nhwxi5svmIKN6oka7/db2U2OS/Df9v8BRIltbfx/LUoqb1X6hMouHrTrbPqJKEDzLklReF+QTW0S5eJjMDioNv/CTk5Hah6zVKBlo7xZhVFlFLPTPME0bsLNzL56Q4jEO6ztwtC91pY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:bfa0095a-2ed5-4e50-9db6-76c6dac3f3c2,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:1d184a85-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 72e0c0dce7eb11eeb8927bc1f75efef4-20240322
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <shawn.sung@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 318486600; Fri, 22 Mar 2024 09:28:12 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 22 Mar 2024 09:28:11 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 22 Mar 2024 09:28:11 +0800
-From: Shawn Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
-	<shawn.sung@mediatek.corp-partner.google.com>
-Subject: [PATCH v4 14/14] drm/mediatek: Rename mtk_ddp_comp functions
-Date: Fri, 22 Mar 2024 09:28:08 +0800
-Message-ID: <20240322012808.26234-15-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240322012808.26234-1-shawn.sung@mediatek.com>
-References: <20240322012808.26234-1-shawn.sung@mediatek.com>
+	s=arc-20240116; t=1711085381; c=relaxed/simple;
+	bh=81cZAtaOWpOYn1E7lQu3xtus81/XyacutkrW0opIIoM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S45MLHv0+WBg98w2kuBS7wl8HR+On4XjuxE6cC10qt9XHSe9FNWMpX9pwF/u+0H8CMd/0kZ6yiTdmKXgHPAH5lS4rQic3U3oJnI3rcZGWVYpa/1m4Z6pmfTDxTAyEpt1OxS5+IviMLRLs7p0S/KHIWUIIILaA9TLjpOP3Aqiupk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGUtFSoT; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e7425a6714so1254138b3a.0;
+        Thu, 21 Mar 2024 22:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711085379; x=1711690179; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eKuc7rRsF3BVGUdsmkv70uBPAFrZhnJYrr2a7AQjyLM=;
+        b=gGUtFSoTvURGs1RFf6ETIvAANg6GAiw6EdQ3EZLGHDbvA7UsR4lihutFF1UIB5eng4
+         7tqY9kOA5+0LZfedEgLijWT/ZxWRu4vVTVNL/x9ri03I7lmxVLtSTARnnrkk/zomcLEv
+         ZO1bwSwTcjG3GcTJCLdOY4WOgqqN9qs9shom3lTXEypYRllZJTgyElJNjaUrzLPutDbT
+         XeGD9psf+UlN1qQmRZxcfNXK2G/L90Ra6a1C5dw5hpNZ3u7Aog6Dk4op1PpXiBfvEi4o
+         aveL3zwTf3F6iFYjhSGrKaF91OBHPbZKlsQjt3/Sgxwkpwy554AFp++aqq+6HatKq9ZN
+         jYdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711085379; x=1711690179;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eKuc7rRsF3BVGUdsmkv70uBPAFrZhnJYrr2a7AQjyLM=;
+        b=L3lA2R8xIwBKqE+nbrA2lT6RPNs8PephsQ21eLZZcE3LiVWPiClyWSUBiDqdV3Y8fs
+         DQ9I6zNMMjBl0nQqxMWWTHNEsveLylq0HQl7AUuDBlheYmn9V1FGaNhvOaLMl+7cccm8
+         NhnI3/ZUrzvhk3aqEkdbtSANp/PeRfu2NoqqDX998EYeFxA9Xnf6pckdBSeF1+D04Mqd
+         +21Wy/zy3LSoZaN6eA0QY4jMjfNh3g2C0DMPyGNayjVJeq7guiIN+xnFZi7OiSJ3Z5Ni
+         YjmXNYyptv/xJmhQYlWfN/yRV/GhL8tQqSDV5Mx8gHq2JTK/KeQHYxPbM2zCXZQ3SOnz
+         3YnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVC9hoZ8kvBtg+dSYygECJ4yPwLL45fiJY0iol6yShnWjtadD1t8gyqWOZ+S2y93YtfP8MzgkIIYb7DaYZ825kdKpn+PBM6av9qHvzbaYKjLF6Jk9QeEUamhgzFJuHOaOBfYyGZOqYPq+I=
+X-Gm-Message-State: AOJu0YxMKuWisH3V2LoRMxmbe0v+IN8izQnKUGnEKBKtFxx8ZOPM+jNE
+	olfOcu8iQ0Cm1AKuwV0HAgzqWZR8f4OZtp6E6g1yP3qXgFzvLIKHEEYcQ423izc=
+X-Google-Smtp-Source: AGHT+IG1wONfMhDgpNcmYtojN3iaTSokCBfqPYFhCX95UwuPyoVY1kdaKMY2QgMtuma7vNQeBqQ55g==
+X-Received: by 2002:a17:902:da83:b0:1dd:9da3:59ff with SMTP id j3-20020a170902da8300b001dd9da359ffmr1946521plx.42.1711085378879;
+        Thu, 21 Mar 2024 22:29:38 -0700 (PDT)
+Received: from localhost.localdomain ([221.220.133.103])
+        by smtp.gmail.com with ESMTPSA id e5-20020a170902d38500b001dffa622527sm882978pld.225.2024.03.21.22.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 22:29:38 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	jacob-chen@iotwrt.com,
+	ezequiel@vanguardiasur.com.ar,
+	mchehab@kernel.org,
+	liujianfeng1994@gmail.com,
+	sfr@canb.auug.org.au
+Subject: [PATCH v1 0/2] media: rockchip: rga: Add rk3568 support
+Date: Fri, 22 Mar 2024 13:29:13 +0800
+Message-Id: <20240322052915.3507937-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 
-From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+The RGA2 on the Rockchip rk3588 is the same core as the RGA2 on the
+Rockchip rk3288 and rk3568.
 
-Rename functions of mtk_ddp_comp:
-- To align the naming rule
-- To reduce the code size
+This series adds the necessary device tree binding and node in the device
+tree to enable the RGA2 on the Rockchip rk3588.
 
-Reviewed-by: AngeloGiaocchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
----
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 45 ++++++++++++++-----------
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  3 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c      |  2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c      |  2 +-
- 4 files changed, 28 insertions(+), 24 deletions(-)
+Tested on rock5b with gstreamer command:
+gst-launch-1.0 videotestsrc ! video/x-raw,format=BGRx ! v4l2convert ! xvimagesink
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index c3441508f452f..17b0364112922 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -497,10 +497,10 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
- 	[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
- };
- 
--static bool mtk_drm_find_comp_in_ddp(struct device *dev,
--				     const unsigned int *path,
--				     unsigned int path_len,
--				     struct mtk_ddp_comp *ddp_comp)
-+static bool mtk_ddp_comp_find(struct device *dev,
-+			      const unsigned int *path,
-+			      unsigned int path_len,
-+			      struct mtk_ddp_comp *ddp_comp)
- {
- 	unsigned int i;
- 
-@@ -514,10 +514,10 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
- 	return false;
- }
- 
--static unsigned int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
--						       const struct mtk_drm_route *routes,
--						       unsigned int num_routes,
--						       struct mtk_ddp_comp *ddp_comp)
-+static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
-+					       const struct mtk_drm_route *routes,
-+					       unsigned int num_routes,
-+					       struct mtk_ddp_comp *ddp_comp)
- {
- 	int ret;
- 	unsigned int i;
-@@ -554,26 +554,31 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
- 
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev)
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
- 	unsigned int ret = 0;
- 
--	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
--				     private->ddp_comp))
-+	if (mtk_ddp_comp_find(dev,
-+			      private->data->main_path,
-+			      private->data->main_len,
-+			      private->ddp_comp))
- 		ret = BIT(0);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
--					  private->data->ext_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->ext_path,
-+				   private->data->ext_len,
-+				   private->ddp_comp))
- 		ret = BIT(1);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
--					  private->data->third_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->third_path,
-+				   private->data->third_len,
-+				   private->ddp_comp))
- 		ret = BIT(2);
- 	else
--		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
--							 private->data->conn_routes,
--							 private->data->num_conn_routes,
--							 private->ddp_comp);
-+		ret = mtk_ddp_comp_find_in_route(dev,
-+						 private->data->conn_routes,
-+						 private->data->num_conn_routes,
-+						 private->ddp_comp);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ba985206fdd24..26236691ce4c2 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -326,8 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
- 
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev);
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index fbf63e0441337..bfe8653005dbf 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -805,7 +805,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
- 
--	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-+	dpi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm_dev, dpi->dev);
- 
- 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e29c37fb5be09..67239606adbfc 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -836,7 +836,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		return ret;
- 	}
- 
--	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-+	dsi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm, dsi->host.dev);
- 
- 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+Jianfeng Liu (2):
+  dt-bindings: media: rockchip-rga: add rockchip,rk3588-rga
+  arm64: dts: rockchip: Add RGA2 support to rk3588
+
+ .../devicetree/bindings/media/rockchip-rga.yaml       |  1 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi             | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
+
 -- 
-2.18.0
+2.34.1
 
 
