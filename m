@@ -1,104 +1,64 @@
-Return-Path: <linux-media+bounces-7630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3435A886DAA
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:45:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 778EC886E59
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 15:19:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 581FD1C2279D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 13:45:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 044471F20F2F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:19:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2572F48790;
-	Fri, 22 Mar 2024 13:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D7047A60;
+	Fri, 22 Mar 2024 14:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="k0ncReND";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DlJ/kagk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hkqv0UQs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wflow3-smtp.messagingengine.com (wflow3-smtp.messagingengine.com [64.147.123.138])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C167346449;
-	Fri, 22 Mar 2024 13:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F1147A48;
+	Fri, 22 Mar 2024 14:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711114779; cv=none; b=SRqolVK7RuhQp2fBrFid2pHNPqhDKRbDnqrs1IP3bYH7lZ8MIzTqUsCQOhSiGSIgpgMgqCYgk3VzYJrQr/2t1EyeOYYJYBPM70QIaiT44t4qUAKwezfY1NOIoT0lO/CcTjv/OD6AlXBBTpyCY2D5s5WoZ3n0++e5lAnjTqG+wjE=
+	t=1711117150; cv=none; b=sSrJmgiLTGUTxY+JT4jxGF6j0l7YthvuN+pwIf7mpHawpDK0X6WRekuWS7fCHqYbU/MqJklyoYLRsWmwNrNIJ1wiFxh4wYSIw3gKb/bl38U7pAhTCm0EGvrp5CDuU8UY/fYchA/6/a3PfWGRg/mzqK4iipoltGqKgkNT+vl692o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711114779; c=relaxed/simple;
-	bh=WTmXfI0M08pmpvv63nQvhaH1TNGPWtey9xubpmGccnc=;
+	s=arc-20240116; t=1711117150; c=relaxed/simple;
+	bh=PTURMPFQn7attYISZHemSwcitlPK027nPcC5wSNohQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhnOjW1ku34BVD/41E1OFDGAyIuq4aWyIxx5T/+XEn+nJkEiRXH+8bKoHp3diwxF/pWHZSeYOUktpw6Qfo876/GbAZ846C2B97yOoe7tG660VXLHWvqNUWRk8CE00a889QtQeWpwSEYaZ2YVsfTdxzIneX+FlxYSlfIwt1ZIpeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=k0ncReND; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DlJ/kagk; arc=none smtp.client-ip=64.147.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailflow.west.internal (Postfix) with ESMTP id 8C2972CC00C8;
-	Fri, 22 Mar 2024 09:39:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 22 Mar 2024 09:39:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1711114773;
-	 x=1711118373; bh=XsXGuptKt13EJ/gv1xo+2KCLb6yaD1Leqmnh5HvA8so=; b=
-	k0ncReNDYOXBstPpIoz6beSva/3UwX13jbsVhdTSKIA1834wcDuyyKKFxF6AZzKJ
-	pHwpZ+tChYC9eaQaN2BhIV9DmbMNMD7+Aiob0H/LiJt5g+g1n1NdMqa1Eqv4rP5q
-	sfeqG/XsK1vAEJZ6gyuob297taaB7D1pDzh2tm6BC8dfeE8R+CcQWfiPn4O7TJb6
-	Tgnw53/v+CfN6vOSWbW1iMZLPweIk2/0qETiOYgueQY6OTADOkTl8tnQsJbjqs/p
-	0LWZC2ZSbc/Xte2kUcIir4GNMMM/MVk0D4jPRfK5XUtQ48R0GTdl4vBwnXQ1ln52
-	KrZwmZKj8/qkzB9CJdEYkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=i80c9496c.fm2; t=
-	1711114773; x=1711118373; bh=XsXGuptKt13EJ/gv1xo+2KCLb6yaD1Leqmn
-	h5HvA8so=; b=DlJ/kagkU1GsShBar6DPexYUIkGyob8Ht5T6E9Byo9h4iYGJQ3k
-	oFOEKSF8BEQn7j39eiX1K8XnbdcarP8SV4/Y6eIvMI0AICln3yQuUL2LMU9RQ8+I
-	T106wcfZ2bRnmhL2EO4gFU1QhkAxenIZp4vQl+PVqi+AYfH/JRKna20xih921kHI
-	JxTFNLFNn12AWPZvs07QAvX3W3aXw3peM8dzZHFXjB7OojPduGp4bUTpiEaYzAWu
-	tcn+/m5ty0nkUIkrq7KujkLzkd+4y4oosKxGJpDd2PurJGwUOYJb4BC4QQ4fERRo
-	zUxULPg6aVxcYIx2KcDmsglJBo3pxlb4uIw==
-X-ME-Sender: <xms:FIr9ZQ-7792OuQbiHP19zmLlzNhuO3Rb-5OBm5LcZLxM_cGLm4U90A>
-    <xme:FIr9ZYs77JwI57KUI3FoUwz6bBIW4vJvNYTveZOcSG4MM-mjstQ2g8x9HBiW5b09O
-    LJrOYfHJAR3B-SECZs>
-X-ME-Received: <xmr:FIr9ZWCUmHPvEA1o75nsLtxYr7ZYsK8i6K44f5jgaI5noQ8ujDTLsDWly4Q9WxCEfi9p3KIwqyInaU_qKSeZedQAJdzJWNo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddttddghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
-    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeef
-    heetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgr
-    ghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:FIr9ZQfZqJoZ5ZaenkF5_H_6Xor2JNsdHOIARLfqu3UGfxA6-LSIzQ>
-    <xmx:FIr9ZVN2mO0I5b3FO1C99rwa_I0nXa6NlsPqGR8Ck5a26IPJ_tPH3A>
-    <xmx:FIr9ZamPo7PStVoFTVbxnjS5qQgM7Bv3eIhEXowe52bo5OpejOmWgQ>
-    <xmx:FIr9ZXuSH-A5s_f7mStL7bJ-CbEngTq2ZolTKNaWd0pv8aO_FGFxDw>
-    <xmx:FIr9ZbvNzgkVq4FvqEPH9NGAkCI-N5JecqUJlCo-URnQo3SkmBEF35Iu53Lewatt>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 Mar 2024 09:39:31 -0400 (EDT)
-Date: Fri, 22 Mar 2024 14:39:27 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Arnd Bergmann <arnd@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IuHIafWfXINA6oW2nWlSW3CF88zS0WgUrFoyowLrMwjWbGCATRfMBQZ71A7fEUrtWT4E8hDYFoKnXSbVdDVcP79PNa1tSLEZn9rFcFq3uGdGoUKgKfAWfyZkrR4cE6XOvgKi0NQHumoj+/IX/xC5IwsydRyewsTAWCloU+z7lLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hkqv0UQs; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B70982A;
+	Fri, 22 Mar 2024 15:18:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711117117;
+	bh=PTURMPFQn7attYISZHemSwcitlPK027nPcC5wSNohQ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hkqv0UQsW55rGrAnJqN/5DJBlIz6UdQ6tiTQg7WU6NTxWYHTA94KwAZu8tIAo9KWk
+	 cqdT/bffSjC33ZDvOQsbshltlp1PD2401X5foSfKC1tzNZcm3xUyJyW+Y2ukTC85lF
+	 ef4qQN4BFSg5qqzl8S06n8Ayh0LVb4Prj6i4ePWI=
+Date: Fri, 22 Mar 2024 16:19:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] media: rcar-vin: work around -Wenum-compare-conditional
- warning
-Message-ID: <20240322133927.GG3438308@ragnatech.se>
-References: <20240322133353.908957-1-arnd@kernel.org>
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v5 3/3] media: uvcvideo: Do not use usb_* functions after
+ .disconnect
+Message-ID: <20240322141902.GV18799@pendragon.ideasonboard.com>
+References: <20231122-guenter-mini-v5-0-15d8cd8ed74f@chromium.org>
+ <20231122-guenter-mini-v5-3-15d8cd8ed74f@chromium.org>
+ <20231122133330.GE3909@pendragon.ideasonboard.com>
+ <CANiDSCunxALoBJg-u_s=A1Zi-NF3SaNRFhv3=2jTx0oeAPrCZw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,57 +67,150 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240322133353.908957-1-arnd@kernel.org>
+In-Reply-To: <CANiDSCunxALoBJg-u_s=A1Zi-NF3SaNRFhv3=2jTx0oeAPrCZw@mail.gmail.com>
 
-Hi Arnd,
+Hi Ricardo,
 
-Thanks for your work.
+On Wed, Nov 22, 2023 at 03:59:10PM +0100, Ricardo Ribalda wrote:
+> On Wed, 22 Nov 2023 at 14:33, Laurent Pinchart wrote:
+> > On Wed, Nov 22, 2023 at 11:45:49AM +0000, Ricardo Ribalda wrote:
+> > > usb drivers should not call to any I/O function after the
+> > > .disconnect() callback has been triggered.
+> > > https://www.kernel.org/doc/html/latest/driver-api/usb/callbacks.html#the-disconnect-callback
+> > >
+> > > If an application is receiving frames form a camera and the device is
+> > > disconnected: the device will call close() after the usb .disconnect()
+> > > callback has been called. The streamoff path will call usb_set_interface
+> > > or usb_clear_halt, which is not allowed.
+> > >
+> > > This patch only solves the calls to close() *after* .disconnect() is
+> > > being called.
+> > >
+> > > Trace:
+> > > [ 1065.389723] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
+> > > [ 1065.390160] drivers/media/usb/uvc/uvc_driver.c:2264 uvc_disconnect exit
+> > > [ 1065.433956] drivers/media/usb/uvc/uvc_v4l2.c:659 uvc_v4l2_release enter
+> > > [ 1065.433973] drivers/media/usb/uvc/uvc_video.c:2274 uvc_video_stop_streaming enter
+> > > [ 1065.434560] drivers/media/usb/uvc/uvc_video.c:2285 uvc_video_stop_streaming exit
+> > > [ 1065.435154] drivers/media/usb/uvc/uvc_v4l2.c:680 uvc_v4l2_release exit
+> > > [ 1065.435188] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c |  2 ++
+> > >  drivers/media/usb/uvc/uvc_video.c  | 45 ++++++++++++++++++++++++--------------
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+> > >  3 files changed, 32 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index d5dbf2644272..d78640d422f4 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2266,6 +2266,8 @@ static void uvc_disconnect(struct usb_interface *intf)
+> > >               return;
+> > >
+> > >       uvc_unregister_video(dev);
+> > > +     /* Barrier needed to pair with uvc_video_stop_streaming(). */
+> > > +     smp_store_release(&dev->disconnected, true);
+> >
+> > I can't think this would be such a hot path that we really need barriers
+> > in the driver.
+> 
+> Using the same variable from two contexts without any sync feels weird.
+> 
+> Your concern is that there will be a big penalty by using the
+> barriers? This is only used in stop_streaming and the shutdown path.
 
-On 2024-03-22 14:33:46 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> clang-19 warns about mixing two enum types here:
-> 
-> drivers/media/platform/renesas/rcar-vin/rcar-vin.h:296:12: error: conditional expression between different enumeration types ('enum rvin_csi_id' and 'enum rvin_isp_id') [-Werror,-Wenum-compare-conditional]
-> drivers/media/platform/renesas/rcar-vin/rcar-core.c:216:18: error: conditional expression between different enumeration types ('enum rvin_csi_id' and 'enum rvin_isp_id') [-Werror,-Wenum-compare-conditional]
-> drivers/media/platform/renesas/rcar-vin/rcar-vin.h:296:12: error: conditional expression between different enumeration types ('enum rvin_csi_id' and 'enum rvin_isp_id') [-Werror,-Wenum-compare-conditional]
-> drivers/media/platform/renesas/rcar-vin/rcar-vin.h:296:12: error: conditional expression between different enumeration types ('enum rvin_csi_id' and 'enum rvin_isp_id') [-Werror,-Wenum-compare-conditional]
-> 
-> This one is intentional, and there is already a cast to work around another
-> warning, so address this by adding another cast.
-> 
-> Fixes: 406bb586dec0 ("media: rcar-vin: Add r8a779a0 support")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+What I meant is that lockless concurrency is much harder to get right
+than locked concurrency. Unless there's an important reason not to use
+lock (which would I think need to be related to performance, and I don't
+see that being an issue here), I think using locks will be less
+error-prone and more maintainable. That's the KISS approach to
+concurrency (even if it doesn't directly address lockless concurrency, I
+like the approach advocated by Sima in
+https://blog.ffwll.ch/2022/07/locking-engineering.html).
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> There are only a couple of -Wenum-compare-conditional warnings in the tree,
-> so it seems best to just address them all instead of turning off the warning
-> globally.
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 792336dada44..997a66318a29 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -59,7 +59,7 @@ enum rvin_isp_id {
->  
->  #define RVIN_REMOTES_MAX \
->  	(((unsigned int)RVIN_CSI_MAX) > ((unsigned int)RVIN_ISP_MAX) ? \
-> -	 RVIN_CSI_MAX : RVIN_ISP_MAX)
-> +	 (unsigned int)RVIN_CSI_MAX : (unsigned int)RVIN_ISP_MAX)
->  
->  /**
->   * enum rvin_dma_state - DMA states
-> -- 
-> 2.39.2
-> 
+> > >       kref_put(&dev->ref, uvc_delete);
+> > >  }
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > index 28dde08ec6c5..f5ef375088de 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -2243,28 +2243,39 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
+> > >       return ret;
+> > >  }
+> > >
+> > > -void uvc_video_stop_streaming(struct uvc_streaming *stream)
+> > > +static void uvc_video_halt(struct uvc_streaming *stream)
+> > >  {
+> > > -     uvc_video_stop_transfer(stream, 1);
+> > > +     unsigned int epnum;
+> > > +     unsigned int pipe;
+> > > +     unsigned int dir;
+> > >
+> > >       if (stream->intf->num_altsetting > 1) {
+> > >               usb_set_interface(stream->dev->udev, stream->intfnum, 0);
+> > > -     } else {
+> > > -             /*
+> > > -              * UVC doesn't specify how to inform a bulk-based device
+> > > -              * when the video stream is stopped. Windows sends a
+> > > -              * CLEAR_FEATURE(HALT) request to the video streaming
+> > > -              * bulk endpoint, mimic the same behaviour.
+> > > -              */
+> > > -             unsigned int epnum = stream->header.bEndpointAddress
+> > > -                                & USB_ENDPOINT_NUMBER_MASK;
+> > > -             unsigned int dir = stream->header.bEndpointAddress
+> > > -                              & USB_ENDPOINT_DIR_MASK;
+> > > -             unsigned int pipe;
+> > > -
+> > > -             pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
+> > > -             usb_clear_halt(stream->dev->udev, pipe);
+> > > +             return;
+> > >       }
+> > >
+> > > +     /*
+> > > +      * UVC doesn't specify how to inform a bulk-based device
+> > > +      * when the video stream is stopped. Windows sends a
+> > > +      * CLEAR_FEATURE(HALT) request to the video streaming
+> > > +      * bulk endpoint, mimic the same behaviour.
+> > > +      */
+> > > +     epnum = stream->header.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK;
+> > > +     dir = stream->header.bEndpointAddress & USB_ENDPOINT_DIR_MASK;
+> > > +     pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
+> > > +     usb_clear_halt(stream->dev->udev, pipe);
+> > > +}
+> > > +
+> > > +void uvc_video_stop_streaming(struct uvc_streaming *stream)
+> > > +{
+> > > +     uvc_video_stop_transfer(stream, 1);
+> > > +
+> > > +     /*
+> > > +      * Barrier needed to pair with uvc_disconnect().
+> > > +      * We cannot call usb_* functions on a disconnected USB device.
+> > > +      */
+> > > +     if (!smp_load_acquire(&stream->dev->disconnected))
+> > > +             uvc_video_halt(stream);
+> > > +
+> > >       uvc_video_clock_cleanup(stream);
+> > >  }
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index ba8f8c1f2c83..5b1a3643de05 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -559,6 +559,8 @@ struct uvc_device {
+> > >       unsigned int users;
+> > >       atomic_t nmappings;
+> > >
+> > > +     bool disconnected;
+> > > +
+> > >       /* Video control interface */
+> > >  #ifdef CONFIG_MEDIA_CONTROLLER
+> > >       struct media_device mdev;
+> > >
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Regards,
+
+Laurent Pinchart
 
