@@ -1,468 +1,213 @@
-Return-Path: <linux-media+bounces-7610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7611-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF2C886942
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 10:30:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 889BC886946
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 10:31:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 085951F227BC
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:30:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F87E28A170
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E4A3D38F;
-	Fri, 22 Mar 2024 09:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A32208DD;
+	Fri, 22 Mar 2024 09:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PVIpcBH9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b+z2rRRu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9E438DDD;
-	Fri, 22 Mar 2024 09:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3290B3F8FF
+	for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 09:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711099753; cv=none; b=idq1DhIliKUSxpeJiqWZD5z+vif0Ep32ud+GWv9PlYOm02/e9m4KLiuEvez5jCuJwjw9WQ2K1WpG9XcAqaqZSELeaAhEPjDfywUkcY+tfojEyHI3F/mD6IVO5+cVV14CjMNoyNtXVuj4ttSKSxQaU+0AR0XXLP5jkbxh9nXrfik=
+	t=1711099762; cv=none; b=I++FXEy+T1f4H35mw2JSfxqpuytutojIuhH1bA1Bgw9oC+15i3pNOlA7ssAw/M8FVj+yhLsEtDuvzsNcRhMv9Hy38w2dSEeHkWLC68dwx6QdJCe1GjJfzbdXd9Nbi9MxuqdLqSZ4h5bZAuvBfL2PGSVi/02Vd8I8caewp3AHxLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711099753; c=relaxed/simple;
-	bh=4amundVKYBlSE0uqGcpRga8XrKsqEbBI94uQCoLB7QU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SHcpgzdjXNKDE37by91b4l8O5rZyoYSTkfrEI6u4mNHqWBTZ6xRPYpEnKNRWUBYQyzGeYwGtqntBDfcdQ6/zoI24zkW8UcDAWd3mH96DClLfIzzYABxlK/8xcLp6JDPwonqHfNHPEvNQCwTOLw8FFRTU+Bnk0+EAy/nHbbDicgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PVIpcBH9; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711099749;
-	bh=4amundVKYBlSE0uqGcpRga8XrKsqEbBI94uQCoLB7QU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PVIpcBH9kYPJIol66J9sc/Vr0EkaiebpxVCoufid4xumEC07fgZw+lVFqgR75SOT6
-	 T6nJXxPjlh8sIRoc4/2P954uCXCQUGFbPRssPKmiRNo2ra9dTECtFLYegwRZ9TSWn5
-	 7DnODLDFVLV8KiQxlUWQUL3YsDJFPuJxUGVF2jTOAO5hr+eT2oFBYHDdfaeCZJtozy
-	 bIlMgygoSTFUcjMMECc3GSl/3pmDCpNV6kRpjjlf8voWzeGGDD7tAryt5CiFU3GOWZ
-	 GM59EcbHxGEKo6KnkP2/MDHM4bYBJOMHXbIXg9kMXykSQF0NQe/OUoM9+kKaBw7vW2
-	 WrHEhHBwaOlmQ==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6492A378211A;
-	Fri, 22 Mar 2024 09:29:08 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	amergnat@baylibre.com,
-	moudy.ho@mediatek.com,
-	hverkuil-cisco@xs4all.nl,
-	sebastian.fricke@collabora.com,
-	u.kleine-koenig@pengutronix.de,
-	chunkuang.hu@kernel.org,
-	p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com
-Subject: [PATCH 4/4] media: platform: mtk-mdp3: Add support for MT8188 MDP3 components
-Date: Fri, 22 Mar 2024 10:28:45 +0100
-Message-ID: <20240322092845.381313-5-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
-References: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
+	s=arc-20240116; t=1711099762; c=relaxed/simple;
+	bh=jMhYX92bX0+vMk1M5ZgqlQ2n3cIBs+In3AcE7fbzqBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cu0olhOKXI/h8zOuwgOSkU2GuepIp1NXhG33bplQ0A3LVyt15HzEYuNcgG8Dyww2WvaeENERw0zCrC1zDmpsBQz+p5hRZZdNdf6svvV+F6X8ffY3SToJ+TICbmhbjn8b36oe+rmI2hbBhR6n9Pz9ShVb+r71vuGPGSkr5FO9Kh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b+z2rRRu; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4d42ea640f0so651827e0c.3
+        for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 02:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711099759; x=1711704559; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZvtGqTa73gh7kUTMmd8F/7eYyLnJTG6tNdg5WPt/L0=;
+        b=b+z2rRRuiiXAjY4qifgtkTWGCyDPITjKUY9/o86GwcKYn5dKwn5G6GBl8sD2M6/ZDX
+         iRchka3iFWLW+zKVC06ZbOuYrjAUX/LHw8g8idD3KbTwETWiwEgCHqgm3JTYQWvWYY6M
+         Ie6Ni8BO02HLBn0vvigFtFtCKxaoZvzAFh4Rs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711099759; x=1711704559;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nZvtGqTa73gh7kUTMmd8F/7eYyLnJTG6tNdg5WPt/L0=;
+        b=i4GxC9DE9CIy6Maj+cYfWIqYw1W9RQboVVDeQbVQ7nGHHxYW2AiPKccBBUXW4yekKT
+         S49Z3deWi2lWI/Yl5IbylurT6XBM83w5RBnxwKyI9qZLQ84uOyjo0xXCRu8bfy/N4itP
+         d+AX37K9xJinAtuIq4mZwJrMV7zTHjKbWlHI1ttbwvrFRc2FP2t8Y8DpizqnvlvRQm5P
+         nBHEAk7mWbZ5nkGm1+sQOwtnAp/v4gt2zgotU+AFsqdM4nK0XKabo+HtDyVTBKRGjjjt
+         mjq+1V93PcG32zViBmrBOJSr+hwg0mJhriEOJw9YnpjTzs0/DLu/9AzgRgTMPkDB7SAi
+         ROFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXyo7yCrxF3xGUd3h+tXIvjiMzQGEAf+Esx4xavwekcsZkNN/7rY3NfCsZd9i+G35RANLBw+UUvAGQ+NhzscL57Iv9GrbLpIq1Jvps=
+X-Gm-Message-State: AOJu0Yy43t8bHLgrlPJ1LcI5cbb5jF4M3YlYfNEZyj7jJ6m0LZz4KnRv
+	5fRDzR3Sy/alFHiv/M693R9SfRGTvF11B6ccWNIjqjxhTIKaz32CybZhFZNEwg89rrbBTj3OrqU
+	=
+X-Google-Smtp-Source: AGHT+IFNd49pN38v9cwIgNyINY8h9dqpIbeqFKdC2+RaNP5UrNoJbeAt/mI9/SYxJ2SB8z2RitlAIw==
+X-Received: by 2002:ac5:c90e:0:b0:4d4:3716:5d99 with SMTP id t14-20020ac5c90e000000b004d437165d99mr1593391vkl.5.1711099759336;
+        Fri, 22 Mar 2024 02:29:19 -0700 (PDT)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id b6-20020ac5c746000000b004b6c66b5493sm250735vkn.0.2024.03.22.02.29.18
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Mar 2024 02:29:19 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4d4226edea8so654237e0c.1
+        for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 02:29:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWqVV1UgLfsfthCsphKTcuKE+/H7PsVAaTJPzLLuFGVTuH3SHyeyXWywTYPP5UDn6Iow+9azoqovOK7YE8/8VhBxfLStXbqrSUt2HU=
+X-Received: by 2002:a1f:140b:0:b0:4d8:770f:65a7 with SMTP id
+ 11-20020a1f140b000000b004d8770f65a7mr185723vku.9.1711099758263; Fri, 22 Mar
+ 2024 02:29:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
+ <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org>
+ <20240212225940.GA19316@pendragon.ideasonboard.com> <CANiDSCuoskaERyyzuLen+ReGHBNnOrFducbWYAvFQ6HfbUCPcg@mail.gmail.com>
+ <20240219104046.GB13043@pendragon.ideasonboard.com> <CANiDSCsqYHModDZCi2hooDYsFgu+bN_OioBGEJQJuZgdiJO=ug@mail.gmail.com>
+ <20240321215047.GA20938@pendragon.ideasonboard.com> <20240322091948.GA10059@pendragon.ideasonboard.com>
+In-Reply-To: <20240322091948.GA10059@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 22 Mar 2024 10:29:03 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuxytDTC73Ni51h9v7yCZ46D5489fvt0Hy0ugcm=jcKRQ@mail.gmail.com>
+Message-ID: <CANiDSCuxytDTC73Ni51h9v7yCZ46D5489fvt0Hy0ugcm=jcKRQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/6] media: uvcvideo: Fix negative modulus calculation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-MT8195 and MT8188 share a similar MDP3 macro-block, with minor
-differences - as in, the latter supports a subset of the number
-of components supported by the former, but are otherwise handled
-in the same way.
+Hi Laurent
 
-Add driver data for MT8188, reusing the already present MT8195
-data where possible.
+On Fri, 22 Mar 2024 at 10:19, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Mar 21, 2024 at 11:50:48PM +0200, Laurent Pinchart wrote:
+> > On Mon, Feb 19, 2024 at 04:07:12PM +0100, Ricardo Ribalda wrote:
+> > > On Mon, 19 Feb 2024 at 11:40, Laurent Pinchart wrote:
+> > > > On Mon, Feb 19, 2024 at 11:28:03AM +0100, Ricardo Ribalda wrote:
+> > > > > On Mon, 12 Feb 2024 at 23:59, Laurent Pinchart wrote:
+> > > > > > On Wed, Mar 15, 2023 at 02:30:12PM +0100, Ricardo Ribalda wrote:
+> > > > > > > If head is 0, last will be addressing the index 0 instead of clock->size
+> > > > > > > -1. Luckily clock->head is unsiged, otherwise it would be addressing
+> > > > > > > 0xffffffff.
+> > > > > >
+> > > > > > I'm not following you. In the expression
+> > > > > >
+> > > > > >         (clock->head - 1) % clock->size
+> > > > > >
+> > > > > > clock->head is an unsigned int, and 1 as a signed int, so the result of
+> > > > > > the subtraction is promoted to an unsigned int. When clock->head is 0, the expression evaluates to
+> > > > > >
+> > > > > >         0xffffffff % clock->size
+> > > > > >
+> > > > > > clock->size is a power of two (hardcoded to 32 at the moment), so the
+> > > > > > expression evaluates to 31, as intended.
+> > > > > >
+> > > > > > Am I missing something ?
+> > > > >
+> > > > > Take a look to: https://godbolt.org/z/xYeqTx6ba
+> > > > >
+> > > > > The expression only works because the size is a power of two. In this
+> > > > > set I am allowing sizes that are not powers of two.
+> > > >
+> > > > Could you then update the commit message to explain that ?
+> > > >
+> > > > I'll review the rest of the series this week.
+> > > Thanks
+> > >
+> > > Will update with the following text after the review:
+> > >
+> > > The tail of the list lives at the position before the head. This is
+> > > mathematically noted as
+> > > ```
+> > > (head-1)  mod size.
+> > > ```
+> > >
+> > > Unfortunately C, does not have a modulus operator, but a remainder
+> > > operator (%).
+> > > The reminder operation has a different result than the modulus if
+> > > (head -1) is a negative number and size is not a power of two.
+> > >
+> > > Adding size to (head-1) allows the code to run with any value of size.
+> >
+> > Could you please add
+> >
+> > This does not change the current behaviour of the driver, as the size is
+> > always a power of two, but prepares for reworks that will change the
+> > size to a non power of two.
+> >
+> > or something similar ?
+> >
+> > > > > > > Nontheless, this is not the intented behaviour and should be fixed.
+> > > > > > >
+> > > > > > > Fixes: 66847ef013cc ("[media] uvcvideo: Add UVC timestamps support")
+> >
+> > I think this should be dropped, the patch doesn't fix an issue, but
+> > prepares for further changes that add new features. I'd also like to
+> > update the commit message to avoid stating "Fix", to avoid this being
+> > picked for stable kernels automatically.
+>
+> After reviewing the whole series, it seems that clock->size stays at its
+> current value of 32. Do we thus need this patch ?
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../platform/mediatek/mdp3/mdp_cfg_data.c     | 280 ++++++++++++++++++
- .../platform/mediatek/mdp3/mtk-img-ipi.h      |   1 +
- .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |   1 +
- .../platform/mediatek/mdp3/mtk-mdp3-core.c    |   3 +
- 4 files changed, 285 insertions(+)
+I remember that at some point, when I changed the size, it had been
+really painful to figure out why the code was not working.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c b/drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c
-index ecca52b45307..0b4c50bc1776 100644
---- a/drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c
-+++ b/drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c
-@@ -46,6 +46,53 @@ enum mt8183_mdp_comp_id {
- 	MT8183_MDP_COMP_WROT1,          /* 25 */
- };
- 
-+enum mt8188_mdp_comp_id {
-+	/* MT8188 Comp id */
-+	/* ISP */
-+	MT8188_MDP_COMP_WPEI = 0,
-+	MT8188_MDP_COMP_WPEO,           /* 1 */
-+
-+	/* MDP */
-+	MT8188_MDP_COMP_CAMIN,          /* 2 */
-+	MT8188_MDP_COMP_RDMA0,          /* 3 */
-+	MT8188_MDP_COMP_RDMA2,          /* 4 */
-+	MT8188_MDP_COMP_RDMA3,          /* 5 */
-+	MT8188_MDP_COMP_FG0,            /* 6 */
-+	MT8188_MDP_COMP_FG2,            /* 7 */
-+	MT8188_MDP_COMP_FG3,            /* 8 */
-+	MT8188_MDP_COMP_TO_SVPP2MOUT,   /* 9 */
-+	MT8188_MDP_COMP_TO_SVPP3MOUT,   /* 10 */
-+	MT8188_MDP_COMP_TO_WARP0MOUT,   /* 11 */
-+	MT8188_MDP_COMP_VPP0_SOUT,      /* 12 */
-+	MT8188_MDP_COMP_VPP1_SOUT,      /* 13 */
-+	MT8188_MDP_COMP_PQ0_SOUT,       /* 14 */
-+	MT8188_MDP_COMP_HDR0,           /* 15 */
-+	MT8188_MDP_COMP_HDR2,           /* 16 */
-+	MT8188_MDP_COMP_HDR3,           /* 17 */
-+	MT8188_MDP_COMP_AAL0,           /* 18 */
-+	MT8188_MDP_COMP_AAL2,           /* 19 */
-+	MT8188_MDP_COMP_AAL3,           /* 20 */
-+	MT8188_MDP_COMP_RSZ0,           /* 21 */
-+	MT8188_MDP_COMP_RSZ2,           /* 22 */
-+	MT8188_MDP_COMP_RSZ3,           /* 23 */
-+	MT8188_MDP_COMP_TDSHP0,         /* 24 */
-+	MT8188_MDP_COMP_TDSHP2,         /* 25 */
-+	MT8188_MDP_COMP_TDSHP3,         /* 26 */
-+	MT8188_MDP_COMP_COLOR0,         /* 27 */
-+	MT8188_MDP_COMP_COLOR2,         /* 28 */
-+	MT8188_MDP_COMP_COLOR3,         /* 29 */
-+	MT8188_MDP_COMP_OVL0,           /* 30 */
-+	MT8188_MDP_COMP_PAD0,           /* 31 */
-+	MT8188_MDP_COMP_PAD2,           /* 32 */
-+	MT8188_MDP_COMP_PAD3,           /* 33 */
-+	MT8188_MDP_COMP_TCC0,           /* 34 */
-+	MT8188_MDP_COMP_WROT0,          /* 35 */
-+	MT8188_MDP_COMP_WROT2,          /* 36 */
-+	MT8188_MDP_COMP_WROT3,          /* 37 */
-+	MT8188_MDP_COMP_MERGE2,         /* 38 */
-+	MT8188_MDP_COMP_MERGE3,         /* 39 */
-+};
-+
- enum mt8195_mdp_comp_id {
- 	/* MT8195 Comp id */
- 	/* ISP */
-@@ -123,6 +170,13 @@ static const struct of_device_id mt8183_mdp_probe_infra[MDP_INFRA_MAX] = {
- 	[MDP_INFRA_SCP] = { .compatible = "mediatek,mt8183-scp" }
- };
- 
-+static const struct of_device_id mt8188_mdp_probe_infra[MDP_INFRA_MAX] = {
-+	[MDP_INFRA_MMSYS] = { .compatible = "mediatek,mt8188-vppsys0" },
-+	[MDP_INFRA_MMSYS2] = { .compatible = "mediatek,mt8188-vppsys1" },
-+	[MDP_INFRA_MUTEX] = { .compatible = "mediatek,mt8188-vpp-mutex" },
-+	[MDP_INFRA_MUTEX2] = { .compatible = "mediatek,mt8188-vpp-mutex" },
-+};
-+
- static const struct of_device_id mt8195_mdp_probe_infra[MDP_INFRA_MAX] = {
- 	[MDP_INFRA_MMSYS] = { .compatible = "mediatek,mt8195-vppsys0" },
- 	[MDP_INFRA_MMSYS2] = { .compatible = "mediatek,mt8195-vppsys1" },
-@@ -167,6 +221,40 @@ static const u32 mt8183_mutex_idx[MDP_MAX_COMP_COUNT] = {
- 	[MDP_COMP_CCORR0] = MUTEX_MOD_IDX_MDP_CCORR0,
- };
- 
-+static const u32 mt8188_mutex_idx[MDP_MAX_COMP_COUNT] = {
-+	[MDP_COMP_RDMA0] = MUTEX_MOD_IDX_MDP_RDMA0,
-+	[MDP_COMP_RDMA2] = MUTEX_MOD_IDX_MDP_RDMA2,
-+	[MDP_COMP_RDMA3] = MUTEX_MOD_IDX_MDP_RDMA3,
-+	[MDP_COMP_FG0] = MUTEX_MOD_IDX_MDP_FG0,
-+	[MDP_COMP_FG2] = MUTEX_MOD_IDX_MDP_FG2,
-+	[MDP_COMP_FG3] = MUTEX_MOD_IDX_MDP_FG3,
-+	[MDP_COMP_HDR0] = MUTEX_MOD_IDX_MDP_HDR0,
-+	[MDP_COMP_HDR2] = MUTEX_MOD_IDX_MDP_HDR2,
-+	[MDP_COMP_HDR3] = MUTEX_MOD_IDX_MDP_HDR3,
-+	[MDP_COMP_AAL0] = MUTEX_MOD_IDX_MDP_AAL0,
-+	[MDP_COMP_AAL2] = MUTEX_MOD_IDX_MDP_AAL2,
-+	[MDP_COMP_AAL3] = MUTEX_MOD_IDX_MDP_AAL3,
-+	[MDP_COMP_RSZ0] = MUTEX_MOD_IDX_MDP_RSZ0,
-+	[MDP_COMP_RSZ2] = MUTEX_MOD_IDX_MDP_RSZ2,
-+	[MDP_COMP_RSZ3] = MUTEX_MOD_IDX_MDP_RSZ3,
-+	[MDP_COMP_MERGE2] = MUTEX_MOD_IDX_MDP_MERGE2,
-+	[MDP_COMP_MERGE3] = MUTEX_MOD_IDX_MDP_MERGE3,
-+	[MDP_COMP_TDSHP0] = MUTEX_MOD_IDX_MDP_TDSHP0,
-+	[MDP_COMP_TDSHP2] = MUTEX_MOD_IDX_MDP_TDSHP2,
-+	[MDP_COMP_TDSHP3] = MUTEX_MOD_IDX_MDP_TDSHP3,
-+	[MDP_COMP_COLOR0] = MUTEX_MOD_IDX_MDP_COLOR0,
-+	[MDP_COMP_COLOR2] = MUTEX_MOD_IDX_MDP_COLOR2,
-+	[MDP_COMP_COLOR3] = MUTEX_MOD_IDX_MDP_COLOR3,
-+	[MDP_COMP_OVL0] = MUTEX_MOD_IDX_MDP_OVL0,
-+	[MDP_COMP_PAD0] = MUTEX_MOD_IDX_MDP_PAD0,
-+	[MDP_COMP_PAD2] = MUTEX_MOD_IDX_MDP_PAD2,
-+	[MDP_COMP_PAD3] = MUTEX_MOD_IDX_MDP_PAD3,
-+	[MDP_COMP_TCC0] = MUTEX_MOD_IDX_MDP_TCC0,
-+	[MDP_COMP_WROT0] = MUTEX_MOD_IDX_MDP_WROT0,
-+	[MDP_COMP_WROT2] = MUTEX_MOD_IDX_MDP_WROT2,
-+	[MDP_COMP_WROT3] = MUTEX_MOD_IDX_MDP_WROT3,
-+};
-+
- static const u32 mt8195_mutex_idx[MDP_MAX_COMP_COUNT] = {
- 	[MDP_COMP_RDMA0] = MUTEX_MOD_IDX_MDP_RDMA0,
- 	[MDP_COMP_RDMA1] = MUTEX_MOD_IDX_MDP_RDMA1,
-@@ -288,6 +376,171 @@ static const struct mdp_comp_data mt8183_mdp_comp_data[MDP_MAX_COMP_COUNT] = {
- 	},
- };
- 
-+static const struct mdp_comp_data mt8188_mdp_comp_data[MDP_MAX_COMP_COUNT] = {
-+	[MDP_COMP_WPEI] = {
-+		{MDP_COMP_TYPE_WPEI, 0, MT8188_MDP_COMP_WPEI, MDP_MM_SUBSYS_0},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_WPEO] = {
-+		{MDP_COMP_TYPE_EXTO, 0, MT8188_MDP_COMP_WPEO, MDP_MM_SUBSYS_0},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_CAMIN] = {
-+		{MDP_COMP_TYPE_DL_PATH, 0, MT8188_MDP_COMP_CAMIN, MDP_MM_SUBSYS_0},
-+		{3, 3, 0}
-+	},
-+	[MDP_COMP_RDMA0] = {
-+		{MDP_COMP_TYPE_RDMA, 0, MT8188_MDP_COMP_RDMA0, MDP_MM_SUBSYS_0},
-+		{3, 0, 0}
-+	},
-+	[MDP_COMP_RDMA2] = {
-+		{MDP_COMP_TYPE_RDMA, 1, MT8188_MDP_COMP_RDMA2, MDP_MM_SUBSYS_1},
-+		{3, 0, 0}
-+	},
-+	[MDP_COMP_RDMA3] = {
-+		{MDP_COMP_TYPE_RDMA, 2, MT8188_MDP_COMP_RDMA3, MDP_MM_SUBSYS_1},
-+		{3, 0, 0}
-+	},
-+	[MDP_COMP_FG0] = {
-+		{MDP_COMP_TYPE_FG, 0, MT8188_MDP_COMP_FG0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_FG2] = {
-+		{MDP_COMP_TYPE_FG, 1, MT8188_MDP_COMP_FG2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_FG3] = {
-+		{MDP_COMP_TYPE_FG, 2, MT8188_MDP_COMP_FG3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_HDR0] = {
-+		{MDP_COMP_TYPE_HDR, 0, MT8188_MDP_COMP_HDR0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_HDR2] = {
-+		{MDP_COMP_TYPE_HDR, 1, MT8188_MDP_COMP_HDR2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_HDR3] = {
-+		{MDP_COMP_TYPE_HDR, 2, MT8188_MDP_COMP_HDR3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_AAL0] = {
-+		{MDP_COMP_TYPE_AAL, 0, MT8188_MDP_COMP_AAL0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_AAL2] = {
-+		{MDP_COMP_TYPE_AAL, 1, MT8188_MDP_COMP_AAL2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_AAL3] = {
-+		{MDP_COMP_TYPE_AAL, 2, MT8188_MDP_COMP_AAL3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_RSZ0] = {
-+		{MDP_COMP_TYPE_RSZ, 0, MT8188_MDP_COMP_RSZ0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_RSZ2] = {
-+		{MDP_COMP_TYPE_RSZ, 1, MT8188_MDP_COMP_RSZ2, MDP_MM_SUBSYS_1},
-+		{2, 0, 0},
-+		{MDP_COMP_MERGE2, true, true}
-+	},
-+	[MDP_COMP_RSZ3] = {
-+		{MDP_COMP_TYPE_RSZ, 2, MT8188_MDP_COMP_RSZ3, MDP_MM_SUBSYS_1},
-+		{2, 0, 0},
-+		{MDP_COMP_MERGE3, true, true}
-+	},
-+	[MDP_COMP_TDSHP0] = {
-+		{MDP_COMP_TYPE_TDSHP, 0, MT8188_MDP_COMP_TDSHP0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_TDSHP2] = {
-+		{MDP_COMP_TYPE_TDSHP, 1, MT8188_MDP_COMP_TDSHP2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_TDSHP3] = {
-+		{MDP_COMP_TYPE_TDSHP, 2, MT8188_MDP_COMP_TDSHP3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_COLOR0] = {
-+		{MDP_COMP_TYPE_COLOR, 0, MT8188_MDP_COMP_COLOR0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_COLOR2] = {
-+		{MDP_COMP_TYPE_COLOR, 1, MT8188_MDP_COMP_COLOR2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_COLOR3] = {
-+		{MDP_COMP_TYPE_COLOR, 2, MT8188_MDP_COMP_COLOR3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_OVL0] = {
-+		{MDP_COMP_TYPE_OVL, 0, MT8188_MDP_COMP_OVL0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_PAD0] = {
-+		{MDP_COMP_TYPE_PAD, 0, MT8188_MDP_COMP_PAD0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_PAD2] = {
-+		{MDP_COMP_TYPE_PAD, 1, MT8188_MDP_COMP_PAD2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_PAD3] = {
-+		{MDP_COMP_TYPE_PAD, 2, MT8188_MDP_COMP_PAD3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_TCC0] = {
-+		{MDP_COMP_TYPE_TCC, 0, MT8188_MDP_COMP_TCC0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_WROT0] = {
-+		{MDP_COMP_TYPE_WROT, 0, MT8188_MDP_COMP_WROT0, MDP_MM_SUBSYS_0},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_WROT2] = {
-+		{MDP_COMP_TYPE_WROT, 1, MT8188_MDP_COMP_WROT2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_WROT3] = {
-+		{MDP_COMP_TYPE_WROT, 2, MT8188_MDP_COMP_WROT3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_MERGE2] = {
-+		{MDP_COMP_TYPE_MERGE, 0, MT8188_MDP_COMP_MERGE2, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_MERGE3] = {
-+		{MDP_COMP_TYPE_MERGE, 1, MT8188_MDP_COMP_MERGE3, MDP_MM_SUBSYS_1},
-+		{1, 0, 0}
-+	},
-+	[MDP_COMP_PQ0_SOUT] = {
-+		{MDP_COMP_TYPE_DUMMY, 0, MT8188_MDP_COMP_PQ0_SOUT, MDP_MM_SUBSYS_0},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_TO_WARP0MOUT] = {
-+		{MDP_COMP_TYPE_DUMMY, 1, MT8188_MDP_COMP_TO_WARP0MOUT, MDP_MM_SUBSYS_0},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_TO_SVPP2MOUT] = {
-+		{MDP_COMP_TYPE_DUMMY, 2, MT8188_MDP_COMP_TO_SVPP2MOUT, MDP_MM_SUBSYS_1},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_TO_SVPP3MOUT] = {
-+		{MDP_COMP_TYPE_DUMMY, 3, MT8188_MDP_COMP_TO_SVPP3MOUT, MDP_MM_SUBSYS_1},
-+		{0, 0, 0}
-+	},
-+	[MDP_COMP_VPP0_SOUT] = {
-+		{MDP_COMP_TYPE_PATH, 0, MT8188_MDP_COMP_VPP0_SOUT, MDP_MM_SUBSYS_1},
-+		{2, 6, 0}
-+	},
-+	[MDP_COMP_VPP1_SOUT] = {
-+		{MDP_COMP_TYPE_PATH, 1, MT8188_MDP_COMP_VPP1_SOUT, MDP_MM_SUBSYS_0},
-+		{2, 8, 0}
-+	},
-+};
-+
- static const struct mdp_comp_data mt8195_mdp_comp_data[MDP_MAX_COMP_COUNT] = {
- 	[MDP_COMP_WPEI] = {
- 		{MDP_COMP_TYPE_WPEI, 0, MT8195_MDP_COMP_WPEI, MDP_MM_SUBSYS_0},
-@@ -1046,6 +1299,15 @@ static const struct mdp_pipe_info mt8183_pipe_info[] = {
- 	[MDP_PIPE_RDMA0] = {MDP_PIPE_RDMA0, MDP_MM_SUBSYS_0, 3}
- };
- 
-+static const struct mdp_pipe_info mt8188_pipe_info[] = {
-+	[MDP_PIPE_WPEI] = {MDP_PIPE_WPEI, MDP_MM_SUBSYS_0, 0},
-+	[MDP_PIPE_RDMA0] = {MDP_PIPE_RDMA0, MDP_MM_SUBSYS_0, 1},
-+	[MDP_PIPE_RDMA2] = {MDP_PIPE_RDMA2, MDP_MM_SUBSYS_1, 0},
-+	[MDP_PIPE_RDMA3] = {MDP_PIPE_RDMA3, MDP_MM_SUBSYS_1, 1},
-+	[MDP_PIPE_VPP1_SOUT] = {MDP_PIPE_VPP1_SOUT, MDP_MM_SUBSYS_0, 2},
-+	[MDP_PIPE_VPP0_SOUT] = {MDP_PIPE_VPP0_SOUT, MDP_MM_SUBSYS_1, 2},
-+};
-+
- static const struct mdp_pipe_info mt8195_pipe_info[] = {
- 	[MDP_PIPE_WPEI] = {MDP_PIPE_WPEI, MDP_MM_SUBSYS_0, 0},
- 	[MDP_PIPE_WPEI2] = {MDP_PIPE_WPEI2, MDP_MM_SUBSYS_0, 1},
-@@ -1082,6 +1344,24 @@ const struct mtk_mdp_driver_data mt8183_mdp_driver_data = {
- 	.pp_used = MDP_PP_USED_1,
- };
- 
-+const struct mtk_mdp_driver_data mt8188_mdp_driver_data = {
-+	.mdp_plat_id = MT8188,
-+	.mdp_con_res = 0x14001000,
-+	.mdp_probe_infra = mt8188_mdp_probe_infra,
-+	.mdp_sub_comp_dt_ids = mt8195_sub_comp_dt_ids,
-+	.mdp_cfg = &mt8195_plat_cfg,
-+	.mdp_mutex_table_idx = mt8188_mutex_idx,
-+	.comp_data = mt8188_mdp_comp_data,
-+	.comp_data_len = ARRAY_SIZE(mt8188_mdp_comp_data),
-+	.format = mt8195_formats,
-+	.format_len = ARRAY_SIZE(mt8195_formats),
-+	.def_limit = &mt8195_mdp_def_limit,
-+	.pipe_info = mt8188_pipe_info,
-+	.pipe_info_len = ARRAY_SIZE(mt8188_pipe_info),
-+	.pp_criteria = &mt8195_mdp_pp_criteria,
-+	.pp_used = MDP_PP_USED_2,
-+};
-+
- const struct mtk_mdp_driver_data mt8195_mdp_driver_data = {
- 	.mdp_plat_id = MT8195,
- 	.mdp_con_res = 0x14001000,
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h b/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-index f83ac408306e..4764c5b5107b 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-@@ -116,6 +116,7 @@ struct img_frameparam {
- 
- /* Platform config indicator */
- #define MT8183 8183
-+#define MT8188 8195
- #define MT8195 8195
- 
- #define CFG_CHECK(plat, p_id) ((plat) == (p_id))
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h
-index 49cdf45f6e59..7f7625299ce7 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h
-@@ -10,6 +10,7 @@
- #include <linux/types.h>
- 
- extern const struct mtk_mdp_driver_data mt8183_mdp_driver_data;
-+extern const struct mtk_mdp_driver_data mt8188_mdp_driver_data;
- extern const struct mtk_mdp_driver_data mt8195_mdp_driver_data;
- 
- struct mdp_dev;
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index 5209f531ef8d..61a798f33041 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -21,6 +21,9 @@ static const struct of_device_id mdp_of_ids[] = {
- 	{ .compatible = "mediatek,mt8183-mdp3-rdma",
- 	  .data = &mt8183_mdp_driver_data,
- 	},
-+	{ .compatible = "mediatek,mt8188-mdp3-rdma",
-+	  .data = &mt8188_mdp_driver_data,
-+	},
- 	{ .compatible = "mediatek,mt8195-mdp3-rdma",
- 	  .data = &mt8195_mdp_driver_data,
- 	},
+I'd rather keep this patch with a different commit message.
+
+"""
+This does not change the current behaviour of the driver, as the size is
+always a power of two, but avoid tedious debugging if we ever change its size.
+"""
+
+WDYT?
+
+
+>
+> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > > ---
+> > > > > > >  drivers/media/usb/uvc/uvc_video.c | 2 +-
+> > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > index d4b023d4de7c..4ff4ab4471fe 100644
+> > > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+> > > > > > >               goto done;
+> > > > > > >
+> > > > > > >       first = &clock->samples[clock->head];
+> > > > > > > -     last = &clock->samples[(clock->head - 1) % clock->size];
+> > > > > > > +     last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
+> > > > > > >
+> > > > > > >       /* First step, PTS to SOF conversion. */
+> > > > > > >       delta_stc = buf->pts - (1UL << 31);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
 -- 
-2.44.0
-
+Ricardo Ribalda
 
