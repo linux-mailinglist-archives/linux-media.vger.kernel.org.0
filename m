@@ -1,159 +1,133 @@
-Return-Path: <linux-media+bounces-7623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C8886B7E
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 12:47:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CC6886BA8
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 12:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B63891F21500
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 11:47:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A41971C22AD2
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 11:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29D03FB0F;
-	Fri, 22 Mar 2024 11:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA1B3FB1F;
+	Fri, 22 Mar 2024 11:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5vMBiA4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uWYp3B0Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802373F8FB;
-	Fri, 22 Mar 2024 11:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2133E47A;
+	Fri, 22 Mar 2024 11:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711108019; cv=none; b=czOvuBv11qyleDfdM+7RY+np4UrXZAgkFNv+kFLyViwH3hfLOBQg6cb0v5eKNTiSHZgZqWxte88ykt+XWyPXzNsUd1GccguqNh8V+DYh3a4RIjIt6Lmb4VqNztvcvSeoDhStUDb+xum5UWh6jy4fOQTpTTwwmDmLUjyr1cH/VTU=
+	t=1711108575; cv=none; b=g/PVjvN9Lf21/ohvglHX26cAmZMxKnYiIM69HJFVxuydvneqvNiHwhfbG3qZBDgl5HpakCGShKlAfaCW1f/e96MgNb6OuUxjd0+Gb9Vn1aYXLOV/VYpZ1C77tNWXXH14ONJIpLDlHVnespNRkfIS9W0eX5QChaM9TEGMdpwY+7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711108019; c=relaxed/simple;
-	bh=medsa2dMRB93xUxNAamarustBHMc8szL/8blQzMu2XM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KqCCO0sONd6XkcXvLH2sMiuKd4TvPDsRZELtkg+hvap4Nfjs6j1+xKvZHIDg33A4h6Ul8/PJ+pLBudCgpSn1If4Eo8ZPrj1Net99uS+5amwsNELeg2/ofwAfyhVwSm5bZ1BAIDxZnOXFG6Bm2lBkHwm5R+VJsZ6D4W/nVjRolpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5vMBiA4; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711108017; x=1742644017;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=medsa2dMRB93xUxNAamarustBHMc8szL/8blQzMu2XM=;
-  b=G5vMBiA42yhiWIE8tgewMbxzU3aTTmwRMJzer+oJOLOSCZqosL5iesRU
-   Kx3j8Uvhg3YP76EQMRljkul93J0S2/6g+4z7edJ64IjqZ7C4V+8QlZE7r
-   58o0qHecwpaaVVk2Ryuqe9vnmT9mK3eLu0l8y4xRR5bPHqt9U9VcdlJyj
-   j1YyDeUu3PR9fho/iFkJhSkJi52GKx2URACf9lRbokDTIWG+wTtoWYfgi
-   aBTgiQk45PdrkRvGdSup84hUg+NL6RWaAT6XfBxQzdFV2/aiHGj4sRvWT
-   78Htgfsbh/dPnxVMCw7CCDdVLqjQ3ce+12VMvTDtE2vOz3UgzUzAaPSAa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="23604100"
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="23604100"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:46:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19349726"
-Received: from ghoshsu1-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.6])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:46:48 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
- <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-In-Reply-To: <20240322-petite-fabulous-bustard-b168ec@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
- <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
- <87sf0iliyh.fsf@intel.com> <20240322-petite-fabulous-bustard-b168ec@houat>
-Date: Fri, 22 Mar 2024 13:46:42 +0200
-Message-ID: <87plvmjxp9.fsf@intel.com>
+	s=arc-20240116; t=1711108575; c=relaxed/simple;
+	bh=LcBseW26vuMHItV1u05U7ja/e3cowwp+u5G24qLLkyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q0SsTexK+033ziKL01Ikl7/QaUnm9shSrLeHYoMfjfpseS3G6pTbVWNvudpz/jGtuFiwcwmZm3qXAAzzz4kEmsMampEzpq+NpUuWZMR4uCVT7z6sIqsmYvdUnC9lElavSinuBn+FGHvqwCZfzh7I/7ZztkO7GSZSnvSs/gJPTYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uWYp3B0Y; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF0F2BEB;
+	Fri, 22 Mar 2024 12:55:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711108542;
+	bh=LcBseW26vuMHItV1u05U7ja/e3cowwp+u5G24qLLkyE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uWYp3B0Y/jmLyPAnzM3Dnzbo5guROD2yakFiGALrFc2S168pdlp8cVcaTnF8ZwocW
+	 9g2Vjc1IYRk4KcaDGZRwOekN2lCzb8F7BQZszCoupgv6nrlxqNwnIJjNl1mrZkxygb
+	 gAgRAqQ5aLfObOafoqMcN2+FVcTvnYhEvJjt/GwU=
+Date: Fri, 22 Mar 2024 13:56:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Explicit alignment of uvc_frame and
+ uvc_format
+Message-ID: <20240322115606.GA31979@pendragon.ideasonboard.com>
+References: <20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org>
 
-On Fri, 22 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
-> On Fri, Mar 22, 2024 at 11:22:14AM +0200, Jani Nikula wrote:
->> On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> > Hi,
->> >
->> >
->> > On 2024/3/21 23:29, Maxime Ripard wrote:
->> >> Infoframes in KMS is usually handled by a bunch of low-level helpers
->> >> that require quite some boilerplate for drivers. This leads to
->> >> discrepancies with how drivers generate them, and which are actually
->> >> sent.
->> >>
->> >> Now that we have everything needed to generate them in the HDMI
->> >> connector state, we can generate them in our common logic so that
->> >> drivers can simply reuse what we precomputed.
->> >>
->> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> >> ---
->> >>   drivers/gpu/drm/Kconfig                            |   1 +
->> >>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
->> >>   drivers/gpu/drm/drm_connector.c                    |  14 +
->> >>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->> >>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->> >>   include/drm/drm_atomic_state_helper.h              |   8 +
->> >>   include/drm/drm_connector.h                        | 109 +++++++
->> >>   7 files changed, 483 insertions(+)
->> >>
->> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> >> index 16029435b750..3d3193c7aa5f 100644
->> >> --- a/drivers/gpu/drm/Kconfig
->> >> +++ b/drivers/gpu/drm/Kconfig
->> >> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->> >>   	  If in doubt, say "N".
->> >>   
->> >>   config DRM_KMS_HELPER
->> >>   	tristate
->> >>   	depends on DRM
->> >> +	select DRM_DISPLAY_HDMI_HELPER
->> >
->> > Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
->> > emerged with default config.
->> 
->> Can we stop abusing select instead of adding more selects to paper over
->> the issues?
->> 
->> Use select only for non-visible symbols (no prompts anywhere) and for
->> symbols with no dependencies.
->
-> I don't really have an opinion there, but it looks like all the other
-> helpers Kconfig symbols are using select everywhere, and I don't really
-> see how we could turn them into visible symbols with depends on without
-> breaking a number of defconfig.
->
-> Could you expand a bit what you have in mind here?
+Hi Ricardo,
 
-Just my standard grumbling about the rampant select abuse.
+Thank you for the patch.
 
-Maybe one day someone takes the hint and starts fixing things up. :p
+On Mon, May 01, 2023 at 04:49:31PM +0200, Ricardo Ribalda wrote:
+> Struct uvc_frame and uvc_format are packaged together on
+> streaming->formats on a sigle allocation.
 
-See the note under "reverse dependencies" at [1].
+s/sigle/single/
 
+> 
+> This is working fine because both structures have a field with a
+> pointer, but it will stop working when the sizeof() of any of those
+> structs is not a muliple of the sizeof(void*).
+> 
+> Make that aligment contract explicit.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> This is better than 3 allocations, and do not have any performance
+> penalty.
+> ---
+>  drivers/media/usb/uvc/uvcvideo.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 9a596c8d894a..03e8a543c8e6 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -252,7 +252,7 @@ struct uvc_frame {
+>  	u8  bFrameIntervalType;
+>  	u32 dwDefaultFrameInterval;
+>  	u32 *dwFrameInterval;
+> -};
+> +} __aligned(sizeof(void *)); /* uvc_frame is packed on streaming->formats. */
 
-BR,
-Jani.
+Don't we need u32 alignment here, not void * alignment, given that
+uvc_frame is followed by an array of u32 ?
 
+>  
+>  struct uvc_format {
+>  	u8 type;
+> @@ -266,7 +266,7 @@ struct uvc_format {
+>  
+>  	unsigned int nframes;
+>  	struct uvc_frame *frame;
+> -};
+> +} __aligned(sizeof(void *)); /* uvc_format is packed on streaming->formats. */
 
-[1] https://docs.kernel.org/kbuild/kconfig-language.html#menu-attributes
+Same here, technically we need to ensure that the following uvc_frame
+will be aligned. void * alignment will give us that now, but that's not
+the actual constraint.
 
+Wouldn't it be better to handle the alignment constraints explicitly
+when allocating the memory ? It's not that uvc_frame and uvc_format have
+intrinsic alignment constraints, the constraints are only needed because
+of the way memory is allocated.
+
+>  
+>  struct uvc_streaming_header {
+>  	u8 bNumFormats;
+> 
+> ---
+> base-commit: 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+> change-id: 20230501-uvc-align-6ff202b68dab
 
 -- 
-Jani Nikula, Intel
+Regards,
+
+Laurent Pinchart
 
