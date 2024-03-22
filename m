@@ -1,224 +1,162 @@
-Return-Path: <linux-media+bounces-7603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED42886905
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 10:16:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7595C886915
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 10:20:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92E811C2417A
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:16:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D63A9B2111A
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 09:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743E6446BD;
-	Fri, 22 Mar 2024 09:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1A11CA8F;
+	Fri, 22 Mar 2024 09:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="IW6cdhSP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F79Vw4Co"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9743F9E4;
-	Fri, 22 Mar 2024 09:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1727A20DDC;
+	Fri, 22 Mar 2024 09:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711098769; cv=none; b=Vghiv8m2mxy005qdfooslL6dfzIP8DA2Ff9h+ov7ghxCHFzaTSr7+JG6PYsvlUl7eA72HEn7IzhGDjLIKhkQJc9jlfqIHwrCHhjGjtopxSqh8ROj8JexrHE4MGXtcgcyLnEBfNzzzE4+dDfPTAqfgcgxtp2FqTcsYE4BzUPXxE8=
+	t=1711099195; cv=none; b=c9841ddBANM0rpCGWGa410q1DOnTnGvEGNMkDtRtFHEfb7j8KsvVlkyiQzTQjdLbh10SBcLsp/TE1KbhmCUqZ/IqGUcCefoOn2AKL20A+Tb9rULfmXEs+zcY2CwOekvGe6yYd5O2APKX75TI6+bPgaFaG/74MvPwdJgUDd3d8ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711098769; c=relaxed/simple;
-	bh=np8Nueif0/K4wSVFXa2CW7ohhFRKREKZK4PSQvv/VxM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lCsPJlxxfXQ6NBrHA16y09xXG8bX9lzMz1Ws0BsmIRabXS/o3XeJ2N1ZMeitHH07ODrNrC+gTyxY4hAGhcXhEFS2dq95UtzZK4A6B90njylm72Y1MqQxFn3mwubEXoJbo90/zSscQPYFyRJ4Me6vXR9lJ5WP4x+EslH8ph2uGZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=IW6cdhSP; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 534f93c4e82c11eeb8927bc1f75efef4-20240322
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=PZJix1J9Jpmh+i91OEHpGMGggBKx4tQWzIsRWzZa578=;
-	b=IW6cdhSPAItBocEGICoMemKZtRORlRJh7E9w3J7ZVE70Gg2AsCRn4yHlIaPgAs7oS8qh+/c8+Rc/7KTmSd7Bk2UQMtclZf6RCO59GSNnhrH0HlUmz0SJT5qa/qYtsWanCWf1GTLhPCupDhnxUqq0Ye6LBxTNungLJ1iIwUG3BL4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:666dbc25-6397-42c9-8b67-571a72b9cf2e,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:9947b690-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 534f93c4e82c11eeb8927bc1f75efef4-20240322
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-	(envelope-from <shawn.sung@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 863254185; Fri, 22 Mar 2024 17:12:36 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 22 Mar 2024 17:12:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 22 Mar 2024 17:12:35 +0800
-From: Shawn Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
-	<shawn.sung@mediatek.corp-partner.google.com>
-Subject: [PATCH v5 14/14] drm/mediatek: Rename mtk_ddp_comp functions
-Date: Fri, 22 Mar 2024 17:12:32 +0800
-Message-ID: <20240322091232.26387-15-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240322091232.26387-1-shawn.sung@mediatek.com>
-References: <20240322091232.26387-1-shawn.sung@mediatek.com>
+	s=arc-20240116; t=1711099195; c=relaxed/simple;
+	bh=iZn7RbiyP2h48seUCXchiiVi8goN7xYSiCRmA9ht9TQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WflipO73Bs9Zd+nAgbmy5xiHoAlqR7fhUDk9cXwSn/gV1W45puaTmFsdT9T1BA+yLbcysyh/skdnOX0ojrrfwSrLIfuTuqTytPSni//dIf5Tv656wHWapY2/vbbZyj0oXHniGH5yh3pr24iJu9ezEBlKtdYDXCLfZ9TU2lOR6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F79Vw4Co; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D2A282A;
+	Fri, 22 Mar 2024 10:19:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711099163;
+	bh=iZn7RbiyP2h48seUCXchiiVi8goN7xYSiCRmA9ht9TQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F79Vw4CoDmJDbn2WPgqrAVzk7lkNqCYSsgXfoPpB11bDVAl9tSFol9qxSelEQbG/j
+	 UTEOekIJmqC8ULocSGhQw40qwcvM9FdKMqz+VXVbz3pAIYMA6lheY/t0gutGeDByBH
+	 dfFIKimbpW4QwRpO0LC5EZCktd5c/JyfvzU0QPmk=
+Date: Fri, 22 Mar 2024 11:19:48 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v9 1/6] media: uvcvideo: Fix negative modulus calculation
+Message-ID: <20240322091948.GA10059@pendragon.ideasonboard.com>
+References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
+ <20220920-resend-hwtimestamp-v9-1-55a89f46f6be@chromium.org>
+ <20240212225940.GA19316@pendragon.ideasonboard.com>
+ <CANiDSCuoskaERyyzuLen+ReGHBNnOrFducbWYAvFQ6HfbUCPcg@mail.gmail.com>
+ <20240219104046.GB13043@pendragon.ideasonboard.com>
+ <CANiDSCsqYHModDZCi2hooDYsFgu+bN_OioBGEJQJuZgdiJO=ug@mail.gmail.com>
+ <20240321215047.GA20938@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240321215047.GA20938@pendragon.ideasonboard.com>
 
-From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
+On Thu, Mar 21, 2024 at 11:50:48PM +0200, Laurent Pinchart wrote:
+> On Mon, Feb 19, 2024 at 04:07:12PM +0100, Ricardo Ribalda wrote:
+> > On Mon, 19 Feb 2024 at 11:40, Laurent Pinchart wrote:
+> > > On Mon, Feb 19, 2024 at 11:28:03AM +0100, Ricardo Ribalda wrote:
+> > > > On Mon, 12 Feb 2024 at 23:59, Laurent Pinchart wrote:
+> > > > > On Wed, Mar 15, 2023 at 02:30:12PM +0100, Ricardo Ribalda wrote:
+> > > > > > If head is 0, last will be addressing the index 0 instead of clock->size
+> > > > > > -1. Luckily clock->head is unsiged, otherwise it would be addressing
+> > > > > > 0xffffffff.
+> > > > >
+> > > > > I'm not following you. In the expression
+> > > > >
+> > > > >         (clock->head - 1) % clock->size
+> > > > >
+> > > > > clock->head is an unsigned int, and 1 as a signed int, so the result of
+> > > > > the subtraction is promoted to an unsigned int. When clock->head is 0, the expression evaluates to
+> > > > >
+> > > > >         0xffffffff % clock->size
+> > > > >
+> > > > > clock->size is a power of two (hardcoded to 32 at the moment), so the
+> > > > > expression evaluates to 31, as intended.
+> > > > >
+> > > > > Am I missing something ?
+> > > >
+> > > > Take a look to: https://godbolt.org/z/xYeqTx6ba
+> > > >
+> > > > The expression only works because the size is a power of two. In this
+> > > > set I am allowing sizes that are not powers of two.
+> > >
+> > > Could you then update the commit message to explain that ?
+> > >
+> > > I'll review the rest of the series this week.
+> > Thanks
+> > 
+> > Will update with the following text after the review:
+> > 
+> > The tail of the list lives at the position before the head. This is
+> > mathematically noted as
+> > ```
+> > (head-1)  mod size.
+> > ```
+> > 
+> > Unfortunately C, does not have a modulus operator, but a remainder
+> > operator (%).
+> > The reminder operation has a different result than the modulus if
+> > (head -1) is a negative number and size is not a power of two.
+> > 
+> > Adding size to (head-1) allows the code to run with any value of size.
+> 
+> Could you please add
+> 
+> This does not change the current behaviour of the driver, as the size is
+> always a power of two, but prepares for reworks that will change the
+> size to a non power of two.
+> 
+> or something similar ?
+> 
+> > > > > > Nontheless, this is not the intented behaviour and should be fixed.
+> > > > > >
+> > > > > > Fixes: 66847ef013cc ("[media] uvcvideo: Add UVC timestamps support")
+> 
+> I think this should be dropped, the patch doesn't fix an issue, but
+> prepares for further changes that add new features. I'd also like to
+> update the commit message to avoid stating "Fix", to avoid this being
+> picked for stable kernels automatically.
 
-Rename functions of mtk_ddp_comp:
-- To align the naming rule
-- To reduce the code size
+After reviewing the whole series, it seems that clock->size stays at its
+current value of 32. Do we thus need this patch ?
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
----
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 45 ++++++++++++++-----------
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  3 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c      |  2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c      |  2 +-
- 4 files changed, 28 insertions(+), 24 deletions(-)
+> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > ---
+> > > > > >  drivers/media/usb/uvc/uvc_video.c | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > index d4b023d4de7c..4ff4ab4471fe 100644
+> > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+> > > > > >               goto done;
+> > > > > >
+> > > > > >       first = &clock->samples[clock->head];
+> > > > > > -     last = &clock->samples[(clock->head - 1) % clock->size];
+> > > > > > +     last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
+> > > > > >
+> > > > > >       /* First step, PTS to SOF conversion. */
+> > > > > >       delta_stc = buf->pts - (1UL << 31);
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index c3441508f452f..17b0364112922 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -497,10 +497,10 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX]
- 	[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
- };
- 
--static bool mtk_drm_find_comp_in_ddp(struct device *dev,
--				     const unsigned int *path,
--				     unsigned int path_len,
--				     struct mtk_ddp_comp *ddp_comp)
-+static bool mtk_ddp_comp_find(struct device *dev,
-+			      const unsigned int *path,
-+			      unsigned int path_len,
-+			      struct mtk_ddp_comp *ddp_comp)
- {
- 	unsigned int i;
- 
-@@ -514,10 +514,10 @@ static bool mtk_drm_find_comp_in_ddp(struct device *dev,
- 	return false;
- }
- 
--static unsigned int mtk_drm_find_comp_in_ddp_conn_path(struct device *dev,
--						       const struct mtk_drm_route *routes,
--						       unsigned int num_routes,
--						       struct mtk_ddp_comp *ddp_comp)
-+static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
-+					       const struct mtk_drm_route *routes,
-+					       unsigned int num_routes,
-+					       struct mtk_ddp_comp *ddp_comp)
- {
- 	int ret;
- 	unsigned int i;
-@@ -554,26 +554,31 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
- 
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev)
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
- 	unsigned int ret = 0;
- 
--	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
--				     private->ddp_comp))
-+	if (mtk_ddp_comp_find(dev,
-+			      private->data->main_path,
-+			      private->data->main_len,
-+			      private->ddp_comp))
- 		ret = BIT(0);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
--					  private->data->ext_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->ext_path,
-+				   private->data->ext_len,
-+				   private->ddp_comp))
- 		ret = BIT(1);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
--					  private->data->third_len, private->ddp_comp))
-+	else if (mtk_ddp_comp_find(dev,
-+				   private->data->third_path,
-+				   private->data->third_len,
-+				   private->ddp_comp))
- 		ret = BIT(2);
- 	else
--		ret = mtk_drm_find_comp_in_ddp_conn_path(dev,
--							 private->data->conn_routes,
--							 private->data->num_conn_routes,
--							 private->ddp_comp);
-+		ret = mtk_ddp_comp_find_in_route(dev,
-+						 private->data->conn_routes,
-+						 private->data->num_conn_routes,
-+						 private->ddp_comp);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index ba985206fdd24..26236691ce4c2 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -326,8 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
- 
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
--unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
--						struct device *dev);
-+unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index fbf63e0441337..bfe8653005dbf 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -805,7 +805,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
- 
--	dpi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-+	dpi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm_dev, dpi->dev);
- 
- 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e29c37fb5be09..67239606adbfc 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -836,7 +836,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		return ret;
- 	}
- 
--	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-+	dsi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm, dsi->host.dev);
- 
- 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 -- 
-2.18.0
+Regards,
 
+Laurent Pinchart
 
