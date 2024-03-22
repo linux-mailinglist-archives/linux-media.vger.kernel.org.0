@@ -1,298 +1,170 @@
-Return-Path: <linux-media+bounces-7557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A95886465
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 01:36:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 113018864B1
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 02:28:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7151F1F23247
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 00:36:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 737171F237C8
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 01:28:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CE18EC3;
-	Fri, 22 Mar 2024 00:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77DBD8BF9;
+	Fri, 22 Mar 2024 01:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R8Dtj8Is"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="t5+q2IjU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E674C376;
-	Fri, 22 Mar 2024 00:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C649310E3;
+	Fri, 22 Mar 2024 01:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711067799; cv=none; b=qBcJiF5dEnRYnjbKDVTFA2mr4oSvH+tgekp30sPaXXxMphpcHfePpPqFFhS5EQFtVIYk/m3RRRJmEaGvt/T7rR7xnfrd/ACoXFRQplMel1OHwMkGaNFRRS4HSCt2Quf7tGwVL/9bCt2tOZl6V1giULH4dfnZxV/B+0ufotn8HKg=
+	t=1711070906; cv=none; b=iNWv1pRKzk+6gSd/ae8xv4z3ViEtUAxT9bEMUleah2Mud4Sr9stEV76lqVo1RY3o7VOZdrd8CblBWKQaUbMQbcvPYsx/rbdqHXpXXi4Y1dlVrsF3Qc2swIhQvrR0B9oTiZprGcS9QWu0v0AN4+DYdUVzrvfuMlJVnN9vKU1/gGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711067799; c=relaxed/simple;
-	bh=8kXxlTmJUzH3MtoAtcY/OmCWO5ge1T7DAHf4NDWaW3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PmyIpau/4iyLMphDopVTPAGA6ztZQJ7/wggodrhM3s/dAR57c05zsc/9AInfJnW+Gve0romPw++OXFiBV5a2IV5Qvpx8Rre31PYeNjWtERS5mQf5tR4Q51J9RBzOugxBqnP/D8N+ZsNtAvtXiz19HLtZdj40pIAL9Aj7KbcA4Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R8Dtj8Is; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D84AABEB;
-	Fri, 22 Mar 2024 01:36:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711067768;
-	bh=8kXxlTmJUzH3MtoAtcY/OmCWO5ge1T7DAHf4NDWaW3c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R8Dtj8Is6HZCHdBBnYniJuhImlg+HszLh3ZW7R7WsLuZH5Zgt0rvmQzk+eobOcYNk
-	 RdWvPKgPZgxc+5hWBLIu+exejN2nkwNAVSv0RQOp32z+Vxz9LFQNlLHD8P6ct6P9nU
-	 aEaezeHBT04MZPODOv4rSHcFxAkBfbvq80SBIEjM=
-Date: Fri, 22 Mar 2024 02:36:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 5/6] media: uvcvideo: Refactor clock circular buffer
-Message-ID: <20240322003631.GE20938@pendragon.ideasonboard.com>
-References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
- <20220920-resend-hwtimestamp-v9-5-55a89f46f6be@chromium.org>
+	s=arc-20240116; t=1711070906; c=relaxed/simple;
+	bh=IJmeGgt9F5k9KMmzXUbrKEUMW1uLxcfHHeeed64KspY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RD7YZanYFuivxWIvjbTC86XC2v9vqhJgQByhnwliGAhjiyXod0Ae01A1HDk9MJnRjojgDi4QQYm1cQB1mv+bEie51SlpJzsINMLtTLdMH2mUanR+F/qGTA0oCSSKwoiTw4JNROZ1VGEyP+dP/JviQbrxbuCe7IC8FL7q9By1MtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=t5+q2IjU; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 7225d100e7eb11ee935d6952f98a51a9-20240322
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=YUf9Bpw3wICYiwqtGH7qoo2KJtiElIy8h+i2gA9rinE=;
+	b=t5+q2IjUSJE8FqhWQoJaYWa92SMxm9l87TKfTVm11No16kXGoEpjBOHN3om4e49exrpE3mu3MSrdKzPlACo7bUErIWyg1QTDj/ze5l5Edr1biyBQjd4aZy3wdHu5zCsIniUFbthuLGshcMC6jQfNp0+6UlSe0DLiJ8vwjAFRwbs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:ddfb7232-90b9-4a55-b692-40400838bdd2,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:c9a6c981-4f93-4875-95e7-8c66ea833d57,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 7225d100e7eb11ee935d6952f98a51a9-20240322
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+	(envelope-from <shawn.sung@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1576643871; Fri, 22 Mar 2024 09:28:11 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 22 Mar 2024 09:28:09 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 22 Mar 2024 09:28:09 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+	<shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v4 00/14] Rename mtk_drm_* to mtk_*
+Date: Fri, 22 Mar 2024 09:27:54 +0800
+Message-ID: <20240322012808.26234-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920-resend-hwtimestamp-v9-5-55a89f46f6be@chromium.org>
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--16.007000-8.000000
+X-TMASE-MatchedRID: 90G6ca/P0SM/5uXNh96gfjl/LoO+pjoA1cuIRwt/4Mjb6Y+fnTZUL80U
+	/azwU24yYfroVIh1m0C4hZmY35M3T0FKjjgcgwapaK+MsTwM+1mH7D1bP/FcOjRCaZSKE/OslSB
+	IvH74wfKcja777HRNuk7WDVwHg5SjAM0/G7XUdeO6kMgL3jbYOhvSLX87MvP1T+JjZQGVgumjxY
+	yRBa/qJcFwgTvxipFajoczmuoPCq2UTGVAhB5EbQ==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--16.007000-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	80A2B61020311C98EBCDB6CA4D8DA2170E11795AA2D541DEAB6167E5E95BD9352000:8
+X-MTK: N
 
-Hi Ricardo,
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-Thank you for the patch.
+Rename some unnecessary  "mtk_drm_*" to "mtk_*" to:
+- Lower the matches when searching the native drm_* codes
+- Reduce the code size
 
-On Wed, Mar 15, 2023 at 02:30:16PM +0100, Ricardo Ribalda wrote:
-> Isolate all the changes related to the clock circular buffer to its own
-> function, that way we can make changes easier to the buffer logic.
-> 
-> Also simplify the lock, by removing the circular buffer clock handling
-> from uvc_video_clock_decode().
-> 
-> And now that we are at it, unify the API of the clock functions.
-> 
-> Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 84 ++++++++++++++++++---------------------
->  1 file changed, 38 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 6d0243ea0e07..1db0d1bc80e6 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -466,19 +466,30 @@ static inline ktime_t uvc_video_get_time(void)
->  		return ktime_get_real();
->  }
->  
-> +static void uvc_video_clock_add_sample(struct uvc_clock *clock,
-> +				       const struct uvc_clock_sample *sample)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&clock->lock, flags);
-> +
-> +	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
+Changes in v4:
+- Fix patch error
 
-How about
+Changes in v3:
+- Fix typo and patch error
 
-	clock->samples[clock->head] = *sample;
+Changes in v2:
+- Sort header files alphabetically
+- Seperate patches for renaming .c files to avoid conflicts
 
-?
+This series is based on c958e86e9cc1b of mediatek-drm-next.
 
-> +	clock->head = (clock->head + 1) % clock->size;
-> +	clock->count = min(clock->count + 1, clock->size);
-> +
-> +	spin_unlock_irqrestore(&clock->lock, flags);
-> +
-> +	clock->last_sof = sample->dev_sof;
+Hsiao Chien Sung (14):
+  drm/mediatek: Rename "mtk_drm_crtc" to "mtk_crtc"
+  drm/mediatek: Rename "mtk_drm_ddp_comp" to "mtk_ddp_comp"
+  drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+  drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+  drm/mediatek: Rename "mtk_drm_hdmi" to "mtk_hdmi"
+  drm/mediatek: Rename files "mtk_drm_crtc.h" to "mtk_crtc.h"
+  drm/mediatek: Rename files "mtk_drm_crtc.c" to "mtk_crtc.c"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.h" to "mtk_ddp_comp.h"
+  drm/mediatek: Rename files "mtk_drm_ddp_comp.c" to "mtk_ddp_comp.c"
+  drm/mediatek: Rename files "mtk_drm_plane.h" to "mtk_plane.h"
+  drm/mediatek: Rename files "mtk_drm_plane.c" to "mtk_plane.c"
+  drm/mediatek: Rename files "mtk_drm_gem.h" to "mtk_gem.h"
+  drm/mediatek: Rename files "mtk_drm_gem.c" to "mtk_gem.c"
+  drm/mediatek: Rename mtk_ddp_comp functions
 
-Strictly speaking I wonder if this counts as "adding a sample". Any
-objection against keeping it in the caller ?
+ drivers/gpu/drm/mediatek/Makefile             |  12 +-
+ .../mediatek/{mtk_drm_crtc.c => mtk_crtc.c}   | 210 +++++++++---------
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |  28 +++
+ .../{mtk_drm_ddp_comp.c => mtk_ddp_comp.c}    |  51 +++--
+ .../{mtk_drm_ddp_comp.h => mtk_ddp_comp.h}    |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   4 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |  30 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  32 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   6 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |   4 +-
+ .../drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} |  65 +++---
+ .../drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} |  23 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           |  14 +-
+ drivers/gpu/drm/mediatek/mtk_padding.c        |   4 +-
+ .../mediatek/{mtk_drm_plane.c => mtk_plane.c} |  26 +--
+ .../mediatek/{mtk_drm_plane.h => mtk_plane.h} |   4 +-
+ 26 files changed, 275 insertions(+), 283 deletions(-)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c} (82%)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.c => mtk_ddp_comp.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.h => mtk_ddp_comp.h} (98%)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} (76%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} (62%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.c => mtk_plane.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.h => mtk_plane.h} (95%)
 
-> +}
-> +
->  static void
->  uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  		       const u8 *data, int len)
->  {
-> -	struct uvc_clock_sample *sample;
-> +	struct uvc_clock_sample sample;
->  	unsigned int header_size;
->  	bool has_pts = false;
->  	bool has_scr = false;
-> -	unsigned long flags;
-> -	ktime_t time;
-> -	u16 host_sof;
-> -	u16 dev_sof;
-> -	u32 dev_stc;
->  
->  	switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
->  	case UVC_STREAM_PTS | UVC_STREAM_SCR:
-> @@ -523,11 +534,11 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	 * all the data packets of the same frame contains the same SOF. In that
->  	 * case only the first one will match the host_sof.
->  	 */
-> -	dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> -	if (dev_sof == stream->clock.last_sof)
-> +	sample.dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> +	if (sample.dev_sof == stream->clock.last_sof)
->  		return;
->  
-> -	dev_stc = get_unaligned_le32(&data[header_size - 6]);
-> +	sample.dev_stc = get_unaligned_le32(&data[header_size - 6]);
->  
->  	/*
->  	 * STC (Source Time Clock) is the clock used by the camera. The UVC 1.5
-> @@ -541,21 +552,19 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	 * and stc and sof are zero.
->  	 */
->  	if (buf && buf->bytesused == 0 && len == header_size &&
-> -	    dev_stc == 0 && dev_sof == 0)
-> +	    sample.dev_stc == 0 && sample.dev_sof == 0)
->  		return;
->  
-> -	stream->clock.last_sof = dev_sof;
-> -
-> -	host_sof = usb_get_current_frame_number(stream->dev->udev);
-> +	sample.host_sof = usb_get_current_frame_number(stream->dev->udev);
->  
->  	/*
->  	 * On some devices, like the Logitech C922, the device SOF does not run
->  	 * at a stable rate of 1kHz. For those devices use the host SOF instead.
->  	 */
->  	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-> -		dev_sof = host_sof;
-> +		sample.dev_sof = sample.host_sof;
->  
-> -	time = uvc_video_get_time();
-> +	sample.host_time = uvc_video_get_time();
->  
->  	/*
->  	 * The UVC specification allows device implementations that can't obtain
-> @@ -578,46 +587,29 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	 * the 8 LSBs of the delta are kept.
->  	 */
->  	if (stream->clock.sof_offset == (u16)-1) {
-> -		u16 delta_sof = (host_sof - dev_sof) & 255;
-> +		u16 delta_sof = (sample.host_sof - sample.dev_sof) & 255;
->  		if (delta_sof >= 10)
->  			stream->clock.sof_offset = delta_sof;
->  		else
->  			stream->clock.sof_offset = 0;
->  	}
->  
-> -	dev_sof = (dev_sof + stream->clock.sof_offset) & 2047;
-> -
-> -	spin_lock_irqsave(&stream->clock.lock, flags);
-> -
-> -	sample = &stream->clock.samples[stream->clock.head];
-> -	sample->dev_stc = dev_stc;
-> -	sample->dev_sof = dev_sof;
-> -	sample->host_sof = host_sof;
-> -	sample->host_time = time;
-> -
-> -	/* Update the sliding window head and count. */
-> -	stream->clock.head = (stream->clock.head + 1) % stream->clock.size;
-> +	sample.dev_sof = (sample.dev_sof + stream->clock.sof_offset) & 2047;
-> +	sample.dev_stc = get_unaligned_le32(&data[header_size - 6]);
+--
+2.18.0
 
-This is already done above.
-
-With these small issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  
-> -	if (stream->clock.count < stream->clock.size)
-> -		stream->clock.count++;
-> -
-> -	spin_unlock_irqrestore(&stream->clock.lock, flags);
-> +	uvc_video_clock_add_sample(&stream->clock, &sample);
->  }
->  
-> -static void uvc_video_clock_reset(struct uvc_streaming *stream)
-> +static void uvc_video_clock_reset(struct uvc_clock *clock)
->  {
-> -	struct uvc_clock *clock = &stream->clock;
-> -
->  	clock->head = 0;
->  	clock->count = 0;
->  	clock->last_sof = -1;
->  	clock->sof_offset = -1;
->  }
->  
-> -static int uvc_video_clock_init(struct uvc_streaming *stream)
-> +static int uvc_video_clock_init(struct uvc_clock *clock)
->  {
-> -	struct uvc_clock *clock = &stream->clock;
-> -
->  	spin_lock_init(&clock->lock);
->  	clock->size = 32;
->  
-> @@ -626,15 +618,15 @@ static int uvc_video_clock_init(struct uvc_streaming *stream)
->  	if (clock->samples == NULL)
->  		return -ENOMEM;
->  
-> -	uvc_video_clock_reset(stream);
-> +	uvc_video_clock_reset(clock);
->  
->  	return 0;
->  }
->  
-> -static void uvc_video_clock_cleanup(struct uvc_streaming *stream)
-> +static void uvc_video_clock_cleanup(struct uvc_clock *clock)
->  {
-> -	kfree(stream->clock.samples);
-> -	stream->clock.samples = NULL;
-> +	kfree(clock->samples);
-> +	clock->samples = NULL;
->  }
->  
->  /*
-> @@ -2108,7 +2100,7 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
->  
->  	stream->frozen = 0;
->  
-> -	uvc_video_clock_reset(stream);
-> +	uvc_video_clock_reset(&stream->clock);
->  
->  	if (!uvc_queue_streaming(&stream->queue))
->  		return 0;
-> @@ -2257,7 +2249,7 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
->  {
->  	int ret;
->  
-> -	ret = uvc_video_clock_init(stream);
-> +	ret = uvc_video_clock_init(&stream->clock);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -2275,7 +2267,7 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
->  error_video:
->  	usb_set_interface(stream->dev->udev, stream->intfnum, 0);
->  error_commit:
-> -	uvc_video_clock_cleanup(stream);
-> +	uvc_video_clock_cleanup(&stream->clock);
->  
->  	return ret;
->  }
-> @@ -2303,5 +2295,5 @@ void uvc_video_stop_streaming(struct uvc_streaming *stream)
->  		usb_clear_halt(stream->dev->udev, pipe);
->  	}
->  
-> -	uvc_video_clock_cleanup(stream);
-> +	uvc_video_clock_cleanup(&stream->clock);
->  }
-> 
-
--- 
-Regards,
-
-Laurent Pinchart
 
