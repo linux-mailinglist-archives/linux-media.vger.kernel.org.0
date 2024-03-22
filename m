@@ -1,73 +1,101 @@
-Return-Path: <linux-media+bounces-7641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2FE886EDA
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 15:45:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B40D9886F3C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 15:58:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84F9828661A
-	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:44:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42B841F212BD
+	for <lists+linux-media@lfdr.de>; Fri, 22 Mar 2024 14:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D0A4B5AE;
-	Fri, 22 Mar 2024 14:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA4B650A6C;
+	Fri, 22 Mar 2024 14:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="upJPI5bG"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="SZOUo6hk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF0C4AEF0;
-	Fri, 22 Mar 2024 14:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997444D9F0
+	for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 14:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711118681; cv=none; b=ZqbUxhpGV5Ktou4tIzIVS/UoWsqvAyVowuSpJz6Jt0EE6GBatkxwJ9YBs6oyJ9hfV9MulfoD+UGIphdgj3ExDdI12Sz9RP++Ay9Baci0BfmWDX4e5tYMHsbiypoJuEpu9fr6pMWId8Ht3dykEY9UpqGCRB6Wrjg9eC8v002Tk0w=
+	t=1711119437; cv=none; b=PT1ZMYs0EsO+p9jo6ww9wvjkM3kxVQ2ccm0aMBQdtg0osDkjEH+8EPI6UUGmiit5NB4pOWG1Pp7Gy5xBVRk1k+HR71HPJZyrCBb2MX4holUglQKOaQMk/7WRY8HLgCWyqTFWPgsXsSra7ZEGl/voH6XjEapqMUbhEnBmq1hza+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711118681; c=relaxed/simple;
-	bh=d/mXWGYiLtO14dGJkbwMhR4twccpqxt0u2zwj59+NWQ=;
+	s=arc-20240116; t=1711119437; c=relaxed/simple;
+	bh=o3JhQ0qHV6zswN/4yjEibtmn3jJU5IgKzMreC96p6CA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LLbbOLEYVVTP58dQIck0TpHILy68Ge6nJ/gH5S711eGL7Ka9queqhYzp+ORTys5hXeAIZxJE510XbQHUOMqwiXzyG0I0nOx6TYu5+7QJFZYvRvOFfR48oE0WB5NvdD2tiIVZAdjVlHdX0q4DwZGQO8BnGK3x138uUyREg29N9AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=upJPI5bG; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711118677;
-	bh=d/mXWGYiLtO14dGJkbwMhR4twccpqxt0u2zwj59+NWQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=upJPI5bGROmmXiAXpthmdPbRZ4S+kVbUPm0QYJQM05MHVBL7JlNqsWyZb3XipcWtr
-	 bYSUa7d9U3wqt2EBNt4B+5YeG39TiALXo0Bg2kRa7BzKDYsmX10e7ObYO3SJjbzAud
-	 6ibb2+AWuyMEeBLlwtH4LfnLFELo64n2p5gSZku0RGeNpd+CIbCNTl9JU9oj+2oTPN
-	 tixwhdpbWUXyH/Er+g/vYgTPMJ5+DIcdqH6xxXuuVtyXThFdNrwZSlhwhR6UbJvRHT
-	 kD19olU1XFG9fHt4tnbaS9sVcuaA5FdbY9T5zCS9a3gTXDVqT0NI4bnkY13JFaUiPQ
-	 viEj16/Vc2Qrw==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A496F3781116;
-	Fri, 22 Mar 2024 14:44:35 +0000 (UTC)
-Message-ID: <6420a5c39e0a6f85d4fd5a85643d601bd1e2fb05.camel@collabora.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Handle invalid decoder vsi
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Irui Wang <irui.wang@mediatek.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Yunfei Dong
- <yunfei.dong@mediatek.com>, angelogioacchino.delregno@collabora.com, 
- sebastian.fricke@collabora.com
-Cc: Longfei Wang <longfei.wang@mediatek.com>, Maoguang Meng
- <maoguang.meng@mediatek.com>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org
-Date: Fri, 22 Mar 2024 10:44:31 -0400
-In-Reply-To: <20240320061336.2615-1-irui.wang@mediatek.com>
-References: <20240320061336.2615-1-irui.wang@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
+	 Content-Type:MIME-Version; b=YKShhoFj6uHB3Dg4CQ3LzCh5adhqDm0BzUrtwGf7drr0uiQ7g+vkempOOZhjE9DzO4I6Zo1gVTvp1awtvHB/1+hHxy2Fo49x2xxRwdOQ2UfTTUMiKOBmqfRS0HY9TLklM/++Z3ccW0L195sxG0NjJTOchd6KxbpIkl4a5pawTqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=SZOUo6hk; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7e0f06252e2so146568241.3
+        for <linux-media@vger.kernel.org>; Fri, 22 Mar 2024 07:57:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1711119434; x=1711724234; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZorJDZHV3S35zuqaxSThGm8XOeoTPpTjb5tz8dN4eJI=;
+        b=SZOUo6hk10idlRynBULMmc/Rbt45OmvAHDJMDTPPdAWA8BcBU2CQG2dQyZ/k9nO9Vv
+         SD57nMn7c0RQezGdNgJkj3KumUN3j+McF6FNyYLzjafOjaPwqf/zMF4rKRBMYrp7e4Wr
+         GM7UmFbfVlf7+IRbUfxBlaYiuWBFJJN7JCSEgG/mnTl08Ecny3jSBRDwya8lC1+rpBzs
+         PQE9r/zJMHfIx/4gQXrda3QHNwthL0G1mlMrXCXtvE7jG/HXRvD8Oipq09CT01LesuLg
+         JIdWqjoEBkRDJH6fVXgV1vm86l7E0h1UJu8iLicVfst2UiWlFzS+gt2mx28+JHCiMWtd
+         jyqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711119434; x=1711724234;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZorJDZHV3S35zuqaxSThGm8XOeoTPpTjb5tz8dN4eJI=;
+        b=oVw1maCKXBgy7Gm6nXdwCOD0jicP/5tQwD4IWPTDFjOCVhclXgQ87Kk7Ep8NkmCtIG
+         NrQYXe04gP6nPZeInl/Arbqi15O8920w+hMjnAYZh8kYdzDHbu/oQ7bW9aCZe3kg9WOi
+         2dJyx9+s8YKzZWKRuu5f0lnvUIwZtf77WB3UU2JT1e7a27adpET1HWQKSsRqQk9xpFT0
+         HzZFXyfRMX2630qu43T8mKrSg07JzEI3c5qtYmoNNLWVbXRE3YUxPRdX7td7hyWPNMp5
+         T7h4fsw8yv8pOezb09bscKZ2R7VH/7amqf7r/pV/71ikdbn7fBD9FCoR3ntLB/FrcTXr
+         KGUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjlN6j3vir+oN+GpgQMYMRhLUjpfpO3pv/AxG882nI8EliN9pNgUf/M5Zoh2w4P68gVqixOz3DaXtp+Em6JR3YfNttjW5TPTs1oPw=
+X-Gm-Message-State: AOJu0YxaUqenkmyB4hEW047hQv+Cafkivmu6FfnRRS284IUKtlvOFXEi
+	kro9tEJ1BabSbzciWkD7k0ibEceUFFPqVkdOuyBzQK3m5ASNFnHeAzEMH8HbQeU=
+X-Google-Smtp-Source: AGHT+IF7KOamQ/ZSV2W2kGIMahMBrt6DfYcXh8dFA2yNq70TGAUvTUROE3goyGZT3KN/zY040q01ew==
+X-Received: by 2002:a05:6102:1789:b0:476:577f:aad8 with SMTP id je9-20020a056102178900b00476577faad8mr2952736vsb.14.1711119434492;
+        Fri, 22 Mar 2024 07:57:14 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:10:d05::7a9])
+        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b00789fc91dcf1sm816098qki.87.2024.03.22.07.57.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 07:57:14 -0700 (PDT)
+Message-ID: <f490bd15fd8ee36cd3e759483bbcfb3288cace74.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/4] media: dt-binding: media: Document
+ =?UTF-8?Q?rk3588=E2=80=99s?= vepu121
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Emmanuel Gil Peyrot
+ <linkmauve@linkmauve.fr>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Sebastian Reichel
+ <sebastian.reichel@collabora.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Dragan Simic <dsimic@manjaro.org>, 
+ Shreeya Patel <shreeya.patel@collabora.com>, Chris Morgan
+ <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>, Nicolas
+ Frattaroli <frattaroli.nicolas@gmail.com>,  linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  iommu@lists.linux.dev
+Date: Fri, 22 Mar 2024 10:57:12 -0400
+In-Reply-To: <2798331.BEx9A2HvPv@diego>
+References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
+	 <855507987.0ifERbkFSE@diego>
+	 <70439a01-7949-46bf-a701-c82ba961171a@linaro.org>
+	 <2798331.BEx9A2HvPv@diego>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
@@ -78,41 +106,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi,
-
-Le mercredi 20 mars 2024 =C3=A0 14:13 +0800, Irui Wang a =C3=A9crit=C2=A0:
-> Handle invalid decoder vsi in vpu_dec_init to ensure the decoder vsi is
-> valid for future use.
+Le jeudi 21 mars 2024 =C3=A0 10:32 +0100, Heiko St=C3=BCbner a =C3=A9crit=
+=C2=A0:
+> Am Donnerstag, 21. M=C3=A4rz 2024, 10:19:54 CET schrieb Krzysztof Kozlows=
+ki:
+> > On 21/03/2024 09:47, Heiko St=C3=BCbner wrote:
+> > > > >      enum:
+> > > > >        - rockchip,rk3568-vepu
+> > > > > +      - rockchip,rk3588-vepu121
+> > > >=20
+> > > > What is 121?
+> > >=20
+> > > That is the strange naming of the ip block inside the soc.
+> > >=20
+> > > I.e. the rk3588 TRM lists a number of different video encoders and de=
+coders:
+> > > - VDPU121 is decoding h.263 and mpeg1,2,4
+> > > - VDPU381 is decoding h.265, h.264 and some more
+> > > - VDPU720 is decoding jpeg
+> > > - VDPU981 decodes AV1
+> > > - VEPU121 is the jpeg encoder above
+> > > - VEPU580 encodes h.264 and h.265
+> > >=20
+> > > Each of those are separate IP blocks with their own io-memory, their =
+own
+> > > interrupts and their own iommus, etc.
+> >=20
+> > Thanks for explanation. Short introduction in commit msg would be nice
+> > (e.g. VEPU121, one of two VEPU encoders). OTOH, why not documenting all
+> > of them? Bindings are supposed to be as complete as possible.
 >=20
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  .../media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c    | 6 ++++++
->  1 file changed, 6 insertions(+)
+> We have a concurrent series for the vdpu121 running at
+>   https://lore.kernel.org/all/20240316071100.2419369-1-liujianfeng1994@gm=
+ail.com
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
- b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> index 82e57ae983d5..17770993fe5a 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> @@ -231,6 +231,12 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	mtk_vdec_debug(vpu->ctx, "vdec_inst=3D%p", vpu);
-> =20
->  	err =3D vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-> +
-> +	if (IS_ERR_OR_NULL(vpu->vsi)) {
-> +		mtk_vdec_err(vpu->ctx, "invalid vdec vsi, status=3D%d", err);
-> +		return -EINVAL;
-> +	}
-> +
+> I think not all of those encoders/decoders are based on the Hantro IP
+> or at least at the moment we don't know this yet.
+> Hence people adding compatibles for the blocks they have actually
+> managed to run on their hardware.
 
-Make sense, though on the cosmetic side, were is the err value from if the =
-vsi
-pointer is NULL ?
+Correct, on top of this legacy core, only VDPU981 (AV1 decode) is a chip fr=
+om
+Hantro / Verisilicon. Everything else looks like their own design and deriv=
+ed
+from their original rkvdec codec pack. We didn't name this AV1 decoder afte=
+r VSI
+brand as we didn't have the proper version information available, but we su=
+spect
+that is variant of their VSI9000D cores. In short, we tried to avoid docume=
+nting
+our speculation, even if we believe we are right.
+
+>=20
+> Bindings are supposed to be as complete as possible, but revising a wrong
+> binding later is very hard. And the whole media part is full of binary li=
+braries
+> in the vendor kernel and has not the best documentation.
+
+I agree with this, but I must give to RK that despite the lack of documenta=
+tion,
+their CODEC software is fully open-source and blob free on this platform.
+
+>=20
+> So I guess people are just cautious ;-)
+>=20
+
+exactly!
 
 Nicolas
-
->  	mtk_vdec_debug(vpu->ctx, "- ret=3D%d", err);
->  	return err;
->  }
 
 
