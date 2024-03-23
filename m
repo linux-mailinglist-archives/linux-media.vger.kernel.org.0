@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-7664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE278877EE
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 11:21:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 153F78877F4
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 11:22:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D5E6282C5A
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 10:20:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7078D282BDA
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 10:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FB1FC05;
-	Sat, 23 Mar 2024 10:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBB010A14;
+	Sat, 23 Mar 2024 10:22:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gpoxnD/I"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gmoC56K8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AB72C80
-	for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 10:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEE52C80
+	for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 10:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711189254; cv=none; b=G5NZBWgXFnZmCXTzw01JOTeTOXz46ewHI4TTBdpyWnNze+cvOthd/wfCMY5aoUuEPzEw68wR2H6CrlYJQOXiXr0qrCsjCAp55jmrnrlhd2X0Rh2f9jIpfrxIBaSlUl4IFB9SAXqdMHEIZ22lMvT3R4WM5rUezEUFKwS69Xm/Fbw=
+	t=1711189349; cv=none; b=PR3HdhyWBrvz9tBPyCN5g2O1N7hnFguAUBPJNxCMiTrxg7/kXR4oEKEsyppNAZZLVOrVlv+TCbgKRsR4ZwPFmCFVinkZyiAzAZ7nm5ztdUs98z0vbDwtUP2qFv5P07yxgHgS2d/4V31DInZ9HVwR5YUCFqQvmX9mrBWvQ/XRYfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711189254; c=relaxed/simple;
-	bh=dvu4HMkciLRlA9Wv6uzSgwhF/+pW5hAcu4Hxgz8c3DI=;
+	s=arc-20240116; t=1711189349; c=relaxed/simple;
+	bh=maYA6TPojxmMCR50lqXmD0Mifz4P+KTUcHOwdTmcM6E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pQAXw5rH7Z/rg59N2dEjTCg4RxkmqJdH4cXhuikDEO4glC7BMYlipJjJK6FEisuDsFoKJ/HAqRbdYK5hYTNrBQK+YAqcpaCJ/zKr7PNrhUwzplM0qVdL8l9eLuE3StRVSHM0jNmPQdNbfbPvuzonyTBu/8KfIiwi0uCBfYfq66c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gpoxnD/I; arc=none smtp.client-ip=209.85.208.45
+	 In-Reply-To:Content-Type; b=VPbcaEjqub2nznmXyQ1lw3MBgxxmvWFyECpbHN4SXn3LsHWZkhL75QHXs1B8MeGJIgqmKRvDmRJzBTzzANcXSxZnmQBanbtqWZKM1MDgc544FQAQoIDL8uSA0nY107M8ZjHQYCSHBe4po05g33U72gAbQvVmi4Kpb/b+MrrKWpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gmoC56K8; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-565c6cf4819so6643868a12.1
-        for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 03:20:51 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a46d0a8399aso663630366b.1
+        for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 03:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711189250; x=1711794050; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711189345; x=1711794145; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mv+dntp0+Yd5x4FtxAoMVnrAVTs/kYox5gzBd17b5Sk=;
-        b=gpoxnD/IKa1guJRyM06Q/P8Mk2ztE4tOoFwpA49USwMpxS1gthx+QO+DYX04mlTUFz
-         pALwlxMa84xEX9RwNMCzhfzGgiFsOLwHeHgqtvJ/spa28xWJqcuNRNRBqPD71Mcs4gUZ
-         h6pfga3DfwzAYSx80ShDXiG4WgeMGM9G0exULttMhaTy2KLEHkLg3nBIMImv8Vq/a4OC
-         d3yCZvKQqZRCay83ZLfm9MH8sVfKXiwlVFz1Er9l15ajLfwfJAO5f0u2nuNEGfX+kOJK
-         AArVxkQnIX9wzJ1b+JJ69zhvux25VX/WVgJ3lG1bBqXutlD/6NcApoi6+vugzG3gxUkV
-         gY1A==
+        bh=js4PIaXcQxhgLbPodRVWcO3IY0/eYmoev+fpsoez2d4=;
+        b=gmoC56K8NXk+mZU0qWpim2E8QRa6G3wJskEVziWLof1piN0vEkJbur2JGg9KcMuaMr
+         IZXd3i/vP5xIgFuMsApGsf6ByomLRS+/b+1yqd6Hm/+uIdI/bGRw1gj7xhjKjDo2RUX7
+         yhPxS26wuaR1M6qaNdmY0u+1JUM7M7bYJsrAYwu6s6qYpgOvmsn9hZ9dDhx9kD5gXCyI
+         /KZIY3R5CNlw8tJiGZKMtarKdfRnbYNYRlAIXUfL6Z4piTy/sIBGnLxGDnaHmbRX6GvH
+         OHmsCQQxs2/AZvRMeJe32vHW9SJgJHzVLlIGg+8K4Mk0+jYrRO2PxO1P5dDaZypiQqry
+         xGpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711189250; x=1711794050;
+        d=1e100.net; s=20230601; t=1711189345; x=1711794145;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mv+dntp0+Yd5x4FtxAoMVnrAVTs/kYox5gzBd17b5Sk=;
-        b=L2k3UK/Udnew36sgQZUJ4jrp2GbPI6qy3onnb/IC0kNpNA6PuIXAtEry0e32E2vn9Q
-         MbvuObSqZUeiBNRz7vaJaKTkb7jr4tOn3rX9k/Y1y3cIlX+ti/fgrZDA+elhQ6MaU9/w
-         w3E8QFxE5CkAr7fk+ggfhujFMSBGFRZVTZarXDhGChDH8qR/tRdpaiX/X2iVJ8uOHxhX
-         P4S5Onxp/zgRLXViRiOQslRryoVShhWvvmKfieUcobkbGTjl7+2rCOimrLwyVE43kzeh
-         vDxggD9g7A/oGbkOc6e5Hm1t39aePMnKORiBO1div3ap4OKn8qnSwot7fgrrUds+qjj2
-         1JyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXAyO5t/8j0PK77JJtodPVdirHrVLQXHynXVOLVxThob9UHx3F8JhV0WvOshOuvw4abg0l70vHPbTT/NWjzOUgmbfTdnR0EIentoDg=
-X-Gm-Message-State: AOJu0YzgdjWAcRIbUuy7Qmtk9RZYvGIHqpoFozDNGaNXCjuAK2exoyzd
-	rHLUEsejcHrQOBAyrW6dZFT2Ri7TIBk2efvRkiKIHKPYC9r6mlyim86lWfYPcww=
-X-Google-Smtp-Source: AGHT+IF+QkBaa9f+5oBcdmnEhymDovwjZkQnW5un8gceEcxp2mRV4SYnZHHM4XYweYwBFQkG93ai3A==
-X-Received: by 2002:a17:906:8cc:b0:a47:3f10:b3c8 with SMTP id o12-20020a17090608cc00b00a473f10b3c8mr1216214eje.26.1711189250183;
-        Sat, 23 Mar 2024 03:20:50 -0700 (PDT)
+        bh=js4PIaXcQxhgLbPodRVWcO3IY0/eYmoev+fpsoez2d4=;
+        b=IsGsxGdUvDSF0PvyF53up3lUvSiEt8iq2crJOlVq/iIbxzvszAq/oZ9qTGXLBpfTa7
+         QBIbZsqXzGXGp3BkYMG8Jnuipei/7vbIMnHGY0r5nQDvH2+Z6DyBOwjwTHnlQ4r7jYBR
+         WzSuZf9dq1bZjdRuUT+gYnLnWGTTjHroIytQHY9eOk51PNq4oGBirO20Yk+msVkJWS2w
+         9dfsu8VBsy3qrwl2FLbB2Q2JEBcGALyupQt6Aj0ACr1PNazsYY5jUQz9Ugs+kZ0WXibN
+         b9IXrpqxVqIEheSSWjaiBYEE0EXnHa9JKkiYwVcs0xZAGHKfo5d0omTFgF2Ar1GBR819
+         sQLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXM0DG1wdQViuLfNBLzBrBt5PGrsiSuELOifjJnZ6kgk1w2waVq2QSHbwtP68EVX7zI+My6phJ+39j9w8rEjRH/VC7uX5B3rqzdCm8=
+X-Gm-Message-State: AOJu0YzioOdSrRF/0veYW+i38109iiL+X+c+mr7mp1JWm3X8UH44Mu7s
+	a6JbY+5SYlb8OFnhFIUrkdTSt2UHgioVXh+JBYpi928/X34Ayze5Bw0aBKoPUIs=
+X-Google-Smtp-Source: AGHT+IG2Mjn8BezvSbIrsxNKvzbQCc4BQteR/QamUB88CUwTsVWu0/n5l1PE3Cl/rT26gl4+EI8Lww==
+X-Received: by 2002:a17:906:69c2:b0:a47:3cd5:b3f1 with SMTP id g2-20020a17090669c200b00a473cd5b3f1mr1148989ejs.35.1711189345542;
+        Sat, 23 Mar 2024 03:22:25 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id o1-20020a1709061d4100b00a46b4c09670sm755351ejh.131.2024.03.23.03.20.47
+        by smtp.gmail.com with ESMTPSA id c4-20020a170906170400b00a473abcb9fdsm767413eje.90.2024.03.23.03.22.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Mar 2024 03:20:49 -0700 (PDT)
-Message-ID: <c0d70ba9-34ef-4121-834d-4d107f03d7f0@linaro.org>
-Date: Sat, 23 Mar 2024 11:20:46 +0100
+        Sat, 23 Mar 2024 03:22:25 -0700 (PDT)
+Message-ID: <4439d51f-072a-4b0f-a6e4-b95192eac83b@linaro.org>
+Date: Sat, 23 Mar 2024 11:22:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,30 +78,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
-To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: Conor Dooley <conor@kernel.org>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- "Simek, Michal" <michal.simek@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
 References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
  <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
  <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
- <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <20240322-absence-endurable-dee8a25643b7@spud>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -148,42 +145,14 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+In-Reply-To: <20240322-absence-endurable-dee8a25643b7@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
-> Hi Krzysztof,
-> 
-> Thanks a lot for the review.
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Thursday, March 21, 2024 10:59 PM
->> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>; Laurent Pinchart
->> <laurent.pinchart@ideasonboard.com>; Maarten Lankhorst
->> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
->> Thomas Zimmermann <tzimmermann@suse.de>; David Airlie
->> <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Simek, Michal
->> <michal.simek@amd.com>; Andrzej Hajda <andrzej.hajda@intel.com>; Neil
->> Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Jonas
->> Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Rob
->> Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
->> Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>; dri-
->> devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-
->> media@vger.kernel.org
->> Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
->>
->> Caution: This message originated from an External Source. Use proper caution
->> when opening attachments, clicking links, or responding.
->>
->>
+On 22/03/2024 19:05, Conor Dooley wrote:
+> On Fri, Mar 22, 2024 at 06:59:18AM +0100, Krzysztof Kozlowski wrote:
 >> On 21/03/2024 21:43, Anatoliy Klymenko wrote:
->>> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-
->> bindings/media/media-bus-format.h
+>>> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/dt-bindings/media/media-bus-format.h
 >>> new file mode 100644
 >>> index 000000000000..60fc6e11dabc
 >>> --- /dev/null
@@ -201,32 +170,18 @@ On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
 >>
 >> That's not true. Your SPDX tells something entirely different.
 >>
-> 
-> Thank you - I'll see how to fix it.
-> 
 >> Anyway, you did not explain why you need to copy anything anywhere.
->>
->> Specifically, random hex values *are not bindings*.
->>
 > 
-> The same media bus format values are being used by the reference driver in patch #9. And, as far as I know, we cannot use headers from Linux API headers directly (at least I 
+> I assume by "copy anything anywhere" you mean "why did you copy a linux
+> uapi header into the bindings?
 
-I don't understand what does it mean. You can use in your driver
-whatever headers you wish, I don't care about them.
+Yes, I trimmed context too much.
 
+The reasoning of copying some UAPI and claiming it is a binding was:
+"Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node."
+so as seen *there is no reason*.
 
-noticed the same pattern in ../dt-bindings/sdtv-standarts.h for
-instance). What would be the best approach to reusing the same defines
-on DT and driver sides from your point of view? Symlink maybe?
-> 
-
-Wrap your messages to match mailing list discussion style. There are no
-defines used in DT. If there are, show me them in *THIS* or other
-*upstreamed* (being upstreamed) patchset.
-
-Whatever you have out of tree or "DO NOT MERGE" does not matter and does
-not justify anything.
-
+Commit msg should explain why we are doing things.
 
 Best regards,
 Krzysztof
