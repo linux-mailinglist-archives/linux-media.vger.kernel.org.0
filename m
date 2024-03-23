@@ -1,259 +1,145 @@
-Return-Path: <linux-media+bounces-7679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2228879AC
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 18:17:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02772887A16
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 20:08:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A1C11F2154E
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 17:17:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC7C31F217FD
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 19:08:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A725851C33;
-	Sat, 23 Mar 2024 17:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA3E958AD2;
+	Sat, 23 Mar 2024 19:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHKmw7Fa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYGj3MjQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164072940B
-	for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 17:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC244E1C4;
+	Sat, 23 Mar 2024 19:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711214231; cv=none; b=f0r8naYsMcZduVJAcu4fL56OY3o4Khqyr4sbKEFwhaPuSEvvUpwlcRJsorEB9M6ZkEjgPP3HP/56IeT8XqPb2d+I52OMrAJOoZ0EIDKYP57VkFiZoitKx5ZogkqU33mwR7UViJ9H1ZyYavuQDH932RcwNigwCz0pp6O+gzQl8Hk=
+	t=1711220891; cv=none; b=j1q723jb71rVwRiwTYsCrwYTpJk+/INFevNU/sND20624IpvDUss/BX6WvTkSage9q8fFJ01Huvpvz6cSlAkIs+zuc4XexMymxzkf4FXpd+1BjOVZFdOBPl5Y/CfhLTz7/VrSYdInCjMporfwq3I26dBCSxL8ewOBuigsbu11qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711214231; c=relaxed/simple;
-	bh=DbHSNHfPDIbj3CrARk2cFkYmjyjWhsL2mQ83NYzaibM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dkk17mfgfOQS5VTZWaPS9N5ENu1INIhBMGWSpKmZIIAPRjoQTJ8XX/EOkm41IGn7xNoq1HOWVQSDzngwFzdtqJMaPubHh4hiCre8wpVVcnopsu3ylhhhrczhYUnwAsprEN3DZaUpB6BopGIUglTMQGlxe/uLnOxIG1NoQ95zKKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHKmw7Fa; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711214230; x=1742750230;
-  h=date:from:to:cc:subject:message-id;
-  bh=DbHSNHfPDIbj3CrARk2cFkYmjyjWhsL2mQ83NYzaibM=;
-  b=HHKmw7FawC4MfHYR2vwmyGY6eO5WddyGmKLwhi3lmra3HIE5Q786XPSL
-   x6hb8mtGnzdwPSyD7le+hquY4i54kPPCpV5dkPz0QhHFCUOeLnUid87nV
-   LdYeC1CCFugCdGIHFuLNQSYSOPWf6WgnTdDBNzAqNVLbjHmE0Q1uaIjHR
-   CrxnlhgkkL+5Gd89VO9lOw/y0IYNUh4HYz1McfnWxKFFNOyGKf7vGgfS0
-   4Rfb6onMr0oO+KdIE16mrUYqjM1WzbLEZ+B680X1ocqUma4TMeMh9UFi+
-   huYkhUUeBwzu6v03fboQcI7uex3ej2ZsD3ar8ludE246ysPrCYDwt35jP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6443332"
-X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
-   d="scan'208";a="6443332"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2024 10:17:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,149,1708416000"; 
-   d="scan'208";a="19894683"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Mar 2024 10:17:08 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ro4zR-000LLn-0n;
-	Sat, 23 Mar 2024 17:17:05 +0000
-Date: Sun, 24 Mar 2024 01:16:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:ipu6] BUILD SUCCESS
- 51e77ea32da06d1ca250a1d8930176698c17863b
-Message-ID: <202403240120.tK32f2Vt-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1711220891; c=relaxed/simple;
+	bh=9+sQO6Zyazf3riHAPr4vw0wfA2CTMxeeqFat8In/BUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fALujtLUF0jwveFURXQ+LvXPGexJvhzv0XohL3mWua9sFBxxCAuJf7eQ/gCDCEXVqmQjGVXKKuRiuuUAqpOPN+jRxmw3AvWti/dpvvNDc8xzg/DQTV4MVxk6JsMFR9meij5M5JoQ9tVAwgf6JSCELdpqJCLYIS4t8mOSS/zoQwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYGj3MjQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE15C433C7;
+	Sat, 23 Mar 2024 19:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711220890;
+	bh=9+sQO6Zyazf3riHAPr4vw0wfA2CTMxeeqFat8In/BUI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZYGj3MjQ8L+ziQ43RKGtutkhb+qszI4YtjRXG5l2kQ6elGdn5A992hi3tuVRtt+3C
+	 DE86Amtg0TbggEFZfqUNSdEMQPiaTVRr8Hdlo7hSzuJ4TjyTHoychCuKOieoBQytKD
+	 sB4qd3fOrtb153vcs1V3slc19OLe7xXlDWFPx+suildW95BS+tWER1ao7B+/bnSfB1
+	 U8oZ7Vdnx+viv0HJyryrin35TqF+H0qALo4AkiOtOPuAhRS2oaw69rPKSJiJs6/l+f
+	 t15sYcoN3eEBIan1sxuWTqVSqG8c45Qy17nrHzuWS9Efl3LJyYInADtoeaS227xC5M
+	 2AvNHlTgPA3NA==
+Date: Sat, 23 Mar 2024 19:08:04 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Michal Simek <michal.simek@amd.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+Message-ID: <20240323-kennel-mousiness-f8fc12777cf9@spud>
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+ <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
+ <20240322-absence-endurable-dee8a25643b7@spud>
+ <4439d51f-072a-4b0f-a6e4-b95192eac83b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="APHpANq/M0OjDKgl"
+Content-Disposition: inline
+In-Reply-To: <4439d51f-072a-4b0f-a6e4-b95192eac83b@linaro.org>
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6
-branch HEAD: 51e77ea32da06d1ca250a1d8930176698c17863b  HACK: ov2740: disable runtime PM
 
-elapsed time: 1194m
+--APHpANq/M0OjDKgl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 170
-configs skipped: 3
+On Sat, Mar 23, 2024 at 11:22:22AM +0100, Krzysztof Kozlowski wrote:
+> On 22/03/2024 19:05, Conor Dooley wrote:
+> > On Fri, Mar 22, 2024 at 06:59:18AM +0100, Krzysztof Kozlowski wrote:
+> >> On 21/03/2024 21:43, Anatoliy Klymenko wrote:
+> >>> diff --git a/include/dt-bindings/media/media-bus-format.h b/include/d=
+t-bindings/media/media-bus-format.h
+> >>> new file mode 100644
+> >>> index 000000000000..60fc6e11dabc
+> >>> --- /dev/null
+> >>> +++ b/include/dt-bindings/media/media-bus-format.h
+> >>> @@ -0,0 +1,177 @@
+> >>> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> >>> +/*
+> >>> + * Media Bus API header
+> >>> + *
+> >>> + * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> >>> + *
+> >>> + * This program is free software; you can redistribute it and/or mod=
+ify
+> >>> + * it under the terms of the GNU General Public License version 2 as
+> >>> + * published by the Free Software Foundation.
+> >>
+> >> That's not true. Your SPDX tells something entirely different.
+> >>
+> >> Anyway, you did not explain why you need to copy anything anywhere.
+> >=20
+> > I assume by "copy anything anywhere" you mean "why did you copy a linux
+> > uapi header into the bindings?
+>=20
+> Yes, I trimmed context too much.
+>=20
+> The reasoning of copying some UAPI and claiming it is a binding was:
+> "Copy media-bus-formats.h into dt-bindings/media to suplement TPG DT node=
+=2E"
+> so as seen *there is no reason*.
+>=20
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Commit msg should explain why we are doing things.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                 nsimosci_hs_smp_defconfig   gcc  
-arc                   randconfig-001-20240323   gcc  
-arc                   randconfig-002-20240323   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   gcc  
-arm                                 defconfig   clang
-arm                         lpc18xx_defconfig   clang
-arm                   randconfig-001-20240323   clang
-arm                   randconfig-002-20240323   clang
-arm                   randconfig-003-20240323   clang
-arm                   randconfig-004-20240323   gcc  
-arm                        vexpress_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240323   gcc  
-arm64                 randconfig-002-20240323   gcc  
-arm64                 randconfig-003-20240323   clang
-arm64                 randconfig-004-20240323   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240323   gcc  
-csky                  randconfig-002-20240323   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240323   clang
-hexagon               randconfig-002-20240323   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240323   gcc  
-i386         buildonly-randconfig-002-20240323   clang
-i386         buildonly-randconfig-003-20240323   clang
-i386         buildonly-randconfig-004-20240323   gcc  
-i386         buildonly-randconfig-005-20240323   gcc  
-i386         buildonly-randconfig-006-20240323   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240323   clang
-i386                  randconfig-002-20240323   clang
-i386                  randconfig-003-20240323   gcc  
-i386                  randconfig-004-20240323   gcc  
-i386                  randconfig-005-20240323   gcc  
-i386                  randconfig-006-20240323   gcc  
-i386                  randconfig-011-20240323   gcc  
-i386                  randconfig-012-20240323   gcc  
-i386                  randconfig-013-20240323   clang
-i386                  randconfig-014-20240323   gcc  
-i386                  randconfig-015-20240323   gcc  
-i386                  randconfig-016-20240323   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240323   gcc  
-loongarch             randconfig-002-20240323   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                           rs90_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240323   gcc  
-nios2                 randconfig-002-20240323   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240323   gcc  
-parisc                randconfig-002-20240323   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                       maple_defconfig   clang
-powerpc                      ppc44x_defconfig   clang
-powerpc               randconfig-001-20240323   gcc  
-powerpc               randconfig-002-20240323   gcc  
-powerpc               randconfig-003-20240323   clang
-powerpc                     stx_gp3_defconfig   clang
-powerpc64                        alldefconfig   clang
-powerpc64             randconfig-001-20240323   clang
-powerpc64             randconfig-002-20240323   clang
-powerpc64             randconfig-003-20240323   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240323   clang
-riscv                 randconfig-002-20240323   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240323   clang
-s390                  randconfig-002-20240323   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                    randconfig-001-20240323   gcc  
-sh                    randconfig-002-20240323   gcc  
-sh                             sh03_defconfig   gcc  
-sh                     sh7710voipgw_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240323   gcc  
-sparc64               randconfig-002-20240323   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240323   gcc  
-um                    randconfig-002-20240323   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240323   clang
-x86_64       buildonly-randconfig-002-20240323   clang
-x86_64       buildonly-randconfig-003-20240323   clang
-x86_64       buildonly-randconfig-004-20240323   gcc  
-x86_64       buildonly-randconfig-005-20240323   clang
-x86_64       buildonly-randconfig-006-20240323   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240323   clang
-x86_64                randconfig-002-20240323   gcc  
-x86_64                randconfig-003-20240323   clang
-x86_64                randconfig-004-20240323   clang
-x86_64                randconfig-005-20240323   gcc  
-x86_64                randconfig-006-20240323   gcc  
-x86_64                randconfig-011-20240323   clang
-x86_64                randconfig-012-20240323   gcc  
-x86_64                randconfig-013-20240323   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                randconfig-001-20240323   gcc  
-xtensa                randconfig-002-20240323   gcc  
+Oh for sure. I was just wondering if you were complaining about the UAPI
+header or if that comment was about the copyright notice. If it had been
+the latter I was gonna point out the former :)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--APHpANq/M0OjDKgl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZf8okwAKCRB4tDGHoIJi
+0uqqAP9b69AYr5D7FhDNnL/D8l5mnPP/f42epRSDhGpCwvmQwAD+P/S/aI8e14av
+MPfETCx+sejBWrcfF0p6HK7BDCtvTAg=
+=4lmD
+-----END PGP SIGNATURE-----
+
+--APHpANq/M0OjDKgl--
 
