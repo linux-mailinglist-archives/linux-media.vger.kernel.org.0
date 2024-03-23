@@ -1,414 +1,192 @@
-Return-Path: <linux-media+bounces-7662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C52F8876EF
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 04:50:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C8C8877EA
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 11:19:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBB481C23015
-	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 03:50:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D51A1F21BE1
+	for <lists+linux-media@lfdr.de>; Sat, 23 Mar 2024 10:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBD53FE4;
-	Sat, 23 Mar 2024 03:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D315610A08;
+	Sat, 23 Mar 2024 10:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYAWOZzl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fXH8aU6t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F141841;
-	Sat, 23 Mar 2024 03:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711165824; cv=fail; b=LBN3NYkFbtX9vdflGsM2JMjAFUUEFd6paju2NPl7JCQeozSHMPXOrkAt7NTgR1K3YOXpZ9pjxljyw3qqOTu3/7Ag3NXTIom0H/YiWkRb672jworOih57+M9kSdwJYjpiux0OEwvwudg1WVgaDhf0eKyLEkUtWFz/8eUG+AMKFz4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711165824; c=relaxed/simple;
-	bh=hm0Zec3jCWm2s4TTmPO4QuyrMVBSKRdAoL4iDSha5iY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=k5t1kNID6Z2Lmg/pLjEKASeVaJYqjCSNFbpUjvKVwpWVlZeLxiz3rftu3zIUJ2egd30mY7ZZMh8PkdneqTL5OTbg/Dq7lr6Nj1YLw1gN8bEm4UjRJoi6fjGbXuyxxkIhZL3zS7DBKXeUXpqTnrQfRAqxAoNl0MBgRIGxCCskelE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYAWOZzl; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711165823; x=1742701823;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=hm0Zec3jCWm2s4TTmPO4QuyrMVBSKRdAoL4iDSha5iY=;
-  b=SYAWOZzlWRsw9WP/m8jcLVGfo+S9CoZkIYRampagrWdw5l/PIrABMmzM
-   zKlj4+B6v+0KRvMZaBeAMoAI2GsPHmjbdVvHCLX3GB57PudDh7oht/N5Z
-   kZeOe9EtP1GdbN+O2TmdsLC7G1DL/rJkAJuGoy9o6cYmvrAio2uBPerG3
-   88nZBFs9bcm+hg7wW3aPuiuOwJ9DElazi7OVMou0XL738qcVSAD2NLnWc
-   bz8QqQ4ISwU6J1heyvAbQUG4Tm0coOQsEknE6W22T8MQe+J9bGhHBxE1U
-   Uo1oBVHdlyAwn7dX82wL6cqwo7QhfoiOwWkEAGG8Y6vHluzfWsB42fIpr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="6127498"
-X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="6127498"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 20:50:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="15103874"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Mar 2024 20:50:22 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 22 Mar 2024 20:50:20 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 22 Mar 2024 20:50:20 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 22 Mar 2024 20:50:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IjJy0ADqMy/Hb0nhCsgOBRzKNyuNXDYeo99WMZFwBQe47nzv4rgBNP66JLzF3XWRhpqflK2+96MZ9NZB5iIqaOLe0CZXl4LksRnR7ksHE4VqpSDpSTJ6cAJJnCdJreHLdBdFloeDRTirOOwQdoOw3RzoxsauiVex7iCQ2upk2KORd7cs6Gh3iDyqiPeMZS4KnUkx+M4xDpE3kA4tbjVXhne1IG4t3Vl1cMOO5wTfWNOOKd1SzrVFvFDDsBSLMAlkgcE8JYBomizJR+npF5zryKO3EanOrQ/sxWFxqZDWWD/jr42aRTvJo3s3LH4nz7rw26z9nCfJgPcxYSc/+AlLvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4cuoVRwX+ZF8ogYMRd7b9lqy8jBN0Dt+Ru0K5o+B44E=;
- b=BiaIy5sfEnqQxuklCVdLEsc/xdAaOHUH631TbvpVhAfF6XMVmGhNQxekf5V2T27QzXbr6sJPxKDCZ8tfV2CadovrDRbRwpEmUa4j06kE92et++S4eoZV/vpXtGkC3Wi6RqoH2AJHa2V5H6UOPDO9vdiiHwz3BYNJgMdIGnsxVf0TMUlSkMK1+1/zcyAOvzc5B3ALvOEn/mPiqT833VlXqz5A+IDPtmGMK1UGPPjQHHejR9XxS1SYBId2ytuilZxuupcW8hoR+gsgiJcmN15I8FLQ9umAaco3mlh9bVWgcgC+iQKcvAOMypavH1Gc2cNJ4uGOnfHy/gCff8/y2tKqCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MW5PR11MB5787.namprd11.prod.outlook.com (2603:10b6:303:192::7)
- by DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Sat, 23 Mar
- 2024 03:50:18 +0000
-Received: from MW5PR11MB5787.namprd11.prod.outlook.com
- ([fe80::8814:40fd:3adb:8de2]) by MW5PR11MB5787.namprd11.prod.outlook.com
- ([fe80::8814:40fd:3adb:8de2%6]) with mapi id 15.20.7409.023; Sat, 23 Mar 2024
- 03:50:18 +0000
-From: "Wu, Wentong" <wentong.wu@intel.com>
-To: Dominik Brodowski <linux@dominikbrodowski.net>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>, "Winkler, Tomas"
-	<tomas.winkler@intel.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
- ops when !TASK_RUNNING
-Thread-Topic: v6.8.0-rc6: mei_ace_probe / mei_vsc_probe: do not call blocking
- ops when !TASK_RUNNING
-Thread-Index: AQHaam3EvCzE5l33CkGR0g/9d0yezrEgGjAAgADQ1wCAAAJ5gIAAnU4AgA0EQNCAAKILAIAAdXAwgAEW1wCAFBaiwA==
-Date: Sat, 23 Mar 2024 03:50:18 +0000
-Message-ID: <MW5PR11MB57871E08D9A7C05CDB7226AB8D302@MW5PR11MB5787.namprd11.prod.outlook.com>
-References: <Zd9wUv1zSJ59WS8i@shine.dominikbrodowski.net>
- <Zd-BVmoFOiCxA632@kekkonen.localdomain>
- <ZeAwhhW7DSEazs0F@shine.dominikbrodowski.net>
- <ZeAymVVsI-CNj6Pc@kekkonen.localdomain>
- <ZeC2jss4IAM4aPWy@shine.dominikbrodowski.net>
- <MW5PR11MB5787E3A96C8EFF3C9F8BC8908D272@MW5PR11MB5787.namprd11.prod.outlook.com>
- <ZewpyJ3d7gx3dSvA@shine.dominikbrodowski.net>
- <PH0PR11MB580859671B2F9EFAD471F76C8D252@PH0PR11MB5808.namprd11.prod.outlook.com>
- <Ze12NB4XQaIydr0t@shine.dominikbrodowski.net>
-In-Reply-To: <Ze12NB4XQaIydr0t@shine.dominikbrodowski.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW5PR11MB5787:EE_|DS0PR11MB7958:EE_
-x-ms-office365-filtering-correlation-id: 8bda0b1c-216b-4af7-0a66-08dc4aec5b5b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Fh3DJcjasF6kkEniTc8x/+otK24iVdz7W4HyX65jgGR6unC2zccNBG4YKlNnqm2ejW3JQjS8BrXbmZL28/OLGAych+pwLP9mb6OnKIAPbXwX+bL5kTC1hgi+UHjl22uQCsrCNBENNyw1VVykg/G8u1zVglfiNFlt6cyz/dFRPZWtMKgV967UAiJCc3tgDlxfOyjLNq8Myjk8qEzWSEUeY8ZkDdlr4RWRLDzzkwRZQj2vLbVXNgAW930SsuTDp3sQ1jRyhCcH6dzKj5RGKvhsEPn0miH88CT4yfoF9J0eDwxaJLkWx/byQquVIbSgXMzsOLIs27c2i8DE0pV+OfLvowV3GY+NBE+iIU1mKbxRTOQkAcYqoW/04Ga6/fXUULK6Mlo4ycrTCzfDnhysXGp+uRvP+S1fP+h2QXJZY3S/IbdAwGYbRiJ4HpbDtwwisjGwyawz3Nu6cvPZnIa2LEkeCY4fuMWORLilSzNJZITFYjBoM9dFdMN78ZMTJyBMt16IgVsrOChyvdht23GSpCLdnaofpAhPEffM+Oz9UGccPOwMESBr/Hd+4+aLx88Q/HipN0NXE7lQvziPF6JdmEiYkTHGm3MEZNdIdB9US0Tm3XI9x0iENAgIu2IFJWeZofEQyYBGuAf3X4o24GMjaKRCF6AaYJKj9yn6qtGnqBfsdS8wHd9vGDvUXi2Zockqxnz0
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR11MB5787.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LZqQn2cnipkcuMMRaqED3g75K9BZHcXh7NOkjWAjnxjVaXAQyBcS6D42zoCV?=
- =?us-ascii?Q?YM3/toyqH6bt8zONxHtgkU/1lvmAp8E+jf9d284nmg3qZLDT9A3NwLDtkX55?=
- =?us-ascii?Q?ds8TOMArJPftfzEuiHPKWjSjdj70yG2hnTHJ9GTIz6B0GoaJfv55hV9ynu3e?=
- =?us-ascii?Q?tV6u7kfLj6rZqfWqhwVpgH76v3qtork9WaE0WSb2uBpN7e/5lhaobnLuSvIr?=
- =?us-ascii?Q?ashJ7TtillHqUbimrKbfg0bncbJQbwdUPpKjdpaCuU5QmncCszCXjGihuWLB?=
- =?us-ascii?Q?QP5ofTCBm4v+73xaOALNHc3KJd3eO1RbgtPRYRUhz8C1D05VGpiqYo+hqU5Z?=
- =?us-ascii?Q?9MjTxJ5k6ie5hG35SLgesIYkzkAvd6Iyk6XLxElNVJMxvheGEaaC2yj+jBno?=
- =?us-ascii?Q?Ns5BO/8ZEhH3vf6YKjfG0hRXgAiT0k3otaccoflzN3uF9NeHOfjcDG0u0vqG?=
- =?us-ascii?Q?5WqgZ2jGdjX4zu/nDi0ZkFw+Xr9dU77Iik/oL1Kt13coRogURAlzJzhbyYq7?=
- =?us-ascii?Q?3zDAbgsnxSjBw2btEADds3oPpW0jz8QFDFC85d9NLFRXa5NqEKinrXRxqn+D?=
- =?us-ascii?Q?wTw62kO9Tk/8XT8j/jdII2qtXfwOL6JijsoFp9jn5acevJu8Okay/gQ2mRNi?=
- =?us-ascii?Q?vc/OpyM4x2ptsgr6KSHj+x811EBtAeqxrimxkujFABCU+7cHjQ9NdjWrgrR6?=
- =?us-ascii?Q?Lz4RLp3loyUZdj5/z1/I6QqWq9SbmDy+BfPJaXAxUwNUvwuvm7Ywsc1l/ROf?=
- =?us-ascii?Q?6AGKK3ANma/OFt/rKPMkLeF7YXSvwz3sJPM5x0qgHWg2i0J4e7l75wX1O+ZN?=
- =?us-ascii?Q?ZVDiHiVsK+4LcyYgXEMxLzGbuFTmzaSYdkLIK2YKbSHl123oFcmrIniv0L7U?=
- =?us-ascii?Q?F1/f040p29KG2xAZXNT+GIwGEshPL53wyOgorWcwFV2hYxe/qpF+MVnAuLhJ?=
- =?us-ascii?Q?cJssez0SgswphvBYKGMp+lv9D6g8EAvmAjU3OrZGWDxBuc9JztnJBdCKBjFd?=
- =?us-ascii?Q?l+9bmtuluWRkBRMC+tKOkzCm97C08zZwhx7ofznnFr4HSN+WZCj7kZU2Iihx?=
- =?us-ascii?Q?P7iZN7Gsiga5+OObtE1V1Hf4PeyvXFpqU14Ft0Iaa6q6E+pajEwobiDZAyH+?=
- =?us-ascii?Q?S/sd5vQXuF21hVymdHXpvBdUIw4w26GVvJOXf7nana09yR8mpgGyakGA2sSC?=
- =?us-ascii?Q?98J1O6P7fBCkZS4oxJMK3AsNzhxU1gO1FizxPqzZfSdZgaYOtqPQNx03XShB?=
- =?us-ascii?Q?0hVOqayUVlFwVRe/6UZqQ0hfR1QnoVY1MHd46sPeiIShfMAWAchy+QpHtjQ2?=
- =?us-ascii?Q?ngbcWvEsfQSfCdASzqIMSPVTmYi4UZGM4wkAXxIJyT5bhoDIiABjAk7MKAD6?=
- =?us-ascii?Q?kilHQ5xF8RFRz6SioaHA1XhkuNW2EVkE69lXs/O4ghffo4Mv9QpTE0O+1Xmf?=
- =?us-ascii?Q?A4dgB4WuTnX2BHmez4Lc9U+MrRSuNfhsRMKBOrjoMsZ3Warbq55qRYIruhyo?=
- =?us-ascii?Q?SEHWfcweQssdpzln/73zcwyK+HApKdft2EqeGIPeOaHPp6bUFP1ssL4tK8sE?=
- =?us-ascii?Q?TyMkHouLpobyXK4Injgq68R5ccTmEol+LlIHLwge?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE13FC15
+	for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 10:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711189148; cv=none; b=acV4He85NrgWXc4baQJh3m2sHWRmxanL71Rswa4mzojMjNJeac1JUKR9GTv1bQ1NOFtMjdjSTxzxNAoiuxoqv7iu4sTFRgLINhRZMzHfIxMj0nn+pYSKJtUAYOSK80cuG6kwWNHUPS5gVQTTE+UqmVg6LBxZ1pz3JvwOM1M6Lp8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711189148; c=relaxed/simple;
+	bh=yWkds7nD2ZS519CEcHKNQhFmrIHYkW4kP2K1ilnU+Pk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JxC+h3Wgk6WC2ugrvx+apI6EE6kEMJWoUj5EW1D+gLcXYHhFFIYzsBnZSGqCVqrutpc8BvW3ImrYu630kVJ0wAT7TCBGScEv9KArTwWh+dMDm/rehGO52pSzZ5Oj+Bix3Pkfaho39reRTt7q+F1bm077LP6VygbmY0sxF+WNioQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fXH8aU6t; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a468004667aso403609566b.2
+        for <linux-media@vger.kernel.org>; Sat, 23 Mar 2024 03:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711189145; x=1711793945; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=jsWVUzTZjb8sGoPxm2j46t2rbn6viTMSYqvI2Re5TR4=;
+        b=fXH8aU6tsORX+8Hm9qgsWdOvAh/MUtiKcFNhR9OYAAVlkyrPMpXDiv5M1owlnJpFuw
+         LeKbQfqdhbQOEw51iFRYvE1u5SCX1RqAUjf+Jbt9naU4NWjCt5/7a6XeO0Re5LVLxRA8
+         VYfQP+WOY9dDuFpSTpiawcruJpj+AOpbEYutJVLhAFGcOaiX/WRdWqJEH+4c/Lwsnd+L
+         X8ZhDU0y/iSGIG6n3wUuYdXzksaIGJc2VRbnplz27cNkFt7WY4xpeUUSAXkOUPklvsSH
+         Ml4fK8TpvGJ78DTVct9x1/xTbbxCSYnEr8su3wEKG58q3ou4NEI9j1/9SECcBoupT/cb
+         Y4Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711189145; x=1711793945;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jsWVUzTZjb8sGoPxm2j46t2rbn6viTMSYqvI2Re5TR4=;
+        b=cs2o1F1pqrHVGhdUeCfkxMozEzpGhm2Ex6STnX/943gnXXzwiELIgN7WikyiZHLXdm
+         PsIBjvYgcYMEw7qPPbQt+7mRgctTWmrTtjWu7hz5G4lF9KOKSnftV6+GVBm5vf7a1wWM
+         yPyS7LYDBZj/Zi8jVXQGhPS7g27bF/VjHyb1GrO65xiv+ssG4HBQBCC/h6JEYtmtQDp4
+         D4OkL2GpOzZH3RN8iJQdJc42XceskEZcDgHqTylqbfjycB977E35txBpPSBs5kbG/V6l
+         aTHLh8wDdBzYnEgrxRYk24AJwU8sqtMjcfpxCYuN0JGSWDmgNRHMI6bYdlEEWVmZL+Kd
+         BY2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVQEchSrODJNXcQDp6wOgVFUMPJKYiVfaUSdvAajqPKo0vLXyBoE0Q865leWIG0k0EX2avFfn1JLbvwA4OSd6LwhxlO2OKKLw4ZW74=
+X-Gm-Message-State: AOJu0YxksqN2KlB9/v5IjnVYMYAQjsPHQyYxewBPJ4Ngbb1cZBYK8Obi
+	QjyAwlsTnLKk4GXsSyYTm7oqtJ9w7YS08EAjtR11WIsuqx0u2d7iO5WhtT56d7A=
+X-Google-Smtp-Source: AGHT+IGQslGoKM0t42VsynDcdmkNlrLvqjsHEB56Do9omRsijDvuZnkqdoR90hWKpBnqiuSFScyYMQ==
+X-Received: by 2002:a17:906:6bc3:b0:a45:ab61:7a47 with SMTP id t3-20020a1709066bc300b00a45ab617a47mr1315089ejs.16.1711189144821;
+        Sat, 23 Mar 2024 03:19:04 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id le13-20020a170906ae0d00b00a47464a6ee4sm369968ejb.173.2024.03.23.03.19.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Mar 2024 03:19:04 -0700 (PDT)
+Message-ID: <13fcafd7-2e10-485e-bd39-acf67288f07b@linaro.org>
+Date: Sat, 23 Mar 2024 11:19:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR11MB5787.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bda0b1c-216b-4af7-0a66-08dc4aec5b5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2024 03:50:18.5087
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dtHKNvoth9J59vZoGhHx4s0Jc2xIEM8qLj991WxVXnIdoj+XxNP53sf4165q7Hx1DfWtlcCD+RusSCvbz5o6Rw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7958
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] Setting live video input format for ZynqMP DPSUB
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> From: Dominik Brodowski <linux@dominikbrodowski.net>
-> Am Sun, Mar 10, 2024 at 01:33:49AM +0000 schrieb Wu, Wentong:
-> > > From: Dominik Brodowski <linux@dominikbrodowski.net>
-> > >
-> > > Hi Wetong,
-> > >
-> > > Am Fri, Mar 08, 2024 at 11:45:44PM +0000 schrieb Wu, Wentong:
-> > > > Did you try master branch (v6.8) without IPU6 driver? There should
-> > > > be problems with the IPU6 driver you use as below:
-> > > >
-> > > > > intel-ipu6 0000:00:05.0: Found supported sensor OVTI01A0:00
-> > > > > intel-ipu6 0000:00:05.0: Connected 1 cameras
-> > > >
-> > > > If not, could you please help try it on your side?
-> > >
-> > > Branch master from https://git.linuxtv.org/sailus/media_tree.git/
-> > > causes a WARNING during boot; some extracts from dmesg:
-> >
-> > Thanks for your help, I think this has been fix by below patch:
-> > <URL:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/co
-> > mmit/drivers/misc/mei/vsc-
-> tp.c?id=3Db8b19acfafdeacbedd4e2795cb18c81c4d8b
-> > b6cc>
->=20
-> ... which isn't in the master branch of git.linuxtv.org/sailus/media_tree=
-.git
-> . I've now taken Linus' tree of today, merged in char-misc-next, merged i=
-n the
-> media_tree, and applied a fixup patch (see bottom of the message).
->=20
-> Booting this kernel, there is no WARNING during boot, and I can suspend
-> and resume. However, please note the warnings/failures and the long delay=
-s
-> between suspend entry and exit during the first (two) suspend/resume
-> cycles:
+On 21/03/2024 21:43, Anatoliy Klymenko wrote:
+> Implement live video input format setting for ZynqMP DPSUB.
+> 
+> ZynqMP DPSUB can operate in 2 modes: DMA-based and live.
+> 
+> In the live mode, DPSUB receives a live video signal from FPGA-based CRTC.
+> DPSUB acts as a DRM encoder bridge in such a scenario. To properly tune
+> into the incoming video signal, DPSUB should be programmed with the proper
+> media bus format. This patch series addresses this task.
+> 
+> Patch 1/9: Set the DPSUB layer mode of operation prior to enabling the
+> layer. Allows to use layer operational mode before its enablement.
+> 
+> Patch 2/9: Update some IP register defines.
+> 
+> Patch 3/9: Factor out some code into a helper function.
+> 
+> Patch 4/9: Announce supported input media bus formats via
+> drm_bridge_funcs.atomic_get_input_bus_fmts callback.
+> 
+> Patch 5/9: Minimize usage of a global flag. Minor improvement.
+> 
+> Patch 6/9: Program DPSUB live video input format based on selected bus
+> config in the new atomic bridge state.
+> 
+> Patch 7/9: New optional CRTC atomic helper proposal that will allow CRTC
+> to participate in DRM bridge chain format negotiation and impose format
+> restrictions. Incorporate this callback into the DRM bridge format
+> negotiation process.
+> 
+> Patch 8/9: DT bindings documentation for Video Timing Controller and Test
+> Pattern Generator IPs.
+> 
+> Patch 9/9: Reference FPGA CRTC driver based on AMD/Xilinx Test Pattern
+> Generator (TPG) IP. Add driver for the AMD/Xilinx Video Timing Controller
+> (VTC), which supplements TPG.
 
-Thanks
+None of the last users of your API can be merged, therefore this API
+should be considered as without users. We do not add API which does not
+have any in-tree users.
 
-I believe this has been fixed by the patch
-https://www.spinics.net/lists/kernel/msg5146202.html
+Best regards,
+Krzysztof
 
-and I have tested it on my setup, could you please try it (without IPU6 dri=
-ver)
-on your end to double confirm and ack the patch?
-
-BR,
-Wentong
->=20
-> [  107.696067] PM: suspend entry (s2idle) [  107.701258] Filesystems sync=
-:
-> 0.005 seconds [  107.818367] Freezing user space processes [  107.822954]
-> Freezing user space processes completed (elapsed 0.004 seconds)
-> [  107.822979] OOM killer disabled.
-> [  107.822980] Freezing remaining freezable tasks [  107.825672] Freezing
-> remaining freezable tasks completed (elapsed 0.002 seconds) [  107.825834=
-]
-> printk: Suspending console(s) (use no_console_suspend to debug)
-> [  108.186987] ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient
-> arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> [  108.192890] intel_vsc intel_vsc: silicon stepping version is 0:2 [  11=
-9.661371]
-> PM: Some devices failed to suspend, or early wake event detected
-> [  119.696726] ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient
-> arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> [  119.702358] intel_vsc intel_vsc: silicon stepping version is 0:2 [  13=
-3.493790]
-> vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110 [  135.541436] v=
-sc-tp
-> spi-INTC1094:00: wakeup firmware failed ret: -110 [  135.541823] intel_vs=
-c
-> intel_vsc: wait fw ready failed: -110 [  135.541832] intel_vsc intel_vsc:
-> hw_start failed ret =3D -110 fw status =3D [  135.543616] intel_vsc intel=
-_vsc:
-> unexpected reset: dev_state =3D RESETTING fw status =3D [  135.580522] AC=
-PI
-> Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller
-> passed 0, method requires 1 (20230628/nsarguments-232) [  135.584170]
-> intel_vsc intel_vsc: silicon stepping version is 0:2 [  135.635935] OOM k=
-iller
-> enabled.
-> [  135.635940] Restarting tasks ... done.
-> [  135.863803] PM: suspend exit
->=20
-> I seem to have pressed the power butten often enough to initiate a second
-> suspend/resume cycle immediately:
->=20
-> [  135.864196] PM: suspend entry (s2idle) [  135.875238] Filesystems sync=
-:
-> 0.011 seconds [  135.879306] Freezing user space processes [  135.883869]
-> Freezing user space processes completed (elapsed 0.004 seconds)
-> [  135.883881] OOM killer disabled.
-> [  135.883884] Freezing remaining freezable tasks [  135.886107] Freezing
-> remaining freezable tasks completed (elapsed 0.002 seconds) [  135.886112=
-]
-> printk: Suspending console(s) (use no_console_suspend to debug)
-> [  149.173274] vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
-> [  151.221491] vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
-> [  151.221784] intel_vsc intel_vsc: wait fw ready failed: -110 [  151.221=
-793]
-> intel_vsc intel_vsc: hw_start failed ret =3D -110 fw status =3D [  151.22=
-2752]
-> intel_vsc intel_vsc: unexpected reset: dev_state =3D RESETTING fw status =
-=3D
-> [  151.256758] ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient
-> arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> [  151.262174] intel_vsc intel_vsc: silicon stepping version is 0:2 [  16=
-4.853425]
-> vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110 [  166.901441] v=
-sc-tp
-> spi-INTC1094:00: wakeup firmware failed ret: -110 [  166.901772] intel_vs=
-c
-> intel_vsc: wait fw ready failed: -110 [  166.901779] intel_vsc intel_vsc:
-> hw_start failed ret =3D -110 fw status =3D [  166.904282] intel_vsc intel=
-_vsc: reset:
-> reached maximal consecutive resets: disabling the device [  166.904290]
-> intel_vsc intel_vsc: device disabled =3D -19 [  166.904665] intel_vsc int=
-el_vsc:
-> reset: reached maximal consecutive resets: disabling the device [  166.90=
-4712]
-> PM: Some devices failed to suspend, or early wake event detected
-> [  166.940695] ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient
-> arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> [  166.946175] intel_vsc intel_vsc: silicon stepping version is 0:2 [  18=
-1.045504]
-> vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110 [  183.093514] v=
-sc-tp
-> spi-INTC1094:00: wakeup firmware failed ret: -110 [  183.093898] intel_vs=
-c
-> intel_vsc: wait fw ready failed: -110 [  183.093912] intel_vsc intel_vsc:
-> hw_start failed ret =3D -110 fw status =3D [  183.094507] intel_vsc intel=
-_vsc:
-> unexpected reset: dev_state =3D RESETTING fw status =3D [  183.129467] AC=
-PI
-> Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller
-> passed 0, method requires 1 (20230628/nsarguments-232) [  183.132830]
-> intel_vsc intel_vsc: silicon stepping version is 0:2 [  183.135905] OOM k=
-iller
-> enabled.
-> [  183.135909] Restarting tasks ... done.
-> [  183.372915] PM: suspend exit
->=20
-> Subsequent suspend/resume operations continue to emit warnings/failures
-> related to intel_vsc:
->=20
-> [  341.554095] PM: suspend entry (s2idle) [  341.559387] Filesystems sync=
-:
-> 0.005 seconds [  341.673175] Freezing user space processes [  341.679061]
-> Freezing user space processes completed (elapsed 0.005 seconds)
-> [  341.679069] OOM killer disabled.
-> [  341.679071] Freezing remaining freezable tasks [  341.680652] Freezing
-> remaining freezable tasks completed (elapsed 0.001 seconds) [  341.680656=
-]
-> printk: Suspending console(s) (use no_console_suspend to debug)
-> [  341.861251] intel_vsc intel_vsc: reset: reached maximal consecutive re=
-sets:
-> disabling the device [  342.065565] ACPI: EC: interrupt blocked [  342.85=
-5083]
-> ACPI: EC: interrupt unblocked [  343.039446] i915 0000:00:02.0: [drm] GT0=
-:
-> GuC firmware i915/adlp_guc_70.bin version 70.20.0 [  343.039458] i915
-> 0000:00:02.0: [drm] GT0: HuC firmware i915/tgl_huc.bin version 7.9.3
-> [  343.064550] i915 0000:00:02.0: [drm] GT0: HuC: authenticated for all
-> workloads [  343.065807] i915 0000:00:02.0: [drm] GT0: GUC: submission
-> enabled [  343.065811] i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
-> [  343.066305] i915 0000:00:02.0: [drm] GT0: GUC: RC enabled [  343.12462=
-8]
-> nvme nvme0: 8/0/0 default/read/poll queues [  343.385084] ACPI Warning:
-> \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed 0,
-> method requires 1 (20230628/nsarguments-232) [  343.389309] intel_vsc
-> intel_vsc: silicon stepping version is 0:2 [  356.946491] vsc-tp spi-INTC=
-1094:00:
-> wakeup firmware failed ret: -110 [  358.996072] vsc-tp spi-INTC1094:00:
-> wakeup firmware failed ret: -110 [  358.996432] intel_vsc intel_vsc: wait=
- fw
-> ready failed: -110 [  358.996446] intel_vsc intel_vsc: hw_start failed re=
-t =3D -110
-> fw status =3D [  358.997008] intel_vsc intel_vsc: unexpected reset: dev_s=
-tate =3D
-> RESETTING fw status =3D [  359.031049] ACPI Warning:
-> \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient arguments - Caller passed 0,
-> method requires 1 (20230628/nsarguments-232) [  359.035795] intel_vsc
-> intel_vsc: silicon stepping version is 0:2 [  359.051336] mei_hdcp
-> 0000:00:16.0-b638ab7e-94e2-4ea2-a552-d1c54b627f04: bound 0000:00:02.0
-> (ops i915_hdcp_ops) [  359.051432] OOM killer enabled.
-> [  359.051435] Restarting tasks ...
-> [  359.052195] mei_pxp 0000:00:16.0-fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1:
-> bound 0000:00:02.0 (ops i915_pxp_tee_component_ops) [  359.056184] done.
-> [  359.309627] PM: suspend exit
-> [  372.188053] vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
-> [  374.364551] vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110
-> [  374.364749] intel_vsc intel_vsc: wait fw ready failed: -110 [  374.364=
-755]
-> intel_vsc intel_vsc: hw_start failed ret =3D -110 fw status =3D [  374.36=
-4778]
-> intel_vsc intel_vsc: unexpected reset: dev_state =3D RESETTING fw status =
-=3D
-> [  374.399149] ACPI Warning: \_SB.PC00.SPI1.SPFD.CVFD.SID: Insufficient
-> arguments - Caller passed 0, method requires 1 (20230628/nsarguments-232)
-> [  374.406099] intel_vsc intel_vsc: silicon stepping version is 0:2 [  38=
-7.747776]
-> vsc-tp spi-INTC1094:00: wakeup firmware failed ret: -110 [  389.924474] v=
-sc-tp
-> spi-INTC1094:00: wakeup firmware failed ret: -110 [  390.045250] intel_vs=
-c
-> intel_vsc: wait fw ready failed: -110 [  390.045260] intel_vsc intel_vsc:
-> hw_start failed ret =3D -110 fw status =3D [  390.045294] intel_vsc intel=
-_vsc:
-> unexpected reset: dev_state =3D RESETTING fw status =3D [  390.045297] in=
-tel_vsc
-> intel_vsc: reset: reached maximal consecutive resets: disabling the devic=
-e
-> [  390.045324] intel_vsc intel_vsc: device disabled =3D -19
->=20
-> Best,
-> 	Dominik
->=20
-> ---
->=20
-> Subject: [PATCH] media: v4l: async: remove unused variable
->=20
-> ret is unused in v4l2_async_nf_register()
->=20
-> Signed-off-by: Dominik Brodowski <linux@dominikbrodowski.net>
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-
-> core/v4l2-async.c
-> index a722c5eb3230..3b43d6285dfe 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -620,8 +620,6 @@ static int __v4l2_async_nf_register(struct
-> v4l2_async_notifier *notifier)
->=20
->  int v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
->  {
-> -	int ret;
-> -
->  	if (WARN_ON(!notifier->v4l2_dev =3D=3D !notifier->sd))
->  		return -EINVAL;
->=20
 
