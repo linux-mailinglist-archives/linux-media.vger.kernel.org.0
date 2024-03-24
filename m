@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-7700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A82887F5F
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 23:09:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBB2887F63
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 23:10:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 350D41C210CC
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 22:09:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4475B2112D
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 22:10:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF2B53FE5D;
-	Sun, 24 Mar 2024 22:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A720741232;
+	Sun, 24 Mar 2024 22:09:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Di5ageRk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mW2ebm24"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99F03C6A4;
-	Sun, 24 Mar 2024 22:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A248229437;
+	Sun, 24 Mar 2024 22:09:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711318169; cv=none; b=Eoc5FQPOwzw3SGSsUe7cQmw6cQMYsFhGIEY9nS+XK3eXBYprqIztcpIwVrFDx5bk8NwixJQyDgeE0d1H2F6wRfb+t+ixtMaLLDa2W+osGi3nCg5MY6tPzgXoMxf7LVRdWyPoR+MDoiko13mARvVewddRYu68QcZQAKRZT4NkjdE=
+	t=1711318172; cv=none; b=hNukjjTYgN9x1VNLbdFP+tR+lL2/LgrObrNnmc4eqKD8dG3cDnAcUkcbquz7RPmMhnk9VM41HgbwmDbQdL6MHUFjGF3gMbYYiLXSF7U+JlHTDbzu67hVVhVFB8/3sSOzZ7M36pIV+eLKRPnN8lwPfzGYcJekbG7+erep3E3ge14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711318169; c=relaxed/simple;
-	bh=X6ebvbhEZ8tR2ooR8xxryzOzb4FeaPdl0Mzm6c/Isbw=;
+	s=arc-20240116; t=1711318172; c=relaxed/simple;
+	bh=OpAYbey42DqePJwgy0KOXMVv/HRM2FtVZG869QeQDUQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bfknrYznFXUbNGExsJFvdnquAjydxT/l/IsjV/NVq4sdvDbSDS1mIIQBd1znEeujY8/VL5tjAr4N05Czp83ZJCR4MAsk5d2F/AmExsiwySgt8tNdquvtGoRw8nA1mk3uPqLowLCyNKRiNW1NtwZlFe70B3U+zTiU+zeRVKEy9ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Di5ageRk; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=BA4r3QVEizmTc81469vHqPfAXTeToS7POtXst1UgTqkjb/eWy6E7OUAJwpmqLfTCbR3aM7L30xTndN1SizLdOplZ4VzvVpt5KX9LQ0l68x0vo2Hk8QG6ocZFuXXjbt/laA/PwJPpH/wTPwWGS9eIlzd2xRSARqyHuHDfaXWc9uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mW2ebm24; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B5871FB7;
-	Sun, 24 Mar 2024 23:08:52 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43DD32D6B;
+	Sun, 24 Mar 2024 23:08:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711318132;
-	bh=X6ebvbhEZ8tR2ooR8xxryzOzb4FeaPdl0Mzm6c/Isbw=;
+	s=mail; t=1711318134;
+	bh=OpAYbey42DqePJwgy0KOXMVv/HRM2FtVZG869QeQDUQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Di5ageRk3vibkXbMbVeTZx91739EIR4lEKsIrwLL4nZC7mI9zIDvkD4gzYtP+EmEs
-	 25KW3KfHtf2PoX9juDoQ+GZ+xvE4izmYbf/i26g1YAB5/IthzAVcB+gvrSG0Oe2764
-	 sLp0m8orA/2E4pmefboeb/xTAV9th/u8Q5ZVg+eA=
+	b=mW2ebm24IjaiCxldDl+XvsVQ6B3elNhM2nD5mm1RQHGihzNMrInDqMJsNMySZZXyb
+	 fDHf0L8phz5zyf0Qk0pfiFMxkKCkP7hmAXDIZI+6CvvmN3MPQ9KQaiqD05WO9PoWEZ
+	 /cU5OVa+1/wRFU9QAiGQnGuNXKMEnfcl5crzXSTA=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -59,9 +59,9 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org
-Subject: [PATCH v7 10/15] ARM: dts: bcm2835-rpi: Move firmware-clocks from bcm2711 to bcm2835
-Date: Mon, 25 Mar 2024 00:08:46 +0200
-Message-ID: <20240324220854.15010-11-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v7 11/15] ARM: dts: bcm2835: Add Unicam CSI nodes
+Date: Mon, 25 Mar 2024 00:08:47 +0200
+Message-ID: <20240324220854.15010-12-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
 References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
@@ -73,48 +73,99 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Raspberry Pi firmware handles clocks on all BCM2835-derived SoCs,
-not just on the BCM2711. Move the corresponding DT node from
-bcm2711-rpi.dtsi to bcm2835-rpi.dtsi.
+From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Add both MIPI CSI-2 nodes in the bcm283x tree and take care of the
+Raspberry Pi / BCM2711 specific in the related files.
+
+Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi | 5 -----
- arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi     |  8 +++++++
+ arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi | 14 ++++++++++++
+ arch/arm/boot/dts/broadcom/bcm283x.dtsi     | 24 +++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-index d233a191c139..86188eabeb24 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-@@ -20,11 +20,6 @@ aliases {
+diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
+index 22c7f1561344..1d8f9f80f935 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
+@@ -1114,6 +1114,14 @@ &rmem {
+ 	#address-cells = <2>;
  };
  
- &firmware {
--	firmware_clocks: clocks {
--		compatible = "raspberrypi,firmware-clocks";
--		#clock-cells = <1>;
--	};
--
- 	expgpio: gpio {
- 		compatible = "raspberrypi,firmware-gpio";
- 		gpio-controller;
++&csi0 {
++	interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
++};
++
++&csi1 {
++	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
++};
++
+ &cma {
+ 	/*
+ 	 * arm64 reserves the CMA by default somewhere in ZONE_DMA32,
 diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi b/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
-index f0acc9390f31..7e752a66bf8d 100644
+index 7e752a66bf8d..f2aad209187f 100644
 --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
 +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
-@@ -9,6 +9,11 @@ firmware: firmware {
+@@ -30,6 +30,20 @@ vchiq: mailbox@7e00b840 {
+ 	};
+ };
  
- 			mboxes = <&mailbox>;
- 			dma-ranges;
++&csi0 {
++	clocks = <&clocks BCM2835_CLOCK_CAM0>,
++		 <&firmware_clocks 4>;
++	clock-names = "lp", "vpu";
++	power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
++};
 +
-+			firmware_clocks: clocks {
-+				compatible = "raspberrypi,firmware-clocks";
-+				#clock-cells = <1>;
-+			};
++&csi1 {
++	clocks = <&clocks BCM2835_CLOCK_CAM1>,
++		 <&firmware_clocks 4>;
++	clock-names = "lp", "vpu";
++	power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
++};
++
+ &gpio {
+ 	gpioout: gpioout {
+ 		brcm,pins = <6>;
+diff --git a/arch/arm/boot/dts/broadcom/bcm283x.dtsi b/arch/arm/boot/dts/broadcom/bcm283x.dtsi
+index 2ca8a2505a4d..69b0919f1324 100644
+--- a/arch/arm/boot/dts/broadcom/bcm283x.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm283x.dtsi
+@@ -454,6 +454,30 @@ dsi1: dsi@7e700000 {
+ 			status = "disabled";
  		};
  
- 		power: power {
++		csi0: csi@7e800000 {
++			compatible = "brcm,bcm2835-unicam";
++			reg = <0x7e800000 0x800>,
++			      <0x7e802000 0x4>;
++			reg-names = "unicam", "cmi";
++			interrupts = <2 6>;
++			brcm,num-data-lanes = <2>;
++			status = "disabled";
++			port {
++			};
++		};
++
++		csi1: csi@7e801000 {
++			compatible = "brcm,bcm2835-unicam";
++			reg = <0x7e801000 0x800>,
++			      <0x7e802004 0x4>;
++			reg-names = "unicam", "cmi";
++			interrupts = <2 7>;
++			brcm,num-data-lanes = <4>;
++			status = "disabled";
++			port {
++			};
++		};
++
+ 		i2c1: i2c@7e804000 {
+ 			compatible = "brcm,bcm2835-i2c";
+ 			reg = <0x7e804000 0x1000>;
 -- 
 Regards,
 
