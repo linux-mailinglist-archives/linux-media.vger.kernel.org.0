@@ -1,174 +1,142 @@
-Return-Path: <linux-media+bounces-7706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3861887F6B
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 23:10:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1598890DA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 07:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10C581C2105A
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 22:10:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2A681F2BD39
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 06:29:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978CE44361;
-	Sun, 24 Mar 2024 22:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2881F1B677D;
+	Mon, 25 Mar 2024 00:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FFKbStno"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iF7DWwIh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956EA1CF92;
-	Sun, 24 Mar 2024 22:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8D2733F2;
+	Sun, 24 Mar 2024 23:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711318178; cv=none; b=l4dMW2lY63jSUCUDR39u3Yopp169KDfsg4xtGq9v1tRrp7UUQFl8vpPbOKVGIwmc7lrXbCV4xYc9jdc+Hg3wW1EGc2yu7QoITGiGdgyFXDQ9fjxYR1CjY+g57ieFK7ZLpP7+sronIDGRSuhQ0yQJBMyVssreITCruAjgGBydEW4=
+	t=1711323325; cv=none; b=V4i42sNwmFtejMoS6ppzpbJFpUqNNR6iU+iyog+EbCKmThdCMoybhazaS3dU8Nr23OUyz6qkz/AbangdluQmAr5yMEhRq+oiBv3/XnzjvNWbsoxNQYuauHUb3h0jrNQFSx9tNGR4vtByFbXUc010kkGyPumHyZJ7s35GkfyQCds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711318178; c=relaxed/simple;
-	bh=lEaMum6Hi4dQa17PbaGnwtoHBfI1CE4Ao30uOMkaZ/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ewoLYJ+Gs5NvIUUZw67pw9sDH9oIsyL+OOjyLehIJCZ4stwH89JC4026BmYhsHkO2eI2vXH8vRaUWwxMwJFG8LP5c7WvaLZrYsX1KTtY4d/Gl0yhaw32K/k+nMJ856f00onJ/ErpIBTsRDUM1qDwSjW+ec/uZrNlv/q1U8FBqxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FFKbStno; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DF461FB7;
-	Sun, 24 Mar 2024 23:09:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711318143;
-	bh=lEaMum6Hi4dQa17PbaGnwtoHBfI1CE4Ao30uOMkaZ/4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FFKbStnoNciTn9kQZ1IkKf70V71IlE+v5VZyU66toDyRAeky3jauDGIHC7wySiLFn
-	 LNk849GL8fcP3Ci2JUcNsKXp4BzfJOs/SA4AvGc75N9zMBL9JznTrG3kfbCO0iDVAx
-	 L/CtXw3N3/nZVL28hc2RWsvVGyhV2QZ7P/9QXlTo=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com,
-	linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v7 15/15] [DNI] arm64: dts: broadcom: Add overlay for Raspberry Pi 4B IMX219 camera
-Date: Mon, 25 Mar 2024 00:08:51 +0200
-Message-ID: <20240324220854.15010-16-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1711323325; c=relaxed/simple;
+	bh=w3DndtsjG6zas1wfMjz8RZMmPG7WJq8zOlcY33vgO1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rTGa00yHWOCy0w9IMnpQoUD3KDYqfX8zJuKF7G5p/jTW/laVf4vZcyQtujh32imp6F9s1ERucJSJIB8fOD4a3UhusvJjgPcHVOCP5uBemqwVo2T0NKQeDWirKAAGtt3IusoP0zZPFh5YbyqpItiOrGTj67v2cHiF9CoF13e3tTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iF7DWwIh; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=ghVT0JSAZhWZjIMzPkaSyKQMLg9eo2J9vvVmkWYzHY0=; b=iF7DWwIhKNw1JXqENX4aC5VQuT
+	Q+y8J0fuVGe5AwYlRzm3NLZujnu/cR27zhXmnagtXn8d3D3rIzlQWL/6pWHpEyOsjyQKu9U2fsYdZ
+	0j1Mu5FqrQQdlfn/nychyLmO+m2AXW7q8ktbLO3WvzRguveQN+9kvatO/5ZHsKHKGvl81OGqJ/bIy
+	sZGsGxnt09H55+3KNacdrD6wCQHPICcVluG/tqUD+roC24jyBL7Ek0i83zLxKbvBPSHsaoG9qMe/T
+	QWvbXHUSflmRJN4m5L8+F8u1KOq4Yn6T495UloKN1oQ8QbpHceqV4E+DC4cZ93dBQ+vH4TaLdVtcg
+	S6F8ELJQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1roXMv-0000000Dtyv-0e3z;
+	Sun, 24 Mar 2024 23:35:13 +0000
+Date: Sun, 24 Mar 2024 16:35:13 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, David Wei <dw@davidwei.uk>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZgC4sWfHFGTY9HzY@infradead.org>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
+ <ZfegzB341oNc_Ocz@infradead.org>
+ <b938514c-61cc-41e6-b592-1003b8deccae@davidwei.uk>
+ <ZfjMopBl27-7asBc@infradead.org>
+ <CAHS8izMT1Smz6UWu2uwAQRqgZPU7jTfS3GKiA_sDw9KLqoP-JA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izMT1Smz6UWu2uwAQRqgZPU7jTfS3GKiA_sDw9KLqoP-JA@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-For testing only at this point.
+On Fri, Mar 22, 2024 at 10:40:26AM -0700, Mina Almasry wrote:
+> Hi Christoph,
+> 
+> Sorry for the late reply, I've been out for a few days.
+> 
+> On Mon, Mar 18, 2024 at 4:22 PM Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Sun, Mar 17, 2024 at 07:49:43PM -0700, David Wei wrote:
+> > > I'm working on a similar proposal for zero copy Rx but to host memory
+> > > and depend on this memory provider API.
+> >
+> > How do you need a different provider for that vs just udmabuf?
+> >
+> 
+> This was discussed on the io_uring ZC RFC in one of the earliest RFCs.
+> Here is a link to Pavel's response:
+> 
+> https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.2801438-6-almasrymina@google.com/#25589471
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- arch/arm64/boot/dts/broadcom/Makefile         |  2 +
- .../dts/broadcom/bcm2711-rpi-4-b-imx219.dtso  | 65 +++++++++++++++++++
- 2 files changed, 67 insertions(+)
- create mode 100644 arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso
+Undesirable is not a good argument.  We need one proper API that
+different subsystems share for this use case (this is the same Feedback
+I gave Keith for the similar block proposal btw, not picking on the net
+folks here).
 
-diff --git a/arch/arm64/boot/dts/broadcom/Makefile b/arch/arm64/boot/dts/broadcom/Makefile
-index 8b4591ddd27c..a64cfef8bd9a 100644
---- a/arch/arm64/boot/dts/broadcom/Makefile
-+++ b/arch/arm64/boot/dts/broadcom/Makefile
-@@ -12,6 +12,8 @@ dtb-$(CONFIG_ARCH_BCM2835) += bcm2711-rpi-400.dtb \
- 			      bcm2837-rpi-cm3-io3.dtb \
- 			      bcm2837-rpi-zero-2-w.dtb
- 
-+bcm2711-rpi-4-b-imx219-dtbs := bcm2711-rpi-4-b.dtb bcm2711-rpi-4-b-imx219.dtbo
-+
- subdir-y	+= bcmbca
- subdir-y	+= northstar2
- subdir-y	+= stingray
-diff --git a/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso b/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso
-new file mode 100644
-index 000000000000..33c3219ca4c3
---- /dev/null
-+++ b/arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso
-@@ -0,0 +1,65 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Definitions for IMX219 camera module on VC I2C bus
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&{/} {
-+	cam1_clk: cam1_clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <24000000>;
-+	};
-+};
-+
-+&csi1 {
-+	status = "okay";
-+
-+	port {
-+		csi_ep: endpoint {
-+			remote-endpoint = <&cam_endpoint>;
-+			clock-lanes = <0>;
-+			data-lanes = <1 2>;
-+			clock-noncontinuous;
-+		};
-+	};
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c0_1 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	camera@10 {
-+		compatible = "sony,imx219";
-+		reg = <0x10>;
-+
-+		clocks = <&cam1_clk>;
-+		clock-names = "xclk";
-+
-+		VANA-supply = <&cam1_reg>;	/* 2.8v */
-+		VDIG-supply = <&cam1_reg>;	/* 1.8v */
-+		VDDL-supply = <&cam1_reg>;	/* 1.2v */
-+
-+		rotation = <180>;
-+		orientation = <2>;
-+
-+		port {
-+			cam_endpoint: endpoint {
-+				remote-endpoint = <&csi_ep>;
-+				clock-lanes = <0>;
-+				data-lanes = <1 2>;
-+				clock-noncontinuous;
-+				link-frequencies = /bits/ 64 <456000000>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c0mux {
-+	status = "okay";
-+};
--- 
-Regards,
-
-Laurent Pinchart
+If dmabuf/udmabuf doesn't work for that we need to enhance or replace
+it, but not come up with little subsystem specific side channels.
 
 
