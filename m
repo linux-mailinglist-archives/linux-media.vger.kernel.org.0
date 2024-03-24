@@ -1,56 +1,90 @@
-Return-Path: <linux-media+bounces-7681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF38B887B37
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 01:45:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB4D887C18
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 10:29:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48763282545
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 00:45:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17A961F217AF
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 09:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D6C81E;
-	Sun, 24 Mar 2024 00:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA5E171B6;
+	Sun, 24 Mar 2024 09:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H7ePD2UT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDsg1x2f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4951625
-	for <linux-media@vger.kernel.org>; Sun, 24 Mar 2024 00:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A398831;
+	Sun, 24 Mar 2024 09:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711241098; cv=none; b=hTEWtmJz5DiNhWKHOVvWS5zM3NkLk5bwi3oQuPK5tx9DgH+m+OrEmGreMbndqIgLBl82Vbdy6OKf1NLs1VaO90Ob2gL4yU+yA9ZCqEPp+A3meN6dCazPlIaNI7AHoxBmT57NNZDGDxVHToYfKJsGcCnBOdYfsajG28xL7Kn20SA=
+	t=1711272566; cv=none; b=kNRTSoMtqOUJ+HnP9jWJblTfXvwryWZG6DJ2QyLjEHjz3hx9mA8qdt3amjrr/wswu2eYE/nVPbouPSyrXF7S3ZeatwoPV9AXXTN27brMNZuIlYWeKTLIX2WdVzNfe7vpBAKsuNfnOIbxiKmcdKS72zecANyxoYJONF5FfuMtLfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711241098; c=relaxed/simple;
-	bh=iaatkivhxlH9naAXzFTEN6dbcjm4bhD8vnO4kDFsUbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fPWdgHHiwBJS11vJigvPqXSCOK/3AikgZwIH507shk0Ep9iUST15dg5lOQrnsCDRzBZ4fTpBhNIoOuwgMrY3Fq6sVjmeww3/MX1lB8F0rjxgeUSRt3dgGY3vrOOWUPATmCNBEs/ApadzrXASRsBIKykEkWgHQVnYp50bmpILLwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H7ePD2UT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C09C4989;
-	Sun, 24 Mar 2024 01:44:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711241065;
-	bh=iaatkivhxlH9naAXzFTEN6dbcjm4bhD8vnO4kDFsUbI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H7ePD2UTQU80uWDfX5qUqPg/BmAHh/wuKoVuk3CX6BFKdFEQqvfmB67PBJV3vh8+7
-	 CI8zO9V8p+/UE8LACqEORcyoa+ZsaXfRTmY05ebq/z+C8H1Dk05fsMOpKugpu17YnZ
-	 KP/+/elPZou8Y0sopXE3NS3KpIouHfVZzQfllnPg=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [raw2rgbpnm] [PATCH 2/2] Add YUVA32 and YUVX32 4:4:4 packed pixel formats support
-Date: Sun, 24 Mar 2024 02:44:40 +0200
-Message-ID: <20240324004447.3399-2-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240324004447.3399-1-laurent.pinchart@ideasonboard.com>
-References: <20240324004447.3399-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1711272566; c=relaxed/simple;
+	bh=kJA1ENfcVIOkNw3avk4+tDK8aEfaH/g6voWzg9aHL18=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hN8hBVYs3EHIc1aznxlegRTIfzUCYbsB8jGlfpSW4PYRHmnJ7A02CF1/Lh578z1xdeD4mq86aI981rvgasdJvlhDzj8tWZhJECcVe7NfKkW7Kz5fhAAvKSQYRWtRHmcpc6wWrhsXKU3BY8tJSnXpILnPYcsYEOwuXlQVAMbcNMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDsg1x2f; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1de0f92e649so23670365ad.0;
+        Sun, 24 Mar 2024 02:29:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711272565; x=1711877365; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o611cLqDFm70Z0Jt+IMAjJ8j+5plaV1gN+jC5Ar2By4=;
+        b=ZDsg1x2f+nDdfdRuKuC7cXlFtS3k6R2UhQbg1KfMo4m4CTaECtcbx/csfubNVkBHg4
+         KQhNLTWs6wrHkVYXTRq14UDKfDGQ0hdFzHGyI9ODMqWLtYLUIOORbuWleYdqUIeImjtG
+         gVKGTOeJujg4I6w3tyF6wnGfnIiO7mllrru/krUl7cLYxjF6JT5SqltQtstmKzEmq1hd
+         vT8uD87IYWZU6zazKb2N5VwkC3gIXVMrjwnEf09pHNsg3o5txE3jqPgD9SBWfqpivtbM
+         u4NH1Nx4y9v6GLdeIaCOJH1ILHwxrrDdd6+DtNa7zj3oTRy3tyknJogDoOfjkBgr+gCg
+         Iing==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711272565; x=1711877365;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o611cLqDFm70Z0Jt+IMAjJ8j+5plaV1gN+jC5Ar2By4=;
+        b=ec/3jI18qq3Ha6jrqIWQsIY8iwcgeFlgtj2JH3eOOr8YmO4UxNj4s/4tfaKWBVIpwu
+         lVt4g8+S0T+ZZH+UvFm9BLjhLUcXF6iuoRBM7xDpF1gqZWllrfGw8QIbj6cG7Qj7ky1k
+         yzLx3Py2VTRykAU7UWHYSaNlg5oAmuNDz7xcKQrbYjUIGnAkbSMY0uZN/HGG91KjMiM/
+         JN1rtjVAUhIppdWoZL9Xo/GdsbiNY2xXjBfXEzd/bvlmOSMPH4jO1QFBUDqoGipnSVjC
+         0XLld+9rE6+CDuAP/4t8htR/76QayoOli/wAmYpTxaH9mKQ3W+ieQEPRJ7xNEOS7ZGxc
+         QefA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJPcKORqASkhV+6ohv+cAE3rUy+I252JyH4JvKMFMp/M4tVU/xejz5MRdHw/D2/mYv4T2wQebxFuVVVXiwaxMfel0H42VM0Oy5RGCG78tMovvFkLLDk9LEf9d6B2xFXo+Sx4a6+oVylgo=
+X-Gm-Message-State: AOJu0Yy9HS0y37I5E7Ex3mSxyArL9fS0af8AlfencfA/H9ifJbMnLktu
+	Nu8iYp+OkxJ3wH7rrFCwuj8uKBOIGTkdBNi+mB1v3quG5Nio7dDa
+X-Google-Smtp-Source: AGHT+IFvawNc97ardr5RtDisvgJA38GFboOggdtFCS3O754mL/vF+2DKsMyOKtUSOxQENHyFOa9F6Q==
+X-Received: by 2002:a17:902:e542:b0:1e0:b5d4:9fcb with SMTP id n2-20020a170902e54200b001e0b5d49fcbmr1110472plf.34.1711272564702;
+        Sun, 24 Mar 2024 02:29:24 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c2:1004:e7c1:d108:f4f6:f7c6:2fde])
+        by smtp.gmail.com with ESMTPSA id y12-20020a170902ed4c00b001e0a28f61d0sm2717347plb.70.2024.03.24.02.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Mar 2024 02:29:24 -0700 (PDT)
+From: coolrrsh@gmail.com
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Rajeshwar R Shinde <coolrrsh@gmail.com>
+Subject: [PATCH v1] staging: media: remove duplicates
+Date: Sun, 24 Mar 2024 14:59:17 +0530
+Message-Id: <20240324092917.19177-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,43 +93,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-The YUVA32 and YUVX32 formats are permutations of other YUV 4:4:4 packed
-pixel formats. Support them.
+In Kconfig, the kernel configuration VIDEO_DEV is defined twice.
+To prevent doing repeated checks, the redundant code was replaced.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+
 ---
- raw2rgbpnm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/staging/media/imx/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/raw2rgbpnm.c b/raw2rgbpnm.c
-index 6cada340776f..a2e278975d90 100644
---- a/raw2rgbpnm.c
-+++ b/raw2rgbpnm.c
-@@ -76,6 +76,8 @@ static const struct format_info {
- 	{ V4L2_PIX_FMT_XYUV32,	32, 8,  "XYUV32 (32-bit XYUV 8-8-8-8)", 1, 2, 3 },
- 	{ V4L2_PIX_FMT_VUYA32,	32, 8,  "VUYA32 (32-bit VUYA 8-8-8-8)", 2, 1, 0 },
- 	{ V4L2_PIX_FMT_VUYX32,	32, 8,  "VUYX32 (32-bit VUYX 8-8-8-8)", 2, 1, 0 },
-+	{ V4L2_PIX_FMT_YUVA32,	32, 8,  "YUVA32 (32-bit YUVA 8-8-8-8)", 0, 1, 2 },
-+	{ V4L2_PIX_FMT_YUVX32,	32, 8,  "YUVX32 (32-bit YUVX 8-8-8-8)", 0, 1, 2 },
- 	{ V4L2_PIX_FMT_YUV411P,	12, 8,  "YUV411P (12 YUV 4:1:1 planar)", 0, 0, 1 },
- 	{ V4L2_PIX_FMT_YUV420,	12, 8,  "YUV420P (12 YUV 4:2:0 planar)", 0, 0, 1 },
- 	{ V4L2_PIX_FMT_YVU420,	12, 8,  "YVU420P (12 YVU 4:2:2 planar)", 0, 1, 0 },
-@@ -267,7 +269,9 @@ static void raw_to_rgb(const struct format_info *info,
- 	case V4L2_PIX_FMT_AYUV32:
- 	case V4L2_PIX_FMT_XYUV32:
- 	case V4L2_PIX_FMT_VUYA32:
--	case V4L2_PIX_FMT_VUYX32:		/* Packed YUV 4:4:4 */
-+	case V4L2_PIX_FMT_VUYX32:
-+	case V4L2_PIX_FMT_YUVA32:
-+	case V4L2_PIX_FMT_YUVX32:	/* Packed YUV 4:4:4 */
- 		y_pos = info->y_pos;
- 		cb_pos = info->cb_pos;
- 		cr_pos = info->cr_pos;
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index 21fd79515042..772f49b1fe52 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
+ 	depends on ARCH_MXC || COMPILE_TEST
+ 	depends on HAS_DMA
+ 	depends on VIDEO_DEV
+-	depends on VIDEO_DEV
+ 	select MEDIA_CONTROLLER
+ 	select V4L2_FWNODE
+ 	select V4L2_MEM2MEM_DEV
 -- 
-Regards,
-
-Laurent Pinchart
+2.25.1
 
 
