@@ -1,150 +1,128 @@
-Return-Path: <linux-media+bounces-7685-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD97887C6F
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 12:08:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6386887C75
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 12:10:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 027C4281532
-	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 11:07:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FF3E1F2158D
+	for <lists+linux-media@lfdr.de>; Sun, 24 Mar 2024 11:10:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C05D175BC;
-	Sun, 24 Mar 2024 11:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E66B17756;
+	Sun, 24 Mar 2024 11:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b="mKOYkhU2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdOmj8Ip"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB15717BBB
-	for <linux-media@vger.kernel.org>; Sun, 24 Mar 2024 11:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA87F9;
+	Sun, 24 Mar 2024 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711278473; cv=none; b=dhdHr4OY8Zb98sVE20zGK3yz2sgkKOFgFDwcrgXLmG0FDcQwrW9BVIyIUlC2rP0i08aJHISfbaNbrTbb+bwTDbfj25IsYBod4oa1BbSP4PiL0lP+ef5iNE0+bGCWKT88GndP8dbvF1ta6xjn9TwN5RxlAD3mnwh6HFwCvsN5EbM=
+	t=1711278648; cv=none; b=WN9EB/GJiNR7G+U+fG3aqB7VeFb6UpIduVmbQMMclvj1Nd3Pii1o284Y/b4CkgK2i8BIdNRoTDlIxd1IETwitwPx6+kYrbvsm2MTnO2E6uN1D7n8Chf4kFntUIZL19+UK90nMs4QQn10Gwuse7Jg/iSWO8Z4zCJUtroqS2Fev+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711278473; c=relaxed/simple;
-	bh=rQSGqh8ZgQlbovmB8agL76tg0pX748kFaVdBRhbBibE=;
-	h=Content-Type:Message-ID:Date:MIME-Version:From:To:Subject; b=Vgz5rTi8DUl1LcY9tmSlGykInarq9q6QbYcdyguXGoZwkvl4pGXJHZvogGD643sRYJ73tRNxNf5W/TeCfvGWf5g0ednufntKljOrr2jDRR/3D8zy1XJcp8TUF8v9YJPcVGurb/xmgdj3+tZ0LVn1UtN+RCCANRIjdmaWso2F8ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b=mKOYkhU2; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
-	s=s31663417; t=1711278468; x=1711883268; i=yarny@public-files.de;
-	bh=rQSGqh8ZgQlbovmB8agL76tg0pX748kFaVdBRhbBibE=;
-	h=X-UI-Sender-Class:Date:From:To:Subject;
-	b=mKOYkhU2LnchuEkuHaoZShi2Ty/pmT1POk3UT7neuctRkjJOf1o24o24B86094sr
-	 ZjvSkhucRWkZ5WFcHJiZO2aF9gkxV53YfMCye+hq1gmXIyJgC4m2pikvpIbyPxAg4
-	 FO0jjscFQXjQB3HItaQcaGj53xdbp6zk3m+Ieel5Nf8XgwDBoPiRcm1SldAYSIc+7
-	 pPjpMIFRPBpnU7micvUJp/vmQx6r3JIVZGYqGAsqKW5vAEmKEAIRyfxn32GfsI/HF
-	 /uXA3r8bnNhhXPNtUCDhp76W+K51rMXDpvtLMFNNS29Zn1Ve/XxBUYuhwlYIZVVPQ
-	 yzGkzSNgHAZ2lpu9+A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([178.27.100.65]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MnakR-1sXtbN2wNx-00jXZZ; Sun, 24
- Mar 2024 12:07:48 +0100
-Content-Type: multipart/mixed; boundary="------------y21WNfg5LTrkdRp8rT8J5Qs4"
-Message-ID: <75149976-693b-444e-b4cc-dd2dd86ea1d7@public-files.de>
-Date: Sun, 24 Mar 2024 11:07:00 +0000
+	s=arc-20240116; t=1711278648; c=relaxed/simple;
+	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AzLipZMaqjkBBHaCv0ODOKvQJJ5H+6LYx9MfbDUEAUAgvwO+jvo/98cf8urchR5Vra7X5kG6ynKN3XsK3BO3SYZE0GYvQZ33v4wAAamXgqMsIB2AGOdDCEj57Cd1rXvv0mvRt6aB52rl6Bl5r5Qwbc92zhafuAqj8yL/H+dUoxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdOmj8Ip; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070DBC433C7;
+	Sun, 24 Mar 2024 11:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711278647;
+	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qdOmj8IpSvL3J1HmB8y+mew6CrhOA5NEiJ+Rg96N5Ypb0+1f6aHFpehOcU8yMYb1T
+	 K+47LI2WbRdPyAtvyY5X9mIQEBr9Pt+UpiFubwh09VFW0BMVCFaSPhauvft+3QF0ta
+	 9/ZFA5SCCUitIIwkoOTDD3W2+ivaUkMR2V7NgvG6xR2tqP65XaCWCFY2JQRU4TtM4S
+	 CxIYu4u5VRpCBy2i5e+K5CELBbNGfgrL6KbZOWBh2Yn5WZRVpuU8qauoXFqQga+Ucl
+	 Z5wWRlAxqQv/w5DNHX2WaHoSzjmRBN42Kzg//5BJDZT4VmaLFknBalJp5xjyeSY43z
+	 TLSSlAUd1MY9w==
+Date: Sun, 24 Mar 2024 11:10:29 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 0/6] iio: new DMABUF based API
+Message-ID: <20240324111029.3c57b885@jic23-huawei>
+In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: de-DE, en-US
-From: Yarny <Yarny@public-files.de>
-To: linux-media@vger.kernel.org
-Subject: dtv-scan-tables: Gaisberg update and tarballs
-X-Provags-ID: V03:K1:0dlBk4ZpSgNNTS9/QF+uBdUd5ReE69khfgFXq3i6mzxNT2t8iDs
- nP8a4zCODCFZeoyhIddssAkF8jgUzmUWPn+Q9OtEP39HN976Kt87NwUh3S9Y4Qes1XQyJIU
- dVVKIiOv+9V7dASnWDaQGZ7E30PPVOOfkX3+85ypzoRxfWVf68ZyCWZmkeXUZF8cI1L+hkn
- tDgrRNuOgOVDHk5nDSq8w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fchUz+ytXrw=;2BKCHTUaKVDe0QUN5bgrl6RQyIj
- 3AH+SF3JLTwzZJu83vRgkCrAELnxe0iFxXfl34Crw6kwvguc1HKcs05cNvidt9YUE9IdpvBqG
- NBCMOnLBm6kihU5yJJz9D4gfgMMcRu00UTf1a/oBoTYc4y7x4ivR5q9vDhbYHCwrHwgTe0Eso
- 8te/aQCifeRat3oPweA1jrzZK43AagBsjVUFj9lJRnTdyCwX4R4R42C0Xtivkm0HqS3l6PQDv
- wd4kXq2UH8X6hh5VfbMcg3Gv1KYg/zVjvtMn+B9KK0XuUVRbsACd5IvoIL1Gth2YrF8Y8FNh2
- nzwUbVzU2n9fz8/vSp94/6yEt9wXUyy+UVwYn55oNEM0cXIix2ghZmsW6Rtbi/s2STdVj2eSu
- YS8HMp/3AaiicNpjeOC4di5rdTyJ9XC73css31OGfM5kEtDFJtz9Gsn0s1AQFITyJt47OvFAv
- XzlKfYQ2RsFwSZUI5dH1NZy+RSpM0yC7yiqRikBBOsC645SWMR06fny4BN3hidTqkAq1Hbz6s
- +PDNB9RZSayEfRvsLxJdz//cQdqE9dJjPzTRIxXJYsJkQVf1Zz1lOB6EJtW7BRlTcLPYyqcmw
- boJsq+m3VxPM0YbqSGKUXyX21BFLrY6p8fhwM/9ZVUssdRdz6v+ldKFqp1F5iUVdCZV8IhSxR
- crz/ir0sDm7+/K6LWv3C91Wf5FPTlw1YXdKXGDGQ8Zuds6UI7J/+h9HI4+VsM4IpWvEpHcHlJ
- UYb0NT3M+iZh3qZcSxB0w4AY65jkQ9JTG01Rjipn18vHqZW/reDKnXr6XcGK1G10a4rgQ62BZ
- RqSRAfkPklAgA5974AJpADGLnxMgbOUVPb6kbmeJfpiS8=
-
-This is a multi-part message in MIME format.
---------------y21WNfg5LTrkdRp8rT8J5Qs4
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi linux-media,
+On Sun, 10 Mar 2024 13:48:29 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-please find attached a patch for dtv-scan-tables that
-adds a missing dvb-t2 transmitting station from Austria.
+> Hi Jonathan,
+> 
+> Here's the final-er version of the IIO DMABUF patchset.
+> 
+> This v9 fixes the few issues reported by the kernel bot.
+> 
+> This was based on next-20240308.
+> 
+> Changelog:
+> 
+> - [3/6]:
+>     - Select DMA_SHARED_BUFFER in Kconfig
+>     - Remove useless forward declaration of 'iio_dma_fence'
+>     - Import DMA-BUF namespace
+>     - Add missing __user tag to iio_buffer_detach_dmabuf() argument
 
-Also:
-I'm maintaining the dtv-scan-tables package of NixOS.
-Are the tarballs in
-https://linuxtv.org/downloads/dtv-scan-tables/
-still updated?
-Or should we abandon that source and
-fetch directly from the git repo instead?
+Merge window is coming to an end, and whilst we obviously have
+plenty of time left in this cycle, I would like to get this queued
+up fairly early so any issues can shake out and the various series
+that will build on this can progress.
 
-Thanks and best regards -- Yarny
---------------y21WNfg5LTrkdRp8rT8J5Qs4
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-dvb-t-at-All-add-Salzburg-Gaisberg-dvb-t2-transponde.patch"
-Content-Disposition: attachment;
- filename*0="0001-dvb-t-at-All-add-Salzburg-Gaisberg-dvb-t2-transponde.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
+Hopefully Paul has addressed all remaining comments.
+So I'm looking for RB or Ack for DMABUF and dmaengine parts from
+respective reviewers/maintainers.
 
-RnJvbSBiNGYyYTY4OTZkYzA1OTNhMmQ4NDY1NzU3MmM3ZDYyMDQ3Mjg4MzljIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBZYXJueSA8WWFybnlAcHVibGljLWZpbGVzLmRlPgpE
-YXRlOiBTdW4sIDI0IE1hciAyMDI0IDExOjM5OjU2ICswMTAwClN1YmplY3Q6IFtQQVRDSF0g
-ZHZiLXQvYXQtQWxsOiBhZGQgU2FsemJ1cmcvR2Fpc2JlcmcgZHZiLXQyIHRyYW5zcG9uZGVy
-cwoKVGFrZW4gZnJvbQpodHRwczovL2RlLndpa2lwZWRpYS5vcmcvdy9pbmRleC5waHA/dGl0
-bGU9U2VuZGVyX0dhaXNiZXJnJm9sZGlkPTI0MzI2NDE3OAoKTWF5YmUgdGhlc2Ugc2hvdWxk
-IGJlIHNwbGl0IGludG8gc2VwYXJhdGUgYXQtKgpmaWxlcywgZWFjaCBmb3Igb25lIEF1c3Ry
-aWFuIHRyYW5zbWl0dGVyIHN0YXRpb24uCkhvd2V2ZXIsIEkgZG9uJ3Qga25vdyBtdWNoIGFi
-b3V0IG90aGVycyAtLQpJIGNhbiBoYXJkbHkgcmVjZWl2ZSBzaWduYWxzIGZyb20gR2Fpc2Jl
-cmcuClRoZXNlIGFyZSBub3cgbWFya2VkIHdpdGggZGlzdGluY3QgbmFtZXMgIkdhaXNiZXJn
-LSIKdG8gZmFjaWxpdGF0ZSBmdXJ0aGVyIHN0cnVjdHVyaW5nIGxhdGVyb24uCi0tLQogZHZi
-LXQvYXQtQWxsIHwgNjQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDY0IGluc2VydGlvbnMoKykKCmRpZmYg
-LS1naXQgYS9kdmItdC9hdC1BbGwgYi9kdmItdC9hdC1BbGwKaW5kZXggYjgzMzYzZDEuLmFj
-ZTllMzYxIDEwMDY0NAotLS0gYS9kdmItdC9hdC1BbGwKKysrIGIvZHZiLXQvYXQtQWxsCkBA
-IC03NiwzICs3Niw2NyBAQAogCUlOVkVSU0lPTiA9IEFVVE8KIAlTVFJFQU1fSUQgPSAxCiAK
-K1tHYWlzYmVyZy1NVVhBLUszMl0KKwlERUxJVkVSWV9TWVNURU0gPSBEVkJUMgorCUZSRVFV
-RU5DWSA9IDU2MjAwMDAwMAorCUJBTkRXSURUSF9IWiA9IDgwMDAwMDAKKwlDT0RFX1JBVEVf
-SFAgPSBBVVRPCisJQ09ERV9SQVRFX0xQID0gQVVUTworCU1PRFVMQVRJT04gPSBRQU0vQVVU
-TworCVRSQU5TTUlTU0lPTl9NT0RFID0gQVVUTworCUdVQVJEX0lOVEVSVkFMID0gQVVUTwor
-CUhJRVJBUkNIWSA9IEFVVE8KKwlJTlZFUlNJT04gPSBBVVRPCisJU1RSRUFNX0lEID0gMQor
-CitbR2Fpc2JlcmctTVVYQi1LMjldCisJREVMSVZFUllfU1lTVEVNID0gRFZCVDIKKwlGUkVR
-VUVOQ1kgPSA1MzgwMDAwMDAKKwlCQU5EV0lEVEhfSFogPSA4MDAwMDAwCisJQ09ERV9SQVRF
-X0hQID0gQVVUTworCUNPREVfUkFURV9MUCA9IEFVVE8KKwlNT0RVTEFUSU9OID0gUUFNL0FV
-VE8KKwlUUkFOU01JU1NJT05fTU9ERSA9IEFVVE8KKwlHVUFSRF9JTlRFUlZBTCA9IEFVVE8K
-KwlISUVSQVJDSFkgPSBBVVRPCisJSU5WRVJTSU9OID0gQVVUTworCVNUUkVBTV9JRCA9IDEK
-KworW0dhaXNiZXJnLU1VWEQtSzQ3XQorCURFTElWRVJZX1NZU1RFTSA9IERWQlQyCisJRlJF
-UVVFTkNZID0gNjgyMDAwMDAwCisJQkFORFdJRFRIX0haID0gODAwMDAwMAorCUNPREVfUkFU
-RV9IUCA9IEFVVE8KKwlDT0RFX1JBVEVfTFAgPSBBVVRPCisJTU9EVUxBVElPTiA9IFFBTS9B
-VVRPCisJVFJBTlNNSVNTSU9OX01PREUgPSBBVVRPCisJR1VBUkRfSU5URVJWQUwgPSBBVVRP
-CisJSElFUkFSQ0hZID0gQVVUTworCUlOVkVSU0lPTiA9IEFVVE8KKwlTVFJFQU1fSUQgPSAx
-CisKK1tHYWlzYmVyZy1NVVhFLUszOF0KKwlERUxJVkVSWV9TWVNURU0gPSBEVkJUMgorCUZS
-RVFVRU5DWSA9IDYxMDAwMDAwMAorCUJBTkRXSURUSF9IWiA9IDgwMDAwMDAKKwlDT0RFX1JB
-VEVfSFAgPSBBVVRPCisJQ09ERV9SQVRFX0xQID0gQVVUTworCU1PRFVMQVRJT04gPSBRQU0v
-QVVUTworCVRSQU5TTUlTU0lPTl9NT0RFID0gQVVUTworCUdVQVJEX0lOVEVSVkFMID0gQVVU
-TworCUhJRVJBUkNIWSA9IEFVVE8KKwlJTlZFUlNJT04gPSBBVVRPCisJU1RSRUFNX0lEID0g
-MQorCitbR2Fpc2JlcmctTVVYRi1LNDJdCisJREVMSVZFUllfU1lTVEVNID0gRFZCVDIKKwlG
-UkVRVUVOQ1kgPSA2NDIwMDAwMDAKKwlCQU5EV0lEVEhfSFogPSA4MDAwMDAwCisJQ09ERV9S
-QVRFX0hQID0gQVVUTworCUNPREVfUkFURV9MUCA9IEFVVE8KKwlNT0RVTEFUSU9OID0gUUFN
-L0FVVE8KKwlUUkFOU01JU1NJT05fTU9ERSA9IEFVVE8KKwlHVUFSRF9JTlRFUlZBTCA9IEFV
-VE8KKwlISUVSQVJDSFkgPSBBVVRPCisJSU5WRVJTSU9OID0gQVVUTworCVNUUkVBTV9JRCA9
-IDEKLS0gCjIuNDIuMAoK
+Thanks
 
---------------y21WNfg5LTrkdRp8rT8J5Qs4--
+Jonathan
+
+> 
+> Cheers,
+> -Paul
+> 
+> Paul Cercueil (6):
+>   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+>   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+>   iio: core: Add new DMABUF interface infrastructure
+>   iio: buffer-dma: Enable support for DMABUFs
+>   iio: buffer-dmaengine: Support new DMABUF based userspace API
+>   Documentation: iio: Document high-speed DMABUF based API
+> 
+>  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+>  Documentation/iio/index.rst                   |   1 +
+>  drivers/dma/dma-axi-dmac.c                    |  40 ++
+>  drivers/iio/Kconfig                           |   1 +
+>  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+>  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+>  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+>  include/linux/dmaengine.h                     |  27 +
+>  include/linux/iio/buffer-dma.h                |  31 ++
+>  include/linux/iio/buffer_impl.h               |  30 ++
+>  include/uapi/linux/iio/buffer.h               |  22 +
+>  11 files changed, 891 insertions(+), 17 deletions(-)
+>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+> 
+
 
