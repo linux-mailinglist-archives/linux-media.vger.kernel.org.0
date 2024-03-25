@@ -1,221 +1,157 @@
-Return-Path: <linux-media+bounces-7774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25AA88AB16
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:14:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8603B88AB42
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:18:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6AF51C3E436
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:14:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3F691FA034C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:18:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D531509A1;
-	Mon, 25 Mar 2024 15:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A92B657883;
+	Mon, 25 Mar 2024 16:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Fi0zXIT8";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="bAOTpY5j"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="F4DiX7MJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AFB130E2F;
-	Mon, 25 Mar 2024 15:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076394EB2E
+	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 16:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711381951; cv=none; b=TE3mk1WRn8o9AScObLaMoP3Yl6cEQO50sbNLsrQxGgSgewZfD3EbXIANr6ZxCpjeVEnE6rAp/I62QQVTxG9MFY70U6qRRYraoSxB5AIphvg/MDTI+k64wXzKF97uT0cpM7Fvo8sBDbxbAh8HlJ7aSQmyruvB0AsSIMVXY+JN2zM=
+	t=1711382451; cv=none; b=gEw3kltpDcNX6ZiJL2Dz5nelXLiH6nhY9mcUfxT3G6swIhL1DSf9qMEwQvwP3ALo8GFNho4h5RUYX8IaqP04NT0HfhxpP3fpXd88j2LfTkeFuseDTjf5v98V4Pm7EtRhw3UUelFF1Y6/TNzAFcbTqLVm3xjujYxE7dSyab22zrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711381951; c=relaxed/simple;
-	bh=lRJ4A79DygCuqxWRqDnD+NNRnkayTPbDzZFwZb4A6oM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YyKsSmW5EAs0M5NaFW11OTfKJpELlQ7vsnPiI1xXWU2STvt1uoWlabz5/WPl1Di2HTVVbDAjsf92qhWO84ZD2wttJGKxCjkWodKpHMEU83m8182vgDauoY3nM3gwGUfAJM8EtvD9Q9zBDcdxw5KW4kLElH7QfCWMdYvFAqpYBmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=Fi0zXIT8; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=bAOTpY5j reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1711382451; c=relaxed/simple;
+	bh=wqQe2DJZDzzMYImWv6Ki1IImWaVqSXITlgGJEpik5FA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ULmO3JzDaNQBfWUMOQUdfBp/Eet8heeOye72opSsgDNlDsTrp9lHcv6mVo7X64Iw4VbnBwuYa4l8kRBZAmuBE+yKfwhQZ8+esldNZbLGenM2WzfiQEJSAyKW0BGW7+gsi2Hfnnpe7Y9Xn1fy1tDxHxvIVKj3nhusgZCHQZaGcxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=F4DiX7MJ; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34175878e3cso3216475f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 09:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1711381948; x=1742917948;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=QtCjA8jF6LdIH1jHhbsQNsROhaw0D6l+AUhvNB1YUh4=;
-  b=Fi0zXIT82DvQGKlnO600+MC1pqsMCSbZKuE1pzDo4OZvs3xUXKjfZnDd
-   NrXNpXn5cEDalnbi3e83w5uP+yx3LHpwjNg6it7GLOLdNAXBzN1Zs81B1
-   Jh88qJJ6LXcuuiMwaoVhAssduZejeJur9/Ipp0ybhJOXqXI7vCQx2F+Qv
-   xevYlQCm5SfOFKWPVpmmUI8LgdAyEKurTUfi7f5RRahz3ZPq9zAZTBP8X
-   n/hm1PzEtCciNEXtrYe03wn+kQhiNv53CGtrSEeP5sROYIRBbEKfrresY
-   5ZR2HdND4T0bN1SbkNODk2ob2Og3FBXLL2cappox/TY9u5yz1Yi9fFrVD
-   A==;
-X-IronPort-AV: E=Sophos;i="6.07,153,1708383600"; 
-   d="scan'208";a="36084202"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 25 Mar 2024 16:52:20 +0100
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43E5B160A85;
-	Mon, 25 Mar 2024 16:52:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1711381936;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=QtCjA8jF6LdIH1jHhbsQNsROhaw0D6l+AUhvNB1YUh4=;
-	b=bAOTpY5jeZxEyk1N5ffRgkuPA+mQKdjnHFCeTHgLr26+KFrqRQ3Vr141ZwYVr41U4oRcuO
-	St+eFfnSAypOBgpZXiFxGQuVOY6/M31vwbD/bjAaN2DlTeQQcbjU5pZwWH8fB/E+8evECo
-	BlbUwvf6XxHCOgI5/vP3wV4NE76RK8OsGDXVgQPowYs86Ckn3B9Fz6WsIAxTIKMeHdjLQW
-	p0uJi/AbRclSTD26bxDrTaAGBDilGnqB0BATMPmPfutN/KnKX+KXhNfcimuyMbWpylI3sJ
-	xqo7itoUJI5XzHxYZwS0wUzk15TxJisYMDjXX3yzBQcFHHhdeO3cBtPT3LLCRQ==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Paul Elder <paul.elder@ideasonboard.com>, Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Marek Vasut <marex@denx.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
-Date: Mon, 25 Mar 2024 16:52:21 +0100
-Message-ID: <4879631.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com>
-References: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com>
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711382447; x=1711987247; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XguyOTPW8SaIMkmqZ21Rgli3joUrKCpC0w2AVoDmBo8=;
+        b=F4DiX7MJqyVEHpWldAiPsZtv6b3WfYNZD0xT7ypua34yOhi0UI6Q7CVUok+CLSUhlu
+         HA5p2jb04ilhNXD/Yk264dQ8YAMZ3lhrMpG3v+/yY6S60NQjBMG09mf0S3g1Oqxhztkk
+         2/ewEBjMfEWQs31rpZ70mYQQxG//XWEEeEalc3V+rogq25pHTz3Fhu2xCNkDyzIDq4J0
+         ZAeKy5cr+sqpRg9GNClvtb+tGX7LcYQTfkoPHlMx2Gb9Y2vLWGpL13uYF7qCgQc6yf8y
+         RwthqhhfdK1DC9Wz1xxpJ5AWLEFCvaKfom2+9BmXcSIWQB3+rGLNUpf3vt2v6Ap1WpAZ
+         FWXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711382447; x=1711987247;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XguyOTPW8SaIMkmqZ21Rgli3joUrKCpC0w2AVoDmBo8=;
+        b=atUTgczYdLU6aZ55UKxoAce9qH+2BmkLrq9lOu1UWOErFuIoabpnyrCEzTZ2sob5/6
+         ppLphff28zuDD32qgqwaW6DrXXV4TT3toqZ+ksCdXDO7ywa30bCGdDgC6aniQmovnsC6
+         2052lxrkoXbfx7/ygUP7lfqCT6a8BxFVEJ/r+WSJNZ5tTz30KzQaozlpC4v2TSXJGCUi
+         EvjOpJQzLXdOG02Uy1zr8IFt4VMPDlIFkL9R3G1BqzD0d9Panq9UdIY0iXkqoM4B6WaP
+         d8GVZUI7NotoFNUBptySxCDO9h3CgYENAjwYVvq/tncUO+TDPJwsLsg9wh/suwFF1XPQ
+         VPHA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+iQY/WysvmBGu1mDxpdceKKCDMLrDzfFZgHkpgOK8ctHW/l1ertQICo/qjwNRTUvxUi/CVc2uPtJY3BZW1OChSQEALRPJYZiwuEo=
+X-Gm-Message-State: AOJu0Yy5pqi6IApPIiqntICBtsXyjNO9bRHXStiHkXKYBFTqF3/+cocz
+	LfgNdl23jL55Z3OV1KmwcCL3zqJwX9i/XWSZbscLGOv8dRijQSy1zov+zwanWkA=
+X-Google-Smtp-Source: AGHT+IHAQQRHljpHUkf1aqxlBTu/wdvUc6/R03vZ10abjHEyq0wyR/SvNz2BJXeAO3tvcYuIXdvPCA==
+X-Received: by 2002:a5d:51d1:0:b0:33e:34b7:895f with SMTP id n17-20020a5d51d1000000b0033e34b7895fmr5048233wrv.24.1711382447213;
+        Mon, 25 Mar 2024 09:00:47 -0700 (PDT)
+Received: from [127.0.1.1] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id r17-20020adff711000000b0033b6e26f0f9sm9839361wrp.42.2024.03.25.09.00.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 09:00:46 -0700 (PDT)
+From: Julien Panis <jpanis@baylibre.com>
+Subject: [PATCH net-next v4 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+Date: Mon, 25 Mar 2024 17:00:34 +0100
+Message-Id: <20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKKfAWYC/42OzWrDMBCEXyXo3G31ZyHn1PcoIexKSq0Sy0Yyj
+ kPwu1fxsYTi4+zMfDsPVkKOobDj4cFymGOJQ6pCvx2Y6zB9B4i+aia51FxKBdibBtxYbrD4EQh
+ LdKA9WWkbbklbVpv1GoAyJtc9uz8jplg+av7cY0zXmMJ55s/gmMMlLtv7L5bCBCksEztVp4tlG
+ vJ92zWLzf93wixAQHvhZBx5VIJ/Et6vkXJ4d0O/IWe5AyOBAxfOOESHROYFRu3AqIppfKs1tt5
+ qfLVG78DoilFWGYFGobb0B7Ou6y/0kPBSwQEAAA==
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Julien Panis <jpanis@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711382445; l=2133;
+ i=jpanis@baylibre.com; s=20230526; h=from:subject:message-id;
+ bh=wqQe2DJZDzzMYImWv6Ki1IImWaVqSXITlgGJEpik5FA=;
+ b=P1yzfio0eDcxAyUAY/a+nfJisXG0eTNG56agA256QD3aW0IbWjpNBGzvns98Nsg9Qqsm9+Nq5
+ 4QVR/fm2KNpAOWGfAES1MKvawg2+uGBn3Y7SBGyJB+8SciyAJxTQ5R3
+X-Developer-Key: i=jpanis@baylibre.com; a=ed25519;
+ pk=8eSM4/xkiHWz2M1Cw1U3m2/YfPbsUdEJPCWY3Mh9ekQ=
 
-Hi Laurent,
+This patch adds XDP support to TI AM65 CPSW Ethernet driver.
 
-Am Montag, 25. M=E4rz 2024, 16:13:39 CET schrieb Laurent Pinchart:
-> From: Paul Elder <paul.elder@ideasonboard.com>
->=20
-> The ISP supports both CSI and parallel interfaces, where port 0
-> corresponds to the former and port 1 corresponds to the latter. Since
-> the i.MX8MP's ISPs are connected by the parallel interface to the CSI
-> receiver, set them both to port 1.
->=20
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v1:
->=20
-> - Fix clock ordering
-> - Add #address-cells and #size-cells to ports nodes
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/=
-dts/freescale/imx8mp.dtsi
-> index bfc5c81a5bd4..1d2670b91b53 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1616,6 +1616,56 @@ isi_in_1: endpoint {
->  				};
->  			};
-> =20
-> +			isp_0: isp@32e10000 {
-> +				compatible =3D "fsl,imx8mp-isp";
-> +				reg =3D <0x32e10000 0x10000>;
-> +				interrupts =3D <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-> +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-> +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-> +				clock-names =3D "isp", "aclk", "hclk";
-> +				assigned-clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP>;
-> +				assigned-clock-parents =3D <&clk IMX8MP_SYS_PLL2_500M>;
-> +				assigned-clock-rates =3D <500000000>;
-> +				power-domains =3D <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-> +				fsl,blk-ctrl =3D <&media_blk_ctrl 0>;
-> +				status =3D "disabled";
-> +
-> +				ports {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +
-> +					port@1 {
-> +						reg =3D <1>;
-> +					};
-> +				};
-> +			};
-> +
-> +			isp_1: isp@32e20000 {
-> +				compatible =3D "fsl,imx8mp-isp";
-> +				reg =3D <0x32e20000 0x10000>;
-> +				interrupts =3D <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-> +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-> +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-> +				clock-names =3D "isp", "aclk", "hclk";
-> +				assigned-clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP>;
-> +				assigned-clock-parents =3D <&clk IMX8MP_SYS_PLL2_500M>;
-> +				assigned-clock-rates =3D <500000000>;
-> +				power-domains =3D <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-> +				fsl,blk-ctrl =3D <&media_blk_ctrl 1>;
-> +				status =3D "disabled";
-> +
-> +				ports {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +
-> +					port@1 {
-> +						reg =3D <1>;
-> +					};
-> +				};
-> +			};
-> +
+The following features are implemented: NETDEV_XDP_ACT_BASIC,
+NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
 
-The patch itself is okay. But you might not be able to
-configure the parent of IMX8MP_CLK_MEDIA_ISP if dewarp is enabled before.
-This is due to IMX8MP_CLK_MEDIA_ISP_ROOT being enabled in 'pgc_ispdwp'
-power domain. Reparenting is not possible anymore in this case.
+Zero-copy and non-linear XDP buffer supports are NOT implemented.
 
-Something like
-=2D--8<---
-=2D-- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1837,11 +1837,13 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
-                                                  <&clk IMX8MP_CLK_MEDIA_AP=
-B>,
-                                                  <&clk IMX8MP_CLK_MEDIA_DI=
-SP1_PIX>,
-                                                  <&clk IMX8MP_CLK_MEDIA_DI=
-SP2_PIX>,
-+                                                 <&clk IMX8MP_CLK_MEDIA_IS=
-P>,
-                                                  <&clk IMX8MP_VIDEO_PLL1>;
-                                assigned-clock-parents =3D <&clk IMX8MP_SYS=
-_PLL2_1000M>,
-                                                         <&clk IMX8MP_SYS_P=
-LL1_800M>,
-                                                         <&clk IMX8MP_VIDEO=
-_PLL1_OUT>,
-=2D                                                        <&clk IMX8MP_VID=
-EO_PLL1_OUT>;
-+                                                        <&clk IMX8MP_VIDEO=
-_PLL1_OUT>,
-+                                                        <&clk IMX8MP_SYS_P=
-LL2_500M>;
-                                assigned-clock-rates =3D <500000000>, <2000=
-00000>,
-                                                       <0>, <0>, <103950000=
-0>;
-                                #power-domain-cells =3D <1>;
-=2D--8<---
-is needed.
+Besides, the page pool memory model is used to get better performance.
+
+Signed-off-by: Julien Panis <jpanis@baylibre.com>
+---
+Changes in v4:
+- Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+- Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+- Add benchmark numbers (with VS without page pool) in the commit description.
+- Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+- Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+
+Changes in v3:
+- Fix a potential issue with TX buffer type, which is now set for each buffer.
+- Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+
+Changes in v2:
+- Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+- In am65_cpsw_alloc_skb(), release reference on the page pool page
+in case of error returned by build_skb().
+- [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+- [nit] Arrange local variables in reverse xmas tree order.
+- Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+
+---
+Julien Panis (3):
+      net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+      net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+      net: ethernet: ti: am65-cpsw: Add minimal XDP support
+
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 536 +++++++++++++++++++++++++---
+ drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  36 ++
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   4 +
+ 4 files changed, 539 insertions(+), 50 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
 
 Best regards,
-Alexander
-
->  			dewarp: dwe@32e30000 {
->  				compatible =3D "nxp,imx8mp-dw100";
->  				reg =3D <0x32e30000 0x10000>;
->=20
-> base-commit: 4cece764965020c22cff7665b18a012006359095
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+-- 
+Julien Panis <jpanis@baylibre.com>
 
 
