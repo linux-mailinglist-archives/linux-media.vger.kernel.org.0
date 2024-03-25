@@ -1,63 +1,48 @@
-Return-Path: <linux-media+bounces-7753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2D088A7F5
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:00:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CF988AB94
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:26:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC2F51FA1232
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:00:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B39F5B66C53
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:03:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1603012B160;
-	Mon, 25 Mar 2024 13:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD77A65197;
+	Mon, 25 Mar 2024 13:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ERX8MNSh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQm9T5a2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CE950248;
-	Mon, 25 Mar 2024 13:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B4AD27A;
+	Mon, 25 Mar 2024 13:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711373906; cv=none; b=ZiRGH1/KnCCGA1Hu4NgIxWqCXpwGAYxeBLDuJeFGfCHmAlr/MLqRhlN/dGCkI/3KKP7o4ibAm9X0kCUO75rOPIlvBTKxxZKpfDLSkdPkyJ8GSTb0PsbhTUcEQJX0HzKjFN+ErB8u/7yFGj4QTIiKmp6XiualSTemnhjgf8R8G4A=
+	t=1711374188; cv=none; b=iwJaa+u72dE1BBkkyhUP8yyc4MAdAEth8bYPCnBMfAGakZQvffGJwsvd6NYh8n13iunHAWI9i0zW9x5eizj0k0Cjg2t6WdVX9jAjuZPzgByv7PGXT/0aZKCHfAVOeLg0DE0eDV/lP9+rnyCGPvlzm3z5nsQPRA10T9ysbJFnSrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711373906; c=relaxed/simple;
-	bh=ZVWjwKcwPAGTbX3rUYsuDi055yHk0teXSvVowtFCK/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Z920DjBxJjoIIbh0FhVEFFP/ZF0ZJXqM+EArDjW8OHPCoOfFv/tYDPGlxw5pX0js1kluVKFFNj4pnrWfG18y5dM4jR/aap6OHg89zXG2H/pl/or1+g6A6jqy3XoDwHHjR37c6dKR3AykHoJBWSjDndrChmJ0dARpWeEzIOl2oCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ERX8MNSh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PAqS57023557;
-	Mon, 25 Mar 2024 13:38:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=5Wh1H7LS3r3Supdrc6pXTAfv62LxvOInVhK7Q7cZT5U=; b=ER
-	X8MNSh/vE1fsICj8J2/H1ybE3el/darRbiI6VQOJRokw9erEcBxRV1jqoYIYefQ1
-	5p1npBIIsYwo/s2ZUmgjpKhbJGhb8jIg/JWpX09BzApxhutbo1+WZSi/JBv9chFU
-	WJ8eRnIGZsJxTxbGcRvy9AW75gURaSw73Qvlk7izbQVAGIn33I92kGnv+1WaJZzB
-	L6byx+Gmzak6cwQALXZLtp7Z/H5jAOKGLOw8FWjP86LxBn1lbkCfXgcH+8rkcB0+
-	Km9QTyxYztg7M9F3e42YNVL8mj+upkSDt7gZgf4k7u2lO1kInKidhyUeO0P80kD3
-	+9VBinjcjJgLO1h8Eu+Q==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x35eagu50-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 13:38:19 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42PDcIgl032390
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 13:38:18 GMT
-Received: from [10.239.96.73] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 25 Mar
- 2024 06:38:15 -0700
-Message-ID: <8d363b4b-d666-47bb-973e-f4a6d52e1024@quicinc.com>
-Date: Mon, 25 Mar 2024 21:38:13 +0800
+	s=arc-20240116; t=1711374188; c=relaxed/simple;
+	bh=tTvYw0H7f6TxaDPFTy+vF+STJ6mKZltA7UnaYUVSPHs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PCy4grX3vh05vFGXRsto3zoZSwALyMQ0CAaK4E5MsVlddYBtJIe/cbF2/Wpu2mGMMw1HoqoIDF8DNIGlDgulmOvyDAVB/cxrKR5aJdQfFZTyHuKEs7+asTjEVUQHoa1xHViswQG01u2myY17XXqymAtkKCvLw2FAoCeMzAvkCfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQm9T5a2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68B587E4;
+	Mon, 25 Mar 2024 14:42:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711374153;
+	bh=tTvYw0H7f6TxaDPFTy+vF+STJ6mKZltA7UnaYUVSPHs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kQm9T5a2+jJXi6SyMiqW5R2o6ZMGbeOdi/1DQpGxZC7R587Y+BURyI/dk27QGlNSc
+	 EQ1s/SGJq4nKmDZbBMXuWHt/Cbv1mqHioxkC7q7nIObw6T6ajH9xv+T9vXQF1y1teK
+	 Lhj0Emu5Ph1/2ttX+VDZD6lQChZ7nLrjgAUsYBr0=
+Message-ID: <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
+Date: Mon, 25 Mar 2024 15:43:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,565 +50,116 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] media: qcom: camss: Add CSID gen3 driver
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
-        <quic_yon@quicinc.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240320141136.26827-1-quic_depengs@quicinc.com>
- <20240320141136.26827-6-quic_depengs@quicinc.com>
- <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
 Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: m4OukUkNQ8stChkbATTvhxJTk6XNDe2E
-X-Proofpoint-ORIG-GUID: m4OukUkNQ8stChkbATTvhxJTk6XNDe2E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-25_09,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- spamscore=0 priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403250074
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Bryan,
-
-On 3/20/2024 11:40 PM, Bryan O'Donoghue wrote:
-> On 20/03/2024 14:11, Depeng Shao wrote:
->> The CSID in SM8550 is gen3, it has new register
->> offset and new functionality, the buf done irq,
->> register update and reset is moved to CSID gen3.
+On 25/03/2024 15:02, Sakari Ailus wrote:
+> Moi,
+> 
+> Thanks for the patch.
+> 
+> On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+>> Hi Tomi,
 >>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
->> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/camss/Makefile    |   1 +
->>   .../platform/qcom/camss/camss-csid-gen3.c     | 639 ++++++++++++++++++
->>   .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
->>   .../media/platform/qcom/camss/camss-csid.h    |   1 +
->>   4 files changed, 667 insertions(+)
->>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
->>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
+>> On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+>>> Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+>>> use the v4l2_subdev_video_ops.s_stream op, instead of
+>>> v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+>>> enable/disable_streams machinery requires a routing table which a subdev
+>>> cannot have with a single pad.
+>>>
+>>> Implement enable/disable_streams support for these single-pad subdevices
+>>> by assuming an implicit stream 0 when the subdevice has only one pad.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>> Even though I did send this patch, I'm not sure if this is necessary.
+>>> s_stream works fine for the subdevs with a single pad. With the upcoming
+>>> internal pads, adding an internal pad to the subdev will create a
+>>> routing table, and enable/disable_streams would get "fixed" that way.
+> 
+> I'd like to get rid of a redundant way to control streaming.
+
+We can't get rid of it anyway, can we? We're not going to convert old 
+drivers to streams.
+
+For new drivers, yes, we shouldn't use s_stream. But is the answer for 
+new sensor drivers this patch, or requiring an internal pad?
+
+>>> So perhaps the question is, do we want to support single-pad subdevs in
+>>> the future, in which case something like this patch is necessary, or
+>>> will all modern source subdev drivers have internal pads, in which
+>>> case this is not needed...
 >>
->> diff --git a/drivers/media/platform/qcom/camss/Makefile 
->> b/drivers/media/platform/qcom/camss/Makefile
->> index 28eba4bf3e38..c5fcd6eec0f2 100644
->> --- a/drivers/media/platform/qcom/camss/Makefile
->> +++ b/drivers/media/platform/qcom/camss/Makefile
->> @@ -7,6 +7,7 @@ qcom-camss-objs += \
->>           camss-csid-4-1.o \
->>           camss-csid-4-7.o \
->>           camss-csid-gen2.o \
->> +        camss-csid-gen3.o \
->>           camss-csiphy-2ph-1-0.o \
->>           camss-csiphy-3ph-1-0.o \
->>           camss-csiphy-2-1-2.o \
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c 
->> b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
->> new file mode 100644
->> index 000000000000..b97005f7065d
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
->> @@ -0,0 +1,639 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * camss-csid-gen3.c
->> + *
->> + * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
->> + *
->> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->> + */
->> +#include <linux/completion.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/io.h>
->> +#include <linux/kernel.h>
->> +#include <linux/of.h>
->> +#include <linux/delay.h>
+>> I think the latter would be best. I however can't guarantee we won't
+>> have valid use cases for (enable|disable)_streams on single-pad subdevs
+>> though, so you patch could still be interesting.
 > 
-> Please alphanumerically sort your include list.
-> 
->> +
->> +
->> +#include "camss-csid.h"
->> +#include "camss-csid-gen3.h"
->> +#include "camss.h"
-> 
-> and here.
-> 
->> +
->> +#define CSID_TOP_IO_PATH_CFG0(csid)    (0x4 * (csid))
->> +#define        OUTPUT_IFE_EN 0x100
->> +#define        INTERNAL_CSID 1
->> +
->> +#define CSID_HW_VERSION        0x0
->> +#define        HW_VERSION_STEPPING    0
->> +#define        HW_VERSION_REVISION    16
->> +#define        HW_VERSION_GENERATION    28
->> +
->> +#define CSID_RST_CFG    0xC
->> +#define        RST_MODE        0
->> +#define        RST_LOCATION    4
->> +
->> +#define CSID_RST_CMD    0x10
->> +#define        SELECT_HW_RST    0
->> +#define        SELECT_SW_RST    1
->> +#define        SELECT_IRQ_RST    2
->> +
->> +#define CSID_CSI2_RX_IRQ_STATUS    0x9C
->> +#define CSID_CSI2_RX_IRQ_MASK    0xA0
->> +#define CSID_CSI2_RX_IRQ_CLEAR    0xA4
->> +#define CSID_CSI2_RX_IRQ_SET    0xA8
->> +
->> +#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)        (0xEC + 0x10 * (rdi))
->> +#define CSID_CSI2_RDIN_IRQ_MASK(rdi)        (0xF0 + 0x10 * (rdi))
->> +#define        CSID_CSI2_RDIN_INFO_FIFO_FULL 2
->> +#define        CSID_CSI2_RDIN_INFO_CAMIF_EOF 3
->> +#define        CSID_CSI2_RDIN_INFO_CAMIF_SOF 4
->> +#define        CSID_CSI2_RDIN_INFO_INPUT_EOF 9
->> +#define        CSID_CSI2_RDIN_INFO_INPUT_SOF 12
->> +#define        CSID_CSI2_RDIN_ERROR_REC_FRAME_DROP 18
->> +#define        CSID_CSI2_RDIN_ERROR_REC_OVERFLOW_IRQ 19
->> +#define        CSID_CSI2_RDIN_ERROR_REC_CCIF_VIOLATION 20
->> +#define        CSID_CSI2_RDIN_EPOCH0 21
->> +#define        CSID_CSI2_RDIN_EPOCH1 22
->> +#define        CSID_CSI2_RDIN_RUP_DONE 23
->> +#define        CSID_CSI2_RDIN_CCIF_VIOLATION 29
->> +
->> +#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)        (0xF4 + 0x10 * (rdi))
->> +#define CSID_CSI2_RDIN_IRQ_SET(rdi)            (0xF8 + 0x10 * (rdi))
->> +
->> +#define CSID_TOP_IRQ_STATUS    0x7C
->> +#define        TOP_IRQ_STATUS_RESET_DONE 0
->> +#define CSID_TOP_IRQ_MASK    0x80
->> +#define CSID_TOP_IRQ_CLEAR    0x84
->> +#define CSID_TOP_IRQ_SET    0x88
->> +#define CSID_IRQ_CMD        0x14
->> +#define        IRQ_CMD_CLEAR    0
->> +#define        IRQ_CMD_SET    4
->> +
->> +#define CSID_BUF_DONE_IRQ_STATUS    0x8C
->> +#define        BUF_DONE_IRQ_STATUS_RDI_OFFSET (csid_is_lite(csid) ? 1 
->> : 14)
-> 
-> Stick with hex please 0x01 : 0x0e
-> 
->> +#define CSID_BUF_DONE_IRQ_MASK    0x90
->> +#define CSID_BUF_DONE_IRQ_CLEAR    0x94
->> +#define CSID_BUF_DONE_IRQ_SET    0x98
->> +
->> +#define CSID_CSI2_RX_CFG0    0x200
->> +#define        CSI2_RX_CFG0_NUM_ACTIVE_LANES    0
->> +#define        CSI2_RX_CFG0_DL0_INPUT_SEL    4
->> +#define        CSI2_RX_CFG0_DL1_INPUT_SEL    8
->> +#define        CSI2_RX_CFG0_DL2_INPUT_SEL    12
->> +#define        CSI2_RX_CFG0_DL3_INPUT_SEL    16
->> +#define        CSI2_RX_CFG0_PHY_NUM_SEL    20
->> +#define            CSI2_RX_CFG0_PHY_SEL_BASE_IDX 1
->> +#define        CSI2_RX_CFG0_PHY_TYPE_SEL    24
->> +#define        CSI2_RX_CFG0_TPG_MUX_EN        27
->> +#define        CSI2_RX_CFG0_TPG_NUM_SEL    28
->> +
->> +#define CSID_CSI2_RX_CFG1    0x204
->> +#define        CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN        0
->> +#define        CSI2_RX_CFG1_DE_SCRAMBLE_EN            1
->> +#define        CSI2_RX_CFG1_VC_MODE                2
->> +#define        CSI2_RX_CFG1_COMPLETE_STREAM_EN            4
->> +#define        CSI2_RX_CFG1_COMPLETE_STREAM_FRAME_TIMING    5
->> +#define        CSI2_RX_CFG1_MISR_EN                6
->> +#define        CSI2_RX_CFG1_PHY_BIST_EN            7
->> +#define        CSI2_RX_CFG1_EPD_MODE                8
->> +#define        CSI2_RX_CFG1_EOTP_EN                9
->> +#define        CSI2_RX_CFG1_DYN_SWITCH_EN            10
->> +#define        CSI2_RX_CFG1_RUP_AUP_LATCH_DIS        11
->> +
->> +#define CSID_CSI2_RX_CAPTURE_CTRL    0x208
->> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_EN    0
->> +#define        CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_EN    1
->> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_EN    3
->> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_DT        4
->> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_VC        10
->> +#define        CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_VC    15
->> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_DT        20
->> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_VC        26
->> +
->> +#define CSID_RDI_CFG0(rdi)            (0x500 + 0x100 * (rdi))
->> +#define        RDI_CFG0_VFR_EN                0
->> +#define        RDI_CFG0_FRAME_ID_DEC_EN    1
->> +#define        RDI_CFG0_RETIME_DIS            5
->> +#define        RDI_CFG0_TIMESTAMP_EN        6
->> +#define        RDI_CFG0_TIMESTAMP_STB_SEL    8
->> +#define        RDI_CFG0_DECODE_FORMAT        12
->> +#define        RDI_CFG0_DT                    16
->> +#define        RDI_CFG0_VC                    22
->> +#define        RDI_CFG0_DT_ID                27
->> +#define        RDI_CFG0_EN                    31
->> +
->> +#define CSID_RDI_CFG1(rdi)            (0x510 + 0x100 * (rdi))
->> +#define        RDI_CFG1_BYTE_CNTR_EN    2
->> +#define        RDI_CFG1_DROP_H_EN    5
->> +#define        RDI_CFG1_DROP_V_EN    6
->> +#define        RDI_CFG1_CROP_H_EN    7
->> +#define        RDI_CFG1_CROP_V_EN    8
->> +#define        RDI_CFG1_MISR_EN    9
->> +#define        RDI_CFG1_PIX_STORE  10
->> +#define        RDI_CFG1_PLAIN_ALIGNMENT    11
->> +#define        RDI_CFG1_PLAIN_FORMAT    12
->> +#define        RDI_CFG1_EARLY_EOF_EN    14
->> +#define        RDI_CFG1_PACKING_FORMAT    15
->> +
->> +#define CSID_RDI_CTRL(rdi)            (0x504 + 0x100 * (rdi))
->> +#define        RDI_CTRL_START_CMD        0
->> +#define        RDI_CTRL_START_MODE        2
->> +
->> +#define CSID_RDI_EPOCH_IRQ_CFG(rdi) (0x52C + 0x100 * (rdi))
->> +
->> +#define CSID_RDI_FRM_DROP_PATTERN(rdi)            (0x540 + 0x100 * 
->> (rdi))
->> +#define CSID_RDI_FRM_DROP_PERIOD(rdi)            (0x544 + 0x100 * (rdi))
->> +#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)        (0x548 + 0x100 * 
->> (rdi))
->> +#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)        (0x54C + 0x100 * 
->> (rdi))
->> +#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)        (0x558 + 0x100 * 
->> (rdi))
->> +#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)        (0x55C + 0x100 * (rdi))
->> +#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)        (0x560 + 0x100 * 
->> (rdi))
->> +#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)        (0x564 + 0x100 * 
->> (rdi))
->> +
->> +#define CSID_RDI_RPP_HCROP(rdi)                 (0x550 + 0x100 * (rdi))
->> +#define CSID_RDI_RPP_VCROP(rdi)                 (0x554 + 0x100 * (rdi))
->> +
->> +#define CSID_RDI_ERROR_RECOVERY_CFG0(rdi)       (0x514 + 0x100 * (rdi))
->> +
->> +#define CSID_DISCARD_FRAMES 4
->> +
->> +#define CSID_REG_UPDATE_CMD        0x18
->> +static inline int reg_update_rdi(struct csid_device *csid, int n)
->> +{
->> +    return BIT(n + 4) + BIT(20 + n);
->> +}
->> +
->> +#define        REG_UPDATE_RDI        reg_update_rdi
->> +
->> +static const struct csid_format csid_formats[] = {
->> +    {
->> +        MEDIA_BUS_FMT_UYVY8_1X16,
->> +        DATA_TYPE_YUV422_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        2,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_VYUY8_1X16,
->> +        DATA_TYPE_YUV422_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        2,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_YUYV8_1X16,
->> +        DATA_TYPE_YUV422_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        2,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_YVYU8_1X16,
->> +        DATA_TYPE_YUV422_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        2,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SBGGR8_1X8,
->> +        DATA_TYPE_RAW_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGBRG8_1X8,
->> +        DATA_TYPE_RAW_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGRBG8_1X8,
->> +        DATA_TYPE_RAW_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SRGGB8_1X8,
->> +        DATA_TYPE_RAW_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SBGGR10_1X10,
->> +        DATA_TYPE_RAW_10BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
->> +        10,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGBRG10_1X10,
->> +        DATA_TYPE_RAW_10BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
->> +        10,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGRBG10_1X10,
->> +        DATA_TYPE_RAW_10BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
->> +        10,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SRGGB10_1X10,
->> +        DATA_TYPE_RAW_10BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
->> +        10,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_Y8_1X8,
->> +        DATA_TYPE_RAW_8BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
->> +        8,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_Y10_1X10,
->> +        DATA_TYPE_RAW_10BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
->> +        10,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SBGGR12_1X12,
->> +        DATA_TYPE_RAW_12BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
->> +        12,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGBRG12_1X12,
->> +        DATA_TYPE_RAW_12BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
->> +        12,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGRBG12_1X12,
->> +        DATA_TYPE_RAW_12BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
->> +        12,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SRGGB12_1X12,
->> +        DATA_TYPE_RAW_12BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
->> +        12,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SBGGR14_1X14,
->> +        DATA_TYPE_RAW_14BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
->> +        14,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGBRG14_1X14,
->> +        DATA_TYPE_RAW_14BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
->> +        14,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SGRBG14_1X14,
->> +        DATA_TYPE_RAW_14BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
->> +        14,
->> +        1,
->> +    },
->> +    {
->> +        MEDIA_BUS_FMT_SRGGB14_1X14,
->> +        DATA_TYPE_RAW_14BIT,
->> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
->> +        14,
->> +        1,
->> +    },
->> +};
->> +
->> +static void __csid_configure_rx(struct csid_device *csid,
->> +                struct csid_phy_config *phy, int vc)
->> +{
->> +    int val;
->> +
->> +    val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->> +    val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->> +    val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << 
->> CSI2_RX_CFG0_PHY_NUM_SEL;
->> +
->> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
->> +
->> +    val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
->> +    if (vc > 3)
->> +        val |= 1 << CSI2_RX_CFG1_VC_MODE;
->> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
->> +}
->> +
->> +static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 
->> rdi)
->> +{
->> +    int val;
->> +
->> +    if (enable)
->> +        val = 1 << RDI_CTRL_START_CMD;
->> +    else
->> +        val = 0 << RDI_CTRL_START_CMD;
->> +    writel_relaxed(val, csid->base + CSID_RDI_CTRL(rdi));
->> +}
->> +
->> +static void __csid_configure_top(struct csid_device *csid)
->> +{
->> +    u32 val;
->> +
->> +    if (csid->top_base) {
->> +        val = OUTPUT_IFE_EN | INTERNAL_CSID;
->> +        writel_relaxed(val, csid->top_base + 
->> CSID_TOP_IO_PATH_CFG0(csid->id));
->> +    }
->> +}
->> +
->> +static void __csid_configure_rdi_stream(struct csid_device *csid, u8 
->> enable, u8 vc)
->> +{
->> +    u32 val;
->> +    u8 lane_cnt = csid->phy.lane_cnt;
->> +    /* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, 
->> Pad 2 -> RDI1, etc. */
->> +    struct v4l2_mbus_framefmt *input_format = 
->> &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
->> +    const struct csid_format *format = 
->> csid_get_fmt_entry(csid->formats, csid->nformats,
->> +                                  input_format->code);
->> +
->> +    if (!lane_cnt)
->> +        lane_cnt = 4;
->> +
->> +    val = 0;
->> +    writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(vc));
->> +
->> +    /*
->> +     * DT_ID is a two bit bitfield that is concatenated with
->> +     * the four least significant bits of the five bit VC
->> +     * bitfield to generate an internal CID value.
->> +     *
->> +     * CSID_RDI_CFG0(vc)
->> +     * DT_ID : 28:27
->> +     * VC    : 26:22
->> +     * DT    : 21:16
->> +     *
->> +     * CID   : VC 3:0 << 2 | DT_ID 1:0
->> +     */
->> +    u8 dt_id = vc & 0x03;
->> +
->> +    val = 1 << RDI_CFG0_TIMESTAMP_EN;
->> +    val |= 2 << RDI_CFG0_TIMESTAMP_STB_SEL;
->> +    /* note: for non-RDI path, this should be format->decode_format */
->> +    val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
->> +    val |= vc << RDI_CFG0_VC;
->> +    val |= format->data_type << RDI_CFG0_DT;
->> +    val |= dt_id << RDI_CFG0_DT_ID;
->> +
->> +    writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
->> +
->> +    val = 1 << RDI_CFG1_PACKING_FORMAT;
->> +    val |= 1 << RDI_CFG1_PIX_STORE;
->> +    val |= 1 << RDI_CFG1_DROP_H_EN;
->> +    val |= 1 << RDI_CFG1_DROP_V_EN;
->> +    val |= 1 << RDI_CFG1_CROP_H_EN;
->> +    val |= 1 << RDI_CFG1_CROP_V_EN;
->> +    val |= RDI_CFG1_EARLY_EOF_EN;
->> +
->> +    writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
->> +
->> +    val = 0;
->> +    writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
->> +
->> +    val = 1;
->> +    writel_relaxed(val, csid->base + 
->> CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
->> +
->> +    val = 0;
->> +    writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
->> +
->> +    val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
->> +    val |=  enable << RDI_CFG0_EN;
->> +    writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
->> +}
-> 
-> Hmm.
-> 
-> So I think 90% of the code here can be moved into a shared file - 
-> ideally instantiated in gen2.c and then reused here rather than 
-> copy/paste from one file to the other.
-> 
-> Lets sync up and try to get a unified tree for x1e80100 and sm8550 for 
-> that purpose.
-> 
-> I think the code you have here is slightly further along that the 
-> CSID/VFE stuff I've been working with.
-> 
-> But still - reductio ad absurdum - we need to functionally decompose and 
-> not replicate code.
-> 
+> Instead of the number of pads, could we use instead the
+> V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+> determine the need for this?
 
-Yes, agree, most of the code are same, but the difficult part is most of 
-the code is configuring the register which are defined as macro 
-definition, and they are different between different platform.
+Maybe, but are they better? Do you see some issue with checking for the 
+number of pads? I considered a few options, but then thought that the 
+most safest test for this case is 1) one pad 2) enable/disable_streams 
+implemented.
 
->> +
->> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
->> +{
->> +    u8 i;
->> +
->> +    /* Loop through all enabled VCs and configure stream for each */
->> +    for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
->> +        if (csid->phy.en_vc & BIT(i)) {
->> +            __csid_configure_top(csid);
->> +            __csid_configure_rdi_stream(csid, enable, i);
->> +            __csid_configure_rx(csid, &csid->phy, i);
->> +            __csid_ctrl_rdi(csid, enable, i);
->> +        }
->> +}
-> 
-> Another example, straight copy/paste - we need to zap all of that.
-> 
-> ---
-> bod
+  Tomi
 
-Thanks,
-Depeng
 
