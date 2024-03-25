@@ -1,160 +1,290 @@
-Return-Path: <linux-media+bounces-7757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A62488A88C
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBFD88A8BB
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:17:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09A981F3D562
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:13:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68C211FA06FD
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5D81442E2;
-	Mon, 25 Mar 2024 14:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74B7412B14D;
+	Mon, 25 Mar 2024 14:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyF/LFEs"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SGYFccrp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D25143C71
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 14:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D435745E1
+	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 14:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711375348; cv=none; b=iAcXLEOLp8IY8563AeoCzhUjNAnze+ddk2NjdbSggLVUjQp+rjQ8sgtB5bZ35H1z748RmFbt0xPkQyNlEuOIUkSc3S4e/71IN/t4rZRFp7zp26nFComDokTk7asFEB2svd2ksbxcsEaLwfEc6d6qnv4MVATIdkBAXbLIVrPw2Io=
+	t=1711376003; cv=none; b=oZIaXN9VNgd+5dX/QKSZe0aZocRSVHyGZZNCaOewAh1n96TSIfT8YXVZ2ms8v2YY+uZbLJPpwn2v6VVOsQhUnh5LkDIe9EtB4fToyDZnrJTJOUV1OP1Zh3+HubX6QQFV8nwmaGfFQD+ApK8kM/wE4UAH0kSckSKVu+DlSFB7vmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711375348; c=relaxed/simple;
-	bh=QAR30rI9BZhtWeBd9atjBZ3RAV7+U3EuMsIsXtJIfNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AtQ6qoEak05eodDY5LekaRV2aSVb+lhMkr2e2KQ57XKUS5VnJJlmJ/rqyUb70KXQb71oonZ9opbWkGLXdXngWdWZMZ4B1E9xwqED63tPeTGDi5SIgVrBjggQxIR3cYxGw+7668ily9+QsR0rPOa2zTutBPaSKDn9P+4k4+EJH+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyF/LFEs; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711375348; x=1742911348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QAR30rI9BZhtWeBd9atjBZ3RAV7+U3EuMsIsXtJIfNE=;
-  b=FyF/LFEsDQ0hCR4uv02stusONchxjrA3NPFRUYJmig8PeG3L5B9qPG8f
-   6XTeyrT7tEsX66P9oVou1ytxohCZjoH4AM/4mdpBHXl48YlWmCpX7r76g
-   T6Rl/duAegO5BrfDE/X7FNbw8yHK6De0WcfJG2XUvL3s3Kl2XuIQbQEbE
-   mxDGhZi3NLILUnUaWYo8c+k86rv4PQf1KFp4sy9GvNt6zX+ORWwIb/tPj
-   Yqg2DoAciDSJBQmX/mm28e1aiAP64jn7HA+CUpFrVkLC1UgXqWSEUjCIu
-   q3Jb6CbfHY30Q+TOw4MzEfOEkPHQxE0Y92DbSd2ZRjIPizmxW8N80W/W+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="23826120"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="23826120"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 07:02:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="46609009"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 07:02:20 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 342BC11FB81;
-	Mon, 25 Mar 2024 16:02:17 +0200 (EET)
-Date: Mon, 25 Mar 2024 14:02:17 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, bingbu.cao@intel.com,
-	hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 03/38] media: uapi: Add generic serial metadata mbus
- formats
-Message-ID: <ZgGD6Whada3wLtzO@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-4-sakari.ailus@linux.intel.com>
- <ff9d63d0-528a-4afb-a85a-fcb8633fec07@ideasonboard.com>
- <ZfmSzM7kL_Si2pRW@kekkonen.localdomain>
- <4a20047b-559b-4877-8385-d22968499595@ideasonboard.com>
- <20240319223347.GF8501@pendragon.ideasonboard.com>
- <2fbd2ab3-afc8-4791-a83a-a91a8cdd7597@ideasonboard.com>
+	s=arc-20240116; t=1711376003; c=relaxed/simple;
+	bh=glAvtWW4x6uWkQgOynyaLO0XCJ5Wt8dqjtHIjr8nwUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ixzH5kz39x/FG5bqbsdIYyrjvEpLB8Lk+t3I7S7irwzbg5Ag1EDa9VQKKi1YWwh+DIUpdh00hZtUndHjdCnDWzYpXeVZ8hEpaCkSNfbzx2dMpv8cx2AdsTcKa2BvUKTcL5t0HO4aqfaOPCUALPVc5WkVkoqsfxoiL9KrmwraTHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SGYFccrp; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e6d089f603so911960a34.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 07:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711376001; x=1711980801; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l6LSkWu1zEpya3hK2FUeUI36TyXKSztZPzjsG0MOd64=;
+        b=SGYFccrpa1o4XcN7YX4OI2XbYEX4LrdvMb6ajkUyTQ+KoWmhncGMIIUCOmarvSxP68
+         +ihM7Z5ZSbVS5BYrs957ZrYfyFimthAVnPfEFplp1nuP7vMxMJnwFPLPVv3OYxxUAC/L
+         V+v0ek1HgbzZKQGhb7mtq0EUcoUSphFRs08iY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711376001; x=1711980801;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l6LSkWu1zEpya3hK2FUeUI36TyXKSztZPzjsG0MOd64=;
+        b=ZK5ypoNOflrEub1UKpjlBTP7tFHLz10P7ll9xnqg8P6EizlvPilR15aXeSn9YR1PxZ
+         SS40QOwXEuDg5cttGMmIDxa7707YyEBZd7fgTYr/vqBVb9f6NIV0kjxr8RKxbUrI+nnX
+         umpvqsPOf98rp5W69h7nkFllX91MLjKbXNRKz3ntsN5MwNV1m+TXsx00ijr6UpQKoQCv
+         +s4jOfjIyZ8YQmKWf7mObWZkpUHTeGkGYmauAT5JGnB9K6sqg21+xcMv3X7wq84us3ed
+         ShkIF8eYpw0BlQZHVdTit/ZJXxS9O/uQsF8/Q2ikY9hovD90lKr1g56yXeATf4eRn1a5
+         bfpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXeT/SqR7Hnrq+diri8Z7OjXFdC6VU/5+K+DpzfGQi2jXy9mQgoDQIyYAZSPoQrws6jgdp9yoOno8/BxT1ye6gX0B3SWGir9cXiD2E=
+X-Gm-Message-State: AOJu0YwJRswswelwbl1YEKJ0EiHSgEpav1qTyNQYZSM3Eoj+7xFoaH1x
+	/oITpbBibYWXGOYfZ9dACXFzkERzXbGGRUeFd0K1KZ6zMzoZNqf1FPeygcXnpevdcwvH9OJwGez
+	WLg==
+X-Google-Smtp-Source: AGHT+IF32buUre6ENtGCSXXEAr7QDlIdIBteHp7TWr2u1kPlp8rTgKvU3v44Pva2UtoJVojhxxOvBQ==
+X-Received: by 2002:a05:6830:329a:b0:6e6:a3e0:5c54 with SMTP id m26-20020a056830329a00b006e6a3e05c54mr8120449ott.27.1711376001007;
+        Mon, 25 Mar 2024 07:13:21 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
+        by smtp.gmail.com with ESMTPSA id z20-20020a05683020d400b006e66e9ac835sm1141289otq.2.2024.03.25.07.13.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Mar 2024 07:13:20 -0700 (PDT)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e6e3eadec8so10792a34.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 07:13:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXUjfLS7ucBmPXbNvt7oYjQJyBkjpJcbjJDS7aZ4026tCx6lLff38ICqVLL5A1SSliB0VNm4W7n56uP/xBnUqxdZd6Jgfsf9EHFkDQ=
+X-Received: by 2002:a05:6830:4426:b0:6e6:e19e:3f1 with SMTP id
+ q38-20020a056830442600b006e6e19e03f1mr1089961otv.35.1711375999889; Mon, 25
+ Mar 2024 07:13:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fbd2ab3-afc8-4791-a83a-a91a8cdd7597@ideasonboard.com>
+References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
+ <12403186.O9o76ZdvQC@natalenko.name> <CANiDSCuma7aGxq7T2uYMgn_JEW223LdR4as83UT2Aj3QmVu4ig@mail.gmail.com>
+ <5764213.DvuYhMxLoT@natalenko.name>
+In-Reply-To: <5764213.DvuYhMxLoT@natalenko.name>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 25 Mar 2024 15:13:03 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvAY8wYZi6QTrjq_ehu4qsHCrq_dTqZQV2=KUCuP+aZYg@mail.gmail.com>
+Message-ID: <CANiDSCvAY8wYZi6QTrjq_ehu4qsHCrq_dTqZQV2=KUCuP+aZYg@mail.gmail.com>
+Subject: Re: [PATCH v10 3/6] media: uvcvideo: Quirk for invalid dev_sof in
+ Logitech C922
+To: Oleksandr Natalenko <oleksandr@natalenko.name>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Moi,
+Hi Oleksandr
 
-On Fri, Mar 22, 2024 at 08:50:00AM +0200, Tomi Valkeinen wrote:
-> On 20/03/2024 00:33, Laurent Pinchart wrote:
-> > On Tue, Mar 19, 2024 at 04:20:35PM +0200, Tomi Valkeinen wrote:
-> > > On 19/03/2024 15:27, Sakari Ailus wrote:
-> > > > On Thu, Mar 14, 2024 at 09:30:50AM +0200, Tomi Valkeinen wrote:
-> > > > > On 13/03/2024 09:24, Sakari Ailus wrote:
-> > > > > > Add generic serial metadata mbus formats. These formats describe data
-> > > > > > width and packing but not the content itself. The reason for specifying
-> > > > > > such formats is that the formats as such are fairly device specific but
-> > > > > > they are still handled by CSI-2 receiver drivers that should not be aware
-> > > > > > of device specific formats. What makes generic metadata formats possible
-> > > > > > is that these formats are parsed by software only, after capturing the
-> > > > > > data to system memory.
-> > > > > > 
-> > > > > > Also add a definition for "Data unit" to cover what is essentially a pixel
-> > > > > > but is not image data.
-> > > > > 
-> > > > > The CCS spec talks about legacy packing and optimized packing for 16+ bit
-> > > > > formats. You cover only the "legacy" ones here. Did you look at those?
-> > > > 
-> > > > The reason is that the bus data layout of the new packing at higher bit
-> > > > depth matches with packing at lower bit depths (half to be precise). That's
-> > > > why there's no need to define formats for the new packing methods at higher
-> > > > bit depths (the driver simply uses the packing at half of the bit depth).
-> > > 
-> > > Hmm. If we're capturing 10-bit raw format, say, with the width of 640
-> > > pixels, we'll configure the video stream format according to those. For
-> > > the embedded stream, we'll set it to V4L2_META_FMT_GENERIC_CSI2_10 and
-> > > 640 width, right?
-> > > 
-> > > If we're capturing 20-bit raw, we'll configure the video stream format
-> > > again accordingly, width to 640, and 20 bit fourcc/mbus code. If the
-> > > embedded stream uses the "legacy" packing, we'll set the format to
-> > > V4L2_META_FMT_GENERIC_CSI2_20 with width of 640, right?
-> > > 
-> > > But if it's using packed format for the embedded stream, we set the
-> > > format to V4L2_META_FMT_GENERIC_CSI2_10 and width to 1280?
-> > > 
-> > > Considering that the video and (line-based) embedded data come from the
-> > > same source, I'd expect the widths to be the same.
-> > 
-> > I don't have a strong objection against multiplying the width, but we
-> > need to figure out the impact on other kernel space components, as well
-> > as on userspace. I suppose the media bus code for the embedded data
-> > stream on the sensor source pad when using optimized packing and
-> > capturing RAW20 images would be MEDIA_BUS_FMT_META_10 ? In that case I
-> > think the sensor driver should be able to handle the width calculations
-> > on its own, and the value would just be propagated by userspace.
-> 
-> Yes, I think it works. I just find it more logical if the widths of both the
-> video and embedded streams are the same (which is the case for all other
-> embedded formats).
-> 
-> However, even the CCS spec says "for RAW16, RAW20, and/or RAW24 Visible
-> pixels, top-embedded data may instead be more optimally packed using RAW8,
-> RAW10, and/or RAW12 pixels", so that's in line with what Sakari suggests.
-> Although the spec specifically says "top-embedded", so does it mean that the
-> optimized data is not allowed for bottom data?
+That looks good :) !
 
-I haven't read the spec regarding this but I don't think there should be
-anything that prevents it: it's the embedded data format. The CCS driver
-patches only adds support for the top embedded data anyway.
+On Mon, 25 Mar 2024 at 13:51, Oleksandr Natalenko
+<oleksandr@natalenko.name> wrote:
+>
+> On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 10:25:51, CET Ricardo Ribalda w=
+rote:
+> > Hi Oleksandr
+> >
+> > On Mon, 25 Mar 2024 at 10:23, Oleksandr Natalenko
+> > <oleksandr@natalenko.name> wrote:
+> > >
+> > > Hello.
+> > >
+> > > On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 8:52:57, CET Ricardo Ribald=
+a wrote:
+> > > > Hi Oleksandr
+> > > >
+> > > > On Sat, 23 Mar 2024 at 13:16, Oleksandr Natalenko
+> > > > <oleksandr@natalenko.name> wrote:
+> > > >
+> > > > >
+> > > > > How do I check whether C920 (046d:082d) is affected too? I have g=
+ot one, I can run tests on it as long as those will not blow the webcam up.
+> > > > >
+> > > > > Thanks.
+> > > > >
+> > > >
+> > > > First of all you need to enable the hwtimestamps in the driver. You
+> > > > could do that with
+> > > >
+> > > > ```
+> > > > rmmod uvcvideo; modprobe uvcvideo hwtimestamps=3D1
+> > > > ```
+> > >
+> > > ```
+> > > $ cat /sys/module/uvcvideo/parameters/hwtimestamps
+> > > 1
+> > > ```
+> > >
+> > > > Then capture some frames with yavta
+> > > > ```
+> > > > yavta -c /dev/video0
+> > > > ```
+> > > >
+> > > > After around 5 seconds all the frames should have a stable fps, the
+> > > > fps is not stable then your camera is affected with this bug.
+> > >
+> > > ```
+> > > $ ./yavta -c /dev/video1
+> > > Device /dev/video1 opened.
+> > > Device `HD Pro Webcam C920' on `usb-0000:0f:00.3-3.4' (driver 'uvcvid=
+eo') supports video, capture, without mplanes.
+> > > Video format: MJPEG (47504a4d) 1920x1080 (stride 0) field none buffer=
+ size 4147200
+> > > =E2=80=A6
+> > > 100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mon=
+o/SoE
+> > > 101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mon=
+o/SoE
+> > > 102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mon=
+o/SoE
+> > > 103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mon=
+o/SoE
+> > > 104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono=
+/SoE
+> > > 105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mon=
+o/SoE
+> > > 106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mon=
+o/SoE
+> > > =E2=80=A6
+> > > 168 (0) [-] none 168 200914 B 215.183707 215.347066 33.676 fps ts mon=
+o/SoE
+> > > 169 (1) [-] none 169 201141 B 215.271693 215.379066 11.365 fps ts mon=
+o/SoE
+> > > 170 (2) [-] none 170 201005 B 215.303449 215.415057 31.490 fps ts mon=
+o/SoE
+> > > 171 (3) [-] none 171 201195 B 215.335295 215.447062 31.401 fps ts mon=
+o/SoE
+> > > 172 (4) [-] none 172 200933 B 215.557731 215.479072 4.496 fps ts mono=
+/SoE
+> > > 173 (5) [-] none 173 200973 B 215.587033 215.515063 34.127 fps ts mon=
+o/SoE
+> > > 174 (6) [-] none 174 200698 B 215.616811 215.547063 33.582 fps ts mon=
+o/SoE
+> > > 175 (7) [-] none 175 201290 B 215.646196 215.579075 34.031 fps ts mon=
+o/SoE
+> > > 176 (0) [-] none 176 200807 B 215.675857 215.615073 33.714 fps ts mon=
+o/SoE
+> > > =E2=80=A6
+> > > ```
+> > >
+> > > Does the above mean the webcam is affected?
+> >
+> > Looks like it.... could you try applying this patch and run with
+> >
+> > rmmod uvcvideo; modprobe uvcvideo hwtimestamps=3D1 quirks=3D0x4000
+> >
+> > to see if that fixes it for you?
+>
+> On top of v6.8, I've applied the whole v10, and also applied the followin=
+g change instead of providing `quirks=3D`:
 
--- 
-Regards,
+Could you send the patch to the ML, so Laurent can apply it on top of my se=
+t?
 
-Sakari Ailus
+You could add the result of the experiment to the commit message
+
+With those changes
+
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Thanks!
+
+>
+> ```
+> commit 884a61751d979ee9974c08a71c72e88e73bdd87e
+> Author: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Date:   Mon Mar 25 10:28:00 2024 +0100
+>
+>     media: uvcvideo: Quirk for invalid dev_sof in Logitech C920
+>
+>     Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
+vc_driver.c
+> index 723e6d5680c2e..444d7089885ea 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] =3D {
+>           .bInterfaceClass      =3D USB_CLASS_VIDEO,
+>           .bInterfaceSubClass   =3D 1,
+>           .bInterfaceProtocol   =3D 0,
+> -         .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
+S_ON_INIT) },
+> +         .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
+S_ON_INIT
+> +                                              | UVC_QUIRK_INVALID_DEVICE=
+_SOF) },
+>         /* Logitech HD Pro Webcam C922 */
+>         { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
+>                                 | USB_DEVICE_ID_MATCH_INT_INFO,
+>
+> ```
+>
+> Now I see this:
+>
+> ```
+> 154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/SoE
+> 155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/SoE
+> 156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/SoE
+> 157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/SoE
+> 158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/SoE
+> 159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/SoE
+> 160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/SoE
+> 161 (1) [-] none 161 192235 B 42.431824 42.439806 31.260 fps ts mono/SoE
+> ```
+>
+> without dips in FPS.
+>
+> What do you think?
+>
+> >
+> > Thanks!
+> >
+> > >
+> > > Thank you.
+> > >
+> > > >
+> > > >
+> > > > Thanks!
+> > > >
+> > >
+> > >
+> > > --
+> > > Oleksandr Natalenko (post-factum)
+> >
+> >
+> >
+> >
+>
+>
+> --
+> Oleksandr Natalenko (post-factum)
+
+
+
+--=20
+Ricardo Ribalda
 
