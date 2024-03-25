@@ -1,198 +1,153 @@
-Return-Path: <linux-media+bounces-7796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7318188B303
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:44:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC5D88B5D1
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 01:10:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED0F1B47F7A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 20:52:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BDE1AB2A8A4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:03:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C736BFCC;
-	Mon, 25 Mar 2024 20:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C114271732;
+	Mon, 25 Mar 2024 22:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aSRJ5t/h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmy3NfcN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C09A5B697;
-	Mon, 25 Mar 2024 20:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222966F520;
+	Mon, 25 Mar 2024 22:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711399774; cv=none; b=e/odQ/CCFjJhFxmo4eZViFTDOcNjAcXXzohkyYERS5F8/sBoEwpYHmZvmtKeAaECF0V4VRkbIDApfoR7QaZ0WT4mNoZEGxg25tqMDpaoEn6Vho15vN4pJX9YPjd+zPZNcVKPNS9nvcv+m1qHVCi/ED/pW0DPNKtVoRcyFNGEQr8=
+	t=1711404221; cv=none; b=RO/qHg52QmFGF5N5iBXcBXEKFYoX3VTs+w7kxt1O/bQXbE0UZGeKA6tnZS7AAELkDvLXzmyE4/QtSRZHznNRLBEa/eZMdJBf527NsuA/LLt1iPJozRvuooVJvUOvTdFpN9CIJV9DMReiRSUplNsAL1IQIB40DF94cKm3xMs5IYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711399774; c=relaxed/simple;
-	bh=v2sCagyw5B4R+DhIJI4upQC0K1saLorduD0I/khMud4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vAFfFsN7g1oxo1edi3pflQeXnTl+JevbKZx0fg7iSDegzcQvOzDnXPM1Vxx6vGjyL2V5v8tVdXnttPCfVJjLHD1Cl9VKbI7bmGlnu6BJ4KRks4Fr9NBp4Thr+T2iWoxUT+BaJInuiPUUDAOpqu4VRC9gYfTVjvE3dHF5b9Um8fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aSRJ5t/h; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3E767E4;
-	Mon, 25 Mar 2024 21:48:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711399740;
-	bh=v2sCagyw5B4R+DhIJI4upQC0K1saLorduD0I/khMud4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aSRJ5t/hKEaL5Y5fRmdbT70h4MxoUrkGFIdTymqWiHi0DyeHGKLeINLO10hR+yUeH
-	 RoptWoC3sxp8Tf2h6kb9Q5eOtDaIei218uS5Gw+UinPqZtJMBC8mFTtQ87IQu2IV1C
-	 H/QKuF9QLk8TKx9krPIASnHmMsxRtPmvIgVMmae4=
-Date: Mon, 25 Mar 2024 22:49:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Marek Vasut <marex@denx.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
-Message-ID: <20240325204924.GY18799@pendragon.ideasonboard.com>
-References: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com>
- <4879631.GXAFRqVoOG@steina-w>
+	s=arc-20240116; t=1711404221; c=relaxed/simple;
+	bh=D97d//ulthFFq6JCivdJH/deBny3cPZs6rJuoK7JpQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ke65kddUVT+Pwg2R7L+9VkVNEpRDCUXOMigyOgCifafu8EIQcNuHfWtedOlm/cyiFQmlxKieqL7jRiarqYGWa+1Ow6YWGabzBl5GQw/v3vq0BVuQp8i8xigHIJbBx+0BW+VM8CKFWqgQ3E0TOLw13CJy/dj54CA6T+IvpR455mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmy3NfcN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C049C433C7;
+	Mon, 25 Mar 2024 22:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711404220;
+	bh=D97d//ulthFFq6JCivdJH/deBny3cPZs6rJuoK7JpQw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cmy3NfcNjDauCP4cDEVtxa5U/8SyAPO4uteTio8mgrr69A3++NzjhU4JgYgu6a2rW
+	 EHMGWxvvvWA0noRlZjmZLP+5k3G+M4QepPbHaLrwK8xqD7Foy833vVl9cnoIBH+OPh
+	 eo38gLscF7hnDKz/Fh59o76XSzrcmALSD8gT3zoMwAtkjkLFuZ/wYJSfwGpMyH55vT
+	 11Knta282UUb2sUllPB6X7351UnG+14dEY5QMGVmlJOwhCgorGv+HRbEEuJ8klOXom
+	 yZDEJndsaWaFjRlaCTICEDsjnvXLE+LQuZp5qxAg0jFsACXF2sA572UJqouGi92T3Z
+	 E63066cu/qz4w==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Yong Zhi <yong.zhi@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Hyungwoo Yang <hyungwoo.yang@intel.com>,
+	Rajmohan Mani <rajmohan.mani@intel.com>,
+	Vijaykumar Ramya <ramya.vijaykumar@intel.com>,
+	Samu Onkalo <samu.onkalo@intel.com>,
+	=?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+	Jouni Ukkonen <jouni.ukkonen@intel.com>,
+	Antti Laakso <antti.laakso@intel.com>
+Subject: [PATCH] media: ipu-cio2: Remove unnecessary runtime PM power state setting
+Date: Mon, 25 Mar 2024 17:03:25 -0500
+Message-Id: <20240325220325.1452712-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4879631.GXAFRqVoOG@steina-w>
 
-Hi Alexander,
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-On Mon, Mar 25, 2024 at 04:52:21PM +0100, Alexander Stein wrote:
-> Am Montag, 25. März 2024, 16:13:39 CET schrieb Laurent Pinchart:
-> > From: Paul Elder <paul.elder@ideasonboard.com>
-> > 
-> > The ISP supports both CSI and parallel interfaces, where port 0
-> > corresponds to the former and port 1 corresponds to the latter. Since
-> > the i.MX8MP's ISPs are connected by the parallel interface to the CSI
-> > receiver, set them both to port 1.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> > 
-> > - Fix clock ordering
-> > - Add #address-cells and #size-cells to ports nodes
-> > ---
-> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > index bfc5c81a5bd4..1d2670b91b53 100644
-> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > @@ -1616,6 +1616,56 @@ isi_in_1: endpoint {
-> >  				};
-> >  			};
-> >  
-> > +			isp_0: isp@32e10000 {
-> > +				compatible = "fsl,imx8mp-isp";
-> > +				reg = <0x32e10000 0x10000>;
-> > +				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-> > +				clock-names = "isp", "aclk", "hclk";
-> > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_ISP>;
-> > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
-> > +				assigned-clock-rates = <500000000>;
-> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-> > +				fsl,blk-ctrl = <&media_blk_ctrl 0>;
-> > +				status = "disabled";
-> > +
-> > +				ports {
-> > +					#address-cells = <1>;
-> > +					#size-cells = <0>;
-> > +
-> > +					port@1 {
-> > +						reg = <1>;
-> > +					};
-> > +				};
-> > +			};
-> > +
-> > +			isp_1: isp@32e20000 {
-> > +				compatible = "fsl,imx8mp-isp";
-> > +				reg = <0x32e20000 0x10000>;
-> > +				interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
-> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-> > +				clock-names = "isp", "aclk", "hclk";
-> > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_ISP>;
-> > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
-> > +				assigned-clock-rates = <500000000>;
-> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-> > +				fsl,blk-ctrl = <&media_blk_ctrl 1>;
-> > +				status = "disabled";
-> > +
-> > +				ports {
-> > +					#address-cells = <1>;
-> > +					#size-cells = <0>;
-> > +
-> > +					port@1 {
-> > +						reg = <1>;
-> > +					};
-> > +				};
-> > +			};
-> > +
-> 
-> The patch itself is okay. But you might not be able to
-> configure the parent of IMX8MP_CLK_MEDIA_ISP if dewarp is enabled before.
-> This is due to IMX8MP_CLK_MEDIA_ISP_ROOT being enabled in 'pgc_ispdwp'
-> power domain. Reparenting is not possible anymore in this case.
+ipu-cio2 uses generic power management, and pci_pm_runtime_suspend() and
+pci_pm_runtime_resume() already take care of setting the PCI device power
+state, so the driver doesn't need to do it explicitly.
 
-Good point. 
+Remove explicit setting to D3hot or D0 during runtime suspend and resume.
 
-> Something like
-> ---8<---
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1837,11 +1837,13 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
->                                                   <&clk IMX8MP_CLK_MEDIA_APB>,
->                                                   <&clk IMX8MP_CLK_MEDIA_DISP1_PIX>,
->                                                   <&clk IMX8MP_CLK_MEDIA_DISP2_PIX>,
-> +                                                 <&clk IMX8MP_CLK_MEDIA_ISP>,
->                                                   <&clk IMX8MP_VIDEO_PLL1>;
->                                 assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
->                                                          <&clk IMX8MP_SYS_PLL1_800M>,
->                                                          <&clk IMX8MP_VIDEO_PLL1_OUT>,
-> -                                                        <&clk IMX8MP_VIDEO_PLL1_OUT>;
-> +                                                        <&clk IMX8MP_VIDEO_PLL1_OUT>,
-> +                                                        <&clk IMX8MP_SYS_PLL2_500M>;
->                                 assigned-clock-rates = <500000000>, <200000000>,
->                                                        <0>, <0>, <1039500000>;
+Remove #defines that are no longer used.
 
-With an assigned clock rate here too then ?
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Hyungwoo Yang <hyungwoo.yang@intel.com>
+Cc: Rajmohan Mani <rajmohan.mani@intel.com>
+Cc: Vijaykumar Ramya <ramya.vijaykumar@intel.com>
+Cc: Samu Onkalo <samu.onkalo@intel.com>
+Cc: Jouni Högander <jouni.hogander@intel.com>
+Cc: Jouni Ukkonen <jouni.ukkonen@intel.com>
+Cc: Antti Laakso <antti.laakso@intel.com>
+---
+This code was initially added by c2a6a07afe4a ("media: intel-ipu3: cio2:
+add new MIPI-CSI2 driver").
 
->                                 #power-domain-cells = <1>;
-> ---8<---
-> is needed.
+Even at that time, the explicit power state setting should not have been
+necessary, so maybe there's a reason for it.  I have no way to test this,
+so if it *is* needed, please:
 
-Sascha, are you OK with this approach ?
+  - Add a comment about the reason and
 
-> >  			dewarp: dwe@32e30000 {
-> >  				compatible = "nxp,imx8mp-dw100";
-> >  				reg = <0x32e30000 0x10000>;
-> > 
-> > base-commit: 4cece764965020c22cff7665b18a012006359095
+  - Convert it to use pci_set_power_state() so the PCI core knows about the
+    change and all the required state transition delays are observed.
+---
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 9 ---------
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h | 4 ----
+ 2 files changed, 13 deletions(-)
 
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index c42adc5a408d..cdc43373d4e8 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -1812,11 +1812,6 @@ static int __maybe_unused cio2_runtime_suspend(struct device *dev)
+ 	writel(CIO2_D0I3C_I3, base + CIO2_REG_D0I3C);
+ 	dev_dbg(dev, "cio2 runtime suspend.\n");
+ 
+-	pci_read_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, &pm);
+-	pm = (pm >> CIO2_PMCSR_D0D3_SHIFT) << CIO2_PMCSR_D0D3_SHIFT;
+-	pm |= CIO2_PMCSR_D3;
+-	pci_write_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, pm);
+-
+ 	return 0;
+ }
+ 
+@@ -1830,10 +1825,6 @@ static int __maybe_unused cio2_runtime_resume(struct device *dev)
+ 	writel(CIO2_D0I3C_RR, base + CIO2_REG_D0I3C);
+ 	dev_dbg(dev, "cio2 runtime resume.\n");
+ 
+-	pci_read_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, &pm);
+-	pm = (pm >> CIO2_PMCSR_D0D3_SHIFT) << CIO2_PMCSR_D0D3_SHIFT;
+-	pci_write_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, pm);
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+index d731ce8adbe3..d7cb7dae665b 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+@@ -320,10 +320,6 @@ struct pci_dev;
+ #define CIO2_CSIRX_DLY_CNT_TERMEN_DEFAULT		0x4
+ #define CIO2_CSIRX_DLY_CNT_SETTLE_DEFAULT		0x570
+ 
+-#define CIO2_PMCSR_OFFSET				4U
+-#define CIO2_PMCSR_D0D3_SHIFT				2U
+-#define CIO2_PMCSR_D3					0x3
+-
+ struct cio2_csi2_timing {
+ 	s32 clk_termen;
+ 	s32 clk_settle;
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
