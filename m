@@ -1,197 +1,125 @@
-Return-Path: <linux-media+bounces-7721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706B4889F00
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 13:22:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB15388A971
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:33:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCCDC1F38190
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 12:22:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4179CBA3260
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 12:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEACC1304B2;
-	Mon, 25 Mar 2024 07:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322E7145B03;
+	Mon, 25 Mar 2024 09:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ayNNPj+U"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F36dxSIb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2055.outbound.protection.outlook.com [40.107.113.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DB139A0C0;
-	Mon, 25 Mar 2024 03:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711335954; cv=fail; b=Ay4+6+NjfTPZTnu5bfazLMxvjmP7rf52SkzZLrNiJbb9kJ8mI+IgdFXcCbKbIqb8EnUQe+f4+9HcOz/EA/8b1s0muaCrLXx5qo6Css5eJW0iCMfbo3th3cYMNy1XMaGdVQ2NPnemyFExfRNmGNWzYDUK0yTkWo5iJ422pYfli4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711335954; c=relaxed/simple;
-	bh=MiUpDz8lcoTxKFsuFJyr3KqsbS/xFRnCWmcPywIV9ck=;
-	h=Message-ID:To:In-Reply-To:References:From:Subject:Content-Type:
-	 Date:MIME-Version; b=BLHFp2cQgjBWe6Cg9iZwXrL+XjA6kpcptuHXBSj7zWDX1yexHvqL69ORWjQ75+QGF3KPgFevRV1otCZUjQ23YhRMv1Tnq7CWPoiVBEsPiZu0NvoPbGdqaA2Pt7XN1C7Zc2Qi1dUP5Hs+9/yRaZjBzsjQ+JQ8gi9U69AMzQWCcXY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ayNNPj+U; arc=fail smtp.client-ip=40.107.113.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oCDdixymzrWOGZ4k8nA8UkBafyukafbFudB582W5fO+IMKa6B3NRMrxR6RHL9QSTs48sQFGlbPdwVzZzoHNKIw8YFfYYxvYgURpJ288l0o2WsRy5AMAo47fOZAdJL9vwPwaHbwY4na+RhGb+n6tyimmuJH+tJM9/tkg1iDvfFGFdyebX0GWplruDnEyc17J6By4lLbQtn/ID9g9IeLMjbT9ySNh4jim+cd2WVFiBz0NkvIqcCBSfAhptzY/iRls2DH8zrq45F3rXvKM/3GTfP6XP8ahSHzW9JCMrrCml2eITd+raBb6uCDKxFMHTZHjZ+TleFSrrIQVEc42i0+5kbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y8t4OQznVBGLLmBFnjQ/lO6G9QF4zCO9P6FQQUWVcwE=;
- b=AqLnd16v/SQKXW6noptx03YnVqbzCH5v79tSiPIaC5a4FlM9ASGl3Tcj65a3SG60vzEDaZfg5eM8NdlmSigzAJ2Ef7YjNNiFiEldzga+x6D7WlLGip8U85dhvlSdOMz/uscF5x9q/l4BCHy0sNeR36cODFwKwhG1r90IrPiPVCAk4U6AzkBri3allxfBPdLIr1qusvrM6Txo8N/CH/F9mHmw2+MQD52RVrjaFYmIbhi0lahIAQLSeDlDpiU2DRKoEC4cjKhT88+EOFuZtQ2aKhvzshOifoywrGSWoR+G81i9IsmSacwW1oVpz2FPrh6Xd1NDyIOttQ3SV7pFW/d1Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y8t4OQznVBGLLmBFnjQ/lO6G9QF4zCO9P6FQQUWVcwE=;
- b=ayNNPj+UCAGOsXrkP0o6qkl56WUt06FBptlBb+jLA3dXKuJYPeubeKNnGnw/2PHQshJyJ6c/FjKvmGSX/sOtuUcSgyK0lrggcGYmnlbe4+5h0c1qcAhPAAFFnc2qQ3hfBNB+zEcfxjHXZ53rmHYYqCoDvz3ruzYNc1tRftXqwG4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB6966.jpnprd01.prod.outlook.com
- (2603:1096:604:12d::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Mon, 25 Mar
- 2024 03:05:49 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 25 Mar 2024
- 03:05:49 +0000
-Message-ID: <87r0fz57ub.wl-kuninori.morimoto.gx@renesas.com>
-To: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	coresight@lists.linaro.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D83C1849;
+	Mon, 25 Mar 2024 03:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711337677; cv=none; b=IU4VMYTZQYIPJ0X98/MQwKe3MqH8vR+Y5VRNejcujVbtzadquDYv7+yBbRyCHLowLbdevNRx5UjiNkZ1fmBU2ZO52SOadz9kX3dByJbYnHmfaTJafpRV/RDF94iWTHu68rAfaUbatR2yjM5TiNqnN5e0xKYl28ylDcUg2gZt1NU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711337677; c=relaxed/simple;
+	bh=dgHhWcmK4wzqyaiiERdmFMSqnnE06qaplwlkFBXUdIA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u6izZg6c47zD+lJHk1eACxWT97uPbLPlfzWnidzcOFSV/pfOAHop8NrCpNnwDdhmDx/Enrd02dhvbkmU6OENeEvFDMjK9QoMsbN/BxfWTgfP1MryZMpSGxa56lD33wcy6VCROGZhzYA1LbRLltgLM6EWHkIh4xvH0sa1PpQfG1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F36dxSIb; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6e6cf03a76dso861040a34.3;
+        Sun, 24 Mar 2024 20:34:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711337674; x=1711942474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMpIxPMCcxDzGX2UXAJvTPFkeya4KxDWX8GZFo5s2Gc=;
+        b=F36dxSIb8glcVBGwkg/y7d1rhEOQGMC7HMbBf+789BYngmKYPXcYUQnyX0+qpzl5aM
+         094qnaJgyU5xh36QP1cJxlQ4WlQcXSY4SV/iY8ucY0YwkMJ5uM4e779OLxamshfxMebR
+         djH68BBi3ofbAbnaXyZrzQIBfipdBLuoMwj1ktEAMRhRVXccK59DkQj+W3wxss52P9Pd
+         CGZv1yvB81ZnjxSz3uxqIEM8BGTCNhXpk2vXmTbsD5MmuFoVHx1OpkXaruj6vWoginHT
+         ll/RzK6zizzVyr/fN9k/5lhkgtUi5kX4Z/N8Te85aSP0zuUZSZ7J6pphIlUENoWwHNS2
+         wtdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711337674; x=1711942474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMpIxPMCcxDzGX2UXAJvTPFkeya4KxDWX8GZFo5s2Gc=;
+        b=EqcURx4ajz7Mn/6xeybSaShBcvEChWJ1UbIVHAn8vEvT6uRnuTqtUYBGLyU1n9LeQ9
+         ehsuTwnQVjm8Ru9PdwWzv/96s61OMSlN6uK9I1DzcJT5WaWYamtGy2le46XekE1XPGGg
+         eTjVwrGwRUvUtISBTOojey05EVV00RbfvUCIDsEPJh0rbdQNPEzWRvTFGtqb96Mca5+Y
+         1RszUKGRSjAesCqHZJPJ5EfmFWnkIfLygqBNgD2vnFoMSvyt8OzwVNom3oxz5Xjw5iAt
+         B3OMPOUb+2t1Eoj5iAse1qjPUOTq4QYLSR2lsdrp8ecw6L4R/S681/MAajsfvi8GQkSK
+         zwOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbnL5tX2eX0xCO1OtiLi1luNEOa3/zlx811sDvsEvSiC7lczBQtvnS63ol3US5oNoKrhjOUW3L2e20CA1xrEYy08hlhlpvHlwzD15E8y3pLbG7ZHw2Hum5bTNb288mhOT3tFQCdehcw7A=
+X-Gm-Message-State: AOJu0YytZ0vFf95j/wbet+TTNNSrTw9iJvKMlpmyA5hZDDw7iXdc38b5
+	MCq+3sak9q3aDbUPtvcut4h72QCBfmtXoUVCVn/Gg1KsW2CyEqQS
+X-Google-Smtp-Source: AGHT+IGSrQDNPv9m6amL42+SaReUA0caWi4XU01dj8E7zHNP41xfBJTTfNqiPAlE6na2wTOq0RYS1g==
+X-Received: by 2002:a05:6870:2183:b0:222:b950:6785 with SMTP id l3-20020a056870218300b00222b9506785mr6717232oae.28.1711337674272;
+        Sun, 24 Mar 2024 20:34:34 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c2:1010:877d:14ff:b313:5f57:6762])
+        by smtp.gmail.com with ESMTPSA id i25-20020aa787d9000000b006e66a76d877sm3310747pfo.153.2024.03.24.20.34.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Mar 2024 20:34:33 -0700 (PDT)
+From: coolrrsh@gmail.com
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
 	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-staging@lists.linux.dev
-In-Reply-To: <8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com>
-References: <8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 8/8] fbdev: omapfb: use of_graph_get_remote_port()
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 25 Mar 2024 03:05:49 +0000
-X-ClientProxiedBy: TYCP286CA0229.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c7::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Rajeshwar R Shinde <coolrrsh@gmail.com>
+Subject: [PATCH v2] staging: media: remove duplicates
+Date: Mon, 25 Mar 2024 09:04:27 +0530
+Message-Id: <20240325033427.4708-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6966:EE_
-X-MS-Office365-Filtering-Correlation-Id: 217584a1-2ebf-40a9-e186-08dc4c787935
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	j213kYYKemA54wITNEkH7qomEJThqx392VNx1fBkb856Y8C9uvnOlP+qtvF/gq2Aagn7mC25Xtf2BqDYOjqPSvUjCmE+1/9x9FsR4vK0FP28+G4fgN9OCpa6prlw1FdJV2rvC4EeKkUZ5MGV/qhlu08mytwaMvoHLAO7yKQeDyW7eqLuKjdCTqEYCanv1sBbR55hEPmzR9q/muHKLOAmHrBEg9IC657DBe2c4I4bIQLcJRK+cWH8r1JDzvvn3yZc1NgqRFdsEohyVAjmgNyG2315H3bdUO6I4WsmW89TTgo9qdU+DAkU3JeW1+p6YCLs7W27Uh8X2aQQN+6wsiil8j34bhEXRjf02JWNqLOCpXIKDhMfz/PpbgqsHMV7EMukhxTx+wIPi775mMSRaH8hGCaDOwp2MHJoKzkT9CL7V8ftnIn2l3KMhbIyTJNBTjJpS5FomKnKQUWfD9fNejeloKWT1hpHaIE+IucN95N4N1duejYQ2STXIZmQCdQ7oroAnbgjf65QyvT4fxAoGOc6C3C51IjqHavxVo6jpkDkRFEkq6KzjGl3r+6JkTCFd1S2zz6gcjqxLA8W5aVooSr0OohsjsLpIquAhnjM6MtIW+ijw/I8b1F4XCOCjddCmt4xIHANYZaexn5Ypr1fnBC8H7/C8Z0ENVfNer7UXAjly3yEBfc6Mdyl5wldNR4iBz1UtAtUjfA/Qf+VqHadzS+eaysTth74bKIm/CVo61QjEvY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(366007)(376005)(38350700005)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MRy66VN1HpM9PPtjj27gpNfbUocxfmd01NRvDo46yrgwQXpiPlK4hfAFNuhI?=
- =?us-ascii?Q?j4MzQMTpziGo+X1QgZOXPHdaoi8KM2GRrPzo7HRG04qz5GCJcUPBRFtWU7fV?=
- =?us-ascii?Q?bDVNi8/lBS4r3WFGJL5sQU2EP8rObvUhiLQFojhsc+zQhFGoPktdc7k+ZYX+?=
- =?us-ascii?Q?jQtL23hjvRvKtZtMk0jW7PfbqIPfJC7lCv50aLYUjuuEjcN5iMASjCXw1XEZ?=
- =?us-ascii?Q?WlmINlyFufXCQBdbxUqwndjg1lWFDemacXpaklydM9NV5rzgY8pnbNi6DOO7?=
- =?us-ascii?Q?o8/U70a5hf5bRTA9i925n8PZ3a+cBY30uBaeaTg6JdHnLsHuTr4kSdVf9EJA?=
- =?us-ascii?Q?RtmRtrrQZSM9GblNJKhPUq9azH/bctIZ61dbuw08/+jWhs0eQbscazih3XEw?=
- =?us-ascii?Q?i+AnUd4mYx74Z8iasx+S26aFVcPBjYJQYkdTjspBeYzX0ZC3/Nej81400hML?=
- =?us-ascii?Q?NjL4K0rWD/6IyQEY9VzRLT4JBJsT537cwBuT1jlIFsae1EK9IEGAyrl/qx1Z?=
- =?us-ascii?Q?FdeduOFPBre8ZJjsHfg4tjT/9oWAR+oWXFIMnYkIYBuhadbDj4jgqUQXb3Wq?=
- =?us-ascii?Q?jFIrUz0/Pa7DGcaySiJf2WSqJEVWcAaNZduDwBHPYh/lEV8G6QodC9L+N27g?=
- =?us-ascii?Q?nv2hBJ9MIUcNn99h20hQryDnpDvUADK/w8c95zUpbS+eFjFEqOBI3EF4gKJs?=
- =?us-ascii?Q?YW8228kuvycAx3q2h/ONKNYckAayX9U7C7FjykyELFBznLLYrKYTCQ4M1FX2?=
- =?us-ascii?Q?qaAt+Mw84iKEcVCco91/KJQTHOVEqa9OdHoo189ipXwj0YPYZXUWYFEEIG9s?=
- =?us-ascii?Q?GvipoHwxgDttcHXCZpSREqovGGGoJ4GrgbJaKIeRkwe+JQ/RKSjQ/LoeTyol?=
- =?us-ascii?Q?DZrfd9ea0n9NCfHIWYjRu+tffYxlmMvG1woRuTZlctsddYIExKbPeaEEtYsD?=
- =?us-ascii?Q?KEZMI8i7M2aIS9x86324rfibdCdJAw814mdW/cUOYXJhVA52ug0GMWRfWRBS?=
- =?us-ascii?Q?ZCEWyyt3pOXQSBe4GzDV0iOvFBle5V6N3AGPefI0ScAydyZsOwJJh79JlO43?=
- =?us-ascii?Q?hJICtZiyGRC11UUJabcISTP3WJCgMZHuz/d49BNIC17f1fU3g+dAqnE9gXPa?=
- =?us-ascii?Q?cXq81n/5Chtk4ut6zf9KGwluAluVcq8mgQxwY43K9g9jn3VRFeTCER3zdlMt?=
- =?us-ascii?Q?1Er7LN94bGc6FbV70jbGoxXpr8gb7miS1niT1DNj87Q8cJaGMqSrerAyFcwA?=
- =?us-ascii?Q?ZXeE94TrMoouvQTLtPXp5RaX0KpEYzItIu2wNujN6G8mOLotfg0pZsdp7atr?=
- =?us-ascii?Q?x4V8mbDqgkZbVPMRYtTlXVeZBX0CApgmVQdHyX+eSASsAzB+hQqb6E2YeCwl?=
- =?us-ascii?Q?tlwXorcahxvB0+DmhTZ0wFw7OfelwVYqkju95jDc4A2tEZsqJhf+kokB68Ne?=
- =?us-ascii?Q?TlcMSWy3mc5wZkFQIt3ND7pJlYEDkLkcNA50G7c8gJf3gHfvuVv2xVmqh+5f?=
- =?us-ascii?Q?JBViOZ9cbbcm8dhvJp6kd2lUPH35tkibCPZn77edY/KKYmnw/b8h+3fOl71o?=
- =?us-ascii?Q?+Ae3tMy8//5g48YbJ6NpO9V6Y8k7GX7gPjZTrHfvHVj0lScUPRlt60G1mbml?=
- =?us-ascii?Q?qasnenGEL0YrDNTfkw1JRcY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 217584a1-2ebf-40a9-e186-08dc4c787935
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 03:05:49.4657
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rSZxAhjEgIxlB94locTwSeKbf7RT54Be7IkVp/sswyHrLI2pG42qP9ORKB8yRrV5gUr/ng9cFaCYt3yPppE3AbgXHitIZyYTcKoPpzTRxWiJTPx1sW8lGJpAVkbJ+XCS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6966
+Content-Transfer-Encoding: 8bit
 
-We already have of_graph_get_remote_port(), Let's use it.
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+The kernel configuration VIDEO_DEV is defined twice in Kconfig.
+Thus, the redundant code is removed.
+
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+v1->v2
+modified the subject and commit message
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-index 14965a3fd05b..4040e247e026 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-@@ -117,19 +117,6 @@ u32 dss_of_port_get_port_number(struct device_node *port)
- 	return reg;
- }
- 
--static struct device_node *omapdss_of_get_remote_port(const struct device_node *node)
--{
--	struct device_node *np;
--
--	np = of_graph_get_remote_endpoint(node);
--	if (!np)
--		return NULL;
--
--	np = of_get_next_parent(np);
--
--	return np;
--}
--
- struct omap_dss_device *
- omapdss_of_find_source_for_first_ep(struct device_node *node)
- {
-@@ -141,7 +128,7 @@ omapdss_of_find_source_for_first_ep(struct device_node *node)
- 	if (!ep)
- 		return ERR_PTR(-EINVAL);
- 
--	src_port = omapdss_of_get_remote_port(ep);
-+	src_port = of_graph_get_remote_port(ep);
- 	if (!src_port) {
- 		of_node_put(ep);
- 		return ERR_PTR(-EINVAL);
+---
+ drivers/staging/media/imx/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index 21fd79515042..772f49b1fe52 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
+ 	depends on ARCH_MXC || COMPILE_TEST
+ 	depends on HAS_DMA
+ 	depends on VIDEO_DEV
+-	depends on VIDEO_DEV
+ 	select MEDIA_CONTROLLER
+ 	select V4L2_FWNODE
+ 	select V4L2_MEM2MEM_DEV
 -- 
 2.25.1
 
