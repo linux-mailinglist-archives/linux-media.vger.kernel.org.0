@@ -1,153 +1,133 @@
-Return-Path: <linux-media+bounces-7797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC5D88B5D1
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 01:10:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BF688B446
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 23:38:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BDE1AB2A8A4
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:03:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 571AA1C3D202
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C114271732;
-	Mon, 25 Mar 2024 22:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9121D79DB9;
+	Mon, 25 Mar 2024 22:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmy3NfcN"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R5jzOA21"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222966F520;
-	Mon, 25 Mar 2024 22:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E0876023
+	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 22:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711404221; cv=none; b=RO/qHg52QmFGF5N5iBXcBXEKFYoX3VTs+w7kxt1O/bQXbE0UZGeKA6tnZS7AAELkDvLXzmyE4/QtSRZHznNRLBEa/eZMdJBf527NsuA/LLt1iPJozRvuooVJvUOvTdFpN9CIJV9DMReiRSUplNsAL1IQIB40DF94cKm3xMs5IYs=
+	t=1711406300; cv=none; b=YUieBLvqgpwc0W0T8T7LLKieJEXLQk8nInX8D59a+Xh7e2vsf1L7InSnum0Gid/Kc4TD+3s1Qej+sAZZGzNumiTsLWURg5fmgO5ne7rjAQ4lZnPLE9YIYuLw80hhayz3uXS+VVgVaxfrDmWqOW+gJZO8IosmzsSr9UjdjmydPvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711404221; c=relaxed/simple;
-	bh=D97d//ulthFFq6JCivdJH/deBny3cPZs6rJuoK7JpQw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ke65kddUVT+Pwg2R7L+9VkVNEpRDCUXOMigyOgCifafu8EIQcNuHfWtedOlm/cyiFQmlxKieqL7jRiarqYGWa+1Ow6YWGabzBl5GQw/v3vq0BVuQp8i8xigHIJbBx+0BW+VM8CKFWqgQ3E0TOLw13CJy/dj54CA6T+IvpR455mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmy3NfcN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C049C433C7;
-	Mon, 25 Mar 2024 22:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711404220;
-	bh=D97d//ulthFFq6JCivdJH/deBny3cPZs6rJuoK7JpQw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cmy3NfcNjDauCP4cDEVtxa5U/8SyAPO4uteTio8mgrr69A3++NzjhU4JgYgu6a2rW
-	 EHMGWxvvvWA0noRlZjmZLP+5k3G+M4QepPbHaLrwK8xqD7Foy833vVl9cnoIBH+OPh
-	 eo38gLscF7hnDKz/Fh59o76XSzrcmALSD8gT3zoMwAtkjkLFuZ/wYJSfwGpMyH55vT
-	 11Knta282UUb2sUllPB6X7351UnG+14dEY5QMGVmlJOwhCgorGv+HRbEEuJ8klOXom
-	 yZDEJndsaWaFjRlaCTICEDsjnvXLE+LQuZp5qxAg0jFsACXF2sA572UJqouGi92T3Z
-	 E63066cu/qz4w==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Yong Zhi <yong.zhi@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Dan Scally <djrscally@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Hyungwoo Yang <hyungwoo.yang@intel.com>,
-	Rajmohan Mani <rajmohan.mani@intel.com>,
-	Vijaykumar Ramya <ramya.vijaykumar@intel.com>,
-	Samu Onkalo <samu.onkalo@intel.com>,
-	=?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
-	Jouni Ukkonen <jouni.ukkonen@intel.com>,
-	Antti Laakso <antti.laakso@intel.com>
-Subject: [PATCH] media: ipu-cio2: Remove unnecessary runtime PM power state setting
-Date: Mon, 25 Mar 2024 17:03:25 -0500
-Message-Id: <20240325220325.1452712-1-helgaas@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1711406300; c=relaxed/simple;
+	bh=xMW7RXYeIfBFCjZ7VpJtMSa+FXfoa1xIBPpDQwxVrPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KEnqQTKhpfMdoU3JCD3Veqdpf71fpLft+cEID5Z8g1QYBQUhF90iDQa1BROv2WFSXiUWKiauAW2KNu7qgixy91D5/VYyiJlHL6VQBxklG7jp7AWi+PP+tWq8wW5yiDeAJvmJZGW59bA9f6W/cJsKUwMXOB0kaNou4kyFoyKRolg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R5jzOA21; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-431347c6c99so48771cf.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 15:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711406297; x=1712011097; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VGxpwjKqErz/WL1ZU+CEUoKvbb2jqoUW3asVbdp7yTQ=;
+        b=R5jzOA21iZKiK5FqcZjzfzRPEROBcDSgAY4s0XqCJYPZyPHh/kQjLmKyAxYilRT+pY
+         CKAY7m0xexVe3MUHjaupk4UJSuThIZUegEwldPRCg5SgwP5GlflOz8KlCvSevlDLbZeg
+         OoKI+U0JZtVTzjHdj/86EWW3h2phE23odtsmE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711406297; x=1712011097;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VGxpwjKqErz/WL1ZU+CEUoKvbb2jqoUW3asVbdp7yTQ=;
+        b=o4Jm0Us54xBJKhqj7RFnRiCmKu7upp5BhyQFFcbL2eQKveykatVeQdOiKr6vCi1SQe
+         JuYdac49L2Yt3bwT78nyPTmmnnNR6QRWYCVrneDeGX4bbEB43TdgTtlAN8WbpjNamabc
+         OKGVup6+nkQnzkG7VutMnErKtqlBLu9zJoiQq0LsLBHIIZnjfPQqc8ym2/q56Jl2YUoj
+         WNUTaJs8s1HWQRWQjkSTLM3+hFhV+8z2KxkMMkRpmp0MNyJ2OfW0KOeQ4L4zfM4YQVv3
+         fMxlBQVZkA+3s1U0O1j4nmMoAom/lOctSxFQa7SH0FZMh9VyZnAWr/IzECgy6P07UzjL
+         0jHg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4yt0LWwSzImrHsCVHNWkJKQc6eBoSu54Bq5apNnQoOOh/NKFZlIlQaqwm9HpszSEiqIRlIBuw1wd645MUh0eZO3BNU2cLtxXQeNE=
+X-Gm-Message-State: AOJu0YzKYhml4dsU/MPmDo34WwwfXXymhtdJ0z3MCWwkTXYdOZ3Gws5/
+	C4DZb7inVuBq/IFw/001Co969jMQ83uAfRH0TEjleJo4Lt5KQh4x9zDz1eeVYRzguxjFIHoDu9r
+	E4cZL6dIJkuptRrp1/Er2m57J/dOB/seF6+gZBMjH4hYcS4soaNy1
+X-Google-Smtp-Source: AGHT+IG52mKa+pnbbYX3Ox0jW5wzGRU3wSOiDtmpILVDdI7DL6SUQE9Rf8+tGIrIV07xI4B507o9Zmf6GRIhYZTuXXw=
+X-Received: by 2002:a05:622a:1b0f:b0:430:a5df:a3af with SMTP id
+ bb15-20020a05622a1b0f00b00430a5dfa3afmr575qtb.5.1711406297215; Mon, 25 Mar
+ 2024 15:38:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240322214801.319975-1-robdclark@gmail.com>
+In-Reply-To: <20240322214801.319975-1-robdclark@gmail.com>
+From: Dominik Behr <dbehr@chromium.org>
+Date: Mon, 25 Mar 2024 15:38:06 -0700
+Message-ID: <CABUrSUBTz7n6Yg_4wvGR+W__AKn5Vj4aWuLg5p3bDWye-PwExg@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+	Dominik Behr <dbehr@chromium.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Simon Ser <contact@emersion.fr>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
+	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+It also fixes importing virtgpu blobs into real hardware, for instance
+amdgpu for DRI_PRIME rendering.
 
-ipu-cio2 uses generic power management, and pci_pm_runtime_suspend() and
-pci_pm_runtime_resume() already take care of setting the PCI device power
-state, so the driver doesn't need to do it explicitly.
 
-Remove explicit setting to D3hot or D0 during runtime suspend and resume.
-
-Remove #defines that are no longer used.
-
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Hyungwoo Yang <hyungwoo.yang@intel.com>
-Cc: Rajmohan Mani <rajmohan.mani@intel.com>
-Cc: Vijaykumar Ramya <ramya.vijaykumar@intel.com>
-Cc: Samu Onkalo <samu.onkalo@intel.com>
-Cc: Jouni Högander <jouni.hogander@intel.com>
-Cc: Jouni Ukkonen <jouni.ukkonen@intel.com>
-Cc: Antti Laakso <antti.laakso@intel.com>
----
-This code was initially added by c2a6a07afe4a ("media: intel-ipu3: cio2:
-add new MIPI-CSI2 driver").
-
-Even at that time, the explicit power state setting should not have been
-necessary, so maybe there's a reason for it.  I have no way to test this,
-so if it *is* needed, please:
-
-  - Add a comment about the reason and
-
-  - Convert it to use pci_set_power_state() so the PCI core knows about the
-    change and all the required state transition delays are observed.
----
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 9 ---------
- drivers/media/pci/intel/ipu3/ipu3-cio2.h | 4 ----
- 2 files changed, 13 deletions(-)
-
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index c42adc5a408d..cdc43373d4e8 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -1812,11 +1812,6 @@ static int __maybe_unused cio2_runtime_suspend(struct device *dev)
- 	writel(CIO2_D0I3C_I3, base + CIO2_REG_D0I3C);
- 	dev_dbg(dev, "cio2 runtime suspend.\n");
- 
--	pci_read_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, &pm);
--	pm = (pm >> CIO2_PMCSR_D0D3_SHIFT) << CIO2_PMCSR_D0D3_SHIFT;
--	pm |= CIO2_PMCSR_D3;
--	pci_write_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, pm);
--
- 	return 0;
- }
- 
-@@ -1830,10 +1825,6 @@ static int __maybe_unused cio2_runtime_resume(struct device *dev)
- 	writel(CIO2_D0I3C_RR, base + CIO2_REG_D0I3C);
- 	dev_dbg(dev, "cio2 runtime resume.\n");
- 
--	pci_read_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, &pm);
--	pm = (pm >> CIO2_PMCSR_D0D3_SHIFT) << CIO2_PMCSR_D0D3_SHIFT;
--	pci_write_config_word(pci_dev, pci_dev->pm_cap + CIO2_PMCSR_OFFSET, pm);
--
- 	return 0;
- }
- 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-index d731ce8adbe3..d7cb7dae665b 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-@@ -320,10 +320,6 @@ struct pci_dev;
- #define CIO2_CSIRX_DLY_CNT_TERMEN_DEFAULT		0x4
- #define CIO2_CSIRX_DLY_CNT_SETTLE_DEFAULT		0x570
- 
--#define CIO2_PMCSR_OFFSET				4U
--#define CIO2_PMCSR_D0D3_SHIFT				2U
--#define CIO2_PMCSR_D3					0x3
--
- struct cio2_csi2_timing {
- 	s32 clk_termen;
- 	s32 clk_settle;
--- 
-2.34.1
-
+On Fri, Mar 22, 2024 at 2:48=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> virtgpu "vram" GEM objects do not implement obj->get_sg_table().  But
+> they also don't use drm_gem_map_dma_buf().  In fact they may not even
+> have guest visible pages.  But it is perfectly fine to export and share
+> with other virtual devices.
+>
+> Reported-by: Dominik Behr <dbehr@chromium.org>
+> Fixes: 207395da5a97 ("drm/prime: reject DMA-BUF attach when get_sg_table =
+is missing")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_prime.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 7352bde299d5..64dd6276e828 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -582,7 +582,12 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
+>  {
+>         struct drm_gem_object *obj =3D dma_buf->priv;
+>
+> -       if (!obj->funcs->get_sg_table)
+> +       /*
+> +        * drm_gem_map_dma_buf() requires obj->get_sg_table(), but driver=
+s
+> +        * that implement their own ->map_dma_buf() do not.
+> +        */
+> +       if ((dma_buf->ops->map_dma_buf =3D=3D drm_gem_map_dma_buf) &&
+> +           !obj->funcs->get_sg_table)
+>                 return -ENOSYS;
+>
+>         return drm_gem_pin(obj);
+> --
+> 2.44.0
+>
 
