@@ -1,152 +1,151 @@
-Return-Path: <linux-media+bounces-7739-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7740-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E3888B367
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 23:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43A588A7D8
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:56:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E25A7CC432C
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:13:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4917CB39851
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:19:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 029876BB4C;
-	Mon, 25 Mar 2024 12:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF068157484;
+	Mon, 25 Mar 2024 12:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lxfh8rqN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="waT/yd4c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11AC1CA9C;
-	Mon, 25 Mar 2024 12:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8279D157483
+	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 12:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711369839; cv=none; b=DI5n6szh8r4RKFOctDlRAwTRS24F9YGq5p6rwQwC70gg/rZM8rkFIoUD4DWEOMXaRcXcQvAXGm01SK6cg4vZLSdw+BVGiJ09wt8TOF7PUBXo65lQci7gDTQW/DO8Tk9pm0seWUwEtr8p6T9o/vPUnfSrOcWEmHYJp9ggr/9VDNw=
+	t=1711370109; cv=none; b=cTlvMMXOsHEFvjqNZg/27y8Kyd9InHeWxtCTaGB6E5Yd+ZvrdMfpqDOk/TDWcW4vA6KcXaHKPfawCUYM4uX6QHDXFllqhr1GbJsMomjEGnAMYtm9FLtVk95TVq0B06ih2xpoBHP9UMGqeJKTKFamJ5sLEtCDFYTtN0stC3Ap1Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711369839; c=relaxed/simple;
-	bh=RfL040IUPCaWvMIzsN65Z0SyuHQycwJDXZFSUXFyt3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nkMfPuQwDBcP0bdZEAO8znsEEFwPehxs0YrkcJkBUptnj9Z5rUy+K6CL/mkQeyMYK3wjn/SS6dKvqjEsTmz4NJqRF5F1ytMjT7Ex4CddDK+zsnVurUfW1NjHWZveRN7Sqec5DKIKjcZyeJs31gKp28OhQdYPY4MlAqifLKojUL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Lxfh8rqN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PBLof6012760;
-	Mon, 25 Mar 2024 12:30:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=MbobahLMIL4ZqNXcZPVc+GQ0WZPb5ccx21RBCt3QnQ4=; b=Lx
-	fh8rqNBvlccEmQCsI3OYUytdNcerWrnYjsfMr3R8sLp2G1nlFRq1g+oz2fF13Chc
-	ybnoaRsEAZaQ9s73DkMPpVUlHDJDvT9ZYFKUlnsnyaEgWDGJZdoPfBZeVZt+tUvx
-	bpW6b3G8hob8Nk85d5xSdGOVnpXj2AntFE92uw1xhQV9LkLodXMMyxtWFqwpemeX
-	qawWlCG9Gro79oRhb3IRzUAbl2HJfg9rZdoLI+xW6QTNaw6oV1ZqiTlU/XxMu3NR
-	Vxhr+whGsNMI9WUcaXtnBouLC1DTCsNo+lxPQX33kStFuTN4NkggY/hgtsCLl7Ca
-	Bz+WLtzvTgoNAQVv8IIQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x38am88bn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 12:30:32 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42PCUVCf009852
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 12:30:31 GMT
-Received: from [10.239.96.73] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 25 Mar
- 2024 05:30:28 -0700
-Message-ID: <6d9a093e-ee4f-4f4d-8883-e17dc8dc8210@quicinc.com>
-Date: Mon, 25 Mar 2024 20:30:26 +0800
+	s=arc-20240116; t=1711370109; c=relaxed/simple;
+	bh=Ihco2VVQ8EM7Jh1F8wrCqICE2zkzbKD5Hk3coKQgtXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XsneGqcRNzt/UTn2sFIT3W0syhzFugh/KxIaCDu6VzMPw3zpG7r8s3GIaHZi78YibxevETXH2iV4Gb1oG0Ja/YGTuWBkmTSTEWnSNc4Qd4RBdv1xqUoI7N+bisRGUEWgUtW2pck/1U6IwKDtwvyIsHcy3WDmvNbz6lnh7Ih0p4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=waT/yd4c; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56c1364ff79so1009212a12.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 05:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711370106; x=1711974906; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWqmr4tJSgMTZuBlY7silaTC/ghGytqv25bJf51WJeA=;
+        b=waT/yd4cU4mNnUmHP5+44H/LdpDe6k1mDmwTsWZ260b/hmLwFpeAVOjMylwsfz6P09
+         UEc/ee8vp56Nq4CX7NnHHj7Ja/pbAuDXpYhGUcLdUNKUW60eMdHFN1Z4rEBcu5LKFCzY
+         PyLMefIL6VA9jdltO+mA4ji1FlzDOePVnpAuKNydEh8aQpnEUeDSs/hINvWZcKxrdQQH
+         4ZstZ9JysY2G6n3BIv7+s1b6LG3q9zt0GstasxDHdM/Z6juk925rKcTgGtC6HgedjZSv
+         oRK1BZMP/9QdvB5lVFybRVodoDWcFPT47YaAIYfmGSirnra5vAu6/LSCSEPfOBbcTbXl
+         Y2EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711370106; x=1711974906;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bWqmr4tJSgMTZuBlY7silaTC/ghGytqv25bJf51WJeA=;
+        b=PeooT2xHTziAwjJG0pUd0bMYaR0vFeLpMTgwaQ6fqR2UmZQReeLgs2xY+2VXbLecV0
+         OCuUMnmEBzT8NBcbC3quk9HEAh64Z+4g1n1EjzcG+TgcN7mI+cHgYCXuMdLUCFQDOB1U
+         nVcmPuy7KRYJrdB03saqkPWSpOCSgPy6DMokUuZsjQClZyczWmWbnUl7CQY/NGww9mfy
+         W54MXvjCIdtmAzwdx3iz92xW/BOp7uep2Qt2mE712EcUIi9jyBr1ngtCg7gancRIC3Ob
+         gnApTzZxlYyCj6jHedxFcqCSY/3y80GEeL2OpqnsKQu2kUj4IvqZPMgjVSV5rmF2K5sV
+         FRtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC/aa4eqnMDrIoNMXpY0J0lwenDx5Isf49kyjFV7OTgpaR4VuzqCaB6G+k8GB7Dx3po4gWZtHol9tNdybP9Ax2LH7Yb45g8FAfRYo=
+X-Gm-Message-State: AOJu0YyLRc7gdiFZA8ccVivXUAqSZeQ58rVnvprU1n2bBA+I3xV5eyRQ
+	ybf3fdRPglccoYAPIZMeSXqAMLoNM1Z8l3zHCEcJDCSRZ5C0xCRy3TzEEZqNdbI=
+X-Google-Smtp-Source: AGHT+IH8Cn89ggEfIANbpUmr3OPCf2JNAzSSROYWGxG3Th6G6cN11daoFg65mxm7kIJzyF7KMVoTFg==
+X-Received: by 2002:a50:d786:0:b0:567:ff26:4bcb with SMTP id w6-20020a50d786000000b00567ff264bcbmr4510771edi.30.1711370105691;
+        Mon, 25 Mar 2024 05:35:05 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id s21-20020a056402037500b0056bdc4a5cd6sm2947522edw.62.2024.03.25.05.35.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 05:35:05 -0700 (PDT)
+Date: Mon, 25 Mar 2024 15:35:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/8] media: platform: ti: use for_each_endpoint_of_node()
+Message-ID: <02d6efba-6d1c-465f-a06d-cf7c02656e21@moroto.mountain>
+References: <8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com>
+ <87wmpr57uw.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] media: qcom: camss: Add new params for csid_device
-To: Krzysztof Kozlowski <krzk@kernel.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <mchehab@kernel.org>, <quic_yon@quicinc.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240320141136.26827-1-quic_depengs@quicinc.com>
- <20240320141136.26827-5-quic_depengs@quicinc.com>
- <f9281370-d3e5-46f7-8031-d5c2c524eeb9@kernel.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <f9281370-d3e5-46f7-8031-d5c2c524eeb9@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: t4O9cWBYbSxn_Dj1rl3tlg6UWgxjP6ap
-X-Proofpoint-GUID: t4O9cWBYbSxn_Dj1rl3tlg6UWgxjP6ap
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-25_08,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- suspectscore=0 adultscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- clxscore=1011 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403250069
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wmpr57uw.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Krzysztof,
-
-On 3/20/2024 11:53 PM, Krzysztof Kozlowski wrote:
-> On 20/03/2024 15:11, Depeng Shao wrote:
->> CSID gen3 has a new register block which is named as
->> CSID top, it controls the output of CSID, since the
->> CSID can connect to SFE or original VFE in CSID gen3.
->> The register update is moved to CSID from VFE in CSID
->> gen3.
->> So, adding top_base and reg_update variables in csid
->> device structure for CSID gen3.
+On Mon, Mar 25, 2024 at 03:05:27AM +0000, Kuninori Morimoto wrote:
+> We already have for_each_endpoint_of_node(), don't use
+> of_graph_get_next_endpoint() directly. Replace it.
 > 
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  drivers/media/platform/ti/am437x/am437x-vpfe.c   |  8 +++-----
+>  drivers/media/platform/ti/davinci/vpif_capture.c | 11 +++++------
+>  2 files changed, 8 insertions(+), 11 deletions(-)
 > 
+> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> index 77e12457d149..4f185a0d42b3 100644
+> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> @@ -2306,14 +2306,10 @@ vpfe_get_pdata(struct vpfe_device *vpfe)
+>  	if (!pdata)
+>  		return NULL;
+>  
+> -	for (i = 0; ; i++) {
+> +	for_each_endpoint_of_node(dev->of_node, endpoint) {
+>  		struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+>  		struct device_node *rem;
+>  
+> -		endpoint = of_graph_get_next_endpoint(dev->of_node, endpoint);
+> -		if (!endpoint)
+> -			break;
+> -
+>  		sdinfo = &pdata->sub_devs[i];
+                                          ^
+"i" is uninitialized now.
 
-Thanks, will update it.
+Also in the initializer it has "struct device_node *endpoint = NULL;"
+which is unnecessary now.  And at the end it has:
 
->>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/camss/camss-csid.h | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
->> index 4a9e5a2d1f92..ca654b007441 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid.h
->> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
->> @@ -162,7 +162,9 @@ struct csid_device {
->>   	struct v4l2_subdev subdev;
->>   	struct media_pad pads[MSM_CSID_PADS_NUM];
->>   	void __iomem *base;
->> +	void __iomem *top_base;
->>   	u32 irq;
->> +	u32 reg_update;
->>   	char irq_name[30];
-> 
-> This is pointless. The are no users of this!
-> 
-> Sorry, don't add random code here or there without concept.
-> 
+	of_node_put(endpoint);
+	return pdata;
 
-For the old code, they are new concept, since it is new block in the 
-hardware, I just want to highlight them.
+Since endpoint is NULL this was always a pointless no-op but now it's
+more obvious, so lets delete that.
 
-But thanks for the comment, will update the code based on your comment.
+regards,
+dan carpenter
 
-> Best regards,
-> Krzysztof
-> 
-
-Thanks,
-Depeng
 
