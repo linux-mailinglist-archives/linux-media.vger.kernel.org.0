@@ -1,133 +1,288 @@
-Return-Path: <linux-media+bounces-7798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7799-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BF688B446
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 23:38:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BDE88B4ED
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 00:02:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 571AA1C3D202
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:38:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A40C13030D4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 23:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9121D79DB9;
-	Mon, 25 Mar 2024 22:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1916682890;
+	Mon, 25 Mar 2024 23:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R5jzOA21"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pTEwW4Ko"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E0876023
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 22:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11B15A0EA;
+	Mon, 25 Mar 2024 23:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711406300; cv=none; b=YUieBLvqgpwc0W0T8T7LLKieJEXLQk8nInX8D59a+Xh7e2vsf1L7InSnum0Gid/Kc4TD+3s1Qej+sAZZGzNumiTsLWURg5fmgO5ne7rjAQ4lZnPLE9YIYuLw80hhayz3uXS+VVgVaxfrDmWqOW+gJZO8IosmzsSr9UjdjmydPvw=
+	t=1711407734; cv=none; b=VwGerdHpApTYYhRG0l4vW2GVw4jdBPm5jtqc0mbD8Ne/oq7PKxTcQOgE42tM+YfzwB4edqulD59pJeJN2rue7xkjBTcnTASJ0wbgn2bpyDHEORzx+ipoZhqErQM+byhUGHEHGKz0Qg5r4yiQT31E8StWgI9uQFjcWBATs44KQOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711406300; c=relaxed/simple;
-	bh=xMW7RXYeIfBFCjZ7VpJtMSa+FXfoa1xIBPpDQwxVrPg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KEnqQTKhpfMdoU3JCD3Veqdpf71fpLft+cEID5Z8g1QYBQUhF90iDQa1BROv2WFSXiUWKiauAW2KNu7qgixy91D5/VYyiJlHL6VQBxklG7jp7AWi+PP+tWq8wW5yiDeAJvmJZGW59bA9f6W/cJsKUwMXOB0kaNou4kyFoyKRolg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R5jzOA21; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-431347c6c99so48771cf.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 15:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711406297; x=1712011097; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VGxpwjKqErz/WL1ZU+CEUoKvbb2jqoUW3asVbdp7yTQ=;
-        b=R5jzOA21iZKiK5FqcZjzfzRPEROBcDSgAY4s0XqCJYPZyPHh/kQjLmKyAxYilRT+pY
-         CKAY7m0xexVe3MUHjaupk4UJSuThIZUegEwldPRCg5SgwP5GlflOz8KlCvSevlDLbZeg
-         OoKI+U0JZtVTzjHdj/86EWW3h2phE23odtsmE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711406297; x=1712011097;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VGxpwjKqErz/WL1ZU+CEUoKvbb2jqoUW3asVbdp7yTQ=;
-        b=o4Jm0Us54xBJKhqj7RFnRiCmKu7upp5BhyQFFcbL2eQKveykatVeQdOiKr6vCi1SQe
-         JuYdac49L2Yt3bwT78nyPTmmnnNR6QRWYCVrneDeGX4bbEB43TdgTtlAN8WbpjNamabc
-         OKGVup6+nkQnzkG7VutMnErKtqlBLu9zJoiQq0LsLBHIIZnjfPQqc8ym2/q56Jl2YUoj
-         WNUTaJs8s1HWQRWQjkSTLM3+hFhV+8z2KxkMMkRpmp0MNyJ2OfW0KOeQ4L4zfM4YQVv3
-         fMxlBQVZkA+3s1U0O1j4nmMoAom/lOctSxFQa7SH0FZMh9VyZnAWr/IzECgy6P07UzjL
-         0jHg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4yt0LWwSzImrHsCVHNWkJKQc6eBoSu54Bq5apNnQoOOh/NKFZlIlQaqwm9HpszSEiqIRlIBuw1wd645MUh0eZO3BNU2cLtxXQeNE=
-X-Gm-Message-State: AOJu0YzKYhml4dsU/MPmDo34WwwfXXymhtdJ0z3MCWwkTXYdOZ3Gws5/
-	C4DZb7inVuBq/IFw/001Co969jMQ83uAfRH0TEjleJo4Lt5KQh4x9zDz1eeVYRzguxjFIHoDu9r
-	E4cZL6dIJkuptRrp1/Er2m57J/dOB/seF6+gZBMjH4hYcS4soaNy1
-X-Google-Smtp-Source: AGHT+IG52mKa+pnbbYX3Ox0jW5wzGRU3wSOiDtmpILVDdI7DL6SUQE9Rf8+tGIrIV07xI4B507o9Zmf6GRIhYZTuXXw=
-X-Received: by 2002:a05:622a:1b0f:b0:430:a5df:a3af with SMTP id
- bb15-20020a05622a1b0f00b00430a5dfa3afmr575qtb.5.1711406297215; Mon, 25 Mar
- 2024 15:38:17 -0700 (PDT)
+	s=arc-20240116; t=1711407734; c=relaxed/simple;
+	bh=6CiAHcyt9ngLB9Fpb0+WYF2fbjDehQV6P24J0Li4dDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JFcE997fp+6iE+JA2BD0qQ8y9mpEHF+18kLfWSXhCkapw4uGIxetRYYdxt0Aq+ZhBqRkz/bfTEvLtYn3E6eouB7ukqB69CLUUTFFYv+bKFnAkMhqQicWDWzd4su0i5Oyol/HTzl1tH4XwBzgiL9HO5fTWcJW+Ca/+IPV9HJu498=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pTEwW4Ko; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7B738B9;
+	Tue, 26 Mar 2024 00:01:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711407699;
+	bh=6CiAHcyt9ngLB9Fpb0+WYF2fbjDehQV6P24J0Li4dDQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pTEwW4KotQgB/Hn0MjLLZAq6Qhh+V8ZDTTa7K/h1RWIfqpD7bYkadu0Q8eB38OW5l
+	 8dEwymRTENCgGQAfU94zzcLkyPG/ExLEb+xR1MgHjDprN6TqGxD/wplXQm5cyXsr2L
+	 SY85IXJgo+HubR/o7HtUoGhf7fF2ezz+VH5OleNw=
+Date: Tue, 26 Mar 2024 01:02:03 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>, kernel-list@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 08/15] dt-bindings: media: Add bindings for
+ bcm2835-unicam
+Message-ID: <20240325230203.GG23988@pendragon.ideasonboard.com>
+References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com>
+ <20240301213231.10340-9-laurent.pinchart@ideasonboard.com>
+ <ZgHCOySoPhOS0u2M@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322214801.319975-1-robdclark@gmail.com>
-In-Reply-To: <20240322214801.319975-1-robdclark@gmail.com>
-From: Dominik Behr <dbehr@chromium.org>
-Date: Mon, 25 Mar 2024 15:38:06 -0700
-Message-ID: <CABUrSUBTz7n6Yg_4wvGR+W__AKn5Vj4aWuLg5p3bDWye-PwExg@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
-	Dominik Behr <dbehr@chromium.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Simon Ser <contact@emersion.fr>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZgHCOySoPhOS0u2M@kekkonen.localdomain>
 
-It also fixes importing virtgpu blobs into real hardware, for instance
-amdgpu for DRI_PRIME rendering.
+Hi Sakari,
 
+On Mon, Mar 25, 2024 at 06:28:11PM +0000, Sakari Ailus wrote:
+> On Fri, Mar 01, 2024 at 11:32:23PM +0200, Laurent Pinchart wrote:
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > 
+> > Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> > camera interface.
+> > 
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Co-developed-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v5:
+> > 
+> > - Squash MAINTAINERS changes in
+> > 
+> > Changes since v3:
+> > 
+> > - Make MAINTAINERS its own patch
+> > - Describe the reg and clocks correctly
+> > - Use a vendor entry for the number of data lanes
+> > ---
+> >  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
+> >  MAINTAINERS                                   |   6 +
+> >  2 files changed, 123 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > new file mode 100644
+> > index 000000000000..1938ace23b3d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > @@ -0,0 +1,117 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Broadcom BCM283x Camera Interface (Unicam)
+> > +
+> > +maintainers:
+> > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > +
+> > +description: |-
+> > +  The Unicam block on BCM283x SoCs is the receiver for either
+> > +  CSI-2 or CCP2 data from image sensors or similar devices.
+> > +
+> > +  The main platform using this SoC is the Raspberry Pi family of boards.  On
+> > +  the Pi the VideoCore firmware can also control this hardware block, and
+> > +  driving it from two different processors will cause issues.  To avoid this,
+> > +  the firmware checks the device tree configuration during boot. If it finds
+> > +  device tree nodes whose name starts with 'csi' then it will stop the firmware
+> > +  accessing the block, and it can then safely be used via the device tree
+> > +  binding.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: brcm,bcm2835-unicam
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: Unicam block.
+> > +      - description: Clock Manager Image (CMI) block.
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: unicam
+> > +      - const: cmi
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Clock to drive the LP state machine of Unicam.
+> > +      - description: Clock for the VPU (core clock).
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: lp
+> > +      - const: vpu
+> > +
+> > +  power-domains:
+> > +    items:
+> > +      - description: Unicam power domain
+> > +
+> > +  brcm,num-data-lanes:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    enum: [ 2, 4 ]
+> > +    description: |
+> > +      Number of CSI-2 data lanes supported by this Unicam instance. The number
+> > +      of data lanes actively used is specified with the data-lanes endpoint
+> > +      property.
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          data-lanes: true
+> > +
+> > +        required:
+> > +          - data-lanes
+> 
+> As the device supports multiple data interfaces (at least so it seems when
+> looking at the driver code), you need to list the bus-type property here,
+> too.
 
-On Fri, Mar 22, 2024 at 2:48=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> virtgpu "vram" GEM objects do not implement obj->get_sg_table().  But
-> they also don't use drm_gem_map_dma_buf().  In fact they may not even
-> have guest visible pages.  But it is perfectly fine to export and share
-> with other virtual devices.
->
-> Reported-by: Dominik Behr <dbehr@chromium.org>
-> Fixes: 207395da5a97 ("drm/prime: reject DMA-BUF attach when get_sg_table =
-is missing")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/drm_prime.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 7352bde299d5..64dd6276e828 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -582,7 +582,12 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
->  {
->         struct drm_gem_object *obj =3D dma_buf->priv;
->
-> -       if (!obj->funcs->get_sg_table)
-> +       /*
-> +        * drm_gem_map_dma_buf() requires obj->get_sg_table(), but driver=
-s
-> +        * that implement their own ->map_dma_buf() do not.
-> +        */
-> +       if ((dma_buf->ops->map_dma_buf =3D=3D drm_gem_map_dma_buf) &&
-> +           !obj->funcs->get_sg_table)
->                 return -ENOSYS;
->
->         return drm_gem_pin(obj);
-> --
-> 2.44.0
->
+Good point, I'll add
+
+        properties:
+	  bus-type:
+	    enum: [ 3, 4 ]
+	required:
+	  - bus-type
+
+Should I also change unevaluatedProperties to additionalProperties for
+the endpoint node, to reject any other property (and the explicitly list
+remote-endpoint as an allowed property) ? The result would be 
+
+      endpoint:
+        $ref: /schemas/media/video-interfaces.yaml#
+        additionalProperties: false
+
+        properties:
+          bus-type:
+            enum: [ 3, 4 ]
+
+          data-lanes: true
+          remote-endpoint: true
+
+        required:
+          - bus-type
+          - data-lanes
+          - remote-endpoint
+
+> > +
+> > +    required:
+> > +      - endpoint
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reg-names
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - brcm,num-data-lanes
+> > +  - port
+> > +
+> > +additionalProperties: False
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/bcm2835.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/power/raspberrypi-power.h>
+> > +    csi1: csi@7e801000 {
+> > +        compatible = "brcm,bcm2835-unicam";
+> > +        reg = <0x7e801000 0x800>,
+> > +              <0x7e802004 0x4>;
+> > +        reg-names = "unicam", "cmi";
+> > +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&clocks BCM2835_CLOCK_CAM1>,
+> > +                 <&firmware_clocks 4>;
+> > +        clock-names = "lp", "vpu";
+> > +        power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> > +        brcm,num-data-lanes = <2>;
+> > +        port {
+> > +                csi1_ep: endpoint {
+> > +                        remote-endpoint = <&imx219_0>;
+> > +                        data-lanes = <1 2>;
+> > +                };
+> > +        };
+> > +    };
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index fada59148cb5..e50a59654e6e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -3997,6 +3997,12 @@ N:	bcm113*
+> >  N:	bcm216*
+> >  N:	kona
+> >  
+> > +BROADCOM BCM2835 CAMERA DRIVERS
+> > +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > +
+> >  BROADCOM BCM47XX MIPS ARCHITECTURE
+> >  M:	Hauke Mehrtens <hauke@hauke-m.de>
+> >  M:	Rafał Miłecki <zajec5@gmail.com>
+
+-- 
+Regards,
+
+Laurent Pinchart
 
