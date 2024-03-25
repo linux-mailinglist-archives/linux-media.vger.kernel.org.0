@@ -1,124 +1,124 @@
-Return-Path: <linux-media+bounces-7730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA0788A186
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 14:19:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EDE88B075
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 20:50:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADDB91C37910
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 13:19:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7BC7B235DE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 13:41:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2771A13BAC4;
-	Mon, 25 Mar 2024 10:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C3014F116;
+	Mon, 25 Mar 2024 10:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bAuH2K6s"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="k0TiPAfG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FD613B295
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 07:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3029614F9E6;
+	Mon, 25 Mar 2024 08:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711353198; cv=none; b=M6Q15fJd7nT6LN1I2fZ8fV7x9SeFyFkyiUfb/8zqJqCaGbbh/Jx65CP7nNsaDZxLTJg2Bc10jysrsIzoFWTvx09UdrB4/0hcVDWMqdm9ktj1DxKqrgvL4HbrUY/ys/qzBxkHPC+HsN0RrTdhsE4Uig0cTxkJvjAj6RlbTLysgzM=
+	t=1711355043; cv=none; b=PqGCtrePjrt+Ien+QUVPpEi8ddRlB6B0lo9EjMQAbO3iEsBv7fGFxs/2frWjTx4bfRsexbxXgBXF0aa3C6bgQNxIiux1gMtgp2u8w6GB13Tus9hrLTd8uHBXrA9xBhnkPUNjfmXM0+qwDspYxZvj6uysLq5nrDxZ+LKRim60DM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711353198; c=relaxed/simple;
-	bh=2KgIcp2UQ8SEteLfGQF+L2YAktZ4DsY+zNGZuttyUiQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BSy7pzoVJW8AR+3G7iTWeYgOImT71bDmhhEzfbxUHGDrfNs9N1UAAMTNGb4ZgI3zeuNp43584b7YlUEseWI//vwmB5tOT5bLBULamVyhOYy62efUUIwrzph/GLdssxgSfue6nbkV3p1wXmZ/ZFqcOzUBoKxn31MTaZIjpcB26Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bAuH2K6s; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4d453ae6af5so1579302e0c.2
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 00:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711353195; x=1711957995; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2KgIcp2UQ8SEteLfGQF+L2YAktZ4DsY+zNGZuttyUiQ=;
-        b=bAuH2K6s9N50+nNomhrtxYRJSDMiaK6doOW66uelky01iQLg8+zHelcW0KcAXECvfc
-         Je/0uW54O8fVOx1jj+r+8fe4A3zhu74Upd2LJ/bHwN9h6sgPkcr8UKSryTr3iMQYq60N
-         nIYst+8b8aktxLVXsU8dG9l2IWYPuw64zyEdc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711353195; x=1711957995;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2KgIcp2UQ8SEteLfGQF+L2YAktZ4DsY+zNGZuttyUiQ=;
-        b=ZF7KMoMiXdQgQhu5in+Itb0jH3QQDMeYIx9g6z8Ft+S3Bxc6KQM/XTtgXY0213Du05
-         BvdRpCUYER6IgzvdQh0oHENSlhu++JQdMFpLoyscBEBlto9TVT625exrmgNgfmTsqyTo
-         vt3oRn2QN3fyuVdMl0phlvvxsGO0RwuGekV+RFOSyrs+ilFF5uRoYJv+IyvTxLITMVzO
-         RjzF367tSQ7/Aj/8+3gRBbm5lyDu5CPvQDrH/rbdJZn9vbFz0p4jvD/pLjIRAsClYr4P
-         2TQDztHVQ5Ocr/tpWW3UUT4cZeJF3LGXool9/6xhqPM84LgIX1ztO25N/XWI+kp40uJ+
-         15rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrD2VtuTU2vU0mUSxPTO4uMPjDACO7dQIVgFwOd6grScm68tEe19ZCJbzsXocL+xoa/wxqOF+ZyDNdUJFpag75Redxd54pHuhIu/w=
-X-Gm-Message-State: AOJu0YzYall4gnfDN+oP+5cLjy5uw4U+QL5U7zpWI8PsWHLcFKuVOnKO
-	RSbu6hvbhJwkX5tva9tbMD/21tVT00WPgHG1ItFGUFC3Yh8kYsi6syaexhiSqy+ViUvnWpu6okA
-	=
-X-Google-Smtp-Source: AGHT+IFx8GlKKXoxf/wVnF1btD2AhPdJjI5GqnY/gJqLA2j1Ku2FLADxc4yEGSytl3Mzq3e1Y4oFmQ==
-X-Received: by 2002:a05:6122:90f:b0:4d3:373b:4db1 with SMTP id j15-20020a056122090f00b004d3373b4db1mr3815886vka.6.1711353195319;
-        Mon, 25 Mar 2024 00:53:15 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id 16-20020a056122081000b004d33d93758asm958499vkj.23.2024.03.25.00.53.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 00:53:14 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4d44beade3cso1417128e0c.1
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 00:53:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV+Q9kF25AKXOxdOA4Ew03huwjbuhAVQ/GGkJavjgJieWyEJ3QCebA2KB9gPN9VeYhzhb03NZSso7E54gPFaTQ834IfXXI95p14zeA=
-X-Received: by 2002:a05:6122:468d:b0:4c0:1918:27de with SMTP id
- di13-20020a056122468d00b004c0191827demr3569976vkb.16.1711353194258; Mon, 25
- Mar 2024 00:53:14 -0700 (PDT)
+	s=arc-20240116; t=1711355043; c=relaxed/simple;
+	bh=FxeJBW8SRhWP/KtNW8MieDakXdayiD+/WVoSml7b8l0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N3RM9DMarAruIaoLDviKnvrjAZA65qAnqJyujONcZCK+FtuJEIyxCkS7lxsdniO82pymaHdac59xu7Km6KxAuFGEyWM030hsprasHZRA/5wGwHq9N4Dt8KVpQg6r4LhbikPm8v6h5Kg1PHOBQ0D4xYZsgqlpfY2AIxmD6nmc8qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=k0TiPAfG; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1711355040;
+	bh=FxeJBW8SRhWP/KtNW8MieDakXdayiD+/WVoSml7b8l0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=k0TiPAfGSgiIx1WnbJvOpKq7uVHspIBm69VBmNfa1dmMUr+dkN4zSASKiw5MtDD7z
+	 WXmrj/V2LsPSU73F6+W9xs9Q5U9H3/KJLunK8SHalbg9SX/gocuDwGqhAerUohj2Fk
+	 nZaucggQ1R0vO+Dn0USpHSFWw6B/taFk9/NJea9uUHYioH/aGW1/uIgj4Cs6JU3VYC
+	 w2Ie/hTHkOcstcEWRy0L9DIK5b5wIGXxMyYBvQhcHfPoYlm4Lp21jz9uBZPD3frbkj
+	 1zuyVO38akjU8l1lxCzTiwV/NDzvrWN/YBH1PBOKlzHedu3br1JN4YHg7i/GvHwbHo
+	 G6xjvlMmSis2A==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3F0E137813B7;
+	Mon, 25 Mar 2024 08:23:59 +0000 (UTC)
+Message-ID: <f90b2c8b-6eb3-46dc-abcc-600248218b4e@collabora.com>
+Date: Mon, 25 Mar 2024 09:23:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
- <20240323-resend-hwtimestamp-v10-3-b08e590d97c7@chromium.org> <2722561.mvXUDI8C0e@natalenko.name>
-In-Reply-To: <2722561.mvXUDI8C0e@natalenko.name>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 25 Mar 2024 08:52:57 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsnOdTaW0Eg68+-niPXwPhYc3Br6cWoGiHytZrFOGmcZA@mail.gmail.com>
-Message-ID: <CANiDSCsnOdTaW0Eg68+-niPXwPhYc3Br6cWoGiHytZrFOGmcZA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/6] media: uvcvideo: Quirk for invalid dev_sof in
- Logitech C922
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: soc: mediatek: Add support for MT8188
+ VPPSYS
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, amergnat@baylibre.com, moudy.ho@mediatek.com,
+ hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com,
+ u.kleine-koenig@pengutronix.de, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, kernel@collabora.com
+References: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
+ <20240322092845.381313-2-angelogioacchino.delregno@collabora.com>
+ <20240322-lugged-tabloid-3d5a85dc58d0@spud>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240322-lugged-tabloid-3d5a85dc58d0@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Oleksandr
+Il 22/03/24 18:42, Conor Dooley ha scritto:
+> On Fri, Mar 22, 2024 at 10:28:42AM +0100, AngeloGioacchino Del Regno wrote:
+>> Add compatible for MT8188 VPP mutex.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> You should at least mention the difference between this any anything
+> else.
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-On Sat, 23 Mar 2024 at 13:16, Oleksandr Natalenko
-<oleksandr@natalenko.name> wrote:
+It's exactly always the same difference for MuteX blocks: different bits to
+activate mute for some IP ... but yeah, you're right, I'll shoot a word about
+this in the commit description on v2 (waiting a bit before doing that anyway).
 
->
-> How do I check whether C920 (046d:082d) is affected too? I have got one, I can run tests on it as long as those will not blow the webcam up.
->
-> Thanks.
->
+Thank you!
 
-First of all you need to enable the hwtimestamps in the driver. You
-could do that with
+Cheers,
+Angelo
 
-```
-rmmod uvcvideo; modprobe uvcvideo hwtimestamps=1
-```
+> 
+> Thanks,
+> Conor.
+> 
+>> ---
+>>   .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml         | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+>> index ba2014a8725c..a10326a9683d 100644
+>> --- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+>> +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+>> @@ -33,6 +33,7 @@ properties:
+>>         - mediatek,mt8186-disp-mutex
+>>         - mediatek,mt8186-mdp3-mutex
+>>         - mediatek,mt8188-disp-mutex
+>> +      - mediatek,mt8188-vpp-mutex
+>>         - mediatek,mt8192-disp-mutex
+>>         - mediatek,mt8195-disp-mutex
+>>         - mediatek,mt8195-vpp-mutex
+>> -- 
+>> 2.44.0
+>>
 
-Then capture some frames with yavta
-```
-yavta -c /dev/video0
-```
 
-After around 5 seconds all the frames should have a stable fps, the
-fps is not stable then your camera is affected with this bug.
-
-
-Thanks!
 
