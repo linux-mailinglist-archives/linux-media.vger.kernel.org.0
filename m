@@ -1,142 +1,124 @@
-Return-Path: <linux-media+bounces-7762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7763-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8453488A8F8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:22:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E7488A91A
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:26:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6BCC1C2D3BE
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:22:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 294361F3F88D
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:26:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AEC0155306;
-	Mon, 25 Mar 2024 14:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71582158A1B;
+	Mon, 25 Mar 2024 14:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RB5vHCsX"
+	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="Ah0jZfdW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52275131196
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 14:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E1D136E26;
+	Mon, 25 Mar 2024 14:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711376401; cv=none; b=lIzu6+/AxBoKQJL/o63QDx6/sZ6N8SIL0ttHTdcT/SEAeczZPGu907XN6mg/IQqngJXy6PHZp76bqnyQIGan1hY0w1hhlw2PnQ6sKZTMcev25q0eiWlG4YNORD+OmwUlyrJKjD24BEuEtb3hlxFUwGpTrNRbMUfZwQBMa7nivbI=
+	t=1711376788; cv=none; b=k0B3tnZpVSP8H5i4hidU8xwRoPvUGWyB1VPIgFJ2wYhkjhHyrjQ+W9ydGnSImepDVYfudR/2fUW7J+OqEpX+b/lVY787BlQWyfAqOfyo3UN56pQGvwwK7rpO7w6dtxlKy/11NHH+qtumAjqYUlO3gXtLAINDNmgcECn6PCRidOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711376401; c=relaxed/simple;
-	bh=u7jspQ3Aev3XJQiTO8vdl6msbbnJu1QvF4iX1a51EjA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oeTzoupCMasI73fDnzMXypS03ihaca054Wi7OAqD4ERydHd3B3F+kIrGDPKf4CJNTOjzAQ0Qdq23QQvhyDT2QrtYS+/0EiZC+WXE1mWbGbpQOwQTrvMtNnYO2ELuQnPYxWD0U7qEzmntCb/jaGDIQcIE0K24iE1bkzMpWEf78BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RB5vHCsX; arc=none smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c3ae8fa863so2764506b6e.2
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 07:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711376398; x=1711981198; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nxSMnfcXo9eH24y0bZB1VjxXV/n6bBssF/qdkJ/8rO0=;
-        b=RB5vHCsXeJQPDsX+7xtNvbzCW3xKQ555NM6Zy0cGCvBPID21EIiJ4z3pKU220Z+qO2
-         9ioq1PxHXvQYTj9/+pyu2b3l3mI8W3VFRn7UzSkMR1RbdrAP6HzUHeOzfNJSQlQjoF6M
-         s9qy8XEEochHe0t9LCq6Ww0AwjRwRrU8vnM8E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711376398; x=1711981198;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nxSMnfcXo9eH24y0bZB1VjxXV/n6bBssF/qdkJ/8rO0=;
-        b=KazhU8E5nbK0rUoReYAZcXhXeoaSSbxieBjPkl/fduAkoicYCRAWXIBpDn1IJo9zHB
-         xYTk6xaX2wf/XhgrIl0qvTWHr36IVwCYqvJmVBDGU9vwFySxR2GHPblwW/mhD7Ht+mxp
-         JW/RnaOxN6BcWzxNXSdGkeJbk+uJamFUQfd5BMSlDOTQJ+cy5zibDq29a7lcKhZ1LwD8
-         1AlP1B+F+jMpDwA3x3SiyvqSA38foyTXEW63l6eySPVLlqVR7rY/J5h2RBm8/wwot5Ng
-         BE4ojRQwdux9vI53dZA1eH8bsQQrl71momsafFqYmUIx+83v2m25joggm6OLxpMGE0eG
-         Yk5g==
-X-Gm-Message-State: AOJu0YyEPZw2nQ/ieOrjeXSw1h9iHVVLe9diKiAnPqJlUahK39ls6iEL
-	TwaI5iRrm23U6RwJV0R8yPcZJqFhA9+aBzdeKhsRlEVkpSDrzLZAt9d+1+r+yg==
-X-Google-Smtp-Source: AGHT+IFXDkHwTGNUZBxyMK2jzEutUrDBtNUTzl+YFRneAkQppTPw7jEE9XRF/qu3laG74FPOuty29Q==
-X-Received: by 2002:a05:6808:15a0:b0:3c3:c923:4f03 with SMTP id t32-20020a05680815a000b003c3c9234f03mr6512221oiw.19.1711376398398;
-        Mon, 25 Mar 2024 07:19:58 -0700 (PDT)
-Received: from denia.c.googlers.com (188.173.86.34.bc.googleusercontent.com. [34.86.173.188])
-        by smtp.gmail.com with ESMTPSA id br11-20020a05622a1e0b00b00430a9b20a55sm2618759qtb.69.2024.03.25.07.19.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 07:19:57 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 25 Mar 2024 14:19:55 +0000
-Subject: [PATCH v2 3/3] media: dvbdev: Initialize sbuf
+	s=arc-20240116; t=1711376788; c=relaxed/simple;
+	bh=lTMJavNIWrnUZ0bbbF3Rx8TEQ/VmlXUb1B8yQuTFSDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kZmQJNUKGoLyGhPciKl8MiBTfT19+vzEiu/+za4Ls3OabPKJZHKYYKJEx2OMg18COYKlWDQFp7hpGlzbGcG7TIlx/qhMDoLAAIfy7VDLY+cZn1kd/M2DbIk2CcKC42WqWGnWNlEN6/XOxaFWd0IoT/UrHYx86YRfta/F3DTap+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=Ah0jZfdW; arc=none smtp.client-ip=199.247.17.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
+Received: from localhost (unknown [94.142.239.106])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by prime.voidband.net (Postfix) with ESMTPSA id 670026346550;
+	Mon, 25 Mar 2024 15:26:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+	s=dkim-20170712; t=1711376781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EWL9RPJbotHTugKp2e3hpY0GlUbdFdPRzf1HTQgWuFQ=;
+	b=Ah0jZfdWa3W1ky5rNcCskxmzk4SobiXprUKDrzvMyuHY1U0ZERN+4Ht1vhB9+5Opp6t7ix
+	sHo3HlM9x29jte6t/h9P4jGfW6vt1a57BNEUSduf8BHuWYzbOTAbfSFyIJmbX6mi+7JTuG
+	kho2CwCuYCKFCHaEUzxIoLjGgBqLIHs=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"hn.chen" <hn.chen@sunplusit.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] media/uvcvideo: add quirk for invalid dev_sof in Logitech C920
+Date: Mon, 25 Mar 2024 15:26:11 +0100
+Message-ID: <20240325142611.15550-1-oleksandr@natalenko.name>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240325-gcc-arm-warnings-v2-3-47523cf5c8ca@chromium.org>
-References: <20240325-gcc-arm-warnings-v2-0-47523cf5c8ca@chromium.org>
-In-Reply-To: <20240325-gcc-arm-warnings-v2-0-47523cf5c8ca@chromium.org>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
 
-Because the size passed to copy_from_user() cannot be known beforehand,
-it needs to be checked during runtime with check_object_size. That makes
-gcc believe that the content of sbuf can be used before init.
+Similarly to Logitech C922, C920 seems to also suffer from a firmware
+bug that breaks hardware timestamping.
 
-Fix:
-./include/linux/thread_info.h:215:17: warning: ‘sbuf’ may be used uninitialized [-Wmaybe-uninitialized]
+Add a quirk for this camera model too.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Before applying the quirk:
+
+```
+100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mono/SoE
+101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mono/SoE
+102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mono/SoE
+103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mono/SoE
+104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono/SoE
+105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mono/SoE
+106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mono/SoE
+…
+```
+
+After applying the quirk:
+
+```
+154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/SoE
+155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/SoE
+156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/SoE
+157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/SoE
+158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/SoE
+159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/SoE
+160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/SoE
+```
+
+Link: https://lore.kernel.org/lkml/5764213.DvuYhMxLoT@natalenko.name/
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
 ---
- drivers/media/dvb-core/dvbdev.c             | 2 +-
- drivers/staging/media/tegra-video/tegra20.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 733d0bc4b4cc3..b43695bc51e75 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -956,7 +956,7 @@ int dvb_usercopy(struct file *file,
- 		 int (*func)(struct file *file,
- 			     unsigned int cmd, void *arg))
- {
--	char    sbuf[128];
-+	char    sbuf[128] = {};
- 	void    *mbuf = NULL;
- 	void    *parg = NULL;
- 	int     err  = -EINVAL;
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index c39b52d0e4447..630e2ff987a37 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -164,6 +164,7 @@ static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
- 	unsigned int input_mbus_code = chan->fmtinfo->code;
- 
- 	(*main_input_format) = VI_INPUT_INPUT_FORMAT_YUV422;
-+	(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_UYVY;
- 
- 	switch (input_mbus_code) {
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
-@@ -176,7 +177,6 @@ static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
- 		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YUYV;
- 		break;
- 	case MEDIA_BUS_FMT_YVYU8_2X8:
--	default:
- 		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YVYU;
- 		break;
- 	}
-
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 723e6d5680c2e..444d7089885ea 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceClass	= USB_CLASS_VIDEO,
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+-	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT
++					       | UVC_QUIRK_INVALID_DEVICE_SOF) },
+ 	/* Logitech HD Pro Webcam C922 */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 -- 
-2.44.0.396.g6e790dbe36-goog
+2.44.0
 
 
