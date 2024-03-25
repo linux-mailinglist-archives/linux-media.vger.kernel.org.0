@@ -1,119 +1,198 @@
-Return-Path: <linux-media+bounces-7795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C9F88AF16
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 19:55:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7318188B303
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 22:44:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 996991FA182A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:55:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED0F1B47F7A
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 20:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7AA828F5;
-	Mon, 25 Mar 2024 18:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C736BFCC;
+	Mon, 25 Mar 2024 20:49:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ce19zb8U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aSRJ5t/h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6B84A1E;
-	Mon, 25 Mar 2024 18:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C09A5B697;
+	Mon, 25 Mar 2024 20:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711392907; cv=none; b=gUzhP1f+ZlLqxCoSjnGOFPVguNVegrMmfjDyjiBRPJU730nwpJ7JgPI3hDiJIB7zRzJGUpWCPCUMjeTiPBopjwOjlN+/OmiZ2cwNQvUpEgB4Y5SeIJ1fhwdSCE6UbXm9N6LQYlM0zdLnJthyjNZgG8GrRGbH92y0FjjL1jsMtl8=
+	t=1711399774; cv=none; b=e/odQ/CCFjJhFxmo4eZViFTDOcNjAcXXzohkyYERS5F8/sBoEwpYHmZvmtKeAaECF0V4VRkbIDApfoR7QaZ0WT4mNoZEGxg25tqMDpaoEn6Vho15vN4pJX9YPjd+zPZNcVKPNS9nvcv+m1qHVCi/ED/pW0DPNKtVoRcyFNGEQr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711392907; c=relaxed/simple;
-	bh=HuXoZCdostDrFpH15Qo3iGpc1ljZlvUtdVpgd37wLHo=;
+	s=arc-20240116; t=1711399774; c=relaxed/simple;
+	bh=v2sCagyw5B4R+DhIJI4upQC0K1saLorduD0I/khMud4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qwbIgQgOnqjf8DEwuVbR0Q/BXc2vzIDBEyQhm/tRAgGlPO1lWuWJvY7SMfdHEC/A8+eZ6SORGVaDgYXzusXrds6S4SAKbqi/FQV7gVn/Jpi5Vh42bpuG5GQKF/VAnfmMbtSq47XaXvX8G/udQBznjL3Zoxg6SoeP5bMQaXy7LMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ce19zb8U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2307EC433C7;
-	Mon, 25 Mar 2024 18:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711392906;
-	bh=HuXoZCdostDrFpH15Qo3iGpc1ljZlvUtdVpgd37wLHo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAFfFsN7g1oxo1edi3pflQeXnTl+JevbKZx0fg7iSDegzcQvOzDnXPM1Vxx6vGjyL2V5v8tVdXnttPCfVJjLHD1Cl9VKbI7bmGlnu6BJ4KRks4Fr9NBp4Thr+T2iWoxUT+BaJInuiPUUDAOpqu4VRC9gYfTVjvE3dHF5b9Um8fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aSRJ5t/h; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3E767E4;
+	Mon, 25 Mar 2024 21:48:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711399740;
+	bh=v2sCagyw5B4R+DhIJI4upQC0K1saLorduD0I/khMud4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ce19zb8UiLDL/1zxhZ2Pft835jYvZSG/haMhGYB7Wr2/B7KgAjJETbCGZ1HkZUeMm
-	 d9hyQtVHhD+Prd3NdwNNTn9omf4z6XuT7w3QP/trwofP8e5qYRzww8ECSVzDWtxlqY
-	 VJ5ZpHx1BWflb4mM3IKjNAzQiD6K1TNx+WM28ZBQDWe4cxXw/YNt9trolRDT9BT3yS
-	 hoHjQjByNNuLGDCCVu5fBsbVK6lWXZJhRlDsPIHiToFVIACCFcJZP5JmVSD+q2mMDz
-	 nF5WmX2WGL4V05qDATkYQEN+d1SHNXgMHbu/rZ0e7rNXJ13zs7feD0N82eNmCUiZEB
-	 GQOjlubp/Kriw==
-Date: Mon, 25 Mar 2024 18:55:00 +0000
-From: Conor Dooley <conor@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	matthias.bgg@gmail.com, amergnat@baylibre.com,
-	moudy.ho@mediatek.com, hverkuil-cisco@xs4all.nl,
-	sebastian.fricke@collabora.com, u.kleine-koenig@pengutronix.de,
-	chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH 1/4] dt-bindings: soc: mediatek: Add support for MT8188
- VPPSYS
-Message-ID: <20240325-sternness-capsize-f01e69fd5b51@spud>
-References: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
- <20240322092845.381313-2-angelogioacchino.delregno@collabora.com>
- <20240322-lugged-tabloid-3d5a85dc58d0@spud>
- <f90b2c8b-6eb3-46dc-abcc-600248218b4e@collabora.com>
+	b=aSRJ5t/hKEaL5Y5fRmdbT70h4MxoUrkGFIdTymqWiHi0DyeHGKLeINLO10hR+yUeH
+	 RoptWoC3sxp8Tf2h6kb9Q5eOtDaIei218uS5Gw+UinPqZtJMBC8mFTtQ87IQu2IV1C
+	 H/QKuF9QLk8TKx9krPIASnHmMsxRtPmvIgVMmae4=
+Date: Mon, 25 Mar 2024 22:49:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Marek Vasut <marex@denx.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+Message-ID: <20240325204924.GY18799@pendragon.ideasonboard.com>
+References: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com>
+ <4879631.GXAFRqVoOG@steina-w>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IcmFJ4HTwNob2iDV"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f90b2c8b-6eb3-46dc-abcc-600248218b4e@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4879631.GXAFRqVoOG@steina-w>
 
+Hi Alexander,
 
---IcmFJ4HTwNob2iDV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 25, 2024 at 04:52:21PM +0100, Alexander Stein wrote:
+> Am Montag, 25. März 2024, 16:13:39 CET schrieb Laurent Pinchart:
+> > From: Paul Elder <paul.elder@ideasonboard.com>
+> > 
+> > The ISP supports both CSI and parallel interfaces, where port 0
+> > corresponds to the former and port 1 corresponds to the latter. Since
+> > the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+> > receiver, set them both to port 1.
+> > 
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Fix clock ordering
+> > - Add #address-cells and #size-cells to ports nodes
+> > ---
+> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++++
+> >  1 file changed, 50 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > index bfc5c81a5bd4..1d2670b91b53 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > @@ -1616,6 +1616,56 @@ isi_in_1: endpoint {
+> >  				};
+> >  			};
+> >  
+> > +			isp_0: isp@32e10000 {
+> > +				compatible = "fsl,imx8mp-isp";
+> > +				reg = <0x32e10000 0x10000>;
+> > +				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > +				clock-names = "isp", "aclk", "hclk";
+> > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_ISP>;
+> > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
+> > +				assigned-clock-rates = <500000000>;
+> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > +				fsl,blk-ctrl = <&media_blk_ctrl 0>;
+> > +				status = "disabled";
+> > +
+> > +				ports {
+> > +					#address-cells = <1>;
+> > +					#size-cells = <0>;
+> > +
+> > +					port@1 {
+> > +						reg = <1>;
+> > +					};
+> > +				};
+> > +			};
+> > +
+> > +			isp_1: isp@32e20000 {
+> > +				compatible = "fsl,imx8mp-isp";
+> > +				reg = <0x32e20000 0x10000>;
+> > +				interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > +				clock-names = "isp", "aclk", "hclk";
+> > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_ISP>;
+> > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
+> > +				assigned-clock-rates = <500000000>;
+> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > +				fsl,blk-ctrl = <&media_blk_ctrl 1>;
+> > +				status = "disabled";
+> > +
+> > +				ports {
+> > +					#address-cells = <1>;
+> > +					#size-cells = <0>;
+> > +
+> > +					port@1 {
+> > +						reg = <1>;
+> > +					};
+> > +				};
+> > +			};
+> > +
+> 
+> The patch itself is okay. But you might not be able to
+> configure the parent of IMX8MP_CLK_MEDIA_ISP if dewarp is enabled before.
+> This is due to IMX8MP_CLK_MEDIA_ISP_ROOT being enabled in 'pgc_ispdwp'
+> power domain. Reparenting is not possible anymore in this case.
 
-On Mon, Mar 25, 2024 at 09:23:58AM +0100, AngeloGioacchino Del Regno wrote:
-> Il 22/03/24 18:42, Conor Dooley ha scritto:
-> > On Fri, Mar 22, 2024 at 10:28:42AM +0100, AngeloGioacchino Del Regno wr=
-ote:
-> > > Add compatible for MT8188 VPP mutex.
-> > >=20
-> > > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@=
-collabora.com>
-> >=20
-> > You should at least mention the difference between this any anything
-> > else.
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
->=20
-> It's exactly always the same difference for MuteX blocks: different bits =
-to
-> activate mute for some IP ... but yeah, you're right, I'll shoot a word a=
-bout
-> this in the commit description on v2 (waiting a bit before doing that any=
-way).
+Good point. 
 
-Yah, I'm just pointing it out because it goes from an immediate ack to
-having check the binding in-tree to see that this is an enum (although
-that's due to the shitty looking diff that you can't avoid) and check
-the driver patch to see that this is in fact a difference before
-acking. I wouldn't bother sending a v2 if this was the only thing, seems
-like a waste of your effort.
+> Something like
+> ---8<---
+> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> @@ -1837,11 +1837,13 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
+>                                                   <&clk IMX8MP_CLK_MEDIA_APB>,
+>                                                   <&clk IMX8MP_CLK_MEDIA_DISP1_PIX>,
+>                                                   <&clk IMX8MP_CLK_MEDIA_DISP2_PIX>,
+> +                                                 <&clk IMX8MP_CLK_MEDIA_ISP>,
+>                                                   <&clk IMX8MP_VIDEO_PLL1>;
+>                                 assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
+>                                                          <&clk IMX8MP_SYS_PLL1_800M>,
+>                                                          <&clk IMX8MP_VIDEO_PLL1_OUT>,
+> -                                                        <&clk IMX8MP_VIDEO_PLL1_OUT>;
+> +                                                        <&clk IMX8MP_VIDEO_PLL1_OUT>,
+> +                                                        <&clk IMX8MP_SYS_PLL2_500M>;
+>                                 assigned-clock-rates = <500000000>, <200000000>,
+>                                                        <0>, <0>, <1039500000>;
 
---IcmFJ4HTwNob2iDV
-Content-Type: application/pgp-signature; name="signature.asc"
+With an assigned clock rate here too then ?
 
------BEGIN PGP SIGNATURE-----
+>                                 #power-domain-cells = <1>;
+> ---8<---
+> is needed.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgHIhAAKCRB4tDGHoIJi
-0qyCAPwNc6YpOHxH4MFoBa+5ozXwV4HdU7nhnOAxax2hDSnLdgD8Dsn7gmIq7ESV
-cdzVJ3ykJWesyZCqaJEg8C/OPtEIiw4=
-=6BOw
------END PGP SIGNATURE-----
+Sascha, are you OK with this approach ?
 
---IcmFJ4HTwNob2iDV--
+> >  			dewarp: dwe@32e30000 {
+> >  				compatible = "nxp,imx8mp-dw100";
+> >  				reg = <0x32e30000 0x10000>;
+> > 
+> > base-commit: 4cece764965020c22cff7665b18a012006359095
+
+-- 
+Regards,
+
+Laurent Pinchart
 
