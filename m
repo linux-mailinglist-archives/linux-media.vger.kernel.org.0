@@ -1,59 +1,65 @@
-Return-Path: <linux-media+bounces-7794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BDC88AEE5
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 19:50:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C9F88AF16
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 19:55:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D93B72E21A1
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:50:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 996991FA182A
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:55:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2846EB67;
-	Mon, 25 Mar 2024 18:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7AA828F5;
+	Mon, 25 Mar 2024 18:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GLy8bZle"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ce19zb8U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A735A6EB75;
-	Mon, 25 Mar 2024 18:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6B84A1E;
+	Mon, 25 Mar 2024 18:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711392113; cv=none; b=iFXspLyuFN64v7d+O+s+AAjTfrG4lriJ9awt7ShAh/9W5RaQ3i0lffGXUu2HptkhYch1iewFTIH1p8DzUTUQj1gquAslWVcGW64FgZ1FsOzyp1wFNU/+eL6snT1eVH36M0LODe43mdmf2KRG483TKB2pYU38HGr0Z1a4bzlGfiQ=
+	t=1711392907; cv=none; b=gUzhP1f+ZlLqxCoSjnGOFPVguNVegrMmfjDyjiBRPJU730nwpJ7JgPI3hDiJIB7zRzJGUpWCPCUMjeTiPBopjwOjlN+/OmiZ2cwNQvUpEgB4Y5SeIJ1fhwdSCE6UbXm9N6LQYlM0zdLnJthyjNZgG8GrRGbH92y0FjjL1jsMtl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711392113; c=relaxed/simple;
-	bh=l11EKaNUz9GB+4g3b07Q3DH2nIYGQPe6bdaMGVe0pQM=;
+	s=arc-20240116; t=1711392907; c=relaxed/simple;
+	bh=HuXoZCdostDrFpH15Qo3iGpc1ljZlvUtdVpgd37wLHo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUOaXFX46WFcOx43ZMO+QXZh5CwNEZ9YU7qfJ2ECohvxVojJKd4BCzvVOLn6xxSMavA1cxgGxLOufkYEf47bDpceV4xFHelofjjtbSQ4so2oQeK5zkxJSzZQkuehWW3g/sjgrZcs88NIHlchUb21Chtrh04sJC1o9etGKU2Nda8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GLy8bZle; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30065C433C7;
-	Mon, 25 Mar 2024 18:41:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwbIgQgOnqjf8DEwuVbR0Q/BXc2vzIDBEyQhm/tRAgGlPO1lWuWJvY7SMfdHEC/A8+eZ6SORGVaDgYXzusXrds6S4SAKbqi/FQV7gVn/Jpi5Vh42bpuG5GQKF/VAnfmMbtSq47XaXvX8G/udQBznjL3Zoxg6SoeP5bMQaXy7LMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ce19zb8U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2307EC433C7;
+	Mon, 25 Mar 2024 18:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711392113;
-	bh=l11EKaNUz9GB+4g3b07Q3DH2nIYGQPe6bdaMGVe0pQM=;
+	s=k20201202; t=1711392906;
+	bh=HuXoZCdostDrFpH15Qo3iGpc1ljZlvUtdVpgd37wLHo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GLy8bZleyU7PZdytFpWUA4zVa2WUcfOQs7RGO/3w9CHfXeM131dKg1x+A8iSijVXM
-	 jeFb8VCwYJ/EDcHjR0hYoH7mNGNy2joQ/m5DKF3kzDZWsaf7hQ/UepFfBItKpLfdwG
-	 vwG1THMSZRrMWFfy/KXpg9cvo6pRlMuBGUE8d+550hRnHv/sMKd8QdkKVI9nvAGh9I
-	 rBkUF+QTmYWj3euk6rb0SOeWhRLMAFbO6NWFZfVNt8FEUwJ85HmSXg6LtMW1B/CV7O
-	 Y7QBTfGvJOt4i6+oDsEfmFKdzjybciobFQfYwcL9vXumiek96K4m4FiBqKPFoiS3+I
-	 424w6TptR9FmQ==
-Date: Mon, 25 Mar 2024 18:41:49 +0000
+	b=ce19zb8UiLDL/1zxhZ2Pft835jYvZSG/haMhGYB7Wr2/B7KgAjJETbCGZ1HkZUeMm
+	 d9hyQtVHhD+Prd3NdwNNTn9omf4z6XuT7w3QP/trwofP8e5qYRzww8ECSVzDWtxlqY
+	 VJ5ZpHx1BWflb4mM3IKjNAzQiD6K1TNx+WM28ZBQDWe4cxXw/YNt9trolRDT9BT3yS
+	 hoHjQjByNNuLGDCCVu5fBsbVK6lWXZJhRlDsPIHiToFVIACCFcJZP5JmVSD+q2mMDz
+	 nF5WmX2WGL4V05qDATkYQEN+d1SHNXgMHbu/rZ0e7rNXJ13zs7feD0N82eNmCUiZEB
+	 GQOjlubp/Kriw==
+Date: Mon, 25 Mar 2024 18:55:00 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, robh+dt@kernel.org,
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, robh@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v6 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
- Deserializer
-Message-ID: <20240325-mundane-rascal-7ea91354c989@spud>
-References: <20240325131634.165361-1-julien.massot@collabora.com>
- <20240325131634.165361-3-julien.massot@collabora.com>
+	matthias.bgg@gmail.com, amergnat@baylibre.com,
+	moudy.ho@mediatek.com, hverkuil-cisco@xs4all.nl,
+	sebastian.fricke@collabora.com, u.kleine-koenig@pengutronix.de,
+	chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH 1/4] dt-bindings: soc: mediatek: Add support for MT8188
+ VPPSYS
+Message-ID: <20240325-sternness-capsize-f01e69fd5b51@spud>
+References: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
+ <20240322092845.381313-2-angelogioacchino.delregno@collabora.com>
+ <20240322-lugged-tabloid-3d5a85dc58d0@spud>
+ <f90b2c8b-6eb3-46dc-abcc-600248218b4e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,40 +67,53 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oZEk1+ct/QRLmZun"
+	protocol="application/pgp-signature"; boundary="IcmFJ4HTwNob2iDV"
 Content-Disposition: inline
-In-Reply-To: <20240325131634.165361-3-julien.massot@collabora.com>
+In-Reply-To: <f90b2c8b-6eb3-46dc-abcc-600248218b4e@collabora.com>
 
 
---oZEk1+ct/QRLmZun
+--IcmFJ4HTwNob2iDV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 25, 2024 at 02:16:32PM +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
+On Mon, Mar 25, 2024 at 09:23:58AM +0100, AngeloGioacchino Del Regno wrote:
+> Il 22/03/24 18:42, Conor Dooley ha scritto:
+> > On Fri, Mar 22, 2024 at 10:28:42AM +0100, AngeloGioacchino Del Regno wr=
+ote:
+> > > Add compatible for MT8188 VPP mutex.
+> > >=20
+> > > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@=
+collabora.com>
+> >=20
+> > You should at least mention the difference between this any anything
+> > else.
+> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 >=20
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
-> Change since v5:
->  - Reverse the fallback MAX96714 can fallback to MAX96714F
->  - Use const instead of enum for MAX96714F compatible
+> It's exactly always the same difference for MuteX blocks: different bits =
+to
+> activate mute for some IP ... but yeah, you're right, I'll shoot a word a=
+bout
+> this in the commit description on v2 (waiting a bit before doing that any=
+way).
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Yah, I'm just pointing it out because it goes from an immediate ack to
+having check the binding in-tree to see that this is an enum (although
+that's due to the shitty looking diff that you can't avoid) and check
+the driver patch to see that this is in fact a difference before
+acking. I wouldn't bother sending a v2 if this was the only thing, seems
+like a waste of your effort.
 
-Thanks,
-Conor.
-
---oZEk1+ct/QRLmZun
+--IcmFJ4HTwNob2iDV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgHFbAAKCRB4tDGHoIJi
-0quiAP485hQRBqlw8D/APXClwqmk9pCnKq37vLGUibyIIIiFGQD+Nk15zjIhNj9d
-OxNjxYURGjJocr5LEyonMMij5MXj3gM=
-=VjMi
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgHIhAAKCRB4tDGHoIJi
+0qyCAPwNc6YpOHxH4MFoBa+5ozXwV4HdU7nhnOAxax2hDSnLdgD8Dsn7gmIq7ESV
+cdzVJ3ykJWesyZCqaJEg8C/OPtEIiw4=
+=6BOw
 -----END PGP SIGNATURE-----
 
---oZEk1+ct/QRLmZun--
+--IcmFJ4HTwNob2iDV--
 
