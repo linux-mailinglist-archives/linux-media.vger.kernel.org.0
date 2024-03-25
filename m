@@ -1,110 +1,154 @@
-Return-Path: <linux-media+bounces-7788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83D988AD32
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 19:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9204788AD9E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 19:19:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DE0E1F3E023
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:11:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 203E11F357E2
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C03BE12CD84;
-	Mon, 25 Mar 2024 17:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 166A96BFCC;
+	Mon, 25 Mar 2024 17:52:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ljAlT8x2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfwlD+gr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2CFD272
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 17:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B2A5DF0E;
+	Mon, 25 Mar 2024 17:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711388255; cv=none; b=Y0aAqRec8UAl9UlTOtBFa8S1VwwefDGQ/Y8j6xAUSHTBixkbHhQ9oGgz5mGW2BUOUMYw9EtGnYJBYBCMi5laP2oNLwXm3AZI5+nhZmlxjovxG2657c/56aZvYbDMYrXx+P0wJLxz5ONu9m6XrfvIrwMoI1ZcWpbL2VBtTvqPHFE=
+	t=1711389133; cv=none; b=BJ5ikneBKW8PriFQRfrTYVOr5AuI4v2NPPH673m+5r4yeu5eKbAkoS0qKX7I4y6G7PkGbPKZvP6TfzBs3c7qwB2rsV6jB39IZ1wzZtAtOvzp+u/26xbP8pFijrpt79XNsQBFG9Q5Qvv2itdkc88y4HAVsvvSRHGdKAug2QzHeH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711388255; c=relaxed/simple;
-	bh=1uosoAYAWA4mEyw4+KgAlc8BiYnzY5IWKr45HsVlZ4o=;
+	s=arc-20240116; t=1711389133; c=relaxed/simple;
+	bh=td2xF43H2VanMjVI5gkm78ixcmwa+nB0cEceFdwTAZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sN6ZLRSumDkEoraKyvst6Z/ecNcK8v+7IDODaz+Ti9mfLvWofgxqz6QeT4MSmkch6NeXH8ZosR2Qn7ayPmDGtqg8QvJf/gZbSy42L41vbHnbYwNM7AJFutboCaJeLYY4mtN0PzbOFfV8GEdwxwn9LUWtYsaooWQvpqTZ5mYNDeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ljAlT8x2; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711388251;
-	bh=1uosoAYAWA4mEyw4+KgAlc8BiYnzY5IWKr45HsVlZ4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ljAlT8x2GH9taMb/umhMmwtP5r3WHnIQ5MoJxHCiemCwsiwaCBKl97QXPrAZYMe4D
-	 Ku6/oZNIo2jfbf71jkyeprhB5vfVYDa6w2KFGkqmIFhbZa6wWGIf/wyt/dUUqKseG/
-	 fbYI9EqAaLwO0epG9xV58LLPs3DUFr9rQh5cD7Qv/qba9dSCD6OyCh/Tmz0vNj7wQm
-	 m6CMcEU96hKL+YfW5YlGTwlMSm7WFIPx+In/1dqt474434AX4p7LFpfI1lgabYosvc
-	 QmsxIcVbG/7pygqZTM9hZmspWgS3ggfAEyS5N8VNYXCFzsv9uBcvgpghvAF41xbx+l
-	 ftzJSDp7Lajog==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 521FC37810C0;
-	Mon, 25 Mar 2024 17:37:31 +0000 (UTC)
-Date: Mon, 25 Mar 2024 18:37:25 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR 6.9] Various Mediatek VCodec fixes
-Message-ID: <20240325173725.ydxv7o2xqgzpdtqm@basti-XPS-13-9310>
-References: <20240315132549.vbhui74yxjg2t36v@basti-XPS-13-9310>
- <172268d7-f259-4098-bb0d-c33b9ee4a4e1@xs4all.nl>
- <20240325154432.w2zhseliz2m3dpwy@basti-XPS-13-9310>
- <73de97e4-a9ce-4e46-8718-7e51936a66c3@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XNDgHQHVazUrYXGOTl4WEuJMsocemP7uzVWKHOqF6SE23k62CfPvaToMUnXrc7GlrtGjS9xbWNthpy8ai8gsRSeHtwY3q16osnklKD73ndBHK/RxFetCjciR+tLV5QqUYF+BRDJK7eUfunZYq6UIrBsShAVEYIwfgQzAyamiFzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfwlD+gr; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711389131; x=1742925131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=td2xF43H2VanMjVI5gkm78ixcmwa+nB0cEceFdwTAZo=;
+  b=gfwlD+grZruvfWWJh/7I1auWCwDiSmEGDHfXo2ayxnmeH2PhNun/cOtO
+   a16W8e3mhYzpJ7CQ5U0HpUokrD6bLrWhHKViNaEgZrWJN6iYu/rDNKC6y
+   Ty2c9bc671InSfwG84oVqAqlKLtg4rMlMlECOwYYjKJAKCHh71oldE+ZM
+   nujbx/bHmEcPLndMAPcyc1MzMyXS3T87Swmkg2Z2ktji1Ef6LAkuLdWe+
+   ri3Iok/pVZ/BT2Tr6XR4qv4X6tNGCdcUyjAGup4vLaJvoK+ULNVX0wiGd
+   dfxOp2yP6J4JO6XogtDAJ+xcwEbBfIHpGaFMPc/AW3KvecCQoQZXFGVsT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6345346"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="6345346"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 10:52:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="20418698"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 10:52:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5336111FB81;
+	Mon, 25 Mar 2024 19:52:06 +0200 (EET)
+Date: Mon, 25 Mar 2024 17:52:06 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
+Message-ID: <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+ <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73de97e4-a9ce-4e46-8718-7e51936a66c3@xs4all.nl>
+In-Reply-To: <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
 
-Hey Hans,
->>
->> On 25.03.2024 10:30, Hans Verkuil wrote:
->>> Hi Sebastian,
->>>
->>> Are these fixes for v6.9 or can these be merged for v6.10?
->>
->> I was hoping for them to land in 6.9 but if that doesn't work that is
->> fine for me as well.
->>
->>>
->>> Not all of these patches have a 'Fixes' tag, perhaps they should have it?
->>
->> No the tags are correct, do you want me to strictly only mix patches
->> with fixes tags or only patches without fixes tags?
->
->That's why I asked: if you want that all these patches go to v6.9, then I can
->apply them to our fixes branch and they will be passed on to Linus for
->6.9, but in that case it would be good to have Fixes tags.
->
->If all patches are OK to be merged for 6.10, then I can just apply them
->to our staging tree.
->
->Finally, if some are for 6.9 and some for 6.10 (presumably those patches
->without the Fixes tag), then I can split it up myself.
->
->In any case, I need to know what you want.
+Moi,
 
-Alright, then please add all of them to 6.9, the two without the fixes
-tags are not critical but that enable normal functionality, so I'd call
-them important enough.
+On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
+> On 25/03/2024 15:02, Sakari Ailus wrote:
+> > Moi,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+> > > Hi Tomi,
+> > > 
+> > > On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+> > > > Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+> > > > use the v4l2_subdev_video_ops.s_stream op, instead of
+> > > > v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+> > > > enable/disable_streams machinery requires a routing table which a subdev
+> > > > cannot have with a single pad.
+> > > > 
+> > > > Implement enable/disable_streams support for these single-pad subdevices
+> > > > by assuming an implicit stream 0 when the subdevice has only one pad.
+> > > > 
+> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > ---
+> > > > Even though I did send this patch, I'm not sure if this is necessary.
+> > > > s_stream works fine for the subdevs with a single pad. With the upcoming
+> > > > internal pads, adding an internal pad to the subdev will create a
+> > > > routing table, and enable/disable_streams would get "fixed" that way.
+> > 
+> > I'd like to get rid of a redundant way to control streaming.
+> 
+> We can't get rid of it anyway, can we? We're not going to convert old
+> drivers to streams.
 
->
->Regards,
->
->	Hans
+I'd expect to do that but it'd take a long time. That being said, I think
+we need to consider devices without pads (VCMs) so it may well be this
+would remain after all.
 
-Greetings,
-Sebastian
+> 
+> For new drivers, yes, we shouldn't use s_stream. But is the answer for new
+> sensor drivers this patch, or requiring an internal pad?
+
+For new drivers I'd like to see an internal pad in fact.
+{enable,disable}_streams is still internal to the kernel.
+
+> 
+> > > > So perhaps the question is, do we want to support single-pad subdevs in
+> > > > the future, in which case something like this patch is necessary, or
+> > > > will all modern source subdev drivers have internal pads, in which
+> > > > case this is not needed...
+> > > 
+> > > I think the latter would be best. I however can't guarantee we won't
+> > > have valid use cases for (enable|disable)_streams on single-pad subdevs
+> > > though, so you patch could still be interesting.
+> > 
+> > Instead of the number of pads, could we use instead the
+> > V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+> > determine the need for this?
+> 
+> Maybe, but are they better? Do you see some issue with checking for the
+> number of pads? I considered a few options, but then thought that the most
+> safest test for this case is 1) one pad 2) enable/disable_streams
+> implemented.
+
+I think I'd actually prefer {enable,disable}_streams in fact.
+
+-- 
+Terveisin,
+
+Sakari Ailus
 
