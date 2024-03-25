@@ -1,151 +1,289 @@
-Return-Path: <linux-media+bounces-7740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7741-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43A588A7D8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:56:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BBC88AA8F
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:02:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4917CB39851
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:19:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69311B64276
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:22:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF068157484;
-	Mon, 25 Mar 2024 12:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5BE913BC35;
+	Mon, 25 Mar 2024 12:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="waT/yd4c"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cIea7vew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8279D157483
-	for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 12:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A5B74437;
+	Mon, 25 Mar 2024 12:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711370109; cv=none; b=cTlvMMXOsHEFvjqNZg/27y8Kyd9InHeWxtCTaGB6E5Yd+ZvrdMfpqDOk/TDWcW4vA6KcXaHKPfawCUYM4uX6QHDXFllqhr1GbJsMomjEGnAMYtm9FLtVk95TVq0B06ih2xpoBHP9UMGqeJKTKFamJ5sLEtCDFYTtN0stC3Ap1Q0=
+	t=1711370621; cv=none; b=jbXZwgN9XfwD7PekQkqZ0fZv2883Jdm8ivq9zyq4HeCQkzz5rXXXieNnSJw6olpRlCIX07zEaPM2TXFqP3qdBy53PnLlI2eoeifIKAOnpJInZgRce2xXHAs/qsjM0Ku+DeuGZU0xyN0yV2p5Sd+pfgV4lpdzBu/unPWMPcfZf20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711370109; c=relaxed/simple;
-	bh=Ihco2VVQ8EM7Jh1F8wrCqICE2zkzbKD5Hk3coKQgtXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XsneGqcRNzt/UTn2sFIT3W0syhzFugh/KxIaCDu6VzMPw3zpG7r8s3GIaHZi78YibxevETXH2iV4Gb1oG0Ja/YGTuWBkmTSTEWnSNc4Qd4RBdv1xqUoI7N+bisRGUEWgUtW2pck/1U6IwKDtwvyIsHcy3WDmvNbz6lnh7Ih0p4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=waT/yd4c; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56c1364ff79so1009212a12.1
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 05:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711370106; x=1711974906; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWqmr4tJSgMTZuBlY7silaTC/ghGytqv25bJf51WJeA=;
-        b=waT/yd4cU4mNnUmHP5+44H/LdpDe6k1mDmwTsWZ260b/hmLwFpeAVOjMylwsfz6P09
-         UEc/ee8vp56Nq4CX7NnHHj7Ja/pbAuDXpYhGUcLdUNKUW60eMdHFN1Z4rEBcu5LKFCzY
-         PyLMefIL6VA9jdltO+mA4ji1FlzDOePVnpAuKNydEh8aQpnEUeDSs/hINvWZcKxrdQQH
-         4ZstZ9JysY2G6n3BIv7+s1b6LG3q9zt0GstasxDHdM/Z6juk925rKcTgGtC6HgedjZSv
-         oRK1BZMP/9QdvB5lVFybRVodoDWcFPT47YaAIYfmGSirnra5vAu6/LSCSEPfOBbcTbXl
-         Y2EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711370106; x=1711974906;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bWqmr4tJSgMTZuBlY7silaTC/ghGytqv25bJf51WJeA=;
-        b=PeooT2xHTziAwjJG0pUd0bMYaR0vFeLpMTgwaQ6fqR2UmZQReeLgs2xY+2VXbLecV0
-         OCuUMnmEBzT8NBcbC3quk9HEAh64Z+4g1n1EjzcG+TgcN7mI+cHgYCXuMdLUCFQDOB1U
-         nVcmPuy7KRYJrdB03saqkPWSpOCSgPy6DMokUuZsjQClZyczWmWbnUl7CQY/NGww9mfy
-         W54MXvjCIdtmAzwdx3iz92xW/BOp7uep2Qt2mE712EcUIi9jyBr1ngtCg7gancRIC3Ob
-         gnApTzZxlYyCj6jHedxFcqCSY/3y80GEeL2OpqnsKQu2kUj4IvqZPMgjVSV5rmF2K5sV
-         FRtw==
-X-Forwarded-Encrypted: i=1; AJvYcCWC/aa4eqnMDrIoNMXpY0J0lwenDx5Isf49kyjFV7OTgpaR4VuzqCaB6G+k8GB7Dx3po4gWZtHol9tNdybP9Ax2LH7Yb45g8FAfRYo=
-X-Gm-Message-State: AOJu0YyLRc7gdiFZA8ccVivXUAqSZeQ58rVnvprU1n2bBA+I3xV5eyRQ
-	ybf3fdRPglccoYAPIZMeSXqAMLoNM1Z8l3zHCEcJDCSRZ5C0xCRy3TzEEZqNdbI=
-X-Google-Smtp-Source: AGHT+IH8Cn89ggEfIANbpUmr3OPCf2JNAzSSROYWGxG3Th6G6cN11daoFg65mxm7kIJzyF7KMVoTFg==
-X-Received: by 2002:a50:d786:0:b0:567:ff26:4bcb with SMTP id w6-20020a50d786000000b00567ff264bcbmr4510771edi.30.1711370105691;
-        Mon, 25 Mar 2024 05:35:05 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id s21-20020a056402037500b0056bdc4a5cd6sm2947522edw.62.2024.03.25.05.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 05:35:05 -0700 (PDT)
-Date: Mon, 25 Mar 2024 15:35:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 4/8] media: platform: ti: use for_each_endpoint_of_node()
-Message-ID: <02d6efba-6d1c-465f-a06d-cf7c02656e21@moroto.mountain>
-References: <8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com>
- <87wmpr57uw.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1711370621; c=relaxed/simple;
+	bh=c8CCSDfPXv/Yx8EpNla6R7eV3b154JsDt8OqeBf7Bzg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Gm/Rfx68Gwwk2H3ps7FBKWajbLajYymZVM94N5I4uxEjqhcY6rZ1lquyYHflvW+1Ql4e7OW9cJ4UFI2W5guUBszkRVPpnJoRXv57obZF6Inp67KQmRb428zv2FOnUZRDO0FrZiUsHsjK7QUZH+ErdKMRGPOrB1rMUej6airr7Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cIea7vew; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEB9C7E4;
+	Mon, 25 Mar 2024 13:43:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711370586;
+	bh=c8CCSDfPXv/Yx8EpNla6R7eV3b154JsDt8OqeBf7Bzg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=cIea7vewsQUiCdWHdm37dwQtxoncOv3OCGumqraCTohg3qN8MdEPhOOBgJ2aqfckr
+	 +IGVpnoxXUd8EfP9RQ8sedwY3+xDU36QN03AEeXPh2c9iXoh27ZwV01eB8P4vrJoFy
+	 5b7OflSnXjNsX1TDrIAx1uTEWYt7Z5d9zZR6n68Q=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Mon, 25 Mar 2024 14:43:23 +0200
+Subject: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87wmpr57uw.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAGpxAWYC/x2MSQqAMAwAvyI5G9C6oV8RD1GjBrSWRkQo/t3ib
+ eYwE0DZCyt0SQDPt6icNkqeJjBtZFdGmaODyUyZFaZCFbvujI5mZEtjRL0806FYGGqpKWuaqhF
+ i7zwv8vzvfnjfDxy+zINrAAAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7013;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=c8CCSDfPXv/Yx8EpNla6R7eV3b154JsDt8OqeBf7Bzg=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmAXF3+QyPaNqFvltADC+IGM/HydDH2KFVvy+py
+ mebVrC3x/iJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZgFxdwAKCRD6PaqMvJYe
+ 9Xk1D/9p5EBxiUcuSh5UAIbaXkU1q09tfSyBEAGRLB6R3wAwnu9NzkN9SjbcV7NguBZb0WE14db
+ iO6i9oiaVBkKqG8+B3b8i8iaGqdR6vSzYAfdJ2drUr0Uizm01DlB2eYRk+BZisMSu4uAl7iH4LI
+ cD4ecwak78a1efT/QGm7jjNWo63mxuK6oz6ULFPCf1lXB9h3g/wUq8EwNudHzEer7tySq8NEGq3
+ ykY5VcR0ueqieoNaAIQddwNHnjPKHG7PIpiUT6MBc/IXZzpFVERqhKpx29yO3szXmlBTsOpKb2V
+ YAqlsojezeqRjeNy8Pper4SUbluAfOPk0BIHWeCy5nubADyltOpi58mTKeCjgDv2M7qBxIAvYaA
+ V2DkuEHKj/yCJxTmHff1CJ5vb84y77E+10WgYu4zeDtWVdyHfAZKI52g2j3dle14XFg8vjaR0FH
+ IbpLzan0MGt3BFc4az6XBdAT6YQyO3L7PyLFx2iazP3zwjyc/htFRQFgI7LqxQhvRXqJS63xbt7
+ 2/MdZ4/DpCiSajmmtHUJ0oKmeQasizeijZGLzz2O53bdFQ5ectWOb8eAYjev5lKOz53valvMXFO
+ Jl5l8w1x73yWNy8znunJ+P/kbjSF/TD1hFUYsSnY281BQaGEXgeLHM0ynRCLm1iaMkPPLMyYD4X
+ Q0C+WfWcmW28LSQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Mon, Mar 25, 2024 at 03:05:27AM +0000, Kuninori Morimoto wrote:
-> We already have for_each_endpoint_of_node(), don't use
-> of_graph_get_next_endpoint() directly. Replace it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/media/platform/ti/am437x/am437x-vpfe.c   |  8 +++-----
->  drivers/media/platform/ti/davinci/vpif_capture.c | 11 +++++------
->  2 files changed, 8 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> index 77e12457d149..4f185a0d42b3 100644
-> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> @@ -2306,14 +2306,10 @@ vpfe_get_pdata(struct vpfe_device *vpfe)
->  	if (!pdata)
->  		return NULL;
->  
-> -	for (i = 0; ; i++) {
-> +	for_each_endpoint_of_node(dev->of_node, endpoint) {
->  		struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
->  		struct device_node *rem;
->  
-> -		endpoint = of_graph_get_next_endpoint(dev->of_node, endpoint);
-> -		if (!endpoint)
-> -			break;
-> -
->  		sdinfo = &pdata->sub_devs[i];
-                                          ^
-"i" is uninitialized now.
+Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+use the v4l2_subdev_video_ops.s_stream op, instead of
+v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+enable/disable_streams machinery requires a routing table which a subdev
+cannot have with a single pad.
 
-Also in the initializer it has "struct device_node *endpoint = NULL;"
-which is unnecessary now.  And at the end it has:
+Implement enable/disable_streams support for these single-pad subdevices
+by assuming an implicit stream 0 when the subdevice has only one pad.
 
-	of_node_put(endpoint);
-	return pdata;
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Even though I did send this patch, I'm not sure if this is necessary.
+s_stream works fine for the subdevs with a single pad. With the upcoming
+internal pads, adding an internal pad to the subdev will create a
+routing table, and enable/disable_streams would get "fixed" that way.
 
-Since endpoint is NULL this was always a pointless no-op but now it's
-more obvious, so lets delete that.
+So perhaps the question is, do we want to support single-pad subdevs in
+the future, in which case something like this patch is necessary, or
+will all modern source subdev drivers have internal pads, in which
+case this is not needed...
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 105 ++++++++++++++++++++++------------
+ include/media/v4l2-subdev.h           |   4 +-
+ 2 files changed, 72 insertions(+), 37 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 4c6198c48dd6..ddc7ed69421c 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -2129,21 +2129,33 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+ 	 * Verify that the requested streams exist and that they are not
+ 	 * already enabled.
+ 	 */
+-	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+-		struct v4l2_subdev_stream_config *cfg =
+-			&state->stream_configs.configs[i];
+ 
+-		if (cfg->pad != pad || !(streams_mask & BIT_ULL(cfg->stream)))
+-			continue;
+-
+-		found_streams |= BIT_ULL(cfg->stream);
+-
+-		if (cfg->enabled) {
++	if (sd->entity.num_pads == 1) {
++		if (sd->enabled_streams) {
+ 			dev_dbg(dev, "stream %u already enabled on %s:%u\n",
+-				cfg->stream, sd->entity.name, pad);
++				0, sd->entity.name, pad);
+ 			ret = -EALREADY;
+ 			goto done;
+ 		}
++
++		found_streams = BIT_ULL(0);
++	} else {
++		for (i = 0; i < state->stream_configs.num_configs; ++i) {
++			struct v4l2_subdev_stream_config *cfg =
++				&state->stream_configs.configs[i];
++
++			if (cfg->pad != pad || !(streams_mask & BIT_ULL(cfg->stream)))
++				continue;
++
++			found_streams |= BIT_ULL(cfg->stream);
++
++			if (cfg->enabled) {
++				dev_dbg(dev, "stream %u already enabled on %s:%u\n",
++					cfg->stream, sd->entity.name, pad);
++				ret = -EALREADY;
++				goto done;
++			}
++		}
+ 	}
+ 
+ 	if (found_streams != streams_mask) {
+@@ -2164,13 +2176,17 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+ 		goto done;
+ 	}
+ 
+-	/* Mark the streams as enabled. */
+-	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+-		struct v4l2_subdev_stream_config *cfg =
+-			&state->stream_configs.configs[i];
++	if (sd->entity.num_pads == 1) {
++		sd->enabled_streams |= streams_mask;
++	} else {
++		/* Mark the streams as enabled. */
++		for (i = 0; i < state->stream_configs.num_configs; ++i) {
++			struct v4l2_subdev_stream_config *cfg =
++				&state->stream_configs.configs[i];
+ 
+-		if (cfg->pad == pad && (streams_mask & BIT_ULL(cfg->stream)))
+-			cfg->enabled = true;
++			if (cfg->pad == pad && (streams_mask & BIT_ULL(cfg->stream)))
++				cfg->enabled = true;
++		}
+ 	}
+ 
+ done:
+@@ -2246,21 +2262,32 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+ 	 * Verify that the requested streams exist and that they are not
+ 	 * already disabled.
+ 	 */
+-	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+-		struct v4l2_subdev_stream_config *cfg =
+-			&state->stream_configs.configs[i];
+-
+-		if (cfg->pad != pad || !(streams_mask & BIT_ULL(cfg->stream)))
+-			continue;
+-
+-		found_streams |= BIT_ULL(cfg->stream);
+-
+-		if (!cfg->enabled) {
++	if (sd->entity.num_pads == 1) {
++		if (!sd->enabled_streams) {
+ 			dev_dbg(dev, "stream %u already disabled on %s:%u\n",
+-				cfg->stream, sd->entity.name, pad);
++				0, sd->entity.name, pad);
+ 			ret = -EALREADY;
+ 			goto done;
+ 		}
++
++		found_streams = BIT_ULL(0);
++	} else {
++		for (i = 0; i < state->stream_configs.num_configs; ++i) {
++			struct v4l2_subdev_stream_config *cfg =
++				&state->stream_configs.configs[i];
++
++			if (cfg->pad != pad || !(streams_mask & BIT_ULL(cfg->stream)))
++				continue;
++
++			found_streams |= BIT_ULL(cfg->stream);
++
++			if (!cfg->enabled) {
++				dev_dbg(dev, "stream %u already disabled on %s:%u\n",
++					cfg->stream, sd->entity.name, pad);
++				ret = -EALREADY;
++				goto done;
++			}
++		}
+ 	}
+ 
+ 	if (found_streams != streams_mask) {
+@@ -2281,13 +2308,17 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+ 		goto done;
+ 	}
+ 
+-	/* Mark the streams as disabled. */
+-	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+-		struct v4l2_subdev_stream_config *cfg =
+-			&state->stream_configs.configs[i];
++	if (sd->entity.num_pads == 1) {
++		sd->enabled_streams &= ~streams_mask;
++	} else {
++		/* Mark the streams as disabled. */
++		for (i = 0; i < state->stream_configs.num_configs; ++i) {
++			struct v4l2_subdev_stream_config *cfg =
++				&state->stream_configs.configs[i];
+ 
+-		if (cfg->pad == pad && (streams_mask & BIT_ULL(cfg->stream)))
+-			cfg->enabled = false;
++			if (cfg->pad == pad && (streams_mask & BIT_ULL(cfg->stream)))
++				cfg->enabled = false;
++		}
+ 	}
+ 
+ done:
+@@ -2325,8 +2356,12 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
+ 	 */
+ 	state = v4l2_subdev_lock_and_get_active_state(sd);
+ 
+-	for_each_active_route(&state->routing, route)
+-		source_mask |= BIT_ULL(route->source_stream);
++	if (sd->entity.num_pads == 1) {
++		source_mask = BIT_ULL(0);
++	} else {
++		for_each_active_route(&state->routing, route)
++			source_mask |= BIT_ULL(route->source_stream);
++	}
+ 
+ 	v4l2_subdev_unlock_state(state);
+ 
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index a9e6b8146279..39b230f7b3c8 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1041,8 +1041,8 @@ struct v4l2_subdev_platform_data {
+  *		  v4l2_subdev_init_finalize().
+  * @enabled_streams: Bitmask of enabled streams used by
+  *		     v4l2_subdev_enable_streams() and
+- *		     v4l2_subdev_disable_streams() helper functions for fallback
+- *		     cases.
++ *		     v4l2_subdev_disable_streams() helper functions. This is
++ *		     for fallback cases and for subdevs with single pads.
+  *
+  * Each instance of a subdev driver should create this struct, either
+  * stand-alone or embedded in a larger struct.
+
+---
+base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+change-id: 20240325-single-pad-enable-streams-32a9a746ac5b
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
