@@ -1,165 +1,158 @@
-Return-Path: <linux-media+bounces-7754-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7755-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CF988AB94
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 18:26:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BC488A82C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:04:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B39F5B66C53
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:03:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B43C1F6718E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:04:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD77A65197;
-	Mon, 25 Mar 2024 13:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D45AB641;
+	Mon, 25 Mar 2024 13:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQm9T5a2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJ4x6utE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B4AD27A;
-	Mon, 25 Mar 2024 13:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805BC3DAC01;
+	Mon, 25 Mar 2024 13:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711374188; cv=none; b=iwJaa+u72dE1BBkkyhUP8yyc4MAdAEth8bYPCnBMfAGakZQvffGJwsvd6NYh8n13iunHAWI9i0zW9x5eizj0k0Cjg2t6WdVX9jAjuZPzgByv7PGXT/0aZKCHfAVOeLg0DE0eDV/lP9+rnyCGPvlzm3z5nsQPRA10T9ysbJFnSrw=
+	t=1711374423; cv=none; b=G0XdYKLRPkPzs8bN3Puih5sb6femz0KQ9hy/sWqaYqIn5+cBvf/XHduU1GhqSeo3F2PtJ4yXN3wNr1qXz4+4AV0d3k3yy/ObA4wthAT2pHvgR/1LASQiEm5oApbbv5H4PTENwWKParn6lWE7qnte+t96c1bXYTw096GLFY+nuXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711374188; c=relaxed/simple;
-	bh=tTvYw0H7f6TxaDPFTy+vF+STJ6mKZltA7UnaYUVSPHs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PCy4grX3vh05vFGXRsto3zoZSwALyMQ0CAaK4E5MsVlddYBtJIe/cbF2/Wpu2mGMMw1HoqoIDF8DNIGlDgulmOvyDAVB/cxrKR5aJdQfFZTyHuKEs7+asTjEVUQHoa1xHViswQG01u2myY17XXqymAtkKCvLw2FAoCeMzAvkCfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQm9T5a2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68B587E4;
-	Mon, 25 Mar 2024 14:42:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711374153;
-	bh=tTvYw0H7f6TxaDPFTy+vF+STJ6mKZltA7UnaYUVSPHs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kQm9T5a2+jJXi6SyMiqW5R2o6ZMGbeOdi/1DQpGxZC7R587Y+BURyI/dk27QGlNSc
-	 EQ1s/SGJq4nKmDZbBMXuWHt/Cbv1mqHioxkC7q7nIObw6T6ajH9xv+T9vXQF1y1teK
-	 Lhj0Emu5Ph1/2ttX+VDZD6lQChZ7nLrjgAUsYBr0=
-Message-ID: <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
-Date: Mon, 25 Mar 2024 15:43:01 +0200
+	s=arc-20240116; t=1711374423; c=relaxed/simple;
+	bh=Dwwe97Uw4E8QyozheiElFHoECrS4WqQaW5q347hkoPs=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=W5tY9JKh2kLASbzbtQ8OReJdzLh7nBJPTrtF0yRtTvHwBsD8YSmsshzgXHQQRVbzYh7S5YmhKYKgYifeu+7zwJwHybwCajuv6F+NJfN1/nWah2mmHZEqRa6U7VxZUDcxtQcZquaMpK5KdOyyPOqsSWwg/BjF/L52TAeJp4WNVcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJ4x6utE; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56c1a520659so647438a12.1;
+        Mon, 25 Mar 2024 06:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711374420; x=1711979220; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KjANd7InPQ7TGU91MaQD797NSrQEpjeld8XW1nZz2cY=;
+        b=TJ4x6utEQ5sNI/w16/biyJIAc9mbtNK/XvaG2kggD1fYJs6gX0BzoRaWDk0LYOXPb7
+         I9uPyCQ5PmyLoR9u1J/l3PgCHpDpCaUtmUDgmcTThXDg8EncIx5GHEhT0d48ThLd8zMJ
+         Oukl5h5mWS+OgSwVdwx0mJaWOefbHjF8ZFkgrQ8uD2nODe4mcqDokSvmYcIwkXIFXGm6
+         1DBxrku0YDl91ZIIcKylHbNhEU8naztBNK/IZrwxgIzgAOfYKlSZhGtHrMaSeQypALdC
+         rWdwRrQjXzrnA8ZUcZ7NwUe0Xa6WDUtT6aVZb5589ONfZSPmqpIY8AXAxzs+t6ukhhW9
+         xJCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711374420; x=1711979220;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KjANd7InPQ7TGU91MaQD797NSrQEpjeld8XW1nZz2cY=;
+        b=cV75b6M7JAQoWJkzxaHRl4vPs69UKpHXXdtKL7hUs3msb8QyDRgSeruO8yKDnOfwtD
+         j0ugHTwVlie1lmJLoV6DC+UlrHUgSMye3x/u6IkplodzdiHOOOQPlhV0kJFq1r0etxaC
+         y6JYio+B11dDNfYwfoxGQgUPx30WTdQztYgpETZX/7ZQ+UTHxT+uxFJxd2qogvxfjN3E
+         s1zBdT36DPNd3u0NnTLClUhWLgkKZHlmLmsTqUindB70UfjXckRaH4xJjgkfM8FuHV8H
+         Ms9FSIKDb9QOKHSJnoABfmPtQ3NlnnfarwWQY2Jj8JRfMuLMQsxcaL9n79IcyCW6XZuK
+         +X3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUvAzmYfeC9weCMgkxQYh0/U+FYJIMS7rOqhtEIdZS0MIE1BH5MXbs7PP8NILOcwRumvQIms0gBOEoeAwwglmmFL27idaSZBWO3trmCdE3odsYamlgY7aFH/H5/bm7TxMM1XhfQrBm1xqE=
+X-Gm-Message-State: AOJu0YwjihafB4t8Y8P1937CZi4bYCoSaGvkSWcEkgErHexOJNvJBXMT
+	4Hx0bqoGry3lDiaYrkaHhNMyU3dmigNNEHzbLwXBYflpBcPs1+DE
+X-Google-Smtp-Source: AGHT+IGY2GkZsbZRFlNvvEq3iO+wOkFjANYYezsdLkZCO/J95dy/uLCmgL/n3kcCZAlAC914R8Cb3w==
+X-Received: by 2002:a17:906:a382:b0:a47:34d8:e052 with SMTP id k2-20020a170906a38200b00a4734d8e052mr4747580ejz.36.1711374419703;
+        Mon, 25 Mar 2024 06:46:59 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id h26-20020a170906719a00b00a4a3b693d38sm699440ejk.77.2024.03.25.06.46.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Mar 2024 06:46:59 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=825d513444cbcfd21e325bb336a957fc7c42f554a23f2161a262d85b011f;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
- single-pad subdevs
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
- <20240325125055.GC23988@pendragon.ideasonboard.com>
- <ZgF10EVLrfF7cl57@kekkonen.localdomain>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <ZgF10EVLrfF7cl57@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Date: Mon, 25 Mar 2024 14:46:58 +0100
+Message-Id: <D02VLMHNDLXY.16ACXUWB3TWZF@gmail.com>
+Cc: <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] staging: media: tegra-video: Fix
+ -Wmaybe-unitialized warn in gcc
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Ricardo Ribalda" <ribalda@chromium.org>, "Jonathan Hunter"
+ <jonathanh@nvidia.com>, "Sowjanya Komatineni" <skomatineni@nvidia.com>,
+ "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Hans Verkuil" <hverkuil@xs4all.nl>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240323-gcc-arm-warnings-v1-0-0b45cc52f39e@chromium.org>
+ <20240323-gcc-arm-warnings-v1-1-0b45cc52f39e@chromium.org>
+In-Reply-To: <20240323-gcc-arm-warnings-v1-1-0b45cc52f39e@chromium.org>
 
-On 25/03/2024 15:02, Sakari Ailus wrote:
-> Moi,
-> 
-> Thanks for the patch.
-> 
-> On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
->> Hi Tomi,
->>
->> On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
->>> Currently a subdevice with a single pad, e.g. a sensor subdevice, must
->>> use the v4l2_subdev_video_ops.s_stream op, instead of
->>> v4l2_subdev_pad_ops.enable/disable_streams. This is because the
->>> enable/disable_streams machinery requires a routing table which a subdev
->>> cannot have with a single pad.
->>>
->>> Implement enable/disable_streams support for these single-pad subdevices
->>> by assuming an implicit stream 0 when the subdevice has only one pad.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>> Even though I did send this patch, I'm not sure if this is necessary.
->>> s_stream works fine for the subdevs with a single pad. With the upcoming
->>> internal pads, adding an internal pad to the subdev will create a
->>> routing table, and enable/disable_streams would get "fixed" that way.
-> 
-> I'd like to get rid of a redundant way to control streaming.
+--825d513444cbcfd21e325bb336a957fc7c42f554a23f2161a262d85b011f
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-We can't get rid of it anyway, can we? We're not going to convert old 
-drivers to streams.
+On Sat Mar 23, 2024 at 11:41 AM CET, Ricardo Ribalda wrote:
+> Make sure that tegra20_vi_get_input_formats always assign a value for
+> yuv_input_format.
+>
+> Fix:
+> drivers/staging/media/tegra-video/tegra20.c:624:72: warning: =E2=80=98yuv=
+_input_format=E2=80=99 may be used uninitialized [-Wmaybe-uninitialized]
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/staging/media/tegra-video/tegra20.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
+g/media/tegra-video/tegra20.c
+> index c25286772603c..c39b52d0e4447 100644
+> --- a/drivers/staging/media/tegra-video/tegra20.c
+> +++ b/drivers/staging/media/tegra-video/tegra20.c
+> @@ -176,6 +176,7 @@ static void tegra20_vi_get_input_formats(struct tegra=
+_vi_channel *chan,
+>  		(*yuv_input_format) =3D VI_INPUT_YUV_INPUT_FORMAT_YUYV;
+>  		break;
+>  	case MEDIA_BUS_FMT_YVYU8_2X8:
+> +	default:
 
-For new drivers, yes, we shouldn't use s_stream. But is the answer for 
-new sensor drivers this patch, or requiring an internal pad?
+This default seems rather arbitrary. Maybe we should follow the
+tegra20_vi_get_output_formats() and default to UYVY? Also, maybe follow
+the same scheme as that function (i.e. assign the default near the top
+of the function rather than add a default case)?
 
->>> So perhaps the question is, do we want to support single-pad subdevs in
->>> the future, in which case something like this patch is necessary, or
->>> will all modern source subdev drivers have internal pads, in which
->>> case this is not needed...
->>
->> I think the latter would be best. I however can't guarantee we won't
->> have valid use cases for (enable|disable)_streams on single-pad subdevs
->> though, so you patch could still be interesting.
-> 
-> Instead of the number of pads, could we use instead the
-> V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
-> determine the need for this?
+Thierry
 
-Maybe, but are they better? Do you see some issue with checking for the 
-number of pads? I considered a few options, but then thought that the 
-most safest test for this case is 1) one pad 2) enable/disable_streams 
-implemented.
+>  		(*yuv_input_format) =3D VI_INPUT_YUV_INPUT_FORMAT_YVYU;
+>  		break;
+>  	}
 
-  Tomi
 
+--825d513444cbcfd21e325bb336a957fc7c42f554a23f2161a262d85b011f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYBgFMACgkQ3SOs138+
+s6Eydw//W72tYXdcn6FA3pjJOx89WN25ap9DecvjM0hvEGCYVJMvI2Tqxzp515tM
+7setppTdJlH3fJIjNYv/LtBogx0bqd9pbyI6XVjKAXCdVuRM+GDHk3GHeUbloF2x
+UPAemgsN18OjM6OsXPTqQNnEmcQH8LNaJMoEaursTaWEyIEQjp1e4jDXbeZ+GI2L
+BBiQG/HqqpMExqtkulveghFtjrEDvo3WFhsGEyXikSOUmee2D0MBOf06IG7XgayE
+SGiNbT7oDItuyZAq52Cic0woWiKsxo21MnVAJryem/0rLZSdDyjP8mORhIDdS2LT
+9HrrhJBs7lPoi277e9GoVfDm8IiGtMZ0TIHJR0m93REatLyrhToyvXp6yJpGFDnb
+vvoHvVapZBm1jauoE9Tpjf55rwhcEdtWi82ZbDdFzFp0PxDMpPZXPg9xK7hNuY0b
+ejVcIjeBlwZHp+pFYawE5tTAyyfobc9zNPL/q7r+uPlhOfUw+pIo1BpNAq/ZYjK6
+fgMZqUSX7fEydg63Mva45QKvuEX/LCVDueiieSKZPWwh865jyDgk9VZECSumOwKq
+lwj+bwc9/iQBHbfg0KFGNurKz3fpBIC9TazXe63Sr8CPGJdDOMqUdVS+BhXYRxAh
+d2kp3EUfFEkG2O5FaAhksqtCAc2Uwf1ZX3hMRz/PL6IYVTwRm4E=
+=0X7r
+-----END PGP SIGNATURE-----
+
+--825d513444cbcfd21e325bb336a957fc7c42f554a23f2161a262d85b011f--
 
