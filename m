@@ -1,55 +1,63 @@
-Return-Path: <linux-media+bounces-7752-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7753-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA47F88A7C0
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:55:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2D088A7F5
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 17:00:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEECC327F70
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:54:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC2F51FA1232
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:00:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A97DB14D70F;
-	Mon, 25 Mar 2024 13:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1603012B160;
+	Mon, 25 Mar 2024 13:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QEaOdJT2"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ERX8MNSh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8805A4D4;
-	Mon, 25 Mar 2024 13:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CE950248;
+	Mon, 25 Mar 2024 13:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711372941; cv=none; b=NNC+yqonjtcFLx3++hMUrANwIXM45gaogy3yGuSKYNlaOCyca4Slcay6I8gbeev2J0sda0qeBtKrTgZHZpY+s0ERnMTPR3FLwgQ6TEYd2AmGlabLMPbAz/DHjlswbSA+zUaL8HCHUzzzsrQgh898i7TgcxesHe/MVBiLxm/NpXQ=
+	t=1711373906; cv=none; b=ZiRGH1/KnCCGA1Hu4NgIxWqCXpwGAYxeBLDuJeFGfCHmAlr/MLqRhlN/dGCkI/3KKP7o4ibAm9X0kCUO75rOPIlvBTKxxZKpfDLSkdPkyJ8GSTb0PsbhTUcEQJX0HzKjFN+ErB8u/7yFGj4QTIiKmp6XiualSTemnhjgf8R8G4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711372941; c=relaxed/simple;
-	bh=QGvdM7PX97DZulGhq1lE2bXZMhHjYoCmKXt732YoRgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ny5L9pzfXPsPzVIijK/LaphJMbJ7MsJ4FFaR8vQSQUr0G0mzRKl8oA9BbHw2xWFtEK8gQxtQvHBMHpfM9BwL1qAeV7akckpQfNyDly2KR8zCmcZ3fyUncuZ7HOQfb9xx1fySIZ6rM8fmtltUC7l30wLYT2YW2XnFeNoBE9W6lZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QEaOdJT2; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711372937;
-	bh=QGvdM7PX97DZulGhq1lE2bXZMhHjYoCmKXt732YoRgE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QEaOdJT2FP0uzaYA3UT7ZzlNdePdtNrNDdh5kkjVUHM5DMN4fMidoFi2Worn4iYo1
-	 WZII+j4LGuzNEPPZKyfZzKEXwCjrPZnW6ed8L9e/6DEMpEbXWdDW95T2MjRccxw+0b
-	 OufsQzjy37giI6Ad+8aiNaUsD3B4DL9tWuZYq7LzRonZx5mHOdsgru3zbe4FDUc511
-	 e5k5hPeoJWD1qMxBVyBQZtaJbdeRD6RLQIbM2UBd4cLy2iFMfOYO3CXhVFx0zF0Cl0
-	 n1SV60X9j8RFlxJE90CS+v3rzt8C4NxvGkS1qF+ybB5QNfoH+P5Ne07zz3OPrbnmV1
-	 H2rGH5BaVt64g==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2BB3C378148F;
-	Mon, 25 Mar 2024 13:22:17 +0000 (UTC)
-Message-ID: <97e32ac5-7646-4fcc-affd-89abcca2b1b9@collabora.com>
-Date: Mon, 25 Mar 2024 14:22:16 +0100
+	s=arc-20240116; t=1711373906; c=relaxed/simple;
+	bh=ZVWjwKcwPAGTbX3rUYsuDi055yHk0teXSvVowtFCK/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Z920DjBxJjoIIbh0FhVEFFP/ZF0ZJXqM+EArDjW8OHPCoOfFv/tYDPGlxw5pX0js1kluVKFFNj4pnrWfG18y5dM4jR/aap6OHg89zXG2H/pl/or1+g6A6jqy3XoDwHHjR37c6dKR3AykHoJBWSjDndrChmJ0dARpWeEzIOl2oCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ERX8MNSh; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PAqS57023557;
+	Mon, 25 Mar 2024 13:38:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=5Wh1H7LS3r3Supdrc6pXTAfv62LxvOInVhK7Q7cZT5U=; b=ER
+	X8MNSh/vE1fsICj8J2/H1ybE3el/darRbiI6VQOJRokw9erEcBxRV1jqoYIYefQ1
+	5p1npBIIsYwo/s2ZUmgjpKhbJGhb8jIg/JWpX09BzApxhutbo1+WZSi/JBv9chFU
+	WJ8eRnIGZsJxTxbGcRvy9AW75gURaSw73Qvlk7izbQVAGIn33I92kGnv+1WaJZzB
+	L6byx+Gmzak6cwQALXZLtp7Z/H5jAOKGLOw8FWjP86LxBn1lbkCfXgcH+8rkcB0+
+	Km9QTyxYztg7M9F3e42YNVL8mj+upkSDt7gZgf4k7u2lO1kInKidhyUeO0P80kD3
+	+9VBinjcjJgLO1h8Eu+Q==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x35eagu50-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Mar 2024 13:38:19 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42PDcIgl032390
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Mar 2024 13:38:18 GMT
+Received: from [10.239.96.73] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 25 Mar
+ 2024 06:38:15 -0700
+Message-ID: <8d363b4b-d666-47bb-973e-f4a6d52e1024@quicinc.com>
+Date: Mon, 25 Mar 2024 21:38:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,124 +65,565 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] dt-bindings: media: add Maxim MAX96714 GMSL2
- Deserializer
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- kernel@collabora.com, linux-kernel@vger.kernel.org, mchehab@kernel.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- sakari.ailus@iki.fi
-References: <20240313094922.311743-1-julien.massot@collabora.com>
- <20240313094922.311743-3-julien.massot@collabora.com>
- <20240317-petty-backache-b10d0fde62cf@spud>
+Subject: Re: [PATCH v2 5/8] media: qcom: camss: Add CSID gen3 driver
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
+        <quic_yon@quicinc.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240320141136.26827-1-quic_depengs@quicinc.com>
+ <20240320141136.26827-6-quic_depengs@quicinc.com>
+ <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
 Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <20240317-petty-backache-b10d0fde62cf@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <b542f9a1-2053-4431-832e-5510e8d8220e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: m4OukUkNQ8stChkbATTvhxJTk6XNDe2E
+X-Proofpoint-ORIG-GUID: m4OukUkNQ8stChkbATTvhxJTk6XNDe2E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-25_09,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ spamscore=0 priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403250074
 
-Hi Conor,
+Hi Bryan,
 
-Thanks for your review.
-On 3/17/24 16:18, Conor Dooley wrote:
-> On Wed, Mar 13, 2024 at 10:49:20AM +0100, Julien Massot wrote:
->> Add DT bindings for Maxim MAX96714 GMSL2 Deserializer.
+On 3/20/2024 11:40 PM, Bryan O'Donoghue wrote:
+> On 20/03/2024 14:11, Depeng Shao wrote:
+>> The CSID in SM8550 is gen3, it has new register
+>> offset and new functionality, the buf done irq,
+>> register update and reset is moved to CSID gen3.
 >>
->> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+>> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
 >> ---
->> Change since v4:
->>   - Add compatible for MAX96714 and use it as a fallback for MAX96714F
->>   - Remove extra '|' for decriptions
->>   - Reference 'i2c-gate' instead of 'i2c-controller'
+>>   drivers/media/platform/qcom/camss/Makefile    |   1 +
+>>   .../platform/qcom/camss/camss-csid-gen3.c     | 639 ++++++++++++++++++
+>>   .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
+>>   .../media/platform/qcom/camss/camss-csid.h    |   1 +
+>>   4 files changed, 667 insertions(+)
+>>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
 >>
->> Change since v3:
->>   - Renamed file to maxim,max96714.yaml dropped the 'f' suffix
->>   - Removed mention to C-PHY since it's not supported by MAX96714 deserializers
->>   - Removed bus-type requirement on CSI endpoint since the device only support D-PHY
->>   - Removed the clock-lanes property in the dt example
->>
->> Change since v2:
->>   - remove reg description
->>   - rename enable gpio to powerdown
->>   - use generic node name: i2c, serializer, deserializer
->> ---
->>   .../bindings/media/i2c/maxim,max96714.yaml    | 176 ++++++++++++++++++
->>   1 file changed, 176 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+>> diff --git a/drivers/media/platform/qcom/camss/Makefile 
+>> b/drivers/media/platform/qcom/camss/Makefile
+>> index 28eba4bf3e38..c5fcd6eec0f2 100644
+>> --- a/drivers/media/platform/qcom/camss/Makefile
+>> +++ b/drivers/media/platform/qcom/camss/Makefile
+>> @@ -7,6 +7,7 @@ qcom-camss-objs += \
+>>           camss-csid-4-1.o \
+>>           camss-csid-4-7.o \
+>>           camss-csid-gen2.o \
+>> +        camss-csid-gen3.o \
+>>           camss-csiphy-2ph-1-0.o \
+>>           camss-csiphy-3ph-1-0.o \
+>>           camss-csiphy-2-1-2.o \
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c 
+>> b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
 >> new file mode 100644
->> index 000000000000..59b116092834
+>> index 000000000000..b97005f7065d
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
->> @@ -0,0 +1,176 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +# Copyright (C) 2024 Collabora Ltd.
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/maxim,max96714.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Maxim MAX96714 GMSL2 to CSI-2 Deserializer
->> +
->> +maintainers:
->> +  - Julien Massot <julien.massot@collabora.com>
->> +
->> +description:
->> +  The MAX96714 deserializer converts GMSL2 serial inputs into MIPI
->> +  CSI-2 D-PHY formatted output. The device allows the GMSL2 link to
->> +  simultaneously transmit bidirectional control-channel data while forward
->> +  video transmissions are in progress. The MAX96714 can connect to one
->> +  remotely located serializer using industry-standard coax or STP
->> +  interconnects. The device cans operate in pixel or tunnel mode. In pixel mode
->> +  the MAX96714 can select individual video stream, while the tunnel mode forward all
->> +  the MIPI data received by the serializer.
->> +
->> +  The GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
->> +  forward direction and 187.5Mbps in the reverse direction.
->> +  MAX96714F only supports a fixed rate of 3Gbps in the forward direction.
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - enum:
->> +          - maxim,max96714
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>> @@ -0,0 +1,639 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * camss-csid-gen3.c
+>> + *
+>> + * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
+>> + *
+>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +#include <linux/completion.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/io.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/of.h>
+>> +#include <linux/delay.h>
 > 
-> There's only once device here, make it const rather than enum.
+> Please alphanumerically sort your include list.
+> 
+>> +
+>> +
+>> +#include "camss-csid.h"
+>> +#include "camss-csid-gen3.h"
+>> +#include "camss.h"
+> 
+> and here.
+> 
+>> +
+>> +#define CSID_TOP_IO_PATH_CFG0(csid)    (0x4 * (csid))
+>> +#define        OUTPUT_IFE_EN 0x100
+>> +#define        INTERNAL_CSID 1
+>> +
+>> +#define CSID_HW_VERSION        0x0
+>> +#define        HW_VERSION_STEPPING    0
+>> +#define        HW_VERSION_REVISION    16
+>> +#define        HW_VERSION_GENERATION    28
+>> +
+>> +#define CSID_RST_CFG    0xC
+>> +#define        RST_MODE        0
+>> +#define        RST_LOCATION    4
+>> +
+>> +#define CSID_RST_CMD    0x10
+>> +#define        SELECT_HW_RST    0
+>> +#define        SELECT_SW_RST    1
+>> +#define        SELECT_IRQ_RST    2
+>> +
+>> +#define CSID_CSI2_RX_IRQ_STATUS    0x9C
+>> +#define CSID_CSI2_RX_IRQ_MASK    0xA0
+>> +#define CSID_CSI2_RX_IRQ_CLEAR    0xA4
+>> +#define CSID_CSI2_RX_IRQ_SET    0xA8
+>> +
+>> +#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)        (0xEC + 0x10 * (rdi))
+>> +#define CSID_CSI2_RDIN_IRQ_MASK(rdi)        (0xF0 + 0x10 * (rdi))
+>> +#define        CSID_CSI2_RDIN_INFO_FIFO_FULL 2
+>> +#define        CSID_CSI2_RDIN_INFO_CAMIF_EOF 3
+>> +#define        CSID_CSI2_RDIN_INFO_CAMIF_SOF 4
+>> +#define        CSID_CSI2_RDIN_INFO_INPUT_EOF 9
+>> +#define        CSID_CSI2_RDIN_INFO_INPUT_SOF 12
+>> +#define        CSID_CSI2_RDIN_ERROR_REC_FRAME_DROP 18
+>> +#define        CSID_CSI2_RDIN_ERROR_REC_OVERFLOW_IRQ 19
+>> +#define        CSID_CSI2_RDIN_ERROR_REC_CCIF_VIOLATION 20
+>> +#define        CSID_CSI2_RDIN_EPOCH0 21
+>> +#define        CSID_CSI2_RDIN_EPOCH1 22
+>> +#define        CSID_CSI2_RDIN_RUP_DONE 23
+>> +#define        CSID_CSI2_RDIN_CCIF_VIOLATION 29
+>> +
+>> +#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)        (0xF4 + 0x10 * (rdi))
+>> +#define CSID_CSI2_RDIN_IRQ_SET(rdi)            (0xF8 + 0x10 * (rdi))
+>> +
+>> +#define CSID_TOP_IRQ_STATUS    0x7C
+>> +#define        TOP_IRQ_STATUS_RESET_DONE 0
+>> +#define CSID_TOP_IRQ_MASK    0x80
+>> +#define CSID_TOP_IRQ_CLEAR    0x84
+>> +#define CSID_TOP_IRQ_SET    0x88
+>> +#define CSID_IRQ_CMD        0x14
+>> +#define        IRQ_CMD_CLEAR    0
+>> +#define        IRQ_CMD_SET    4
+>> +
+>> +#define CSID_BUF_DONE_IRQ_STATUS    0x8C
+>> +#define        BUF_DONE_IRQ_STATUS_RDI_OFFSET (csid_is_lite(csid) ? 1 
+>> : 14)
+> 
+> Stick with hex please 0x01 : 0x0e
+> 
+>> +#define CSID_BUF_DONE_IRQ_MASK    0x90
+>> +#define CSID_BUF_DONE_IRQ_CLEAR    0x94
+>> +#define CSID_BUF_DONE_IRQ_SET    0x98
+>> +
+>> +#define CSID_CSI2_RX_CFG0    0x200
+>> +#define        CSI2_RX_CFG0_NUM_ACTIVE_LANES    0
+>> +#define        CSI2_RX_CFG0_DL0_INPUT_SEL    4
+>> +#define        CSI2_RX_CFG0_DL1_INPUT_SEL    8
+>> +#define        CSI2_RX_CFG0_DL2_INPUT_SEL    12
+>> +#define        CSI2_RX_CFG0_DL3_INPUT_SEL    16
+>> +#define        CSI2_RX_CFG0_PHY_NUM_SEL    20
+>> +#define            CSI2_RX_CFG0_PHY_SEL_BASE_IDX 1
+>> +#define        CSI2_RX_CFG0_PHY_TYPE_SEL    24
+>> +#define        CSI2_RX_CFG0_TPG_MUX_EN        27
+>> +#define        CSI2_RX_CFG0_TPG_NUM_SEL    28
+>> +
+>> +#define CSID_CSI2_RX_CFG1    0x204
+>> +#define        CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN        0
+>> +#define        CSI2_RX_CFG1_DE_SCRAMBLE_EN            1
+>> +#define        CSI2_RX_CFG1_VC_MODE                2
+>> +#define        CSI2_RX_CFG1_COMPLETE_STREAM_EN            4
+>> +#define        CSI2_RX_CFG1_COMPLETE_STREAM_FRAME_TIMING    5
+>> +#define        CSI2_RX_CFG1_MISR_EN                6
+>> +#define        CSI2_RX_CFG1_PHY_BIST_EN            7
+>> +#define        CSI2_RX_CFG1_EPD_MODE                8
+>> +#define        CSI2_RX_CFG1_EOTP_EN                9
+>> +#define        CSI2_RX_CFG1_DYN_SWITCH_EN            10
+>> +#define        CSI2_RX_CFG1_RUP_AUP_LATCH_DIS        11
+>> +
+>> +#define CSID_CSI2_RX_CAPTURE_CTRL    0x208
+>> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_EN    0
+>> +#define        CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_EN    1
+>> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_EN    3
+>> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_DT        4
+>> +#define        CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_VC        10
+>> +#define        CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_VC    15
+>> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_DT        20
+>> +#define        CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_VC        26
+>> +
+>> +#define CSID_RDI_CFG0(rdi)            (0x500 + 0x100 * (rdi))
+>> +#define        RDI_CFG0_VFR_EN                0
+>> +#define        RDI_CFG0_FRAME_ID_DEC_EN    1
+>> +#define        RDI_CFG0_RETIME_DIS            5
+>> +#define        RDI_CFG0_TIMESTAMP_EN        6
+>> +#define        RDI_CFG0_TIMESTAMP_STB_SEL    8
+>> +#define        RDI_CFG0_DECODE_FORMAT        12
+>> +#define        RDI_CFG0_DT                    16
+>> +#define        RDI_CFG0_VC                    22
+>> +#define        RDI_CFG0_DT_ID                27
+>> +#define        RDI_CFG0_EN                    31
+>> +
+>> +#define CSID_RDI_CFG1(rdi)            (0x510 + 0x100 * (rdi))
+>> +#define        RDI_CFG1_BYTE_CNTR_EN    2
+>> +#define        RDI_CFG1_DROP_H_EN    5
+>> +#define        RDI_CFG1_DROP_V_EN    6
+>> +#define        RDI_CFG1_CROP_H_EN    7
+>> +#define        RDI_CFG1_CROP_V_EN    8
+>> +#define        RDI_CFG1_MISR_EN    9
+>> +#define        RDI_CFG1_PIX_STORE  10
+>> +#define        RDI_CFG1_PLAIN_ALIGNMENT    11
+>> +#define        RDI_CFG1_PLAIN_FORMAT    12
+>> +#define        RDI_CFG1_EARLY_EOF_EN    14
+>> +#define        RDI_CFG1_PACKING_FORMAT    15
+>> +
+>> +#define CSID_RDI_CTRL(rdi)            (0x504 + 0x100 * (rdi))
+>> +#define        RDI_CTRL_START_CMD        0
+>> +#define        RDI_CTRL_START_MODE        2
+>> +
+>> +#define CSID_RDI_EPOCH_IRQ_CFG(rdi) (0x52C + 0x100 * (rdi))
+>> +
+>> +#define CSID_RDI_FRM_DROP_PATTERN(rdi)            (0x540 + 0x100 * 
+>> (rdi))
+>> +#define CSID_RDI_FRM_DROP_PERIOD(rdi)            (0x544 + 0x100 * (rdi))
+>> +#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)        (0x548 + 0x100 * 
+>> (rdi))
+>> +#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)        (0x54C + 0x100 * 
+>> (rdi))
+>> +#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)        (0x558 + 0x100 * 
+>> (rdi))
+>> +#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)        (0x55C + 0x100 * (rdi))
+>> +#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)        (0x560 + 0x100 * 
+>> (rdi))
+>> +#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)        (0x564 + 0x100 * 
+>> (rdi))
+>> +
+>> +#define CSID_RDI_RPP_HCROP(rdi)                 (0x550 + 0x100 * (rdi))
+>> +#define CSID_RDI_RPP_VCROP(rdi)                 (0x554 + 0x100 * (rdi))
+>> +
+>> +#define CSID_RDI_ERROR_RECOVERY_CFG0(rdi)       (0x514 + 0x100 * (rdi))
+>> +
+>> +#define CSID_DISCARD_FRAMES 4
+>> +
+>> +#define CSID_REG_UPDATE_CMD        0x18
+>> +static inline int reg_update_rdi(struct csid_device *csid, int n)
+>> +{
+>> +    return BIT(n + 4) + BIT(20 + n);
+>> +}
+>> +
+>> +#define        REG_UPDATE_RDI        reg_update_rdi
+>> +
+>> +static const struct csid_format csid_formats[] = {
+>> +    {
+>> +        MEDIA_BUS_FMT_UYVY8_1X16,
+>> +        DATA_TYPE_YUV422_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        2,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_VYUY8_1X16,
+>> +        DATA_TYPE_YUV422_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        2,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_YUYV8_1X16,
+>> +        DATA_TYPE_YUV422_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        2,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_YVYU8_1X16,
+>> +        DATA_TYPE_YUV422_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        2,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SBGGR8_1X8,
+>> +        DATA_TYPE_RAW_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGBRG8_1X8,
+>> +        DATA_TYPE_RAW_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGRBG8_1X8,
+>> +        DATA_TYPE_RAW_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SRGGB8_1X8,
+>> +        DATA_TYPE_RAW_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SBGGR10_1X10,
+>> +        DATA_TYPE_RAW_10BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+>> +        10,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGBRG10_1X10,
+>> +        DATA_TYPE_RAW_10BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+>> +        10,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGRBG10_1X10,
+>> +        DATA_TYPE_RAW_10BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+>> +        10,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SRGGB10_1X10,
+>> +        DATA_TYPE_RAW_10BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+>> +        10,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_Y8_1X8,
+>> +        DATA_TYPE_RAW_8BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_8_BIT,
+>> +        8,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_Y10_1X10,
+>> +        DATA_TYPE_RAW_10BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_10_BIT,
+>> +        10,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SBGGR12_1X12,
+>> +        DATA_TYPE_RAW_12BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+>> +        12,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGBRG12_1X12,
+>> +        DATA_TYPE_RAW_12BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+>> +        12,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGRBG12_1X12,
+>> +        DATA_TYPE_RAW_12BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+>> +        12,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SRGGB12_1X12,
+>> +        DATA_TYPE_RAW_12BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_12_BIT,
+>> +        12,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SBGGR14_1X14,
+>> +        DATA_TYPE_RAW_14BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+>> +        14,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGBRG14_1X14,
+>> +        DATA_TYPE_RAW_14BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+>> +        14,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SGRBG14_1X14,
+>> +        DATA_TYPE_RAW_14BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+>> +        14,
+>> +        1,
+>> +    },
+>> +    {
+>> +        MEDIA_BUS_FMT_SRGGB14_1X14,
+>> +        DATA_TYPE_RAW_14BIT,
+>> +        DECODE_FORMAT_UNCOMPRESSED_14_BIT,
+>> +        14,
+>> +        1,
+>> +    },
+>> +};
+>> +
+>> +static void __csid_configure_rx(struct csid_device *csid,
+>> +                struct csid_phy_config *phy, int vc)
+>> +{
+>> +    int val;
+>> +
+>> +    val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
+>> +    val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+>> +    val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << 
+>> CSI2_RX_CFG0_PHY_NUM_SEL;
+>> +
+>> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
+>> +
+>> +    val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
+>> +    if (vc > 3)
+>> +        val |= 1 << CSI2_RX_CFG1_VC_MODE;
+>> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
+>> +}
+>> +
+>> +static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 
+>> rdi)
+>> +{
+>> +    int val;
+>> +
+>> +    if (enable)
+>> +        val = 1 << RDI_CTRL_START_CMD;
+>> +    else
+>> +        val = 0 << RDI_CTRL_START_CMD;
+>> +    writel_relaxed(val, csid->base + CSID_RDI_CTRL(rdi));
+>> +}
+>> +
+>> +static void __csid_configure_top(struct csid_device *csid)
+>> +{
+>> +    u32 val;
+>> +
+>> +    if (csid->top_base) {
+>> +        val = OUTPUT_IFE_EN | INTERNAL_CSID;
+>> +        writel_relaxed(val, csid->top_base + 
+>> CSID_TOP_IO_PATH_CFG0(csid->id));
+>> +    }
+>> +}
+>> +
+>> +static void __csid_configure_rdi_stream(struct csid_device *csid, u8 
+>> enable, u8 vc)
+>> +{
+>> +    u32 val;
+>> +    u8 lane_cnt = csid->phy.lane_cnt;
+>> +    /* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, 
+>> Pad 2 -> RDI1, etc. */
+>> +    struct v4l2_mbus_framefmt *input_format = 
+>> &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
+>> +    const struct csid_format *format = 
+>> csid_get_fmt_entry(csid->formats, csid->nformats,
+>> +                                  input_format->code);
+>> +
+>> +    if (!lane_cnt)
+>> +        lane_cnt = 4;
+>> +
+>> +    val = 0;
+>> +    writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(vc));
+>> +
+>> +    /*
+>> +     * DT_ID is a two bit bitfield that is concatenated with
+>> +     * the four least significant bits of the five bit VC
+>> +     * bitfield to generate an internal CID value.
+>> +     *
+>> +     * CSID_RDI_CFG0(vc)
+>> +     * DT_ID : 28:27
+>> +     * VC    : 26:22
+>> +     * DT    : 21:16
+>> +     *
+>> +     * CID   : VC 3:0 << 2 | DT_ID 1:0
+>> +     */
+>> +    u8 dt_id = vc & 0x03;
+>> +
+>> +    val = 1 << RDI_CFG0_TIMESTAMP_EN;
+>> +    val |= 2 << RDI_CFG0_TIMESTAMP_STB_SEL;
+>> +    /* note: for non-RDI path, this should be format->decode_format */
+>> +    val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
+>> +    val |= vc << RDI_CFG0_VC;
+>> +    val |= format->data_type << RDI_CFG0_DT;
+>> +    val |= dt_id << RDI_CFG0_DT_ID;
+>> +
+>> +    writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
+>> +
+>> +    val = 1 << RDI_CFG1_PACKING_FORMAT;
+>> +    val |= 1 << RDI_CFG1_PIX_STORE;
+>> +    val |= 1 << RDI_CFG1_DROP_H_EN;
+>> +    val |= 1 << RDI_CFG1_DROP_V_EN;
+>> +    val |= 1 << RDI_CFG1_CROP_H_EN;
+>> +    val |= 1 << RDI_CFG1_CROP_V_EN;
+>> +    val |= RDI_CFG1_EARLY_EOF_EN;
+>> +
+>> +    writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
+>> +
+>> +    val = 0;
+>> +    writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
+>> +
+>> +    val = 1;
+>> +    writel_relaxed(val, csid->base + 
+>> CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
+>> +
+>> +    val = 0;
+>> +    writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
+>> +
+>> +    val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
+>> +    val |=  enable << RDI_CFG0_EN;
+>> +    writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
+>> +}
+> 
+> Hmm.
+> 
+> So I think 90% of the code here can be moved into a shared file - 
+> ideally instantiated in gen2.c and then reused here rather than 
+> copy/paste from one file to the other.
+> 
+> Lets sync up and try to get a unified tree for x1e80100 and sm8550 for 
+> that purpose.
+> 
+> I think the code you have here is slightly further along that the 
+> CSID/VFE stuff I've been working with.
+> 
+> But still - reductio ad absurdum - we need to functionally decompose and 
+> not replicate code.
+> 
 
-Okay fixed in v6
+Yes, agree, most of the code are same, but the difficult part is most of 
+the code is configuring the register which are defined as macro 
+definition, and they are different between different platform.
 
+>> +
+>> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>> +{
+>> +    u8 i;
+>> +
+>> +    /* Loop through all enabled VCs and configure stream for each */
+>> +    for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>> +        if (csid->phy.en_vc & BIT(i)) {
+>> +            __csid_configure_top(csid);
+>> +            __csid_configure_rdi_stream(csid, enable, i);
+>> +            __csid_configure_rx(csid, &csid->phy, i);
+>> +            __csid_ctrl_rdi(csid, enable, i);
+>> +        }
+>> +}
 > 
->> +      - items:
->> +          - enum:
->> +              - maxim,max96714f
->> +          - const: maxim,max96714 # fallback for 'f' variant
+> Another example, straight copy/paste - we need to zap all of that.
 > 
-> Drop the comment btw, it doesn't make sense given you have an enum that
-> will allow for more devices and it being a fallback is obvious. That
-> said, given what you told me on the last version
-> | Yes there are a few differences visible to the software, for example the
-> | GMSL
-> | link rate since MAX96714 support 6 and 3 Gbps, while MAX96714F only
-> | supports 3Gbps.
-> | the registers map is the same, but a few values are not possible with
-> | the 'f' version.
-> I don't think your ordering here is correct. The 96714 should fall back
-> to the 96714f, not the opposite that you have here, as the f is the
-> version which supports fewer features.
-> 
-> I think this should be:
-> 
-> oneOf:
->    - const: maxim,max96714f
->    - items:
->        - enum:
->            - maxim,max96714
->        - const: maxim,max96714f
+> ---
+> bod
 
-I just sent a v6 version with your suggestion. Indeed it makes more sense
-to use max96714/7f as a fallback for the non f variant.
-
-Best regards,
-Julien
+Thanks,
+Depeng
 
