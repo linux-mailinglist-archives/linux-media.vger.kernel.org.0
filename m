@@ -1,517 +1,275 @@
-Return-Path: <linux-media+bounces-7742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F7B88A679
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:28:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE0B88A692
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 16:30:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C7CA1F6292A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:28:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F12C1C3CE0E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Mar 2024 15:30:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFFF13DDA5;
-	Mon, 25 Mar 2024 12:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46F713CF8D;
+	Mon, 25 Mar 2024 12:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J5NMpycD"
+	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="Na3V/KXw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4713D281;
-	Mon, 25 Mar 2024 12:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF51F137C3C;
+	Mon, 25 Mar 2024 12:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711370890; cv=none; b=LwTDEMklwNdgNy9u/yQUFcHzOcnTK6MXsXNAps0nnN0oMTc23+4Plx4rStsuco1iLtL5wyHVqtJmkmlyekFKTJW0yXEru/YeSCtWgsASZ6LLTm+GIknV85O5OU0ktWbYV6kohEXZVP7fAvGC8V6bP+QYNQO79Ho8/PE1gZpD9RY=
+	t=1711371071; cv=none; b=hyIAvIf65uWm2sYkzRDzkxuuSNBby9KUkPGmAOeIgfj5+mA8lHKs1xby9+1jIlbO1gBXYnxm8GSNZEG1ouLSuGTZCLSoSl2n62FJs/Lo+BEMc5jtH28E6kl8u+AqZcNO7iplJjgR5FPYjXkF+rRMVZMbASxvNFOzUWm8z+25Jhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711370890; c=relaxed/simple;
-	bh=xCF89IzgCfase9w08KvmIPjBZbPowPcMC/5/LSRgbfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tMMMTn4XOBrzyNgGyTZ0PHMckbEyZOy50eXbHRPIzxxuRZgyWhC4l6WsVIA6M7qn0dD6tfM0xzdS1CBi1/zLsGklwGsOPJsz2RqgQH5rJPe5x8FFSxgZnpZAiRKameQvWwDwMqsQY6SBLOL4+9rYKwcxAK/iRYEKBw5MxZUwSHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=J5NMpycD; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PCFHnd016146;
-	Mon, 25 Mar 2024 12:47:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=P+A5D6ZIK9N+YmjD/+ubNRl6uzdRJddFT2FKjtxVsbc=; b=J5
-	NMpycDEGSUzs7Blo4INg2GMZHOYS2MlrPSlYsKogyIZ5hHObH2Az6auGHUjULLlJ
-	eXDrbniZkISnsU6t6xS/VYRUNxwFsrV4ojPPxR6Rz3/VX4+p+4fOiuoDeZxaAHEk
-	rbduE9dwc+5t+RdtYFBaxbD+xjqzVC4edG8sMSuSG5DayCHM43pGqW4Zi/76u7T2
-	icJWAFLLIWtb0L+jdu69Ypcd3JYhoJBIZi58YvjuSswl1QmRkUaRtxHulA1ku+F2
-	zl2El08BzSFgwvD/Se1VUJqkxJIIQNqCevYNHCr122qXVdnUmVHAGPdNGlgKYLnC
-	nZnc98uC/nSXS9X4xcYQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x392mr201-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 12:47:37 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42PClao0014660
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 12:47:36 GMT
-Received: from [10.239.96.73] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 25 Mar
- 2024 05:47:34 -0700
-Message-ID: <9497a747-824a-438f-b9a4-d04b2f82f0e3@quicinc.com>
-Date: Mon, 25 Mar 2024 20:47:32 +0800
+	s=arc-20240116; t=1711371071; c=relaxed/simple;
+	bh=zLjxSrw+xaU9HGkumiL0UXW20073ygMMlmEelv1Gs8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HZ2ZHJECnUB8DqvyscBnkAcP/pDG5oD5H4+32kHSl+nN9+i0mi74UiOiBtyjl4cpFAOj4lscBghG7xXw2C2xK053idq9inBH7qzaFYA/JrJpwQnjterTWYhKL90e4YvCZGW4okbSG62SIjSvlMaucBV8Vh4fL9q11Pqjf4qy7dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=Na3V/KXw; arc=none smtp.client-ip=199.247.17.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
+Received: from spock.localnet (unknown [94.142.239.106])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by prime.voidband.net (Postfix) with ESMTPSA id D66C56346550;
+	Mon, 25 Mar 2024 13:51:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+	s=dkim-20170712; t=1711371065;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QUyUoIBK96AYs5nkg7UXK3JancEt4PFfayXLmkO0KwM=;
+	b=Na3V/KXwuJUvlWqlkbKIc1g3qzP0Gp/tFpqxU+GyNyiOQ8UDM0eq6jQAOeTvh9qVHS3pxn
+	9jhm5DQ98Y1b+qmHSJQzekQ03SdrgRaqokJ2upD33eBsUoKsxAiA7UWBz0lpg15/EO9skK
+	tQTmFVtESt4+y+Jtql9emy442ii341U=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject:
+ Re: [PATCH v10 3/6] media: uvcvideo: Quirk for invalid dev_sof in Logitech
+ C922
+Date: Mon, 25 Mar 2024 13:50:52 +0100
+Message-ID: <5764213.DvuYhMxLoT@natalenko.name>
+In-Reply-To:
+ <CANiDSCuma7aGxq7T2uYMgn_JEW223LdR4as83UT2Aj3QmVu4ig@mail.gmail.com>
+References:
+ <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
+ <12403186.O9o76ZdvQC@natalenko.name>
+ <CANiDSCuma7aGxq7T2uYMgn_JEW223LdR4as83UT2Aj3QmVu4ig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] media: qcom: camss: Add new VFE driver for SM8550
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
-        <quic_yon@quicinc.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240320141136.26827-1-quic_depengs@quicinc.com>
- <20240320141136.26827-7-quic_depengs@quicinc.com>
- <f92ddb35-55b3-4d49-8554-20b30257f1b5@linaro.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <f92ddb35-55b3-4d49-8554-20b30257f1b5@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: kIUQnWdEYPsEk5LNibSEhiVdAMK79eV6
-X-Proofpoint-GUID: kIUQnWdEYPsEk5LNibSEhiVdAMK79eV6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-25_08,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 clxscore=1015
- impostorscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403250070
+Content-Type: multipart/signed; boundary="nextPart6027975.lOV4Wx5bFT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-Hi Bryan,
+--nextPart6027975.lOV4Wx5bFT
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 25 Mar 2024 13:50:52 +0100
+Message-ID: <5764213.DvuYhMxLoT@natalenko.name>
+MIME-Version: 1.0
 
-On 3/20/2024 11:57 PM, Bryan O'Donoghue wrote:
-> On 20/03/2024 14:11, Depeng Shao wrote:
->> From: Yongsheng Li <quic_yon@quicinc.com>
->>
->> Add IFE driver for SM8550, the main difference with
->> old HW is register offset is different, register
->> update, reset and buf done is moved to CSID. And
->> the image address support 36 bits, so need to right
->> shift the image address when configuring the write
->> master.
->>
->> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
->> Co-developed-by: Depeng Shao <quic_depengs@quicinc.com>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-> 
-> Same comment with your co-developed and SOB
-> 
->> ---
->>   drivers/media/platform/qcom/camss/Makefile    |   1 +
->>   .../media/platform/qcom/camss/camss-vfe-780.c | 455 ++++++++++++++++++
->>   drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
->>   3 files changed, 457 insertions(+)
->>   create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
->>
->> diff --git a/drivers/media/platform/qcom/camss/Makefile 
->> b/drivers/media/platform/qcom/camss/Makefile
->> index c5fcd6eec0f2..ac40bbab18a3 100644
->> --- a/drivers/media/platform/qcom/camss/Makefile
->> +++ b/drivers/media/platform/qcom/camss/Makefile
->> @@ -18,6 +18,7 @@ qcom-camss-objs += \
->>           camss-vfe-4-8.o \
->>           camss-vfe-17x.o \
->>           camss-vfe-480.o \
->> +        camss-vfe-780.o \
->>           camss-vfe-gen1.o \
->>           camss-vfe.o \
->>           camss-video.o \
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-780.c 
->> b/drivers/media/platform/qcom/camss/camss-vfe-780.c
->> new file mode 100644
->> index 000000000000..a78647f23c8c
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe-780.c
->> @@ -0,0 +1,455 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * camss-vfe-780.c
->> + *
->> + * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v780 
->> (SM8550)
->> + *
->> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->> + */
->> +
->> +#include <linux/interrupt.h>
->> +#include <linux/io.h>
->> +#include <linux/iopoll.h>
->> +
->> +#include "camss.h"
->> +#include "camss-vfe.h"
->> +
->> +#define VFE_HW_VERSION            (vfe_is_lite(vfe) ? 0x1000 : 0x0)
->> +
->> +#define VFE_IRQ_CMD            (vfe_is_lite(vfe) ? 0x1038 : 0x30)
->> +#define     IRQ_CMD_GLOBAL_CLEAR    BIT(0)
->> +
->> +#define VFE_IRQ_MASK(n)            ((vfe_is_lite(vfe) ? 0x1024 : 
->> 0x34) + (n) * 4)
->> +#define        IRQ_MASK_0_BUS_TOP_IRQ    (vfe_is_lite(vfe) ? BIT(0) | 
->> BIT(1) | BIT(2) : \
->> +                        BIT(0) | BIT(4) | BIT(18))
->> +#define        IRQ_MASK_1_BUS_TOP_IRQ(n)    (vfe_is_lite(vfe) ? BIT(2 
->> * n + 2) | BIT(2 * n + 3) : \
->> +                        BIT(2 * n + 8) | BIT(2 * n + 9))
->> +#define VFE_IRQ_CLEAR(n)        ((vfe_is_lite(vfe) ? 0x102C : 0x3C) + 
->> (n) * 4)
->> +#define VFE_IRQ_STATUS(n)        ((vfe_is_lite(vfe) ? 0x101C : 0x44) 
->> + (n) * 4)
->> +
->> +#define BUS_REG_BASE            (vfe_is_lite(vfe) ? 0x1200 : 0xC00)
->> +
->> +#define VFE_BUS_WM_CGC_OVERRIDE        (BUS_REG_BASE + 0x08)
->> +#define        WM_CGC_OVERRIDE_ALL    (0x7FFFFFF)
->> +
->> +#define VFE_BUS_WM_TEST_BUS_CTRL    (BUS_REG_BASE + 0xdc)
->> +
->> +#define VFE_BUS_WM_CFG(n)        (BUS_REG_BASE + 0x200 + (n) * 0x100)
->> +#define        WM_CFG_EN            (0)
->> +#define        WM_VIR_FRM_EN        (1)
->> +#define        WM_CFG_MODE            (16)
->> +#define            MODE_QCOM_PLAIN    (0)
->> +#define            MODE_MIPI_RAW    (1)
->> +#define VFE_BUS_WM_IMAGE_ADDR(n)    (BUS_REG_BASE + 0x204 + (n) * 0x100)
->> +#define VFE_BUS_WM_FRAME_INCR(n)    (BUS_REG_BASE + 0x208 + (n) * 0x100)
->> +#define VFE_BUS_WM_IMAGE_CFG_0(n)    (BUS_REG_BASE + 0x20c + (n) * 
->> 0x100)
->> +#define                WM_IMAGE_CFG_0_DEFAULT_WIDTH    (0xFFFF)
->> +#define VFE_BUS_WM_IMAGE_CFG_1(n)    (BUS_REG_BASE + 0x210 + (n) * 
->> 0x100)
->> +#define VFE_BUS_WM_IMAGE_CFG_2(n)    (BUS_REG_BASE + 0x214 + (n) * 
->> 0x100)
->> +#define                WM_IMAGE_CFG_2_DEFAULT_STRIDE    (0xFFFF)
->> +#define VFE_BUS_WM_PACKER_CFG(n)    (BUS_REG_BASE + 0x218 + (n) * 0x100)
->> +#define VFE_BUS_WM_HEADER_ADDR(n)    (BUS_REG_BASE + 0x220 + (n) * 
->> 0x100)
->> +#define VFE_BUS_WM_HEADER_INCR(n)    (BUS_REG_BASE + 0x224 + (n) * 
->> 0x100)
->> +#define VFE_BUS_WM_HEADER_CFG(n)    (BUS_REG_BASE + 0x228 + (n) * 0x100)
->> +
->> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(n)    (BUS_REG_BASE + 0x230 + 
->> (n) * 0x100)
->> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(n)    (BUS_REG_BASE + 0x234 
->> + (n) * 0x100)
->> +#define VFE_BUS_WM_FRAMEDROP_PERIOD(n)        (BUS_REG_BASE + 0x238 + 
->> (n) * 0x100)
->> +#define VFE_BUS_WM_FRAMEDROP_PATTERN(n)        (BUS_REG_BASE + 0x23c 
->> + (n) * 0x100)
->> +
->> +#define VFE_BUS_WM_MMU_PREFETCH_CFG(n)    (BUS_REG_BASE + 0x260 + (n) 
->> * 0x100)
->> +#define VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(n)    (BUS_REG_BASE + 
->> 0x264 + (n) * 0x100)
->> +#define VFE_BUS_WM_SYSTEM_CACHE_CFG(n)    (BUS_REG_BASE + 0x268 + (n) 
->> * 0x100)
->> +
->> +
->> +/* for titan 780, each bus client is hardcoded to a specific path */
->> +#define RDI_WM(n)            ((vfe_is_lite(vfe) ? 0 : 23) + (n))
-> 
-> No admixture of hex and decimal please.
-> 
->> +
->> +#define MAX_VFE_OUTPUT_LINES    4
->> +#define MAX_VFE_ACT_BUF    1
->> +
->> +static u32 vfe_hw_version(struct vfe_device *vfe)
->> +{
->> +    u32 hw_version = readl_relaxed(vfe->base + VFE_HW_VERSION);
->> +
->> +    u32 gen = (hw_version >> 28) & 0xF;
->> +    u32 rev = (hw_version >> 16) & 0xFFF;
->> +    u32 step = hw_version & 0xFFFF;
->> +
->> +    dev_info(vfe->camss->dev, "VFE HW Version = %u.%u.%u\n", gen, 
->> rev, step);
->> +
->> +    return hw_version;
->> +}
-> 
-> Same comment as with CSID, its time to rationalise all of this 
-> replicated code down to one place, instead of proliferating it further.
-> 
+On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 10:25:51, CET Ricardo Ribalda wro=
+te:
+> Hi Oleksandr
+>=20
+> On Mon, 25 Mar 2024 at 10:23, Oleksandr Natalenko
+> <oleksandr@natalenko.name> wrote:
+> >
+> > Hello.
+> >
+> > On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 8:52:57, CET Ricardo Ribalda =
+wrote:
+> > > Hi Oleksandr
+> > >
+> > > On Sat, 23 Mar 2024 at 13:16, Oleksandr Natalenko
+> > > <oleksandr@natalenko.name> wrote:
+> > >
+> > > >
+> > > > How do I check whether C920 (046d:082d) is affected too? I have got=
+ one, I can run tests on it as long as those will not blow the webcam up.
+> > > >
+> > > > Thanks.
+> > > >
+> > >
+> > > First of all you need to enable the hwtimestamps in the driver. You
+> > > could do that with
+> > >
+> > > ```
+> > > rmmod uvcvideo; modprobe uvcvideo hwtimestamps=3D1
+> > > ```
+> >
+> > ```
+> > $ cat /sys/module/uvcvideo/parameters/hwtimestamps
+> > 1
+> > ```
+> >
+> > > Then capture some frames with yavta
+> > > ```
+> > > yavta -c /dev/video0
+> > > ```
+> > >
+> > > After around 5 seconds all the frames should have a stable fps, the
+> > > fps is not stable then your camera is affected with this bug.
+> >
+> > ```
+> > $ ./yavta -c /dev/video1
+> > Device /dev/video1 opened.
+> > Device `HD Pro Webcam C920' on `usb-0000:0f:00.3-3.4' (driver 'uvcvideo=
+') supports video, capture, without mplanes.
+> > Video format: MJPEG (47504a4d) 1920x1080 (stride 0) field none buffer s=
+ize 4147200
+> > =E2=80=A6
+> > 100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mono/=
+SoE
+> > 101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mono/=
+SoE
+> > 102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mono/=
+SoE
+> > 103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mono/=
+SoE
+> > 104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono/S=
+oE
+> > 105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mono/=
+SoE
+> > 106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mono/=
+SoE
+> > =E2=80=A6
+> > 168 (0) [-] none 168 200914 B 215.183707 215.347066 33.676 fps ts mono/=
+SoE
+> > 169 (1) [-] none 169 201141 B 215.271693 215.379066 11.365 fps ts mono/=
+SoE
+> > 170 (2) [-] none 170 201005 B 215.303449 215.415057 31.490 fps ts mono/=
+SoE
+> > 171 (3) [-] none 171 201195 B 215.335295 215.447062 31.401 fps ts mono/=
+SoE
+> > 172 (4) [-] none 172 200933 B 215.557731 215.479072 4.496 fps ts mono/S=
+oE
+> > 173 (5) [-] none 173 200973 B 215.587033 215.515063 34.127 fps ts mono/=
+SoE
+> > 174 (6) [-] none 174 200698 B 215.616811 215.547063 33.582 fps ts mono/=
+SoE
+> > 175 (7) [-] none 175 201290 B 215.646196 215.579075 34.031 fps ts mono/=
+SoE
+> > 176 (0) [-] none 176 200807 B 215.675857 215.615073 33.714 fps ts mono/=
+SoE
+> > =E2=80=A6
+> > ```
+> >
+> > Does the above mean the webcam is affected?
+>=20
+> Looks like it.... could you try applying this patch and run with
+>=20
+> rmmod uvcvideo; modprobe uvcvideo hwtimestamps=3D1 quirks=3D0x4000
+>=20
+> to see if that fixes it for you?
 
-I understand, but the original driver and current driver are using macro 
-definition to define the register offset, then we aren't able to add the 
-common code to one place.
+On top of v6.8, I've applied the whole v10, and also applied the following =
+change instead of providing `quirks=3D`:
 
-We need to refactor the code to not use macro definition for the 
-register offset first, then we can reuse the common code.
+```
+commit 884a61751d979ee9974c08a71c72e88e73bdd87e
+Author: Oleksandr Natalenko <oleksandr@natalenko.name>
+Date:   Mon Mar 25 10:28:00 2024 +0100
 
->> +static void vfe_global_reset(struct vfe_device *vfe)
->> +{
->> +}
->> +
->> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct 
->> vfe_line *line)
->> +{
->> +    struct v4l2_pix_format_mplane *pix =
->> +        &line->video_out.active_fmt.fmt.pix_mp;
->> +
->> +    wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
->> +
->> +    /* no clock gating at bus input */
->> +    writel_relaxed(0, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
->> +
->> +    writel_relaxed(0x0, vfe->base + VFE_BUS_WM_TEST_BUS_CTRL);
->> +
->> +    writel_relaxed(ALIGN(pix->plane_fmt[0].bytesperline, 16) * 
->> pix->height >> 8,
->> +               vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
->> +    writel_relaxed((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
->> +               vfe->base + VFE_BUS_WM_IMAGE_CFG_0(wm));
->> +    writel_relaxed(WM_IMAGE_CFG_2_DEFAULT_STRIDE,
->> +               vfe->base + VFE_BUS_WM_IMAGE_CFG_2(wm));
->> +    writel_relaxed(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
->> +
->> +    /* no dropped frames, one irq per frame */
->> +    writel_relaxed(0, vfe->base + VFE_BUS_WM_FRAMEDROP_PERIOD(wm));
->> +    writel_relaxed(1, vfe->base + VFE_BUS_WM_FRAMEDROP_PATTERN(wm));
->> +    writel_relaxed(0, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(wm));
->> +    writel_relaxed(1, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(wm));
->> +
->> +    writel_relaxed(1, vfe->base + VFE_BUS_WM_MMU_PREFETCH_CFG(wm));
->> +    writel_relaxed(0xFFFFFFFF, vfe->base + 
->> VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(wm));
->> +
->> +    writel_relaxed(1 << WM_CFG_EN | MODE_MIPI_RAW << WM_CFG_MODE,
->> +               vfe->base + VFE_BUS_WM_CFG(wm));
->> +}
->> +
->> +static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
->> +{
->> +    wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
->> +    writel_relaxed(0, vfe->base + VFE_BUS_WM_CFG(wm));
->> +}
-> 
-> vfe_wm_stop() as an example can/should live in a shared file.
-> 
-> As proof of concept code its fine to copy/paste between files but, to 
-> merge we need to get rid of any replicated code - introducing 
-> indirection/offsets as necessary.
-> 
+    media: uvcvideo: Quirk for invalid dev_sof in Logitech C920
+   =20
+    Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
 
-Same with above, we'd better to refactor the code to not use macro 
-definition for the register offset first.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc=
+_driver.c
+index 723e6d5680c2e..444d7089885ea 100644
+=2D-- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] =3D {
+ 	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+ 	  .bInterfaceSubClass	=3D 1,
+ 	  .bInterfaceProtocol	=3D 0,
+=2D	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
++	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT
++					       | UVC_QUIRK_INVALID_DEVICE_SOF) },
+ 	/* Logitech HD Pro Webcam C922 */
+ 	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 
->> +static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u64 addr,
->> +              struct vfe_line *line)
->> +{
->> +    wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
->> +    writel_relaxed((addr >> 8) & 0xFFFFFFFF, vfe->base + 
->> VFE_BUS_WM_IMAGE_ADDR(wm));
->> +
->> +    dev_dbg(vfe->camss->dev, "wm:%d, image buf addr:0x%llx\n",
->> +        wm, addr);
->> +}
->> +
->> +static void vfe_reg_update(struct vfe_device *vfe, enum vfe_line_id 
->> line_id)
->> +{
->> +    int port_id = line_id;
->> +
->> +    v4l2_subdev_notify(&vfe->line[line_id].subdev, NOTIFY_RUP, (void 
->> *)&port_id);
->> +}
->> +
->> +static inline void vfe_reg_update_clear(struct vfe_device *vfe,
->> +                    enum vfe_line_id line_id)
->> +{
->> +    int port_id = line_id;
->> +
->> +    v4l2_subdev_notify(&vfe->line[line_id].subdev, NOTIFY_RUP_CLEAR, 
->> (void *)&port_id);
->> +}
-> 
-> I'm not sure I quite understand why we need to use this API to clear 
-> registers inside of the address space of the same driver.
-> 
-> Is there not a much more direct way to write our _internal_ registers ?
-> 
+```
 
-Since the register update(RUP) is moved to CSID, so it isn't _internal_ 
-registers in this hardware.
+Now I see this:
 
-> 
->> +static void vfe_enable_irq_common(struct vfe_device *vfe, enum 
->> vfe_line_id line_id)
->> +{
->> +    int port_id = line_id;
->> +
->> +    /* enable top BUS status IRQ */
->> +    writel_relaxed(IRQ_MASK_0_BUS_TOP_IRQ,
->> +                vfe->base + VFE_IRQ_MASK(0));
->> +
->> +    writel_relaxed(IRQ_MASK_1_BUS_TOP_IRQ(port_id),
->> +                vfe->base + VFE_IRQ_MASK(1));
->> +}
->> +
->> +/*
->> + * vfe_isr - VFE module interrupt handler
->> + * @irq: Interrupt line
->> + * @dev: VFE device
->> + *
->> + * Return IRQ_HANDLED on success
->> + */
->> +static irqreturn_t vfe_isr(int irq, void *dev)
->> +{
->> +    struct vfe_device *vfe = dev;
->> +    u32 status;
->> +
->> +    status = readl_relaxed(vfe->base + VFE_IRQ_STATUS(0));
->> +    writel_relaxed(status, vfe->base + VFE_IRQ_CLEAR(0));
->> +    writel_relaxed(IRQ_CMD_GLOBAL_CLEAR, vfe->base + VFE_IRQ_CMD);
->> +
->> +    if (status)
->> +        dev_dbg(vfe->camss->dev, "Top Status_0:0x%x\n", status);
->> +
->> +    status = readl_relaxed(vfe->base + VFE_IRQ_STATUS(1));
->> +    writel_relaxed(status, vfe->base + VFE_IRQ_CLEAR(1));
->> +    writel_relaxed(IRQ_CMD_GLOBAL_CLEAR, vfe->base + VFE_IRQ_CMD);
->> +
->> +    if (status)
->> +        dev_dbg(vfe->camss->dev, "Top Status_1:0x%x\n", status);
->> +
->> +    return IRQ_HANDLED;
->> +}
-> 
-> Why is this ISR required ? What does it do ?
-> 
-> Does it actually run on your reference hardware ?
-> 
-> If the purpose of the ISR is just to clear the status registers, why 
-> even enable it ?
-> 
+```
+154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/SoE
+155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/SoE
+156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/SoE
+157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/SoE
+158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/SoE
+159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/SoE
+160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/SoE
+161 (1) [-] none 161 192235 B 42.431824 42.439806 31.260 fps ts mono/SoE
+```
 
-Yeah, we can remove it, it was added for some debug info and verify the 
-hardware, but it doesn't affect the control in this hardware, so we can 
-remove it.
+without dips in FPS.
 
->> +
->> +/*
->> + * vfe_halt - Trigger halt on VFE module and wait to complete
->> + * @vfe: VFE device
->> + *
->> + * Return 0 on success or a negative error code otherwise
->> + */
->> +static int vfe_halt(struct vfe_device *vfe)
->> +{
->> +    /* rely on vfe_disable_output() to stop the VFE */
->> +    return 0;
->> +}
->> +
->> +static int vfe_get_output(struct vfe_line *line)
->> +{
->> +    struct vfe_device *vfe = to_vfe(line);
->> +    struct vfe_output *output;
->> +    unsigned long flags;
->> +
->> +    spin_lock_irqsave(&vfe->output_lock, flags);
->> +
->> +    output = &line->output;
->> +    if (output->state > VFE_OUTPUT_RESERVED) {
->> +        dev_err(vfe->camss->dev, "Output is running\n");
->> +        goto error;
->> +    }
->> +
->> +    output->wm_num = 1;
->> +
->> +    /* Correspondence between VFE line number and WM number.
->> +     * line 0 -> RDI 0, line 1 -> RDI1, line 2 -> RDI2, line 3 -> 
->> PIX/RDI3
->> +     * Note this 1:1 mapping will not work for PIX streams.
->> +     */
->> +    output->wm_idx[0] = line->id;
->> +    vfe->wm_output_map[line->id] = line->id;
->> +
->> +    output->drop_update_idx = 0;
->> +
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +
->> +    return 0;
->> +
->> +error:
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +    output->state = VFE_OUTPUT_OFF;
->> +
->> +    return -EINVAL;
->> +}
->> +
->> +static int vfe_enable_output(struct vfe_line *line)
->> +{
->> +    struct vfe_device *vfe = to_vfe(line);
->> +    struct vfe_output *output = &line->output;
->> +    unsigned long flags;
->> +    unsigned int i;
->> +
->> +    spin_lock_irqsave(&vfe->output_lock, flags);
->> +
->> +    vfe_reg_update_clear(vfe, line->id);
->> +
->> +    if (output->state > VFE_OUTPUT_RESERVED) {
->> +        dev_err(vfe->camss->dev, "Output is not in reserved state %d\n",
->> +            output->state);
->> +        spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +        return -EINVAL;
->> +    }
->> +
->> +    WARN_ON(output->gen2.active_num);
->> +
->> +    output->state = VFE_OUTPUT_ON;
->> +
->> +    output->sequence = 0;
->> +
->> +    vfe_wm_start(vfe, output->wm_idx[0], line);
->> +
->> +    for (i = 0; i < MAX_VFE_ACT_BUF; i++) {
->> +        output->buf[i] = vfe_buf_get_pending(output);
->> +        if (!output->buf[i])
->> +            break;
->> +        output->gen2.active_num++;
->> +        vfe_wm_update(vfe, output->wm_idx[0], 
->> output->buf[i]->addr[0], line);
->> +
->> +        vfe_reg_update(vfe, line->id);
->> +    }
->> +
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +
->> +    return 0;
->> +}
-> 
-> So you'll see with the WIP code for x1e80100 which is I think the same 
-> VFE - no one generation less 680 - that this code is copy/pasted.
-> 
-> But there's again no good reason for that. Common code needs to be 
-> squashed down into one place.
-> 
+What do you think?
 
-Agree, this part can be moved to camss-vfe.c, since they don't have 
-register configuration, just some common code.
+>=20
+> Thanks!
+>=20
+> >
+> > Thank you.
+> >
+> > >
+> > >
+> > > Thanks!
+> > >
+> >
+> >
+> > --
+> > Oleksandr Natalenko (post-factum)
+>=20
+>=20
+>=20
+>=20
 
-> ---
-> bod
 
-Thanks,
-Depeng
+=2D-=20
+Oleksandr Natalenko (post-factum)
+--nextPart6027975.lOV4Wx5bFT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmYBcywACgkQil/iNcg8
+M0tp3g//bg8SISk8dmh0xS2tALwwiznraDeWRzECmn7OhqFwgEpFnswDRHkH+jVx
+Pc0WD3W1kPpoY+jyhiI3hqD4O44ozOVdDQakt4v37wDWig+a4cNFgamIVpUphw0+
+XNxCAlM7FvVDC6K3eU5JcazjVzPFVL/mYJ46uc3j9CU2qo1szr0w5rnAca+8J2vs
+/i6K/DKyG70M4i6S6XBZzDr/8pALMo17f0/chC4penOHiK5+GTgeypVUYb1KjgW2
+HF2USU+6Be1atSq3FXwCtDC2PevrJVurKgWI31Njul6xsvrvxGysSlPPKgMPN3o6
+ciaIhnTPF+nZXqABRn/EQ98Cg5SNfbk+VQfMV6cOmQj9x6/HVoNCgECKHTtTJJ+6
+wwbJh2/bpWoXxgA4u/R7BAo9lWTuRW+yEdV2sXLSwycdXO1XqrNxwGuoFEya1kQO
+kOM2X15oj4I1DVOdwvCaaxq0r534GXIyrqHaBtnhBTFDTgdrHdQYLWaq1SXkqp2s
+yRW4UDKSbXdHa5/qo31+79Qi+RALKLcb1x3jZXHs0b33RLjN0whZVvJh77KQUjtQ
+ORRxwPlN6sGfvuE478+j9R786sShvKIMdvY8J+x3i+i9E4H9oxh0cGEfYcooXl1x
+x+/+MewbJ+6sF2ks9trKPQeoYTbZKqE1ddpOuymjPGH3paB87Xo=
+=0T8G
+-----END PGP SIGNATURE-----
+
+--nextPart6027975.lOV4Wx5bFT--
+
+
+
 
