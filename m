@@ -1,210 +1,191 @@
-Return-Path: <linux-media+bounces-7810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F0D88B82C
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 04:14:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 593BB88B984
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 05:51:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 732DA1F60F04
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 03:14:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C47961F386D8
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 04:51:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68A611292C7;
-	Tue, 26 Mar 2024 03:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8641083CA5;
+	Tue, 26 Mar 2024 04:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="RoW+3/ZK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2104.outbound.protection.partner.outlook.cn [139.219.17.104])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE39B182DB;
-	Tue, 26 Mar 2024 03:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.104
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711422842; cv=fail; b=GMFrfFmu7gMVGQub7VpZtKkW0W2GWSZxG3ZHOn3jURXGftOUxN78i7+QHA+4sxw16znpHQt3At6xzVJBARH4/azVtgSUqMf+NceDpn682R9af+VJD+H1xHtcXhpQmjjbT81lbU5CvciwXJcm6cyXA2wSFZJ9jWGHFnG+nNRZ3qY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711422842; c=relaxed/simple;
-	bh=rmPrkRnZQU4cPehoMlU3iSS/GMlUsG9wSlfkDAYfwUs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Zcq78T0hbhz92K/IcnfJQAh7K0UcRPAGcIuHGHtryV/7ldhv2oTclExxwtVaLEvb5dJzoD/J29E0a67g19MkaWfyrbF1GDqq5dXqYSze16tZ3qeNZ4iFhyzx+hPldnIpONZRQgb9zUb4cWmRX9czStrO1Gc6wb2n3Cv6U2jM0O8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCP+RNxdwNib1O4n6Cuu3l6pFIc67heppM2HCy3iSlN8cErZ3JF/JfXmDH7X+wisnGMyZXYiPTjksZmRG7ntoVUtWsAJ6GsOcAMAvgkUK7zq+/9NwjdQS9i8X36YoavwZlpItoUmFhc6Fg8I3TLufrBxwATwhZkbyKp2oIYVsrcZQjyakuBQqRhD2I/wGXE0kqqOdlBIE/9sS0Sk875drxhUU02QiY6C5kkdnJsXgpFemmLPkAkyWgV9HfXUI+ZpEIw/K8Y5bEUpSLbi5Hw6smggzMTtRQvpx2mMa1tFEEwfcqKw25mM9rnC4BZhlIBn2orx4mJtZ8E2aUWvuVlE9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pEYC96yQLaKLltjyoSrqhkgRoxEqYfjJs/+DA6nszK8=;
- b=ARXZ83fHYMixmbwSq0rKZivmvHYcga8bTyxG+I0kd8xPb1zN9P4yzRuf8ob5eJT7gW3FCqCcEP6yjaOwmXcmAgiSIgPwp/uonu79mmyCSuWMEr9owzy3WUx646QZ+EZwKccsIDo2zpLHhZ6dxhiTqhDsn4wVA/OGnJCdHKoOTHV7T7miP8snwwIz/U5F1AcziQ0KweQg2dfzsIK+uMUwPJah+H1AyssvehHHHSG9GC8aYJlrZhIhP3SLFylABJf8aPnRVATBq5W5tMaH321l8K60rlNPpcn20WfPW3LI9vHt531OG4AGSeBCqI4DAckaL2XaHsFC6cL4fYhM2fwdgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0622.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1f::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.30; Tue, 26 Mar
- 2024 03:12:51 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::b0af:4c9d:2058:a344]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
- with mapi id 15.20.7249.041; Tue, 26 Mar 2024 03:12:51 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Jayshri Pawar <jpawar@cadence.com>,
-	Jai Luthra <j-luthra@ti.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v1 4/4] staging: media: starfive: Add suspend and resume support
-Date: Mon, 25 Mar 2024 20:12:37 -0700
-Message-Id: <20240326031237.25331-5-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240326031237.25331-1-changhuang.liang@starfivetech.com>
-References: <20240326031237.25331-1-changhuang.liang@starfivetech.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0018.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:5::15) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B88C29B0;
+	Tue, 26 Mar 2024 04:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711428661; cv=none; b=qxW98Q5VSjQLAOma2CtHYY5uQvp3cMA8XQH4da/HLV9BKruoA4gQyRzlQ6+4vFOv+Q0bvm4cr/XZRHusKqNSLcayy6zG6TJIePpEuM2z+wPr73V/6+XgBktqgvHg1zRrt6SkkQivUf/p7CqnhvIeRCiAAUtpo+qUuqwvkGGQr+s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711428661; c=relaxed/simple;
+	bh=F5JKSRogf2llIBkzzf0hpoa6S0VY2RBJ8xYm+J6GbQI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GrVs5QGsnVlzzSTUYBEhQPQNgOnLm3i3uy8jGdpAm44vYWVblFgammmf6jnM29LCdbd3i49ZV5l2ChoiwbkI1izxBDL9ufUJHBkGXqn340nAg+9ass6mNuU+jIvFPcsDmAA2SF8KnswLjFnbRVompgwKm/wNHhwf8Ql81apK3NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=RoW+3/ZK; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PMIxAe009321;
+	Mon, 25 Mar 2024 21:50:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=pfpt0220; bh=9EyZHpQZPtNoiJ0ASAEMb+
+	9ZjiK6Us0t8XuxBxb61RY=; b=RoW+3/ZKAryUcbnF//1Pwcp2mZD0LhFslGpJgq
+	DNVQNxquyUWqj0Fcdw5wqxwPk7zv6dgrF7uSnuI5HQ8wC0RAbYZdUVOA2ADajE9v
+	quCZEkVPiJQDY/EmKFOqutsjsDIGFxRHycGJ5FkySb+inBrs/9F0SZUFNqfxOvRv
+	I/ERMQZPLNgWds1t+XiFj+9eZ2usURlzwV24EerF2lkogF+xv6CdWL+opNBwJNZI
+	EPVxsf/KPp4VXiWUArLFEkILZY6s0SGPFhrHAN6eWE5WfruSVc7PN5hbmCHRfbD6
+	N9v5lEwK64LSExoNJ2BCtT0dFkV8ZV0CV5DPZmQVwFHG0NgA==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3x3hy1s47q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Mar 2024 21:50:12 -0700 (PDT)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Mon, 25 Mar 2024 21:50:11 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 25 Mar 2024 21:50:11 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with SMTP id A7E6E3F703F;
+	Mon, 25 Mar 2024 21:50:05 -0700 (PDT)
+Date: Tue, 26 Mar 2024 10:20:04 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: Julien Panis <jpanis@baylibre.com>
+CC: "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+        Alexei Starovoitov
+	<ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard
+ Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Sumit
+ Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?=
+	<christian.koenig@amd.com>,
+        Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew@lunn.ch>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH net-next v4 2/3] net: ethernet: ti: Add desc_infos member
+ to struct k3_cppi_desc_pool
+Message-ID: <20240326045004.GA1362097@maili.marvell.com>
+References: <20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v4-2-2e45e5dec048@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0622:EE_
-X-MS-Office365-Filtering-Correlation-Id: e548d90d-00da-464f-3a72-08dc4d429f03
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	UaFx7r07zx+adb1pftUAAISZJY5JMtYmvwj4Piy1CmREGt41mM6lg1AdfGgCbsY9ua8igwdViHJUEI9LbuNSow6MWRIjTghRujdteQt/70UZasXJXBBEc/5cB+F2DryBABa1MolxlHFspcnzt32ckxUADb7q9qf2rYeHDvE4BC7tNJatwKl161GRwJ9ts/jDB4V7W3Hsvjxe811EQwORL5yYwwnA53VBI6HbbfR1SzyqTL9BeelfoAVPaXWjuXkSTBpEcRarU1D2Vg+sHz/0EeHuAVotgep7AfkDXv1g8caQGLd861+Pu5Gw2CJjjP0z2T10UVv/xE9J0tLN2lmZy/hnkGLuwCAVGDT3ZxX2PBs3pmeWPgqaZ28bjJ6vQepehITXDzAIzVaEaDBv+NuyZ3ouIQelFqqVMRvLv3tbFzSqXQ8xPDOShO8EUSvxNrp36FmufqyDXJ5MYI0twbhmWizqKFHdfFUPjQd/JvcQZWgjg/EoUoejFsNfBDlhHe0t7g1p2N/aKjy1bFJXXpf+rJ6vENPZzOJ+SO+DDTFnSjGV0ncYoTsHDCr15rdYyvG+CGOrh8V5mqfnnTzzu0rkh2USnWnALA49HzucH4RHvujkTG94D7Gt7Y3AFkY1hpPC
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(366007)(52116005)(1800799015)(41320700004)(7416005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?U1lW6tmYTdQlbc530kfM0vQrUY3MYa8R//4joLxRcb2t21WFsNQMYIHi2vyE?=
- =?us-ascii?Q?qmFWulWmA35vjxK/rWqU+8xA5w3MTL84o7h9XggcQtSUrMwXJuDr7dkq7HoL?=
- =?us-ascii?Q?zTkCkpjV/YoDXS6J47JoBBjbvu1vVC5wF3bdyQwzEC1omJQrWhANkguriivd?=
- =?us-ascii?Q?+6DqDJLwXqQ4WMjbRZArRKTqBO9N7kmDTtaOszkUpePGzQ7t0NTdZjhfWi2D?=
- =?us-ascii?Q?15q37h0S4soGYKu6w99qtX0OuH96nE4MGwCrbmGyrNW86FuhjGd8oH7RPn8L?=
- =?us-ascii?Q?2Nz00MGaUNoqVaDWQSUbF+3G+bNN/1a3I/E7eFsLUJJiZ3UMalS3g6abMLRw?=
- =?us-ascii?Q?pAElabraPsZLVE5kJOskcx5fO3C06ibXFTG323Q/C5XdlaC07uFfH73bLVt9?=
- =?us-ascii?Q?hGT90ECPm57gsD5eHEWHVCb9zJaybGbY3RF40rpUaOl9DdiPCGnGiExyHUhx?=
- =?us-ascii?Q?TihITZEi/KU49vkrD+gxUp7J5mwlCQScGjgJXXo2lzISvvHYWZ+8MBjXtey4?=
- =?us-ascii?Q?wCGOhEvK5iHRakvZrk/jkACwPp1bDFAnWKfR3lS56aB5gSn9Fwi0oBVwJapJ?=
- =?us-ascii?Q?3DX6qwNDkwDIE2IZ0i8ViUhuE5Kk+CYCkycgP9HjhGZ0I3UXCorS+gnjdgRK?=
- =?us-ascii?Q?3FGfQhrdpkKleD9Iq3R+CcJak9gsGFJVeP+k8vK3zxJEdqVbdTZ2ecPATU2q?=
- =?us-ascii?Q?DTyu23XQGdkxrqBfEIq1WbP+XNI4IPNX4n8x1K6j46JlIPf40KWJfrNLlphg?=
- =?us-ascii?Q?BQ/nobJIGkuXPazAzUD/Qon8Rmhd6ID24LfrVfTyshA4mGQTWCgoWjOJU3vn?=
- =?us-ascii?Q?pmxO57Hxj2dXLxIDiqrv6SL7D4UoZ3V4Ej6IicYFOsQwMCnCFCMjtI6A5Dr+?=
- =?us-ascii?Q?GfMbSIvFUq0Bxn7bvsB9V/yGZeUwPJGHYItwo29xfUOSepEKipOOxkhmSS/w?=
- =?us-ascii?Q?ahT/fJqzFC595T3aSJzJhMaJBNR7V45KJHEtjGfQtBUOOefsK/dgP1m8caQR?=
- =?us-ascii?Q?6983wC3c4I10aE3AdvatHAQd2LGtBbqCsBP4evoh24cO573OHS5R7xqhEA54?=
- =?us-ascii?Q?mDVUT9B79i0oINDNCra1T4sDmeSzzAHJzKOTX3dULXrafkE5ccJgyM4Ugfrv?=
- =?us-ascii?Q?ZtEei2XH3JA2BKSibOLjP6EvbWFmg22UsP2Up7L1ZCoyvmB8HDOJqtr5US2D?=
- =?us-ascii?Q?Bxcnz3vGqf/Cp2lF5stMGTnSuiTGkqxRZATUaPm5stpTT6EP/q/iuVbyzzdr?=
- =?us-ascii?Q?WOaVy0J+Jufzup87rx0y3HpGDzWts2QBxWJBLMikXcqSR2Sx4YAFGc4RnNYu?=
- =?us-ascii?Q?bwXC5+0KuhjTH8kQ5U88PSlnwOIxkZ9hsUD/bTjw/g+sxGcyq9exZcwaenxz?=
- =?us-ascii?Q?IhtxE54Jf0or3zHGLN7zGMfcp84lFpypLBp+gEcrJz0zAkXIPRAetcATW0jj?=
- =?us-ascii?Q?vhzYafqBYj7WwNDL+HsLEgYUhKZX1SucJ4PINtnZfXM8CiMwNm8+AwNlbbAP?=
- =?us-ascii?Q?LOXFLXhce48kngOY3P7zLhjd/9XjYDyVFTvHDeapNtH9PSEVRuQJ2LtbacFI?=
- =?us-ascii?Q?0rX7ERkKKhfwFiAtfaW3U0HQvINLoTzjjiEthGHMXAEW9d3ilaOEGAwI4bvu?=
- =?us-ascii?Q?zF8dgoYxiszK4ui5u+xt76s=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e548d90d-00da-464f-3a72-08dc4d429f03
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 03:12:51.2000
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xMKipaU6YS4FYXGK/8bPaI1rbWaC18uC6XWiArjYPplLSIWqohA62xt15Ak6fyNBssVrrfDm9eU4JYSSr5lYnljqrx9kvd+6ERVAVC7oMq3hsY2AMliPYfcgiLCYs4pu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0622
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240223-am65-cpsw-xdp-basic-v4-2-2e45e5dec048@baylibre.com>
+X-Proofpoint-GUID: IFJZH7V3Fi2mQzI6h7hsUbbGIVLBJOBJ
+X-Proofpoint-ORIG-GUID: IFJZH7V3Fi2mQzI6h7hsUbbGIVLBJOBJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-26_02,2024-03-21_02,2023-05-22_02
 
-This patch implements suspend and resume operation for StarFive Camera
-Subsystem. It supports hibernation during streaming and resume streaming
-when the system wake-up stage.
+On 2024-03-25 at 21:30:36, Julien Panis (jpanis@baylibre.com) wrote:
+> This patch introduces a member and the related accessors which can be
+> used to store descriptor specific additional information. This member
+> can store, for instance, an ID to differentiate a skb TX buffer type
+> from a xdpf TX buffer type.
+>
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> ---
+>  drivers/net/ethernet/ti/k3-cppi-desc-pool.c | 24 ++++++++++++++++++++++++
+>  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |  2 ++
+>  2 files changed, 26 insertions(+)
+>
+> diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
+> index fe8203c05731..d0c68d722ef2 100644
+> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
+> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
+> @@ -22,6 +22,7 @@ struct k3_cppi_desc_pool {
+>  	size_t			mem_size;
+>  	size_t			num_desc;
+>  	struct gen_pool		*gen_pool;
+> +	void			**desc_infos;
+>  };
+>
+>  void k3_cppi_desc_pool_destroy(struct k3_cppi_desc_pool *pool)
+> @@ -72,6 +73,15 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
+>  		goto gen_pool_create_fail;
+>  	}
+>
+> +	pool->desc_infos = devm_kcalloc(dev, pool->num_desc,
+> +					sizeof(*pool->desc_infos), GFP_KERNEL);
+This should be freed as well, right ?
+.set_channels() in ethtool ops cleans pools; but not this. This wont
+result in memory leak ? s/devm_kcalloc/kcalloc if my comment
+is correct.
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
- .../staging/media/starfive/camss/stf-camss.c  | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
-
-diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-index a587f860101a..9abd8ee405e2 100644
---- a/drivers/staging/media/starfive/camss/stf-camss.c
-+++ b/drivers/staging/media/starfive/camss/stf-camss.c
-@@ -412,10 +412,59 @@ static int __maybe_unused stfcamss_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int __maybe_unused stfcamss_suspend(struct device *dev)
-+{
-+	struct stfcamss *stfcamss = dev_get_drvdata(dev);
-+	struct stfcamss_video *video;
-+	unsigned int i;
-+
-+	for (i = 0; i < STF_CAPTURE_NUM; ++i) {
-+		video = &stfcamss->captures[i].video;
-+		if (video->vb2_q.streaming) {
-+			video->ops->stop_streaming(video);
-+			video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
-+		}
-+	}
-+
-+	return pm_runtime_force_suspend(dev);
-+}
-+
-+static int __maybe_unused stfcamss_resume(struct device *dev)
-+{
-+	struct stfcamss *stfcamss = dev_get_drvdata(dev);
-+	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
-+	struct v4l2_subdev_state *sd_state;
-+	struct stfcamss_video *video;
-+	unsigned int i;
-+	int ret;
-+
-+	ret = pm_runtime_force_resume(dev);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to resume\n");
-+		return ret;
-+	}
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(&isp_dev->subdev);
-+
-+	if (isp_dev->subdev.enabled_streams)
-+		stf_isp_stream_on(isp_dev, sd_state);
-+
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	for (i = 0; i < STF_CAPTURE_NUM; ++i) {
-+		video = &stfcamss->captures[i].video;
-+		if (video->vb2_q.streaming)
-+			video->ops->start_streaming(video);
-+	}
-+
-+	return 0;
-+}
-+
- static const struct dev_pm_ops stfcamss_pm_ops = {
- 	SET_RUNTIME_PM_OPS(stfcamss_runtime_suspend,
- 			   stfcamss_runtime_resume,
- 			   NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(stfcamss_suspend, stfcamss_resume)
- };
- 
- static struct platform_driver stfcamss_driver = {
--- 
-2.25.1
-
+> +	if (!pool->desc_infos) {
+> +		ret = -ENOMEM;
+> +		dev_err(pool->dev, "pool descriptor infos alloc failed %d\n", ret);
+> +		kfree_const(pool_name);
+> +		goto gen_pool_desc_infos_alloc_fail;
+> +	}
+> +
+>  	pool->gen_pool->name = pool_name;
+>
+>  	pool->cpumem = dma_alloc_coherent(pool->dev, pool->mem_size,
+> @@ -94,6 +104,8 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
+>  	dma_free_coherent(pool->dev, pool->mem_size, pool->cpumem,
+>  			  pool->dma_addr);
+>  dma_alloc_fail:
+> +	devm_kfree(pool->dev, pool->desc_infos);
+> +gen_pool_desc_infos_alloc_fail:
+>  	gen_pool_destroy(pool->gen_pool);	/* frees pool->name */
+>  gen_pool_create_fail:
+>  	devm_kfree(pool->dev, pool);
+> @@ -144,5 +156,17 @@ void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool)
+>  }
+>  EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_cpuaddr);
+>
+> +void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info)
+> +{
+> +	pool->desc_infos[desc_idx] = info;
+> +}
+> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info_set);
+> +
+> +void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx)
+> +{
+> +	return pool->desc_infos[desc_idx];
+> +}
+> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info);
+> +
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("TI K3 CPPI5 descriptors pool API");
+> diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
+> index 149d5579a5e2..0076596307e7 100644
+> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
+> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
+> @@ -28,5 +28,7 @@ void k3_cppi_desc_pool_free(struct k3_cppi_desc_pool *pool, void *addr);
+>  size_t k3_cppi_desc_pool_avail(struct k3_cppi_desc_pool *pool);
+>  size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool);
+>  void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool);
+> +void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info);
+> +void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx);
+>
+>  #endif /* K3_CPPI_DESC_POOL_H_ */
+>
+> --
+> 2.37.3
+>
 
