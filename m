@@ -1,191 +1,239 @@
-Return-Path: <linux-media+bounces-7814-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593BB88B984
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 05:51:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E71E888BB01
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 08:14:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C47961F386D8
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 04:51:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 754001F32131
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 07:14:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8641083CA5;
-	Tue, 26 Mar 2024 04:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0081F130498;
+	Tue, 26 Mar 2024 07:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="RoW+3/ZK"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="mfpSFtL7";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="QGOFVlBM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B88C29B0;
-	Tue, 26 Mar 2024 04:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9B21272BB;
+	Tue, 26 Mar 2024 07:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711428661; cv=none; b=qxW98Q5VSjQLAOma2CtHYY5uQvp3cMA8XQH4da/HLV9BKruoA4gQyRzlQ6+4vFOv+Q0bvm4cr/XZRHusKqNSLcayy6zG6TJIePpEuM2z+wPr73V/6+XgBktqgvHg1zRrt6SkkQivUf/p7CqnhvIeRCiAAUtpo+qUuqwvkGGQr+s=
+	t=1711437259; cv=none; b=UiPB8PKEioIPv2FKFWsp9Obch5etjGAfOKNULQuqI+4zKX6msv6xzJbJ/s0xqs1QDOEiBieS4ZXSr/5qih/Ic6aFirnbBij5x7dSVbfRyIEp5gmIRVTo3ctjNslQmaz9D+5pDrKLqc3p7S7LyVIa0MCNciPOxjGdAGG1pksVkAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711428661; c=relaxed/simple;
-	bh=F5JKSRogf2llIBkzzf0hpoa6S0VY2RBJ8xYm+J6GbQI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GrVs5QGsnVlzzSTUYBEhQPQNgOnLm3i3uy8jGdpAm44vYWVblFgammmf6jnM29LCdbd3i49ZV5l2ChoiwbkI1izxBDL9ufUJHBkGXqn340nAg+9ass6mNuU+jIvFPcsDmAA2SF8KnswLjFnbRVompgwKm/wNHhwf8Ql81apK3NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=RoW+3/ZK; arc=none smtp.client-ip=67.231.156.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42PMIxAe009321;
-	Mon, 25 Mar 2024 21:50:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=pfpt0220; bh=9EyZHpQZPtNoiJ0ASAEMb+
-	9ZjiK6Us0t8XuxBxb61RY=; b=RoW+3/ZKAryUcbnF//1Pwcp2mZD0LhFslGpJgq
-	DNVQNxquyUWqj0Fcdw5wqxwPk7zv6dgrF7uSnuI5HQ8wC0RAbYZdUVOA2ADajE9v
-	quCZEkVPiJQDY/EmKFOqutsjsDIGFxRHycGJ5FkySb+inBrs/9F0SZUFNqfxOvRv
-	I/ERMQZPLNgWds1t+XiFj+9eZ2usURlzwV24EerF2lkogF+xv6CdWL+opNBwJNZI
-	EPVxsf/KPp4VXiWUArLFEkILZY6s0SGPFhrHAN6eWE5WfruSVc7PN5hbmCHRfbD6
-	N9v5lEwK64LSExoNJ2BCtT0dFkV8ZV0CV5DPZmQVwFHG0NgA==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3x3hy1s47q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 21:50:12 -0700 (PDT)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Mon, 25 Mar 2024 21:50:11 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Mon, 25 Mar 2024 21:50:11 -0700
-Received: from maili.marvell.com (unknown [10.28.36.165])
-	by maili.marvell.com (Postfix) with SMTP id A7E6E3F703F;
-	Mon, 25 Mar 2024 21:50:05 -0700 (PDT)
-Date: Tue, 26 Mar 2024 10:20:04 +0530
-From: Ratheesh Kannoth <rkannoth@marvell.com>
-To: Julien Panis <jpanis@baylibre.com>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
-        Alexei Starovoitov
-	<ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard
- Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Sumit
- Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>,
-        Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew@lunn.ch>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH net-next v4 2/3] net: ethernet: ti: Add desc_infos member
- to struct k3_cppi_desc_pool
-Message-ID: <20240326045004.GA1362097@maili.marvell.com>
-References: <20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v4-2-2e45e5dec048@baylibre.com>
+	s=arc-20240116; t=1711437259; c=relaxed/simple;
+	bh=R/PF6zodIjJNrkWgq/pzQEcDa7T/S8aNQeuBGFJxGLI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fjfW1b9f722Wng6AlAFWQmWobYikjVGAkhTPU1OG/kzorIvDbLmpGmlLxzG6Fv4s9qSPJNaQ0uTYmL0c0TtTvULOmWpnE75XSfAqFVf049VYEc8IZWg7AL7fe/E9Iw4HSQUxl5UQPrnoDKsCwP1JmpNEGwttYK9K9YIKqixvtGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=mfpSFtL7; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=QGOFVlBM reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1711437256; x=1742973256;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=00WgOmyzkRllaoUEEu1uoP3kJXxqshi5oJasmpbz0Ts=;
+  b=mfpSFtL7Osfx8ILSOCUR+Ah0mCgp/2aTKMEbohdLC6z2VCvQYu6afoUV
+   M+mAjpIS65z1ru+NZ0GhZ7QI0f3bzMy4UnVNZj10vwwtZfdKs3Q+OS9Ic
+   BVc1+LUPrboTR8vSpKfN4L1mCV+rFiRMXy3ocM0shOlgYRTCFVZQAh4PE
+   sxsbj2O6pfJoeiEEd4m5hdWmlO/5cvDlprGjaIczNR0f3qXW+GitbYCjB
+   b8kyLV3styzHAbW+AnsXzTQDfzpYe6nvPFnwbq1t0NvXfH5HHe/5R8F09
+   qCZuYfHR1zd3dTYhBPivDvJEjVSx+eNP2fnIEsZIn7bn+nc9NuCDc+2H/
+   g==;
+X-IronPort-AV: E=Sophos;i="6.07,155,1708383600"; 
+   d="scan'208";a="36094014"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 26 Mar 2024 08:14:12 +0100
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8D4F716EDC7;
+	Tue, 26 Mar 2024 08:14:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1711437248;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=00WgOmyzkRllaoUEEu1uoP3kJXxqshi5oJasmpbz0Ts=;
+	b=QGOFVlBMdZoRZjKwDMSLJZIEbnb9InlFc4QS7xXIRFSfRqN2aMkk4QDZ5brjVC4d9QU+iR
+	tu3C8x+13iQqTrv/MIfOysn7fRaEetW8+YEi8T6CInel22Ol7DAJcI/N835Q94Lx6z7Vj7
+	MQS1Vxm/iDP2OWZF11pl2KOYBnk5YBHw+0pcj/usj64sn7ooM9lRlx0Sbq2sS6AU39+z5t
+	FdmCiKAFE5MFyBiN8/wiV+ANaWMa8b3fuHALyoneIkDytV/ePnwpuaSCMqBCRbmwAvKApv
+	BrfdTqRumIdBxo4u1VlCv/cV7Ab8UQi/vHCFD63qNNjUv7B6uGTrzAkHeTz1xQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Paul Elder <paul.elder@ideasonboard.com>, Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Marek Vasut <marex@denx.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+Date: Tue, 26 Mar 2024 08:14:13 +0100
+Message-ID: <2929432.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240325204924.GY18799@pendragon.ideasonboard.com>
+References: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com> <4879631.GXAFRqVoOG@steina-w> <20240325204924.GY18799@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240223-am65-cpsw-xdp-basic-v4-2-2e45e5dec048@baylibre.com>
-X-Proofpoint-GUID: IFJZH7V3Fi2mQzI6h7hsUbbGIVLBJOBJ
-X-Proofpoint-ORIG-GUID: IFJZH7V3Fi2mQzI6h7hsUbbGIVLBJOBJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-26_02,2024-03-21_02,2023-05-22_02
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 2024-03-25 at 21:30:36, Julien Panis (jpanis@baylibre.com) wrote:
-> This patch introduces a member and the related accessors which can be
-> used to store descriptor specific additional information. This member
-> can store, for instance, an ID to differentiate a skb TX buffer type
-> from a xdpf TX buffer type.
->
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  drivers/net/ethernet/ti/k3-cppi-desc-pool.c | 24 ++++++++++++++++++++++++
->  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |  2 ++
->  2 files changed, 26 insertions(+)
->
-> diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
-> index fe8203c05731..d0c68d722ef2 100644
-> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
-> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.c
-> @@ -22,6 +22,7 @@ struct k3_cppi_desc_pool {
->  	size_t			mem_size;
->  	size_t			num_desc;
->  	struct gen_pool		*gen_pool;
-> +	void			**desc_infos;
->  };
->
->  void k3_cppi_desc_pool_destroy(struct k3_cppi_desc_pool *pool)
-> @@ -72,6 +73,15 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
->  		goto gen_pool_create_fail;
->  	}
->
-> +	pool->desc_infos = devm_kcalloc(dev, pool->num_desc,
-> +					sizeof(*pool->desc_infos), GFP_KERNEL);
-This should be freed as well, right ?
-.set_channels() in ethtool ops cleans pools; but not this. This wont
-result in memory leak ? s/devm_kcalloc/kcalloc if my comment
-is correct.
+Hi Laurent,
 
-> +	if (!pool->desc_infos) {
-> +		ret = -ENOMEM;
-> +		dev_err(pool->dev, "pool descriptor infos alloc failed %d\n", ret);
-> +		kfree_const(pool_name);
-> +		goto gen_pool_desc_infos_alloc_fail;
-> +	}
-> +
->  	pool->gen_pool->name = pool_name;
->
->  	pool->cpumem = dma_alloc_coherent(pool->dev, pool->mem_size,
-> @@ -94,6 +104,8 @@ k3_cppi_desc_pool_create_name(struct device *dev, size_t size,
->  	dma_free_coherent(pool->dev, pool->mem_size, pool->cpumem,
->  			  pool->dma_addr);
->  dma_alloc_fail:
-> +	devm_kfree(pool->dev, pool->desc_infos);
-> +gen_pool_desc_infos_alloc_fail:
->  	gen_pool_destroy(pool->gen_pool);	/* frees pool->name */
->  gen_pool_create_fail:
->  	devm_kfree(pool->dev, pool);
-> @@ -144,5 +156,17 @@ void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool)
->  }
->  EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_cpuaddr);
->
-> +void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info)
-> +{
-> +	pool->desc_infos[desc_idx] = info;
-> +}
-> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info_set);
-> +
-> +void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx)
-> +{
-> +	return pool->desc_infos[desc_idx];
-> +}
-> +EXPORT_SYMBOL_GPL(k3_cppi_desc_pool_desc_info);
-> +
->  MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("TI K3 CPPI5 descriptors pool API");
-> diff --git a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
-> index 149d5579a5e2..0076596307e7 100644
-> --- a/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
-> +++ b/drivers/net/ethernet/ti/k3-cppi-desc-pool.h
-> @@ -28,5 +28,7 @@ void k3_cppi_desc_pool_free(struct k3_cppi_desc_pool *pool, void *addr);
->  size_t k3_cppi_desc_pool_avail(struct k3_cppi_desc_pool *pool);
->  size_t k3_cppi_desc_pool_desc_size(struct k3_cppi_desc_pool *pool);
->  void *k3_cppi_desc_pool_cpuaddr(struct k3_cppi_desc_pool *pool);
-> +void k3_cppi_desc_pool_desc_info_set(struct k3_cppi_desc_pool *pool, int desc_idx, void *info);
-> +void *k3_cppi_desc_pool_desc_info(struct k3_cppi_desc_pool *pool, int desc_idx);
->
->  #endif /* K3_CPPI_DESC_POOL_H_ */
->
-> --
-> 2.37.3
->
+Am Montag, 25. M=E4rz 2024, 21:49:24 CET schrieb Laurent Pinchart:
+> Hi Alexander,
+>=20
+> On Mon, Mar 25, 2024 at 04:52:21PM +0100, Alexander Stein wrote:
+> > Am Montag, 25. M=E4rz 2024, 16:13:39 CET schrieb Laurent Pinchart:
+> > > From: Paul Elder <paul.elder@ideasonboard.com>
+> > >=20
+> > > The ISP supports both CSI and parallel interfaces, where port 0
+> > > corresponds to the former and port 1 corresponds to the latter. Since
+> > > the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+> > > receiver, set them both to port 1.
+> > >=20
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > > Changes since v1:
+> > >=20
+> > > - Fix clock ordering
+> > > - Add #address-cells and #size-cells to ports nodes
+> > > ---
+> > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++=
+++
+> > >  1 file changed, 50 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/b=
+oot/dts/freescale/imx8mp.dtsi
+> > > index bfc5c81a5bd4..1d2670b91b53 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > @@ -1616,6 +1616,56 @@ isi_in_1: endpoint {
+> > >  				};
+> > >  			};
+> > > =20
+> > > +			isp_0: isp@32e10000 {
+> > > +				compatible =3D "fsl,imx8mp-isp";
+> > > +				reg =3D <0x32e10000 0x10000>;
+> > > +				interrupts =3D <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
+> > > +				clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > > +				clock-names =3D "isp", "aclk", "hclk";
+> > > +				assigned-clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP>;
+> > > +				assigned-clock-parents =3D <&clk IMX8MP_SYS_PLL2_500M>;
+> > > +				assigned-clock-rates =3D <500000000>;
+> > > +				power-domains =3D <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > > +				fsl,blk-ctrl =3D <&media_blk_ctrl 0>;
+> > > +				status =3D "disabled";
+> > > +
+> > > +				ports {
+> > > +					#address-cells =3D <1>;
+> > > +					#size-cells =3D <0>;
+> > > +
+> > > +					port@1 {
+> > > +						reg =3D <1>;
+> > > +					};
+> > > +				};
+> > > +			};
+> > > +
+> > > +			isp_1: isp@32e20000 {
+> > > +				compatible =3D "fsl,imx8mp-isp";
+> > > +				reg =3D <0x32e20000 0x10000>;
+> > > +				interrupts =3D <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
+> > > +				clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > > +				clock-names =3D "isp", "aclk", "hclk";
+> > > +				assigned-clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP>;
+> > > +				assigned-clock-parents =3D <&clk IMX8MP_SYS_PLL2_500M>;
+> > > +				assigned-clock-rates =3D <500000000>;
+> > > +				power-domains =3D <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > > +				fsl,blk-ctrl =3D <&media_blk_ctrl 1>;
+> > > +				status =3D "disabled";
+> > > +
+> > > +				ports {
+> > > +					#address-cells =3D <1>;
+> > > +					#size-cells =3D <0>;
+> > > +
+> > > +					port@1 {
+> > > +						reg =3D <1>;
+> > > +					};
+> > > +				};
+> > > +			};
+> > > +
+> >=20
+> > The patch itself is okay. But you might not be able to
+> > configure the parent of IMX8MP_CLK_MEDIA_ISP if dewarp is enabled befor=
+e.
+> > This is due to IMX8MP_CLK_MEDIA_ISP_ROOT being enabled in 'pgc_ispdwp'
+> > power domain. Reparenting is not possible anymore in this case.
+>=20
+> Good point.=20
+>=20
+> > Something like
+> > ---8<---
+> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > @@ -1837,11 +1837,13 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
+> >                                                   <&clk IMX8MP_CLK_MEDI=
+A_APB>,
+> >                                                   <&clk IMX8MP_CLK_MEDI=
+A_DISP1_PIX>,
+> >                                                   <&clk IMX8MP_CLK_MEDI=
+A_DISP2_PIX>,
+> > +                                                 <&clk IMX8MP_CLK_MEDI=
+A_ISP>,
+> >                                                   <&clk IMX8MP_VIDEO_PL=
+L1>;
+> >                                 assigned-clock-parents =3D <&clk IMX8MP=
+_SYS_PLL2_1000M>,
+> >                                                          <&clk IMX8MP_S=
+YS_PLL1_800M>,
+> >                                                          <&clk IMX8MP_V=
+IDEO_PLL1_OUT>,
+> > -                                                        <&clk IMX8MP_V=
+IDEO_PLL1_OUT>;
+> > +                                                        <&clk IMX8MP_V=
+IDEO_PLL1_OUT>,
+> > +                                                        <&clk IMX8MP_S=
+YS_PLL2_500M>;
+> >                                 assigned-clock-rates =3D <500000000>, <=
+200000000>,
+> >                                                        <0>, <0>, <10395=
+00000>;
+>=20
+> With an assigned clock rate here too then ?
+
+You are right. This posted diff is what I was using for a while now though.
+Apparently the clock frequency was still correct.
+
+Best regards,
+Alexander
+
+> >                                 #power-domain-cells =3D <1>;
+> > ---8<---
+> > is needed.
+>=20
+> Sascha, are you OK with this approach ?
+>=20
+> > >  			dewarp: dwe@32e30000 {
+> > >  				compatible =3D "nxp,imx8mp-dw100";
+> > >  				reg =3D <0x32e30000 0x10000>;
+> > >=20
+> > > base-commit: 4cece764965020c22cff7665b18a012006359095
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
 
