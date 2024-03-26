@@ -1,239 +1,249 @@
-Return-Path: <linux-media+bounces-7824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2199888C28C
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 13:47:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 088E288C509
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 15:23:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F7F0B2195E
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 12:47:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C35B1C33FE2
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 14:23:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA97C6FE1A;
-	Tue, 26 Mar 2024 12:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFDA12D774;
+	Tue, 26 Mar 2024 14:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F/kzOvYe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0826D139E;
-	Tue, 26 Mar 2024 12:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BFA12D758
+	for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 14:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711457245; cv=none; b=IBTf+jFr+Ryz/oWCtPW+jwPzqOtRqqzL3t+Hby9L56GTsbtUXyk8J6rmEIkyS74tGB6jhSByQaeG83hz8efzzJnTJUqYuZTxeOtWxQhVRAupG+ihckYmZK50kkpSGLeIheqyZvzwC0otJuc+tftsxAgvO6NAkvc5SqJHQHJaKy4=
+	t=1711462993; cv=none; b=Yf9Zi21+JxCah4tNjqIjr/75JOIS/kzwbyYhUQwKOlobyogkI9gOlmm4vPJeJZD5TM/Izd5/wrRrs3aIdJLpnakywdzcPty2UwCub0+6KiK8jQwlJcSCSIIXL17dL9tiXs6ld8TmVyM80+DDYPxmbwHGBEctuPurnIUN/DHFtP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711457245; c=relaxed/simple;
-	bh=sGJsi5QL5OEY3rakPIBQalfrmkZhP62VUd/1rO/Tex0=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=DfJ3VN04r+4INdHxV48V0lQz7d8EB/2PUJWx4xT/AyraDzO1NeWNm5TTs4gNneBDn5ZyU0L1WgouB7fI+dbSciSGO++epSeV5V4pkSLMGKO2QxZBCzrx3syGdYVbPsKWz5GEmA2DiywhOEv3/abWddIsQNVDlfidgA0bjAM2jq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4V3qJ843l4z2BhYv;
-	Tue, 26 Mar 2024 20:44:40 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4E2C9140120;
-	Tue, 26 Mar 2024 20:47:19 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 26 Mar
- 2024 20:47:18 +0800
-Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
-To: Mina Almasry <almasrymina@google.com>, YiFei Zhu <zhuyifei@google.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
-	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
-	<sparclinux@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
- Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
-	<ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
-	<James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
-	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
-	<arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
-	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
-	<martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
-	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
-	<john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
-	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn
-	<willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
-	<christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
-	<shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
- Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
- <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
- <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <ca9ab650-3f77-509c-7a29-6d7dd775b6d1@huawei.com>
-Date: Tue, 26 Mar 2024 20:47:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+	s=arc-20240116; t=1711462993; c=relaxed/simple;
+	bh=d6SwhLp5lo5bs/sFKg2UCaH4qFGw7c/LCreIuG1S3Zo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZolegTYjyzNtd+gEsDFGw6smymkxvtq1beJtp76sEaSEswfh6Rhc3ADmQnGBGoOPc6Zl8pFyOygDgr/Oz8Wzq7BUKJu2s7jn5ETjrEfOlwAiRhzn9X5X4u1KG6E4Kt0CWCb1Mw9n9JRLjrcp1NMXctz26nFGgX3h4VRUVw2k4Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F/kzOvYe; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6e673ffbd79so3246894a34.2
+        for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 07:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1711462990; x=1712067790; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCVKphXqJhysVOrlVCzs0FHTB50D+Xwwv1XZwlRbuys=;
+        b=F/kzOvYeV5+eWwt7nKjG8ORBIIDHjaXfT+lO8wTq9m2tIFd9nOPXELqe0pKdKgjOQh
+         J2hzOFGOCCWHr0JKtAd3eORKKuZ4pXNMejqGtxfG+uzQQjKMN5AitTf6p4BE/9U+TyX7
+         Z2W3fBduqt3O0kbS+qo5aleM1TJsvWWdzabI4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711462990; x=1712067790;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FCVKphXqJhysVOrlVCzs0FHTB50D+Xwwv1XZwlRbuys=;
+        b=DuVnlj85s9mBy2RzUKNU++w0bJA3H1HfGxx/WEooQh/4tvR+NGm0e1vfjorlZVCqZA
+         Ng10OEI+Ca4dJr2F1gGmVsG2w1z/VoyvDI8LQ93pgrtOWBB31zWt1jhuHm55wU3iOXtV
+         B3jFupAmtXqlAQDMFP2iACeGAtbgOvMzQDu4JvCZOIJj0GTTYAmgYyfcgkzIZ0F9Uj0G
+         GW84mo/1C1hNgn0jVVV/QkVqHOHSNu1MNFHdGlpDJmSE6sFqKwEAXyxOtj9v0zRxkYiy
+         8vAOucHgndSKZ4ck5IsZ2FjjiG/NnPsYBWaQiznFDaR9KuMt2H2av29rXV3qPNsH6gxw
+         xonQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsF72Eh0KGiCTGNrxcWqHVA6yb7vcoustW3P58TZdDr6Ak44JoVZd1hpWv8w8A9ntpuLNddUYXBfzhXZOO/Z8+U8xmhLRVE/twiS8=
+X-Gm-Message-State: AOJu0YzqZBo6p07i/EiHR6LUBjkAvBBCN38/dXYLteiX4pwbsX8YQPbG
+	9/jC2SuwsBGv0TZ/MW/0kcJ3wJWNNcdQmgFgWFjeHan4IKD1DfacNKiR6OH5gv5oL1ocIkAVzM9
+	Itw==
+X-Google-Smtp-Source: AGHT+IHvWVvj0v9Qa6dMgIHKAlt+Logm1XLvaMQFkE/qhv0LGD8BKM8dwQ96iR7XvQB6UbfG43abtg==
+X-Received: by 2002:a9d:74cc:0:b0:6e6:8916:da26 with SMTP id a12-20020a9d74cc000000b006e68916da26mr11272120otl.1.1711462990220;
+        Tue, 26 Mar 2024 07:23:10 -0700 (PDT)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com. [209.85.167.177])
+        by smtp.gmail.com with ESMTPSA id g48-20020a05683030b000b006e6b5bfaa8asm1557191ots.14.2024.03.26.07.23.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Mar 2024 07:23:09 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c3d404225dso876593b6e.3
+        for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 07:23:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVN1JdXJz91Qca2/5i4EkKiZASdISZnkDOmxhm1lFSeL9lzZirRw+AniTlTNY6Q+9B7unYXJdV5o5tGsuDi8KiC4XHVWkdj5i0Dpo0=
+X-Received: by 2002:a05:6808:2742:b0:3c3:b64d:c0d with SMTP id
+ eh2-20020a056808274200b003c3b64d0c0dmr10062648oib.48.1711462989082; Tue, 26
+ Mar 2024 07:23:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+References: <20240326-uvc-relative-ptz-speed-fix-v1-1-453fd5ccfd37@securitylive.com>
+In-Reply-To: <20240326-uvc-relative-ptz-speed-fix-v1-1-453fd5ccfd37@securitylive.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 26 Mar 2024 15:22:52 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtdgQhAyeLm89W-zNsMsNAVY0Ey5tZ4XpemzaZHXf8ZFQ@mail.gmail.com>
+Message-ID: <CANiDSCtdgQhAyeLm89W-zNsMsNAVY0Ey5tZ4XpemzaZHXf8ZFQ@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix.
+To: johnebgood@securitylive.com
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>, linh.tp.vu@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2024/3/26 8:28, Mina Almasry wrote:
-> On Tue, Mar 5, 2024 at 11:38 AM Mina Almasry <almasrymina@google.com> wrote:
->>
->> On Tue, Mar 5, 2024 at 4:54 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>
->>> On 2024/3/5 10:01, Mina Almasry wrote:
->>>
->>> ...
->>>
->>>>
->>>> Perf - page-pool benchmark:
->>>> ---------------------------
->>>>
->>>> bench_page_pool_simple.ko tests with and without these changes:
->>>> https://pastebin.com/raw/ncHDwAbn
->>>>
->>>> AFAIK the number that really matters in the perf tests is the
->>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
->>>> cycles without the changes but there is some 1 cycle noise in some
->>>> results.
->>>>
->>>> With the patches this regresses to 9 cycles with the changes but there
->>>> is 1 cycle noise occasionally running this test repeatedly.
->>>>
->>>> Lastly I tried disable the static_branch_unlikely() in
->>>> netmem_is_net_iov() check. To my surprise disabling the
->>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
->>>> but the 1 cycle noise remains.
->>>>
->>>
->>> The last sentence seems to be suggesting the above 1 ns regresses is caused
->>> by the static_branch_unlikely() checking?
->>
->> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
->> regression (slightly less than 1ns if I'm reading the output of the
->> test correctly):
->>
->> # clean net-next
->> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
->> 2.993 ns (step:0)
->>
->> # with patches
->> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
->> 3.679 ns (step:0)
->>
->> # with patches and with diff that disables static branching:
->> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
->> 3.248 ns (step:0)
->>
->> I do see noise in the test results between run and run, and any
->> regression (if any) is slightly obfuscated by the noise, so it's a bit
->> hard to make confident statements. So far it looks like a ~0.25ns
->> regression without static branch and about ~0.65ns with static branch.
->>
->> Honestly when I saw all 3 results were within some noise I did not
->> investigate more, but if this looks concerning to you I can dig
->> further. I likely need to gather a few test runs to filter out the
->> noise and maybe investigate the assembly my compiler is generating to
->> maybe narrow down what changes there.
->>
-> 
-> I did some more investigation here to gather more data to filter out
-> the noise, and recorded the summary here:
-> 
-> https://pastebin.com/raw/v5dYRg8L
-> 
-> Long story short, the page_pool benchmark results are consistent with
-> some outlier noise results that I'm discounting here. Currently
-> page_pool fast path is at 8 cycles
-> 
-> [ 2115.724510] time_bench: Type:tasklet_page_pool01_fast_path Per
-> elem: 8 cycles(tsc) 3.187 ns (step:0) - (measurement period
-> time:0.031870585 sec time_interval:31870585) - (invoke count:10000000
-> tsc_interval:86043192)
-> 
-> and with this patch series it degrades to 10 cycles, or about a 0.7ns
-> degradation or so:
+Hi John,
 
-Even if the absolute value for the overhead is small, we seems have a
-degradation of about 20% for tasklet_page_pool01_fast_path testcase,
-which seems scary.
+Thanks for your patch. If we confirm that there are no devices with
+ranges [-A,B], with A!=B, then it looks like the way to go
 
-I am assuming that every page is recyclable for tasklet_page_pool01_fast_path
-testcase, and that code path matters for page_pool, it would be good to
-remove any additional checking for that code path.
+I would have removed the
 
-And we already have pool->has_init_callback checking when we have to use
-a new page, it may make sense to refactor that to share the same checking
-for provider to avoid the overhead as much as possible.
+ return -data[first+1];
 
-Also, I am not sure if it really matter that much, as with the introducing
-of netmem_is_net_iov() checking spreading in the networking, the overhead
-might add up for other case too.
+from uvc_ctrl_get_rel_speed(), as it becomes now dead code.
 
-> 
-> [  498.226127] time_bench: Type:tasklet_page_pool01_fast_path Per
-> elem: 10 cycles(tsc) 3.944 ns (step:0) - (measurement period
-> time:0.039442539 sec time_interval:39442539) - (invoke count:10000000
-> tsc_interval:106485268)
-> 
-> I took the time to dig into where the degradation comes from, and to
-> my surprise we can shave off 1 cycle in perf by removing the
-> static_branch_unlikely check in netmem_is_net_iov() like so:
-> 
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index fe354d11a421..2b4310ac1115 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -122,8 +122,7 @@ typedef unsigned long __bitwise netmem_ref;
->  static inline bool netmem_is_net_iov(const netmem_ref netmem)
->  {
->  #ifdef CONFIG_PAGE_POOL
-> -       return static_branch_unlikely(&page_pool_mem_providers) &&
-> -              (__force unsigned long)netmem & NET_IOV;
-> +       return (__force unsigned long)netmem & NET_IOV;
->  #else
->         return false;
->  #endif
-> 
-> With this change, the fast path is 9 cycles, only  a 1 cycle (~0.35ns)
-> regression:
-> 
-> [  199.184429] time_bench: Type:tasklet_page_pool01_fast_path Per
-> elem: 9 cycles(tsc) 3.552 ns (step:0) - (measurement period
-> time:0.035524013 sec time_interval:35524013) - (invoke count:10000000
-> tsc_interval:95907775)
-> 
-> I did some digging with YiFei on why the static_branch_unlikely
-> appears to be causing a 1 cycle regression, but could not get an
-> answer that makes sense. The # of instructions in
-> page_pool_return_page() with the static_branch_unlikely and without is
-> about the same in the compiled .o file, and my understanding is that
-> static_branch will cause code re-writing anyway so looking at the
-> compiled code may not be representative.
-> 
-> Worthy of note is that I get ~95% line rate of devmem TCP regardless
-> of the static_branch_unlikely() or not, so impact of the static_branch
-> is not large enough to be measurable end-to-end. I'm thinking I want
-> to drop the static_branch_unlikely() in the next RFC since it doesn't
-> improve the end-to-end throughput number and is resulting in a
-> measurable improvement in the page pool benchmark.
-> 
+And I would have done it a little bit different with the switch, but I
+have no idea what Laurent prefers ;):
+
+@@ -1334,6 +1333,18 @@ static int __uvc_query_v4l2_ctrl(struct
+uvc_video_chain *chain,
+                v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
+                                  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+
++       switch (v4l2_ctrl->id) {
++       case V4L2_CID_ZOOM_CONTINUOUS:
++       case V4L2_CID_PAN_SPEED:
++       case V4L2_CID_TILT_SPEED:
++               /*
++                * For the relative speed implementation the minimum
++                * value cannot be probed so it becomes the additive
++                * inverse of maximum.
++                */
++               v4l2_ctrl->minimum = -v4l2_ctrl->maximum;
++       }
++
+        return 0;
+ }
+
+@@ -1919,6 +1930,18 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+                if (step == 0)
+                        step = 1;
+
++               switch (xctrl->id) {
++               case V4L2_CID_ZOOM_CONTINUOUS:
++               case V4L2_CID_PAN_SPEED:
++               case V4L2_CID_TILT_SPEED:
++                       /*
++                        * For the relative speed implementation the minimum
++                        * value cannot be probed so it becomes the additive
++                        * inverse of maximum.
++                        */
++                       min = -max;
++               }
++
+                xctrl->value = min +
+DIV_ROUND_CLOSEST((u32)(xctrl->value - min),
+                                                        step) * step;
+                if (mapping->data_type == UVC_CTRL_DATA_TYPE_SIGNED)
+
+
+
+On Tue, 26 Mar 2024 at 10:02, John Bauer via B4 Relay
+<devnull+johnebgood.securitylive.com@kernel.org> wrote:
+>
+> From: John Bauer <johnebgood@securitylive.com>
+>
+> The minimum UVC control value for the relative pan/tilt/zoom speeds
+> cannot be probed as the implementation condenses the pan and tilt
+> direction and speed into two 16 bit values. The minimum cannot be
+> set at probe time because it is probed first and the maximum is not
+> yet known. With this fix if a relative speed control is queried
+> or set the minimum is set and checked based on the additive inverse of
+> the maximum at that time.
+>
+> Signed-off-by: John Bauer <johnebgood@securitylive.com>
+> ---
+> Gergo noticed that a quirk fix would not be needed and the just
+> the minimum value needed to be set. Thanks Ricardo, Linh and Gergo
+> for helping me along here. The reason the problem presented is that
+> the minimum probe is done before the maximum however the way the
+> driver has condensed direction and speed controls
+> (with great simplification benefit to the user) the minimum
+> value must be derived from the maximum and negated. This
+> fix gets/checks/sets the correct relative minimum value when
+> needed instead of of at probe time. This minimum value does not
+> reflect the UVC 1.5 spec but the simplified condensed
+> implementation of the driver; it's beautiful.
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 37 ++++++++++++++++++++++++++++++++++---
+>  1 file changed, 34 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index e59a463c2761..b389ab3ee05d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1322,9 +1322,25 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>                 break;
+>         }
+>
+> -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
+> -               v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
+> -                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+> +       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
+> +               switch (v4l2_ctrl->id) {
+> +               case V4L2_CID_ZOOM_CONTINUOUS:
+> +               case V4L2_CID_PAN_SPEED:
+> +               case V4L2_CID_TILT_SPEED:
+> +                       /*
+> +                        * For the relative speed implementation the minimum
+> +                        * value cannot be probed so it becomes the additive
+> +                        * inverse of maximum.
+> +                        */
+> +                       v4l2_ctrl->minimum = -1 * mapping->get(mapping, UVC_GET_MAX,
+> +                                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+> +                       break;
+> +               default:
+> +                       v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
+> +                                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+> +                       break;
+> +               }
+> +       }
+>
+>         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
+>                 v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
+> @@ -1914,6 +1930,21 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+>                 max = mapping->get(mapping, UVC_GET_MAX,
+>                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+> +
+> +               /*
+> +                * For the relative speed implementation the minimum
+> +                * value cannot be probed so it becomes the additive
+> +                * inverse of maximum.
+> +                */
+> +               switch (xctrl->id) {
+> +               case V4L2_CID_ZOOM_CONTINUOUS:
+> +               case V4L2_CID_PAN_SPEED:
+> +               case V4L2_CID_TILT_SPEED:
+> +                       min = max * -1;
+> +               default:
+> +                       break;
+> +               }
+> +
+>                 step = mapping->get(mapping, UVC_GET_RES,
+>                                     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+>                 if (step == 0)
+>
+> ---
+> base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+> change-id: 20240325-uvc-relative-ptz-speed-fix-2011aea68b5f
+>
+> Best regards,
+> --
+> John Bauer <johnebgood@securitylive.com>
+>
+>
+
+
+-- 
+Ricardo Ribalda
 
