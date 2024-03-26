@@ -1,930 +1,590 @@
-Return-Path: <linux-media+bounces-7872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC4688D0B8
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 23:23:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C5D88D19E
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 23:51:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB9761F37D6D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 22:23:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D0D6B229C5
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 22:51:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0142013DBB3;
-	Tue, 26 Mar 2024 22:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB81E13E3EA;
+	Tue, 26 Mar 2024 22:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIGJNFF8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ooY3n4Y8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38531CAAE;
-	Tue, 26 Mar 2024 22:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C6A13DBB6
+	for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 22:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711491801; cv=none; b=fzcL5cRPiykmW+2uV/i6/ZAMXUpu8M0CmZ3lvNmweXsK8T+NrgUfdwWr/oZBircDRuLlD1xOcd29baeqXG74Eoe2uYWB0LjNWMiqgrKbKfMqLCTCYYVCFtC+Jp4P6KwQLGkE9qVTmm3dXpKiLX0fFnbdiBcDxUUnrFquKu3U9T0=
+	t=1711493459; cv=none; b=pSy6O66NbNEMH2GtGpn3SEhZIHmpeXb8N8modcm0ojZx4MjO5Uige354cqV/ZQIL1Htdgc9CG8mSgmQ8zARjoiYquJHvjzEF6gxAn2CcoWSU6q0708pm2xH7g0rPVWCmBAHCKgGDW4934ojEGpznuWThbMHUoOBuGsilnN28C6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711491801; c=relaxed/simple;
-	bh=5BHbrvxhcFzpUND/n27sdrI746sUxVj73bYLaNp8Vfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=owd/miLcMFQZlw6Ut3tQEbC6uo6VUYvOizMoJQe6l1mZ0OQVEacRSc3FljUt5e+LgU6lXGGLKKIcHUB4ZGCagEF/OJlwm0/jn0SpwZNWyQpwtPLOxyuyFFml3A677PVuleQzFOa+V3pfe5KrHchFPgo+dvhKQnqdbpp0kcULuDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIGJNFF8; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711491799; x=1743027799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5BHbrvxhcFzpUND/n27sdrI746sUxVj73bYLaNp8Vfk=;
-  b=dIGJNFF8RUu+Vji7Gqg1iXaLl5HZi+8IyhK72YX798h4lL1BJgzhxTfp
-   23ECcs1t3Ax9sl5fvPbx/rQtV57lrRD8Jbj7aDzCjdTjhsol5czfhBCVx
-   cb2FPNvnJvb3LeoTK2w3LTeHxRjGJRv1ExnBVjg6hy3kI7x/B5edd6eKD
-   8ZROerRW19m05NkeGThjDhUFcExA2cyJUbdS7MBWl1wp/DAcZvc/YhuWf
-   rA16iMrFTe3/pJ79IJLaANcH5Gk6QT6oTuXXz8zUf6BieWYkWHTwUrWHZ
-   s5ZvKLgGUgLvA8LOtMyJIwk5dsYc2DC1MAFYScF1ILT7DXXzy7zQMTqLv
-   g==;
-X-CSE-ConnectionGUID: kzpOlJIGSg++aWzDhrTBfQ==
-X-CSE-MsgGUID: co9xIlLHSfKEBr8S20U8sw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6432647"
-X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="6432647"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 15:23:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="16487522"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 15:23:13 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C97F611F8B1;
-	Wed, 27 Mar 2024 00:23:10 +0200 (EET)
-Date: Tue, 26 Mar 2024 22:23:10 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>, kernel-list@raspberrypi.com,
-	linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 09/15] media: bcm2835-unicam: Add support for
- CCP2/CSI2 camera interface
-Message-ID: <ZgNKzkExXEXyh2Hd@kekkonen.localdomain>
-References: <20240301213231.10340-1-laurent.pinchart@ideasonboard.com>
- <20240301213231.10340-10-laurent.pinchart@ideasonboard.com>
- <ZgHEQTHZlRr_Rz6K@kekkonen.localdomain>
- <20240326013708.GA31396@pendragon.ideasonboard.com>
- <20240326015028.GB31396@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1711493459; c=relaxed/simple;
+	bh=n5ZiEOJkqfn8NOEVtgEgpWmWhgyuORNSw64P5IA5aNk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=NcmghMPS1SiUWjL94QBzsiCtxDiu7Zf1arEFBVL7u6kXZlMSaDIX4Yo+Zgce9pamn3gzfRIGCGl37Fr4BoqDF6wRFom5Ze0pQP007Viv2bPY2XHIBiljgXwr3uUi9OavN0SXqXVGzATpFwtC9Lm24AMWXxw/zJUzdi88A5Wqg2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ooY3n4Y8; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dced704f17cso9734267276.1
+        for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 15:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711493455; x=1712098255; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YyFyyEaAfGg7EU+HKVRHyLS4Kz23ClETeDbC/U8pEG8=;
+        b=ooY3n4Y8FOWxRa8ZMtdRpC8tVwO7JJOH1Ca+DduMqkx89RmllHwtgcocXeVi3ib+an
+         Pjr3QV5K4XzqMv0C3TV0ghc3Miis3z8L1Aej3DjXp/ib/LUNrhOyfGQt90YaeS8i4PbP
+         YkdMPrDYAyjt2seB+lFCMaRBKnT9EmuuAcm5iisGMxWuhEgWSfFlaoo2PzfCK52+ZzhN
+         Hz+iKFNOFSpeaNnUjD0ILvsuWWsLAUAXiClHIBvp4TzR1A2neRiWWNdP/85G7m95rizF
+         RBptgw8CXvq9nja8UZx0RC+GCB1015LNTaWP5NTJs+XMWmw6erlMxBfY4YuGh6LRRFdX
+         538Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711493455; x=1712098255;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YyFyyEaAfGg7EU+HKVRHyLS4Kz23ClETeDbC/U8pEG8=;
+        b=d/aJYp+YRzRqLw8yo2CLa/BZuHM1RO7FgVy37xKKi725Hx7O8aT3G4leQJU/FIlL8n
+         b/2wg84p7zoYKbogdS5WyAePGkz+YOgmgbyQtG8wja7wcqFD1/fOeTvPGrfU8UtPJshl
+         OzWSfZip1uBac+zqUiV3Fi5tgCbktDQMlMJU4ku0SlITfCSwdScSRUIYL4fEXaTvDRvl
+         qxG5Y09sw5KIxvsFFN+bspZX7cWL5sa1rmRyDpGkhv36kBzD+LkxgakRRW49TAJzes5V
+         kvtZ8xjbTGi5BJ8CagcdLqFOZ/BVk53kiYUgyJu8hQfA97VhxTR6ydEYBolfZOx0XcNg
+         rahg==
+X-Forwarded-Encrypted: i=1; AJvYcCUy75PJCgGIDGkKajB0u6nnYBnebqhGKB2ZYarmSrhSL+vgXvViECZGKZgE4OlOZa6zRQiGkDG6K0rhkzrTkHmfVKNUwbEGg4UcvpY=
+X-Gm-Message-State: AOJu0Yy2b+cZphwA5/8uhLkafWKZp2fGcmGEJrstee3KCtmRWVVID9I4
+	feKMhqC2gJcCKcb1aCnWzXDDNSg/LjWfqFhNTGa04PxWjCBMDAeryZCw60wkJqoJYrIdlhgQGRy
+	rIa6kOEq9N0WXUaR3v9fjgg==
+X-Google-Smtp-Source: AGHT+IEBBYNDb7JuK84bVlY9wS3T87c7vGo3D2kQ4Vtt6vtGB1b18JjrYKf+l40GB87vh2axhpDQ6aFdsfljKKP7AQ==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:c51e:bdd0:7cc8:695c])
+ (user=almasrymina job=sendgmr) by 2002:a05:6902:188f:b0:dda:f314:7e1f with
+ SMTP id cj15-20020a056902188f00b00ddaf3147e1fmr228921ybb.4.1711493455207;
+ Tue, 26 Mar 2024 15:50:55 -0700 (PDT)
+Date: Tue, 26 Mar 2024 15:50:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326015028.GB31396@pendragon.ideasonboard.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
+Message-ID: <20240326225048.785801-1-almasrymina@google.com>
+Subject: [RFC PATCH net-next v7 00/14] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
 
-On Tue, Mar 26, 2024 at 03:50:28AM +0200, Laurent Pinchart wrote:
-> On Tue, Mar 26, 2024 at 03:37:09AM +0200, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > On Mon, Mar 25, 2024 at 06:36:49PM +0000, Sakari Ailus wrote:
-> > > On Fri, Mar 01, 2024 at 11:32:24PM +0200, Laurent Pinchart wrote:
-> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > 
-> > > > Add a driver for the Unicam camera receiver block on BCM283x processors.
-> > > > It is represented as two video device nodes: unicam-image and
-> > > > unicam-embedded which are connected to an internal subdev (named
-> > > > unicam-subdev) in order to manage streams routing.
-> > > > 
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > Co-developed-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > > > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > Thanks for submitting this, it's the cleanest and neatest Unicom driver
-> > 
-> > Unicam, or if you insist Unicorn, but not Unicom :-)
+Major Changes:
+--------------
 
-A Unicorn driver? Hmm. Maybe Unicam is indeed the best choice here?
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
 
-> > 
-> > > I've ever seen!
-> > > 
-> > > Some mostly unimportant comments below, however the bus-type issue needs to
-> > > be addressed.
-> > > 
-> > > > ---
-> > > > Changes since v5:
-> > > > 
-> > > > - Move to drivers/media/platform/broadcom/
-> > > > - Port to the upstream V4L2 streams API
-> > > > - Rebase on latest metadata API proposal
-> > > > - Add missing error message
-> > > > - Drop unneeded documentation block for unicam_isr()
-> > > > - Drop unneeded dev_dbg() and dev_err() messages
-> > > > - Drop unneeded streams_mask and fmt checks
-> > > > - Drop unused unicam_sd_pad_is_sink()
-> > > > - Drop unneeded includes
-> > > > - Drop v4l2_ctrl_subscribe_event() call
-> > > > - Use pm_runtime_resume_and_get()
-> > > > - Indentation and line wrap fixes
-> > > > - Let the framework set bus_info
-> > > > - Use v4l2_fwnode_endpoint_parse()
-> > > > - Fix media device cleanup
-> > > > - Drop lane reordering checks
-> > > > - Fix subdev state locking
-> > > > - Drop extra debug messages
-> > > > - Move clock handling to runtime PM handlers
-> > > > - Reorder functions
-> > > > - Rename init functions for more clarity
-> > > > - Initialize runtime PM earlier
-> > > > - Clarify error messages
-> > > > - Simplify subdev init with local variable
-> > > > - Fix subdev cleanup
-> > > > - Fix typos and indentation
-> > > > - Don't initialize local variables needlessly
-> > > > - Simplify num lanes check
-> > > > - Fix metadata handling in subdev set_fmt
-> > > > - Drop manual fallback to .s_stream()
-> > > > - Pass v4l2_pix_format to unicam_calc_format_size_bpl()
-> > > > - Simplify unicam_set_default_format()
-> > > > - Fix default format settings
-> > > > - Add busy check in unicam_s_fmt_meta()
-> > > > - Add missing \n at end of format strings
-> > > > - Fix metadata handling in subdev set_fmt
-> > > > - Fix locking when starting streaming
-> > > > - Return buffers from start streaming fails
-> > > > - Fix format validation for metadata node
-> > > > - Use video_device_pipeline_{start,stop}() helpers
-> > > > - Simplify format enumeration
-> > > > - Drop unset variable
-> > > > - Update MAINTAINERS entry
-> > > > - Update to the upstream v4l2_async_nf API
-> > > > - Update to the latest subdev routing API
-> > > > - Update to the latest subdev state API
-> > > > - Move from subdev .init_cfg() to .init_state()
-> > > > - Update to the latest videobuf2 API
-> > > > - Fix v4l2_subdev_enable_streams() error check
-> > > > - Use correct pad for the connected subdev
-> > > > - Return buffers to vb2 when start streaming fails
-> > > > - Improve debugging in start streaming handler
-> > > > - Simplify DMA address management
-> > > > - Drop comment about bcm2835-camera driver
-> > > > - Clarify comments that explain min/max sizes
-> > > > - Pass v4l2_pix_format to unicam_try_fmt()
-> > > > - Drop unneeded local variables
-> > > > - Rename image-related constants and functions
-> > > > - Turn unicam_fmt.metadata_fmt into bool
-> > > > - Rename unicam_fmt to unicam_format_info
-> > > > - Rename unicam_format_info variables to fmtinfo
-> > > > - Rename unicam_node.v_fmt to fmt
-> > > > - Add metadata formats for RAW10, RAW12 and RAW14
-> > > > - Make metadata formats line-based
-> > > > - Validate format on metadata video device
-> > > > - Add Co-devlopped-by tags
-> > > > 
-> > > > Changes since v3:
-> > > > 
-> > > > - Add the vendor prefix for DT name
-> > > > - Use the reg-names in DT parsing
-> > > > - Remove MAINTAINERS entry
-> > > > 
-> > > > Changes since v2:
-> > > > 
-> > > > - Change code organization
-> > > > - Remove unused variables
-> > > > - Correct the fmt_meta functions
-> > > > - Rewrite the start/stop streaming
-> > > >   - You can now start the image node alone, but not the metadata one
-> > > >   - The buffers are allocated per-node
-> > > >   - only the required stream is started, if the route exists and is
-> > > >     enabled
-> > > > - Prefix the macros with UNICAM_ to not have too generic names
-> > > > - Drop colorspace support
-> > > > 
-> > > > Changes since v1:
-> > > > 
-> > > > - Replace the unicam_{info,debug,error} macros with dev_*()
-> > > > ---
-> > > >  MAINTAINERS                                   |    1 +
-> > > >  drivers/media/platform/Kconfig                |    1 +
-> > > >  drivers/media/platform/Makefile               |    1 +
-> > > >  drivers/media/platform/broadcom/Kconfig       |   23 +
-> > > >  drivers/media/platform/broadcom/Makefile      |    3 +
-> > > >  .../platform/broadcom/bcm2835-unicam-regs.h   |  255 ++
-> > > >  .../media/platform/broadcom/bcm2835-unicam.c  | 2607 +++++++++++++++++
-> > > >  7 files changed, 2891 insertions(+)
-> > > >  create mode 100644 drivers/media/platform/broadcom/Kconfig
-> > > >  create mode 100644 drivers/media/platform/broadcom/Makefile
-> > > >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
-> > > >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > 
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index e50a59654e6e..cc350729f467 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -4002,6 +4002,7 @@ M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> > > >  L:	linux-media@vger.kernel.org
-> > > >  S:	Maintained
-> > > >  F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > > +F:	drivers/media/platform/bcm2835/
-> > > >  
-> > > >  BROADCOM BCM47XX MIPS ARCHITECTURE
-> > > >  M:	Hauke Mehrtens <hauke@hauke-m.de>
-> > > > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > > > index 91e54215de3a..2d79bfc68c15 100644
-> > > > --- a/drivers/media/platform/Kconfig
-> > > > +++ b/drivers/media/platform/Kconfig
-> > > > @@ -67,6 +67,7 @@ source "drivers/media/platform/amlogic/Kconfig"
-> > > >  source "drivers/media/platform/amphion/Kconfig"
-> > > >  source "drivers/media/platform/aspeed/Kconfig"
-> > > >  source "drivers/media/platform/atmel/Kconfig"
-> > > > +source "drivers/media/platform/broadcom/Kconfig"
-> > > >  source "drivers/media/platform/cadence/Kconfig"
-> > > >  source "drivers/media/platform/chips-media/Kconfig"
-> > > >  source "drivers/media/platform/intel/Kconfig"
-> > > > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> > > > index 3296ec1ebe16..da17301f7439 100644
-> > > > --- a/drivers/media/platform/Makefile
-> > > > +++ b/drivers/media/platform/Makefile
-> > > > @@ -10,6 +10,7 @@ obj-y += amlogic/
-> > > >  obj-y += amphion/
-> > > >  obj-y += aspeed/
-> > > >  obj-y += atmel/
-> > > > +obj-y += broadcom/
-> > > >  obj-y += cadence/
-> > > >  obj-y += chips-media/
-> > > >  obj-y += intel/
-> > > > diff --git a/drivers/media/platform/broadcom/Kconfig b/drivers/media/platform/broadcom/Kconfig
-> > > > new file mode 100644
-> > > > index 000000000000..cc2c9afcc948
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/broadcom/Kconfig
-> > > > @@ -0,0 +1,23 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +config VIDEO_BCM2835_UNICAM
-> > > > +	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
-> > > > +	depends on ARCH_BCM2835 || COMPILE_TEST
-> > > > +	depends on PM
-> > > > +	depends on VIDEO_DEV
-> > > > +	select MEDIA_CONTROLLER
-> > > > +	select V4L2_FWNODE
-> > > > +	select VIDEO_V4L2_SUBDEV_API
-> > > > +	select VIDEOBUF2_DMA_CONTIG
-> > > > +	help
-> > > > +	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
-> > > > +	  This is a V4L2 driver that controls the CSI-2 receiver directly,
-> > > > +	  independently from the VC4 firmware.
-> > > > +
-> > > > +	  This driver is mutually exclusive with the use of bcm2835-camera. The
-> > > > +	  firmware will disable all access to the peripheral from within the
-> > > > +	  firmware if it finds a DT node using it, and bcm2835-camera will
-> > > > +	  therefore fail to probe.
-> > > > +
-> > > > +	  To compile this driver as a module, choose M here. The module will be
-> > > > +	  called bcm2835-unicam.
-> > > > diff --git a/drivers/media/platform/broadcom/Makefile b/drivers/media/platform/broadcom/Makefile
-> > > > new file mode 100644
-> > > > index 000000000000..03d2045aba2e
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/broadcom/Makefile
-> > > > @@ -0,0 +1,3 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
-> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam-regs.h b/drivers/media/platform/broadcom/bcm2835-unicam-regs.h
-> > > > new file mode 100644
-> > > > index 000000000000..84775fd2fac5
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam-regs.h
-> > > > @@ -0,0 +1,255 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > > +
-> > > > +/*
-> > > > + * Copyright (C) 2017-2020 Raspberry Pi Trading.
-> > > 
-> > > Anything up to 2024?
-> > 
-> > Not really. The registers haven't really changed :-) I'll update the
-> > copyright in the .c file though.
-> > 
-> > > > + * Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > + */
-> > 
-> > [snip]
-> > 
-> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > new file mode 100644
-> > > > index 000000000000..716c89b8a217
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > @@ -0,0 +1,2607 @@
-> > 
-> > [snip]
-> > 
-> > > > +static irqreturn_t unicam_isr(int irq, void *dev)
-> > > > +{
-> > > > +	struct unicam_device *unicam = dev;
-> > > > +	unsigned int lines_done = unicam_get_lines_done(dev);
-> > > > +	unsigned int sequence = unicam->sequence;
-> > > > +	unsigned int i;
-> > > > +	u32 ista, sta;
-> > > > +	bool fe;
-> > > > +	u64 ts;
-> > > > +
-> > > > +	sta = unicam_reg_read(unicam, UNICAM_STA);
-> > > > +	/* Write value back to clear the interrupts */
-> > > > +	unicam_reg_write(unicam, UNICAM_STA, sta);
-> > > > +
-> > > > +	ista = unicam_reg_read(unicam, UNICAM_ISTA);
-> > > > +	/* Write value back to clear the interrupts */
-> > > > +	unicam_reg_write(unicam, UNICAM_ISTA, ista);
-> > > > +
-> > > > +	dev_dbg(unicam->dev, "ISR: ISTA: 0x%X, STA: 0x%X, sequence %d, lines done %d\n",
-> > > > +		ista, sta, sequence, lines_done);
-> > > > +
-> > > > +	if (!(sta & (UNICAM_IS | UNICAM_PI0)))
-> > > > +		return IRQ_HANDLED;
-> > > > +
-> > > > +	/*
-> > > > +	 * Look for either the Frame End interrupt or the Packet Capture status
-> > > > +	 * to signal a frame end.
-> > > > +	 */
-> > > > +	fe = ista & UNICAM_FEI || sta & UNICAM_PI0;
-> > > > +
-> > > > +	/*
-> > > > +	 * We must run the frame end handler first. If we have a valid next_frm
-> > > > +	 * and we get a simultaneout FE + FS interrupt, running the FS handler
-> > > > +	 * first would null out the next_frm ptr and we would have lost the
-> > > > +	 * buffer forever.
-> > > > +	 */
-> > > > +	if (fe) {
-> > > > +		/*
-> > > > +		 * Ensure we have swapped buffers already as we can't
-> > > > +		 * stop the peripheral. If no buffer is available, use a
-> > > > +		 * dummy buffer to dump out frames until we get a new buffer
-> > > > +		 * to use.
-> > > > +		 */
-> > > > +		for (i = 0; i < ARRAY_SIZE(unicam->node); i++) {
-> > > > +			if (!unicam->node[i].streaming)
-> > > > +				continue;
-> > > > +
-> > > > +			/*
-> > > > +			 * If cur_frm == next_frm, it means we have not had
-> > > > +			 * a chance to swap buffers, likely due to having
-> > > > +			 * multiple interrupts occurring simultaneously (like FE
-> > > > +			 * + FS + LS). In this case, we cannot signal the buffer
-> > > > +			 * as complete, as the HW will reuse that buffer.
-> > > > +			 */
-> > > > +			if (unicam->node[i].cur_frm &&
-> > > > +			    unicam->node[i].cur_frm != unicam->node[i].next_frm)
-> > > > +				unicam_process_buffer_complete(&unicam->node[i],
-> > > > +							       sequence);
-> > > > +			unicam->node[i].cur_frm = unicam->node[i].next_frm;
-> > > > +		}
-> > > > +		unicam->sequence++;
-> > > 
-> > > Does access to this data need to be serialised somehow.
-> > 
-> > Given that it's only accessed from the interrupt handler (beside
-> > start_streaming time, before starting the hardware), I don't think so.
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
 
-Ack. I guess a memory barrier would be theoretically needed although in
-practice other locks will be taken so you might not have issues.
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
 
-> > 
-> > > > +	}
-> > > > +
-> > > > +	if (ista & UNICAM_FSI) {
-> > > > +		/*
-> > > > +		 * Timestamp is to be when the first data byte was captured,
-> > > > +		 * aka frame start.
-> > > > +		 */
-> > > > +		ts = ktime_get_ns();
-> > > > +		for (i = 0; i < ARRAY_SIZE(unicam->node); i++) {
-> > > > +			if (!unicam->node[i].streaming)
-> > > > +				continue;
-> > > > +
-> > > > +			if (unicam->node[i].cur_frm)
-> > > > +				unicam->node[i].cur_frm->vb.vb2_buf.timestamp =
-> > > > +								ts;
-> > > > +			else
-> > > > +				dev_dbg(unicam->v4l2_dev.dev,
-> > > > +					"ISR: [%d] Dropping frame, buffer not available at FS\n",
-> > > > +					i);
-> > > > +			/*
-> > > > +			 * Set the next frame output to go to a dummy frame
-> > > > +			 * if we have not managed to obtain another frame
-> > > > +			 * from the queue.
-> > > > +			 */
-> > > > +			unicam_schedule_dummy_buffer(&unicam->node[i]);
-> > > > +		}
-> > > > +
-> > > > +		unicam_queue_event_sof(unicam);
-> > > > +	}
-> > > > +
-> > > > +	/*
-> > > > +	 * Cannot swap buffer at frame end, there may be a race condition
-> > > > +	 * where the HW does not actually swap it if the new frame has
-> > > > +	 * already started.
-> > > > +	 */
-> > > > +	if (ista & (UNICAM_FSI | UNICAM_LCI) && !fe) {
-> > > > +		for (i = 0; i < ARRAY_SIZE(unicam->node); i++) {
-> > > > +			if (!unicam->node[i].streaming)
-> > > > +				continue;
-> > > > +
-> > > > +			spin_lock(&unicam->node[i].dma_queue_lock);
-> > > > +			if (!list_empty(&unicam->node[i].dma_queue) &&
-> > > > +			    !unicam->node[i].next_frm)
-> > > > +				unicam_schedule_next_buffer(&unicam->node[i]);
-> > > > +			spin_unlock(&unicam->node[i].dma_queue_lock);
-> > > > +		}
-> > > > +	}
-> > > > +
-> > > > +	if (unicam_reg_read(unicam, UNICAM_ICTL) & UNICAM_FCM) {
-> > > > +		/* Switch out of trigger mode if selected */
-> > > > +		unicam_reg_write_field(unicam, UNICAM_ICTL, 1, UNICAM_TFC);
-> > > > +		unicam_reg_write_field(unicam, UNICAM_ICTL, 0, UNICAM_FCM);
-> > > > +	}
-> > > > +	return IRQ_HANDLED;
-> > > > +}
-> > > > +
-> > > > +static void unicam_set_packing_config(struct unicam_device *unicam)
-> > > > +{
-> > > > +	struct unicam_node *node = &unicam->node[UNICAM_IMAGE_NODE];
-> > > > +	u32 pack, unpack;
-> > > > +	u32 val;
-> > > > +
-> > > > +	if (node->fmt.fmt.pix.pixelformat == node->fmtinfo->fourcc) {
-> > > > +		unpack = UNICAM_PUM_NONE;
-> > > > +		pack = UNICAM_PPM_NONE;
-> > > > +	} else {
-> > > > +		switch (node->fmtinfo->depth) {
-> > > > +		case 8:
-> > > > +			unpack = UNICAM_PUM_UNPACK8;
-> > > > +			break;
-> > > > +		case 10:
-> > > > +			unpack = UNICAM_PUM_UNPACK10;
-> > > > +			break;
-> > > > +		case 12:
-> > > > +			unpack = UNICAM_PUM_UNPACK12;
-> > > > +			break;
-> > > > +		case 14:
-> > > > +			unpack = UNICAM_PUM_UNPACK14;
-> > > > +			break;
-> > > > +		case 16:
-> > > > +			unpack = UNICAM_PUM_UNPACK16;
-> > > > +			break;
-> > > > +		default:
-> > > > +			unpack = UNICAM_PUM_NONE;
-> > > > +			break;
-> > > > +		}
-> > > > +
-> > > > +		/* Repacking is always to 16bpp */
-> > > > +		pack = UNICAM_PPM_PACK16;
-> > > 
-> > > Also 8-bit data?
-> > 
-> > Not that I know of. The 8-bit entries in unicam_image_formats have no
-> > .unpacked_fourcc field, so the condition in the if above will always be
-> > true for those as they can only be selected by setting the pixel format
-> > to fmtinfo->fourcc.
+https://github.com/mina/linux/commits/tcpdevmem-v7/
 
-Ok.
+Detailed changelog:
 
-> > 
-> > > > +	}
-> > > > +
-> > > > +	val = 0;
-> > > 
-> > > You could do initialisation in declaration.
-> > 
-> > Yes, but I think it's more readable to keep all the code that affects
-> > the 'val' variable together.
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
 
-If wal was a bit more descriptive name this would be a non-issue. Up to
-you.
+Perf - page-pool benchmark:
+---------------------------
 
-> > 
-> > > > +	unicam_set_field(&val, unpack, UNICAM_PUM_MASK);
-> > > > +	unicam_set_field(&val, pack, UNICAM_PPM_MASK);
-> > > > +	unicam_reg_write(unicam, UNICAM_IPIPE, val);
-> > > > +}
-> > > > +
-> > > > +static void unicam_cfg_image_id(struct unicam_device *unicam)
-> > > > +{
-> > > > +	struct unicam_node *node = &unicam->node[UNICAM_IMAGE_NODE];
-> > > > +
-> > > > +	if (unicam->bus_type == V4L2_MBUS_CSI2_DPHY) {
-> > > > +		/* CSI2 mode, hardcode VC 0 for now. */
-> > > > +		unicam_reg_write(unicam, UNICAM_IDI0,
-> > > > +				 (0 << 6) | node->fmtinfo->csi_dt);
-> > > > +	} else {
-> > > > +		/* CCP2 mode */
-> > > > +		unicam_reg_write(unicam, UNICAM_IDI0,
-> > > > +				 0x80 | node->fmtinfo->csi_dt);
-> > > > +	}
-> > > > +}
-> > > > +
-> > > > +static void unicam_enable_ed(struct unicam_device *unicam)
-> > > > +{
-> > > > +	u32 val = unicam_reg_read(unicam, UNICAM_DCS);
-> > > > +
-> > > > +	unicam_set_field(&val, 2, UNICAM_EDL_MASK);
-> > > > +	/* Do not wrap at the end of the embedded data buffer */
-> > > > +	unicam_set_field(&val, 0, UNICAM_DBOB);
-> > > > +
-> > > > +	unicam_reg_write(unicam, UNICAM_DCS, val);
-> > > > +}
-> > > > +
-> > > > +static void unicam_start_rx(struct unicam_device *unicam,
-> > > > +			    struct unicam_buffer *buf)
-> > > > +{
-> > > > +	struct unicam_node *node = &unicam->node[UNICAM_IMAGE_NODE];
-> > > > +	int line_int_freq = node->fmt.fmt.pix.height >> 2;
-> > > > +	unsigned int i;
-> > > > +	u32 val;
-> > > > +
-> > > > +	if (line_int_freq < 128)
-> > > > +		line_int_freq = 128;
-> > > 
-> > > 	line_int_freq = max(line_int_freq, 128);
-> > Ack.
-> > 
-> > > > +
-> > > > +	/* Enable lane clocks */
-> > > > +	val = 1;
-> > > 
-> > > Initialise in the loop initialisation below, I'd say.
-> > 
-> > How about
-> > 
-> > 	val = 0x55 & GENMASK(unicam->pipe.num_data_lanes * 2 - 1, 0);
-> 
-> I meant
-> 
->  	val = 0x155 & GENMASK(unicam->pipe.num_data_lanes * 2 + 1, 0);
-> 
-> Maybe a comment would be useful ?
-> 
-> 	/*
-> 	 * Enable lane clocks. The register is structured as follows:
-> 	 *
-> 	 * [9:8] - DAT3
-> 	 * [7:6] - DAT2
-> 	 * [5:4] - DAT1
-> 	 * [3:2] - DAT0
-> 	 * [1:0] - CLK
-> 	 *
-> 	 * Enabled lane must be set to b01, and disabled lanes to b00. The clock
-> 	 * lane is always enabled.
-> 	 */
-> 	val = 0x155 & GENMASK(unicam->pipe.num_data_lanes * 2 + 1, 0);
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
 
-Seems good to me.
+https://pastebin.com/raw/v5dYRg8L
 
-> 
-> > > > +	for (i = 0; i < unicam->active_data_lanes; i++)
-> > > > +		val = val << 2 | 1;
-> > > > +	unicam_clk_write(unicam, val);
-> > > > +
-> > > > +	/* Basic init */
-> > > > +	unicam_reg_write(unicam, UNICAM_CTRL, UNICAM_MEM);
-> > > > +
-> > > > +	/* Enable analogue control, and leave in reset. */
-> > > > +	val = UNICAM_AR;
-> > > > +	unicam_set_field(&val, 7, UNICAM_CTATADJ_MASK);
-> > > > +	unicam_set_field(&val, 7, UNICAM_PTATADJ_MASK);
-> > > > +	unicam_reg_write(unicam, UNICAM_ANA, val);
-> > > > +	usleep_range(1000, 2000);
-> > > > +
-> > > > +	/* Come out of reset */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_ANA, 0, UNICAM_AR);
-> > > > +
-> > > > +	/* Peripheral reset */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CTRL, 1, UNICAM_CPR);
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CTRL, 0, UNICAM_CPR);
-> > > > +
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CTRL, 0, UNICAM_CPE);
-> > > > +
-> > > > +	/* Enable Rx control. */
-> > > > +	val = unicam_reg_read(unicam, UNICAM_CTRL);
-> > > > +	if (unicam->bus_type == V4L2_MBUS_CSI2_DPHY) {
-> > > > +		unicam_set_field(&val, UNICAM_CPM_CSI2, UNICAM_CPM_MASK);
-> > > > +		unicam_set_field(&val, UNICAM_DCM_STROBE, UNICAM_DCM_MASK);
-> > > > +	} else {
-> > > > +		unicam_set_field(&val, UNICAM_CPM_CCP2, UNICAM_CPM_MASK);
-> > > > +		unicam_set_field(&val, unicam->bus_flags, UNICAM_DCM_MASK);
-> > > > +	}
-> > > > +	/* Packet framer timeout */
-> > > > +	unicam_set_field(&val, 0xf, UNICAM_PFT_MASK);
-> > > > +	unicam_set_field(&val, 128, UNICAM_OET_MASK);
-> > > > +	unicam_reg_write(unicam, UNICAM_CTRL, val);
-> > > > +
-> > > > +	unicam_reg_write(unicam, UNICAM_IHWIN, 0);
-> > > > +	unicam_reg_write(unicam, UNICAM_IVWIN, 0);
-> > > > +
-> > > > +	/* AXI bus access QoS setup */
-> > > > +	val = unicam_reg_read(unicam, UNICAM_PRI);
-> > > > +	unicam_set_field(&val, 0, UNICAM_BL_MASK);
-> > > > +	unicam_set_field(&val, 0, UNICAM_BS_MASK);
-> > > > +	unicam_set_field(&val, 0xe, UNICAM_PP_MASK);
-> > > > +	unicam_set_field(&val, 8, UNICAM_NP_MASK);
-> > > > +	unicam_set_field(&val, 2, UNICAM_PT_MASK);
-> > > > +	unicam_set_field(&val, 1, UNICAM_PE);
-> > > > +	unicam_reg_write(unicam, UNICAM_PRI, val);
-> > > > +
-> > > > +	unicam_reg_write_field(unicam, UNICAM_ANA, 0, UNICAM_DDL);
-> > > > +
-> > > > +	/* Always start in trigger frame capture mode (UNICAM_FCM set) */
-> > > > +	val = UNICAM_FSIE | UNICAM_FEIE | UNICAM_FCM | UNICAM_IBOB;
-> > > > +	unicam_set_field(&val, line_int_freq, UNICAM_LCIE_MASK);
-> > > > +	unicam_reg_write(unicam, UNICAM_ICTL, val);
-> > > > +	unicam_reg_write(unicam, UNICAM_STA, UNICAM_STA_MASK_ALL);
-> > > > +	unicam_reg_write(unicam, UNICAM_ISTA, UNICAM_ISTA_MASK_ALL);
-> > > > +
-> > > > +	/* tclk_term_en */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CLT, 2, UNICAM_CLT1_MASK);
-> > > > +	/* tclk_settle */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CLT, 6, UNICAM_CLT2_MASK);
-> > > > +	/* td_term_en */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_DLT, 2, UNICAM_DLT1_MASK);
-> > > > +	/* ths_settle */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_DLT, 6, UNICAM_DLT2_MASK);
-> > > > +	/* trx_enable */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_DLT, 0, UNICAM_DLT3_MASK);
-> > > > +
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CTRL, 0, UNICAM_SOE);
-> > > > +
-> > > > +	/* Packet compare setup - required to avoid missing frame ends */
-> > > > +	val = 0;
-> > > > +	unicam_set_field(&val, 1, UNICAM_PCE);
-> > > > +	unicam_set_field(&val, 1, UNICAM_GI);
-> > > > +	unicam_set_field(&val, 1, UNICAM_CPH);
-> > > > +	unicam_set_field(&val, 0, UNICAM_PCVC_MASK);
-> > > > +	unicam_set_field(&val, 1, UNICAM_PCDT_MASK);
-> > > > +	unicam_reg_write(unicam, UNICAM_CMP0, val);
-> > > > +
-> > > > +	/* Enable clock lane and set up terminations */
-> > > > +	val = 0;
-> > > > +	if (unicam->bus_type == V4L2_MBUS_CSI2_DPHY) {
-> > > > +		/* CSI2 */
-> > > > +		unicam_set_field(&val, 1, UNICAM_CLE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_CLLPE);
-> > > > +		if (!(unicam->bus_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)) {
-> > > > +			unicam_set_field(&val, 1, UNICAM_CLTRE);
-> > > > +			unicam_set_field(&val, 1, UNICAM_CLHSE);
-> > > > +		}
-> > > > +	} else {
-> > > > +		/* CCP2 */
-> > > > +		unicam_set_field(&val, 1, UNICAM_CLE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_CLHSE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_CLTRE);
-> > > > +	}
-> > > > +	unicam_reg_write(unicam, UNICAM_CLK, val);
-> > > > +
-> > > > +	/*
-> > > > +	 * Enable required data lanes with appropriate terminations.
-> > > > +	 * The same value needs to be written to UNICAM_DATn registers for
-> > > > +	 * the active lanes, and 0 for inactive ones.
-> > > > +	 */
-> > > > +	val = 0;
-> > > > +	if (unicam->bus_type == V4L2_MBUS_CSI2_DPHY) {
-> > > > +		/* CSI2 */
-> > > > +		unicam_set_field(&val, 1, UNICAM_DLE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_DLLPE);
-> > > > +		if (!(unicam->bus_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)) {
-> > > > +			unicam_set_field(&val, 1, UNICAM_DLTRE);
-> > > > +			unicam_set_field(&val, 1, UNICAM_DLHSE);
-> > > > +		}
-> > > > +	} else {
-> > > > +		/* CCP2 */
-> > > > +		unicam_set_field(&val, 1, UNICAM_DLE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_DLHSE);
-> > > > +		unicam_set_field(&val, 1, UNICAM_DLTRE);
-> > > > +	}
-> > > > +	unicam_reg_write(unicam, UNICAM_DAT0, val);
-> > > > +
-> > > > +	if (unicam->active_data_lanes == 1)
-> > > > +		val = 0;
-> > > > +	unicam_reg_write(unicam, UNICAM_DAT1, val);
-> > > > +
-> > > > +	if (unicam->max_data_lanes > 2) {
-> > > > +		/*
-> > > > +		 * Registers UNICAM_DAT2 and UNICAM_DAT3 only valid if the
-> > > > +		 * instance supports more than 2 data lanes.
-> > > > +		 */
-> > > > +		if (unicam->active_data_lanes == 2)
-> > > > +			val = 0;
-> > > > +		unicam_reg_write(unicam, UNICAM_DAT2, val);
-> > > > +
-> > > > +		if (unicam->active_data_lanes == 3)
-> > > > +			val = 0;
-> > > > +		unicam_reg_write(unicam, UNICAM_DAT3, val);
-> > > > +	}
-> > > > +
-> > > > +	unicam_reg_write(unicam, UNICAM_IBLS,
-> > > > +			 node->fmt.fmt.pix.bytesperline);
-> > > > +	unicam_wr_dma_addr(&unicam->node[UNICAM_IMAGE_NODE], buf);
-> > > > +	unicam_set_packing_config(unicam);
-> > > > +	unicam_cfg_image_id(unicam);
-> > > > +
-> > > > +	val = unicam_reg_read(unicam, UNICAM_MISC);
-> > > > +	unicam_set_field(&val, 1, UNICAM_FL0);
-> > > > +	unicam_set_field(&val, 1, UNICAM_FL1);
-> > > > +	unicam_reg_write(unicam, UNICAM_MISC, val);
-> > > > +
-> > > > +	/* Enable peripheral */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_CTRL, 1, UNICAM_CPE);
-> > > > +
-> > > > +	/* Load image pointers */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_ICTL, 1, UNICAM_LIP_MASK);
-> > > > +
-> > > > +	/*
-> > > > +	 * Enable trigger only for the first frame to
-> > > > +	 * sync correctly to the FS from the source.
-> > > > +	 */
-> > > > +	unicam_reg_write_field(unicam, UNICAM_ICTL, 1, UNICAM_TFC);
-> > > > +}
-> > 
-> > [snip]
-> > 
-> > > > +static int unicam_async_nf_init(struct unicam_device *unicam)
-> > > > +{
-> > > > +	struct v4l2_fwnode_endpoint ep = { };
-> > > 
-> > > If the bus-type property is mandatory and you have no stated defaults
-> > > anywhere, this is fine. I.e. all the relevant properties would need to be
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
 
-Actually this is a non-issue nowadays: bus in struct v4l2_fwnode_endpoint
-is no longer a union.
+Perf - Devmem TCP benchmark:
+---------------------
 
-> > > mandatory.
-> > 
-> > They are, as far as I can tell (well, the clock-noncontinuous property
-> > is not mandatory, but that's expected as it's a flag).
-> > 
-> > > > +	struct fwnode_handle *ep_handle;
-> > > > +	struct v4l2_async_connection *asc;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = of_property_read_u32(unicam->dev->of_node, "brcm,num-data-lanes",
-> > > > +				   &unicam->max_data_lanes);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(unicam->dev, "Missing %s DT property\n",
-> > > > +			"brcm,num-data-lanes");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	/* Get and parse the local endpoint. */
-> > > > +	ep_handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(unicam->dev), 0, 0,
-> > > > +						    FWNODE_GRAPH_ENDPOINT_NEXT);
-> > > > +	if (!ep_handle) {
-> > > > +		dev_err(unicam->dev, "No endpoint found\n");
-> > > > +		return -ENODEV;
-> > > > +	}
-> > > > +
-> > > > +	ret = v4l2_fwnode_endpoint_parse(ep_handle, &ep);
-> > > > +	if (ret) {
-> > > > +		dev_err(unicam->dev, "Failed to parse endpoint: %d\n", ret);
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	unicam->bus_type = ep.bus_type;
-> > > > +
-> > > > +	switch (ep.bus_type) {
-> > > > +	case V4L2_MBUS_CSI2_DPHY: {
-> > > > +		unsigned int num_data_lanes = ep.bus.mipi_csi2.num_data_lanes;
-> > > > +
-> > > > +		if (num_data_lanes != 1 && num_data_lanes != 2 &&
-> > > > +		    num_data_lanes != 4) {
-> > > > +			dev_err(unicam->dev, "%u data lanes not supported\n",
-> > > > +				num_data_lanes);
-> > > > +			goto error;
-> > > > +		}
-> > > > +
-> > > > +		if (num_data_lanes > unicam->max_data_lanes) {
-> > > > +			dev_err(unicam->dev,
-> > > > +				"Endpoint uses %u data lanes when %u are supported\n",
-> > > > +				num_data_lanes, unicam->max_data_lanes);
-> > > > +			goto error;
-> > > > +		}
-> > > > +
-> > > > +		unicam->active_data_lanes = num_data_lanes;
-> > > > +		unicam->bus_flags = ep.bus.mipi_csi2.flags;
-> > > > +		break;
-> > > > +	}
-> > > > +
-> > > > +	case V4L2_MBUS_CCP2:
-> > > > +		unicam->max_data_lanes = 1;
-> > > > +		unicam->active_data_lanes = 1;
-> > > > +		unicam->bus_flags = ep.bus.mipi_csi1.strobe;
-> > > > +		break;
-> > > > +
-> > > > +	default:
-> > > > +		/* Unsupported bus type */
-> > > > +		dev_err(unicam->dev, "Unsupported bus type %u\n", ep.bus_type);
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	/* Initialize and register the async notifier. */
-> > > > +	v4l2_async_nf_init(&unicam->notifier, &unicam->v4l2_dev);
-> > > > +
-> > > > +	asc = v4l2_async_nf_add_fwnode_remote(&unicam->notifier, ep_handle,
-> > > > +					      struct v4l2_async_connection);
-> > > > +	fwnode_handle_put(ep_handle);
-> > > > +	ep_handle = NULL;
-> > > > +
-> > > > +	if (IS_ERR(asc)) {
-> > > > +		ret = PTR_ERR(asc);
-> > > > +		dev_err(unicam->dev, "Failed to add entry to notifier: %d\n",
-> > > > +			ret);
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	unicam->notifier.ops = &unicam_async_ops;
-> > > > +
-> > > > +	ret = v4l2_async_nf_register(&unicam->notifier);
-> > > > +	if (ret) {
-> > > > +		dev_err(unicam->dev, "Error registering device notifier: %d\n",
-> > > > +			ret);
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +error:
-> > > > +	fwnode_handle_put(ep_handle);
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +/* -----------------------------------------------------------------------------
-> > > > + * Probe & remove
-> > > > + */
-> > > > +
-> > > > +static int unicam_media_init(struct unicam_device *unicam)
-> > > > +{
-> > > > +	int ret;
-> > > > +
-> > > > +	unicam->mdev.dev = unicam->dev;
-> > > > +	strscpy(unicam->mdev.model, UNICAM_MODULE_NAME,
-> > > > +		sizeof(unicam->mdev.model));
-> > > > +	strscpy(unicam->mdev.serial, "", sizeof(unicam->mdev.serial));
-> > > 
-> > > Isn't the field already zeroed?
-> > 
-> > Indeed. I'll drop this.
-> > 
-> > > 
-> > > > +	unicam->mdev.hw_revision = 0;
-> > > > +
-> > > > +	media_device_init(&unicam->mdev);
-> > > > +
-> > > > +	unicam->v4l2_dev.mdev = &unicam->mdev;
-> > > > +
-> > > > +	ret = v4l2_device_register(unicam->dev, &unicam->v4l2_dev);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(unicam->dev, "Unable to register v4l2 device\n");
-> > > > +		goto err_media_cleanup;
-> > > > +	}
-> > > > +
-> > > > +	ret = media_device_register(&unicam->mdev);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(unicam->dev,
-> > > > +			"Unable to register media-controller device\n");
-> > > > +		goto err_v4l2_unregister;
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +err_v4l2_unregister:
-> > > > +	v4l2_device_unregister(&unicam->v4l2_dev);
-> > > > +err_media_cleanup:
-> > > > +	media_device_cleanup(&unicam->mdev);
-> > > > +	return ret;
-> > > > +}
-> > 
-> > [snip]
-> 
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
 
--- 
-Kind regards,
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
 
-Sakari Ailus
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+
+
+Jakub Kicinski (1):
+  net: page_pool: create hooks for custom page providers
+
+Mina Almasry (13):
+  queue_api: define queue api
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: convert to use netmem
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+
+ Documentation/netlink/specs/netdev.yaml |  57 +++
+ Documentation/networking/devmem.rst     | 256 +++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/netdevice.h               |   3 +
+ include/linux/skbuff.h                  |  73 +++-
+ include/linux/socket.h                  |   1 +
+ include/net/devmem.h                    | 124 ++++++
+ include/net/netdev_queues.h             |  27 ++
+ include/net/netdev_rx_queue.h           |   2 +
+ include/net/netmem.h                    | 234 +++++++++-
+ include/net/page_pool/helpers.h         | 155 +++++--
+ include/net/page_pool/types.h           |  33 +-
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   5 +-
+ include/trace/events/page_pool.h        |  29 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  19 +
+ include/uapi/linux/uio.h                |  17 +
+ net/bpf/test_run.c                      |   5 +-
+ net/core/Makefile                       |   2 +-
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |   6 +-
+ net/core/devmem.c                       | 425 ++++++++++++++++++
+ net/core/gro.c                          |   8 +-
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 107 +++++
+ net/core/page_pool.c                    | 364 +++++++++-------
+ net/core/skbuff.c                       | 110 ++++-
+ net/core/sock.c                         |  61 +++
+ net/ipv4/esp4.c                         |   2 +-
+ net/ipv4/tcp.c                          | 254 ++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |   9 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   2 +-
+ net/packet/af_packet.c                  |   4 +-
+ tools/include/uapi/linux/netdev.h       |  19 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   5 +
+ tools/testing/selftests/net/ncdevmem.c  | 546 ++++++++++++++++++++++++
+ 46 files changed, 2776 insertions(+), 277 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.44.0.396.g6e790dbe36-goog
+
 
