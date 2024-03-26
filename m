@@ -1,151 +1,152 @@
-Return-Path: <linux-media+bounces-7809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7812-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B83188B785
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 03:39:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA7888B874
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 04:27:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 186561F374F7
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 02:39:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AA7A1F3E80D
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 03:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71577129E7C;
-	Tue, 26 Mar 2024 02:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z9tdChCh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FDD1292F8;
+	Tue, 26 Mar 2024 03:27:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2114.outbound.protection.partner.outlook.cn [139.219.146.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D88128398;
-	Tue, 26 Mar 2024 02:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711420730; cv=none; b=RyY9d3El3qSWvypi1fVSeNb6HlrAB3mTWuk14nMc667imj8/8vZVMPCxMbr+LHyjmvZllO6+iCrsflJzLbCXV9EoQjeObleTU89lN9A5LaO9jtqYE8+6RUAdKU3OCbpNC51k67ryKV1s0Eyzg71gHi4uc80KrjyWyrsql7lek88=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711420730; c=relaxed/simple;
-	bh=in6c2v3xl19HUF11Ca5Ajl+w+Eugi73J4PwyZgpMS2k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QpKk+FMVqe1keMb0w7cveffYBTzd6/5com5wzY9tbvhMSeeqp8bVbyxT8+TTzQ4GVGUlMmORmEUw+Ux4FEGF97IbfQSqHV4BPMMJa1SBWRNWq0fCTGXDEe2XvaSF4rgRRZZKk2mbN+inEwYRn0JGMDr/zou1Y13+ovoYosB1ADM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z9tdChCh; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a46de423039so286711466b.0;
-        Mon, 25 Mar 2024 19:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711420727; x=1712025527; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xvuTO++gksCL8fZc9rnTMteYbv8VDF4X35FDvigGhis=;
-        b=Z9tdChCh4afgt/I360grf7kVaHb7bUG7ubWdfd0URRyl49F6kEV6TEBNIfxnLW8qpt
-         SgyF5hsNFpmjtRJVolN35t+kAcWZlMX8K/1kROtfGjnuLzXTpkaXb1JGCuxh4cd11H6A
-         Sb/kt/65HP23cG9J1jRyieGKZwHozFrF1uhDjldhEdda9r1c3hZ5wpiim69/Qr5rRUip
-         GNcxU0rcEKSlT1dl/94r/g5maokc3dcoAuLVdXlQFH9LY7WXIS2PAuEJNz+Rjta7BIMl
-         nYhPJactU3LbeT+s08P4SOFlnfwpz/EF4Ffif9GnPeIETGdlDsyFulXg+fatIRtDCdY5
-         whzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711420727; x=1712025527;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xvuTO++gksCL8fZc9rnTMteYbv8VDF4X35FDvigGhis=;
-        b=xEhwLEnG8k/9ZoMIpkQQb/wXf985uqlvxiQfwMPrhO7MzhnXXV2lXwrwaWPHrrmn/w
-         2Iik4cxPP8EuHl1xN4xq2Znc4k1Xlcl50v6rzZ9ZQU1cNtp0nzG2batyR9rU2p2Zl74s
-         BJd7RbGBg5nWmfpsOWsprb/WyJ7i0g5P05li3xg004IcifTLguDaEFG7lVV03/ifeDg0
-         1LaOzoLxoxSQ8iy7Gwv8HO0ksVxZ5lEgijQl2Ym3mPaab15ncCkrbHXb96whgmilmMH0
-         E6gZXxK3O/SBjs6E9BuQeorHQZVWyqddCtkjc9p0KaGJ1/kN9pPBollCXSzYqeeZO8cp
-         REqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYIx3O/m2gi8uT4AJChx2qGd5+Jz4V7JcG3qQ0TsONLSya/9yyo7xzBs/IR3Z5zRwEljmqh3HnoTq6iY/xJC1mbbgOTjR4wmmheO8uBIposQ6zAR2uUZZoIgygrwyup3q8l6y/6mefNCE=
-X-Gm-Message-State: AOJu0YwAKpXn1zPfOlGOSFFQQHLv8ESCo7gx0M4GaH0dEPjJ3O0KbEDz
-	M2/VTfDx28PNrYw9nu48f/70JTcJKLTjGT06Nk3sazaaNXbQVqYCmNx66LNLtb+Am+Nj6PK5WGd
-	oTYrKnprZSpfUXD3dnoOWSVmDY7o=
-X-Google-Smtp-Source: AGHT+IHOdLWyBfukeIVQCzdbwxRaGW3vVBOom0CaCVMlu32t8AKYWeJCkDsVov9mGGSIhvtfIDAySQLVgGHxvqfS2+Q=
-X-Received: by 2002:a05:6402:520a:b0:56c:d21:d919 with SMTP id
- s10-20020a056402520a00b0056c0d21d919mr5364774edd.34.1711420726461; Mon, 25
- Mar 2024 19:38:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C34A1292D8;
+	Tue, 26 Mar 2024 03:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.114
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711423641; cv=fail; b=I00UF2qmg4T8BpyADGCb31SGytKREhmhO1epTJW6WzWQGogXrznMVGA3d4dS4Fx+ATYpzNmWO2vs8VuPCfYWdM5+zMRm9llOsqW2xBcIAEUIkvqtA+Exq0fq8mByHZC58smDEuz95o1N2TdKfrzy7fNyvwxtsigRN+oJJZZmves=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711423641; c=relaxed/simple;
+	bh=plclBZiUnSE34FIAHHTyhM3MmPMnraCmuItvkdbBcs0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=EnpT48zeTo2wZs/fuUdBA5SeIvvp5mVJdVSeZ8mrxPPgKEjfPm3QwYJrD+d77LXLNG8xBwolrPxjFE+hOP7t+pwtHa4dI6eEbRKNzor+KH0U6SiZWKR4uhZDZib+0bJHWoc1E1X8N9+bdHQ619HhOGsMjURLs6pOKKXffIvOfJM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JbucBwXKKz6gy/eWACJ3r3+vja4rfzo9Qw8nVbKaeXV//kDgEIqrq1WtSJuTGfqGgG/LQvRvxWsWvJ3MksYxHPy7y1KyR0C0Mj3fw20CZGLWYQxpwsE5SX9RokKj/TzHFFyJe0ufeTtWInWOdDQiT7F3vaZy35WG5W+czpty9cRYX1/gU+hCGgG1uAKiJEGTZXVnoYMB9x6AYutqPZwsAUoelrPsqpNKGyaoHADhdYY5POOecrnW8Vix7YCgqDK2j7BwMrJ1tfwr6Z63w5s7u4UdbGn9qAMdlOrQMyNwMHi7cBXHMICMd+iTNuU/BEwAn8++C5dI2ZIx974cQTUI5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YuJsjkWrTKju/XUVj6QAUG+XJG5o1keZTFgQLp2G34g=;
+ b=Am9BkrF6J26eV9JzqmjQ+QqLiFWDO3MAed4NvyAx+MX3CSHkdM1FC5etw+88UCTku01ubHwwzPk8P0BLjBiwl+eR+So2AIt+WB4uI2p6mznpRzwFzly/VHncq6tcaraYujgJNTKDqu5q7DM+ODhKA5YjReODzVO9htA/6zglSrSrnhz0TbKPM453HnBCtNUXXEynEzFmfelfBe1LgbVJeK2kSCtwoDbF655AwWMRyEEommS8VkLik/Q42xa7Nu5xYEs51aDcJPkUEsjR3exm1XQglSIILvge/e/tke1mo6tCgjMfIcPLYn5A/Z0nnoRIIhYGCt/ycLz3dA9Dz4jH8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0622.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1f::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.30; Tue, 26 Mar
+ 2024 03:12:45 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Tue, 26 Mar 2024 03:12:45 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Jayshri Pawar <jpawar@cadence.com>,
+	Jai Luthra <j-luthra@ti.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v1 0/4] Add StarFive Camera Subsystem hibernation support
+Date: Mon, 25 Mar 2024 20:12:33 -0700
+Message-Id: <20240326031237.25331-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZQ0PR01CA0018.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:5::15) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322214801.319975-1-robdclark@gmail.com> <CABUrSUAykXUoX0y6jzCw1s=E=E08Z54Ygo1TvBm49_iT88oDFg@mail.gmail.com>
-In-Reply-To: <CABUrSUAykXUoX0y6jzCw1s=E=E08Z54Ygo1TvBm49_iT88oDFg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 25 Mar 2024 19:38:34 -0700
-Message-ID: <CAF6AEGvK7fBhh36rQyqiHf_qVvsCJhHZjoyOqGqxRPcMZ3dzjw@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
-To: Dominik Behr <dbehr@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Simon Ser <contact@emersion.fr>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0622:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc1da64e-c60d-4c5b-ade6-08dc4d429b9a
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Un1KIB8ViEt6Or64iwhd+dn8wL6WydVAoXrrgqY6fDChQ6rAfNd+3/AV7QRkahUB/hlOO+P1vZuRe0g9irYdyDQ9c1Q3mcWRDKjBsvz0xS02pDSKNcasSZiPnkOTZl3gDg5Ly702EGCclXnoPnVdl8xGV5KWgnbSIMR2GDzjCDoSHZEHJqpfPwyGDXarWvxzbMDpJK+BLEULf3ltwpcrlba+lM0LsuMvnPHQDcLv14TiTxR0WEpopVBYxWknbU5+APJhXH9+kDVP42M1PA5pDU9KBDPOuQ+USKlZl4DNT/vbb5Xi7WxNi/FZp9pnC9EJpcIVRG2XcE2yOeeIJYKwRmQ1wkGLamuIoG5tgJtPXNQYz3OO5kkmI5sZjcrd3EKRLpMEowzxjEzkWtpxvCTt508OsCAMoOfoe7zHI5iBjFPLknTicYw0U3iVVrV5bFcSvNgVLmqVLeqWS3ANTszN4+vv43wGB+71S3jO8atAyiAy4hW7Fs+ODOimr9ZdiuS/pgLcvh6KTr+U5G6GsUMFceEdzWfXLw6SFGFHPLMdsXHWsEmCvoRxvlLrQAHc4gCPImx7AzPxFjUiP3j31nhuo1/z21oJK4v5QWXGTPnp7DFzyXaL4u6gUNhMgctFNV4X
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(366007)(52116005)(1800799015)(41320700004)(7416005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?AH2nICRHFzyhCRS/Wh5Y/iWo95CdbdirZ99F/WIiqL6SpbJ/Y7Pf0c8uRntc?=
+ =?us-ascii?Q?9C16zRBJ/ZZFPdaUt2myLxiYhG/ma0Ax/FaYQ29kjUFJukNycfUuhUS0yE8a?=
+ =?us-ascii?Q?jzu1bYhE3UhKiyrE4zbA4wo/j8IwBZoNMoivt8e16pEs2V5qNwJblEmpPoHV?=
+ =?us-ascii?Q?tUrLRgpKjJG9Pg/yfyxU7eZWag6thphw2pI5dP5q3cweeL9SACfqR0S+wKcm?=
+ =?us-ascii?Q?f+7McsyrzSzpAbwGK/OeboMghh+Pz7DbA2UWjxTpuYMREvw1CFLKdWhZuOOd?=
+ =?us-ascii?Q?QJWfjUJFE65XOTkTXst5i2fhvX9yqHgi0NGEESTfImSHOHPKI9/JuXmja6UJ?=
+ =?us-ascii?Q?Btaw8P7hBGrUP9ykt9nSgRUtu6ALu6DFls6WFhCqjDrfnrwhGodyrobolA0j?=
+ =?us-ascii?Q?hISm2n5Fb3BhqLTDWDJ1Xbtq4xV9dymyux0oONWu9rUQBWcjojt0erVH22qr?=
+ =?us-ascii?Q?cwuXYGuedkW4TUo88q7x6ouDgmcxcdJ4x8BYXo6gFf7PAnD7x0kPJj8+lMf7?=
+ =?us-ascii?Q?2h4SX78exZOcFoAtlG82KCzM3Kthz8NCP7woDZ4/ONR0GwsDNYjT6OnZ8rii?=
+ =?us-ascii?Q?BKhAEyJpWS5y/FkuuxhpPD6++9RiTwhuyzVUBEfH1GEwjYlQeh0CqY3WEmBB?=
+ =?us-ascii?Q?MSUqSJZYauIKlz/SYiPPlBB/9Q4wLCLFb2mE3hA9enKkCf4NDsndzWYaFYNB?=
+ =?us-ascii?Q?U3gGy7Och+9aZ04kYvD7C7PLWVxbDGvhCj4fuDdQjl51BrjgnRl/zbZ8DVo1?=
+ =?us-ascii?Q?cq9uriPAJ7Yz2181VN5Ko57pPqJHeVaff/0jpNa4CN5nNBnAhp/MQbN0Zd2B?=
+ =?us-ascii?Q?sp1GCGyuMaaWC9E8P8LxEj0UTsuWMy6UiRIbuf0lnQ6KxD64bJLclMswvEXo?=
+ =?us-ascii?Q?DSNr4aX1yLRGofvSQHIu5unPdgyLZHPGuNifXToa2R/j0RVu+KrGoOnWg+o9?=
+ =?us-ascii?Q?MLcPLoYXucnG6Lgdt8nzB75PCyeNx3xfCblFmccpl1Y3RTDeYfr3qhE0bn5g?=
+ =?us-ascii?Q?e7kxetQTpZnWnQmZXgNu/B53kD+K5QJMyYqfEr0hUoEfwcCUhGtk8QhsdVYb?=
+ =?us-ascii?Q?dMqVY4/OBWmzse610g4QI+AdUSVOwETjVChkYao1tZykpmLwnGu0mhBFVsie?=
+ =?us-ascii?Q?SKTIEyZbKl1GXFKXJcU/KKS+mrhCfwcD7SB6bHvX3soGqZBsLddHjOr9Vhsb?=
+ =?us-ascii?Q?ByQ8fwZERwUp04qDDgeer4QdF95AURsFg+Kg5Lla79nsRtKsulhni5KFHBAg?=
+ =?us-ascii?Q?Dq1BD2fgWwe+AhwdhKrdCyUUmLIuFOXm/wnBiIE4aF1sjI+NVCTVxq04iJ8N?=
+ =?us-ascii?Q?yMinUx94KSjL8mEbsNjLu+kfXPpjd7JS/aL8TDxkTLmZeTYc6FEzlDbcK8TW?=
+ =?us-ascii?Q?vcLPPVKwfq616NM/pE4IBaQ+PAdpzjPmH336pU8ULiICMcVZvfnkXjaPwYNq?=
+ =?us-ascii?Q?hi7K7Zg+VTZt6SU/JgA4Tfc8SRsW5HR0Y9yykHT2KYHW+H0eHq23mKAboJ/o?=
+ =?us-ascii?Q?57Ixxxyy68s/LgAfDQAQV/gCOariPZIylaFJRs/ZYTTpuEhIKGipjoB/b3be?=
+ =?us-ascii?Q?B2sqOLFu9sQjqhr9aCrsaq9oyf2H/b0c0ZiF6WTGVHvhinHcmkRBRlME5mTo?=
+ =?us-ascii?Q?K4YohmQkKURFuwcZ9axD2ho=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc1da64e-c60d-4c5b-ade6-08dc4d429b9a
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 03:12:45.5420
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gKXs9axkdl0svE+6K1ZHBALBmH12zXNO/WfkKI64VccL9uxx5rrWziqsH5W6vTZcbnusRZXYUGIiuevdGtB7CzYxrcOro+IEz+WCYlutwvHM87ZiztRF6h0us92nU73q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0622
 
-This is actually a bit concerning.. importing a host page backed
-buffer without guest mapping into a passthru device probably doesn't
-work and should be rejected earlier.
+This series implements suspend and resume operation for StarFive Camera
+Subsystem on JH7110 SoC. It supports hibernation during streaming and
+resume streaming when the system wake-up stage.
 
-I do think we should relax the restriction (either taking my patch or
-reverting the commit it fixes) until we work this out properly
-(because the original patch is a regression), but importing a buffer
-without guest pages into a passthru device can't possibly work
-properly.  Maybe it works by chance if the host buffer is mapped to
-the guest, but that is not guaranteed.
+Changhuang Liang (3):
+  media: cadence: csi2rx: Add suspend and resume support
+  staging: media: starfive: Extract the ISP stream on as a helper
+    function
+  staging: media: starfive: Add suspend and resume support
 
-BR,
--R
+Jayshri Pawar (1):
+  media: cadence: csi2rx: Support runtime PM
 
-On Mon, Mar 25, 2024 at 3:35=E2=80=AFPM Dominik Behr <dbehr@chromium.org> w=
-rote:
->
-> It also fixes importing virtgpu blobs into real hardware, for instance am=
-dgpu for DRI_PRIME rendering.
->
-> On Fri, Mar 22, 2024 at 2:48=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
-rote:
->>
->> From: Rob Clark <robdclark@chromium.org>
->>
->> virtgpu "vram" GEM objects do not implement obj->get_sg_table().  But
->> they also don't use drm_gem_map_dma_buf().  In fact they may not even
->> have guest visible pages.  But it is perfectly fine to export and share
->> with other virtual devices.
->>
->> Reported-by: Dominik Behr <dbehr@chromium.org>
->> Fixes: 207395da5a97 ("drm/prime: reject DMA-BUF attach when get_sg_table=
- is missing")
->> Signed-off-by: Rob Clark <robdclark@chromium.org>
->> ---
->>  drivers/gpu/drm/drm_prime.c | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->> index 7352bde299d5..64dd6276e828 100644
->> --- a/drivers/gpu/drm/drm_prime.c
->> +++ b/drivers/gpu/drm/drm_prime.c
->> @@ -582,7 +582,12 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
->>  {
->>         struct drm_gem_object *obj =3D dma_buf->priv;
->>
->> -       if (!obj->funcs->get_sg_table)
->> +       /*
->> +        * drm_gem_map_dma_buf() requires obj->get_sg_table(), but drive=
-rs
->> +        * that implement their own ->map_dma_buf() do not.
->> +        */
->> +       if ((dma_buf->ops->map_dma_buf =3D=3D drm_gem_map_dma_buf) &&
->> +           !obj->funcs->get_sg_table)
->>                 return -ENOSYS;
->>
->>         return drm_gem_pin(obj);
->> --
->> 2.44.0
->>
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 44 ++++++++++++++++-
+ .../staging/media/starfive/camss/stf-camss.c  | 49 +++++++++++++++++++
+ .../staging/media/starfive/camss/stf-isp.c    | 27 ++++++----
+ .../staging/media/starfive/camss/stf-isp.h    |  2 +
+ 4 files changed, 111 insertions(+), 11 deletions(-)
+
+--
+2.25.1
 
