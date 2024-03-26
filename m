@@ -1,245 +1,194 @@
-Return-Path: <linux-media+bounces-7801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA5A88B60F
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 01:28:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 393D088B6CE
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 02:26:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E4261C35ADE
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 00:28:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 81293B27D8A
+	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 00:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56BD32114;
-	Tue, 26 Mar 2024 00:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501BB1B28D;
+	Tue, 26 Mar 2024 00:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jwc72MJc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBAcR3BQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCEE173
-	for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 00:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AE31803E;
+	Tue, 26 Mar 2024 00:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711412909; cv=none; b=BuCo8IiLOcLTbumUZWv/sjRHugopARc7UnFEl58FLXRM34qgClCvkfKL87Xo0oyKmjV+9TiuxZk7ik+txlvQmusqshrjprnQftRP6NY07hL6ImT1bpP9Azv13kDTW7fZALBjEjRru04NefHbVsfwFO170v3RCYleBhHgryxfWJA=
+	t=1711413509; cv=none; b=W23kq3Rx6Sb04iUuUedUBbSL9zOtqWAD6iVspBv5Vb0lrEGqkTdjpgD5yuj65D+LIZyES1a1n8GVtMQblRkd4lRxVUfcUc6yezICFk/hSN69T1ELwO6OmDjcyU0uTUpw200sUDIlZeOymgUHHdZaIqcIokZmqgjwQd+s+vkGl0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711412909; c=relaxed/simple;
-	bh=q9rJFj0LGRVbIR7Im5V+4jATTEQF0xUdYxt97RfhsCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sOGbXGRPsu3qKU/GjFb7XpyigP8tVcPXNb4OZIkjs5JMUkLxST97iVsj0otz1gqBns/o8zdB7IthzOi902MsYHBrCKza/NfnlOM3gHmCRPi+o0CdJkV7xFjpgHVVT44Br3GixgdT0Av6Gj30Pq+Jvm5inHsubnJi1OAIx/5YS64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jwc72MJc; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-513e89d0816so6184550e87.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Mar 2024 17:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711412906; x=1712017706; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
-        b=jwc72MJcbOv3kNXMWOzcqkprlIA0kzQenPVePAM+2MCIOWNpyQlr6Bod5r9PGyvAtH
-         W6MB0rm6nc8gi1c90MEweCLFgqrpGJGagH8d9WJ+/WPLaNmtIo9qwAX7olhxp7p1+eyd
-         DcyyHKRIsnQpuHfXC265pgCXIuHYOQ18/yzNq9b12LEYr0kPYRM0GpIGdh8sOyaD9+kR
-         qvdPyYoNIACwyhXeSLQae4+A4idpRdC3nULounqP9EtnB1V1RPwCNZ4w4UvOv+JUb4FC
-         0pIfwgms3iFSJGJuud3CMLeDpCdI+yUp2mJeizZI7bwQ90Mb/sYG+eprzKPZ3MZUedo+
-         6zIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711412906; x=1712017706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
-        b=GJuJGCqZ3D18FV8lHFxMmNKpcxCcvn3FIeOE0BErbVIktdNpnBImhqIxm2MQkwQIa9
-         Prw8jZsveqPPo/LLZQ8oX2Lucw7USbKfrfERBXuWGUFW1QteMDBOqSfdZ5d0zBFKO8w/
-         v0koAu+zESCP8uzhDBaFds1M9fnn2ToybEgAwZ13nGoB8Te2NzD7lvWBTJbUHhhZNMPD
-         WGuhnJ+ma2LyZM4p4fGkNW9dOdo1QJIAOhuayfLtgMKGwvzRTk7Vqj7UAY0nbZ/8FQsg
-         xKTjfuGtSrj3zQdd6Dx4o1HpwdaCHDcEuxZ5tfIJneiTDef4v9O+zhjk0fDFuuWuxC1C
-         3TTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgf/7eMfp22hOp5Ja2RPSNxrcW2T7+6JbV6sGNcwnXMVZDbMNAv1nGvrA48yfal+ONv/1jdDeTEYkCaYQ4tfhXXRL994l5WxUyYY8=
-X-Gm-Message-State: AOJu0Yzg8pr2+OGPOk7hkktU5TwKMwqblgrfalPWFRb8bUFIMnr9tsBB
-	oJT96Jsb/MqVafHZsbkVYthDTrGPOZUK+i8UPxOpmXsv8ul5j4yDtskX7eSAqfNaXF5f7RfEUix
-	SO79cSL2bBK7qZjzokW+IPWYgWU4RBukVfkY4
-X-Google-Smtp-Source: AGHT+IF9aQZZlm3m7qhQmoIyJ6RkPwr/Dop+uoHu7fO/1Q5QVzyOPH34BhQ7Hc1bMJCfX+wA5X9L6ZhSH1TjcEziOMA=
-X-Received: by 2002:a05:6512:456:b0:513:2b35:2520 with SMTP id
- y22-20020a056512045600b005132b352520mr5371798lfk.58.1711412905481; Mon, 25
- Mar 2024 17:28:25 -0700 (PDT)
+	s=arc-20240116; t=1711413509; c=relaxed/simple;
+	bh=JCGKDo3dviFF4SlEAVy67T1MafCPW0V3lPzG+X/B7gQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AOiJMwjXaU/WEwIPNey8v4yGnrQDqc1WDpJCbssrLe33/KTNBOhmJO1goZ/i2GzzP7b9zpaQNebsSccjgsk12Qjx8XJLkDITfWUIc0pPCafiVEDVq/k5KCop+70MXbfQsB4iolOKKl2Ihp48+BoFIZCG2poc9szjvbs5B2bNXCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBAcR3BQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7CBF1C433C7;
+	Tue, 26 Mar 2024 00:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711413509;
+	bh=JCGKDo3dviFF4SlEAVy67T1MafCPW0V3lPzG+X/B7gQ=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=HBAcR3BQ76GYA3DaaZNgK1xtttAsCiCvr9uTnmhNlpQ/2R8wZf6bSzTHlkBFc8VzY
+	 tNSG07+nNn1VBY/VaOebnGht9puv8CExdPzfuH6zuUCtqQDodLl4L+ETCe+cW3wPbQ
+	 DwGPnMsuqFNGBh4aARKb0K8lyRf68RBlxcr5LwgBGIWFK/l1D4QncuGRQNkozfSpQ8
+	 YL1pV/EPqf+Gu+Nh7EVWEOOejzoPU/A1yjKbt6L833E2BR0dusjCDxPYMLjd3W8NLU
+	 2l+fNPIfMH1DrX3TXxVlINpOkBws7MsBTpilloqDU8qL/VTOotDFMtDczzoXvdjzEz
+	 Ye096k59mHJMQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 714D0C6FD1F;
+	Tue, 26 Mar 2024 00:38:29 +0000 (UTC)
+From: John Bauer via B4 Relay <devnull+johnebgood.securitylive.com@kernel.org>
+Date: Mon, 25 Mar 2024 19:38:22 -0500
+Subject: [PATCH] uvcvideo: Remo OBSBOT quirk fix for incorrect relative min
+ pan/tilt/zoom speeds
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com> <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
-In-Reply-To: <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 25 Mar 2024 17:28:12 -0700
-Message-ID: <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
-To: Yunsheng Lin <linyunsheng@huawei.com>, YiFei Zhu <zhuyifei@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240325-obsbot-quirk-fix-relative-ptz-speed-v1-1-0eb1387d98c7@securitylive.com>
+X-B4-Tracking: v=1; b=H4sIAP0YAmYC/x2NwQrCMBAFf6Xs2YUYW7D+inhIzWtdlCbuxiKW/
+ ruhx4FhZiWDCowuzUqKRUzSXOF4aOj+CPMElliZvPOtO/mO02BDKvz+iD55lC8rXqHIAs7lx5a
+ ByH1Ai7Hr49kFqqWsqOZ+ud627Q+HVMGsdQAAAA==
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linh.tp.vu@gmail.com, ribalda@chromium.org, soyer@irl.hu, 
+ John Bauer <john@oxt.co>, John Bauer <johnebgood@securitylive.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711413509; l=4420;
+ i=johnebgood@securitylive.com; s=20240325; h=from:subject:message-id;
+ bh=EC3DcD5yUB9YFZIy5yjNz83GEhb0RRD1YpnYxRcoesY=;
+ b=7CLWWKuRqGJlsL0tB7PQ5mZVY2XRp5a0sqsaeYhEJB2qAQscB+U710fOIiceS7k1Niq4Za3Gj
+ GMHr47YiVYOCaod5ydoGwYFXrzcNfyYcZMfMv5GIJ/U7BcOlaB0xkj1
+X-Developer-Key: i=johnebgood@securitylive.com; a=ed25519;
+ pk=RN31Fmrxbidp1TwtZGNmQwTDjUWMPnewQJfA/ug2P9E=
+X-Endpoint-Received: by B4 Relay for johnebgood@securitylive.com/20240325
+ with auth_id=143
+X-Original-From: John Bauer <johnebgood@securitylive.com>
+Reply-To: johnebgood@securitylive.com
 
-On Tue, Mar 5, 2024 at 11:38=E2=80=AFAM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Tue, Mar 5, 2024 at 4:54=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.c=
-om> wrote:
-> >
-> > On 2024/3/5 10:01, Mina Almasry wrote:
-> >
-> > ...
-> >
-> > >
-> > > Perf - page-pool benchmark:
-> > > ---------------------------
-> > >
-> > > bench_page_pool_simple.ko tests with and without these changes:
-> > > https://pastebin.com/raw/ncHDwAbn
-> > >
-> > > AFAIK the number that really matters in the perf tests is the
-> > > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about =
-8
-> > > cycles without the changes but there is some 1 cycle noise in some
-> > > results.
-> > >
-> > > With the patches this regresses to 9 cycles with the changes but ther=
-e
-> > > is 1 cycle noise occasionally running this test repeatedly.
-> > >
-> > > Lastly I tried disable the static_branch_unlikely() in
-> > > netmem_is_net_iov() check. To my surprise disabling the
-> > > static_branch_unlikely() check reduces the fast path back to 8 cycles=
-,
-> > > but the 1 cycle noise remains.
-> > >
-> >
-> > The last sentence seems to be suggesting the above 1 ns regresses is ca=
-used
-> > by the static_branch_unlikely() checking?
->
-> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
-> regression (slightly less than 1ns if I'm reading the output of the
-> test correctly):
->
-> # clean net-next
-> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
-> 2.993 ns (step:0)
->
-> # with patches
-> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
-> 3.679 ns (step:0)
->
-> # with patches and with diff that disables static branching:
-> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
-> 3.248 ns (step:0)
->
-> I do see noise in the test results between run and run, and any
-> regression (if any) is slightly obfuscated by the noise, so it's a bit
-> hard to make confident statements. So far it looks like a ~0.25ns
-> regression without static branch and about ~0.65ns with static branch.
->
-> Honestly when I saw all 3 results were within some noise I did not
-> investigate more, but if this looks concerning to you I can dig
-> further. I likely need to gather a few test runs to filter out the
-> noise and maybe investigate the assembly my compiler is generating to
-> maybe narrow down what changes there.
->
+From: John Bauer <johnebgood@securitylive.com>
 
-I did some more investigation here to gather more data to filter out
-the noise, and recorded the summary here:
+The OBSBOT series of cameras misreports the minimum relative
+pan_speed, tilt_speed and zoom_continuous v4l2 controls resulting
+in the inability to control the camera with finesse with an analog
+stick or other programmatic methods. This patch applies to all
+Remo (OBSBOT) vendor cameras with the vendor ID of 0x3564. If the
+vendor fixes the firmware this behavior should still remain valid.
+With this broad vendor fix when new devices are released the kernel
+module won't need to be modified. When the vendor fixes the firmware the
+device list can be modified with finer grained device filters.
 
-https://pastebin.com/raw/v5dYRg8L
+Signed-off-by: John Bauer <johnebgood@securitylive.com>
+---
+If the Remo/OBSBOT vendor filter is considered too broad I will track down 
+all of the current product ID's and update the device list. It's currently 
+unknown if the vendor is pursuing a fix this issue; this issue has been 
+reported and known to them for over a year. Their only support channel 
+is their Facebook group. 
+---
+ drivers/media/usb/uvc/uvc_ctrl.c   | 27 ++++++++++++++++++++++++++-
+ drivers/media/usb/uvc/uvc_driver.c |  8 ++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-Long story short, the page_pool benchmark results are consistent with
-some outlier noise results that I'm discounting here. Currently
-page_pool fast path is at 8 cycles
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e59a463c2761..1951e06527cf 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1322,10 +1322,23 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 		break;
+ 	}
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
+ 		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
+ 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+ 
++		if (chain->dev->quirks & UVC_QUIRK_OBSBOT_MIN_SETTINGS) {
++			switch (v4l2_ctrl->id) {
++			case V4L2_CID_ZOOM_CONTINUOUS:
++			case V4L2_CID_PAN_SPEED:
++			case V4L2_CID_TILT_SPEED:
++				v4l2_ctrl->minimum = -1 * mapping->get(mapping, UVC_GET_MAX,
++						     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
++			default:
++				break;
++			}
++		}
++	}
++
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
+ 		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
+ 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+@@ -1914,6 +1927,18 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+ 				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+ 		max = mapping->get(mapping, UVC_GET_MAX,
+ 				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
++
++		if (chain->dev->quirks & UVC_QUIRK_OBSBOT_MIN_SETTINGS) {
++			switch (xctrl->id) {
++			case V4L2_CID_ZOOM_CONTINUOUS:
++			case V4L2_CID_PAN_SPEED:
++			case V4L2_CID_TILT_SPEED:
++				min = max * -1;
++			default:
++				break;
++			}
++		}
++
+ 		step = mapping->get(mapping, UVC_GET_RES,
+ 				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+ 		if (step == 0)
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index bbd90123a4e7..d4edc1adb11b 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3120,6 +3120,14 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* OBSBOT pan, tilt, zoom min settings quirk */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_VENDOR
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x3564,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_OBSBOT_MIN_SETTINGS) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6fb0a78b1b00..0e2f083a5c0e 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -73,6 +73,7 @@
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
+ #define UVC_QUIRK_WAKE_AUTOSUSPEND	0x00002000
++#define UVC_QUIRK_OBSBOT_MIN_SETTINGS 0x00004000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 
-[ 2115.724510] time_bench: Type:tasklet_page_pool01_fast_path Per
-elem: 8 cycles(tsc) 3.187 ns (step:0) - (measurement period
-time:0.031870585 sec time_interval:31870585) - (invoke count:10000000
-tsc_interval:86043192)
+---
+base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+change-id: 20240325-obsbot-quirk-fix-relative-ptz-speed-9ae4ef59d80a
 
-and with this patch series it degrades to 10 cycles, or about a 0.7ns
-degradation or so:
+Best regards,
+-- 
+John Bauer <johnebgood@securitylive.com>
 
-[  498.226127] time_bench: Type:tasklet_page_pool01_fast_path Per
-elem: 10 cycles(tsc) 3.944 ns (step:0) - (measurement period
-time:0.039442539 sec time_interval:39442539) - (invoke count:10000000
-tsc_interval:106485268)
 
-I took the time to dig into where the degradation comes from, and to
-my surprise we can shave off 1 cycle in perf by removing the
-static_branch_unlikely check in netmem_is_net_iov() like so:
-
-diff --git a/include/net/netmem.h b/include/net/netmem.h
-index fe354d11a421..2b4310ac1115 100644
---- a/include/net/netmem.h
-+++ b/include/net/netmem.h
-@@ -122,8 +122,7 @@ typedef unsigned long __bitwise netmem_ref;
- static inline bool netmem_is_net_iov(const netmem_ref netmem)
- {
- #ifdef CONFIG_PAGE_POOL
--       return static_branch_unlikely(&page_pool_mem_providers) &&
--              (__force unsigned long)netmem & NET_IOV;
-+       return (__force unsigned long)netmem & NET_IOV;
- #else
-        return false;
- #endif
-
-With this change, the fast path is 9 cycles, only  a 1 cycle (~0.35ns)
-regression:
-
-[  199.184429] time_bench: Type:tasklet_page_pool01_fast_path Per
-elem: 9 cycles(tsc) 3.552 ns (step:0) - (measurement period
-time:0.035524013 sec time_interval:35524013) - (invoke count:10000000
-tsc_interval:95907775)
-
-I did some digging with YiFei on why the static_branch_unlikely
-appears to be causing a 1 cycle regression, but could not get an
-answer that makes sense. The # of instructions in
-page_pool_return_page() with the static_branch_unlikely and without is
-about the same in the compiled .o file, and my understanding is that
-static_branch will cause code re-writing anyway so looking at the
-compiled code may not be representative.
-
-Worthy of note is that I get ~95% line rate of devmem TCP regardless
-of the static_branch_unlikely() or not, so impact of the static_branch
-is not large enough to be measurable end-to-end. I'm thinking I want
-to drop the static_branch_unlikely() in the next RFC since it doesn't
-improve the end-to-end throughput number and is resulting in a
-measurable improvement in the page pool benchmark.
-
---=20
-Thanks,
-Mina
 
