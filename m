@@ -1,209 +1,173 @@
-Return-Path: <linux-media+bounces-7938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E7088E4BB
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:11:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 847BC88E672
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:38:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B4DE1F26BA2
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:11:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A381C2DD56
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:38:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 412E11448D7;
-	Wed, 27 Mar 2024 12:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEB313A3EA;
+	Wed, 27 Mar 2024 13:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Eya9hcjR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10EC1327F4;
-	Wed, 27 Mar 2024 12:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A930012F5A9;
+	Wed, 27 Mar 2024 13:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711543227; cv=none; b=Q/gNXsFYBRmUHC/1RP7Mew+t02VmwN1LfJcfYYobhmwvH7lATQCFlfFFX0jWmK5aPoqzYVrSwau6o5Um3aogOllbUe06rUP2YF2VrvUe0CIJtoRODWS9fX1+eKb84Rw74wd/z8KZNjEykHdMae6Dr1uNwQroyzC9H4dar/gwUw0=
+	t=1711544985; cv=none; b=PGuBZsh3RhY8NwdWqUEoyhn06OkFkEDF/oVVirUrA4ktbwkkJMQSmqCkt6PuKL7XD53W5i0HnWy8Vby0tYNA8PjNeSksVY3cZNWcclDWhEBhKNksdSEEIfSTvrV1acHbvfCbWn4a9jQtbGP88rG8+QBB8Tp4LxACY4RLLf+4j6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711543227; c=relaxed/simple;
-	bh=CTTAq3BkhgMsFNfaZctwV7dwPAN7MSkPKrtMZ4zwGFY=;
+	s=arc-20240116; t=1711544985; c=relaxed/simple;
+	bh=81ZbrBdYxs8It1E/ipeLp8ojimGjd9cq7crq6evyxB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UGumNKWONYBnhHTFnHBMf5qg67jFMAG738AkVKLtdc9MiAJ9tXkXXwy70JTF9Tj8PAAaeNlPwQkE79SVZ6SipADKswXF2Cc6fsN5vyEctrovw6XHV3Ahcr1tzXTO8KxLLzioBrJnhYRSBGIqFvMxpLYtQ2ARjewY5LyiK1Pr6GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id F19C3101A8A5; Wed, 27 Mar 2024 13:40:15 +0100 (CET)
-Date: Wed, 27 Mar 2024 13:40:15 +0100
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	linux-kernel@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=DLs7wJ4K0UxPMfqYJJiwbxfDf+rcJj31yhAuYw3QxNpmleIybUjZdHpKclyCD7ruGZnA87s73q+8XSzujp1SSHfFDDx6Lpk1BPWGaqNe1HkSjjmzcb8NvdAe2CBSkZEqNOrkg81UufXrLBCIFo98AsGr/P3pyko56W+cbF6xVAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Eya9hcjR; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1711544981;
+	bh=81ZbrBdYxs8It1E/ipeLp8ojimGjd9cq7crq6evyxB4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eya9hcjRh4E3JmnGFEZl3RZ5rtWwXbwJAX/lowaAjLQWPxK7ahAScE24IK3dFEpmj
+	 W8wLJOS3k2bsqiYv0UFXrP+fPrEhRqQGV0x4nhtXQPGzrQxa7jR6q5JwrqfFuZmG3V
+	 MQFgrQZS1NaB8xH7Mu6ftq+yOLac0yaZO8mq4oyatmytOATko54g+7N9zbzGmm7ces
+	 qEB0PWSDfz/Oo9I7bH+V+MlZ/bcyHZPDRhi+kY70h+pyZ8rEhT8hRIFnxBqZmZsJjI
+	 982TJRluzxXmSWVW2sorV4lc9v9ORnv383AtBE0dRzJ2aSzqbEHecQBP7xHNXKcfw9
+	 9t66wdhEpgp2g==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9E67537820F3;
+	Wed, 27 Mar 2024 13:09:41 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 359D410608D9; Wed, 27 Mar 2024 14:09:41 +0100 (CET)
+Date: Wed, 27 Mar 2024 14:09:41 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Link Mauve <linkmauve@linkmauve.fr>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	linux-kernel@vger.kernel.org, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Dragan Simic <dsimic@manjaro.org>, 
+	Shreeya Patel <shreeya.patel@collabora.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	Andy Yan <andy.yan@rock-chips.com>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
 Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add VEPU121 to rk3588
-Message-ID: <ZgQTrwOUtdZ1nRs0@desktop>
+Message-ID: <lrwxcyc2djqd6u3b2j4whe67o7ukblfqfqlnplajwgmvvgst4e@4z5avent6zmv>
 References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
  <20240320173736.2720778-4-linkmauve@linkmauve.fr>
  <a60f6017-bd19-431e-8cff-7d73f6f114fe@linaro.org>
+ <ZgQTrwOUtdZ1nRs0@desktop>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="vIGEYjDZeTRTEtgU"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bqhdij4d5wn3lvmi"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a60f6017-bd19-431e-8cff-7d73f6f114fe@linaro.org>
-Jabber-ID: linkmauve@linkmauve.fr
+In-Reply-To: <ZgQTrwOUtdZ1nRs0@desktop>
 
 
---vIGEYjDZeTRTEtgU
+--bqhdij4d5wn3lvmi
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 21, 2024 at 09:15:38AM +0100, Krzysztof Kozlowski wrote:
-> On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
-> > The TRM (version 1.0 page 385) lists five VEPU121 cores, but only four
-> > interrupts are listed (on page 24), so I’ve only enabled four of them
-> > for now.
-> > 
-> > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-> > ---
-> >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++++
-> >  1 file changed, 80 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> > index 2a23b4dc36e4..fe77b56ac9a0 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> > @@ -2488,6 +2488,86 @@ gpio4: gpio@fec50000 {
-> >  		};
-> >  	};
-> >  
-> > +	jpeg_enc0: video-codec@fdba0000 {
-> > +		compatible = "rockchip,rk3588-vepu121";
-> > +		reg = <0x0 0xfdba0000 0x0 0x800>;
-> > +		interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
-> > +		clock-names = "aclk", "hclk";
-> > +		iommus = <&jpeg_enc0_mmu>;
-> > +		power-domains = <&power RK3588_PD_VDPU>;
-> > +	};
-> > +
-> > +	jpeg_enc0_mmu: iommu@fdba0800 {
-> > +		compatible = "rockchip,rk3588-iommu";
-> 
-> It does not look like you tested the DTS against bindings. Please run
-> `make dtbs_check W=1` (see
-> Documentation/devicetree/bindings/writing-schema.rst or
-> https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-> for instructions).
+Hi,
 
-Even on master I get an exception about this unresolvable file:
-referencing.exceptions.Unresolvable: cache-controller.yaml#
+On Wed, Mar 27, 2024 at 01:40:15PM +0100, Link Mauve wrote:
+> On Thu, Mar 21, 2024 at 09:15:38AM +0100, Krzysztof Kozlowski wrote:
+> > On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
+> > > The TRM (version 1.0 page 385) lists five VEPU121 cores, but only four
+> > > interrupts are listed (on page 24), so I=E2=80=99ve only enabled four=
+ of them
+> > > for now.
+> > >=20
+> > > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+> > > ---
+> > >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++=
+++
+> > >  1 file changed, 80 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/b=
+oot/dts/rockchip/rk3588s.dtsi
+> > > index 2a23b4dc36e4..fe77b56ac9a0 100644
+> > > --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> > > +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> > > @@ -2488,6 +2488,86 @@ gpio4: gpio@fec50000 {
+> > >  		};
+> > >  	};
+> > > =20
+> > > +	jpeg_enc0: video-codec@fdba0000 {
+> > > +		compatible =3D "rockchip,rk3588-vepu121";
+> > > +		reg =3D <0x0 0xfdba0000 0x0 0x800>;
+> > > +		interrupts =3D <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
+> > > +		clocks =3D <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
+> > > +		clock-names =3D "aclk", "hclk";
+> > > +		iommus =3D <&jpeg_enc0_mmu>;
+> > > +		power-domains =3D <&power RK3588_PD_VDPU>;
+> > > +	};
+> > > +
+> > > +	jpeg_enc0_mmu: iommu@fdba0800 {
+> > > +		compatible =3D "rockchip,rk3588-iommu";
+> >=20
+> > It does not look like you tested the DTS against bindings. Please run
+> > `make dtbs_check W=3D1` (see
+> > Documentation/devicetree/bindings/writing-schema.rst or
+> > https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-s=
+ources-with-the-devicetree-schema/
+> > for instructions).
+>=20
+> Even on master I get an exception about this unresolvable file:
+> referencing.exceptions.Unresolvable: cache-controller.yaml#
+>=20
+> Yet it seems to be present in only three files, all of them unrelated to
+> the rockchip board I=E2=80=99m interested in (it seems), so I=E2=80=99m n=
+ot sure what to
+> do about that.
 
-Yet it seems to be present in only three files, all of them unrelated to
-the rockchip board I’m interested in (it seems), so I’m not sure what to
-do about that.
+The trace looked like you tried using dt-schema with jsonschema
+version 4.18+, which is known broken:
 
-The full stack trace is attached.
+https://github.com/devicetree-org/dt-schema/issues/109
 
-> 
-> Best regards,
-> Krzysztof
-> 
+Greetings,
 
--- 
-Link Mauve
+-- Sebastian
 
---vIGEYjDZeTRTEtgU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="CHECK_DTBS=y W=1"
+--bqhdij4d5wn3lvmi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-% make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CHECK_DTBS=y W=1 rockchip/rk3588-rock-5b.dtb
-make[1]: Entering directory '/home/linkmauve/dev/linux'
-  DTC_CHK arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb
-Traceback (most recent call last):
-  File "/usr/lib/python3.11/site-packages/referencing/_core.py", line 417, in get_or_retrieve
-    resource = registry._retrieve(uri)
-               ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 111, in _warn_for_remote_retrieve
-    request = Request(uri, headers=headers)  # noqa: S310
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/urllib/request.py", line 322, in __init__
-    self.full_url = url
-    ^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/urllib/request.py", line 348, in full_url
-    self._parse()
-  File "/usr/lib/python3.11/urllib/request.py", line 377, in _parse
-    raise ValueError("unknown url type: %r" % self.full_url)
-ValueError: unknown url type: 'cache-controller.yaml'
+-----BEGIN PGP SIGNATURE-----
 
-The above exception was the direct cause of the following exception:
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYEGo4ACgkQ2O7X88g7
++ppnpw/+IYqLzHk0LXotRxxmx2QRAz4gYpFyEku/kt2XkuQwtufZMFEqBQ5hBuzo
+WMGDPKyTGKCUSGzxHo53ZnTsSQ4yvnlYmNJJ+invQuwR0AuN0oUdtU2TqGkTXTH5
+VlCI3DM0yWjJDPE9MEWRj94dAuKJ/+21kYbiKXbsVlZz7vPvS3AMLUChqGzVW29h
+GzwtgqGgwsLQQJnjJQ2MvoBDWqOO5Odg/CRmottxdbmxaHcaQ1shr25plFDjhdf7
+qw+lR2cy64CkkQm8dzeVpoIUrD3Ow2KO4iuxlMkKkMFHvesb7Gxs/WDT4dj4q6yk
+VQZTdxLe790Pq6v2CIDshZTTLpTIiWOL8vFCNVG7Dl6sSzqUliBKnYStPTa8yZbM
+uFBz3GeG+Of8/a/ZetIUJXX5AOTVaSj/DcrbFqy4laQsYLPConDWwU4cDLBSXGy1
+EOJKIaFnBA1zonoUGrKkvxhqcgoriWTVKVpmxkyHp4pW4O/ALldccEisOhpYfq3y
+sfqiCH0aGDi0vR4hu9K8EQB6hyU7rXhC2K5VFmFKbEotcBakhLjd+mPcCpfvlfBp
+rRez6hhL8PDpWPdbS7b4poD0HW5RR3dIgm1shBrr54NVn4wxiVAErRWOaYv+XniH
+yglVBxWtvVeh9Zils+BVcew31B+9CEYMOvd4DUp1f8TluPCZtp0=
+=12dq
+-----END PGP SIGNATURE-----
 
-Traceback (most recent call last):
-  File "/usr/lib/python3.11/site-packages/referencing/_core.py", line 667, in lookup
-    retrieved = self._registry.get_or_retrieve(uri)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/site-packages/referencing/_core.py", line 424, in get_or_retrieve
-    raise exceptions.Unretrievable(ref=uri) from error
-referencing.exceptions.Unretrievable: 'cache-controller.yaml'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/bin/dt-validate", line 8, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 144, in main
-    sg.check_dtb(filename)
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 89, in check_dtb
-    self.check_subtree(dt, subtree, False, "/", "/", filename)
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 82, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 82, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 77, in check_subtree
-    self.check_node(tree, subtree, disabled, nodename, fullname, filename)
-  File "/usr/lib/python3.11/site-packages/dtschema/dtb_validate.py", line 33, in check_node
-    for error in self.validator.iter_errors(node, filter=match_schema_file):
-  File "/usr/lib/python3.11/site-packages/dtschema/validator.py", line 413, in iter_errors
-    for error in self.DtValidator(sch,
-  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 371, in iter_errors
-    for error in errors:
-  File "/usr/lib/python3.11/site-packages/jsonschema/_keywords.py", line 386, in if_
-    yield from validator.descend(instance, then, schema_path="then")
-  File "/usr/lib/python3.11/site-packages/jsonschema/validators.py", line 419, in descend
-    for error in errors:
-  File "/usr/lib/python3.11/site-packages/jsonschema/_legacy_keywords.py", line 423, in unevaluatedProperties_draft2019
-    evaluated_keys = find_evaluated_property_keys_by_schema(
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/site-packages/jsonschema/_legacy_keywords.py", line 399, in find_evaluated_property_keys_by_schema
-    evaluated_keys += find_evaluated_property_keys_by_schema(
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/site-packages/jsonschema/_legacy_keywords.py", line 342, in find_evaluated_property_keys_by_schema
-    resolved = validator._resolver.lookup(ref)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/site-packages/referencing/_core.py", line 671, in lookup
-    raise exceptions.Unresolvable(ref=ref) from error
-referencing.exceptions.Unresolvable: cache-controller.yaml#
-make[1]: Leaving directory '/home/linkmauve/dev/linux'
-
---vIGEYjDZeTRTEtgU--
+--bqhdij4d5wn3lvmi--
 
