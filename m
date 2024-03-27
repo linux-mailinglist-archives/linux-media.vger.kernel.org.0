@@ -1,130 +1,237 @@
-Return-Path: <linux-media+bounces-7936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4435B88E0B4
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 13:42:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F7488E430
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:54:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF5AC299573
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:42:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21DB41C2B8F9
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 13:54:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D3114D457;
-	Wed, 27 Mar 2024 12:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A14B218D885;
+	Wed, 27 Mar 2024 12:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HAnJHGme"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+ljkFOK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB75114D2BE;
-	Wed, 27 Mar 2024 12:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A8118C9F3;
+	Wed, 27 Mar 2024 12:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711541635; cv=none; b=j4pQ9GnYyPIGoacOahIkhgdlDqBvLJhz95+up/gm2kSgUKFEGrqfAIDf+ideLl57efUEAsoMuFz2VNwx11k7Aw0IkYuP5Y8yfRJPFKQ2eLyGuKUXXhFUlXclSlDa9l5Sz6N2Aa9ZCdDMNif2xPzNjaUo6FSm4q2kdn+ZyWpTc10=
+	t=1711542411; cv=none; b=mbkNpELU7LXEbj8c3+8UEhTHZDH+rTRp+vUky9edzv+2dCp5SEIZ4HO6+yJZM5AMi9Js5xegIVQOF+rJqyuus7g/x99kAr/tZ/KuBuPtGZ0ikaZ/o/8m48uQpllUdgPmvtSNP287c/82biU9umNXHN9J194xpx1UkB6TdW77RoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711541635; c=relaxed/simple;
-	bh=JsFu3wR3DhF000KcrA8afqUCDSA8XExED+j71OfMf/U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SNwJs7kGRs+ns5X0bsceLIA5+h4Qwe9bNdDXM+QEpPrP+pjdiMcXnFSVR7PB/3mtAwllnM7EFUqDjheaZq4lsaNDph6upshTw1UMurNCdSXx8+Rk+IaYmdd62lnyNt+HBERgvk/PmOtGo6GjtnNe3bmcWJ3+A8QrkclVxc7PjC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HAnJHGme; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA759C433F1;
-	Wed, 27 Mar 2024 12:13:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711541634;
-	bh=JsFu3wR3DhF000KcrA8afqUCDSA8XExED+j71OfMf/U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HAnJHGmeN5xIf2DgHZlRthESGuTZPBlZOv3hC5DpbReefGpRyJKondDOHknSxQ+6o
-	 sT391gKG7CeIZel1AMlZ6lX80ZNiBy0Og1jitWHnMGv1IPAKdJwVp0NrWy+qMBQFu0
-	 9NvuK18f5UQiGdJ8VfpfsGLpJiHKapPCHv93yUn+0ahpxKKX8KlN2j93VHHsT+BqBj
-	 eA3GDkc4qybwwJAbPuWFs/p3jpJ07mK9FxnT4Dl5xGJh1Q9orC9I512Jy+IbzlUqNe
-	 RkzL/d/IW3jspjQ0wwcXAJE3APEoj+Wy5ggzE2wGXWXHLiqjlwKGWaSAEM6QJTq7yA
-	 kLOo3beCX1fvw==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "media: nxp: imx8-isi: Mark all crossbar sink pads as MUST_CONNECT" failed to apply to 6.1-stable tree
-Date: Wed, 27 Mar 2024 08:13:52 -0400
-Message-ID: <20240327121352.2830698-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1711542411; c=relaxed/simple;
+	bh=DVg52Ew3U5j5zZL1/z9QRNQpCoKZZHYMPcKlLTQF/xM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ad+Ezw/gseBHJc1qjV264ODnawy3L/16Ib9o6muCPBY6sjrGnr/x+3zOqUx12pzqCbrkaxONXamGA0eKmcjqY0/CT/xtFazUaYnygacpPglisf7ZYdmFMhpW0i8Kn0zwepxqY8jQCZOC98gU5hlrn2oYZbb1FVcuiKhp6Oyt2SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+ljkFOK; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-515a86daf09so5007269e87.3;
+        Wed, 27 Mar 2024 05:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711542407; x=1712147207; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZi1ihD7jb4n7LHpF8XtHp/FApS7UcJ7/s08szlYQpw=;
+        b=Q+ljkFOKszbgy/HvVevVEL6cJ3W+hyrmsgNqh6WOTRqvYYPWHAeKK9C7s8V3mKd8jE
+         Ua991EB4HKZWzCcHohbJhwV7U4OuexW6rxJNUF3twZ7h3Fwzp1Bh4SszV0KMrVD16PVD
+         CmwfpSqyo+EtQBWl0OwoI9xonRGP/f8Tzx/fH3Gsyq5BgmVl9KyiZoKJtveDnbwhQ/C7
+         GZQ3gbUncg/XdvacE4wXkEurZcXMNN80qBdHY04g60JZHHWRMmVjYQthQxKdT/kzKpoe
+         sbUDMSewvPXQW0Vr/fO5eNCDWkr4kE2wB5OQecOu4hdkhV+wRj5ZsflKr8947tmisSnu
+         +yvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711542407; x=1712147207;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jZi1ihD7jb4n7LHpF8XtHp/FApS7UcJ7/s08szlYQpw=;
+        b=vMLJHfNFEqjAXT3k5fEUlReVlxtqYDt0eQiMoapq0mp4u6ZyRS/Dg4VxKbRurSGWHM
+         wUdwylAt1/ApX7kcvRH1/4rjkbAToFXk/sKdedy2EYleRnmsi+4a4hh0E6K199V5+kPy
+         9Ku38QcAaXUHCaXbnDoN9ncq3v5MttphHHBwGWNAEec7yvEeqSGsmkPm57KzPNITgcTF
+         2gR/hJcDs8DH0W3UGdtuqhoKH+q8MRuz3Ns27RBMKi6G8c2tY9bV+y8wvfK4ll4YIzdp
+         iqy9E4ls6XkqKs6gVHQZlxPHJki1FN65QiKh0+7HQMG2961c3hj2OLJTU7KZFoaSbeSN
+         QfUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsgdM/LSKkuH+1tVJl4IZxhHzeWr1HBW8PYN1Z3PqSAlw4k1C7LHyy9hK9CoybXL+aoZAD690shdzoulWWnQTtKBb4BEHjm5fGJtBr
+X-Gm-Message-State: AOJu0Yyy0pvzOeeXhkcov6PY68ez/KvgBklNEzIIo7zI2373GkJuThzp
+	7EfXivW2Rkn3ahdYbHZZsvzSAaeTEeGPjXurtlrLq3UGwuJWGwyS
+X-Google-Smtp-Source: AGHT+IEn+IKBA1m4vUYaNhqcW+3lQ2x8L4xpEjXc73JlZyF1Bd6lYH7hKZMN5cYrtBDzol+pDBe1AA==
+X-Received: by 2002:ac2:5f9b:0:b0:515:9dcd:22ae with SMTP id r27-20020ac25f9b000000b005159dcd22aemr902917lfe.66.1711542406820;
+        Wed, 27 Mar 2024 05:26:46 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id er15-20020a05651248cf00b00513d1ff9eb2sm1810444lfb.208.2024.03.27.05.26.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 05:26:46 -0700 (PDT)
+Date: Wed, 27 Mar 2024 15:26:44 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size"
+ DT prop
+Message-ID: <5hd7duzqhgdxpmvom3opkhwxkq55dmitk4gwdl4dy46q662in6@xxkmvdj6plqb>
+References: <20240325064102.9278-1-brnkv.i1@gmail.com>
+ <20240325064102.9278-5-brnkv.i1@gmail.com>
+ <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Hint: ignore
-X-stable: review
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 
-The patch below does not apply to the 6.1-stable tree.
-If someone wants it applied there, or to any other stable or longterm
-tree, then please email the backport, including the original git commit
-id to <stable@vger.kernel.org>.
+On Wed, Mar 27, 2024 at 10:27:19AM +0000, Nas Chung wrote:
+> Hi, Ivan.
+> 
+> >-----Original Message-----
+> >From: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >Sent: Monday, March 25, 2024 3:41 PM
+> >To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+> ><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>;
+> >Philipp Zabel <p.zabel@pengutronix.de>
+> >Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
+> >linux-kernel@vger.kernel.org
+> >Subject: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size" DT
+> >prop
+> >
+> >Use all available SRAM memory up to WAVE5_MAX_SRAM_SIZE. Remove
+> >excessive "sram-size" device-tree property as genalloc is already able
+> >to determine available memory.
+> >
+> >Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >---
+> > .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++---------
+> > .../platform/chips-media/wave5/wave5-vpu.c    |  7 -------
+> > .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
+> > .../chips-media/wave5/wave5-vpuconfig.h       |  2 ++
+> > 4 files changed, 13 insertions(+), 18 deletions(-)
+> >
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >index 3809f70bc0b4..a63fffed55e9 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
+> >*vpu_dev, struct vpu_buf *array,
+> > void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
+> > {
+> > 	struct vpu_buf *vb = &vpu_dev->sram_buf;
+> >+	dma_addr_t daddr;
+> >+	void *vaddr;
+> >+	size_t size;
+> >
+> >-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
+> >+	if (!vpu_dev->sram_pool || vb->vaddr)
+> > 		return;
+> >
+> >-	if (!vb->vaddr) {
+> >-		vb->size = vpu_dev->sram_size;
+> >-		vb->vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
+> >-					       &vb->daddr);
+> >-		if (!vb->vaddr)
+> >-			vb->size = 0;
+> >+	size = min_t(size_t, WAVE5_MAX_SRAM_SIZE, gen_pool_avail(vpu_dev-
+> >>sram_pool));
+> >+	vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
+> >+	if (vaddr) {
+> >+		vb->vaddr = vaddr;
+> >+		vb->daddr = daddr;
+> >+		vb->size = size;
+> > 	}
+> >
+> > 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
+> >0x%p\n",
+> >@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device *vpu_dev)
+> > 	if (!vb->size || !vb->vaddr)
+> > 		return;
+> >
+> >-	if (vb->vaddr)
+> >-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
+> >-			      vb->size);
+> >+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
+> >>size);
+> >
+> > 	memset(vb, 0, sizeof(*vb));
+> > }
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >index 1e631da58e15..2a972cddf4a6 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >@@ -177,13 +177,6 @@ static int wave5_vpu_probe(struct platform_device
+> >*pdev)
+> > 		goto err_reset_assert;
+> > 	}
+> >
+> >-	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
+> >-				   &dev->sram_size);
+> >-	if (ret) {
+> >-		dev_warn(&pdev->dev, "sram-size not found\n");
+> >-		dev->sram_size = 0;
+> >-	}
+> >-
+> > 	dev->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> > 	if (!dev->sram_pool)
+> > 		dev_warn(&pdev->dev, "sram node not found\n");
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >index da530fd98964..975d96b22191 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >@@ -750,7 +750,6 @@ struct vpu_device {
+> > 	struct vpu_attr attr;
+> > 	struct vpu_buf common_mem;
+> > 	u32 last_performance_cycles;
+> >-	u32 sram_size;
+> > 	struct gen_pool *sram_pool;
+> > 	struct vpu_buf sram_buf;
+> > 	void __iomem *vdb_register;
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >index d9751eedb0f9..9d99afb78c89 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >@@ -28,6 +28,8 @@
+> > #define WAVE521ENC_WORKBUF_SIZE         (128 * 1024)      //HEVC 128K, AVC
+> >40K
+> > #define WAVE521DEC_WORKBUF_SIZE         (1784 * 1024)
+> >
+> >+#define WAVE5_MAX_SRAM_SIZE		(64 * 1024)
+> 
+> WAVE521 can support 8K stream decoding/encoding.
+> So, I suggest the MAX_SRAME_SIZE to 128 * 1024 (128KB).
+> 
+> And, Current driver always enable sec_axi_info option if sram buffer is allocated.
+> But, we have to enable/disable the sec_axi_info option after checking the allocated sram size is enough to decode/encode current bitstream resolution.
 
-Thanks,
-Sasha
+Do we really? As an experiment I tried to provide to Wave515 1KB of SRAM
+memory and decoded 4k sample file was fine...
 
------------------- original commit in Linus's tree ------------------
-
-From 9b71021b2ea537632b01e51e3f003df24a637858 Mon Sep 17 00:00:00 2001
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Mon, 15 Jan 2024 04:16:29 +0200
-Subject: [PATCH] media: nxp: imx8-isi: Mark all crossbar sink pads as
- MUST_CONNECT
-
-All the sink pads of the crossbar switch require an active link if
-they're part of the pipeline. Mark them with the
-MEDIA_PAD_FL_MUST_CONNECT flag to fail pipeline validation if they're
-not connected. This allows removing a manual check when translating
-streams.
-
-Cc: stable@vger.kernel.org # 6.1
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- .../media/platform/nxp/imx8-isi/imx8-isi-crossbar.c    | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-index 1bb1334ec6f2b..93a55c97cd173 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-@@ -160,13 +160,6 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
- 	}
- 
- 	pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
--	if (!pad) {
--		dev_dbg(xbar->isi->dev,
--			"no pad connected to crossbar input %u\n",
--			sink_pad);
--		return ERR_PTR(-EPIPE);
--	}
--
- 	sd = media_entity_to_v4l2_subdev(pad->entity);
- 	if (!sd) {
- 		dev_dbg(xbar->isi->dev,
-@@ -475,7 +468,8 @@ int mxc_isi_crossbar_init(struct mxc_isi_dev *isi)
- 	}
- 
- 	for (i = 0; i < xbar->num_sinks; ++i)
--		xbar->pads[i].flags = MEDIA_PAD_FL_SINK;
-+		xbar->pads[i].flags = MEDIA_PAD_FL_SINK
-+				    | MEDIA_PAD_FL_MUST_CONNECT;
- 	for (i = 0; i < xbar->num_sources; ++i)
- 		xbar->pads[i + xbar->num_sinks].flags = MEDIA_PAD_FL_SOURCE;
- 
--- 
-2.43.0
-
-
-
-
+> Wave5 can enable/disable the sec_axi_info option for each instance.
+> 
+> How about handle sram-size through match_data ?
+> I can find some drivers which use match_data to configure the sram size.
+> 
+> We can use current "ti,k3-j721s2-wave521c" device as a 4K supported device.
+> - .sram_size = (64 * 1024);
+> Driver just allocate the sram-size for max supported resolution of each device, and we don't need to check the sram-size is enough or not.
+> 
+> Thanks.
+> Nas.
+> 
+> >+
+> > #define MAX_NUM_INSTANCE                32
+> >
+> > #define W5_MIN_ENC_PIC_WIDTH            256
+> >--
+> >2.44.0
+> 
 
