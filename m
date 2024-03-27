@@ -1,173 +1,117 @@
-Return-Path: <linux-media+bounces-7939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847BC88E672
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:38:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 561C688E6C5
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:43:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A381C2DD56
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:38:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06E532E171F
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEB313A3EA;
-	Wed, 27 Mar 2024 13:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B65013BAF4;
+	Wed, 27 Mar 2024 13:29:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Eya9hcjR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQjnCC50"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A930012F5A9;
-	Wed, 27 Mar 2024 13:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A4C12FB2D
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 13:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711544985; cv=none; b=PGuBZsh3RhY8NwdWqUEoyhn06OkFkEDF/oVVirUrA4ktbwkkJMQSmqCkt6PuKL7XD53W5i0HnWy8Vby0tYNA8PjNeSksVY3cZNWcclDWhEBhKNksdSEEIfSTvrV1acHbvfCbWn4a9jQtbGP88rG8+QBB8Tp4LxACY4RLLf+4j6o=
+	t=1711546140; cv=none; b=AwCYKAnRjTqYaEXDe+jIqQzLWk1KTRUOazlBC4r5U1IeLk2600+I1A5EGAFORP7UiFMQxLu6CYemzsqQVHZa0apYUPTCnCPXr4m9c6lryulwuWPJQoJUSYk5l5dnNyh2Jl7co4f/nkH18RBuxqnPkAI9scSIz8/v76KG/sQxOHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711544985; c=relaxed/simple;
-	bh=81ZbrBdYxs8It1E/ipeLp8ojimGjd9cq7crq6evyxB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLs7wJ4K0UxPMfqYJJiwbxfDf+rcJj31yhAuYw3QxNpmleIybUjZdHpKclyCD7ruGZnA87s73q+8XSzujp1SSHfFDDx6Lpk1BPWGaqNe1HkSjjmzcb8NvdAe2CBSkZEqNOrkg81UufXrLBCIFo98AsGr/P3pyko56W+cbF6xVAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Eya9hcjR; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711544981;
-	bh=81ZbrBdYxs8It1E/ipeLp8ojimGjd9cq7crq6evyxB4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eya9hcjRh4E3JmnGFEZl3RZ5rtWwXbwJAX/lowaAjLQWPxK7ahAScE24IK3dFEpmj
-	 W8wLJOS3k2bsqiYv0UFXrP+fPrEhRqQGV0x4nhtXQPGzrQxa7jR6q5JwrqfFuZmG3V
-	 MQFgrQZS1NaB8xH7Mu6ftq+yOLac0yaZO8mq4oyatmytOATko54g+7N9zbzGmm7ces
-	 qEB0PWSDfz/Oo9I7bH+V+MlZ/bcyHZPDRhi+kY70h+pyZ8rEhT8hRIFnxBqZmZsJjI
-	 982TJRluzxXmSWVW2sorV4lc9v9ORnv383AtBE0dRzJ2aSzqbEHecQBP7xHNXKcfw9
-	 9t66wdhEpgp2g==
-Received: from mercury (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9E67537820F3;
-	Wed, 27 Mar 2024 13:09:41 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 359D410608D9; Wed, 27 Mar 2024 14:09:41 +0100 (CET)
-Date: Wed, 27 Mar 2024 14:09:41 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	linux-kernel@vger.kernel.org, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Dragan Simic <dsimic@manjaro.org>, 
-	Shreeya Patel <shreeya.patel@collabora.com>, Chris Morgan <macromorgan@hotmail.com>, 
-	Andy Yan <andy.yan@rock-chips.com>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: Add VEPU121 to rk3588
-Message-ID: <lrwxcyc2djqd6u3b2j4whe67o7ukblfqfqlnplajwgmvvgst4e@4z5avent6zmv>
-References: <20240320173736.2720778-1-linkmauve@linkmauve.fr>
- <20240320173736.2720778-4-linkmauve@linkmauve.fr>
- <a60f6017-bd19-431e-8cff-7d73f6f114fe@linaro.org>
- <ZgQTrwOUtdZ1nRs0@desktop>
+	s=arc-20240116; t=1711546140; c=relaxed/simple;
+	bh=4VxhYFM+IW/7q861Ak5yQv+JBl5nHqKZfRl/vrD3Qbs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XNG0iRBYsR+1VsILyqe9QfG+fXW+zQC+vmopvNZpDor3S/hswNgv8Y4OGSqJpivca3mFtuXxYSxUaMG2Zssz9H7CUf20AzKML+ecyFKp2Es7GOnjY05GMacXxeohI6VD7b6W4IMb16+++QY01n5a8hAaqcb154NcopOt4HS+HWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQjnCC50; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711546138; x=1743082138;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4VxhYFM+IW/7q861Ak5yQv+JBl5nHqKZfRl/vrD3Qbs=;
+  b=nQjnCC50446IcI3GvZHzxJBLp8lFL8tBfHMCFAwh9jDyHj+iMw+xW4IC
+   hEFA65xBR1Ue0vst3eKnwbOrxfNP/P+O6IdRbaSH2YFc3ir/ibH/sbzoO
+   /OB7hmnBCYrc5yhaRXObymZjL4SpnAYF/E15A/ZS/TPlJ83pdAviJQ8fp
+   T4wY2ipfVyfC4hfyygsKN+7yUjlW4JgPxDtEb/0RZHv8nzT4vZM+miy4u
+   6108FUmnbIdip6kd6JtyF8QDl9JbinFKp5q5qa6hkDA3o9jhhk8hVQ6ih
+   gv25U+4MO3GdIZf4/Sk3X2JL3kcNZpt5fqvrGbYEhpR8s6jrbys6+m/g8
+   A==;
+X-CSE-ConnectionGUID: PrU7s+DaTfKbhVJ29frVSg==
+X-CSE-MsgGUID: GWyNWoUYQTezGX79gGO+Nw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6833510"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="6833510"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:28:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="20949785"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:28:56 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8D9F111F8EA;
+	Wed, 27 Mar 2024 15:28:53 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH 1/1] media: ov2740: Fix LINK_FREQ and PIXEL_RATE control value reporting
+Date: Wed, 27 Mar 2024 15:28:53 +0200
+Message-Id: <20240327132853.521461-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bqhdij4d5wn3lvmi"
-Content-Disposition: inline
-In-Reply-To: <ZgQTrwOUtdZ1nRs0@desktop>
+Content-Transfer-Encoding: 8bit
 
+The driver dug the supported link frequency up from the V4L2 fwnode
+endpoint and used it internally, but failed to report this in the
+LINK_FREQ and PIXEL_RATE controls. Fix this.
 
---bqhdij4d5wn3lvmi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 0677a2d9b735 ("media: ov2740: Add support for 180 MHz link frequency")
+Cc: stable@vger.kernel.org # for v6.8 and later
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/ov2740.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Hi,
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 552935ccb4a9..57906df7be4e 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -768,14 +768,15 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+ 	cur_mode = ov2740->cur_mode;
+ 	size = ARRAY_SIZE(link_freq_menu_items);
+ 
+-	ov2740->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
+-						   V4L2_CID_LINK_FREQ,
+-						   size - 1, 0,
+-						   link_freq_menu_items);
++	ov2740->link_freq =
++		v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
++				       V4L2_CID_LINK_FREQ, size - 1,
++				       ov2740->supported_modes->link_freq_index,
++				       link_freq_menu_items);
+ 	if (ov2740->link_freq)
+ 		ov2740->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+-	pixel_rate = to_pixel_rate(OV2740_LINK_FREQ_360MHZ_INDEX);
++	pixel_rate = to_pixel_rate(ov2740->supported_modes->link_freq_index);
+ 	ov2740->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
+ 					       V4L2_CID_PIXEL_RATE, 0,
+ 					       pixel_rate, 1, pixel_rate);
+-- 
+2.39.2
 
-On Wed, Mar 27, 2024 at 01:40:15PM +0100, Link Mauve wrote:
-> On Thu, Mar 21, 2024 at 09:15:38AM +0100, Krzysztof Kozlowski wrote:
-> > On 20/03/2024 18:37, Emmanuel Gil Peyrot wrote:
-> > > The TRM (version 1.0 page 385) lists five VEPU121 cores, but only four
-> > > interrupts are listed (on page 24), so I=E2=80=99ve only enabled four=
- of them
-> > > for now.
-> > >=20
-> > > Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-> > > ---
-> > >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++=
-++
-> > >  1 file changed, 80 insertions(+)
-> > >=20
-> > > diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/b=
-oot/dts/rockchip/rk3588s.dtsi
-> > > index 2a23b4dc36e4..fe77b56ac9a0 100644
-> > > --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> > > +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> > > @@ -2488,6 +2488,86 @@ gpio4: gpio@fec50000 {
-> > >  		};
-> > >  	};
-> > > =20
-> > > +	jpeg_enc0: video-codec@fdba0000 {
-> > > +		compatible =3D "rockchip,rk3588-vepu121";
-> > > +		reg =3D <0x0 0xfdba0000 0x0 0x800>;
-> > > +		interrupts =3D <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
-> > > +		clocks =3D <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
-> > > +		clock-names =3D "aclk", "hclk";
-> > > +		iommus =3D <&jpeg_enc0_mmu>;
-> > > +		power-domains =3D <&power RK3588_PD_VDPU>;
-> > > +	};
-> > > +
-> > > +	jpeg_enc0_mmu: iommu@fdba0800 {
-> > > +		compatible =3D "rockchip,rk3588-iommu";
-> >=20
-> > It does not look like you tested the DTS against bindings. Please run
-> > `make dtbs_check W=3D1` (see
-> > Documentation/devicetree/bindings/writing-schema.rst or
-> > https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-s=
-ources-with-the-devicetree-schema/
-> > for instructions).
->=20
-> Even on master I get an exception about this unresolvable file:
-> referencing.exceptions.Unresolvable: cache-controller.yaml#
->=20
-> Yet it seems to be present in only three files, all of them unrelated to
-> the rockchip board I=E2=80=99m interested in (it seems), so I=E2=80=99m n=
-ot sure what to
-> do about that.
-
-The trace looked like you tried using dt-schema with jsonschema
-version 4.18+, which is known broken:
-
-https://github.com/devicetree-org/dt-schema/issues/109
-
-Greetings,
-
--- Sebastian
-
---bqhdij4d5wn3lvmi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYEGo4ACgkQ2O7X88g7
-+ppnpw/+IYqLzHk0LXotRxxmx2QRAz4gYpFyEku/kt2XkuQwtufZMFEqBQ5hBuzo
-WMGDPKyTGKCUSGzxHo53ZnTsSQ4yvnlYmNJJ+invQuwR0AuN0oUdtU2TqGkTXTH5
-VlCI3DM0yWjJDPE9MEWRj94dAuKJ/+21kYbiKXbsVlZz7vPvS3AMLUChqGzVW29h
-GzwtgqGgwsLQQJnjJQ2MvoBDWqOO5Odg/CRmottxdbmxaHcaQ1shr25plFDjhdf7
-qw+lR2cy64CkkQm8dzeVpoIUrD3Ow2KO4iuxlMkKkMFHvesb7Gxs/WDT4dj4q6yk
-VQZTdxLe790Pq6v2CIDshZTTLpTIiWOL8vFCNVG7Dl6sSzqUliBKnYStPTa8yZbM
-uFBz3GeG+Of8/a/ZetIUJXX5AOTVaSj/DcrbFqy4laQsYLPConDWwU4cDLBSXGy1
-EOJKIaFnBA1zonoUGrKkvxhqcgoriWTVKVpmxkyHp4pW4O/ALldccEisOhpYfq3y
-sfqiCH0aGDi0vR4hu9K8EQB6hyU7rXhC2K5VFmFKbEotcBakhLjd+mPcCpfvlfBp
-rRez6hhL8PDpWPdbS7b4poD0HW5RR3dIgm1shBrr54NVn4wxiVAErRWOaYv+XniH
-yglVBxWtvVeh9Zils+BVcew31B+9CEYMOvd4DUp1f8TluPCZtp0=
-=12dq
------END PGP SIGNATURE-----
-
---bqhdij4d5wn3lvmi--
 
