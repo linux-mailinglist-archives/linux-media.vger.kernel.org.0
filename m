@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-7930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6650E88DC09
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:07:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0FD88DC19
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:08:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA700B25567
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:07:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3F9CB25F26
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:08:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A0C54BC8;
-	Wed, 27 Mar 2024 11:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13ACA535A1;
+	Wed, 27 Mar 2024 11:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KzyFU+4D"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="imgfpgcY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B478C4CE17;
-	Wed, 27 Mar 2024 11:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE4847F54
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711537608; cv=none; b=LaXqlb8QURpDinlpAtclKC6zzzXDeWzLKjrQIAC0PN0OlidV8H199w5LC7H1lzfp3fDUnDrygfvk/iPQqaT0vmCsr1LoZ3UkQqZ1xSUAtRRgcn34Rz7sPM14s3F8PfAiaZSGUZb8KenONJ8l4KQPI4fp7JuN+eDVDkRL3q+LTR0=
+	t=1711537720; cv=none; b=MATWJbKAa9KAQksL9Oh6cKNwOKa+D8HEGjbgL8EDMtkvVJAmKsBEkVIC69wtbi7OMqryCh0V69fF59c49e5oMV3Kv5G8Bf89ts4kWWYJ06VCeMSe6kWNKl1082aKAljMz+0Q1pIF9ZLBBw7IhCkbarmmTRKKowy+1hpSo06mCCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711537608; c=relaxed/simple;
-	bh=r7jrv46F0n2rmGy+7GTEZ25/DZQrOqKGB/mYB4ojoNg=;
+	s=arc-20240116; t=1711537720; c=relaxed/simple;
+	bh=nrOHzxkw4pbCadzE7xJkQBSY6EXGpqHX2Z/80RA8J9o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXX459Suo/3p8FnpxHaQhgOqAIYXxbeblZ31Jdw2esnksyFdva2k656BO3puSex9nYMssgc3BRVtPgoThXDz4o3nyqFxQx2gNgRY2lstmisr/D4HyboLdEaI/hxNvdCYlno0XMcHQEeRvl91Tjypo/hmmtagDVE1DATSkDNR0Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KzyFU+4D; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=CCcB8ukYI3Ba+6kmjh1tPuYVypWZDG+Vn6iduAYMFJJQQ/euZNmez77nNnoH2Qk+h1JFFiMzQxMvsmmhB/dLgkp24xsdySud9NDg00tJJMtygY3nRmRt7n0ncYhQufrE6KjQfm9vsIh06xyTqmaHU8QAgNfdJM0VDJCvi8+dvgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=imgfpgcY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B66C675;
-	Wed, 27 Mar 2024 12:06:12 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16C1B13AC;
+	Wed, 27 Mar 2024 12:08:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711537573;
-	bh=r7jrv46F0n2rmGy+7GTEZ25/DZQrOqKGB/mYB4ojoNg=;
+	s=mail; t=1711537682;
+	bh=nrOHzxkw4pbCadzE7xJkQBSY6EXGpqHX2Z/80RA8J9o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KzyFU+4DNYu7DEmnTFGXogGKneEifqRKiccteJeIoUIYfg3xpTEChQYYTVt3GgKzc
-	 WRlMYO8jVfmuxxQprqlZUQ6W+8043bClrj92ZAddCotQmurkOdhcJnDdOQ63FBjZwc
-	 vJqmvThyMeX9fT09mR+kmRdPWQ9rkhX8IC+guwxo=
-Message-ID: <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
-Date: Wed, 27 Mar 2024 13:06:42 +0200
+	b=imgfpgcYLzdX6CPrLZiXIDXEqMhsxEXm8o69KQe6/5fnCAfmHMT8ZodwVRyI66jwy
+	 O+f1p9jdJ4qh70INuDd4bx8aqAPCS/eUDRZTCj+J3CiCbSOL7ib1tjtL5nROphxNfV
+	 yefEepBpcRxM8Gg4vdr3bYSeULTqcg85cnNAMVnU=
+Message-ID: <fd863fe8-af0d-4e4d-b760-9ad2f5740602@ideasonboard.com>
+Date: Wed, 27 Mar 2024 13:08:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,21 +50,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
- single-pad subdevs
+Subject: Re: [PATCH v7 06/15] media: v4l: Add V4L2-PIX-FMT-Y12P format
 Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
- <20240325125055.GC23988@pendragon.ideasonboard.com>
- <ZgF10EVLrfF7cl57@kekkonen.localdomain>
- <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
- <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
- <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
- <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Plowman <david.plowman@raspberrypi.com>,
+ Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, kernel-list@raspberrypi.com,
+ linux-rpi-kernel@lists.infradead.org,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com
+References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
+ <20240324220854.15010-7-laurent.pinchart@ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -109,98 +110,79 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+In-Reply-To: <20240324220854.15010-7-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 27/03/2024 12:46, Sakari Ailus wrote:
-> Heippa,
+On 25/03/2024 00:08, Laurent Pinchart wrote:
+> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 > 
-> On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
->> On 25/03/2024 19:52, Sakari Ailus wrote:
->>> Moi,
->>>
->>> On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
->>>> On 25/03/2024 15:02, Sakari Ailus wrote:
->>>>> Moi,
->>>>>
->>>>> Thanks for the patch.
->>>>>
->>>>> On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
->>>>>> Hi Tomi,
->>>>>>
->>>>>> On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
->>>>>>> Currently a subdevice with a single pad, e.g. a sensor subdevice, must
->>>>>>> use the v4l2_subdev_video_ops.s_stream op, instead of
->>>>>>> v4l2_subdev_pad_ops.enable/disable_streams. This is because the
->>>>>>> enable/disable_streams machinery requires a routing table which a subdev
->>>>>>> cannot have with a single pad.
->>>>>>>
->>>>>>> Implement enable/disable_streams support for these single-pad subdevices
->>>>>>> by assuming an implicit stream 0 when the subdevice has only one pad.
->>>>>>>
->>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>>>>> ---
->>>>>>> Even though I did send this patch, I'm not sure if this is necessary.
->>>>>>> s_stream works fine for the subdevs with a single pad. With the upcoming
->>>>>>> internal pads, adding an internal pad to the subdev will create a
->>>>>>> routing table, and enable/disable_streams would get "fixed" that way.
->>>>>
->>>>> I'd like to get rid of a redundant way to control streaming.
->>>>
->>>> We can't get rid of it anyway, can we? We're not going to convert old
->>>> drivers to streams.
->>>
->>> I'd expect to do that but it'd take a long time. That being said, I think
->>> we need to consider devices without pads (VCMs) so it may well be this
->>> would remain after all.
->>>
->>>>
->>>> For new drivers, yes, we shouldn't use s_stream. But is the answer for new
->>>> sensor drivers this patch, or requiring an internal pad?
->>>
->>> For new drivers I'd like to see an internal pad in fact.
->>> {enable,disable}_streams is still internal to the kernel.
->>
->> So, you think this patch should be dropped?
+> This is a packed grey-scale image format with a depth of 12 bits per
+> pixel. Two consecutive pixels are packed into 3 bytes. The first 2 bytes
+> contain the 8 high order bits of the pixels, and the 3rd byte contains
+> the 4 least significants bits of each pixel, in the same order.
 > 
-> No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
+> Add the entry in userspace API, and document it.
 
-Hmm, alright. So we want to support enable/disable_streams for 
-sub-devices with multiple source pads but no routing (so probably no 
-sink pads)?
-
->>>>>>> So perhaps the question is, do we want to support single-pad subdevs in
->>>>>>> the future, in which case something like this patch is necessary, or
->>>>>>> will all modern source subdev drivers have internal pads, in which
->>>>>>> case this is not needed...
->>>>>>
->>>>>> I think the latter would be best. I however can't guarantee we won't
->>>>>> have valid use cases for (enable|disable)_streams on single-pad subdevs
->>>>>> though, so you patch could still be interesting.
->>>>>
->>>>> Instead of the number of pads, could we use instead the
->>>>> V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
->>>>> determine the need for this?
->>>>
->>>> Maybe, but are they better? Do you see some issue with checking for the
->>>> number of pads? I considered a few options, but then thought that the most
->>>> safest test for this case is 1) one pad 2) enable/disable_streams
->>>> implemented.
->>>
->>> I think I'd actually prefer {enable,disable}_streams in fact.
->>
->> Hmm, sorry, now I'm confused =). What do you mean with that?
-> 
-> I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
-> number of pads is less related to routing.
-
-Well, with one pad you cannot have routing =).
-
-In this patch I used sd->enabled_streams to track the enabled streams, 
-but if we need to support multiple pads, I'll have to invent something 
-new for that.
+You probably noticed, but Jacopo has similar patches to this and the 
+next one in his BE series.
 
   Tomi
+
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
+>   drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+>   include/uapi/linux/videodev2.h                        |  1 +
+>   3 files changed, 13 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> index cf8e4dfbfbd4..a650ceda7cdb 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> @@ -114,6 +114,17 @@ are often referred to as greyscale formats.
+>         - ...
+>         - ...
+>   
+> +    * .. _V4L2-PIX-FMT-Y12P:
+> +
+> +      - ``V4L2_PIX_FMT_Y12P``
+> +      - 'Y12P'
+> +
+> +      - Y'\ :sub:`0`\ [11:4]
+> +      - Y'\ :sub:`1`\ [11:4]
+> +      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [3:0]
+> +      - ...
+> +      - ...
+> +
+>       * .. _V4L2-PIX-FMT-Y14:
+>   
+>         - ``V4L2_PIX_FMT_Y14``
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 72cdea3c1316..01959d030b84 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1313,6 +1313,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>   	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
+>   	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
+>   	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
+> +	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
+>   	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
+>   	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
+>   	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 8b5a8286f138..a7ff109cf8b3 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -599,6 +599,7 @@ struct v4l2_pix_format {
+>   #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
+>   #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
+>   #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
+> +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
+>   
+>   /* Palette formats */
+>   #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
 
 
