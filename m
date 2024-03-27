@@ -1,188 +1,236 @@
-Return-Path: <linux-media+bounces-7931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0FD88DC19
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:08:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D05FC88DC54
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:18:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3F9CB25F26
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:08:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85A03298054
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:18:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13ACA535A1;
-	Wed, 27 Mar 2024 11:08:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E319A59166;
+	Wed, 27 Mar 2024 11:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="imgfpgcY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dQimpuTv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE4847F54
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B45C5821B;
+	Wed, 27 Mar 2024 11:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711537720; cv=none; b=MATWJbKAa9KAQksL9Oh6cKNwOKa+D8HEGjbgL8EDMtkvVJAmKsBEkVIC69wtbi7OMqryCh0V69fF59c49e5oMV3Kv5G8Bf89ts4kWWYJ06VCeMSe6kWNKl1082aKAljMz+0Q1pIF9ZLBBw7IhCkbarmmTRKKowy+1hpSo06mCCE=
+	t=1711538315; cv=none; b=HoIo8kSgdCPZmiO++iemQKD9GjR+gErZN2uFPPOidqBq4nI+lLROHUeDGwK0Nt+AX09Z0Yxu8Uub3iFljmjdgtL1hchqIgqCkvC7qLQMUilEi3pAIoc/VynWioJ8+0EwC5Vd//OHPIW/b/hPupt4Ea6g5VCFDuQ0m6uRvS+HD8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711537720; c=relaxed/simple;
-	bh=nrOHzxkw4pbCadzE7xJkQBSY6EXGpqHX2Z/80RA8J9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CCcB8ukYI3Ba+6kmjh1tPuYVypWZDG+Vn6iduAYMFJJQQ/euZNmez77nNnoH2Qk+h1JFFiMzQxMvsmmhB/dLgkp24xsdySud9NDg00tJJMtygY3nRmRt7n0ncYhQufrE6KjQfm9vsIh06xyTqmaHU8QAgNfdJM0VDJCvi8+dvgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=imgfpgcY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16C1B13AC;
-	Wed, 27 Mar 2024 12:08:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711537682;
-	bh=nrOHzxkw4pbCadzE7xJkQBSY6EXGpqHX2Z/80RA8J9o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=imgfpgcYLzdX6CPrLZiXIDXEqMhsxEXm8o69KQe6/5fnCAfmHMT8ZodwVRyI66jwy
-	 O+f1p9jdJ4qh70INuDd4bx8aqAPCS/eUDRZTCj+J3CiCbSOL7ib1tjtL5nROphxNfV
-	 yefEepBpcRxM8Gg4vdr3bYSeULTqcg85cnNAMVnU=
-Message-ID: <fd863fe8-af0d-4e4d-b760-9ad2f5740602@ideasonboard.com>
-Date: Wed, 27 Mar 2024 13:08:31 +0200
+	s=arc-20240116; t=1711538315; c=relaxed/simple;
+	bh=i2fa+3DR26Zj31lD2if0uoJhDszpehrNQXV32GdxVjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jjNy1kAcKwd2JteGWYIVZxBgmMajvCjNMJ5hu7f5/POh30uhOV0EbYy8BqMcfedaoo4yo7btstrQYz0CiY/7PNlLDvMDcscW4eB09xLfaCpFIvvKb/Ql7gN2yrfJ3dUnZPgUqxhNshEwSrrNRa3TkI4BT35rDQHX9ZH3k1BF8LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dQimpuTv; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d485886545so115142111fa.2;
+        Wed, 27 Mar 2024 04:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711538311; x=1712143111; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lp/zcrR0u0FeMfhA5vj2Juol5mBwEE6nXt1DO/sf7b4=;
+        b=dQimpuTv2Dlrpake4/evK7/sIUxvaY0igaAsUFlXQowkiiv2uKLSYCAqmk+AuMb1BY
+         dewpUqkIKtHzrMQQZOICGoJgrw794WtKE42LhZj7IsdNa/oJn/K7o6gh9p8Lxpg/d2CO
+         tMmvbDFhY79CaCZVsr/kCQXS8Jacv53wvFJ4qOSw1q/HSvg+W5nXKaZH7kUgQvMSuH4s
+         huwWw7guBFcvnblRiic7imVCkCR0KTJLPtwr9E24Lm9BC3k/5g27k1wk6ZY652+R7wDK
+         CwLfCTO+PRkVtBmSrHemtFPqTmQWbm06UjhiJC2JdOUe6bqXbYotNpiU5lxG4aZvm/aV
+         dM8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711538311; x=1712143111;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lp/zcrR0u0FeMfhA5vj2Juol5mBwEE6nXt1DO/sf7b4=;
+        b=bsP/9oyYqimaB+PwbGSc3vMlSv8wwkW9qXb5zLebQTLeLCA8RS6LKC0VYIwBkuNPdo
+         WA5CFhRpHGEIYyVaftgPzu7nqNpcY25GIbZ7IFHBUHo85DcWHJghxW1xtHV38P3ktTn3
+         4T/uiPuoK2kFCFrL2RCF2rTZX0YVNDkJGA5XVB9M9xsUCiEcdJ4m2IdS8fPsz3sE7TOq
+         V3HqJOhw3FWoyTLJmRrbkgqBkNkG4cmY9R2GNU+JKnJNkVRJBomSi5RDouCJg4jpBlWl
+         AROWYFiPbofimMhzgC9L6+4GTD66FOKrFsLDGoDD31ca+SfZJJ0f2edwwqD0kcDLRM4e
+         Q6GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVEW9Qi69P78wCw7eTfJ+7GDer8keh59akrQN1VHRVTgfsblNhIuXWWJRuVl7e0H0Ua+u+L2b7Qbj7EvQx6+PNg/kAflZVd0KGufGh1
+X-Gm-Message-State: AOJu0YwEe9Oj+uC5niQVcjgF2kvMfmichs8Tdv1s5eK0g35a2dLr+rjq
+	O/9TCkRPXaVYuP0awmbr6FJrcqKVbyIZ0gO6sR/CBgKrDQsiRFUx
+X-Google-Smtp-Source: AGHT+IGx+Aw4iJKhDOR4wJMItnvljG8SUMPzbwyM4c5FFUXIYLBPM7ZUstOEoE6+pVy1WSSrMM+wkw==
+X-Received: by 2002:a05:651c:2120:b0:2d6:fd22:8065 with SMTP id a32-20020a05651c212000b002d6fd228065mr998773ljq.1.1711538311239;
+        Wed, 27 Mar 2024 04:18:31 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id s11-20020a2e98cb000000b002d436e25f83sm2060091ljj.46.2024.03.27.04.18.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 04:18:30 -0700 (PDT)
+Date: Wed, 27 Mar 2024 14:18:29 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size"
+ DT prop
+Message-ID: <46lu36puyfwphpje3hndjictsols6tckbigxieufikl5kjtgdq@5cv353oijzub>
+References: <20240325064102.9278-1-brnkv.i1@gmail.com>
+ <20240325064102.9278-5-brnkv.i1@gmail.com>
+ <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/15] media: v4l: Add V4L2-PIX-FMT-Y12P format
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Naushir Patuck <naush@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, kernel-list@raspberrypi.com,
- linux-rpi-kernel@lists.infradead.org,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- bcm-kernel-feedback-list@broadcom.com
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-7-laurent.pinchart@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240324220854.15010-7-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 
-On 25/03/2024 00:08, Laurent Pinchart wrote:
-> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+On Wed, Mar 27, 2024 at 10:27:19AM +0000, Nas Chung wrote:
+> Hi, Ivan.
 > 
-> This is a packed grey-scale image format with a depth of 12 bits per
-> pixel. Two consecutive pixels are packed into 3 bytes. The first 2 bytes
-> contain the 8 high order bits of the pixels, and the 3rd byte contains
-> the 4 least significants bits of each pixel, in the same order.
+> >-----Original Message-----
+> >From: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >Sent: Monday, March 25, 2024 3:41 PM
+> >To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+> ><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>;
+> >Philipp Zabel <p.zabel@pengutronix.de>
+> >Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
+> >linux-kernel@vger.kernel.org
+> >Subject: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size" DT
+> >prop
+> >
+> >Use all available SRAM memory up to WAVE5_MAX_SRAM_SIZE. Remove
+> >excessive "sram-size" device-tree property as genalloc is already able
+> >to determine available memory.
+> >
+> >Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >---
+> > .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++---------
+> > .../platform/chips-media/wave5/wave5-vpu.c    |  7 -------
+> > .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
+> > .../chips-media/wave5/wave5-vpuconfig.h       |  2 ++
+> > 4 files changed, 13 insertions(+), 18 deletions(-)
+> >
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >index 3809f70bc0b4..a63fffed55e9 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
+> >*vpu_dev, struct vpu_buf *array,
+> > void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
+> > {
+> > 	struct vpu_buf *vb = &vpu_dev->sram_buf;
+> >+	dma_addr_t daddr;
+> >+	void *vaddr;
+> >+	size_t size;
+> >
+> >-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
+> >+	if (!vpu_dev->sram_pool || vb->vaddr)
+> > 		return;
+> >
+> >-	if (!vb->vaddr) {
+> >-		vb->size = vpu_dev->sram_size;
+> >-		vb->vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
+> >-					       &vb->daddr);
+> >-		if (!vb->vaddr)
+> >-			vb->size = 0;
+> >+	size = min_t(size_t, WAVE5_MAX_SRAM_SIZE, gen_pool_avail(vpu_dev-
+> >>sram_pool));
+> >+	vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
+> >+	if (vaddr) {
+> >+		vb->vaddr = vaddr;
+> >+		vb->daddr = daddr;
+> >+		vb->size = size;
+> > 	}
+> >
+> > 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
+> >0x%p\n",
+> >@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device *vpu_dev)
+> > 	if (!vb->size || !vb->vaddr)
+> > 		return;
+> >
+> >-	if (vb->vaddr)
+> >-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
+> >-			      vb->size);
+> >+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
+> >>size);
+> >
+> > 	memset(vb, 0, sizeof(*vb));
+> > }
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >index 1e631da58e15..2a972cddf4a6 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >@@ -177,13 +177,6 @@ static int wave5_vpu_probe(struct platform_device
+> >*pdev)
+> > 		goto err_reset_assert;
+> > 	}
+> >
+> >-	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
+> >-				   &dev->sram_size);
+> >-	if (ret) {
+> >-		dev_warn(&pdev->dev, "sram-size not found\n");
+> >-		dev->sram_size = 0;
+> >-	}
+> >-
+> > 	dev->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> > 	if (!dev->sram_pool)
+> > 		dev_warn(&pdev->dev, "sram node not found\n");
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >index da530fd98964..975d96b22191 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >@@ -750,7 +750,6 @@ struct vpu_device {
+> > 	struct vpu_attr attr;
+> > 	struct vpu_buf common_mem;
+> > 	u32 last_performance_cycles;
+> >-	u32 sram_size;
+> > 	struct gen_pool *sram_pool;
+> > 	struct vpu_buf sram_buf;
+> > 	void __iomem *vdb_register;
+> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >index d9751eedb0f9..9d99afb78c89 100644
+> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >@@ -28,6 +28,8 @@
+> > #define WAVE521ENC_WORKBUF_SIZE         (128 * 1024)      //HEVC 128K, AVC
+> >40K
+> > #define WAVE521DEC_WORKBUF_SIZE         (1784 * 1024)
+> >
+> >+#define WAVE5_MAX_SRAM_SIZE		(64 * 1024)
 > 
-> Add the entry in userspace API, and document it.
-
-You probably noticed, but Jacopo has similar patches to this and the 
-next one in his BE series.
-
-  Tomi
-
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
->   drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
->   include/uapi/linux/videodev2.h                        |  1 +
->   3 files changed, 13 insertions(+)
+> WAVE521 can support 8K stream decoding/encoding.
+> So, I suggest the MAX_SRAME_SIZE to 128 * 1024 (128KB).
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> index cf8e4dfbfbd4..a650ceda7cdb 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> @@ -114,6 +114,17 @@ are often referred to as greyscale formats.
->         - ...
->         - ...
->   
-> +    * .. _V4L2-PIX-FMT-Y12P:
-> +
-> +      - ``V4L2_PIX_FMT_Y12P``
-> +      - 'Y12P'
-> +
-> +      - Y'\ :sub:`0`\ [11:4]
-> +      - Y'\ :sub:`1`\ [11:4]
-> +      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [3:0]
-> +      - ...
-> +      - ...
-> +
->       * .. _V4L2-PIX-FMT-Y14:
->   
->         - ``V4L2_PIX_FMT_Y14``
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 72cdea3c1316..01959d030b84 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1313,6 +1313,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->   	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
->   	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
->   	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
-> +	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
->   	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
->   	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
->   	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 8b5a8286f138..a7ff109cf8b3 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -599,6 +599,7 @@ struct v4l2_pix_format {
->   #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
->   #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
->   #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
-> +#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
->   
->   /* Palette formats */
->   #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
+> And, Current driver always enable sec_axi_info option if sram buffer is allocated.
+> But, we have to enable/disable the sec_axi_info option after checking the allocated sram size is enough to decode/encode current bitstream resolution.
+> Wave5 can enable/disable the sec_axi_info option for each instance.
+> 
+> How about handle sram-size through match_data ?
+> I can find some drivers which use match_data to configure the sram size.
+> 
+> We can use current "ti,k3-j721s2-wave521c" device as a 4K supported device.
+> - .sram_size = (64 * 1024);
+> Driver just allocate the sram-size for max supported resolution of each device, and we don't need to check the sram-size is enough or not.
 
+Sure, sounds reasonable.
+
+> 
+> Thanks.
+> Nas.
+> 
+> >+
+> > #define MAX_NUM_INSTANCE                32
+> >
+> > #define W5_MIN_ENC_PIC_WIDTH            256
+> >--
+> >2.44.0
+> 
 
