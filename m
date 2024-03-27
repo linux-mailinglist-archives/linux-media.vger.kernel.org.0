@@ -1,79 +1,60 @@
-Return-Path: <linux-media+bounces-8038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6906888F322
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 00:26:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B9188F336
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 00:32:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FFB92A616E
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 23:26:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C42F41C260D8
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 23:32:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7EA156C55;
-	Wed, 27 Mar 2024 23:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A320154BE3;
+	Wed, 27 Mar 2024 23:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="RhqwllJS"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="UMI5QwJy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta232.mxroute.com (mail-108-mta232.mxroute.com [136.175.108.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FAF15688A
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 23:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD52152505;
+	Wed, 27 Mar 2024 23:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581817; cv=none; b=gLG02eWWe72k8zhdm4tlv2W5OdtPatWzKA4pFrjxCntAFR7mXZI//9eeDeGfcTiHB7s9THrVVkUZq8Sf+rsoTnJdbY8ZFOH43qBj+LsZYIXERK1huy0uePkV3zF+oV3eHhnTS1C+/JsfB1EuYyVYPeYMf48RZOwrwGGAyoaovDU=
+	t=1711582367; cv=none; b=L/9EQEhzcUXOTTAkGIhCrSefCkTDT/eBmyFDT5inXkuC0oXvIUPOlp5W1GiQemCZ38M7k/e7D+Y9moUUqE1VtZz/1Vr33e7KzYUeTLgdsdsKeCGIy6LGH0zHoIGXSG9wpoL2b8J6XyGv5uvf4gIcNpPQuuXqCFA0TSUDNX2C1bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581817; c=relaxed/simple;
-	bh=cod9Uff2WJHycV1JgYkB6YcxOlX/FeYXw3c4usUp97o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jvVxXAX3HDiuehcDl11dzFqeL5HqjHzFRhDJ110XYcFJ2Fye3Y/Qvo53eHKh3kQ6L+HCvYfkgB3V3mGY54kY+UgaEUQVXa3vbNDgE1yd3+dll+EQvdniWJigkVxUt+qkDlL0lU6pdyHOxZoHKwK4jHhV3WHjyQYXDM2QCt9ps3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=RhqwllJS; arc=none smtp.client-ip=136.175.108.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
-Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta232.mxroute.com (ZoneMTA) with ESMTPSA id 18e8234d0610003bea.011
- for <linux-media@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 27 Mar 2024 23:18:03 +0000
-X-Zone-Loop: e4523f84a842f9ea2ef639162d992ff724b1f7ddd3d4
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=luigi311.com; s=x; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LjTpuhBdOaCqahODS/RH8FzgsjiJhHlH8fSAiGxPvj0=; b=RhqwllJSBTxd/TzOcE9rhrNwm/
-	ojUPMl2wS6Zrqe/2JHwhaHKHw98UlTxqsAr5cRSbd4WFMsrgLhtqKkLPjiLHnKAuoCbUOGpC9BRlT
-	LSRjKfvQGq5BsSX16E+OxL25FMF6o0MxG0RaEJPBlB8gUKO0iS6EBFroAgerWKVL1vqJPICZQC4pd
-	rfjN9rIx3y0rOpONq26ezELw0VlWXvhASTYQ0TuqCtc+W0IXoxJgIxDMYyGKN5fz1f06CXkAldUW2
-	/dnfLu3eQN5sT5HyuE853SpSJXAQ//2Jnc68M1Jf9Olo54V2ynbRbqa5fPPdGEYt3NPvhKbmGLL3S
-	k2JD6JFg==;
-From: git@luigi311.com
-To: linux-media@vger.kernel.org
-Cc: dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1711582367; c=relaxed/simple;
+	bh=eHSSgsbK1rqU2YbdPmS6PWjfXAy5g8Zq7TGAJaYLS8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BBkSn0YIC4v8BgX8SD5CzChfYGW7hcT4mqZUgXgh9yLiW5+ppTYcejN2kIiMN1c/BL90E40vzL4+/7p9T4bmjexhlquuXBbagN8RN2gq7cPOvd/1BcueEDI0ydtPXro3N7ojl1QYVre+C83Zx0L5jAUEBm9ZtYI90VWDcHo4qIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=UMI5QwJy; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from tundra.lovozera (unknown [178.176.72.89])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 270DC4076743;
+	Wed, 27 Mar 2024 23:32:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 270DC4076743
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1711582355;
+	bh=woxLEnCoTio3lIKiy9FPxfvzbuc49vi+0knM8PWIYrg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UMI5QwJyKrA0XUM7tYplkhayU8OvaHyeJaFK+Y4Rxy6cfrJo8roYbtwezferRTr4w
+	 LBjQyNgSAqngUfRhIEtUDM9I1Ob08V0Dq6LF3LvfmbptOvE3sauPu3h2zfiK1KVVhC
+	 +pdZoJPRWm3sekUHW4jEwYMoiWLD8QeBQW3BJdpA=
+From: Mikhail Kobuk <m.kobuk@ispras.ru>
+To: Andy Walls <awalls@md.metrocast.net>
+Cc: Mikhail Kobuk <m.kobuk@ispras.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Luigi311 <git@luigi311.com>,
-	Ondrej Jirman <megous@megous.com>
-Subject: [PATCH 23/23] drivers: media: i2c: imx258: Add support for reset gpio
-Date: Wed, 27 Mar 2024 17:17:09 -0600
-Message-ID: <20240327231710.53188-24-git@luigi311.com>
-In-Reply-To: <20240327231710.53188-1-git@luigi311.com>
-References: <20240327231710.53188-1-git@luigi311.com>
+	lvc-project@linuxtesting.org,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>
+Subject: [PATCH] pci: ivtv: Add check for DMA map result
+Date: Thu, 28 Mar 2024 02:32:23 +0300
+Message-ID: <20240327233226.5919-1-m.kobuk@ispras.ru>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,64 +62,85 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: personal@luigi311.com
 
-From: Luigi311 <git@luigi311.com>
+In case DMA fails, 'dma->SG_length' is 0. This value is later used to
+access 'dma->SGarray[dma->SG_length - 1]', which will cause out of
+bounds access.
 
-It was documented in DT, but not implemented.
+Add check to return early on invalid value. Adjust warnings accordingly.
 
-Signed-off-by: Ondrej Jirman <megous@megous.com>
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: 1932dc2f4cf6 ("media: pci/ivtv: switch from 'pci_' to 'dma_' API")
+Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
 ---
- drivers/media/i2c/imx258.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/media/pci/ivtv/ivtv-udma.c | 8 ++++++++
+ drivers/media/pci/ivtv/ivtv-yuv.c  | 6 ++++++
+ drivers/media/pci/ivtv/ivtvfb.c    | 6 +++---
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index d8c51d5f04e0..42e1c9246bed 100644
---- a/drivers/media/i2c/imx258.c
-+++ b/drivers/media/i2c/imx258.c
-@@ -687,6 +687,7 @@ struct imx258 {
- 	unsigned int csi2_flags;
+diff --git a/drivers/media/pci/ivtv/ivtv-udma.c b/drivers/media/pci/ivtv/ivtv-udma.c
+index 99b9f55ca829..f467a00492f4 100644
+--- a/drivers/media/pci/ivtv/ivtv-udma.c
++++ b/drivers/media/pci/ivtv/ivtv-udma.c
+@@ -131,6 +131,8 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivtv_dest_addr,
  
- 	struct gpio_desc *powerdown_gpio;
-+	struct gpio_desc *reset_gpio;
+ 	/* Fill SG List with new values */
+ 	if (ivtv_udma_fill_sg_list(dma, &user_dma, 0) < 0) {
++		IVTV_DEBUG_WARN("%s: could not allocate bounce buffers for highmem userspace buffers\n",
++				__func__);
+ 		unpin_user_pages(dma->map, dma->page_count);
+ 		dma->page_count = 0;
+ 		return -ENOMEM;
+@@ -139,6 +141,12 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivtv_dest_addr,
+ 	/* Map SG List */
+ 	dma->SG_length = dma_map_sg(&itv->pdev->dev, dma->SGlist,
+ 				    dma->page_count, DMA_TO_DEVICE);
++	if (!dma->SG_length) {
++		IVTV_DEBUG_WARN("%s: DMA map error, SG_length is 0\n", __func__);
++		unpin_user_pages(dma->map, dma->page_count);
++		dma->page_count = 0;
++		return -EINVAL;
++	}
  
- 	/*
- 	 * Mutex for serialized access:
-@@ -1239,7 +1240,11 @@ static int imx258_power_on(struct device *dev)
- 		regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
+ 	/* Fill SG Array with new values */
+ 	ivtv_udma_fill_sg_array (dma, ivtv_dest_addr, 0, -1);
+diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivtv-yuv.c
+index 582146f8d70d..2d9274537725 100644
+--- a/drivers/media/pci/ivtv/ivtv-yuv.c
++++ b/drivers/media/pci/ivtv/ivtv-yuv.c
+@@ -114,6 +114,12 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struct ivtv_user_dma *dma,
+ 	}
+ 	dma->SG_length = dma_map_sg(&itv->pdev->dev, dma->SGlist,
+ 				    dma->page_count, DMA_TO_DEVICE);
++	if (!dma->SG_length) {
++		IVTV_DEBUG_WARN("%s: DMA map error, SG_length is 0\n", __func__);
++		unpin_user_pages(dma->map, dma->page_count);
++		dma->page_count = 0;
++		return -EINVAL;
++	}
+ 
+ 	/* Fill SG Array with new values */
+ 	ivtv_udma_fill_sg_array(dma, y_buffer_offset, uv_buffer_offset, y_size);
+diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
+index 410477e3e621..d1ab7fee0d05 100644
+--- a/drivers/media/pci/ivtv/ivtvfb.c
++++ b/drivers/media/pci/ivtv/ivtvfb.c
+@@ -281,10 +281,10 @@ static int ivtvfb_prep_dec_dma_to_device(struct ivtv *itv,
+ 	/* Map User DMA */
+ 	if (ivtv_udma_setup(itv, ivtv_dest_addr, userbuf, size_in_bytes) <= 0) {
+ 		mutex_unlock(&itv->udma.lock);
+-		IVTVFB_WARN("ivtvfb_prep_dec_dma_to_device, Error with pin_user_pages: %d bytes, %d pages returned\n",
+-			       size_in_bytes, itv->udma.page_count);
++		IVTVFB_WARN("%s, Error in ivtv_udma_setup: %d bytes, %d pages returned\n",
++			       __func__, size_in_bytes, itv->udma.page_count);
+ 
+-		/* pin_user_pages must have failed completely */
++		/* pin_user_pages or DMA must have failed completely */
+ 		return -EIO;
  	}
  
--	return ret;
-+	gpiod_set_value_cansleep(imx258->reset_gpio, 0);
-+
-+	usleep_range(400, 500);
-+
-+	return 0;
- }
- 
- static int imx258_power_off(struct device *dev)
-@@ -1250,6 +1255,7 @@ static int imx258_power_off(struct device *dev)
- 	clk_disable_unprepare(imx258->clk);
- 	regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
- 
-+	gpiod_set_value_cansleep(imx258->reset_gpio, 1);
- 	gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
- 
- 	return 0;
-@@ -1561,6 +1567,12 @@ static int imx258_probe(struct i2c_client *client)
- 	if (IS_ERR(imx258->powerdown_gpio))
- 		return PTR_ERR(imx258->powerdown_gpio);
- 
-+	/* request optional reset pin */
-+	imx258->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-+						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(imx258->reset_gpio))
-+		return PTR_ERR(imx258->reset_gpio);
-+
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
- 
 -- 
-2.42.0
+2.44.0
 
 
