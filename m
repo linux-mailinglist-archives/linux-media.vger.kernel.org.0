@@ -1,508 +1,419 @@
-Return-Path: <linux-media+bounces-7902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7903-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BE488D35A
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:23:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8486988D36F
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:39:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C01C2B229CC
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:23:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6166B2324C
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115938833;
-	Wed, 27 Mar 2024 00:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B452518C36;
+	Wed, 27 Mar 2024 00:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HZy/LJqk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R829kLYe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DC336E
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 00:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117734A32;
+	Wed, 27 Mar 2024 00:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711498977; cv=none; b=GWl7G4cpdZ86MYwjJn5OG5lVVMaYQyXSvQtA8zQTdomkuvTK6BY30OYMlcKceQccDqmyxrTVyxr7SGcD3CaqghNlNCSHgUeZCRChBH7VlKMeRqI1dSBkluSy3u5CKmO7v7casoZqOjtxYrhZ9gm6zvBzaONRX+/g+MeZmXvHqyM=
+	t=1711499954; cv=none; b=RyNI8OalWyDoyfUjo0kIUXgczQGimrc0oD3whX6gXwOaFcLUDFiA+T9lEPLsqz4eiNDamNq3mJt8Id1MHt2cELDp8Vg0aQh+0jH3z4H0CiAOoLJMhw66d0EThgdlQR+MtTSddaWL2i0efwOKIKAZe3QoNJ1NJ3QdSpTCX94563g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711498977; c=relaxed/simple;
-	bh=SmhguixEVjqSzml7kF8j4GDcfrH53oF0j6Kzkl6kgCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lRgl//dXc1HQnVyRarDN7syCXxhXry2mFEzLehFH3mxvt1jzciGBjgD6fVPpvglmPrxVHdC5DmRwyzTHKK4Qu3T+Dyi3Jbf+BvkZvRFbr9zOiZ52xPJBwfj/k/inRx4e4flW3+JZko2VIYLh0D0BJQSYS5ag42JJbgnE88PNSNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HZy/LJqk; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9C07505;
-	Wed, 27 Mar 2024 01:22:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711498942;
-	bh=SmhguixEVjqSzml7kF8j4GDcfrH53oF0j6Kzkl6kgCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZy/LJqkkSGmKCZUBrpuMEo3RwpimUX7tniuYGTIKfligzAHb2s/NMyrMKu/dXSSK
-	 ijuyXKCSSZlOLBmmr0RvS4HVMepeUmJQaTftrn/sOYI1HqfgwBlR6gcn3EArHruzfQ
-	 Zj/msmfSI/wKFdQr5iydfMmcgmm+rAwsfMrxqgO4=
-Date: Wed, 27 Mar 2024 02:22:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH v7 05/15] media: i2c: imx219: Add embedded data support
-Message-ID: <20240327002245.GC15295@pendragon.ideasonboard.com>
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-6-laurent.pinchart@ideasonboard.com>
- <ZgNaltGpfvTyIB6Y@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1711499954; c=relaxed/simple;
+	bh=lM4O1qCIEDxEUxFxG3e/eyhm3l0cH5kZrKl+PEHoY9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fngoa88N03vZE7ce5DMrjGKw69hgi4Zz0rvaLy8FVUr/agF2UjgLiemiolU8pmaHXRu9cFoX0fh2RpWfmXyZWvStfzLP00IjTB8q1MmXLfoEHeTCCtqLTAPX9FkZ+HzvtAgyaD0f0mvs9eN/GHOIufp9S6JoCuO7CF4zrwBxhS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R829kLYe; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=kP7WIHOLdzRBQLDrSBJg7izGME+taO/PS6KcXmTaXmA=; b=R829kLYeWxuVRhP3F0l8AK+syA
+	QEH63rPSjU6cE1tUB9vjg/Zru7XGKlHCkGm8UnDZX0WWN4TnXIdlJ0WCiZCc+zozmDKQaebeG8Otb
+	gyunQb5eOnepRvGutL7gjpRAwHFlsqdcqclVFqMr0vyZtopr7+xwWtqWjgaV+MjqFp3U22BjiB+yN
+	hrpvRXIBaXs6tGlDTkTeW+IsWa74VNkZ1lsNunvW7tDimQkfGk1/En8lmoBA8qAVdcqWFJak4HC1p
+	Ae3ZKaz7OrrcZMT5MuKSGX2sdsKSw7PSfpqxR0fKH0RYWoRot45laQOJq0wpX92gC9AGw0DJ8tZEp
+	qhN43EZQ==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpHJc-00000006zwt-3DsR;
+	Wed, 27 Mar 2024 00:38:52 +0000
+Message-ID: <b448a180-b43d-435d-9444-60b1163deeed@infradead.org>
+Date: Tue, 26 Mar 2024 17:38:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZgNaltGpfvTyIB6Y@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v7 13/14] net: add devmem TCP documentation
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240326225048.785801-1-almasrymina@google.com>
+ <20240326225048.785801-14-almasrymina@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240326225048.785801-14-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+Hi,
 
-On Tue, Mar 26, 2024 at 11:30:30PM +0000, Sakari Ailus wrote:
-> On Mon, Mar 25, 2024 at 12:08:41AM +0200, Laurent Pinchart wrote:
-> > The IMX219 generates embedded data unconditionally. Report it as an
-> > additional stream, with a new internal embedded data pad, and update
-> > subdev operations accordingly.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v6:
-> > 
-> > - Get format from IMX219_STREAM_IMAGE in imx219_set_ctrl()
-> > - Fix mbus code for second stream in imx219_get_frame_desc()
-> > - Set V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag on route
-> > ---
-> >  drivers/media/i2c/imx219.c | 188 +++++++++++++++++++++++++++++++------
-> >  1 file changed, 160 insertions(+), 28 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index fa64bc402c9a..86a0ebf6d65f 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -149,6 +149,9 @@
-> >  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
-> >  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
-> >  
-> > +/* Embedded metadata stream height */
-> > +#define IMX219_EMBEDDED_DATA_HEIGHT	2U
-> > +
-> >  /* Mode : resolution and related config&values */
-> >  struct imx219_mode {
-> >  	/* Frame width */
-> > @@ -317,9 +320,15 @@ static const struct imx219_mode supported_modes[] = {
-> >  enum imx219_pad_ids {
-> >  	IMX219_PAD_SOURCE,
-> >  	IMX219_PAD_IMAGE,
-> > +	IMX219_PAD_EDATA,
-> >  	IMX219_NUM_PADS,
-> >  };
-> >  
-> > +enum imx219_stream_ids {
-> > +	IMX219_STREAM_IMAGE,
-> > +	IMX219_STREAM_EDATA,
-> > +};
-> > +
-> >  struct imx219 {
-> >  	struct v4l2_subdev sd;
-> >  	struct media_pad pads[IMX219_NUM_PADS];
-> > @@ -382,7 +391,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  	int ret = 0;
-> >  
-> >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +					      IMX219_STREAM_IMAGE);
-> >  
-> >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> >  		int exposure_max, exposure_def;
-> > @@ -610,6 +620,25 @@ static unsigned int imx219_format_bpp(u32 code)
-> >  	}
-> >  }
-> >  
-> > +/* Return the embedded data format corresponding to an image format. */
-> > +static u32 imx219_format_edata(u32 code)
-> > +{
-> > +	switch (code) {
-> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > +		return MEDIA_BUS_FMT_META_8;
-> > +
-> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > +	default:
-> > +		return MEDIA_BUS_FMT_META_10;
+On 3/26/24 15:50, Mina Almasry wrote:
+> Add documentation outlining the usage and details of devmem TCP.
 > 
-> Something like this could be nice in the framework. But there are many
-> others that would be useful, too, so let's think of this separately.
-
-Indeed. Let's see later, when we'll have multiple drivers sharing the
-same needs.
-
-> > +	}
-> > +}
-> > +
-> >  static int imx219_set_framefmt(struct imx219 *imx219,
-> >  			       struct v4l2_subdev_state *state)
-> >  {
-> > @@ -619,7 +648,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> >  	u64 bin_h, bin_v;
-> >  	int ret = 0;
-> >  
-> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +					      IMX219_STREAM_IMAGE);
-> >  	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
-> >  	bpp = imx219_format_bpp(format->code);
-> >  
-> > @@ -774,17 +804,33 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-> >  {
-> >  	struct imx219 *imx219 = to_imx219(sd);
-> >  
-> > -	if (code->pad == IMX219_PAD_IMAGE) {
-> > +	switch (code->pad) {
-> > +	case IMX219_PAD_IMAGE:
-> >  		/* The internal image pad is hardwired to the native format. */
-> > -		if (code->index)
-> > +		if (code->index > 0)
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 > 
-> Why? It's unsigned so this has the same effect in a little bit more
-> complicated way.
-
-I find it more explicit, as it reads as "index values larger than the
-limit are invalid" instead of "non-zero index values are invalid".
-Compare it with
-
-		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
-			return -EINVAL;
-
-As the value is unsigned, the compiler shouldn't generate less effective
-code.
-
-> >  			return -EINVAL;
-> >  
-> >  		code->code = IMX219_NATIVE_FORMAT;
-> > -	} else {
-> > -		/*
-> > -		 * On the source pad, the sensor supports multiple raw formats
-> > -		 * with different bit depths.
-> > -		 */
-> > +		return 0;
-> > +
-> > +	case IMX219_PAD_EDATA:
-> > +		if (code->index > 0)
+> ---
 > 
-> Same here actually, and elsewhere.
+> v7:
+> - Applied docs suggestions (Jakub).
 > 
-> > +			return -EINVAL;
-> > +
-> > +		code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
-> > +		return 0;
-> > +
-> > +	case IMX219_PAD_SOURCE:
-> > +	default:
-> > +		break;
-> > +	}
-> > +
-> > +	/*
-> > +	 * On the source pad, the sensor supports multiple image raw formats
-> > +	 * with different bit depths. The embedded data format bit depth
-> > +	 * follows the image stream.
-> > +	 */
-> > +	if (code->stream == IMX219_STREAM_IMAGE) {
-> >  		u32 format;
-> >  
-> >  		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
-> > @@ -792,6 +838,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-> >  
-> >  		format = imx219_mbus_formats[code->index * 4];
-> >  		code->code = imx219_get_format_code(imx219, format);
-> > +	} else {
-> > +		struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +		if (code->index > 0)
-> > +			return -EINVAL;
-> > +
-> > +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +						   IMX219_STREAM_EDATA);
-> > +		code->code = fmt->code;
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -803,7 +858,8 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> >  {
-> >  	struct imx219 *imx219 = to_imx219(sd);
-> >  
-> > -	if (fse->pad == IMX219_PAD_IMAGE) {
-> > +	switch (fse->pad) {
-> > +	case IMX219_PAD_IMAGE:
-> >  		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
-> >  			return -EINVAL;
-> >  
-> > @@ -811,7 +867,24 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> >  		fse->max_width = IMX219_NATIVE_WIDTH;
-> >  		fse->min_height = IMX219_NATIVE_HEIGHT;
-> >  		fse->max_height = IMX219_NATIVE_HEIGHT;
-> > -	} else {
-> > +		return 0;
-> > +
-> > +	case IMX219_PAD_EDATA:
-> > +		if (fse->code != MEDIA_BUS_FMT_CCS_EMBEDDED || fse->index > 0)
-> > +			return -EINVAL;
-> > +
-> > +		fse->min_width = IMX219_NATIVE_WIDTH;
-> > +		fse->max_width = IMX219_NATIVE_WIDTH;
-> > +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> > +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> > +		return 0;
-> > +
-> > +	case IMX219_PAD_SOURCE:
-> > +	default:
-> > +		break;
-> > +	}
-> > +
-> > +	if (fse->stream == IMX219_STREAM_IMAGE) {
-> >  		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
-> >  		    fse->index >= ARRAY_SIZE(supported_modes))
-> >  			return -EINVAL;
-> > @@ -820,6 +893,21 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> >  		fse->max_width = fse->min_width;
-> >  		fse->min_height = supported_modes[fse->index].height;
-> >  		fse->max_height = fse->min_height;
-> > +	} else {
-> > +		struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +						   IMX219_STREAM_EDATA);
-> > +		if (fse->code != fmt->code)
-> > +			return -EINVAL;
-> > +
-> > +		if (fse->index)
-> > +			return -EINVAL;
+> v2:
 > 
-> But this seems nice. :-)
-
-You're right that this lacks consistency, I can change this one :-)
-
-> > +
-> > +		fse->min_width = fmt->width;
-> > +		fse->max_width = fmt->width;
-> > +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> > +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -831,6 +919,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  {
-> >  	struct imx219 *imx219 = to_imx219(sd);
-> >  	const struct imx219_mode *mode;
-> > +	struct v4l2_mbus_framefmt *ed_format;
-> >  	struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_rect *compose;
-> >  	struct v4l2_rect *crop;
-> > @@ -838,9 +927,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  
-> >  	/*
-> >  	 * The driver is mode-based, the format can be set on the source pad
-> > -	 * only.
-> > +	 * only, and only for the image streeam.
-> >  	 */
-> > -	if (fmt->pad != IMX219_PAD_SOURCE)
-> > +	if (fmt->pad != IMX219_PAD_SOURCE || fmt->stream != IMX219_STREAM_IMAGE)
-> >  		return v4l2_subdev_get_fmt(sd, state, fmt);
-> >  
-> >  	/*
-> > @@ -897,15 +986,31 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	 * No mode use digital crop, the source pad crop rectangle size and
-> >  	 * format are thus identical to the image pad compose rectangle.
-> >  	 */
-> > -	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
-> > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE,
-> > +					  IMX219_STREAM_IMAGE);
-> >  	crop->left = 0;
-> >  	crop->top = 0;
-> >  	crop->width = fmt->format.width;
-> >  	crop->height = fmt->format.height;
-> >  
-> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +					      IMX219_STREAM_IMAGE);
-> >  	*format = fmt->format;
-> >  
-> > +	/*
-> > +	 * Finally, update the formats on the sink and source sides of the
-> > +	 * embedded data stream.
-> > +	 */
-> > +	ed_format = v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
-> > +	ed_format->code = imx219_format_edata(format->code);
-> > +	ed_format->width = format->width;
-> > +	ed_format->height = IMX219_EMBEDDED_DATA_HEIGHT;
-> > +	ed_format->field = V4L2_FIELD_NONE;
-> > +
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +					      IMX219_STREAM_EDATA);
-> > +	*format = *ed_format;
-> > +
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >  		int exposure_max;
-> >  		int exposure_def;
-> > @@ -944,6 +1049,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >  {
-> >  	struct v4l2_rect *compose;
-> >  
-> > +	/*
-> > +	 * The embedded data stream doesn't support selection rectangles,
-> > +	 * neither on the embedded data pad nor on the source pad.
-> > +	 */
-> > +	if (sel->pad == IMX219_PAD_EDATA || sel->stream != 0)
+> - Missing spdx (simon)
+> - add to index.rst (simon)
 > 
-> I'd leave "!= 0" out. Up to you.
-
-Same here, I find it better to write "only stream 0 is valid" than
-"streams are invalid". I actually went back and worth, and believe it or
-not, this was the result of careful consideration :-)
-
-> > +		return -EINVAL;
-> > +
-> >  	switch (sel->target) {
-> >  	case V4L2_SEL_TGT_NATIVE_SIZE:
-> >  		if (sel->pad != IMX219_PAD_IMAGE)
-> > @@ -996,12 +1108,19 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >  static int imx219_init_state(struct v4l2_subdev *sd,
-> >  			     struct v4l2_subdev_state *state)
-> >  {
-> > -	struct v4l2_subdev_route routes[1] = {
-> > +	struct v4l2_subdev_route routes[2] = {
+> ---
+>  Documentation/networking/devmem.rst | 256 ++++++++++++++++++++++++++++
+>  Documentation/networking/index.rst  |   1 +
+>  2 files changed, 257 insertions(+)
+>  create mode 100644 Documentation/networking/devmem.rst
 > 
-> Do you need to specify the number of the entries?
+> diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
+> new file mode 100644
+> index 000000000000..b0899e8e9e83
+> --- /dev/null
+> +++ b/Documentation/networking/devmem.rst
+> @@ -0,0 +1,256 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================
+> +Device Memory TCP
+> +=================
+> +
+> +
+> +Intro
+> +=====
+> +
+> +Device memory TCP (devmem TCP) enables receiving data directly into device
+> +memory (dmabuf). The feature is currently implemented for TCP sockets.
+> +
+> +
+> +Opportunity
+> +-----------
+> +
+> +A large number of data transfers have device memory as the source and/or
+> +destination. Accelerators drastically increased the prevalence of such
+> +transfers.  Some examples include:
+> +
+> +- Distributed training, where ML accelerators, such as GPUs on different hosts,
+> +  exchange data.
+> +
+> +- Distributed raw block storage applications transfer large amounts of data with
+> +  remote SSDs, much of this data does not require host processing.
 
-No, I'll drop it.
+            SSDs. Much
 
-> >  		{
-> >  			.sink_pad = IMX219_PAD_IMAGE,
-> >  			.sink_stream = 0,
-> >  			.source_pad = IMX219_PAD_SOURCE,
-> > -			.source_stream = 0,
-> > +			.source_stream = IMX219_STREAM_IMAGE,
-> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-> > +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-> > +		}, {
-> > +			.sink_pad = IMX219_PAD_EDATA,
-> > +			.sink_stream = 0,
-> > +			.source_pad = IMX219_PAD_SOURCE,
-> > +			.source_stream = IMX219_STREAM_EDATA,
-> >  			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-> >  				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-> >  		},
-> > @@ -1014,7 +1133,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
-> >  	struct v4l2_subdev_format fmt = {
-> >  		.which = V4L2_SUBDEV_FORMAT_TRY,
-> >  		.pad = IMX219_PAD_SOURCE,
-> > -		.stream = 0,
-> > +		.stream = IMX219_STREAM_IMAGE,
-> >  		.format = {
-> >  			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> >  			.width = supported_modes[0].width,
-> > @@ -1027,6 +1146,10 @@ static int imx219_init_state(struct v4l2_subdev *sd,
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	/*
-> > +	 * Set the image stream format on the source pad. This will be
-> > +	 * propagated to all formats and selection rectangles internally.
-> > +	 */
-> >  	imx219_set_pad_format(sd, state, &fmt);
-> >  
-> >  	return 0;
-> > @@ -1035,29 +1158,36 @@ static int imx219_init_state(struct v4l2_subdev *sd,
-> >  static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> >  				 struct v4l2_mbus_frame_desc *fd)
-> >  {
-> > -	const struct v4l2_mbus_framefmt *fmt;
-> >  	struct v4l2_subdev_state *state;
-> > -	u32 code;
-> > +	u32 img_code;
-> > +	u32 ed_code;
-> >  
-> >  	if (pad != IMX219_PAD_SOURCE)
-> >  		return -EINVAL;
-> >  
-> >  	state = v4l2_subdev_lock_and_get_active_state(sd);
-> > -	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE, 0);
-> > -	code = fmt->code;
-> > +	img_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +						IMX219_STREAM_IMAGE)->code;
-> > +	ed_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> > +					       IMX219_STREAM_EDATA)->code;
-> >  	v4l2_subdev_unlock_state(state);
-> >  
-> >  	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> > -	fd->num_entries = 1;
-> > +	fd->num_entries = 2;
-> 
-> I'd keep an entry pointer and keep incrementing it, same for the number of
-> entries. Up to you. Two is fine.
+> +
+> +Typically the Device-to-Device data transfers the network are implemented as the
 
-I think I reviewed a patch of yours and proposed replacing the pointer
-incrementation by explicit indices :-) I find this more readable.
+                                                 in the network
+?
 
-> >  
-> >  	memset(fd->entry, 0, sizeof(fd->entry));
-> >  
-> > -	fd->entry[0].pixelcode = code;
-> > -	fd->entry[0].stream = 0;
-> > +	fd->entry[0].pixelcode = img_code;
-> > +	fd->entry[0].stream = IMX219_STREAM_IMAGE;
-> >  	fd->entry[0].bus.csi2.vc = 0;
-> > -	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8
-> > +	fd->entry[0].bus.csi2.dt = imx219_format_bpp(img_code) == 8
-> >  				 ? MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
-> >  
-> > +	fd->entry[1].pixelcode = ed_code;
-> > +	fd->entry[1].stream = IMX219_STREAM_EDATA;
-> > +	fd->entry[1].bus.csi2.vc = 0;
-> > +	fd->entry[1].bus.csi2.dt = MIPI_CSI2_DT_EMBEDDED_8B;
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -1321,12 +1451,14 @@ static int imx219_probe(struct i2c_client *client)
-> >  	/*
-> >  	 * Initialize the pads. To preserve backward compatibility with
-> >  	 * userspace that used the sensor before the introduction of the
-> > -	 * internal image pad, the external source pad is numbered 0 and the
-> > -	 * internal image pad numbered 1.
-> > +	 * internal pads, the external source pad is numbered 0 and the internal
-> > +	 * image and embedded data pads numbered 1 and 2 respectively.
-> >  	 */
-> >  	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> >  	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
-> >  					     | MEDIA_PAD_FL_INTERNAL;
-> > +	imx219->pads[IMX219_PAD_EDATA].flags = MEDIA_PAD_FL_SINK
-> > +					     | MEDIA_PAD_FL_INTERNAL;
-> >  
-> >  	ret = media_entity_pads_init(&imx219->sd.entity,
-> >  				     ARRAY_SIZE(imx219->pads), imx219->pads);
+> +following low level operations: Device-to-Host copy, Host-to-Host network
+
+             low-level
+
+> +transfer, and Host-to-Device copy.
+> +
+> +The flow involving host copies is suboptimal, especially for bulk data transfers,
+> +and can put significant strains on system resources such as host memory
+> +bandwidth and PCIe bandwidth.
+> +
+> +Devmem TCP optimizes this use case by implementing socket APIs that enable
+> +the user to receive incoming network packets directly into device memory.
+> +
+> +Packet payloads go directly from the NIC to device memory.
+> +
+> +Packet headers go to host memory and are processed by the TCP/IP stack
+> +normally. The NIC must support header split to achieve this.
+> +
+> +Advantages:
+> +
+> +- Alleviate host memory bandwidth pressure, compared to existing
+> +  network-transfer + device-copy semantics.
+> +
+> +- Alleviate PCIe bandwidth pressure, by limiting data transfer to the lowest
+> +  level of the PCIe tree, compared to traditional path which sends data through
+
+                                      to the
+
+> +  the root complex.
+> +
+> +
+> +More Info
+> +---------
+> +
+> +  slides, video
+> +    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
+> +
+> +  patchset
+> +    [RFC PATCH v6 00/12] Device Memory TCP
+> +    https://lore.kernel.org/netdev/20240305020153.2787423-1-almasrymina@google.com/
+> +
+> +
+> +Interface
+> +=========
+> +
+> +Example
+> +-------
+> +
+> +tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
+> +the RX path of this API.
+> +
+> +NIC Setup
+> +---------
+> +
+> +Header split, flow steering, & RSS are required features for devmem TCP.
+> +
+> +Header split is used to split incoming packets into a header buffer in host
+> +memory, and a payload buffer in device memory.
+> +
+> +Flow steering & RSS are used to ensure that only flows targeting devmem land on> +RX queue bound to devmem.
+
+   an RX queue
+?
+
+> +
+> +Enable header split & flow steering::
+> +
+> +	# enable header split
+> +	ethtool -G eth1 tcp-data-split on
+> +
+> +
+> +	# enable flow steering
+> +	ethtool -K eth1 ntuple on
+> +
+> +Configure RSS to steer all traffic away from the target RX queue (queue 15 in
+> +this example)::
+> +
+> +	ethtool --set-rxfh-indir eth1 equal 15
+> +
+> +
+> +The user must bind a dmabuf to any number of RX queues on a given NIC using
+> +netlink API::
+
+   the netlink API::
+
+> +
+> +	/* Bind dmabuf to NIC RX queue 15 */
+> +	struct netdev_queue *queues;
+> +	queues = malloc(sizeof(*queues) * 1);
+> +
+> +	queues[0]._present.type = 1;
+> +	queues[0]._present.idx = 1;
+> +	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
+> +	queues[0].idx = 15;
+> +
+> +	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
+> +
+> +	req = netdev_bind_rx_req_alloc();
+> +	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
+> +	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
+> +	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
+> +
+> +	rsp = netdev_bind_rx(*ys, req);
+> +
+> +	dmabuf_id = rsp->dmabuf_id;
+> +
+> +
+> +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
+> +that has been bound.
+> +
+> +Socket Setup
+> +------------
+> +
+> +The socket must be flow steering to the dmabuf bound RX queue::
+
+                      flow steered
+?
+
+> +
+> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
+> +
+> +
+> +Receiving data
+> +--------------
+> +
+> +The user application must signal to the kernel that it is capable of receiving
+> +devmem data by passing the MSG_SOCK_DEVMEM flag to recvmsg::
+> +
+> +	ret = recvmsg(fd, &msg, MSG_SOCK_DEVMEM);
+> +
+> +Applications that do not specify the MSG_SOCK_DEVMEM flag will receive an EFAULT
+> +on devmem data.
+> +
+> +Devmem data is received directly into the dmabuf bound to the NIC in 'NIC
+> +Setup', and the kernel signals such to the user via the SCM_DEVMEM_* cmsgs::
+> +
+> +		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
+> +			if (cm->cmsg_level != SOL_SOCKET ||
+> +				(cm->cmsg_type != SCM_DEVMEM_DMABUF &&
+> +				 cm->cmsg_type != SCM_DEVMEM_LINEAR))
+> +				continue;
+> +
+> +			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
+> +
+> +			if (cm->cmsg_type == SCM_DEVMEM_DMABUF) {
+> +				/* Frag landed in dmabuf.
+> +				 *
+> +				 * dmabuf_cmsg->dmabuf_id is the dmabuf the
+> +				 * frag landed on.
+> +				 *
+> +				 * dmabuf_cmsg->frag_offset is the offset into
+> +				 * the dmabuf where the frag starts.
+> +				 *
+> +				 * dmabuf_cmsg->frag_size is the size of the
+> +				 * frag.
+> +				 *
+> +				 * dmabuf_cmsg->frag_token is a token used to
+> +				 * refer to this frag for later freeing.
+> +				 */
+> +
+> +				struct dmabuf_token token;
+> +				token.token_start = dmabuf_cmsg->frag_token;
+> +				token.token_count = 1;
+> +				continue;
+> +			}
+> +
+> +			if (cm->cmsg_type == SCM_DEVMEM_LINEAR)
+> +				/* Frag landed in linear buffer.
+> +				 *
+> +				 * dmabuf_cmsg->frag_size is the size of the
+> +				 * frag.
+> +				 */
+> +				continue;
+> +
+> +		}
+> +
+> +Applications may receive 2 cmsgs:
+> +
+> +- SCM_DEVMEM_DMABUF: this indicates the fragment landed in the dmabuf indicated
+> +  by dmabuf_id.
+> +
+> +- SCM_DEVMEM_LINEAR: this indicates the fragment landed in the linear buffer.
+> +  This typically happens when the NIC is unable to split the packet at the
+> +  header boundary, such that part (or all) of the payload landed in host
+> +  memory.
+> +
+> +Applications may receive no SO_DEVMEM_* cmsgs. That indicates non-devmem,
+> +regular TCP data that landed on an RX queue not bound to a dmabuf.
+> +
+> +
+> +Freeing frags
+> +-------------
+> +
+> +Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
+> +processes the frag. The user must return the frag to the kernel via
+> +SO_DEVMEM_DONTNEED::
+> +
+> +	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
+> +			 sizeof(token));
+> +
+> +The user must ensure the tokens are returned to the kernel in a timely manner.
+> +Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
+> +and will lead to packet drops.
+> +
+> +
+> +Implementation & Caveats
+> +========================
+> +
+> +Unreadable skbs
+> +---------------
+> +
+> +Devmem payloads are inaccessible to the kernel processing the packets. This
+> +results in a few quirks for payloads of devmem skbs:
+> +
+> +- Loopback is not functional. Loopback relies on copying the payload, which is
+> +  not possible with devmem skbs.
+> +
+> +- Software checksum calculation fails.
+> +
+> +- TCP Dump and bpf can't access devmem packet payloads.
+> +
+> +
+> +Testing
+> +=======
+> +
+> +More realistic example code can be found in the kernel source under
+> +tools/testing/selftests/net/ncdevmem.c
+> +
+> +ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
+> +receives data directly into a udmabuf.
+> +
+> +To run ncdevmem, you need to run it a server on the machine under test, and you
+
+                                    it on a server
+
+> +need to run netcat on a peer to provide the TX data.
+> +
+> +ncdevmem has a validation mode as well that expects a repeating pattern of
+> +incoming data and validates it as such::
+> +
+> +	# On server:
+> +	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
+> +		 -p 5201 -v 7
+> +
+> +	# On client:
+> +	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
+> +		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+#Randy
 
