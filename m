@@ -1,164 +1,103 @@
-Return-Path: <linux-media+bounces-7995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8006-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3868288F1BF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 23:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3568288F1E8
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 23:30:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36DC71C2C9D0
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 22:21:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 673781C31309
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 22:30:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8298153812;
-	Wed, 27 Mar 2024 22:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BE752EB04;
+	Wed, 27 Mar 2024 22:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="wkfO23G8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lg0ejYyb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta71.mxroute.com (mail-108-mta71.mxroute.com [136.175.108.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721C3152DEF
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 22:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F46F134A5;
+	Wed, 27 Mar 2024 22:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711578083; cv=none; b=CYXpUNW4CgfBMb6CZ45NNgJm1Z0fqP1cuGqx7GIX/S9ldCBpGxqreYcRU5zh77MJsGFSZ8669tkQlV/YKPPxC/RRAvwQvI1sLzrv6pWqNRlCQ9XU8M4aMzGPAm2z73Ym04lA6lyQUo30OLnJPuTPnflxt9SbbmczpiLN4UAj52g=
+	t=1711578631; cv=none; b=qOoyRVoB4X8AmgQDKLqNXJcwOGwaFQZub6soB7XcbdoRtg7EFh3RlOmEFA2wbwbZR3GarZNu9EIfibJQgexny5JIF5YiP+1NChySY4zVMmRIIqLsAV3tqdXnyzUXvoZ0B+Z0RX1J6ZCM/ia7469i3hmDw6PsIHSkiSMadVMo0F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711578083; c=relaxed/simple;
-	bh=l/d1KTSxrdSi8t1Av6GsBX7faXE7YS03/s1Y6XmUM9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XDlVDzrTOoCeDc5cSgupNaiya1jONaW73T2EASqocqCpOwX6HNE69Mb3BMkBE7ZUKw6PV9jt8yGfc5FTAXDyD6F5l2bnOE9PQmiOM1SNDPeIELjrWAwQ2ulShk4N48no8+Gg+QDuUx3VFmICnQri/lD/nb4ZGnmkrK8SNvyqN6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=wkfO23G8; arc=none smtp.client-ip=136.175.108.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
-Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta71.mxroute.com (ZoneMTA) with ESMTPSA id 18e8200a9520003bea.010
- for <linux-media@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 27 Mar 2024 22:21:05 +0000
-X-Zone-Loop: 179dd9af5a2cae214f1b37b868534bb1618c98be9ab2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=luigi311.com; s=x; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Wfd3IM9yvSlmOOZPNTkn/UcYNYLQj3XQ9wKwbMSeFFA=; b=wkfO23G8d0f1UmDKwI19ALxOur
-	Whk3/ewONqmq7ThLU38LoZaX7TeVQZ/ZlWhkVCY1Nv72S47KuKoOsoZPYF5APnEL11iLUJPqE40ZQ
-	UeGs1Py8YqIIcqYkUDRvFcF0XycPaaersLvz1IDyI+8ExNFLwf07T/bgSeB7rBV0Z4Vg7tGKdc00f
-	ZF9VlALEMgUZEvkk0Zgljww5smZWqUoEtjXB5t1CEVSvVFQs/jziUp1nED2tsJ2wrD1WCqUZWR7h6
-	RnGE5Ifiy+US2qVPFxjNTNMtSDYZPm/Vw46Bz4FodRkj0K2tNnbv/VrZ+uiMiRmOqJA0ZWmFMFMF6
-	+HODCqiA==;
-From: git@luigi311.com
-To: linux-media@vger.kernel.org
-Cc: dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	x@xnux.eu
-Subject: [PATCH 10/23] media: i2c: imx258: Follow normal V4L2 behaviours for clipping exposure
-Date: Wed, 27 Mar 2024 16:20:22 -0600
-Message-ID: <20240327222035.47208-11-git@luigi311.com>
-In-Reply-To: <20240327222035.47208-1-git@luigi311.com>
-References: <20240327222035.47208-1-git@luigi311.com>
+	s=arc-20240116; t=1711578631; c=relaxed/simple;
+	bh=hajNluZlOot75fk520IorSrTIkhfgAFKsSacK/8jd64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=njfeXEaR5FltKrVYqx/Gh5Mssu5ekIfCe6Yok62d51f5dbGkbdUiAfTE8fPChEAHtBlp7uIG0dagraNvvIlYmEbLq8R71R9rFK3WEyYKqXhI6O6h0YGcpVjsji7jwVdor4dvO077W1j/abquGgExZrAZ8swHNNOpLs2kOSZJM0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lg0ejYyb; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711578630; x=1743114630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hajNluZlOot75fk520IorSrTIkhfgAFKsSacK/8jd64=;
+  b=lg0ejYyb9xIwb7Tj/QwMttj2ZeDmpIiDzL2W3sCLvlntmXn2FxAhF4DU
+   ajLNCOqfaufEoF1yGvqWTQ9EuZhYcKWsBlSw7pTNOuZU+4XPc5VTMqpzJ
+   Sks3LTOJ7tn13Zffng/1AjBJmgn3sPPHjFlbXWCN/NH3RvVgQutM+e4yj
+   4A3lVJFCNivw9nWubaTBmY6lxZ+SwVW8oxZZcbdgVKJ2FceJhV342hByu
+   x3m/vDYxncNTHcMtCXnyyJVT1JUBHhNg0FoqpTfdwosmJinu8Miy6JJbV
+   icyco+9YaD16mzzrLfyZnBN5sdYUr1Wh7D9rs3hiygXpNyx2nlDYAZwzW
+   A==;
+X-CSE-ConnectionGUID: +t3Kf56UQhi3e6s8EN7ouw==
+X-CSE-MsgGUID: zrABRU5JQOG7K449sdM5MQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6927295"
+X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; 
+   d="scan'208";a="6927295"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 15:30:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,160,1708416000"; 
+   d="scan'208";a="21157488"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 15:30:27 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8C8B211F8B1;
+	Thu, 28 Mar 2024 00:30:24 +0200 (EET)
+Date: Wed, 27 Mar 2024 22:30:24 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: rmfrfs@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH] media: dt-bindings: ovti,ov2680: Document
+ clock/data-lanes
+Message-ID: <ZgSeACFfBAmOPXdt@kekkonen.localdomain>
+References: <20240326231033.2048193-1-festevam@gmail.com>
+ <ZgPtolH796HER4cP@kekkonen.localdomain>
+ <CAOMZO5AYjNPWZfy_dN12K9JNwWaWThpMs0W-FzETF5k8fobgeg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: personal@luigi311.com
+In-Reply-To: <CAOMZO5AYjNPWZfy_dN12K9JNwWaWThpMs0W-FzETF5k8fobgeg@mail.gmail.com>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Wed, Mar 27, 2024 at 11:50:26AM -0300, Fabio Estevam wrote:
+> Hi Sakari,
+> 
+> On Wed, Mar 27, 2024 at 6:58 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> 
+> > If there's a single possible configuration only, is this needed? There's no
+> > information here which the driver would need.
+> 
+> Good point.
+> 
+> In this case, the correct fix would be to remove 'clock-lanes' and
+> 'data-lanes' from imx7s-warp.dts.
 
-V4L2 sensor drivers are expected are expected to clip the supported
-exposure range based on the VBLANK configured.
-IMX258 wasn't doing that as register 0x350 (FRM_LENGTH_CTL)
-switches it to a mode where frame length tracks coarse exposure time.
+Agreed.
 
-Disable this mode and clip the range for V4L2_CID_EXPOSURE appropriately
-based on V4L2_CID_VBLANK.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/i2c/imx258.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index c65b9aad3b0a..1f5fb980cfbe 100644
---- a/drivers/media/i2c/imx258.c
-+++ b/drivers/media/i2c/imx258.c
-@@ -37,10 +37,11 @@
- 
- /* Exposure control */
- #define IMX258_REG_EXPOSURE		0x0202
-+#define IMX258_EXPOSURE_OFFSET		10
- #define IMX258_EXPOSURE_MIN		4
- #define IMX258_EXPOSURE_STEP		1
- #define IMX258_EXPOSURE_DEFAULT		0x640
--#define IMX258_EXPOSURE_MAX		65535
-+#define IMX258_EXPOSURE_MAX		(IMX258_VTS_MAX - IMX258_EXPOSURE_OFFSET)
- 
- /* Analog gain control */
- #define IMX258_REG_ANALOG_GAIN		0x0204
-@@ -371,7 +372,7 @@ static const struct imx258_reg mode_common_regs[] = {
- 	{ 0x303A, 0x00 },
- 	{ 0x303B, 0x10 },
- 	{ 0x300D, 0x00 },
--	{ 0x0350, 0x01 },
-+	{ 0x0350, 0x00 },
- 	{ 0x0204, 0x00 },
- 	{ 0x0205, 0x00 },
- 	{ 0x020E, 0x01 },
-@@ -741,6 +742,19 @@ static int imx258_update_digital_gain(struct imx258 *imx258, u32 len, u32 val)
- 	return 0;
- }
- 
-+static void imx258_adjust_exposure_range(struct imx258 *imx258)
-+{
-+	int exposure_max, exposure_def;
-+
-+	/* Honour the VBLANK limits when setting exposure. */
-+	exposure_max = imx258->cur_mode->height + imx258->vblank->val -
-+		       IMX258_EXPOSURE_OFFSET;
-+	exposure_def = min(exposure_max, imx258->exposure->val);
-+	__v4l2_ctrl_modify_range(imx258->exposure, imx258->exposure->minimum,
-+				 exposure_max, imx258->exposure->step,
-+				 exposure_def);
-+}
-+
- static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct imx258 *imx258 =
-@@ -748,6 +762,13 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
- 	int ret = 0;
- 
-+	/*
-+	 * The VBLANK control may change the limits of usable exposure, so check
-+	 * and adjust if necessary.
-+	 */
-+	if (ctrl->id == V4L2_CID_VBLANK)
-+		imx258_adjust_exposure_range(imx258);
-+
- 	/*
- 	 * Applying V4L2 control value only happens
- 	 * when power is up for streaming
 -- 
-2.42.0
-
+Sakari Ailus
 
