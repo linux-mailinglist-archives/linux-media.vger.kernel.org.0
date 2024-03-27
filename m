@@ -1,117 +1,192 @@
-Return-Path: <linux-media+bounces-7940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561C688E6C5
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:43:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EA288E6DD
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:44:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06E532E171F
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:43:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C2E51C2E5B9
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 14:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B65013BAF4;
-	Wed, 27 Mar 2024 13:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4830113B2A5;
+	Wed, 27 Mar 2024 13:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQjnCC50"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wrm9m3dJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A4C12FB2D
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 13:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7718212A144;
+	Wed, 27 Mar 2024 13:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711546140; cv=none; b=AwCYKAnRjTqYaEXDe+jIqQzLWk1KTRUOazlBC4r5U1IeLk2600+I1A5EGAFORP7UiFMQxLu6CYemzsqQVHZa0apYUPTCnCPXr4m9c6lryulwuWPJQoJUSYk5l5dnNyh2Jl7co4f/nkH18RBuxqnPkAI9scSIz8/v76KG/sQxOHY=
+	t=1711546402; cv=none; b=drvwTzrqgA4rKcdOV1vyTe95xQy3PuWc6LqquoNHM07zBs9DCrA+zZfc0jkz4pm2ucZKXy3GjWYFS8QeVVUPjXYVvTzYOM+92iKBBdajauK9nPwpWSJMVBJB166LfaK/AgOKxLbJARwimVGwUmxUluN2LKSk+ByvLSc1PUXbnrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711546140; c=relaxed/simple;
-	bh=4VxhYFM+IW/7q861Ak5yQv+JBl5nHqKZfRl/vrD3Qbs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XNG0iRBYsR+1VsILyqe9QfG+fXW+zQC+vmopvNZpDor3S/hswNgv8Y4OGSqJpivca3mFtuXxYSxUaMG2Zssz9H7CUf20AzKML+ecyFKp2Es7GOnjY05GMacXxeohI6VD7b6W4IMb16+++QY01n5a8hAaqcb154NcopOt4HS+HWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQjnCC50; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1711546402; c=relaxed/simple;
+	bh=ARtS+/GoVBY96qRYfTiri1+GreyI66aUneS6w1eDG9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=syj0Xo18WH1oDevfe7JYBcRNH0Vkd05Kt6omg6h1Mihc1mDxB/5Ur9vMs3/z8R/3nkCqfvXyBswR2jHEzcAScLSxO8H8kg9PrdXrTTX8c9hO1VgMF2c/WV5LM4MIZOVH527QNsXx8G7KYCGlUX9M9GsBYp3fhIhpMkdCO0r9jOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wrm9m3dJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711546138; x=1743082138;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4VxhYFM+IW/7q861Ak5yQv+JBl5nHqKZfRl/vrD3Qbs=;
-  b=nQjnCC50446IcI3GvZHzxJBLp8lFL8tBfHMCFAwh9jDyHj+iMw+xW4IC
-   hEFA65xBR1Ue0vst3eKnwbOrxfNP/P+O6IdRbaSH2YFc3ir/ibH/sbzoO
-   /OB7hmnBCYrc5yhaRXObymZjL4SpnAYF/E15A/ZS/TPlJ83pdAviJQ8fp
-   T4wY2ipfVyfC4hfyygsKN+7yUjlW4JgPxDtEb/0RZHv8nzT4vZM+miy4u
-   6108FUmnbIdip6kd6JtyF8QDl9JbinFKp5q5qa6hkDA3o9jhhk8hVQ6ih
-   gv25U+4MO3GdIZf4/Sk3X2JL3kcNZpt5fqvrGbYEhpR8s6jrbys6+m/g8
-   A==;
-X-CSE-ConnectionGUID: PrU7s+DaTfKbhVJ29frVSg==
-X-CSE-MsgGUID: GWyNWoUYQTezGX79gGO+Nw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6833510"
-X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="6833510"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:28:57 -0700
+  t=1711546401; x=1743082401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ARtS+/GoVBY96qRYfTiri1+GreyI66aUneS6w1eDG9M=;
+  b=Wrm9m3dJM1fWXRRgTe3/z32t+8RR2RXzMRqYZ0l9SvgjhKURCMO+QzHZ
+   ZXkyi1Ng6FWcWI3QMeDqZ9IvjwME/X4Flkj/F5/5yaoK+RxAD90q/6qJE
+   MXcfXIZiamXMYYRcax38Npk5IIqXv7eMbgP+YfI4lmuZN1FnQvO6NmHdE
+   uyp4bfNBYCUQ0CaY5hyMBBuelJcrWqBrlvhJh7Rix1P08v3gKqcLpefrV
+   d7Cs6xyNw4SjjgKR+v9nSJDULar6PnPXd0NodpHpEqYejzY368+xT5G3A
+   Ya4+nPWycw6haBE4wekh53oOOpr3tqA2V7F8UpgmeSgFEJ+rATtWEZBWs
+   g==;
+X-CSE-ConnectionGUID: P6StHuWPSnyPyBeE5LpmUw==
+X-CSE-MsgGUID: XLZpTOGYTR2DeCsBLsc6pQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="10428513"
+X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
+   d="scan'208";a="10428513"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:32:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="20949785"
+   d="scan'208";a="21006970"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:28:56 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8D9F111F8EA;
-	Wed, 27 Mar 2024 15:28:53 +0200 (EET)
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:32:47 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6A6AD11F8EA;
+	Wed, 27 Mar 2024 15:32:44 +0200 (EET)
+Date: Wed, 27 Mar 2024 13:32:44 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH 1/1] media: ov2740: Fix LINK_FREQ and PIXEL_RATE control value reporting
-Date: Wed, 27 Mar 2024 15:28:53 +0200
-Message-Id: <20240327132853.521461-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
+Message-ID: <ZgQf_LX1ohYykGjv@kekkonen.localdomain>
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+ <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
+ <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
+ <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
+ <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+ <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
 
-The driver dug the supported link frequency up from the V4L2 fwnode
-endpoint and used it internally, but failed to report this in the
-LINK_FREQ and PIXEL_RATE controls. Fix this.
+Heissulivei,
 
-Fixes: 0677a2d9b735 ("media: ov2740: Add support for 180 MHz link frequency")
-Cc: stable@vger.kernel.org # for v6.8 and later
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ov2740.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+On Wed, Mar 27, 2024 at 01:06:42PM +0200, Tomi Valkeinen wrote:
+> On 27/03/2024 12:46, Sakari Ailus wrote:
+> > Heippa,
+> > 
+> > On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
+> > > On 25/03/2024 19:52, Sakari Ailus wrote:
+> > > > Moi,
+> > > > 
+> > > > On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
+> > > > > On 25/03/2024 15:02, Sakari Ailus wrote:
+> > > > > > Moi,
+> > > > > > 
+> > > > > > Thanks for the patch.
+> > > > > > 
+> > > > > > On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+> > > > > > > Hi Tomi,
+> > > > > > > 
+> > > > > > > On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+> > > > > > > > Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+> > > > > > > > use the v4l2_subdev_video_ops.s_stream op, instead of
+> > > > > > > > v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+> > > > > > > > enable/disable_streams machinery requires a routing table which a subdev
+> > > > > > > > cannot have with a single pad.
+> > > > > > > > 
+> > > > > > > > Implement enable/disable_streams support for these single-pad subdevices
+> > > > > > > > by assuming an implicit stream 0 when the subdevice has only one pad.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > > > > > ---
+> > > > > > > > Even though I did send this patch, I'm not sure if this is necessary.
+> > > > > > > > s_stream works fine for the subdevs with a single pad. With the upcoming
+> > > > > > > > internal pads, adding an internal pad to the subdev will create a
+> > > > > > > > routing table, and enable/disable_streams would get "fixed" that way.
+> > > > > > 
+> > > > > > I'd like to get rid of a redundant way to control streaming.
+> > > > > 
+> > > > > We can't get rid of it anyway, can we? We're not going to convert old
+> > > > > drivers to streams.
+> > > > 
+> > > > I'd expect to do that but it'd take a long time. That being said, I think
+> > > > we need to consider devices without pads (VCMs) so it may well be this
+> > > > would remain after all.
+> > > > 
+> > > > > 
+> > > > > For new drivers, yes, we shouldn't use s_stream. But is the answer for new
+> > > > > sensor drivers this patch, or requiring an internal pad?
+> > > > 
+> > > > For new drivers I'd like to see an internal pad in fact.
+> > > > {enable,disable}_streams is still internal to the kernel.
+> > > 
+> > > So, you think this patch should be dropped?
+> > 
+> > No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
+> 
+> Hmm, alright. So we want to support enable/disable_streams for sub-devices
+> with multiple source pads but no routing (so probably no sink pads)?
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 552935ccb4a9..57906df7be4e 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -768,14 +768,15 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
- 	cur_mode = ov2740->cur_mode;
- 	size = ARRAY_SIZE(link_freq_menu_items);
- 
--	ov2740->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
--						   V4L2_CID_LINK_FREQ,
--						   size - 1, 0,
--						   link_freq_menu_items);
-+	ov2740->link_freq =
-+		v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ, size - 1,
-+				       ov2740->supported_modes->link_freq_index,
-+				       link_freq_menu_items);
- 	if (ov2740->link_freq)
- 		ov2740->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	pixel_rate = to_pixel_rate(OV2740_LINK_FREQ_360MHZ_INDEX);
-+	pixel_rate = to_pixel_rate(ov2740->supported_modes->link_freq_index);
- 	ov2740->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
- 					       V4L2_CID_PIXEL_RATE, 0,
- 					       pixel_rate, 1, pixel_rate);
+That should be allowed indeed, in order to move from s_stream() to
+{enable,disable}_streams().
+
+> 
+> > > > > > > > So perhaps the question is, do we want to support single-pad subdevs in
+> > > > > > > > the future, in which case something like this patch is necessary, or
+> > > > > > > > will all modern source subdev drivers have internal pads, in which
+> > > > > > > > case this is not needed...
+> > > > > > > 
+> > > > > > > I think the latter would be best. I however can't guarantee we won't
+> > > > > > > have valid use cases for (enable|disable)_streams on single-pad subdevs
+> > > > > > > though, so you patch could still be interesting.
+> > > > > > 
+> > > > > > Instead of the number of pads, could we use instead the
+> > > > > > V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+> > > > > > determine the need for this?
+> > > > > 
+> > > > > Maybe, but are they better? Do you see some issue with checking for the
+> > > > > number of pads? I considered a few options, but then thought that the most
+> > > > > safest test for this case is 1) one pad 2) enable/disable_streams
+> > > > > implemented.
+> > > > 
+> > > > I think I'd actually prefer {enable,disable}_streams in fact.
+> > > 
+> > > Hmm, sorry, now I'm confused =). What do you mean with that?
+> > 
+> > I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
+> > number of pads is less related to routing.
+> 
+> Well, with one pad you cannot have routing =).
+> 
+> In this patch I used sd->enabled_streams to track the enabled streams, but
+> if we need to support multiple pads, I'll have to invent something new for
+> that.
+
+What exactly do you think needs to be changed? This is just about starting
+and stopping streaming using a different sent of callbacks, right?
+
 -- 
-2.39.2
+Terveisin,
 
+Sakari Ailus
 
