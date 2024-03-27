@@ -1,146 +1,155 @@
-Return-Path: <linux-media+bounces-7921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7922-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB36988DAA4
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 10:57:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B8A88DAC6
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 10:58:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B98AB23A67
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 09:57:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 469F51F2A290
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 09:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7019D3BBE5;
-	Wed, 27 Mar 2024 09:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9414F1F2;
+	Wed, 27 Mar 2024 09:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O9cgRC+o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LI5W1MOu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3952A1401F;
-	Wed, 27 Mar 2024 09:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3423EA86;
+	Wed, 27 Mar 2024 09:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711533446; cv=none; b=Z2I4p4h96uPkEHnJ/tMFsRDzGXqZy8ffBhqi0uTw7Ij7nVqHGJ+/Zv55FSq/RA1P4zQpdtsKUGK//6M6Ec8Uge+9W1bKEBsBjtmpMteFsw3uSOzT1/n5/8ssOps4z0pDdJsGXUlVQA0tQLY0wtaE+GNYNEkT5F2zzOJfR+w/SUc=
+	t=1711533482; cv=none; b=YtQYQSspbqtGzyJTr5dqnq+Uez9sU39duX94HxYBzzmoMTvu0Lq+3gAnsg7qF8/OlNWvHNrwhxxNIqvRJlB5OsEWP7hdlBsGZUyIMYVMBckRWRebHjzND/3ZDwpZn3RiGL4bzZL7E1kEBDAj6hRHFhWnTBylqAGoeEVJK9URblI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711533446; c=relaxed/simple;
-	bh=6i66eyLtFjTaO1dIDXVZlX8Q+lSEqYTtOhQaqZ1TG4Q=;
+	s=arc-20240116; t=1711533482; c=relaxed/simple;
+	bh=OSqeEcWXI4ifW8M/UsrT7IcLYQ0kffRravFT8KdiKDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olUdk4t+baotI/3lBFXfGd1Tq19y8PvssKaOISwzhcrTL6PwTj1BYhVnLGoizyTo0sd2NOO10P/8Vq+XS6a+n/WiHMaseNQAuA4qBCqFpbe7gMMB2HY5gvZEe+nibBaLzUvb5LyTXJc72Oa0YRVvK+nCNf1X13bcVfXiqSrWSEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O9cgRC+o; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711533443;
-	bh=6i66eyLtFjTaO1dIDXVZlX8Q+lSEqYTtOhQaqZ1TG4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O9cgRC+ouOzomKIMASnl8XCJ1FP8XAkY19uHoDuWXBSAWIZlGDY0K6OazuGD3rUtr
-	 W+84Dbhj0HYbPFfVsW31y3n/oOwJaizH68tLgmYnXe1N95NkWeE7w+AM1u5jxeagp7
-	 9V7K56LW3zRaVA/eY1ev92fshjbjjTC4v/DjH1suTp8ji7lYcmy9jDZYQvqm26OVK4
-	 K79GWTLo6oyQIIhcQgMcrA3Kwes/Bx976S+xMIcUDMXcqQKt4Xd0bjLcHFD3cscaB2
-	 txx57D+K/2wYNck23bjyo+0QMF5OnNFy5BfmWkOF/kuq16x61TdUZfi53fWZ11+fd3
-	 cdy02UHlicvFw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2478037813CA;
-	Wed, 27 Mar 2024 09:57:23 +0000 (UTC)
-Date: Wed, 27 Mar 2024 10:57:22 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Fei Shao <fshao@chromium.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 0/4] Improvement around mtk_vcodec_mem_free() logging
- and usage
-Message-ID: <20240327095722.w56iugips6z2bl2p@basti-XPS-13-9310>
-References: <20231221092226.1395427-1-fshao@chromium.org>
- <CAC=S1njAtbvjy1KBoVNtsw8WDKL1Zoh76mG3HvcUaOUBprEMkQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NmM5jbf+JTqXp9XcrxII40jIbp/DmvSSLlR+YmqfZBY36K/UUDkjK8HExW9pG1RYj4VayZbKoDCcEtjnShBNCPA4uGXjEvwcOcypk+x5l0xOzhwP42IE/JobpKXqeySQ0l04i+xb+gg0jKFy1uCk0wnb66gvltDekPaPKKdVPZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LI5W1MOu; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711533480; x=1743069480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OSqeEcWXI4ifW8M/UsrT7IcLYQ0kffRravFT8KdiKDg=;
+  b=LI5W1MOuI5z/lOj51bICDTyYeqVaAEtdPq8E+0p+fGtNvTJKwXONW187
+   iRxalz6eRISiEpFFI7kgpMlxejFqljk0xQ/DWkmy6beshpzlwta7GE9e5
+   jRoAN/dX6AK7hSzfTxyZgWgwItwffvM6mSiGILxnJPeBQLuNLMkHQknGE
+   8Xq9M2rhGM1wcVCejVTsmCT6RuESIjxZ/DjGLzxvr8SMNRSpQpEG4uyKA
+   gqM2IORDaEjEDA5P2ZAMbIQrrpyZrpzbBwJuctme41py1j+CcFMSvn12r
+   VYYCowoHA4sTYphxGeyUZalPjq/xaOTB8h2An/5yhFqLscdpZJ628paOr
+   A==;
+X-CSE-ConnectionGUID: 9J5WMrKbQlKXvZYhzSJURQ==
+X-CSE-MsgGUID: vQEIH5PeQBW7ckbWJ3QuMQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6810317"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="6810317"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 02:57:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="20717466"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 02:57:57 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D975111FB81;
+	Wed, 27 Mar 2024 11:57:54 +0200 (EET)
+Date: Wed, 27 Mar 2024 09:57:54 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: rmfrfs@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH] media: dt-bindings: ovti,ov2680: Document
+ clock/data-lanes
+Message-ID: <ZgPtolH796HER4cP@kekkonen.localdomain>
+References: <20240326231033.2048193-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC=S1njAtbvjy1KBoVNtsw8WDKL1Zoh76mG3HvcUaOUBprEMkQ@mail.gmail.com>
+In-Reply-To: <20240326231033.2048193-1-festevam@gmail.com>
 
-Hey Fei,
+Hi Fabio,
 
-On 27.03.2024 17:18, Fei Shao wrote:
->On Thu, Dec 21, 2023 at 5:23 PM Fei Shao <fshao@chromium.org> wrote:
->>
->> Hi,
->>
->> This series includes some improvements around mtk_vcodec_mem_free() in
->> mtk_vcodec_util.c.
->>
->> I noticed that mtk_vcodec_mem_free() generates a spurious error if the
->> target DMA buffer has been freed previously:
->>   mtk_vcodec_mem_free(),69: [MTK_V4L2][ERROR] 18000000.video-codec
->>   dma_free size=0 failed!
->>
->> The warning is harmless, but it brings some confusion to our developers
->> and testing infra, so I sent this series to fix that with some minor
->> improvement for the driver alongside.
->>
->> The first two patches are for aesthetic and style improvements, the
->> third tries to make the error logs more informative, and the last adds
->> back the missing checks when calling the free function.
->>
->> Regards,
->> Fei
->>
->> v1: https://lore.kernel.org/all/20231113123049.4117280-1-fshao@chromium.org/
->>
->> Changes in v2:
->> - rebased on top of next-20231219
->> - revise commit message for clearer intention and rationale
->> - update the error messages based on the suggestion
->>
->> Fei Shao (4):
->>   media: mediatek: vcodec: Replace dev_name in error string
->>   media: mediatek: vcodec: Drop unnecessary variable
->>   media: mediatek: vcodec: Update mtk_vcodec_mem_free() error messages
->>   media: mediatek: vcodec: Only free buffer VA that is not NULL
->>
->>  .../mediatek/vcodec/common/mtk_vcodec_util.c  | 23 +++++++++----------
->>  .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 22 ++++++++++++------
->>  .../vcodec/encoder/venc/venc_h264_if.c        |  5 ++--
->>  3 files changed, 29 insertions(+), 21 deletions(-)
->
->Hi Hans,
->
->I'd like to get some attention for this series in case it has been
->overlooked. It still applies to next-20240327 without conflict.
->Please let me know if you have any feedback or concerns on this.
+On Tue, Mar 26, 2024 at 08:10:33PM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> OV2680 has a single data lane MIPI interface.
+> 
+> Document the clock-lanes and data-lanes properties to avoid
+> the following dt-schema warning:
+> 
+> imx7s-warp.dtb: camera@36: port:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
+> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yaml#
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>  .../bindings/media/i2c/ovti,ov2680.yaml       | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> index cf456f8d9ddc..ae104da067e9 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> @@ -50,9 +50,22 @@ properties:
+>        Definition of the regulator used as digital power supply.
+>  
+>    port:
+> -    $ref: /schemas/graph.yaml#/properties/port
+>      description:
+>        A node containing an output port node.
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
+> +
+> +          data-lanes:
+> +            const: 1
 
-Sorry this seems to have slipped through my fingers, I'll put it on my
-list. Thanks for the notification.
+If there's a single possible configuration only, is this needed? There's no
+information here which the driver would need.
 
->
->Thank you,
->Fei
+>  
+>  required:
+>    - compatible
+> @@ -65,7 +78,7 @@ required:
+>    - reset-gpios
+>    - port
+>  
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> @@ -89,6 +102,8 @@ examples:
+>                  port {
+>                          ov2680_to_mipi: endpoint {
+>                                  remote-endpoint = <&mipi_from_sensor>;
+> +                                clock-lanes = <0>;
+> +                                data-lanes = <1>;
+>                          };
+>                  };
+>          };
 
-Greetings,
-Sebastian
+-- 
+Regards,
 
->>
->> --
->> 2.43.0.472.g3155946c3a-goog
->>
->
+Sakari Ailus
 
