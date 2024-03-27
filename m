@@ -1,144 +1,171 @@
-Return-Path: <linux-media+bounces-7926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E4588DB4D
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:34:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A54A988DB81
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:46:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08CE91F2BA44
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 10:34:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B82029B93A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 10:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D831826AC1;
-	Wed, 27 Mar 2024 10:34:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBC34F201;
+	Wed, 27 Mar 2024 10:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MljacT9E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AXRALpN2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1684125DB;
-	Wed, 27 Mar 2024 10:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CBA4F1E4;
+	Wed, 27 Mar 2024 10:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711535691; cv=none; b=MVE+h8n67dxBT5YPeyV5zmm9RTTEB5aPji2igsTRU2ayJ8JBg3ZEyAkIgCxf5yHsHoL7nT0/oJdqrivM6WT0dCLjeg2wANuen5ElAseghryKsyXhXlwdDILUYibjh5FC96t7NxlVW1zhKaCYnJhiiko7trDW5N7EpwjpUV3g9F0=
+	t=1711536394; cv=none; b=NE98hxO12mdZT5Sh3e66GxVignkcImza4Bj5pLIZzxH5oSdBP3zzIJvPi/4u3meTVSVmNJl7UbjvE/wsGxWIHoAFgpfzF/MrlyEl+afATn3I29z/Hhjw7YXGvMLso7aBXBqHUvyt2iKKcfPYj0b3JHMh0wBpD6fVvQtD2Aglv2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711535691; c=relaxed/simple;
-	bh=4jje5NEtLbfC42GRy88kRZdlH+ujdSL7a1ZYybJ+xVk=;
+	s=arc-20240116; t=1711536394; c=relaxed/simple;
+	bh=OSEX0ZaauFn6+aQhM6O8E2hHzie5j9+agUDTBkTWpRg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N0EZmSy9x2gHaTsKZv5e3bWQA/V1B/eQzkfuNYeqD/tj49+bZ3fgQbdh4I8LfPVk44NIDmiQC4VhYABVbqChw+wfMVaSCAik4uYfB8Ng+TEOmJ88XmwzMNT6fHxL5h3i7hVTqklRHoZOa9qEx7f6xQ471hAM9puaPKSPOhSLcsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MljacT9E; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711535688;
-	bh=4jje5NEtLbfC42GRy88kRZdlH+ujdSL7a1ZYybJ+xVk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MljacT9E0tWaqvup30MvFhY8+rt5/zDUTgxDEpHJjq2yArIDDq42p01ILR09Jt3PG
-	 LIwQ1/DsOMRwUA30cOGJ9zlcUoYp9OTZPNLHkwwtQe4LCPOX0iiCubQUoKngX9zCXt
-	 Zcsnw2yQU2ZnpsR7Ln99G5lqVzVwRZMG1Iu796lxRsxzoZ4FXQwQ9CekIRsu5jaQ+G
-	 H1vpyQm0w+H2Mr29YFKNczMJR8HJRQ2S+TTw4NucovOGQrs4LCC/RHPj/w+cDBFi4v
-	 JtgFVCJUWXXd+ApZZ7jhbpQEobz1+BFFs5ygHgW0/LnGxD1IftQe/JYkECu36APBc4
-	 vQhV1KuLal3tA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B72BC37820A3;
-	Wed, 27 Mar 2024 10:34:47 +0000 (UTC)
-Date: Wed, 27 Mar 2024 11:34:46 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: coolrrsh@gmail.com
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] staging: media: remove duplicate line
-Message-ID: <20240327103446.45lw5zjghwwcu27h@basti-XPS-13-9310>
-References: <20240327023340.3710-1-coolrrsh@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBHvKJn4T4hpGHSaFgTTz7KI3TFLmswHybRiLoGBivoops5zfQ6b0UMwXGdq4hifbfszYs5HgAHg4Pvz6cOZ4OLoJ4pNFLHjJIs2WdjyijKW3sa2wYuVaDgPV5/wt5he8ksrAYhw7G9E2oHq/UFS/xAmrLUl/97fqiirc2lK6AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AXRALpN2; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711536392; x=1743072392;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OSEX0ZaauFn6+aQhM6O8E2hHzie5j9+agUDTBkTWpRg=;
+  b=AXRALpN2BnPSzB43O8531YIvOeTKMJJZZdfSRkqybb46LRGccZ3K0iCP
+   7cKhGFUu2lNzM5OHW1B8gglUSvWDDFKyMZdYH1MU56Wt0AD5nhlZAPjNc
+   1xXUzzP3KAj+bYNcZ+EGB+OsSiJVX5i4raEXEGqD8UT3+YeCqwx7RlCqo
+   StyeRwKU9KCgsB+RC9od3B5iiFbWT5ZSHn/TjsNmtHCuX4TtIh/+v/fuo
+   6bnEAgfnQ0FV7EhdQdKxL+Yrdl3JICGjVJwKtaiG8egwJVQpYrn4SlQSa
+   vyvERLZui7yrKRg8BtFQ388Ev5DBHURAo2pzfiFXMre0v/fpuNd52C2J3
+   A==;
+X-CSE-ConnectionGUID: Drmrxh+sTlmm5tMGjE6XnA==
+X-CSE-MsgGUID: LlFT6kmvRkuWg+tFS1eWfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6492004"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="6492004"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 03:46:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="16316580"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 03:46:30 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5F2BB11FB81;
+	Wed, 27 Mar 2024 12:46:27 +0200 (EET)
+Date: Wed, 27 Mar 2024 10:46:27 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
+Message-ID: <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+ <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
+ <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
+ <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327023340.3710-1-coolrrsh@gmail.com>
+In-Reply-To: <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
 
-Hey Rajeshwar,
+Heippa,
 
-On 27.03.2024 08:03, coolrrsh@gmail.com wrote:
->From: Rajeshwar R Shinde <coolrrsh@gmail.com>
->
->The kernel configuration VIDEO_DEV is defined twice in Kconfig.
->Thus, the redundant code is removed.
->
->Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
->
->---
->v1->v2
->changed the commit message
->v2->v3
->changed the subject
+On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
+> On 25/03/2024 19:52, Sakari Ailus wrote:
+> > Moi,
+> > 
+> > On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
+> > > On 25/03/2024 15:02, Sakari Ailus wrote:
+> > > > Moi,
+> > > > 
+> > > > Thanks for the patch.
+> > > > 
+> > > > On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+> > > > > Hi Tomi,
+> > > > > 
+> > > > > On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+> > > > > > Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+> > > > > > use the v4l2_subdev_video_ops.s_stream op, instead of
+> > > > > > v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+> > > > > > enable/disable_streams machinery requires a routing table which a subdev
+> > > > > > cannot have with a single pad.
+> > > > > > 
+> > > > > > Implement enable/disable_streams support for these single-pad subdevices
+> > > > > > by assuming an implicit stream 0 when the subdevice has only one pad.
+> > > > > > 
+> > > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > > > ---
+> > > > > > Even though I did send this patch, I'm not sure if this is necessary.
+> > > > > > s_stream works fine for the subdevs with a single pad. With the upcoming
+> > > > > > internal pads, adding an internal pad to the subdev will create a
+> > > > > > routing table, and enable/disable_streams would get "fixed" that way.
+> > > > 
+> > > > I'd like to get rid of a redundant way to control streaming.
+> > > 
+> > > We can't get rid of it anyway, can we? We're not going to convert old
+> > > drivers to streams.
+> > 
+> > I'd expect to do that but it'd take a long time. That being said, I think
+> > we need to consider devices without pads (VCMs) so it may well be this
+> > would remain after all.
+> > 
+> > > 
+> > > For new drivers, yes, we shouldn't use s_stream. But is the answer for new
+> > > sensor drivers this patch, or requiring an internal pad?
+> > 
+> > For new drivers I'd like to see an internal pad in fact.
+> > {enable,disable}_streams is still internal to the kernel.
+> 
+> So, you think this patch should be dropped?
 
-The subject line isn't any better than before. Lets look at some
-accepted examples together:
+No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
 
-24d9cb143013 media: staging: imx: controls are from another device, mark this
-67673ed55084 media: staging/imx: rearrange group id to take in account IPU
-483fe862488f9 staging: media: imx: Merge VIDEO_IMX_CSI into VIDEO_IMX_MEDIA
-9958d30f38b96 media: Kconfig: cleanup VIDEO_DEV dependencies
+> 
+> > > > > > So perhaps the question is, do we want to support single-pad subdevs in
+> > > > > > the future, in which case something like this patch is necessary, or
+> > > > > > will all modern source subdev drivers have internal pads, in which
+> > > > > > case this is not needed...
+> > > > > 
+> > > > > I think the latter would be best. I however can't guarantee we won't
+> > > > > have valid use cases for (enable|disable)_streams on single-pad subdevs
+> > > > > though, so you patch could still be interesting.
+> > > > 
+> > > > Instead of the number of pads, could we use instead the
+> > > > V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+> > > > determine the need for this?
+> > > 
+> > > Maybe, but are they better? Do you see some issue with checking for the
+> > > number of pads? I considered a few options, but then thought that the most
+> > > safest test for this case is 1) one pad 2) enable/disable_streams
+> > > implemented.
+> > 
+> > I think I'd actually prefer {enable,disable}_streams in fact.
+> 
+> Hmm, sorry, now I'm confused =). What do you mean with that?
 
-How did I find these? Simply by running git blame on one or more of the
-files in the driver at drivers/staging/media/imx
+I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
+number of pads is less related to routing.
 
-As you can see there are slight variations on the first three but the
-general theme is the same, the subject line describes to you that the
-driver is found in staging/media and it tells you that the folder of the
-driver is 'imx'. Generally, `staging: media: imx` would be preferred
-however.
-The 4th case shows you an example with a more general subject line and
-it is justified in this case as the patch does changes on multiple files
-on the whole subsystem (the media subsystem consists of all files found
-in drivers/media, drivers/staging/media, Documentation/admin-guide/media
-and a few header files).
+-- 
+Regards,
 
-Now if we take this into account for your subject line. You only change
-a single driver, thus you need staging: media: imx:, and you to make
-your subject a bit less ambigious you could call the whole thing:
-
-staging: media: imx: Remove duplicate Kconfig dependency
-
-I hope this helps.
-
-Greetings,
-Sebastian
-
->
->---
-> drivers/staging/media/imx/Kconfig | 1 -
-> 1 file changed, 1 deletion(-)
->
->diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
->index 21fd79515042..772f49b1fe52 100644
->--- a/drivers/staging/media/imx/Kconfig
->+++ b/drivers/staging/media/imx/Kconfig
->@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
-> 	depends on ARCH_MXC || COMPILE_TEST
-> 	depends on HAS_DMA
-> 	depends on VIDEO_DEV
->-	depends on VIDEO_DEV
-> 	select MEDIA_CONTROLLER
-> 	select V4L2_FWNODE
-> 	select V4L2_MEM2MEM_DEV
->-- 
->2.25.1
->
->
+Sakari Ailus
 
