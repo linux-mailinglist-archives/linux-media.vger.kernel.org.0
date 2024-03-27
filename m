@@ -1,135 +1,206 @@
-Return-Path: <linux-media+bounces-7929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1DB88DBF7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:05:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6650E88DC09
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 12:07:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DD231F2CC76
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:05:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA700B25567
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 11:07:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97EB554BDF;
-	Wed, 27 Mar 2024 11:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A0C54BC8;
+	Wed, 27 Mar 2024 11:06:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GIb/sul4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KzyFU+4D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86769374C6
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B478C4CE17;
+	Wed, 27 Mar 2024 11:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711537496; cv=none; b=lIoBEcPabI0Xar1bq4l/boFvON0f9++eGSBk0jiQJgH+e6aaBTaLR65hY6qP2up5tmmmlwEyDg2yHSrz3vlWDmVjldOhlHCWC0JTGKP779KdMS3vZNqdExaq5XZqtwz9VFVUalx5uxinx+pXH8WzIYlyI0qlpOeJfrt7IKUdAdA=
+	t=1711537608; cv=none; b=LaXqlb8QURpDinlpAtclKC6zzzXDeWzLKjrQIAC0PN0OlidV8H199w5LC7H1lzfp3fDUnDrygfvk/iPQqaT0vmCsr1LoZ3UkQqZ1xSUAtRRgcn34Rz7sPM14s3F8PfAiaZSGUZb8KenONJ8l4KQPI4fp7JuN+eDVDkRL3q+LTR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711537496; c=relaxed/simple;
-	bh=s1Ut+n1kFMUi4nvtasg/8l/6hCb8DBu+OY71KNZfJFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlmXxWbgHGe54yi/ecFM4ScDglRuMYQhqhxfoIs3FTYu9aUnMJiax+FmXCZL2LjweMHfrfnArPbS0BsiiUIaxgrHZxR5SvzDTaBnKPQJhCaNnl9rwadzMS55X//6I2GqKGH1htr4B8BYL4FxFAJulhR9+tjepi6A4FsX6UNsHCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GIb/sul4; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5dbf7b74402so3714826a12.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 04:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711537493; x=1712142293; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LKzsagGBVd9L344KjOkA0F6xiEm7Fp9dvHCT2Fl89Bw=;
-        b=GIb/sul4UDvz/HSBsxpcclmhUsqmJ0EhalVPFXRZPamhDmZRLzP0F8mgl705iWY9pS
-         FnMabd/Tq8WOr/7TEdc96plaM2ZYocdPLWCZtAHtC7HWHi7F0sYoVLMcO7ZQM1+Rp1O4
-         G6qwKK2kfX1FxB8fGW0O/AhkXOYokDUYpOGEU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711537493; x=1712142293;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LKzsagGBVd9L344KjOkA0F6xiEm7Fp9dvHCT2Fl89Bw=;
-        b=gWZ3/P+Re6z5QYkt2FIKzMCRYNCWf5hsJy4llYimQEcteCRlQxNFC/P26GJCCdiSYn
-         UrcXikZ8+qyPO4ASMuX6FDn2zI/dFIowC8W7uHiuoLmIoJI/FXQO8OSLwCaGkQmU6yEc
-         sfkqCEbLGT/9jpOp9k+s6uC54JZdLBvQIeexNvOHwx4BJR/5sTtx6cBfMs4Z7jgQjTuW
-         R/YLhJd6kfJ0hWshpRxQXnNyzyoTZytgG+G2uLR3tCZ8/lKoQGOV0vB9IMLZTOxQifUU
-         1pa30gsPfmvGEOTp5jN9RZxs+YjXvpcK4gunedzvWYHcxO0NeFrbtPrPkQi1cLfdqthS
-         V3Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCUWk35pVArKF3tRE4WIX7WJBQb7Pw9d4j/ddv6jiU3CvBlA6z1d1Wa6+wZCLIcCdkFDOLVqx192DLp/dPW2HYg3Xv2Lbowz8dmOgnA=
-X-Gm-Message-State: AOJu0Yyk8f3dajFQYh9NljBItJKCk+eHyD0wzINCz/ePMRdMiU7EijPQ
-	P3rpvm5Moba3VTiBRZxKThR8slauYnhqUEoagK1IkminrCCjY214HZoAN/jkTQ==
-X-Google-Smtp-Source: AGHT+IH/wktEiKSFpAySvoxBD2qS+UaFluDO/01xoGZf/YTORmbuYvu5PGwwqUPb07fY5mYUt2/Yxw==
-X-Received: by 2002:a17:90a:7406:b0:29c:7170:fa33 with SMTP id a6-20020a17090a740600b0029c7170fa33mr5144380pjg.29.1711537492933;
-        Wed, 27 Mar 2024 04:04:52 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:38ea:49db:93f2:42f7])
-        by smtp.gmail.com with ESMTPSA id eu15-20020a17090af94f00b002a03ef914cdsm1344886pjb.34.2024.03.27.04.04.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 04:04:52 -0700 (PDT)
-Date: Wed, 27 Mar 2024 20:04:47 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Max Staudt <mstaudt@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sean Paul <seanpaul@chromium.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v4 0/4] uvcvideo: Attempt N to land UVC race conditions
- fixes
-Message-ID: <20240327110447.GD1041856@google.com>
-References: <20240327-guenter-mini-v4-0-49955c198eae@chromium.org>
+	s=arc-20240116; t=1711537608; c=relaxed/simple;
+	bh=r7jrv46F0n2rmGy+7GTEZ25/DZQrOqKGB/mYB4ojoNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TXX459Suo/3p8FnpxHaQhgOqAIYXxbeblZ31Jdw2esnksyFdva2k656BO3puSex9nYMssgc3BRVtPgoThXDz4o3nyqFxQx2gNgRY2lstmisr/D4HyboLdEaI/hxNvdCYlno0XMcHQEeRvl91Tjypo/hmmtagDVE1DATSkDNR0Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KzyFU+4D; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B66C675;
+	Wed, 27 Mar 2024 12:06:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711537573;
+	bh=r7jrv46F0n2rmGy+7GTEZ25/DZQrOqKGB/mYB4ojoNg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KzyFU+4DNYu7DEmnTFGXogGKneEifqRKiccteJeIoUIYfg3xpTEChQYYTVt3GgKzc
+	 WRlMYO8jVfmuxxQprqlZUQ6W+8043bClrj92ZAddCotQmurkOdhcJnDdOQ63FBjZwc
+	 vJqmvThyMeX9fT09mR+kmRdPWQ9rkhX8IC+guwxo=
+Message-ID: <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
+Date: Wed, 27 Mar 2024 13:06:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327-guenter-mini-v4-0-49955c198eae@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+ <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
+ <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
+ <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
+ <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On (24/03/27 08:24), Ricardo Ribalda wrote:
-> Back in 2020 Guenter published a set of patches to fix some race
-> conditions in UVC:
-> https://lore.kernel.org/all/20200917022547.198090-5-linux@roeck-us.net/
+On 27/03/2024 12:46, Sakari Ailus wrote:
+> Heippa,
 > 
-> That kind of race conditions are not only seen in UVC, but are a common
-> seen in almost all the kernel, so this is what it was decided back then
-> that we should try to fix them at higher levels.
+> On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
+>> On 25/03/2024 19:52, Sakari Ailus wrote:
+>>> Moi,
+>>>
+>>> On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
+>>>> On 25/03/2024 15:02, Sakari Ailus wrote:
+>>>>> Moi,
+>>>>>
+>>>>> Thanks for the patch.
+>>>>>
+>>>>> On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+>>>>>> Hi Tomi,
+>>>>>>
+>>>>>> On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+>>>>>>> Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+>>>>>>> use the v4l2_subdev_video_ops.s_stream op, instead of
+>>>>>>> v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+>>>>>>> enable/disable_streams machinery requires a routing table which a subdev
+>>>>>>> cannot have with a single pad.
+>>>>>>>
+>>>>>>> Implement enable/disable_streams support for these single-pad subdevices
+>>>>>>> by assuming an implicit stream 0 when the subdevice has only one pad.
+>>>>>>>
+>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>>>> ---
+>>>>>>> Even though I did send this patch, I'm not sure if this is necessary.
+>>>>>>> s_stream works fine for the subdevs with a single pad. With the upcoming
+>>>>>>> internal pads, adding an internal pad to the subdev will create a
+>>>>>>> routing table, and enable/disable_streams would get "fixed" that way.
+>>>>>
+>>>>> I'd like to get rid of a redundant way to control streaming.
+>>>>
+>>>> We can't get rid of it anyway, can we? We're not going to convert old
+>>>> drivers to streams.
+>>>
+>>> I'd expect to do that but it'd take a long time. That being said, I think
+>>> we need to consider devices without pads (VCMs) so it may well be this
+>>> would remain after all.
+>>>
+>>>>
+>>>> For new drivers, yes, we shouldn't use s_stream. But is the answer for new
+>>>> sensor drivers this patch, or requiring an internal pad?
+>>>
+>>> For new drivers I'd like to see an internal pad in fact.
+>>> {enable,disable}_streams is still internal to the kernel.
+>>
+>> So, you think this patch should be dropped?
 > 
-> After that. A lot of video_is_registered() were added to the core:
-> 
-> ```
-> ribalda@alco:~/work/linux$ git grep is_registered drivers/media/v4l2-core/
-> drivers/media/v4l2-core/v4l2-compat-ioctl32.c:  if (!video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev)) {
-> drivers/media/v4l2-core/v4l2-dev.c:             if (video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (!video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (vdev == NULL || !video_is_registered(vdev)) {
-> drivers/media/v4l2-core/v4l2-dev.c:             if (video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-dev.c:     if (!vdev || !video_is_registered(vdev))
-> drivers/media/v4l2-core/v4l2-ioctl.c:   if (!video_is_registered(vfd)) {
-> drivers/media/v4l2-core/v4l2-subdev.c:  if (video_is_registered(vdev)) {
-> ```
-> 
-> And recently Sakari is trying to land:
-> https://lore.kernel.org/linux-media/20230201214535.347075-1-sakari.ailus@linux.intel.com/
-> 
-> Which will make obsolete a lot off (all?) of the video_is_registered() checks in
-> Guenter's patches.
-> 
-> Besides those checks, there were some other valid races fixed in his
-> patches.
-> 
-> This patchset tries to fix the races still present in our code.
-> 
-> Thanks!
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Hmm, alright. So we want to support enable/disable_streams for 
+sub-devices with multiple source pads but no routing (so probably no 
+sink pads)?
+
+>>>>>>> So perhaps the question is, do we want to support single-pad subdevs in
+>>>>>>> the future, in which case something like this patch is necessary, or
+>>>>>>> will all modern source subdev drivers have internal pads, in which
+>>>>>>> case this is not needed...
+>>>>>>
+>>>>>> I think the latter would be best. I however can't guarantee we won't
+>>>>>> have valid use cases for (enable|disable)_streams on single-pad subdevs
+>>>>>> though, so you patch could still be interesting.
+>>>>>
+>>>>> Instead of the number of pads, could we use instead the
+>>>>> V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+>>>>> determine the need for this?
+>>>>
+>>>> Maybe, but are they better? Do you see some issue with checking for the
+>>>> number of pads? I considered a few options, but then thought that the most
+>>>> safest test for this case is 1) one pad 2) enable/disable_streams
+>>>> implemented.
+>>>
+>>> I think I'd actually prefer {enable,disable}_streams in fact.
+>>
+>> Hmm, sorry, now I'm confused =). What do you mean with that?
+> 
+> I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
+> number of pads is less related to routing.
+
+Well, with one pad you cannot have routing =).
+
+In this patch I used sd->enabled_streams to track the enabled streams, 
+but if we need to support multiple pads, I'll have to invent something 
+new for that.
+
+  Tomi
+
 
