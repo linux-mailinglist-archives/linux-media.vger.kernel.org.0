@@ -1,242 +1,379 @@
-Return-Path: <linux-media+bounces-7950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE888E854
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 16:18:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F8F88EA44
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 17:04:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70D1C1C2DB82
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 15:18:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 099231F336A1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 16:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D68F13F45E;
-	Wed, 27 Mar 2024 14:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FDE912D1FC;
+	Wed, 27 Mar 2024 16:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="OmWGDzxG"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="j1MFXh/g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9E81304BB
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 14:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97FD512DD97;
+	Wed, 27 Mar 2024 16:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711551282; cv=none; b=NcIw6MuotWgIgB3J1YrOaGpgLGyOjPwWiEp6MgrKffwPSB6p5CZ47n8Wn8lTkRZ0q78rVKtvJz6wM/W+ehGb969XJpnj3v/izkkBX+VIsRoWAMk9XKC9hDw4fe6qxL6ajxsX++TRjVMycCHPXy6mWZduxgPNEt+ZGPsggw14APs=
+	t=1711555403; cv=none; b=UyWWo+OCfyBl9yetBZ63gU2qfpvCB/AwBD59LsTh6lTl81kGKobcKft2pCGZNWtGqW2CG87DMI3yDlqS6Twy9oOp5azxI3P2B55cXgFcBH44VqkA3ZnlfuUfFsYj2QrruaY+BsmLdOga202jz8UU+I3c2tt9sPraphuAGgDb0KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711551282; c=relaxed/simple;
-	bh=wmchFcjRBa/WPU/ODUXJfcxOntNjYDPrqpZ0OgG8ElM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mEglCS0oPOdrz070p5HGS0SD3vn5KrRqWXYHVUeZF9UvKo97UBkUJ9PZojykVH1oORyHJrja+977TUzc7HzRlsC08S9GibS+M1zgE/sAYl9VsLZ4NBOkrX3MOSnKtlM0HKnTq5r/507pcRLjoBbfRXHUTcEmMTHIDVdJfgdml1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=OmWGDzxG; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso841851276.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 07:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1711551279; x=1712156079; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aYHH853VZIgX/VOtrKl+GbT/Y365xF7D6u6megISNGk=;
-        b=OmWGDzxGJhCSsnQlR8Muv0DmKqyK51Fkxrs9zkYb2aBj2JnO7OfbZpQ84yJZe2LFN/
-         NxxnvP3nQwji0f+VQj5oeMXlHTMY2p0+3fBGeQfjPJV9JkV8Os/GfamgfPc17kDdtJpt
-         vOVkjzKuGfII8ZKi74SudE/DDns09+1STKXONz+20NZgivp/S+lMa20cXMkCeFLA4WVn
-         J8K0H24ClebFh6w38gHCCdxXOGnEnBd5qKJTWoNYmT/xwzYqJRU7OxsHJr8egmja4/sS
-         tyA23mSrP6VPlu6DIeGRpRhiB4sAIMPBrVBE587uohEQ74Df8HbrA+8ACQyZv5rVRz2U
-         RwhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711551279; x=1712156079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aYHH853VZIgX/VOtrKl+GbT/Y365xF7D6u6megISNGk=;
-        b=PI+PmMOPJcnNx56JQ1hZ/97LzgvSK7kEmJrpX3KtqO1xzae8TVJt9loa42aevJAHbR
-         1ibeo0I2MZiSpCjD0RFFWjQG4PxSfV3DKyv8D/hhwrZFbpG6N+l5iQ2ij62D/lHaW1zV
-         ApnefWKZDdjR+p/Mdmqhka1Di8AiW7+iUHIPaaeswFPd7fqM3jRYtoJ4zlIekLl249Gp
-         yw70vtFkUa7Y2cdF7XqijopZVFXReMBiAOgtYpOMuayDJt05IDNYg9NdUFjpTYDZdHyr
-         yb+wmyPrL9DHn1pv6Fdcl58dhGY4HkGbJ8qUflitzybdb0N3lhIVyFxDpO5BT8GlExaY
-         oVeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVg1PF5fTAPW6hTcZWf9YDXxQFx+KaA2q8+02UJiTGwOwy2Nhif2+F7BMOD0tIesQzTT0/2zgNlvf9IGbKVzVScUk3s9kFl+IJP2n0=
-X-Gm-Message-State: AOJu0YzHO3Hy0l8SBGQLBJ9wGiV6ZeMoBa42lMQLWEGcq2SOOL2bdrZA
-	Tzh72wWdHneMuY73yTGVb4LBJZKUzqR7euT7SKI8Ynrw7QDB/Ii9Gnpknxa3Lwryh5usZJKIvC9
-	gcRFOSi6mk3TzHz4WN0KA1v5gja6GxYusFx4P8w==
-X-Google-Smtp-Source: AGHT+IGNE+8LmdFi52g5/yWimH5bSioeCBp/8mELwR7bhTSU5KnUwPz3Nm+whhvv7FJ6xq43owOdVXbkBjkbgoSP80s=
-X-Received: by 2002:a25:2e06:0:b0:dc2:a46:3d29 with SMTP id
- u6-20020a252e06000000b00dc20a463d29mr134600ybu.9.1711551278849; Wed, 27 Mar
- 2024 07:54:38 -0700 (PDT)
+	s=arc-20240116; t=1711555403; c=relaxed/simple;
+	bh=axfExQQ9XjSS7+xlvPmWMy5GZEEZS+Lbf0Yr8kq4jQs=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=k1PnerHMVG2HZHBj0Wx68x+pMTRGAdRseU9U8XKrrZKTIfVdk0uP3UVgWDYivwdZV2AjeM/DhFjFdWoo071ZllPHL0pMYs0GNA4aG1ziwh6s7KqPudtcYYlCiKW0xe4CTDfIqiIG2k5zZLHSmJ1tEa4AyENUr7iRHMZq4dGwOcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=j1MFXh/g; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from apais-vm1.0synte4vioeebbvidf5q0vz2ua.xx.internal.cloudapp.net (unknown [52.183.86.224])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DA2672085CE4;
+	Wed, 27 Mar 2024 09:03:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DA2672085CE4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1711555401;
+	bh=3hcnlvv5JwxGRimv8puox0FI6yYT22rRQLYPals06nM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j1MFXh/gQg1tzy1NiZhDwekxwc8dvAzI+onvdyQYuwuUQW8n92YESaET4UqKK3s+1
+	 GkKlfkFJN7woCpfY/15BUPreZuaOKAoShX2RDT1e+7ZGcLy3rLDfkRWzSogXlEFbF5
+	 xONzEb2r0qc0V0QS8P8cWQIe/e+DcLcRmQWlSfJA=
+From: Allen Pais <apais@linux.microsoft.com>
+To: linux-kernel@vger.kernel.org
+Cc: tj@kernel.org,
+	keescook@chromium.org,
+	vkoul@kernel.org,
+	marcan@marcan.st,
+	sven@svenpeter.dev,
+	florian.fainelli@broadcom.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	paul@crapouillou.net,
+	Eugeniy.Paltsev@synopsys.com,
+	manivannan.sadhasivam@linaro.org,
+	vireshk@kernel.org,
+	Frank.Li@nxp.com,
+	leoyang.li@nxp.com,
+	zw@zh-kernel.org,
+	wangzhou1@hisilicon.com,
+	haijie1@huawei.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	sean.wang@mediatek.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	afaerber@suse.de,
+	logang@deltatee.com,
+	daniel@zonque.org,
+	haojian.zhuang@gmail.com,
+	robert.jarzmik@free.fr,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	orsonzhai@gmail.com,
+	baolin.wang@linux.alibaba.com,
+	zhang.lyra@gmail.com,
+	patrice.chotard@foss.st.com,
+	linus.walleij@linaro.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	peter.ujfalusi@gmail.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	jassisinghbrar@gmail.com,
+	mchehab@kernel.org,
+	maintainers@bluecherrydvr.com,
+	aubin.constans@microchip.com,
+	ulf.hansson@linaro.org,
+	manuel.lauss@gmail.com,
+	mirq-linux@rere.qmqm.pl,
+	jh80.chung@samsung.com,
+	oakad@yahoo.com,
+	hayashi.kunihiko@socionext.com,
+	mhiramat@kernel.org,
+	brucechang@via.com.tw,
+	HaraldWelte@viatech.com,
+	pierre@ossman.eu,
+	duncan.sands@free.fr,
+	stern@rowland.harvard.edu,
+	oneukum@suse.com,
+	openipmi-developer@lists.sourceforge.net,
+	dmaengine@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	imx@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 0/9] Convert Tasklets to BH Workqueues
+Date: Wed, 27 Mar 2024 16:03:05 +0000
+Message-Id: <20240327160314.9982-1-apais@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240327000510.2541-1-laurent.pinchart@ideasonboard.com> <20240327001220.GA26859@pendragon.ideasonboard.com>
-In-Reply-To: <20240327001220.GA26859@pendragon.ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 27 Mar 2024 14:54:22 +0000
-Message-ID: <CAPY8ntDHvWUL3ZPu-hWT+V6iJJO7vZ794gLUqq3RFfyjZUqPNQ@mail.gmail.com>
-Subject: Re: [PATCH v8 00/10] media: Add driver for the Raspberry Pi <5 CSI-2 receiver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, linux-media@vger.kernel.org, 
-	David Plowman <david.plowman@raspberrypi.com>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Naushir Patuck <naush@raspberrypi.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	bcm-kernel-feedback-list@broadcom.com, Conor Dooley <conor+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent
+This patch series represents a significant shift in how asynchronous
+execution in the bottom half (BH) context is handled within the kernel.
+Traditionally, tasklets have been the go-to mechanism for such operations.
+This series introduces the conversion of existing tasklet implementations
+to the newly supported BH workqueues, marking a pivotal enhancement
+in how asynchronous tasks are managed and executed.
 
-On Wed, 27 Mar 2024 at 00:12, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Florian,
->
-> I think patches 04/10 ("ARM: dts: bcm2835-rpi: Move firmware-clocks from
-> bcm2711 to bcm2835"), 07/10 ("ARM: dts: bcm2711-rpi: Add pinctrl-based
-> multiplexing for I2C0"a), 08/10 ("ARM: dts: bcm2711-rpi-cm4-io: Add RTC o=
-n
-> I2C0") and 09/10 ("ARM: dts: bcm2711-rpi-4-b: Add CAM1 regulator") are
-> ready for you to merge. This would help reducing further iterations of
-> this series.
->
-> A review from Dave would be nice for 05/10 and 09/10 though.
+Background and Motivation:
+Tasklets have served as the kernel's lightweight mechanism for
+scheduling bottom-half processing, providing a simple interface
+for deferring work from interrupt context. There have been increasing
+requests and motivations to deprecate and eventually remove tasklets
+in favor of more modern and flexible mechanisms.
 
-Done.
-Please do nudge me if there are patches you specifically want me to
-review. I'm not directly involved in the camera side at present, so
-only keeping a passing eye on these patchsets.
+Introduction of BH Workqueues:
+BH workqueues are designed to behave similarly to regular workqueues
+with the added benefit of execution in the BH context.
 
-  Dave
+Conversion Details:
+The conversion process involved identifying all instances where
+tasklets were used within the kernel and replacing them with BH workqueue
+implementations.
 
-> On Wed, Mar 27, 2024 at 02:04:58AM +0200, Laurent Pinchart wrote:
-> > Hello everybody,
-> >
-> > This patch series adds a new driver for the BCM2835 (and derivative)
-> > CCP2/CSI2 camera interface named Unicam. This IP core is found in the
-> > VC4-based Raspberry Pi, namely the Pi Zero, Pi 3 and Pi 4.
-> >
-> > Camera support for Raspberry Pi 4 currently relies on a downstream
-> > Unicam driver that live in the Raspberry Pi kernel tree ([1]). The
-> > driver uses the V4L2 API, but works around the lack of features in V4L2
-> > to properly support sensor embedded data. Since the Unicam driver
-> > development by Raspberry Pi, some of those features have been merged in
-> > the kernel (namely the V4L2 streams API) or are being developed (namely
-> > generic metadata formats and subdev internal pads), with patches posted
-> > for review on the linux-media mailing list ([2]).
-> >
-> > This new upstream driver is based on the downstream code, extensively
-> > reworked to use the new V4L2 APIs.
-> >
-> > The series is based on a merge of
-> >
-> > - v8 of the generic metadata and internal pads, rebased on v6.9-rc1 ([3=
-])
-> > - the downstream ISP driver ported to mainline ([4])
-> >
-> > with a set of patches for the imx219 driver applied on top. For
-> > convenience, it can be found in [5]. Note that the ISP driver is gettin=
-g
-> > upstreamed separately.
-> >
-> > Compared to v7, I have left the imx219 patches out, as they don't need
-> > to be bundled with the Unicam driver for review. They will be
-> > resubmitted separately.
-> >
-> > The series starts with four patches that add the Unicam driver (04/10),
-> > with new V4L2 pixel formats (01/10 and 02/10) and DT bindings (03/10).
-> > The remaining patches cover DT integration (05/10 to 09/10) with a
-> > sample DT overlay for the IMX219 camera module (10/10).
-> >
-> > The patches have been tested on a Raspberry Pi 4 using an IMX219 camera
-> > module (the Raspberry Pi camera v2), with libcamera. Updates are needed
-> > to libcamera to use the new V4L2 APIs, patches have been posted to [6].
-> > For manual testing with media-ctl, corresponding API updates to
-> > v4l-utils are available at [7].
-> >
-> > While more work is needed to be able to merge the generic metadata API
-> > (namely implementing support for the latest API version in media-ctl an=
-d
-> > v4l2-compliance), I'm happy with the unicam implementation, and I
-> > believe we're really nearing completion. This series, along with the
-> > libcamera support, help validating the new kernel APIs. We have reached
-> > a point where we can start converting other sensor drivers from the
-> > downstream Raspberry Pi kernel to the standard APIs for embedded data,
-> > as well as integrating the APIs in the Raspberry Pi 5 CFE driver.
-> >
-> > [1] https://github.com/raspberrypi/linux/tree/rpi-6.1.y/drivers/media/p=
-latform/bcm2835
-> > [2] https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.=
-ailus@linux.intel.com/
-> > [3] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git=
-/log/?h=3Drpi/v6.9/metadata/v8
-> > [4] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git=
-/log/?h=3Drpi/v6.9/isp/v2
-> > [5] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git=
-/log/?h=3Drpi/v6.9/unicam/next
-> > [6] https://lists.libcamera.org/pipermail/libcamera-devel/2024-March/04=
-0711.html
-> > [7] https://git.linuxtv.org/pinchartl/v4l-utils.git/log/?h=3Dmetadata
-> >
-> > Dave Stevenson (2):
-> >   dt-bindings: media: Add bindings for bcm2835-unicam
-> >   media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
-> >
-> > Jean-Michel Hautbois (3):
-> >   media: v4l: Add V4L2-PIX-FMT-Y12P format
-> >   media: v4l: Add V4L2-PIX-FMT-Y14P format
-> >   ARM: dts: bcm2835: Add Unicam CSI nodes
-> >
-> > Laurent Pinchart (3):
-> >   ARM: dts: bcm2835-rpi: Move firmware-clocks from bcm2711 to bcm2835
-> >   ARM: dts: bcm2711-rpi-4-b: Add CAM1 regulator
-> >   [DNI] arm64: dts: broadcom: Add overlay for Raspberry Pi 4B IMX219
-> >     camera
-> >
-> > Uwe Kleine-K=C3=B6nig (2):
-> >   ARM: dts: bcm2711-rpi: Add pinctrl-based multiplexing for I2C0
-> >   ARM: dts: bcm2711-rpi-cm4-io: Add RTC on I2C0
-> >
-> >  .../bindings/media/brcm,bcm2835-unicam.yaml   |  127 +
-> >  .../media/v4l/pixfmt-yuv-luma.rst             |   48 +
-> >  MAINTAINERS                                   |    7 +
-> >  .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |    7 +
-> >  .../boot/dts/broadcom/bcm2711-rpi-cm4-io.dts  |    9 +
-> >  arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi   |   34 +-
-> >  arch/arm/boot/dts/broadcom/bcm2711.dtsi       |    8 +
-> >  arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi   |   19 +
-> >  arch/arm/boot/dts/broadcom/bcm283x.dtsi       |   24 +
-> >  arch/arm64/boot/dts/broadcom/Makefile         |    4 +
-> >  .../dts/broadcom/bcm2711-rpi-4-b-imx219.dtso  |   65 +
-> >  drivers/media/platform/Kconfig                |    1 +
-> >  drivers/media/platform/Makefile               |    1 +
-> >  drivers/media/platform/broadcom/Kconfig       |   23 +
-> >  drivers/media/platform/broadcom/Makefile      |    3 +
-> >  .../platform/broadcom/bcm2835-unicam-regs.h   |  246 ++
-> >  .../media/platform/broadcom/bcm2835-unicam.c  | 2671 +++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
-> >  include/uapi/linux/videodev2.h                |    2 +
-> >  19 files changed, 3296 insertions(+), 5 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm283=
-5-unicam.yaml
-> >  create mode 100644 arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219=
-.dtso
-> >  create mode 100644 drivers/media/platform/broadcom/Kconfig
-> >  create mode 100644 drivers/media/platform/broadcom/Makefile
-> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs=
-.h
-> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
-> >
-> >
-> > base-commit: 37a950b8e140e3bd97d22943ba860542111d64fe
->
-> --
-> Regards,
->
-> Laurent Pinchart
+This patch series is a first step toward broader adoption of BH workqueues
+across the kernel, and soon other subsystems using tasklets will undergo
+a similar transition. The groundwork laid here could serve as a
+blueprint for such future conversions.
+
+Testing Request:
+In addition to a thorough review of these changes,
+I kindly request that the reviwers engage in both functional and
+performance testing of this patch series. Specifically, benchmarks
+that measure interrupt handling efficiency, latency, and throughput.
+
+I welcome your feedback, suggestions, and any further discussion on this
+patch series.
+
+
+Additional Info:
+    Based on the work done by Tejun Heo <tj@kernel.org>
+    Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+
+Allen Pais (9):
+  hyperv: Convert from tasklet to BH workqueue
+  dma: Convert from tasklet to BH workqueue
+  IB: Convert from tasklet to BH workqueue
+  USB: Convert from tasklet to BH workqueue
+  mailbox: Convert from tasklet to BH workqueue
+  ipmi: Convert from tasklet to BH workqueue
+  s390: Convert from tasklet to BH workqueue
+  drivers/media/*: Convert from tasklet to BH workqueue
+  mmc: Convert from tasklet to BH workqueue
+
+ drivers/char/ipmi/ipmi_msghandler.c           | 30 ++++----
+ drivers/dma/altera-msgdma.c                   | 15 ++--
+ drivers/dma/apple-admac.c                     | 15 ++--
+ drivers/dma/at_hdmac.c                        |  2 +-
+ drivers/dma/at_xdmac.c                        | 15 ++--
+ drivers/dma/bcm2835-dma.c                     |  2 +-
+ drivers/dma/dma-axi-dmac.c                    |  2 +-
+ drivers/dma/dma-jz4780.c                      |  2 +-
+ .../dma/dw-axi-dmac/dw-axi-dmac-platform.c    |  2 +-
+ drivers/dma/dw-edma/dw-edma-core.c            |  2 +-
+ drivers/dma/dw/core.c                         | 13 ++--
+ drivers/dma/dw/regs.h                         |  3 +-
+ drivers/dma/ep93xx_dma.c                      | 15 ++--
+ drivers/dma/fsl-edma-common.c                 |  2 +-
+ drivers/dma/fsl-qdma.c                        |  2 +-
+ drivers/dma/fsl_raid.c                        | 11 +--
+ drivers/dma/fsl_raid.h                        |  2 +-
+ drivers/dma/fsldma.c                          | 15 ++--
+ drivers/dma/fsldma.h                          |  3 +-
+ drivers/dma/hisi_dma.c                        |  2 +-
+ drivers/dma/hsu/hsu.c                         |  2 +-
+ drivers/dma/idma64.c                          |  4 +-
+ drivers/dma/img-mdc-dma.c                     |  2 +-
+ drivers/dma/imx-dma.c                         | 27 +++----
+ drivers/dma/imx-sdma.c                        |  6 +-
+ drivers/dma/ioat/dma.c                        | 17 +++--
+ drivers/dma/ioat/dma.h                        |  5 +-
+ drivers/dma/ioat/init.c                       |  2 +-
+ drivers/dma/k3dma.c                           | 19 ++---
+ drivers/dma/mediatek/mtk-cqdma.c              | 35 ++++-----
+ drivers/dma/mediatek/mtk-hsdma.c              |  2 +-
+ drivers/dma/mediatek/mtk-uart-apdma.c         |  4 +-
+ drivers/dma/mmp_pdma.c                        | 13 ++--
+ drivers/dma/mmp_tdma.c                        | 11 +--
+ drivers/dma/mpc512x_dma.c                     | 17 +++--
+ drivers/dma/mv_xor.c                          | 13 ++--
+ drivers/dma/mv_xor.h                          |  5 +-
+ drivers/dma/mv_xor_v2.c                       | 23 +++---
+ drivers/dma/mxs-dma.c                         | 13 ++--
+ drivers/dma/nbpfaxi.c                         | 15 ++--
+ drivers/dma/owl-dma.c                         |  2 +-
+ drivers/dma/pch_dma.c                         | 17 +++--
+ drivers/dma/pl330.c                           | 31 ++++----
+ drivers/dma/plx_dma.c                         | 13 ++--
+ drivers/dma/ppc4xx/adma.c                     | 17 +++--
+ drivers/dma/ppc4xx/adma.h                     |  5 +-
+ drivers/dma/pxa_dma.c                         |  2 +-
+ drivers/dma/qcom/bam_dma.c                    | 35 ++++-----
+ drivers/dma/qcom/gpi.c                        | 18 ++---
+ drivers/dma/qcom/hidma.c                      | 11 +--
+ drivers/dma/qcom/hidma.h                      |  5 +-
+ drivers/dma/qcom/hidma_ll.c                   | 11 +--
+ drivers/dma/qcom/qcom_adm.c                   |  2 +-
+ drivers/dma/sa11x0-dma.c                      | 27 +++----
+ drivers/dma/sf-pdma/sf-pdma.c                 | 23 +++---
+ drivers/dma/sf-pdma/sf-pdma.h                 |  5 +-
+ drivers/dma/sprd-dma.c                        |  2 +-
+ drivers/dma/st_fdma.c                         |  2 +-
+ drivers/dma/ste_dma40.c                       | 17 +++--
+ drivers/dma/sun6i-dma.c                       | 33 ++++----
+ drivers/dma/tegra186-gpc-dma.c                |  2 +-
+ drivers/dma/tegra20-apb-dma.c                 | 19 ++---
+ drivers/dma/tegra210-adma.c                   |  2 +-
+ drivers/dma/ti/edma.c                         |  2 +-
+ drivers/dma/ti/k3-udma.c                      | 11 +--
+ drivers/dma/ti/omap-dma.c                     |  2 +-
+ drivers/dma/timb_dma.c                        | 23 +++---
+ drivers/dma/txx9dmac.c                        | 29 +++----
+ drivers/dma/txx9dmac.h                        |  5 +-
+ drivers/dma/virt-dma.c                        |  9 ++-
+ drivers/dma/virt-dma.h                        |  9 ++-
+ drivers/dma/xgene-dma.c                       | 21 +++---
+ drivers/dma/xilinx/xilinx_dma.c               | 23 +++---
+ drivers/dma/xilinx/xilinx_dpdma.c             | 21 +++---
+ drivers/dma/xilinx/zynqmp_dma.c               | 21 +++---
+ drivers/hv/channel.c                          |  8 +-
+ drivers/hv/channel_mgmt.c                     |  5 +-
+ drivers/hv/connection.c                       |  9 ++-
+ drivers/hv/hv.c                               |  3 +-
+ drivers/hv/hv_balloon.c                       |  4 +-
+ drivers/hv/hv_fcopy.c                         |  8 +-
+ drivers/hv/hv_kvp.c                           |  8 +-
+ drivers/hv/hv_snapshot.c                      |  8 +-
+ drivers/hv/hyperv_vmbus.h                     |  9 ++-
+ drivers/hv/vmbus_drv.c                        | 19 ++---
+ drivers/infiniband/hw/bnxt_re/bnxt_re.h       |  3 +-
+ drivers/infiniband/hw/bnxt_re/qplib_fp.c      | 21 +++---
+ drivers/infiniband/hw/bnxt_re/qplib_fp.h      |  2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c    | 25 ++++---
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.h    |  2 +-
+ drivers/infiniband/hw/erdma/erdma.h           |  3 +-
+ drivers/infiniband/hw/erdma/erdma_eq.c        | 11 +--
+ drivers/infiniband/hw/hfi1/rc.c               |  2 +-
+ drivers/infiniband/hw/hfi1/sdma.c             | 37 ++++-----
+ drivers/infiniband/hw/hfi1/sdma.h             |  9 ++-
+ drivers/infiniband/hw/hfi1/tid_rdma.c         |  6 +-
+ drivers/infiniband/hw/irdma/ctrl.c            |  2 +-
+ drivers/infiniband/hw/irdma/hw.c              | 24 +++---
+ drivers/infiniband/hw/irdma/main.h            |  5 +-
+ drivers/infiniband/hw/qib/qib.h               |  7 +-
+ drivers/infiniband/hw/qib/qib_iba7322.c       |  9 ++-
+ drivers/infiniband/hw/qib/qib_rc.c            | 16 ++--
+ drivers/infiniband/hw/qib/qib_ruc.c           |  4 +-
+ drivers/infiniband/hw/qib/qib_sdma.c          | 11 +--
+ drivers/infiniband/sw/rdmavt/qp.c             |  2 +-
+ drivers/mailbox/bcm-pdc-mailbox.c             | 21 +++---
+ drivers/mailbox/imx-mailbox.c                 | 16 ++--
+ drivers/media/pci/bt8xx/bt878.c               |  8 +-
+ drivers/media/pci/bt8xx/bt878.h               |  3 +-
+ drivers/media/pci/bt8xx/dvb-bt8xx.c           |  9 ++-
+ drivers/media/pci/ddbridge/ddbridge.h         |  3 +-
+ drivers/media/pci/mantis/hopper_cards.c       |  2 +-
+ drivers/media/pci/mantis/mantis_cards.c       |  2 +-
+ drivers/media/pci/mantis/mantis_common.h      |  3 +-
+ drivers/media/pci/mantis/mantis_dma.c         |  5 +-
+ drivers/media/pci/mantis/mantis_dma.h         |  2 +-
+ drivers/media/pci/mantis/mantis_dvb.c         | 12 +--
+ drivers/media/pci/ngene/ngene-core.c          | 23 +++---
+ drivers/media/pci/ngene/ngene.h               |  5 +-
+ drivers/media/pci/smipcie/smipcie-main.c      | 18 ++---
+ drivers/media/pci/smipcie/smipcie.h           |  3 +-
+ drivers/media/pci/ttpci/budget-av.c           |  3 +-
+ drivers/media/pci/ttpci/budget-ci.c           | 27 +++----
+ drivers/media/pci/ttpci/budget-core.c         | 10 +--
+ drivers/media/pci/ttpci/budget.h              |  5 +-
+ drivers/media/pci/tw5864/tw5864-core.c        |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c       | 13 ++--
+ drivers/media/pci/tw5864/tw5864.h             |  7 +-
+ drivers/media/platform/intel/pxa_camera.c     | 15 ++--
+ drivers/media/platform/marvell/mcam-core.c    | 11 +--
+ drivers/media/platform/marvell/mcam-core.h    |  3 +-
+ .../st/sti/c8sectpfe/c8sectpfe-core.c         | 15 ++--
+ .../st/sti/c8sectpfe/c8sectpfe-core.h         |  2 +-
+ drivers/media/radio/wl128x/fmdrv.h            |  7 +-
+ drivers/media/radio/wl128x/fmdrv_common.c     | 41 +++++-----
+ drivers/media/rc/mceusb.c                     |  2 +-
+ drivers/media/usb/ttusb-dec/ttusb_dec.c       | 21 +++---
+ drivers/mmc/host/atmel-mci.c                  | 35 ++++-----
+ drivers/mmc/host/au1xmmc.c                    | 37 ++++-----
+ drivers/mmc/host/cb710-mmc.c                  | 15 ++--
+ drivers/mmc/host/cb710-mmc.h                  |  3 +-
+ drivers/mmc/host/dw_mmc.c                     | 25 ++++---
+ drivers/mmc/host/dw_mmc.h                     |  9 ++-
+ drivers/mmc/host/omap.c                       | 17 +++--
+ drivers/mmc/host/renesas_sdhi.h               |  3 +-
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c | 24 +++---
+ drivers/mmc/host/renesas_sdhi_sys_dmac.c      |  9 +--
+ drivers/mmc/host/sdhci-bcm-kona.c             |  2 +-
+ drivers/mmc/host/tifm_sd.c                    | 15 ++--
+ drivers/mmc/host/tmio_mmc.h                   |  3 +-
+ drivers/mmc/host/tmio_mmc_core.c              |  4 +-
+ drivers/mmc/host/uniphier-sd.c                | 13 ++--
+ drivers/mmc/host/via-sdmmc.c                  | 25 ++++---
+ drivers/mmc/host/wbsd.c                       | 75 ++++++++++---------
+ drivers/mmc/host/wbsd.h                       | 10 +--
+ drivers/s390/block/dasd.c                     | 42 +++++------
+ drivers/s390/block/dasd_int.h                 | 10 +--
+ drivers/s390/char/con3270.c                   | 27 ++++---
+ drivers/s390/crypto/ap_bus.c                  | 24 +++---
+ drivers/s390/crypto/ap_bus.h                  |  2 +-
+ drivers/s390/crypto/zcrypt_msgtype50.c        |  2 +-
+ drivers/s390/crypto/zcrypt_msgtype6.c         |  4 +-
+ drivers/s390/net/ctcm_fsms.c                  |  4 +-
+ drivers/s390/net/ctcm_main.c                  | 15 ++--
+ drivers/s390/net/ctcm_main.h                  |  5 +-
+ drivers/s390/net/ctcm_mpc.c                   | 12 +--
+ drivers/s390/net/ctcm_mpc.h                   |  7 +-
+ drivers/s390/net/lcs.c                        | 26 +++----
+ drivers/s390/net/lcs.h                        |  2 +-
+ drivers/s390/net/qeth_core_main.c             |  2 +-
+ drivers/s390/scsi/zfcp_qdio.c                 | 45 +++++------
+ drivers/s390/scsi/zfcp_qdio.h                 |  9 ++-
+ drivers/usb/atm/usbatm.c                      | 55 +++++++-------
+ drivers/usb/atm/usbatm.h                      |  3 +-
+ drivers/usb/core/hcd.c                        | 22 +++---
+ drivers/usb/gadget/udc/fsl_qe_udc.c           | 21 +++---
+ drivers/usb/gadget/udc/fsl_qe_udc.h           |  4 +-
+ drivers/usb/host/ehci-sched.c                 |  2 +-
+ drivers/usb/host/fhci-hcd.c                   |  3 +-
+ drivers/usb/host/fhci-sched.c                 | 10 +--
+ drivers/usb/host/fhci.h                       |  5 +-
+ drivers/usb/host/xhci-dbgcap.h                |  3 +-
+ drivers/usb/host/xhci-dbgtty.c                | 15 ++--
+ include/linux/hyperv.h                        |  2 +-
+ include/linux/usb/cdc_ncm.h                   |  2 +-
+ include/linux/usb/usbnet.h                    |  2 +-
+ 186 files changed, 1135 insertions(+), 1044 deletions(-)
+
+-- 
+2.17.1
+
 
