@@ -1,419 +1,249 @@
-Return-Path: <linux-media+bounces-7903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7904-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8486988D36F
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:39:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0890F88D488
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 03:29:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6166B2324C
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:39:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C1F81F241F1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 02:29:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B452518C36;
-	Wed, 27 Mar 2024 00:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58EA20DC4;
+	Wed, 27 Mar 2024 02:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R829kLYe"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="fTjp7iE9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2135.outbound.protection.outlook.com [40.107.255.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117734A32;
-	Wed, 27 Mar 2024 00:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711499954; cv=none; b=RyNI8OalWyDoyfUjo0kIUXgczQGimrc0oD3whX6gXwOaFcLUDFiA+T9lEPLsqz4eiNDamNq3mJt8Id1MHt2cELDp8Vg0aQh+0jH3z4H0CiAOoLJMhw66d0EThgdlQR+MtTSddaWL2i0efwOKIKAZe3QoNJ1NJ3QdSpTCX94563g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711499954; c=relaxed/simple;
-	bh=lM4O1qCIEDxEUxFxG3e/eyhm3l0cH5kZrKl+PEHoY9Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fngoa88N03vZE7ce5DMrjGKw69hgi4Zz0rvaLy8FVUr/agF2UjgLiemiolU8pmaHXRu9cFoX0fh2RpWfmXyZWvStfzLP00IjTB8q1MmXLfoEHeTCCtqLTAPX9FkZ+HzvtAgyaD0f0mvs9eN/GHOIufp9S6JoCuO7CF4zrwBxhS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R829kLYe; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=kP7WIHOLdzRBQLDrSBJg7izGME+taO/PS6KcXmTaXmA=; b=R829kLYeWxuVRhP3F0l8AK+syA
-	QEH63rPSjU6cE1tUB9vjg/Zru7XGKlHCkGm8UnDZX0WWN4TnXIdlJ0WCiZCc+zozmDKQaebeG8Otb
-	gyunQb5eOnepRvGutL7gjpRAwHFlsqdcqclVFqMr0vyZtopr7+xwWtqWjgaV+MjqFp3U22BjiB+yN
-	hrpvRXIBaXs6tGlDTkTeW+IsWa74VNkZ1lsNunvW7tDimQkfGk1/En8lmoBA8qAVdcqWFJak4HC1p
-	Ae3ZKaz7OrrcZMT5MuKSGX2sdsKSw7PSfpqxR0fKH0RYWoRot45laQOJq0wpX92gC9AGw0DJ8tZEp
-	qhN43EZQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpHJc-00000006zwt-3DsR;
-	Wed, 27 Mar 2024 00:38:52 +0000
-Message-ID: <b448a180-b43d-435d-9444-60b1163deeed@infradead.org>
-Date: Tue, 26 Mar 2024 17:38:47 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22E217BA6;
+	Wed, 27 Mar 2024 02:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711506561; cv=fail; b=rti32+5iKZKGTumbgRhD7xmq6+WqS8fLf5R2qqv99KhKrxuHFADrm4J3OsbGOKxDDZBu3V+rZwb5ld43PGajxqtkpcNp/Sa7k0+9P0wIywv162ACoWo283L73fniYyOlM2RMOtnqzJMWcR6ErNXJ1pR3bcJIas90LXT+i8UXGLI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711506561; c=relaxed/simple;
+	bh=d5eCP8ZItzhIeDzQQM6S/dKCd3K2JQGytXRFEVsTYmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=RcRTuNVncpAiZUiCWlp9ciZWMDZPvLQVVZIvBxnAy242PwGMzM0bLNP/hqzJ6iSR2gLWhDAWSupFehzVILL2IFazf6gLHw4cAQc2rkJBgTOmnqlIMNRAKGCEqSUlLojmH7qJR/TXtjwtp3aA+PXfnjIfkVuBi99P7iZAGz15Onc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=fTjp7iE9; arc=fail smtp.client-ip=40.107.255.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MIIAotVjYImFjrwRQv2Mpb39zMhHp5EZlVH6a3cLwL6Ws8fFzP4CB8YAce/77cCNd7ebN9hMLDmvvVRDay2PUTVgtUu812+3ie6P+8tIYdwAjhY46vBJUi6BkNy6Rs1wdEUTdNwaBVHVjio5o7HNw0WsJl20ELBP2xF2pW4mbDw4PWikacoNKyuZxSk738ie23wOCT/DEgofbfkyIfGQY1rqCnp85+d8Jqd51go8XLhA8P8KkQWD/rQmwOGNA613DLE0A121Uykr72vVfeOKDbaN6Gvw9k173nanzXYJ8ZI7jOD0hfE3yZJ1hMe69bGjR+nKl8HsV5ue7yDanJIZ0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qaf+zladn37bMtw43Qj0rOz1L1uTahX8BhvlUF1DZIE=;
+ b=hvNE0fWxLghoWacgMMiPwUfSyYmcIEiCAGm1H2tCD/Vvqu4yGyamGbBqAx22+DMr8ePu6nPSlW0fwAX+2oxMeelJeE5n5csqhQZCJQLulOoqIAb9a/c/iH19bS0jPpcymOqsaq2UJz4tBNdAo5YesLcu/BRrPGaIuQ46nBoa5Bd+zP4uxcthBluLIQlSSx3iCTmnDb36snGsXdcuy6XRX7wyMi7nIBt4GoT29qM6PWXWLOUAA+d8y77Ja6TFZ+Ra4iYvvP6oYOhyydmyQygQ2lXIhvdIZpp7456J/slF2VwlR19O5kcpWoh+QiBzmKYUK0BGObeZ7CADH2evI4D0yA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qaf+zladn37bMtw43Qj0rOz1L1uTahX8BhvlUF1DZIE=;
+ b=fTjp7iE9XQ2gNOb7OFSK4Fe3hyauLCeQZhFwm80W7B3rZTdbvJUP/vMu+OpnYYHPB43u5TLhDX+iiZUYWJSOTuzeAKbO1Efd6y4gg082RTHEysvdJr5bOhakX0HUNpxqGvColG6sHXZCimGtqXa8EkmaO6iR6/ZHMX6U7Tay6MitaQB/vOO1tyxMPCuXSmwsaSu7jrKEh3qx5vlOlEt3V3KN/exdkutC3HV/oh7I2Cpff7c80ek/VbYpCO+s6jLObOmbwX82SPwWqoSsuv4UoqrMfjihgKL6FmWWle0NoxA0NMWHvDHNaPeHO6EejOQiQm+QBdyoIDoLWhjcX/sfGA==
+Received: from JH0PR06MB6849.apcprd06.prod.outlook.com (2603:1096:990:47::12)
+ by SEZPR06MB5176.apcprd06.prod.outlook.com (2603:1096:101:73::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Wed, 27 Mar
+ 2024 02:29:12 +0000
+Received: from JH0PR06MB6849.apcprd06.prod.outlook.com
+ ([fe80::575d:49f:44bb:b50d]) by JH0PR06MB6849.apcprd06.prod.outlook.com
+ ([fe80::575d:49f:44bb:b50d%6]) with mapi id 15.20.7409.028; Wed, 27 Mar 2024
+ 02:29:12 +0000
+From: Zhiguo Jiang <justinjiang@vivo.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com,
+	Zhiguo Jiang <justinjiang@vivo.com>
+Subject: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+Date: Wed, 27 Mar 2024 10:29:03 +0800
+Message-ID: <20240327022903.776-1-justinjiang@vivo.com>
+X-Mailer: git-send-email 2.41.0.windows.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0038.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::7)
+ To JH0PR06MB6849.apcprd06.prod.outlook.com (2603:1096:990:47::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v7 13/14] net: add devmem TCP documentation
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240326225048.785801-1-almasrymina@google.com>
- <20240326225048.785801-14-almasrymina@google.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240326225048.785801-14-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: JH0PR06MB6849:EE_|SEZPR06MB5176:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dIU0N4othX3dc6e9RQlVhM9w+pXR+F/2POdw9JiXqnt7eoCbjsbQ8gEl+WloZuFn/d8H3vmdGmjBi47rIZUohwiMARUpwNxVLB7OB6No9KzSNQbW/GlHkngeIPoMiUuBKRmk/X/C5uVCYQfwKzclRQaEdYlUpOoGgdlqHrL24kpqoCMXccndGJCrQWalrC4W7pB1E3dyub2Cwby2EKW9g04utrWSHdjoNyIXFkX6Q5MoJPfNv5cjRxaCYtaL5/v9jNTIHNkKxb6mhOESMesnvcWg8F2hGiktdKoOamz9nb1yHAggXrQloSMpG9ZGik2mtdOWwRWaUWpolkwpoRLJ1easvcnD3UQEWVtUCdRiHWJbCxLPWgNFXsohYzJ/5705xt3wiGarkdNGK/FBefHp1C2R5Qff2/4c5aU6It5p+AGH4umTV/DiZV66XljAeBFhLBkuc8x3B+4lMlcMzcA2QuWXR/qye01S3zVvbRAimXwtVnI79/WQ9Wram6iFPAvVah5OCWQi0X7HS4HDCcuXOG6OnnnEBbVgUczVN3Fpx1DCA5uEPH1uRuj18AM59NO35Q0o/yQM0oC6QB7lDK2QenAdzXG/u8cu61bCg4pgEplhElKdrkQBUoxkTcrpP8go7JQwMGFP6iQ9RA/Aj+hwkNtLnmp4WnKjf1JjyJsYK7VxJPilaIltz3XvScMbZTuxNmtsk76TucMIh3prdSDn8V/h+CHqiNCq4w7Fee8VJsQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:JH0PR06MB6849.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(52116005)(1800799015)(366007)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XkbhkUqakJfIbYcYloP9Z1dwaQJZz4YfZ7vVWnYAqfdxkUiCRQKtKz0Xm/xT?=
+ =?us-ascii?Q?WIvh0t9qO4duCgKEugqCy7vdtmz723WigV0aBD3N7SwrSfa0P5+ALANMvsP7?=
+ =?us-ascii?Q?SJf5LzT6G8SJQ+seobnY6TCC3amOgS3x0Iksm0X1KNQEaTgj3DhGOkITcAz7?=
+ =?us-ascii?Q?fGeo3fD/15czz4Sxx8hpvl7c7oWQEvEEKziAQW2/hEr361Lwys4sLxlfuJww?=
+ =?us-ascii?Q?mbpBddbrcdWj/XaWqF8+WSQByOmj5D1jyral4wljgb6rkF28Wpu/xH4YFGxD?=
+ =?us-ascii?Q?qUgy5CKnr6yrjZ8sLud6YlMpy2GmTw3hfY5K9y1LcZX0mW6/ELlqny2oLrH+?=
+ =?us-ascii?Q?Zag1ICiGHrr/xBxMJuhs0NrFkm5+If05f8R2p98uNwycT9w5jF6BtGuLLiP3?=
+ =?us-ascii?Q?P/tPlyrHlojY8+3Sk3jBdBgRq/1oUj7Z6MRnUwsXQk0za5zLr2S7XZlMUM8b?=
+ =?us-ascii?Q?5WopB4RLEn37hfTOHCHohATvwhsD9gkWBdy1LMBZ8r/wqhxbEAg7RbTpd8pM?=
+ =?us-ascii?Q?lxYPxoqhth3K4X3Joar8EamfY0l5AoSGVhwEE6AIt3jgG7pq7SnX6eRM9+89?=
+ =?us-ascii?Q?gQvW85lsCiVb2ye5QCtNYekk4uxE4ZM2GZ8+PGhMbkCNtaWdG1pnNpvzw7Ah?=
+ =?us-ascii?Q?y9PWfau+hFfC1dVzi6P2R2L4rj2QRmdoWwAjRcgOjN5U3YuhKXkJ5uCBcfXk?=
+ =?us-ascii?Q?1BAJyQuycCteL1+rm9BAnm7Ud8wTE0HZYdwekc1YK6gJSuP/BgFHAubHqgYs?=
+ =?us-ascii?Q?GKdzM61vg1M0564kyS0JNj6Sp88Q1tUZ3RZ4C/6GLlTGaJI8HcEkVwvfKDLN?=
+ =?us-ascii?Q?5X+K9tYKBA8/5C3HkvWvkZuQsk6/BLofH5NvahRyafVNarAce5ogB+dimGOx?=
+ =?us-ascii?Q?l8CpQc81fn/28O3+ZeibceCQ9A3Z8k4rCf3ToLGm/U1EVzkwZ7JMNofWm3y0?=
+ =?us-ascii?Q?KKq6sjBuyIerEIq74azgzk4MesbcDipfyZEek0eLGYywGxIBKCO8qGdtWWnM?=
+ =?us-ascii?Q?3dgLaQRWZ6cM+QCeU7PY6TEj+OM8yzVzm42mdVnjF9ncFFuN1Kr8uLB40qL7?=
+ =?us-ascii?Q?k/TN437XmroejNsFsp3MlD6tdpANpr2QzZ6bSe8suwR3BXyKnuEkLUMWTOLY?=
+ =?us-ascii?Q?CKrhomSXrdSg+yX/WWbCMTNspCV5GH42rn0jwLeRUG+Zaa0i3FsUZCtHDlpt?=
+ =?us-ascii?Q?XsKhJyC+xLp8J58iDM35+CVhJAHJ/RuGqa1cUjPsw6h3VCkqaterBEWFngDu?=
+ =?us-ascii?Q?wJYdFxEnwGOmvKuQdWkw091KexsI4EhUuGyrpE3ZTSvSsFEL6M7kIdo+c3RC?=
+ =?us-ascii?Q?muX/DfB9dndt8g5TWf0pnEU7rvJN4PAFEUFy6nMK3RPBmrQ1IyYjh9CnGsq7?=
+ =?us-ascii?Q?UtI3O9zbm9T2lLhOxPXId+SrQ6QKKYcyCo8SjJ80j/A9h5JMHz1POZYXbGIt?=
+ =?us-ascii?Q?3/WxvfvCNqEIb6ncBOLIA0HqU8OP901wYs9gUmfw5UdU/fjdbxCDfBY0BSgb?=
+ =?us-ascii?Q?PZcqaPNfTP6BKdItLG4Sf2yv8JK7de1jpn65fhHGsWUDWMkgwG9GONIjvixA?=
+ =?us-ascii?Q?qmOwzIqyQaRhO/Bxvf2Xlf6hT3ZU/m6XXS+aDcZz?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0ee4ad5-ceec-4a4e-526c-08dc4e05b040
+X-MS-Exchange-CrossTenant-AuthSource: JH0PR06MB6849.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 02:29:11.9721
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tqWMMCO9whZl2fUqDSoG8hjwTCfJzA9A8KX+tkJ0R0yZbI9FhNtTb6yAIUlfoWvY378gz1LdesizAk3QE0uh4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5176
 
-Hi,
+The issue is a UAF issue of dmabuf file fd. Throght debugging, we found
+that the dmabuf file fd is added to the epoll event listener list, and
+when it is released, it is not removed from the epoll list, which leads
+to the UAF(Use-After-Free) issue. 
 
-On 3/26/24 15:50, Mina Almasry wrote:
-> Add documentation outlining the usage and details of devmem TCP.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> v7:
-> - Applied docs suggestions (Jakub).
-> 
-> v2:
-> 
-> - Missing spdx (simon)
-> - add to index.rst (simon)
-> 
-> ---
->  Documentation/networking/devmem.rst | 256 ++++++++++++++++++++++++++++
->  Documentation/networking/index.rst  |   1 +
->  2 files changed, 257 insertions(+)
->  create mode 100644 Documentation/networking/devmem.rst
-> 
-> diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
-> new file mode 100644
-> index 000000000000..b0899e8e9e83
-> --- /dev/null
-> +++ b/Documentation/networking/devmem.rst
-> @@ -0,0 +1,256 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================
-> +Device Memory TCP
-> +=================
-> +
-> +
-> +Intro
-> +=====
-> +
-> +Device memory TCP (devmem TCP) enables receiving data directly into device
-> +memory (dmabuf). The feature is currently implemented for TCP sockets.
-> +
-> +
-> +Opportunity
-> +-----------
-> +
-> +A large number of data transfers have device memory as the source and/or
-> +destination. Accelerators drastically increased the prevalence of such
-> +transfers.  Some examples include:
-> +
-> +- Distributed training, where ML accelerators, such as GPUs on different hosts,
-> +  exchange data.
-> +
-> +- Distributed raw block storage applications transfer large amounts of data with
-> +  remote SSDs, much of this data does not require host processing.
+The UAF issue can be solved by checking dmabuf file->f_count value and
+skipping the poll operation for the closed dmabuf file in the
+dma_buf_poll(). We have tested this solved patch multiple times and
+have not reproduced the uaf issue.
 
-            SSDs. Much
+crash dump:
+list_del corruption, ffffff8a6f143a90->next is LIST_POISON1
+(dead000000000100)
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:55!
+Internal error: Oops - BUG: 00000000f2000800 [#1] PREEMPT SMP
+pc : __list_del_entry_valid+0x98/0xd4
+lr : __list_del_entry_valid+0x98/0xd4
+sp : ffffffc01d413d00
+x29: ffffffc01d413d00 x28: 00000000000000c0 x27: 0000000000000020
+x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000080007
+x23: ffffff8b22e5dcc0 x22: ffffff88a6be12d0 x21: ffffff8b22e572b0
+x20: ffffff80254ed0a0 x19: ffffff8a6f143a00 x18: ffffffda5efed3c0
+x17: 6165642820314e4f x16: 53494f505f545349 x15: 4c20736920747865
+x14: 6e3e2d3039613334 x13: 2930303130303030 x12: 0000000000000018
+x11: ffffff8b6c188000 x10: 00000000ffffffff x9 : 6c8413a194897b00
+x8 : 6c8413a194897b00 x7 : 74707572726f6320 x6 : 6c65645f7473696c
+x5 : ffffff8b6c3b2a3e x4 : ffffff8b6c3b2a40 x3 : ffff103000001005
+x2 : 0000000000000001 x1 : 00000000000000c0 x0 : 000000000000004e
+Call trace:
+ __list_del_entry_valid+0x98/0xd4
+ dma_buf_file_release+0x48/0x90
+ __fput+0xf4/0x280
+ ____fput+0x10/0x20
+ task_work_run+0xcc/0xf4
+ do_notify_resume+0x2a0/0x33c
+ el0_svc+0x5c/0xa4
+ el0t_64_sync_handler+0x68/0xb4
+ el0t_64_sync+0x1a0/0x1a4
+Code: d0006fe0 912c5000 f2fbd5a2 94231a01 (d4210000) 
+---[ end trace 0000000000000000 ]---
+Kernel panic - not syncing: Oops - BUG: Fatal exception
+SMP: stopping secondary CPUs
 
-> +
-> +Typically the Device-to-Device data transfers the network are implemented as the
+Signed-off-by: Zhiguo Jiang <justinjiang@vivo.com>
+---
+ drivers/dma-buf/dma-buf.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+ mode change 100644 => 100755 drivers/dma-buf/dma-buf.c
 
-                                                 in the network
-?
-
-> +following low level operations: Device-to-Host copy, Host-to-Host network
-
-             low-level
-
-> +transfer, and Host-to-Device copy.
-> +
-> +The flow involving host copies is suboptimal, especially for bulk data transfers,
-> +and can put significant strains on system resources such as host memory
-> +bandwidth and PCIe bandwidth.
-> +
-> +Devmem TCP optimizes this use case by implementing socket APIs that enable
-> +the user to receive incoming network packets directly into device memory.
-> +
-> +Packet payloads go directly from the NIC to device memory.
-> +
-> +Packet headers go to host memory and are processed by the TCP/IP stack
-> +normally. The NIC must support header split to achieve this.
-> +
-> +Advantages:
-> +
-> +- Alleviate host memory bandwidth pressure, compared to existing
-> +  network-transfer + device-copy semantics.
-> +
-> +- Alleviate PCIe bandwidth pressure, by limiting data transfer to the lowest
-> +  level of the PCIe tree, compared to traditional path which sends data through
-
-                                      to the
-
-> +  the root complex.
-> +
-> +
-> +More Info
-> +---------
-> +
-> +  slides, video
-> +    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
-> +
-> +  patchset
-> +    [RFC PATCH v6 00/12] Device Memory TCP
-> +    https://lore.kernel.org/netdev/20240305020153.2787423-1-almasrymina@google.com/
-> +
-> +
-> +Interface
-> +=========
-> +
-> +Example
-> +-------
-> +
-> +tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
-> +the RX path of this API.
-> +
-> +NIC Setup
-> +---------
-> +
-> +Header split, flow steering, & RSS are required features for devmem TCP.
-> +
-> +Header split is used to split incoming packets into a header buffer in host
-> +memory, and a payload buffer in device memory.
-> +
-> +Flow steering & RSS are used to ensure that only flows targeting devmem land on> +RX queue bound to devmem.
-
-   an RX queue
-?
-
-> +
-> +Enable header split & flow steering::
-> +
-> +	# enable header split
-> +	ethtool -G eth1 tcp-data-split on
-> +
-> +
-> +	# enable flow steering
-> +	ethtool -K eth1 ntuple on
-> +
-> +Configure RSS to steer all traffic away from the target RX queue (queue 15 in
-> +this example)::
-> +
-> +	ethtool --set-rxfh-indir eth1 equal 15
-> +
-> +
-> +The user must bind a dmabuf to any number of RX queues on a given NIC using
-> +netlink API::
-
-   the netlink API::
-
-> +
-> +	/* Bind dmabuf to NIC RX queue 15 */
-> +	struct netdev_queue *queues;
-> +	queues = malloc(sizeof(*queues) * 1);
-> +
-> +	queues[0]._present.type = 1;
-> +	queues[0]._present.idx = 1;
-> +	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
-> +	queues[0].idx = 15;
-> +
-> +	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-> +
-> +	req = netdev_bind_rx_req_alloc();
-> +	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
-> +	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-> +	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-> +
-> +	rsp = netdev_bind_rx(*ys, req);
-> +
-> +	dmabuf_id = rsp->dmabuf_id;
-> +
-> +
-> +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
-> +that has been bound.
-> +
-> +Socket Setup
-> +------------
-> +
-> +The socket must be flow steering to the dmabuf bound RX queue::
-
-                      flow steered
-?
-
-> +
-> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
-> +
-> +
-> +Receiving data
-> +--------------
-> +
-> +The user application must signal to the kernel that it is capable of receiving
-> +devmem data by passing the MSG_SOCK_DEVMEM flag to recvmsg::
-> +
-> +	ret = recvmsg(fd, &msg, MSG_SOCK_DEVMEM);
-> +
-> +Applications that do not specify the MSG_SOCK_DEVMEM flag will receive an EFAULT
-> +on devmem data.
-> +
-> +Devmem data is received directly into the dmabuf bound to the NIC in 'NIC
-> +Setup', and the kernel signals such to the user via the SCM_DEVMEM_* cmsgs::
-> +
-> +		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-> +			if (cm->cmsg_level != SOL_SOCKET ||
-> +				(cm->cmsg_type != SCM_DEVMEM_DMABUF &&
-> +				 cm->cmsg_type != SCM_DEVMEM_LINEAR))
-> +				continue;
-> +
-> +			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
-> +
-> +			if (cm->cmsg_type == SCM_DEVMEM_DMABUF) {
-> +				/* Frag landed in dmabuf.
-> +				 *
-> +				 * dmabuf_cmsg->dmabuf_id is the dmabuf the
-> +				 * frag landed on.
-> +				 *
-> +				 * dmabuf_cmsg->frag_offset is the offset into
-> +				 * the dmabuf where the frag starts.
-> +				 *
-> +				 * dmabuf_cmsg->frag_size is the size of the
-> +				 * frag.
-> +				 *
-> +				 * dmabuf_cmsg->frag_token is a token used to
-> +				 * refer to this frag for later freeing.
-> +				 */
-> +
-> +				struct dmabuf_token token;
-> +				token.token_start = dmabuf_cmsg->frag_token;
-> +				token.token_count = 1;
-> +				continue;
-> +			}
-> +
-> +			if (cm->cmsg_type == SCM_DEVMEM_LINEAR)
-> +				/* Frag landed in linear buffer.
-> +				 *
-> +				 * dmabuf_cmsg->frag_size is the size of the
-> +				 * frag.
-> +				 */
-> +				continue;
-> +
-> +		}
-> +
-> +Applications may receive 2 cmsgs:
-> +
-> +- SCM_DEVMEM_DMABUF: this indicates the fragment landed in the dmabuf indicated
-> +  by dmabuf_id.
-> +
-> +- SCM_DEVMEM_LINEAR: this indicates the fragment landed in the linear buffer.
-> +  This typically happens when the NIC is unable to split the packet at the
-> +  header boundary, such that part (or all) of the payload landed in host
-> +  memory.
-> +
-> +Applications may receive no SO_DEVMEM_* cmsgs. That indicates non-devmem,
-> +regular TCP data that landed on an RX queue not bound to a dmabuf.
-> +
-> +
-> +Freeing frags
-> +-------------
-> +
-> +Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
-> +processes the frag. The user must return the frag to the kernel via
-> +SO_DEVMEM_DONTNEED::
-> +
-> +	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
-> +			 sizeof(token));
-> +
-> +The user must ensure the tokens are returned to the kernel in a timely manner.
-> +Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
-> +and will lead to packet drops.
-> +
-> +
-> +Implementation & Caveats
-> +========================
-> +
-> +Unreadable skbs
-> +---------------
-> +
-> +Devmem payloads are inaccessible to the kernel processing the packets. This
-> +results in a few quirks for payloads of devmem skbs:
-> +
-> +- Loopback is not functional. Loopback relies on copying the payload, which is
-> +  not possible with devmem skbs.
-> +
-> +- Software checksum calculation fails.
-> +
-> +- TCP Dump and bpf can't access devmem packet payloads.
-> +
-> +
-> +Testing
-> +=======
-> +
-> +More realistic example code can be found in the kernel source under
-> +tools/testing/selftests/net/ncdevmem.c
-> +
-> +ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
-> +receives data directly into a udmabuf.
-> +
-> +To run ncdevmem, you need to run it a server on the machine under test, and you
-
-                                    it on a server
-
-> +need to run netcat on a peer to provide the TX data.
-> +
-> +ncdevmem has a validation mode as well that expects a repeating pattern of
-> +incoming data and validates it as such::
-> +
-> +	# On server:
-> +	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-> +		 -p 5201 -v 7
-> +
-> +	# On client:
-> +	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-> +		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
-
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 8fe5aa67b167..e469dd9288cc
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -240,6 +240,10 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 	struct dma_resv *resv;
+ 	__poll_t events;
+ 
++	/* Check if the file exists */
++	if (!file_count(file))
++		return EPOLLERR;
++
+ 	dmabuf = file->private_data;
+ 	if (!dmabuf || !dmabuf->resv)
+ 		return EPOLLERR;
+@@ -266,8 +270,15 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+ 		if (events & EPOLLOUT) {
+-			/* Paired with fput in dma_buf_poll_cb */
+-			get_file(dmabuf->file);
++			/*
++			 * Paired with fput in dma_buf_poll_cb,
++			 * Skip poll for the closed file.
++			 */
++			if (!get_file_rcu(&dmabuf->file)) {
++				events &= ~EPOLLOUT;
++				dcb->active = 0;
++				goto clear_out_event;
++			}
+ 
+ 			if (!dma_buf_poll_add_cb(resv, true, dcb))
+ 				/* No callback queued, wake up any other waiters */
+@@ -277,6 +288,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		}
+ 	}
+ 
++clear_out_event:
+ 	if (events & EPOLLIN) {
+ 		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_in;
+ 
+@@ -289,8 +301,15 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+ 		if (events & EPOLLIN) {
+-			/* Paired with fput in dma_buf_poll_cb */
+-			get_file(dmabuf->file);
++			/*
++			 * Paired with fput in dma_buf_poll_cb,
++			 * Skip poll for the closed file.
++			 */
++			if (!get_file_rcu(&dmabuf->file)) {
++				events &= ~EPOLLIN;
++				dcb->active = 0;
++				goto clear_in_event;
++			}
+ 
+ 			if (!dma_buf_poll_add_cb(resv, false, dcb))
+ 				/* No callback queued, wake up any other waiters */
+@@ -300,6 +319,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		}
+ 	}
+ 
++clear_in_event:
+ 	dma_resv_unlock(resv);
+ 	return events;
+ }
 -- 
-#Randy
+2.39.0
+
 
