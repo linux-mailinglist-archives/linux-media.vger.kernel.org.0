@@ -1,512 +1,186 @@
-Return-Path: <linux-media+bounces-7889-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674E388D2D4
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:30:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2323B88D30A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:05:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9AE8FB2125A
-	for <lists+linux-media@lfdr.de>; Tue, 26 Mar 2024 23:30:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53D54B226DD
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:05:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19DB613E033;
-	Tue, 26 Mar 2024 23:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3C3E541;
+	Wed, 27 Mar 2024 00:05:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="rMHokd8c"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jcXpnBGU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179116FE35
-	for <linux-media@vger.kernel.org>; Tue, 26 Mar 2024 23:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711495847; cv=pass; b=F9NOvJwZ1CkWuw7kc5IJzhMTd4CvzLiQcKAbrGq+gwpqC8E5xty0g4lDB0TlcD+d21b5qXndw20Pcvhg+G3J4zbWSDU9DlO1CBQPuZRzBopSOMk3QWf0KagzJPIEckpFkCRYm+CnVdFX3OJL/j4+Xuv79RrF4JtNX/zGNobMrDU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711495847; c=relaxed/simple;
-	bh=v6e5sUCUr6zIiByxLq+m60rQxwjMslqGLgU08LY5POg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LjFdem6chCLEBfDFBRwf+1xRaUvJ/AkPjhK2btwyrxMT3/llMkKhJXYWMjJzjyHr5cRjo77Y9Z1Vwj/8zCBdKWN6qwDOpa/4zg9Fe+FQVoQ14BmM8stNbHHu6WewGyQ8onlfZYgB4JVbmDPYNscJezpY7mzrKiwpS+ov0OMBcFI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=rMHokd8c; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4V45dM15h5zyTF;
-	Wed, 27 Mar 2024 01:30:30 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1711495835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ySYeJ6+NgS953rUQ+VqIgxBGlDzghCe9Tm8O8IoFkKg=;
-	b=rMHokd8cgNLC3oAHlpT8bGqspbt5yX37A5wDvNsaRDnpQOiQxY6XAhLbW/fJ6KVFa2KL+t
-	cszI2uGmIZzOlqK6BGm8ZDr5Iia6Yn3ea5SXfR4hZ4BhI3ZGGBYAR4RWXeELKD4hHnfQBC
-	hoMK97GAkAgq2GVvSBX5Hy7EmJOoxiM=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1711495835; a=rsa-sha256; cv=none;
-	b=lKd1cxhvl2hwgNrmAeaeXRd1eITblQgon4iND3xkS4nmCUogZkbuk5L/G2b73gBCzirMqC
-	MMCIz3EpIsfznf9v0g+dV6WApnCemgchjVHKarWVxbxS/mY3tUVPL/0K01p46nu5Jk5bAW
-	odVtLsNYWeFK2MTNFS53suLIdbUxH6o=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1711495835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ySYeJ6+NgS953rUQ+VqIgxBGlDzghCe9Tm8O8IoFkKg=;
-	b=aaoj1XtP7MYKuWXAnAvPpyEtLUQDLoYzenq4UPlHv28i/zFiBIebx2yMNtdt9s2iqIdUxc
-	6gNxgYnOKFBbdGzEhN25g2CFI+9+R8IKYmOUarHrvO6yTZuIzk7UTGBFo0C+mo93Y/BiUA
-	yeG71QVlaeumemNEG+22eLbyR6e/6nc=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 64388634C93;
-	Wed, 27 Mar 2024 01:30:30 +0200 (EET)
-Date: Tue, 26 Mar 2024 23:30:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4DA160;
+	Wed, 27 Mar 2024 00:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711497929; cv=none; b=DnA5Dd8i7sAqQBk1PYcF3KyQqrjbulfD7KoWDaMP19mmrLFIa22QeIgVeGARm3DcH++JxpCDcyw5P1nlmfwCE6I+wg/4CtnFfpTpS68Z0NHgaV4130KBTSQOTPmcqo2gySvdpeJOu8C06dyvPH+YCy3Q6bH2V0aj1GINpiZWCk0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711497929; c=relaxed/simple;
+	bh=v9Xd9Dy0I+pZEWtaWeSSZziKCAVjPxpIMJbqBJ+Y/fY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ljHLnaC1I22Tjf/TWfkBA7a2qNggzldHMjdNvFkYd7lJFmSHQcTDjkd0R/FLVvCpr9m24GeNjfZQFdGJtLkjFQHJc/k9QPcycS7jLX6qixU/OR+h2Lbq0j7y+vyg99bJKXkvszgDm2Pk7IXDh7qWD1J8M7NqSQoHSqE1snCgLwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jcXpnBGU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37860505;
+	Wed, 27 Mar 2024 01:04:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711497887;
+	bh=v9Xd9Dy0I+pZEWtaWeSSZziKCAVjPxpIMJbqBJ+Y/fY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jcXpnBGU/q0E3smCadFbVW1l/2EgMGkvOkSkV0wiijgJ4DRX6yF746q6Gxap5UETe
+	 fpZUdm2LppsRsMBsVE40qiAOe47Y+aX1JntTAZEbu8ys7bE24mYReD/OrztfOil93p
+	 KdhVAmRm4KOf+Lb0eN2YW7nsA79sfVig65LxkrOs=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	David Plowman <david.plowman@raspberrypi.com>,
 	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Naushir Patuck <naush@raspberrypi.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	kernel-list@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH v7 05/15] media: i2c: imx219: Add embedded data support
-Message-ID: <ZgNaltGpfvTyIB6Y@valkosipuli.retiisi.eu>
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-6-laurent.pinchart@ideasonboard.com>
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v8 00/10] media: Add driver for the Raspberry Pi <5 CSI-2 receiver
+Date: Wed, 27 Mar 2024 02:04:58 +0200
+Message-ID: <20240327000510.2541-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240324220854.15010-6-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+Hello everybody,
 
-Thanks for the set.
+This patch series adds a new driver for the BCM2835 (and derivative)
+CCP2/CSI2 camera interface named Unicam. This IP core is found in the
+VC4-based Raspberry Pi, namely the Pi Zero, Pi 3 and Pi 4.
 
-On Mon, Mar 25, 2024 at 12:08:41AM +0200, Laurent Pinchart wrote:
-> The IMX219 generates embedded data unconditionally. Report it as an
-> additional stream, with a new internal embedded data pad, and update
-> subdev operations accordingly.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v6:
-> 
-> - Get format from IMX219_STREAM_IMAGE in imx219_set_ctrl()
-> - Fix mbus code for second stream in imx219_get_frame_desc()
-> - Set V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag on route
-> ---
->  drivers/media/i2c/imx219.c | 188 +++++++++++++++++++++++++++++++------
->  1 file changed, 160 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index fa64bc402c9a..86a0ebf6d65f 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -149,6 +149,9 @@
->  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
->  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
->  
-> +/* Embedded metadata stream height */
-> +#define IMX219_EMBEDDED_DATA_HEIGHT	2U
-> +
->  /* Mode : resolution and related config&values */
->  struct imx219_mode {
->  	/* Frame width */
-> @@ -317,9 +320,15 @@ static const struct imx219_mode supported_modes[] = {
->  enum imx219_pad_ids {
->  	IMX219_PAD_SOURCE,
->  	IMX219_PAD_IMAGE,
-> +	IMX219_PAD_EDATA,
->  	IMX219_NUM_PADS,
->  };
->  
-> +enum imx219_stream_ids {
-> +	IMX219_STREAM_IMAGE,
-> +	IMX219_STREAM_EDATA,
-> +};
-> +
->  struct imx219 {
->  	struct v4l2_subdev sd;
->  	struct media_pad pads[IMX219_NUM_PADS];
-> @@ -382,7 +391,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->  	int ret = 0;
->  
->  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +					      IMX219_STREAM_IMAGE);
->  
->  	if (ctrl->id == V4L2_CID_VBLANK) {
->  		int exposure_max, exposure_def;
-> @@ -610,6 +620,25 @@ static unsigned int imx219_format_bpp(u32 code)
->  	}
->  }
->  
-> +/* Return the embedded data format corresponding to an image format. */
-> +static u32 imx219_format_edata(u32 code)
-> +{
-> +	switch (code) {
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +		return MEDIA_BUS_FMT_META_8;
-> +
-> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	default:
-> +		return MEDIA_BUS_FMT_META_10;
+Camera support for Raspberry Pi 4 currently relies on a downstream
+Unicam driver that live in the Raspberry Pi kernel tree ([1]). The
+driver uses the V4L2 API, but works around the lack of features in V4L2
+to properly support sensor embedded data. Since the Unicam driver
+development by Raspberry Pi, some of those features have been merged in
+the kernel (namely the V4L2 streams API) or are being developed (namely
+generic metadata formats and subdev internal pads), with patches posted
+for review on the linux-media mailing list ([2]).
 
-Something like this could be nice in the framework. But there are many
-others that would be useful, too, so let's think of this separately.
+This new upstream driver is based on the downstream code, extensively
+reworked to use the new V4L2 APIs.
 
-> +	}
-> +}
-> +
->  static int imx219_set_framefmt(struct imx219 *imx219,
->  			       struct v4l2_subdev_state *state)
->  {
-> @@ -619,7 +648,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
->  	u64 bin_h, bin_v;
->  	int ret = 0;
->  
-> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +					      IMX219_STREAM_IMAGE);
->  	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
->  	bpp = imx219_format_bpp(format->code);
->  
-> @@ -774,17 +804,33 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->  {
->  	struct imx219 *imx219 = to_imx219(sd);
->  
-> -	if (code->pad == IMX219_PAD_IMAGE) {
-> +	switch (code->pad) {
-> +	case IMX219_PAD_IMAGE:
->  		/* The internal image pad is hardwired to the native format. */
-> -		if (code->index)
-> +		if (code->index > 0)
+The series is based on a merge of
 
-Why? It's unsigned so this has the same effect in a little bit more
-complicated way.
+- v8 of the generic metadata and internal pads, rebased on v6.9-rc1 ([3])
+- the downstream ISP driver ported to mainline ([4])
 
->  			return -EINVAL;
->  
->  		code->code = IMX219_NATIVE_FORMAT;
-> -	} else {
-> -		/*
-> -		 * On the source pad, the sensor supports multiple raw formats
-> -		 * with different bit depths.
-> -		 */
-> +		return 0;
-> +
-> +	case IMX219_PAD_EDATA:
-> +		if (code->index > 0)
+with a set of patches for the imx219 driver applied on top. For
+convenience, it can be found in [5]. Note that the ISP driver is getting
+upstreamed separately.
 
-Same here actually, and elsewhere.
+Compared to v7, I have left the imx219 patches out, as they don't need
+to be bundled with the Unicam driver for review. They will be
+resubmitted separately.
 
-> +			return -EINVAL;
-> +
-> +		code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
-> +		return 0;
-> +
-> +	case IMX219_PAD_SOURCE:
-> +	default:
-> +		break;
-> +	}
-> +
-> +	/*
-> +	 * On the source pad, the sensor supports multiple image raw formats
-> +	 * with different bit depths. The embedded data format bit depth
-> +	 * follows the image stream.
-> +	 */
-> +	if (code->stream == IMX219_STREAM_IMAGE) {
->  		u32 format;
->  
->  		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
-> @@ -792,6 +838,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->  
->  		format = imx219_mbus_formats[code->index * 4];
->  		code->code = imx219_get_format_code(imx219, format);
-> +	} else {
-> +		struct v4l2_mbus_framefmt *fmt;
-> +
-> +		if (code->index > 0)
-> +			return -EINVAL;
-> +
-> +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +						   IMX219_STREAM_EDATA);
-> +		code->code = fmt->code;
->  	}
->  
->  	return 0;
-> @@ -803,7 +858,8 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->  {
->  	struct imx219 *imx219 = to_imx219(sd);
->  
-> -	if (fse->pad == IMX219_PAD_IMAGE) {
-> +	switch (fse->pad) {
-> +	case IMX219_PAD_IMAGE:
->  		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
->  			return -EINVAL;
->  
-> @@ -811,7 +867,24 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->  		fse->max_width = IMX219_NATIVE_WIDTH;
->  		fse->min_height = IMX219_NATIVE_HEIGHT;
->  		fse->max_height = IMX219_NATIVE_HEIGHT;
-> -	} else {
-> +		return 0;
-> +
-> +	case IMX219_PAD_EDATA:
-> +		if (fse->code != MEDIA_BUS_FMT_CCS_EMBEDDED || fse->index > 0)
-> +			return -EINVAL;
-> +
-> +		fse->min_width = IMX219_NATIVE_WIDTH;
-> +		fse->max_width = IMX219_NATIVE_WIDTH;
-> +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> +		return 0;
-> +
-> +	case IMX219_PAD_SOURCE:
-> +	default:
-> +		break;
-> +	}
-> +
-> +	if (fse->stream == IMX219_STREAM_IMAGE) {
->  		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
->  		    fse->index >= ARRAY_SIZE(supported_modes))
->  			return -EINVAL;
-> @@ -820,6 +893,21 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->  		fse->max_width = fse->min_width;
->  		fse->min_height = supported_modes[fse->index].height;
->  		fse->max_height = fse->min_height;
-> +	} else {
-> +		struct v4l2_mbus_framefmt *fmt;
-> +
-> +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +						   IMX219_STREAM_EDATA);
-> +		if (fse->code != fmt->code)
-> +			return -EINVAL;
-> +
-> +		if (fse->index)
-> +			return -EINVAL;
+The series starts with four patches that add the Unicam driver (04/10),
+with new V4L2 pixel formats (01/10 and 02/10) and DT bindings (03/10).
+The remaining patches cover DT integration (05/10 to 09/10) with a
+sample DT overlay for the IMX219 camera module (10/10).
 
-But this seems nice. :-)
+The patches have been tested on a Raspberry Pi 4 using an IMX219 camera
+module (the Raspberry Pi camera v2), with libcamera. Updates are needed
+to libcamera to use the new V4L2 APIs, patches have been posted to [6].
+For manual testing with media-ctl, corresponding API updates to
+v4l-utils are available at [7].
 
-> +
-> +		fse->min_width = fmt->width;
-> +		fse->max_width = fmt->width;
-> +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
-> +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
->  	}
->  
->  	return 0;
-> @@ -831,6 +919,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  {
->  	struct imx219 *imx219 = to_imx219(sd);
->  	const struct imx219_mode *mode;
-> +	struct v4l2_mbus_framefmt *ed_format;
->  	struct v4l2_mbus_framefmt *format;
->  	struct v4l2_rect *compose;
->  	struct v4l2_rect *crop;
-> @@ -838,9 +927,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  
->  	/*
->  	 * The driver is mode-based, the format can be set on the source pad
-> -	 * only.
-> +	 * only, and only for the image streeam.
->  	 */
-> -	if (fmt->pad != IMX219_PAD_SOURCE)
-> +	if (fmt->pad != IMX219_PAD_SOURCE || fmt->stream != IMX219_STREAM_IMAGE)
->  		return v4l2_subdev_get_fmt(sd, state, fmt);
->  
->  	/*
-> @@ -897,15 +986,31 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  	 * No mode use digital crop, the source pad crop rectangle size and
->  	 * format are thus identical to the image pad compose rectangle.
->  	 */
-> -	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
-> +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE,
-> +					  IMX219_STREAM_IMAGE);
->  	crop->left = 0;
->  	crop->top = 0;
->  	crop->width = fmt->format.width;
->  	crop->height = fmt->format.height;
->  
-> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +					      IMX219_STREAM_IMAGE);
->  	*format = fmt->format;
->  
-> +	/*
-> +	 * Finally, update the formats on the sink and source sides of the
-> +	 * embedded data stream.
-> +	 */
-> +	ed_format = v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
-> +	ed_format->code = imx219_format_edata(format->code);
-> +	ed_format->width = format->width;
-> +	ed_format->height = IMX219_EMBEDDED_DATA_HEIGHT;
-> +	ed_format->field = V4L2_FIELD_NONE;
-> +
-> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +					      IMX219_STREAM_EDATA);
-> +	*format = *ed_format;
-> +
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		int exposure_max;
->  		int exposure_def;
-> @@ -944,6 +1049,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
->  {
->  	struct v4l2_rect *compose;
->  
-> +	/*
-> +	 * The embedded data stream doesn't support selection rectangles,
-> +	 * neither on the embedded data pad nor on the source pad.
-> +	 */
-> +	if (sel->pad == IMX219_PAD_EDATA || sel->stream != 0)
+While more work is needed to be able to merge the generic metadata API
+(namely implementing support for the latest API version in media-ctl and
+v4l2-compliance), I'm happy with the unicam implementation, and I
+believe we're really nearing completion. This series, along with the
+libcamera support, help validating the new kernel APIs. We have reached
+a point where we can start converting other sensor drivers from the
+downstream Raspberry Pi kernel to the standard APIs for embedded data,
+as well as integrating the APIs in the Raspberry Pi 5 CFE driver.
 
-I'd leave "!= 0" out. Up to you.
+[1] https://github.com/raspberrypi/linux/tree/rpi-6.1.y/drivers/media/platform/bcm2835
+[2] https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.ailus@linux.intel.com/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/metadata/v8
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/isp/v2
+[5] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/unicam/next
+[6] https://lists.libcamera.org/pipermail/libcamera-devel/2024-March/040711.html
+[7] https://git.linuxtv.org/pinchartl/v4l-utils.git/log/?h=metadata
 
-> +		return -EINVAL;
-> +
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_NATIVE_SIZE:
->  		if (sel->pad != IMX219_PAD_IMAGE)
-> @@ -996,12 +1108,19 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
->  static int imx219_init_state(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_state *state)
->  {
-> -	struct v4l2_subdev_route routes[1] = {
-> +	struct v4l2_subdev_route routes[2] = {
+Dave Stevenson (2):
+  dt-bindings: media: Add bindings for bcm2835-unicam
+  media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
 
-Do you need to specify the number of the entries?
+Jean-Michel Hautbois (3):
+  media: v4l: Add V4L2-PIX-FMT-Y12P format
+  media: v4l: Add V4L2-PIX-FMT-Y14P format
+  ARM: dts: bcm2835: Add Unicam CSI nodes
 
->  		{
->  			.sink_pad = IMX219_PAD_IMAGE,
->  			.sink_stream = 0,
->  			.source_pad = IMX219_PAD_SOURCE,
-> -			.source_stream = 0,
-> +			.source_stream = IMX219_STREAM_IMAGE,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-> +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
-> +		}, {
-> +			.sink_pad = IMX219_PAD_EDATA,
-> +			.sink_stream = 0,
-> +			.source_pad = IMX219_PAD_SOURCE,
-> +			.source_stream = IMX219_STREAM_EDATA,
->  			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
->  				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
->  		},
-> @@ -1014,7 +1133,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->  	struct v4l2_subdev_format fmt = {
->  		.which = V4L2_SUBDEV_FORMAT_TRY,
->  		.pad = IMX219_PAD_SOURCE,
-> -		.stream = 0,
-> +		.stream = IMX219_STREAM_IMAGE,
->  		.format = {
->  			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
->  			.width = supported_modes[0].width,
-> @@ -1027,6 +1146,10 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->  	if (ret)
->  		return ret;
->  
-> +	/*
-> +	 * Set the image stream format on the source pad. This will be
-> +	 * propagated to all formats and selection rectangles internally.
-> +	 */
->  	imx219_set_pad_format(sd, state, &fmt);
->  
->  	return 0;
-> @@ -1035,29 +1158,36 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->  static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->  				 struct v4l2_mbus_frame_desc *fd)
->  {
-> -	const struct v4l2_mbus_framefmt *fmt;
->  	struct v4l2_subdev_state *state;
-> -	u32 code;
-> +	u32 img_code;
-> +	u32 ed_code;
->  
->  	if (pad != IMX219_PAD_SOURCE)
->  		return -EINVAL;
->  
->  	state = v4l2_subdev_lock_and_get_active_state(sd);
-> -	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE, 0);
-> -	code = fmt->code;
-> +	img_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +						IMX219_STREAM_IMAGE)->code;
-> +	ed_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +					       IMX219_STREAM_EDATA)->code;
->  	v4l2_subdev_unlock_state(state);
->  
->  	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> -	fd->num_entries = 1;
-> +	fd->num_entries = 2;
+Laurent Pinchart (3):
+  ARM: dts: bcm2835-rpi: Move firmware-clocks from bcm2711 to bcm2835
+  ARM: dts: bcm2711-rpi-4-b: Add CAM1 regulator
+  [DNI] arm64: dts: broadcom: Add overlay for Raspberry Pi 4B IMX219
+    camera
 
-I'd keep an entry pointer and keep incrementing it, same for the number of
-entries. Up to you. Two is fine.
+Uwe Kleine-König (2):
+  ARM: dts: bcm2711-rpi: Add pinctrl-based multiplexing for I2C0
+  ARM: dts: bcm2711-rpi-cm4-io: Add RTC on I2C0
 
->  
->  	memset(fd->entry, 0, sizeof(fd->entry));
->  
-> -	fd->entry[0].pixelcode = code;
-> -	fd->entry[0].stream = 0;
-> +	fd->entry[0].pixelcode = img_code;
-> +	fd->entry[0].stream = IMX219_STREAM_IMAGE;
->  	fd->entry[0].bus.csi2.vc = 0;
-> -	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8
-> +	fd->entry[0].bus.csi2.dt = imx219_format_bpp(img_code) == 8
->  				 ? MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
->  
-> +	fd->entry[1].pixelcode = ed_code;
-> +	fd->entry[1].stream = IMX219_STREAM_EDATA;
-> +	fd->entry[1].bus.csi2.vc = 0;
-> +	fd->entry[1].bus.csi2.dt = MIPI_CSI2_DT_EMBEDDED_8B;
-> +
->  	return 0;
->  }
->  
-> @@ -1321,12 +1451,14 @@ static int imx219_probe(struct i2c_client *client)
->  	/*
->  	 * Initialize the pads. To preserve backward compatibility with
->  	 * userspace that used the sensor before the introduction of the
-> -	 * internal image pad, the external source pad is numbered 0 and the
-> -	 * internal image pad numbered 1.
-> +	 * internal pads, the external source pad is numbered 0 and the internal
-> +	 * image and embedded data pads numbered 1 and 2 respectively.
->  	 */
->  	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
->  	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
->  					     | MEDIA_PAD_FL_INTERNAL;
-> +	imx219->pads[IMX219_PAD_EDATA].flags = MEDIA_PAD_FL_SINK
-> +					     | MEDIA_PAD_FL_INTERNAL;
->  
->  	ret = media_entity_pads_init(&imx219->sd.entity,
->  				     ARRAY_SIZE(imx219->pads), imx219->pads);
+ .../bindings/media/brcm,bcm2835-unicam.yaml   |  127 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |   48 +
+ MAINTAINERS                                   |    7 +
+ .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |    7 +
+ .../boot/dts/broadcom/bcm2711-rpi-cm4-io.dts  |    9 +
+ arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi   |   34 +-
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi       |    8 +
+ arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi   |   19 +
+ arch/arm/boot/dts/broadcom/bcm283x.dtsi       |   24 +
+ arch/arm64/boot/dts/broadcom/Makefile         |    4 +
+ .../dts/broadcom/bcm2711-rpi-4-b-imx219.dtso  |   65 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/broadcom/Kconfig       |   23 +
+ drivers/media/platform/broadcom/Makefile      |    3 +
+ .../platform/broadcom/bcm2835-unicam-regs.h   |  246 ++
+ .../media/platform/broadcom/bcm2835-unicam.c  | 2671 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ include/uapi/linux/videodev2.h                |    2 +
+ 19 files changed, 3296 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+ create mode 100644 arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso
+ create mode 100644 drivers/media/platform/broadcom/Kconfig
+ create mode 100644 drivers/media/platform/broadcom/Makefile
+ create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
+ create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
 
+
+base-commit: 37a950b8e140e3bd97d22943ba860542111d64fe
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
+
 
