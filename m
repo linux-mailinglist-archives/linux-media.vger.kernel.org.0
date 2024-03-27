@@ -1,141 +1,184 @@
-Return-Path: <linux-media+bounces-7994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E300B88EF54
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 20:36:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9AC88F1C4
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 23:26:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97B441F342DA
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 19:36:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3A091C280C1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 22:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61EC9152520;
-	Wed, 27 Mar 2024 19:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8878153BCA;
+	Wed, 27 Mar 2024 22:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XoaXAMOJ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="giWOTOrb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-108-mta152.mxroute.com (mail-108-mta152.mxroute.com [136.175.108.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C47D380;
-	Wed, 27 Mar 2024 19:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C280E153801
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 22:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711568162; cv=none; b=IqaR9I7OSVj2cn5pb2amOwEtxcvVrBX0EAMfJwD3p6Ob27Zzb/SuI1Su3Y6wltd4qJ1yDWFc4Ng818HcZ+H4ri68r0fA9/VLXzsqR2OPt/3WA8/xsqJ11/k82+d51DDgjZrzRot0tVOyCL0OWGdktpraTBXuaQ+f+Jh+QK+o/6E=
+	t=1711578354; cv=none; b=OM1Q80wQcywc8YugulqJn8kPQdf4lKnmIgZ69TOTui4FGgBf3pzBxV3JdOC3l7CxsX4kvNYObsqiR79/U6VWnaS0vZbFUioloSS+K7CuWq4X2qaLIb9sO7Wiw5CJ3uzt/j3WQ+ZxkitV/8t+LhKrl2S6wWGfuRuJU+sODhAWsaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711568162; c=relaxed/simple;
-	bh=T0Gc63+M14jsX7PKFtiIXFMl0tWSi9oDRmgoUZTW/2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kvWLzCHlXrCLVHGZq9tEGrVrmqm7KSNrNZfM/VNeF3qr9oqwDMT0waNjexrtBYb6MyvcNR0aKcPavrM9Qx1+KwvLDE+6XbMRo3wdksFd9xC7errlqfut1uYd0vGohu9fJUvwGRXMbKgpwpdS/w4jSdfFLTpMMjUYEKK1dPlfb0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XoaXAMOJ; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a4a393b699fso38648266b.0;
-        Wed, 27 Mar 2024 12:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711568159; x=1712172959; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aojaArSnA0JfedDto4elyer8YODIKcUTNNFpLzMMgW8=;
-        b=XoaXAMOJ4Ojmd7idhXiyfKsYBXO1nlVNNBH2lrYeTP5tUZYgJcfSMkvYDdSECwJe3O
-         2WPWBYmKXHC3NZWnWbzWbnrHUyovIC/aoenU0HNzQCX/wvlCFvq+1zEn21HC3sezb8Jz
-         SPURbZsQS6fgh2YVN3sqFKrAbjZhNNG29y5z+ZwHL1BZB0eyGa0r1WlwajFoU7kWaoqZ
-         185ZvXwubU7cpqnWYSzx0ODOXGVS3Mu2DrliJPjTMaV7TwMtsw25xfnbYF5dA8TRfuQ7
-         d8HeMsqPzustoXEui2Uc+vAQDibV6fBvr6di3ODvecj0COgUZeNJQykOCy7aPcLPeDfo
-         WMIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711568159; x=1712172959;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aojaArSnA0JfedDto4elyer8YODIKcUTNNFpLzMMgW8=;
-        b=n8H1GZxWGCDyZS5GqC4sE0iRZ6/9XuV3nlKHKJkja+AZPJKXTt3r1bhBFrxuwpoXLP
-         /AuIC8w+HXy958J1FQf+Iy8P//jBuByUSsJs7ZDJyzOxYeJqyARMljJnc3A2G5ovAQVV
-         yMucFt5nfs8w5c0R/CmBVsN29G8RYl0rdhnkTA4x68Pr6Tc+sVfTGJwKvGsADzkk0z7r
-         ZuacuYt2GO1+otB+99QWCJ431XrYBpUJo2gJUJx+m70N4HppIHuJ0tJcAoyw1Os/6lNk
-         A7IPnFSrw34Qoq2FEpCdpDNEt2tlRguwX14hgVUljq3KsTPBv+nxZOfx3wZjSjKQheEp
-         eLAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCYs+LogtakcWjQysrzX6wzvIepjw4NCiF8HoEvdnW+fcNZb6q0ncljdi6I5FBFilRdUn5iZ+bKJKGewBdPfMSzBsWPfsv/XqgvyGupEJypYlJ8aUH+Smswfxo10UetclKXgE97Rq//Icad6T7MUFCuayMEwItobDtws+wo/edI1IwriKnb8wNXfmtCeGm1MhBk9yD4Nb6NeeIE2CJi3siS9XkvdLH2QMXSc9ZKCTqjMnArQ2s2S+y+7efnQKwKB7Sh+JQHr9Oali08QD7nkd9+mTNPPesNdBoy5hJdtpUyesJaRFG3rX27s82zYLOQka3WSwt0L3bww8acX1hFWejjOxv/XPiYIHXlO7Qp7cSCgMumKXmmGj/BBqgbPv+hmcJCoJzk0Vg6rREXD4G2sYYooVDZTkzg1NL6i8W/n3poH6AkiaMGuZvsFSjyjfoKCe5k+uOpdSspnFHnd38kzfXebGQ3IHl5+lOODTNJYDDZ5sfGo533LxVP86Tb/wgi5OoYubNq8S7haZuCCbHvffDGirQVz9dYy5SXNsE+g1zIzM=
-X-Gm-Message-State: AOJu0Yyipuc5TsIErMTNm9jkKX/fFMTmqPVE3UYPTd1po8U8p1sC9R2o
-	ZrFIl5QEdHBNhCaYvqj2qCmN3xq+VhVckML3IqGQ17mgDI+OKPapdtBwuK+1qU0=
-X-Google-Smtp-Source: AGHT+IHWYCsKCZfCKe9WJ0A8h2jBWKCzprPvh9Stt4hH84aJN1DmeskwZihR1IueuTRTWs9wYxpP6Q==
-X-Received: by 2002:a17:906:119a:b0:a47:3766:cfec with SMTP id n26-20020a170906119a00b00a473766cfecmr235001eja.9.1711568159337;
-        Wed, 27 Mar 2024 12:35:59 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id j24-20020a17090643d800b00a4672fb2a03sm5858783ejn.10.2024.03.27.12.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 12:35:58 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>
-Cc: tj@kernel.org, keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st,
- sven@svenpeter.dev, florian.fainelli@broadcom.com, rjui@broadcom.com,
- sbranden@broadcom.com, paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com,
- manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com,
- leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com,
- haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- sean.wang@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, afaerber@suse.de,
- logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com,
- robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org,
- orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
- peter.ujfalusi@gmail.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, jassisinghbrar@gmail.com,
- mchehab@kernel.org, maintainers@bluecherrydvr.com,
- aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com,
- mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
- hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw,
- HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr,
- stern@rowland.harvard.edu, oneukum@suse.com,
- openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-Date: Wed, 27 Mar 2024 20:35:54 +0100
-Message-ID: <9252961.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
-References:
- <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com>
+	s=arc-20240116; t=1711578354; c=relaxed/simple;
+	bh=DdmBqYdJ2ZdOL0LNBiHRRkPHyYDDhUrtzy6gt6A/4OU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uShqW35mMcTtmzrKF+q8gTZLC8Yc67WduD2aP9Y7txyDjAbJnT+zDF3dx+BgCOr/iUorITNEJ57NiXIva3gOQFfC6jIhlOtzuj/IFnqILViCT/CEkc+f1RkLRzyAXK0gdL8Tr59R3XWZiJmASnmqVJwRkPc9kq7NpO98r4Zzgfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=giWOTOrb; arc=none smtp.client-ip=136.175.108.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta152.mxroute.com (ZoneMTA) with ESMTPSA id 18e82004f9c0003bea.010
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 27 Mar 2024 22:20:42 +0000
+X-Zone-Loop: 20d1df5278e302c87292e91b38be6e7ec518e62ad71b
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=uXtBpiZ7rKqehqsVlWENlhvtk/TPCXFbKRLouJ5rAkM=; b=giWOTOrbdCQ7+LyXAZZoVyhOpO
+	1bcihatHrGsO8CsEicgUCUqtWC0otp5s2MBXFNWFrRQYEuJEFEFlICqt2O+l1ENMDTsxdh3d4w/QD
+	cE1ornZblbbuzl9qGq3M8yxYCPra791GlbINqiUVmO9kykQyir69oZUUq7Jeaw6Q1sEYyQm+2UqFt
+	atJ0zsxO/NFXuMYNEAKm+9YTq0uM7AkqED1cDlrTUj3N7r8SIfAfMKFxLkbO3eMDa8pdSzY4hfge8
+	QENCQERkpJPhxI2J8OKLKWg6/rXmUnZ37FcZB0eYEEqB9XQGXzzMT2q5y2ywRBMFcWxGTl1M/WIg0
+	NKbYQcGw==;
+From: git@luigi311.com
+To: linux-media@vger.kernel.org
+Cc: dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	sakari.ailus@linux.intel.com,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	x@xnux.eu,
+	Luigi311 <git@luigi311.com>
+Subject: [PATCH 00/23] v2: imx258 improvement series
+Date: Wed, 27 Mar 2024 16:20:12 -0600
+Message-ID: <20240327222035.47208-1-git@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: personal@luigi311.com
 
-Dne sreda, 27. marec 2024 ob 17:03:14 CET je Allen Pais napisal(a):
-> The only generic interface to execute asynchronously in the BH context is
-> tasklet; however, it's marked deprecated and has some design flaws. To
-> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> behaves similarly to regular workqueues except that the queued work items
-> are executed in the BH context.
-> 
-> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+From: Luigi311 <git@luigi311.com>
 
-infiniband -> mmc
+v2 changes:
+- Add use macros patch 
+- Add support for powerdown gpio patch
+- Add support for reset gpio patch
+- Dropped Add support for long exposure modes patch
+- Implemented feedback from Jacopo Mondi
+  - media: i2c: imx258: Add regulator control
+  - media: i2c: imx258: Add support for 24MHz clock
+  - media: i2c: imx258: Add support for running on 2 CSI data lanes
+  - media: i2c: imx258: Add get_selection for pixel array information
+  - media: i2c: imx258: Issue reset before starting streaming
+  - media: i2c: imx258: Set pixel_rate range to the same as the value
+  - dt-bindings: media: imx258: Add alternate compatible strings
+  - media: i2c: imx258: Change register settings for variants of the sensor
+  - media: i2c: imx258: Make HFLIP and VFLIP controls writable
 
-Best regards,
-Jernej
+This adds a few more patches and drops one. The long exposure mode patch was
+dropped due to the bug that Jacopo found. The powerdown and reset gpio patches
+were added as that fixes support for the Pinephone Pro, without them the sensor
+doesnt initialize correctly.
 
-> 
-> Based on the work done by Tejun Heo <tj@kernel.org>
-> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> 
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+Tested on a Pinephone Pro by forcing 24 mhz clock and was able to access all 3
+resolutions. The two lower resolutions had some artifacts but that is expected
+as more changes are required to fix them for the Pinephone Pro specifically,
+kept all registers the same as Dave's original patch since that works on
+dedicated imx258 hardware and the artifacts are PPP specific so it shouldnt be
+a regression.
 
 
+v1
+
+This is a set of patches for imx258 that allow it to work with alternate clock
+frequencies, over either 2 or 4 lanes, and generally adding flexibility to the
+driver.
+
+Tested with an IMX258 module from Soho Enterprises that has a 24MHz oscillator.
+Both 2 and 4 lane configurations work with correct link frequencies and pixel
+rates.
+
+Jacopo has tested on a PinePhone Pro which has an ~19.2MHz clock fed from the SoC,
+He confirms that the two lower resolution modes work, but not the full res mode.
+Comparing to the BSP it looks like they have some weird clock configuration in
+the 4208x3120 mode (nominally 1224Mb/s/lane instead of 1267).
+As it has never previously worked directly with the mainline driver this isn't a
+regression but may indicate that there is a need for support of additional link
+frequencies in the future.
+
+The last patch that makes HFLIP and VFLIP configurable may be contentious as I've
+retained the default configuration of inverted from the original driver. I know
+this was discussed recently, but I can't recall the final outcome.
+
+I am relying on someone from Intel testing this out, as correcting the cropping
+and supporting flips has changed the Bayer order. Seeing as this is all above
+board in V4L2 terms I really hope that the layers above it behave themselves.
+
+Cheers
+  Dave
+
+
+Dave Stevenson (20):
+  media: i2c: imx258: Remove unused defines
+  media: i2c: imx258: Make image geometry meet sensor requirements
+  media: i2c: imx258: Disable digital cropping on binned modes
+  media: i2c: imx258: Remove redundant I2C writes.
+  media: i2c: imx258: Add regulator control
+  media: i2c: imx258: Make V4L2_CID_VBLANK configurable.
+  media: i2c: imx258: Split out common registers from the mode based
+    ones
+  media: i2c: imx258: Add support for 24MHz clock
+  media: i2c: imx258: Add support for running on 2 CSI data lanes
+  media: i2c: imx258: Follow normal V4L2 behaviours for clipping
+    exposure
+  media: i2c: imx258: Add get_selection for pixel array information
+  media: i2c: imx258: Allow configuration of clock lane behaviour
+  media: i2c: imx258: Correct max FRM_LENGTH_LINES value
+  media: i2c: imx258: Issue reset before starting streaming
+  media: i2c: imx258: Set pixel_rate range to the same as the value
+  media: i2c: imx258: Support faster pixel rate on binned modes
+  dt-bindings: media: imx258: Rename to include vendor prefix
+  dt-bindings: media: imx258: Add alternate compatible strings
+  media: i2c: imx258: Change register settings for variants of the
+    sensor
+  media: i2c: imx258: Make HFLIP and VFLIP controls writable
+
+Luigi311 (3):
+  drivers: media: i2c: imx258: Use macros
+  drivers: media: i2c: imx258: Add support for powerdown gpio
+  drivers: media: i2c: imx258: Add support for reset gpio
+
+ .../i2c/{imx258.yaml => sony,imx258.yaml}     |   12 +-
+ MAINTAINERS                                   |    2 +-
+ drivers/media/i2c/imx258.c                    | 1147 +++++++++++------
+ 3 files changed, 744 insertions(+), 417 deletions(-)
+ rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml => sony,imx258.yaml} (88%)
+
+-- 
+2.42.0
 
 
