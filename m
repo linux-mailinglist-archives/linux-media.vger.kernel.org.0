@@ -1,48 +1,50 @@
-Return-Path: <linux-media+bounces-7891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7890-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2323B88D30A
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A38B88D307
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 01:05:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53D54B226DD
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:05:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C58CCB2280A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 00:05:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3C3E541;
-	Wed, 27 Mar 2024 00:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E9329A8;
+	Wed, 27 Mar 2024 00:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jcXpnBGU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jhvlW8Fp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4DA160;
-	Wed, 27 Mar 2024 00:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF51D7FF
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 00:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711497929; cv=none; b=DnA5Dd8i7sAqQBk1PYcF3KyQqrjbulfD7KoWDaMP19mmrLFIa22QeIgVeGARm3DcH++JxpCDcyw5P1nlmfwCE6I+wg/4CtnFfpTpS68Z0NHgaV4130KBTSQOTPmcqo2gySvdpeJOu8C06dyvPH+YCy3Q6bH2V0aj1GINpiZWCk0=
+	t=1711497928; cv=none; b=fmzervs6L2SstBncH1pdtxS/fcRMtAcjo0vek9SedKSi9yTVsUHLPAw5KfD+BK2l+ZCPYOKOwtcg4zP3aRXZh1QKp75chwWrTHWluX6+xQOo4bjaMu/FSzcJ3DtHUm9obm+w4ktmn1BzcoTB3W54axI21NDIFVU0SCV53km22BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711497929; c=relaxed/simple;
-	bh=v9Xd9Dy0I+pZEWtaWeSSZziKCAVjPxpIMJbqBJ+Y/fY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ljHLnaC1I22Tjf/TWfkBA7a2qNggzldHMjdNvFkYd7lJFmSHQcTDjkd0R/FLVvCpr9m24GeNjfZQFdGJtLkjFQHJc/k9QPcycS7jLX6qixU/OR+h2Lbq0j7y+vyg99bJKXkvszgDm2Pk7IXDh7qWD1J8M7NqSQoHSqE1snCgLwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jcXpnBGU; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1711497928; c=relaxed/simple;
+	bh=qZ8hI9dcLxcs2LNTuW7ubttGfSY7gQesjIcy0fF8B5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k8cA54Z+E86z5+ru3IzBRKAcn82Rkt79TaedIwcoFOS8af1Jf/PlH56d2DgsxAgQj4h2Y8zqHreu2uk2Zv+rOwCTVubWf8LDMZ2B4wvtKPU8899lBhaA9qQGO4oNjFiww1/wKezAKX3P3gubboq0Hcn9BlJCJUj9jhmhoNUtHeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jhvlW8Fp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37860505;
-	Wed, 27 Mar 2024 01:04:47 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EC8B9CE;
+	Wed, 27 Mar 2024 01:04:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711497887;
-	bh=v9Xd9Dy0I+pZEWtaWeSSZziKCAVjPxpIMJbqBJ+Y/fY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jcXpnBGU/q0E3smCadFbVW1l/2EgMGkvOkSkV0wiijgJ4DRX6yF746q6Gxap5UETe
-	 fpZUdm2LppsRsMBsVE40qiAOe47Y+aX1JntTAZEbu8ys7bE24mYReD/OrztfOil93p
-	 KdhVAmRm4KOf+Lb0eN2YW7nsA79sfVig65LxkrOs=
+	s=mail; t=1711497889;
+	bh=qZ8hI9dcLxcs2LNTuW7ubttGfSY7gQesjIcy0fF8B5A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jhvlW8FpvrvKicCoGvNoUt1ZpV2yEvjr2qLlU70/MaIY0xssgQ6IGZ/uNTCz/PjKr
+	 NJu13KyCIucJoECKKtDgxSmRS2G+WaG79ZKr1llknFW+A9UZfRX/WOq/2bNdexbdRY
+	 HUp66aN99Y2Vwoy+rxuiKTuRbuBl7MqWg13nJdp4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	David Plowman <david.plowman@raspberrypi.com>,
 	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -53,131 +55,85 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
 	Ray Jui <rjui@broadcom.com>,
 	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v8 00/10] media: Add driver for the Raspberry Pi <5 CSI-2 receiver
-Date: Wed, 27 Mar 2024 02:04:58 +0200
-Message-ID: <20240327000510.2541-1-laurent.pinchart@ideasonboard.com>
+	bcm-kernel-feedback-list@broadcom.com
+Subject: [PATCH v8 01/10] media: v4l: Add V4L2-PIX-FMT-Y12P format
+Date: Wed, 27 Mar 2024 02:04:59 +0200
+Message-ID: <20240327000510.2541-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240327000510.2541-1-laurent.pinchart@ideasonboard.com>
+References: <20240327000510.2541-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello everybody,
+From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 
-This patch series adds a new driver for the BCM2835 (and derivative)
-CCP2/CSI2 camera interface named Unicam. This IP core is found in the
-VC4-based Raspberry Pi, namely the Pi Zero, Pi 3 and Pi 4.
+This is a packed grey-scale image format with a depth of 12 bits per
+pixel. Two consecutive pixels are packed into 3 bytes. The first 2 bytes
+contain the 8 high order bits of the pixels, and the 3rd byte contains
+the 4 least significants bits of each pixel, in the same order.
 
-Camera support for Raspberry Pi 4 currently relies on a downstream
-Unicam driver that live in the Raspberry Pi kernel tree ([1]). The
-driver uses the V4L2 API, but works around the lack of features in V4L2
-to properly support sensor embedded data. Since the Unicam driver
-development by Raspberry Pi, some of those features have been merged in
-the kernel (namely the V4L2 streams API) or are being developed (namely
-generic metadata formats and subdev internal pads), with patches posted
-for review on the linux-media mailing list ([2]).
+Add the entry in userspace API, and document it.
 
-This new upstream driver is based on the downstream code, extensively
-reworked to use the new V4L2 APIs.
+Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+ include/uapi/linux/videodev2.h                        |  1 +
+ 3 files changed, 13 insertions(+)
 
-The series is based on a merge of
-
-- v8 of the generic metadata and internal pads, rebased on v6.9-rc1 ([3])
-- the downstream ISP driver ported to mainline ([4])
-
-with a set of patches for the imx219 driver applied on top. For
-convenience, it can be found in [5]. Note that the ISP driver is getting
-upstreamed separately.
-
-Compared to v7, I have left the imx219 patches out, as they don't need
-to be bundled with the Unicam driver for review. They will be
-resubmitted separately.
-
-The series starts with four patches that add the Unicam driver (04/10),
-with new V4L2 pixel formats (01/10 and 02/10) and DT bindings (03/10).
-The remaining patches cover DT integration (05/10 to 09/10) with a
-sample DT overlay for the IMX219 camera module (10/10).
-
-The patches have been tested on a Raspberry Pi 4 using an IMX219 camera
-module (the Raspberry Pi camera v2), with libcamera. Updates are needed
-to libcamera to use the new V4L2 APIs, patches have been posted to [6].
-For manual testing with media-ctl, corresponding API updates to
-v4l-utils are available at [7].
-
-While more work is needed to be able to merge the generic metadata API
-(namely implementing support for the latest API version in media-ctl and
-v4l2-compliance), I'm happy with the unicam implementation, and I
-believe we're really nearing completion. This series, along with the
-libcamera support, help validating the new kernel APIs. We have reached
-a point where we can start converting other sensor drivers from the
-downstream Raspberry Pi kernel to the standard APIs for embedded data,
-as well as integrating the APIs in the Raspberry Pi 5 CFE driver.
-
-[1] https://github.com/raspberrypi/linux/tree/rpi-6.1.y/drivers/media/platform/bcm2835
-[2] https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.ailus@linux.intel.com/
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/metadata/v8
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/isp/v2
-[5] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/unicam/next
-[6] https://lists.libcamera.org/pipermail/libcamera-devel/2024-March/040711.html
-[7] https://git.linuxtv.org/pinchartl/v4l-utils.git/log/?h=metadata
-
-Dave Stevenson (2):
-  dt-bindings: media: Add bindings for bcm2835-unicam
-  media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
-
-Jean-Michel Hautbois (3):
-  media: v4l: Add V4L2-PIX-FMT-Y12P format
-  media: v4l: Add V4L2-PIX-FMT-Y14P format
-  ARM: dts: bcm2835: Add Unicam CSI nodes
-
-Laurent Pinchart (3):
-  ARM: dts: bcm2835-rpi: Move firmware-clocks from bcm2711 to bcm2835
-  ARM: dts: bcm2711-rpi-4-b: Add CAM1 regulator
-  [DNI] arm64: dts: broadcom: Add overlay for Raspberry Pi 4B IMX219
-    camera
-
-Uwe Kleine-König (2):
-  ARM: dts: bcm2711-rpi: Add pinctrl-based multiplexing for I2C0
-  ARM: dts: bcm2711-rpi-cm4-io: Add RTC on I2C0
-
- .../bindings/media/brcm,bcm2835-unicam.yaml   |  127 +
- .../media/v4l/pixfmt-yuv-luma.rst             |   48 +
- MAINTAINERS                                   |    7 +
- .../arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts |    7 +
- .../boot/dts/broadcom/bcm2711-rpi-cm4-io.dts  |    9 +
- arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi   |   34 +-
- arch/arm/boot/dts/broadcom/bcm2711.dtsi       |    8 +
- arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi   |   19 +
- arch/arm/boot/dts/broadcom/bcm283x.dtsi       |   24 +
- arch/arm64/boot/dts/broadcom/Makefile         |    4 +
- .../dts/broadcom/bcm2711-rpi-4-b-imx219.dtso  |   65 +
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/broadcom/Kconfig       |   23 +
- drivers/media/platform/broadcom/Makefile      |    3 +
- .../platform/broadcom/bcm2835-unicam-regs.h   |  246 ++
- .../media/platform/broadcom/bcm2835-unicam.c  | 2671 +++++++++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
- include/uapi/linux/videodev2.h                |    2 +
- 19 files changed, 3296 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
- create mode 100644 arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b-imx219.dtso
- create mode 100644 drivers/media/platform/broadcom/Kconfig
- create mode 100644 drivers/media/platform/broadcom/Makefile
- create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
- create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
-
-
-base-commit: 37a950b8e140e3bd97d22943ba860542111d64fe
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+index cf8e4dfbfbd4..a650ceda7cdb 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+@@ -114,6 +114,17 @@ are often referred to as greyscale formats.
+       - ...
+       - ...
+ 
++    * .. _V4L2-PIX-FMT-Y12P:
++
++      - ``V4L2_PIX_FMT_Y12P``
++      - 'Y12P'
++
++      - Y'\ :sub:`0`\ [11:4]
++      - Y'\ :sub:`1`\ [11:4]
++      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [3:0]
++      - ...
++      - ...
++
+     * .. _V4L2-PIX-FMT-Y14:
+ 
+       - ``V4L2_PIX_FMT_Y14``
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 72cdea3c1316..01959d030b84 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1313,6 +1313,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_Y10BPACK:	descr = "10-bit Greyscale (Packed)"; break;
+ 	case V4L2_PIX_FMT_Y10P:		descr = "10-bit Greyscale (MIPI Packed)"; break;
+ 	case V4L2_PIX_FMT_IPU3_Y10:	descr = "10-bit greyscale (IPU3 Packed)"; break;
++	case V4L2_PIX_FMT_Y12P:		descr = "12-bit Greyscale (MIPI Packed)"; break;
+ 	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
+ 	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
+ 	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 8b5a8286f138..a7ff109cf8b3 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -599,6 +599,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
+ #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
+ #define V4L2_PIX_FMT_IPU3_Y10		v4l2_fourcc('i', 'p', '3', 'y') /* IPU3 packed 10-bit greyscale */
++#define V4L2_PIX_FMT_Y12P    v4l2_fourcc('Y', '1', '2', 'P') /* 12  Greyscale, MIPI RAW12 packed */
+ 
+ /* Palette formats */
+ #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
 -- 
 Regards,
 
