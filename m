@@ -1,75 +1,76 @@
-Return-Path: <linux-media+bounces-7986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7987-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D853B88EDDF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 19:12:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA1F88EDE3
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 19:13:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1665C1C32DC7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 18:12:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89F361F3B62E
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 18:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B247A153BD2;
-	Wed, 27 Mar 2024 18:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B996C154426;
+	Wed, 27 Mar 2024 18:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nLpe09sy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SW8ayQp9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D788153823
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 18:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC21153BD7
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 18:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711562956; cv=none; b=WQ0MTUcra5NazVTLPN8kOjGkrkuBN7CX+lNAduhoR0NExvrgJSHHxsl/bP9HrrX7rq5o6kaHGiGB4km3Wui0ID1X3MTo4jKvwlpwV/45nmoGje/5SU4aY8I/oVW/jDluCsZczqL9Q5J4OcCUTJoR9iBLrSmzXDKus0kFQ0JaCEs=
+	t=1711562960; cv=none; b=aCqyYl5gxgodJbPed0Ztsbm9MNCbR//JJHhNGUA1RwHKkKEcYiOlsh+qd37OaUeityWBCnh/Ne8sioDIN4bY8ovbO+9v31C2WiQpj9pN2V7pXQAf0z9JF0eSpUckDvclgty5r9LKjpgssqdd2QyUBZ5um9yU48QfFuxhqW+Psnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711562956; c=relaxed/simple;
-	bh=N/+DdFoVCHF23AQ+OjDZ00SaK75sELYmsLPOH0p2aT4=;
+	s=arc-20240116; t=1711562960; c=relaxed/simple;
+	bh=afMiBrFoHhRzer2cqmqFzs4ZW0H+P1izDB/I0qvx+go=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PtfmK2BeAdTtkby3+8x0rDJaBNasnb53HPctvtYmcF5r/SsT6GBaD76bBgoCzFoUg0e2o+wAf9UzmNBwzsC5biwiqL0bb1vjDSpWAPRSyH5H6TxA9OXeCMu6fdLOoeVL0IvMuF9c2v2nQjJ2EJYUVepfOl2ZgaW1vVFnpneeVpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nLpe09sy; arc=none smtp.client-ip=209.85.208.53
+	 In-Reply-To:To:Cc; b=GdNRQzqtFDfjCaCoxW1sUPhjWKNIep0Jto/QJDp0v8c57LxvvcMH+6K2obQP8LR6kdcAoDyzo3wXw/1ZiMKO1Tmwd/R6ADKgmn0DHpYX+IvCmN2VZBwi30QVhjKvlefSkC+46YVGAbYT//ZX7PJf9HuQnxECKN7UzL2/1K0B94g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SW8ayQp9; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56bdf81706aso154304a12.2
-        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:09:14 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513e89d0816so38813e87.0
+        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711562953; x=1712167753; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711562955; x=1712167755; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X/CQd/17iJ2kwXZI1u99C8d+fll4NuRn/euAOmsXPlU=;
-        b=nLpe09syAhOCWd9tQd+MwornteZb8fNr5WtkOEhJGMVdkuksIVwiE0gddSqAuOe+1B
-         gVL4sQE3VZj/f9sNWnSZcz6rmCvZ+6vF0Zgt//X+0KT/oxbro5QATKyq0DDgbi7I/67X
-         ICc71XRNgOG9avnZ8+Aw+xWLbSNAL0QW0SiMqCN4UlXucWDnkZXqN3G4KHtzF5lEUveJ
-         ZIIxIzD3uCNBYA6zjCPdQK0wt42Km/LXj0EZbymsC6Jw59Mb/vVcMGlQAYaofAjzJAy3
-         m0lhGonDUAv7jG54pe6PgwYADePQ8Ojeov2GGT9uTI0BCAgCkAsv7YBcGFBk/AAilmrJ
-         ln/g==
+        bh=+IVHgSW/xaGi23QYFJtUQH6kBo9HwGpw1RMo77ssnFg=;
+        b=SW8ayQp9tmrVYA29AH8aaduQqMwdWgGWMsouNailI6YeDRnnC8cPzjWpp/6dBtJfXX
+         fWXZE0ihNoqkhGq49d5quiuNskHX9gWsgw6i+b6SpHOVONPpsezuzi82TE/9ZdtPMBVQ
+         IBOoBF7GsjVFVcpQLArk4VgZXTkFt2LJ0aeoV20MjmqGvUlQaZygv3aIsPlpFkvOtnsu
+         k2w9TRDKFQk+81NU7+7NHZ1mmA8lcSzxNurjl652ZKmb0zlg5SdmaBI8T3ho9iSh+KPW
+         juKKNKhGlOhXvm+WICvnkTNHk20IvlHfs8ska2l/EbRDNPSvvBFaqBAQn5SQ6zhYRtAW
+         iClw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711562953; x=1712167753;
+        d=1e100.net; s=20230601; t=1711562955; x=1712167755;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X/CQd/17iJ2kwXZI1u99C8d+fll4NuRn/euAOmsXPlU=;
-        b=t0Ytqzejem4tD14nkWJQ+RjJ3EYSd4bbT/PU39vWVahnKHlGT8giQL0awJmKHJM/mC
-         4Qmi7lbpzH0iCM1xUhCVYUrLTj9GuisiLdgKKOX01m40HWR57rxTSGedUW+lei/yWJDD
-         eZJnRPBpRGyxA7FUJbsO8vVFGpQ936rmdU6yB4jPu/Yk+gsy+qXGSvugx6WPNlgWxZmN
-         txhtGX5U8BNlOMYZg2TKbBvc6UjJ+xwzM7ij46mkujWTpx623bCPMn9jU72bNybKOevs
-         sRQda+YbyRia+oIq4CqL17nyHjVi6qrTwSITymjIgSGzm0w1AodXhNMmGLpkQrST4s5U
-         TMPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxmQ52DtF7J9cO/AOgFIzcE+zha5agXfXgFCKBelvRNzXnXL/CbmDP0NHL3JIfEv/dciEgx6EwupLmo7WK2XLPCvqCyU1tRKfYQ/Y=
-X-Gm-Message-State: AOJu0YydzuS2wKIIT6TiQyUGSDASqvy9XAwr2tX2IhGKc0Pce/NuIYFE
-	iYnzmGeFnTx60G5W5xrTpOT/ZUnmXzRDs/KrJt7rY34HyG61zn2APGQxQNVl05Q=
-X-Google-Smtp-Source: AGHT+IFlkgzqIP+Q1UG8pVb70TSNRnC5zHkS+ExOzcbgp11+GWgEylpMe38xvrUC1mvRu+IwuYKU1Q==
-X-Received: by 2002:a17:906:3c51:b0:a46:e595:f357 with SMTP id i17-20020a1709063c5100b00a46e595f357mr189730ejg.9.1711562953062;
-        Wed, 27 Mar 2024 11:09:13 -0700 (PDT)
+        bh=+IVHgSW/xaGi23QYFJtUQH6kBo9HwGpw1RMo77ssnFg=;
+        b=QFO0hdmqnelQfGhjQLxxgcCakZDW++L5/7pNnQjRk+s+Cg/VFYk9LmYbv60f6tJ5g6
+         hyFcs17jTDgPveadxjqcYSJbnThDLsfpV+l5EvCg9Ap9AoQc3GEa/uX7VLwHvbEMIlAB
+         FBOnQ8RkRKiQhOCxxraaCGiBLUOrBfC2WrpUwkaKi9zgMN1GMPDgmztPrjsUyB8uu6su
+         BO9dU6QX8SXxT4aMXGSSVLVakB45sh5CNbH4NxH+2gwgK7yeEFMCjBx8wTxxvK8JOXqn
+         +Z1HB6RhK22NS9hm7dsTrkf07cHo9FpBvJGsPduCzICrvpg2S4yx5NTkYw845kmGln9s
+         B5EA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWsddyxDDp0Wq4wsFTkP3gRGuL/54Wbiz0KAemvxkcZ0sP7lGFp7Tv+hJHmpZXmMtyWnV7r1XKhbqbS0ms2DWYmNLcZM07i+wCQbc=
+X-Gm-Message-State: AOJu0Yz2V/Ry5Hwi3B5ZKqBv5OkFr6N2oFo+GANK0qvoNv/N55MIo2xF
+	jmLOP7rV8ngPk1//Zef4r1TcUwmLBZ76uEsZLTAnZWNxsAn0EeHbOGdqY0NBZsM=
+X-Google-Smtp-Source: AGHT+IGWhgiKUOdcrvmm8dwp1JWqillWx9nhvam2rmFbhmWYMBwh4DC45tz760zHnjGHGPWkIoZAgA==
+X-Received: by 2002:ac2:5b0c:0:b0:513:c593:a634 with SMTP id v12-20020ac25b0c000000b00513c593a634mr171919lfn.6.1711562955383;
+        Wed, 27 Mar 2024 11:09:15 -0700 (PDT)
 Received: from [192.168.92.47] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
-        by smtp.gmail.com with ESMTPSA id z2-20020a1709060be200b00a45f2dc6795sm5702733ejg.137.2024.03.27.11.09.11
+        by smtp.gmail.com with ESMTPSA id z2-20020a1709060be200b00a45f2dc6795sm5702733ejg.137.2024.03.27.11.09.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 11:09:12 -0700 (PDT)
+        Wed, 27 Mar 2024 11:09:14 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 27 Mar 2024 19:08:52 +0100
-Subject: [PATCH v3 14/19] media: venus: core: Define a pointer to core->res
+Date: Wed, 27 Mar 2024 19:08:53 +0100
+Subject: [PATCH v3 15/19] media: venus: pm_helpers: Simplify vcodec clock
+ handling
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,7 +79,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230911-topic-mars-v3-14-79f23b81c261@linaro.org>
+Message-Id: <20230911-topic-mars-v3-15-79f23b81c261@linaro.org>
 References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
 In-Reply-To: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
@@ -94,66 +95,428 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711562924; l=1808;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711562924; l=13981;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=N/+DdFoVCHF23AQ+OjDZ00SaK75sELYmsLPOH0p2aT4=;
- b=1gxBTxoz/cxrMX0RUDFm+MPnu8jLxtNwBQRjFbmiKwfrMWSZ2mUQ6GbUHNJot8qeaX5xQ5sw6
- 0G9hX+ocBcYALouuYtXDuLwShrMO/8+6DguNAgv1Iz8Lb2t+ZwkTf/2
+ bh=afMiBrFoHhRzer2cqmqFzs4ZW0H+P1izDB/I0qvx+go=;
+ b=DL6uk51sRVqRvs/kCIzEnj6XcH/3HNCesxKFi0Bld1sSHdQ+HCYGYwjdglU2ECFgHYNmxbdtP
+ 5/flOoziTmsCEsi6PKUTHZesB/TupkfohJuFrO04dq+ogk6Qf/VBk8z
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-To make the code more concise, define a new variable 'res' pointing to
-the abundantly referenced core->res.
+Currently the infrastructure is set up for vast expandability, but
+it's far too complex for what is just 0-2 clocks. Categorize the
+clocks and simplify their getting.
+
+One notable change is that vcodec clocks are switched to use
+devm_clk_get_optional, which will let us commonize the code further
+while leaving the burden of figuring out which SoCs need codec-specific
+clocks and which don't to the bindings checker.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/venus/core.c       |  18 ----
+ drivers/media/platform/qcom/venus/core.h       |  13 ++-
+ drivers/media/platform/qcom/venus/pm_helpers.c | 129 +++++++++++++------------
+ 3 files changed, 71 insertions(+), 89 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 5b18b1f41267..e61aa863b7f7 100644
+index e61aa863b7f7..1f4a86b1bd73 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
-@@ -285,6 +285,7 @@ static irqreturn_t venus_isr_thread(int irq, void *dev_id)
+@@ -581,9 +581,6 @@ static const struct venus_resources msm8996_res = {
+ 	.reg_tbl_size = ARRAY_SIZE(msm8996_reg_preset),
+ 	.clks = {"core", "iface", "bus", "mbus" },
+ 	.clks_num = 4,
+-	.vcodec0_clks = { "core" },
+-	.vcodec1_clks = { "core" },
+-	.vcodec_clks_num = 1,
+ 	.max_load = 2563200,
+ 	.hfi_version = HFI_VERSION_3XX,
+ 	.dma_mask = (GENMASK(31, 30) | GENMASK(28, 26) | GENMASK(24, 22)) - 1,
+@@ -636,9 +633,6 @@ static const struct venus_resources sdm660_res = {
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sdm660_bw_table_dec),
+ 	.clks = {"core", "iface", "bus", "bus_throttle" },
+ 	.clks_num = 4,
+-	.vcodec0_clks = { "vcodec0_core" },
+-	.vcodec1_clks = { "vcodec0_core" },
+-	.vcodec_clks_num = 1,
+ 	.max_load = 1036800,
+ 	.hfi_version = HFI_VERSION_3XX,
+ 	.cp_size = 0x79000000,
+@@ -680,9 +674,6 @@ static const struct venus_resources sdm845_res = {
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sdm845_bw_table_dec),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+-	.vcodec0_clks = { "core", "bus" },
+-	.vcodec1_clks = { "core", "bus" },
+-	.vcodec_clks_num = 2,
+ 	.max_load = 3110400,	/* 4096x2160@90 */
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vpu_version = VPU_VERSION_AR50,
+@@ -699,9 +690,6 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sdm845_bw_table_dec),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+-	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+-	.vcodec1_clks = { "vcodec1_core", "vcodec1_bus" },
+-	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0", "vcodec1" },
+ 	.vcodec_pmdomains_num = 3,
+ 	.opp_pmdomain = pd_names_cx,
+@@ -744,8 +732,6 @@ static const struct venus_resources sc7180_res = {
+ 	.bw_tbl_dec_size = ARRAY_SIZE(sc7180_bw_table_dec),
+ 	.clks = {"core", "iface", "bus" },
+ 	.clks_num = 3,
+-	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+-	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_cx,
+@@ -796,8 +782,6 @@ static const struct venus_resources sm8250_res = {
+ 	.clks_num = 2,
+ 	.resets = { "bus", "core" },
+ 	.resets_num = 2,
+-	.vcodec0_clks = { "vcodec0_core" },
+-	.vcodec_clks_num = 1,
+ 	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_mx,
+@@ -851,8 +835,6 @@ static const struct venus_resources sc7280_res = {
+ 	.ubwc_conf = &sc7280_ubwc_config,
+ 	.clks = {"core", "bus", "iface"},
+ 	.clks_num = 3,
+-	.vcodec0_clks = {"vcodec_core", "vcodec_bus"},
+-	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_cx,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 19908f028441..b4c41dc0f8c7 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -24,9 +24,10 @@
+ #define VDBGFW	"VenusFW  : "
  
- static int venus_probe(struct platform_device *pdev)
- {
-+	const struct venus_resources *res;
- 	struct device *dev = &pdev->dev;
- 	struct venus_core *core;
- 	int i, ret;
-@@ -315,9 +316,11 @@ static int venus_probe(struct platform_device *pdev)
- 	if (!core->res)
- 		return -ENODEV;
+ #define VIDC_CLKS_NUM_MAX		4
+-#define VIDC_VCODEC_CLKS_NUM_MAX	2
+ #define VIDC_RESETS_NUM_MAX		2
  
-+	res = core->res;
++#define MAX_NUM_VCODECS			2
 +
- 	mutex_init(&core->pm_lock);
+ extern int venus_fw_debug;
  
--	core->pm_ops = venus_pm_get(core->res->hfi_version);
-+	core->pm_ops = venus_pm_get(res->hfi_version);
- 	if (!core->pm_ops)
- 		return -ENODEV;
+ struct freq_tbl {
+@@ -68,8 +69,6 @@ struct venus_resources {
+ 	const struct hfi_ubwc_config *ubwc_conf;
+ 	const char * const clks[VIDC_CLKS_NUM_MAX];
+ 	unsigned int clks_num;
+-	const char * const vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+-	const char * const vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+ 	unsigned int vcodec_clks_num;
+ 	const char **vcodec_pmdomains;
+ 	unsigned int vcodec_pmdomains_num;
+@@ -123,8 +122,8 @@ struct venus_format {
+  * @aon_base:	AON base address
+  * @irq:		Venus irq
+  * @clks:	an array of struct clk pointers
+- * @vcodec0_clks: an array of vcodec0 struct clk pointers
+- * @vcodec1_clks: an array of vcodec1 struct clk pointers
++ * @vcodec_core_clks: an array of codec core clk pointers
++ * @vcodec_bus_clks: an array of codec bus clk pointers
+  * @video_path: an interconnect handle to video to/from memory path
+  * @cpucfg_path: an interconnect handle to cpu configuration path
+  * @has_opp_table: does OPP table exist
+@@ -176,8 +175,8 @@ struct venus_core {
+ 	void __iomem *aon_base;
+ 	int irq;
+ 	struct clk *clks[VIDC_CLKS_NUM_MAX];
+-	struct clk *vcodec0_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+-	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
++	struct clk *vcodec_core_clks[MAX_NUM_VCODECS];
++	struct clk *vcodec_bus_clks[MAX_NUM_VCODECS];
+ 	struct icc_path *video_path;
+ 	struct icc_path *cpucfg_path;
+ 	bool has_opp_table;
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index d717e150b34f..583153bbb74e 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -110,67 +110,74 @@ static void core_clks_disable(struct venus_core *core)
  
-@@ -325,8 +328,8 @@ static int venus_probe(struct platform_device *pdev)
+ static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
+ {
+-	int ret;
++	int i, ret;
+ 
+ 	ret = dev_pm_opp_set_rate(core->dev, freq);
  	if (ret)
  		return ret;
  
--	for (i = 0; i < core->res->resets_num; i++) {
--		core->resets[i] = devm_reset_control_get_exclusive(dev, core->res->resets[i]);
-+	for (i = 0; i < res->resets_num; i++) {
-+		core->resets[i] = devm_reset_control_get_exclusive(dev, res->resets[i]);
- 		if (IS_ERR(core->resets[i]))
- 			return PTR_ERR(core->resets[i]);
- 	}
-@@ -337,7 +340,7 @@ static int venus_probe(struct platform_device *pdev)
- 			return ret;
+-	ret = clk_set_rate(core->vcodec0_clks[0], freq);
+-	if (ret)
+-		return ret;
+-
+-	ret = clk_set_rate(core->vcodec1_clks[0], freq);
+-	if (ret)
+-		return ret;
++	for (i = 0; i < MAX_NUM_VCODECS; i++) {
++		ret = clk_set_rate(core->vcodec_core_clks[i], freq);
++		if (ret)
++			return ret;
++	}
+ 
+ 	return 0;
+ }
+ 
+-static int vcodec_clks_get(struct venus_core *core, struct device *dev,
+-			   struct clk **clks, const char * const *id)
++static int vcodec_clks_get(struct venus_core *core, struct device *dev, u8 id)
+ {
+-	const struct venus_resources *res = core->res;
+-	unsigned int i;
++	char buf[13] = { 0 }; /* vcodecX_core\0 */
+ 
+-	for (i = 0; i < res->vcodec_clks_num; i++) {
+-		if (!id[i])
+-			continue;
+-		clks[i] = devm_clk_get(dev, id[i]);
+-		if (IS_ERR(clks[i]))
+-			return PTR_ERR(clks[i]);
++	/* Best we can do is 2 cores */
++	if (id > MAX_NUM_VCODECS - 1) {
++		dev_err(dev, "Got impossible vcodec id %u\n", id);
++		return -EINVAL;
++	};
++
++	snprintf(buf, sizeof(buf), "vcodec%u_core", id);
++
++	/* First try the non-legacy name */
++	core->vcodec_core_clks[id] = devm_clk_get_optional(dev, buf);
++	if (IS_ERR(core->vcodec_core_clks[id])) {
++		/* Try again, with the legacy name */
++		core->vcodec_core_clks[id] = devm_clk_get_optional(dev, "core");
++		if (IS_ERR(core->vcodec_core_clks[id]))
++			return PTR_ERR(core->vcodec_core_clks[id]);
++	}
++
++	memset(buf, 0, sizeof(buf));
++	snprintf(buf, sizeof(buf), "vcodec%u_bus", id);
++
++	core->vcodec_bus_clks[id] = devm_clk_get_optional(dev, buf);
++	if (IS_ERR(core->vcodec_bus_clks[id])) {
++		core->vcodec_bus_clks[id] = devm_clk_get_optional(dev, "bus");
++		if (IS_ERR(core->vcodec_bus_clks[id]))
++			return PTR_ERR(core->vcodec_bus_clks[id]);
  	}
  
--	ret = dma_set_mask_and_coherent(dev, core->res->dma_mask);
-+	ret = dma_set_mask_and_coherent(dev, res->dma_mask);
+ 	return 0;
+ }
+ 
+-static int vcodec_clks_enable(struct venus_core *core, struct clk **clks)
++static int vcodec_clks_enable(struct venus_core *core, u8 id)
+ {
+-	const struct venus_resources *res = core->res;
+-	unsigned int i;
+ 	int ret;
+ 
+-	for (i = 0; i < res->vcodec_clks_num; i++) {
+-		ret = clk_prepare_enable(clks[i]);
+-		if (ret)
+-			goto err;
+-	}
++	ret = clk_prepare_enable(core->vcodec_core_clks[id]);
++	if (ret)
++		return ret;
+ 
+-	return 0;
+-err:
+-	while (i--)
+-		clk_disable_unprepare(clks[i]);
++	ret = clk_prepare_enable(core->vcodec_bus_clks[id]);
++	if (ret)
++		clk_disable_unprepare(core->vcodec_core_clks[id]);
+ 
+ 	return ret;
+ }
+ 
+-static void vcodec_clks_disable(struct venus_core *core, struct clk **clks)
++static void vcodec_clks_disable(struct venus_core *core, u8 id)
+ {
+-	const struct venus_resources *res = core->res;
+-	unsigned int i = res->vcodec_clks_num;
+-
+-	while (i--)
+-		clk_disable_unprepare(clks[i]);
++	clk_disable_unprepare(core->vcodec_bus_clks[id]);
++	clk_disable_unprepare(core->vcodec_core_clks[id]);
+ }
+ 
+ static u32 load_per_instance(struct venus_inst *inst)
+@@ -343,8 +350,7 @@ static int vdec_get_v3(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+ 
+-	return vcodec_clks_get(core, dev, core->vcodec0_clks,
+-			       core->res->vcodec0_clks);
++	return vcodec_clks_get(core, dev, 0);
+ }
+ 
+ static int vdec_power_v3(struct device *dev, int on)
+@@ -355,9 +361,9 @@ static int vdec_power_v3(struct device *dev, int on)
+ 	vcodec_control_v3(core, VIDC_SESSION_TYPE_DEC, true);
+ 
+ 	if (on == POWER_ON)
+-		ret = vcodec_clks_enable(core, core->vcodec0_clks);
++		ret = vcodec_clks_enable(core, 0);
+ 	else
+-		vcodec_clks_disable(core, core->vcodec0_clks);
++		vcodec_clks_disable(core, 0);
+ 
+ 	vcodec_control_v3(core, VIDC_SESSION_TYPE_DEC, false);
+ 
+@@ -368,8 +374,7 @@ static int venc_get_v3(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+ 
+-	return vcodec_clks_get(core, dev, core->vcodec1_clks,
+-			       core->res->vcodec1_clks);
++	return vcodec_clks_get(core, dev, 1);
+ }
+ 
+ static int venc_power_v3(struct device *dev, int on)
+@@ -380,9 +385,9 @@ static int venc_power_v3(struct device *dev, int on)
+ 	vcodec_control_v3(core, VIDC_SESSION_TYPE_ENC, true);
+ 
+ 	if (on == POWER_ON)
+-		ret = vcodec_clks_enable(core, core->vcodec1_clks);
++		ret = vcodec_clks_enable(core, 1);
+ 	else
+-		vcodec_clks_disable(core, core->vcodec1_clks);
++		vcodec_clks_disable(core, 1);
+ 
+ 	vcodec_control_v3(core, VIDC_SESSION_TYPE_ENC, false);
+ 
+@@ -441,7 +446,7 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 		if (ret)
+ 			return ret;
+ 
+-		vcodec_clks_disable(core, core->vcodec0_clks);
++		vcodec_clks_disable(core, 0);
+ 
+ 		ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
+ 		if (ret)
+@@ -457,7 +462,7 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 		if (ret)
+ 			return ret;
+ 
+-		vcodec_clks_disable(core, core->vcodec1_clks);
++		vcodec_clks_disable(core, 1);
+ 
+ 		ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
+ 		if (ret)
+@@ -484,7 +489,7 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = vcodec_clks_enable(core, core->vcodec0_clks);
++		ret = vcodec_clks_enable(core, 0);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -502,7 +507,7 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = vcodec_clks_enable(core, core->vcodec1_clks);
++		ret = vcodec_clks_enable(core, 1);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -763,20 +768,18 @@ static int vdec_get_v4(struct device *dev)
+ 	if (!legacy_binding)
+ 		return 0;
+ 
+-	return vcodec_clks_get(core, dev, core->vcodec0_clks,
+-			       core->res->vcodec0_clks);
++	return vcodec_clks_get(core, dev, 0);
+ }
+ 
+ static void vdec_put_v4(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+-	unsigned int i;
+ 
+ 	if (!legacy_binding)
+ 		return;
+ 
+-	for (i = 0; i < core->res->vcodec_clks_num; i++)
+-		core->vcodec0_clks[i] = NULL;
++	core->vcodec_core_clks[0] = NULL;
++	core->vcodec_bus_clks[0] = NULL;
+ }
+ 
+ static int vdec_power_v4(struct device *dev, int on)
+@@ -792,9 +795,9 @@ static int vdec_power_v4(struct device *dev, int on)
+ 		return ret;
+ 
+ 	if (on == POWER_ON)
+-		ret = vcodec_clks_enable(core, core->vcodec0_clks);
++		ret = vcodec_clks_enable(core, 0);
+ 	else
+-		vcodec_clks_disable(core, core->vcodec0_clks);
++		vcodec_clks_disable(core, 0);
+ 
+ 	vcodec_control_v4(core, VIDC_CORE_ID_1, false);
+ 
+@@ -808,20 +811,18 @@ static int venc_get_v4(struct device *dev)
+ 	if (!legacy_binding)
+ 		return 0;
+ 
+-	return vcodec_clks_get(core, dev, core->vcodec1_clks,
+-			       core->res->vcodec1_clks);
++	return vcodec_clks_get(core, dev, 1);
+ }
+ 
+ static void venc_put_v4(struct device *dev)
+ {
+ 	struct venus_core *core = dev_get_drvdata(dev);
+-	unsigned int i;
+ 
+ 	if (!legacy_binding)
+ 		return;
+ 
+-	for (i = 0; i < core->res->vcodec_clks_num; i++)
+-		core->vcodec1_clks[i] = NULL;
++	core->vcodec_core_clks[1] = NULL;
++	core->vcodec_bus_clks[1] = NULL;
+ }
+ 
+ static int venc_power_v4(struct device *dev, int on)
+@@ -837,9 +838,9 @@ static int venc_power_v4(struct device *dev, int on)
+ 		return ret;
+ 
+ 	if (on == POWER_ON)
+-		ret = vcodec_clks_enable(core, core->vcodec1_clks);
++		ret = vcodec_clks_enable(core, 1);
+ 	else
+-		vcodec_clks_disable(core, core->vcodec1_clks);
++		vcodec_clks_disable(core, 1);
+ 
+ 	vcodec_control_v4(core, VIDC_CORE_ID_2, false);
+ 
+@@ -934,11 +935,11 @@ static int core_get_v4(struct venus_core *core)
+ 
+ 	dev_info(dev, "%s legacy binding\n", legacy_binding ? "" : "non");
+ 
+-	ret = vcodec_clks_get(core, dev, core->vcodec0_clks, res->vcodec0_clks);
++	ret = vcodec_clks_get(core, dev, 0);
  	if (ret)
- 		goto err_core_put;
+ 		return ret;
+ 
+-	ret = vcodec_clks_get(core, dev, core->vcodec1_clks, res->vcodec1_clks);
++	ret = vcodec_clks_get(core, dev, 1);
+ 	if (ret)
+ 		return ret;
  
 
 -- 
