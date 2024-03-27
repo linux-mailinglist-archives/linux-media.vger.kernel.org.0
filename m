@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-7982-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7983-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B8688EDCF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 19:11:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D693F88EDD4
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 19:12:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6BC41C32F2E
-	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 18:11:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05AC81C32D0D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Mar 2024 18:12:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F3814F12A;
-	Wed, 27 Mar 2024 18:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D068153594;
+	Wed, 27 Mar 2024 18:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mRB6ZhI2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IQSeRvo1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110F9152E13
-	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 18:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F053153517
+	for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 18:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711562947; cv=none; b=R2c6V3kH+9RPE6fQLz7vsdaGEyguS2xpHFyNmOKIhsKgarCVdmJQObr697TR7rPIsvBgV6BT7Po7P67onqRj9g3QEQjGE5Ndv4OQAE8GB5WKNSZhIkOewVoD0Y+7hwhfzE7LuDRRogHMduL1TdQ/QzyeScev1AcIKG865g/Yi7U=
+	t=1711562951; cv=none; b=dffh9TuGgJS0x9LnA+ksujdyqphtdeEsxhBd2UASgKn7gBatGC5286x5z/7mF0yZIkR2cEqbfUyX98FVbfN1rZ+DFgY27Q+4cO0/ZULuhbPdOas7b3x0GDTip/RssuCDqPG4E9VkBs4s6e8zPS8HcWFlSIxRQ20HgR0ksVTYASI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711562947; c=relaxed/simple;
-	bh=zpVxIGK/DC5DJdxj6d45A6gz7HiJf9g2H9+GSTEHLyk=;
+	s=arc-20240116; t=1711562951; c=relaxed/simple;
+	bh=EiXe27maCyYzrjrt5IwhfaloukG1N+cTVNcHKqRf8YA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MaKYaIqJzVRWjfROwgA+A7Tye0M4xqYX3ScgBj2m7g1Waco71E0XMZKo4u1/swYnwHO64UcGc+qVUXVw6j3chJ5rNE1tSr671tEszeH/wNq9wQO+MdZ3MxbSp9VntiwJCV3qgCYYmzvmLF8nNbu3uplMIqhJnPdLK1rZtdgIM8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mRB6ZhI2; arc=none smtp.client-ip=209.85.218.46
+	 In-Reply-To:To:Cc; b=NCWdEpyyEN487O9gbDLnu4eS9EP4UPiYruY4fgZDYf0l8MJrZWorJjhqlzyGpfkRWT8Axpw0CCCeDfuiCknsjNP/kReJFLV3IRuEjAPttCdi+K+Yg22YqSHJ+uumiEGY4lubjlGtVBYWmVHPRLJWdskPq9/Rs2tNNIZd2IjGJE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IQSeRvo1; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a4a387ff7acso13099366b.2
-        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:09:05 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56845954ffeso164619a12.2
+        for <linux-media@vger.kernel.org>; Wed, 27 Mar 2024 11:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711562944; x=1712167744; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711562947; x=1712167747; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4k+D1R/CO2vefULfDvrbe1JRYsRPZZCZwyqn3SKwsgk=;
-        b=mRB6ZhI2ps6TBIJPrZob/ry/DkkJvkxPg+bYtYJdMyK0RrI4zNxgcbZu1YO3Oqv194
-         LAiZnlRS86Arq57t1TuPu2nbIDa7G+1+mZNiZn35K32dMI2Nl4k5cxQpwNTzzRNEvMtk
-         o8X4ew5Tl06wBOyJRR1zTS/fHNqK9UkyLNtP89nA9ncH3gwRs8aWaXXqK+Lr9JK7pKNn
-         YNfv4VHE8lkHQhm1tfwmMRdJVa6/qAzH8BzDcTvRu9Qatm6zJXQ9StNyuC+ZGf9zolAL
-         89pY6ybwm1BepOIFqdB4608DB36w3nT+gEGZJU96hJUF7LHE0qd3PvUQuj7CK/GADdVu
-         6KiA==
+        bh=xatJGVguCNf/WUAldulDt3r9Z4hc+wH++h2/GcCJG1M=;
+        b=IQSeRvo1eBSzKzFYex3MseyWGcJs0O/1WZsFZyL95zbEBaelM1v7/BhkI1BOewY9My
+         5U0OC+IOmTkc2nynCVhHoQk8KTEuKFn76za+CTTwjmLr4w2Sg/clbpEAYYQ7/uQ3qTbO
+         iTZD7WfSkX1g+/KmC+TWNQ211YoL2+Q3bJASjmsouO/9mOvg7LmPuqwFRVEGnxY5+jJS
+         xr9HFIkCqL5ZIMNp46sqx+B7ubl93IRang0QzVH0MwAGKt4YIyb3FbxIDHJpbfMYdzRs
+         Spl3hdhSR3z8m0By9wB982cJwf0gZ+8cGj1ZOTUviBkez1uZR0Z4JGI8hPuwL1T1wtVo
+         Foug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711562944; x=1712167744;
+        d=1e100.net; s=20230601; t=1711562947; x=1712167747;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4k+D1R/CO2vefULfDvrbe1JRYsRPZZCZwyqn3SKwsgk=;
-        b=WudhZIzKlLAn91Op4sla5PIueQ4kZ03SH/9h7mDvPMtAg1duhqzJFBKoet+22np8Vy
-         G8bx/F1qtYUTakfaI2kV7br+RDcHsJXdLgoGUTcTEXVt64ri1ukCEvuivX4a46ulzOIn
-         Vz50Nk8VGoa9KdgW1oVN8VvtBwv74XE/mLE+Hrc4/6FfbtQoqpiNgqJTtKgcJXME7lw9
-         C3Yci5/ZJxXoLCyAf2NMTdW5IiEIEMFQhqSPTHenWB0OmpUrS8SXW2r6a5RrUjjL/mEc
-         IOpCo7S2XTxntK0qILsFzi+vqckVoI0SN9ZUhu9efqDf5r9Eu/4dnwrYnyIw7fEV966f
-         JQbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfPL0OMSnbZ89d0Yxw53SLXiQ0w82K8ekLDjuVV6z8/btsaFAglAqLBoNnzUNf+mjg/Dl7I7lCYL0N+XHDeCppi7Vq64ndFuyhIbQ=
-X-Gm-Message-State: AOJu0YyBARiFx78rKg4zwHfJ7kreHjgaR+xPzXdPRnmLJZqfhyaSvIlS
-	oq/yKQIdN7yTfJKRrPOJxoDXdQypIhJOlfbbdTlDMzToYsTZAyGB5dnr7oi6C+g=
-X-Google-Smtp-Source: AGHT+IGgh8TVK7OaOIm3bODIsmJap1Sy6Kp85kSNzHznpes15v25Nir9SvBKmsFNHfjIzUjXZW0S4Q==
-X-Received: by 2002:a17:907:1b17:b0:a46:636d:ef23 with SMTP id mp23-20020a1709071b1700b00a46636def23mr213739ejc.54.1711562944568;
-        Wed, 27 Mar 2024 11:09:04 -0700 (PDT)
+        bh=xatJGVguCNf/WUAldulDt3r9Z4hc+wH++h2/GcCJG1M=;
+        b=sDLpMXVPVmlJW9F0pwMEmKUORRCYOm5WKiPt/EazfAbYfDaMUS8wbZPVQlokizU6+S
+         GRekmXEz6MOngSr0UQ+d6qS1B1vugl0t+ThnumbbcGvNH/otiXr5cHpHBW0u/eZNaJi2
+         wvEBnJA3J7eFmznBBi5Gf43W3i+n7H3Nz+EeNsc3d9wgs4ZSwFtj+muREpCoPcuE2WTf
+         O662vbMmY/C4kSfm+86OkGOm145nSplQgMhQXRmvZ7BXcYEtm4KmNq5VRWUeGhF5hRru
+         2ZhEJc1K7cO9+Th6FU9IK0n0sP/xgdqTOh6aeYXKK+TS3Bx3OrWhsl78cWhng4h1E7PB
+         5Ppg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7CEMXEMU915r9UvKVyuHnw3C/3cCh8/oOKj0zTETja0ulMqTwcUtht50kv+ob4cDMhgCIP+pdjICpi5nnF7KJ4yvw0EtM2HV8cao=
+X-Gm-Message-State: AOJu0YxVSUNxn3fOKAiGF+yCZmOp1AfNfee7oC47y4U9uLiUz+bzA/8k
+	vXScEPw1BfnQlEcWNA460Xf7D0rzWmboGvGjSKvNK2lmGN/3wR9bduOrLuVP4IA=
+X-Google-Smtp-Source: AGHT+IFAyclNN4I78UIFoCD8VhQN0l5lMHm2AOnllf/HSvhKhjLhbnYt1UmK73zhkGkPB9pWxrnOOg==
+X-Received: by 2002:a17:906:b03:b0:a47:5182:3b83 with SMTP id u3-20020a1709060b0300b00a4751823b83mr130341ejg.61.1711562946738;
+        Wed, 27 Mar 2024 11:09:06 -0700 (PDT)
 Received: from [192.168.92.47] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
-        by smtp.gmail.com with ESMTPSA id z2-20020a1709060be200b00a45f2dc6795sm5702733ejg.137.2024.03.27.11.09.02
+        by smtp.gmail.com with ESMTPSA id z2-20020a1709060be200b00a45f2dc6795sm5702733ejg.137.2024.03.27.11.09.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 11:09:04 -0700 (PDT)
+        Wed, 27 Mar 2024 11:09:06 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 27 Mar 2024 19:08:48 +0100
-Subject: [PATCH v3 10/19] media: venus: core: Use GENMASK for dma_mask
+Date: Wed, 27 Mar 2024 19:08:49 +0100
+Subject: [PATCH v3 11/19] media: venus: core: Remove cp_start
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,7 +78,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230911-topic-mars-v3-10-79f23b81c261@linaro.org>
+Message-Id: <20230911-topic-mars-v3-11-79f23b81c261@linaro.org>
 References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
 In-Reply-To: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
@@ -94,90 +94,94 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711562924; l=2766;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711562924; l=3292;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=zpVxIGK/DC5DJdxj6d45A6gz7HiJf9g2H9+GSTEHLyk=;
- b=KE3ZI01LlS6edqeVW0yMZSlgZxpiWF33PPA9Z+BTOODUIXObGqTSBmR5rIY4voS0rD8lIUri0
- 2ZS65Ft7gT0CIbc9VvabxmKT5SGO/H+FZdyzgvPvE/quAClfrrunznY
+ bh=EiXe27maCyYzrjrt5IwhfaloukG1N+cTVNcHKqRf8YA=;
+ b=mlD7n7YL3SQ+J38D0yoA6/DN8bT8LEhucyYAIAhEcUu1SKn0/Dh66xVzbhel9RerNwXf7vQox
+ rtRJypTfSF5CfgVhLlrzMetiYkAsZvAESASyHRuo7M1YcGTavpdwPSQ
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-The raw literals mean very little. Substitute it with more telling
-bitops macros.
+It's hardcoded to be zero. Always. Ever since msm-3.10. Or maybe
+even before. Remove it!
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/platform/qcom/venus/core.c     | 4 ----
+ drivers/media/platform/qcom/venus/core.h     | 1 -
+ drivers/media/platform/qcom/venus/firmware.c | 3 +--
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 51ac9eff244c..5d41ecddcef6 100644
+index 5d41ecddcef6..b10d083b8b17 100644
 --- a/drivers/media/platform/qcom/venus/core.c
 +++ b/drivers/media/platform/qcom/venus/core.c
-@@ -562,7 +562,7 @@ static const struct venus_resources msm8916_res = {
- 	.clks_num = 3,
- 	.max_load = 352800, /* 720p@30 + 1080p@30 */
- 	.hfi_version = HFI_VERSION_1XX,
--	.dma_mask = 0xddc00000 - 1,
-+	.dma_mask = (GENMASK(31, 30) | GENMASK(28, 26) | GENMASK(24, 22)) - 1,
- 	.fwname = "qcom/venus-1.8/venus.mbn",
- };
- 
-@@ -592,7 +592,7 @@ static const struct venus_resources msm8996_res = {
+@@ -647,7 +647,6 @@ static const struct venus_resources sdm660_res = {
  	.vcodec_clks_num = 1,
- 	.max_load = 2563200,
+ 	.max_load = 1036800,
  	.hfi_version = HFI_VERSION_3XX,
--	.dma_mask = 0xddc00000 - 1,
-+	.dma_mask = (GENMASK(31, 30) | GENMASK(28, 26) | GENMASK(24, 22)) - 1,
- 	.fwname = "qcom/venus-4.2/venus.mbn",
- };
- 
-@@ -693,7 +693,7 @@ static const struct venus_resources sdm845_res = {
- 	.max_load = 3110400,	/* 4096x2160@90 */
+-	.cp_start = 0,
+ 	.cp_size = 0x79000000,
+ 	.cp_nonpixel_start = 0x1000000,
+ 	.cp_nonpixel_size = 0x28000000,
+@@ -716,7 +715,6 @@ static const struct venus_resources sdm845_res_v2 = {
  	.hfi_version = HFI_VERSION_4XX,
  	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.fwname = "qcom/venus-5.2/venus.mbn",
- };
- 
-@@ -715,7 +715,7 @@ static const struct venus_resources sdm845_res_v2 = {
- 	.max_load = 3110400,	/* 4096x2160@90 */
- 	.hfi_version = HFI_VERSION_4XX,
- 	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x70800000,
  	.cp_nonpixel_start = 0x1000000,
-@@ -759,7 +759,7 @@ static const struct venus_resources sc7180_res = {
- 	.opp_pmdomain = pd_names_cx,
+ 	.cp_nonpixel_size = 0x24800000,
+@@ -760,7 +758,6 @@ static const struct venus_resources sc7180_res = {
  	.hfi_version = HFI_VERSION_4XX,
  	.vpu_version = VPU_VERSION_AR50,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x70800000,
  	.cp_nonpixel_start = 0x1000000,
-@@ -814,7 +814,7 @@ static const struct venus_resources sm8250_res = {
- 	.hfi_version = HFI_VERSION_6XX,
- 	.vpu_version = VPU_VERSION_IRIS2,
- 	.num_vpp_pipes = 4,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.fwname = "qcom/vpu-1.0/venus.mbn",
- };
- 
-@@ -868,7 +868,7 @@ static const struct venus_resources sc7280_res = {
- 	.hfi_version = HFI_VERSION_6XX,
+ 	.cp_nonpixel_size = 0x24800000,
+@@ -869,7 +866,6 @@ static const struct venus_resources sc7280_res = {
  	.vpu_version = VPU_VERSION_IRIS2_1,
  	.num_vpp_pipes = 1,
--	.dma_mask = 0xe0000000 - 1,
-+	.dma_mask = GENMASK(31, 29) - 1,
- 	.cp_start = 0,
+ 	.dma_mask = GENMASK(31, 29) - 1,
+-	.cp_start = 0,
  	.cp_size = 0x25800000,
  	.cp_nonpixel_start = 0x1000000,
+ 	.cp_nonpixel_size = 0x24800000,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index e083ebb3ab4b..19908f028441 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -80,7 +80,6 @@ struct venus_resources {
+ 	enum vpu_version vpu_version;
+ 	u8 num_vpp_pipes;
+ 	u32 max_load;
+-	u32 cp_start;
+ 	u32 cp_size;
+ 	u32 cp_nonpixel_start;
+ 	u32 cp_nonpixel_size;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index fe7da2b30482..16e578780be7 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -245,7 +245,6 @@ int venus_boot(struct venus_core *core)
+ 	if (core->use_tz && res->cp_size) {
+ 		/*
+ 		 * Clues for porting using downstream data:
+-		 * cp_start = 0
+ 		 * cp_size = venus_ns/virtual-addr-pool[0] - yes, address and not size!
+ 		 *   This works, as the non-secure context bank is placed
+ 		 *   contiguously right after the Content Protection region.
+@@ -253,7 +252,7 @@ int venus_boot(struct venus_core *core)
+ 		 * cp_nonpixel_start = venus_sec_non_pixel/virtual-addr-pool[0]
+ 		 * cp_nonpixel_size = venus_sec_non_pixel/virtual-addr-pool[1]
+ 		 */
+-		ret = qcom_scm_mem_protect_video_var(res->cp_start,
++		ret = qcom_scm_mem_protect_video_var(0,
+ 						     res->cp_size,
+ 						     res->cp_nonpixel_start,
+ 						     res->cp_nonpixel_size);
 
 -- 
 2.44.0
