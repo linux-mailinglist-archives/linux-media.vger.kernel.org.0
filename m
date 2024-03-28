@@ -1,108 +1,148 @@
-Return-Path: <linux-media+bounces-8128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0824D8908CD
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 19:59:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4756E8908F4
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 20:16:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C8301F26DD2
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 18:59:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DBFB0B2245E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 19:16:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9642137907;
-	Thu, 28 Mar 2024 18:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C75E4137C36;
+	Thu, 28 Mar 2024 19:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9u58JFG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="qwCXm9BF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-108-mta51.mxroute.com (mail-108-mta51.mxroute.com [136.175.108.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2481849;
-	Thu, 28 Mar 2024 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7F6137925
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 19:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711652379; cv=none; b=jlOZMXnYj2ti1ndNJXg+yLc8aHzMNDRMlUsrl1tyrKIHpuxcnRyC8gATTtFa62b94xDJudmSrfF5gT5d3tC3yxZWyVyliOn2il9Ff39hLw341t8WqRKcOQLthbBi5JxLxryA6v2mcfka5USfnY89Uopisyir5EayfZ7Gar1MQW8=
+	t=1711653395; cv=none; b=bK7yyk2GIQ/pyXfppXAl5SyyZpZI+8zZDGT7+y4zhIySpeZiy6Yaf9Qjlupe+9UWh4UBjH19yiNosoNuthDUrGfP2b+kxyLzZs5nyLm17m13maw75KtFlDxmfZJNC/xyae0p4FiT+pBJYueAR9fxc2sELekODNSVBfI92Q0/bDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711652379; c=relaxed/simple;
-	bh=SV03oY6mA1k7yFAqo606Edki3tImpf784xBEQW1rWUc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VyoUWhfi60KeOqK8BclinA4MqpokkdBe8Gnv6bShdMC122SqqxzjLywMuK4e+/HQrXvtlRbg+gQ++LxVJU8A49Q5M6wQO1EBm5VKJumgUmDWpCOEZuJIO/CqjCBc48hwgovtH1sdkCMoRhwlZpCbD6rWGx0s97LHsvcS3nYXJeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9u58JFG; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56c147205b9so2322947a12.0;
-        Thu, 28 Mar 2024 11:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711652376; x=1712257176; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SV03oY6mA1k7yFAqo606Edki3tImpf784xBEQW1rWUc=;
-        b=B9u58JFG3gzjtgdJbP9dBCyQEATHBsfco6Bz+Lb1lBNmXxCBGmzpq+zlUEOqOQ05dU
-         mW/UIKuSB258b9aXoFfyOsAmzskmtPTIySaGz+BJ+Yzrr4KKlRRTjLtdxAnmpI1kbpWi
-         wvud5MpXYhxFzEpMLrKZWxQhxJ0wepfJvaLuPktGNBlfgGyovTZg+YHO44tLahKxNBWV
-         x3U6CGtoaA2KpY8MTKTNqvAn0ksqwuLRNzBEZ/N22CJdrStySC0cqUCsySnvJsS4UNg8
-         qeJwoeGbICE16L4quaXFB2Wv4/hdk7EGFMx5fpP775iOlPSdRAPTahR7kvCD9zy2CirP
-         8J0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711652376; x=1712257176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SV03oY6mA1k7yFAqo606Edki3tImpf784xBEQW1rWUc=;
-        b=I7aOOQVCKip9eYK2bMOCSR+fzMwQI+bLkahkjd1cUoLRajMXmKNG/dClLGmRzwLu94
-         IL7j9OfwSF26aSlaOUjl2CyECDVOUqJ/df0qLFXxiWTLqDmGy3VkFQ0spNuih20Rl+6D
-         m2fjXpgU88uxqOiLJO0pquO1V5W/eHYBfON8aQx/Bmly1e+lt7apmO2Ar/wtoeypLA5D
-         /6u4ISXLikV9K1lvYc19T1XaCtGg/ykhTtX1J+BrVAce5iCCh7DHrSeTwkjUAGo3DXrd
-         fJlDESyhlH4YzCmTK3KURsMLrzD+VErOtrMygWuSS6ImCkb+QWOSNcTepvoKDpIdM14G
-         2rOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLPEC4F5SGkewNHX4rKYE1F2cuhJd+8Bgw66UYAChEo9lag1dWVuptSDz8VrU3bWrKlE4t8HT0xWzzsydSl+L/BJoWJWWHNI/ymeBMBm8SQpc50CJJw+tjBKKBS7nGY4INXuj5U/7C0nk=
-X-Gm-Message-State: AOJu0Yy+NWmxJPslO5V6yYCurcxyocG+DPdH6nRdJtn+KEM90AIOGlKu
-	ayfvujzR+rN4WV4UKzcj3BzDON/deCMYH5z8SnsNoKRTQ03h95O7vW2KUxjr56NEkqsniLtzftY
-	UfiqQiBuePBCivHy2b9IsKDhQ7mE=
-X-Google-Smtp-Source: AGHT+IHH6kALHqnYmeUzkijmT2flDCiOXUQodFJ0YRAefUwzLtPQNiMfdrwYHt0+Y04OzFPVBmxtNxsdJW80RtmOanA=
-X-Received: by 2002:a05:6402:5107:b0:56b:d013:a67e with SMTP id
- m7-20020a056402510700b0056bd013a67emr243546edd.18.1711652375798; Thu, 28 Mar
- 2024 11:59:35 -0700 (PDT)
+	s=arc-20240116; t=1711653395; c=relaxed/simple;
+	bh=+P6JDdjJ1Ex7kuwioyIjjSETZSNuTHoLH51U4FVMcjg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nqp7rMarK5zAg4l2E3NpHJwPdDdHzeN4E+yI28vcwTlzet8R7U9Jng4RJaAA/SakShsh/iSHPQfpqCwyLhTMl+UyBheQA9GriQDLsGUB/z2oGCHF8+7ghByvvss07wu0h6OQ/3Yd8SRMWSh4tujgbwCXjbMERTiz2uFBL7Y+AN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=qwCXm9BF; arc=none smtp.client-ip=136.175.108.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta51.mxroute.com (ZoneMTA) with ESMTPSA id 18e867e00920003bea.010
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 28 Mar 2024 19:16:28 +0000
+X-Zone-Loop: 8d4da76c058ce2201393992d4d908363a08ba5b67a53
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tQJb1jl0+k5VWPtDnFdvdOzbEiK5LWRoPsu+EFTE44M=; b=qwCXm9BF5B/BKG1LMbYhN94yUV
+	rAc3/t4oTkVHcORDV9B8HrlemSm+v5kD/t39rjI6ws/L1XXVKQc+i7KbjwCBB3NAAxMyt6oXQ1EfD
+	IlhlxeC1iAParASXRSIBb+oE/zna2MuWrkPKPO3l9gROf39Fs21jOlpBJqFu10PqisHRKMl6kjNEs
+	Jahj+QjNfU9EwqGze4OsIvNSOts0YMcTLDSyvubePtWWK2F9R9GVJI0nuN0jtfVHViTaIo6lOu3qn
+	aRtavdTKoklJWGZYZx6JUB9w2wB3k9wPEXoOAViWsskP1Jok9Yibg6Z30Qwhewbeb2ybGBRRe9khs
+	pEyvc0EQ==;
+Message-ID: <76f999a7-55e0-4676-aa75-8fcd466e046b@luigi311.com>
+Date: Thu, 28 Mar 2024 13:16:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322214801.319975-1-robdclark@gmail.com> <1Wwj_q3RYer6np0Orz0wJd9dlF82iBSX-PIVSlhCgJbpfVBMHF_CF04gHojkvqnvz9NXH6kACZGXQG9yXwtkbjIzLmdi-GNDkO5Nz2E-J9Y=@emersion.fr>
- <CAF6AEGvUsP7fjqFH9Co1vE0ZGRmMXmFBCrNc3hCQwxky3mME3A@mail.gmail.com> <y5mjLoUp9fKwSNrAEOQJtfqfDZ5cYtsf_KcbNCWQieZE-uJXQJE6bQhC6oLfS6aBZRimZSarDjUmeakjwYZmtQZWPM_3lAENdY17K-VyGsc=@emersion.fr>
-In-Reply-To: <y5mjLoUp9fKwSNrAEOQJtfqfDZ5cYtsf_KcbNCWQieZE-uJXQJE6bQhC6oLfS6aBZRimZSarDjUmeakjwYZmtQZWPM_3lAENdY17K-VyGsc=@emersion.fr>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 28 Mar 2024 11:59:24 -0700
-Message-ID: <CAF6AEGtCcrjBG=EMgc0NrsR75qd8jJL=-kFYoVBur+L3PY64Dw@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
-	Dominik Behr <dbehr@chromium.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
+ compatible strings
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240327231710.53188-1-git@luigi311.com>
+ <20240327231710.53188-19-git@luigi311.com>
+ <20240328185526.GA88354-robh@kernel.org>
+From: Luigi311 <git@luigi311.com>
+In-Reply-To: <20240328185526.GA88354-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: git@luigi311.com
 
-On Thu, Mar 28, 2024 at 11:54=E2=80=AFAM Simon Ser <contact@emersion.fr> wr=
-ote:
->
-> On Thursday, March 28th, 2024 at 19:47, Rob Clark <robdclark@gmail.com> w=
-rote:
->
-> > any chance I could talk you into pushing to drm-misc-fixes?
->
-> Oh sorry, I thought you had access=E2=80=A6 Pushed with a minor edit to r=
-emove
-> unnecessary parentheses to make checkpatch happy!
+On 3/28/24 12:55, Rob Herring wrote:
+> On Wed, Mar 27, 2024 at 05:17:04PM -0600, git@luigi311.com wrote:
+>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>
+>> There are a number of variants of the imx258 modules that can not
+>> be differentiated at runtime, so add compatible strings for them.
+>> But you are only adding 1 variant.
 
-Thanks!
+I can not speak for Dave but as to why this was added here but looking
+at the imx296 yaml that has something similar where there are multiple
+variants that may not be detectable at run time but does not include
+similar verbiage in the main description. Should I drop this from the
+description so it matches the imx296?
 
-BR,
--R
+> 
+>>
+>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Signed-off-by: Luigi311 <git@luigi311.com>
+>> ---
+>>  .../devicetree/bindings/media/i2c/sony,imx258.yaml          | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> index bee61a443b23..c7856de15ba3 100644
+>> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> @@ -14,10 +14,14 @@ description: |-
+>>    type stacked image sensor with a square pixel array of size 4208 x 3120. It
+>>    is programmable through I2C interface.  Image data is sent through MIPI
+>>    CSI-2.
+>> +  There are a number of variants of the sensor which cannot be detected at
+>> +  runtime, so multiple compatible strings are required to differentiate these.
+> 
+> That's more reasoning/why for the patch than description of the h/w.
+> 
+>>  properties:
+>>    compatible:
+>> -    const: sony,imx258
+>> +    - enum:
+>> +        - sony,imx258
+>> +        - sony,imx258-pdaf
+> 
+> How do I know which one to use? Please define what PDAF means somewhere 
+> as well as perhaps what the original/default variant is or isn't.
+
+Would it make sense to change the properties to include a description like so
+
+properties:
+  compatible:
+    enum:
+      - sony,imx258
+      - sony,imx258-pdaf
+    description:
+      The IMX258 sensor exists in two different models, a standard variant
+      (IMX258) and a variant with phase detection autofocus (IMX258-PDAF).
+      The camera module does not expose the model through registers, so the
+      exact model needs to be specified.
+
+> 
+>>  
+>>    assigned-clocks: true
+>>    assigned-clock-parents: true
+>> -- 
+>> 2.42.0
+>>
+
 
