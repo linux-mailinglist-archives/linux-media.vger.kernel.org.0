@@ -1,394 +1,147 @@
-Return-Path: <linux-media+bounces-8107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8110-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05C789049F
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 17:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775D58904E2
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 17:21:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6523128AFAE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 16:09:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32DCA28D261
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 16:21:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0532F130E36;
-	Thu, 28 Mar 2024 16:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94F212EBED;
+	Thu, 28 Mar 2024 16:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sa//59KI"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="aWfpoOad"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta135.mxroute.com (mail-108-mta135.mxroute.com [136.175.108.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E96432C9C
-	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 16:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE757E787
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 16:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711642167; cv=none; b=tQaZv18sAiHqomQDovClDr60akf88YkxQNQYpQBtlaG3KZCDGKQXF4ABiuZdrStWU+gnNlCTkZGNKJmChz7aH10PMLzIgaSVwgi9AmuFTStuVv3QRGNG/CegXsLke9Q384GSxhup+8/ElFwZu8wosY/1YPGzsdJEHIEaaE3yZXg=
+	t=1711642862; cv=none; b=jnz5/dc5HbpA3SNah69YZ8Jw+GIb5XYB5Crg8YIBpPUkZRMwhTKZqUE9rycOWTokEWgGXzJ3Av5NnCMhbhIzmIydN7qqIKUTlNHQ0HdkPYtGhx6xwlGozPRUNVwvG8rKbe1JTqUhRzrgcl25QxZ0QIO1BDtk0mLwvkY2j0gNaYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711642167; c=relaxed/simple;
-	bh=RiCXKidPVk42fOEufIRhISaHxzK5qHyfLF/pReK7YUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pd3YZtpE/Kke/L0gRiXnr2LPxGtcuCxBHs8LtmHPfXKe5W+gfebCbc+x1fAU7RpTplgOYEPoc+nIORDTsqropaJcPeRT2XW24Oz4WoGGcAGMxUmhP7ywsu466wR40VAzpaQnlx8agYaG3wi4dtQrZt7UyS9LybOq4kTTb4IRmL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sa//59KI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1CC3D20;
-	Thu, 28 Mar 2024 17:08:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711642130;
-	bh=RiCXKidPVk42fOEufIRhISaHxzK5qHyfLF/pReK7YUs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sa//59KILktSI0laqyvjnUIAbDHk+OXU4/OoySWD1OO9Z6JUn3A6vPu/f9eMNadWK
-	 peYKNDsjQdWctchPFK5rAzkHyua/OZn9tRG3QKgG6baaOXuI2OfXiIRVOxOWDD/Dvc
-	 YRe5h4UFlDZjinre/asE6oxg3iy1l7Y4mVCiI9jQ=
-Date: Thu, 28 Mar 2024 18:09:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH v7 02/15] media: i2c: imx219: Add internal image sink pad
-Message-ID: <20240328160912.GD11463@pendragon.ideasonboard.com>
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-3-laurent.pinchart@ideasonboard.com>
- <887c8055-245c-4768-abe6-29d17472b06c@ideasonboard.com>
+	s=arc-20240116; t=1711642862; c=relaxed/simple;
+	bh=YGOEk9oKZHq64MKnhZtMmCLowNGolRXyvDgx+imDZ0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fbZx4PSaexnc3aZji6W5RMJ0ri0qsK5jPYrdksPT0UsUkz866+TU0iKKuU0jCRZJwWD4qYOQsJ/lQcnWKSKXFG0IN8sCpEKmZLaQgoMuR4jBsSjvG7FMQspxYOXeD1KV1QkBV5KR6HsrJrgN3bnobK8GAPLZSklzBcOvnGsfFhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=aWfpoOad; arc=none smtp.client-ip=136.175.108.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta135.mxroute.com (ZoneMTA) with ESMTPSA id 18e85d89b8a0003bea.013
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 28 Mar 2024 16:15:49 +0000
+X-Zone-Loop: fbf0e620acb4468e23522b8d71abfa21254b10b7729e
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=cwugKwOI6owueldBI/qieNd7LO4DtJURj2EGZCG3x/k=; b=aWfpoOadUR4xHUIzRi70tTlv+/
+	blWiooHO+TqI/ECwvXsh8bJODVu6QbL4BKXe1C/0ZJfJy5n3dOTuLRSto2iucUnQDeGicb4NRqZhp
+	vnmvi7ImWm+XubSyGD2YuU95yIFWU5lQlhKb0xRzhsRXzbOV6BCXO8qCO/Tn4BxDqfij5fKEAavU2
+	1QNVduCGxvYgYuwu3UJ3e5I55Xvqaj7RTLphjVIMjLnbpYS9qdG7w/QYTBZIB9gD635qDn+ZO3O25
+	68ZljAx1ZIEIT7GuFZXS/9ZHQTgPcIP+HFyChMg7fvJ5ArbNtZ+7N7F8P14sqEgnDE4b/lpUI2Taq
+	3Y8+M4KQ==;
+Message-ID: <c6053c86-2ce9-412b-aaee-fbe1ac25b7c2@luigi311.com>
+Date: Thu, 28 Mar 2024 10:15:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <887c8055-245c-4768-abe6-29d17472b06c@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/23] dt-bindings: media: imx258: Rename to include
+ vendor prefix
+Content-Language: en-US
+To: Conor Dooley <conor.dooley@microchip.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Conor Dooley <conor@kernel.org>, git@luigi311.com,
+ linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240327231710.53188-1-git@luigi311.com>
+ <20240327231710.53188-18-git@luigi311.com>
+ <20240327-ninth-tulip-77191ad10fdd@spud>
+ <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
+ <171161592126.3072637.14564447281929105708@ping.linuxembedded.co.uk>
+ <20240328-prideful-unopposed-e29fcee74c29@wendy>
+From: Luigi311 <personal@luigi311.com>
+In-Reply-To: <20240328-prideful-unopposed-e29fcee74c29@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: personal@luigi311.com
 
-On Wed, Mar 27, 2024 at 11:51:49AM +0200, Tomi Valkeinen wrote:
-> On 25/03/2024 00:08, Laurent Pinchart wrote:
-> > Use the newly added internal pad API to expose the internal
-> > configuration of the sensor to userspace in a standard manner. This also
-> > paves the way for adding support for embedded data with an additional
-> > internal pad.
-> > 
-> > To maintain compatibility with existing userspace that may operate on
-> > pad 0 unconditionally, keep the source pad numbered 0 and number the
-> > internal image pad 1.
+On 3/28/24 04:15, Conor Dooley wrote:
+> On Thu, Mar 28, 2024 at 08:52:01AM +0000, Kieran Bingham wrote:
+>> Quoting git@luigi311.com (2024-03-28 00:57:34)
+>>> On 3/27/24 17:47, Conor Dooley wrote:
+>>>> On Wed, Mar 27, 2024 at 05:17:03PM -0600, git@luigi311.com wrote:
+>>>>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>>>>
+>>>>> imx258.yaml doesn't include the vendor prefix of sony, so
+>>>>> rename to add it.
+>>>>> Update the id entry and MAINTAINERS to match.
+>>>>>
+>>>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>>>>
+>>>> This is a v1 with my ack, something has gone awry here. It's also
+>>>> missing your signoff. Did you pick up someone else's series?
+>>>
+>>> Yes, this is a continuation of Dave's work. I contacted him directly,
+>>> and he mentioned that he is unable to submit a v2 any time soon and
+>>> was open to someone else continuing it in his stead.
 > 
-> If I remember right, we discussed that this (internal pads after 
-> external pads) would be the approach also for totally new drivers.
+> Ah okay. Unfortunately I see so many binding patches pass by that I
+> sometimes forget about what I already reviewed, and I did not
+> remember this one at all.
 
-Do you recall the rationale for that ? Compatibility (within some limits
-I suppose) with existing userspace for new drivers ?
+No worries I'm not surprised since i see constant things submitted
+to upstream and v1 was actually sent a year ago so there would be no
+shot that i would remember it either.
 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >   drivers/media/i2c/imx219.c | 169 +++++++++++++++++++++++++++++--------
-> >   1 file changed, 133 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 3878da50860e..817bf192e4d9 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -140,6 +140,7 @@
-> >   #define IMX219_DEFAULT_LINK_FREQ_4LANE	363000000
-> >   
-> >   /* IMX219 native and active pixel array size. */
-> > +#define IMX219_NATIVE_FORMAT		MEDIA_BUS_FMT_SRGGB10_1X10
-> >   #define IMX219_NATIVE_WIDTH		3296U
-> >   #define IMX219_NATIVE_HEIGHT		2480U
-> >   #define IMX219_PIXEL_ARRAY_LEFT		8U
-> > @@ -312,9 +313,15 @@ static const struct imx219_mode supported_modes[] = {
-> >   	},
-> >   };
-> >   
-> > +enum imx219_pad_ids {
-> > +	IMX219_PAD_SOURCE,
-> > +	IMX219_PAD_IMAGE,
-> > +	IMX219_NUM_PADS,
-> > +};
 > 
-> Nitpick, but if the numbering of the values is important, I always mark 
-> the first one "= 0", to make it clear(er) for the reader.
-
-I'll do that.
-
-> >   struct imx219 {
-> >   	struct v4l2_subdev sd;
-> > -	struct media_pad pad;
-> > +	struct media_pad pads[IMX219_NUM_PADS];
-> >   
-> >   	struct regmap *regmap;
-> >   	struct clk *xclk; /* system clock to IMX219 */
-> > @@ -374,7 +381,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >   	int ret = 0;
-> >   
-> >   	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > -	format = v4l2_subdev_state_get_format(state, 0);
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> >   
-> >   	if (ctrl->id == V4L2_CID_VBLANK) {
-> >   		int exposure_max, exposure_def;
-> > @@ -593,8 +600,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> >   	u64 bin_h, bin_v;
-> >   	int ret = 0;
-> >   
-> > -	format = v4l2_subdev_state_get_format(state, 0);
-> > -	crop = v4l2_subdev_state_get_crop(state, 0);
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
-> >   
-> >   	switch (format->code) {
-> >   	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > @@ -764,10 +771,25 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-> >   {
-> >   	struct imx219 *imx219 = to_imx219(sd);
-> >   
-> > -	if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
-> > -		return -EINVAL;
-> > +	if (code->pad == IMX219_PAD_IMAGE) {
-> > +		/* The internal image pad is hardwired to the native format. */
-> > +		if (code->index)
-> > +			return -EINVAL;
-> >   
-> > -	code->code = imx219_get_format_code(imx219, imx219_mbus_formats[code->index * 4]);
-> > +		code->code = IMX219_NATIVE_FORMAT;
-> > +	} else {
-> > +		/*
-> > +		 * On the source pad, the sensor supports multiple raw formats
-> > +		 * with different bit depths.
-> > +		 */
-> > +		u32 format;
-> > +
-> > +		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
-> > +			return -EINVAL;
-> > +
-> > +		format = imx219_mbus_formats[code->index * 4];
-> > +		code->code = imx219_get_format_code(imx219, format);
-> > +	}
-> >   
-> >   	return 0;
-> >   }
-> > @@ -777,19 +799,25 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> >   				  struct v4l2_subdev_frame_size_enum *fse)
-> >   {
-> >   	struct imx219 *imx219 = to_imx219(sd);
-> > -	u32 code;
-> >   
-> > -	if (fse->index >= ARRAY_SIZE(supported_modes))
-> > -		return -EINVAL;
-> > +	if (fse->pad == IMX219_PAD_IMAGE) {
-> > +		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
-> > +			return -EINVAL;
-> >   
-> > -	code = imx219_get_format_code(imx219, fse->code);
-> > -	if (fse->code != code)
-> > -		return -EINVAL;
-> > +		fse->min_width = IMX219_NATIVE_WIDTH;
-> > +		fse->max_width = IMX219_NATIVE_WIDTH;
-> > +		fse->min_height = IMX219_NATIVE_HEIGHT;
-> > +		fse->max_height = IMX219_NATIVE_HEIGHT;
-> > +	} else {
-> > +		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
-> > +		    fse->index >= ARRAY_SIZE(supported_modes))
-> > +			return -EINVAL;
-> >   
-> > -	fse->min_width = supported_modes[fse->index].width;
-> > -	fse->max_width = fse->min_width;
-> > -	fse->min_height = supported_modes[fse->index].height;
-> > -	fse->max_height = fse->min_height;
-> > +		fse->min_width = supported_modes[fse->index].width;
-> > +		fse->max_width = fse->min_width;
-> > +		fse->min_height = supported_modes[fse->index].height;
-> > +		fse->max_height = fse->min_height;
-> > +	}
-> >   
-> >   	return 0;
-> >   }
-> > @@ -801,9 +829,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >   	struct imx219 *imx219 = to_imx219(sd);
-> >   	const struct imx219_mode *mode;
-> >   	struct v4l2_mbus_framefmt *format;
-> > +	struct v4l2_rect *compose;
-> >   	struct v4l2_rect *crop;
-> >   	unsigned int bin_h, bin_v;
-> >   
-> > +	/*
-> > +	 * The driver is mode-based, the format can be set on the source pad
-> > +	 * only.
-> > +	 */
-> > +	if (fmt->pad != IMX219_PAD_SOURCE)
-> > +		return v4l2_subdev_get_fmt(sd, state, fmt);
-> > +
-> >   	/*
-> >   	 * Adjust the requested format to match the closest mode. The Bayer
-> >   	 * order varies with flips.
-> > @@ -822,22 +858,51 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >   	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >   	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-> >   
-> > -	format = v4l2_subdev_state_get_format(state, 0);
-> > +	/* Propagate the format through the sensor. */
-> > +
-> > +	/* The image pad models the pixel array, and thus has a fixed size. */
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_IMAGE);
-> >   	*format = fmt->format;
-> > +	format->code = IMX219_NATIVE_FORMAT;
-> > +	format->width = IMX219_NATIVE_WIDTH;
-> > +	format->height = IMX219_NATIVE_HEIGHT;
+>>> This is my first
+>>> time submitting a patch via a mailing list, so I'm not sure if I'm
+>>> missing something, but I only added my sign off for anything that
+>>> actually included work from my side and not just bringing his patch
+>>> forward to this patch series.
 > 
-> Isn't the image pad format always the same, and cannot be changed? The 
-> above hints otherwise. What fields can change in the image pad?
+> Right. The rules are that you need to add it when you send someone's
+> work, like chain of custody type of thing.
 
-None. I'll update the comment above to state
+Ohh i see, ok ill go ahead and add my sign off to all the patches then
 
-	/* The image pad models the pixel array, and thus has a fixed format. */
 
-The code behaviour matches that.
+> 
+>> Your cover letter states v2, but the individual patches do not.
+>>
+>> Add the '-v2' (or, rather, next it will be '-v3') to git format-patch
+>> when you save your series and it will add the version to each patch. You
+>> can also add '-s' to that command I believe to add your SoB to each
+>> patch.
+> 
+> or a rebase will do it with --signoff:
+> https://git-scm.com/docs/git-rebase#Documentation/git-rebase.txt---signoff
 
-> >   	/*
-> >   	 * Use binning to maximize the crop rectangle size, and centre it in the
-> >   	 * sensor.
-> >   	 */
-> > -	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / format->width, 2U);
-> > -	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
-> > +	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / fmt->format.width, 2U);
-> > +	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / fmt->format.height, 2U);
-> >   
-> > -	crop = v4l2_subdev_state_get_crop(state, 0);
-> > -	crop->width = format->width * bin_h;
-> > -	crop->height = format->height * bin_v;
-> > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
-> > +	crop->width = fmt->format.width * bin_h;
-> > +	crop->height = fmt->format.height * bin_v;
-> >   	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-> >   	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> >   
-> > +	/*
-> > +	 * The compose rectangle models binning, its size is the sensor output
-> > +	 * size.
-> > +	 */
-> > +	compose = v4l2_subdev_state_get_compose(state, IMX219_PAD_IMAGE);
-> > +	compose->left = 0;
-> > +	compose->top = 0;
-> > +	compose->width = fmt->format.width;
-> > +	compose->height = fmt->format.height;
-> > +
-> > +	/*
-> > +	 * No mode use digital crop, the source pad crop rectangle size and
-> > +	 * format are thus identical to the image pad compose rectangle.
-> > +	 */
-> > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
-> > +	crop->left = 0;
-> > +	crop->top = 0;
-> > +	crop->width = fmt->format.width;
-> > +	crop->height = fmt->format.height;
-> > +
-> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
-> > +	*format = fmt->format;
-> > +
-> >   	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >   		int exposure_max;
-> >   		int exposure_def;
-> > @@ -874,13 +939,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >   				struct v4l2_subdev_state *state,
-> >   				struct v4l2_subdev_selection *sel)
-> >   {
-> > -	switch (sel->target) {
-> > -	case V4L2_SEL_TGT_CROP: {
-> > -		sel->r = *v4l2_subdev_state_get_crop(state, 0);
-> > -		return 0;
-> > -	}
-> > +	struct v4l2_rect *compose;
-> >   
-> > +	switch (sel->target) {
-> >   	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > +		if (sel->pad != IMX219_PAD_IMAGE)
-> > +			return -EINVAL;
-> > +
-> >   		sel->r.top = 0;
-> >   		sel->r.left = 0;
-> >   		sel->r.width = IMX219_NATIVE_WIDTH;
-> > @@ -890,11 +955,35 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
-> >   
-> >   	case V4L2_SEL_TGT_CROP_DEFAULT:
-> >   	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > -		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-> > -		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-> > -		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-> > -		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> > +		switch (sel->pad) {
-> > +		case IMX219_PAD_IMAGE:
-> > +			sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-> > +			sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-> > +			sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-> > +			sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> > +			return 0;
-> >   
-> > +		case IMX219_PAD_SOURCE:
-> > +			compose = v4l2_subdev_state_get_compose(state,
-> > +								IMX219_PAD_IMAGE);
-> > +			sel->r.top = 0;
-> > +			sel->r.left = 0;
-> > +			sel->r.width = compose->width;
-> > +			sel->r.height = compose->height;
-> > +			return 0;
-> > +		}
-> > +
-> > +		break;
-> > +
-> > +	case V4L2_SEL_TGT_CROP:
-> > +		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
-> > +		return 0;
-> > +
-> > +	case V4L2_SEL_TGT_COMPOSE:
-> > +		if (sel->pad != IMX219_PAD_IMAGE)
-> > +			return -EINVAL;
-> > +
-> > +		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
-> >   		return 0;
-> >   	}
-> >   
-> > @@ -906,7 +995,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
-> >   {
-> >   	struct v4l2_subdev_format fmt = {
-> >   		.which = V4L2_SUBDEV_FORMAT_TRY,
-> > -		.pad = 0,
-> > +		.pad = IMX219_PAD_SOURCE,
-> >   		.format = {
-> >   			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> >   			.width = supported_modes[0].width,
-> > @@ -1174,10 +1263,18 @@ static int imx219_probe(struct i2c_client *client)
-> >   			    V4L2_SUBDEV_FL_HAS_EVENTS;
-> >   	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> >   
-> > -	/* Initialize source pad */
-> > -	imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > +	/*
-> > +	 * Initialize the pads. To preserve backward compatibility with
-> > +	 * userspace that used the sensor before the introduction of the
-> > +	 * internal image pad, the external source pad is numbered 0 and the
-> > +	 * internal image pad numbered 1.
-> > +	 */
-> > +	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> > +	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
-> > +					     | MEDIA_PAD_FL_INTERNAL;
-> >   
-> > -	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
-> > +	ret = media_entity_pads_init(&imx219->sd.entity,
-> > +				     ARRAY_SIZE(imx219->pads), imx219->pads);
-> >   	if (ret) {
-> >   		dev_err(dev, "failed to init entity pads: %d\n", ret);
-> >   		goto error_handler_free;
+Perfect thanks for the information you two! Ill be sure to use those 
+for the next revision.
 
--- 
-Regards,
+> 
+> Cheers,
+> Conor.
 
-Laurent Pinchart
 
