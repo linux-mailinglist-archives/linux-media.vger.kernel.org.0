@@ -1,143 +1,226 @@
-Return-Path: <linux-media+bounces-8102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8103-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AB98901B3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 15:26:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B90890256
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 15:55:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E0561C21673
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 14:26:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40CE8B22D01
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 14:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2E0B81737;
-	Thu, 28 Mar 2024 14:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7959312F585;
+	Thu, 28 Mar 2024 14:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOA8THAH"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="l9LeqVpT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BEB7F481
-	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 14:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA05A7F49E;
+	Thu, 28 Mar 2024 14:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711636001; cv=none; b=Ld59ejjZzrTh1p6KUWBSY+Jwn7CZnul8Hy5u1gTBkQ3GYnoupLKdXPzPXIPywNcF1FTaj6FO1mMnplqLq8aQX6jg6e9Kls9U+2hfNg4g2iTKa5mb9aREdO4s7ZsTCdTl3TIU/AawUBn6/SHyGH7qEWn24E72k94f+WuRf/ZFqGY=
+	t=1711637639; cv=none; b=IPugyFvwxGOL41c52xRGVmKpogYTBjjTjPTmpYrImgNgdfIj1vUf9zbdKFkncxKp6oqmOJq7wBjk1fkVgm9eoMEvPTL6nF2UHbyCoPSk4QkTJeq8CXy8qa50VGaUOGZtGZ8b6iiJJduUi2ZFwF/hwkuHQGw7WxRHgEMHfXg4AmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711636001; c=relaxed/simple;
-	bh=aUaeGXBlVve+SgsWl8THiQ47pF6fQMipESWvHeT5QW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KYgi7UeRQYYQW4FlUDoTHyh/emktLnJiWQgrITk+Zd/2ztyeqoBd+OGKykAO9TG9gbSLuOEdIB1c5tgBroTmYzcOuJPZ18ehx0iUYarSXi1EGvTZdkcu/jlY/8L1PdyqGGpBzkelTWqW26174b9P4URSTRDSysLuDPKvd7JE9rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOA8THAH; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ea895eaaadso192892b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 07:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711635999; x=1712240799; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DXRM7Q629i4Qice9e66tF5KEz9WaudBVobjE9h6tDcA=;
-        b=SOA8THAHlaIokKtAh3iJuP/U7QdN2XNPGvZIk8zdBQcnDtz8N3gv5ToU60dOi8hO1q
-         0uucGcbBaaMx/vEzZxRCCnD9LwOFE1tVsYafDkSae9VhQ8h4qTlTJFSEBmJcU453G/ND
-         MDbQKBoAn8UjAJRmNSBMCGnjFZGTgmo7KFBp3NH23Iu5Q8FgSp88m+R7gdN4MzyOYDZO
-         e2nt2h836xmOE/Hjt7FxokoZpaGTKj52FtwWZV0zxHsS9QGnVmYViaSaHrSFPPKidE4P
-         Sa9fG59b/S5wBPBXHv4OL0qp4mY550jYA5e68hB82+ZrkEBMCJI/PEVBwR05vXLmlH/S
-         KOnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711635999; x=1712240799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DXRM7Q629i4Qice9e66tF5KEz9WaudBVobjE9h6tDcA=;
-        b=T33ggyAr26WqvxMxBy3CWReYa/9EQ/jnzI4ynbOxwxlXA+GHLPas1TTYxXgUF6ikbT
-         mJdg9bxJWoPQcLionkBWA27WM4Zv9y6SErrlultOqt96GNObGNWsPbwQFTC9Pq3GSAPe
-         HxkaykY7fKLejVKM3u7xO6XUSStB7/bDjk4tXJ1oNLQewPGP/J0yOEzgWKPOlMGOz3T2
-         f+kRWwlJfX4vsRgissQhqyizc1ap04ww7aj60A2jK/s0fMYw+b1mffUjNky5GpM8aCwA
-         JRlX99g5Gnq4RYOGJyQbSbGl1EtiXIqCJk392VbUAlaJQG+YwciTlYd/bF/r1eZEgDFA
-         lk6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWBOntPXMf8Bjtk9NSAUNak3WDKfnB2zXeNxxzK+GGYJlZMC92TO9XDNs/9Amywi8Xxj21OCsaPIaOMIe8jw6zhiD7trbE2Nu/CPlQ=
-X-Gm-Message-State: AOJu0YzDh5pU03bPc2KfVWoXqKkW7uZUCKAL6iswOtGe1y0W4PkHPHEF
-	jrVWsOn6VP55fQfaiMnqFuN4YwB0RZkrrCOA+FqJyFCfTeAoHn9BrmQzRXKwnYXkeLR0BbmIa9s
-	mTLiL90OamLQ57+NEGLBlozVn6Kg=
-X-Google-Smtp-Source: AGHT+IGnQ98HJChv/y+Tr9GzUviQtc6/ofoI3aWA9dgNImxeV8CVHr9vjcYtTVSUx21ox5tr/gzMAmt7unGRR8IYBEU=
-X-Received: by 2002:a05:6a21:789b:b0:1a3:c3e6:aef3 with SMTP id
- bf27-20020a056a21789b00b001a3c3e6aef3mr3182353pzc.2.1711635999199; Thu, 28
- Mar 2024 07:26:39 -0700 (PDT)
+	s=arc-20240116; t=1711637639; c=relaxed/simple;
+	bh=q+l+CxYfGh8NmwrdiTXY1xVL3a2sjXtQLxyA/dT0Zoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s8+eLL1jM/v4+9A6HWfyvsVLaC4d0pg2DKwAVqSoMXlwKUsqEoNYsijT3C20VF8eoW9EN05UxCdD4I7VD7ZGSRAt/CV0WRWxxQmeaiQNzqeskRmchq+u4aHdJtCYIoENLJa2/nXIV5HObGUNcJjLl/z+17FLmr3u7gsz0IEBHG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=l9LeqVpT; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=nkqbgG1HrRF3ejvn+5iZhShKyFwlWg+3aA2aTIsKg7Y=; b=l9LeqVpTWjHKfGQt+kKRgbPf8s
+	WDAvhfYh7NGSMUBT3eh5GC3BQi5huG4D9JB5ZBx4Mqb3+esFsPfopskhXCorPVKofm1eftxDa2j5S
+	1zLJdlHiqsf2EF/zNn7eSnMC3u1sYU1+U5Xyn5SIXUH5DXkPEZTfI1FmrDxa9xorxPgxxp5A+uewc
+	eKLRmXUhXLcxbYcNi0X/ZBMFCRR8GOVw4Ko6rZBT36YuzPkYiG+fY8x2ecMVd8MRFyFjb3WJRreUz
+	59LzJf1f8s6AhFmM8GC3eOjxHZzmVJHy3KEkD4qF9EWg6ps8XNaHIVofUMCn1JCp5qUdKpK02FS73
+	S2eNoFAg==;
+Received: from [84.65.0.132] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1rpr8Q-00GHNP-GR; Thu, 28 Mar 2024 15:53:42 +0100
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com
+Subject: [PATCH] dma-buf: Do not build debugfs related code when !CONFIG_DEBUG_FS
+Date: Thu, 28 Mar 2024 14:53:23 +0000
+Message-ID: <20240328145323.68872-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240328051320.2428125-1-festevam@gmail.com> <20240328051320.2428125-2-festevam@gmail.com>
- <dbba19b3-0ca2-47a3-ac6c-58872da87f66@redhat.com>
-In-Reply-To: <dbba19b3-0ca2-47a3-ac6c-58872da87f66@redhat.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 28 Mar 2024 11:26:27 -0300
-Message-ID: <CAOMZO5AxGR4AzLueCB65US03nUDRvb_gS6S625WimmHdb+sZGQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: ov2680: Report success on link-frequency match
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: sakari.ailus@linux.intel.com, rmfrfs@gmail.com, hansg@kernel.org, 
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	Fabio Estevam <festevam@denx.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+From: Tvrtko Ursulin <tursulin@ursulin.net>
 
-[Adding DT folks]
+There is no point in compiling in the list and mutex operations which are
+only used from the dma-buf debugfs code, if debugfs is not compiled in.
 
-On Thu, Mar 28, 2024 at 8:27=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
- wrote:
+Put the code in questions behind some kconfig guards and so save some text
+and maybe even a pointer per object at runtime when not enabled.
 
-> I think that what is necessary for your case with fixed dts file is:
->
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index bcd031882a37..5c789b5a4bfb 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -1179,6 +1179,8 @@ static int ov2680_parse_dt(struct ov2680_dev *senso=
-r)
->                 goto out_free_bus_cfg;
->         }
->
-> +       ret =3D 0;
-> +
->  out_free_bus_cfg:
->         v4l2_fwnode_endpoint_free(&bus_cfg);
->         return ret;
->
-> and that then replaces both your patches, can you give this a try ?
+Signed-off-by: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kernel-dev@igalia.com
+---
+ drivers/dma-buf/dma-buf.c | 56 ++++++++++++++++++++++++---------------
+ include/linux/dma-buf.h   |  2 ++
+ 2 files changed, 36 insertions(+), 22 deletions(-)
 
-This works fine if I pass link-frequencies in the dts, thanks.
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 8fe5aa67b167..8892bc701a66 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,12 +35,35 @@
+ 
+ static inline int is_dma_buf_file(struct file *);
+ 
+-struct dma_buf_list {
+-	struct list_head head;
+-	struct mutex lock;
+-};
++#if IS_ENABLED(CONFIG_DEBUG_FS)
++static DEFINE_MUTEX(debugfs_list_mutex);
++static LIST_HEAD(debugfs_list);
+ 
+-static struct dma_buf_list db_list;
++static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
++{
++	mutex_lock(&debugfs_list_mutex);
++	list_add(&dmabuf->list_node, &debugfs_list);
++	mutex_unlock(&debugfs_list_mutex);
++}
++
++static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
++{
++	if (!dmabuf)
++		return;
++
++	mutex_lock(&debugfs_list_mutex);
++	list_del(&dmabuf->list_node);
++	mutex_unlock(&debugfs_list_mutex);
++}
++#else
++static void __dma_buf_debugfs_list_add(struct dma_buf *dmabuf)
++{
++}
++
++static void __dma_buf_debugfs_list_del(struct file *file)
++{
++}
++#endif
+ 
+ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ {
+@@ -89,17 +112,10 @@ static void dma_buf_release(struct dentry *dentry)
+ 
+ static int dma_buf_file_release(struct inode *inode, struct file *file)
+ {
+-	struct dma_buf *dmabuf;
+-
+ 	if (!is_dma_buf_file(file))
+ 		return -EINVAL;
+ 
+-	dmabuf = file->private_data;
+-	if (dmabuf) {
+-		mutex_lock(&db_list.lock);
+-		list_del(&dmabuf->list_node);
+-		mutex_unlock(&db_list.lock);
+-	}
++	__dma_buf_debugfs_list_del(file->private_data);
+ 
+ 	return 0;
+ }
+@@ -672,9 +688,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	file->f_path.dentry->d_fsdata = dmabuf;
+ 	dmabuf->file = file;
+ 
+-	mutex_lock(&db_list.lock);
+-	list_add(&dmabuf->list_node, &db_list.head);
+-	mutex_unlock(&db_list.lock);
++	__dma_buf_debugfs_list_add(dmabuf);
+ 
+ 	return dmabuf;
+ 
+@@ -1611,7 +1625,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 	size_t size = 0;
+ 	int ret;
+ 
+-	ret = mutex_lock_interruptible(&db_list.lock);
++	ret = mutex_lock_interruptible(&debugfs_list_mutex);
+ 
+ 	if (ret)
+ 		return ret;
+@@ -1620,7 +1634,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 	seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\tname\n",
+ 		   "size", "flags", "mode", "count", "ino");
+ 
+-	list_for_each_entry(buf_obj, &db_list.head, list_node) {
++	list_for_each_entry(buf_obj, &debugfs_list, list_node) {
+ 
+ 		ret = dma_resv_lock_interruptible(buf_obj->resv, NULL);
+ 		if (ret)
+@@ -1657,11 +1671,11 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ 
+ 	seq_printf(s, "\nTotal %d objects, %zu bytes\n", count, size);
+ 
+-	mutex_unlock(&db_list.lock);
++	mutex_unlock(&debugfs_list_mutex);
+ 	return 0;
+ 
+ error_unlock:
+-	mutex_unlock(&db_list.lock);
++	mutex_unlock(&debugfs_list_mutex);
+ 	return ret;
+ }
+ 
+@@ -1718,8 +1732,6 @@ static int __init dma_buf_init(void)
+ 	if (IS_ERR(dma_buf_mnt))
+ 		return PTR_ERR(dma_buf_mnt);
+ 
+-	mutex_init(&db_list.lock);
+-	INIT_LIST_HEAD(&db_list.head);
+ 	dma_buf_init_debugfs();
+ 	return 0;
+ }
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 8ff4add71f88..36216d28d8bd 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -370,8 +370,10 @@ struct dma_buf {
+ 	 */
+ 	struct module *owner;
+ 
++#if IS_ENABLED(CONFIG_DEBUG_FS)
+ 	/** @list_node: node for dma_buf accounting and debugging. */
+ 	struct list_head list_node;
++#endif
+ 
+ 	/** @priv: exporter specific private data for this buffer object. */
+ 	void *priv;
+-- 
+2.44.0
 
---- a/arch/arm/boot/dts/nxp/imx/imx7s-warp.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx7s-warp.dts
-@@ -210,6 +210,7 @@ ov2680_to_mipi: endpoint {
-                                remote-endpoint =3D <&mipi_from_sensor>;
-                                clock-lanes =3D <0>;
-                                data-lanes =3D <1>;
-+                               link-frequencies =3D /bits/ 64 <340000000>;
-                        };
-                };
-        };
-
-Can we allow the probe to succeed even if 'link frequencies' is absent?
-
-That was my goal on patch 1/2: to keep existing dtb's functional.
-
-Otherwise, the old dtb's without 'link-frequencies' will be broken and I'm =
-not
-sure if the DT folks will accept a patch passing link-frequencies to
-imx7s-warp.dts
-as a fix to be backported to 6.6.
-
-ovti,ov2680.yaml will also need to be changed to include 'link-frequencies'=
- as
-a required property.
-
-Thoughts?
 
