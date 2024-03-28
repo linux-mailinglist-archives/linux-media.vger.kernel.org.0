@@ -1,187 +1,151 @@
-Return-Path: <linux-media+bounces-8083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C8088FC79
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:09:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CC588FC81
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:10:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B4AD294332
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 10:09:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A8B81C2D5FF
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 10:10:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711267C6D5;
-	Thu, 28 Mar 2024 10:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB76E7D089;
+	Thu, 28 Mar 2024 10:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kuMfx8bc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E7CyJ3/s"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2FiZjsn4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A118C53E28;
-	Thu, 28 Mar 2024 10:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A3D7C6D5
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 10:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711620553; cv=none; b=EnaqEe2QUFIs8TC+WICkGDZbH4V8VpB9vOelr1DsNs9YtqAYOAIa/mBICx9YxJiwnEsxPvQS5vlFEWVUmlAvKQsRXykysudS9WqM7sEUZDvolOSPnv30jAG5PYAtHA2x8d5p0M4iPkY+BywZmg8+n+hp/he8ZVLTlPQr3XoCr1o=
+	t=1711620579; cv=none; b=Per7HOLOyyXyNElk013a20YQn0ADPt4++wY2ISKLqXVv50kI65w87V8Df5oXbIDqccRLjsT8ztMIKBE+37Sx3q+cgrONIwJ6oB4F6FZnHbpPZwSgYwy9ABv3Jaqs9CC7uwQDaRkJaEAQPA8Gq2+diw0aE+bldj3UDa74DNqdXhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711620553; c=relaxed/simple;
-	bh=rjRj8lT9t8c0kTmFFh6anVK23ZDO/NaAc4KKhIVP/Dg=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=pgza2ybZzsFYyiDRMB00k8z+4gp+4nQ1/S3jErV3GuJ8R3SVhCGZn6iVeaacnIEWLdEE88n1HW1qqaHtFNDNDsP2T97nvLBlcTVTE6YnPn5VsxT50sYycS3D4MZCd64kB66n5ZcCtiHH575KJwjfztDT1XdLN/SnYNC1oghyDb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kuMfx8bc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E7CyJ3/s; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 93C1413800CC;
-	Thu, 28 Mar 2024 06:09:10 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 28 Mar 2024 06:09:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1711620550; x=1711706950; bh=pYBjGEQadh
-	25rkMc0fkoc5Y7p79L1tP3xKDkS0IogRA=; b=kuMfx8bc1R4WUipcKL3tIzF3N4
-	t3zOBlcnNWDIjDe7ipHZ2vdT8gjFEPI1e+ODQbTkh7dUk5LNLdH719riG/7S23u9
-	309OowkR1D0rX5rjd1oDDkcNZe/zfRVVl/h7s7JfZ0aDU1bPjSm0hIEnzbFG9z5d
-	fZQs/LIhA7ZaDgthlMZZPByr7T+nIaqNafh0zRk/d9JNzTnIwNM75wPeatuGsvJu
-	Vq9S8uOTkkaEMlwp3RXo+JBYMzLwFYLCKo/A1UzzbQWuBCuXekHkJzt6XPQ8TNq0
-	tQYhv/S7h0++y+XLR2ohIzKvK/W4GKBW0sO7O0tHfshYhs7bYX0yHfgvb/2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1711620550; x=1711706950; bh=pYBjGEQadh25rkMc0fkoc5Y7p79L
-	1tP3xKDkS0IogRA=; b=E7CyJ3/sS3/gu76u1633stL9057wQIWYvG9vs6NHo239
-	7KFVH5M+YFwRBpbadfOh0IrOE9j4E7XE2sRBAIPKToAbDSVOK/ax1a0sOrbNo1ee
-	HE2lX3ra68I5G6+wDY65qsdnqLej3HDSJFNyvB6/pL9He2U4fdOMxGYaZ0mva4gx
-	tJF6Lfvk2fEXAm0uFD9oIE3EiQrZhWq8TW2d9nb3vmsns61RTvDrPIxeT4GFvMi/
-	wMG6FliHZtmYgvC6R+hGoAU23GBHUBuECiPfrHriLa5i6tczRd0gr63KSOr/UuG+
-	wWszyTwz22LUBqLfZhgf0rb6euQgm1MTKFDblo6DTg==
-X-ME-Sender: <xms:xEEFZolFPnT81Y-rndenCatO24lANcXwvUAv5AbEcS6B-fVcESzGpg>
-    <xme:xEEFZn3NPqHUVb1AhRyUqb5lXl84u2sw1P5dnDZdhqRie4xQImtwjSJc52BIh0l55
-    tLPsrk9hiHSfeAkQ-U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudduledgudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:xEEFZmok-OCemU4JAF5NU7jOeDZ0210zw_dLM7C15bHf57_OfZn3fQ>
-    <xmx:xEEFZkkp-nxlq4w1XAeOI--fNjf8CgUJC5qdXlw0QOLYa6255LvI2g>
-    <xmx:xEEFZm3uKpGPWEVtVjuP0m1GHYswkywEhk7aH97h7ry4lumVs3mO8w>
-    <xmx:xEEFZrsO4DTwAwnWN8Y9emNtvmcbBvklHjtDyl9-an0DJHfoFqkixQ>
-    <xmx:xkEFZk17tDydakQ4cViz-gWKfkvwjCrZ3ZRO6zwIJ5CzvibKhGcP5g>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id E6410B6008D; Thu, 28 Mar 2024 06:09:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
+	s=arc-20240116; t=1711620579; c=relaxed/simple;
+	bh=FrsEbllgu5nSWbKKPqP082m+wmXkceS/8bSVAZaHeLY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pSyLxhZP858HW8USKkzTObwP3Vp932qeZ36A6MeD+qAKl2UtDQHld8kN0tjJuS4ZKTgRwUuQxXQTd9PVRL7Y9nFQMtVE/rZfLNCwRUy7JW548b77fXNF8pRPVUbNZuxX/mYPlq5ezFCqUZgY09L004t3wSOtVDAvQl+wPh31pdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=2FiZjsn4; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-34100f4f9a2so465651f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 03:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711620574; x=1712225374; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
+        b=2FiZjsn4MJ87jzjepIbZmu/mDB5NHlpk2J0DU7pHikoV+lccS1VkhpjkI7om9XLyNb
+         ABJXpsAVquGp8pePCVL+OmGITO7+Pb67E8pbxLMronhgcKIW3e0SBiSDI36C8Je9twMI
+         ZPPX/zuSakN1NlvEciPnMHdTqgLNJCzosn7ed1AJtyfloX8ITMOz46QgePwTbwxHBLfT
+         7T2ccdCx9Ep0WUoIA3vLBoAhN326whA11b5MnqZkKh/saq/tSI8P93myCbqimgXb5BAj
+         1UbBM3Ox4gjLZoOBG3ZJtIfwg8WcDRtg8HyYKjA6zh1kHdfbQAF4+eBL/PFHIe5Qtk0p
+         e1Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711620574; x=1712225374;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
+        b=Wgj93VZMB5/jWK23sUxUd7D+nFO1Z4xmAPW9JhnCLbJOsP7hNYY5zQz+GL9WdhtUA7
+         +Ncjx94fdTTOgX5S2MRjdZkn3EAWz7hdAoSYvbgqMGw7oXeFpzBfuUxnTROcdJpRq+eu
+         CaQDarqo6Vu+ppfeS5Ev5vVykZYFBZj69zncKZjdQ8IFVRIxT9NGserHHLm5Fb3fL2a0
+         qeMg0Hfd+JGXbGHmRLUMUX/3ocU3VvthTjCtY6V+0EaQMOvbL80bFdk0SdmQrg7VcFEN
+         OxVRAbZk2xq5lYWzzLQW5lxT1ZogP/7t+1euf9iUxFuooWXchlI7PTg+QWMeESBLdJgp
+         54Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCVhsSUBQf0fR586JALUfDMubwOm27jl6RgNOj+L3peqZMi9cvtL4heABKskS6htEDW3jVdjcXK0SYYsIRCwl44d4Ra7gfpVqFFAsbk=
+X-Gm-Message-State: AOJu0YxSVeEhef3Zn2KWd8OmK5kNJ8yzm/Lvp67uymQe2rPzzG2o2dsM
+	VsCPEtIhh5gqhKNGAm2A1rAXFrcH2DoFwRjqiwDpGhUF9EiGSm1pTSy2ZZ+yrec=
+X-Google-Smtp-Source: AGHT+IFGHWYadDJCgABhwjbgmr/G/9ahD5CWJZRFUjAkHe014xq2ZOOYv0q270M74EFrQt4il5g9rw==
+X-Received: by 2002:a5d:6d82:0:b0:33e:9292:b194 with SMTP id l2-20020a5d6d82000000b0033e9292b194mr2493550wrs.14.1711620574475;
+        Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
+Received: from [10.1.5.127] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id ea2-20020a0560000ec200b003432d79876esm1316197wrb.97.2024.03.28.03.09.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
+Message-ID: <4dba5a65-d1dc-4a80-bcaa-fe9ba02c5082@baylibre.com>
+Date: Thu, 28 Mar 2024 11:09:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <2e9257af-c123-406b-a189-eaebeecc1d71@app.fastmail.com>
-In-Reply-To: <ZgUGXTKPVhrA1tam@matsya>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-3-apais@linux.microsoft.com> <ZgUGXTKPVhrA1tam@matsya>
-Date: Thu, 28 Mar 2024 11:08:47 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Vinod Koul" <vkoul@kernel.org>, "Allen Pais" <apais@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, "Tejun Heo" <tj@kernel.org>,
- "Kees Cook" <keescook@chromium.org>, "Hector Martin" <marcan@marcan.st>,
- "Sven Peter" <sven@svenpeter.dev>,
- "Florian Fainelli" <florian.fainelli@broadcom.com>,
- "Ray Jui" <rjui@broadcom.com>, "Scott Branden" <sbranden@broadcom.com>,
- "Paul Cercueil" <paul@crapouillou.net>, Eugeniy.Paltsev@synopsys.com,
- "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>,
- "Viresh Kumar" <vireshk@kernel.org>, "Frank Li" <Frank.Li@nxp.com>,
- "Leo Li" <leoyang.li@nxp.com>, zw@zh-kernel.org,
- "Zhou Wang" <wangzhou1@hisilicon.com>, haijie1@huawei.com,
- "Shawn Guo" <shawnguo@kernel.org>,
- "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Sean Wang" <sean.wang@mediatek.com>,
- "Matthias Brugger" <matthias.bgg@gmail.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, logang@deltatee.com,
- "Daniel Mack" <daniel@zonque.org>,
- "Haojian Zhuang" <haojian.zhuang@gmail.com>,
- "Robert Jarzmik" <robert.jarzmik@free.fr>,
- "Bjorn Andersson" <andersson@kernel.org>,
- "Konrad Dybcio" <konrad.dybcio@linaro.org>,
- "Orson Zhai" <orsonzhai@gmail.com>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Chunyan Zhang" <zhang.lyra@gmail.com>,
- "Patrice Chotard" <patrice.chotard@foss.st.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Chen-Yu Tsai" <wens@csie.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, peter.ujfalusi@gmail.com,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>,
- "Dexuan Cui" <decui@microsoft.com>,
- "Jassi Brar" <jassisinghbrar@gmail.com>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
- "Ulf Hansson" <ulf.hansson@linaro.org>,
- "Manuel Lauss" <manuel.lauss@gmail.com>,
- =?UTF-8?Q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
- "jh80.chung" <jh80.chung@samsung.com>, oakad@yahoo.com,
- "Kunihiko Hayashi" <hayashi.kunihiko@socionext.com>,
- "Masami Hiramatsu" <mhiramat@kernel.org>, brucechang@via.com.tw,
- HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr,
- "Alan Stern" <stern@rowland.harvard.edu>,
- "Oliver Neukum" <oneukum@suse.com>,
- openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org,
- "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-s390@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Conor Dooley
+ <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Takashi Iwai <tiwai@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>, Flora Fu <flora.fu@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon <will@kernel.org>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 28, 2024, at 06:55, Vinod Koul wrote:
-> On 27-03-24, 16:03, Allen Pais wrote:
->> The only generic interface to execute asynchronously in the BH context is
->> tasklet; however, it's marked deprecated and has some design flaws. To
->> replace tasklets, BH workqueue support was recently added. A BH workqueue
->> behaves similarly to regular workqueues except that the queued work items
->> are executed in the BH context.
->
-> Thanks for conversion, am happy with BH alternative as it helps in
-> dmaengine where we need shortest possible time between tasklet and
-> interrupt handling to maximize dma performance
+Hi Angelo
 
-I still feel that we want something different for dmaengine,
-at least in the long run. As we have discussed in the past,
-the tasklet context in these drivers is what the callbacks
-from the dma client device is run in, and a lot of these probably
-want something other than tasklet context, e.g. just call
-complete() on a client-provided completion structure.
+On 26/02/2024 15:54, AngeloGioacchino Del Regno wrote:
+> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
+>> This serie aim to add the following audio support for the Genio 350-evk:
+>> - Playback
+>>    - 2ch Headset Jack (Earphone)
+>>    - 1ch Line-out Jack (Speaker)
+>>    - 8ch HDMI Tx
+>> - Capture
+>>    - 1ch DMIC (On-board Digital Microphone)
+>>    - 1ch AMIC (On-board Analogic Microphone)
+>>    - 1ch Headset Jack (External Analogic Microphone)
+>>
+>> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+>> change documented in "mediatek,mt8365-mt6357.yaml".
+>>
+>> [1]: 
+>> https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
+>>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
+> Actually, I am cooking a series (I'm finishing the testing....) that 
+> brings quite
+> a bit of cleanups in MTK ASoC, including the commonization of the 
+> machine driver
+> probe, with the dai-link DT nodes, and which also modernizes most of the 
+> existing
+> drivers to use that instead.
+> 
+> If you wait for a day or two, your mt8365-mt6357.c driver's probe 
+> function can be
+> shrunk to ~3 lines or something like that.. very easily :-)
 
-Instead of open-coding the use of the system_bh_wq in each
-dmaengine, how about we start with a custom WQ_BH
-specifically for the dmaengine subsystem and wrap them
-inside of another interface.
+Just to inform you. I'm aware of your serie. Currently, I've fixed my 
+patches according to the comments. The next step will be to rebase my 
+serie over yours and do the changes to be aligned with your new 
+implementation.
 
-Since almost every driver associates the tasklet with the
-dma_chan, we could go one step further and add the
-work_queue structure directly into struct dma_chan,
-with the wrapper operating on the dma_chan rather than
-the work_queue.
+I've planned to review your serie during my last task, but it seems 
+already approved and already (partially) merged into linux-next, sorry.
 
-      Arnd
+
+-- 
+Regards,
+Alexandre
 
