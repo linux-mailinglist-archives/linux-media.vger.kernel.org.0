@@ -1,124 +1,537 @@
-Return-Path: <linux-media+bounces-8142-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84EF890C57
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 22:17:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1047A890CAB
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 22:50:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5714A1F24C6A
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 21:17:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 021521C29664
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 21:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E37013AD07;
-	Thu, 28 Mar 2024 21:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D11E313AA43;
+	Thu, 28 Mar 2024 21:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="TtnrXRvD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GpxsgkOl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta175.mxroute.com (mail-108-mta175.mxroute.com [136.175.108.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2809B13AA4E
-	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 21:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C530B1327EF
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 21:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711660607; cv=none; b=MNlW+KUqg+kpH0ECmgXwF4H/ePKEV0IYz64U4LqGEdpOfsHruZzWDZwDa+mn6pWfUT1l4uPGpAeOQVerlwYvFLCUUl4zeeBStrZLsSzUkbGjti4w5v0akCfTMYhat4P5Y6noYm++l/P+TVQ4l9nf39sitJT8o0foEtGvxgR2/fY=
+	t=1711662597; cv=none; b=ThYLzn+aydtG8t/4Vxu7yGDPCezpzN04EygDo1EB7uzoo5eEMdCcR/AXDJD1MeUW/uqXjc663Xydi9KBDsSDLFl15bpsc9X0SmHiJrBnd+7ioG+IYiHxe5k3uH4okp6eH42DGyObI7kVKvvGEpJKit+iLUtikKXKe159BHtB7Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711660607; c=relaxed/simple;
-	bh=SmKe/yhbdoqPTkVgza3Z9zpPopSENs97/wuhoRbvMyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BrEJIBGXuC35fpQw4KEdbU56XD7hV+8dCvJGri2i+rvCK346gZa6TC7HAcyg9GKAwxKcCYxe/uXE9BcJs/BpPFbA24vX/J19X64tiqf3SoQx5m0tP2GZY6mhWphFdq0mDhA88S5onOXfAOjv0T15df6FBr8r5LyJA6wBnBgswpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=TtnrXRvD; arc=none smtp.client-ip=136.175.108.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
-Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta175.mxroute.com (ZoneMTA) with ESMTPSA id 18e86e7622a0003bea.010
- for <linux-media@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Thu, 28 Mar 2024 21:11:34 +0000
-X-Zone-Loop: 2b31cd501de8bdf190ed490892327e97384fc26b6a3d
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=U3vA31p2lCcvrgxArhpPfKr/obl7YqxdRKOAsY1yIDU=; b=TtnrXRvDf5iKOq9md3gYBJgkd+
-	50j/o9jDkhCu8YIyPGLZw7E8WigRPTOJ4G4Nrz0UCRzmgneGbOKLcrTJ04VfhTVa/2PLU/ijkI1G2
-	ww+ltK+lO8BBfeUpQt/gsDb6UcypvcsIvwstVAEF58qAa4Lj+wffl5isvD+HbVFRsOlEBvtkPkqbp
-	jS685hwqLYFwrghjaoXJwzVL5nVp3gsf9/Z/lR2OsKS74T3OIFF1Wik5emFkVsK7JMbVJcnTliM+H
-	gqLdWV+Kfb24IjgwIP54HbSboM9aPHHavSSpL2ruScZxIHMi79z0E7fJ1Kmp7UKA3p8qcOMCNcg3Q
-	kAi/Moww==;
-Message-ID: <9cb0756c-466e-4e1c-8eb1-3a98bbfa0cac@luigi311.com>
-Date: Thu, 28 Mar 2024 15:11:28 -0600
+	s=arc-20240116; t=1711662597; c=relaxed/simple;
+	bh=ZwRsWNoLzuRLlfo21evPc4dK7JT+zhg4G0LJIXG1fAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4OQ6khHgSbsUh4aZLuJZ0gGbjfjmkHXUAIszOSD6kWOoQsDMmiIljLQtmf7UjZr1474a7f8QKK6MJOz7fBNmff7OQQVKoEdSB/qU+ip7rhnSsOTEj1zqzclO8TKb8b5Qac7xlVKr2cTTyxIseJXCl9IN3k62S3+OlvCQMTV8sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GpxsgkOl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 577C8D20;
+	Thu, 28 Mar 2024 22:49:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711662558;
+	bh=ZwRsWNoLzuRLlfo21evPc4dK7JT+zhg4G0LJIXG1fAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GpxsgkOlqBB/cT6NAKyKBg8XyU93TVPLqN2K/PhHGFQhak3xRKcVYXhZVisSuoxmf
+	 vVV/ecUhm9aWItekKXPlw13rwjeKaCKpHVVWMYWHqNhCswFH39scATANZZVunPyJVk
+	 ZLJbBRvo596rddkYAWouJfZh9VwgUFpzMOl0mLUI=
+Date: Thu, 28 Mar 2024 23:49:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH v7 05/15] media: i2c: imx219: Add embedded data support
+Message-ID: <20240328214940.GF11463@pendragon.ideasonboard.com>
+References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
+ <20240324220854.15010-6-laurent.pinchart@ideasonboard.com>
+ <f44c64ad-78b0-41a5-be12-27835f3babfa@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 22/23] drivers: media: i2c: imx258: Add support for
- powerdown gpio
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
- jacopo.mondi@ideasonboard.com, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
-References: <20240327231710.53188-1-git@luigi311.com>
- <20240327231710.53188-23-git@luigi311.com>
- <20240328204841.GA318468-robh@kernel.org>
-From: Luigi311 <git@luigi311.com>
-In-Reply-To: <20240328204841.GA318468-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Id: git@luigi311.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f44c64ad-78b0-41a5-be12-27835f3babfa@ideasonboard.com>
 
-On 3/28/24 14:48, Rob Herring wrote:
-> On Wed, Mar 27, 2024 at 05:17:08PM -0600, git@luigi311.com wrote:
->> From: Luigi311 <git@luigi311.com>
->>
->> On some boards powerdown signal needs to be deasserted for this
->> sensor to be enabled.
->>
->> Signed-off-by: Ondrej Jirman <megi@xff.cz>
->> ---
->>  .../devicetree/bindings/media/i2c/sony,imx258.yaml  |  4 ++++
+Hi Tomi,
+
+On Wed, Mar 27, 2024 at 12:51:11PM +0200, Tomi Valkeinen wrote:
+> On 25/03/2024 00:08, Laurent Pinchart wrote:
+> > The IMX219 generates embedded data unconditionally. Report it as an
+> > additional stream, with a new internal embedded data pad, and update
+> > subdev operations accordingly.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v6:
+> > 
+> > - Get format from IMX219_STREAM_IMAGE in imx219_set_ctrl()
+> > - Fix mbus code for second stream in imx219_get_frame_desc()
+> > - Set V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag on route
+> > ---
+> >   drivers/media/i2c/imx219.c | 188 +++++++++++++++++++++++++++++++------
+> >   1 file changed, 160 insertions(+), 28 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index fa64bc402c9a..86a0ebf6d65f 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -149,6 +149,9 @@
+> >   #define IMX219_PIXEL_ARRAY_WIDTH	3280U
+> >   #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
+> >   
+> > +/* Embedded metadata stream height */
+> > +#define IMX219_EMBEDDED_DATA_HEIGHT	2U
+> > +
+> >   /* Mode : resolution and related config&values */
+> >   struct imx219_mode {
+> >   	/* Frame width */
+> > @@ -317,9 +320,15 @@ static const struct imx219_mode supported_modes[] = {
+> >   enum imx219_pad_ids {
+> >   	IMX219_PAD_SOURCE,
+> >   	IMX219_PAD_IMAGE,
+> > +	IMX219_PAD_EDATA,
+> >   	IMX219_NUM_PADS,
+> >   };
+> >   
+> > +enum imx219_stream_ids {
+> > +	IMX219_STREAM_IMAGE,
+> > +	IMX219_STREAM_EDATA,
+> > +};
+> > +
+> >   struct imx219 {
+> >   	struct v4l2_subdev sd;
+> >   	struct media_pad pads[IMX219_NUM_PADS];
+> > @@ -382,7 +391,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> >   	int ret = 0;
+> >   
+> >   	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
+> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +					      IMX219_STREAM_IMAGE);
 > 
-> Bindings should be a separate patch.
+> As mentioned in the previous mail, all these lines could be in a 
+> separate patch, they are not related to embedded data support.
+
+Done.
+
+> >   	if (ctrl->id == V4L2_CID_VBLANK) {
+> >   		int exposure_max, exposure_def;
+> > @@ -610,6 +620,25 @@ static unsigned int imx219_format_bpp(u32 code)
+> >   	}
+> >   }
+> >   
+> > +/* Return the embedded data format corresponding to an image format. */
+> > +static u32 imx219_format_edata(u32 code)
+> > +{
+> > +	switch (code) {
+> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +		return MEDIA_BUS_FMT_META_8;
+> > +
+> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +	default:
+> > +		return MEDIA_BUS_FMT_META_10;
+> > +	}
+> > +}
 > 
+> You could also switch based on imx219_format_bpp().
 
-Ok ill create separate patch for adding in the binding and then
-a follow up patch with the other half that actually adds it to
-the driver
+Is that better ? I can also get rid of the function and do this in its
+single caller:
 
->>  drivers/media/i2c/imx258.c                          | 13 +++++++++++++
->>  2 files changed, 17 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->> index c7856de15ba3..0414085bf22f 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
->> @@ -35,6 +35,10 @@ properties:
->>    reg:
->>      maxItems: 1
->>  
->> +  powerdown-gpios:
->> +    description: |-
+        ed_format->code = imx219_format_bpp(format->code) == 10
+                        ? MEDIA_BUS_FMT_META_10 : MEDIA_BUS_FMT_META_8;
+
+but a helper function probably makes things a bit more readable. Let me
+know what you prefer.
+
+> >   static int imx219_set_framefmt(struct imx219 *imx219,
+> >   			       struct v4l2_subdev_state *state)
+> >   {
+> > @@ -619,7 +648,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+> >   	u64 bin_h, bin_v;
+> >   	int ret = 0;
+> >   
+> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +					      IMX219_STREAM_IMAGE);
+> >   	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
+> >   	bpp = imx219_format_bpp(format->code);
+> >   
+> > @@ -774,17 +804,33 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >   {
+> >   	struct imx219 *imx219 = to_imx219(sd);
+> >   
+> > -	if (code->pad == IMX219_PAD_IMAGE) {
+> > +	switch (code->pad) {
+> > +	case IMX219_PAD_IMAGE:
+> >   		/* The internal image pad is hardwired to the native format. */
+> > -		if (code->index)
+> > +		if (code->index > 0)
 > 
-> Don't need '|-' if no formatting> 
+> Was there something wrong with if (code->index)? I don't mind the 
+> change, but it's not related to adding embedded data support.
 
-Done
+I find it more explicit, I read it as "if the code index is higher than
+the number of supported values" instead of "if the code has an index".
 
->> +      Reference to the GPIO connected to the PWDN pin, if any.
->> +
->>    reset-gpios:
->>      description: |-
->>        Reference to the GPIO connected to the XCLR pin, if any.
+> Also, you added the line in patch 2, so you could change it already in
+> there.
 
+I'll change it there.
+
+> Normally it wouldn't matter that much, but I think it makes sense trying 
+> to make the imx219 patches as clean as possible, as they'll be used for 
+> reference.
+
+Yes, I noticed an unusual amount of nit-picking :-)
+
+> >   			return -EINVAL;
+> >   
+> >   		code->code = IMX219_NATIVE_FORMAT;
+> > -	} else {
+> > -		/*
+> > -		 * On the source pad, the sensor supports multiple raw formats
+> > -		 * with different bit depths.
+> > -		 */
+> > +		return 0;
+> > +
+> > +	case IMX219_PAD_EDATA:
+> > +		if (code->index > 0)
+> > +			return -EINVAL;
+> > +
+> > +		code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
+> > +		return 0;
+> > +
+> > +	case IMX219_PAD_SOURCE:
+> > +	default:
+> > +		break;
+> > +	}
+> > +
+> > +	/*
+> > +	 * On the source pad, the sensor supports multiple image raw formats
+> > +	 * with different bit depths. The embedded data format bit depth
+> > +	 * follows the image stream.
+> > +	 */
+> > +	if (code->stream == IMX219_STREAM_IMAGE) {
+> >   		u32 format;
+> 
+> It seems we get these constructs quite often:
+> 
+> 	switch (pad) {
+> 	case IMX219_PAD_IMAGE:
+> 		return;
+> 	case IMX219_PAD_EDATA:
+> 		return;
+> 	case IMX219_PAD_SOURCE:
+> 	default:
+> 		break;
+> 	}
+> 
+> 	if (stream == IMX219_STREAM_IMAGE) {
+> 	} else {
+> 	}
+> 
+> I wonder would it be better to make a macro that combines the pad and 
+> stream numbers, and then one could do:
+> 
+> 	switch (padstream) {
+> 		case IMX219_PADSTREAM_IMAGE:
+> 		case IMX219_PADSTREAM_EDATA:
+> 		case IMX219_PADSTREAM_SOURCE_IMAGE:
+> 		case IMX219_PADSTREAM_SOURCE_EDATA:
+> 	}
+
+I could also write
+
+	if (code->pad == IMX219_PAD_IMAGE) {
+		...
+	} else if (code->pad == IMX219_PAD_EDATA) {
+		...
+	} else if (code->stream == IMX219_STREAM_IMAGE) {
+		...
+	} else {
+		...
+	}
+
+I'm not entirely sure it would be significantly more readable. I don't
+mind changing the code if anyone has a clear preference, but I'd like to
+avoid going back and forth. Maybe Sakari and you can decide ?
+
+> >   
+> >   		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+> > @@ -792,6 +838,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >   
+> >   		format = imx219_mbus_formats[code->index * 4];
+> >   		code->code = imx219_get_format_code(imx219, format);
+> > +	} else {
+> > +		struct v4l2_mbus_framefmt *fmt;
+> > +
+> > +		if (code->index > 0)
+> > +			return -EINVAL;
+> > +
+> > +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +						   IMX219_STREAM_EDATA);
+> > +		code->code = fmt->code;
+> >   	}
+> >   
+> >   	return 0;
+> > @@ -803,7 +858,8 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >   {
+> >   	struct imx219 *imx219 = to_imx219(sd);
+> >   
+> > -	if (fse->pad == IMX219_PAD_IMAGE) {
+> > +	switch (fse->pad) {
+> > +	case IMX219_PAD_IMAGE:
+> >   		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
+> >   			return -EINVAL;
+> >   
+> > @@ -811,7 +867,24 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >   		fse->max_width = IMX219_NATIVE_WIDTH;
+> >   		fse->min_height = IMX219_NATIVE_HEIGHT;
+> >   		fse->max_height = IMX219_NATIVE_HEIGHT;
+> > -	} else {
+> > +		return 0;
+> > +
+> > +	case IMX219_PAD_EDATA:
+> > +		if (fse->code != MEDIA_BUS_FMT_CCS_EMBEDDED || fse->index > 0)
+> > +			return -EINVAL;
+> > +
+> > +		fse->min_width = IMX219_NATIVE_WIDTH;
+> > +		fse->max_width = IMX219_NATIVE_WIDTH;
+> > +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
+> > +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
+> > +		return 0;
+> > +
+> > +	case IMX219_PAD_SOURCE:
+> > +	default:
+> > +		break;
+> > +	}
+> > +
+> > +	if (fse->stream == IMX219_STREAM_IMAGE) {
+> >   		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
+> >   		    fse->index >= ARRAY_SIZE(supported_modes))
+> >   			return -EINVAL;
+> > @@ -820,6 +893,21 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >   		fse->max_width = fse->min_width;
+> >   		fse->min_height = supported_modes[fse->index].height;
+> >   		fse->max_height = fse->min_height;
+> > +	} else {
+> > +		struct v4l2_mbus_framefmt *fmt;
+> > +
+> > +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +						   IMX219_STREAM_EDATA);
+> > +		if (fse->code != fmt->code)
+> > +			return -EINVAL;
+> > +
+> > +		if (fse->index)
+> > +			return -EINVAL;
+> > +
+> > +		fse->min_width = fmt->width;
+> > +		fse->max_width = fmt->width;
+> > +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
+> > +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
+> >   	}
+> >   
+> >   	return 0;
+> > @@ -831,6 +919,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >   {
+> >   	struct imx219 *imx219 = to_imx219(sd);
+> >   	const struct imx219_mode *mode;
+> > +	struct v4l2_mbus_framefmt *ed_format;
+> >   	struct v4l2_mbus_framefmt *format;
+> >   	struct v4l2_rect *compose;
+> >   	struct v4l2_rect *crop;
+> > @@ -838,9 +927,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >   
+> >   	/*
+> >   	 * The driver is mode-based, the format can be set on the source pad
+> > -	 * only.
+> > +	 * only, and only for the image streeam.
+> >   	 */
+> > -	if (fmt->pad != IMX219_PAD_SOURCE)
+> > +	if (fmt->pad != IMX219_PAD_SOURCE || fmt->stream != IMX219_STREAM_IMAGE)
+> >   		return v4l2_subdev_get_fmt(sd, state, fmt);
+> >   
+> >   	/*
+> > @@ -897,15 +986,31 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >   	 * No mode use digital crop, the source pad crop rectangle size and
+> >   	 * format are thus identical to the image pad compose rectangle.
+> >   	 */
+> > -	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
+> > +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE,
+> > +					  IMX219_STREAM_IMAGE);
+> >   	crop->left = 0;
+> >   	crop->top = 0;
+> >   	crop->width = fmt->format.width;
+> >   	crop->height = fmt->format.height;
+> >   
+> > -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +					      IMX219_STREAM_IMAGE);
+> >   	*format = fmt->format;
+> >   
+> > +	/*
+> > +	 * Finally, update the formats on the sink and source sides of the
+> > +	 * embedded data stream.
+> > +	 */
+> > +	ed_format = v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
+> > +	ed_format->code = imx219_format_edata(format->code);
+> > +	ed_format->width = format->width;
+> > +	ed_format->height = IMX219_EMBEDDED_DATA_HEIGHT;
+> > +	ed_format->field = V4L2_FIELD_NONE;
+> > +
+> > +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +					      IMX219_STREAM_EDATA);
+> > +	*format = *ed_format;
+> > +
+> >   	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> >   		int exposure_max;
+> >   		int exposure_def;
+> > @@ -944,6 +1049,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >   {
+> >   	struct v4l2_rect *compose;
+> >   
+> > +	/*
+> > +	 * The embedded data stream doesn't support selection rectangles,
+> > +	 * neither on the embedded data pad nor on the source pad.
+> > +	 */
+> > +	if (sel->pad == IMX219_PAD_EDATA || sel->stream != 0)
+> > +		return -EINVAL;
+> > +
+> >   	switch (sel->target) {
+> >   	case V4L2_SEL_TGT_NATIVE_SIZE:
+> >   		if (sel->pad != IMX219_PAD_IMAGE)
+> > @@ -996,12 +1108,19 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> >   static int imx219_init_state(struct v4l2_subdev *sd,
+> >   			     struct v4l2_subdev_state *state)
+> >   {
+> > -	struct v4l2_subdev_route routes[1] = {
+> > +	struct v4l2_subdev_route routes[2] = {
+> >   		{
+> >   			.sink_pad = IMX219_PAD_IMAGE,
+> >   			.sink_stream = 0,
+> >   			.source_pad = IMX219_PAD_SOURCE,
+> > -			.source_stream = 0,
+> > +			.source_stream = IMX219_STREAM_IMAGE,
+> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
+> > +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
+> > +		}, {
+> > +			.sink_pad = IMX219_PAD_EDATA,
+> > +			.sink_stream = 0,
+> > +			.source_pad = IMX219_PAD_SOURCE,
+> > +			.source_stream = IMX219_STREAM_EDATA,
+> >   			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
+> >   				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
+> >   		},
+> > @@ -1014,7 +1133,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
+> >   	struct v4l2_subdev_format fmt = {
+> >   		.which = V4L2_SUBDEV_FORMAT_TRY,
+> >   		.pad = IMX219_PAD_SOURCE,
+> > -		.stream = 0,
+> > +		.stream = IMX219_STREAM_IMAGE,
+> >   		.format = {
+> >   			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> >   			.width = supported_modes[0].width,
+> > @@ -1027,6 +1146,10 @@ static int imx219_init_state(struct v4l2_subdev *sd,
+> >   	if (ret)
+> >   		return ret;
+> >   
+> > +	/*
+> > +	 * Set the image stream format on the source pad. This will be
+> > +	 * propagated to all formats and selection rectangles internally.
+> > +	 */
+> >   	imx219_set_pad_format(sd, state, &fmt);
+> >   
+> >   	return 0;
+> > @@ -1035,29 +1158,36 @@ static int imx219_init_state(struct v4l2_subdev *sd,
+> >   static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> >   				 struct v4l2_mbus_frame_desc *fd)
+> >   {
+> > -	const struct v4l2_mbus_framefmt *fmt;
+> >   	struct v4l2_subdev_state *state;
+> > -	u32 code;
+> > +	u32 img_code;
+> > +	u32 ed_code;
+> >   
+> >   	if (pad != IMX219_PAD_SOURCE)
+> >   		return -EINVAL;
+> >   
+> >   	state = v4l2_subdev_lock_and_get_active_state(sd);
+> > -	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE, 0);
+> > -	code = fmt->code;
+> > +	img_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +						IMX219_STREAM_IMAGE)->code;
+> > +	ed_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +					       IMX219_STREAM_EDATA)->code;
+> >   	v4l2_subdev_unlock_state(state);
+> >   
+> >   	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> > -	fd->num_entries = 1;
+> > +	fd->num_entries = 2;
+> >   
+> >   	memset(fd->entry, 0, sizeof(fd->entry));
+> >   
+> > -	fd->entry[0].pixelcode = code;
+> > -	fd->entry[0].stream = 0;
+> > +	fd->entry[0].pixelcode = img_code;
+> > +	fd->entry[0].stream = IMX219_STREAM_IMAGE;
+> >   	fd->entry[0].bus.csi2.vc = 0;
+> > -	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8
+> > +	fd->entry[0].bus.csi2.dt = imx219_format_bpp(img_code) == 8
+> >   				 ? MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
+> >   
+> > +	fd->entry[1].pixelcode = ed_code;
+> > +	fd->entry[1].stream = IMX219_STREAM_EDATA;
+> > +	fd->entry[1].bus.csi2.vc = 0;
+> > +	fd->entry[1].bus.csi2.dt = MIPI_CSI2_DT_EMBEDDED_8B;
+> > +
+> >   	return 0;
+> >   }
+> >   
+> > @@ -1321,12 +1451,14 @@ static int imx219_probe(struct i2c_client *client)
+> >   	/*
+> >   	 * Initialize the pads. To preserve backward compatibility with
+> >   	 * userspace that used the sensor before the introduction of the
+> > -	 * internal image pad, the external source pad is numbered 0 and the
+> > -	 * internal image pad numbered 1.
+> > +	 * internal pads, the external source pad is numbered 0 and the internal
+> > +	 * image and embedded data pads numbered 1 and 2 respectively.
+> >   	 */
+> >   	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+> >   	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
+> >   					     | MEDIA_PAD_FL_INTERNAL;
+> > +	imx219->pads[IMX219_PAD_EDATA].flags = MEDIA_PAD_FL_SINK
+> > +					     | MEDIA_PAD_FL_INTERNAL;
+> >   
+> >   	ret = media_entity_pads_init(&imx219->sd.entity,
+> >   				     ARRAY_SIZE(imx219->pads), imx219->pads);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
