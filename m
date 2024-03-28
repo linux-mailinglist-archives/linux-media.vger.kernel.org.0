@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-8045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91C388F513
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 03:06:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4443E88F514
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 03:06:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D8A129C780
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 02:06:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6ACC1F2CB70
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 02:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCA4B28383;
-	Thu, 28 Mar 2024 02:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5632562E;
+	Thu, 28 Mar 2024 02:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="h4Lx34VN"
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="aqJulXsp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40D824219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0C424A06
 	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 02:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711591574; cv=none; b=UlFVqqHdmosKOy2lUxHwAoIR0pQTm5fyBOBsCytt0041YWLELzwMrXfiVIuPZSmQv0ohnl2BkNXt0mvCL3iJSFVCpAVNAKn3v2IxN6Mp7xY3RYbRK7cI3W/RyFPc94daTuiwDd2OjO/mYbep8vSIrUwI3/7BCl2O1v6Lgb84BIA=
+	t=1711591574; cv=none; b=naTs8f2IP/YQ295Xkdy2h8kCnF2M7S95gNU7aUAugxuL0qM7DZjUY1Yk1moz7awOXlPpOtJpoOVSRXXf1zaXLtRWc8h9N4hMFInxOpWhKuwsrfwOp1syjHumbNkMbLuLnYT1KcMWAeljtHtBbhH/I9GWzC0q39QVMZidDdo6amA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711591574; c=relaxed/simple;
-	bh=iFMg6GZAbuFfOtNctqRSW+PL0+g5IfaJEwZX2XXrCiw=;
+	bh=sGnjaevZdb4hLEVv4+rMr73k7x3QQt6knXywjwWmR1I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MFNUPDJNqwBRzCBvzlZ1jHUczn2XrdsO898Gw5Jp4j6H/3pkGRzYosKNo1c76ht6dig35Mm/DfNIs1ffeZht4SSGbuB4hyC7KFCfEMsjuvgDjE2yCIBylHSX6OjAdIjhbH8w7KKr0KI7IoPFvq+xNH3pImKV/sud6DQ9Nr/Xtzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=h4Lx34VN; arc=none smtp.client-ip=212.227.17.20
+	 MIME-Version; b=bY93zAcXXdnL/0vTy8YA1Dc8BYwahyncSfpTMx4mHT18QW9lmNBkmgbtfZDvwO32FNvWpPb5pQU4w4SMc7hX3Lky5HZmdCaTfWcxFUzpXOf5uf+WSgkkLpjEpILIbpqHAeMbZj3UhMwcb6fogKLZoenmrlJeFT8s25eXwdoFamk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=aqJulXsp; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nurfuerspam.de;
-	s=s31663417; t=1711591567; x=1712196367; i=herdler@nurfuerspam.de;
-	bh=yZAKZrr/Tr5rvJkqCoAqDmzd/PA6EHb7nOw0gxCL/aE=;
+	s=s31663417; t=1711591568; x=1712196368; i=herdler@nurfuerspam.de;
+	bh=chfAMaYq2KfHfy8g9m703HvhPGP5OW41N7d29PJOVdE=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
 	 References;
-	b=h4Lx34VNpLWLFCvrH0PivN4sKRQLbt5UFVYbJ+k1RcO2/Mmor0G7YOhZmOWJa0EY
-	 LoXu/pCptkD2XY/ZrMEymtS+or1vCo54fXZSaWtPUSklNlX+GrlvCwl3T0oZ+Xbot
-	 W01hFGvwrfoXHrJKNXV/3ZGEagAnEeTLR3Zf9JPm0O0ZY4rgs62i1fxutg43Nou3+
-	 w8gbO3ctZLm6yPW69PU+9YWkhpG2DKOGZ0ol5qvoYz8v/LY7n0DKQcngv+8FGZMR6
-	 eAOjtC/soePhLzdnmo+ATlmRB8GF6Ad1Quo8fpb2Qt4NU8ADVp2DDuXVomU0bIzxh
-	 ftpVybYM1SO/+8danQ==
+	b=aqJulXspnvtmqdOQjZwRLA0MzBL+dTIRDYYtMCsBb/Mz5M8smx6+110I+J/RChVe
+	 IVlnU6rAJgunXDPQfNYyoGoLWb9doS7cSWp0Y+HDMTf/orR80u4xBjiJ1b4XaXDJy
+	 9S03b9HQqTeKTWgxzdndXNGwpC0YJmBpq3ETFG3jEsfLTwKZ8QjQ82uptRs3ayP4z
+	 ZJO6JFIyRdaRPoqhtrr2ljBS0RWD+DxjlQ9GpwHRehdbXcZEbQW7kTy+Z1VipJ8uX
+	 ulot5dsCM9Jou/DjS1jU1wmblCVrCk/gF80vBsrhIgIcZlgq+lQAPz0qwwICcJa8T
+	 xyC7Bv0AcL2KQXloiQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([217.113.190.197]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5mKJ-1swVQy2pgJ-017Cxl; Thu, 28
- Mar 2024 03:06:07 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mt79F-1sijmI3rT7-00tRKd; Thu, 28
+ Mar 2024 03:06:08 +0100
 From: Stefan Herdler <herdler@nurfuerspam.de>
 To: hverkuil-cisco@xs4all.nl
 Cc: linux-media@vger.kernel.org,
 	smoch@web.de,
 	tmn505@gmail.com,
 	vinschen@redhat.com
-Subject: [PATCH 04/11] media: ttpci: checkpatch fixes: braces
-Date: Thu, 28 Mar 2024 03:05:15 +0100
-Message-Id: <20240328020522.50995-5-herdler@nurfuerspam.de>
+Subject: [PATCH 05/11] media: ttpci: checkpatch fixes: export_symbol
+Date: Thu, 28 Mar 2024 03:05:16 +0100
+Message-Id: <20240328020522.50995-6-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20240328020522.50995-1-herdler@nurfuerspam.de>
 References: <20240328020522.50995-1-herdler@nurfuerspam.de>
@@ -65,238 +65,120 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:b2q9kGgEUdlH9RZB44G6WkWHE3/tf0n6S+hshQLqOdpkS5l6BhL
- Axkco8Y7vzd2SwkerTsXHJPiBrzZtqPdfB72mwNWTs1BkNkA/aJys3fhSH+n20Aald18Ake
- Dy//FbRXzUhUci52OGnJH7GLWT0of7Fbcs1eTpQCko20wyajDYm0tJn9yoD9accex6QO3fO
- n56wDvuDjRJqm6ksUqq+g==
+X-Provags-ID: V03:K1:grTSqfEilXuLw1v/HjX/+5PzuHzF/6fjpnQIR/4tGzXa32gRsXL
+ GTbgHvuby7Q0TGWfRGVrYT6m3zkk9HIkjw+ZnZ1cu9GM3mKkHw6v3C+yrsQ8qoZM0VIad7k
+ /0V48/y4Mqe/Yyls6f9BOOIycpvPGoO+FvPZHig/SzBFq47U+QFCRFX9yqZC/gvYH0B5vGQ
+ 6/x4rQ2/t3awOCGeI57Kw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:K/f3BbFkVME=;0+uvZe3gj1wpenmec/474IfhoVu
- uf5edoV9Yxznmkl0m6lxLPZtFy2Ae3taYxj9zQgfXJeEy/lgwf31nS6T6BaPiD7iYzMteVBKy
- w4AwsRY87ewM9/C0KIXtVFcRre5r7Mh9xo0WNWx/FyWIZ+cLdI+5glsEYnSCvBWccrXLg7N0T
- Y+W3WVw10GL2pvws0vpGPu6W3j7jKouiQtbdTKqsM+jhI2U1Hp03OqyCeT4ua+nkOb1FdIQzh
- f6MjBg7IMCK9MFZjAB5JIhMdCb6f1mpSfVrW0g+JdLc1pVyX5x6bqX+tUqPJUqS3iidIKx6ap
- vsDle7txdXQmZuziXqQLlZxUucHo3gyyuspiU2O6oU9KsCVA/l7tbYUQNCo4xFFTPxK7oNRuD
- d2352BHmRTjKRkNKqR9eNvUyEvtGK4p2oxANgjOPYEKD+PDHiq0CtsAH9Qj4/E2IE+kZgV/7M
- y8F62utq6WktUaQrRZhnF/YGGbIotINCgX3EtaHFuLfIELF0/dSjhYvvtGbNw+VoTqDqKm2ao
- 7mEGbWCHZSpWCFQ0zqTc1GG0Ltwcq/kehgE/fuYGD2zOXBax8UfYhzAH8pdZcPlhxeEBHpWl4
- MHfWlCEczzXRpImNSTzkC3Q2Dk9K/58TfVK8Nzu8fizULgznn2HTvu0qTl8bEpJBOKGpwpeDl
- Z22io1ESF79wlZDlpTTEfx1eHqceD2/21uDB1faLUEoRS1GhvmcSBGQVEyr0zeCfwRpfw3Jq7
- +SfXenQw1yydGtILJs4FWKo550hC0tmVTfgikLLxjZbOluqgBoGjryOBx2ygB8xl7kpjeoAmb
- L65YykJ8s0DqxggyPBh+Ggb574zdDjRLTOhZm5xepCDBc=
+UI-OutboundReport: notjunk:1;M01:P0:lVSPIhSiMdM=;Hf2ryqHZW4lQQxyKYavBH/ssGoq
+ tJ1G59KvpkT/5KOQTnR9Xwg3mcfQ4EmIYOZEmQJ0+IRILOICncwdNWqrKry/SyuRN2KrZZn05
+ xpowIbCGrIJAJCPApwta1IIsVzJtRelWSUr/zIjgAfRadFppndJMCc5ydrz4dYlZ0M25nd0Sz
+ bfpLqPjmg5130D5VAbxJ871aKwaxuUfkQ58AWtd/TGKFmhX0Ysp9CNhcocaFGq5MliQ8/iAGB
+ 0k2PCTW0E/jfYcgHTUQfpR7BVfRbBECf87X/e4T9FkuWJSsleBN6zHX5FfOVskJT5psCnoMb9
+ wS2TSdoLnPRABNjtyHEe9aGQKHg0Sevi15SrShB2RW0WFVB/sCI4UWqzXnvYITNA6CtvdmQ8F
+ 2kcQtp8IsqcEXvmQt3QYxTqIG08UID55zBOIrCHlszNbMpu1lv5ginmBaG/50Gdc7Fns7DpWi
+ /jhf9/599JiRMjPVix8V9nLj6voGzqSinPGqfHv0756dehMH2S3g+uAQvzsZ5wkuUEgmzedwj
+ 3CA1pzaFk17Zun7+n6EflCHfIUZWej2W3rNlI/v3AZXgbxgBKbrCCfX/PRLhnthReQ7Jk256r
+ w3VmqAnKbppFa0FyTjlLqt3I9XL0/oYzY6E/fWGjn53mWkOa07oVcPoPO91c1MoxkeGwovEva
+ fwedLQJZiAplsgcPW+lFQTW8q6mGkwsyVuGpB4wPZl17NwQvtItLNwFOAemT3re1Rg+GWMmX7
+ B5RgXiXShlKZlrM+QpF0p8JZFIV8K2zixaWIdJ0MqBvLG3J6mOh/dwawi3Y3DytjWEMn7MkYk
+ vjctmrPPY9UmBZDFuPWHzhCK+RAWtDZAn0zvvIyTLv8eA=
 
-This patch fixes the following checkpatch warnings and errors:
+This patch fixes the following checkpatch warnings:
 
-WARNING:BRACES: braces {} are not necessary for any arm of this statement
-WARNING:BRACES: braces {} are not necessary for single statement blocks
-ERROR:OPEN_BRACE: that open brace { should be on the previous line
+WARNING:EXPORT_SYMBOL: EXPORT_SYMBOL(foo); should immediately follow its f=
+unction/variable
 
 
 Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 =2D--
 
- drivers/media/pci/ttpci/budget-av.c | 31 ++++++++++-------------------
- drivers/media/pci/ttpci/budget-ci.c | 17 ++++++----------
- drivers/media/pci/ttpci/budget.c    |  9 +++------
- 3 files changed, 20 insertions(+), 37 deletions(-)
+ drivers/media/pci/ttpci/budget-core.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/pci/ttpci/budget-av.c b/drivers/media/pci/ttpci=
-/budget-av.c
-index dbd4ef40e..2faea2861 100644
-=2D-- a/drivers/media/pci/ttpci/budget-av.c
-+++ b/drivers/media/pci/ttpci/budget-av.c
-@@ -309,16 +309,14 @@ static int ciintf_poll_slot_status(struct dvb_ca_en5=
-0221 *ca, int slot, int open
- 	/* read from attribute memory in reset/ready state to know when the CAM =
-is ready */
- 	if (budget_av->slot_status =3D=3D SLOTSTATUS_RESET) {
- 		result =3D ciintf_read_attribute_mem(ca, slot, 0);
--		if (result =3D=3D 0x1d) {
-+		if (result =3D=3D 0x1d)
- 			budget_av->slot_status =3D SLOTSTATUS_READY;
--		}
+diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttp=
+ci/budget-core.c
+index f41f4eea7..20bcdd26f 100644
+=2D-- a/drivers/media/pci/ttpci/budget-core.c
++++ b/drivers/media/pci/ttpci/budget-core.c
+@@ -34,6 +34,7 @@
+ #define BUFFER_WARNING_WAIT	(30*HZ)
+
+ int budget_debug;
++EXPORT_SYMBOL_GPL(budget_debug);
+ static int dma_buffer_size =3D TS_MIN_BUFSIZE_K;
+ module_param_named(debug, budget_debug, int, 0644);
+ module_param_named(bufsize, dma_buffer_size, int, 0444);
+@@ -259,6 +260,7 @@ int ttpci_budget_debiread(struct budget *budget, u32 c=
+onfig, int addr, int count
+ 	return ttpci_budget_debiread_nolock(budget, config, addr,
+ 					    count, nobusyloop);
+ }
++EXPORT_SYMBOL_GPL(ttpci_budget_debiread);
+
+ static int ttpci_budget_debiwrite_nolock(struct budget *budget, u32 confi=
+g,
+ 		int addr, int count, u32 value, int nobusyloop)
+@@ -299,6 +301,7 @@ int ttpci_budget_debiwrite(struct budget *budget, u32 =
+config, int addr,
+ 	return ttpci_budget_debiwrite_nolock(budget, config, addr,
+ 					     count, value, nobusyloop);
+ }
++EXPORT_SYMBOL_GPL(ttpci_budget_debiwrite);
+
+
+ /************************************************************************=
+****
+@@ -542,6 +545,7 @@ int ttpci_budget_init(struct budget *budget, struct sa=
+a7146_dev *dev,
+
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(ttpci_budget_init);
+
+ void ttpci_budget_init_hooks(struct budget *budget)
+ {
+@@ -550,6 +554,7 @@ void ttpci_budget_init_hooks(struct budget *budget)
+ 		budget->dvb_frontend->ops.read_status =3D budget_read_fe_status;
  	}
+ }
++EXPORT_SYMBOL_GPL(ttpci_budget_init_hooks);
 
- 	/* work out correct return code */
- 	if (budget_av->slot_status !=3D SLOTSTATUS_NONE) {
--		if (budget_av->slot_status & SLOTSTATUS_READY) {
-+		if (budget_av->slot_status & SLOTSTATUS_READY)
- 			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY=
-;
--		}
- 		return DVB_CA_EN50221_POLL_CAM_PRESENT;
- 	}
- 	return 0;
-@@ -1237,15 +1235,13 @@ static void frontend_init(struct budget_av *budget=
-_av)
- 		if (saa->pci->subsystem_vendor =3D=3D 0x1894) {
- 			fe =3D dvb_attach(stv0299_attach, &cinergy_1200s_1894_0010_config,
- 					     &budget_av->budget.i2c_adap);
--			if (fe) {
-+			if (fe)
- 				dvb_attach(tua6100_attach, fe, 0x60, &budget_av->budget.i2c_adap);
--			}
- 		} else {
- 			fe =3D dvb_attach(stv0299_attach, &typhoon_config,
- 					     &budget_av->budget.i2c_adap);
--			if (fe) {
-+			if (fe)
- 				fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_param=
-s;
--			}
- 		}
- 		break;
+ int ttpci_budget_deinit(struct budget *budget)
+ {
+@@ -569,6 +574,7 @@ int ttpci_budget_deinit(struct budget *budget)
 
-@@ -1257,19 +1253,17 @@ static void frontend_init(struct budget_av *budget=
-_av)
- 	case SUBID_DVBS_EASYWATCH_2:
- 		fe =3D dvb_attach(stv0299_attach, &philips_sd1878_config,
- 				&budget_av->budget.i2c_adap);
--		if (fe) {
-+		if (fe)
- 			dvb_attach(dvb_pll_attach, fe, 0x60,
- 				   &budget_av->budget.i2c_adap,
- 				   DVB_PLL_PHILIPS_SD1878_TDA8261);
--		}
- 		break;
-
- 	case SUBID_DVBS_TYPHOON:
- 		fe =3D dvb_attach(stv0299_attach, &typhoon_config,
- 				    &budget_av->budget.i2c_adap);
--		if (fe) {
-+		if (fe)
- 			fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_params=
-;
--		}
- 		break;
- 	case SUBID_DVBS2_KNC1:
- 	case SUBID_DVBS2_KNC1_OEM:
-@@ -1282,9 +1276,8 @@ static void frontend_init(struct budget_av *budget_a=
-v)
- 	case SUBID_DVBS_CINERGY1200:
- 		fe =3D dvb_attach(stv0299_attach, &cinergy_1200s_config,
- 				    &budget_av->budget.i2c_adap);
--		if (fe) {
-+		if (fe)
- 			fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_params=
-;
--		}
- 		break;
-
- 	case SUBID_DVBC_KNC1:
-@@ -1300,9 +1293,8 @@ static void frontend_init(struct budget_av *budget_a=
-v)
- 			fe =3D dvb_attach(tda10021_attach, &philips_cu1216_config_altaddress,
- 					     &budget_av->budget.i2c_adap,
- 					     read_pwm(budget_av));
--		if (fe) {
-+		if (fe)
- 			fe->ops.tuner_ops.set_params =3D philips_cu1216_tuner_set_params;
--		}
- 		break;
-
- 	case SUBID_DVBC_EASYWATCH_MK3:
-@@ -1316,9 +1308,8 @@ static void frontend_init(struct budget_av *budget_a=
-v)
- 			&philips_cu1216_tda10023_config,
- 			&budget_av->budget.i2c_adap,
- 			read_pwm(budget_av));
--		if (fe) {
-+		if (fe)
- 			fe->ops.tuner_ops.set_params =3D philips_cu1216_tuner_set_params;
--		}
- 		break;
-
- 	case SUBID_DVBT_EASYWATCH:
-diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci=
-/budget-ci.c
-index ebf340417..047b1f07e 100644
-=2D-- a/drivers/media/pci/ttpci/budget-ci.c
-+++ b/drivers/media/pci/ttpci/budget-ci.c
-@@ -412,24 +412,20 @@ static int ciintf_poll_slot_status(struct dvb_ca_en5=
-0221 *ca, int slot, int open
- 	flags =3D ttpci_budget_debiread(&budget_ci->budget, DEBICICTL, DEBIADDR_=
-CICONTROL, 1, 1, 0);
- 	if (flags & CICONTROL_CAMDETECT) {
- 		// mark it as present if it wasn't before
--		if (budget_ci->slot_status & SLOTSTATUS_NONE) {
-+		if (budget_ci->slot_status & SLOTSTATUS_NONE)
- 			budget_ci->slot_status =3D SLOTSTATUS_PRESENT;
--		}
-
- 		// during a RESET, we check if we can read from IO memory to see when C=
-AM is ready
- 		if (budget_ci->slot_status & SLOTSTATUS_RESET) {
--			if (ciintf_read_attribute_mem(ca, slot, 0) =3D=3D 0x1d) {
-+			if (ciintf_read_attribute_mem(ca, slot, 0) =3D=3D 0x1d)
- 				budget_ci->slot_status =3D SLOTSTATUS_READY;
--			}
- 		}
--	} else {
-+	} else
- 		budget_ci->slot_status =3D SLOTSTATUS_NONE;
--	}
-
- 	if (budget_ci->slot_status !=3D SLOTSTATUS_NONE) {
--		if (budget_ci->slot_status & SLOTSTATUS_READY) {
-+		if (budget_ci->slot_status & SLOTSTATUS_READY)
- 			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY=
-;
--		}
- 		return DVB_CA_EN50221_POLL_CAM_PRESENT;
- 	}
-
-@@ -494,11 +490,10 @@ static int ciintf_init(struct budget_ci *budget_ci)
- 	// Setup CI slot IRQ
- 	if (budget_ci->ci_irq) {
- 		tasklet_setup(&budget_ci->ciintf_irq_tasklet, ciintf_interrupt);
--		if (budget_ci->slot_status !=3D SLOTSTATUS_NONE) {
-+		if (budget_ci->slot_status !=3D SLOTSTATUS_NONE)
- 			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQLO);
--		} else {
-+		else
- 			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQHI);
--		}
- 		SAA7146_IER_ENABLE(saa, MASK_03);
- 	}
-
-diff --git a/drivers/media/pci/ttpci/budget.c b/drivers/media/pci/ttpci/bu=
-dget.c
-index 9fe087add..79b34c909 100644
-=2D-- a/drivers/media/pci/ttpci/budget.c
-+++ b/drivers/media/pci/ttpci/budget.c
-@@ -229,8 +229,7 @@ static int alps_bsrv2_tuner_set_params(struct dvb_fron=
-tend *fe)
  	return 0;
  }
++EXPORT_SYMBOL_GPL(ttpci_budget_deinit);
 
--static struct ves1x93_config alps_bsrv2_config =3D
--{
-+static struct ves1x93_config alps_bsrv2_config =3D {
- 	.demod_address =3D 0x08,
- 	.xin =3D 90100000UL,
- 	.invert_pwm =3D 0,
-@@ -678,8 +677,7 @@ static void frontend_init(struct budget *budget)
- 					tt1600_stv090x_config.tuner_set_refclk	  =3D ctl->tuner_set_refclk;
- 					tt1600_stv090x_config.tuner_get_status	  =3D ctl->tuner_get_status;
+ void ttpci_budget_irq10_handler(struct saa7146_dev *dev, u32 *isr)
+ {
+@@ -579,6 +585,7 @@ void ttpci_budget_irq10_handler(struct saa7146_dev *de=
+v, u32 *isr)
+ 	if (*isr & MASK_10)
+ 		tasklet_schedule(&budget->vpe_tasklet);
+ }
++EXPORT_SYMBOL_GPL(ttpci_budget_irq10_handler);
 
--					/*
--					 * call the init function once to initialize
-+					/* call the init function once to initialize
- 					 * tuner's clock output divider and demod's
- 					 * master clock
- 					 */
-@@ -786,9 +784,8 @@ static int budget_attach(struct saa7146_dev *dev, stru=
-ct saa7146_pci_extension_d
- 	int err;
+ void ttpci_budget_set_video_port(struct saa7146_dev *dev, int video_port)
+ {
+@@ -592,14 +599,6 @@ void ttpci_budget_set_video_port(struct saa7146_dev *=
+dev, int video_port)
+ 	}
+ 	spin_unlock(&budget->feedlock);
+ }
+-
+-EXPORT_SYMBOL_GPL(ttpci_budget_debiread);
+-EXPORT_SYMBOL_GPL(ttpci_budget_debiwrite);
+-EXPORT_SYMBOL_GPL(ttpci_budget_init);
+-EXPORT_SYMBOL_GPL(ttpci_budget_init_hooks);
+-EXPORT_SYMBOL_GPL(ttpci_budget_deinit);
+-EXPORT_SYMBOL_GPL(ttpci_budget_irq10_handler);
+ EXPORT_SYMBOL_GPL(ttpci_budget_set_video_port);
+-EXPORT_SYMBOL_GPL(budget_debug);
 
- 	budget =3D kmalloc(sizeof(struct budget), GFP_KERNEL);
--	if (NULL =3D=3D budget) {
-+	if (NULL =3D=3D budget)
- 		return -ENOMEM;
--	}
-
- 	dprintk(2, "dev:%p, info:%p, budget:%p\n", dev, info, budget);
-
+ MODULE_LICENSE("GPL");
 =2D-
 2.34.0
 
