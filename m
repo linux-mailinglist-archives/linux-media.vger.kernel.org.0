@@ -1,147 +1,274 @@
-Return-Path: <linux-media+bounces-8111-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8112-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FC68904F2
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 17:22:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE66890666
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 17:57:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C571296FC8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 16:22:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E8441C307FC
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 16:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F093132484;
-	Thu, 28 Mar 2024 16:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B5D3BBF5;
+	Thu, 28 Mar 2024 16:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVuIXyRn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vP5Efkmz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC6454773;
-	Thu, 28 Mar 2024 16:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A2A3A1DA
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 16:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711642898; cv=none; b=BHUkZ6vvnwRgFvZ6jxndEHokw+bnU5zvpjpPKKkXUT+ZhjMdskH8bffiyC3mA3YkF07ItCn3eGOFzjeni6DC9OFQG7+EVJuJoHvtG2nkUZMmCdmxXWwwK2vsTEAvWUXM+DMAfLUexdP+bv3LALltiFfPBwqRBuMOKAEnO2kgBmU=
+	t=1711644991; cv=none; b=bVGemqpbL6NeZjWvV8YMjn9Mkw/Jg51/eZVilQAtPOEsZgpKW6Yr/tbXZxypHaEQyoizswyT3gSl20EHPKI2UMwiZMgHdP850b+vKhJ5E2xw+YOEfni25yFrK/dxnI3/GzvZErvXKRRrHRcmNwhcTYjFhXnPHnyj9r9FAgOJ9Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711642898; c=relaxed/simple;
-	bh=cb1ZOrJZuOdP2ez095r01xUHOIJ2EXFtH/u5E76hFpE=;
+	s=arc-20240116; t=1711644991; c=relaxed/simple;
+	bh=8LS/zIWeXULexUHeQGwguNbOVji99ju+Jb2pSygFWpY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UAhf7W5BBJMJ3JZlhj6tK4Y1CsQk7EUJvVfC80lWKgREqWMNqXlf/ocVGknyxh5SDRV1yyydgQno6frJ/+VV5GIrZfWNP2hAR89j6QBAiI9UUcXx+LGljNLQaibuKlMk7y1PHr9Aup9Q/+YgNXU/5Qbwo1sw5shnsM++cljPDco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GVuIXyRn; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ea80de0e97so860362b3a.2;
-        Thu, 28 Mar 2024 09:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711642896; x=1712247696; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TpQlnbUKf5vfOk3TpOVHNGMqh00k5XUuxEvlHT+naYc=;
-        b=GVuIXyRnEOti+ZArUGMdas65Ycfks2BEQJ4q6b3IftsM7hrnlM5TcjQrmI9itmCfCA
-         JricJsaqQJnC6govb5/aWFTyxzJKmUcvAg9+QstTk8xKKRvfKuA0Z330a1GfhBQSs9mY
-         5h+sdUlJ1osXdd+W8DbS3t32g0GraRuodbQp+As2heEByotL5ahFqNZUc8SCu9MAC5zv
-         g+BIpTZCcdg0fuMpFCvVo/GfpPglVlL616W4yGw3XQasSu35z7h1iOJvh1w3NZk28srh
-         A9F/+jcc2sRAVGM8NcNp2o5dLfYuvGHfzLTz0FETHx5DFIe9kLBtYHWFpz07qaFnVprw
-         Jurw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711642896; x=1712247696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TpQlnbUKf5vfOk3TpOVHNGMqh00k5XUuxEvlHT+naYc=;
-        b=WbhvvZVXvqXNwxGifGABAucJq7CdaeEHdPTIEZIYFUasPntOMj/VixM1/OnE+SIMsj
-         bm8yrbb2xqV5Bvg9d8Zu49KEfVDU4pPsbfjDfHc+YTjnTFK0c9HsnuQ3G9CglMEbYXLc
-         WJjlsOeqFKktVkmg/HsMLRFx5zP7g6FaWBy/AAuJgRI1nfvfIjqRGznFObauVFqRdtYy
-         Ls0HjEkAX3fqvgdFqPrlj0IyOaU0gDciDzMJfT5hEsYTvb0NjW/nKiEUMUXNYXQonTTO
-         K1eiceMx5nbX0yxHurqel5DMCaawJyYUxOQjmtsiyVMF6m56G27cvot0ledIkzgJN6uK
-         EkSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXA4VnwcHmiG3PLYRXiRv3RSsC7Zw9+nMj3WMq9kgtD6t7Ao5zynCAeMmP44jmQYozq0PlpiZPkvz9ivy6hDSSnWpKFrKZx+fui3ZPogELN1Pu4gdqGwmpEvyoJaIxj7z6eL3D6lVhKUZX3fltZDnhnNK19ogzNAoQhqqMXX5Ridk+mzQnxzjSSz2/6i3nyyzb+b2d3ExW4jQKYlBmV016TPz0x0mirUU3/DfeaDGi8XMY/FJLo6y12ubr1R2u2rirEu8jjsryxqVSFIsNxFJSv/HW5IlOVx7RD6nGAY+6Z81jN6cG8R1f78H0iVzlcRHO82yzFBr5BB8Qstre5/lgCru+y57AS5/i1EOcV3za0QTPcIkVbq8v45uOr1HfoEuJlwbQty0LoQXEv+fGk7Ust8bVC562BR73AAegs6nv6m5xs69gUxH9IHco2drv15MFhoyjZBE/10Aj6DSEP3TRMtqERwRltPzTjAIYDskyiRaa78rJMU3zM1wLNT6vhscCDTs4GKbFmox2yykuIbm3KEiF5l7a3JzLmQqbrAruXqZwbYHAglrvcVnDGcD4VWDKjk+blSPz0inKKFz2kQqQ=
-X-Gm-Message-State: AOJu0Yy8eOH7vv0e0wUekk9QIfnTvtX/McJ3TqODamXZt2p/lIv1AviE
-	vSp3MAyO/hu/kc0MhmmbPaC2lArjiUX/ji4wCbhNW2tnapf1W/ff
-X-Google-Smtp-Source: AGHT+IHNLtSIfLiMjPgdNbH73n29Rqo4mQsh/oBERN464FH6NwbPkAtXL24hv7Aec7RU+H+HqkGb1w==
-X-Received: by 2002:a05:6a20:7495:b0:1a5:7308:3297 with SMTP id p21-20020a056a20749500b001a573083297mr1591044pzd.0.1711642896210;
-        Thu, 28 Mar 2024 09:21:36 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:4d4e])
-        by smtp.gmail.com with ESMTPSA id fd37-20020a056a002ea500b006eab6ac1f83sm1576815pfb.0.2024.03.28.09.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 09:21:35 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Thu, 28 Mar 2024 06:21:34 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st,
-	sven@svenpeter.dev, florian.fainelli@broadcom.com,
-	rjui@broadcom.com, sbranden@broadcom.com, paul@crapouillou.net,
-	Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
-	vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
-	zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	andersson@kernel.org, konrad.dybcio@linaro.org, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	patrice.chotard@foss.st.com, linus.walleij@linaro.org,
-	wens@csie.org, jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, jassisinghbrar@gmail.com, mchehab@kernel.org,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl,
-	jh80.chung@samsung.com, oakad@yahoo.com,
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-	brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
-	duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-Message-ID: <ZgWZDtNU4tCwqyeu@slm.duckdns.org>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com>
- <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=W0Hi6ahMrIK3eLq7VPy4/CyVMiCB7Kay2mn+IXHTeMJLhcZ8PS8tzNcOzUqmijGH7ny7lRmcV8+rz2AzChnNmTTp2VuZBH44/oJdsGVtDjSPrUgpcttquNLuiYSM7uO0YOTF7QKW0KviyO+8feH71VuD4sfZn8mBIwp+dPNfbeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vP5Efkmz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F224D20;
+	Thu, 28 Mar 2024 17:55:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711644955;
+	bh=8LS/zIWeXULexUHeQGwguNbOVji99ju+Jb2pSygFWpY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vP5Efkmz+7VRCcZWq7WKVh4zNygXIJu3Kg1GI29YMu/XUGBqvkEu5JPTOfOxRdMww
+	 z+NbWiq6gFIxL0rwdCFJitw9CXPRbeQN+bmVhsTqoGV/eO93ABLzFm1dsxjI3O3I/C
+	 8TYKTKy+xeHsBmyWiHmjupqIca1i9tFJ62CC2IHg=
+Date: Thu, 28 Mar 2024 18:56:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH v7 02/15] media: i2c: imx219: Add internal image sink pad
+Message-ID: <20240328165618.GF16097@pendragon.ideasonboard.com>
+References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
+ <20240324220854.15010-3-laurent.pinchart@ideasonboard.com>
+ <887c8055-245c-4768-abe6-29d17472b06c@ideasonboard.com>
+ <20240328160912.GD11463@pendragon.ideasonboard.com>
+ <6eabb69a-4623-4cc2-bb43-63e849c00969@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFpuKadPQv6+61C2pE4x4FE-DUC5W6WCCPu9Nb2DnDB56g@mail.gmail.com>
+In-Reply-To: <6eabb69a-4623-4cc2-bb43-63e849c00969@ideasonboard.com>
 
-Hello,
+On Thu, Mar 28, 2024 at 06:18:24PM +0200, Tomi Valkeinen wrote:
+> On 28/03/2024 18:09, Laurent Pinchart wrote:
+> > On Wed, Mar 27, 2024 at 11:51:49AM +0200, Tomi Valkeinen wrote:
+> >> On 25/03/2024 00:08, Laurent Pinchart wrote:
+> >>> Use the newly added internal pad API to expose the internal
+> >>> configuration of the sensor to userspace in a standard manner. This also
+> >>> paves the way for adding support for embedded data with an additional
+> >>> internal pad.
+> >>>
+> >>> To maintain compatibility with existing userspace that may operate on
+> >>> pad 0 unconditionally, keep the source pad numbered 0 and number the
+> >>> internal image pad 1.
+> >>
+> >> If I remember right, we discussed that this (internal pads after
+> >> external pads) would be the approach also for totally new drivers.
+> > 
+> > Do you recall the rationale for that ? Compatibility (within some limits
+> > I suppose) with existing userspace for new drivers ?
+> 
+> I don't. Probably compatibility, and making the subdevs with internal 
+> pads look similar to subdevs without them. I guess in theory it 
+> shouldn't matter.
+> 
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>>    drivers/media/i2c/imx219.c | 169 +++++++++++++++++++++++++++++--------
+> >>>    1 file changed, 133 insertions(+), 36 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> >>> index 3878da50860e..817bf192e4d9 100644
+> >>> --- a/drivers/media/i2c/imx219.c
+> >>> +++ b/drivers/media/i2c/imx219.c
+> >>> @@ -140,6 +140,7 @@
+> >>>    #define IMX219_DEFAULT_LINK_FREQ_4LANE	363000000
+> >>>    
+> >>>    /* IMX219 native and active pixel array size. */
+> >>> +#define IMX219_NATIVE_FORMAT		MEDIA_BUS_FMT_SRGGB10_1X10
+> >>>    #define IMX219_NATIVE_WIDTH		3296U
+> >>>    #define IMX219_NATIVE_HEIGHT		2480U
+> >>>    #define IMX219_PIXEL_ARRAY_LEFT		8U
+> >>> @@ -312,9 +313,15 @@ static const struct imx219_mode supported_modes[] = {
+> >>>    	},
+> >>>    };
+> >>>    
+> >>> +enum imx219_pad_ids {
+> >>> +	IMX219_PAD_SOURCE,
+> >>> +	IMX219_PAD_IMAGE,
+> >>> +	IMX219_NUM_PADS,
+> >>> +};
+> >>
+> >> Nitpick, but if the numbering of the values is important, I always mark
+> >> the first one "= 0", to make it clear(er) for the reader.
+> > 
+> > I'll do that.
+> > 
+> >>>    struct imx219 {
+> >>>    	struct v4l2_subdev sd;
+> >>> -	struct media_pad pad;
+> >>> +	struct media_pad pads[IMX219_NUM_PADS];
+> >>>    
+> >>>    	struct regmap *regmap;
+> >>>    	struct clk *xclk; /* system clock to IMX219 */
+> >>> @@ -374,7 +381,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> >>>    	int ret = 0;
+> >>>    
+> >>>    	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
+> >>> -	format = v4l2_subdev_state_get_format(state, 0);
+> >>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> >>>    
+> >>>    	if (ctrl->id == V4L2_CID_VBLANK) {
+> >>>    		int exposure_max, exposure_def;
+> >>> @@ -593,8 +600,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+> >>>    	u64 bin_h, bin_v;
+> >>>    	int ret = 0;
+> >>>    
+> >>> -	format = v4l2_subdev_state_get_format(state, 0);
+> >>> -	crop = v4l2_subdev_state_get_crop(state, 0);
+> >>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
+> >>> +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
+> >>>    
+> >>>    	switch (format->code) {
+> >>>    	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> >>> @@ -764,10 +771,25 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >>>    {
+> >>>    	struct imx219 *imx219 = to_imx219(sd);
+> >>>    
+> >>> -	if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+> >>> -		return -EINVAL;
+> >>> +	if (code->pad == IMX219_PAD_IMAGE) {
+> >>> +		/* The internal image pad is hardwired to the native format. */
+> >>> +		if (code->index)
+> >>> +			return -EINVAL;
+> >>>    
+> >>> -	code->code = imx219_get_format_code(imx219, imx219_mbus_formats[code->index * 4]);
+> >>> +		code->code = IMX219_NATIVE_FORMAT;
+> >>> +	} else {
+> >>> +		/*
+> >>> +		 * On the source pad, the sensor supports multiple raw formats
+> >>> +		 * with different bit depths.
+> >>> +		 */
+> >>> +		u32 format;
+> >>> +
+> >>> +		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+> >>> +			return -EINVAL;
+> >>> +
+> >>> +		format = imx219_mbus_formats[code->index * 4];
+> >>> +		code->code = imx219_get_format_code(imx219, format);
+> >>> +	}
+> >>>    
+> >>>    	return 0;
+> >>>    }
+> >>> @@ -777,19 +799,25 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >>>    				  struct v4l2_subdev_frame_size_enum *fse)
+> >>>    {
+> >>>    	struct imx219 *imx219 = to_imx219(sd);
+> >>> -	u32 code;
+> >>>    
+> >>> -	if (fse->index >= ARRAY_SIZE(supported_modes))
+> >>> -		return -EINVAL;
+> >>> +	if (fse->pad == IMX219_PAD_IMAGE) {
+> >>> +		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
+> >>> +			return -EINVAL;
+> >>>    
+> >>> -	code = imx219_get_format_code(imx219, fse->code);
+> >>> -	if (fse->code != code)
+> >>> -		return -EINVAL;
+> >>> +		fse->min_width = IMX219_NATIVE_WIDTH;
+> >>> +		fse->max_width = IMX219_NATIVE_WIDTH;
+> >>> +		fse->min_height = IMX219_NATIVE_HEIGHT;
+> >>> +		fse->max_height = IMX219_NATIVE_HEIGHT;
+> >>> +	} else {
+> >>> +		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
+> >>> +		    fse->index >= ARRAY_SIZE(supported_modes))
+> >>> +			return -EINVAL;
+> >>>    
+> >>> -	fse->min_width = supported_modes[fse->index].width;
+> >>> -	fse->max_width = fse->min_width;
+> >>> -	fse->min_height = supported_modes[fse->index].height;
+> >>> -	fse->max_height = fse->min_height;
+> >>> +		fse->min_width = supported_modes[fse->index].width;
+> >>> +		fse->max_width = fse->min_width;
+> >>> +		fse->min_height = supported_modes[fse->index].height;
+> >>> +		fse->max_height = fse->min_height;
+> >>> +	}
+> >>>    
+> >>>    	return 0;
+> >>>    }
+> >>> @@ -801,9 +829,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >>>    	struct imx219 *imx219 = to_imx219(sd);
+> >>>    	const struct imx219_mode *mode;
+> >>>    	struct v4l2_mbus_framefmt *format;
+> >>> +	struct v4l2_rect *compose;
+> >>>    	struct v4l2_rect *crop;
+> >>>    	unsigned int bin_h, bin_v;
+> >>>    
+> >>> +	/*
+> >>> +	 * The driver is mode-based, the format can be set on the source pad
+> >>> +	 * only.
+> >>> +	 */
+> >>> +	if (fmt->pad != IMX219_PAD_SOURCE)
+> >>> +		return v4l2_subdev_get_fmt(sd, state, fmt);
+> >>> +
+> >>>    	/*
+> >>>    	 * Adjust the requested format to match the closest mode. The Bayer
+> >>>    	 * order varies with flips.
+> >>> @@ -822,22 +858,51 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >>>    	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> >>>    	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+> >>>    
+> >>> -	format = v4l2_subdev_state_get_format(state, 0);
+> >>> +	/* Propagate the format through the sensor. */
+> >>> +
+> >>> +	/* The image pad models the pixel array, and thus has a fixed size. */
+> >>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_IMAGE);
+> >>>    	*format = fmt->format;
+> >>> +	format->code = IMX219_NATIVE_FORMAT;
+> >>> +	format->width = IMX219_NATIVE_WIDTH;
+> >>> +	format->height = IMX219_NATIVE_HEIGHT;
+> >>
+> >> Isn't the image pad format always the same, and cannot be changed? The
+> >> above hints otherwise. What fields can change in the image pad?
+> > 
+> > None. I'll update the comment above to state
+> > 
+> > 	/* The image pad models the pixel array, and thus has a fixed format. */
+> > 
+> > The code behaviour matches that.
+> 
+> If it never changes, shouldn't it be set once in init_state, rather than 
+> setting it here every time set_format is called?
 
-On Thu, Mar 28, 2024 at 01:53:25PM +0100, Ulf Hansson wrote:
-> At this point we have suggested to drivers to switch to use threaded
-> irq handlers (and regular work queues if needed too). That said,
-> what's the benefit of using the BH work queue?
-
-BH workqueues should behave about the same as tasklets which have more
-limited interface and is subtly broken in an expensive-to-fix way (around
-freeing in-flight work item), so the plan is to replace tasklets with BH
-workqueues and remove tasklets from the kernel.
-
-The [dis]advantages of BH workqueues over threaded IRQs or regular threaded
-workqueues are the same as when you compare them to tasklets. No thread
-switching overhead, so latencies will be a bit tighter. Wheteher that
-actually matters really depends on the use case. Here, the biggest advantage
-is that it's mostly interchangeable with tasklets and can thus be swapped
-easily.
-
-Thanks.
+I think Sakari commented on that too. It's possible, but make
+.init_state() significantly more complex, and splits the logic between
+.init_state() and .set_fmt(). I'm not convinced it's worth the work.
 
 -- 
-tejun
+Regards,
+
+Laurent Pinchart
 
