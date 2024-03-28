@@ -1,183 +1,284 @@
-Return-Path: <linux-media+bounces-8093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8094-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3F188FE10
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 12:27:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 662C188FE31
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 12:36:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F6B21C21E23
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:27:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55763B224A7
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:36:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F177E0E8;
-	Thu, 28 Mar 2024 11:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD89A7E76F;
+	Thu, 28 Mar 2024 11:36:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fbGs7q/9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RIaWOR98"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957C75F87C
-	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 11:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E2064CF3;
+	Thu, 28 Mar 2024 11:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711625235; cv=none; b=jH8Vy99iUTTEggRHPFDOqPXGIwFTD7k/LZUEOTX6vTQIa7I1gnJWntGD63flUJOjYXRQK1OFU/6rt6X/4KeXefY+Li2JL8WjOEX76qjSPrPg/mXrDbQbyS3FaeNu7GlBkPmGq7BpxsvLk4jzmGOquS448ZblTmoOxXfz1ICmwD0=
+	t=1711625777; cv=none; b=mAAmpwP2KHaPMNROE/D6bsBno057JKT1VE0HyCR/9Ddo7LtXZE/GvLr4ASrRUUDDU84ztN2pkSmNfl4D4T2Jd4OPW88azkXMsvXI7X98riDMbSE7160lMlIKKzIBYLUmUx7nvD2Z2SCtGuaaU6Xo8dO4HUTUNMHpLWFz0DeC/6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711625235; c=relaxed/simple;
-	bh=44kiBZqFTaP5gPeydBqZrymI96x8lX3fKbCZJ9eSQBs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A6G1Lxfzxw1/IAfxrMxeiKR47gLSOuagljtCMFQNT+CZzaEneZOxqO5PHl3OheRnZkR2Sqozt9BE6K/dI5AdOlPtZdOg/lbAxNzxrjYMH1OK5moH2VLZfx/EIHHYeIikHvoXNSR/cYYcAMLY1wXoDVWRDp0NNg0ErCrjvYGFPg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fbGs7q/9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711625232;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pg0OITcJVy9yA5gEeGEy2hwLJsyzqBUNUFN2D0POo9U=;
-	b=fbGs7q/9EMA31Hrl/b6vE3EuwDL64c139774rGgK6uW1E5CIO1/ZV8qXnJZE8mTCfv6plt
-	Ujar8Ky4CCqi9KNpa+XsytA6u989d1FOYzmFH4LfrRQm+hxXwjelCCLA3LB67RYrRSY68Q
-	EWQTbfxo1CvngzRFxTSXaN/kHQRu6mw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-219-SXf1FfTrMkSFrknS_Ep_bA-1; Thu, 28 Mar 2024 07:27:11 -0400
-X-MC-Unique: SXf1FfTrMkSFrknS_Ep_bA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a4df17773a5so59990466b.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 04:27:10 -0700 (PDT)
+	s=arc-20240116; t=1711625777; c=relaxed/simple;
+	bh=+dd+jag5eM71uUTRIhuq8X0Lno8/0/lFhRJKWZMHVRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgSsnU5S6JFbwI/pArQLNutoKdV5nbqVXjqWYnCeSkJF/d/HJaXH0I5+cAO4N7nvfvJmJDAJHr/9MUdM77UuPacRwaYSn819EqgpSc0Ffumln56M8zANuT6x5bRRO8bRbW1ENFGdgRfVYulrRzL/SuFDMCsqueGL6+uxmtwgNDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RIaWOR98; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51381021af1so1138596e87.0;
+        Thu, 28 Mar 2024 04:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711625773; x=1712230573; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mtjJIYgeoGnDv/4X+Zsdpt9BP5P3jAb4HXMnkefb5Bw=;
+        b=RIaWOR98wAza6y9K09psAG4POn8cgJzxvqycyAqfYPYWqwVUPUHIMasgzyXqPI3Hko
+         KjlKuYASK7RrqvO4MFX3etbnaw0wCVsjM3qHOi5tWEbxshh/3YaEMTBHafKIyOnFIosM
+         1JVLAp8Rlpyrj5Er2TbUCBqF5B927ZNYjpttQByNb6RgbKrfNqezKszjMwBzgI/3A8v1
+         foO1jDf92tP9xLNXL1bT14j8yrgrV+N0Jbw17y4QqMyp9uEYR8MgWCXV56xY7BgojGvg
+         t6IsWx35+Rq8JpVzUESkPPWqC9G+y9N4WVv9rbHxSqsDErZtdDDOFXqm7Pv8mgQzW/sO
+         Fogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711625230; x=1712230030;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pg0OITcJVy9yA5gEeGEy2hwLJsyzqBUNUFN2D0POo9U=;
-        b=vGylZJe9T9ZHERTEBPj5OV0AYH+j6CTWxuvDvOw7RaIAGY4FJSs1kGurmZgclWwZbF
-         iK2Zbigpry9c8LEOAtvV676O41s7K8eT63+3CuBOm+kQwdj7pjLe3KJ5iOORvRFgg7R0
-         PlkTjT5reGGfcUWlYjldl6sj2gT46RLC2IOJ5Gwh13iT+i/Jxz3ChU7L5UsQP0DDjZBq
-         zy2FPkuwwxapWZEEfKjQfsFoKu+tXsOpzrx8qr2VgqKesTkZQ7Gqw5iU2xH8mWrV0utj
-         x4GM5aY1BF6e7ZvARpWd3JoSlKDIOJAY1C4UEcqlABM7zP1aqQoqEvrNyEpkQzTmU0dP
-         Z3nw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6LfNXB4a244qJo2GQGqzfWY+i7FZ/BMkzBE2G+VOZFG4WUq10m3vR8zOqihu9LKoZvnmQLOLwO9JhuHoR+4soy8KsPnene1fsQnQ=
-X-Gm-Message-State: AOJu0YziHOCLuE1g72VADijXxOP4G8lOiLYaRptAJbIKalv4rXJHztp5
-	SzON6O+oK8g2dVWN4XOBYmtjddWwKL8P8P2T0paWoERF+JU9jBIjjCsYLAegyO980v2/lDJzUXG
-	cFIpHjphTyt2dJeKzE01/nFOhMDsvAgqOV4k31oJoLNqpRdsoXEWaDFTaYxmA
-X-Received: by 2002:a17:906:b118:b0:a47:3b21:161a with SMTP id u24-20020a170906b11800b00a473b21161amr1499075ejy.37.1711625229974;
-        Thu, 28 Mar 2024 04:27:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG8+yWDz8vEt3NyruQyXCfPDZTfZs8dSVl8kpJKgx4lyEzbDOWqXngKqrAb8HGeKI4jWW/Nsw==
-X-Received: by 2002:a17:906:b118:b0:a47:3b21:161a with SMTP id u24-20020a170906b11800b00a473b21161amr1499065ejy.37.1711625229592;
-        Thu, 28 Mar 2024 04:27:09 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b00a46ee3c31afsm631877ejb.154.2024.03.28.04.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 04:27:09 -0700 (PDT)
-Message-ID: <dbba19b3-0ca2-47a3-ac6c-58872da87f66@redhat.com>
-Date: Thu, 28 Mar 2024 12:27:08 +0100
+        d=1e100.net; s=20230601; t=1711625773; x=1712230573;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mtjJIYgeoGnDv/4X+Zsdpt9BP5P3jAb4HXMnkefb5Bw=;
+        b=C2jrdOIeZwT+5RxV+wtAzbY7RIelreS1/bt+dr9WdvxJk4NNtSrxieFhZFlXCEEszr
+         f43yO4hFG+iwAOnBmyx+Bhpn7+jRra7t+FUpHKiftxIgisEYM3MDH/PGxwroCwdWuU7J
+         ob8LuQF4Sn3XYVy16K2Tv0su0UkHHaO5ArHhP29+1YLtRDIhh4o/eo2ZPveGO0OCoKFy
+         2K7ZJ7ysjQccRDaEk/ZZZiC4PdY4FpqOr+I3G6ahisy3cTOBl6yKi9wnglMRjf0uY9WK
+         qwr97lbr4kqzChoH5lyv2cfM26MAbnqXPqnbv9kSQhYyajDdFk2vFejezcEWN96m4sRx
+         iW/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWO6BLG+2P7lCYWQM+clnBMRbk34FwyOXdDVgQSH77eidNy8bS6VDce18KN1tqmerBUOBVARDTzVMRzjvs+jQSfNed4iyHHQLiDAZdq
+X-Gm-Message-State: AOJu0YyJlXe0W+i3dEOfnbsvPDIS/CtTRlo+C6yWPwybPq6nnlPXOQ1N
+	77Amcb1s75RRyewiJrw3ISKRV4uDtH5UCg7P4lj+YliZKlDT5a1n
+X-Google-Smtp-Source: AGHT+IHrOqrj2CF4kdmaeAukasfNq6Jpaeb76GRC0ExoFh2Oe3TB8lz/k3BD1D8OIBeghf2anA3zSA==
+X-Received: by 2002:a05:6512:3901:b0:513:572f:88f1 with SMTP id a1-20020a056512390100b00513572f88f1mr1846121lfu.27.1711625773126;
+        Thu, 28 Mar 2024 04:36:13 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id f15-20020ac24e4f000000b005159fb35a9fsm166859lfr.38.2024.03.28.04.36.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 04:36:12 -0700 (PDT)
+Date: Thu, 28 Mar 2024 14:36:10 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: RE: RE: [PATCH v2 4/5] media: chips-media: wave5: drop
+ "sram-size" DT prop
+Message-ID: <7lro7ryzjajpzvkjdj5cndkmzmjkqvhts6dmer4pkkt7dluiii@wp7ael4ae7jd>
+References: <20240325064102.9278-1-brnkv.i1@gmail.com>
+ <20240325064102.9278-5-brnkv.i1@gmail.com>
+ <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <5hd7duzqhgdxpmvom3opkhwxkq55dmitk4gwdl4dy46q662in6@xxkmvdj6plqb>
+ <SL2P216MB1246499CC9FED9BFB5B11DA3FB3B2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: ov2680: Report success on link-frequency match
-To: Fabio Estevam <festevam@gmail.com>, sakari.ailus@linux.intel.com
-Cc: rmfrfs@gmail.com, hansg@kernel.org, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, Fabio Estevam <festevam@denx.de>
-References: <20240328051320.2428125-1-festevam@gmail.com>
- <20240328051320.2428125-2-festevam@gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240328051320.2428125-2-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB1246499CC9FED9BFB5B11DA3FB3B2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 
-Hi Fabio,
-
-On 3/28/24 6:13 AM, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On Thu, Mar 28, 2024 at 10:16:53AM +0000, Nas Chung wrote:
+> Hi, Ivan.
 > 
-> When passing the correct 'link-frequencies' in the DT, the
-> driver should report success on the match case:
+> >-----Original Message-----
+> >From: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >Sent: Wednesday, March 27, 2024 9:27 PM
+> >To: Nas Chung <nas.chung@chipsnmedia.com>
+> >Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+> >jackson.lee <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab
+> ><mchehab@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>
+> >Subject: Re: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-
+> >size" DT prop
+> >
+> >On Wed, Mar 27, 2024 at 10:27:19AM +0000, Nas Chung wrote:
+> >> Hi, Ivan.
+> >>
+> >> >-----Original Message-----
+> >> >From: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >> >Sent: Monday, March 25, 2024 3:41 PM
+> >> >To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+> >> ><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab
+> ><mchehab@kernel.org>;
+> >> >Philipp Zabel <p.zabel@pengutronix.de>
+> >> >Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
+> >> >linux-kernel@vger.kernel.org
+> >> >Subject: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size" DT
+> >> >prop
+> >> >
+> >> >Use all available SRAM memory up to WAVE5_MAX_SRAM_SIZE. Remove
+> >> >excessive "sram-size" device-tree property as genalloc is already able
+> >> >to determine available memory.
+> >> >
+> >> >Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+> >> >---
+> >> > .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++---------
+> >> > .../platform/chips-media/wave5/wave5-vpu.c    |  7 -------
+> >> > .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
+> >> > .../chips-media/wave5/wave5-vpuconfig.h       |  2 ++
+> >> > 4 files changed, 13 insertions(+), 18 deletions(-)
+> >> >
+> >> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >> >b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >> >index 3809f70bc0b4..a63fffed55e9 100644
+> >> >--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> >> >@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
+> >> >*vpu_dev, struct vpu_buf *array,
+> >> > void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
+> >> > {
+> >> > 	struct vpu_buf *vb = &vpu_dev->sram_buf;
+> >> >+	dma_addr_t daddr;
+> >> >+	void *vaddr;
+> >> >+	size_t size;
+> >> >
+> >> >-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
+> >> >+	if (!vpu_dev->sram_pool || vb->vaddr)
+> >> > 		return;
+> >> >
+> >> >-	if (!vb->vaddr) {
+> >> >-		vb->size = vpu_dev->sram_size;
+> >> >-		vb->vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
+> >> >-					       &vb->daddr);
+> >> >-		if (!vb->vaddr)
+> >> >-			vb->size = 0;
+> >> >+	size = min_t(size_t, WAVE5_MAX_SRAM_SIZE, gen_pool_avail(vpu_dev-
+> >> >>sram_pool));
+> >> >+	vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
+> >> >+	if (vaddr) {
+> >> >+		vb->vaddr = vaddr;
+> >> >+		vb->daddr = daddr;
+> >> >+		vb->size = size;
+> >> > 	}
+> >> >
+> >> > 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
+> >> >0x%p\n",
+> >> >@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device
+> >*vpu_dev)
+> >> > 	if (!vb->size || !vb->vaddr)
+> >> > 		return;
+> >> >
+> >> >-	if (vb->vaddr)
+> >> >-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
+> >> >-			      vb->size);
+> >> >+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
+> >> >>size);
+> >> >
+> >> > 	memset(vb, 0, sizeof(*vb));
+> >> > }
+> >> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >> >b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >> >index 1e631da58e15..2a972cddf4a6 100644
+> >> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> >> >@@ -177,13 +177,6 @@ static int wave5_vpu_probe(struct platform_device
+> >> >*pdev)
+> >> > 		goto err_reset_assert;
+> >> > 	}
+> >> >
+> >> >-	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
+> >> >-				   &dev->sram_size);
+> >> >-	if (ret) {
+> >> >-		dev_warn(&pdev->dev, "sram-size not found\n");
+> >> >-		dev->sram_size = 0;
+> >> >-	}
+> >> >-
+> >> > 	dev->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> >> > 	if (!dev->sram_pool)
+> >> > 		dev_warn(&pdev->dev, "sram node not found\n");
+> >> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >> >b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >> >index da530fd98964..975d96b22191 100644
+> >> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> >> >@@ -750,7 +750,6 @@ struct vpu_device {
+> >> > 	struct vpu_attr attr;
+> >> > 	struct vpu_buf common_mem;
+> >> > 	u32 last_performance_cycles;
+> >> >-	u32 sram_size;
+> >> > 	struct gen_pool *sram_pool;
+> >> > 	struct vpu_buf sram_buf;
+> >> > 	void __iomem *vdb_register;
+> >> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-
+> >vpuconfig.h
+> >> >b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >> >index d9751eedb0f9..9d99afb78c89 100644
+> >> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> >> >@@ -28,6 +28,8 @@
+> >> > #define WAVE521ENC_WORKBUF_SIZE         (128 * 1024)      //HEVC 128K,
+> >AVC
+> >> >40K
+> >> > #define WAVE521DEC_WORKBUF_SIZE         (1784 * 1024)
+> >> >
+> >> >+#define WAVE5_MAX_SRAM_SIZE		(64 * 1024)
+> >>
+> >> WAVE521 can support 8K stream decoding/encoding.
+> >> So, I suggest the MAX_SRAME_SIZE to 128 * 1024 (128KB).
+> >>
+> >> And, Current driver always enable sec_axi_info option if sram buffer is
+> >allocated.
+> >> But, we have to enable/disable the sec_axi_info option after checking
+> >the allocated sram size is enough to decode/encode current bitstream
+> >resolution.
+> >
+> >Do we really? As an experiment I tried to provide to Wave515 1KB of SRAM
+> >memory and decoded 4k sample file was fine...
+> >
 > 
-> port {
-> 	ov2680_to_mipi: endpoint {
-> 		remote-endpoint = <&mipi_from_sensor>;
-> 		clock-lanes = <0>;
-> 		data-lanes = <1>;
-> 		link-frequencies = /bits/ 64 <330000000>;
-> 	};
-> };
+> You can think It seems like driver works fine.
+> But, This is not the behavior we expect.
+> There is a possibility that unexpected problems may occur.
 > 
-> However, this does not happen and the probe fails like this:
-> 
-> ov2680 1-0036: probe with driver ov2680 failed with error -22
-> 
-> Fix it by returning success upon link-frequency match.
-> 
-> Also tested passing a wrong link-frequencies value in th DT and
-> confirmed that the driver correctly rejects it.
-> 
-> Fixes: 63b0cd30b78e ("media: ov2680: Add bus-cfg / endpoint property verification")
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  drivers/media/i2c/ov2680.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index f611ce3a749c..37c21749dc14 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -1128,7 +1128,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
->  
->  	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
->  		if (bus_cfg.link_frequencies[i] == sensor->link_freq[0])
-> -			break;
-> +			return 0;
 
-If you need this then that suggests that bus_cfg.nr_of_link_frequencies != 0
-otherwise this patch will not make a difference. So that suggests that
-patch 1/2 is not necessary ?
+Ok, then we either
 
-And if bus_cfg.nr_of_link_frequencies != 0 and we break then:
+ 1) don't try to allocate any availible SRAM memory up to
+    match_data->sram_size, but allocate exact match_data->sram_size
 
->  
->  	if (bus_cfg.nr_of_link_frequencies == 0 ||
->  	    bus_cfg.nr_of_link_frequencies == i) {
+or
 
-This will never be true (neither condition is true) so we will continue
-with a clean exit of the function. Except that that clean exit
-does "return ret" and I see there may some paths where that is not 0
-even though we are doing a clean exit.
+ 2) allocate any available SRAM memory up to match_data->sram_size, but
+    check for allocated size before writing to registers W5_USE_SEC_AXI
+    and W5_CMD_ENC_PIC_USE_SEC_AXI
 
-I think that what is necessary for your case with fixed dts file is:
+With second variant I won't be able to add said check for Wave521, as I
+don't know its memory requirements.
 
-diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index bcd031882a37..5c789b5a4bfb 100644
---- a/drivers/media/i2c/ov2680.c
-+++ b/drivers/media/i2c/ov2680.c
-@@ -1179,6 +1179,8 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 		goto out_free_bus_cfg;
- 	}
- 
-+	ret = 0;
-+
- out_free_bus_cfg:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
- 	return ret;
+Also would this check be SoC specific or would it be common for any SoC
+with same Wave5xx IP?
 
-and that then replaces both your patches, can you give this a try ?
-
-Regards,
-
-Hans
-
-
-p.s.
-
-Your early return 0 in this patch also leaks the bus_cfg.
-
-
+> >> Wave5 can enable/disable the sec_axi_info option for each instance.
+> >>
+> >> How about handle sram-size through match_data ?
+> >> I can find some drivers which use match_data to configure the sram size.
+> >>
+> >> We can use current "ti,k3-j721s2-wave521c" device as a 4K supported
+> >device.
+> >> - .sram_size = (64 * 1024);
+> >> Driver just allocate the sram-size for max supported resolution of each
+> >device, and we don't need to check the sram-size is enough or not.
+> >>
+> >> Thanks.
+> >> Nas.
+> >>
+> >> >+
+> >> > #define MAX_NUM_INSTANCE                32
+> >> >
+> >> > #define W5_MIN_ENC_PIC_WIDTH            256
+> >> >--
+> >> >2.44.0
+> >>
 
