@@ -1,181 +1,129 @@
-Return-Path: <linux-media+bounces-8070-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFBF88F915
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 08:47:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A7C88F938
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 08:54:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F36D11C2B31E
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 07:47:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82DDD1C29CD8
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 07:54:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C050212E78;
-	Thu, 28 Mar 2024 07:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A956A51C28;
+	Thu, 28 Mar 2024 07:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ClgGrc7m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mE8ug2I1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9342D28DB3
-	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 07:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94425465D
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 07:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711612026; cv=none; b=akd4DQPCar+MqSxhnI75va/uol2xXFsCGDv+KPcaI4x0z9cLRnQqJy9QzY1SrzhFHs4cvpI2fp1YLtAW9jrMGviZ2gg22N85FShEwDZoI/qBlXS/kV1X4l5rJg5MjTzWJuw89DqT5eXwv+ZwRjk68194q9dw0K2OrhjjJGiIZ0A=
+	t=1711612487; cv=none; b=EnEluIyZlo7+z5lMi0CgeurgLB9XjSOb2Hp24FY0bQ0/tIBdH8ER3ULY7ZNOnsBVQLuL17w7bgTucbfBjdtTNXVG3bBCc1IJIOO7jhxmoNFgeD4+Mtj9GIpugCmhULt5C2K1uwQ+JQbP+g5p1PHf0Th+BheBf+s6Pt956Zh0k7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711612026; c=relaxed/simple;
-	bh=KOJwoVFlRObnl8G7XcM8J0gumGAm01L3G0CqgIwHzEM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D07DzNAuAYBlZT5RzrfU/ssKJzmIlhqWOonblOSaQi9DZY8F+hAaF55Z+bmBlcdQBrD+gYGdAuFCpT9CCpGAN4y8k+AmpL5gkavY+hM6l7gRu88jXvN7vsNhv5raRrenxhkXaIEaSs/mJE0Yt+sYDNXQMxSa373ABgqOkMBbhpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ClgGrc7m; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33ec7e38b84so398038f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 00:47:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711612023; x=1712216823; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CrkzSrlFWgfCQCwVdklZp2cB+vi+PxEblAJ5L8nXNWY=;
-        b=ClgGrc7m6kUt9WHnaBJ2mX2Q0zbAYT2ILlBeb5qFtZTgtHFaoqTtVO6A4Qt+7odibj
-         VxXqxrLIw+qFUk1QccxT/43ggfibmEw2FXTw2AYgFSwx/c/Im22LaCnZpEQISYB2x6h2
-         ZDiHN5AW1RT2OdkBCEneDXbdo5asW/OdO9fmkHCaHsq7Yg6/pFRLCo3jPjd8r7ZVTaWf
-         iSyraDDnxQIjKrqB8rgKnK+fW3MQ7QzTSIY/u3/pByJQL6XrZNQTHO2yo8RYxEUAChAo
-         AFMEKIDmmHioa5Lr6WObwQAEpJClBQx6O4JYdD6HT/qSrc2hnk9BzCC74xefvMsQLoeZ
-         unqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711612023; x=1712216823;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CrkzSrlFWgfCQCwVdklZp2cB+vi+PxEblAJ5L8nXNWY=;
-        b=TMTmcFWHj09t0Kd3o823uNXTLpF/U+qgjQUtu8GXf2kkEH6zNsq70XUhROQ1g5csXz
-         2K/0niqtaerptO+eT2HhnvjDcWOZ20KtLOmGTwVbv5t6i1H7bv2Pe40FXuVNm2eYFdOP
-         i7Yoij2ZScFBDNSAaIg8xND8tl02LqXQkuSIwOIf136m0wOJt2b/1eC808MfHI+RqztD
-         1UWhcUZABwZw0U92jMCT7xtaIQ/dc/+yvvPfJDHMQmo+DTWLZRMBQT/wb/nPP5z/4GsB
-         o0KClPhbg7zm0X7Qm/Rx4PgCuTGOpxj2Va6xVYuNoh2zxJmWgF8bTcrzk65P4nozZYkY
-         N6fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXN0/J2m67ILj0MDudat/qE7MNKI7wrsflb3t4IY4oaDui9CAEeMblv+4G/OafeFdRKf/eEkbpPSWWPodOwmuhXut3iITooxgU59tI=
-X-Gm-Message-State: AOJu0YxFNHtGG8C7bFVXTMZLOLG27r0zMvwz+qzjmUjbVFR1NS3LjAx0
-	ahYOcuF5EFv1JZilGYU+BPOMbrz0xTubYtb10Viq+E0bQg1cgBYUVyUuehAkDu8=
-X-Google-Smtp-Source: AGHT+IEgsF9/UWpCuhbvnJQPCDxVYa0onZfec4+ZEFNCJ/4wRGH2kGvRxv7bFSpQ0maoRWkpvsT9oQ==
-X-Received: by 2002:a05:6000:1544:b0:341:d912:1fec with SMTP id 4-20020a056000154400b00341d9121fecmr1910176wry.49.1711612022976;
-        Thu, 28 Mar 2024 00:47:02 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.148])
-        by smtp.gmail.com with ESMTPSA id a9-20020a056000050900b00341d7596ec0sm1005568wrf.15.2024.03.28.00.47.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 00:47:02 -0700 (PDT)
-Message-ID: <586bdcc9-793d-4cbe-9544-9012a665288e@linaro.org>
-Date: Thu, 28 Mar 2024 08:47:00 +0100
+	s=arc-20240116; t=1711612487; c=relaxed/simple;
+	bh=z+HUvojkH9gEZKOo0HIT1sILyPwdO2dgvL6bBHSKPTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUXzMeGkCuVk5VSiaR26+LYptpz4Yw9MtyBYXFwr75WxChgsv06JbvFEoDC1OporgvyjnKHlNnXieCTxrC1oQtFmtI/43RHLU7nj9pDWoJ0EFUiaG7UOXwufx0UNjZPZjGvNGSXjE7jEfnR0HzilDwFhk4JZdIN3qaj1+dxZtc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mE8ug2I1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711612485; x=1743148485;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z+HUvojkH9gEZKOo0HIT1sILyPwdO2dgvL6bBHSKPTc=;
+  b=mE8ug2I1xr+ZBNHxBVkVfuWPycHdwGdhM0pNdn55xoNy8XxSzjE4BfId
+   Vu47sUdrDiTxkr7SF6Cq/uR9OI5dbCanq/GbxGm1V4hyqM1ReWPqK2zsl
+   xqKFvXqvI3p7K/cWRYBQP8H+4SL2rJEVxQi+qvQRmqi5zqnHt+JidsVXT
+   VGnX+eebIJAtt2gHZo2uGQ/1P+EsHnfcMs6FY8AWcrrPMZdJiWXalBE/+
+   J2xjPsM+W4xEikNi8K57nWNuSx+6lDLyRj/z/ATA8KcBB20kXP+D0ts3i
+   etcmy/+fNch8vkT52BD54AkTH/rWQM8/qEoUAp47tnpFLQKeQsHFp0jdt
+   g==;
+X-CSE-ConnectionGUID: N3TlyK8BQtqP9jcLNr7V/w==
+X-CSE-MsgGUID: tzygiHVwRzSrvmuANpwNmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="10557104"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="10557104"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 00:54:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="16968091"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 00:54:43 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AF0D911F915;
+	Thu, 28 Mar 2024 09:54:39 +0200 (EET)
+Date: Thu, 28 Mar 2024 07:54:39 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: rmfrfs@gmail.com, hansg@kernel.org, linux-media@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH 1/2] media: ov2680: Allow probing if link-frequencies is
+ absent
+Message-ID: <ZgUiP2WnaAWnJ207@kekkonen.localdomain>
+References: <20240328051320.2428125-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
- compatible strings
-To: git@luigi311.com, linux-media@vger.kernel.org
-Cc: dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
- mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, sakari.ailus@linux.intel.com,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240327231710.53188-1-git@luigi311.com>
- <20240327231710.53188-19-git@luigi311.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240327231710.53188-19-git@luigi311.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240328051320.2428125-1-festevam@gmail.com>
 
-On 28/03/2024 00:17, git@luigi311.com wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Hi Fabio,
+
+On Thu, Mar 28, 2024 at 02:13:19AM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
 > 
-> There are a number of variants of the imx258 modules that can not
-> be differentiated at runtime, so add compatible strings for them.
+> Since commit 63b0cd30b78e ("media: ov2680: Add bus-cfg / endpoint
+> property verification") the ov2680 no longer probes on a imx7s-warp7:
 > 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Luigi311 <git@luigi311.com>
+> ov2680 1-0036: error -EINVAL: supported link freq 330000000 not found
+> ov2680 1-0036: probe with driver ov2680 failed with error -2
+> 
+> As the 'link-frequencies' property is not mandatory, allow the probe
+> to succeed by skipping the link-frequency verification when the
+> property is absent.
+> 
+> Fixes: 63b0cd30b78e ("media: ov2680: Add bus-cfg / endpoint property verification")
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
->  .../devicetree/bindings/media/i2c/sony,imx258.yaml          | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/media/i2c/ov2680.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> index bee61a443b23..c7856de15ba3 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> @@ -14,10 +14,14 @@ description: |-
->    type stacked image sensor with a square pixel array of size 4208 x 3120. It
->    is programmable through I2C interface.  Image data is sent through MIPI
->    CSI-2.
-> +  There are a number of variants of the sensor which cannot be detected at
-> +  runtime, so multiple compatible strings are required to differentiate these.
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index 39d321e2b7f9..f611ce3a749c 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -1123,6 +1123,9 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+>  		goto out_free_bus_cfg;
+>  	}
 >  
->  properties:
->    compatible:
-> -    const: sony,imx258
-> +    - enum:
-> +        - sony,imx258
+> +	if (!bus_cfg.nr_of_link_frequencies)
+> +		return 0;
+> +
 
-Two people working on patch but no one tested it before sending. Do not
-send untested code.
+Thanks for the patch.
 
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
+I'd still rather try to avoid going to this direction as these frequencies
+are hardware dependent. Add a new one to the driver and some boards may
+stop working properly. For details see
+<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks>.
 
-Best regards,
-Krzysztof
+>  	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
+>  		if (bus_cfg.link_frequencies[i] == sensor->link_freq[0])
+>  			break;
 
+-- 
+Kind regards,
+
+Sakari Ailus
 
