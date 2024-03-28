@@ -1,140 +1,162 @@
-Return-Path: <linux-media+bounces-8074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC9B88FA64
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 09:53:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DFE88FB5D
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 10:27:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B207A282C33
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 08:53:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A1351F272AE
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 09:27:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEFF85FB9A;
-	Thu, 28 Mar 2024 08:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B4F651B1;
+	Thu, 28 Mar 2024 09:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O1wRiwex"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TUKHQUch"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2097B54775;
-	Thu, 28 Mar 2024 08:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC41F43ADA
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 09:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711615928; cv=none; b=VF20oD/I3tb//bNWpXQ9mS/YK/dmx/g/ouA3mD9yNeo0hwFwmF0n/dszXrhp7L43zXr3cb+v4Z5qxNASJnBOe6h36x00KN4ATFdSaFgELNUheKRPK3j/GLZFHEfrBywBhDkYaRgSiTtz7X5OErNyslpBBR7bApFyIUlIuPE+qBU=
+	t=1711618013; cv=none; b=odWyxNHtTw+Dc0F41kSbUoxWNaOTldIA8lVBHmaQpLTvf9YSOBUqtnbsxot6Es63X2XA0LzJPtaef3h5sUXOvd2V8D5kjJdFeSpDGPyI3eEVu0ncTM7tP6B/A24r8TXgKrMJ3IOoDMK1WrdUEBudyrieDQdJxKpnCvuQJQJ1G1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711615928; c=relaxed/simple;
-	bh=5ywGdOE9cKl2/Ln19G2UleUNBEY31QHhmLsqIQZtQ/s=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=TzwD95ACg3dDbqgMEVchjlyr8B4ngpqYpsY+qe8ICeB4MxwN08QBoPgBXZv2U3XQi2DOiZNWy01NAaOcKtScU2q3eGdv3qMcfrMsZn01HrmzV4GqMoDQP6GTJdOgjSg7olQw8V0oi49SqLB9ZT3j4bY+E43+IQ8HGa7gZiI3bw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O1wRiwex; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6859ED20;
-	Thu, 28 Mar 2024 09:51:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711615891;
-	bh=5ywGdOE9cKl2/Ln19G2UleUNBEY31QHhmLsqIQZtQ/s=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=O1wRiwex2lGpg7fJs0QaR9ij2vL3uYMs8IWFScSThC35qutOwuZRW95qQPk5fDce3
-	 h3tRULXEIvXsIIJEPepqUXIog0TNgSb5/RKmAuBrwyuX28ws5+JvuJkxisuesqbm5f
-	 BkgORPj5Gb4i3N7rVCPFW56cWPJnureukC6eUQGU=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711618013; c=relaxed/simple;
+	bh=mxI3dtUqp9zmMAmwAry/PSUUjVo2cudQ7Rm8VoOQs1o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YGMNSL9MW3Fedis+t4TjqwJaf6bCZ1+F5rj4mQMAYi3FakGeMeDs91tOl/BNxlvqb3BOGxYPmiKbymq4geFMsfD7e/dUS0eZv2/wWMXoBkQTgdZB6a8UmKHLXE3hV/iblwsg81dcCd8X3OJ+dgFjcHoZddgawQuBrW/zQEraZ9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=TUKHQUch; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4148c6132b4so10399185e9.1
+        for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 02:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711618009; x=1712222809; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=037yUICN8Zj6LjDic8LC2UDwvIudLoxg0PS899BrnwU=;
+        b=TUKHQUchjhoO0nR/bEkcRvFBBLcQ+v73egJvFiDoFfZt63yLIM0MLcnqFDztLUhrmH
+         6aT2E1IaMWlooJovSlDuz1qsNHVyxp/Y4KCciYPXOUE5Prwic6+MEsyfaIVBfmPk/GVF
+         mvrKYJXIII+UKz2z2Ks2KUJPdKiB5AOSq0kwG48rOiSHCZmWI784qHlG/MBltGvU1Lsa
+         Gc3KJ8Bpd+iXdYuFhWXm/vpGaK/xX9GbqUWFHIYXT8GkX0jnVX33V8woR96MrV6N+ll3
+         p34r2+Ou7atLn2Zeo6MtjEL1xHJQ8JsPplmuv3t2vsq6+x6QPVopFiYLpiD8SUzSzuMH
+         HCTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711618009; x=1712222809;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=037yUICN8Zj6LjDic8LC2UDwvIudLoxg0PS899BrnwU=;
+        b=pzRIN0p/a3NVwmUkNoDB5X91iYyxWH4l3VfGRPb/J+Qg2ouijOGRsb4xmWtYFv3zeC
+         kJA1Eub5Ha55EXlMyR0Ql3VwvIp2uPRGlGBuT6LhJORK9TlZCmx9YejTwx0zAcxJ2yM4
+         SNC/DQ89Xe4yuyWqxVSj4yHHVdAqB9MobRD8qu7PNObUnSrjiyNAn6Jsq16+S6Ci3GGi
+         DZMpj+XPVXBEDdh56hmrcUj0Rcf7HAI7OBcFS82VfTEHcxOYChWY/PcVHUYYptz6Vmh0
+         WZqTAsapixRsKcewGSSlZT2zODaMtPtS4cWkTCesnmIe3ljgi7kqP8IL18OQPdHC5dnn
+         lUZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbYH6QDDnPlcrMa2W6o8067vAmpWN8o/4tzeH2HjgouCQRfz7ii2i9ZEqlQXvbELpKD8vDcVgpFAcFPtyHr22bE3KJF3a3bXGzwho=
+X-Gm-Message-State: AOJu0YxuLKjLlnMmXqu7HI+7XcoGH9x10gzTJI7+qi4CajltiEdzHBzG
+	IzQu4Qh6joHwwRRUGsKXdAoETW36rAVNB/V7riUnsz/qXiv3k8JdPLFdGiBuZkw=
+X-Google-Smtp-Source: AGHT+IHLaIIbZsEZxQrLnlbH1qW6VXrNaf2xZGc7tS9bHD/eGEFPYn/1xJdx7j9BXHFyl+/lKz2TvQ==
+X-Received: by 2002:a05:600c:4ec9:b0:413:4299:ec9f with SMTP id g9-20020a05600c4ec900b004134299ec9fmr1547318wmq.5.1711618009022;
+        Thu, 28 Mar 2024 02:26:49 -0700 (PDT)
+Received: from [127.0.1.1] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id bd17-20020a05600c1f1100b0041493615585sm1673414wmb.39.2024.03.28.02.26.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 02:26:48 -0700 (PDT)
+From: Julien Panis <jpanis@baylibre.com>
+Subject: [PATCH net-next v5 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+Date: Thu, 28 Mar 2024 10:26:39 +0100
+Message-Id: <20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
-References: <20240327231710.53188-1-git@luigi311.com> <20240327231710.53188-18-git@luigi311.com> <20240327-ninth-tulip-77191ad10fdd@spud> <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
-Subject: Re: [PATCH 17/23] dt-bindings: media: imx258: Rename to include vendor prefix
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, sakari.ailus@linux.intel.com, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-To: Conor Dooley <conor@kernel.org>, git@luigi311.com
-Date: Thu, 28 Mar 2024 08:52:01 +0000
-Message-ID: <171161592126.3072637.14564447281929105708@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM83BWYC/42OzWrDMBCEX8XonG31Z6Hk1PcoJaykTa0Sy0Yyr
+ kPwu1fxrSUUH2dn5tu5s0I5UmGn5s4yzbHEIVXRHhrmO0yfBDFUzSSXmkupAHvTgh/LNyxhBIc
+ letDBWWlbbp22rDbrlcBlTL57dL9GTLG81vy5x5iuMdF55o/gmOkSl+39O0s0QaJlYh/V6WKZh
+ nzbds1i8/+dMAsQcLxwZ7wLqAR/c3i7RpfpxQ/9hpzlDowEDlx44xE9OmeeYNQOjKqYNhy1xmO
+ wGp+t0TswumKUVUagUait+405NDvqknRLbSDPtf2zYl3XHyFW71IAAgAA
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Ratheesh Kannoth <rkannoth@marvell.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Julien Panis <jpanis@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711618007; l=2325;
+ i=jpanis@baylibre.com; s=20230526; h=from:subject:message-id;
+ bh=mxI3dtUqp9zmMAmwAry/PSUUjVo2cudQ7Rm8VoOQs1o=;
+ b=pjxRZGc0ZNpjhrrYX6GeGUAvpeXEIOE/nsO2hVShrS5g59uZ1sRp2gLtRwpsGynFeMC9ZhpZa
+ 6vct8jvI5BHCfrrVXO25rVE271WkqGcmgRGQbW51w0gjb7g5yqOrSao
+X-Developer-Key: i=jpanis@baylibre.com; a=ed25519;
+ pk=8eSM4/xkiHWz2M1Cw1U3m2/YfPbsUdEJPCWY3Mh9ekQ=
 
-Quoting git@luigi311.com (2024-03-28 00:57:34)
-> On 3/27/24 17:47, Conor Dooley wrote:
-> > On Wed, Mar 27, 2024 at 05:17:03PM -0600, git@luigi311.com wrote:
-> >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >>
-> >> imx258.yaml doesn't include the vendor prefix of sony, so
-> >> rename to add it.
-> >> Update the id entry and MAINTAINERS to match.
-> >>
-> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> >=20
-> > This is a v1 with my ack, something has gone awry here. It's also
-> > missing your signoff. Did you pick up someone else's series?
->=20
-> Yes, this is a continuation of Dave's work. I contacted him directly,
-> and he mentioned that he is unable to submit a v2 any time soon and
-> was open to someone else continuing it in his stead. This is my first
-> time submitting a patch via a mailing list, so I'm not sure if I'm
-> missing something, but I only added my sign off for anything that
-> actually included work from my side and not just bringing his patch
-> forward to this patch series.
+This patch adds XDP support to TI AM65 CPSW Ethernet driver.
 
-Your cover letter states v2, but the individual patches do not.
+The following features are implemented: NETDEV_XDP_ACT_BASIC,
+NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
 
-Add the '-v2' (or, rather, next it will be '-v3') to git format-patch
-when you save your series and it will add the version to each patch. You
-can also add '-s' to that command I believe to add your SoB to each
-patch.
+Zero-copy and non-linear XDP buffer supports are NOT implemented.
 
---
-Kieran
+Besides, the page pool memory model is used to get better performance.
 
->=20
-> >=20
-> >> ---
-> >>  .../bindings/media/i2c/{imx258.yaml =3D> sony,imx258.yaml}        | 2=
- +-
-> >>  MAINTAINERS                                                     | 2 +-
-> >>  2 files changed, 2 insertions(+), 2 deletions(-)
-> >>  rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml =3D> =
-sony,imx258.yaml} (97%)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b=
-/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> >> similarity index 97%
-> >> rename from Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> >> rename to Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> >> index 80d24220baa0..bee61a443b23 100644
-> >> --- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> >> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> >> @@ -1,7 +1,7 @@
-> >>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>  %YAML 1.2
-> >>  ---
-> >> -$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
-> >> +$id: http://devicetree.org/schemas/media/i2c/sony,imx258.yaml#
-> >>  $schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> =20
-> >>  title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index aa3b947fb080..1f17f6734bf5 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -20464,7 +20464,7 @@ M:   Sakari Ailus <sakari.ailus@linux.intel.co=
-m>
-> >>  L:  linux-media@vger.kernel.org
-> >>  S:  Maintained
-> >>  T:  git git://linuxtv.org/media_tree.git
-> >> -F:  Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> >> +F:  Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> >>  F:  drivers/media/i2c/imx258.c
-> >> =20
-> >>  SONY IMX274 SENSOR DRIVER
-> >> --=20
-> >> 2.42.0
-> >>
->
+Signed-off-by: Julien Panis <jpanis@baylibre.com>
+---
+Changes in v5:
+- In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
+- Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
+
+Changes in v4:
+- Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
+- Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
+- Add benchmark numbers (with VS without page pool) in the commit description.
+- Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
+- Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
+
+Changes in v3:
+- Fix a potential issue with TX buffer type, which is now set for each buffer.
+- Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
+
+Changes in v2:
+- Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
+- In am65_cpsw_alloc_skb(), release reference on the page pool page
+in case of error returned by build_skb().
+- [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
+- [nit] Arrange local variables in reverse xmas tree order.
+- Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
+
+---
+Julien Panis (3):
+      net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
+      net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
+      net: ethernet: ti: am65-cpsw: Add minimal XDP support
+
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 536 +++++++++++++++++++++++++---
+ drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  37 ++
+ drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   4 +
+ 4 files changed, 540 insertions(+), 50 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
+
+Best regards,
+-- 
+Julien Panis <jpanis@baylibre.com>
+
 
