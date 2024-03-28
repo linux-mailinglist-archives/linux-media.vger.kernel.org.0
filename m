@@ -1,511 +1,140 @@
-Return-Path: <linux-media+bounces-8073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544A588F9F3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 09:20:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC9B88FA64
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 09:53:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A335BB24BBB
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 08:20:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B207A282C33
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 08:53:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8315354907;
-	Thu, 28 Mar 2024 08:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEFF85FB9A;
+	Thu, 28 Mar 2024 08:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StDAfteN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O1wRiwex"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DC72CCA0;
-	Thu, 28 Mar 2024 08:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2097B54775;
+	Thu, 28 Mar 2024 08:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711614005; cv=none; b=XYTQfhReb+6JJPj1FmydAIq4vv4kOyKqta/VNZAmZV1P1WC4jAUPdocPXXWMlA/hV20NsvY3+kf4ee5K/YRfPK2L0eu1DJbMlNZYOK3gwtTvGVuX+fSfs2ThYq4FigNHT0snYvw58HV3k9IVmFdwI9oGQXpKk033H6Q0Oiq6HZw=
+	t=1711615928; cv=none; b=VF20oD/I3tb//bNWpXQ9mS/YK/dmx/g/ouA3mD9yNeo0hwFwmF0n/dszXrhp7L43zXr3cb+v4Z5qxNASJnBOe6h36x00KN4ATFdSaFgELNUheKRPK3j/GLZFHEfrBywBhDkYaRgSiTtz7X5OErNyslpBBR7bApFyIUlIuPE+qBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711614005; c=relaxed/simple;
-	bh=dCYYvppZZLNmEh+04rDzFM9C7i0hfkqSXfkIjFg4eaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gE4fEn2q8+ctgAUHvPZqOhSsieup3OklrCb4Kg/G/48U28WPZdzzM96eYmlNysz7mqchlY5/7bv6/EZu4nfGKG90DltHzGyw+NTgnXxmeKMcvLun0KCTi4qO6BplxPZmB3OBY25vutS05Lt1Ek/x7GzmrRfKR5LQzVcgOoYEdWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StDAfteN; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711614003; x=1743150003;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dCYYvppZZLNmEh+04rDzFM9C7i0hfkqSXfkIjFg4eaE=;
-  b=StDAfteNtxeCQrxvArlwef0gLZ4ZLffGcYQx+5Y61nCn2ZZ3AdpoWpz3
-   QLzQe1SUaa8ierWRRz2lsjzbkRW/g/uwe1q6Vrq0OLHBxj6HxySuMe72v
-   eoNqP01lQVdh0HTfTzm4QsFjFw3cwQmQkH6VoFcbGRfn2OxbVZva6+5+G
-   Amg1rn2QABf/+q2SIjnXtpKCjjarijDJp9uuNzXpX2WYwnIlanVuyNR6r
-   DohUQttmd1pLVRrJqCiEowgPC4c6hlYgEC/0ZH/8biskrtETwRmfe56dX
-   Jpxjqm//JKmc5CIzrtpNBu0YiwlgCtyyuBbUm8Qs9fqr5/LET59Q9AkWl
-   w==;
-X-CSE-ConnectionGUID: u6BpeocGRm6ZFCrX3taVRg==
-X-CSE-MsgGUID: 8NDC8xaBTv2rZav9i5sIxg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17305353"
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="17305353"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 01:19:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="16400076"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 01:19:45 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 98F7611F8B1;
-	Thu, 28 Mar 2024 10:19:43 +0200 (EET)
-Date: Thu, 28 Mar 2024 08:19:43 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: git@luigi311.com
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/23] media: i2c: imx258: Add support for running on 2
- CSI data lanes
-Message-ID: <ZgUoH4mhl3Ol280r@kekkonen.localdomain>
-References: <20240327231710.53188-1-git@luigi311.com>
- <20240327231710.53188-10-git@luigi311.com>
+	s=arc-20240116; t=1711615928; c=relaxed/simple;
+	bh=5ywGdOE9cKl2/Ln19G2UleUNBEY31QHhmLsqIQZtQ/s=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=TzwD95ACg3dDbqgMEVchjlyr8B4ngpqYpsY+qe8ICeB4MxwN08QBoPgBXZv2U3XQi2DOiZNWy01NAaOcKtScU2q3eGdv3qMcfrMsZn01HrmzV4GqMoDQP6GTJdOgjSg7olQw8V0oi49SqLB9ZT3j4bY+E43+IQ8HGa7gZiI3bw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O1wRiwex; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6859ED20;
+	Thu, 28 Mar 2024 09:51:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711615891;
+	bh=5ywGdOE9cKl2/Ln19G2UleUNBEY31QHhmLsqIQZtQ/s=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=O1wRiwex2lGpg7fJs0QaR9ij2vL3uYMs8IWFScSThC35qutOwuZRW95qQPk5fDce3
+	 h3tRULXEIvXsIIJEPepqUXIog0TNgSb5/RKmAuBrwyuX28ws5+JvuJkxisuesqbm5f
+	 BkgORPj5Gb4i3N7rVCPFW56cWPJnureukC6eUQGU=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327231710.53188-10-git@luigi311.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
+References: <20240327231710.53188-1-git@luigi311.com> <20240327231710.53188-18-git@luigi311.com> <20240327-ninth-tulip-77191ad10fdd@spud> <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
+Subject: Re: [PATCH 17/23] dt-bindings: media: imx258: Rename to include vendor prefix
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, sakari.ailus@linux.intel.com, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+To: Conor Dooley <conor@kernel.org>, git@luigi311.com
+Date: Thu, 28 Mar 2024 08:52:01 +0000
+Message-ID: <171161592126.3072637.14564447281929105708@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Hi Luigi311, Dave,
+Quoting git@luigi311.com (2024-03-28 00:57:34)
+> On 3/27/24 17:47, Conor Dooley wrote:
+> > On Wed, Mar 27, 2024 at 05:17:03PM -0600, git@luigi311.com wrote:
+> >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >>
+> >> imx258.yaml doesn't include the vendor prefix of sony, so
+> >> rename to add it.
+> >> Update the id entry and MAINTAINERS to match.
+> >>
+> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> >=20
+> > This is a v1 with my ack, something has gone awry here. It's also
+> > missing your signoff. Did you pick up someone else's series?
+>=20
+> Yes, this is a continuation of Dave's work. I contacted him directly,
+> and he mentioned that he is unable to submit a v2 any time soon and
+> was open to someone else continuing it in his stead. This is my first
+> time submitting a patch via a mailing list, so I'm not sure if I'm
+> missing something, but I only added my sign off for anything that
+> actually included work from my side and not just bringing his patch
+> forward to this patch series.
 
-On Wed, Mar 27, 2024 at 05:16:55PM -0600, git@luigi311.com wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> Extends the driver to also support 2 data lanes.
-> Frame rates are obviously more restricted on 2 lanes, but some
-> hardware simply hasn't wired more up.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Luigi311 <git@luigi311.com>
-> ---
->  drivers/media/i2c/imx258.c | 214 ++++++++++++++++++++++++++++++++-----
->  1 file changed, 190 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 6ee7de079454..c65b9aad3b0a 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -86,12 +86,18 @@ struct imx258_reg_list {
->  	const struct imx258_reg *regs;
->  };
->  
-> +enum {
-> +	IMX258_2_LANE_MODE,
-> +	IMX258_4_LANE_MODE,
-> +	IMX258_LANE_CONFIGS,
-> +};
-> +
->  /* Link frequency config */
->  struct imx258_link_freq_config {
->  	u32 pixels_per_line;
->  
->  	/* PLL registers for this link frequency */
-> -	struct imx258_reg_list reg_list;
-> +	struct imx258_reg_list reg_list[IMX258_LANE_CONFIGS];
->  };
->  
->  /* Mode : resolution and related config&values */
-> @@ -111,8 +117,34 @@ struct imx258_mode {
->  	struct imx258_reg_list reg_list;
->  };
->  
-> -/* 4208x3120 needs 1267Mbps/lane, 4 lanes */
-> -static const struct imx258_reg mipi_1267mbps_19_2mhz[] = {
-> +/*
-> + * 4208x3120 @ 30 fps needs 1267Mbps/lane, 4 lanes.
-> + * To avoid further computation of clock settings, adopt the same per
-> + * lane data rate when using 2 lanes, thus allowing a maximum of 15fps.
-> + */
-> +static const struct imx258_reg mipi_1267mbps_19_2mhz_2l[] = {
-> +	{ 0x0136, 0x13 },
-> +	{ 0x0137, 0x33 },
-> +	{ 0x0301, 0x0A },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x03 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0xC6 },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x01 },
-> +	{ 0x0820, 0x09 },
-> +	{ 0x0821, 0xa6 },
-> +	{ 0x0822, 0x66 },
-> +	{ 0x0823, 0x66 },
-> +};
-> +
-> +static const struct imx258_reg mipi_1267mbps_19_2mhz_4l[] = {
->  	{ 0x0136, 0x13 },
->  	{ 0x0137, 0x33 },
->  	{ 0x0301, 0x05 },
-> @@ -126,16 +158,18 @@ static const struct imx258_reg mipi_1267mbps_19_2mhz[] = {
->  	{ 0x030E, 0x00 },
->  	{ 0x030F, 0xD8 },
->  	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x03 },
->  	{ 0x0820, 0x13 },
->  	{ 0x0821, 0x4C },
->  	{ 0x0822, 0xCC },
->  	{ 0x0823, 0xCC },
->  };
->  
-> -static const struct imx258_reg mipi_1272mbps_24mhz[] = {
-> +static const struct imx258_reg mipi_1272mbps_24mhz_2l[] = {
->  	{ 0x0136, 0x18 },
->  	{ 0x0137, 0x00 },
-> -	{ 0x0301, 0x05 },
-> +	{ 0x0301, 0x0a },
->  	{ 0x0303, 0x02 },
->  	{ 0x0305, 0x04 },
->  	{ 0x0306, 0x00 },
-> @@ -146,13 +180,59 @@ static const struct imx258_reg mipi_1272mbps_24mhz[] = {
->  	{ 0x030E, 0x00 },
->  	{ 0x030F, 0xD8 },
->  	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x01 },
->  	{ 0x0820, 0x13 },
->  	{ 0x0821, 0x4C },
->  	{ 0x0822, 0xCC },
->  	{ 0x0823, 0xCC },
->  };
->  
-> -static const struct imx258_reg mipi_640mbps_19_2mhz[] = {
-> +static const struct imx258_reg mipi_1272mbps_24mhz_4l[] = {
-> +	{ 0x0136, 0x18 },
-> +	{ 0x0137, 0x00 },
-> +	{ 0x0301, 0x05 },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x04 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0xD4 },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x03 },
-> +	{ 0x0820, 0x13 },
-> +	{ 0x0821, 0xE0 },
-> +	{ 0x0822, 0x00 },
-> +	{ 0x0823, 0x00 },
-> +};
-> +
-> +static const struct imx258_reg mipi_640mbps_19_2mhz_2l[] = {
-> +	{ 0x0136, 0x13 },
-> +	{ 0x0137, 0x33 },
-> +	{ 0x0301, 0x05 },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x03 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0x64 },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x01 },
-> +	{ 0x0820, 0x05 },
-> +	{ 0x0821, 0x00 },
-> +	{ 0x0822, 0x00 },
-> +	{ 0x0823, 0x00 },
-> +};
-> +
-> +static const struct imx258_reg mipi_640mbps_19_2mhz_4l[] = {
->  	{ 0x0136, 0x13 },
->  	{ 0x0137, 0x33 },
->  	{ 0x0301, 0x05 },
-> @@ -166,13 +246,37 @@ static const struct imx258_reg mipi_640mbps_19_2mhz[] = {
->  	{ 0x030E, 0x00 },
->  	{ 0x030F, 0xD8 },
->  	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x03 },
-> +	{ 0x0820, 0x0A },
-> +	{ 0x0821, 0x00 },
-> +	{ 0x0822, 0x00 },
-> +	{ 0x0823, 0x00 },
-> +};
-> +
-> +static const struct imx258_reg mipi_642mbps_24mhz_2l[] = {
-> +	{ 0x0136, 0x18 },
-> +	{ 0x0137, 0x00 },
-> +	{ 0x0301, 0x0A },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x04 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0x6B },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x01 },
->  	{ 0x0820, 0x0A },
->  	{ 0x0821, 0x00 },
->  	{ 0x0822, 0x00 },
->  	{ 0x0823, 0x00 },
->  };
->  
-> -static const struct imx258_reg mipi_642mbps_24mhz[] = {
-> +static const struct imx258_reg mipi_642mbps_24mhz_4l[] = {
->  	{ 0x0136, 0x18 },
->  	{ 0x0137, 0x00 },
->  	{ 0x0301, 0x05 },
-> @@ -186,6 +290,8 @@ static const struct imx258_reg mipi_642mbps_24mhz[] = {
->  	{ 0x030E, 0x00 },
->  	{ 0x030F, 0xD8 },
->  	{ 0x0310, 0x00 },
-> +
-> +	{ 0x0114, 0x03 },
->  	{ 0x0820, 0x0A },
->  	{ 0x0821, 0x00 },
->  	{ 0x0822, 0x00 },
-> @@ -240,7 +346,6 @@ static const struct imx258_reg mode_common_regs[] = {
->  	{ 0x5F05, 0xED },
->  	{ 0x0112, 0x0A },
->  	{ 0x0113, 0x0A },
-> -	{ 0x0114, 0x03 },
->  	{ 0x0342, 0x14 },
->  	{ 0x0343, 0xE8 },
->  	{ 0x0344, 0x00 },
-> @@ -359,11 +464,13 @@ enum {
->  
->  /*
->   * pixel_rate = link_freq * data-rate * nr_of_lanes / bits_per_sample
-> - * data rate => double data rate; number of lanes => 4; bits per pixel => 10
-> + * data rate => double data rate;
-> + * number of lanes => (configurable 2 or 4);
-> + * bits per pixel => 10
->   */
-> -static u64 link_freq_to_pixel_rate(u64 f)
-> +static u64 link_freq_to_pixel_rate(u64 f, unsigned int nlanes)
->  {
-> -	f *= 2 * 4;
-> +	f *= 2 * nlanes;
->  	do_div(f, 10);
->  
->  	return f;
-> @@ -393,15 +500,27 @@ static const struct imx258_link_freq_config link_freq_configs_19_2[] = {
->  	[IMX258_LINK_FREQ_1267MBPS] = {
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_1267mbps_19_2mhz),
-> -			.regs = mipi_1267mbps_19_2mhz,
-> +			[IMX258_2_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_1267mbps_19_2mhz_2l),
-> +				.regs = mipi_1267mbps_19_2mhz_2l,
-> +			},
-> +			[IMX258_4_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_1267mbps_19_2mhz_4l),
-> +				.regs = mipi_1267mbps_19_2mhz_4l,
-> +			},
->  		}
->  	},
->  	[IMX258_LINK_FREQ_640MBPS] = {
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_640mbps_19_2mhz),
-> -			.regs = mipi_640mbps_19_2mhz,
-> +			[IMX258_2_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_640mbps_19_2mhz_2l),
-> +				.regs = mipi_640mbps_19_2mhz_2l,
-> +			},
-> +			[IMX258_4_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_640mbps_19_2mhz_4l),
-> +				.regs = mipi_640mbps_19_2mhz_4l,
-> +			},
->  		}
->  	},
->  };
-> @@ -410,15 +529,27 @@ static const struct imx258_link_freq_config link_freq_configs_24[] = {
->  	[IMX258_LINK_FREQ_1267MBPS] = {
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_1272mbps_24mhz),
-> -			.regs = mipi_1272mbps_24mhz,
-> +			[IMX258_2_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_1272mbps_24mhz_2l),
-> +				.regs = mipi_1272mbps_24mhz_2l,
-> +			},
-> +			[IMX258_4_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_1272mbps_24mhz_4l),
-> +				.regs = mipi_1272mbps_24mhz_4l,
-> +			},
->  		}
->  	},
->  	[IMX258_LINK_FREQ_640MBPS] = {
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_642mbps_24mhz),
-> -			.regs = mipi_642mbps_24mhz,
-> +			[IMX258_2_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_642mbps_24mhz_2l),
-> +				.regs = mipi_642mbps_24mhz_2l,
-> +			},
-> +			[IMX258_4_LANE_MODE] = {
-> +				.num_of_regs = ARRAY_SIZE(mipi_642mbps_24mhz_4l),
-> +				.regs = mipi_642mbps_24mhz_4l,
-> +			},
->  		}
->  	},
->  };
-> @@ -477,6 +608,7 @@ struct imx258 {
->  
->  	const struct imx258_link_freq_config *link_freq_configs;
->  	const s64 *link_freq_menu_items;
-> +	unsigned int nlanes;
->  
->  	/*
->  	 * Mutex for serialized access:
-> @@ -782,7 +914,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
->  		__v4l2_ctrl_s_ctrl(imx258->link_freq, mode->link_freq_index);
->  
->  		link_freq = imx258->link_freq_menu_items[mode->link_freq_index];
-> -		pixel_rate = link_freq_to_pixel_rate(link_freq);
-> +		pixel_rate = link_freq_to_pixel_rate(link_freq, imx258->nlanes);
->  		__v4l2_ctrl_s_ctrl_int64(imx258->pixel_rate, pixel_rate);
->  		/* Update limits and set FPS to default */
->  		vblank_def = imx258->cur_mode->vts_def -
-> @@ -811,11 +943,13 @@ static int imx258_start_streaming(struct imx258 *imx258)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
->  	const struct imx258_reg_list *reg_list;
-> +	const struct imx258_link_freq_config *link_freq_cfg;
->  	int ret, link_freq_index;
->  
->  	/* Setup PLL */
->  	link_freq_index = imx258->cur_mode->link_freq_index;
-> -	reg_list = &imx258->link_freq_configs[link_freq_index].reg_list;
-> +	link_freq_cfg = &imx258->link_freq_configs[link_freq_index];
-> +	reg_list = &link_freq_cfg->reg_list[imx258->nlanes == 2 ? 0 : 1];
->  	ret = imx258_write_regs(imx258, reg_list->regs, reg_list->num_of_regs);
->  	if (ret) {
->  		dev_err(&client->dev, "%s failed to set plls\n", __func__);
-> @@ -1033,9 +1167,11 @@ static int imx258_init_controls(struct imx258 *imx258)
->  		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
->  	pixel_rate_max =
-> -		link_freq_to_pixel_rate(imx258->link_freq_menu_items[0]);
-> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[0],
-> +					imx258->nlanes);
->  	pixel_rate_min =
-> -		link_freq_to_pixel_rate(imx258->link_freq_menu_items[1]);
-> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[1],
-> +					imx258->nlanes);
->  	/* By default, PIXEL_RATE is read only */
->  	imx258->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
->  				V4L2_CID_PIXEL_RATE,
-> @@ -1132,6 +1268,10 @@ static int imx258_get_regulators(struct imx258 *imx258,
->  static int imx258_probe(struct i2c_client *client)
->  {
->  	struct imx258 *imx258;
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint ep = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY
-> +	};
->  	int ret;
->  	u32 val = 0;
->  
-> @@ -1172,13 +1312,35 @@ static int imx258_probe(struct i2c_client *client)
->  		return -EINVAL;
->  	}
->  
-> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
-> +	if (!endpoint) {
-> +		dev_err(&client->dev, "Endpoint node not found\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
+Your cover letter states v2, but the individual patches do not.
 
-Here you're obtaining the list of supported link frequencies from the
-firmware but it is not validated (nor it was validated by the driver
-previously). I'd regard that a driver bug but fixing it at this point could
-introduce adverse effects elsewhere.
+Add the '-v2' (or, rather, next it will be '-v3') to git format-patch
+when you save your series and it will add the version to each patch. You
+can also add '-s' to that command I believe to add your SoB to each
+patch.
 
-I think what I'd do here is that I'd ignore the issue if there are no
-frequencies defined for the endpoint but if there are, then enable only
-those that are listed in the endpoint.
+--
+Kieran
 
-Could you add a patch to do this, please? v4l2_link_freq_to_bitmap() has
-been recently added to facilitate this.
-
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Parsing endpoint node failed\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Get number of data lanes */
-> +	imx258->nlanes = ep.bus.mipi_csi2.num_data_lanes;
-> +	if (imx258->nlanes != 2 && imx258->nlanes != 4) {
-> +		dev_err(&client->dev, "Invalid data lanes: %u\n",
-> +			imx258->nlanes);
-> +		ret = -EINVAL;
-> +		goto error_endpoint_free;
-> +	}
-> +
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
->  
->  	/* Will be powered off via pm_runtime_idle */
->  	ret = imx258_power_on(&client->dev);
->  	if (ret)
-> -		return ret;
-> +		goto error_endpoint_free;
->  
->  	/* Check module identity */
->  	ret = imx258_identify_module(imx258);
-> @@ -1211,6 +1373,7 @@ static int imx258_probe(struct i2c_client *client)
->  	pm_runtime_set_active(&client->dev);
->  	pm_runtime_enable(&client->dev);
->  	pm_runtime_idle(&client->dev);
-> +	v4l2_fwnode_endpoint_free(&ep);
->  
->  	return 0;
->  
-> @@ -1223,6 +1386,9 @@ static int imx258_probe(struct i2c_client *client)
->  error_identify:
->  	imx258_power_off(&client->dev);
->  
-> +error_endpoint_free:
-> +	v4l2_fwnode_endpoint_free(&ep);
-> +
->  	return ret;
->  }
->  
-
--- 
-Kind regards,
-
-Sakari Ailus
+>=20
+> >=20
+> >> ---
+> >>  .../bindings/media/i2c/{imx258.yaml =3D> sony,imx258.yaml}        | 2=
+ +-
+> >>  MAINTAINERS                                                     | 2 +-
+> >>  2 files changed, 2 insertions(+), 2 deletions(-)
+> >>  rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml =3D> =
+sony,imx258.yaml} (97%)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b=
+/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> >> similarity index 97%
+> >> rename from Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> >> rename to Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> >> index 80d24220baa0..bee61a443b23 100644
+> >> --- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> >> @@ -1,7 +1,7 @@
+> >>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>  %YAML 1.2
+> >>  ---
+> >> -$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> >> +$id: http://devicetree.org/schemas/media/i2c/sony,imx258.yaml#
+> >>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> =20
+> >>  title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index aa3b947fb080..1f17f6734bf5 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -20464,7 +20464,7 @@ M:   Sakari Ailus <sakari.ailus@linux.intel.co=
+m>
+> >>  L:  linux-media@vger.kernel.org
+> >>  S:  Maintained
+> >>  T:  git git://linuxtv.org/media_tree.git
+> >> -F:  Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> >> +F:  Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> >>  F:  drivers/media/i2c/imx258.c
+> >> =20
+> >>  SONY IMX274 SENSOR DRIVER
+> >> --=20
+> >> 2.42.0
+> >>
+>
 
