@@ -1,158 +1,102 @@
-Return-Path: <linux-media+bounces-8123-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8124-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D642189085D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 19:32:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1454890889
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 19:47:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C3381F25B97
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 18:32:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 189701C28507
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 18:47:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806CD137767;
-	Thu, 28 Mar 2024 18:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E433137903;
+	Thu, 28 Mar 2024 18:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQ+Ol01e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4G9dBqz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A3C1327F8;
-	Thu, 28 Mar 2024 18:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CDB12F38B;
+	Thu, 28 Mar 2024 18:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711650709; cv=none; b=SMfPpC/Ltxe6Y8bC5SBajqJZrUZLWeDjd2q2tPn0YmZY9VqROns4nCSEjN28OGtBPUoFVC6vNDa/1JN0QcGmhBt6aACp2g2UpXJYEOUrvYNlyQdao53zf+y/wfrcMLfoc7GQcKGxMhctD+J7/mfxBTufds1UkseUkYlu5fDxnxY=
+	t=1711651645; cv=none; b=YPUb5TvhV1En/k0PWbKx/P7NB0otHWGSIPLIBrkt0OGjqdreDZS0aLkeUcSJ5qcHDVyjiNC1msKraC6TZ5AwMA/KPrMrE0GKpZpY17gLsm/6PhMDvxqvj4qpmtH0hIe226KgdG02+du3UUDodn9Y8kc0b/swwGLoqrSfv6boVOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711650709; c=relaxed/simple;
-	bh=09Kq07Ctu1YK6YAopY47/y5AlbJwjHjNBMXfeYxKY3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mc+bmHU7JCh9T2qz/jKyKISblvHUMRyjYOEKwefhMp+SpBo+KEZunCDaUOfyxVqaH2nRtbEFzsaXfY7St2PHPArtNQ18jv3kbP8sMNYjt2B8WRyDhc54G3/LIVhXybYiD9uu0NBwwzc92ifzdPX4yIYM9RzRZUURIOKxpkoXwjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QQ+Ol01e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9561C433C7;
-	Thu, 28 Mar 2024 18:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711650709;
-	bh=09Kq07Ctu1YK6YAopY47/y5AlbJwjHjNBMXfeYxKY3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QQ+Ol01eGrtbmmXmm5UOF8z3YVrAFzrLyUinoyXQOw2oD/3BtgXxtRpcyL6qEGHMi
-	 Fuf1dGmu1+mXVCx0A2v+QG1OZmZa5GwKeTprSp0vXiGl5WvN4w7glf0wb/Ho4jGsI6
-	 A7WhuNfxRZ+SYEDd2EHDavctgY396ec7mZY6h+UmOVbwQhncgmm56Grgtq512eTU0I
-	 juRVEJtAyO8mA2/2SAJmqgsMiWvU8lqDqaMAEVDmDUSGgn+tYLJ7mum23hafaIgM0S
-	 0/cB+mlWradcKD4+nkGPqD1rFiy3Q7s73Qm1b4qRq5IHy2lK358t2WVn9s4EqNJkuF
-	 qXaWYWlrz6OoQ==
-Date: Fri, 29 Mar 2024 00:01:43 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	Tejun Heo <tj@kernel.org>, Kees Cook <keescook@chromium.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Paul Cercueil <paul@crapouillou.net>, Eugeniy.Paltsev@synopsys.com,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Leo Li <leoyang.li@nxp.com>, zw@zh-kernel.org,
-	Zhou Wang <wangzhou1@hisilicon.com>, haijie1@huawei.com,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	logang@deltatee.com, Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, peter.ujfalusi@gmail.com,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Manuel Lauss <manuel.lauss@gmail.com>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	"jh80.chung" <jh80.chung@samsung.com>, oakad@yahoo.com,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, brucechang@via.com.tw,
-	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Oliver Neukum <oneukum@suse.com>,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	"linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
-	Linux-OMAP <linux-omap@vger.kernel.org>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	linux-s390@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
-Message-ID: <ZgW3j1qkLA-QU4iM@matsya>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-3-apais@linux.microsoft.com>
- <ZgUGXTKPVhrA1tam@matsya>
- <2e9257af-c123-406b-a189-eaebeecc1d71@app.fastmail.com>
+	s=arc-20240116; t=1711651645; c=relaxed/simple;
+	bh=hZcpotxQXgYZCgwQSFwHplGgALMDuSMOW4BVWfQ6+9A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RYO7AwZDd+GNvp840FdueHs2f23AnPWDR56QOwvhWdRfVOvdKx3KjFs9bHB2P/QUU0O5o6B+tdrzB5pB4gKNoedjCTIcoLgNjy/0SRj1yMMw/STTFfPmnR1NvggfOdqC6SirIyuRErfQcoACgCa6YS2GYNOISrJUisFgl87/PnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q4G9dBqz; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-515c198e835so1461586e87.3;
+        Thu, 28 Mar 2024 11:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711651642; x=1712256442; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hZcpotxQXgYZCgwQSFwHplGgALMDuSMOW4BVWfQ6+9A=;
+        b=Q4G9dBqz7e2sbggDY9O4F6ocJJx5X6rzLXfROL8hznE8CyQ4ArbexBNeTJaI9aadiF
+         cxYh9PtpBDsoWJM2lJYtwN4zdz1G4S/VnJ+2z4qZwX0+1DVMJDhDlVfEsHN+5WtRwfgq
+         U0dZ5YDAkMIiIPTQnyTzoYOzXq1xyohdABR9omRQpZa2q1Dry94h1H/8daIDnV9T0TEe
+         z6ZMe4c2/i5ghUiNamgAm8zkRNZMuRmiFFxearlMQa8pnYFqj7Q0erNXkV2w8TqJ454G
+         k050g/6SPx37eZf8pDopL00BNfmkerBGURexYxC63U3aBsJO3GcFek+10+QZee/mWCrb
+         4NMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711651642; x=1712256442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hZcpotxQXgYZCgwQSFwHplGgALMDuSMOW4BVWfQ6+9A=;
+        b=g25mc07Wbq3T8HqdnTWWOPIqfGgw5LR2nbVbmwputEkseE1zJBT0ynAxXmA05kB2BL
+         mvILNCsDbzuPxNbMO/nP4Xe7L58nP9CxAM3P20ARb+H2XFUNT+x0T1y2GymqAJpJ/5Bo
+         DcTuP5Cnslc3P03JllX9OEgU9ACN/+4FPAlYnoRN9KHo/PfoeZbTRnFIpjgRCVt967I+
+         VCH96RUbMhCOwS5wk5SrFZr+7k8j/JyrHX74LU+lR4eiQ1mBl+zV9FDNaZ1lZO++U2Fb
+         QgtMB8SUYLlamCptDMvpEuzUFQXIKtszg/5jRj9HUTIco0vEQsCWVUEuQrzYokKDB5FJ
+         Viiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKwzrvcofoSfRJOG6USz3EG9XzRLgIucD109IohV6rck6I1Xo1sHGlmk0e8tcm6Y+6pnavljJZ66evg80N/uF8I1fSBFCa2mKnLukNnP6jH4wequWNsTvvXqd6ftr4DYvph+vYuBDwB6E=
+X-Gm-Message-State: AOJu0YwDvmWfE4CO/Yqd8EleD45BepLxXbKztBGJYMISLw3nzKZE9dxU
+	GmN2d4UVnXonPzpJkWbgUollL3HMvdJbdmunRIlsyyD4x6YBI92qNCwfhkeh+dzDi4FuqiZ3s4x
+	BVORaSE88IIX3Jw8r2vYFDFB8Q9M=
+X-Google-Smtp-Source: AGHT+IGrUuWiVBRFGJLa2HHSOZSFA2vD/h9fV90E+9dmixoq6VsYE1/GCZtKZYQGR4OnS8a+gJ8E+4yj5f4ATtiXG7k=
+X-Received: by 2002:a05:6512:48d1:b0:513:eac3:9f7d with SMTP id
+ er17-20020a05651248d100b00513eac39f7dmr199474lfb.65.1711651642040; Thu, 28
+ Mar 2024 11:47:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e9257af-c123-406b-a189-eaebeecc1d71@app.fastmail.com>
+References: <20240322214801.319975-1-robdclark@gmail.com> <1Wwj_q3RYer6np0Orz0wJd9dlF82iBSX-PIVSlhCgJbpfVBMHF_CF04gHojkvqnvz9NXH6kACZGXQG9yXwtkbjIzLmdi-GNDkO5Nz2E-J9Y=@emersion.fr>
+In-Reply-To: <1Wwj_q3RYer6np0Orz0wJd9dlF82iBSX-PIVSlhCgJbpfVBMHF_CF04gHojkvqnvz9NXH6kACZGXQG9yXwtkbjIzLmdi-GNDkO5Nz2E-J9Y=@emersion.fr>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 28 Mar 2024 11:47:09 -0700
+Message-ID: <CAF6AEGvUsP7fjqFH9Co1vE0ZGRmMXmFBCrNc3hCQwxky3mME3A@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: Unbreak virtgpu dma-buf export
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+	Dominik Behr <dbehr@chromium.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 28-03-24, 11:08, Arnd Bergmann wrote:
-> On Thu, Mar 28, 2024, at 06:55, Vinod Koul wrote:
-> > On 27-03-24, 16:03, Allen Pais wrote:
-> >> The only generic interface to execute asynchronously in the BH context is
-> >> tasklet; however, it's marked deprecated and has some design flaws. To
-> >> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> >> behaves similarly to regular workqueues except that the queued work items
-> >> are executed in the BH context.
-> >
-> > Thanks for conversion, am happy with BH alternative as it helps in
-> > dmaengine where we need shortest possible time between tasklet and
-> > interrupt handling to maximize dma performance
-> 
-> I still feel that we want something different for dmaengine,
-> at least in the long run. As we have discussed in the past,
-> the tasklet context in these drivers is what the callbacks
-> from the dma client device is run in, and a lot of these probably
-> want something other than tasklet context, e.g. just call
-> complete() on a client-provided completion structure.
-> 
-> Instead of open-coding the use of the system_bh_wq in each
-> dmaengine, how about we start with a custom WQ_BH
-> specifically for the dmaengine subsystem and wrap them
-> inside of another interface.
-> 
-> Since almost every driver associates the tasklet with the
-> dma_chan, we could go one step further and add the
-> work_queue structure directly into struct dma_chan,
-> with the wrapper operating on the dma_chan rather than
-> the work_queue.
+On Tue, Mar 26, 2024 at 2:15=E2=80=AFAM Simon Ser <contact@emersion.fr> wro=
+te:
+>
+> Makes sense to me!
+>
+> Reviewed-by: Simon Ser <contact@emersion.fr>
 
-I think that is very great idea. having this wrapped in dma_chan would
-be very good way as well
+Thanks.. any chance I could talk you into pushing to drm-misc-fixes?
 
-Am not sure if Allen is up for it :-)
-
--- 
-~Vinod
+BR,
+-R
 
