@@ -1,313 +1,268 @@
-Return-Path: <linux-media+bounces-8087-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8088-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3687A88FCBD
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4024A88FD1F
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 11:33:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 592001C2F0EB
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 10:17:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 639DE1C2D45D
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 10:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CA5B7CF34;
-	Thu, 28 Mar 2024 10:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9FC7C081;
+	Thu, 28 Mar 2024 10:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="b1njhYOw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzIKS2Ph"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11020002.outbound.protection.outlook.com [52.101.154.2])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28C47C0B5;
-	Thu, 28 Mar 2024 10:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711621019; cv=fail; b=Ajq8rBRjr+ZXuX+rESY7A0GFwF9+Eeei6d8bzRaz/4TJvsFazNktBptE1vrnN3kKHhEe5vr+GzgSgT5JONVh1RTq65bO6l4maYWGYPIw+54ZHOkMgXRFMVKNMkRY1zE9DXGwAkHfr5ogY4uDyCw3RgAWZ7dxZDECK2yN/SWM+8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711621019; c=relaxed/simple;
-	bh=bp7zLxhtTOW9PD+jlcR05WUT06DAvhBEtnVLlBFIQMU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=TSgp7iJxGdr3PjJRQMrmyLXMHpLyDuUF/KVMs61AojMBzrQpLWj/L1eO3pKKy0K0klnaTj+kjXmT/csizgIecN0eQpktp3PtviFKuNG7pBr4c1nHd6Weu07FxBpSgcyKztNI19pPwCBy4XxV4EkNZP7NkYsJxxrjrW4C9ilN3As=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=b1njhYOw; arc=fail smtp.client-ip=52.101.154.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KWi7IDEH5bL9T9oy9BHQT3o9CdUDFZ1Lvz54IeoHm/9zkrl0tbF/M5hWQy5sBjuMDHle72IMW7ThVqId7em0QJnAgNn2Jq8DE2ZB23dorR8hBHUIrPIMiWGPLCKuXumwHQIm5UIo5e0AxSOnwSVw7PqciIJI2i5vkkVN2ZW9ZO3H1o2JJ/aY/GkFGLH6TI/w9kxk7lShm3wSJ+TlXGlD4wknbE05iaLw2alPrFNeXLkAHhljFJUza9rSd7bb0gWKpj+898kHK94z/AiM9UeYz5Tv/XXG55TQgIALJ4vcmq9XCuux16wQV4LSakWdapfSMatE+NG5kFsOQz/9wSCdEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g4jS0Bo7AkRlGe92vb28kwO7Pjp1hQgjCSUlu/A9x7E=;
- b=juuxjiWKtWgpz83Kalc/jjQGECsu1onKyoi3DF1455A88lmMSda2Ojlsq3/PoI3UEarUJmyeHK9yB261pFu2tEa6gvpOAr5mUELsDN5gzULIlTqvqg3q+5S81HUxeNKYXz7NnQTfZJ4da3yUXTRtYPUDA8O44rD10dx0DUATG8GeW+2yxh5GtJ9htyfzAfhZkimBYs+A088rlBxHhzcc72a+kkOFdnxuIp6u20l2WWfO1n3jdZNNoYHQMeMQgM0mjc2AaiMwb9yuUMg5V/i2rBFJeS1OE5JJbSKeiRpyvew9eG0yKV4lEHVfbJd8ES7K1VmvNTLJowXdFdlg6wLmYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g4jS0Bo7AkRlGe92vb28kwO7Pjp1hQgjCSUlu/A9x7E=;
- b=b1njhYOwn++zh2UYEh4TJiyjEBD3BTZbLEVb0ZFK1sMm7mF0sIFeSL3ObyiX7Px0dKI8P03ewiILuVfz4TalCcSdinMyxzZC3i3hauI4p9c/8gsAgmD81hST9S3XQiU+LyVABG7DCa/q70Vsrdc3WoSK4LpypaYJDkCocemKDe8=
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- PU4P216MB1915.KORP216.PROD.OUTLOOK.COM (2603:1096:301:109::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.36; Thu, 28 Mar 2024 10:16:53 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::5b8:35f1:821f:4f57]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::5b8:35f1:821f:4f57%2]) with mapi id 15.20.7386.025; Thu, 28 Mar 2024
- 10:16:53 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: Ivan Bornyakov <brnkv.i1@gmail.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, jackson.lee
-	<jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: RE: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size" DT
- prop
-Thread-Topic: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size"
- DT prop
-Thread-Index: AQHafn94hZZm1U4NUE6FWrHOISEj9rFLXGrQgAAqpQCAAWluEA==
-Date: Thu, 28 Mar 2024 10:16:53 +0000
-Message-ID:
- <SL2P216MB1246499CC9FED9BFB5B11DA3FB3B2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-References: <20240325064102.9278-1-brnkv.i1@gmail.com>
- <20240325064102.9278-5-brnkv.i1@gmail.com>
- <SL2P216MB1246537DD623B813453B28F9FB342@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <5hd7duzqhgdxpmvom3opkhwxkq55dmitk4gwdl4dy46q662in6@xxkmvdj6plqb>
-In-Reply-To: <5hd7duzqhgdxpmvom3opkhwxkq55dmitk4gwdl4dy46q662in6@xxkmvdj6plqb>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB1246:EE_|PU4P216MB1915:EE_
-x-ms-office365-filtering-correlation-id: c1f72d6d-239d-480a-43a1-08dc4f10309a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- R29EMh3twhYU465MtQ0PvQmkjieH5/Hb+wumpZQ9qxtD8Q2dHYt1FyCJy5fe8h0JZDQntE/ouoqKq5OAzwYJksEz3n6iPaHmfcHESCtLVpKKyGkfjtT6TEsWiM0tKPkyUqV9vxjZowPXMahoaosQ3NFdEz+RoHD3j4bHS7/hNS7FDEsOlK6PuayO/diuIU1TqHfxBy7h0YthYT4x0gAjmr0N0Q+aQfzlhnwS4vVXiTvW3S3CaZaBKK14IjrvVTfsSzYGkJ6WNcUQtMcImlmkfaAdZ2/KCKEznax55EltddVGAA+BSnzp4w34R89MoXNK2bhYx3outgvoJIXlcbMVnJXVJNAIgK+L67PwRp02SFHqXka+qwCET9E5Ot82XiWRqWk9PSEV7o41NnLMAjwa+PuBTaBvVRzLqfB0NEtsroKpdqr9c5RG40y/a/hnp12XHltsOkDbCl+peta2C1xIsSe2DJRy1V6fvxVVQeSg/65PCHdechyjFPxD2+x3OOSvA+lqgyCZaPv+AGYfzy9FOVthMRV0qmc9kwtgxA84S2oB1UhYHbby08EYQFQwKLEXkJxzalTka7JF+3W/ByAEPmB1zLavVYoTSp3oHrbyx02rOjpJJ18HwrfOxEtM9Hp1Ir7pk9gYcp8O60i719WwODd8J1hmP1YSUEObLf5lsx5Uxt69EjW83nvcm4hjIxMKJU0e8PBzHDahTswYTG3QQ1dDr7x3xki50mn9LU4cijg=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?OoamVhWpp2Yvu6WKLYhPXV0OIbPYKa91dg09S86lHBCDwvP/yKJtzaOmjrvW?=
- =?us-ascii?Q?WMstP4bXEVWdid5j965bNgyTNywGJBAK8AMRl+tGHcfxtBHYgOtEE0s3a3zJ?=
- =?us-ascii?Q?lkMET+eex5LVnn3aFis7t9IznP92ypishO9I0/mrQ1Q3Ov7rcWScu4kxxonM?=
- =?us-ascii?Q?Kh/XwJudyDeoueufJ3cYe+m5eovsIWO/1LeCTzS5bRBWHCkVAFiDvHPppOU2?=
- =?us-ascii?Q?bida8WWBqQZA5OO41M6devk4QpRV4bMI5PjgroJZYgbTja5A1x0EWzgeK060?=
- =?us-ascii?Q?+hvLJ4G5hbhESSVMfJJguBoz0BaDTzMR8NnAwOZCFJr1TST6xpaLI3KB/Rw4?=
- =?us-ascii?Q?krBMbUUPL3wSP22zOb0N5G0u8I/K4ZkDih5AV5OoeuCeSy5nbFLS7fZZNrgA?=
- =?us-ascii?Q?Dbfq3TjnrRJYfZY+hZmMA8R7W6wV26qeVY3kt6gbLMZFOMyx1aYzkOFESwr6?=
- =?us-ascii?Q?12gmvmvs9Imol27SpPrdTEEo9z7MLLPFnyB42cg4aXDrThrRpVWr2inZohj4?=
- =?us-ascii?Q?wgcdMc3jWHR8UaNZ7ftpxgrqXfxFqpon9a+DwQmdgOly2NpZlb9vu8FZaQ6V?=
- =?us-ascii?Q?b+DJoBA38IzgXM6n+VsVbJRF2IcYu6+0p1PKyl7hha2F5xjpCpvpPY2FG28f?=
- =?us-ascii?Q?guSmTUb4/GKgpTzlO0nCrWJaRDW6cQ08TTU5nwgmjB8PdM97xw1oRj7vOMQv?=
- =?us-ascii?Q?cjOx+0m7lf19vMVrkWN7+M9+R+hhHFRA3jvUnl/LBrsmuWdFgtXkWxHH5sc2?=
- =?us-ascii?Q?1t5KJxGcp0Wj34qcz5oLsx2OjxbNa5hgnbyJjuKS0YmxTbde+dl9P8Wr7fqz?=
- =?us-ascii?Q?bQc1rZ5RMJpCeUxZJVc6/7hD51/uBIG0LCjMBYUYHtx1wKftkwkTrKs1SDuC?=
- =?us-ascii?Q?AJ4sGOLb2hszKYQAs4bm2geUWiR5AV/mF0O/pPpXViszqnqFyNNj0slTlu42?=
- =?us-ascii?Q?fEDQy35Lh7hR7D2eJ//M/bsKySZm1Hf9foB2aA5p0PqxFlixreGHf9R2D47X?=
- =?us-ascii?Q?AZibZvn5SwbL277vSHY6TvRjEP45nko1oR1venJwy8uqFPRk1GHnjGKVXBVG?=
- =?us-ascii?Q?xyt+tlzaJfSijDZGk2XRA78/wk6blouYVYnCRs3S1hzAsaWoPwkeXYuJ8Q2o?=
- =?us-ascii?Q?oGcJDDQLUeg7+/q3dY3BuMjIc1EqDZmMneB4tnRsVLu8/+79U+irKwqjbE2h?=
- =?us-ascii?Q?XoazQC+JUkHcF03m3KsvTz38ogGL1BXoYP+JCLQllYLT4b8mQLqIpNgASHhK?=
- =?us-ascii?Q?n3lIm4bxT9NIuKRU+/c9ewCvqLCgfZelidu+QBXiB5mD7eRBJ6Ca+WRixRZk?=
- =?us-ascii?Q?mazDjQVvHMjqd797am9FLUPolNq+9a9a+uXzWNC6to8fMq0YMp+GC6F88cGm?=
- =?us-ascii?Q?oxYIgqyuUGVT+Nuirh3fglFNjwpoU5DFp7yQQTWRCZ4KL1qRBQy5sed+e6Nl?=
- =?us-ascii?Q?TROw2zssmk/uvaC5JAP3lGGKn8WrUIbiKYzGFqGrPv+OOMCKRBkcz9CFHJLF?=
- =?us-ascii?Q?uhO0rMbH1UFcWC+3z9nO4Hb32nLYZ8JEs8dvHdjDfBls9yIqTREDx0V+I7tQ?=
- =?us-ascii?Q?OwJlk9YQ5L0fSAyLSdAXqgvAD+1XeWRt1J4xi0Jo?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A92535A4
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 10:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711621987; cv=none; b=RyoCCDgL3/reu+aNcKW8fuPEfzmPJ8ZifCAxp669APAnTc72hW2TOpSZodZJd6wY85OfNQ8nKjlOdvEyuCZirKkc4i0AhLRJjdJ/Myx4GUcTgvAiXjcBg8Bo3wtRbWKW/mMzjGf1vM0DsMTeFw9Er/hhaHjEUFGUzLOCTtYcb1g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711621987; c=relaxed/simple;
+	bh=F36mulw4apRP3KATTodupW03D0l0KGpoWdLoB5SSQrs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QjUtt9VSd04hXx7jtmdys1xJN/N7apCtuNagNc7vMaFaIj5tWyUgwmTKY0ija3QDpPs+/FZK3M46Y8wmGyUKsLlButNn2IQf4PFgV+7cBI9ROSvYyFndoT0FSnvj3hq0T51Ppqeni1mH3XF9qCZpWfj3VDPyAmiNMPycjuydf6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzIKS2Ph; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711621985; x=1743157985;
+  h=date:from:to:cc:subject:message-id;
+  bh=F36mulw4apRP3KATTodupW03D0l0KGpoWdLoB5SSQrs=;
+  b=SzIKS2Ph4pE7EY90M+yylvOIePNDbt2YDrTjzjBUA3Od0ZuSYLazZ5tN
+   aoaM3qP5SrVJ1rqhFMAzug+TYGsqHFNZWCwvg1+k27KJioL8jeYOO1YbF
+   xEHrdP+j0qxkaya5TXOQUClW8dRX/gvIyrKPWXnI1OqU64ieKYKQ1wepw
+   lE0YH/kqzE9s6r6L8jOAsOECI2Dj3qJ61dxNSwgoBQvpYaVFOc8/YJacf
+   cTQYon+gsQC37s/XZuVam54xgfZ7mDFrUa9zqw9Ja9N6Wo0m7wfsgVQE7
+   WXgI6mJoS9M/g+71UQWK1i6I+y3V9Ri0wlNAfrv1xDIPy+jTAdDrOFVqB
+   Q==;
+X-CSE-ConnectionGUID: anAv+4hBS7ufXHaSA+biOQ==
+X-CSE-MsgGUID: gSilq0uzRPaLgPMwBwzh4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="6880271"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="6880271"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 03:33:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="21267760"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2024 03:33:03 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpn49-00023a-03;
+	Thu, 28 Mar 2024 10:33:01 +0000
+Date: Thu, 28 Mar 2024 18:32:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:ipu6] BUILD SUCCESS
+ af377d7fa423f371a3a9b8288b8d65da8a90f47e
+Message-ID: <202403281855.GMpij4lJ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1f72d6d-239d-480a-43a1-08dc4f10309a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2024 10:16:53.2716
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Eu38k9xH+XDb5i183QU0BQ7I+JS4J+3tUxmQaEOOE5iNcbO7hhVHExyOY80/6TMXPG4E5Zs/NmAw5jqtEddOdBHEoCslsbLzg64l89EQEC8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1915
 
-Hi, Ivan.
+tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6
+branch HEAD: af377d7fa423f371a3a9b8288b8d65da8a90f47e  HACK: ov2740: disable runtime PM
 
->-----Original Message-----
->From: Ivan Bornyakov <brnkv.i1@gmail.com>
->Sent: Wednesday, March 27, 2024 9:27 PM
->To: Nas Chung <nas.chung@chipsnmedia.com>
->Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
->jackson.lee <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab
-><mchehab@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>
->Subject: Re: RE: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-
->size" DT prop
->
->On Wed, Mar 27, 2024 at 10:27:19AM +0000, Nas Chung wrote:
->> Hi, Ivan.
->>
->> >-----Original Message-----
->> >From: Ivan Bornyakov <brnkv.i1@gmail.com>
->> >Sent: Monday, March 25, 2024 3:41 PM
->> >To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
->> ><jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab
-><mchehab@kernel.org>;
->> >Philipp Zabel <p.zabel@pengutronix.de>
->> >Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
->> >linux-kernel@vger.kernel.org
->> >Subject: [PATCH v2 4/5] media: chips-media: wave5: drop "sram-size" DT
->> >prop
->> >
->> >Use all available SRAM memory up to WAVE5_MAX_SRAM_SIZE. Remove
->> >excessive "sram-size" device-tree property as genalloc is already able
->> >to determine available memory.
->> >
->> >Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
->> >---
->> > .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++++++++---------
->> > .../platform/chips-media/wave5/wave5-vpu.c    |  7 -------
->> > .../platform/chips-media/wave5/wave5-vpuapi.h |  1 -
->> > .../chips-media/wave5/wave5-vpuconfig.h       |  2 ++
->> > 4 files changed, 13 insertions(+), 18 deletions(-)
->> >
->> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
->> >b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
->> >index 3809f70bc0b4..a63fffed55e9 100644
->> >--- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
->> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
->> >@@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
->> >*vpu_dev, struct vpu_buf *array,
->> > void wave5_vdi_allocate_sram(struct vpu_device *vpu_dev)
->> > {
->> > 	struct vpu_buf *vb =3D &vpu_dev->sram_buf;
->> >+	dma_addr_t daddr;
->> >+	void *vaddr;
->> >+	size_t size;
->> >
->> >-	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
->> >+	if (!vpu_dev->sram_pool || vb->vaddr)
->> > 		return;
->> >
->> >-	if (!vb->vaddr) {
->> >-		vb->size =3D vpu_dev->sram_size;
->> >-		vb->vaddr =3D gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
->> >-					       &vb->daddr);
->> >-		if (!vb->vaddr)
->> >-			vb->size =3D 0;
->> >+	size =3D min_t(size_t, WAVE5_MAX_SRAM_SIZE, gen_pool_avail(vpu_dev-
->> >>sram_pool));
->> >+	vaddr =3D gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
->> >+	if (vaddr) {
->> >+		vb->vaddr =3D vaddr;
->> >+		vb->daddr =3D daddr;
->> >+		vb->size =3D size;
->> > 	}
->> >
->> > 	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
->> >0x%p\n",
->> >@@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device
->*vpu_dev)
->> > 	if (!vb->size || !vb->vaddr)
->> > 		return;
->> >
->> >-	if (vb->vaddr)
->> >-		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
->> >-			      vb->size);
->> >+	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
->> >>size);
->> >
->> > 	memset(vb, 0, sizeof(*vb));
->> > }
->> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->> >b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->> >index 1e631da58e15..2a972cddf4a6 100644
->> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->> >@@ -177,13 +177,6 @@ static int wave5_vpu_probe(struct platform_device
->> >*pdev)
->> > 		goto err_reset_assert;
->> > 	}
->> >
->> >-	ret =3D of_property_read_u32(pdev->dev.of_node, "sram-size",
->> >-				   &dev->sram_size);
->> >-	if (ret) {
->> >-		dev_warn(&pdev->dev, "sram-size not found\n");
->> >-		dev->sram_size =3D 0;
->> >-	}
->> >-
->> > 	dev->sram_pool =3D of_gen_pool_get(pdev->dev.of_node, "sram", 0);
->> > 	if (!dev->sram_pool)
->> > 		dev_warn(&pdev->dev, "sram node not found\n");
->> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->> >b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->> >index da530fd98964..975d96b22191 100644
->> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->> >@@ -750,7 +750,6 @@ struct vpu_device {
->> > 	struct vpu_attr attr;
->> > 	struct vpu_buf common_mem;
->> > 	u32 last_performance_cycles;
->> >-	u32 sram_size;
->> > 	struct gen_pool *sram_pool;
->> > 	struct vpu_buf sram_buf;
->> > 	void __iomem *vdb_register;
->> >diff --git a/drivers/media/platform/chips-media/wave5/wave5-
->vpuconfig.h
->> >b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
->> >index d9751eedb0f9..9d99afb78c89 100644
->> >--- a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
->> >+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
->> >@@ -28,6 +28,8 @@
->> > #define WAVE521ENC_WORKBUF_SIZE         (128 * 1024)      //HEVC 128K,
->AVC
->> >40K
->> > #define WAVE521DEC_WORKBUF_SIZE         (1784 * 1024)
->> >
->> >+#define WAVE5_MAX_SRAM_SIZE		(64 * 1024)
->>
->> WAVE521 can support 8K stream decoding/encoding.
->> So, I suggest the MAX_SRAME_SIZE to 128 * 1024 (128KB).
->>
->> And, Current driver always enable sec_axi_info option if sram buffer is
->allocated.
->> But, we have to enable/disable the sec_axi_info option after checking
->the allocated sram size is enough to decode/encode current bitstream
->resolution.
->
->Do we really? As an experiment I tried to provide to Wave515 1KB of SRAM
->memory and decoded 4k sample file was fine...
->
+elapsed time: 1217m
 
-You can think It seems like driver works fine.
-But, This is not the behavior we expect.
-There is a possibility that unexpected problems may occur.
+configs tested: 177
+configs skipped: 4
 
->> Wave5 can enable/disable the sec_axi_info option for each instance.
->>
->> How about handle sram-size through match_data ?
->> I can find some drivers which use match_data to configure the sram size.
->>
->> We can use current "ti,k3-j721s2-wave521c" device as a 4K supported
->device.
->> - .sram_size =3D (64 * 1024);
->> Driver just allocate the sram-size for max supported resolution of each
->device, and we don't need to check the sram-size is enough or not.
->>
->> Thanks.
->> Nas.
->>
->> >+
->> > #define MAX_NUM_INSTANCE                32
->> >
->> > #define W5_MIN_ENC_PIC_WIDTH            256
->> >--
->> >2.44.0
->>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                      axs103_smp_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240328   gcc  
+arc                   randconfig-002-20240328   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                         lpc18xx_defconfig   clang
+arm                   randconfig-001-20240328   gcc  
+arm                   randconfig-002-20240328   gcc  
+arm                   randconfig-003-20240328   gcc  
+arm                   randconfig-004-20240328   gcc  
+arm                           stm32_defconfig   gcc  
+arm                           sunxi_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240328   gcc  
+arm64                 randconfig-002-20240328   gcc  
+arm64                 randconfig-003-20240328   gcc  
+arm64                 randconfig-004-20240328   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240328   gcc  
+csky                  randconfig-002-20240328   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240328   clang
+hexagon               randconfig-002-20240328   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240328   gcc  
+i386         buildonly-randconfig-002-20240328   gcc  
+i386         buildonly-randconfig-003-20240328   clang
+i386         buildonly-randconfig-004-20240328   gcc  
+i386         buildonly-randconfig-005-20240328   gcc  
+i386         buildonly-randconfig-006-20240328   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240328   clang
+i386                  randconfig-002-20240328   clang
+i386                  randconfig-003-20240328   clang
+i386                  randconfig-004-20240328   clang
+i386                  randconfig-005-20240328   gcc  
+i386                  randconfig-006-20240328   gcc  
+i386                  randconfig-011-20240328   clang
+i386                  randconfig-012-20240328   clang
+i386                  randconfig-013-20240328   clang
+i386                  randconfig-014-20240328   clang
+i386                  randconfig-015-20240328   clang
+i386                  randconfig-016-20240328   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240328   gcc  
+loongarch             randconfig-002-20240328   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                       bmips_be_defconfig   gcc  
+mips                            gpr_defconfig   clang
+mips                           ip28_defconfig   gcc  
+mips                           ip32_defconfig   clang
+mips                           xway_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240328   gcc  
+nios2                 randconfig-002-20240328   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc                randconfig-001-20240328   gcc  
+parisc                randconfig-002-20240328   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                   currituck_defconfig   clang
+powerpc                   lite5200b_defconfig   clang
+powerpc               randconfig-001-20240328   clang
+powerpc               randconfig-002-20240328   clang
+powerpc               randconfig-003-20240328   clang
+powerpc64             randconfig-001-20240328   clang
+powerpc64             randconfig-002-20240328   gcc  
+powerpc64             randconfig-003-20240328   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240328   gcc  
+riscv                 randconfig-002-20240328   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240328   clang
+s390                  randconfig-002-20240328   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240328   gcc  
+sh                    randconfig-002-20240328   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240328   gcc  
+sparc64               randconfig-002-20240328   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240328   gcc  
+um                    randconfig-002-20240328   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240328   gcc  
+x86_64       buildonly-randconfig-002-20240328   clang
+x86_64       buildonly-randconfig-003-20240328   gcc  
+x86_64       buildonly-randconfig-004-20240328   gcc  
+x86_64       buildonly-randconfig-005-20240328   gcc  
+x86_64       buildonly-randconfig-006-20240328   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240328   clang
+x86_64                randconfig-002-20240328   gcc  
+x86_64                randconfig-003-20240328   clang
+x86_64                randconfig-004-20240328   gcc  
+x86_64                randconfig-005-20240328   clang
+x86_64                randconfig-006-20240328   clang
+x86_64                randconfig-011-20240328   clang
+x86_64                randconfig-012-20240328   clang
+x86_64                randconfig-013-20240328   gcc  
+x86_64                randconfig-014-20240328   gcc  
+x86_64                randconfig-015-20240328   clang
+x86_64                randconfig-016-20240328   clang
+x86_64                randconfig-071-20240328   gcc  
+x86_64                randconfig-072-20240328   clang
+x86_64                randconfig-073-20240328   gcc  
+x86_64                randconfig-074-20240328   gcc  
+x86_64                randconfig-075-20240328   gcc  
+x86_64                randconfig-076-20240328   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240328   gcc  
+xtensa                randconfig-002-20240328   gcc  
+xtensa                    smp_lx200_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
