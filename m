@@ -1,114 +1,144 @@
-Return-Path: <linux-media+bounces-8041-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D1388F3CE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 01:44:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8894F88F43F
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 01:57:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDCBD1F2D35C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 00:44:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA0BF1C2D0F3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Mar 2024 00:57:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73606208A1;
-	Thu, 28 Mar 2024 00:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C963219BDC;
+	Thu, 28 Mar 2024 00:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pe9OKEba"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="V1jiQerN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta121.mxroute.com (mail-108-mta121.mxroute.com [136.175.108.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C341BC39;
-	Thu, 28 Mar 2024 00:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9118917758
+	for <linux-media@vger.kernel.org>; Thu, 28 Mar 2024 00:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711586652; cv=none; b=p9yTcX/C4X2NuF2ClbqOdattHzaxFrV5suaKuTRVD09Hur1wvVsHx3UCAuGQ7sL9Zmk5ZiuGej2XktzBrJSbOloA/czco5aDi1ulepMXe1HzHisREzlwTIWrJf3AEeOy30ttS5vVKt6pRJKHthlU6dnZ0kMhIJBifwNDIi7Tjvo=
+	t=1711587468; cv=none; b=mmGbj3zx/Il92UV16gIyIIqH9mJWgzSYN+ftKhw7PGE7W3/D8KT6js7ucXXdYGHMPtnerlUrFv9MEURJ2eDI6SoXJHO8sHryp+g8AzveH8bJMEsyI1lICjA9AtnqjFXcwUBZy5didQFHpkokexDWdIQMtjcNcxDKjIN/Mow6yhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711586652; c=relaxed/simple;
-	bh=3F6efRAp/CITomWBgwUDR0hLY/ukFkggqmKWWfGDTzc=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Sxyzs6BAV4TDo1OLGHVAsitadsVdz8vpiIGGQN/KRWjLe9X37ItCr5heow1O+12AiTJlQeosbOfoceNsd75EtMu3Zb3cB3N4zXym5hIeTQZhteZ2cjzbbn0hq5a4Jtpt0vgLRvkS2GXztr59zKfdbuwhIscwWIVMuKi/DYzXGXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pe9OKEba; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1943CC43399;
-	Thu, 28 Mar 2024 00:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711586652;
-	bh=3F6efRAp/CITomWBgwUDR0hLY/ukFkggqmKWWfGDTzc=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=pe9OKEbaWKvhlPVFg6X6s+rbr1IKORVf8QwMShgNddDzmwV8x6tvS7jP2ii6yC5rR
-	 vddnUP4ckQ1c/00usn9w2iISSvL8jXYQXaS4WpDZtDQ0jXDUAE7YKy5Ay4vsH4iEfA
-	 lAXSShDmpkwL/7X8Wh7WpWs8sjd3dHeCEDUWdfgYb1vHSQ5RQ2pj38cTHL/RIJTPA0
-	 qhiedt52oraTIequ1SQT32x4o6fKXI3ceNGiht67U+U6WoGDQsbJTNkNcoLMXKfuKC
-	 gBwMCWPeLGV6W05TfaGr5lWwOmQvHg6NYqZeTMQklWWdkfkHc02CqytwIhs1KL75U/
-	 jr+3Haq6ml3qA==
-Date: Wed, 27 Mar 2024 19:44:11 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1711587468; c=relaxed/simple;
+	bh=UGi039Yr9VIru+EzcW7+SRuzfrlsXJHjEtPplQLRzNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ICG8XV84Hp4Q7Gen4onkjU8IfhqOht0jaEgdJ+cYquFBhA2vhUZap3Vt7xKYanK7zy0EnCO8j5MRxYhE3gRmecY2IFhdGh1kh4vm6k2WqOy9wfeT6JM819uwPPfcbFBGPXvo/ja0GP3K847KWRNdqIdyCAuTXb5iZEqsF6kWBPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=V1jiQerN; arc=none smtp.client-ip=136.175.108.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta121.mxroute.com (ZoneMTA) with ESMTPSA id 18e829008580003bea.012
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 28 Mar 2024 00:57:41 +0000
+X-Zone-Loop: f6d6974177fdf3d7f1df7f359b96407322b3538d7b90
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YN/HXFWBbXPY2y6jVJvIYP4giVWZZlqzsoV52j4CWnU=; b=V1jiQerN/klJS4WkCrSTMCHlvF
+	vwLg9z+PHlBkLVpplPJjQPnt16ZgZGx0nA96y3RkQmNa5FgR5Y/+6Qvv8Vp85Lrc0PYnoZQ/TGR5U
+	eJD2b+4r8g3iUedOfLFoWVN1Y+Z9P1TtZUWocv075X0oIkBRJayIqebctdb6C3oGJdrS0c+dcs1Ze
+	fkyCI0BUX7sL75HFOjdDbcMrybGSmXJxh25O8o/yoIgu2fNk20MSiw81IXMmbwzHR6yQwObx7oDKg
+	PKUdAiSXxWDyQHIHI6wE6iL2Pn4lx2fKKZu7TFhXLJYcspvYc2HukaOKJnSg0ak7Q4YZEqwrAHaTV
+	8l2t+raw==;
+Message-ID: <0e658ecc-38d2-4d6f-b0cf-f5f3ec32c1b8@luigi311.com>
+Date: Wed, 27 Mar 2024 18:57:34 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: git@luigi311.com
-Cc: s.hauer@pengutronix.de, jacopo.mondi@ideasonboard.com, 
- mchehab@kernel.org, linux-arm-kernel@lists.infradead.org, 
- festevam@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel@pengutronix.de, dave.stevenson@raspberrypi.com, 
- linux-media@vger.kernel.org, shawnguo@kernel.org, imx@lists.linux.dev, 
- sakari.ailus@linux.intel.com, conor+dt@kernel.org
-In-Reply-To: <20240327231710.53188-19-git@luigi311.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/23] dt-bindings: media: imx258: Rename to include
+ vendor prefix
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
 References: <20240327231710.53188-1-git@luigi311.com>
- <20240327231710.53188-19-git@luigi311.com>
-Message-Id: <171158664752.823825.12393432684821394213.robh@kernel.org>
-Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
- compatible strings
+ <20240327231710.53188-18-git@luigi311.com>
+ <20240327-ninth-tulip-77191ad10fdd@spud>
+From: git@luigi311.com
+In-Reply-To: <20240327-ninth-tulip-77191ad10fdd@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: personal@luigi311.com
 
-
-On Wed, 27 Mar 2024 17:17:04 -0600, git@luigi311.com wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On 3/27/24 17:47, Conor Dooley wrote:
+> On Wed, Mar 27, 2024 at 05:17:03PM -0600, git@luigi311.com wrote:
+>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>
+>> imx258.yaml doesn't include the vendor prefix of sony, so
+>> rename to add it.
+>> Update the id entry and MAINTAINERS to match.
+>>
+>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > 
-> There are a number of variants of the imx258 modules that can not
-> be differentiated at runtime, so add compatible strings for them.
+> This is a v1 with my ack, something has gone awry here. It's also
+> missing your signoff. Did you pick up someone else's series?
+
+Yes, this is a continuation of Dave's work. I contacted him directly,
+and he mentioned that he is unable to submit a v2 any time soon and
+was open to someone else continuing it in his stead. This is my first
+time submitting a patch via a mailing list, so I'm not sure if I'm
+missing something, but I only added my sign off for anything that
+actually included work from my side and not just bringing his patch
+forward to this patch series.
+
 > 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Luigi311 <git@luigi311.com>
-> ---
->  .../devicetree/bindings/media/i2c/sony,imx258.yaml          | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: ignoring, error in schema: properties: compatible
-Documentation/devicetree/bindings/media/i2c/sony,imx258.example.dtb: /example-0/i2c/sensor@6c: failed to match any schema with compatible: ['sony,imx258']
-Documentation/devicetree/bindings/media/i2c/sony,imx258.example.dtb: /example-1/i2c/sensor@6c: failed to match any schema with compatible: ['sony,imx258']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240327231710.53188-19-git@luigi311.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+>> ---
+>>  .../bindings/media/i2c/{imx258.yaml => sony,imx258.yaml}        | 2 +-
+>>  MAINTAINERS                                                     | 2 +-
+>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>  rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml => sony,imx258.yaml} (97%)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> similarity index 97%
+>> rename from Documentation/devicetree/bindings/media/i2c/imx258.yaml
+>> rename to Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> index 80d24220baa0..bee61a443b23 100644
+>> --- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>> @@ -1,7 +1,7 @@
+>>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>  %YAML 1.2
+>>  ---
+>> -$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+>> +$id: http://devicetree.org/schemas/media/i2c/sony,imx258.yaml#
+>>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>  
+>>  title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index aa3b947fb080..1f17f6734bf5 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -20464,7 +20464,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>>  L:	linux-media@vger.kernel.org
+>>  S:	Maintained
+>>  T:	git git://linuxtv.org/media_tree.git
+>> -F:	Documentation/devicetree/bindings/media/i2c/imx258.yaml
+>> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>>  F:	drivers/media/i2c/imx258.c
+>>  
+>>  SONY IMX274 SENSOR DRIVER
+>> -- 
+>> 2.42.0
+>>
 
 
