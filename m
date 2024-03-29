@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-8193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36B5891E21
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:34:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC13891E7D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:43:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE22B1C28047
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 14:34:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B1461C27930
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 14:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693C214D291;
-	Fri, 29 Mar 2024 12:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF611AE874;
+	Fri, 29 Mar 2024 12:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UxL/Oofe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sep+Vtwr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC3316C6A6;
-	Fri, 29 Mar 2024 12:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC6F1AE862;
+	Fri, 29 Mar 2024 12:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716492; cv=none; b=rJAEwvXThZnJsEGnYMlcKbQOHz1v67EAIpsu+ifusBhln0mUkUn0ttd0ZkrcrY6QPEDbiVCmG7bM/iPp3efmdGRAbmdiQJBIdnUSxuRvFtuzHsjg54D3XiJRr31uFOSrDDXozmpjnnUF8x5KikD5h4UOuu2coyo3jbOEQpX8TSQ=
+	t=1711716563; cv=none; b=Dhxh0sxB5RYAb0U4Qxu0M+h0NuCVjo+qFnnUA+QWvRLL2bygyK/3EnMFqKOPuzd2xXu4ITsLhDo8j6hnUmt2awU3tK7LiGriCv+SoKqAT7IQV44oCzY8TYjZarDrvnsQ0N9Kv2nucivh61wQdEaVNbb7LpxqNpEEzSfashtjUEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716492; c=relaxed/simple;
-	bh=FXDOgi0V6Yo6/LVBS0riKm3X13p/2W430AEkacAMzbM=;
+	s=arc-20240116; t=1711716563; c=relaxed/simple;
+	bh=M8P/3KG1nNxQ+GD7IykbZpxImOfesKInWZciBRSL8bg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IqXrTRpi8o2gHWvhdqxOEcMmljdjAY3Z9+L2XeVaPMDiOHwpS4GUYfIqF2GjFgDPxOuKlzj9HMbdcX9baC4f7WqUEu1GFsisDP6bZC0WCNYQEyuA6cCvbaxWpYjIrlslb52BVuccdMcgctBhU0ub2zebMivjba9h3jGVpXeNkrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UxL/Oofe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A28C433C7;
-	Fri, 29 Mar 2024 12:48:11 +0000 (UTC)
+	 MIME-Version; b=FrYj4d8GPa43j31dUJCyuHAng1uN+bLvrXnh8jb1juJtdflbuP4OscQXLzMpG1e6SBMtAV1WdGRQBBQfqFb0jrT+0tKBkx6POsCQcu5GIVp1SLYeCnEI9FrYneUn/2mfVGwgd0Rb4WiwrjxPzj02SasKObqGZrezNffFYLaK3Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sep+Vtwr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5526BC433F1;
+	Fri, 29 Mar 2024 12:49:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716492;
-	bh=FXDOgi0V6Yo6/LVBS0riKm3X13p/2W430AEkacAMzbM=;
+	s=k20201202; t=1711716563;
+	bh=M8P/3KG1nNxQ+GD7IykbZpxImOfesKInWZciBRSL8bg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UxL/Oofer5dpwjgH/0FouyLomNlri2JDGm0iQl24fEhB9bHfmWw5gZidiW34rNdga
-	 nxTp4GuoD3Sec8QKpVPWd+D9kDT9DwFJF29nScMotZadhc2EsVNhIuodaJS5EutBUW
-	 velvkTjkkQ+d5w+W3OAbcsm+j+7MF/3wpT3UI4g2MuLzR0A59XhJBVuKJXbe8C5VcP
-	 ppjk/+gsEgArVBislsZXXEIup0fwVI0Kxj77betYXzUwtyCbTULVceWH4I1GAP895t
-	 VmLn3xnL1BqEOrlPursFMPF4YbiOA8Aej9s3QtSbc1q+vxh5NixNx0zw4fDSzwaiBW
-	 j+5iNtYhjSC/A==
+	b=Sep+Vtwr+Wg+8gG9lwpISIzr5Tq+DMFVh1SHL3n+UJbJmlnPN+qF0VuRtOc8RmzMK
+	 jQC3r41Ds3OpoCqnNMOPnr2mA4qnIchE/n+elenk3d64Iz4B6V9hlzEF2F2YK5DqSS
+	 SiQLJMULoOMX9UE7wiJ7wwZQuUJ2bOYcRwaGtEzX/vnEojjJhjtYZSl256sJ283INe
+	 94Tb2QmgGU9IpXrD71JR++XjZOqFoDraz1TLLOSdPw51SkQeezz6rSkvsqba1pAJUU
+	 ZJS7kKzZVapE+55sxbl+LEuN7LwlZosnajSqYCoaBsphQh68wRzb63h2cEKlqPBd9B
+	 2VJ0LucQSKkqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	nathan@kernel.org,
 	linux-media@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 12/34] media: sta2x11: fix irq handler cast
-Date: Fri, 29 Mar 2024 08:47:13 -0400
-Message-ID: <20240329124750.3092394-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 11/31] media: sta2x11: fix irq handler cast
+Date: Fri, 29 Mar 2024 08:48:28 -0400
+Message-ID: <20240329124903.3093161-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124750.3092394-1-sashal@kernel.org>
-References: <20240329124750.3092394-1-sashal@kernel.org>
+In-Reply-To: <20240329124903.3093161-1-sashal@kernel.org>
+References: <20240329124903.3093161-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.153
+X-stable-base: Linux 5.10.214
 Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
@@ -88,7 +88,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
-index 524912f20d9f2..74bbdc11abbb3 100644
+index 336df65c8af11..01ca940aecc2d 100644
 --- a/drivers/media/pci/sta2x11/sta2x11_vip.c
 +++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
 @@ -760,7 +760,7 @@ static const struct video_device video_dev_template = {
