@@ -1,90 +1,66 @@
-Return-Path: <linux-media+bounces-8159-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8160-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536AB891353
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 06:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F728914A3
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 08:57:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E32D288E5C
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 05:45:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6629D2882DD
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 07:57:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFD53C68C;
-	Fri, 29 Mar 2024 05:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 873CF42055;
+	Fri, 29 Mar 2024 07:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kp9LJB6O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOvqi7Sf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3233E489;
-	Fri, 29 Mar 2024 05:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56183B78E;
+	Fri, 29 Mar 2024 07:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711691097; cv=none; b=ExDOkeJqmbjk9Hmd+WURU7F6zti3U2ygGL0IY8fXj8LdqARWyqf/nVrZNpu8bvg+4wVAuGKlX2IMXemT+2r9QQGHvIh/NoSjcIx0zHlczdjiGBr5tAMIPAVQQ5FK6bHOLDlsuGLrpadbI3IgrlXAn6uKx6o4IMY+j2Q4Q+4Z5To=
+	t=1711699036; cv=none; b=rEGYg64d+9iXF3GJmx4KDWxKitE7eSLyZLThS46Y50rPXwgDqWsKtyx1yPILMnVajmFIbXMzc+peYQZlSWONIvEwkiJhS+jI/hW3tAkiFjg1CwZTIsj2UHj/+nLDKLg3JJF35esOdAiIEitoZZnjFtrs19J3ohrtFn8qnwZHYyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711691097; c=relaxed/simple;
-	bh=Chsh0Y6imvACPZqM0aZBL2mZYFk82NHt7OzDTWuPeoQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ht9jvZQbb4+FF0eM28WvXv8AISRnvCR8KeamndUllONURgDW67bYm0dq5wh1KhId956D9+tcwZVAK1+W631dl6yswr+u0tigGwV+/iuKgpHsxjpwU1OJOuKmxl45vxTOuuD3rpL2FYWd0KCSF4W47b2sceKvSY1hTbNNxoSJXDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kp9LJB6O; arc=none smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c3ca3c3bbaso1006470b6e.0;
-        Thu, 28 Mar 2024 22:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711691095; x=1712295895; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fwjYyV1xedFSqTP36VO0uSIhJUQea6nzzcBnO8oLakQ=;
-        b=Kp9LJB6ONOeza7po2PGAel2RM+8n6GOuKYvMUnXl5VvRFRd1GE1Nkb0EJtQ+MYsHwo
-         Kgkh3arvkUmpVPyHyolattScXqqDGbske2QK3/7T95KvDBXEVgb5F+17+SonfYR1iNLa
-         wYca7ukIp4xZcYoTRYC+Y5wRCA0JfXq/W3c04XF/Xo0AqkupQr3B58HlY+k0LHm8HoMC
-         rOoHvIbgvr0VtDe6ajDhcrXNpMMxY73KpJOIQgCQCqL8MNtzbsBT4KGSvgeNTf93XCNV
-         x7bdt6orHqVlZ+YyU8Xtu4f/zkxVdo41BmPpCTRexiC9QQIqHFge8ilh/m7dERLvTukf
-         dSew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711691095; x=1712295895;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fwjYyV1xedFSqTP36VO0uSIhJUQea6nzzcBnO8oLakQ=;
-        b=YYUiPEosnR+pL1CsfVYNbfEIP4Zxnl3G5QPzilanJhsqGAyebomryiZR4wL+qgPrHm
-         XKam8NcMswFL6x+7xOpW59bKLBDIBtqUO5uVm8Ad5K5AySn/lLfSYh77Un+q4eFrZRlD
-         y4VoI5wV/Y79EnINGW1Fuw3S/zYt2luRQhURM4DtHOQIRN5Haqgx77GqCGGYbeW94JAF
-         6we2/8AaGAujcJMUjXbJXCQLWYyTNS26JpMOlXQ7gxt4HddVDt0v2l+u5fNunh59Yqxt
-         CDjaQC1SyRbpLDiFmRGD7qwIzlrE1JSrYZmB1h+LxZDjpjkzoE0xAkkSQdwWi5Lwdw8a
-         kCLg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwxh0Rwy21EmJc7qC6Cs8ug/71QTOyaEQUTrlY4c64YODmcfgSi9XVgHqevUVTB5vquDyWVy3STsF+IL3a2iLpdDmP/WvIXcqp4ydKVQ/Wzb13oM7IVym7INmEipz+mJ7ldB1Am/Wrl1E=
-X-Gm-Message-State: AOJu0YwHelT+vhUQEJ+pKjGQutwriwB3sf4ohjWkexM6h3KpI9XNQr07
-	tzZMr1ts3YrhvTNBabyuqVXYYMXGyRXMQHmN+sy7UJTPxwG0lyH2
-X-Google-Smtp-Source: AGHT+IFDwMv1sfBpVAUxu6Mc2Bi3QSJQkBrer5BK2llVjxSCi4SL/46S6aRYY65dN4uWzKxG3Vi07A==
-X-Received: by 2002:a05:6808:211f:b0:3c1:c7a8:5ede with SMTP id r31-20020a056808211f00b003c1c7a85edemr1577604oiw.46.1711691095092;
-        Thu, 28 Mar 2024 22:44:55 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:100f:826c:582e:d62c:addc:15b1])
-        by smtp.gmail.com with ESMTPSA id d15-20020aa7814f000000b006e47e57d976sm2315495pfn.166.2024.03.28.22.44.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 22:44:54 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
+	s=arc-20240116; t=1711699036; c=relaxed/simple;
+	bh=VfU7QoMGIzVV4cTnNZd5yeDBjCpnVSdeFYafrvvqPiM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HMSut6z74mSmp6qApezYAZLsInkheZ+GtEoKlNVaUSf6NExK1inkLY+AcpRPY2raGjJj96JJaeVLpDP4eByQviQ5/WyC7ZaBTdrmRT8VNAH1NaXrQAUmjRZoE3EfF+DgT4c81WDRhMAuvkjC5i8cEOt4qLu9TStYsBO532lmnFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOvqi7Sf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D92CDC433F1;
+	Fri, 29 Mar 2024 07:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711699035;
+	bh=VfU7QoMGIzVV4cTnNZd5yeDBjCpnVSdeFYafrvvqPiM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AOvqi7Sfkt5flEJlMlu0M/klCkfS119dFjq3LoNxICxK+KOARjBZryfgw1kBPxygK
+	 w6gIDCSwBIHs+u2hUwSkXk6UgHs6sqRvNfRrFxwwtgHV3QugIUj1eXdqFffeDCv/1R
+	 CYYJ/XBYs6n0MvDaJOdZDIk0p0A6RN46nC/JIWoPpWBAiQQYP/goCWWV4UggqLfFZH
+	 2ecF5JSAyHl2eY4AQVUhDbWbP24LJVFZK1vsOQ2AbmfJ1JDI3FscqBHF3Xiz4tVt0V
+	 k8o9muzcjqIB6pL+XE6yfjbSVjANLJDypoELXvDhT6t6JtQi7MYLWpJOR0q8al1V/G
+	 9YRqXfiOb3dtA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	groeck@chromium.org,
+	linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	hverkuil-cisco@xs4all.nl,
 	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
+	sre@kernel.org,
+	alexandre.belloni@bootlin.com
+Cc: tzungbi@kernel.org,
+	chrome-platform@lists.linux.dev,
+	pmalani@chromium.org,
+	linux-gpio@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	Rajeshwar R Shinde <coolrrsh@gmail.com>
-Subject: [PATCH v4] staging: media: imx: Remove duplicate Kconfig dependency
-Date: Fri, 29 Mar 2024 11:14:46 +0530
-Message-Id: <20240329054446.33523-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	krzk@kernel.org
+Subject: [PATCH 00/18] platform/chrome: provide ID table for avoiding fallback match
+Date: Fri, 29 Mar 2024 15:56:12 +0800
+Message-ID: <20240329075630.2069474-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,38 +69,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+Inspired by [1].  Turn all MODULE_ALIAS() in ChromeOS EC platform drivers into
+proper platform_device_id table and MODULE_DEVICE_TABLE().
 
-The kernel configuration VIDEO_DEV is defined twice in Kconfig.
-Thus, the duplicate Kconfig dependency is removed.
+The series is basically looking for drivers from:
+- `struct mfd_cell` in drivers/mfd/cros_ec_dev.c.
+- grep -R MODULE_ALIAS drivers/platform/chrome/.
 
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+[1]: https://lore.kernel.org/chrome-platform/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org/T/#m2cc7d6f770cf0a48fb537bbaed655169c974f067
 
----
-v1->v2
-changed the commit message
-v2->v3
-changed the subject
-v3->v4
-changed the commit message and subject 
+Tzung-Bi Shih (18):
+  media: platform: cros-ec: provide ID table for avoiding fallback match
+  gpio: cros-ec: provide ID table for avoiding fallback match
+  rtc: cros-ec: provide ID table for avoiding fallback match
+  platform/chrome: cros_ec_sensorhub: provide ID table for avoiding
+    fallback match
+  power: supply: cros_usbpd: provide ID table for avoiding fallback
+    match
+  platform/chrome: cros_usbpd_logger: provide ID table for avoiding
+    fallback match
+  platform/chrome: cros_usbpd_notify: provide ID table for avoiding
+    fallback match
+  platform/chrome: cros_ec_chardev: provide ID table for avoiding
+    fallback match
+  platform/chrome: cros_ec_debugfs: provide ID table for avoiding
+    fallback match
+  platform/chrome: cros_ec_sysfs: provide ID table for avoiding fallback
+    match
+  power: supply: cros_pchg: provide ID table for avoiding fallback match
+  platform/chrome: cros_ec_lightbar: provide ID table for avoiding
+    fallback match
+  platform/chrome: cros_ec_vbc: provide ID table for avoiding fallback
+    match
+  platform/chrome: cros_kbd_led_backlight: provide ID table for avoiding
+    fallback match
+  platform/chrome: wilco_ec: telemetry: provide ID table for avoiding
+    fallback match
+  platform/chrome: wilco_ec: debugfs: provide ID table for avoiding
+    fallback match
+  platform/chrome: wilco_ec: event: remove redundant MODULE_ALIAS
+  platform/chrome/wilco_ec: core: provide ID table for avoiding fallback
+    match
 
----
- drivers/staging/media/imx/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpio/gpio-cros-ec.c                      |  8 ++++++++
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_chardev.c        |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_debugfs.c        |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_lightbar.c       |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_sensorhub.c      |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_sysfs.c          |  9 ++++++++-
+ drivers/platform/chrome/cros_ec_vbc.c            |  9 ++++++++-
+ drivers/platform/chrome/cros_kbd_led_backlight.c | 11 +++++++++--
+ drivers/platform/chrome/cros_usbpd_logger.c      |  9 ++++++++-
+ drivers/platform/chrome/cros_usbpd_notify.c      |  9 ++++++++-
+ drivers/platform/chrome/wilco_ec/core.c          |  9 ++++++++-
+ drivers/platform/chrome/wilco_ec/debugfs.c       |  9 ++++++++-
+ drivers/platform/chrome/wilco_ec/event.c         |  1 -
+ drivers/platform/chrome/wilco_ec/telemetry.c     |  9 ++++++++-
+ drivers/power/supply/cros_peripheral_charger.c   | 11 +++++++++--
+ drivers/power/supply/cros_usbpd-charger.c        | 11 +++++++++--
+ drivers/rtc/rtc-cros-ec.c                        |  9 ++++++++-
+ 18 files changed, 139 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-index 21fd79515042..772f49b1fe52 100644
---- a/drivers/staging/media/imx/Kconfig
-+++ b/drivers/staging/media/imx/Kconfig
-@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
- 	depends on ARCH_MXC || COMPILE_TEST
- 	depends on HAS_DMA
- 	depends on VIDEO_DEV
--	depends on VIDEO_DEV
- 	select MEDIA_CONTROLLER
- 	select V4L2_FWNODE
- 	select V4L2_MEM2MEM_DEV
 -- 
-2.25.1
+2.44.0.478.gd926399ef9-goog
 
 
