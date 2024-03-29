@@ -1,138 +1,146 @@
-Return-Path: <linux-media+bounces-8228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C972289227A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 18:12:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF21892285
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 18:16:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8382E28CE4B
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 17:12:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1ED831F24079
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 17:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70999137903;
-	Fri, 29 Mar 2024 17:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3AB85653;
+	Fri, 29 Mar 2024 17:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F2yBLTrw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S61OubVM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B63136E28
-	for <linux-media@vger.kernel.org>; Fri, 29 Mar 2024 17:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD614A0A;
+	Fri, 29 Mar 2024 17:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711732285; cv=none; b=XGg250qGa9uk+mVSAF2ZkJPZ1y+gLqLzyfJhloQEfSECZv2R5EQbMiPvjmxlNf+TjQD5p+Lu8t3m1gom6FsHqgopWLJITjPe05MVUUqaSoNWizE5A/rRBzNg6eT+i6OB5brMqO7TpfJxcDP8NvAD4q5MiyXg4Wyl/+Rg4IQdVJM=
+	t=1711732604; cv=none; b=a5bNJkHqBpyQ32blupCniK7naeCq/Tjuu1cPTzPu6d7Kd58nLOKqdwvhjZaXjIXMJCD25zSvxBe0yc2nExXkwZA8AEKX+9ShTlF3usuB/tPNvYnRdqIJ2RSNTOgDnNY/5hB9oq5bRIEhznQcJbG+whmk+oSt/86VtpSdqyiJaRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711732285; c=relaxed/simple;
-	bh=BvkCan4CYqT9KahpHLPinkF0Oqsyu4ARVTxo69Ya3OQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=khAtV/x1Cd0O2J1uHO7h1/lCQM7XHa4wy1t1eqVCQlIo2muCPm8lKSrp9JLqimLRt0EFSYUx3H3fXjbWaSTbQ4G3XgEiGBIjUENnD+gm4xkVvp6i7g7n1xBg/xmjMSJ9wMWMtpR9BBq0yMENRSxXi9gj9CnHA19vbWOPyK7jzoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F2yBLTrw; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33ed4d8e9edso1618386f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 29 Mar 2024 10:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711732282; x=1712337082; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ojAEQZDNOooKXWE3jOPqHLahg+qtKGfAOZ8JmZimIqs=;
-        b=F2yBLTrwsoGuf6FL2iqke3TmioSLLDxIeF7/jhPwFCYHfnAmnpUxNIDSIILllyA6tF
-         k7P68wBrNNAzp0aPSbYUqwJ9fJI0XEUv3gHv3otPRecsSRj6g+f9A+GOLz3Qf+OJPglM
-         XiEwcWzkOJFNyxioXH/UyWDE796rnEFwjNwnio+cPfDJTjRIMJRdHQyASAEVjJHcvs4f
-         lsI4QSp+J8cdWGw1/72CQAYIkceRNhgLK/Uwz64hWVIYs4CBSAATH3tIlZELs2wjXW0B
-         vh7foDWqW5CrpW7Evci+ZbWxS3ZXPyhatT/xS61KtMwKo+6Y9OTgo/7/6kEmNgMDksXE
-         XkNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711732282; x=1712337082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ojAEQZDNOooKXWE3jOPqHLahg+qtKGfAOZ8JmZimIqs=;
-        b=HPDy2/IHtM7QiLDz+aC68Ynk/uz6txRYvTVEgT4MbF8cbHqzaMR+il0Md5Mx+Ru17A
-         Zqub+x0j7/3BI9+7U/GCXl+XHVUs+LeEgeV/09GjGBe05sjQSEMDUQATsuKk8GqkYqmB
-         0a2nHxnrGjk0TIIwSTqpkF2BnPLlh2jOXr7z/L35Dd/8ah+CxZ2kCYYPvl3dQTTM1CoC
-         YvbZ+l9mFohz9Pt+2RbnUfI9+sMJ4SZzk2fV5iVe1Bt2PVEvU5XrQBUIlQMb7an08+H0
-         y9KEhZQ91k0SyuYyZDPXBxYEahWiO+qlh3KrAJDGcudVGKyUf0mQl41nreb/zck6fVLN
-         STFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQJHlR2xa0i5Ja0+CdhwedDD6d2JgimwpoKzK5sj+rrKj9tetpnA/lcPbZNutmuEP/wK9w8LJtuv5Bvwp4vD18FpExk6aYdvC0UdM=
-X-Gm-Message-State: AOJu0YzKQgeAhMDe+T9TOcp5DUm+hkvk+SE22xK4Am6KgKntwRtnmmJR
-	19sMsjrprfXcwALwvRptyQ254nIy9MFtC2CGEI70Qe9pqn4CCv6g3km6hTFB+HE=
-X-Google-Smtp-Source: AGHT+IEAy+f4w+/Jzcajbg5rnkuzn9DVcYFe2lv/hmJoucFb8AAoUbo15n3rDzI0YgxpEZXplS0/3w==
-X-Received: by 2002:a05:6000:4014:b0:343:2e09:58d1 with SMTP id cp20-20020a056000401400b003432e0958d1mr2500413wrb.44.1711732282727;
-        Fri, 29 Mar 2024 10:11:22 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id q13-20020adff78d000000b0033ecb329f15sm4622520wrp.9.2024.03.29.10.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 10:11:22 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] media: mmc: siano: simplify module initialization
-Date: Fri, 29 Mar 2024 18:11:19 +0100
-Message-Id: <20240329171119.63992-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1711732604; c=relaxed/simple;
+	bh=3cDebFPhfpcNOYa1nrqJnGUfaFo9yHWPr4HlWxb0MNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lgkG8b0AYcZW32s3HHmBYyMDH+4k+F1e7VLb6B21jToLFKesnY64L1GwpNwPjVL+cQTj80vYxjzE7OHettOU2L/1+Iz1eIrobOoqCbNMJfOIdf8bXPWdvz6v6Gp+p/u9wkIqu7HeOcTCGt89yYM4Fy411kako0ChjiV59jcTOh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S61OubVM; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711732603; x=1743268603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3cDebFPhfpcNOYa1nrqJnGUfaFo9yHWPr4HlWxb0MNU=;
+  b=S61OubVMHPxQIR3y69y7OuL0uvoXp5hGAaX+xADOWzyMiHZczimUowxb
+   6caKfjoD8giubHBtAxto2mtq4864jSqNBWSX/0PFVqxLtdzrXGFoiahcm
+   roBQDVyEv+7nUaEccdVFQ/WnyScpUKUqOceIGuvjgm2wy62raeYSgxrFv
+   wO2DB+2gy/xYtngfkyUSDkZBjz87OHgRWhc9bCKiM1ZifzfWag/ofUXfz
+   VTFqR0WDXXpyKA2QNTPQR9QhXyB2v/tnTNAMT9566re6V6yUlSsFL5VC1
+   hda/ihwK11b25XGzGPFShcCxjZYtOWGgZ5gM1gMgxLk5qnkA3uUXulGQG
+   g==;
+X-CSE-ConnectionGUID: GDHlFLjIRMSfpsQbdSuslg==
+X-CSE-MsgGUID: yyywARLFRqmbd8hVHt9ytA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="6865269"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="6865269"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 10:16:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="21740222"
+Received: from unknown (HELO intel.com) ([10.247.118.231])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 10:16:11 -0700
+Date: Fri, 29 Mar 2024 18:16:05 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	Evan Quan <evan.quan@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>,
+	Candice Li <candice.li@amd.com>, Ran Sun <sunran001@208suo.com>,
+	Alexander Richards <electrodeyt@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Hamza Mahfooz <hamza.mahfooz@amd.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>, Alan Liu <haoping.liu@amd.com>,
+	Aurabindo Pillai <aurabindo.pillai@amd.com>,
+	Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>,
+	Alvin Lee <alvin.lee2@amd.com>, Charlene Liu <charlene.liu@amd.com>,
+	Sohaib Nadeem <sohaib.nadeem@amd.com>,
+	Lewis Huang <lewis.huang@amd.com>,
+	Tom Chung <chiahsuan.chung@amd.com>,
+	Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+	Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+	Jun Lei <jun.lei@amd.com>,
+	Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+	Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+	Dillon Varone <dillon.varone@amd.com>, Le Ma <Le.Ma@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>,
+	Kenneth Feng <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Yang Wang <kevinyang.wang@amd.com>,
+	Darren Powell <darren.powell@amd.com>,
+	Yifan Zhang <yifan1.zhang@amd.com>,
+	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
+	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
+	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v0 02/14] drm/amdgpu,drm/radeon: Make I2C terminology
+ more inclusive
+Message-ID: <Zgb3VYsgLjhJ2HKs@ashyti-mobl2.lan>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <20240329170038.3863998-3-eahariha@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240329170038.3863998-3-eahariha@linux.microsoft.com>
 
-This driver's initialization functions do not perform any custom code,
-except printing messages.  Printing messages on modules
-loading/unloading is discouraged because it pollutes the dmesg
-regardless whether user actually has this device.  Core kernel code
-already gives tools to investigate whether module was loaded or not.
+Hi Easwar,
 
-Drop the printing messages which allows to replace open-coded
-module_sdio_driver().
+On Fri, Mar 29, 2024 at 05:00:26PM +0000, Easwar Hariharan wrote:
+> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/media/mmc/siano/smssdio.c | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+I don't understand why we forget that i3c is 1.1.1 :-)
 
-diff --git a/drivers/media/mmc/siano/smssdio.c b/drivers/media/mmc/siano/smssdio.c
-index 065b572e0272..8199077faf36 100644
---- a/drivers/media/mmc/siano/smssdio.c
-+++ b/drivers/media/mmc/siano/smssdio.c
-@@ -344,30 +344,7 @@ static struct sdio_driver smssdio_driver = {
- 	.probe = smssdio_probe,
- 	.remove = smssdio_remove,
- };
--
--/*******************************************************************/
--/* Module functions                                                */
--/*******************************************************************/
--
--static int __init smssdio_module_init(void)
--{
--	int ret = 0;
--
--	printk(KERN_INFO "smssdio: Siano SMS1xxx SDIO driver\n");
--	printk(KERN_INFO "smssdio: Copyright Pierre Ossman\n");
--
--	ret = sdio_register_driver(&smssdio_driver);
--
--	return ret;
--}
--
--static void __exit smssdio_module_exit(void)
--{
--	sdio_unregister_driver(&smssdio_driver);
--}
--
--module_init(smssdio_module_init);
--module_exit(smssdio_module_exit);
-+module_sdio_driver(smssdio_driver);
- 
- MODULE_DESCRIPTION("Siano SMS1xxx SDIO driver");
- MODULE_AUTHOR("Pierre Ossman");
--- 
-2.34.1
+> with more appropriate terms. Inspired by and following on to Wolfram's
+> series to fix drivers/i2c/[1], fix the terminology for users of
+> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+> in the specification.
 
+The specification talks about:
+
+ - master -> controller
+ - slave -> target (and not client)
+
+But both you and Wolfram have used client. I'd like to reach
+some more consistency here.
+
+Thanks,
+Andi
 
