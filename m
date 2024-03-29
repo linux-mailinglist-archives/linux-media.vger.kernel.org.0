@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-8191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B7B891D09
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:06:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9A7891DA2
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:22:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57A3E1C221FC
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 14:06:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA5971F293B7
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 14:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F74F1B882E;
-	Fri, 29 Mar 2024 12:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA03F264D96;
+	Fri, 29 Mar 2024 12:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DiIouIsm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZdHf55W"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBED1BAC52;
-	Fri, 29 Mar 2024 12:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B0514A4D8;
+	Fri, 29 Mar 2024 12:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716268; cv=none; b=uFhEYC2E92eFxwdscRQqu/kMQSmS9aP1Zxqvce+XRE1jDUC3jveYicDQ7MLb+oj8XSShkOVsszoqJt6L+2vFHw43rmwuQdb2EPtJ9bczNaSp+7uyRzRNCjzJsRJcDa4FqNJTw3huHTn7k5bej39scSVNHApSzfgy3xf26pW/lWo=
+	t=1711716401; cv=none; b=EgOrJyOimcaJBDO0iaxVV/9d4ySQoLPqLTMw584ylr6zrPiBuTRPeCZ3OOntz32Z1CvMq2G+GkcZt9KSfufHCx8e7Ym83Je3GSmrRSDj8TAUCHMdej5L25Y3UwpIG3KX1VOoOU8UNSDRl2fwTyf+GShJUVs1f2DHPmr5jyR6vU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716268; c=relaxed/simple;
-	bh=g4G966sqyGAo0Tea4bdG14ocnuCnsoCEQwCF6LPvnEs=;
+	s=arc-20240116; t=1711716401; c=relaxed/simple;
+	bh=4U6ZUJRzFHn3X3gF90GTg7DgT5B9uVGN6YR3Wbkuxdw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ftj/TyrtT0D0qq+Byu4Kh08qr+jQYRaRp50jZ0wtrvtrVMqAPnOuOt06UCv7N14vDmqurEqOvNefR5HpU4QvEDY4KAR1EEIVfRnMyMls4f76R2nm7r0NLIuxlBQPlIIYsaC+yJMySH+Y3ZKtaF+kU7SJhcmNOPApb2u25jRv73U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DiIouIsm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F76CC433F1;
-	Fri, 29 Mar 2024 12:44:27 +0000 (UTC)
+	 MIME-Version; b=LuD/BpzXoPsr/ZBHTPqvMFrsO5SE6lpe4GbC+oxmGi1GYRavh9mEYCLBqDa0YksYXxT27a2R3VsnDyfMcwxZMoPzO8yuoDx1SUEGtCqI3j6qE874tCDI1RZnN4tosJvQpXBlHVwVoAyz/cLzvHqWVUFGctI3f+ZlDqSIjrE/f4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZdHf55W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FE8C433F1;
+	Fri, 29 Mar 2024 12:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716268;
-	bh=g4G966sqyGAo0Tea4bdG14ocnuCnsoCEQwCF6LPvnEs=;
+	s=k20201202; t=1711716401;
+	bh=4U6ZUJRzFHn3X3gF90GTg7DgT5B9uVGN6YR3Wbkuxdw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DiIouIsmF80GjqhnK9F3ODwK9+42MUHlI3uOY3VhYx2C7E2TTXv8fy8rpq6eHQp/d
-	 +80R/LMtFeYtq+YDNaMAozqyQ+XfI09ii0MyBj459TOproaKKqLr105xvulqGvrT2R
-	 7s8Ulk6u6GU8qgUFOoryXpgta424vuH5MwxNS2g83eKM5dLfxwp6HTovvnFm4iEYR3
-	 npmUGajMrGbJtlD4o1fvrXshiA9Y5Gj0RRAIMnArSf66cvf4kJwLgbWmcYWo7A0jtv
-	 p8TI1Dm1LVxstHidTQvkdWGhTD65IAdOw5+Jq1ZZl1PoH0V+uoN7eN/IDLNjALdtaT
-	 cVjn28TmGSS1Q==
+	b=rZdHf55WUeSF/WpbHEDd1cClty3zx7A0fgBlM/Qqm1rzp/nf75BEuOpKvkT2p6Yq/
+	 8Ds7gVmwU9nxAipJf3npu/rkewX/iydUDlCad0IeG6FU+jRQKo7h5TZapZFLqHpyxc
+	 LCKH5VQiz3Ok9uw9M8o/tk3so+DIKSUwtZyoerbz7vE/x+X3LcHMOGR8YH8K+fr9Ct
+	 7tEQ9Gs0Aep7hhLAdGx/tooIzP2h9dw7jh3r5kS+GcOAkCgTdkt2zXYsPBeNDI9RNi
+	 8bqFY6M7+l2tc3FbxKrjFkNkNAmFmMt1Fr6EJ+ZRYtDGpiEWoJxuWozUaVToxGcDH2
+	 Z12/ngQwh7p3g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	nathan@kernel.org,
 	linux-media@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 31/75] media: sta2x11: fix irq handler cast
-Date: Fri, 29 Mar 2024 08:42:12 -0400
-Message-ID: <20240329124330.3089520-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 19/52] media: sta2x11: fix irq handler cast
+Date: Fri, 29 Mar 2024 08:45:13 -0400
+Message-ID: <20240329124605.3091273-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
-References: <20240329124330.3089520-1-sashal@kernel.org>
+In-Reply-To: <20240329124605.3091273-1-sashal@kernel.org>
+References: <20240329124605.3091273-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.23
+X-stable-base: Linux 6.1.83
 Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
@@ -88,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
-index e4cf9d63e926d..364ce9e570182 100644
+index 8535e49a4c4f9..1f7ab56de4a00 100644
 --- a/drivers/media/pci/sta2x11/sta2x11_vip.c
 +++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
-@@ -757,7 +757,7 @@ static const struct video_device video_dev_template = {
+@@ -756,7 +756,7 @@ static const struct video_device video_dev_template = {
  /**
   * vip_irq - interrupt routine
   * @irq: Number of interrupt ( not used, correct number is assumed )
@@ -100,7 +100,7 @@ index e4cf9d63e926d..364ce9e570182 100644
   *
   * check for both frame interrupts set ( top and bottom ).
   * check FIFO overflow, but limit number of log messages after open.
-@@ -767,8 +767,9 @@ static const struct video_device video_dev_template = {
+@@ -766,8 +766,9 @@ static const struct video_device video_dev_template = {
   *
   * IRQ_HANDLED, interrupt done.
   */
@@ -111,7 +111,7 @@ index e4cf9d63e926d..364ce9e570182 100644
  	unsigned int status;
  
  	status = reg_read(vip, DVP_ITS);
-@@ -1053,9 +1054,7 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+@@ -1049,9 +1050,7 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
  
  	spin_lock_init(&vip->slock);
  
