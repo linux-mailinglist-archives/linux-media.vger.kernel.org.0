@@ -1,91 +1,176 @@
-Return-Path: <linux-media+bounces-8197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C64892109
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 16:57:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEF28920C9
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 16:47:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4B8BB2C810
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:19:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2F952867CE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 15:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B34413C3C5;
-	Fri, 29 Mar 2024 15:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AF89381C9;
+	Fri, 29 Mar 2024 15:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XXt0/Ns+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOUaZZNd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B8D136E07;
-	Fri, 29 Mar 2024 15:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6DF23A8;
+	Fri, 29 Mar 2024 15:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711724411; cv=none; b=T+Li/DENmNK6K8tBKBxoJUvuGu1zJoIo6PJ1irOnka2l7TQNpJaJ72hwRRu0A2SoATKDh1FNe731BFIy3lCRmUnuf+Bd/op/UZJAhSHxWIgUb+o9Bd7GJf4HABF8ljnW8La8/U5znjHD76g7g3DR8M5FnLk7m5MkVR2Ezrmcxzs=
+	t=1711727226; cv=none; b=PDr8msmx4wWh3KviFJi62+MZ6Z3PWDcBAtxbD12Wl8ZL8RbNSvr9t1n7jeNCucnw+jH4C/BpQrPJ/kxANpjYMUtvnkvClh4qb1j5cbvIt4GEA94TBM/19YcVwfcYtRrmwUCXaSTdEo43f19fl9sjwqA+PFxskmDT1agicrqMl9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711724411; c=relaxed/simple;
-	bh=P9Vm4HV7eB9CErLuKE9yaISuOH76tr6hyyC6siL9E88=;
+	s=arc-20240116; t=1711727226; c=relaxed/simple;
+	bh=mGMCbTudpO//dsMmAJuxrfDrUsM2TLQi58qOzKNQl9k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p+lFM7P1yRF/tqVD10JGlsVdZO5Mdj+nluMA/yE+AzckaY737FcrFOusObcVPbVxjJqvsGdJ3J1VNM6SjuF32FeAiUpan4U5UEyuvj3bzJ5ff9h74iVyNnSX8uKgJNaBW7XVCEMNJ1+rX3Vf1RY8N33eKI6EoO6B47Jyay4/vow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XXt0/Ns+; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 907EDFF806;
-	Fri, 29 Mar 2024 15:00:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711724407;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9HY2TI8IWDIktitx942jVAoOzJFNrwa90SfNY0daxKQ=;
-	b=XXt0/Ns+SVsRqak5GdBcAwMGUJs+p3sIdgQvrqKAQmjDdBeZGSZu3NpgRdse/1thTTsE01
-	puQwOfnxiOUNCENooLmQKNeu62f6jVUEcelSDWFkHjrUg5m3eqUw6lgj7JXkclTZok+YUU
-	q3Eq2J1MG0EcZVIcRWcmPtRPeaNom4PUMlTCqcjYa8fnHcL5BaKTC46YCdnkg5Iz4JnN1K
-	uFOR5L71US7w0sEdqOaKvViDB3mMCKR80jmazquFqD+R6JL+Lhei4dbmnx66Iun9xQ63qC
-	B8q1T+2upAeWboz+3B3QdeB6yxmnrF8xhYDIoizm7FelniU7b68MdjtCxheEdQ==
-Date: Fri, 29 Mar 2024 16:00:06 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
-	brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-	sre@kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, pmalani@chromium.org,
-	linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	krzk@kernel.org
-Subject: Re: (subset) [PATCH 03/18] rtc: cros-ec: provide ID table for
- avoiding fallback match
-Message-ID: <171172436462.1832232.11393823959733318559.b4-ty@bootlin.com>
-References: <20240329075630.2069474-1-tzungbi@kernel.org>
- <20240329075630.2069474-4-tzungbi@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hStMZGmU6Vzss5Gz9xmdPYXs6/hcoQZTvtUJq811XWRz79TK4240lTBDXmxIJcVKntqbVG9icvhOJfDWEdSoKiB2wV9JzX6OW1KaRxtzSq5hnpy7OlQ4WZqi/BDe/34Gg0GS1iz1mNWhXKIK9PxiQcqmPyhJ1MQcFuZOJ9aZ2v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOUaZZNd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65400C433F1;
+	Fri, 29 Mar 2024 15:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711727225;
+	bh=mGMCbTudpO//dsMmAJuxrfDrUsM2TLQi58qOzKNQl9k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOUaZZNdtIIh47EJVI810yivxPhgr04bdCv5G8syQ9pIqc96Lk1QfVhs1Zg2F3MZ+
+	 8ycCTwvcR7dRIz5PyImHowSY7nGzeP1Fa1weOpI4PXdyLUvxXVh2YM77J4ZnnPZcDJ
+	 eme6BIklM4Cr/HfOfALdVa6oRCZCmeBZtrBoRBVZbsLPBXivn+VE/geDCnH5fo9Zke
+	 OVY0GzrZctB+LLGPa0koCkG1wtWO4ZbrbHmwwCiqDN2QTp9OtB5D5a66J9WoH2fQFT
+	 yLAjAKn/xV6lVUfPEsNTYspoy5GK+5rfK+JLddPBFkJwE2U4/eMbfV7x4pwxuS5A2z
+	 x59T2XaUWyIDA==
+Date: Fri, 29 Mar 2024 15:46:59 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	"Simek, Michal" <michal.simek@amd.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+Message-ID: <20240329-overture-tank-d20888f2cb6e@spud>
+References: <20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com>
+ <20240321-dp-live-fmt-v3-8-d5090d796b7e@amd.com>
+ <a82d525c-737a-4ac4-9d71-e88f4ba69ea1@linaro.org>
+ <MW4PR12MB7165889CE7F27A3F0B29DC7EE6312@MW4PR12MB7165.namprd12.prod.outlook.com>
+ <c0d70ba9-34ef-4121-834d-4d107f03d7f0@linaro.org>
+ <MW4PR12MB716570A3676218F0C6375E37E63A2@MW4PR12MB7165.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Aig4naILjr3w2J70"
+Content-Disposition: inline
+In-Reply-To: <MW4PR12MB716570A3676218F0C6375E37E63A2@MW4PR12MB7165.namprd12.prod.outlook.com>
+
+
+--Aig4naILjr3w2J70
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240329075630.2069474-4-tzungbi@kernel.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 Mar 2024 15:56:15 +0800, Tzung-Bi Shih wrote:
-> Instead of using fallback driver name match, provide ID table[1] for the
-> primary match.
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
-> 
-> 
+On Fri, Mar 29, 2024 at 12:38:33AM +0000, Klymenko, Anatoliy wrote:
+> Thank you for the feedback.
+> > From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Subject: Re: [PATCH v3 8/9] dt-bindings: xlnx: Add VTC and TPG bindings
+> > On 22/03/2024 20:12, Klymenko, Anatoliy wrote:
+> > >> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > >> On 21/03/2024 21:43, Anatoliy Klymenko wrote:
+> > >>> diff --git a/include/dt-bindings/media/media-bus-format.h
+> > >>> b/include/dt-
+> > >> bindings/media/media-bus-format.h
+> > >>> new file mode 100644
+> > >>> index 000000000000..60fc6e11dabc
+> > >>> --- /dev/null
+> > >>> +++ b/include/dt-bindings/media/media-bus-format.h
+> > >>> @@ -0,0 +1,177 @@
+> > >>> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> > >>> +/*
+> > >>> + * Media Bus API header
+> > >>> + *
+> > >>> + * Copyright (C) 2009, Guennadi Liakhovetski
+> > >>> +<g.liakhovetski@gmx.de>
+> > >>> + *
+> > >>> + * This program is free software; you can redistribute it and/or
+> > >>> +modify
+> > >>> + * it under the terms of the GNU General Public License version 2
+> > >>> +as
+> > >>> + * published by the Free Software Foundation.
+> > >>
+> > >> That's not true. Your SPDX tells something entirely different.
+> > >>
+> > >
+> > > Thank you - I'll see how to fix it.
+> > >
+> > >> Anyway, you did not explain why you need to copy anything anywhere.
+> > >>
+> > >> Specifically, random hex values *are not bindings*.
+> > >>
+> > >
+> > > The same media bus format values are being used by the reference
+> > > driver in patch #9. And, as far as I know, we cannot use headers from
+> > > Linux API headers directly (at least I
+> >=20
+> > I don't understand what does it mean. You can use in your driver whatev=
+er
+> > headers you wish, I don't care about them.
+> >=20
+> >=20
+> > noticed the same pattern in ../dt-bindings/sdtv-standarts.h for instanc=
+e).
+> > What would be the best approach to reusing the same defines on DT and
+> > driver sides from your point of view? Symlink maybe?
+> > >
+> >=20
+> > Wrap your messages to match mailing list discussion style. There are no
+> > defines used in DT. If there are, show me them in *THIS* or other
+> > *upstreamed* (being upstreamed) patchset.
+> >=20
+>=20
+> Sorry, I didn't explain properly what I'm trying to achieve. I need to
+> create a DT node property that represents video signal format, one of
+> MEDIA_BUS_FMT_* from include/uapi/linux/media-bus-format.h. It would be
+> nice to reuse the same symbolic values in the device tree. What is the
+> best approach here? Should I create a separate header in
+> include/dt-bindings with the same or similar (to avoid multiple
+> definition errors) defines, or is it better to create a symlink to
+> media-bus-format.h like include/dt-bindings/linux-event-codes.h?
 
-Applied, thanks!
+Isn't there already a property for this, described in
+Documentation/devicetree/bindings/media/xilinx/video.txt
+?
 
-[03/18] rtc: cros-ec: provide ID table for avoiding fallback match
-        https://git.kernel.org/abelloni/c/61c86d14745d
+--Aig4naILjr3w2J70
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgbicwAKCRB4tDGHoIJi
+0vIxAQDTGIb39pZ2GgViTifY62vMB8y8nobcQ16j//LjfSv8+AD/di6X30rcf2qm
+aucSKfOlVRUnjE+ZOb0HLGjnjVZzFQ4=
+=0Xod
+-----END PGP SIGNATURE-----
+
+--Aig4naILjr3w2J70--
 
