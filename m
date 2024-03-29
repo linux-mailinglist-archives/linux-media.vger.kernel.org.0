@@ -1,592 +1,201 @@
-Return-Path: <linux-media+bounces-8180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8181-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F302891593
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 10:14:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FFF8915B0
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 10:24:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75A8AB22F4E
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 09:14:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 351C81C21FDA
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 09:24:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 149C740BE4;
-	Fri, 29 Mar 2024 09:14:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379A33D0DF;
+	Fri, 29 Mar 2024 09:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZSX444Xr"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="Xq3Iy/Mp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2117.outbound.protection.outlook.com [40.107.8.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8914C4439E
-	for <linux-media@vger.kernel.org>; Fri, 29 Mar 2024 09:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711703640; cv=none; b=mn3pcej0yPRRJ0Rp+voM3JRW/8q5WX18kYnnSe1UqzmZYRzDg4/JiLb5iTxASJxnP08Krl6ovml97NiBe6ssd3ZgBPQQ63eW1RLGnzLMrHoHE03VRD84WpzVhqdo4k9WQGm13eNBTujxOtTLRBX0Cf3U19+aJ5bOXfEow2DgOH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711703640; c=relaxed/simple;
-	bh=XQYqKV0/Di4V0/PLxjnccQegp9JXdIF8BSbwF6XabTo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nMiYYDDe1qKTjhrLn6WOA/T7dgzO7E1Fw2LJ8PZiJ6rGZix7bIjUyQV6dzI7TMc8XXhZxPy9s2vPRPiGcXjVrKTRDnz7jj4mg2tdfveWSHH4WkCx46G4c7Teh3mI6fGYV+fxIA00nAg75PFdNi4OQA4637VUolFPdfe17uQ4KLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZSX444Xr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 589AC4D4;
-	Fri, 29 Mar 2024 10:13:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711703596;
-	bh=XQYqKV0/Di4V0/PLxjnccQegp9JXdIF8BSbwF6XabTo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZSX444Xr8rCDHKzTmDwI+rjBmtDRCsUs0JejHltZ1F05dyC2kpWInjn53UGFFBWM0
-	 2tZgobg5oWXbccOlBz90s8CKnwUJzuUPIWuytUv70doiwZi4Y0bWecRnN3l2HT+zhx
-	 7OLhD2ZqDUK9vRbpBc20dhUn5w86bdR0eOKL7KSk=
-Message-ID: <651e5d84-347f-4b88-a77e-33ee27359a80@ideasonboard.com>
-Date: Fri, 29 Mar 2024 11:13:45 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E63A29CFB;
+	Fri, 29 Mar 2024 09:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711704267; cv=fail; b=oNNgnW7L4877joWsDlLHMx1Lq4kHRjDO/HDC336OrrybaM+aqhj9FGwlamK3tu+uwtOCv9s/7hz8oQ9VIfhwOPxmI+0KFWjXnj869BB2ni5xVYxPIq7OjsWZG7H74WALOeed7y2ca9KX1OxRBzG8TwPImfG//rBy31nVWyWdc2k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711704267; c=relaxed/simple;
+	bh=+sqFE4H1XUBoUXtziv7SmjdGz4p0LNe8Tc/9/2iuKd4=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Fnpp54yxpwtrW4Ikf0nPESGa2ShPsuHByIy/92eSMetLdTKuNVQACrLr+SkLbuPoW92Nj9hBBkGc+TEegxDavbXEC0Ewh2rRr3CeOv2SIjAN6a4/SU4wSVNSUc4e4rtCZBWMgYb8UQFWffQO/JPesuVEje0NFR9s1/0SdI/r3eo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=Xq3Iy/Mp; arc=fail smtp.client-ip=40.107.8.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U1bJtM2jVYSc5m3H0aYXE3sY2PIG2bL2z9VVLFRi3RpmejVnFeWOFIdZTGQ8XPliTbglQ5WtMHUw/XTL7I21cxiOJb7Rp+TIvFQitheQUdrm60g1aBHati7CCQumUS/NsfH+2QuHuVVyqqjG94jvRYJ0mxicdKEbCCJ/Tc1b5GgLtt3xJ5TLULGZRzerkBCXTdWpwmtKg5gtvRwjWvd0W1CqGcPTbuh88nvltf7HVGUTeS4CZw2rbd0TVnzc2EhMthP432/EWit0DU/Wi08z6/09dk/AMezQw0P5S8H9QVJxSsYmO1HCJBYixtR2UoDCIApQCW4pYsZaD6CR1vgrRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4JDnT5nTIUgOckyy9oY4LIf24tUGpA9APVeXCVtyg+g=;
+ b=BCtd1MdDUZBwRdLyVzCw8C22fewJ2feUlzr2JDvxRGDWxOCMNAjNBdWdGvvg2rfivkaHjtDs8+OSMWk4DKE0bHKQYekpeKeK7qtT3PXszvN/e2u+dZOm0d1k0s7QIvQRgtFaNAA6UBvhE2tmpfDA7IVIau1wQAttlH1dSjj/2NkOO5OljErOOn7XAQcZeXkgOFyl2p0YXjngnTOQd342fCmhK/1Zam7+Qzcn+kWXh8tAJka7ezx8Sgjqew0OpDHXIXNW+T3poqAuKivSCFCkSP+SZezhIdocCdGHZWGCQRXM93OncwTqvSmGatDgLgaEwQ4DH2ZEyUiu8bvoPVAPLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4JDnT5nTIUgOckyy9oY4LIf24tUGpA9APVeXCVtyg+g=;
+ b=Xq3Iy/Mpw0EB4+LAhSQrex+oaqNvlY1EhfuJnIddg1htdd+HzoEd/aVUh3SzKmf7t04LUuisuOlnxpEIVFhQ2tgpWhXMmoKc5wlznqrq+SjqCWJQJDpGC/t0OXIqtxO2xtjWDVKJScyGT7WMb5LroHuHmOMnA4VoQ2jiYFipbm0=
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
+ by GVXPR04MB10475.eurprd04.prod.outlook.com (2603:10a6:150:1ea::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.38; Fri, 29 Mar
+ 2024 09:24:22 +0000
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::da55:641a:a6f2:6e4e]) by PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::da55:641a:a6f2:6e4e%6]) with mapi id 15.20.7409.039; Fri, 29 Mar 2024
+ 09:24:21 +0000
+From: Ming Qian <ming.qian@nxp.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl
+Cc: shawnguo@kernel.org,
+	robh+dt@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	xiahong.bao@nxp.com,
+	eagle.zhou@nxp.com,
+	tao.jiang_2@nxp.com,
+	ming.qian@oss.nxp.com,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 1/2] media: v4l2-ctrls: Add average qp control
+Date: Fri, 29 Mar 2024 18:23:51 +0900
+Message-ID: <20240329092352.2648837-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.43.0-rc1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0029.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::16)
+ To PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/15] media: i2c: imx219: Add embedded data support
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Naushir Patuck <naush@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, kernel-list@raspberrypi.com,
- linux-rpi-kernel@lists.infradead.org,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- bcm-kernel-feedback-list@broadcom.com
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-6-laurent.pinchart@ideasonboard.com>
- <f44c64ad-78b0-41a5-be12-27835f3babfa@ideasonboard.com>
- <20240328214940.GF11463@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240328214940.GF11463@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|GVXPR04MB10475:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	s5y9iJJgmJjZnBGt8As8zlicRSan3/AskYTJSHOcH7/Fd1eHut0BvUvaD3aDadrz8RhMJEDRLOoRY4ryxILUPJA+lKIb86HGhq6pvvzExnWThJuLqTvH9qUP1ji34hOlTcYLKsRspYPrJE/FmSh6xCsxuOnjEUQlQPy1wjIP8DqUox/Ja5ycPPji+jjkNRf1Ji8PHZcpIg3e39bskDCyI0WIOdUbG6p9bhu082RSoN+sXUt3rpZWYa+OlqmNUxQd9WqlRxbuB/FOXfRzLo+Pntoffa7rWxtgXWteMbFTmROAZGCWzfBQF2JfiZiNv4BvgyVRmuTDHtYMjvEDVRCPB0/S0qWRNMXvOGIx52ttaKkRw0pk0lr8vR5qmE27Odw7c1/eft8eKTvGwvhJIZC5hqTK49sUGw5lreWKGDBWbidiH82R5atcmPe/fnF5o9LEKiMS9UJbadKRTiUTO4tR7jr+FLVMS/yzq/QXVYtbok6kxZOJk+TY6ahuv1fYkobXca9IxdcWvQ60Rh3K0a/tdCCbSy5hDEpKMjY+ucPRU7tYIOIetdXIYxbZ05jl10in8WcFeBxUOi4fyeFRfJP9eSLGGQ96xSQY2NHeUJlwqZHmY6XV2ujj9Tb3wBmuRNZGaLkXqplrrq3tUiBS5ODSwgqwBkCpQG6/UwjGeMAOWtJinuYFMDTixOSYW2cQKkotkZ9NSwEfZdLIoNEjv4LhIPOD1YheXI3WD8zLD5Z2fhE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(52116005)(7416005)(376005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?n3/Q/GL5QNgo5crE1i4catwdy5AwPe7CbJsRKF7FhthrP9ix9K9NKo/0XrMy?=
+ =?us-ascii?Q?JzMcr68gvarUosFJ1JRGU1urkkKeJrgnILUq1zyue0OX9R2nH8341kG0iQzS?=
+ =?us-ascii?Q?OZS12S5cGhAeFAYOdp2JI0IWdPWVEktSJ8TutxUkkuhOqXBrqIGVSWTcphcL?=
+ =?us-ascii?Q?m8orihJvp+xMipxMNVRBbmr27imZK3X3GeTEDmpSrSiWQ4/pN6yjMrgmxxCl?=
+ =?us-ascii?Q?VdHGWznS+kYo4qynah6Iy+x30tmpuqPrOjGTXm5iOnD33Wf1lIum6thLulJl?=
+ =?us-ascii?Q?KfRB70spf7us66VeA3M/qPdNrBCdNukfiobhXxK9WCUrLSsCKHOsNvwxzRPe?=
+ =?us-ascii?Q?VLKmflT9DFs6zP+KtAuNzqTO8tXkrS/s/I2Aj1hpheB0Yr++EnSl3yQpup8S?=
+ =?us-ascii?Q?5mSeM+mL7bFHXGgjHXt8l2xcrDcnsS1AZe3DnMmukr6tli/XSnBify+WZ6D1?=
+ =?us-ascii?Q?e5ik/+zi6Ba5yR8RvapPbq89ZNUCpogRFzKQEb2QxH1uK3XO5ZivsyGNHn2n?=
+ =?us-ascii?Q?wyLBaks8pNVxr3otG7fdNIODIn/9EHXnWlOYUdYDkAkwUHFI/jdg8LfRInQU?=
+ =?us-ascii?Q?HVc255IBjZulg2HJ4r9miNLGzqZmcAiP4QvXkhfqOeuAjlSa6VXXI6Y49Riq?=
+ =?us-ascii?Q?esLgP9JDMCS03BvwzMlWVfejFN+k5ENUacT4FUdGs0AkyOGdYFW56wnLeuML?=
+ =?us-ascii?Q?DCUD+Kq9alxYJmxhU+hCjYw2u4ge0n15YPrFQ9tnATZhAQ12i8IYYOdRfE9q?=
+ =?us-ascii?Q?aaYtL/1ytvV1D6DrvYP6gzlLbc1ZCJWi/qnU1tSV+j7gn0YIMw63dj2DB+Yh?=
+ =?us-ascii?Q?iRjp6S1eDbSWOBZFHFZpeGk9BlRd0Z7X7lqNxR6buGIV8TUR0IV7OayY5Ofv?=
+ =?us-ascii?Q?ZJCBvQVWGbSLqhvpdkfBnc8SRqv6Yb2NmD3yqmKHi6HK8pSmpbMaFkrPDlBa?=
+ =?us-ascii?Q?pBmtFcrDKeokpmLHVG6ZyWS63ITcPPEkM3pjWa2SRF3ZNfZ1AVoWDEV6o7+h?=
+ =?us-ascii?Q?aa5HRRnZCPuvfsQiWBUp3VNPeAq/3CXoC6V6hZvDigTnzUgkt9PhIt1n/HWf?=
+ =?us-ascii?Q?d1qxWMU5hvvOPftC6MB2/Udbwr0Hfvpby5lYNVfzX9xj6Q1c6HLJxr0qtZMh?=
+ =?us-ascii?Q?vuMhKCw63RAGtI4tiXVNWh9hP0XcUYywqnk5Aa+xJhH8OqvzxgTRjSKaRj51?=
+ =?us-ascii?Q?N3791JBgFY6+S3T2pSEdpXfyHWnCYy8lkArTEekocW4K54lFmiuFvt3eigb4?=
+ =?us-ascii?Q?6kIhPRmq9DIys3Oa19UwImMUMwg1lNgWM8LESMfkNeABI2m3AfU6IBX4dhbE?=
+ =?us-ascii?Q?JCJ8G6dStOxLpri1q3xEylK4AS/pVg6KQQZPa0wPHNQEyRAxm/W3Fud8Dc+o?=
+ =?us-ascii?Q?3GkvP5o4SzJ6O187FHmXwMbvvd6BCQ783kO7nmBdpNvRGHWI/JepB0MxKoXN?=
+ =?us-ascii?Q?9ablzxfhCuz4l1L2/v4Fw2vPNdIUsNh4ZhxljTrHDS9r8ujZ8mzAwUZAEkQv?=
+ =?us-ascii?Q?Uz0KFkT7mCtwcgA2cdE1OhqxBnZYKK/2cGuziQfSE0feWIKnM/XjPd/9R+4L?=
+ =?us-ascii?Q?/NI+0T3swqRc4wFGU20cj3Q9ZlVUGus/rBxxTA73?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38b86d86-89c3-4983-ce3a-08dc4fd20482
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 09:24:21.9041
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YDxB4tHz9u8RkYToCrNERj05kPABMuZnK7Z9pjGi7cfaMvzZfBhsAh9o/QIAjXrM9eWEUNgHUCZm2yQIvLdKEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10475
 
-On 28/03/2024 23:49, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Wed, Mar 27, 2024 at 12:51:11PM +0200, Tomi Valkeinen wrote:
->> On 25/03/2024 00:08, Laurent Pinchart wrote:
->>> The IMX219 generates embedded data unconditionally. Report it as an
->>> additional stream, with a new internal embedded data pad, and update
->>> subdev operations accordingly.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> ---
->>> Changes since v6:
->>>
->>> - Get format from IMX219_STREAM_IMAGE in imx219_set_ctrl()
->>> - Fix mbus code for second stream in imx219_get_frame_desc()
->>> - Set V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag on route
->>> ---
->>>    drivers/media/i2c/imx219.c | 188 +++++++++++++++++++++++++++++++------
->>>    1 file changed, 160 insertions(+), 28 deletions(-)
->>>
->>> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
->>> index fa64bc402c9a..86a0ebf6d65f 100644
->>> --- a/drivers/media/i2c/imx219.c
->>> +++ b/drivers/media/i2c/imx219.c
->>> @@ -149,6 +149,9 @@
->>>    #define IMX219_PIXEL_ARRAY_WIDTH	3280U
->>>    #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
->>>    
->>> +/* Embedded metadata stream height */
->>> +#define IMX219_EMBEDDED_DATA_HEIGHT	2U
->>> +
->>>    /* Mode : resolution and related config&values */
->>>    struct imx219_mode {
->>>    	/* Frame width */
->>> @@ -317,9 +320,15 @@ static const struct imx219_mode supported_modes[] = {
->>>    enum imx219_pad_ids {
->>>    	IMX219_PAD_SOURCE,
->>>    	IMX219_PAD_IMAGE,
->>> +	IMX219_PAD_EDATA,
->>>    	IMX219_NUM_PADS,
->>>    };
->>>    
->>> +enum imx219_stream_ids {
->>> +	IMX219_STREAM_IMAGE,
->>> +	IMX219_STREAM_EDATA,
->>> +};
->>> +
->>>    struct imx219 {
->>>    	struct v4l2_subdev sd;
->>>    	struct media_pad pads[IMX219_NUM_PADS];
->>> @@ -382,7 +391,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->>>    	int ret = 0;
->>>    
->>>    	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
->>> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
->>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +					      IMX219_STREAM_IMAGE);
->>
->> As mentioned in the previous mail, all these lines could be in a
->> separate patch, they are not related to embedded data support.
-> 
-> Done.
-> 
->>>    	if (ctrl->id == V4L2_CID_VBLANK) {
->>>    		int exposure_max, exposure_def;
->>> @@ -610,6 +620,25 @@ static unsigned int imx219_format_bpp(u32 code)
->>>    	}
->>>    }
->>>    
->>> +/* Return the embedded data format corresponding to an image format. */
->>> +static u32 imx219_format_edata(u32 code)
->>> +{
->>> +	switch (code) {
->>> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
->>> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
->>> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
->>> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
->>> +		return MEDIA_BUS_FMT_META_8;
->>> +
->>> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
->>> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
->>> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
->>> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
->>> +	default:
->>> +		return MEDIA_BUS_FMT_META_10;
->>> +	}
->>> +}
->>
->> You could also switch based on imx219_format_bpp().
-> 
-> Is that better ? I can also get rid of the function and do this in its
-> single caller:
-> 
->          ed_format->code = imx219_format_bpp(format->code) == 10
->                          ? MEDIA_BUS_FMT_META_10 : MEDIA_BUS_FMT_META_8;
-> 
-> but a helper function probably makes things a bit more readable. Let me
-> know what you prefer.
+Add a control V4L2_CID_MPEG_VIDEO_AVERAGE_QP to report the average qp
+value of current encoded frame.
 
-Helper is good. My thinking was that as we pick the META format based 
-not on the pixel format as such, but on the bpp, using 
-imx219_format_bpp() would be clearer. Up to you.
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 5 +++++
+ include/uapi/linux/v4l2-controls.h                        | 2 ++
+ 3 files changed, 11 insertions(+)
 
->>>    static int imx219_set_framefmt(struct imx219 *imx219,
->>>    			       struct v4l2_subdev_state *state)
->>>    {
->>> @@ -619,7 +648,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
->>>    	u64 bin_h, bin_v;
->>>    	int ret = 0;
->>>    
->>> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
->>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +					      IMX219_STREAM_IMAGE);
->>>    	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_IMAGE);
->>>    	bpp = imx219_format_bpp(format->code);
->>>    
->>> @@ -774,17 +804,33 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->>>    {
->>>    	struct imx219 *imx219 = to_imx219(sd);
->>>    
->>> -	if (code->pad == IMX219_PAD_IMAGE) {
->>> +	switch (code->pad) {
->>> +	case IMX219_PAD_IMAGE:
->>>    		/* The internal image pad is hardwired to the native format. */
->>> -		if (code->index)
->>> +		if (code->index > 0)
->>
->> Was there something wrong with if (code->index)? I don't mind the
->> change, but it's not related to adding embedded data support.
-> 
-> I find it more explicit, I read it as "if the code index is higher than
-> the number of supported values" instead of "if the code has an index".
-> 
->> Also, you added the line in patch 2, so you could change it already in
->> there.
-> 
-> I'll change it there.
-> 
->> Normally it wouldn't matter that much, but I think it makes sense trying
->> to make the imx219 patches as clean as possible, as they'll be used for
->> reference.
-> 
-> Yes, I noticed an unusual amount of nit-picking :-)
-
-Thank you!
-
->>>    			return -EINVAL;
->>>    
->>>    		code->code = IMX219_NATIVE_FORMAT;
->>> -	} else {
->>> -		/*
->>> -		 * On the source pad, the sensor supports multiple raw formats
->>> -		 * with different bit depths.
->>> -		 */
->>> +		return 0;
->>> +
->>> +	case IMX219_PAD_EDATA:
->>> +		if (code->index > 0)
->>> +			return -EINVAL;
->>> +
->>> +		code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
->>> +		return 0;
->>> +
->>> +	case IMX219_PAD_SOURCE:
->>> +	default:
->>> +		break;
->>> +	}
->>> +
->>> +	/*
->>> +	 * On the source pad, the sensor supports multiple image raw formats
->>> +	 * with different bit depths. The embedded data format bit depth
->>> +	 * follows the image stream.
->>> +	 */
->>> +	if (code->stream == IMX219_STREAM_IMAGE) {
->>>    		u32 format;
->>
->> It seems we get these constructs quite often:
->>
->> 	switch (pad) {
->> 	case IMX219_PAD_IMAGE:
->> 		return;
->> 	case IMX219_PAD_EDATA:
->> 		return;
->> 	case IMX219_PAD_SOURCE:
->> 	default:
->> 		break;
->> 	}
->>
->> 	if (stream == IMX219_STREAM_IMAGE) {
->> 	} else {
->> 	}
->>
->> I wonder would it be better to make a macro that combines the pad and
->> stream numbers, and then one could do:
->>
->> 	switch (padstream) {
->> 		case IMX219_PADSTREAM_IMAGE:
->> 		case IMX219_PADSTREAM_EDATA:
->> 		case IMX219_PADSTREAM_SOURCE_IMAGE:
->> 		case IMX219_PADSTREAM_SOURCE_EDATA:
->> 	}
-> 
-> I could also write
-> 
-> 	if (code->pad == IMX219_PAD_IMAGE) {
-> 		...
-> 	} else if (code->pad == IMX219_PAD_EDATA) {
-> 		...
-> 	} else if (code->stream == IMX219_STREAM_IMAGE) {
-> 		...
-> 	} else {
-> 		...
-> 	}
-> 
-> I'm not entirely sure it would be significantly more readable. I don't
-> mind changing the code if anyone has a clear preference, but I'd like to
-> avoid going back and forth. Maybe Sakari and you can decide ?
-
-I don't have any clear preference. None of the options look 
-significantly better than the others, and none look perfect =).
-
-  Tomi
-
->>>    
->>>    		if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
->>> @@ -792,6 +838,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->>>    
->>>    		format = imx219_mbus_formats[code->index * 4];
->>>    		code->code = imx219_get_format_code(imx219, format);
->>> +	} else {
->>> +		struct v4l2_mbus_framefmt *fmt;
->>> +
->>> +		if (code->index > 0)
->>> +			return -EINVAL;
->>> +
->>> +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +						   IMX219_STREAM_EDATA);
->>> +		code->code = fmt->code;
->>>    	}
->>>    
->>>    	return 0;
->>> @@ -803,7 +858,8 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->>>    {
->>>    	struct imx219 *imx219 = to_imx219(sd);
->>>    
->>> -	if (fse->pad == IMX219_PAD_IMAGE) {
->>> +	switch (fse->pad) {
->>> +	case IMX219_PAD_IMAGE:
->>>    		if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
->>>    			return -EINVAL;
->>>    
->>> @@ -811,7 +867,24 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->>>    		fse->max_width = IMX219_NATIVE_WIDTH;
->>>    		fse->min_height = IMX219_NATIVE_HEIGHT;
->>>    		fse->max_height = IMX219_NATIVE_HEIGHT;
->>> -	} else {
->>> +		return 0;
->>> +
->>> +	case IMX219_PAD_EDATA:
->>> +		if (fse->code != MEDIA_BUS_FMT_CCS_EMBEDDED || fse->index > 0)
->>> +			return -EINVAL;
->>> +
->>> +		fse->min_width = IMX219_NATIVE_WIDTH;
->>> +		fse->max_width = IMX219_NATIVE_WIDTH;
->>> +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
->>> +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
->>> +		return 0;
->>> +
->>> +	case IMX219_PAD_SOURCE:
->>> +	default:
->>> +		break;
->>> +	}
->>> +
->>> +	if (fse->stream == IMX219_STREAM_IMAGE) {
->>>    		if (fse->code != imx219_get_format_code(imx219, fse->code) ||
->>>    		    fse->index >= ARRAY_SIZE(supported_modes))
->>>    			return -EINVAL;
->>> @@ -820,6 +893,21 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->>>    		fse->max_width = fse->min_width;
->>>    		fse->min_height = supported_modes[fse->index].height;
->>>    		fse->max_height = fse->min_height;
->>> +	} else {
->>> +		struct v4l2_mbus_framefmt *fmt;
->>> +
->>> +		fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +						   IMX219_STREAM_EDATA);
->>> +		if (fse->code != fmt->code)
->>> +			return -EINVAL;
->>> +
->>> +		if (fse->index)
->>> +			return -EINVAL;
->>> +
->>> +		fse->min_width = fmt->width;
->>> +		fse->max_width = fmt->width;
->>> +		fse->min_height = IMX219_EMBEDDED_DATA_HEIGHT;
->>> +		fse->max_height = IMX219_EMBEDDED_DATA_HEIGHT;
->>>    	}
->>>    
->>>    	return 0;
->>> @@ -831,6 +919,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->>>    {
->>>    	struct imx219 *imx219 = to_imx219(sd);
->>>    	const struct imx219_mode *mode;
->>> +	struct v4l2_mbus_framefmt *ed_format;
->>>    	struct v4l2_mbus_framefmt *format;
->>>    	struct v4l2_rect *compose;
->>>    	struct v4l2_rect *crop;
->>> @@ -838,9 +927,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->>>    
->>>    	/*
->>>    	 * The driver is mode-based, the format can be set on the source pad
->>> -	 * only.
->>> +	 * only, and only for the image streeam.
->>>    	 */
->>> -	if (fmt->pad != IMX219_PAD_SOURCE)
->>> +	if (fmt->pad != IMX219_PAD_SOURCE || fmt->stream != IMX219_STREAM_IMAGE)
->>>    		return v4l2_subdev_get_fmt(sd, state, fmt);
->>>    
->>>    	/*
->>> @@ -897,15 +986,31 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->>>    	 * No mode use digital crop, the source pad crop rectangle size and
->>>    	 * format are thus identical to the image pad compose rectangle.
->>>    	 */
->>> -	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE);
->>> +	crop = v4l2_subdev_state_get_crop(state, IMX219_PAD_SOURCE,
->>> +					  IMX219_STREAM_IMAGE);
->>>    	crop->left = 0;
->>>    	crop->top = 0;
->>>    	crop->width = fmt->format.width;
->>>    	crop->height = fmt->format.height;
->>>    
->>> -	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE);
->>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +					      IMX219_STREAM_IMAGE);
->>>    	*format = fmt->format;
->>>    
->>> +	/*
->>> +	 * Finally, update the formats on the sink and source sides of the
->>> +	 * embedded data stream.
->>> +	 */
->>> +	ed_format = v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
->>> +	ed_format->code = imx219_format_edata(format->code);
->>> +	ed_format->width = format->width;
->>> +	ed_format->height = IMX219_EMBEDDED_DATA_HEIGHT;
->>> +	ed_format->field = V4L2_FIELD_NONE;
->>> +
->>> +	format = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +					      IMX219_STREAM_EDATA);
->>> +	*format = *ed_format;
->>> +
->>>    	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->>>    		int exposure_max;
->>>    		int exposure_def;
->>> @@ -944,6 +1049,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
->>>    {
->>>    	struct v4l2_rect *compose;
->>>    
->>> +	/*
->>> +	 * The embedded data stream doesn't support selection rectangles,
->>> +	 * neither on the embedded data pad nor on the source pad.
->>> +	 */
->>> +	if (sel->pad == IMX219_PAD_EDATA || sel->stream != 0)
->>> +		return -EINVAL;
->>> +
->>>    	switch (sel->target) {
->>>    	case V4L2_SEL_TGT_NATIVE_SIZE:
->>>    		if (sel->pad != IMX219_PAD_IMAGE)
->>> @@ -996,12 +1108,19 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
->>>    static int imx219_init_state(struct v4l2_subdev *sd,
->>>    			     struct v4l2_subdev_state *state)
->>>    {
->>> -	struct v4l2_subdev_route routes[1] = {
->>> +	struct v4l2_subdev_route routes[2] = {
->>>    		{
->>>    			.sink_pad = IMX219_PAD_IMAGE,
->>>    			.sink_stream = 0,
->>>    			.source_pad = IMX219_PAD_SOURCE,
->>> -			.source_stream = 0,
->>> +			.source_stream = IMX219_STREAM_IMAGE,
->>> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
->>> +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
->>> +		}, {
->>> +			.sink_pad = IMX219_PAD_EDATA,
->>> +			.sink_stream = 0,
->>> +			.source_pad = IMX219_PAD_SOURCE,
->>> +			.source_stream = IMX219_STREAM_EDATA,
->>>    			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
->>>    				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE,
->>>    		},
->>> @@ -1014,7 +1133,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->>>    	struct v4l2_subdev_format fmt = {
->>>    		.which = V4L2_SUBDEV_FORMAT_TRY,
->>>    		.pad = IMX219_PAD_SOURCE,
->>> -		.stream = 0,
->>> +		.stream = IMX219_STREAM_IMAGE,
->>>    		.format = {
->>>    			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
->>>    			.width = supported_modes[0].width,
->>> @@ -1027,6 +1146,10 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->>>    	if (ret)
->>>    		return ret;
->>>    
->>> +	/*
->>> +	 * Set the image stream format on the source pad. This will be
->>> +	 * propagated to all formats and selection rectangles internally.
->>> +	 */
->>>    	imx219_set_pad_format(sd, state, &fmt);
->>>    
->>>    	return 0;
->>> @@ -1035,29 +1158,36 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->>>    static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->>>    				 struct v4l2_mbus_frame_desc *fd)
->>>    {
->>> -	const struct v4l2_mbus_framefmt *fmt;
->>>    	struct v4l2_subdev_state *state;
->>> -	u32 code;
->>> +	u32 img_code;
->>> +	u32 ed_code;
->>>    
->>>    	if (pad != IMX219_PAD_SOURCE)
->>>    		return -EINVAL;
->>>    
->>>    	state = v4l2_subdev_lock_and_get_active_state(sd);
->>> -	fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE, 0);
->>> -	code = fmt->code;
->>> +	img_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +						IMX219_STREAM_IMAGE)->code;
->>> +	ed_code = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->>> +					       IMX219_STREAM_EDATA)->code;
->>>    	v4l2_subdev_unlock_state(state);
->>>    
->>>    	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
->>> -	fd->num_entries = 1;
->>> +	fd->num_entries = 2;
->>>    
->>>    	memset(fd->entry, 0, sizeof(fd->entry));
->>>    
->>> -	fd->entry[0].pixelcode = code;
->>> -	fd->entry[0].stream = 0;
->>> +	fd->entry[0].pixelcode = img_code;
->>> +	fd->entry[0].stream = IMX219_STREAM_IMAGE;
->>>    	fd->entry[0].bus.csi2.vc = 0;
->>> -	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8
->>> +	fd->entry[0].bus.csi2.dt = imx219_format_bpp(img_code) == 8
->>>    				 ? MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
->>>    
->>> +	fd->entry[1].pixelcode = ed_code;
->>> +	fd->entry[1].stream = IMX219_STREAM_EDATA;
->>> +	fd->entry[1].bus.csi2.vc = 0;
->>> +	fd->entry[1].bus.csi2.dt = MIPI_CSI2_DT_EMBEDDED_8B;
->>> +
->>>    	return 0;
->>>    }
->>>    
->>> @@ -1321,12 +1451,14 @@ static int imx219_probe(struct i2c_client *client)
->>>    	/*
->>>    	 * Initialize the pads. To preserve backward compatibility with
->>>    	 * userspace that used the sensor before the introduction of the
->>> -	 * internal image pad, the external source pad is numbered 0 and the
->>> -	 * internal image pad numbered 1.
->>> +	 * internal pads, the external source pad is numbered 0 and the internal
->>> +	 * image and embedded data pads numbered 1 and 2 respectively.
->>>    	 */
->>>    	imx219->pads[IMX219_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
->>>    	imx219->pads[IMX219_PAD_IMAGE].flags = MEDIA_PAD_FL_SINK
->>>    					     | MEDIA_PAD_FL_INTERNAL;
->>> +	imx219->pads[IMX219_PAD_EDATA].flags = MEDIA_PAD_FL_SINK
->>> +					     | MEDIA_PAD_FL_INTERNAL;
->>>    
->>>    	ret = media_entity_pads_init(&imx219->sd.entity,
->>>    				     ARRAY_SIZE(imx219->pads), imx219->pads);
-> 
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 2a165ae063fb..cef20b3f54ca 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -1653,6 +1653,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+     Quantization parameter for a P frame for FWHT. Valid range: from 1
+     to 31.
+ 
++``V4L2_CID_MPEG_VIDEO_AVERAGE_QP (integer)``
++    This read-only control returns the average qp value of the currently
++    encoded frame. Applicable to the H264 and HEVC encoders.
++
+ .. raw:: latex
+ 
+     \normalsize
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index 8696eb1cdd61..88e86e4e539d 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -972,6 +972,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+ 	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+ 	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
++	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:			return "Average QP value";
+ 
+ 	/* VPX controls */
+ 	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
+@@ -1507,6 +1508,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		*max = 0xffffffffffffLL;
+ 		*step = 1;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
++		*type = V4L2_CTRL_TYPE_INTEGER;
++		*flags |= V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY;
++		break;
+ 	case V4L2_CID_PIXEL_RATE:
+ 		*type = V4L2_CTRL_TYPE_INTEGER64;
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 99c3f5e99da7..974fd254e573 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -898,6 +898,8 @@ enum v4l2_mpeg_video_av1_level {
+ 	V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 = 23
+ };
+ 
++#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
++
+ /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+ #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000)
+ #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_CODEC_CX2341X_BASE+0)
+-- 
+2.43.0-rc1
 
 
