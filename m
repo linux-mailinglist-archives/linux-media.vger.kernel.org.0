@@ -1,208 +1,260 @@
-Return-Path: <linux-media+bounces-8264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8265-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17CE893146
-	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 12:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C47893236
+	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 18:03:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E30521C2109E
-	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 10:51:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A629A1C2189F
+	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 16:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129CF143C7C;
-	Sun, 31 Mar 2024 10:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79D63146597;
+	Sun, 31 Mar 2024 16:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="aBNd2L+h"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ohxy/Tpi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80914143C76
-	for <linux-media@vger.kernel.org>; Sun, 31 Mar 2024 10:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E55E145FEC;
+	Sun, 31 Mar 2024 16:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711882299; cv=none; b=O3RVNf0eJkOR2gQhUG9moH8fZBx5+IxQGzCM0/cWN9amd2sriAUhVDLzOxSV9cCpieBzjmPq9UdF+MSxpxt/JgfDKzl4eAiz97el036h42cFUXUfVbbdzGKDh1iEnSwx6Wm5PahzrJFqHt/RWHBTgckOI/xmgJk4DTSCrabZiRM=
+	t=1711900927; cv=none; b=KfSLyhKjg5q7yNTUgckmLorZNtxTZnFOuZveG5j0sLZc7eypwmCmryeaLzbe0uUvuaoidObSt8GSCCFk901pDtg7XKdWYrZHhjjI3LSuyw/gHGVlMZ0vVcxs6eq+pB52u26CFM5mA5tuuAqtfgyI2J3+It+yhwmAaMMEXBpkzeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711882299; c=relaxed/simple;
-	bh=pcdIiEhM2l/zdXKf8Ui9dBMz5cNT2DJKO3WWCjp2iwA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:In-Reply-To:
-	 Content-Type; b=tg8bZY2dtxCS/LQ2rEDqAYeo3iIZiYJqGm+lmeGEpUPJGSG24mUC+Jv0W6BBOspgXqWU7rPckFyGkmDh/xWs/WS2RKGPukjCE0pdEmP/uTjef+U2NS7TBRg0I9rzb6cTMn5m7ad/VNXZOvbLOsoIz/L1NKHAnsSlxh+5hYAU4RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=aBNd2L+h; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e0d82d441bso29832995ad.3
-        for <linux-media@vger.kernel.org>; Sun, 31 Mar 2024 03:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1711882294; x=1712487094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
-        b=aBNd2L+hxc81bM21Uuez4jAwYVhyEEzN3xKS7QvFuFW4PI2WG/FxYGyOYqHxNsMKCB
-         jQ9UtS+1P4SsPfvuk/t4r1ic1ZBG1pmMlez99z1keJ2q974Zz7OJqCcbzrdg05MZ0KGW
-         z23AgaOwVKeiEV/Xyilcfmt37fWzoKdl6Cq+v7qmjd7E1M9ox4Y3qUuRfonKeA9or6wS
-         7mIn1z03Jn+JD+tiOHWrYk+w1aYwTF0dsS/GeCIOt0xCytsbpqEJ+X9oizkuf81r/N03
-         gxNF0zpGtRCFhs3uLpThM3vcDAaDgFINvtshtiVGerG279tm5nyA1/Q1Vo8ZF2TGWMCD
-         UvBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711882294; x=1712487094;
-        h=content-transfer-encoding:in-reply-to:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
-        b=cvBgTV8iZmuwWSb76HxAu3REXNEkt+zHc1DC0qhN/XMq75luO4s6gvKgxUqg0OWi0G
-         UTI978LxSGEi/YqPAU53Wvo39o9QESLoTfkaLfRWPopCgfp4XwfGNxU4h8B8S7S+e1km
-         9fxaxwOVLP2I5/iboqvLpzV7Ff70kFNtUxYY5nRepyhb9T1ubIZo0dOn2atexOyTkCrj
-         cPpWoMaZ0sY5KOv9d+MMsKLWHG6lpAy6+EYi8nh00foOPTV3n6J1qIWpbV/C2TI8meaq
-         th8Tx3BLaohShcVgqkq3PNq8r+mBE2+T29aBh5oQTLl52w/+MUGCB6UVvyczoWGh7RHt
-         2XEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9Ox1XN6X9k72u+nmstYAR6PH3Z9QoUHXNPcOC5gkyadLkuf2J5xGllCZqTwSeHgVcCxL5WOQc33hhddOtU2C+EDKWU7u1G/pR9ZI=
-X-Gm-Message-State: AOJu0Yy46kXPTGeUogifqxbT8himsT+6/TfWYZsMOvjhvSZDjqTXASWK
-	NlZu7d2d4vLYrYL8BwmYRSpXF+6Js7oKvKg/tZU/6GyiMevVKlolnim/WkgSmQ==
-X-Google-Smtp-Source: AGHT+IGbCXPjBovSTHKR9172xf/YfQYGs9t0Y+nud/nfFHTvv80yMaWcmcBoZV1xkyeTwbzmrc7sPQ==
-X-Received: by 2002:a17:903:228e:b0:1e0:b687:c5d1 with SMTP id b14-20020a170903228e00b001e0b687c5d1mr8767015plh.64.1711882294570;
-        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
-Received: from [192.168.3.23] (mx-ll-180.183.76-49.dynamic.3bb.co.th. [180.183.76.49])
-        by smtp.gmail.com with ESMTPSA id s7-20020a170902ea0700b001e0a7e617d9sm6642277plg.82.2024.03.31.03.51.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
-Message-ID: <bde342c6-be23-4afa-978f-9503e3c11223@cpp.in>
-Date: Sun, 31 Mar 2024 13:51:28 +0300
+	s=arc-20240116; t=1711900927; c=relaxed/simple;
+	bh=K0qocvwvrYWRNQvYnDS/H+UbwvsMZhO+c1XJJkrTUD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rhXUyPcQos9N5Ao4OfIKjxdL1wYljDoCeoosLQKki2YrzoY3r14TGdBtypLTJJwad6mPM8bJsnCf5FJ1taVJuv7aNl7P4ex9C2UBpynEUgDL+4eobHwzBu4Fn8A5p+MdnFoBWMQvl8lnhle+6CxNNH3X0s5B2LpTRdJqkwGWAYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=fail smtp.mailfrom=lists.freedesktop.org; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ohxy/Tpi; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lists.freedesktop.org
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id 0567620612;
+	Sun, 31 Mar 2024 18:02:04 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id N_dneabcQBEb; Sun, 31 Mar 2024 18:02:03 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by a.mx.secunet.com (Postfix) with ESMTPS id E79852083E;
+	Sun, 31 Mar 2024 18:02:02 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com E79852083E
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+	by mailout2.secunet.com (Postfix) with ESMTP id DB06380004A;
+	Sun, 31 Mar 2024 18:02:02 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 31 Mar 2024 18:02:02 +0200
+Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
+ 15.1.2507.17; Sun, 31 Mar 2024 15:52:48 +0000
+X-sender: <intel-gfx-bounces@lists.freedesktop.org>
+X-Receiver: <martin.weber@secunet.com> ORCPT=rfc822;martin.weber@secunet.com
+ NOTIFY=NEVER;
+ X-ExtendedProps=BQAVABYAAgAAAAUAFAARAJuYHy0vkvxLoOu7fW2WcxcPADUAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0LkRpcmVjdG9yeURhdGEuSXNSZXNvdXJjZQIAAAUAagAJAAEAAAAAAAAABQAWAAIAAAUAQwACAAAFAEYABwADAAAABQBHAAIAAAUAEgAPAF4AAAAvbz1zZWN1bmV0L291PUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpL2NuPVJlY2lwaWVudHMvY249V2ViZXIgTWFydGluOTU1BQALABcAvgAAALMpUnVJ4+pPsL47FHo+lvtDTj1EQjIsQ049RGF0YWJhc2VzLENOPUV4Y2hhbmdlIEFkbWluaXN0cmF0aXZlIEdyb3VwIChGWURJQk9IRjIzU1BETFQpLENOPUFkbWluaXN0cmF0aXZlIEdyb3VwcyxDTj1zZWN1bmV0LENOPU1pY3Jvc29mdCBFeGNoYW5nZSxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLERDPXNlY3VuZXQsREM9ZGUFAA4AEQBACf3SYEkDT461FZzDv+B7BQAdAA8ADAAAAG1ieC1lc3Nlbi0wMQUAPAACAAAPADYAAABNaWNyb3NvZnQuRXhjaGFuZ2UuVHJhbnNwb3J0Lk1haWxSZWNpcGllbnQuRGlzcGxheU5hbWUPAA0AAABXZWJlciwgTWFydGluBQAMAAIAAAUAbAACAAAFAFgAFwBGAAAAm5gfLS+S/Eug67t9bZZzF0NOPVdlYmVyIE1hcnRpbixPVT1Vc2VycyxPVT1NaWdyYXRpb24sREM9c2VjdW5ldCxEQz1kZQUAJgACAAEFACIADwAxAAAAQXV0b1Jlc3BvbnNlU3VwcHJlc3M6IDANClRyYW5zbWl0SGlzdG9yeTogRmFsc2UNCg8AL
+	wAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuRXhwYW5zaW9uR3JvdXBUeXBlDwAVAAAATWVtYmVyc0dyb3VwRXhwYW5zaW9uBQAjAAIAAQ==
+X-CreatedBy: MSExchange15
+X-HeloDomain: a.mx.secunet.com
+X-ExtendedProps: BQBjAAoAc2xrGbMv3AgFAGEACAABAAAABQA3AAIAAA8APAAAAE1pY3Jvc29mdC5FeGNoYW5nZS5UcmFuc3BvcnQuTWFpbFJlY2lwaWVudC5Pcmdhbml6YXRpb25TY29wZREAAAAAAAAAAAAAAAAAAAAAAAUASQACAAEFAAQAFCABAAAAGAAAAG1hcnRpbi53ZWJlckBzZWN1bmV0LmNvbQUABgACAAEFACkAAgABDwAJAAAAQ0lBdWRpdGVkAgABBQACAAcAAQAAAAUAAwAHAAAAAAAFAAUAAgABBQBiAAoAzAAAAO6KAAAFAGQADwADAAAASHVi
+X-Source: SMTP:Default MBX-ESSEN-01
+X-SourceIPAddress: 62.96.220.36
+X-EndOfInjectedXHeaders: 20107
+X-Virus-Scanned: by secunet
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=131.252.210.177; helo=gabe.freedesktop.org; envelope-from=intel-gfx-bounces@lists.freedesktop.org; receiver=martin.weber@secunet.com 
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 7F7F72083E
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ohxy/Tpi";
+	dkim-atps=neutral
+X-Original-To: intel-gfx@lists.freedesktop.org
+Delivered-To: intel-gfx@lists.freedesktop.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6B14020E6F42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1711731737;
+ bh=1xAt8oLDivBzcFZmj4k6LuWQeVtOX6JrcyzssXeZ3pU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Ohxy/Tpis4rcZr+HmqqXLQ1kevTdDNaAjl+/S10lEH84ShVaJTi7yoXPaEoRlh1Ia
+ MyYKE35gS8u9NTdAgaEBLovHzzoDvWALpXM6LFWrBAzoFK88d9+Qat5qDC4ednKXPl
+ Kh6ndPQtI1OXBTVsPtSRnotMhgVWfK4FheWQeEeo=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: Andy Walls <awalls@md.metrocast.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org (open list:CX18 VIDEO4LINUX DRIVER),
+ linux-kernel@vger.kernel.org (open list)
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
+ DRIVERS), 
+ intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
+ DRIVERS), 
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
+ GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
+ linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v0 06/14] media: cx18: Make I2C terminology more inclusive
+Date: Fri, 29 Mar 2024 17:00:30 +0000
+Message-ID: <20240329170038.3863998-7-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Anthony I Gilea <i@cpp.in>
-Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
-To: hdegoede@redhat.com
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- bingbu.cao@intel.com, dan.scally@ideasonboard.com, djrscally@gmail.com,
- hao.yao@intel.com, linux-media@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, sakari.ailus@intel.com
-Content-Language: en-US
-In-Reply-To: <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 31 Mar 2024 08:50:08 +0000
+X-BeenThere: intel-gfx@lists.freedesktop.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
+List-Post: <mailto:intel-gfx@lists.freedesktop.org>
+List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
+Errors-To: intel-gfx-bounces@lists.freedesktop.org
+Sender: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 
+I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+with more appropriate terms. Inspired by and following on to Wolfram's
+series to fix drivers/i2c/[1], fix the terminology for users of
+I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+in the specification.
 
-Hello,
+I2S specification has also updated the terms in v.3 to use "controller"
+and "target" respectively. Make those changes in the relevant spaces as
+well.
 
-I'm trying to get camera on HP Spectre x360 14-eu0xxx (2024) laptop to work.
-I was able to make main sensor driver (ov08x40) to play nice with IPU6,
-INT3472 and libcamera-SoftISP and the resulting image quality is absolutely
-usable and even surprisingly good.
+Compile tested, no functionality changes intended
 
-This laptop also uses this "MIPI aggregator".
+[1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
 
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+---
+ drivers/media/pci/cx18/cx18-av-firmware.c | 8 ++++----
+ drivers/media/pci/cx18/cx18-cards.c       | 6 +++---
+ drivers/media/pci/cx18/cx18-cards.h       | 4 ++--
+ drivers/media/pci/cx18/cx18-gpio.c        | 6 +++---
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
-> Hi,
-> 
-> On 10/7/23 04:12, Hao Yao wrote:
-> > Handshake pin is used for Lattice MIPI aggregator to enable the
-> > camera sensor. After pulled up, recommend to wail ~250ms to get
-> > everything ready.
-> 
-> If this is a pin on the "Lattice MIPI aggregator" and
-> not on the sensor itself then this really should be
-> modeled as such and should not be registered as a GPIO
-> consumed by the sensor since the actual sensor does not
-> have a handshake pin at all.
-> 
-> Also we really don't want to need to patch all involved
-> sensor drivers to toggle a handshake pin, especially since
-> the sensor itself does not physically have this pin.
-> 
-> Can you explain a bit more:
-> 
-> 1. What the "Lattice MIPI aggregator" is.
-> 2. What its functions are, does this control reset + pwdn
->    GPIOs for the sensor? Voltages to the sensor? Clk
->    to the sensor ?
+diff --git a/drivers/media/pci/cx18/cx18-av-firmware.c b/drivers/media/pci/cx18/cx18-av-firmware.c
+index 61aeb8c9af7f..906e0b33cffc 100644
+--- a/drivers/media/pci/cx18/cx18-av-firmware.c
++++ b/drivers/media/pci/cx18/cx18-av-firmware.c
+@@ -140,22 +140,22 @@ int cx18_av_loadfw(struct cx18 *cx)
+ 	cx18_av_and_or4(cx, CXADEC_PIN_CTRL1, ~0, 0x78000);
+ 
+ 	/* Audio input control 1 set to Sony mode */
+-	/* Audio output input 2 is 0 for slave operation input */
++	/* Audio output input 2 is 0 for target operation input */
+ 	/* 0xC4000914[5]: 0 = left sample on WS=0, 1 = left sample on WS=1 */
+ 	/* 0xC4000914[7]: 0 = Philips mode, 1 = Sony mode (1st SCK rising edge
+ 	   after WS transition for first bit of audio word. */
+ 	cx18_av_write4(cx, CXADEC_I2S_IN_CTL, 0x000000A0);
+ 
+ 	/* Audio output control 1 is set to Sony mode */
+-	/* Audio output control 2 is set to 1 for master mode */
++	/* Audio output control 2 is set to 1 for controller mode */
+ 	/* 0xC4000918[5]: 0 = left sample on WS=0, 1 = left sample on WS=1 */
+ 	/* 0xC4000918[7]: 0 = Philips mode, 1 = Sony mode (1st SCK rising edge
+ 	   after WS transition for first bit of audio word. */
+-	/* 0xC4000918[8]: 0 = slave operation, 1 = master (SCK_OUT and WS_OUT
++	/* 0xC4000918[8]: 0 = target operation, 1 = controller (SCK_OUT and WS_OUT
+ 	   are generated) */
+ 	cx18_av_write4(cx, CXADEC_I2S_OUT_CTL, 0x000001A0);
+ 
+-	/* set alt I2s master clock to /0x16 and enable alt divider i2s
++	/* set alt I2s controller clock to /0x16 and enable alt divider i2s
+ 	   passthrough */
+ 	cx18_av_write4(cx, CXADEC_PIN_CFG3, 0x5600B687);
+ 
+diff --git a/drivers/media/pci/cx18/cx18-cards.c b/drivers/media/pci/cx18/cx18-cards.c
+index f5a30959a367..d9b859ee4b1b 100644
+--- a/drivers/media/pci/cx18/cx18-cards.c
++++ b/drivers/media/pci/cx18/cx18-cards.c
+@@ -82,7 +82,7 @@ static const struct cx18_card cx18_card_hvr1600_esmt = {
+ 	},
+ 	.gpio_init.initial_value = 0x3001,
+ 	.gpio_init.direction = 0x3001,
+-	.gpio_i2c_slave_reset = {
++	.gpio_i2c_client_reset = {
+ 		.active_lo_mask = 0x3001,
+ 		.msecs_asserted = 10,
+ 		.msecs_recovery = 40,
+@@ -129,7 +129,7 @@ static const struct cx18_card cx18_card_hvr1600_s5h1411 = {
+ 	},
+ 	.gpio_init.initial_value = 0x3801,
+ 	.gpio_init.direction = 0x3801,
+-	.gpio_i2c_slave_reset = {
++	.gpio_i2c_client_reset = {
+ 		.active_lo_mask = 0x3801,
+ 		.msecs_asserted = 10,
+ 		.msecs_recovery = 40,
+@@ -176,7 +176,7 @@ static const struct cx18_card cx18_card_hvr1600_samsung = {
+ 	},
+ 	.gpio_init.initial_value = 0x3001,
+ 	.gpio_init.direction = 0x3001,
+-	.gpio_i2c_slave_reset = {
++	.gpio_i2c_client_reset = {
+ 		.active_lo_mask = 0x3001,
+ 		.msecs_asserted = 10,
+ 		.msecs_recovery = 40,
+diff --git a/drivers/media/pci/cx18/cx18-cards.h b/drivers/media/pci/cx18/cx18-cards.h
+index ae9cf5bfdd59..86f41ec6ca2f 100644
+--- a/drivers/media/pci/cx18/cx18-cards.h
++++ b/drivers/media/pci/cx18/cx18-cards.h
+@@ -69,7 +69,7 @@ struct cx18_gpio_init { /* set initial GPIO DIR and OUT values */
+ 	u32 initial_value;
+ };
+ 
+-struct cx18_gpio_i2c_slave_reset {
++struct cx18_gpio_i2c_client_reset {
+ 	u32 active_lo_mask; /* GPIO outputs that reset i2c chips when low */
+ 	u32 active_hi_mask; /* GPIO outputs that reset i2c chips when high */
+ 	int msecs_asserted; /* time period reset must remain asserted */
+@@ -121,7 +121,7 @@ struct cx18_card {
+ 	/* GPIO card-specific settings */
+ 	u8 xceive_pin;		/* XCeive tuner GPIO reset pin */
+ 	struct cx18_gpio_init		 gpio_init;
+-	struct cx18_gpio_i2c_slave_reset gpio_i2c_slave_reset;
++	struct cx18_gpio_i2c_client_reset gpio_i2c_client_reset;
+ 	struct cx18_gpio_audio_input    gpio_audio_input;
+ 
+ 	struct cx18_card_tuner tuners[CX18_CARD_MAX_TUNERS];
+diff --git a/drivers/media/pci/cx18/cx18-gpio.c b/drivers/media/pci/cx18/cx18-gpio.c
+index c85eb8d25837..82c9104b9e85 100644
+--- a/drivers/media/pci/cx18/cx18-gpio.c
++++ b/drivers/media/pci/cx18/cx18-gpio.c
+@@ -204,9 +204,9 @@ static int resetctrl_log_status(struct v4l2_subdev *sd)
+ static int resetctrl_reset(struct v4l2_subdev *sd, u32 val)
+ {
+ 	struct cx18 *cx = v4l2_get_subdevdata(sd);
+-	const struct cx18_gpio_i2c_slave_reset *p;
++	const struct cx18_gpio_i2c_client_reset *p;
+ 
+-	p = &cx->card->gpio_i2c_slave_reset;
++	p = &cx->card->gpio_i2c_client_reset;
+ 	switch (val) {
+ 	case CX18_GPIO_RESET_I2C:
+ 		gpio_reset_seq(cx, p->active_lo_mask, p->active_hi_mask,
+@@ -309,7 +309,7 @@ void cx18_reset_ir_gpio(void *data)
+ {
+ 	struct cx18 *cx = to_cx18(data);
+ 
+-	if (cx->card->gpio_i2c_slave_reset.ir_reset_mask == 0)
++	if (cx->card->gpio_i2c_client_reset.ir_reset_mask == 0)
+ 		return;
+ 
+ 	CX18_DEBUG_INFO("Resetting IR microcontroller\n");
+-- 
+2.34.1
 
-It acts like MIPI switch as no MIPI data gets from the sensor to IPU6 if
-handshake signal is not asserted. Eventually IPU6 times out with "start stream
-of firmware failed" message. Any further attempts to start streaming lead to
-a panic.
-
-I2C communication is not affected by the handshake signal but it looks like
-reset signal is also going through this "MIPI aggregator" as it takes about
-150ms for the sensor to reliably start responding via I2C after the reset
-is deasserted. It should be about few ms if the reset signal was connected to
-the sensor directly.
-
-> 3. How the aggregator is connected to both the main
->    CPU/SoC as well as how it is connected to the sensor ?
->    Some example diagram would be really helpful here.
-> 
-> Then with this info in hand we can try to come up
-> with a way how to model this.
-> 
-> Assuming this controls the entire power-up sequence
-> for the sensor then I think it could be modelled
-> as a GPIO regulator. This also allows making the
-> regulator core take care of the necessary delay
-> between setting the GPIO and trying to talk to
-> the sensor.
-
-Are there any updates on how this signal should be implemented? For now I'm
-just applying this patch and asserting it from the sensor driver.
-
-Regards
-
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> > 
-> > Signed-off-by: Hao Yao <hao.yao@intel.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  drivers/platform/x86/intel/int3472/common.h   | 1 +
-> >  drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
-> >  2 files changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-> > index 655ae3ec0593..3ad4c72afb45 100644
-> > --- a/drivers/platform/x86/intel/int3472/common.h
-> > +++ b/drivers/platform/x86/intel/int3472/common.h
-> > @@ -23,6 +23,7 @@
-> >  #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
-> >  #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
-> >  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
-> > +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
-> >  
-> >  #define INT3472_PDEV_MAX_NAME_LEN				23
-> >  #define INT3472_MAX_SENSOR_GPIOS				3
-> > diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> > index b644ce65c990..4753161b4080 100644
-> > --- a/drivers/platform/x86/intel/int3472/discrete.c
-> > +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> > @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
-> >  		*func = "power-enable";
-> >  		*polarity = GPIO_ACTIVE_HIGH;
-> >  		break;
-> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
-> > +		*func = "handshake";
-> > +		*polarity = GPIO_ACTIVE_HIGH;
-> > +		break;
-> >  	default:
-> >  		*func = "unknown";
-> >  		*polarity = GPIO_ACTIVE_HIGH;
-> > @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
-> >  	switch (type) {
-> >  	case INT3472_GPIO_TYPE_RESET:
-> >  	case INT3472_GPIO_TYPE_POWERDOWN:
-> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
-> >  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
-> >  		if (ret)
-> >  			err_msg = "Failed to map GPIO pin to sensor\n";
-> 
 
