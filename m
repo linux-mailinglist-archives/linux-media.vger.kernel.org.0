@@ -1,132 +1,128 @@
-Return-Path: <linux-media+bounces-8188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F9089188D
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 13:18:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02642891C27
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 14:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE55B1F22314
-	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 12:18:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B03BE289E03
+	for <lists+linux-media@lfdr.de>; Fri, 29 Mar 2024 13:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF2785948;
-	Fri, 29 Mar 2024 12:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1AD17E3D6;
+	Fri, 29 Mar 2024 12:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oz3d8YI7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpthkKxL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CEC8564D;
-	Fri, 29 Mar 2024 12:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E120D17E3C1;
+	Fri, 29 Mar 2024 12:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711714695; cv=none; b=BIisihWAzXfC7RLU0eFQx/oqOHAmPSmPuqMZmpeMNyUMitYtBPHltuFf3aEsyNq39MHo+vHSBHXn+k8rH22FnFa+n3PnZBvUkh6u8Cpds+ymjk8tOVS2S0BYuSJGd5EGYsX5A5DDNq1w4pT+tpPVf2bpeMqwN4DzQtuSeKUKwtU=
+	t=1711716081; cv=none; b=l37nyVoRZG5eWSj4sA7KVJlDn2+q46b7tssVNwDZjEsWqhKud1OYHox2K8LgsxEWJIZZhi998haZyrRKPTtTbAWoGYgCZdJs+N0Bp03es0wyNkzeP3WRE8XV0ba66jE1joy4nY4J60gxjYxteI7ii28L3zmo1AbYMCwCufAPisA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711714695; c=relaxed/simple;
-	bh=tVBBeOrRmaYKWevkGqUcTye5DZNY4FBUukNljdah1oc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lfFiY3Q74MIuHH2CT6dIoSB9kxTU94SWivxONx3JWxm4elsQWjVrdmlxILsyGxySTMeJmDcNUvKnz9G6FgQur9Se5H3qs8J8RJqnWGVgRuX4u3SR6P9SsW7ujzsAnh/d9yiIPE1ZTbAHMKWREGTo6O9ULvdYhDs8mh0v6Y7xI/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oz3d8YI7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCD0C433F1;
-	Fri, 29 Mar 2024 12:18:10 +0000 (UTC)
+	s=arc-20240116; t=1711716081; c=relaxed/simple;
+	bh=g4G966sqyGAo0Tea4bdG14ocnuCnsoCEQwCF6LPvnEs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AygvTBvs/PgLtu2lGFzacifQ01Co9RtpygHpCxrn4eG7c8lJUsOE9C6HobeaRqsqbW/X639/NnKXDWbfigfha6+L0TXT27ft/b2GA5+ViU2NK26ZTMg01ZmwG4Oa5hMQVZ0OaY+HO1dfKsroj2yTGg14OwaqNWWVFJ2Q7kNax0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpthkKxL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769E8C433C7;
+	Fri, 29 Mar 2024 12:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711714695;
-	bh=tVBBeOrRmaYKWevkGqUcTye5DZNY4FBUukNljdah1oc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Oz3d8YI7LxTbDTflkqm79/q3kBjzj//9lpZ+nGCRf0Ty/xdm28vNXWokHdk/JtDA0
-	 mLogIslPb10Q2H0+VnxEcWEtr702jypKALRMPJ1WGGW3tEdQgCzAqaf0WzXIvCpQtk
-	 faBpQ1AqJQHGIJEUC0sjNr/6pR8+84Uy6ReQywS8boKjl9RDRJLLiE3Qc2CqTgcm5e
-	 7SIfJAbtqeeE02tEI4cXPtproeIWnBhIntWfnVESyGhUngQf2GuT8kPCuMORAtGgii
-	 V3NgePJCCITaykC5NaNjfNmkca3zJM55g1wU/ZXSDzwRmK07Lz0zRFW+xK9v4OZZUu
-	 zdNrXgxhDEU/Q==
-Message-ID: <e591e233-df93-47b1-9c98-c9a869f7b287@kernel.org>
-Date: Fri, 29 Mar 2024 13:18:07 +0100
+	s=k20201202; t=1711716080;
+	bh=g4G966sqyGAo0Tea4bdG14ocnuCnsoCEQwCF6LPvnEs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LpthkKxLOvVpnc4K/7vaeUzbYN70oq9d9k1NVj8uLOMgthvBV7ISvwJJsoz6rkawd
+	 467ontqzAywfQ+YMrQ9kQpFqtCCR77oVsoCWcK/5tgvXkDLk4jQZgZDIxVNc8DHay3
+	 kdUV0+hG35gX7DwVkwP2ZBJiTe/txyW+8Rc7k5nIEx4X5/UwEPFTacKc/j1zyY7RDv
+	 QRnzIZqj/BfxK35DFxFi2YJWPLLVfRmUBPbVFzy4rNJ+lMzWqCCMPi8jymZVAxP4Ym
+	 im4qf15rO6AUjjV4hzmfO8s3d8+ID75Qm8/7hO11eItyTTb8VBDm9zjiFEWxtD99B9
+	 zvt/vFOYrG5dA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sasha Levin <sashal@kernel.org>,
+	mchehab@kernel.org,
+	nathan@kernel.org,
+	linux-media@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.8 44/98] media: sta2x11: fix irq handler cast
+Date: Fri, 29 Mar 2024 08:37:15 -0400
+Message-ID: <20240329123919.3087149-44-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
+References: <20240329123919.3087149-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/18] power: supply: cros_usbpd: provide ID table for
- avoiding fallback match
-To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
- groeck@chromium.org, linus.walleij@linaro.org, brgl@bgdev.pl,
- hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
- alexandre.belloni@bootlin.com
-Cc: chrome-platform@lists.linux.dev, pmalani@chromium.org,
- linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org
-References: <20240329075630.2069474-1-tzungbi@kernel.org>
- <20240329075630.2069474-6-tzungbi@kernel.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240329075630.2069474-6-tzungbi@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.2
+Content-Transfer-Encoding: 8bit
 
-On 29/03/2024 08:56, Tzung-Bi Shih wrote:
-> Instead of using fallback driver name match, provide ID table[1] for the
-> primary match.
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-You could add everywhere:
-Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-but I also don't mind if that's skipped. Up to you folks.
+[ Upstream commit 3de49ae81c3a0f83a554ecbce4c08e019f30168e ]
 
-Thanks for the changes.
+clang-16 warns about casting incompatible function pointers:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+drivers/media/pci/sta2x11/sta2x11_vip.c:1057:6: error: cast from 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int, struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int, void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
 
-Best regards,
-Krzysztof
+Change the prototype of the irq handler to the regular version with a
+local variable to adjust the argument type.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+[hverkuil: update argument documentation]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/pci/sta2x11/sta2x11_vip.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
+index e4cf9d63e926d..364ce9e570182 100644
+--- a/drivers/media/pci/sta2x11/sta2x11_vip.c
++++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
+@@ -757,7 +757,7 @@ static const struct video_device video_dev_template = {
+ /**
+  * vip_irq - interrupt routine
+  * @irq: Number of interrupt ( not used, correct number is assumed )
+- * @vip: local data structure containing all information
++ * @data: local data structure containing all information
+  *
+  * check for both frame interrupts set ( top and bottom ).
+  * check FIFO overflow, but limit number of log messages after open.
+@@ -767,8 +767,9 @@ static const struct video_device video_dev_template = {
+  *
+  * IRQ_HANDLED, interrupt done.
+  */
+-static irqreturn_t vip_irq(int irq, struct sta2x11_vip *vip)
++static irqreturn_t vip_irq(int irq, void *data)
+ {
++	struct sta2x11_vip *vip = data;
+ 	unsigned int status;
+ 
+ 	status = reg_read(vip, DVP_ITS);
+@@ -1053,9 +1054,7 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+ 
+ 	spin_lock_init(&vip->slock);
+ 
+-	ret = request_irq(pdev->irq,
+-			  (irq_handler_t) vip_irq,
+-			  IRQF_SHARED, KBUILD_MODNAME, vip);
++	ret = request_irq(pdev->irq, vip_irq, IRQF_SHARED, KBUILD_MODNAME, vip);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "request_irq failed\n");
+ 		ret = -ENODEV;
+-- 
+2.43.0
 
 
