@@ -1,122 +1,208 @@
-Return-Path: <linux-media+bounces-8263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADC1892D64
-	for <lists+linux-media@lfdr.de>; Sat, 30 Mar 2024 22:01:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B17CE893146
+	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 12:51:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 06F8BB21B4A
-	for <lists+linux-media@lfdr.de>; Sat, 30 Mar 2024 21:01:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E30521C2109E
+	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 10:51:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C40B0482E1;
-	Sat, 30 Mar 2024 21:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 129CF143C7C;
+	Sun, 31 Mar 2024 10:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0DSfSZM"
+	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="aBNd2L+h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9607F3D0C4;
-	Sat, 30 Mar 2024 21:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80914143C76
+	for <linux-media@vger.kernel.org>; Sun, 31 Mar 2024 10:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711832467; cv=none; b=MPmAHRIoqRdas7WSt0uUib037Tq5lofpLVL0Vu8h/CuiCZrUMAOP2lsk9JJnjLsJHWXS7UqW8jIUC2j4X8FkVHFhELVb99mjUK5wavAX63wD/inLcDI5XToqpUhPcLSYzq9OaiyDo22xsdVAtr8yKRBFqoSWhVGgXAcK0CVaOdU=
+	t=1711882299; cv=none; b=O3RVNf0eJkOR2gQhUG9moH8fZBx5+IxQGzCM0/cWN9amd2sriAUhVDLzOxSV9cCpieBzjmPq9UdF+MSxpxt/JgfDKzl4eAiz97el036h42cFUXUfVbbdzGKDh1iEnSwx6Wm5PahzrJFqHt/RWHBTgckOI/xmgJk4DTSCrabZiRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711832467; c=relaxed/simple;
-	bh=e5I2rYsF7rsiw95li5OwBXcRBuJFwZ4pAt4TxQFNfco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RtkgIxE77Fut3AgxsvAAv0hyzPfzL6BunMVeoYESJQwKDyhiWBwjKEddn5oKzUgaVxE7nsMD1oGN7GC7Q45gSZWS40tnbBdeupWcbLV7cxjyJs5su+L+/vvGfA7PWHM6I4E5H9yUN4SthZNOjRXHlr2jfZdBOJNUlsycFItqfn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0DSfSZM; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711832465; x=1743368465;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e5I2rYsF7rsiw95li5OwBXcRBuJFwZ4pAt4TxQFNfco=;
-  b=V0DSfSZMsUMbViNPs/sSRTQvD6FEBABtBdFfd/ZcRaLJHkl/01XmTsxF
-   1ItnGLZbVgrXvV7TL5NJfVyL0dO4WHflD6pYwo2u0s6v6pMYmUpFR+Uaj
-   VRrqBeno7asNYOXqogOxznrj+ZbKEm6tKO+UImbAKDXAwwSMG69xIDPx5
-   ndlS54tNoQ/mIGvYv2NEAXIpKGca2G8QuLlxlV1gbdlKGxVzO2x5C8Jvd
-   voJSBd1ClyuGQgWBlCIcqvouhJpKewCERfpEk+oivAtBAjA4ytA6x4uoL
-   nJIv5gUI9w3oXenNySbhSj9u5nmj3V3GMh2iE1q7riAk4K0gm5GLYTRZM
-   g==;
-X-CSE-ConnectionGUID: TvQ+GR1tSS2Ja5ZWdAL2gQ==
-X-CSE-MsgGUID: YMq/TPXTSy+rxKnAbUtfXg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6848715"
-X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="6848715"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 14:01:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="21950900"
-Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 30 Mar 2024 14:00:59 -0700
-Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rqfou-0000P2-37;
-	Sat, 30 Mar 2024 21:00:56 +0000
-Date: Sun, 31 Mar 2024 04:59:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: git@luigi311.com, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Luigi311 <git@luigi311.com>
-Subject: Re: [PATCH 18/23] dt-bindings: media: imx258: Add alternate
- compatible strings
-Message-ID: <202403310442.vdZu7Yh6-lkp@intel.com>
-References: <20240327231710.53188-19-git@luigi311.com>
+	s=arc-20240116; t=1711882299; c=relaxed/simple;
+	bh=pcdIiEhM2l/zdXKf8Ui9dBMz5cNT2DJKO3WWCjp2iwA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:In-Reply-To:
+	 Content-Type; b=tg8bZY2dtxCS/LQ2rEDqAYeo3iIZiYJqGm+lmeGEpUPJGSG24mUC+Jv0W6BBOspgXqWU7rPckFyGkmDh/xWs/WS2RKGPukjCE0pdEmP/uTjef+U2NS7TBRg0I9rzb6cTMn5m7ad/VNXZOvbLOsoIz/L1NKHAnsSlxh+5hYAU4RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=aBNd2L+h; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e0d82d441bso29832995ad.3
+        for <linux-media@vger.kernel.org>; Sun, 31 Mar 2024 03:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1711882294; x=1712487094; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:cc:to
+         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
+        b=aBNd2L+hxc81bM21Uuez4jAwYVhyEEzN3xKS7QvFuFW4PI2WG/FxYGyOYqHxNsMKCB
+         jQ9UtS+1P4SsPfvuk/t4r1ic1ZBG1pmMlez99z1keJ2q974Zz7OJqCcbzrdg05MZ0KGW
+         z23AgaOwVKeiEV/Xyilcfmt37fWzoKdl6Cq+v7qmjd7E1M9ox4Y3qUuRfonKeA9or6wS
+         7mIn1z03Jn+JD+tiOHWrYk+w1aYwTF0dsS/GeCIOt0xCytsbpqEJ+X9oizkuf81r/N03
+         gxNF0zpGtRCFhs3uLpThM3vcDAaDgFINvtshtiVGerG279tm5nyA1/Q1Vo8ZF2TGWMCD
+         UvBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711882294; x=1712487094;
+        h=content-transfer-encoding:in-reply-to:content-language:cc:to
+         :subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JiyEjUctzgw3d5cbSMfpqrqZz263bg9AlN7/QV97RU8=;
+        b=cvBgTV8iZmuwWSb76HxAu3REXNEkt+zHc1DC0qhN/XMq75luO4s6gvKgxUqg0OWi0G
+         UTI978LxSGEi/YqPAU53Wvo39o9QESLoTfkaLfRWPopCgfp4XwfGNxU4h8B8S7S+e1km
+         9fxaxwOVLP2I5/iboqvLpzV7Ff70kFNtUxYY5nRepyhb9T1ubIZo0dOn2atexOyTkCrj
+         cPpWoMaZ0sY5KOv9d+MMsKLWHG6lpAy6+EYi8nh00foOPTV3n6J1qIWpbV/C2TI8meaq
+         th8Tx3BLaohShcVgqkq3PNq8r+mBE2+T29aBh5oQTLl52w/+MUGCB6UVvyczoWGh7RHt
+         2XEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9Ox1XN6X9k72u+nmstYAR6PH3Z9QoUHXNPcOC5gkyadLkuf2J5xGllCZqTwSeHgVcCxL5WOQc33hhddOtU2C+EDKWU7u1G/pR9ZI=
+X-Gm-Message-State: AOJu0Yy46kXPTGeUogifqxbT8himsT+6/TfWYZsMOvjhvSZDjqTXASWK
+	NlZu7d2d4vLYrYL8BwmYRSpXF+6Js7oKvKg/tZU/6GyiMevVKlolnim/WkgSmQ==
+X-Google-Smtp-Source: AGHT+IGbCXPjBovSTHKR9172xf/YfQYGs9t0Y+nud/nfFHTvv80yMaWcmcBoZV1xkyeTwbzmrc7sPQ==
+X-Received: by 2002:a17:903:228e:b0:1e0:b687:c5d1 with SMTP id b14-20020a170903228e00b001e0b687c5d1mr8767015plh.64.1711882294570;
+        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
+Received: from [192.168.3.23] (mx-ll-180.183.76-49.dynamic.3bb.co.th. [180.183.76.49])
+        by smtp.gmail.com with ESMTPSA id s7-20020a170902ea0700b001e0a7e617d9sm6642277plg.82.2024.03.31.03.51.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Mar 2024 03:51:34 -0700 (PDT)
+Message-ID: <bde342c6-be23-4afa-978f-9503e3c11223@cpp.in>
+Date: Sun, 31 Mar 2024 13:51:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327231710.53188-19-git@luigi311.com>
+User-Agent: Mozilla Thunderbird
+From: Anthony I Gilea <i@cpp.in>
+Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
+To: hdegoede@redhat.com
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ bingbu.cao@intel.com, dan.scally@ideasonboard.com, djrscally@gmail.com,
+ hao.yao@intel.com, linux-media@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, sakari.ailus@intel.com
+Content-Language: en-US
+In-Reply-To: <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-kernel test robot noticed the following build warnings:
+Hello,
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.9-rc1 next-20240328]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'm trying to get camera on HP Spectre x360 14-eu0xxx (2024) laptop to work.
+I was able to make main sensor driver (ov08x40) to play nice with IPU6,
+INT3472 and libcamera-SoftISP and the resulting image quality is absolutely
+usable and even surprisingly good.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/git-luigi311-com/media-i2c-imx258-Remove-unused-defines/20240328-072629
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240327231710.53188-19-git%40luigi311.com
-patch subject: [PATCH 18/23] dt-bindings: media: imx258: Add alternate compatible strings
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240331/202403310442.vdZu7Yh6-lkp@intel.com/reproduce)
+This laptop also uses this "MIPI aggregator".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403310442.vdZu7Yh6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://json-schema.org/draft-07/schema#
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: properties:compatible: [{'enum': ['sony,imx258', 'sony,imx258-pdaf']}] is not of type 'object', 'boolean'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
---
->> Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml: ignoring, error in schema: properties: compatible
+> Hi,
+> 
+> On 10/7/23 04:12, Hao Yao wrote:
+> > Handshake pin is used for Lattice MIPI aggregator to enable the
+> > camera sensor. After pulled up, recommend to wail ~250ms to get
+> > everything ready.
+> 
+> If this is a pin on the "Lattice MIPI aggregator" and
+> not on the sensor itself then this really should be
+> modeled as such and should not be registered as a GPIO
+> consumed by the sensor since the actual sensor does not
+> have a handshake pin at all.
+> 
+> Also we really don't want to need to patch all involved
+> sensor drivers to toggle a handshake pin, especially since
+> the sensor itself does not physically have this pin.
+> 
+> Can you explain a bit more:
+> 
+> 1. What the "Lattice MIPI aggregator" is.
+> 2. What its functions are, does this control reset + pwdn
+>    GPIOs for the sensor? Voltages to the sensor? Clk
+>    to the sensor ?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+It acts like MIPI switch as no MIPI data gets from the sensor to IPU6 if
+handshake signal is not asserted. Eventually IPU6 times out with "start stream
+of firmware failed" message. Any further attempts to start streaming lead to
+a panic.
+
+I2C communication is not affected by the handshake signal but it looks like
+reset signal is also going through this "MIPI aggregator" as it takes about
+150ms for the sensor to reliably start responding via I2C after the reset
+is deasserted. It should be about few ms if the reset signal was connected to
+the sensor directly.
+
+> 3. How the aggregator is connected to both the main
+>    CPU/SoC as well as how it is connected to the sensor ?
+>    Some example diagram would be really helpful here.
+> 
+> Then with this info in hand we can try to come up
+> with a way how to model this.
+> 
+> Assuming this controls the entire power-up sequence
+> for the sensor then I think it could be modelled
+> as a GPIO regulator. This also allows making the
+> regulator core take care of the necessary delay
+> between setting the GPIO and trying to talk to
+> the sensor.
+
+Are there any updates on how this signal should be implemented? For now I'm
+just applying this patch and asserting it from the sensor driver.
+
+Regards
+
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > 
+> > Signed-off-by: Hao Yao <hao.yao@intel.com>
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > ---
+> >  drivers/platform/x86/intel/int3472/common.h   | 1 +
+> >  drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
+> >  2 files changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+> > index 655ae3ec0593..3ad4c72afb45 100644
+> > --- a/drivers/platform/x86/intel/int3472/common.h
+> > +++ b/drivers/platform/x86/intel/int3472/common.h
+> > @@ -23,6 +23,7 @@
+> >  #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
+> >  #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
+> >  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
+> > +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
+> >  
+> >  #define INT3472_PDEV_MAX_NAME_LEN				23
+> >  #define INT3472_MAX_SENSOR_GPIOS				3
+> > diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> > index b644ce65c990..4753161b4080 100644
+> > --- a/drivers/platform/x86/intel/int3472/discrete.c
+> > +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> > @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
+> >  		*func = "power-enable";
+> >  		*polarity = GPIO_ACTIVE_HIGH;
+> >  		break;
+> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
+> > +		*func = "handshake";
+> > +		*polarity = GPIO_ACTIVE_HIGH;
+> > +		break;
+> >  	default:
+> >  		*func = "unknown";
+> >  		*polarity = GPIO_ACTIVE_HIGH;
+> > @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+> >  	switch (type) {
+> >  	case INT3472_GPIO_TYPE_RESET:
+> >  	case INT3472_GPIO_TYPE_POWERDOWN:
+> > +	case INT3472_GPIO_TYPE_HANDSHAKE:
+> >  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+> >  		if (ret)
+> >  			err_msg = "Failed to map GPIO pin to sensor\n";
+> 
 
