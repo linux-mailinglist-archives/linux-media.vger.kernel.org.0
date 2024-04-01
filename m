@@ -1,179 +1,159 @@
-Return-Path: <linux-media+bounces-8308-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8309-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6015A8941C2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 18:45:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C43894452
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 19:28:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15650283395
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 16:45:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 049F81C21B1F
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 17:28:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58F04AEC3;
-	Mon,  1 Apr 2024 16:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E3D04D135;
+	Mon,  1 Apr 2024 17:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="PKMxoe+A"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HeCE9IWT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536F5481D5;
-	Mon,  1 Apr 2024 16:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B2D48CDD;
+	Mon,  1 Apr 2024 17:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711989938; cv=none; b=P4jMSUbt07SIvLJK4JLlCScWwwHV88soG7lfDtIRnQEUMezUYuhp8RUPFpBrQBV4K3un+suYexs6Y1ZkqMD8k34Hgbu0Kl3uhLp38ieTi8+Lc3DuCH2bwgk6oIVeNyblb9pCWD69JKJX4Pzwz/XdxdoZ8aPTQRQ3LQMq/M0mO6g=
+	t=1711992522; cv=none; b=iozEb5SSWZymE88gk+lJm0Zs/TDv6P9tEcpZdT4xF9cs+707wg6sAo4X9GEUMgUzKcWEdzRgqIB+9nIqfaZkogGNosfzqQRcsOY4SI+MRi1CcHDsals3/iwFeb8Hmj/Zxr2WwH9KZYPMx5JrKaFpzRL/1CvbWbhMyaeWgHhRzfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711989938; c=relaxed/simple;
-	bh=dy4TsSyZ9KfrYMBOe0ovVesbC9ccx+VUrTBRTCitf/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CTCNFE87t2owY/YbPe9x4ilTUEjFRUlvnB0cUOpmxjCfCJzA9p6fojYtAr8lcdEozCEN1taHwSywW470nSDMUuE6TgFmOTy8VQgAef+Iif9EcsRYpMm3+GDJ5eAke2PhcIWhZWyVeMacWCKJe2w5nTX1zUvoTnDWGPuZ5uH4b4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=PKMxoe+A; arc=none smtp.client-ip=199.247.17.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
-Received: from spock.localnet (unknown [94.142.239.106])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by prime.voidband.net (Postfix) with ESMTPSA id 68F8E62FD5E0;
-	Mon,  1 Apr 2024 18:45:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-	s=dkim-20170712; t=1711989931;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aAjz4MKZi39vNHP//SIAL+tM7VX8sjhM3OZ1h2IEnfs=;
-	b=PKMxoe+AGftfg/s7R2viEIo7q+PE1+a8swfPhLP+dGqIOSPD/qXgcYviFqpYDlw270HHbI
-	gHJ0ZDvhySTNda9J6vkax2mHq9XqAS3Rw0WSbmIKpPVEigIJxkrzdM5p/mThSASqiHCfQR
-	MjzykhhWYRFmMsFPRRLlkRaTbNmfW5g=
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "hn.chen" <hn.chen@sunplusit.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject:
- Re: [PATCH] media/uvcvideo: add quirk for invalid dev_sof in Logitech C920
-Date: Mon, 01 Apr 2024 18:45:16 +0200
-Message-ID: <6046664.lOV4Wx5bFT@natalenko.name>
-In-Reply-To: <20240325142611.15550-1-oleksandr@natalenko.name>
-References: <20240325142611.15550-1-oleksandr@natalenko.name>
+	s=arc-20240116; t=1711992522; c=relaxed/simple;
+	bh=H0hssSsyJSJLxkXL5lGTv9x13z+xtSpWrqhRuPazvNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rgH+Fdfd9Lq1Lw0YlacyPa+VbY5pcwy8MRz+AWju8G4DHjFz1Yy9BX4tZseQiuvW0O/bH/uLK/Vv5Gk77YaMJGtu2b8PWGuWwq5HUtTGJPLL7q7IOCTTYwaGEzDptBwR25/ZZuw0K0DCSLgSvmLbg95KBbUHl0wzkXoU63r4zPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HeCE9IWT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6754F250;
+	Mon,  1 Apr 2024 19:28:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711992482;
+	bh=H0hssSsyJSJLxkXL5lGTv9x13z+xtSpWrqhRuPazvNs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HeCE9IWT9Wrdto2KdMcsEuGLSpll1kzIgE+RvyXUqWV6Y3BaddDJBUg22G+cGAX7E
+	 bz8BwVridXhphX8P5pBkL68D3AL1X+PPMly/K8Rt0rCXDx1pQG8aDeajlsQOYyNXdW
+	 xP8osJGV05O/d1jxBgdUUVvTRh3t6hOsH1Tcj9jY=
+Date: Mon, 1 Apr 2024 20:28:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: sakari.ailus@linux.intel.com, rmfrfs@gmail.com, hansg@kernel.org,
+	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH v2] media: dt-bindings: ovti,ov2680: Document more
+ properties
+Message-ID: <20240401172826.GG8623@pendragon.ideasonboard.com>
+References: <20240401154341.3173872-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4923946.31r3eYUQgx";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240401154341.3173872-1-festevam@gmail.com>
 
---nextPart4923946.31r3eYUQgx
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org
-Date: Mon, 01 Apr 2024 18:45:16 +0200
-Message-ID: <6046664.lOV4Wx5bFT@natalenko.name>
-In-Reply-To: <20240325142611.15550-1-oleksandr@natalenko.name>
-References: <20240325142611.15550-1-oleksandr@natalenko.name>
-MIME-Version: 1.0
+Hi Fabio,
 
-On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 15:26:11, CEST Oleksandr Natalenk=
-o wrote:
-> Similarly to Logitech C922, C920 seems to also suffer from a firmware
-> bug that breaks hardware timestamping.
->=20
-> Add a quirk for this camera model too.
->=20
-> Before applying the quirk:
->=20
-> ```
-> 100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mono/SoE
-> 101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mono/SoE
-> 102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mono/SoE
-> 103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mono/SoE
-> 104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono/SoE
-> 105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mono/SoE
-> 106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mono/SoE
-> =E2=80=A6
-> ```
->=20
-> After applying the quirk:
->=20
-> ```
-> 154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/SoE
-> 155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/SoE
-> 156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/SoE
-> 157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/SoE
-> 158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/SoE
-> 159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/SoE
-> 160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/SoE
-> ```
->=20
-> Link: https://lore.kernel.org/lkml/5764213.DvuYhMxLoT@natalenko.name/
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Thank you for the patch.
+
+On Mon, Apr 01, 2024 at 12:43:41PM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> OV2680 has a single data lane MIPI interface.
+> 
+> Document the clock-lanes and data-lanes properties to avoid
+> the following dt-schema warning:
+> 
+> imx7s-warp.dtb: camera@36: port:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
+> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yaml#
+> 
+> While at it, also document the link-frequencies property as recommended
+> by the following document:
+> 
+> https://www.kernel.org/doc/html/v6.9-rc1/driver-api/media/camera-sensor.html#handling-clocks
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
-vc_driver.c
-> index 723e6d5680c2e..444d7089885ea 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] =3D {
->  	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
->  	  .bInterfaceSubClass	=3D 1,
->  	  .bInterfaceProtocol	=3D 0,
-> -	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-> +	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT
-> +					       | UVC_QUIRK_INVALID_DEVICE_SOF) },
->  	/* Logitech HD Pro Webcam C922 */
->  	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
->  				| USB_DEVICE_ID_MATCH_INT_INFO,
->=20
+> Changes since v1:
+> - Keep the existing 'additionalProperties: false'. (Krzysztof)
+> - Also document link-frequencies.
+> 
+>  .../bindings/media/i2c/ovti,ov2680.yaml       | 20 ++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> index cf456f8d9ddc..a1cb08283818 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> @@ -50,9 +50,24 @@ properties:
+>        Definition of the regulator used as digital power supply.
+>  
+>    port:
+> -    $ref: /schemas/graph.yaml#/properties/port
+>      description:
+>        A node containing an output port node.
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
 
-Gentle ping on this one.
+I recommend using
 
-Also, should I have added:
+        additionalProperties: false
 
-=46ixes: 5d0fd3c806b9 ("[media] uvcvideo: Disable hardware timestamps by de=
-fault")
+as the bindings shouldn't allow all the other properties defined in
+video-interfaces.yaml that are not applicable for this device. It will
+require adding
 
-?
+          remote-endpoint: true
 
-(it's not that this change re-enables HW timestamping, but 5d0fd3c806b9 exp=
-licitly mentions C920 as affected)
+to the properties below.
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart4923946.31r3eYUQgx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+> +
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
+> +
+> +          data-lanes:
+> +            const: 1
 
------BEGIN PGP SIGNATURE-----
+I see there's an ongoing discussion in v1 about these two properties,
+I'll let Sakari and you figure it out :-)
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmYK5JwACgkQil/iNcg8
-M0vQbw//a6GrNbz1zBqVfcyTN5UhJIxpyiYBs2K8P5tmSMEJZbobZyX5AWZ6stWf
-x5v5UTF6GZL2wWjZsr8m7V3TvzFezDS5lB+yGfE2mcoWV7ULGe+Uel9/TxFeMCZH
-5Kmpkdxh8GuWXMUCd7roFSfUSLYJfON1i9HjUOInLNzKaTq5B41Gy1V5UaU1fRVN
-W5iY1+SuCJjlQmn56uAlSUm+YcWQywIRM4i14W7dFBJKD07zHCJ23YBcFieiK6ql
-H/MrF9koSNi1l3iPKyHyhIlvBxP/xFODFH7avR2aEmkiuVZbGD4AhrnBWnLjo0vJ
-17UNno+k+/mkHLMIliZjZMA45m35Z3VKW/DqnMsuiiUV6D6EMPoo9PTPlZOf88hZ
-atAHIBeCY33xUZYXRz70FiZ5GlcHRqJVMSOu3UBHFQkKsA0vTTZSGjF6mgZyA98i
-obytmxaZezJbZcR53zPOKG9ABQ0dw+Ky+lhz6ARzqX8o2RHLEmRV8eyQ3lTfUSwT
-9DLminOHNDw9joqL18x5+a0/MgQi5fYlICxEirFp06o/M7BARjYHwmKHXHiz1Fj+
-aiptxwb36qHS3KpYqOv1dQCDxctayv+na0vyJX39fBsi+FrcX8ORgW4V/68ySIy/
-mGR+mC9OIGtF33W5Mnb79+OlFnAG9TB9T8Nlce5Z8ikjgyCM4cc=
-=w7/U
------END PGP SIGNATURE-----
+> +
+> +          link-frequencies: true
 
---nextPart4923946.31r3eYUQgx--
+I think this one should one marked as mandatory.
 
+>  
+>  required:
+>    - compatible
+> @@ -89,6 +104,9 @@ examples:
+>                  port {
+>                          ov2680_to_mipi: endpoint {
+>                                  remote-endpoint = <&mipi_from_sensor>;
+> +                                clock-lanes = <0>;
+> +                                data-lanes = <1>;
+> +                                link-frequencies = /bits/ 64 <330000000>;
+>                          };
+>                  };
+>          };
 
+-- 
+Regards,
 
+Laurent Pinchart
 
