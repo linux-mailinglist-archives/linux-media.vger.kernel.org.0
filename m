@@ -1,119 +1,181 @@
-Return-Path: <linux-media+bounces-8301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE03893B05
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 14:39:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA22893B17
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 14:46:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57B0CB21756
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 12:39:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8241B1C20F60
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 12:45:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83CE23D961;
-	Mon,  1 Apr 2024 12:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A673E491;
+	Mon,  1 Apr 2024 12:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="fEIS6676"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="htKrYXlu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2119.outbound.protection.outlook.com [40.107.220.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC0331758
-	for <linux-media@vger.kernel.org>; Mon,  1 Apr 2024 12:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711975180; cv=none; b=VE66SmG9XGuJfGcvjrQutQzMiXe7ti/OaL+T9T5+J0H9tyesrxKj7TsH8Vfxj3bOkRCPXr5QQAcn+VwmDqeZRj86t5eFB2Odi/WxlJpYI+Qm7yWvizGlydjQd0kZOZJRXWyrJ9cm9jGB3zIo/XKDDJaB8jhXvYTZPJWAWjCQ4Z8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711975180; c=relaxed/simple;
-	bh=4dIUD4SFfz0KSuYeHWu2YBwd/u60LXMWHEiGpv+uimY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=idbR1aIpkzkkLZIMz0AfKQJqtzDwUyOVLJ+9yB3VH40iqVOKFgor9UObBGagjvKjy0dARUbo9MiyZ5R1fXemF0FUwdhIz3rGUzR4cVhXqm1OczzHNictbszHvJWno61hNT1HiTyoAtEdzDaDAMD3wcWrh78y20kVGp1gGa0RTkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=fEIS6676; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-343496f8b80so835181f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Apr 2024 05:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1711975177; x=1712579977; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H2EUwRDkkeNDukcge3a1iBvqeXFfUokc8SHBEfVM2e0=;
-        b=fEIS6676hQ9MTImdGyLXC78qGVcwKFeLVWWndpy5OKdqyNeyXwfkWpfKH6pQCyQqyh
-         2rynjQvk23wWwnilJLDL4GAm+C43Q5SoojpH3n6eHiDN9QBHiajeskj7bfnHs0lNoPpN
-         gNnh+eTWV/QbyDMs3wbKU4eFOiSx6q++aEVzkQ4HJzkOHjUkFXSaRC0+Yx2Ax61kuzJa
-         tdlv04D4lDAadloXhN0S+BTmnAP17N17mk3wOrq97sJlGl44QvV1kcNr82NYcZzq/eIn
-         0WPZ2tyZ1cRGxrUr7+Cyb6dMLZwZvzD79QkCRjWTnyTXHvKz+qnEdEbda/FD76/HbxQo
-         +rYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711975177; x=1712579977;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H2EUwRDkkeNDukcge3a1iBvqeXFfUokc8SHBEfVM2e0=;
-        b=BmVsraMHdeGpdeOZKyW8f1f2MbVwT1RIrGqb0oufzKJdCVKlplGbmkldV+d8ru4wFy
-         hiAxTVRTmXBZfoqZfGs9fiE+wx3h8iQavETndgs8+zxrF32CN9JuDafIGxXrvAXLR+2s
-         56XgviyAMaWpj8GVgkVRyGKUCXLlBIiAYp1xATyeTZk8+1Ebx/HuJt9RwgoWVVjpS5ce
-         IWaayyZJJI3ADWoVugsH9IMIo7bWx43ESZmP/pfBA7LUHtDcLxafc881Zwc4HqnC5DZN
-         unMke0EwcYiuQn3/GSEUs3VsGBLitZb3gH32fNCiipE3ZLXEEzB1uNf+3u0OJX3/O1Kn
-         /SVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ/WfwNEokKuaKjrgZ4o5PZvnkTrlVCUtJdi5dc3cKDlT9t0UGo19JnnccRD61V8lqJPn5Ixv7tKW8qp/x4bKFYsMZT/+QuoKjuMY=
-X-Gm-Message-State: AOJu0Yy9dVn1dy3f3XaDiVpFuU3LHOk+6mBtyD0aHHzMflMsZrMoOTF5
-	VI69eKZjINojJ3qbkmsEgNZV+jNKwJ8zM0Jj997vRZHAZ0enVduzOISixYvktxI=
-X-Google-Smtp-Source: AGHT+IEUsV4QyGJ5s7eoDrQbcC+vTg7j36Tkp+hsSatBFYgXS89bO8YfYY7FFaMQJP+SiVLtsTp+Kg==
-X-Received: by 2002:a5d:598e:0:b0:343:4c43:b38a with SMTP id n14-20020a5d598e000000b003434c43b38amr2695374wri.17.1711975177452;
-        Mon, 01 Apr 2024 05:39:37 -0700 (PDT)
-Received: from [192.168.0.101] ([84.65.0.132])
-        by smtp.gmail.com with ESMTPSA id ck5-20020a5d5e85000000b0034349225fbcsm4284757wrb.114.2024.04.01.05.39.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Apr 2024 05:39:37 -0700 (PDT)
-Message-ID: <9a063c39-6d2f-43c3-98b3-e4f8c3c6e9c4@ursulin.net>
-Date: Mon, 1 Apr 2024 13:39:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43760219F9;
+	Mon,  1 Apr 2024 12:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711975549; cv=fail; b=FvEeFYwqRlSWvSBJHM5Ta3nxYMPdrPPeabg/RdEtCEJHKp2x7WZSVhgXaWE5PtYL1Bsw2xvgk5TFex5zheyo5BJv48HllT3AkO9xZPI0cacifJe+W+s4Ky+Rdh1kf3T38C/l7pxEiWthyc4S77TnqEDNgVp/BrYDYnKMNsHaSgM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711975549; c=relaxed/simple;
+	bh=LRkvZQIhWo2+QKM4ojeEi2qoRliE1S523oZsfE4QRr0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kL3u2grmx8QtM43zEbSK4V6bnqVMkIjYRSAM7B5nIFhc3Gn3s1QVC0MLJ9ICMGkzARy8v3jtOfEMHKUwg82E7U8W1mYJ8EOMYLtyaH6by1AqipL8iA95DKnYhUDz7oYsgVXVWWxKxkK2+4pnF31DHNInRH6qAHfedLe/Aj/HMt4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=htKrYXlu; arc=fail smtp.client-ip=40.107.220.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bz19jB0WPK3Y4BMl09v3MfYhkWqQqpYogWOzHnCtfnznJnsPYy1f4uWA8+4trlHcWKbFIlazgSK4z4DGpdEOV04n+0uCZJpzTx2u4gfhdp43OLBfOOU6eN1IylRCKeBQl0eiVYDWWAmoLwEwRl8w7gASzjg/qf+JX4rkXjxZuKaP8d6HwqyRjIu5Pz0JmhaANEigVAOqHcuw7/TmtTC/TyZ3LWbfe1JCaMLclM1hSi/oi3WhttsQSTYKMVSMmtxjes8Hdr9ahLZxUbUqK5iId3uUDfN3/PbAoI/e4Ubw+pueep3xKqiwIqtfdbtWI3mQpIXKCRlXtE+v/tYVXONI7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3+3e6WHm8djZRf0PvwE3BRyfuPArpA/DW1R3uprjUf8=;
+ b=KsWyDIcPXcAOFmhXEpdbynPUJh83yjGAHveAjlpc2jD4XloQnDdwKGrWrvB/EW5hfTOk//BlAZR1AGgwNNW4LeZ2VGNkM3JyWqR/IXMmOfIZBNKKVowXzPRgyYGXAbx5bYhTB4cZ/MecMyFObmcyrV4xmtdt4YTqdb060eECcC8Ktq8hdCT9RaEl1kOAPocxgHg2smpCf8g6xlxXilSIBFRpOQ9i8gmhLl/bChetOa60yCDpagk4jzRjs8ewld7HaVKk2Cr2PSo+HCTPHsh6GV+v56lCc/Qp2RTcezNEGJ6x5Ms1Z2O2NaVz8BrsI1dl/W1uQkdVherNNBsnj69GXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3+3e6WHm8djZRf0PvwE3BRyfuPArpA/DW1R3uprjUf8=;
+ b=htKrYXluFsqHaa73Aguq/VvUOukwqHPVYPKgTdLRMfSVXwe8Wk9UWVyhAtekkgf/KuFgfn3MEwSLc+TnZpIS8SzQrxZ1BPZlTGHTD1Uu4QBBEWzVILWH1w0oHujJsScz17767mV4Ecyvx5em/AvMsmz/iZ6FyFYC0iPnB6ZQIdc=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM3PR12MB9349.namprd12.prod.outlook.com (2603:10b6:0:49::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 1 Apr
+ 2024 12:45:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.042; Mon, 1 Apr 2024
+ 12:45:45 +0000
+Message-ID: <1e94363a-b449-4efb-b2fe-c1dd710b57c9@amd.com>
+Date: Mon, 1 Apr 2024 14:45:40 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: Do not build debugfs related code when
+ !CONFIG_DEBUG_FS
+To: Tvrtko Ursulin <tursulin@ursulin.net>, "T.J. Mercier"
+ <tjmercier@google.com>, Tvrtko Ursulin <tursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20240328145323.68872-1-tursulin@igalia.com>
+ <CABdmKX3V3HGA4mNQvqHqhcLqyr-A5kJK8v9vmuDybRvV-KsiOg@mail.gmail.com>
+ <9a063c39-6d2f-43c3-98b3-e4f8c3c6e9c4@ursulin.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <9a063c39-6d2f-43c3-98b3-e4f8c3c6e9c4@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0181.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ca::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: Do not build debugfs related code when
- !CONFIG_DEBUG_FS
-Content-Language: en-GB
-To: "T.J. Mercier" <tjmercier@google.com>,
- Tvrtko Ursulin <tursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20240328145323.68872-1-tursulin@igalia.com>
- <CABdmKX3V3HGA4mNQvqHqhcLqyr-A5kJK8v9vmuDybRvV-KsiOg@mail.gmail.com>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <CABdmKX3V3HGA4mNQvqHqhcLqyr-A5kJK8v9vmuDybRvV-KsiOg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM3PR12MB9349:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	EdZgqHLp0dQQdXw9RfHbk9n2m9T/5RpP1HvX2qjkknJUghpJJuoBPZd6mRL49kntSOGLPAqeIBhZscoGkl6JlRV66PghBAttTTzyMWh2Cq/PhTxu/cQZduIv5UOSQQYHEwCS4UpW8513KBL5nnsbAMha3rmBTQ+lnw8S2/jzXONOkQEYKGB0rw0yfvFCExiCV4XX4VxqOVgt33sTB25rFS5jIdQwu6u0H9xH+rHsXRu0NmMEG7M6iM3amZ83dHhRXi6zfpp4W+nx6iz8T4kRXdg3wP5vZZSGjpBjQJfmEFSOvaMIhLWDWEgOK5LK5nlDffucLpaSJ0hemuPkyXv9Zcs6h8JXGlI1wLbHqPMKeE9p3Tz8PgN8kS8fy6gO2CopPwJfH6cZmCLo7zi9Xpk+wWWdE80UTZTUc1PfgK0VxUmHJwm/SA3ptqTQfhddcAwGgMK9H2mqrWitNb7p1DHB0PZwvYXv5FO3ww1KlAlLNq5q84XdGKfJmcNuNrvVezV5MlIUbzeCjAoWTzaXaFGN57FSp+DHGHD+BehofP2eMGItKT876XA1Yj9Zl3GwBSjNQTsqH/fZH/t0Keq+uz8+mIs54G6NAZWXE5w8MSlir0FkVW2NbI3PxpSUnKPv9AHSkt74eryNVQ8ktGx+GBgvAbTRmIbu/J0CyoOl2DTS5ms=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MzFPMnMvM1YyM0ZPdHlsc0J4TE5IRDY1R3Q2K1c2b0RvT0loOGU1RUJmRzZa?=
+ =?utf-8?B?bVdpSUdyUzBFSlZ0KzE4YndFb0pUcW5xZld1Rkt2aXZZUjV0eFZ1bDRiVENO?=
+ =?utf-8?B?V3NFNExoSjFRdXpWVlpicmg5alpLNTRXWmE5clJva1lDRVpDdlliMmVHM0tN?=
+ =?utf-8?B?dlNDRm0wZVBTek5XaXViUmU3M3FIYWpVN3haSTJKVSsyTU1VWUtocENqd0FK?=
+ =?utf-8?B?U2pJbjhXMTZZYmhhandQQ2J4Y0loY0dqOEQrWk1admlSY2tQMkcxMUJ0ZDg3?=
+ =?utf-8?B?aXFHWHRrU0J4WUwwWkd2dkgrU3BDZW5ra1dpeWNJUCt5eXVyZ2MzbnJRbU1v?=
+ =?utf-8?B?d1lIaHcvL2ZHMC9LdHhzNkUwK2FKdWZucmw4MklrRVl1aTV0QzRMOFN6elZ5?=
+ =?utf-8?B?eTFDVE9YZkVKM0V0M0F0bHk1UW1TaDN3UFBxTngzVVgxNGlzNGRnbkpkM0pG?=
+ =?utf-8?B?WklaeXdnNEdjZ0hjWGgydUt2STJVdnRZT3hpaDFvSEN6SE5veTJYOFhSckQw?=
+ =?utf-8?B?TWhHZUpTWGZJUTVTR1Jtd2h4RGpTZWZ4WUI4S3Z6UkVsaXFDbWpYQmJtMFRE?=
+ =?utf-8?B?SmQvYWhvVTE3RmNyWHMrWDR4eEJ6eTNMZmNjN1htRWFEcDFsZHNwN3BJTmth?=
+ =?utf-8?B?UWxzVFVpSU5oS1lUTjFwenFBUVNseFMvRUw2ZnM0cnRUZXQzQ213MkxMc3J4?=
+ =?utf-8?B?dEMramRSMGR0ZXdXUVhGeWhEM3hHckQ4ejJNVVU2RDd2MXZOTE9IeUNhKzIz?=
+ =?utf-8?B?clA0NlczaVVOZ0pEWjFmNHcvTTZOVG0xQWM1dUg3OS90d25XZWdGMCtsSDVE?=
+ =?utf-8?B?c0FiUlhiUUN6c2NPSlJiZG80cy90YUkvN00wekJEMWZQd3g2YlF4cjNyUXlC?=
+ =?utf-8?B?YndZSjcveFA3WFF1YTVSSy9Db1NGM1o2d1I2c3gzeTRzUE9reWp5VElHSXds?=
+ =?utf-8?B?NlVjOXRjMWpmUkhzeHBYYTZkb281MUl0K0c4OEpjUysxU1hUSGRxRlpBT0Ev?=
+ =?utf-8?B?TGVxRHF3aTV1RFJNQmlDOFdpUlRIcGxvam9va3ZBbnBDL1o3TXpwSURHNExF?=
+ =?utf-8?B?NnZKaWlSRzlEZjdqZWZadlJTSys1d3hyYVpwN25TQitOTDlkTm8rVExIWUJl?=
+ =?utf-8?B?bWJpaFdXZS9qVUlEZnlKckN3MURmYUZkaXk3RmdvY0Z6TFQ0NU5vTytxYkxL?=
+ =?utf-8?B?UkVRc2p1L3Z2OFVwUVRPT2EzV3lib0dkd3U1VDZZeklaMDBDaERNQlB4S2RS?=
+ =?utf-8?B?YWlZVmJlR1dMd1ZtU2RzWTBJcjRtT0d6aUxuY3k2THNsNVpTbWltZXJvcGVV?=
+ =?utf-8?B?RmVpcmxYTXVxSUVSdFpBUkR3dXRMNWFWTE8xQ3N3Uk55WmFiUGdJZ1l0OU5l?=
+ =?utf-8?B?MzF0Q1UyVWErSE1YNFRVSzgxTmhtUy83bGtwaFV0YlRRMnpPbElYQTBROTM3?=
+ =?utf-8?B?WW1WRWwyTWJJaS9tMGFBMWtZdUVISTM0YWdFRGtaU3RTVy9YdmN6UG9CU0Qx?=
+ =?utf-8?B?VkpkR3BXTFhSUTI2MEFsaWJPZkt2ZWlmbWREUUVLcHJWNkRUcUZ5dzFIek8w?=
+ =?utf-8?B?T1FYbTRZcHpubjlZYTFYSUhXYjFSMU8rdnd2WVpHRVlRWWN6OVlGMk9DVW5F?=
+ =?utf-8?B?bUlTSm50WWhPNUNjZ0hXTU51UG05dWZ6bHEzeExyWDZlNDZuVGVReVFaZ0ZH?=
+ =?utf-8?B?N0srZUxxNWxiSW4xWHNuWnh6Wlk5cC9VZUpMUm03QjNKNUlFTmZBZmtOcTVq?=
+ =?utf-8?B?UUFFQjQyZlNab0I2bEl3OC9Vckp3dVZBZkpXUW84MVZYaGxFd3cyU3d2L2Fx?=
+ =?utf-8?B?Q3NmblJyc3JYcmFsN1ZNUHo1YTFHdFVBRkgrbFlELy95YzcwRTRsWVZKc2lz?=
+ =?utf-8?B?ZC9kK2ErUEJJVnVSVmovZ2ZPSkxLcU5XV2NTKzYxdUszcExnQ2hWUHRDZXRo?=
+ =?utf-8?B?aTI4UlF4ell1MVRjTWJ4VTRQbExkQTlTdUpIOHQxYXNjWW1meGxCaW44a0ZE?=
+ =?utf-8?B?WDFwSVoyS1A1dTl0c0gwRW4zZWRKSW5zYnprSUFhYmlhMzluRzJqTnNkODZY?=
+ =?utf-8?B?akJHbnFRSzRQbHg1V3RGOFl0Z0MrRmhGWVpZdStuUkxxZFMyckNPTnVqQXVD?=
+ =?utf-8?Q?a94k=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e27f7a9-aa2a-444c-0f9b-08dc5249a649
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 12:45:45.8653
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mX9oYvLIPTYYs9XTFyowP7bzZnjofNQ4IQJ6ReiM8EEIs2/yexnEDITi2Q60Zc+o
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9349
 
+Am 01.04.24 um 14:39 schrieb Tvrtko Ursulin:
+>
+> On 29/03/2024 00:00, T.J. Mercier wrote:
+>> On Thu, Mar 28, 2024 at 7:53 AM Tvrtko Ursulin <tursulin@igalia.com> 
+>> wrote:
+>>>
+>>> From: Tvrtko Ursulin <tursulin@ursulin.net>
+>>>
+>>> There is no point in compiling in the list and mutex operations 
+>>> which are
+>>> only used from the dma-buf debugfs code, if debugfs is not compiled in.
+>>>
+>>> Put the code in questions behind some kconfig guards and so save 
+>>> some text
+>>> and maybe even a pointer per object at runtime when not enabled.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tursulin@ursulin.net>
+>>
+>> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+>
+> Thanks!
+>
+> How would patches to dma-buf be typically landed? Via what tree I 
+> mean? drm-misc-next?
 
-On 29/03/2024 00:00, T.J. Mercier wrote:
-> On Thu, Mar 28, 2024 at 7:53 AM Tvrtko Ursulin <tursulin@igalia.com> wrote:
->>
->> From: Tvrtko Ursulin <tursulin@ursulin.net>
->>
->> There is no point in compiling in the list and mutex operations which are
->> only used from the dma-buf debugfs code, if debugfs is not compiled in.
->>
->> Put the code in questions behind some kconfig guards and so save some text
->> and maybe even a pointer per object at runtime when not enabled.
->>
->> Signed-off-by: Tvrtko Ursulin <tursulin@ursulin.net>
-> 
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+That should go through drm-misc-next.
 
-Thanks!
-
-How would patches to dma-buf be typically landed? Via what tree I mean? 
-drm-misc-next?
+And feel free to add Reviewed-by: Christian König 
+<christian.koenig@amd.com> as well.
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Regards,
+>
+> Tvrtko
+
 
