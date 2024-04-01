@@ -1,257 +1,196 @@
-Return-Path: <linux-media+bounces-8268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C038933E5
-	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 18:51:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AC5893669
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 02:02:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE08B284BB6
-	for <lists+linux-media@lfdr.de>; Sun, 31 Mar 2024 16:51:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4BB121F211AE
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 00:02:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B71156996;
-	Sun, 31 Mar 2024 16:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2249441;
+	Mon,  1 Apr 2024 00:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ohxy/Tpi"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Kx2TbxOV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB73156227;
-	Sun, 31 Mar 2024 16:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711903214; cv=none; b=SAa0ecGBHl7Q7OYrK4MvVEe3u+6t77w41IKEzAGPPUQB1qZRCvxo9fEwMByr2CxWm0lG8rmeyQVavBC4oaRr3tWiirpgvbik42y8sNqzJjS7AB5UMWQuek3AFMwz8hYI574aAYkte3rl3xp6oMFkBfFnfYFIJif9d+2KPtvYLk8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711903214; c=relaxed/simple;
-	bh=K0qocvwvrYWRNQvYnDS/H+UbwvsMZhO+c1XJJkrTUD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XUSKdTILJZphx2aHi0L6OKkph4uHzG1MQY2x3oc3sIdXsyagCQvxtaUZawFt+yRsWa41actZkcAE2KnJp7gr7eeVmqsLf/VdSyt1E0DS5qS/58CZ+KCjC/ITH3DIZLw8QG9VvlPI/JRIKf2E8qElxagfWTyzgfZz99lSTFGVrv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=fail smtp.mailfrom=lists.freedesktop.org; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ohxy/Tpi; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lists.freedesktop.org
-Received: from localhost (localhost [127.0.0.1])
-	by a.mx.secunet.com (Postfix) with ESMTP id A0FA0208B7;
-	Sun, 31 Mar 2024 18:40:09 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
-	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LT5PJUeKUl9y; Sun, 31 Mar 2024 18:40:08 +0200 (CEST)
-Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by a.mx.secunet.com (Postfix) with ESMTPS id 575D1208B8;
-	Sun, 31 Mar 2024 18:40:05 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 575D1208B8
-Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
-	by mailout1.secunet.com (Postfix) with ESMTP id 4A58480004A;
-	Sun, 31 Mar 2024 18:40:05 +0200 (CEST)
-Received: from mbx-essen-01.secunet.de (10.53.40.197) by
- cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Mar 2024 18:40:05 +0200
-Received: from Pickup by mbx-essen-01.secunet.de with Microsoft SMTP Server id
- 15.1.2507.17; Sun, 31 Mar 2024 16:37:12 +0000
-X-sender: <intel-gfx-bounces@lists.freedesktop.org>
-X-Receiver: <martin.weber@secunet.com> ORCPT=rfc822;martin.weber@secunet.com
-X-CreatedBy: MSExchange15
-X-HeloDomain: mbx-essen-01.secunet.de
-X-ExtendedProps: BQBjAAoAnnUFfe5Q3AgFADcAAgAADwA8AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5NYWlsUmVjaXBpZW50Lk9yZ2FuaXphdGlvblNjb3BlEQAAAAAAAAAAAAAAAAAAAAAADwA/AAAATWljcm9zb2Z0LkV4Y2hhbmdlLlRyYW5zcG9ydC5EaXJlY3RvcnlEYXRhLk1haWxEZWxpdmVyeVByaW9yaXR5DwADAAAATG93
-X-Source: SMTP:Default MBX-ESSEN-02
-X-SourceIPAddress: 10.53.40.197
-X-EndOfInjectedXHeaders: 12339
-X-Virus-Scanned: by secunet
-Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=131.252.210.177; helo=gabe.freedesktop.org; envelope-from=intel-gfx-bounces@lists.freedesktop.org; receiver=martin.weber@secunet.com 
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 7F7F72083E
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ohxy/Tpi";
-	dkim-atps=neutral
-X-Original-To: intel-gfx@lists.freedesktop.org
-Delivered-To: intel-gfx@lists.freedesktop.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6B14020E6F42
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1711731737;
- bh=1xAt8oLDivBzcFZmj4k6LuWQeVtOX6JrcyzssXeZ3pU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ohxy/Tpis4rcZr+HmqqXLQ1kevTdDNaAjl+/S10lEH84ShVaJTi7yoXPaEoRlh1Ia
- MyYKE35gS8u9NTdAgaEBLovHzzoDvWALpXM6LFWrBAzoFK88d9+Qat5qDC4ednKXPl
- Kh6ndPQtI1OXBTVsPtSRnotMhgVWfK4FheWQeEeo=
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Andy Walls <awalls@md.metrocast.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org (open list:CX18 VIDEO4LINUX DRIVER),
- linux-kernel@vger.kernel.org (open list)
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
- DRIVERS), 
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
- GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
- linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- Easwar Hariharan <eahariha@linux.microsoft.com>
-Subject: [PATCH v0 06/14] media: cx18: Make I2C terminology more inclusive
-Date: Fri, 29 Mar 2024 17:00:30 +0000
-Message-ID: <20240329170038.3863998-7-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A2B23BF;
+	Mon,  1 Apr 2024 00:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711929726; cv=fail; b=SWmSF8Fbn1/SWOrZC3A2RX5ufdUI7y/9VFEsmSxCA1y7vzw5zfB+Gc3Z/LCln1MRC+wi4wRZ6pzw9xzG3gE5TW5p0s7zHXzisjvg5AcBBRzs1YI6GlAo+9olvIsl9ElGuTCHOyV7HKca9x3j8WOm/SG8nFPCzBUl+LU+pASSPa4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711929726; c=relaxed/simple;
+	bh=TltzI2FekLpNsCd8YXQ9yMuqvMvC2iq06qGHM1b9KU8=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=Vjs4WghZeBB1dfc0LIR2cXAD55Mj3jo8wBoI+jlV6JFfrnfpVwBDf+n9jga5AmOc6ElFRvJ9opfQ2PRG5TpHe6QRKwgajodErMBHBa8YqaFx+BAgDnXGAn0vjVSyCszY9qgvQkvUkUc5zMl6sU1E5SU24HUxpGaBpLPGMMVIa48=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Kx2TbxOV; arc=fail smtp.client-ip=40.107.113.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YD6yL9tD/3lEtk1ivSAfkOT8haehqjytYFoe0tTLhZOSji/ptx2gvKKte9ebeVIDOCBxFAL5+q9foKf4K6YEtv93hx6eslFHt76+E9ztTGUmmTm6iAMRsxpR8I4LXfjrNFi76p6vfGleJ541zfXBPAkMW92xFdOI/oAnkB1EnQX8f2daITClxELON86FCtzPJarL/4SiboiC+JnYkXKdsIOI8OEDiEr1pfSBmAvxGgnCb2Txmien7tLm9PPn/spB3v6WSZxi/Ha9/Uaxeou/j+0p5kg/KVgmxnySs2j93or9EsPO5G7AAoObkhfhFqHR5TL704ykx37t2DVcUOcLvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x7s2w2PIPynKtzrGi/1YXfnroPpGbaWIsqLdWdtnyFU=;
+ b=O4bW8rDvmWZraEDx8Od0H+Yo33c3i2CJHtRUXFsQ6WRs0mncins618bPwQJF0EG/QKmB3d8V8RmQa6Xp1PYMuMWx6oehfMSXj8vCMZ/bHDz28Buzip15iiEsWv8YzEyTIB87aZLMRUsnq3auOzHRPtFlnZuLWDSpzM+39oDS+GoGf8haK3ReatHly9Wn+PlMvO9gp51RmDZ8uWhbjT+DD8pCLqBwh67EK5v6vxjJhBgGeWYjwYqEBaYJGUnV2S1mFy6mVDotF7M72VZEDE+l/IsdlVjeRvs1d7B143yTrQith+Gwo7yj5wBVD70eC+0Rk6mtpLsrdqSCGdBWVKaQoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x7s2w2PIPynKtzrGi/1YXfnroPpGbaWIsqLdWdtnyFU=;
+ b=Kx2TbxOVJq1UzUhrAZA0MWCpTMq6fTm58VuagD9yQUgbkEr3Lc5oF1wFXUlUhHrY5Akj7dLKi2jExIDr1vDFnc26oSzDhQauo2MGK3r5wyS78mWR8z/3jilEVFvslRzBNORI9fL8YlLwIvAjBw+nhKLZgkFzuizpk8hW5G6Dnek=
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB9325.jpnprd01.prod.outlook.com
+ (2603:1096:400:1a2::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 1 Apr
+ 2024 00:01:55 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 1 Apr 2024
+ 00:01:55 +0000
+Message-ID: <87cyrauf0x.wl-kuninori.morimoto.gx@renesas.com>
+To: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-om@web.codeaurora.org,
+	ap@vger.kernel.org, linux-staging@lists.linux.dev
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v2 0/8] use for_each_endpoint_of_node()
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 1 Apr 2024 00:01:55 +0000
+X-ClientProxiedBy: TYCPR01CA0065.jpnprd01.prod.outlook.com
+ (2603:1096:405:2::29) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 31 Mar 2024 08:50:08 +0000
-X-BeenThere: intel-gfx@lists.freedesktop.org
-X-Mailman-Version: 2.1.29
-Precedence: list
-List-Archive: <https://lists.freedesktop.org/archives/intel-gfx>
-List-Post: <mailto:intel-gfx@lists.freedesktop.org>
-List-Help: <mailto:intel-gfx-request@lists.freedesktop.org?subject=help>
-Errors-To: intel-gfx-bounces@lists.freedesktop.org
-Sender: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org>
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB9325:EE_
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	1LBt4sFo/VduvHVgGQ863xezN3rWEiBjYvtlcPyoBOfgpRW+33IcKc8AQsFSSS2yfYg+SubjfYQSsfTsW6rVDL6py+IhUCXTp07glH6aLeP6QMetlnUBVCcdTRcMmj0tGxTgDjiLVmDdFofpjQvzUZFXgIWzEjycmXEeBsZ+TgrIsBcxxeKItPOTepxlnHB2pAPXaLOwbzu5Nud0tYTpA2YQFNcsO/1ZFqKuc0MkfMqo7lgp0BOzscU7TbhW01/GvWD+iUIR7NzEpmgKVbCuFreVvyh1uTKzmPRiMblIhc+r7E+ACHXf/Ont+o6cJvCdMf04lVyeh54OwEXUhdUHOV49Ss7PE467OyBF1FC02SQ3vdf85AUD/6LVTFeHkfBSQiz68Kb5qtw/6rFgdOqwV5JVGNbOpv1UWAelBFDCzkm9sx9u7C7yp90XGckHwSBkS7YcadagzD+3drYX8nWwcbBvdOM70QxSe0o9LHw2RumYnNAcpiENVXlbUYNrGRpTqOlV72hUYp+XJr9S+dI2w/iiW7tyhpmY9E4YbyXFPehYYhw11etJ0ZkDiCj2q8SWpJNmInZZNvJ/GS73+cityGoQankwuWyimhmyC1rRT/dyXwr0GL71HZXX8Plv8aq2pLlZ59UciPAwOCDax9TQIfbrxS0kHJGjTQZ/EBYvdltjhS+xWwJYE5iBSEogKfdT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(52116005)(7416005)(376005)(921011)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oINI8BYj2Pjf2OVVSGQ6w0T9iBXjG9b9Jt6mLyvlVbFqar5g+P/kedoToj6K?=
+ =?us-ascii?Q?BqduEznbFD100ULbM6c2kLQtDtJPD5em0ymAK6pAUUAEJtaUi53lVe8H6me8?=
+ =?us-ascii?Q?9VTE9ApwAIU5VW6MeUWtM4s3ilID2AE/HwNEFCdkg9jSsRLv83eceiwQ+AM3?=
+ =?us-ascii?Q?3CYZSWXEG3M0dEcrL6vcGsbivl4HPWYlIs1wZFXEWpewu5y4yioeARvAfR+1?=
+ =?us-ascii?Q?tlONQ3MRksHI6gMnh+XDUdBRfQZWQxgKlyQhIaMutW0cgFt+5sFxw0dM0qE1?=
+ =?us-ascii?Q?Gncz57lIW6kRNFQqb0kEuTxSBXCvOMLn4LQ9UE64StmOuHm+1Wx/F03pr0IR?=
+ =?us-ascii?Q?/XCsmDh5yg5vM/sJVSlm5VRfYFF8d35wXngve1zOYgUgB1NOG0qw1k5CE3WM?=
+ =?us-ascii?Q?slxIfcEbKYnTGXlOQBXT/O0PzYqQQIcctqKDvy06DrCwqvFgO+NcXv4t9+qK?=
+ =?us-ascii?Q?xARwZrYfVj+893wM46dlz8210R7Q7DL6mmsQWPmq061SyiCWOPvc9/Thp8wA?=
+ =?us-ascii?Q?8uPp7kXXZ2D/ByDuPdBPFHn9zvgm0l+GS1JpyCNh3cFusV8I7r7nEUbdAlpI?=
+ =?us-ascii?Q?nMYp3QBgtBF0aB8PFB4oswV79O1TtTV82dNFo9DSKEaEF8LIJKU5INbg6Zyu?=
+ =?us-ascii?Q?WZ6ZQGw+PO+FTMDS5vPRJod28WADArSXq8gS3Y9E6zXg310x4jQEJKV9YLnZ?=
+ =?us-ascii?Q?tHXGDOQk14DCxBhcn1JvTNWt8+REi0olzpuH4igre/Q6meH1XQxA+qeDKtgQ?=
+ =?us-ascii?Q?iOYUR9lll80sRXUtfEEoumsXZMcEOEGFX4BWc12ZVyQkpCaEq39ES7RDCGiT?=
+ =?us-ascii?Q?MfbytNcos5T5GPliEZcYbZgc1GGvukzzFjk7f29n51p6uXtVEncziZzBbV31?=
+ =?us-ascii?Q?yV7FOMKxH0LGyCqC0t6rCII+7a1gCfd3smL6a+gjtXlsCvWGTD9z7GSgJqpo?=
+ =?us-ascii?Q?B/Mfjg+WHk3Wa5XJeiTYtXYwnD/NbC4AQb+RNkhTtay4DhJXRsDSy5/eLEi3?=
+ =?us-ascii?Q?8Mqnupqz8xcobC7lsSM1ivuZsx6nKbmKaYPAnZX8vYF38aaI5u8Uzjf114XV?=
+ =?us-ascii?Q?1psJUrs2/dnf/jId4Mzhpgx0o3/N255YsOXA0GHbP67dK9yhTUDUxOvY2e+9?=
+ =?us-ascii?Q?gcRMegpTWTNU37hvmZwfZc1vAZlxmMsJVP1McPDybjK6W+lPC5JvrIGOeggO?=
+ =?us-ascii?Q?hiP01mR4EMFbo5L7g3hiz+M84CD4uMSm0c/o0DvtMuWEhxPH/fqwv9ku5cv1?=
+ =?us-ascii?Q?Qe2cuzkfIXd2iSDfR2wUXrCet/zAVLFx2lF2274ZYZY+Ne5rFV7Dm7M4QSS8?=
+ =?us-ascii?Q?LBK+RBcTE6Q9BmZ5ZFaOaso9MiNt2PSsbLntAFG4rotcleMqUmxF0MbVF/70?=
+ =?us-ascii?Q?CPQyPngiCkiXhsWX6HUdH0HO0qAFc3jimUniVYi6hXijneVbO4EomK9DpRST?=
+ =?us-ascii?Q?H1wnUH0TaMTtsOWdGOMtWGY+8gMuUrVgmHfytc30woTmyAKOCsd/a1kbrGXA?=
+ =?us-ascii?Q?Asmwi33GmFj/MoNieCf5EY0tuhRbD00xxmAqzzULJrepHN0r8L3qyVCtSuVb?=
+ =?us-ascii?Q?8LSGe1VLZa3xC7pLPoeO3FPLb9UikLTAXvFkq1XlQ/rPf5yVdRie1TDMP5G6?=
+ =?us-ascii?Q?58bNRGCrTnC5vmIhbWqNvG8=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f02879f-cf94-4578-e809-08dc51def17e
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 00:01:55.7289
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2315N+aZcZNAN4ZGyghHX3HaxqVrO9BXqHu0k31a/GT6khRiDbLblkMXuJtvsi5vwPCA8a+i2wE0y7pPNRWjls0u/472mZy5ARWLUTvZcIcvgVC4cS9SVwVWQtL8UtUr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9325
 
-I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-with more appropriate terms. Inspired by and following on to Wolfram's
-series to fix drivers/i2c/[1], fix the terminology for users of
-I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-in the specification.
 
-I2S specification has also updated the terms in v.3 to use "controller"
-and "target" respectively. Make those changes in the relevant spaces as
-well.
+Hi Rob, Helge
 
-Compile tested, no functionality changes intended
+We already have for_each_endpoint_of_node(), but some drivers are
+not using it. This patch-set replace it.
 
-[1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+This patch-set is related to "OF" (= Rob), but many driveres are for
+"MultiMedia" (= Helge). I'm not sure who handle these.
 
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- drivers/media/pci/cx18/cx18-av-firmware.c | 8 ++++----
- drivers/media/pci/cx18/cx18-cards.c       | 6 +++---
- drivers/media/pci/cx18/cx18-cards.h       | 4 ++--
- drivers/media/pci/cx18/cx18-gpio.c        | 6 +++---
- 4 files changed, 12 insertions(+), 12 deletions(-)
+[o] done
+[*] this patch-set
 
-diff --git a/drivers/media/pci/cx18/cx18-av-firmware.c b/drivers/media/pci/cx18/cx18-av-firmware.c
-index 61aeb8c9af7f..906e0b33cffc 100644
---- a/drivers/media/pci/cx18/cx18-av-firmware.c
-+++ b/drivers/media/pci/cx18/cx18-av-firmware.c
-@@ -140,22 +140,22 @@ int cx18_av_loadfw(struct cx18 *cx)
- 	cx18_av_and_or4(cx, CXADEC_PIN_CTRL1, ~0, 0x78000);
- 
- 	/* Audio input control 1 set to Sony mode */
--	/* Audio output input 2 is 0 for slave operation input */
-+	/* Audio output input 2 is 0 for target operation input */
- 	/* 0xC4000914[5]: 0 = left sample on WS=0, 1 = left sample on WS=1 */
- 	/* 0xC4000914[7]: 0 = Philips mode, 1 = Sony mode (1st SCK rising edge
- 	   after WS transition for first bit of audio word. */
- 	cx18_av_write4(cx, CXADEC_I2S_IN_CTL, 0x000000A0);
- 
- 	/* Audio output control 1 is set to Sony mode */
--	/* Audio output control 2 is set to 1 for master mode */
-+	/* Audio output control 2 is set to 1 for controller mode */
- 	/* 0xC4000918[5]: 0 = left sample on WS=0, 1 = left sample on WS=1 */
- 	/* 0xC4000918[7]: 0 = Philips mode, 1 = Sony mode (1st SCK rising edge
- 	   after WS transition for first bit of audio word. */
--	/* 0xC4000918[8]: 0 = slave operation, 1 = master (SCK_OUT and WS_OUT
-+	/* 0xC4000918[8]: 0 = target operation, 1 = controller (SCK_OUT and WS_OUT
- 	   are generated) */
- 	cx18_av_write4(cx, CXADEC_I2S_OUT_CTL, 0x000001A0);
- 
--	/* set alt I2s master clock to /0x16 and enable alt divider i2s
-+	/* set alt I2s controller clock to /0x16 and enable alt divider i2s
- 	   passthrough */
- 	cx18_av_write4(cx, CXADEC_PIN_CFG3, 0x5600B687);
- 
-diff --git a/drivers/media/pci/cx18/cx18-cards.c b/drivers/media/pci/cx18/cx18-cards.c
-index f5a30959a367..d9b859ee4b1b 100644
---- a/drivers/media/pci/cx18/cx18-cards.c
-+++ b/drivers/media/pci/cx18/cx18-cards.c
-@@ -82,7 +82,7 @@ static const struct cx18_card cx18_card_hvr1600_esmt = {
- 	},
- 	.gpio_init.initial_value = 0x3001,
- 	.gpio_init.direction = 0x3001,
--	.gpio_i2c_slave_reset = {
-+	.gpio_i2c_client_reset = {
- 		.active_lo_mask = 0x3001,
- 		.msecs_asserted = 10,
- 		.msecs_recovery = 40,
-@@ -129,7 +129,7 @@ static const struct cx18_card cx18_card_hvr1600_s5h1411 = {
- 	},
- 	.gpio_init.initial_value = 0x3801,
- 	.gpio_init.direction = 0x3801,
--	.gpio_i2c_slave_reset = {
-+	.gpio_i2c_client_reset = {
- 		.active_lo_mask = 0x3801,
- 		.msecs_asserted = 10,
- 		.msecs_recovery = 40,
-@@ -176,7 +176,7 @@ static const struct cx18_card cx18_card_hvr1600_samsung = {
- 	},
- 	.gpio_init.initial_value = 0x3001,
- 	.gpio_init.direction = 0x3001,
--	.gpio_i2c_slave_reset = {
-+	.gpio_i2c_client_reset = {
- 		.active_lo_mask = 0x3001,
- 		.msecs_asserted = 10,
- 		.msecs_recovery = 40,
-diff --git a/drivers/media/pci/cx18/cx18-cards.h b/drivers/media/pci/cx18/cx18-cards.h
-index ae9cf5bfdd59..86f41ec6ca2f 100644
---- a/drivers/media/pci/cx18/cx18-cards.h
-+++ b/drivers/media/pci/cx18/cx18-cards.h
-@@ -69,7 +69,7 @@ struct cx18_gpio_init { /* set initial GPIO DIR and OUT values */
- 	u32 initial_value;
- };
- 
--struct cx18_gpio_i2c_slave_reset {
-+struct cx18_gpio_i2c_client_reset {
- 	u32 active_lo_mask; /* GPIO outputs that reset i2c chips when low */
- 	u32 active_hi_mask; /* GPIO outputs that reset i2c chips when high */
- 	int msecs_asserted; /* time period reset must remain asserted */
-@@ -121,7 +121,7 @@ struct cx18_card {
- 	/* GPIO card-specific settings */
- 	u8 xceive_pin;		/* XCeive tuner GPIO reset pin */
- 	struct cx18_gpio_init		 gpio_init;
--	struct cx18_gpio_i2c_slave_reset gpio_i2c_slave_reset;
-+	struct cx18_gpio_i2c_client_reset gpio_i2c_client_reset;
- 	struct cx18_gpio_audio_input    gpio_audio_input;
- 
- 	struct cx18_card_tuner tuners[CX18_CARD_MAX_TUNERS];
-diff --git a/drivers/media/pci/cx18/cx18-gpio.c b/drivers/media/pci/cx18/cx18-gpio.c
-index c85eb8d25837..82c9104b9e85 100644
---- a/drivers/media/pci/cx18/cx18-gpio.c
-+++ b/drivers/media/pci/cx18/cx18-gpio.c
-@@ -204,9 +204,9 @@ static int resetctrl_log_status(struct v4l2_subdev *sd)
- static int resetctrl_reset(struct v4l2_subdev *sd, u32 val)
- {
- 	struct cx18 *cx = v4l2_get_subdevdata(sd);
--	const struct cx18_gpio_i2c_slave_reset *p;
-+	const struct cx18_gpio_i2c_client_reset *p;
- 
--	p = &cx->card->gpio_i2c_slave_reset;
-+	p = &cx->card->gpio_i2c_client_reset;
- 	switch (val) {
- 	case CX18_GPIO_RESET_I2C:
- 		gpio_reset_seq(cx, p->active_lo_mask, p->active_hi_mask,
-@@ -309,7 +309,7 @@ void cx18_reset_ir_gpio(void *data)
- {
- 	struct cx18 *cx = to_cx18(data);
- 
--	if (cx->card->gpio_i2c_slave_reset.ir_reset_mask == 0)
-+	if (cx->card->gpio_i2c_client_reset.ir_reset_mask == 0)
- 		return;
- 
- 	CX18_DEBUG_INFO("Resetting IR microcontroller\n");
+	[o] tidyup of_graph_get_endpoint_count()
+	[o] replace endpoint func - use endpoint_by_regs()
+	[*] replace endpoint func - use for_each()
+	[ ] rename endpoint func to device_endpoint
+	[ ] add new port function
+	[ ] add new endpont function
+	[ ] remove of_graph_get_next_device_endpoint()
+
+v1 -> v2
+	- fixup TI patch
+
+Link: https://lore.kernel.org/r/8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com
+
+Kuninori Morimoto (8):
+  gpu: drm: use for_each_endpoint_of_node()
+  hwtracing: use for_each_endpoint_of_node()
+  media: platform: microchip: use for_each_endpoint_of_node()
+  media: platform: ti: use for_each_endpoint_of_node()
+  media: platform: xilinx: use for_each_endpoint_of_node()
+  staging: media: atmel: use for_each_endpoint_of_node()
+  video: fbdev: use for_each_endpoint_of_node()
+  fbdev: omapfb: use of_graph_get_remote_port()
+
+ drivers/gpu/drm/omapdrm/dss/base.c            |  3 +--
+ .../hwtracing/coresight/coresight-platform.c  |  4 ++--
+ .../microchip/microchip-sama5d2-isc.c         | 19 +++++++------------
+ .../microchip/microchip-sama7g5-isc.c         | 19 +++++++------------
+ .../media/platform/ti/am437x/am437x-vpfe.c    | 12 +++++-------
+ .../media/platform/ti/davinci/vpif_capture.c  | 12 ++++++------
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  7 +------
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |  6 +-----
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |  6 +-----
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 15 +--------------
+ .../omap2/omapfb/dss/omapdss-boot-init.c      |  3 +--
+ 11 files changed, 33 insertions(+), 73 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
 
