@@ -1,184 +1,271 @@
-Return-Path: <linux-media+bounces-8311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8312-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87E289456A
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 21:22:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C27A89462A
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 22:44:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D576282AE9
-	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 19:22:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DF391C21BA3
+	for <lists+linux-media@lfdr.de>; Mon,  1 Apr 2024 20:44:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427B8537F0;
-	Mon,  1 Apr 2024 19:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A28D4E1D5;
+	Mon,  1 Apr 2024 20:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="22uWaDKI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGyxEbvM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB129CFA
-	for <linux-media@vger.kernel.org>; Mon,  1 Apr 2024 19:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5E129CFA
+	for <linux-media@vger.kernel.org>; Mon,  1 Apr 2024 20:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711999360; cv=none; b=u7J+gRswY9IMlEUOWab+Pdw+wesexDfZYfMwnIJyZbiHD7+uzKjyTQpEmXgoTGLBxQbgX4cYhG1tqj7zfjnZDhBAh0vBRTXQPS0DSPNp51xbe0dSi78m7v9a4MB24cA9gDMynbWmeGMy91YW2y++DH0cLKBhdQJGTWva+PwlOAs=
+	t=1712004278; cv=none; b=QiwBKK2fXpjy1yY9h86cR8S/cbycf2tVcRWnF04Hy7claouwze0HZBGT3pItL+VFsA78CdrYsII+zFBn77/heHpBGs2owxrUZzZLoMaORGh0rVaDtaUv++OhJj2gWK8GTGeyTMk7EufzxeI5gaoskbwajffruwvXWEufWO4mGAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711999360; c=relaxed/simple;
-	bh=8oUFGMmpkpqLpkNpA3EMKT/yDO5+7f6Bm1WN7AwolPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WYLi/tfjQqypM4wmkE2RaOPW1cxc1xsCS1vr7JWUmT00T6Q1P8+Y6u9wiVfYJ775lrSrpiwQVrusHKvjNXU2v+Vq5dEpQNhVNnhsyMyyBHXxj/5u62+xCU2pSpS9hx1hEoeEnq1SxDe5IShW2b79uimGSFDzjUV6ojfEHxTOvsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=22uWaDKI; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a4e7e2a257cso71754066b.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Apr 2024 12:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711999357; x=1712604157; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pRKdoK98qnZzkUcUn3OGBOuDQ1g75ltD3kRhKb3BL0c=;
-        b=22uWaDKINClGQOvJi06fBpyOOT7pMDPbf3vKhzp0A0EZNqEMJZEU9ZEQI+hZSku6MG
-         bDpe0EjXvO13ddBX37ofmNnPNsgpJXqGc4AuCCQ8nuthzsZBfIFoF3l84MfjgVpQ/rMz
-         X8r0RgAF5nL/37G5R4ZMVUu7g7ccxrgvXJyBok31bWJ4U/eF8uRTx4l9dRQ4jGtBlNPe
-         xA9xU5PEKcZ6Mo8JfTxnSnXSqVcfGA88I4+hdQ1b5EIF6VP5bvS6Re5X1nESesLYTzOM
-         keFQM0jW7oXypgbtrwSnBZZnye/NvRo6H4FNnGy3aoPjs0A0kSwZBaIAE8vZ+9L09KAa
-         hy5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711999357; x=1712604157;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pRKdoK98qnZzkUcUn3OGBOuDQ1g75ltD3kRhKb3BL0c=;
-        b=WtnP9Cqf4duYJv2+eh2lTvlch4f35PbsWW65oG+n791OFrU/L4a1NglWP70uBBCZNf
-         EvNbOKhLhm30HFMppyr8wcdQiOL8Ns4NFbjcniQHkDUuikM/D/YGtgjeeo1JoXEiKBpq
-         7ONGFbqB3clgn4VocaeKS8fcT84KnY4wA5pHs1lv8oDlXupqpPAtYkw1qyI7bv7Xm6F0
-         TIDt67N1/7X/J2l7RH1ZuvUEZReIl/hasdFAkRkDhCRSihHzqvLuadXXN8mRfhbfxRlN
-         Rk9kKl7jSxRKZHh1i4LIADRC6tL6ME4GLN1opFcDhe9UT9n7HyQI+lbM6hdC3wyyfF/C
-         yHPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUspKy+3vPIcyUJCI0oZoZNwCOgSqrEu3c/ouEPW6fqpHZcUU0rZV3OkSoQNVXWg8oZJqicnGwx++N0We+fnoc8VxdUakjNguLPyOI=
-X-Gm-Message-State: AOJu0Yxsk8wDca1OVuiNrioyMXftwu0XwuB5wnXo3+6r1rOL4oYFN2Y/
-	7Z0Kw+TWaWmf8OL7hY7CqKzLu7RMeFkEUDV3+K3FevEeoKuiTdACwoWbxfA9O/77YTI9wg3oxnh
-	rtmN6pucuLKU6MLSd3hfIQGU4AnvB4QARMrBs
-X-Google-Smtp-Source: AGHT+IFnZAdqBNjychftax9hJ9HmWGsuFKJlToxmGxuKATUcrfF8Wqh8ADOKipJFMzVFEgjjXqwoqI01MVv3yIjrd3E=
-X-Received: by 2002:a17:906:f289:b0:a46:d978:bf02 with SMTP id
- gu9-20020a170906f28900b00a46d978bf02mr6594862ejb.34.1711999356578; Mon, 01
- Apr 2024 12:22:36 -0700 (PDT)
+	s=arc-20240116; t=1712004278; c=relaxed/simple;
+	bh=bL4teLe0Hxn4OoZTlllglladhAoyhaDDAizoBUOymoc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cg8MF2hTBOfM4RfSEfSTSWCNHvcvu8tpztGx5HtnDFfdQkxIHl4UG2c4YcCqths4T9uE/Zy8S1KD9Q497pAj4W0ZUZAR/y6fnOlv4nyyjDj7gnBFpUa+dsJ2OZHntDo1P5UWjX/ivFru89q17LtSFk/tIzZ3F9R9otnhVF6hbDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGyxEbvM; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712004276; x=1743540276;
+  h=date:from:to:cc:subject:message-id;
+  bh=bL4teLe0Hxn4OoZTlllglladhAoyhaDDAizoBUOymoc=;
+  b=oGyxEbvMB2JNDAlkhcWJ3jFvFkKiBBpjnGB6KBCMbMTXC6wbdsrJmMga
+   VYH/r33inmQCfewWDCl4gBRbOg5WaQsKbCLg+VoyuASgfENiZLK54qgjO
+   puaaAPMSx82j82eYQSpsTaqhgKDY6Sa3ZSvozbespc1yOPPmDR/OHLSHa
+   eW0/8RX7BT9wlpipuvHf77/Up21QcPIMTTCAQE+D1h1dj29xhW+h6HtUF
+   pzf7mIZ1GSr7hQWr7mr4fK3DINqiSkTiZ+Pbw2OJiMxmisUNp/NoPlX+R
+   Al5yx1v3cG5VVdSV4kt4YJTF6PhrLBJg2GP6pw6SYdYJaNvBI3AVKIsTW
+   g==;
+X-CSE-ConnectionGUID: ky7j941NRHSZfJvn2oJKHg==
+X-CSE-MsgGUID: ejqfYRemQUOmEvNVZc/Vqw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7336927"
+X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
+   d="scan'208";a="7336927"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 13:44:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
+   d="scan'208";a="49030027"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 01 Apr 2024 13:44:34 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rrOW2-0000bf-2O;
+	Mon, 01 Apr 2024 20:44:29 +0000
+Date: Tue, 02 Apr 2024 04:43:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ b82779648dfd3814df4e381f086326ec70fd791f
+Message-ID: <202404020430.SSHRpF0q-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com> <ZfegzB341oNc_Ocz@infradead.org>
- <CAHS8izOUi6qGp=LSQb_o5oph-EnhNOuhLkPSfbQRU3eniZvbdA@mail.gmail.com>
- <ZgC5JoSiWAYf3IgX@infradead.org> <CAHS8izO5-giYhM1bVCLLOXRXq-Xd0=pi0kPq5E1-R=3i=XihmQ@mail.gmail.com>
- <ZgUc07Szbx5x-obb@infradead.org>
-In-Reply-To: <ZgUc07Szbx5x-obb@infradead.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 1 Apr 2024 12:22:24 -0700
-Message-ID: <CAHS8izM8iLC9J1xSHScMrMkVyoY5HZ_nFMRO4V7HYarHhZhk6Q@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>, Marc Harvey <marcharvey@google.com>, 
-	"Cong Wang ." <cong.wang@bytedance.com>
-Cc: shakeel.butt@linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 28, 2024 at 12:31=E2=80=AFAM Christoph Hellwig <hch@infradead.o=
-rg> wrote:
->
-> On Tue, Mar 26, 2024 at 01:19:20PM -0700, Mina Almasry wrote:
-> >
-> > Are you envisioning that dmabuf support would be added to the block
-> > layer
->
-> Yes.
->
-> > (which I understand is part of the VFS and not driver specific),
->
-> The block layer isn't really the VFS, it's just another core stack
-> like the network stack.
->
-> > or as part of the specific storage driver (like nvme for example)? If
-> > we can add dmabuf support to the block layer itself that sounds
-> > awesome. We may then be able to do devmem TCP on all/most storage
-> > devices without having to modify each individual driver.
->
-> I suspect we'll still need to touch the drivers to understand it,
-> but hopefully all the main infrastructure can live in the block layer.
->
-> > In your estimation, is adding dmabuf support to the block layer
-> > something technically feasible & acceptable upstream? I notice you
-> > suggested it so I'm guessing yes to both, but I thought I'd confirm.
->
-> I think so, and I know there has been quite some interest to at least
-> pre-register userspace memory so that the iommu overhead can be
-> pre-loaded.  It also is a much better interface for Peer to Peer
-> transfers than what we currently have.
->
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: b82779648dfd3814df4e381f086326ec70fd791f  Merge tag 'v6.9-rc2' into media_stage
 
-I think this is positively thrilling news for me. I was worried that
-adding devmemTCP support to storage devices would involve using a
-non-dmabuf standard of buffer sharing like pci_p2pdma_
-(drivers/pci/p2pdma.c) and that would require messy changes to
-pci_p2pdma_ that would get nacked. Also it would require adding
-pci_p2pdma_ support to devmem TCP, which is a can of worms. If adding
-dma-buf support to storage devices is feasible and desirable, that's a
-much better approach IMO. (a) it will maybe work with devmem TCP
-without any changes needed on the netdev side of things and (b)
-dma-buf support may be generically useful and a good contribution even
-outside of devmem TCP.
+elapsed time: 725m
 
-I don't have a concrete user for devmem TCP for storage devices but
-the use case is very similar to GPU and I imagine the benefits in perf
-can be significant in some setups.
+configs tested: 180
+configs skipped: 3
 
-Christoph, if you have any hints or rough specific design in mind for
-how dma-buf support can be added to the block layer, please do let us
-know and we'll follow your hints to investigate. But I don't want to
-use up too much of your time. Marc and I can definitely read enough
-code to figure out how to do it ourselves :-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Marc, please review and consider this thread and work, this could be a
-good project for you and I. I imagine the work would be:
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240401   gcc  
+arc                   randconfig-002-20240401   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          pxa3xx_defconfig   clang
+arm                   randconfig-001-20240401   clang
+arm                   randconfig-002-20240401   clang
+arm                   randconfig-003-20240401   gcc  
+arm                   randconfig-004-20240401   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   clang
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240401   gcc  
+arm64                 randconfig-002-20240401   gcc  
+arm64                 randconfig-003-20240401   gcc  
+arm64                 randconfig-004-20240401   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240401   gcc  
+csky                  randconfig-002-20240401   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240401   clang
+hexagon               randconfig-002-20240401   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240401   gcc  
+i386         buildonly-randconfig-002-20240401   clang
+i386         buildonly-randconfig-003-20240401   clang
+i386         buildonly-randconfig-004-20240401   gcc  
+i386         buildonly-randconfig-005-20240401   gcc  
+i386         buildonly-randconfig-006-20240401   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240401   gcc  
+i386                  randconfig-002-20240401   gcc  
+i386                  randconfig-003-20240401   clang
+i386                  randconfig-004-20240401   clang
+i386                  randconfig-005-20240401   gcc  
+i386                  randconfig-006-20240401   gcc  
+i386                  randconfig-011-20240401   clang
+i386                  randconfig-012-20240401   clang
+i386                  randconfig-013-20240401   gcc  
+i386                  randconfig-014-20240401   gcc  
+i386                  randconfig-015-20240401   gcc  
+i386                  randconfig-016-20240401   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240401   gcc  
+loongarch             randconfig-002-20240401   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         amcore_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5208evb_defconfig   gcc  
+m68k                       m5475evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         db1xxx_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240401   gcc  
+nios2                 randconfig-002-20240401   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240401   gcc  
+parisc                randconfig-002-20240401   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                    ge_imp3a_defconfig   gcc  
+powerpc                   motionpro_defconfig   clang
+powerpc               randconfig-001-20240401   gcc  
+powerpc               randconfig-002-20240401   gcc  
+powerpc               randconfig-003-20240401   gcc  
+powerpc64             randconfig-001-20240401   gcc  
+powerpc64             randconfig-002-20240401   clang
+powerpc64             randconfig-003-20240401   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240401   clang
+riscv                 randconfig-002-20240401   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240401   gcc  
+s390                  randconfig-002-20240401   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          lboxre2_defconfig   gcc  
+sh                    randconfig-001-20240401   gcc  
+sh                    randconfig-002-20240401   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                           se7619_defconfig   gcc  
+sh                           se7750_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240401   gcc  
+sparc64               randconfig-002-20240401   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240401   gcc  
+um                    randconfig-002-20240401   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240401   clang
+x86_64       buildonly-randconfig-002-20240401   clang
+x86_64       buildonly-randconfig-003-20240401   gcc  
+x86_64       buildonly-randconfig-004-20240401   gcc  
+x86_64       buildonly-randconfig-005-20240401   gcc  
+x86_64       buildonly-randconfig-006-20240401   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240401   gcc  
+x86_64                randconfig-002-20240401   clang
+x86_64                randconfig-003-20240401   clang
+x86_64                randconfig-004-20240401   gcc  
+x86_64                randconfig-005-20240401   gcc  
+x86_64                randconfig-006-20240401   clang
+x86_64                randconfig-011-20240401   clang
+x86_64                randconfig-012-20240401   gcc  
+x86_64                randconfig-013-20240401   gcc  
+x86_64                randconfig-014-20240401   gcc  
+x86_64                randconfig-015-20240401   gcc  
+x86_64                randconfig-016-20240401   gcc  
+x86_64                randconfig-071-20240401   gcc  
+x86_64                randconfig-072-20240401   gcc  
+x86_64                randconfig-073-20240401   clang
+x86_64                randconfig-074-20240401   gcc  
+x86_64                randconfig-075-20240401   gcc  
+x86_64                randconfig-076-20240401   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                  cadence_csp_defconfig   gcc  
+xtensa                randconfig-001-20240401   gcc  
+xtensa                randconfig-002-20240401   gcc  
 
-1. Investigate how to add dma-buf support to the block layer (maybe
-write a prototype code, and maybe even test it with devmem TCP).
-2. Share a code or no-code proposal with netdev/fs/block layer mailing
-list and try to work through concerns/nacks.
-3. Finally share RFC through merging etc.
-
---
-Thanks,
-Mina
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
