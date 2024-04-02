@@ -1,157 +1,138 @@
-Return-Path: <linux-media+bounces-8433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D8B895B96
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459FF895BA3
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:22:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D883B22FB4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 18:19:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26BD0B22946
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 18:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45B3F15AD9D;
-	Tue,  2 Apr 2024 18:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5BBF15AD96;
+	Tue,  2 Apr 2024 18:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DWioxHIz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="We4EQh4e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D95815A48E;
-	Tue,  2 Apr 2024 18:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9633A15AD87
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 18:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712081952; cv=none; b=QyrdSA/qA8ueFNTMzl3LNcX/08G6n2oBStehJaZHjEm6GB9s1eiIrcbCyYba1OvBrsX6zYTszp6jv4OiByzcyJ+AjOn147omGeQ0mtfewHYvFb529ZKsG/SVEb+3oXhXX0I/rjjSqVta9i6TvLI2SNYV+JKj+W6X7rJm2fQO2C8=
+	t=1712082143; cv=none; b=CP6H3ZEDMOeBtzrXUMOliXvb6/DbKn7Fzs1xyMtYe9P/LblvZwqyEeIwLIiJAE+5v8Ah/bo46afvUckDvh/O3NJSHK7zGkG+29ji3xZN68jBlFx3ekLVZJhtgTbEDc4NhCLoHPBgQjj+zhCfJ7NMd5hj6scifwTLWeuguhr6Bfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712081952; c=relaxed/simple;
-	bh=/w9MXgdMTxNQv40FLtRjoR1zTdQmpxiXVE83MAo9+yE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hCd5+7sJTMvZPXS/W3oFNDIi4V3cdGJnK+RtDAL53EueTK45IMluqcSSKdvJKyxAN+zebIMyt/g+UMl+v+wXfrxxFuIqjE2tXpIYL43EpVD7BQzcOyjvUlBbxjbDVJQyWdXKVVmXP2Y/F+L239Mpz6C3J5fprSUzyEMiNpZwggE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DWioxHIz; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.64.232.220] (unknown [20.29.225.195])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 44D9220E8BDC;
-	Tue,  2 Apr 2024 11:19:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 44D9220E8BDC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1712081945;
-	bh=6CxfCTy2hvljG0KtnNfE1+yaCZUecQ3XXshhsgNm9Uw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DWioxHIzgS3pFY1uvHRovezlPv1RdDLcO2IT9/uxBMLrPIYLmaifrAV+YozRfQao5
-	 rn7ZeC4782fWxJ68W1tiLG19p3MAqbIzFdJeAEkZWoLgMwgJMeelbVPX1Afg8R8m6u
-	 UVRz1yN/74Ux892MYhIq1XY0LntOnyafVlWsWEQ4=
-Message-ID: <75428d6c-c40a-43d8-84e3-f9ed161c37e2@linux.microsoft.com>
-Date: Tue, 2 Apr 2024 11:19:03 -0700
+	s=arc-20240116; t=1712082143; c=relaxed/simple;
+	bh=ia/tbJPIdeMfQ6ZZ+vaPcpfh03Y3DgIKVILN8aSZC/Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EtyvCnq7muRrt0V9tU8z8Lx9SjlV7iH4zRzFp6a0TfofIATkIT10EhK515VatI8ayFX4fRQ3SJfPmdUb4KJkbpL+Dk6yMn5EuRoh3cdv1rCJ3sJprbk62jwjWvG7/SMkQ1zBOXmYJAOhP1fvW/qublAlj+/mnI+XIckNbuy7q0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=We4EQh4e; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so5157806276.1
+        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 11:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712082140; x=1712686940; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ia/tbJPIdeMfQ6ZZ+vaPcpfh03Y3DgIKVILN8aSZC/Q=;
+        b=We4EQh4eguiKpHCZWFtXm69RFK03D7ckY3/FL2PvAlfz9SQM8yMtZagu/KWJd1hJJ0
+         de7ir0uW3loDfgerolQzzu6Djfz3NkOVtihoM1bQ0WspU2tsDSftrPcC0tTRvO+iLJqp
+         XJw88vIfdWibCfLfONx4ACReTQsje12kjoNvZZCFhYSWhFxuFfkVrLITwPNK11drV3mU
+         66eyPTvqk/Zv5F1yTvf2+FlmT7jmc3GUBDvxtj+t6dyre87ICit72iGelIbF3EV58xY4
+         FAXGk5viKqEzWlKkfoFM1JAOJ3gtGGKqBYDadPqQXQRVFZU+Ay68AraJukHpNkW6/SGk
+         4COg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712082140; x=1712686940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ia/tbJPIdeMfQ6ZZ+vaPcpfh03Y3DgIKVILN8aSZC/Q=;
+        b=a/2BowNSfjJxJN4Bac0bIoiGLSvb0q/xA2nV2t2qgncUfvhMwXY7jnSYxxs3mj0n0a
+         Q2TjDqLcXQYkDh1KYYxHNNyMJYoMkzl5WzYCKl+XvZvPKBlkbSRd1qfTkQZv0d+XxKt0
+         dT/LKPTn/NmqtnDaDeBjHhvVBOYI6gxU+C1ozhBYQI3DNLZa8EehQXDs26fuLCTULMfX
+         PlXkfWZpXOrIbr2iumgV2+qHU83zaXlyDrCshLxLOyqbFr/eXyvaOX3BhfcOv7La4TIj
+         IYPpO9X3LwjA9QhfMzHYpU6GzTSk+RCRewMxPx4TD66P2ayiJ1uV75Q5WSX3NOeD4kPo
+         vTeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Xx28VZUpfIz+Se9OwAmNCGNAgVS7JyFEjloO6FvFvmZO7W0emnQUySZ/JbEfjJQsF7dCRk7xVWxFHB2dUTOfIukcZijVuyodxNQ=
+X-Gm-Message-State: AOJu0YyQIbG8HuAzFwzmzkPO5c47TqM+R0H1p7/8rNQDJ5czo1kPHDYY
+	nyNpU1foHKoCpcAnpNlJO7iJDgnEKJqwxI17aHyuSoV2LA3OmwxHnZgQeaDt6LQghzQccEY9Og0
+	7BrijSWiGrIk2sqIa6CXKPzJn7HUj/MGHSrY4
+X-Google-Smtp-Source: AGHT+IELVyAijo8pj3GcLmB3cCFiU9WkTzB0n0l7/6pGqPaQ1F3PpSSJA0zcslPbroERdF7pfvQPJq16K7fY/gzJvBE=
+X-Received: by 2002:a25:ad12:0:b0:dc2:466a:23bd with SMTP id
+ y18-20020a25ad12000000b00dc2466a23bdmr11110164ybi.54.1712082140449; Tue, 02
+ Apr 2024 11:22:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 03/14] drm/gma500,drm/i915: Make I2C terminology more
- inclusive
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Zhenyu Wang
- <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-4-eahariha@linux.microsoft.com>
- <87a5mcfbms.fsf@intel.com>
- <7d5e6ed0-ffe9-46c2-b3b4-a4a47c09532e@linux.microsoft.com>
- <87ttkjesx8.fsf@intel.com>
- <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
- <87o7aremfz.fsf@intel.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <87o7aremfz.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240327022903.776-1-justinjiang@vivo.com> <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
+ <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com> <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+In-Reply-To: <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 2 Apr 2024 11:22:08 -0700
+Message-ID: <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: zhiguojiang <justinjiang@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	opensource.kernel@vivo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/2/2024 9:52 AM, Jani Nikula wrote:
-> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->> On 4/2/2024 7:32 AM, Jani Nikula wrote:
->>> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>> On 4/2/2024 12:48 AM, Jani Nikula wrote:
->>>>> On Fri, 29 Mar 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>>>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->>>>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>>>> in the specification.
->>>>>
->>>>> gma500 and i915 changes should be split. See MAINTAINERS.
->>>>>
->>>>> Might also split the i915 changes to smaller pieces, it's kind of
->>>>> random. And the changes here are not strictly related to I2C AFAICT, so
->>>>> the commit message should be updated.
->>>>>
->>>>> BR,
->>>>> Jani.
->>>>>
->>>>>
->>>>
->>>> <snip>
->>>>
->>>> I will split gma500 and i915 into their respective patches if possible in v2.
->>>>
->>>> Can you say more about the changes being "not strictly related to I2C"? My
->>>> heuristic was to grep for master/slave, and look in the surrounding context for
->>>> i2c-related terminology (i2c_pin, 7-bit address, struct i2c_adapter, i2c_bus, etc)
->>>> to confirm that they are i2c-related, then following the references around to
->>>> make the compiler happy. For e.g., I did not change the many references to bigjoiner
->>>> master and slave because I understood from context they were not i2c references.
->>>>
->>>> A couple examples would help me restrict the changes to I2C, since as mentioned in the
->>>> discussion on Wolfram's thread, there are places where migrating away from master/slave
->>>> terms in the code would conflict with the original technical manuals and reduce correlation
->>>> and understanding of the code.
->>>
->>> I guess I was looking at the VBT changes in intel_bios.c. Granted, they
->>> do end up being used as i2c addresses. No big deal.
->>>
->>> I think I'd expect the treewide i2c adapter changes to land first, via
->>> i2c, and subsequent cleanups to happen next, via individual driver
->>> trees. There's quite a bit of conflict potential merging this outside of
->>> drm-intel-next, and there's really no need for that.
->>>
->>> BR,
->>> Jani.
->>>
->>
->> Great! Just so I'm clear, do you still want the i915 changes split up more, along with them being
->> split off from gma500?
-> 
-> If we can merge the i915 changes via drm-intel-next, it's probably fine
-> as a big i915 patch. Just the gma500 separated. (The struct
-> i2c_algorithm change etc. necessarily has to go via I2C tree of course.)
-> 
-> BR,
-> Jani.
-> 
+On Tue, Apr 2, 2024 at 1:08=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Am 02.04.24 um 08:49 schrieb zhiguojiang:
+> >> As far as I can see that's not because of the DMA-buf code, but
+> >> because you are somehow using this interface incorrectly.
+> >>
+> >> When dma_buf_poll() is called it is mandatory for the caller to hold
+> >> a reference to the file descriptor on which the poll operation is
+> >> executed.
+> >>
+> >> So adding code like "if (!file_count(file))" in the beginning of
+> >> dma_buf_poll() is certainly broken.
+> >>
+> >> My best guess is that you have some unbalanced
+> >> dma_buf_get()/dma_buf_put() somewhere instead.
+> >>
+> >>
+> > Hi Christian,
+> >
+> > The kernel dma_buf_poll() code shound not cause system crashes due to
+> > the user mode usage logical issues ?
+>
+> What user mode logical issues are you talking about? Closing a file
+> while polling on it is perfectly valid.
+>
+> dma_buf_poll() is called by the filesystem layer and it's the filesystem
+> layer which should make sure that a file can't be closed while polling
+> for an event.
+>
+> If that doesn't work then you have stumbled over a massive bug in the fs
+> layer. And I have some doubts that this is actually the case.
+>
+> What is more likely is that some driver messes up the reference count
+> and because of this you see an UAF.
+>
+> Anyway as far as I can see the DMA-buf code is correct regarding this.
+>
+> Regards,
+> Christian.
 
-Got it. I'll send the split out in v1 (not v2 as mentioned earlier) since this is v0.
+I tried to reproduce this problem but I couldn't. What I see is a ref
+get taken when poll is first called. So subsequently closing the fd in
+userspace while it's being polled doesn't take the refcount all the
+way to 0. That happens when dma_buf_poll_cb fires, either due to an
+event or when the fd is closed upon timeout.
 
-Thanks,
-Easwar
-
+I don't really see how this could be triggered from userspace so I am
+also suspicious of dma_buf_get/put.
 
