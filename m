@@ -1,151 +1,155 @@
-Return-Path: <linux-media+bounces-8357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DB3894E18
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:59:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54237894E24
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 11:00:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30289B22FFA
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:59:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D6F7B23FFF
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 09:00:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE2651C4A;
-	Tue,  2 Apr 2024 08:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD38456B8C;
+	Tue,  2 Apr 2024 09:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="G202nPmq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qp9OqSaH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8924F217
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 08:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8FE17C7C;
+	Tue,  2 Apr 2024 09:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712048340; cv=none; b=oYMGnnmjCYj6iRQe/jpj0eQ1a0860vqu/gjU9bL3+hyHJYRp8KSJCAzkEPh7y5mNlI0CLcpfAQJCf8aqB4odpLMWdadyOSXiiCNLr/uazHMPDrbPJl+Cpfh9weoMOOfzjyODa8HhokLX3keddDD/PwRiZelbvFMrcQed6UpGexg=
+	t=1712048434; cv=none; b=LvL6sZzrhoaxmwLgBE24upsDIZtNGHhr0/ldGJWiqcL8JAIl2/Vv88aaunQ+ZBtaSTBQvu1DaBX3tacgHiQIDpbBIb6SMJ7l6E08ZXRNfO1jB/GGVu/wI0Z0Xok6Txd+Px2dUNasEdlqTK7jCdNpTTbLe+ynnDx5yjCpTB/Bn8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712048340; c=relaxed/simple;
-	bh=HNm6Lh879crSqV0ZGzaJmrt3ssAvgX20Rq/oXJRJF9c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ta2kf/arxFNJEq/qOk894Yja/UhJrB3QCf/PQ8t8iqjv7oG4LmDheL17AwlYkXVc22ZAv3RnYEXXB4Mn/kxn9czif4X0QE9TjjVZdt99ykIJbjOoxvEYJJWxsojzEpCvu8t1LVNWCxyeiUjtrirBQTpt7sLYcpodBkA3qkDcduo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=G202nPmq; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d476d7972aso70755421fa.1
-        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 01:58:58 -0700 (PDT)
+	s=arc-20240116; t=1712048434; c=relaxed/simple;
+	bh=eL1PiuC+OxtsN6+5kmmUfS/ddM6OPqhmPRBb17Qn1mo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nWFZNCDhOnS0sS79rSN4JPtIw7lhaEd/X9y9f8QukWoiQud15m0gW6I46lE5mI2wbYYUai1K73VlH+HFCi95A/wNf3gM47irkDzyYub6rs9VXPZ8J6qAO7V6mHCJEkUjIAArvvQ4x743mcbEWNt33ZBE2waz9X/wJ67Rv6YXuuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qp9OqSaH; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41568096c4aso9815115e9.0;
+        Tue, 02 Apr 2024 02:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712048337; x=1712653137; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+EQziKXdKEAMdx/dPCGDP7jmLVDHvzi4KCtf8hrHXHs=;
-        b=G202nPmq3BLahFpIpsyBtxc0Pe2+9I2BcQONef2a3bgNkiBlgjsCZJ2cZkpstvoeLS
-         528rrTC6yUBa/gd8930W/PWBbGH3ps0xN0Lvn3ta6QLfjTmKdDK51rLvjT+mBqQdBjGF
-         axw+CumeE7Bhkud2qcXP6aU7SgnRKr4zqco/7mmGteybc8mofF74j7eCy4MlEjN/ssQV
-         HOmdB+2zY3P/viMU3n8kalzI131B+tibh+JZi7COXR/3Nn8U4/bXyw6uGNG/xSy16Srw
-         UUckBu+4ufvwMKgOqOa1lCR2tEtMI9YiaVRYblXRiT5m1RFvZ+KR7im58F6JdYdce+Ys
-         nUvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712048337; x=1712653137;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1712048431; x=1712653231; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+EQziKXdKEAMdx/dPCGDP7jmLVDHvzi4KCtf8hrHXHs=;
-        b=O88nd8gYFd7EKf0Tre9gqh+neIJ+f4PWSFBUjvPBfZSdzcPFtImREmd8T2jCScQ/Ex
-         bM+IUnbbpNfdeFwV7kXnPQ4og5OUfEwimG2P/siD6XfdhOSQ9KMaywRbaWae1Oh2PSnC
-         9QLawh7wlqOgFcGX2V8dCfO05YxwzwDGOqoV9jy/j12lBtg0BUQIuzYiZvoKCdhnqXhb
-         NTqIrglZlq+YxWCzkRwxj/7/K/kru2ORz82T3w1BoDc1dXkUPYaBmU4lPD3SA2YC6iFv
-         WKDGyHmKaXla4pusjRgrW+0zMIn4u2MBAupkQHcNCFt/CsO+de4v/hfz4APwm1n6q9gR
-         RnUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWETadtIf8hkeUXUG+ppxaSkGenkRt4Zim76oCCJxEjaa7XxeOomCiLg2cdAvTBaePcTQhwOdxkEoUJ8QrPiOehHFFzkXrm94njVdQ=
-X-Gm-Message-State: AOJu0YwWHntf2TC0M8Bu98oAQy2GxUgFijVv8DMjeR+APlc+CBIns1yC
-	6l/LrIKSpAVuKZwrmCBjscVQEy4CxykgkIumeo0n1Ik0x1TDksMk+qPFB8CpM2N0C2Z5phSIQ4n
-	AtHvwOrqQAdlKijztlWaG5gufgUJh4LcrIGQ+gw==
-X-Google-Smtp-Source: AGHT+IHgVoVAQjY0SVm1Am+geVCD8kGxkvgjD4vTaFUHh5+1OWnpBP+5APV4hCgBud/LOc79OuLkSI2vz2dPlk4j4wE=
-X-Received: by 2002:a2e:8699:0:b0:2d4:6815:fc6f with SMTP id
- l25-20020a2e8699000000b002d46815fc6fmr7057550lji.30.1712048337278; Tue, 02
- Apr 2024 01:58:57 -0700 (PDT)
+        bh=S7HP43l12eov1KUoh9mzxUyEYfgWNMnEq1EVajRpXoI=;
+        b=Qp9OqSaHyxdnx5Nn4yKbDWyqbqKRlqe60Udo5gEMOunhoZAWFoGpQcdVvpDiGRsRON
+         /LHR+o3ujfPQkG/cm0EXm17JIqjTFBWRiQ728dZ4SMVQPxeMCOePw5Wu33gqNYJBL4Qy
+         4mfI/m4MfO8HRgciDR1+9Wxl7RaIR+ts4nmz8xjtSTBz51A6i9DWSCoPJc2OABO6nWjO
+         3kJZyNa0//m7Ilc9WF6diIZAIn1roBO0wKay6KN67oqjEUtWtWeiCffxyTk1H0G5scxu
+         hw1TaTGn+jlmKTth0vjHwHtjdz47cYbWEp5NwbkISF/TK+0DnAIinELyyCWKkeQcX1G4
+         ning==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712048431; x=1712653231;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S7HP43l12eov1KUoh9mzxUyEYfgWNMnEq1EVajRpXoI=;
+        b=R4Q86+dQkZGLI9xNEsDy1/OT2a5/m1JE47Ie7rvoznVTLaJqBb23R1E3tlXNctPtUq
+         twrU/JbrnAZ4G2Gb29kAw40CvtlhdK1/Us8Tk6mTzS+kcZBciFii1VhPE0Nr4QQitnBP
+         Ws3m3/R5pyfOq2Iyw1TNZe5b7fdx73UnjDAaYmlhXQbvVwGdXtPiBT5LjDgjGnakDhX1
+         Rj4L9kF1J1LhCXn66cZGkRPwtEyCgksZ2b4eVtuYX7T2bo6ohSv74E0TasnOs9Sc3rZj
+         rzTvHDBvi55LAAhEWdHlTF/xe+mUrc+HD5zPJ6H6la3PwDu8NRw+Bm//pd6Iz2OXaHNP
+         bIYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyBhfBB7doqy1ibeuoF6oEP64WvaE5kmUtndI3nnxhp1gOQOCBeMfz7z9n2y182/V62PT2XRPgb/Mltks94FtFXPswg5ttacMzDIszjneMVz6CZaAHul7PCzjGxJwAi41cXkncUdALjmPL1CiWVmaRGF3HsUb0Z1ro1bxhP35RsopfS1a3T1QWu4iM3qVhZwDJ4T/mRaCsAgWyyEa7D0u/5fdu48a2r2c5Y2qB1m9+9vBH/fjbx8saxg==
+X-Gm-Message-State: AOJu0YyMPVZOmr35b1JqPQVufzXd0r56exbSFGKfXqtGHnEooyvzKFJd
+	LDJwQHQa5zz2G21al44b1oSqBYX+1YhY+DJVPh0BgiiucnqPmBcR
+X-Google-Smtp-Source: AGHT+IG8frznok1aF9okpQQTY2pR3XWd8JzFp2tX7BIUva1VqLJJmQZ3+crxPhY7ojqin4XV81Hf4w==
+X-Received: by 2002:a05:6000:1143:b0:33d:b2d6:b3a6 with SMTP id d3-20020a056000114300b0033db2d6b3a6mr7466595wrx.48.1712048430463;
+        Tue, 02 Apr 2024 02:00:30 -0700 (PDT)
+Received: from localhost ([81.168.73.77])
+        by smtp.gmail.com with ESMTPSA id l2-20020adff482000000b0033ec312cd8asm13554997wro.33.2024.04.02.02.00.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 02:00:29 -0700 (PDT)
+Date: Tue, 2 Apr 2024 10:00:28 +0100
+From: Martin Habets <habetsm.xilinx@gmail.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Edward Cree <ecree.xilinx@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
+	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
+	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
+	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
+Message-ID: <20240402090028.GA1759653@gmail.com>
+Mail-Followup-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Edward Cree <ecree.xilinx@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
+	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
+	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
+	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <20240329170038.3863998-11-eahariha@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240401030052.2887845-1-tzungbi@kernel.org> <20240401030052.2887845-3-tzungbi@kernel.org>
-In-Reply-To: <20240401030052.2887845-3-tzungbi@kernel.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 2 Apr 2024 10:58:46 +0200
-Message-ID: <CAMRc=Md+v=zWGa=pYUzKkBMipJj_NgYW08XTfvdCFyErOVdvYw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] gpio: cros-ec: provide ID table for avoiding
- fallback match
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org, 
-	hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org, 
-	chrome-platform@lists.linux.dev, pmalani@chromium.org, 
-	linux-gpio@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pm@vger.kernel.org, krzk@kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240329170038.3863998-11-eahariha@linux.microsoft.com>
 
-On Mon, Apr 1, 2024 at 5:01=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> Instead of using fallback driver name match, provide ID table[1] for the
-> primary match.  Also allow automatic module loading by adding
-> MODULE_DEVICE_TABLE().
->
-> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c=
-#L1353
->
-> Reviewed-by: Benson Leung <bleung@chromium.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
+> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+> with more appropriate terms. Inspired by and following on to Wolfram's
+> series to fix drivers/i2c/[1], fix the terminology for users of
+> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+> in the specification.
+> 
+> Compile tested, no functionality changes intended
+> 
+> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+
+Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
+
 > ---
-> Changes from v1:
-> - No code changes.
-> - Add R-b tags.
->
->  drivers/gpio/gpio-cros-ec.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/gpio/gpio-cros-ec.c b/drivers/gpio/gpio-cros-ec.c
-> index 842e1c060414..0c09bb54dc0c 100644
-> --- a/drivers/gpio/gpio-cros-ec.c
-> +++ b/drivers/gpio/gpio-cros-ec.c
-> @@ -12,6 +12,7 @@
->  #include <linux/errno.h>
->  #include <linux/gpio/driver.h>
->  #include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_ec_proto.h>
-> @@ -197,11 +198,18 @@ static int cros_ec_gpio_probe(struct platform_devic=
-e *pdev)
->         return devm_gpiochip_add_data(dev, gc, cros_ec);
->  }
->
-> +static const struct platform_device_id cros_ec_gpio_id[] =3D {
-> +       { "cros-ec-gpio", 0 },
-> +       {}
-> +};
-> +MODULE_DEVICE_TABLE(platform, cros_ec_gpio_id);
-> +
->  static struct platform_driver cros_ec_gpio_driver =3D {
->         .probe =3D cros_ec_gpio_probe,
->         .driver =3D {
->                 .name =3D "cros-ec-gpio",
->         },
-> +       .id_table =3D cros_ec_gpio_id,
+>  drivers/net/ethernet/sfc/falcon/falcon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/sfc/falcon/falcon.c b/drivers/net/ethernet/sfc/falcon/falcon.c
+> index 7a1c9337081b..147e7c8e3c02 100644
+> --- a/drivers/net/ethernet/sfc/falcon/falcon.c
+> +++ b/drivers/net/ethernet/sfc/falcon/falcon.c
+> @@ -367,7 +367,7 @@ static const struct i2c_algo_bit_data falcon_i2c_bit_operations = {
+>  	.getsda		= falcon_getsda,
+>  	.getscl		= falcon_getscl,
+>  	.udelay		= 5,
+> -	/* Wait up to 50 ms for slave to let us pull SCL high */
+> +	/* Wait up to 50 ms for client to let us pull SCL high */
+>  	.timeout	= DIV_ROUND_UP(HZ, 20),
 >  };
->  module_platform_driver(cros_ec_gpio_driver);
->
-> --
-> 2.44.0.478.gd926399ef9-goog
->
-
-Applied, thanks!
-
-Bart
+>  
+> -- 
+> 2.34.1
+> 
 
