@@ -1,207 +1,214 @@
-Return-Path: <linux-media+bounces-8388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B3689526A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 14:05:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 307AB895295
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 14:10:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E47C01F210FF
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 12:05:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53CAC1C22333
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 12:10:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20C674C1D;
-	Tue,  2 Apr 2024 12:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C8AB7EEE4;
+	Tue,  2 Apr 2024 12:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjsZUGY8"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hy8FKegc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C146A03F;
-	Tue,  2 Apr 2024 12:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D08074BF4
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 12:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712059546; cv=none; b=LcCPiPQ+rFbhh2hOPu3jSDyVtw69yC7JsyL16BI2pGze8bKDJFGaY0ry5pHT8sW3A/iix4z3gtxilEwRj3y2xXgNiqEvZ8pbOvuR0Osstg2iI/Z3g1tUnrwfHx06hxuLiZdQullgt7a/PthMt2YBcSPYuIIQFUQ52dsCW6Gsy+8=
+	t=1712059773; cv=none; b=r5CUhOYriUwvY0B5/Jr/x6vyNhgCUpb2Odq2/Yq5X66U666YvHMI4/jKzr0hSizd06uhcU+rwOs9oKIJN0sLmR3FoB2BoObphWQsbMYO2w57fPGURAVB6gbSsr0VjPmonBGF3O4kPsjr5AgqfxfyolNY3lrHj51qmRwG5QiBkg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712059546; c=relaxed/simple;
-	bh=MXiVFYglo9a0lD9FKrDzt81eVpAoIVBb8XbGizouSO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NK+ZlCRJlvTbB/jF5rdaKYooaggJhrvbO+mLKSQh5I3v+lfls+qTi6VPdbaflXKJH5d6W8IAclNiXXXv165L+bWwIki91Cs3Uxs3xl8jXCWDi9B/07d2Wt75zkCRHmlrWkBK5PIRqkB7WdoTNXB9Wg5I2XnGQ8I58nOMpnkMLJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjsZUGY8; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712059544; x=1743595544;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MXiVFYglo9a0lD9FKrDzt81eVpAoIVBb8XbGizouSO8=;
-  b=RjsZUGY8o6TvgsDc7NBw4opXFD1mtBi/05WbCXi9cXMp/dxR16C00aoB
-   Qh/A/MTo3msHJZcwbNcCTD3lb/JOjRtP3TQUQ9fdY3aOWRpW0PPKY0Pj+
-   9NQ3L1Mv1FAVQEF26CD+ELVUG+zUVcqS/GRM2wpZvxhtid3mqLVxS9SVH
-   l1tOYNGRZJzNaSqWsn2p+a3vid8pmdlRCr33broGiViL9Wijxug1bC2qv
-   uMMDqsok8ncst0ezHrPI7JkNxMmQ1L3Bby9icYQsHB012hodKXkoHEcoD
-   B1KjskB0lnTGl3EF7LLX6ZU9j1WI5D7eRXhdGOE3OlcnZWC2xEbY6gdgc
-   w==;
-X-CSE-ConnectionGUID: qxYzjyWuRcSxvbrp3G4wfw==
-X-CSE-MsgGUID: VgNhC7nKQ9KgmoMD467Tdg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="11006953"
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="11006953"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 05:05:44 -0700
-X-CSE-ConnectionGUID: Rac8rd8oRVaoEqPtjk3EWw==
-X-CSE-MsgGUID: iPTZEnUQS1O+zDo6e91svw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
-   d="scan'208";a="17951367"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 05:05:42 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 24C42120352;
-	Tue,  2 Apr 2024 15:05:39 +0300 (EEST)
-Date: Tue, 2 Apr 2024 12:05:39 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
- single-pad subdevs
-Message-ID: <Zgv0k01IQOFaMdSZ@kekkonen.localdomain>
-References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
- <20240325125055.GC23988@pendragon.ideasonboard.com>
- <ZgF10EVLrfF7cl57@kekkonen.localdomain>
- <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
- <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
- <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
- <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
- <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
- <ZgQf_LX1ohYykGjv@kekkonen.localdomain>
- <a338c5a0-3239-4fb1-9af1-a127bcef366a@ideasonboard.com>
+	s=arc-20240116; t=1712059773; c=relaxed/simple;
+	bh=ahRMcLkjFExP99f5A5yoUFbXddpWpyopk22CXBLQ9xI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=B7ZvqMDCzkfps5Vm/UyHQv2V7wxrzBgwkhxtvYjQQzdvOH7XJJCMUH6dcBRDrIDYI2rCtgNOMz/hE1jr6X1f/vR6LfbhTssWboImUAmWJwEnRonpV2awxrfzwb7mf8LvtueVPWRxquQG1FI32jvlA79KJ1zIQx1mQ9g/BCEd5Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hy8FKegc; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e695470280so2919835a34.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 05:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1712059770; x=1712664570; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5rFxrXL2P+kdAdamW3tYXEeRPfGn55Rv8VJMgZBhXg=;
+        b=hy8FKegcCoCS4rcGDmq2D7ojkfRcfgHQs+ZMiLSxXUzOfx2U8Lububh1Mg/tCE01Sf
+         CLtrM+4VK7EA0dRtpJs9S2Gvdz/pSNI2rJqkI8EbZTL2ZMkTaFraKB+Kevu9wJEXDv+8
+         A5bNSViI1jesLx4cieOVHefUL4fakz0zauMxQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712059770; x=1712664570;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j5rFxrXL2P+kdAdamW3tYXEeRPfGn55Rv8VJMgZBhXg=;
+        b=FJN2eoBztxn3XLtwNfFVxs40GJz/qSXMxJAbz/yOh8pH98ff2yCutWiMoiuFlM+Sgi
+         E3+Pxv64allO9Sp6qpe4iizLi5eRHIFFYjvWCjy/xK2VEDSxhsNcfZA79a2UfwRETazr
+         kv7VAunVp7e7D9XnZtmqh6d6dcPsXmcNRj4cP9/6XNPpC1ovDdYpAQ0cVcdMKoFD5Jn6
+         FgwwTvJcb12jfY5LLiXnkXhUU3uJp4paotFzs05bpz12weChKKzxXyLtt4oy+mkVDSDp
+         dT0NoQUbVzzNbo18C41Bkz6cn+rXDmnHP4Jsf1DGRwT1og97crSZYXDyDAPsE5tUdp9H
+         Q81A==
+X-Forwarded-Encrypted: i=1; AJvYcCX+tG2p+66U1isQj2g7m4Vn1Z/3V0Z3hp+qJVbeOIGlcxQcnu5aDszd87V/HIXv8M9km5K/PmA36lwlfFmVDwD3bS/Z8vqFRRzDAFE=
+X-Gm-Message-State: AOJu0YyB0awoBFT3ygNeNF/vQOaE3Bfugo9440YKQmBe+ZhYvzY/UXUp
+	nV06f8xxwFu/aAP8NPKVBTMjSZjgraojkDWOCB7FmTRsV1gh36xP5cfZRmvEGQ==
+X-Google-Smtp-Source: AGHT+IF0N+GkNk9od58Bnsg5BIymhK0X9MmZ/yo2fBafw081AKnRmBo1/1M9LLtSJyRF5cVRDTdOsA==
+X-Received: by 2002:a9d:6c8f:0:b0:6e6:c811:4891 with SMTP id c15-20020a9d6c8f000000b006e6c8114891mr13403540otr.29.1712059770483;
+        Tue, 02 Apr 2024 05:09:30 -0700 (PDT)
+Received: from denia.c.googlers.com (188.173.86.34.bc.googleusercontent.com. [34.86.173.188])
+        by smtp.gmail.com with ESMTPSA id r9-20020a056214124900b00698f0a22f5csm4396702qvv.130.2024.04.02.05.09.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 05:09:30 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 02 Apr 2024 12:09:29 +0000
+Subject: [PATCH v5] media: ucvideo: Add quirk for Logitech Rally Bar
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a338c5a0-3239-4fb1-9af1-a127bcef366a@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240402-rallybar-v5-1-7bdd0fbc51f7@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAHj1C2YC/3XMwQrCMAzG8VeRnq00WVo3T76HeMi66ArqpNPhG
+ Ht3O0EYMo9fyO8/qFZikFbtVoOK0oU2NLc07HqlfM23s+hQpa3QYAaIqCNfLn3JUUPhxXhHlRW
+ n0vs9yim8PqnDMe06tI8m9p9yB9N1IdKBBp1jiUxVBsad9r6OzTU8r5smntXU6fCfxWRtTkXlk
+ AsLtGCzryUDZm6zZA2XUGy9EDMuWJrbfGYpWd6SNY5ACMofO47jG+LFC/dXAQAA
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, stable@vger.kernel.org, 
+ Oliver Neukum <oneukum@suse.com>, Devinder Khroad <dkhroad@logitech.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-On Wed, Mar 27, 2024 at 03:39:31PM +0200, Tomi Valkeinen wrote:
-> On 27/03/2024 15:32, Sakari Ailus wrote:
-> > Heissulivei,
-> > 
-> > On Wed, Mar 27, 2024 at 01:06:42PM +0200, Tomi Valkeinen wrote:
-> > > On 27/03/2024 12:46, Sakari Ailus wrote:
-> > > > Heippa,
-> > > > 
-> > > > On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
-> > > > > On 25/03/2024 19:52, Sakari Ailus wrote:
-> > > > > > Moi,
-> > > > > > 
-> > > > > > On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
-> > > > > > > On 25/03/2024 15:02, Sakari Ailus wrote:
-> > > > > > > > Moi,
-> > > > > > > > 
-> > > > > > > > Thanks for the patch.
-> > > > > > > > 
-> > > > > > > > On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
-> > > > > > > > > Hi Tomi,
-> > > > > > > > > 
-> > > > > > > > > On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
-> > > > > > > > > > Currently a subdevice with a single pad, e.g. a sensor subdevice, must
-> > > > > > > > > > use the v4l2_subdev_video_ops.s_stream op, instead of
-> > > > > > > > > > v4l2_subdev_pad_ops.enable/disable_streams. This is because the
-> > > > > > > > > > enable/disable_streams machinery requires a routing table which a subdev
-> > > > > > > > > > cannot have with a single pad.
-> > > > > > > > > > 
-> > > > > > > > > > Implement enable/disable_streams support for these single-pad subdevices
-> > > > > > > > > > by assuming an implicit stream 0 when the subdevice has only one pad.
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > > > > > > > ---
-> > > > > > > > > > Even though I did send this patch, I'm not sure if this is necessary.
-> > > > > > > > > > s_stream works fine for the subdevs with a single pad. With the upcoming
-> > > > > > > > > > internal pads, adding an internal pad to the subdev will create a
-> > > > > > > > > > routing table, and enable/disable_streams would get "fixed" that way.
-> > > > > > > > 
-> > > > > > > > I'd like to get rid of a redundant way to control streaming.
-> > > > > > > 
-> > > > > > > We can't get rid of it anyway, can we? We're not going to convert old
-> > > > > > > drivers to streams.
-> > > > > > 
-> > > > > > I'd expect to do that but it'd take a long time. That being said, I think
-> > > > > > we need to consider devices without pads (VCMs) so it may well be this
-> > > > > > would remain after all.
-> > > > > > 
-> > > > > > > 
-> > > > > > > For new drivers, yes, we shouldn't use s_stream. But is the answer for new
-> > > > > > > sensor drivers this patch, or requiring an internal pad?
-> > > > > > 
-> > > > > > For new drivers I'd like to see an internal pad in fact.
-> > > > > > {enable,disable}_streams is still internal to the kernel.
-> > > > > 
-> > > > > So, you think this patch should be dropped?
-> > > > 
-> > > > No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
-> > > 
-> > > Hmm, alright. So we want to support enable/disable_streams for sub-devices
-> > > with multiple source pads but no routing (so probably no sink pads)?
-> > 
-> > That should be allowed indeed, in order to move from s_stream() to
-> > {enable,disable}_streams().
-> > 
-> > > 
-> > > > > > > > > > So perhaps the question is, do we want to support single-pad subdevs in
-> > > > > > > > > > the future, in which case something like this patch is necessary, or
-> > > > > > > > > > will all modern source subdev drivers have internal pads, in which
-> > > > > > > > > > case this is not needed...
-> > > > > > > > > 
-> > > > > > > > > I think the latter would be best. I however can't guarantee we won't
-> > > > > > > > > have valid use cases for (enable|disable)_streams on single-pad subdevs
-> > > > > > > > > though, so you patch could still be interesting.
-> > > > > > > > 
-> > > > > > > > Instead of the number of pads, could we use instead the
-> > > > > > > > V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
-> > > > > > > > determine the need for this?
-> > > > > > > 
-> > > > > > > Maybe, but are they better? Do you see some issue with checking for the
-> > > > > > > number of pads? I considered a few options, but then thought that the most
-> > > > > > > safest test for this case is 1) one pad 2) enable/disable_streams
-> > > > > > > implemented.
-> > > > > > 
-> > > > > > I think I'd actually prefer {enable,disable}_streams in fact.
-> > > > > 
-> > > > > Hmm, sorry, now I'm confused =). What do you mean with that?
-> > > > 
-> > > > I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
-> > > > number of pads is less related to routing.
-> > > 
-> > > Well, with one pad you cannot have routing =).
-> > > 
-> > > In this patch I used sd->enabled_streams to track the enabled streams, but
-> > > if we need to support multiple pads, I'll have to invent something new for
-> > > that.
-> > 
-> > What exactly do you think needs to be changed? This is just about starting
-> > and stopping streaming using a different sent of callbacks, right?
-> 
-> The helpers track which streams are enabled, so we need some place to store
-> the enabled streams.
-> 
-> For V4L2_SUBDEV_FL_STREAMS we have that in state->stream_configs for each
-> stream. For the one-source-pad case we have a subdev wide
-> sd->enabled_streams to store that. But we don't have any place at the moment
-> to store if a pad is enabled.
+Logitech Rally Bar devices, despite behaving as UVC cameras, have a
+different power management system that the other cameras from Logitech.
 
-If there are is no support for routing, isn't streaming either enabled or
-disabled on all of them?
+USB_QUIRK_RESET_RESUME is applied to all the UVC cameras from Logitech
+at the usb core. Unfortunately, USB_QUIRK_RESET_RESUME causes undesired
+USB disconnects in the Rally Bar that make them completely unusable.
 
+There is an open discussion about if we should fix this in the core or
+add a quirk in the UVC driver. In order to enable this hardware, let's
+land this patch first, and we can revert it later if there is a
+different conclusion.
+
+Fixes: e387ef5c47dd ("usb: Add USB_QUIRK_RESET_RESUME for all Logitech UVC webcams")
+Cc:  <stable@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Oliver Neukum <oneukum@suse.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Devinder Khroad <dkhroad@logitech.com>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Tested with a Rallybar Mini with an Acer Chromebook Spin 513
+---
+Changes in v5:
+- Update commit message to describe that this is a temp solution.
+- Link to v4: https://lore.kernel.org/r/20240108-rallybar-v4-1-a7450641e41b@chromium.org
+
+Changes in v4:
+- Include Logi Rally Bar Huddle (Thanks Kyle!)
+- Link to v3: https://lore.kernel.org/r/20240102-rallybar-v3-1-0ab197ce4aa2@chromium.org
+
+Changes in v3:
+- Move quirk to uvc driver
+- Link to v2: https://lore.kernel.org/r/20231222-rallybar-v2-1-5849d62a9514@chromium.org
+
+Changes in v2:
+- Add Fixes tag
+- Add UVC maintainer as Cc
+- Link to v1: https://lore.kernel.org/r/20231222-rallybar-v1-1-82b2a4d3106f@chromium.org
+---
+ drivers/media/usb/uvc/uvc_driver.c | 30 ++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 2 files changed, 31 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727b..9663bcac68438 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -14,6 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/usb.h>
++#include <linux/usb/quirks.h>
+ #include <linux/usb/uvc.h>
+ #include <linux/videodev2.h>
+ #include <linux/vmalloc.h>
+@@ -2233,6 +2234,8 @@ static int uvc_probe(struct usb_interface *intf,
+ 	}
+ 
+ 	uvc_dbg(dev, PROBE, "UVC device initialized\n");
++	if (dev->quirks & UVC_QUIRK_FORCE_RESUME)
++		udev->quirks &= ~USB_QUIRK_RESET_RESUME;
+ 	usb_enable_autosuspend(udev);
+ 	return 0;
+ 
+@@ -2574,6 +2577,33 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
++	/* Logitech Rally Bar Huddle */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x087c,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
++	/* Logitech Rally Bar */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x089b,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
++	/* Logitech Rally Bar Mini */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x046d,
++	  .idProduct		= 0x08d3,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
+ 	/* Chicony CNF7129 (Asus EEE 100HE) */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6fb0a78b1b009..fa59a21d2a289 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -73,6 +73,7 @@
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
+ #define UVC_QUIRK_WAKE_AUTOSUSPEND	0x00002000
++#define UVC_QUIRK_FORCE_RESUME		0x00004000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+
+---
+base-commit: c0f65a7c112b3cfa691cead54bcf24d6cc2182b5
+change-id: 20231222-rallybar-19ce0c64d5e6
+
+Best regards,
 -- 
-Sakari Ailus
+Ricardo Ribalda <ribalda@chromium.org>
+
 
