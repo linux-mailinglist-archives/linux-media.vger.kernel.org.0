@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-8442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8441-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A543895E06
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:52:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F28D8895E04
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:52:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AF9CB24993
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:52:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 903431F24ED4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F94E15E20A;
-	Tue,  2 Apr 2024 20:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9BC15E1F5;
+	Tue,  2 Apr 2024 20:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="IcrhyIA5"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Ds96J6E9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.209])
+Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CC212BF20;
-	Tue,  2 Apr 2024 20:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF66612BF20;
+	Tue,  2 Apr 2024 20:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712091125; cv=none; b=NVJlQ6R1Ly6m0kP20RuUulSizBgFSKmuXvhq5Nr/wd8Tr+sbwKTxNr50zJDRN08ADMiBB2pDQ23LyOQ31PACECIVWllj2bULv0E/A9g68UCMHj8Q+4uMKAqAtZe77ZJkVs5uqKstHHxs+VR91hKtwqoA3JFZAxzi8HC+JaVDOA8=
+	t=1712091122; cv=none; b=tjMLp5qfwP6pvr66KVvaP3O2IdaVW9E4BpYl8qCePxVjNWXLGurAvJ0zGNRpMjNII4YIrTzJ5jJGKaZtY+c7q+lTGfQCw1uw1NE98gikuYQnT9ytyQY+axzmfHvCf5dIGEf5wvfXMOMhIngrS91fvAKtKwAZ9sr7GVjGe2HMVVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712091125; c=relaxed/simple;
-	bh=LwKYC+SZUn0nHRmzO7S4TAKdn59+AOuO2pF9oNCk7ig=;
+	s=arc-20240116; t=1712091122; c=relaxed/simple;
+	bh=DNf89ITXfQe/mMUhZvAsREvsD6Vk7lf49Bff7tpSpcw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XmD5lrv4DEMlH7NQXHOawqztoaXKj4ea0P2zfZfp9zWdPuSQlzNe2KmJS+Y62ioS2QnxnYD2OPFLsL4jRej+dbNMu8CcXKZhw02obBWnbHr4xOUuUGsh+rQ1P2dch0v7pCKvcaPhFjSCIoequWDSOWDItPVAGmbnlIFcJfuGzHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=IcrhyIA5; arc=none smtp.client-ip=192.19.144.209
+	 MIME-Version:Content-Type; b=KJqiVFher+2C2sSspB4hy+x1bh7JDSCKcJTIoWI6/coVJkQntGOWDtHt6pyCfXEsoknFq6h5QDeTcYsKtOtAE2yNWlQfrjFigZr+4udZoTeepJqBrlSqdy6VY+lDPzUQTF5X6AKfABu94V11sI/7X/vHIO6fZ/Qj5WNhhuQvNyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Ds96J6E9; arc=none smtp.client-ip=192.19.144.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
-	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 4954CC0000E4;
-	Tue,  2 Apr 2024 13:45:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 4954CC0000E4
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id B9035C0000ED;
+	Tue,  2 Apr 2024 13:46:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com B9035C0000ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-	s=dkimrelay; t=1712090750;
-	bh=LwKYC+SZUn0nHRmzO7S4TAKdn59+AOuO2pF9oNCk7ig=;
+	s=dkimrelay; t=1712090763;
+	bh=DNf89ITXfQe/mMUhZvAsREvsD6Vk7lf49Bff7tpSpcw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IcrhyIA5gUQT2ev/qUNmmH+1nLTsOCb9htDgftgQ2/dMb7VSSyaPGRHSlWmEzNgt1
-	 MnMsXtuQRFdvo+0ss5ReY0LoVxNqTWuEFHyYUpWIlA1Wqsy4tkalWsomcwomkJbK7n
-	 j/puujrwTkynGgCgLypj2Qr/Izns/5AuJfVaGbd0=
+	b=Ds96J6E9nVYEntWmNBfrkXAkgZAB/elAOQw6i7jKSW4Egx0MlNsqIWXI67L6hgBjJ
+	 Zqfp3rn+ug8OQQ0KdpVYnYn619uqzcdFLr1re3IAzw4ZvXP92HOjN+OWQmGoszMFt3
+	 siuXcozUEevXdzXIv/t8IBeCgstIS1fdkIB3KAoQ=
 Received: from fainelli-desktop.igp.broadcom.net (fainelli-desktop.dhcp.broadcom.net [10.67.48.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id 658D418041CAC4;
-	Tue,  2 Apr 2024 13:45:48 -0700 (PDT)
+	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id BF21718041CAC4;
+	Tue,  2 Apr 2024 13:46:01 -0700 (PDT)
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 To: bcm-kernel-feedback-list@broadcom.com,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -67,12 +67,12 @@ Cc: Florian Fainelli <f.fainelli@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v9 07/10] ARM: dts: bcm2711-rpi: Add pinctrl-based multiplexing for I2C0
-Date: Tue,  2 Apr 2024 13:45:49 -0700
-Message-Id: <20240402204549.2519879-1-florian.fainelli@broadcom.com>
+Subject: Re: [PATCH v9 08/10] ARM: dts: bcm2711-rpi-cm4-io: Add RTC on I2C0
+Date: Tue,  2 Apr 2024 13:46:03 -0700
+Message-Id: <20240402204603.2519971-1-florian.fainelli@broadcom.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
-References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com> <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240402000424.4650-9-laurent.pinchart@ideasonboard.com>
+References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com> <20240402000424.4650-9-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,21 +84,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Florian Fainelli <f.fainelli@gmail.com>
 
-On Tue,  2 Apr 2024 03:04:14 +0300, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On Tue,  2 Apr 2024 03:04:15 +0300, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 > From: Uwe Kleine-König <uwe@kleine-koenig.org>
 > 
-> BCM2711-based Raspberry Pi boards (4B, CM4 and 400) multiplex the I2C0
-> controller over two sets of pins, GPIO0+1 and GPIO44+45. The former is
-> exposed on the 40-pin header, while the latter is used for the CSI and
-> DSI connectors.
-> 
-> Add a pinctrl-based I2C bus multiplexer to bcm2711-rpi.dtsi to model
-> this multiplexing. The two child buses are named i2c0_0 and i2c0_1.
-> 
-> Note that if you modified the dts before to add devices to the i2c bus
-> appearing on pins gpio0 + gpio1 (either directly in the dts or using an
-> overlay), you have to put these into the i2c0_0 node introduced here
-> now.
+> The cm4-io board comes with a PCF85063 on I2C0, connected to the GPIO44
+> and GPIO45 pins. Add it to the device tree.
 > 
 > Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
