@@ -1,183 +1,111 @@
-Return-Path: <linux-media+bounces-8438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA2895DF4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:45:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A543895E06
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:52:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11DDE284E83
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:45:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AF9CB24993
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:52:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F2315E1EB;
-	Tue,  2 Apr 2024 20:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F94E15E20A;
+	Tue,  2 Apr 2024 20:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU/YeZI8"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="IcrhyIA5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A047215ADB1;
-	Tue,  2 Apr 2024 20:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CC212BF20;
+	Tue,  2 Apr 2024 20:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712090695; cv=none; b=dCXDxb2MDnXwF98gCWflSHvDINbiY9jl+159ZoMt53UlQNMYZK+8q95uC3zXYRfj070E5z/QLubNBtGXwPR+jB00c9BrLm47FiYoaK9NM3+1cW6zul9aw/SQyko3TrVnUeIBjVKzz8rzqKjdzrNv6LpZ4+QXrPwg2cJezRm4exg=
+	t=1712091125; cv=none; b=NVJlQ6R1Ly6m0kP20RuUulSizBgFSKmuXvhq5Nr/wd8Tr+sbwKTxNr50zJDRN08ADMiBB2pDQ23LyOQ31PACECIVWllj2bULv0E/A9g68UCMHj8Q+4uMKAqAtZe77ZJkVs5uqKstHHxs+VR91hKtwqoA3JFZAxzi8HC+JaVDOA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712090695; c=relaxed/simple;
-	bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o/OwIotO8yUEQ8z0Rkubkz/lAvMi8btwvPpOMsAEu/pOKma31nBRZ8VH4+d7378fSS41dMAm2wh0Ijo1WMqS4RR2H8fMIPv7PqQWyZb7c1teBXDDdbOOYFR3T7rsFvYs9W0d6046gBfWIcLoy8gncN5lRaGC0l5kjoUueD+kl68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU/YeZI8; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712090693; x=1743626693;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
-  b=gU/YeZI8Y8D63sYcWTbCM3//6IRGn4Fv+RIuJUOprb4RCE2PiBbFjw1M
-   hMatmF4hR+xLP/+S5a2kmMYkYsQAXM+rd52tt/hDbuSnbbIs4r5CFGLsH
-   CXF/qJINHq/C0LRkxMW3w5CzIIx71ig2pRLndLmHWp2PKNGpLIS1VrjlP
-   SJSftWVlAtWTvnYvwL6OvHpod+gE6r0IQk4zeI0BJRRHeWtu535X6PDFw
-   6CUlQt2ZMjGWKeF68LSu6sHRAyaxc+X1pWJcVdwWY33H6h/lOimn86e22
-   ZdwRlCNLl2wcnlDwPDemkwp1ExtEUYmzp93EAbmhXSPTy3uNYfPiKDCGv
-   A==;
-X-CSE-ConnectionGUID: gjb1uiXmQwWtG685ajzOKw==
-X-CSE-MsgGUID: fwS7P0tlSa+ZvC7QkTmFhw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7188486"
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="7188486"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 13:44:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="937083805"
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="937083805"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Apr 2024 13:44:49 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id EEEC21C5; Tue,  2 Apr 2024 23:44:48 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 1/1] media: atomisp: Get rid of PCI device ID hack check
-Date: Tue,  2 Apr 2024 23:44:47 +0300
-Message-ID: <20240402204447.294280-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+	s=arc-20240116; t=1712091125; c=relaxed/simple;
+	bh=LwKYC+SZUn0nHRmzO7S4TAKdn59+AOuO2pF9oNCk7ig=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XmD5lrv4DEMlH7NQXHOawqztoaXKj4ea0P2zfZfp9zWdPuSQlzNe2KmJS+Y62ioS2QnxnYD2OPFLsL4jRej+dbNMu8CcXKZhw02obBWnbHr4xOUuUGsh+rQ1P2dch0v7pCKvcaPhFjSCIoequWDSOWDItPVAGmbnlIFcJfuGzHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=IcrhyIA5; arc=none smtp.client-ip=192.19.144.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 4954CC0000E4;
+	Tue,  2 Apr 2024 13:45:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 4954CC0000E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+	s=dkimrelay; t=1712090750;
+	bh=LwKYC+SZUn0nHRmzO7S4TAKdn59+AOuO2pF9oNCk7ig=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IcrhyIA5gUQT2ev/qUNmmH+1nLTsOCb9htDgftgQ2/dMb7VSSyaPGRHSlWmEzNgt1
+	 MnMsXtuQRFdvo+0ss5ReY0LoVxNqTWuEFHyYUpWIlA1Wqsy4tkalWsomcwomkJbK7n
+	 j/puujrwTkynGgCgLypj2Qr/Izns/5AuJfVaGbd0=
+Received: from fainelli-desktop.igp.broadcom.net (fainelli-desktop.dhcp.broadcom.net [10.67.48.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id 658D418041CAC4;
+	Tue,  2 Apr 2024 13:45:48 -0700 (PDT)
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+To: bcm-kernel-feedback-list@broadcom.com,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>,
+	Uwe =?iso-8859-1?q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 07/10] ARM: dts: bcm2711-rpi: Add pinctrl-based multiplexing for I2C0
+Date: Tue,  2 Apr 2024 13:45:49 -0700
+Message-Id: <20240402204549.2519879-1-florian.fainelli@broadcom.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
+References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com> <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Always check exact PCI ID match and drop hack checks.
+From: Florian Fainelli <f.fainelli@gmail.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../media/atomisp/pci/atomisp_internal.h      |  3 +-
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 40 +++++++++----------
- 2 files changed, 21 insertions(+), 22 deletions(-)
+On Tue,  2 Apr 2024 03:04:14 +0300, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> From: Uwe Kleine-König <uwe@kleine-koenig.org>
+> 
+> BCM2711-based Raspberry Pi boards (4B, CM4 and 400) multiplex the I2C0
+> controller over two sets of pins, GPIO0+1 and GPIO44+45. The former is
+> exposed on the 40-pin header, while the latter is used for the CSI and
+> DSI connectors.
+> 
+> Add a pinctrl-based I2C bus multiplexer to bcm2711-rpi.dtsi to model
+> this multiplexing. The two child buses are named i2c0_0 and i2c0_1.
+> 
+> Note that if you modified the dts before to add devices to the i2c bus
+> appearing on pins gpio0 + gpio1 (either directly in the dts or using an
+> overlay), you have to put these into the i2c0_0 node introduced here
+> now.
+> 
+> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index bba9bc64d447..e6a090d9f310 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -49,14 +49,13 @@
- 	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
- 	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
- 
--#define ATOMISP_PCI_DEVICE_SOC_MASK	0xfff8
-+#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
- /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
- #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
- /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
- #define ATOMISP_PCI_DEVICE_SOC_MRFLD_1179	0x1179
- /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
- #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
--#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
- #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
- #define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index f736e54c7df3..4f414b812408 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1238,7 +1238,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	const struct atomisp_platform_data *pdata;
- 	struct atomisp_device *isp;
- 	unsigned int start;
--	int err, val;
-+	u32 val;
-+	int err;
- 
- 	/* Pointer to struct device. */
- 	atomisp_dev = &pdev->dev;
-@@ -1266,8 +1267,10 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 
- 	pci_set_drvdata(pdev, isp);
- 
--	switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK) {
-+	switch (id->device) {
- 	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
-+	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
-+	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
- 		isp->media_dev.hw_revision =
- 		    (ATOMISP_HW_REVISION_ISP2400
- 		     << ATOMISP_HW_REVISION_SHIFT) |
-@@ -1420,28 +1423,25 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	 */
- 	atomisp_css2_hw_store_32(MRFLD_CSI_RECEIVER_SELECTION_REG, 1);
- 
--	if ((id->device & ATOMISP_PCI_DEVICE_SOC_MASK) ==
--	    ATOMISP_PCI_DEVICE_SOC_MRFLD) {
--		u32 csi_afe_trim;
--
-+	switch (id->device) {
-+	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
-+	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
-+	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
- 		/*
- 		 * Workaround for imbalance data eye issue which is observed
- 		 * on TNG B0.
- 		 */
--		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &csi_afe_trim);
--		csi_afe_trim &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
--				   MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
--				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
--				   MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
--				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
--				   MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
--		csi_afe_trim |= (MRFLD_PCI_CSI1_HSRXCLKTRIM <<
--				 MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
--				(MRFLD_PCI_CSI2_HSRXCLKTRIM <<
--				 MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
--				(MRFLD_PCI_CSI3_HSRXCLKTRIM <<
--				 MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
--		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, csi_afe_trim);
-+		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &val);
-+		val &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-+			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-+			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
-+		val |= (MRFLD_PCI_CSI1_HSRXCLKTRIM << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-+		       (MRFLD_PCI_CSI2_HSRXCLKTRIM << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-+		       (MRFLD_PCI_CSI3_HSRXCLKTRIM << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
-+		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, val);
-+		break;
-+	default:
-+		break;
- 	}
- 
- 	err = atomisp_initialize_modules(isp);
--- 
-2.43.0.rc1.1.gbec44491f096
-
+Applied to https://github.com/Broadcom/stblinux/commits/devicetree/next, thanks!
+--
+Florian
 
