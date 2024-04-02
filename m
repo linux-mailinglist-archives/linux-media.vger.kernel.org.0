@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-8339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7419894B07
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:01:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3E894B1D
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:04:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C745B2317A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 06:01:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1DAB1C22039
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 06:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B46A1862E;
-	Tue,  2 Apr 2024 06:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B88C118624;
+	Tue,  2 Apr 2024 06:04:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dHQlGe1S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iN8nihL9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EEDF9DF;
-	Tue,  2 Apr 2024 06:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E332209F
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 06:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712037657; cv=none; b=NQJbq6lpwpN2eP79bk2kqU5yjw/u4SlVTtRRhntE49fZRSBP7UhDlDyhYmliD/ydr13y2YjC3/mJlZlKtZl0PGo6ILPBMnEHV0aF/SuI4MtQC6gtIAOBxCL4yflo+rHJrEE6wk7HEs6ouMCtHDvJ6d0NG7QHTDfEII9ANwxmlzc=
+	t=1712037853; cv=none; b=dc/ZfV1VXuUN4qQyPFbsA6PUTzhpNlZ03DlIoIEUp5vdjBGUTV9weB4cATiMX4swLYTyH/PC8pXvicAWz8YgYQY/aMfkEHtMhxKijr42hjjfJXv9SyQiAZGwRywa4ez3QehhMKIVxQC7b63n7uw1dW2853Juz0t5Uahi/fcQpN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712037657; c=relaxed/simple;
-	bh=QPsfQqD3zVA0DVbdMDrQrj+9Pw6co2Xu+3BXa3i5rmw=;
+	s=arc-20240116; t=1712037853; c=relaxed/simple;
+	bh=Qjp4gWdi8WqX2PMQQhCmk9oY8e5/m2ls5pFz3/6gy7c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GmrbEvJ9zLzu1pQWDFCar6AjjxqZjEMC0xKYO/+Q9GnK1cI2VvAp4JJdN8B8T6IEnb/BmjB5Sbo80a1ZXrOnC/NKlxqWZpPeCQNdmaocoYqpxW8GwnAjKxufxvbLmPBfSk4WlW7wHb9WQm6BkAzP56mpxt5Hs0PK51X4oppfLaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dHQlGe1S; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=H4NNvjAVADZXCWBXeFoBc5u49F1GakSVDVpStgVdEGAoTP4qEhaCh6303RXwxAT7Kda32KMiCl3jVtDlcHfFM8PJEoxkxfaFnFGecYfvRXVCP6y1JTs/g+o6ehph+jkDhM1GtaevZijQVh93mYDtj6LDzLwnhOAfUjctcAuIplo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iN8nihL9; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3CC7C55;
-	Tue,  2 Apr 2024 08:00:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EB4C2A5;
+	Tue,  2 Apr 2024 08:03:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712037610;
-	bh=QPsfQqD3zVA0DVbdMDrQrj+9Pw6co2Xu+3BXa3i5rmw=;
+	s=mail; t=1712037813;
+	bh=Qjp4gWdi8WqX2PMQQhCmk9oY8e5/m2ls5pFz3/6gy7c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dHQlGe1SyF44gW0nvP2AysxaESEYKSuVu+IbFxkdSpPQD2wDfDLMmvz4VvK1t1POo
-	 B8QI9C+DOmo3dYFkgQ7rWARmAHp/TN9qcC4sgogVhOm42BW4YX/pEf4IJKbAKQkl6l
-	 zP+mIA7HB9gfWdqHueeLaboDsK8y8hNJrwvYCoNs=
-Message-ID: <cdcf9848-eee9-44a7-b033-315b1514740d@ideasonboard.com>
-Date: Tue, 2 Apr 2024 09:00:43 +0300
+	b=iN8nihL9Wjgwmco0uuS7l2JTUiJAqghyHW+fwyq3eTrg0+ILTM3fy6kummIqFyYTA
+	 yzb5UTO9GiE2N4ecJE2cU/eOEeojuUMEjZKlpoDKOzlqNVt3JxCVMKVUCa6dFbLHQL
+	 DUUOyi+266ky0LblczsoTV9ZhdIa5JY29DRRB4WY=
+Message-ID: <6d2f3eea-8205-4e4e-bd35-6dbdb2916196@ideasonboard.com>
+Date: Tue, 2 Apr 2024 09:04:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,26 +50,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/15] media: bcm2835-unicam: Add support for CCP2/CSI2
- camera interface
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Naushir Patuck <naush@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, kernel-list@raspberrypi.com,
- linux-rpi-kernel@lists.infradead.org,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- bcm-kernel-feedback-list@broadcom.com, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-10-laurent.pinchart@ideasonboard.com>
- <b4506224-b75a-49d8-8651-a48f39149d52@ideasonboard.com>
- <20240401135216.GF8623@pendragon.ideasonboard.com>
+Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -115,34 +101,46 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240401135216.GF8623@pendragon.ideasonboard.com>
+In-Reply-To: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/04/2024 16:52, Laurent Pinchart wrote:
-> On Wed, Mar 27, 2024 at 01:21:09PM +0200, Tomi Valkeinen wrote:
->> On 25/03/2024 00:08, Laurent Pinchart wrote:
->>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>
->>> Add a driver for the Unicam camera receiver block on BCM283x processors.
->>> It is represented as two video device nodes: unicam-image and
->>> unicam-embedded which are connected to an internal subdev (named
->>> unicam-subdev) in order to manage streams routing.
->>
->> Shouldn't this driver call get_frame_desc somewhere to get the VC and DT
->> for the streams?
+On 02/04/2024 02:37, Laurent Pinchart wrote:
+> When support for streams was added to the V4L2 subdev API, the
+> v4l2_subdev_crop structure was extended with a stream field, but the
+> field was not handled in the core code that translates the
+> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
 > 
-> Generally speaking, yes. In practice, configuring the DT from the frame
-> descriptor is probably not very useful, as CSI-2 sources that transmit
-> image data using a DT that doesn't correspond to the media bus code are
-> not very common and I don't expect this to be needed for unicam.
+> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4c6198c48dd6..45836f0a2b0a 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -732,6 +732,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   		memset(&sel, 0, sizeof(sel));
+>   		sel.which = crop->which;
+>   		sel.pad = crop->pad;
+> +		sel.stream = crop->stream;
+>   		sel.target = V4L2_SEL_TGT_CROP;
+>   
+>   		rval = v4l2_subdev_call(
+> @@ -756,6 +757,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   		memset(&sel, 0, sizeof(sel));
+>   		sel.which = crop->which;
+>   		sel.pad = crop->pad;
+> +		sel.stream = crop->stream;
+>   		sel.target = V4L2_SEL_TGT_CROP;
+>   		sel.r = crop->rect;
+>   
+> 
+> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
 
-Perhaps, but if the driver gets the DT from the frame descriptor, then 
-the driver doesn't need to have tables for the DTs.
-
-Although when I did this with the RPi CFE driver, I also implemented a 
-fallback mechanism for the cases when there is no get_frame_desc, and so 
-I still had to keep the DT tables...
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
