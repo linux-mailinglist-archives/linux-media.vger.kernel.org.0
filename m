@@ -1,137 +1,159 @@
-Return-Path: <linux-media+bounces-8346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58628894D57
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:20:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD83894D6A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:29:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0CF181F229E7
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:20:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4278E282835
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:29:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F5E53D97D;
-	Tue,  2 Apr 2024 08:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A93C3E49D;
+	Tue,  2 Apr 2024 08:29:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="L7Le20FA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DIF5AyiY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413373D57A
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 08:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712046030; cv=pass; b=uOYMWcCBuTIqG3+KFU1++r7m3jHePyHLgnJy5cp4ve7x7WOp48MPvyWd1v2Hv9XEKkvVbTv4KsWUADLyuqGjR2JCYbpTb6NWbferns/Zhe68DgeM0CpN2kZHHWetAWgEPEdUbwoHliEpZ3IqetZrHmSv09JQLdH7sCpXLpfPCZQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712046030; c=relaxed/simple;
-	bh=/C1w0mIFbdqpvwOo61MStGa1/eyrHeda1Q9tWN9auI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uauyRSqKHVz9MHvYvQbdYJmhbZV6uV4hjqI6nX4LpVHfx1BKusdx1Pe6cilttZxk+jvdSaJjfH9qzfx5g4J3fRT/epDRurBetYdfWb/QYV+FxAkBNhfDgbrtkSBUGlA1xFpAkr3ECJv0kSYnePBbpTVoWFEdgX7NFlylYlAaC8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=L7Le20FA; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4V81604PHMzySr;
-	Tue,  2 Apr 2024 11:20:24 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1712046024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pKfHjUiZqyPz4TJJraHNisiq/BcH05xe231pRrOXc0E=;
-	b=L7Le20FAJIkRm+GU/9C0qjB0B722b7p+dLw0t40YbWY4dUbe/5idRQB89tI4tFLeewNYOJ
-	819YCuTFdPvm5KGeyMOf8XLExZP0FojxM8oOctXtqJ7qS0Uz/NnnFYAhxQSZ8Ps4onalYq
-	N6QeMSkXbKuhjSJG/BCGTWrt6KvsE6s=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1712046024; a=rsa-sha256; cv=none;
-	b=a2R0tw2BZAjBMjP3QwHPsrIk096iwVOEt42TG44+MX96C4ToU+XgnCFWeNv6nEXPZHgIj+
-	yH8H8mjrXA/IwVk2oZYFrOPP6JcKxAUcCCK/bmBC+JSla/Wc5/mFZBMQbIysk7gAgcJNTc
-	+pFut6TNtLXYfnfKnEuE4Cg6qxaNysQ=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1712046024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pKfHjUiZqyPz4TJJraHNisiq/BcH05xe231pRrOXc0E=;
-	b=gy4Rt7Trn3QsF98fnAZFLmHwdWZlocIW7wuAvpjKhohGGKvV9p2ZioEROpw2miBXIFsv9h
-	p85wr04G/TDINmq91cZR42u2qVuHX3IlJEKpWnoTibsUXYmAc4lKZ/vMPT7UeeYXGcX0ml
-	AXRE/3p7ifSUPxgcGatxB2JiRz8fVLo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35BE9634C93;
-	Tue,  2 Apr 2024 11:20:23 +0300 (EEST)
-Date: Tue, 2 Apr 2024 08:20:22 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
-Message-ID: <Zgu_xhcadm2F1Rxl@valkosipuli.retiisi.eu>
-References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BADF3B193;
+	Tue,  2 Apr 2024 08:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712046577; cv=none; b=N7FbnCIt5rQMtVxEPiv7pB+2Q6d7hCgz1tuiY855TvGsPp6LE/CAfkPjpLyjCEJD3pqovB0oMedPu0VhCqRcFysRGExpTIvAm44K66MZryxCgmEcjKzdUff85LN3VcqklEvEozwMPOF8MphO3flF3smwZCfcTzRUN5XH5VLtrXk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712046577; c=relaxed/simple;
+	bh=GmMefZhlVWs8UvewqAUM1vNKBbI39elTksK1z5S6rLU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QYntYI4+kWctJ+UmKiVJxy7yK6wcX3c+OrojDAUjVOO/H/dGqpMzJ0ie7hC2vww5NuhkmNZmNc1vOelrMkHK0FBXz67rjj9CwOCiL2B+IlDOxwUydiW7hsHtFQEopung5BbNt2CRcAnfIj9JJ7Dl3Brnei7eQQpF23Lh+8PN+aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DIF5AyiY; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.118] (unknown [103.86.18.232])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDF793A2;
+	Tue,  2 Apr 2024 10:28:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712046537;
+	bh=GmMefZhlVWs8UvewqAUM1vNKBbI39elTksK1z5S6rLU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DIF5AyiYT4EivV1CtPYpxPhpEmutiW4KpHyRMYUeH6lcOpOvE7Z6c7lCrzsO3YSLi
+	 +KoG58LtEYnCutQvRi4ou9jydno1/f4KzaGYkoQXEjQq58c0fhA+M613Wyo0/fqjKY
+	 DCf2HNf9rcAAmInv0gLdiZ3lDkn6zziDF8CcV1H8=
+From: Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/3] media: i2c: Add imx283 camera sensor driver
+Date: Tue, 02 Apr 2024 13:59:24 +0530
+Message-Id: <20240402-kernel-name-extraversion-v1-0-57bb38de841b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOTBC2YC/x3MQQqDMBBG4avIrB2YhCykVxEXqf5th2qUiYgQv
+ Ltpl2/xvUIZpsj0aAoZDs26phqubWj8xPQG61SbvPggQTx/YQkzp7iAce4WD9gPsX9KN4XgIN1
+ IlW+Gl57/dT9c1w3H4ZN1agAAAA==
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Umang Jain <umang.jain@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712046569; l=2930;
+ i=umang.jain@ideasonboard.com; s=20240402; h=from:subject:message-id;
+ bh=GmMefZhlVWs8UvewqAUM1vNKBbI39elTksK1z5S6rLU=;
+ b=wJhfjQoGUEQM/tsYN9p8rSqjUzpRLbnQh2ssgOiLkkfXqdZAIvktl//HiRChksi7vqtTqqa5I
+ wA7FEYLXCTdCHC87kW3ZRfRM+FiQGODGBihF50/ot1swYdGHomB/pfI
+X-Developer-Key: i=umang.jain@ideasonboard.com; a=ed25519;
+ pk=8K9qSAtc2dNF4Ax+jYC0w9dlfptU7wxPBQwOy0nxRoc=
 
-Moi,
+Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
+  
+The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
+Square Pixel for Color Cameras.
+    
+The following features are supported:
+- Manual exposure an gain control support
+- vblank/hblank/link freq control support
+- Test pattern support control
+- Arbitrary horizontal and vertical cropping
+- Supported resolution:
+   - 5472x3648 @ 20fps (SRGGB12)
+   - 5472x3648 @ 25fps (SRGGB10)
+   - 2736x1824 @ 50fps (SRGGB12)
 
-On Tue, Apr 02, 2024 at 02:37:25AM +0300, Laurent Pinchart wrote:
-> When support for streams was added to the V4L2 subdev API, the
-> v4l2_subdev_crop structure was extended with a stream field, but the
-> field was not handled in the core code that translates the
-> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
+The driver is tested on mainline branch v6.8-rc2 on IMX8MP Debix-SOM-A.
+Additional testing has been done on RPi5 with the downstream BSP.
 
-The field is indeed in the UAPI headers. But do we want to support the CROP
-IOCTL for streams? Shouldn't the callers be using the [GS]_SELECTION
-instead?
+Changes in v4:
+- fix 32-bit build error around u64 divisions (use do_div)
+- Fix hmax default and minimum values
 
-> 
-> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4c6198c48dd6..45836f0a2b0a 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -732,6 +732,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		memset(&sel, 0, sizeof(sel));
->  		sel.which = crop->which;
->  		sel.pad = crop->pad;
-> +		sel.stream = crop->stream;
->  		sel.target = V4L2_SEL_TGT_CROP;
->  
->  		rval = v4l2_subdev_call(
-> @@ -756,6 +757,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		memset(&sel, 0, sizeof(sel));
->  		sel.which = crop->which;
->  		sel.pad = crop->pad;
-> +		sel.stream = crop->stream;
->  		sel.target = V4L2_SEL_TGT_CROP;
->  		sel.r = crop->rect;
->  
-> 
-> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
+Changes in v3:
+- fix headers includes
+- Improve #define(s) readability
+- Drop __func__ from error logs
+- Use HZ_PER_MHZ instead of MEGA
+- mdsel* variables should be u8
+- Use container_of_const() instead of container_of()
+- Use clamp() used of clamp_t variant
+- Use streams API imx283_{enable|disable}_streams (**NOTE**)
+- Properly fix PM runtime handling
+  (pm_ptr(), DEFINE_RUNTIME_DEV_PM_OPS,
+   imx283_runtime_suspend, imx283_runtime_resume)
+- Fix format modifiers, signed-ness at various places
 
+changes in v2 (summary):
+- Use u32 wherever possible
+- Use MEGA macro instead of self defined MHZ() macro
+- Properly refine regs using CCI
+- Drop tracking of current mode. Shifted to infer from active state directly.
+  (Laurent's review)
+- Cont. from above: Pass the struct imx283_mode to functions whereever required.
+- Remove unused comments
+- Remove custom mutex. Use control handler one instead.
+- Drop imx283_reset_colorspace() and inline
+- Set colorspace field properly (drop _DEFAULTS)
+- Use __maybe_unused for imx283_power_on() and imx283_power_off()
+- Store controls  v4l2_ctrl handles for those required, not all.
+- Drop imx283_free_controls(). Use v4l2_ctrl_handler_free
+- fix reset-gpios handling and add it to DT schema
+- fix data-lanes property in DT schema
+- fix IMX283 Kconfig
+- Remove unused macros
+- Alphabetical case consistency
+
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
+Kieran Bingham (1):
+      media: i2c: Add imx283 camera sensor driver
+
+Umang Jain (2):
+      media: dt-bindings: media: Add bindings for IMX283
+      fixups
+
+ .../devicetree/bindings/media/i2c/sony,imx283.yaml |  107 ++
+ MAINTAINERS                                        |    9 +
+ drivers/media/i2c/Kconfig                          |   10 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx283.c                         | 1605 ++++++++++++++++++++
+ 5 files changed, 1732 insertions(+)
+---
+base-commit: 54ee11761885407056f4ca60309739e2db6b02dc
+change-id: 20240402-kernel-name-extraversion-2b08d441e08c
+
+Best regards,
 -- 
-Terveisin,
+Umang Jain <umang.jain@ideasonboard.com>
 
-Sakari Ailus
 
