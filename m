@@ -1,115 +1,169 @@
-Return-Path: <linux-media+bounces-8341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC602894B1F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:05:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFD9894B65
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:29:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECC1A1C21EE0
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 06:05:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A0491C22502
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 06:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D41918633;
-	Tue,  2 Apr 2024 06:05:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EACC01C683;
+	Tue,  2 Apr 2024 06:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CWqvNarl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OwH+sOWk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9157718050;
-	Tue,  2 Apr 2024 06:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF21B5AA
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 06:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712037920; cv=none; b=NUKZXPVghbi1G3RfGhFmRqaL+r3ykGf8cRut+flxTxEFdI2NbvH1agxfCm9uTSRjoIUr8Abo5GGApm0rq1fXFLaUjiRO0J0OyXDZlJviCIB4IYrwt5W2rORqIvKIEnU4uKN6jIZkAQkjJj4aZg3mGo6Za9+k8Glhhqs2HvW1tlw=
+	t=1712039338; cv=none; b=CLZ6vTuwEnFYpCQOysaOaYzVNNuBTktEjQyPjO/QCPYcuZBJ3pt+9VJ5GSGvMBlcUw6kTaUBXFICSYiq/kh/VcTtdeqjxGRNO2Kgyjr/qyXNK5f20yTaik07Pk7DlM4U+kyZDO6VGNq+aEDHIibLQ5YAs9ucsI69qA/tNCj5dmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712037920; c=relaxed/simple;
-	bh=R2rxvXbohJO3k0/+9Md9Em0PuyiGD+6RBr/SKELtoVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxc+omZRcQFkU9UDIGFhc8bUmGwd3SGId5Y6FTb94y76scNREZqA/qUrxk2vMe8GypYGPzYNSzfRG+7XnQUETK5NEOFJ3rJPQryDC+jlLUYtjzKTxeAt3Z1tGSv7mEGi6dVKFQYBizVa8T6LDNW8nkX1Ya1AAkCCSg93a54bRZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CWqvNarl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C5932A5;
-	Tue,  2 Apr 2024 08:04:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712037880;
-	bh=R2rxvXbohJO3k0/+9Md9Em0PuyiGD+6RBr/SKELtoVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CWqvNarlMuvyCOMKmKhPvbCYA6ZGq6UK/RzEZJsTAlXbT4YJKuFycpaQ6iqFLmRyX
-	 xR/fYZBOD4ZnyBIs6EYCJ0uzBe+ezRPkjxQALU9XYy2bhM55eBpJdAwC8IAmxV8ezF
-	 tBNhOgTKoRA+cT4c4KLxsWN/24Vzzu8qKasmAXdc=
-Date: Tue, 2 Apr 2024 09:05:07 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 09/15] media: bcm2835-unicam: Add support for
- CCP2/CSI2 camera interface
-Message-ID: <20240402060507.GA4703@pendragon.ideasonboard.com>
-References: <20240324220854.15010-1-laurent.pinchart@ideasonboard.com>
- <20240324220854.15010-10-laurent.pinchart@ideasonboard.com>
- <b4506224-b75a-49d8-8651-a48f39149d52@ideasonboard.com>
- <20240401135216.GF8623@pendragon.ideasonboard.com>
- <cdcf9848-eee9-44a7-b033-315b1514740d@ideasonboard.com>
+	s=arc-20240116; t=1712039338; c=relaxed/simple;
+	bh=Ly2MJ+x2/JGLETo78x2qUAfywluqsZoBjdax5jqVOT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GpyFWVs9q2c/xGcPxf41acGpDcG0ox9h0oHxFbMgFe5YHPYuw5zzwRQxdhcBKksPp2bAL+qP1gmT8U0aqLYjkl78vCpRwEoFZzWbrknrSxsL7RE9nqXbTDLAY6W9/MJyiWzsop5QWPU2l2lMIT53ds5TbbIa4Peawxb7d7eWNKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OwH+sOWk; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-56c0bd07e7bso4835595a12.1
+        for <linux-media@vger.kernel.org>; Mon, 01 Apr 2024 23:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712039335; x=1712644135; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=ksrMBo4pOtNWDZGHJdSqt80CuPGaVhLyi8hNLYSrB/8=;
+        b=OwH+sOWkPDwPS8qEOxt9lnSweTMg2p5HAJPozRfW33UIQEw1olYTV4jvTnr00VyYL4
+         EfndKaFvXAuE8IZIj0TIUvaCnTDIq5FJKGcgjiXztB3UixIC+eBbqdki4vVQh1DhY6I1
+         i5hoXfsdYzl2lTEA7oGdu9iwB2DvZxnTT5hM8SZrgynosaYaqDuo8AUcS4/7bBdQaYvV
+         iDXzB5O18lewHJuWsFctXnAxzzmcwEEKaWCz+fU2Abh0G5bm1ov2tYOH7oF2bqs3ewXO
+         Z6a2/TALhJfqoPQgilJ3bHcl3f2NCQGsFjteCmGJKnH1rrUAsxaEJTueXVUROFPwPx+r
+         hnEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712039335; x=1712644135;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ksrMBo4pOtNWDZGHJdSqt80CuPGaVhLyi8hNLYSrB/8=;
+        b=SXnPhsN/05cpEw8ijBBJuMjW+3Cl44GO/JT3PRYcDX1l+tfSU6C05omC5xCKuue8j/
+         KNTyu+pwPiyk4FHdnHQ2m5IHpZwSUd8EB9IEsBHD/TxyfqyjZE7MdM8so2bMGKNq2awc
+         drigg1Fx30Lxw4WPcd4d1KpUX5nQ6BO5vdTQUjdi5M4rtYsTl4LeR6BokHYc6Ni8eThu
+         Hg76c35/qktSQDJRw5scrCDUfNd2eOnkA4aSf/WqpusyPgvxYMv2xYQC8/4JxQlVGIu6
+         fN3TbPTaT12jzmyIzzEMOKfLl7C0WdF1BaQBCshoIpw0HG/uO4jv7cSEKRxz1MOP+npx
+         tyXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVstJrwuoAP2213ukaAmjZHrTJ8ZGiSIeoT5z4O/xxQODWvrAMHeiKH0GfXhscEJoCqdMaxIgZHTQpqXShF9bCZbDHSopXj0WdPaUU=
+X-Gm-Message-State: AOJu0YypIYSD0sE+c3KvC5nX5INNhwrCZzo6pGj9rVWl9N5Ju3SeJUfp
+	4TMxbsKAbukCqftgnRnF/Cy7fZReodt4jhoXPral4LvpaiBwoa36jv4DdjE58qk=
+X-Google-Smtp-Source: AGHT+IGNWCWsCHgXd1pIbCWsH0I8LZxGUhZEXhIQ0d7cyTGZCvkLRM0/SEVUiUbC39Z7XgKALBcoaA==
+X-Received: by 2002:a50:f692:0:b0:56d:c857:5929 with SMTP id d18-20020a50f692000000b0056dc8575929mr4468377edn.35.1712039334974;
+        Mon, 01 Apr 2024 23:28:54 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id et12-20020a056402378c00b0056c3e65caecsm6325302edb.2.2024.04.01.23.28.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Apr 2024 23:28:54 -0700 (PDT)
+Message-ID: <6c4b4a52-a389-4c65-a448-d76b52e70c80@linaro.org>
+Date: Tue, 2 Apr 2024 08:28:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cdcf9848-eee9-44a7-b033-315b1514740d@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: dt-bindings: ovti,ov2680: Document more
+ properties
+To: Fabio Estevam <festevam@gmail.com>, sakari.ailus@linux.intel.com
+Cc: rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com, hansg@kernel.org,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@denx.de>
+References: <20240401190506.3238885-1-festevam@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240401190506.3238885-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 02, 2024 at 09:00:43AM +0300, Tomi Valkeinen wrote:
-> On 01/04/2024 16:52, Laurent Pinchart wrote:
-> > On Wed, Mar 27, 2024 at 01:21:09PM +0200, Tomi Valkeinen wrote:
-> >> On 25/03/2024 00:08, Laurent Pinchart wrote:
-> >>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >>>
-> >>> Add a driver for the Unicam camera receiver block on BCM283x processors.
-> >>> It is represented as two video device nodes: unicam-image and
-> >>> unicam-embedded which are connected to an internal subdev (named
-> >>> unicam-subdev) in order to manage streams routing.
-> >>
-> >> Shouldn't this driver call get_frame_desc somewhere to get the VC and DT
-> >> for the streams?
-> > 
-> > Generally speaking, yes. In practice, configuring the DT from the frame
-> > descriptor is probably not very useful, as CSI-2 sources that transmit
-> > image data using a DT that doesn't correspond to the media bus code are
-> > not very common and I don't expect this to be needed for unicam.
+On 01/04/2024 21:05, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
 > 
-> Perhaps, but if the driver gets the DT from the frame descriptor, then 
-> the driver doesn't need to have tables for the DTs.
+> OV2680 has a single data lane MIPI interface.
+
+The hardware or the driver?
+
 > 
-> Although when I did this with the RPi CFE driver, I also implemented a 
-> fallback mechanism for the cases when there is no get_frame_desc, and so 
-> I still had to keep the DT tables...
+> Document the clock-lanes and data-lanes properties to avoid
+> the following dt-schema warning:
+> 
+> imx7s-warp.dtb: camera@36: port:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
+> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yaml#
 
-I did the same in v9. The DT value in the existing format info table
-also serves for CCP2 support, which isn't supported by
-.get_frame_desc(). Even if it was, CCP2 doesn't have an explicit DT
-concept (as far as I can tell), but the hardware requires the DT value
-to still be programmed.
+You should mention why you cannot drop the redundant clock/data-lanes
+from DTS.
 
--- 
-Regards,
+> 
+> While at it, also document the link-frequencies property as recommended
+> by the following document:
+> 
+> https://www.kernel.org/doc/html/v6.9-rc1/driver-api/media/camera-sensor.html#handling-clocks
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-Laurent Pinchart
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
 
