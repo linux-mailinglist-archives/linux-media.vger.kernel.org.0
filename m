@@ -1,133 +1,114 @@
-Return-Path: <linux-media+bounces-8395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F18E8955FB
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 16:00:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287F1895639
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 16:09:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F2FA1C224C5
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 14:00:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 861D72845EA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 14:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CFA85930;
-	Tue,  2 Apr 2024 14:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFD7186151;
+	Tue,  2 Apr 2024 14:09:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cdbeldvv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vVbYjLtP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F37484FA5
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 14:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9093985C46;
+	Tue,  2 Apr 2024 14:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712066410; cv=none; b=r3vTJuamhtf26epPSoYLQMiR5TvEPIAUu/FxweL2UkVBAWEyByizG6VH5X2sjzQ+vcDM5Zs4LBBb4H/+searpDcigOa1VWP6J6UnH+5lyqUraDlxqXE75WfLaaUAO/bQJ8kt/9Hm3Bff/aoWtoHC61naYqOWeGPzfXFbC5WxOTo=
+	t=1712066977; cv=none; b=L1Sc1Ye8PABkITIWePkvI5J20V4z5EXgbDnsMWkIZjRVCBHCT3T4hX96UjpPQ0MWtXBL1leIHLpQOwkDCJtW5ZpFz5n1xw4KDLngjGGdCtiQGn18vQKVOdLGgn3UwLUCFOdki36Eb640wRlpDRyLMwExH4Kllhn3Joe6hJRg2M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712066410; c=relaxed/simple;
-	bh=m6sNQTmfGxlsuizyDlXmcSM2iyLxXtFcL2BQDa3TpA4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XzJJ2qScDJzEOZHFQvvJQX5SekdzImUiP/0WKLP7lqLAd6m15aUmSU5/5lb6/0EfTHOxIfoa7iBqQz08wQks2YsMsSO78YYJHFhZzz0Ng1pUIoNvfzPnj/GMggoZhzsa5/KV0ZI13ObB8xJlRy4MtT0hlIFk1gQQ8xwGVlY/Ml8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cdbeldvv; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-563cb3ba9daso5127121a12.3
-        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 07:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712066407; x=1712671207; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m6sNQTmfGxlsuizyDlXmcSM2iyLxXtFcL2BQDa3TpA4=;
-        b=cdbeldvvL+mBaSy03cdvQm24ZWKFfRaWj2h98PAW+ajXWjqnjZh8htpgWwLEhIu+Zj
-         70Po7+4peuygNRxe9CRQtjI1qQQmVjMOmxaLU5BBa5NrS57WVW5klKy3v7H4pYwJhJFG
-         8yonnl6PS8vOnytjX4ev3itzP3NScBPLy2sn8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712066407; x=1712671207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m6sNQTmfGxlsuizyDlXmcSM2iyLxXtFcL2BQDa3TpA4=;
-        b=vtpMXnUHaaSJgaXXphcB2qqLQrCjefRHAJOH3m398/nsOJoL1mlFWyLvnB2bhL5zl/
-         KYWGodb6KiHeiZBANpYjqT3U9sB93uBKHLTM5XiO6utI8dt/4Bgitb/Sp20jmHCcvqT/
-         8ooKsu6xXQeMmNYVQu8cadpKxwn3R1LOneisSYnEetzVYayP4KLrHmQA8E2efYt4CBMP
-         rptZ/zz9eDamVl9NyvDabb+OWkGiTa1/OYGwx6QS7MgjLFOoESSIf1YUrsaeKHDH22yn
-         WO6CmQz1obFgdBrMKWchgDcdvOVI/Jcdh8jEdMci1o/OXxlMy06QNhb22Q87TyIxIbD7
-         LztQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIcL6DNkaG7t4w6q7SYKRrcJQHtTrvvz5CBYf4rtSuPSKjOvNRV4X3q5fUnsEZ1F8hF7JG9rS4vVJ15q+eE9OqmjEV1ZGDh7SEc7E=
-X-Gm-Message-State: AOJu0YxhMTVtl9uYcIfpxCg95HOgIcGpTVYp1EEYGmNbQbCr5dvZLSbS
-	FhIr4OJJhqRw2naEfRyv9igeSA2XrcB/8AWbGTEzaUvQSQU8Qh5/QE2oQK16CIhgE9G49jteoed
-	fidGA9E1A+L8ClVoxFzojFAlhC6TtgK/7DEk35CIFeTZKTh9mrg==
-X-Google-Smtp-Source: AGHT+IGv7kzldk1Apny7yTRUZFx4YqoHlC5+McCjdum6s0g5nYhqkKti8NM86aOCnJZ3m2HqiQU1bxzstYaKKVyHl0o=
-X-Received: by 2002:a50:c199:0:b0:56d:b7d6:d64b with SMTP id
- m25-20020a50c199000000b0056db7d6d64bmr8078495edf.29.1712066407417; Tue, 02
- Apr 2024 07:00:07 -0700 (PDT)
+	s=arc-20240116; t=1712066977; c=relaxed/simple;
+	bh=aGc5dcE7aUaQO/qAQe2vO/xLUnnz35AEw5nLynNCBdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R59zMBWomorDiA5oT/KnwSpXckbe1vEIpDBFKABBKSmwTzTpEl4UPpYzWGxUrRbyeSC17OmTc58TdbKh8cOHuIKOgkr0a8GoOaXTJ6xzdxh/4KwQBomhfJmTrjnhNyB7stwoQq5nvOyZ6eo9j21UyyzVNCiaojgwWlB1lt6FJT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vVbYjLtP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from umang.jain (unknown [103.86.18.232])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A840466F;
+	Tue,  2 Apr 2024 16:08:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712066937;
+	bh=aGc5dcE7aUaQO/qAQe2vO/xLUnnz35AEw5nLynNCBdE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vVbYjLtPKNPcuqVuFQf5Bg3RgqaiKdraOEtOciOxbymeG71cp3J9dHiwdt97Ixdis
+	 A4CQJX3arv4VUd0N6wXIX7K1p6Wu3iv3hgP3OBLWl3twCoI4P7H2XbFNNREtsB3RKh
+	 96VQMLDzA0XRKoE7aEVLXsRq3nXaCgLt9vtTgfb0=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v4 0/6] media: imx335: 2/4 lane ops and improvements
+Date: Tue,  2 Apr 2024 19:39:18 +0530
+Message-ID: <20240402140924.10009-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230920125939.1478-1-ricardo@ribalda.com> <ZQruPPVjqbWXAGmL@valkosipuli.retiisi.eu>
- <CAPybu_04iU75nFm3Misv9qQajzGKu9jmLvTX2nwsLn3AAZcdtg@mail.gmail.com>
-In-Reply-To: <CAPybu_04iU75nFm3Misv9qQajzGKu9jmLvTX2nwsLn3AAZcdtg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 2 Apr 2024 15:59:56 +0200
-Message-ID: <CAMrC3HsbgV23hAQ0T9_97XkhKwn07WOfinXSQ14wZT8SgTfd2g@mail.gmail.com>
-Subject: Re: [PATCH] yavta: Format type errors for non x86 arches
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
-	hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent
+Another batch of improvements of the imx335 driver.
 
-I can see that you updated yavta recently...
+Patch 1/6 adds support for 2 or 4 lane operation modes.
 
-Any chance that you can take a look at this?
+Patch 2/6 call the V4L2 fwnode device parser to handle controls that are
+standardised by the framework.
 
-Thanks!
+Patch 3/6 introduces the use of CCI for registers access.
 
-On Fri, Oct 20, 2023 at 9:07=E2=80=AFAM Ricardo Ribalda Delgado
-<ricardo@ribalda.com> wrote:
->
-> @Laurent Pinchart
->
-> Friendly Ping :)
->
-> On Wed, Sep 20, 2023 at 10:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.f=
-i> wrote:
-> >
-> > Hi Ricardo,
-> >
-> > Thanks for the update.
-> >
-> > On Wed, Sep 20, 2023 at 02:59:39PM +0200, Ricardo Ribalda wrote:
-> > > mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have different leng=
-hts
-> > > for long long ints, which result in some compilation errors.
-> > >
-> > > Lets add some castings and inttypes macros to help the compiler deal =
-with
-> > > this.
-> > >
-> > > We have to use the castings, because kernel types (__u64 et al) does =
-not
-> > > seem to be compatible with inttypes macros.
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
-> >
-> > It'd be great to address this in the kernel. The kernel UAPI integer ty=
-pes
-> > have been around for a very long time so there could be issues in doing
-> > that, too.
-> >
-> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >
-> > --
-> > Kind regards,
-> >
-> > Sakari Ailus
+Patch 4/6 uses decimal values for sizes registers (instead of
+hexadecimal). This improves overall readability
+
+Patch 5/6 fixes the height value discrepency. Accessible height is 1944,
+as per the data sheet
+
+Patch 6/6 fixes the max analogue gain value.
+
+Changes in v4:
+- Do not change from window cropping mode in patch 4/6.
+  In v3, the sensor was changed to all pixel scan mode to
+  achieve height=1944, but it can be achieved in window
+  cropping mode as well, by fixing the mode registers
+
+changes in v3:
+- fix patch 2/6 where we need to free ctrl handler
+  on error path.
+
+changes in v2:
+- New patch 4/6
+- Drop calculating the pixel clock from link freq.
+- CCI register address sort (incremental)
+- Fix cci_write for REG_HOLD handling and add a comment.
+- Remove  unused macros as part of 3/6
+
+Kieran Bingham (2):
+  media: imx335: Support 2 or 4 lane operation modes
+  media: imx335: Parse fwnode properties
+
+Umang Jain (4):
+  media: imx335: Use V4L2 CCI for accessing sensor registers
+  media: imx335: Use integer values for size registers
+  media: imx335: Fix active area height discrepency
+  media: imx335: Limit analogue gain value
+
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/imx335.c | 642 ++++++++++++++++++-------------------
+ 2 files changed, 308 insertions(+), 335 deletions(-)
+
+-- 
+2.43.0
+
 
