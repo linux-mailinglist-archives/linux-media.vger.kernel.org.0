@@ -1,362 +1,183 @@
-Return-Path: <linux-media+bounces-8437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8438-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43C6895D73
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:18:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA2895DF4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 22:45:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 633331F26955
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:18:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11DDE284E83
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 20:45:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BAC15D5AD;
-	Tue,  2 Apr 2024 20:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F2315E1EB;
+	Tue,  2 Apr 2024 20:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OxXCNG22"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU/YeZI8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408E415D5A3
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 20:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A047215ADB1;
+	Tue,  2 Apr 2024 20:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712089122; cv=none; b=DyoyxLb6lLf7LCOE00hQTDt9o5D4Q5zYx+fRYnf01c5pnZ92caj1zz9M8DswPijVNVe42OXQn1DU7gHNZSLe3r2o64LU9k/XuREkF8XAArfE5UgitPydNw8u4kCIRl+6EpFunMqQ17XgPWgk/cWHvbzVekTrTY2fJbhGbGn94FA=
+	t=1712090695; cv=none; b=dCXDxb2MDnXwF98gCWflSHvDINbiY9jl+159ZoMt53UlQNMYZK+8q95uC3zXYRfj070E5z/QLubNBtGXwPR+jB00c9BrLm47FiYoaK9NM3+1cW6zul9aw/SQyko3TrVnUeIBjVKzz8rzqKjdzrNv6LpZ4+QXrPwg2cJezRm4exg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712089122; c=relaxed/simple;
-	bh=KtbANLV9jwf79hX8EBLkVWy5YdfF/xR012YM2dDiBiw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tdwLXEb55AwPQwfXdigVxzI0hOIlPRMYrpmrZyTOP0z71WFMcvTU9LihTQvjY++pcysiR92a+Zz6cUVON84tbFdn8u9qr+ix4ZSkJJtycjP2exDnZSLNl20M7706zZ2B10uCgv9fpEYNk99HsyqcxIqOEFVBZlxMPN9VM7gvlDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OxXCNG22; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712089119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l4SFKie4/7fDdKgSLurI8mZwIt/QLCQEOWbvE+Um4Jo=;
-	b=OxXCNG226NsGBalMoEPWWOsuRgGlxWStNkvmyinhKPRGC8iwZudtwTNLmBQcGAjC2977G+
-	B8/6OGzPYiJGQWWZpsqxupMJt7ibpVrOHqkFN73jTf16bvFPCUYZRMeeJofILIXVPdzrEJ
-	Rj1Gi99nx21mD6Ty0OOfmnIGEAd1uU8=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-kWiQUoYlO7S67E7YOfoWqA-1; Tue, 02 Apr 2024 16:18:37 -0400
-X-MC-Unique: kWiQUoYlO7S67E7YOfoWqA-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-515bd3d89c9so4075390e87.3
-        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 13:18:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712089116; x=1712693916;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l4SFKie4/7fDdKgSLurI8mZwIt/QLCQEOWbvE+Um4Jo=;
-        b=v2v/MRZU3ql/GUrWoYfXXWReXqWVeNxeHiOPD4+7aBb7HJ755+zO9ESAPCpV1z0jM6
-         fJk3Cog9+z30b/E90SoNkXegu4B1k4KdvN1m6qn7Pnq4uPK+ob/Kq3VquhNHo6kiV80A
-         landsDpGptvzU3FXErObcouN4h65ZA/aEKHF9TtimJ4+Nz2AHk9K+D9zyVfN+4w/PYId
-         y+kZznJLGEcr1OS73iLyHDqoQ9ZFSOh9FRFrk09kHT/6EXrpfvNJNqJ+HQdcLaLmtFbs
-         1wiYLdrujwp/kF5piFnxf02owu34+YgbRzPqLfk4BWKF1AvAnNXB/0MUrmwu0fg5n7s9
-         Scfg==
-X-Gm-Message-State: AOJu0YyCXtyf9KifnqbEj1+1+4NcEU+5G+X0FLd/XNsb3NWsUvv3sPin
-	YnEFm7f3s9VkVsUwbWItB0ZycPXCoXZ4BVU59iyaKV6iA4mgb7oHuY9pWWHyQ3WE/G7E/wbV7L4
-	Gqd02T9pptfrlLOAdvt+6N3LshrDkzKZYnwmwpMAfx/r2p1e5YUw+f51NaUKrmQZRrabUJLDgG9
-	XbVIm1ZzpT3mrD6SwvXcveFUmIfIhpiSrnzwvYpj6O65uscw==
-X-Received: by 2002:a19:7512:0:b0:513:cc91:9ed7 with SMTP id y18-20020a197512000000b00513cc919ed7mr295077lfe.11.1712089115954;
-        Tue, 02 Apr 2024 13:18:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEqvVyVqjIRmdekRyTZq7TPXist+2qs4PHQX3FUJKliWWmQez9529BSEELtQthem/P0FHpzpfqBoeT5HGaRNqM=
-X-Received: by 2002:a19:7512:0:b0:513:cc91:9ed7 with SMTP id
- y18-20020a197512000000b00513cc919ed7mr295071lfe.11.1712089115509; Tue, 02 Apr
- 2024 13:18:35 -0700 (PDT)
+	s=arc-20240116; t=1712090695; c=relaxed/simple;
+	bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o/OwIotO8yUEQ8z0Rkubkz/lAvMi8btwvPpOMsAEu/pOKma31nBRZ8VH4+d7378fSS41dMAm2wh0Ijo1WMqS4RR2H8fMIPv7PqQWyZb7c1teBXDDdbOOYFR3T7rsFvYs9W0d6046gBfWIcLoy8gncN5lRaGC0l5kjoUueD+kl68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU/YeZI8; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712090693; x=1743626693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
+  b=gU/YeZI8Y8D63sYcWTbCM3//6IRGn4Fv+RIuJUOprb4RCE2PiBbFjw1M
+   hMatmF4hR+xLP/+S5a2kmMYkYsQAXM+rd52tt/hDbuSnbbIs4r5CFGLsH
+   CXF/qJINHq/C0LRkxMW3w5CzIIx71ig2pRLndLmHWp2PKNGpLIS1VrjlP
+   SJSftWVlAtWTvnYvwL6OvHpod+gE6r0IQk4zeI0BJRRHeWtu535X6PDFw
+   6CUlQt2ZMjGWKeF68LSu6sHRAyaxc+X1pWJcVdwWY33H6h/lOimn86e22
+   ZdwRlCNLl2wcnlDwPDemkwp1ExtEUYmzp93EAbmhXSPTy3uNYfPiKDCGv
+   A==;
+X-CSE-ConnectionGUID: gjb1uiXmQwWtG685ajzOKw==
+X-CSE-MsgGUID: fwS7P0tlSa+ZvC7QkTmFhw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7188486"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="7188486"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 13:44:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="937083805"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="937083805"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Apr 2024 13:44:49 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id EEEC21C5; Tue,  2 Apr 2024 23:44:48 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] media: atomisp: Get rid of PCI device ID hack check
+Date: Tue,  2 Apr 2024 23:44:47 +0300
+Message-ID: <20240402204447.294280-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305115451.210807-1-sebastian.wick@redhat.com> <bc78ca92-d839-4a6f-bb9e-1fec0685be68@xs4all.nl>
-In-Reply-To: <bc78ca92-d839-4a6f-bb9e-1fec0685be68@xs4all.nl>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Tue, 2 Apr 2024 22:18:24 +0200
-Message-ID: <CA+hFU4wJEXhxY4m9edBP1kO9w6aCqMHEBy2JfkynwPHvsk026A@mail.gmail.com>
-Subject: Re: [PATCH v2] edid-decode: build: add support for building with meson
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Always check exact PCI ID match and drop hack checks.
 
-On Tue, Apr 2, 2024 at 6:35=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
-ote:
->
-> Hi Sebastian,
->
-> Sorry for the delay, I was on vacation.
->
-> I still need to look at this since I have to be certain that it doesn't b=
-reak
-> installation (esp. the emscripten part). I hope to find the time for that=
- later
-> this week.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ .../media/atomisp/pci/atomisp_internal.h      |  3 +-
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 40 +++++++++----------
+ 2 files changed, 21 insertions(+), 22 deletions(-)
 
-Great! Send out a new version as well because I forgot to make the
-executable available when used as a subproject.
-
-> I am also considering moving edid-decode into https://git.linuxtv.org/v4l=
--utils.git/
-> That way it is actually part of proper releases with a version number and=
- tarballs,
-> which is something that has been requested a few times.
->
-> What is your opinion on that? Or would that just make life harder for you=
-?
-
-It should be fine for us. We can use get_variable() on the subproject
-to get to edid-decode even if there are other things being built.
-Might have to change the meson files to support building just
-edid-decode but that should be doable as well.
-
-> Regards,
->
->         Hans
->
-> On 05/03/2024 12:54, Sebastian Wick wrote:
-> > This also removes the old Makefile based build-system.
-> >
-> > The immediate reason for adding support for meson is that this allows u=
-s
-> > to include edid-decode as a subproject in libdisplay-info.
-> >
-> > v2:
-> >  * Remove the make build-system
-> >  * Adjust the README on how to build/install with meson
-> >  * Fix installing for the wasm-build
-> >
-> > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > ---
-> >  Makefile                      | 50 ---------------------------
-> >  README                        | 28 +++++++++------
-> >  emscripten/wasm-crossfile.txt | 14 ++++++++
-> >  meson.build                   | 65 +++++++++++++++++++++++++++++++++++
-> >  4 files changed, 96 insertions(+), 61 deletions(-)
-> >  delete mode 100644 Makefile
-> >  create mode 100644 emscripten/wasm-crossfile.txt
-> >  create mode 100644 meson.build
-> >
-> > diff --git a/Makefile b/Makefile
-> > deleted file mode 100644
-> > index 375fedb..0000000
-> > --- a/Makefile
-> > +++ /dev/null
-> > @@ -1,50 +0,0 @@
-> > -ifeq ($(OS),Windows_NT)
-> > -     bindir ?=3D /usr/bin
-> > -     mandir ?=3D /usr/share/man
-> > -else
-> > -     UNAME_S :=3D $(shell uname -s)
-> > -     ifeq ($(UNAME_S),Darwin)
-> > -             bindir ?=3D /usr/local/sbin
-> > -             mandir ?=3D /usr/local/share/man
-> > -     else
-> > -             bindir ?=3D /usr/bin
-> > -             mandir ?=3D /usr/share/man
-> > -     endif
-> > -endif
-> > -
-> > -EMXX ?=3D em++
-> > -
-> > -SOURCES =3D $(wildcard *.cpp)
-> > -OBJECTS :=3D $(patsubst %.cpp, %.o, $(SOURCES))
-> > -EMOBJECTS :=3D $(patsubst %.cpp, emscripten/%.o, $(SOURCES))
-> > -
-> > -WARN_FLAGS =3D -Wall -Wextra -Wno-missing-field-initializers -Wno-unus=
-ed-parameter -Wimplicit-fallthrough
-> > -
-> > -all: edid-decode
-> > -
-> > -sha =3D -DSHA=3D$(shell if test -d .git ; then git rev-parse --short=
-=3D12 HEAD ; fi)
-> > -date =3D -DDATE=3D$(shell if test -d .git ; then TZ=3DUTC git show --q=
-uiet --date=3D'format-local:"%F %T"' --format=3D'%cd'; fi)
-> > -
-> > -edid-decode: $(OBJECTS)
-> > -     $(CXX) $(LDFLAGS) -g -o $@ $(OBJECTS) -lm
-> > -
-> > -edid-decode.js: emscripten/edid-decode.js
-> > -
-> > -emscripten/edid-decode.js: $(EMOBJECTS)
-> > -     $(EMXX) $(LDFLAGS) -s EXPORTED_FUNCTIONS=3D'["_parse_edid"]' -s E=
-XPORTED_RUNTIME_METHODS=3D'["ccall", "cwrap"]' -o $@ $(EMOBJECTS) -lm
-> > -
-> > -%.o: %.cpp edid-decode.h oui.h Makefile
-> > -     $(CXX) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(WARN_FLAGS) -g $(sha) $=
-(date) -o $@ -c $<
-> > -
-> > -emscripten/%.o: %.cpp edid-decode.h oui.h Makefile
-> > -     $(EMXX) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(WARN_FLAGS) $(sha) $(d=
-ate) -o $@ -c $<
-> > -
-> > -clean:
-> > -     rm -f *.o emscripten/*.o
-> > -     rm -f edid-decode emscripten/edid-decode.js emscripten/edid-decod=
-e.wasm
-> > -
-> > -install:
-> > -     mkdir -p $(DESTDIR)$(bindir)
-> > -     install -m 0755 edid-decode $(DESTDIR)$(bindir)
-> > -     mkdir -p $(DESTDIR)$(mandir)/man1
-> > -     install -m 0644 edid-decode.1 $(DESTDIR)$(mandir)/man1
-> > diff --git a/README b/README
-> > index 4c2b7fe..bf4e668 100644
-> > --- a/README
-> > +++ b/README
-> > @@ -6,8 +6,9 @@ To build this do:
-> >
-> >  git clone git://linuxtv.org/edid-decode.git
-> >  cd edid-decode
-> > -make
-> > -make install
-> > +meson setup _build
-> > +meson compile -C _build
-> > +meson install -C _build
-> >
-> >  Patches and bug reports can be sent to the linux-media@vger.kernel.org
-> >  mailinglist (see https://www.linuxtv.org/lists.php). Please make sure
-> > @@ -46,15 +47,20 @@ https://hverkuil.home.xs4all.nl/edid-decode/edid-de=
-code.html
-> >
-> >  This is updated regularly with the latest edid-decode. It uses emscrip=
-ten
-> >  and the html file is maintained in the emscripten directory of edid-de=
-code.
-> > -To build edid-decode.js/wasm run 'make edid-decode.js'. This assumes
-> > -that emscripten is installed, of course.
-> > -
-> > -You can use the konqueror browser to run it locally:
-> > -
-> > -     konqueror emscripten/edid-decode.html
-> > -
-> > -For other browsers you need to serve the files using a local webserver=
-.
-> > -See also https://emscripten.org/docs/getting_started/Tutorial.html
-> > +To build it, set the project up using the provided crossfile:
-> > +
-> > +     meson setup _build-wasm \
-> > +             --cross-file ./emscripten/wasm-crossfile.txt \
-> > +             --prefix=3D$(pwd)/_install-wasm
-> > +     meson install _build-wasm
-> > +     # serve the files using a local webserver
-> > +     cd _install-wasm/bin
-> > +     python3 -m http.server
-> > +
-> > +This assumes that emscripten is installed, of course. The location of =
-the
-> > +toolchain can be adjusted in emscripten/wasm-crossfile.txt.
-> > +See also https://emscripten.org/docs/getting_started/Tutorial.html and
-> > +https://mesonbuild.com/Cross-compilation.html.
-> >
-> >  You can find a very large collection of EDIDs here:
-> >  https://github.com/linuxhw/EDID
-> > diff --git a/emscripten/wasm-crossfile.txt b/emscripten/wasm-crossfile.=
-txt
-> > new file mode 100644
-> > index 0000000..a41f46c
-> > --- /dev/null
-> > +++ b/emscripten/wasm-crossfile.txt
-> > @@ -0,0 +1,14 @@
-> > +[binaries]
-> > +c =3D '/usr/lib/emscripten/emcc'
-> > +cpp =3D '/usr/lib/emscripten/em++'
-> > +ar =3D '/usr/lib/emscripten/emar'
-> > +strip =3D '/usr/lib/emscripten/emstrip'
-> > +
-> > +[built-in options]
-> > +default_library =3D 'static'
-> > +
-> > +[host_machine]
-> > +system =3D 'emscripten'
-> > +cpu_family =3D 'wasm32'
-> > +cpu =3D 'wasm32'
-> > +endian =3D 'little'
-> > \ No newline at end of file
-> > diff --git a/meson.build b/meson.build
-> > new file mode 100644
-> > index 0000000..3a5bc71
-> > --- /dev/null
-> > +++ b/meson.build
-> > @@ -0,0 +1,65 @@
-> > +project(
-> > +     'edid-decode',
-> > +     'cpp',
-> > +)
-> > +
-> > +edid_decode_args =3D [
-> > +     '-Wno-missing-field-initializers',
-> > +     '-Wno-unused-parameter',
-> > +     '-Wimplicit-fallthrough',
-> > +]
-> > +edid_decode_link_args =3D []
-> > +
-> > +git =3D find_program('git', native: true, required: false)
-> > +if git.found()
-> > +     git_commit =3D run_command(
-> > +             [git, 'rev-parse', '--short=3D12', 'HEAD'],
-> > +             check: false,
-> > +     )
-> > +     git_date =3D run_command(
-> > +             [git, 'show', '--quiet', '--date=3Dformat-local:%F %T', '=
---format=3D%cd'],
-> > +             env: {'TZ': 'UTC'},
-> > +             check: false,
-> > +     )
-> > +
-> > +     if git_commit.returncode() =3D=3D 0
-> > +             edid_decode_args +=3D ['-DSHA=3D' + git_commit.stdout().s=
-trip()]
-> > +     endif
-> > +     if git_date.returncode() =3D=3D 0
-> > +             edid_decode_args +=3D ['-DDATE=3D' + git_date.stdout().st=
-rip()]
-> > +     endif
-> > +endif
-> > +
-> > +if target_machine.system() =3D=3D 'emscripten'
-> > +     edid_decode_link_args +=3D [
-> > +             '-sEXPORTED_FUNCTIONS=3D_parse_edid',
-> > +             '-sEXPORTED_RUNTIME_METHODS=3Dccall,cwrap'
-> > +     ]
-> > +
-> > +     fs =3D import('fs')
-> > +     foreach filename : ['edid-decode.html', 'edid-decode.ico']
-> > +             fs.copyfile(
-> > +                     'emscripten' / filename,
-> > +                     install: true,
-> > +                     install_dir: 'bin',
-> > +             )
-> > +     endforeach
-> > +endif
-> > +
-> > +executable(
-> > +     'edid-decode',
-> > +     'calc-gtf-cvt.cpp',
-> > +     'calc-ovt.cpp',
-> > +     'edid-decode.cpp',
-> > +     'parse-base-block.cpp',
-> > +     'parse-cta-block.cpp',
-> > +     'parse-di-ext-block.cpp',
-> > +     'parse-displayid-block.cpp',
-> > +     'parse-ls-ext-block.cpp',
-> > +     'parse-vtb-ext-block.cpp',
-> > +     cpp_args : edid_decode_args,
-> > +     link_args: edid_decode_link_args,
-> > +     install : true,
-> > +)
-> > +
-> > +install_man('edid-decode.1')
-> > \ No newline at end of file
->
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index bba9bc64d447..e6a090d9f310 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -49,14 +49,13 @@
+ 	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
+ 	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
+ 
+-#define ATOMISP_PCI_DEVICE_SOC_MASK	0xfff8
++#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+ /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
+ /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD_1179	0x1179
+ /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
+-#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+ #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
+ #define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index f736e54c7df3..4f414b812408 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1238,7 +1238,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	const struct atomisp_platform_data *pdata;
+ 	struct atomisp_device *isp;
+ 	unsigned int start;
+-	int err, val;
++	u32 val;
++	int err;
+ 
+ 	/* Pointer to struct device. */
+ 	atomisp_dev = &pdev->dev;
+@@ -1266,8 +1267,10 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 
+ 	pci_set_drvdata(pdev, isp);
+ 
+-	switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK) {
++	switch (id->device) {
+ 	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
+ 		isp->media_dev.hw_revision =
+ 		    (ATOMISP_HW_REVISION_ISP2400
+ 		     << ATOMISP_HW_REVISION_SHIFT) |
+@@ -1420,28 +1423,25 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	 */
+ 	atomisp_css2_hw_store_32(MRFLD_CSI_RECEIVER_SELECTION_REG, 1);
+ 
+-	if ((id->device & ATOMISP_PCI_DEVICE_SOC_MASK) ==
+-	    ATOMISP_PCI_DEVICE_SOC_MRFLD) {
+-		u32 csi_afe_trim;
+-
++	switch (id->device) {
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
+ 		/*
+ 		 * Workaround for imbalance data eye issue which is observed
+ 		 * on TNG B0.
+ 		 */
+-		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &csi_afe_trim);
+-		csi_afe_trim &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
+-				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
+-				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
+-		csi_afe_trim |= (MRFLD_PCI_CSI1_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
+-				(MRFLD_PCI_CSI2_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
+-				(MRFLD_PCI_CSI3_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
+-		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, csi_afe_trim);
++		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &val);
++		val &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
++			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
++			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
++		val |= (MRFLD_PCI_CSI1_HSRXCLKTRIM << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
++		       (MRFLD_PCI_CSI2_HSRXCLKTRIM << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
++		       (MRFLD_PCI_CSI3_HSRXCLKTRIM << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
++		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, val);
++		break;
++	default:
++		break;
+ 	}
+ 
+ 	err = atomisp_initialize_modules(isp);
+-- 
+2.43.0.rc1.1.gbec44491f096
 
 
