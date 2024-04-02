@@ -1,129 +1,124 @@
-Return-Path: <linux-media+bounces-8360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8361-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2956E894E94
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 11:22:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7A5894F1E
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 11:51:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD9261F23899
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 09:22:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CA7F1C2205F
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 09:51:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB5E57860;
-	Tue,  2 Apr 2024 09:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92C655914B;
+	Tue,  2 Apr 2024 09:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UOFQTKDL"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="35rLm1S5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C911E525
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 09:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410DE17C8D;
+	Tue,  2 Apr 2024 09:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712049757; cv=none; b=qf4oR3xrFj2yejwsTy+OgpKkOhI6IOdKtp1hageoEh5St/87JuX7/4tl00KZApm0JPC+bouFGCux54IQKzvJY7+D+w2M6QhPR5m7McYno/xhGdqBKb5vSNU1i+m7UbVNYEcPcYvd6gl9DxXdMIT6Py8UYzALd65wz4cOm0aEWuQ=
+	t=1712051459; cv=none; b=IpGQ7kY39cna5b8FLxSI4O7VmzFcxuOn2G/jftzZ6ANgZf/dZx6uWA6znTJ5xD3k750Ue8SAykbM7YFMzppASffx5QypaUfh4X8WBIkTSMjzxm9PWoo6ICi6+jB42KH6+fnNyjybeQEN1ss2A82T8jGdCfH196S8QYbBiDhscyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712049757; c=relaxed/simple;
-	bh=WHCnz22++MsliagW1Qil5+b1nBkNRh5xElpH6ikOze0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hz8IJVhfQuxDTfPmp5oI4XjimGXSeOeN8Ut9CT3iG0QIqhBIH54uvERdYlgHBSYZxINGHzd7B4BUcGhjwiAAEECnPh04aHHsPasDpbtWInLAZw/uQ+dEdjWy8kKi+9/JldHbtDQ+bmfgHPFDts+rrm2YiwTeJYl2DuoZRv3hXW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UOFQTKDL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BB44564;
-	Tue,  2 Apr 2024 11:21:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712049717;
-	bh=WHCnz22++MsliagW1Qil5+b1nBkNRh5xElpH6ikOze0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UOFQTKDL3YSmba5SJ5yvt3OU4j02d0LDQW6+B3fyQKg99vqvgYS/zDg+xiWczIL1X
-	 NE8cQVPlqzZ6GrL1z11DS/Af5MtnAIBfUTMMWOwr5O9eTciK/7E8U8TWmKnwGSMFBM
-	 Z+EqhOY7N/rR5lz2CIo16jzCeJOq20kuCzNKCejM=
-Date: Tue, 2 Apr 2024 12:22:24 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
-Message-ID: <20240402092224.GE10288@pendragon.ideasonboard.com>
-References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
- <Zgu_xhcadm2F1Rxl@valkosipuli.retiisi.eu>
- <20240402084407.GC10288@pendragon.ideasonboard.com>
- <ZgvF1wi2UpkUTC9-@valkosipuli.retiisi.eu>
- <d5f3af05-77e7-4647-877a-ffddfd9a2623@ideasonboard.com>
+	s=arc-20240116; t=1712051459; c=relaxed/simple;
+	bh=vw9cJNl0LdiDuqpsolVN3qVEokjCyQNhVMfH1BeHA1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S73zKO9AyYUvIDvL4C9wU0IjDnGXSV1DfvXoV1akSCHaiRHplx+KLLYMmSUbOPPRW8sK6brM3cQImMT6zhqpiPVo23T/bvf71A/+8rSmM/UBesmYhD5OxgILHURqXlXjLPbZ+1GtLLSX+EtI+HGu0ChrJBVGryJrXOoMp3BYjBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=35rLm1S5; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712051455;
+	bh=vw9cJNl0LdiDuqpsolVN3qVEokjCyQNhVMfH1BeHA1Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=35rLm1S57yMgRE+kXJmLpYmkm6SUggu4hiypnYM7pxO4Qzz9MUkxoEoG37wJDSR6Z
+	 I8BjXG4rZv7tpL4/HMeydnOgGt0ywMPEuDn11KRvHZRlJA7NhpvZfYTrjiV5/T/m13
+	 2HD16VV0x41MOn+n1To3JOlICC43sCB0n0bH0hAIRBSAvH16r+yKjZi8o+m/+mavOx
+	 69yABYjYrxphibinRyMHdWhSbfS/EbQaN0yWq2DFey5Kd4xJVO5OEDRCqDu9CYTVIe
+	 gVnRQusPVg3hFVlyOBPtEtBJdiqTGIwN2X4A4JUTkh2jWt+y+9xfXbF3M4ah0i0/gZ
+	 mXMBr2WexXVpQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D7B0737820EF;
+	Tue,  2 Apr 2024 09:50:53 +0000 (UTC)
+Message-ID: <4949bd54-8c32-4490-ab19-d38796d29ac1@collabora.com>
+Date: Tue, 2 Apr 2024 11:50:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d5f3af05-77e7-4647-877a-ffddfd9a2623@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: mediatek: vcodec: fix h264 multi statless
+ decoder smatch warning
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240229095611.6698-1-yunfei.dong@mediatek.com>
+ <20240229095611.6698-2-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240229095611.6698-2-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 02, 2024 at 12:11:30PM +0300, Tomi Valkeinen wrote:
-> On 02/04/2024 11:46, Sakari Ailus wrote:
-> > On Tue, Apr 02, 2024 at 11:44:07AM +0300, Laurent Pinchart wrote:
-> >> On Tue, Apr 02, 2024 at 08:20:22AM +0000, Sakari Ailus wrote:
-> >>> Moi,
-> >>>
-> >>> On Tue, Apr 02, 2024 at 02:37:25AM +0300, Laurent Pinchart wrote:
-> >>>> When support for streams was added to the V4L2 subdev API, the
-> >>>> v4l2_subdev_crop structure was extended with a stream field, but the
-> >>>> field was not handled in the core code that translates the
-> >>>> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
-> >>>
-> >>> The field is indeed in the UAPI headers. But do we want to support the CROP
-> >>> IOCTL for streams? Shouldn't the callers be using the [GS]_SELECTION
-> >>> instead?
-> >>
-> >> They should, but if the field is there, we should support it :-) The
-> >> alternative is to remove it. It will cause failures in v4l2-compliance
-> >> that we'll need to handle though.
-> > 
-> > I'd prefer to stick to selections here, this is new functionality so
-> > [GS]_CROP support isn't required. I don't have a strong opinion on the
-> > matter though.
+Il 29/02/24 10:56, Yunfei Dong ha scritto:
+> Fix smatch static checker warning for vdec_h264_req_multi_if.c.
+> Leading to kernel crash when fb is NULL.
 > 
-> Maybe it's easier to just support the stream field, instead of making 
-> [GS]_CROP the odd case which looks like it should support streams, but 
-> then doesn't...
+> Fixes: 397edc703a10 ("media: mediatek: vcodec: add h264 decoder")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c         | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> index 0e741e0dc8ba..ab8e708e0df1 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+> @@ -724,11 +724,16 @@ static int vdec_h264_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs
+>   		return vpu_dec_reset(vpu);
+>   
+>   	fb = inst->ctx->dev->vdec_pdata->get_cap_buffer(inst->ctx);
+> +	if (!fb) {
+> +		mtk_vdec_err(inst->ctx, "fb buffer is NULL");
+> +		return -EBUSY;
+> +	}
+> +
+>   	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+>   	dst_buf_info = container_of(fb, struct mtk_video_dec_buf, frame_buffer);
+>   
+> -	y_fb_dma = fb ? (u64)fb->base_y.dma_addr : 0;
+> -	c_fb_dma = fb ? (u64)fb->base_c.dma_addr : 0;
 
-I'll let the two of you argue and decide, and implement the result :-)
+You're changing the behavior here, can you please explain why this change is valid
+into the commit description?
 
-> >>>> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
-> >>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> ---
-> >>>>   drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
-> >>>>   1 file changed, 2 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>> index 4c6198c48dd6..45836f0a2b0a 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>> @@ -732,6 +732,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >>>>   		memset(&sel, 0, sizeof(sel));
-> >>>>   		sel.which = crop->which;
-> >>>>   		sel.pad = crop->pad;
-> >>>> +		sel.stream = crop->stream;
-> >>>>   		sel.target = V4L2_SEL_TGT_CROP;
-> >>>>   
-> >>>>   		rval = v4l2_subdev_call(
-> >>>> @@ -756,6 +757,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >>>>   		memset(&sel, 0, sizeof(sel));
-> >>>>   		sel.which = crop->which;
-> >>>>   		sel.pad = crop->pad;
-> >>>> +		sel.stream = crop->stream;
-> >>>>   		sel.target = V4L2_SEL_TGT_CROP;
-> >>>>   		sel.r = crop->rect;
-> >>>>   
-> >>>>
-> >>>> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
+Thanks,
+Angelo
 
--- 
-Regards,
+> +	y_fb_dma = (u64)fb->base_y.dma_addr;
+> +	c_fb_dma = (u64)fb->base_c.dma_addr;
+>   	mtk_vdec_debug(inst->ctx, "[h264-dec] [%d] y_dma=%llx c_dma=%llx",
+>   		       inst->ctx->decoded_frame_cnt, y_fb_dma, c_fb_dma);
+>   
 
-Laurent Pinchart
+
 
