@@ -1,155 +1,175 @@
-Return-Path: <linux-media+bounces-8358-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54237894E24
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 11:00:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8239894E5E
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 11:11:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D6F7B23FFF
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 09:00:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1778C1C21265
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 09:11:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD38456B8C;
-	Tue,  2 Apr 2024 09:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A0356B89;
+	Tue,  2 Apr 2024 09:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qp9OqSaH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vh7AGlxt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8FE17C7C;
-	Tue,  2 Apr 2024 09:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EA057302
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 09:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712048434; cv=none; b=LvL6sZzrhoaxmwLgBE24upsDIZtNGHhr0/ldGJWiqcL8JAIl2/Vv88aaunQ+ZBtaSTBQvu1DaBX3tacgHiQIDpbBIb6SMJ7l6E08ZXRNfO1jB/GGVu/wI0Z0Xok6Txd+Px2dUNasEdlqTK7jCdNpTTbLe+ynnDx5yjCpTB/Bn8U=
+	t=1712049097; cv=none; b=nIBcr9Lm5u3pIf/0OzglpiBG4lBifbFveMXLfKoafSYCCjN+gZTbD6yRbzwz3UECv4gC1jxvBw3Tn77jdbSNqilg/0l70IL4KNKHWUQY3GOtjbzlCgCqNt42WqxdFhHMNqrVqlxqDB96yeWf0DsxMjZAltGyWkeZPrmaKDnEXE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712048434; c=relaxed/simple;
-	bh=eL1PiuC+OxtsN6+5kmmUfS/ddM6OPqhmPRBb17Qn1mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWFZNCDhOnS0sS79rSN4JPtIw7lhaEd/X9y9f8QukWoiQud15m0gW6I46lE5mI2wbYYUai1K73VlH+HFCi95A/wNf3gM47irkDzyYub6rs9VXPZ8J6qAO7V6mHCJEkUjIAArvvQ4x743mcbEWNt33ZBE2waz9X/wJ67Rv6YXuuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qp9OqSaH; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41568096c4aso9815115e9.0;
-        Tue, 02 Apr 2024 02:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712048431; x=1712653231; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S7HP43l12eov1KUoh9mzxUyEYfgWNMnEq1EVajRpXoI=;
-        b=Qp9OqSaHyxdnx5Nn4yKbDWyqbqKRlqe60Udo5gEMOunhoZAWFoGpQcdVvpDiGRsRON
-         /LHR+o3ujfPQkG/cm0EXm17JIqjTFBWRiQ728dZ4SMVQPxeMCOePw5Wu33gqNYJBL4Qy
-         4mfI/m4MfO8HRgciDR1+9Wxl7RaIR+ts4nmz8xjtSTBz51A6i9DWSCoPJc2OABO6nWjO
-         3kJZyNa0//m7Ilc9WF6diIZAIn1roBO0wKay6KN67oqjEUtWtWeiCffxyTk1H0G5scxu
-         hw1TaTGn+jlmKTth0vjHwHtjdz47cYbWEp5NwbkISF/TK+0DnAIinELyyCWKkeQcX1G4
-         ning==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712048431; x=1712653231;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7HP43l12eov1KUoh9mzxUyEYfgWNMnEq1EVajRpXoI=;
-        b=R4Q86+dQkZGLI9xNEsDy1/OT2a5/m1JE47Ie7rvoznVTLaJqBb23R1E3tlXNctPtUq
-         twrU/JbrnAZ4G2Gb29kAw40CvtlhdK1/Us8Tk6mTzS+kcZBciFii1VhPE0Nr4QQitnBP
-         Ws3m3/R5pyfOq2Iyw1TNZe5b7fdx73UnjDAaYmlhXQbvVwGdXtPiBT5LjDgjGnakDhX1
-         Rj4L9kF1J1LhCXn66cZGkRPwtEyCgksZ2b4eVtuYX7T2bo6ohSv74E0TasnOs9Sc3rZj
-         rzTvHDBvi55LAAhEWdHlTF/xe+mUrc+HD5zPJ6H6la3PwDu8NRw+Bm//pd6Iz2OXaHNP
-         bIYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWyBhfBB7doqy1ibeuoF6oEP64WvaE5kmUtndI3nnxhp1gOQOCBeMfz7z9n2y182/V62PT2XRPgb/Mltks94FtFXPswg5ttacMzDIszjneMVz6CZaAHul7PCzjGxJwAi41cXkncUdALjmPL1CiWVmaRGF3HsUb0Z1ro1bxhP35RsopfS1a3T1QWu4iM3qVhZwDJ4T/mRaCsAgWyyEa7D0u/5fdu48a2r2c5Y2qB1m9+9vBH/fjbx8saxg==
-X-Gm-Message-State: AOJu0YyMPVZOmr35b1JqPQVufzXd0r56exbSFGKfXqtGHnEooyvzKFJd
-	LDJwQHQa5zz2G21al44b1oSqBYX+1YhY+DJVPh0BgiiucnqPmBcR
-X-Google-Smtp-Source: AGHT+IG8frznok1aF9okpQQTY2pR3XWd8JzFp2tX7BIUva1VqLJJmQZ3+crxPhY7ojqin4XV81Hf4w==
-X-Received: by 2002:a05:6000:1143:b0:33d:b2d6:b3a6 with SMTP id d3-20020a056000114300b0033db2d6b3a6mr7466595wrx.48.1712048430463;
-        Tue, 02 Apr 2024 02:00:30 -0700 (PDT)
-Received: from localhost ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id l2-20020adff482000000b0033ec312cd8asm13554997wro.33.2024.04.02.02.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 02:00:29 -0700 (PDT)
-Date: Tue, 2 Apr 2024 10:00:28 +0100
-From: Martin Habets <habetsm.xilinx@gmail.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
-	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-Message-ID: <20240402090028.GA1759653@gmail.com>
-Mail-Followup-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
-	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+	s=arc-20240116; t=1712049097; c=relaxed/simple;
+	bh=effK9MacI3X81JH5gOTDcoexdxNzJ7khJBCg3te6WOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FAbz4I3EaW8evD5CenTPB80/NBQrVrkDxs4zFTcJz91qAVweZhmZBnq3SOB0TOUU6cS9ZHfvQJy7FTdxN7ecWTEKVVJxS7RCa2HSmmeCbr3o8u8/ofZhI99Z/RgS5XJ2JZv5YCsTjSBnolEVUhaxx+54ith5iOm6MJaDBI1UF9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vh7AGlxt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CC90564;
+	Tue,  2 Apr 2024 11:10:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712049057;
+	bh=effK9MacI3X81JH5gOTDcoexdxNzJ7khJBCg3te6WOc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vh7AGlxtTtBfyrwipKmcYjcrKyABtZwb524kSYSSBoVN0yquZYE+uaGaT7dFBWjLR
+	 NEeVGpcL4v28kKkLonfLW8za7XVQeRvyliJGZV4pxUCuEJNKDKUWBW/GQOmtrTZPGw
+	 HDKQpXOpKJ/i7/PMbaaIykMOauSyCECVc+WuFsU4=
+Message-ID: <d5f3af05-77e7-4647-877a-ffddfd9a2623@ideasonboard.com>
+Date: Tue, 2 Apr 2024 12:11:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
+To: Sakari Ailus <sakari.ailus@iki.fi>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
+ <Zgu_xhcadm2F1Rxl@valkosipuli.retiisi.eu>
+ <20240402084407.GC10288@pendragon.ideasonboard.com>
+ <ZgvF1wi2UpkUTC9-@valkosipuli.retiisi.eu>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZgvF1wi2UpkUTC9-@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
-> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
+On 02/04/2024 11:46, Sakari Ailus wrote:
+> On Tue, Apr 02, 2024 at 11:44:07AM +0300, Laurent Pinchart wrote:
+>> On Tue, Apr 02, 2024 at 08:20:22AM +0000, Sakari Ailus wrote:
+>>> Moi,
+>>>
+>>> On Tue, Apr 02, 2024 at 02:37:25AM +0300, Laurent Pinchart wrote:
+>>>> When support for streams was added to the V4L2 subdev API, the
+>>>> v4l2_subdev_crop structure was extended with a stream field, but the
+>>>> field was not handled in the core code that translates the
+>>>> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
+>>>
+>>> The field is indeed in the UAPI headers. But do we want to support the CROP
+>>> IOCTL for streams? Shouldn't the callers be using the [GS]_SELECTION
+>>> instead?
+>>
+>> They should, but if the field is there, we should support it :-) The
+>> alternative is to remove it. It will cause failures in v4l2-compliance
+>> that we'll need to handle though.
 > 
-> Compile tested, no functionality changes intended
-> 
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> I'd prefer to stick to selections here, this is new functionality so
+> [GS]_CROP support isn't required. I don't have a strong opinion on the
+> matter though.
 
-Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
+Maybe it's easier to just support the stream field, instead of making 
+[GS]_CROP the odd case which looks like it should support streams, but 
+then doesn't...
 
-> ---
->  drivers/net/ethernet/sfc/falcon/falcon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+  Tomi
+
+>>
+>>>> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
+>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>> ---
+>>>>   drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
+>>>>   1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> index 4c6198c48dd6..45836f0a2b0a 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>> @@ -732,6 +732,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>>>   		memset(&sel, 0, sizeof(sel));
+>>>>   		sel.which = crop->which;
+>>>>   		sel.pad = crop->pad;
+>>>> +		sel.stream = crop->stream;
+>>>>   		sel.target = V4L2_SEL_TGT_CROP;
+>>>>   
+>>>>   		rval = v4l2_subdev_call(
+>>>> @@ -756,6 +757,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>>>   		memset(&sel, 0, sizeof(sel));
+>>>>   		sel.which = crop->which;
+>>>>   		sel.pad = crop->pad;
+>>>> +		sel.stream = crop->stream;
+>>>>   		sel.target = V4L2_SEL_TGT_CROP;
+>>>>   		sel.r = crop->rect;
+>>>>   
+>>>>
+>>>> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
+>>
+>> -- 
+>> Regards,
+>>
+>> Laurent Pinchart
 > 
-> diff --git a/drivers/net/ethernet/sfc/falcon/falcon.c b/drivers/net/ethernet/sfc/falcon/falcon.c
-> index 7a1c9337081b..147e7c8e3c02 100644
-> --- a/drivers/net/ethernet/sfc/falcon/falcon.c
-> +++ b/drivers/net/ethernet/sfc/falcon/falcon.c
-> @@ -367,7 +367,7 @@ static const struct i2c_algo_bit_data falcon_i2c_bit_operations = {
->  	.getsda		= falcon_getsda,
->  	.getscl		= falcon_getscl,
->  	.udelay		= 5,
-> -	/* Wait up to 50 ms for slave to let us pull SCL high */
-> +	/* Wait up to 50 ms for client to let us pull SCL high */
->  	.timeout	= DIV_ROUND_UP(HZ, 20),
->  };
->  
-> -- 
-> 2.34.1
-> 
+
 
