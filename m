@@ -1,169 +1,160 @@
-Return-Path: <linux-media+bounces-8430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8431-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF75895A47
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 18:56:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 125B5895AE5
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 19:41:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83CA7B29FC3
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 16:54:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 430701C222F8
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 17:41:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAC5815A4B8;
-	Tue,  2 Apr 2024 16:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AEDD15A4A6;
+	Tue,  2 Apr 2024 17:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giZqpaKN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwBnvuCy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286CD158214;
-	Tue,  2 Apr 2024 16:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AFE17BB7;
+	Tue,  2 Apr 2024 17:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712076791; cv=none; b=d5uDs+OzPHuMraDHsxs8OMpEHbbXCMY2vLmA0KRNfbnnveH5sTK6mLV6ZLN5lXtQKdVVS/mxXZT9K1JHZHhCBNiKsizj+74GCs4AGJRYDLWfffKmLzFoXqrT73jcBZRgHCez6R6/+FEgf4tCbF4D20MUBCxhFCUUZVIN7Pizp4M=
+	t=1712079657; cv=none; b=t0chNowsNL57yoiUefkNNu8hxr2NjUmGhWMm36Q/iDzNfJWosbiUVsRVIP2H7FRr5eKv0JiKN4fY83JhY4KLc+62wcN73uvSSpp9kfMelt9FaPv0Pm3dfibKQjWwplW/ENvR0tADPR2fFpq8irze6Bw4D+bIE7U39LtENCMmheQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712076791; c=relaxed/simple;
-	bh=+OIETa7FqtPMYZEyetZK7bSBPqtgACHlQcapBmBrB1s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ol5krmBNOBdFkOvhZGk/CyDxwWGdcqk65b9xio3lxK7YQdaS9lUrZ+Es0nXigRM0T5VSnlCpQwMz7dwKK79jM0d88Z4iNyaheVzwM9WIjms9Gql0lQRVhIoryy9HFZ6/uD4egtG0fd4H8KJL1PDdVC9v7BlqsCVR5D1upXEDHRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giZqpaKN; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712076789; x=1743612789;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=+OIETa7FqtPMYZEyetZK7bSBPqtgACHlQcapBmBrB1s=;
-  b=giZqpaKNWgSAvu6O+6L2jjJf7Vrt6DV6RiQPrKgsBLlfRpTQr94fywYp
-   uo3DuTKh4Ai12EHgCxv860EMUnrxS+KzMrP2Q5K/0Ddgg5crBI2gPXi0O
-   YpG3RKISSor5XjQFZX1luwB5YffcahoXNBa4ZMCDZjOGOH820sN/nr6Br
-   YoDWFWYHGl6iOCLGgCMyqaFnDCjA3LWTIYm9rCxqtwZBbOWzoAev59/y9
-   dXd96fwrkbmJo5nM3SYmYaNgUr0MCCo3+B1PVUyGfIDscSRuARJN0qNiq
-   VtvwBi3flwgQ6qy9nV6a6oXnRtOR5bWaRxsmTEr+97mHOKdQZffInul9r
-   Q==;
-X-CSE-ConnectionGUID: FCLUtvWbTD+JY0eydun9UA==
-X-CSE-MsgGUID: oHPpQ1bBT7+4ujOXPxdlXw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7107283"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7107283"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 09:53:08 -0700
-X-CSE-ConnectionGUID: ffg8/aPXSdikW95Gpql1bg==
-X-CSE-MsgGUID: UqZyC5N1Sx2Vz2k/GRMH4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="18552508"
-Received: from pramona-mobl.ger.corp.intel.com (HELO localhost) ([10.252.57.179])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 09:53:02 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, Patrik Jakobsson
- <patrik.r.jakobsson@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
- <zhi.wang.linux@gmail.com>, dri-devel@lists.freedesktop.org, open list
- <linux-kernel@vger.kernel.org>, "open list:INTEL DRM DISPLAY FOR XE AND
- I915 DRIVERS" <intel-gfx@lists.freedesktop.org>, "open list:INTEL DRM
- DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>, "open
- list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
- <intel-gvt-dev@lists.freedesktop.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, "open list:RADEON and
- AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVER
- FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>, "open
- list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, "open
- list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>, "open
- list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 03/14] drm/gma500,drm/i915: Make I2C terminology more
- inclusive
-In-Reply-To: <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-4-eahariha@linux.microsoft.com>
- <87a5mcfbms.fsf@intel.com>
- <7d5e6ed0-ffe9-46c2-b3b4-a4a47c09532e@linux.microsoft.com>
- <87ttkjesx8.fsf@intel.com>
- <fde7a0da-1981-48db-95e2-96d45655c11c@linux.microsoft.com>
-Date: Tue, 02 Apr 2024 19:52:48 +0300
-Message-ID: <87o7aremfz.fsf@intel.com>
+	s=arc-20240116; t=1712079657; c=relaxed/simple;
+	bh=SIttuzUApsaf2VI4jmyqM+YmNurv+JpYUsEXO1seAEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LBT/MOyw5SX8+Q8WZ/b+tdW/uIbk+83aHX9P+mR0xBTmsHW2X+7UxMkmvONiPGPJRqV8zfmWt5oP08xowPlqLsJIhQpSJyev3nFTJQSyOvUIV65h5F4Kp7rSZ4klHEpotuqHqcmere7lMxEewlkXTCgzp+8MP1Ed6t1bN8aokgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwBnvuCy; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e694337fffso961704b3a.1;
+        Tue, 02 Apr 2024 10:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712079655; x=1712684455; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mj+hIYfiIqrdZCdlhIOXwAHVfJtak/tKCscomVGlXEQ=;
+        b=dwBnvuCyZH0u/RMqh1B+ZK9u6BsipwbLRHd2B5z5yt3q+NxLnvqb6hQCXCSYRN7OR8
+         O4AvPSHm5dAYFU+YdlxKMb8QVAEj81cLtZYhbynCoSaT238vY91x+BwvO6dfVDZy9ihW
+         78+KdpKav6KZwMMDRE9GrVLhzO1yt/AKiMW2GJ9pAhLnaqbmrnCpUsOs8zclGSMBDFaB
+         yM6uw1MWRUxKxH1I6RcT5x3STXFcrsl6rkyxKIHTKHGcwyR2t0OCxzCwz7yrAZ3Vcmb/
+         KjpPEO8HFAxO806jUpWHYVW5fQVYN4Nt8cfgpCPnrVWlKpTo9zIFmVYLHvOYsu3zv/lO
+         kgAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712079655; x=1712684455;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mj+hIYfiIqrdZCdlhIOXwAHVfJtak/tKCscomVGlXEQ=;
+        b=S+nA7qO/X6iYDLW3D2jfWDOWdPiECyJqfdytk/0uzdcDoC1Lk2Bh2fxY+JYZFrA1j6
+         rSPvxPL2EezxZ+ABjlnejF0YHhwJp3V9SACSw6KbOo3Ut0ZFv3M85hGOJYXg+I+xFhkt
+         APp6eg0jToOuXtMv/cdv+TM14DiG3aymqQHoJkoQPEk6gMVgg4DUxd1DdhRuKnxZubQ4
+         ojaWvQdMsuzpzUOdB/Mgw4HLqRPo3mNxeRgXDNdu9XyBFJeSanJlmI3lIuThzUl9EkVu
+         42iCTfeBX9JbcvO724aXY1R2t71+tSYwyGpsd9IMuJwzPhAdIwS/4hzV04hw1JAIe2IR
+         cnUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX6Zn33n3waR5UUiHUanNonz9vcH+QjbadSdeGvloRpcRkxLfoXjPM3ZNGjKp7K2BPFe55ZwO4r5kLwUbtrF8YObATdaY23XlwyELHs7arEx0kzGDpgLxxmSAsauIPuvbPZWhaWdgBC
+X-Gm-Message-State: AOJu0Yz4FSfyF5c0hRHxYd1j6rP66wXjwUZHee+cpvCckYylR55Gt53f
+	7cBXv9BenPYP/jJRRYvOrTujmZA7QTC+DGWFxI0Tco1QrIBuoTBj
+X-Google-Smtp-Source: AGHT+IEHWPMPfZyxLQaaVsu5ktrgQngQ6FQ8UB0KYsDl1SCNBhM8Stb0DarmgFLmHL04IxHB0IuGUQ==
+X-Received: by 2002:a05:6a00:2d07:b0:6eb:1d5:a3e with SMTP id fa7-20020a056a002d0700b006eb01d50a3emr9939212pfb.2.1712079655185;
+        Tue, 02 Apr 2024 10:40:55 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:7fdc:71fa:30d0:4855])
+        by smtp.gmail.com with ESMTPSA id w10-20020aa79a0a000000b006e6aee6807dsm6818919pfj.22.2024.04.02.10.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 10:40:54 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: sakari.ailus@linux.intel.com
+Cc: rmfrfs@gmail.com,
+	laurent.pinchart@ideasonboard.com,
+	hansg@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v4 1/2] media: dt-bindings: ovti,ov2680: Fix the power supply names
+Date: Tue,  2 Apr 2024 14:40:27 -0300
+Message-Id: <20240402174028.205434-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
-> On 4/2/2024 7:32 AM, Jani Nikula wrote:
->> On Tue, 02 Apr 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>> On 4/2/2024 12:48 AM, Jani Nikula wrote:
->>>> On Fri, 29 Mar 2024, Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
->>>>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->>>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>>> in the specification.
->>>>
->>>> gma500 and i915 changes should be split. See MAINTAINERS.
->>>>
->>>> Might also split the i915 changes to smaller pieces, it's kind of
->>>> random. And the changes here are not strictly related to I2C AFAICT, so
->>>> the commit message should be updated.
->>>>
->>>> BR,
->>>> Jani.
->>>>
->>>>
->>>
->>> <snip>
->>>
->>> I will split gma500 and i915 into their respective patches if possible in v2.
->>>
->>> Can you say more about the changes being "not strictly related to I2C"? My
->>> heuristic was to grep for master/slave, and look in the surrounding context for
->>> i2c-related terminology (i2c_pin, 7-bit address, struct i2c_adapter, i2c_bus, etc)
->>> to confirm that they are i2c-related, then following the references around to
->>> make the compiler happy. For e.g., I did not change the many references to bigjoiner
->>> master and slave because I understood from context they were not i2c references.
->>>
->>> A couple examples would help me restrict the changes to I2C, since as mentioned in the
->>> discussion on Wolfram's thread, there are places where migrating away from master/slave
->>> terms in the code would conflict with the original technical manuals and reduce correlation
->>> and understanding of the code.
->> 
->> I guess I was looking at the VBT changes in intel_bios.c. Granted, they
->> do end up being used as i2c addresses. No big deal.
->> 
->> I think I'd expect the treewide i2c adapter changes to land first, via
->> i2c, and subsequent cleanups to happen next, via individual driver
->> trees. There's quite a bit of conflict potential merging this outside of
->> drm-intel-next, and there's really no need for that.
->> 
->> BR,
->> Jani.
->> 
->
-> Great! Just so I'm clear, do you still want the i915 changes split up more, along with them being
-> split off from gma500?
+From: Fabio Estevam <festevam@denx.de>
 
-If we can merge the i915 changes via drm-intel-next, it's probably fine
-as a big i915 patch. Just the gma500 separated. (The struct
-i2c_algorithm change etc. necessarily has to go via I2C tree of course.)
+The original .txt bindings had the OV2680 power supply names correct,
+but the transition from .txt to yaml spelled them incorrectly.
 
-BR,
-Jani.
+Fix the OV2680 power supply names as the original .txt bindings
+as these are the names used by the OV2680 driver and in devicetree.
 
+Fixes: 57226cd8c8bf ("media: dt-bindings: ov2680: convert bindings to yaml")
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v3:
+- Newly introduced.
 
+ .../bindings/media/i2c/ovti,ov2680.yaml        | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
->
-> Thanks,
-> Easwar
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+index cf456f8d9ddc..c87677f5e2a2 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+@@ -37,15 +37,15 @@ properties:
+       active low.
+     maxItems: 1
+ 
+-  dovdd-supply:
++  DOVDD-supply:
+     description:
+       Definition of the regulator used as interface power supply.
+ 
+-  avdd-supply:
++  AVDD-supply:
+     description:
+       Definition of the regulator used as analog power supply.
+ 
+-  dvdd-supply:
++  DVDD-supply:
+     description:
+       Definition of the regulator used as digital power supply.
+ 
+@@ -59,9 +59,9 @@ required:
+   - reg
+   - clocks
+   - clock-names
+-  - dovdd-supply
+-  - avdd-supply
+-  - dvdd-supply
++  - DOVDD-supply
++  - AVDD-supply
++  - DVDD-supply
+   - reset-gpios
+   - port
+ 
+@@ -82,9 +82,9 @@ examples:
+                 clock-names = "xvclk";
+                 reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
+ 
+-                dovdd-supply = <&sw2_reg>;
+-                dvdd-supply = <&sw2_reg>;
+-                avdd-supply = <&reg_peri_3p15v>;
++                DOVDD-supply = <&sw2_reg>;
++                DVDD-supply = <&sw2_reg>;
++                AVDD-supply = <&reg_peri_3p15v>;
+ 
+                 port {
+                         ov2680_to_mipi: endpoint {
 -- 
-Jani Nikula, Intel
+2.34.1
+
 
