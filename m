@@ -1,159 +1,151 @@
-Return-Path: <linux-media+bounces-8356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF388894DD7
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:46:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DB3894E18
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:59:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FE091F22A60
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:46:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30289B22FFA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:59:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39CE4B5CD;
-	Tue,  2 Apr 2024 08:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE2651C4A;
+	Tue,  2 Apr 2024 08:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hioEYQq0"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="G202nPmq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E5446B80
-	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 08:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712047581; cv=pass; b=iW3g+45T+tPAFKlcE90cg+vM2G4xtfJwyhy2NvOmFPy43m4r8j9Dxa9kf2ajCwheCYwLX/xWEzp0Hy/gZmvNuey2ta1cyNbKvvRHoxBn/zCCz1SpnimQxqJK6pa8OErvaevs/MBE2Mn0SwIrRaJiECuFtmyExEDgMGIGitiqZjE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712047581; c=relaxed/simple;
-	bh=3VcUTZtZWOreFBclTMvj3564dfq7uPciavHMGoCYE0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lobCDHqxcPQotoydSUY12wRe0gXjjfDI1+AIgnEdr5BnOlI60JEdE1kKzg2ZX+VW7fm2q/9I3vEok5CAUmZWvb9JGcST5lWIYUX5ZHvj6jytGBEO7YvASw9eHqrPTAqNkBh+1tBmbL3HfMD5UdSg4EV+tDwEp9pXIaJFC03P07w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hioEYQq0; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4V81gr3VQpz49Psw;
-	Tue,  2 Apr 2024 11:46:16 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1712047576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fbMm7zB8ATioflRmyHgl+yxvqEIYtcQYvNUus6FU6ZA=;
-	b=hioEYQq08Ryn1Hyr8mu4zx0wVsFurewrRpENFSFddZ7ikgQNczrREl8aLzqE8toI3HyafF
-	arDMKnGTuXzhissNj9wIBZj4wO9uVzQkEtjD+TkH0LVVA0t4+/Y1NJath00PcVvLi2y01v
-	bAQjDGvjzqgNEYkNXmq6BtEdg0I1rzhW2u6zc94O6RD46BPrIoEpVENMSthXb7SSfpHtTq
-	t8s89AwHG0095hrEkbWOOjUqBcthLtUA0Yi17tXYp83OpCnDB2QqbnfReC3wJavjyO1Nsm
-	c4lIV80KRyDnJv/QXBXmZ08AjIzCGcfzHw4iI3MpSpl/K4E4nNdF/NawHP0dHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1712047576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fbMm7zB8ATioflRmyHgl+yxvqEIYtcQYvNUus6FU6ZA=;
-	b=DYTo+o8yC230VDUShlvRoyI1G/LOX+km2z2iPj/tr2QHFNWQnbBavmcrkOyzOUNLuq5g8K
-	puHIZO7N3IS5ou0tJ7x7WDPxOGfYfDIhZ3lOmjxpBBG8LsxFPfdk8jnVL4vnNo6x9p3AMr
-	8Nwl3CK60pTFEnvtCKcIyDH4KXelOxaovCLldAthg4lqcCdbpL8hA9gtSxqeupAU4XcSd1
-	XbrDYlaZG6YmpG0MflETnPrclLxIg82Tezkb/c5IILIb8eRWD1J5gHYYeYf/Zw2RQbuhJa
-	809CW5soDJq4PUZDDwlpizSv/nfpM3elB6qPp7USwc+LC4NIzIzQYg6WeHYQAg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1712047576; a=rsa-sha256;
-	cv=none;
-	b=Dm4KgI1+eGL9dHxHq+Lst+oFEfcprz3wNRVptzP4hCFvMFGNDWFWLvS79cYCEBQWDEVP0m
-	8Stko+Hiw7V5+r2cIWC5KksTVr3k8upBFJkWtErA1MMJ+JKtOkjOinXERK8tIydEqOKdFe
-	klQZb9L/tgoPOsWjAd6bUHgWcPUmzLPZb5l8ajOOtTo0RRVzUXzz6drlJB7sVFtB05FnXc
-	fPKkT9+DTZFAVxK1UJYF/LqaYB0mhF7k/QByx11Fkvoq7TMrerXuZ9y+ociaqLEw2OQfu5
-	Aj5yfEAx9AH2KTtO+YIu3PpUmUEdD2vNcAMdwdGSjFkij4P9I8Ou/zkWUncemQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 183E1634C93;
-	Tue,  2 Apr 2024 11:46:16 +0300 (EEST)
-Date: Tue, 2 Apr 2024 08:46:15 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
-Message-ID: <ZgvF1wi2UpkUTC9-@valkosipuli.retiisi.eu>
-References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
- <Zgu_xhcadm2F1Rxl@valkosipuli.retiisi.eu>
- <20240402084407.GC10288@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8924F217
+	for <linux-media@vger.kernel.org>; Tue,  2 Apr 2024 08:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712048340; cv=none; b=oYMGnnmjCYj6iRQe/jpj0eQ1a0860vqu/gjU9bL3+hyHJYRp8KSJCAzkEPh7y5mNlI0CLcpfAQJCf8aqB4odpLMWdadyOSXiiCNLr/uazHMPDrbPJl+Cpfh9weoMOOfzjyODa8HhokLX3keddDD/PwRiZelbvFMrcQed6UpGexg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712048340; c=relaxed/simple;
+	bh=HNm6Lh879crSqV0ZGzaJmrt3ssAvgX20Rq/oXJRJF9c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ta2kf/arxFNJEq/qOk894Yja/UhJrB3QCf/PQ8t8iqjv7oG4LmDheL17AwlYkXVc22ZAv3RnYEXXB4Mn/kxn9czif4X0QE9TjjVZdt99ykIJbjOoxvEYJJWxsojzEpCvu8t1LVNWCxyeiUjtrirBQTpt7sLYcpodBkA3qkDcduo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=G202nPmq; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d476d7972aso70755421fa.1
+        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 01:58:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712048337; x=1712653137; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+EQziKXdKEAMdx/dPCGDP7jmLVDHvzi4KCtf8hrHXHs=;
+        b=G202nPmq3BLahFpIpsyBtxc0Pe2+9I2BcQONef2a3bgNkiBlgjsCZJ2cZkpstvoeLS
+         528rrTC6yUBa/gd8930W/PWBbGH3ps0xN0Lvn3ta6QLfjTmKdDK51rLvjT+mBqQdBjGF
+         axw+CumeE7Bhkud2qcXP6aU7SgnRKr4zqco/7mmGteybc8mofF74j7eCy4MlEjN/ssQV
+         HOmdB+2zY3P/viMU3n8kalzI131B+tibh+JZi7COXR/3Nn8U4/bXyw6uGNG/xSy16Srw
+         UUckBu+4ufvwMKgOqOa1lCR2tEtMI9YiaVRYblXRiT5m1RFvZ+KR7im58F6JdYdce+Ys
+         nUvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712048337; x=1712653137;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+EQziKXdKEAMdx/dPCGDP7jmLVDHvzi4KCtf8hrHXHs=;
+        b=O88nd8gYFd7EKf0Tre9gqh+neIJ+f4PWSFBUjvPBfZSdzcPFtImREmd8T2jCScQ/Ex
+         bM+IUnbbpNfdeFwV7kXnPQ4og5OUfEwimG2P/siD6XfdhOSQ9KMaywRbaWae1Oh2PSnC
+         9QLawh7wlqOgFcGX2V8dCfO05YxwzwDGOqoV9jy/j12lBtg0BUQIuzYiZvoKCdhnqXhb
+         NTqIrglZlq+YxWCzkRwxj/7/K/kru2ORz82T3w1BoDc1dXkUPYaBmU4lPD3SA2YC6iFv
+         WKDGyHmKaXla4pusjRgrW+0zMIn4u2MBAupkQHcNCFt/CsO+de4v/hfz4APwm1n6q9gR
+         RnUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWETadtIf8hkeUXUG+ppxaSkGenkRt4Zim76oCCJxEjaa7XxeOomCiLg2cdAvTBaePcTQhwOdxkEoUJ8QrPiOehHFFzkXrm94njVdQ=
+X-Gm-Message-State: AOJu0YwWHntf2TC0M8Bu98oAQy2GxUgFijVv8DMjeR+APlc+CBIns1yC
+	6l/LrIKSpAVuKZwrmCBjscVQEy4CxykgkIumeo0n1Ik0x1TDksMk+qPFB8CpM2N0C2Z5phSIQ4n
+	AtHvwOrqQAdlKijztlWaG5gufgUJh4LcrIGQ+gw==
+X-Google-Smtp-Source: AGHT+IHgVoVAQjY0SVm1Am+geVCD8kGxkvgjD4vTaFUHh5+1OWnpBP+5APV4hCgBud/LOc79OuLkSI2vz2dPlk4j4wE=
+X-Received: by 2002:a2e:8699:0:b0:2d4:6815:fc6f with SMTP id
+ l25-20020a2e8699000000b002d46815fc6fmr7057550lji.30.1712048337278; Tue, 02
+ Apr 2024 01:58:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402084407.GC10288@pendragon.ideasonboard.com>
+References: <20240401030052.2887845-1-tzungbi@kernel.org> <20240401030052.2887845-3-tzungbi@kernel.org>
+In-Reply-To: <20240401030052.2887845-3-tzungbi@kernel.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 2 Apr 2024 10:58:46 +0200
+Message-ID: <CAMRc=Md+v=zWGa=pYUzKkBMipJj_NgYW08XTfvdCFyErOVdvYw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] gpio: cros-ec: provide ID table for avoiding
+ fallback match
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org, 
+	hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org, 
+	chrome-platform@lists.linux.dev, pmalani@chromium.org, 
+	linux-gpio@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pm@vger.kernel.org, krzk@kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 02, 2024 at 11:44:07AM +0300, Laurent Pinchart wrote:
-> On Tue, Apr 02, 2024 at 08:20:22AM +0000, Sakari Ailus wrote:
-> > Moi,
-> > 
-> > On Tue, Apr 02, 2024 at 02:37:25AM +0300, Laurent Pinchart wrote:
-> > > When support for streams was added to the V4L2 subdev API, the
-> > > v4l2_subdev_crop structure was extended with a stream field, but the
-> > > field was not handled in the core code that translates the
-> > > VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
-> > 
-> > The field is indeed in the UAPI headers. But do we want to support the CROP
-> > IOCTL for streams? Shouldn't the callers be using the [GS]_SELECTION
-> > instead?
-> 
-> They should, but if the field is there, we should support it :-) The
-> alternative is to remove it. It will cause failures in v4l2-compliance
-> that we'll need to handle though.
+On Mon, Apr 1, 2024 at 5:01=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
+rote:
+>
+> Instead of using fallback driver name match, provide ID table[1] for the
+> primary match.  Also allow automatic module loading by adding
+> MODULE_DEVICE_TABLE().
+>
+> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c=
+#L1353
+>
+> Reviewed-by: Benson Leung <bleung@chromium.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> Changes from v1:
+> - No code changes.
+> - Add R-b tags.
+>
+>  drivers/gpio/gpio-cros-ec.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/gpio/gpio-cros-ec.c b/drivers/gpio/gpio-cros-ec.c
+> index 842e1c060414..0c09bb54dc0c 100644
+> --- a/drivers/gpio/gpio-cros-ec.c
+> +++ b/drivers/gpio/gpio-cros-ec.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/errno.h>
+>  #include <linux/gpio/driver.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+>  #include <linux/platform_data/cros_ec_proto.h>
+> @@ -197,11 +198,18 @@ static int cros_ec_gpio_probe(struct platform_devic=
+e *pdev)
+>         return devm_gpiochip_add_data(dev, gc, cros_ec);
+>  }
+>
+> +static const struct platform_device_id cros_ec_gpio_id[] =3D {
+> +       { "cros-ec-gpio", 0 },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(platform, cros_ec_gpio_id);
+> +
+>  static struct platform_driver cros_ec_gpio_driver =3D {
+>         .probe =3D cros_ec_gpio_probe,
+>         .driver =3D {
+>                 .name =3D "cros-ec-gpio",
+>         },
+> +       .id_table =3D cros_ec_gpio_id,
+>  };
+>  module_platform_driver(cros_ec_gpio_driver);
+>
+> --
+> 2.44.0.478.gd926399ef9-goog
+>
 
-I'd prefer to stick to selections here, this is new functionality so
-[GS]_CROP support isn't required. I don't have a strong opinion on the
-matter though.
+Applied, thanks!
 
-> 
-> > > Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > index 4c6198c48dd6..45836f0a2b0a 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > @@ -732,6 +732,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> > >  		memset(&sel, 0, sizeof(sel));
-> > >  		sel.which = crop->which;
-> > >  		sel.pad = crop->pad;
-> > > +		sel.stream = crop->stream;
-> > >  		sel.target = V4L2_SEL_TGT_CROP;
-> > >  
-> > >  		rval = v4l2_subdev_call(
-> > > @@ -756,6 +757,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> > >  		memset(&sel, 0, sizeof(sel));
-> > >  		sel.which = crop->which;
-> > >  		sel.pad = crop->pad;
-> > > +		sel.stream = crop->stream;
-> > >  		sel.target = V4L2_SEL_TGT_CROP;
-> > >  		sel.r = crop->rect;
-> > >  
-> > > 
-> > > base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
--- 
-Sakari Ailus
+Bart
 
