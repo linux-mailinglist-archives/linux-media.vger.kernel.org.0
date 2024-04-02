@@ -1,93 +1,116 @@
-Return-Path: <linux-media+bounces-8351-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A60C894D7B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:31:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE4D894D81
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 10:31:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8067282C08
-	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:31:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 744781F21FB9
+	for <lists+linux-media@lfdr.de>; Tue,  2 Apr 2024 08:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDE985822A;
-	Tue,  2 Apr 2024 08:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23CD51E525;
+	Tue,  2 Apr 2024 08:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l55a3AM4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E74YeOc6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E9F45008;
-	Tue,  2 Apr 2024 08:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF985336D;
+	Tue,  2 Apr 2024 08:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712046598; cv=none; b=r/bLCT0Y3qYYjDcakFtv42gnCJjbOBipGKbW52Fry7yxzLh/tBd563n28l2qXGPLZK4w0/uk6+V3M45W5QaFGucMuV0z1ZOXN9wI7g7xhDlAcHGTDgr9sMaxFMwm3kY4vLq0om4PWIlwkNErTbvb5oigX+6RcWq+iK0Q8FMOXgU=
+	t=1712046640; cv=none; b=eTNzMfH3iKna50deSf74UsG1li9zgNiBvjA/ZuQUwsEW2xbJ7dTraiQIKw1LxUpqvQNVVSl1SWO/MRXcg4StWJkrCEmoT5PQ2nWxXqNAnBusV27/bMVBUus8/SM0mhVc3VTc8TDuBNa6IZboQRdgHL7qYQN1GMJB7JrTlLeg+7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712046598; c=relaxed/simple;
-	bh=KLiOyU5gxLUsegc5eE8/HwQZQ1rmvicDU4hOpKd3aeo=;
+	s=arc-20240116; t=1712046640; c=relaxed/simple;
+	bh=7Rl5BPvI/Ej8BgbbZqS3ytTufi+0LmvK7tU/JJ1vqGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLuoTD1n1sYBxD/oGgzj7yIfBMEBo74YOZ1h1M4w1UzudHhb9RA6KFjbH2AuQxDHZQHKHr8kjioin0ef5jQ29plFeiEhTEPsGrloZLox/5jDkl/KESvm1ZkvPCi5PBfizKxjJKIZ+RlW7Fc/WJX2wSOvRUPj2e5OndarLHKFxyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l55a3AM4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A6A2C43394;
-	Tue,  2 Apr 2024 08:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712046597;
-	bh=KLiOyU5gxLUsegc5eE8/HwQZQ1rmvicDU4hOpKd3aeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l55a3AM46XbBh4JItwGhAxKslyWIKIYKui6nTuLqnelnvoCzqlpqOBF855wp5JiYA
-	 Yowmji/9KFQKT7t3FXrheQWOfrZKhf4TXyansdGzhWv+JZ0NKjtP2vXTecC/0VBNXb
-	 iyeRoNhrs0sqvkO3VW5XtNeqcA6vj8bE4n+Bku10Paa7Sw2yozjgMMQor1qpvpJeni
-	 NYcWL13S4L1UDvWSpOd96u0uvRmBx+otENbremo5gbkAPR5nG4KtoKeteSAikD4VQo
-	 aHJSXR2CScq7H9dhwpbQ9dZeGJASNTbz3sbft5dih+eH9O18+aPLDPwjNCJ64V3l+M
-	 Jnld7gjc+HRxA==
-Date: Tue, 2 Apr 2024 09:29:51 +0100
-From: Simon Horman <horms@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
-	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-Message-ID: <20240402082951.GG26556@kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rLvQfo8acZgwdO/8asBDGsV3q33FXQaGe7Lgpky/CURVdGJYELQMPm3hOVMHghlh/spcywkMqMWxNw62YQdgpPb2x90Y0Rs0to3ETdKrzcwtuqxxnUQcMRq3bj8JF6ryIHcsg44TZjISIT3ByORF7OKVQKNc2MOppgh3TzNi1FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E74YeOc6; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712046639; x=1743582639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7Rl5BPvI/Ej8BgbbZqS3ytTufi+0LmvK7tU/JJ1vqGQ=;
+  b=E74YeOc6vRdn688lcpdFHOQqRHoMzsN2QSO/f/UdFogRC9uPgVh9yBy3
+   4wWBn4LUfyoSj4oHgZRvgu7koKJvukqG0mMPjupZKN5ctnmi9Fz3Lakxi
+   cGBbBkcbjl1n2TJs5zUnMUPzF30A8ssHtMwcBmHZcchIm2ayNZPqO9Xao
+   N3KZkiml/s1NFFJ/dhx+A2a6zeh34nNcqUpbpV6ix3imIvA4ARqk6e4Ta
+   0ZeQq2lsXCf0vWcXNgbw/BqXP5LRVVSbcq6cHIq/Gsz5NnPhzRwuPEdGE
+   CY6FPyLG3wlMitkxF0WO+1tPsiAza7M2GinziQvbMivN6BTsFzCzBwhiz
+   Q==;
+X-CSE-ConnectionGUID: K0WZtDbdSW+givhsvEP0tQ==
+X-CSE-MsgGUID: tO8QDCv9SoKkbqz8+qfnEA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="11033411"
+X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
+   d="scan'208";a="11033411"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 01:30:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,174,1708416000"; 
+   d="scan'208";a="17812182"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 01:30:35 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B493A11F81D;
+	Tue,  2 Apr 2024 11:30:31 +0300 (EEST)
+Date: Tue, 2 Apr 2024 08:30:31 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: rmfrfs@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH] media: dt-bindings: ovti,ov2680: Document
+ clock/data-lanes
+Message-ID: <ZgvCJ5F6KlhVGRPC@kekkonen.localdomain>
+References: <20240326231033.2048193-1-festevam@gmail.com>
+ <ZgPtolH796HER4cP@kekkonen.localdomain>
+ <CAOMZO5AYjNPWZfy_dN12K9JNwWaWThpMs0W-FzETF5k8fobgeg@mail.gmail.com>
+ <ZgSeACFfBAmOPXdt@kekkonen.localdomain>
+ <CAOMZO5BGYhnhOrBRS9zBeYYJFHXnQkqZCAV2wGtdpmiA3HZTqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240329170038.3863998-11-eahariha@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOMZO5BGYhnhOrBRS9zBeYYJFHXnQkqZCAV2wGtdpmiA3HZTqA@mail.gmail.com>
 
-On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
-> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
-> 
-> Compile tested, no functionality changes intended
-> 
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Hi Fabio,
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+On Mon, Apr 01, 2024 at 12:03:15PM -0300, Fabio Estevam wrote:
+> Hi Sakari,
+> 
+> On Wed, Mar 27, 2024 at 7:30 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> 
+> > > In this case, the correct fix would be to remove 'clock-lanes' and
+> > > 'data-lanes' from imx7s-warp.dts.
+> >
+> > Agreed.
+> 
+> I tried removing 'clock-lanes' and  'data-lanes', but it did not work:
+> 
+> ov2680 1-0036: error -EINVAL: only a 1-lane CSI2 config is supported
+> ov2680 1-0036: probe with driver ov2680 failed with error -22
 
+If it's a problem with the driver, you should fix the driver instead of
+working around it in DT. Just remove the check.
+
+> 
+> I will send a v2 that documents 'clock-lanes', 'data-lanes', and
+> 'link-frequencies'.
+
+-- 
+Regards,
+
+Sakari Ailus
 
