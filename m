@@ -1,145 +1,136 @@
-Return-Path: <linux-media+bounces-8509-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8519-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A46896C67
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:30:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B909D896C78
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:31:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5BF2B27B85
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:29:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A19C1F2BFD6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:31:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7C713A40C;
-	Wed,  3 Apr 2024 10:27:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7FB137C2F;
+	Wed,  3 Apr 2024 10:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="WvZthqpm"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iG1eJ/nl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79E5139CF5;
-	Wed,  3 Apr 2024 10:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A051136E22
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712140031; cv=none; b=Vw3bChz4C61FQvMJVDxmhhu82KpioQqGKOBEQdZmlESy/tDaw1e3EoKc/QekPE2/rwNtMEnT1jCFUnkrwxFf8LlKIMvAI5WRZymEEls+q5Wn6dnQz37FH+kGEiv1cnTX2bAX4GJYCtamnDp/yfLDd7b9tx+XTCBjTRd/RAkCpOo=
+	t=1712140159; cv=none; b=eBq1Y//2aTHiAva8gAwVMF4bnJ65Lv2HSdPmTU7ggzkVcENMOkIWb4+LdY+SyXKyzgwykPHSiudj2f3nTI+nQrEKkvOjf8o5Qi1lxtLGtUoOU06EUVzkzrx1kTNPm3/dIae2pAi+8CBBbHX6ekoVZSimDD3Yl4QWlTE6KKYDTCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712140031; c=relaxed/simple;
-	bh=46Z8Sy6Vqnm4R8nWlAFl1PCN9lvniRy9+NTt1BffqWo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=skLBDaGwR0ReJb6t3QLae/G91waFeMkbkiVs/4cw5k7KzIQ0aWn5gGZr6aJaYBINOlzkL1bf9b95x3NtViN5jdxvIw9lq47MWJullyHBm16Sj/K1JrQXY//TV41R44XlwF6VZ1JtPMjvppmtI+KWPCcTdYBSekTquDiEJS0bM2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=WvZthqpm; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: b782a06cf1a411ee935d6952f98a51a9-20240403
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=lo4lDmVfE2uO4XA7Sc+H4dQlxZJDmRsnTUJ/N8Cz8P0=;
-	b=WvZthqpmnWWAJblBn0ICu2oJ1q1MRDnublK33t9jklNcsvm7r1fxXR5z51usuUxZRXD87d74DcpJFQNgeTXSScvVYBjsS9FrkTSoKLQw8cx2EBB0vQOVH7Q6bouH+aBOYiqZ6mW2hJkcA62YSwUm9p9u8NF/yn4/6iT7GcFYKe4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:78541afe-cb58-4e5d-ae10-a55ec15a583e,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:939d2c91-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: b782a06cf1a411ee935d6952f98a51a9-20240403
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-	(envelope-from <shawn.sung@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 838507489; Wed, 03 Apr 2024 18:27:05 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 3 Apr 2024 18:27:03 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 18:27:03 +0800
-From: Shawn Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
-	<sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, Jason-JH.Lin <jason-jh.lin@mediatek.com>,
-	Hsiao Chien Sung <shawn.sung@mediatek.com>
-Subject: [PATCH v5 9/9] drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
-Date: Wed, 3 Apr 2024 18:27:01 +0800
-Message-ID: <20240403102701.369-10-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240403102701.369-1-shawn.sung@mediatek.com>
-References: <20240403102701.369-1-shawn.sung@mediatek.com>
+	s=arc-20240116; t=1712140159; c=relaxed/simple;
+	bh=EGa+RHjce/Ma7n+GtRWY4isDTsZWxGOv87Whs9ptxwo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=dlBc1+1Ws/A01vig+4CX+lKSgLZSQ9qb9C3hkF+ZBVFRft+1KKhefXjKYLt1w1AR20UEGUENO8zSe5jEtLIiK4l4F35WuaotFesBrizKbZ5MFM4ZrLzoGg0Z38AJ+l1NovdPRNaXlQJy+g5jfX5bgLBB77GQPUobTc4v73dRbPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=iG1eJ/nl; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+X-KPN-MessageId: e0cfbce8-f1a4-11ee-b64f-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id e0cfbce8-f1a4-11ee-b64f-005056994fde;
+	Wed, 03 Apr 2024 12:28:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:from:to:subject:mime-version:date:message-id;
+	bh=CTgC2D4oJxykarb+KMuLjGMo6vUx9vcIZdq5q3EjP2I=;
+	b=iG1eJ/nlwoYPMxr7mEDFvCCLXZ8Inpb78n18gwgGRDY9qgKm2Cx8hEleC8cIGXAlezUBqHEnsl8RT
+	 mHNsUo+y2/gYlhB5rxVerp/3geIvyIieoBiRN1hOISA9oADZ6ffVp+l1S67krLPE31ZRIzXgF9XcTp
+	 DWhxTUq+0Wwr1fmupVpmAuil8Fc2ED0RGxo7t3XYI3uXyZDhOpJGxEFyFj6Lex+u9f9eXf+of7vlCC
+	 6KAkus6rMTs6MkStnWdjajQbihpWAV90rBtcjmzQMD4nA5EWrsxbB7OQ/X/FHR3Un7RUQbuL81fidV
+	 Ks82EimRPb4tEDP7BX3935QPIFfQXUQ==
+X-KPN-MID: 33|mYITw+fUi2nZIyO+gf/1PwZWvvg3LNLvON9SZQYPrmhA5pU5OW6OaI6ZZQ+H0hn
+ J6Vy/GDP8fNxQ00o44DILg2AMf8meszDSTz5eORGSpS8=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|UkEdq+STyDQqnFlTPumMpIb5Ew0XAHr5RvLxT3kIOmALucX+Grxq6ntN61QEWa1
+ H32stPj0nwGEIwsVLB5eHmA==
+Received: from [10.47.75.249] (unknown [173.38.220.36])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id cc802395-f1a4-11ee-9b37-005056998788;
+	Wed, 03 Apr 2024 12:28:06 +0200 (CEST)
+Message-ID: <4752414a-dc7d-41f9-a92f-a7a2a20f91e9@xs4all.nl>
+Date: Wed, 3 Apr 2024 12:27:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--9.964300-8.000000
-X-TMASE-MatchedRID: DpePiNkRMProb/hVdrvnXjPDkSOzeDWW+eBf9ovw8I27eXIF2U7rKy+8
-	OxujShyxE/UmhJjBrzZC3mgca9yt8kttpN+KVVd9syNb+yeIRArvJY9pBzgg1P+RKQghHjkeBgH
-	mCxujQvyORmg3vGx7V9sIe/TXUbL1GClvwc20fT5gS3HnT6jvf4iuaoNXJrK/fmHrLgoJIlxLR6
-	I6ytdxOLBCNZjB5OVeh+gv6XmqORNRbbZ0jxgFOp4CIKY/Hg3AGdQnQSTrKGPEQdG7H66TyMdRT
-	5TQAJnA4zjUu/hzMaXvKCvoWLGqrJA2OYWJIR3ArCVg7MtbdbieqD9WtJkSIw==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--9.964300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	BB83068C8A2923A221CC6DA4A0919189003744023CC932CD209D04F2D18548492000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4l-utils v2 1/2] v4l2-compliance: Fix use of routing on
+ 32-bit platforms
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-media@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
+ <20240403-v4l2-compliance-streams-fixes-v2-1-be9b338dc204@ideasonboard.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v2-1-be9b338dc204@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+On 03.04.2024 12:15, Tomi Valkeinen wrote:
+> At the moment we do:
+> 
+> routing.routes = (__u64)&routes;
+> 
+> On 32-bit platforms the 32-bit address will be sign-extended, possibly
+> resulting setting the address to, e.g., 0xff000000 -> 0xffffffffff000000.
+> 
+> Fix this by converting the address to uintptr_t.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Add cmdq_insert_backup_cookie to append some commands before EOC:
-1. Get GCE HW thread execute count from the GCE HW register.
-2. Add 1 to the execute count and then store into a shared memory.
-3. Set a software event siganl as secure irq to GCE HW.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Since the value of execute count + 1 is stored in a shared memory,
-CMDQ driver in the normal world can use it to handle task done in irq
-handler and CMDQ driver in the secure world will use it to schedule
-the task slot for each secure thread.
-
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 8a3c204d48d2b..8a70d731f2ee2 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -186,7 +186,7 @@ void mtk_crtc_disable_secure_state(struct drm_crtc *crtc)
- 		sec_scn = CMDQ_SEC_SCNR_SUB_DISP_DISABLE;
- 
- 	cmdq_sec_pkt_set_data(&mtk_crtc->sec_cmdq_handle, sec_engine, sec_engine, sec_scn);
--
-+	cmdq_sec_insert_backup_cookie(&mtk_crtc->sec_cmdq_handle);
- 	cmdq_pkt_finalize(&mtk_crtc->sec_cmdq_handle);
- 	dma_sync_single_for_device(mtk_crtc->sec_cmdq_client.chan->mbox->dev,
- 				   mtk_crtc->sec_cmdq_handle.pa_base,
-@@ -812,6 +812,8 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-+		if (cmdq_handle->sec_data)
-+			cmdq_sec_insert_backup_cookie(cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
- 		dma_sync_single_for_device(cmdq_client.chan->mbox->dev,
- 					   cmdq_handle->pa_base,
--- 
-2.18.0
+> ---
+>  utils/v4l2-compliance/v4l2-compliance.cpp   | 4 ++--
+>  utils/v4l2-compliance/v4l2-test-subdevs.cpp | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+> index 2cf97909..fd7e7d76 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> @@ -1274,7 +1274,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
+>  
+>  				sd_routing[which].which = which;
+> -				sd_routing[which].routes = (__u64)sd_routes[which];
+> +				sd_routing[which].routes = (uintptr_t)sd_routes[which];
+>  				sd_routing[which].num_routes = NUM_ROUTES_MAX;
+>  
+>  				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
+> @@ -1305,7 +1305,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  					routes = sd_routes[which];
+>  				} else {
+>  					dummy_routing.num_routes = 1;
+> -					dummy_routing.routes = (__u64)&dummy_routes;
+> +					dummy_routing.routes = (uintptr_t)&dummy_routes;
+>  					dummy_routes[0].source_pad = pad;
+>  					dummy_routes[0].source_stream = 0;
+>  					dummy_routes[0].sink_pad = pad;
+> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> index ebca1b94..560efb70 100644
+> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> @@ -586,7 +586,7 @@ int testSubDevRouting(struct node *node, unsigned which)
+>  	int ret;
+>  
+>  	routing.which = which;
+> -	routing.routes = (__u64)&routes;
+> +	routing.routes = (uintptr_t)&routes;
+>  	routing.num_routes = 0;
+>  	memset(routing.reserved, 0xff, sizeof(routing.reserved));
+>  
+> 
 
 
