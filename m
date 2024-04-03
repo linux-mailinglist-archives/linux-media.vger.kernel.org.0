@@ -1,136 +1,116 @@
-Return-Path: <linux-media+bounces-8519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B909D896C78
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:31:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F15896C98
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:34:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A19C1F2BFD6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:31:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29DF028935D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:34:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7FB137C2F;
-	Wed,  3 Apr 2024 10:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 689E41482EB;
+	Wed,  3 Apr 2024 10:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="iG1eJ/nl"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j+A7gdKs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A051136E22
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3CB134CCA;
+	Wed,  3 Apr 2024 10:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712140159; cv=none; b=eBq1Y//2aTHiAva8gAwVMF4bnJ65Lv2HSdPmTU7ggzkVcENMOkIWb4+LdY+SyXKyzgwykPHSiudj2f3nTI+nQrEKkvOjf8o5Qi1lxtLGtUoOU06EUVzkzrx1kTNPm3/dIae2pAi+8CBBbHX6ekoVZSimDD3Yl4QWlTE6KKYDTCo=
+	t=1712140325; cv=none; b=DYNAWxRO6OxfE6vLvv3BH+uAmCHkiCydllohh0yIiXG++sAKjyFRHSCZ01Xyu2y8/aXMFO5awvr/DmxwDJQeozU90QghiqfLg7/zeRNREQqt6cGh3ZDbEMG2FaLSRxZ+2ZAnPNNZFNLZKQAmSeJD9bZJaL33tO3ywir087G0cTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712140159; c=relaxed/simple;
-	bh=EGa+RHjce/Ma7n+GtRWY4isDTsZWxGOv87Whs9ptxwo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=dlBc1+1Ws/A01vig+4CX+lKSgLZSQ9qb9C3hkF+ZBVFRft+1KKhefXjKYLt1w1AR20UEGUENO8zSe5jEtLIiK4l4F35WuaotFesBrizKbZ5MFM4ZrLzoGg0Z38AJ+l1NovdPRNaXlQJy+g5jfX5bgLBB77GQPUobTc4v73dRbPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=iG1eJ/nl; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: e0cfbce8-f1a4-11ee-b64f-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id e0cfbce8-f1a4-11ee-b64f-005056994fde;
-	Wed, 03 Apr 2024 12:28:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:from:to:subject:mime-version:date:message-id;
-	bh=CTgC2D4oJxykarb+KMuLjGMo6vUx9vcIZdq5q3EjP2I=;
-	b=iG1eJ/nlwoYPMxr7mEDFvCCLXZ8Inpb78n18gwgGRDY9qgKm2Cx8hEleC8cIGXAlezUBqHEnsl8RT
-	 mHNsUo+y2/gYlhB5rxVerp/3geIvyIieoBiRN1hOISA9oADZ6ffVp+l1S67krLPE31ZRIzXgF9XcTp
-	 DWhxTUq+0Wwr1fmupVpmAuil8Fc2ED0RGxo7t3XYI3uXyZDhOpJGxEFyFj6Lex+u9f9eXf+of7vlCC
-	 6KAkus6rMTs6MkStnWdjajQbihpWAV90rBtcjmzQMD4nA5EWrsxbB7OQ/X/FHR3Un7RUQbuL81fidV
-	 Ks82EimRPb4tEDP7BX3935QPIFfQXUQ==
-X-KPN-MID: 33|mYITw+fUi2nZIyO+gf/1PwZWvvg3LNLvON9SZQYPrmhA5pU5OW6OaI6ZZQ+H0hn
- J6Vy/GDP8fNxQ00o44DILg2AMf8meszDSTz5eORGSpS8=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|UkEdq+STyDQqnFlTPumMpIb5Ew0XAHr5RvLxT3kIOmALucX+Grxq6ntN61QEWa1
- H32stPj0nwGEIwsVLB5eHmA==
-Received: from [10.47.75.249] (unknown [173.38.220.36])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id cc802395-f1a4-11ee-9b37-005056998788;
-	Wed, 03 Apr 2024 12:28:06 +0200 (CEST)
-Message-ID: <4752414a-dc7d-41f9-a92f-a7a2a20f91e9@xs4all.nl>
-Date: Wed, 3 Apr 2024 12:27:40 +0200
+	s=arc-20240116; t=1712140325; c=relaxed/simple;
+	bh=QCQv4SlWwu4pTHP3KZHi48pp2atYllgOS/M1veC+SRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JW8SK7QSlKzC8dCEx7CITC0mR7qHaNHU021QIzhdClUT5cxzLmQtr8GicEWFKDcjcdxl82K86HRslfOy2GliS1RkYPur9h8rCY4JtiMT+N2zdOtCiRiO3xuKKGNR45LFevQCR7bs7ZAUPfiCEYMeL9Dkrjl5tKbA+51RQokYYBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j+A7gdKs; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712140322;
+	bh=QCQv4SlWwu4pTHP3KZHi48pp2atYllgOS/M1veC+SRM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=j+A7gdKsl4qbgkvz+dyY3uNMPiP+lPeH6p0M1oF1lRq1mpjO3WCmazIKjjkN6bhL/
+	 5ERyifQx+RvukIa94tQyJAFDavIFOyWKyIxiJTtu5GrsuOrt7XuWPr/daII/5bNq77
+	 Dhp/6VnS9KMKqpCYgdrk36d0R/mNDxsNPe7CxPGT4PCjTu0Gb2nCAJRMuR1+ksTn2q
+	 tegKHEzdkez05aQPFbDvu+R9/rbTm5XE4M0oID3vsRN/YKxG2JAonOdVri52rO9p53
+	 XsqFt1p3A6CXr+mKJyC+SQPg2WiTT7hxffUXtEejvOx/ajWKWCKTv39KA8BpTj1MAM
+	 3KLcFDBfNWhQA==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 25BD93780624;
+	Wed,  3 Apr 2024 10:32:02 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Moudy Ho <moudy.ho@mediatek.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: (subset) [PATCH v2 00/12] Remove cl in struct cmdq_pkt
+Date: Wed,  3 Apr 2024 12:31:57 +0200
+Message-ID: <171213938049.123698.15573779837703602591.b4-ty@collabora.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240222154120.16959-1-chunkuang.hu@kernel.org>
+References: <20240222154120.16959-1-chunkuang.hu@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4l-utils v2 1/2] v4l2-compliance: Fix use of routing on
- 32-bit platforms
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
- <20240403-v4l2-compliance-streams-fixes-v2-1-be9b338dc204@ideasonboard.com>
-Content-Language: en-US
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v2-1-be9b338dc204@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 03.04.2024 12:15, Tomi Valkeinen wrote:
-> At the moment we do:
+On Thu, 22 Feb 2024 15:41:08 +0000, Chun-Kuang Hu wrote:
+> cl in struct cmdq_pkt is used to store struct cmdq_client, but every client
+> driver has the struct cmdq_client information, so it's not necessary to
+> store struct cmdq_client in struct cmdq_pkt. Because mailbox maintainer
+> do not like to mix mailbox patch with other patches in a series, so
+> mailbox patch [1] would be sent independently.
 > 
-> routing.routes = (__u64)&routes;
+> Changes in v2:
+> 1. Fix typo of CMDQ_JUMP_RELATIVE
+> 2. Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+> 3. Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+> 4. Add cmdq_pkt_jump_rel() helper function
+> 5. drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+> 6. mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+> 7. mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
 > 
-> On 32-bit platforms the 32-bit address will be sign-extended, possibly
-> resulting setting the address to, e.g., 0xff000000 -> 0xffffffffff000000.
-> 
-> Fix this by converting the address to uintptr_t.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> [...]
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Applied to v6.9-next/soc, thanks!
 
-> ---
->  utils/v4l2-compliance/v4l2-compliance.cpp   | 4 ++--
->  utils/v4l2-compliance/v4l2-test-subdevs.cpp | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> index 2cf97909..fd7e7d76 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> @@ -1274,7 +1274,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
->  
->  				sd_routing[which].which = which;
-> -				sd_routing[which].routes = (__u64)sd_routes[which];
-> +				sd_routing[which].routes = (uintptr_t)sd_routes[which];
->  				sd_routing[which].num_routes = NUM_ROUTES_MAX;
->  
->  				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
-> @@ -1305,7 +1305,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  					routes = sd_routes[which];
->  				} else {
->  					dummy_routing.num_routes = 1;
-> -					dummy_routing.routes = (__u64)&dummy_routes;
-> +					dummy_routing.routes = (uintptr_t)&dummy_routes;
->  					dummy_routes[0].source_pad = pad;
->  					dummy_routes[0].source_stream = 0;
->  					dummy_routes[0].sink_pad = pad;
-> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> index ebca1b94..560efb70 100644
-> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> @@ -586,7 +586,7 @@ int testSubDevRouting(struct node *node, unsigned which)
->  	int ret;
->  
->  	routing.which = which;
-> -	routing.routes = (__u64)&routes;
-> +	routing.routes = (uintptr_t)&routes;
->  	routing.num_routes = 0;
->  	memset(routing.reserved, 0xff, sizeof(routing.reserved));
->  
-> 
+[01/12] soc: mediatek: cmdq: Fix typo of CMDQ_JUMP_RELATIVE
+        commit: 7349d4bdee457715308e6229a674f4cebf42be92
+[02/12] soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()
+        commit: e24e0ff0871b8e3287f258b76b82238b64714628
+[03/12] soc: mediatek: cmdq: Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+        commit: 8a8bcf23b3e0ab333bfc827ea7ed2f9bece9bea8
+[04/12] soc: mediatek: cmdq: Add cmdq_pkt_jump_rel() helper function
+        commit: 78462e312e63c5bc0859934d9457155fb50da2e1
+[05/12] soc: mediatek: cmdq: Add cmdq_pkt_eoc() helper function
+        commit: cad76fa0221c3f8e656b56b7673ae752a65108d8
+[06/12] soc: mediatek: cmdq: Remove cmdq_pkt_flush_async() helper function
+        commit: 3e2b3be190ace43841011ec0bec950a28a012601
+[07/12] soc: mediatek: cmdq: Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+        commit: 62d2fb402b132e52899f52b4d5f150fd1dfd1895
+
+Cheers,
+Angelo
 
 
