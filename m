@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-8596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3ED6897C08
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3431E897C12
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:37:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDE591C251B1
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:26:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60B5C1C25888
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:37:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 187A9156993;
-	Wed,  3 Apr 2024 23:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31B7156C4B;
+	Wed,  3 Apr 2024 23:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sjnTc7Fx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lzJFIB8D"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E980D156227
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 23:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28278692FC
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 23:37:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712186790; cv=none; b=WAOSP3doJD1pYm/y8Du7wruTuPNiaXq+AN3KUPewfetbrwWFmh/GepIuHXNfSuXzBxywSN5tMhBZKpqLRhPRxNHoVpbPhAuVdcR++EDrzpWmWIGzTg5H9D15q7GEutQJ5att4bmiFxqFlPK76/MFdsepJ5VPehQb3m+qitno+HI=
+	t=1712187467; cv=none; b=q0T2QK0KtS+mHOCsf6oDypdGEKnIgcl609Eglvkkg43IVpoh1MXXtW3rnTQshoJs9kPXqGDO3WvzrMeWOqIYX4fTNyD91kAc2H0ewhbvkRjYKVHQ8hwD25O3Rz1en7jX6B/Btk2V1/4Av/x+6Op20S6Ecxf04Z0urKXlBXwPyEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712186790; c=relaxed/simple;
-	bh=DasaMKtxHCBy8bnXKMsQVDtb5bUHFkPpBAcce6oZKYI=;
+	s=arc-20240116; t=1712187467; c=relaxed/simple;
+	bh=Dj/JNBV2E/aG6AcsipppEp/wNX3jGYU55BwmX9tvNnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m5dEq+RxkF2E6Q7pfomNEK64ehLZ87uqnzIJUIrrYseKZYONEw+QVNIz9yT9AmpcPmDJt8Tdz/yqNQ+aqJHaMFAIKjDe7tRnXDGkCPlo5vZ7vzNoTRVfqijMHC+LMCohh7hA7y/cB2/aiPJ5ZlUQE0hcTEQNWo+QlnPivFCDfAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sjnTc7Fx; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=kT8rOAbwdKUWyfqFl4MEsmypnRypK9KmmLCDhbhJcVm9hUXpkGW+tIDRpq7EopxY0Frh5f4uD9VSAfJW5Gv1K3oeM8/+nTMfQj9dxDwT2zsOUNm0mxBqfunOJMWGfF0tldkzuYSZ9BLc9BnjBpSdDJKeqfF9pJsMd6JeJo++qtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lzJFIB8D; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD8B04D4;
-	Thu,  4 Apr 2024 01:25:49 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A8594D4;
+	Thu,  4 Apr 2024 01:37:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712186749;
-	bh=DasaMKtxHCBy8bnXKMsQVDtb5bUHFkPpBAcce6oZKYI=;
+	s=mail; t=1712187426;
+	bh=Dj/JNBV2E/aG6AcsipppEp/wNX3jGYU55BwmX9tvNnY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sjnTc7FxqscsMDseh/NDjVEKGNdzTUA7Z9iCHkIMuty3u5Hoz9TG7WtFNQ23xKXmz
-	 ocH09ZP6WHAExaGfYN2k9DS2USWh0Nq3dptRy8dBUQLFYkikCsSdCg1eiowU6wI7+T
-	 UOhcF5t+bTmyepa96eojTXEerykqoTOmitOQKcXU=
-Date: Thu, 4 Apr 2024 02:26:16 +0300
+	b=lzJFIB8DVPdL9bf9IWh+3CHZ2PEFrt8D8PVuLPp8pkZdBfBJwrEr5JRddALE4QP4p
+	 4PX64RodnuQg57u0yY8PLeFSDY1EITd5t0dqeW5SCh03yjmkGP/6p63zVQUz0GAIc6
+	 wh+EntiDSEbseEYXrrivUEqffBl2dUM0uVsenQtk=
+Date: Thu, 4 Apr 2024 02:37:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-subdev: Remove stream support for the crop
- API
-Message-ID: <20240403232616.GA22261@pendragon.ideasonboard.com>
-References: <20240403224233.18224-1-laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v4l-utils v2 2/2] v4l2-compliance: Fix streams use in
+ testSubDevEnumFrameSize()
+Message-ID: <20240403233732.GT16740@pendragon.ideasonboard.com>
+References: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
+ <20240403-v4l2-compliance-streams-fixes-v2-2-be9b338dc204@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,97 +60,74 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240403224233.18224-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v2-2-be9b338dc204@ideasonboard.com>
 
-On Thu, Apr 04, 2024 at 01:42:33AM +0300, Laurent Pinchart wrote:
-> When support for streams was added to the V4L2 subdev API, the
-> v4l2_subdev_crop structure was extended with a stream field, but the
-> field was not handled in the core code that translates the
-> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. This could be
-> fixed, but the crop API is deprecated and shouldn't be used by new
-> userspace code. It's therefore best to avoid extending it with new
-> features. Drop the stream field from the v4l2_subdev_crop structure, and
-> update the documentation and kernel code accordingly.
+On Wed, Apr 03, 2024 at 01:15:45PM +0300, Tomi Valkeinen wrote:
+> We don't pass the stream number to testSubDevEnumFrameSize(), which
+> instead always uses stream number 0. This causes failures when the
+> subdevice uses streams.
 > 
-> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Fix this by adding stream parameter, and passing the correct stream ID.
+
+This looks ready to merge as far as I'm concerned. Sakari, Hans, if you
+disagree, please let me know.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
-> This supersedes the "[PATCH] media: v4l2-subdev: Fix stream handling for
-> crop API" patch ([1]). I'll submit matching patches for v4l2-compliance.
-
-Done, see https://lore.kernel.org/linux-media/20240403232425.22304-1-laurent.pinchart@ideasonboard.com/
-
+>  utils/v4l2-compliance/v4l2-test-subdevs.cpp | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> [1] https://patchwork.linuxtv.org/project/linux-media/patch/20240401233725.2401-1-laurent.pinchart@ideasonboard.com/
-> ---
->  .../userspace-api/media/v4l/vidioc-subdev-g-crop.rst        | 5 +----
->  drivers/media/v4l2-core/v4l2-subdev.c                       | 6 ------
->  include/uapi/linux/v4l2-subdev.h                            | 4 +---
->  3 files changed, 2 insertions(+), 13 deletions(-)
+> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> index 560efb70..da304a8c 100644
+> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> @@ -121,7 +121,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
+>  }
+>  
+>  static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+> -				   unsigned pad, unsigned code)
+> +				   unsigned pad, unsigned stream, unsigned code)
+>  {
+>  	struct v4l2_subdev_frame_size_enum fse;
+>  	unsigned num_sizes;
+> @@ -130,7 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+>  	memset(&fse, 0, sizeof(fse));
+>  	fse.which = which;
+>  	fse.pad = pad;
+> -	fse.stream = 0;
+> +	fse.stream = stream;
+>  	fse.code = code;
+>  	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
+>  	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
+> @@ -140,7 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+>  		memset(&fie, 0, sizeof(fie));
+>  		fie.which = which;
+>  		fie.pad = pad;
+> -		fie.stream = 0;
+> +		fie.stream = stream;
+>  		fie.code = code;
+>  		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
+>  		return ret;
+> @@ -156,7 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+>  	memset(&fse, 0xff, sizeof(fse));
+>  	fse.which = which;
+>  	fse.pad = pad;
+> -	fse.stream = 0;
+> +	fse.stream = stream;
+>  	fse.code = code;
+>  	fse.index = 0;
+>  	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
+> @@ -266,7 +266,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
+>  		fail_on_test(mbus_core_enum.stream != stream);
+>  		fail_on_test(mbus_core_enum.index != i);
+>  
+> -		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
+> +		ret = testSubDevEnumFrameSize(node, which, pad, stream, mbus_core_enum.code);
+>  		fail_on_test(ret && ret != ENOTTY);
+>  	}
+>  	return 0;
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> index 92d933631fda..7eeb7b553abf 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> @@ -96,10 +96,7 @@ modified format should be as close as possible to the original request.
->        - ``rect``
->        - Crop rectangle boundaries, in pixels.
->      * - __u32
-> -      - ``stream``
-> -      - Stream identifier.
-> -    * - __u32
-> -      - ``reserved``\ [7]
-> +      - ``reserved``\ [8]
->        - Reserved for future extensions. Applications and drivers must set
->  	the array to zero.
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4c6198c48dd6..02c2a2b472df 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -725,9 +725,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		struct v4l2_subdev_crop *crop = arg;
->  		struct v4l2_subdev_selection sel;
->  
-> -		if (!client_supports_streams)
-> -			crop->stream = 0;
-> -
->  		memset(crop->reserved, 0, sizeof(crop->reserved));
->  		memset(&sel, 0, sizeof(sel));
->  		sel.which = crop->which;
-> @@ -749,9 +746,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->  			return -EPERM;
->  
-> -		if (!client_supports_streams)
-> -			crop->stream = 0;
-> -
->  		memset(crop->reserved, 0, sizeof(crop->reserved));
->  		memset(&sel, 0, sizeof(sel));
->  		sel.which = crop->which;
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 7048c51581c6..f7eea12d8a2c 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -48,15 +48,13 @@ struct v4l2_subdev_format {
->   * @which: format type (from enum v4l2_subdev_format_whence)
->   * @pad: pad number, as reported by the media API
->   * @rect: pad crop rectangle boundaries
-> - * @stream: stream number, defined in subdev routing
->   * @reserved: drivers and applications must zero this array
->   */
->  struct v4l2_subdev_crop {
->  	__u32 which;
->  	__u32 pad;
->  	struct v4l2_rect rect;
-> -	__u32 stream;
-> -	__u32 reserved[7];
-> +	__u32 reserved[8];
->  };
->  
->  #define V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE	0x00000001
-> 
-> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
 
 -- 
 Regards,
