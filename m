@@ -1,248 +1,254 @@
-Return-Path: <linux-media+bounces-8466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111D9896377
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 06:25:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8BD8963B0
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 06:53:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 32E201C22951
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 04:25:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59F98285FAD
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 04:53:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73EB844C76;
-	Wed,  3 Apr 2024 04:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D863F45973;
+	Wed,  3 Apr 2024 04:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="f/47bzwD";
-	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="FCSbvQc4"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EBiCumq/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DA33716D;
-	Wed,  3 Apr 2024 04:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712118294; cv=fail; b=DkzQVVN6hxIuLoLjORtade75UJXC2eopqTCx9V5dfxP27WaDcymp0l44hFTRf4fd6HJWEOU7aZN7UuG+o37Wt/ygrRDBNW7JWiqQ1OJwKR5YxgrlipdAagWBgxhYqb5TLF+SL4VNTctWaC8uSv6LxvPkmimf9ER6EotDCzWJ4oc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712118294; c=relaxed/simple;
-	bh=ALToTDOLXG1JUxgoypRInnHKy0z1IvTA4lbsrRxUGQ0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WqthEc9mqXVF68Yrp2veIPOXqZCpJpsViEMCklgEUMw/hASDERAhiXhVIEG1zrwDB3x8vqRuiTqvAJ8FyMJbXwz8hDKDeHRAT+YYCem+/Z7saot6nEQecayXEWboSqrTOKydi1rBbh77kp68lI00aujLMS+yS5G6zuECPmLsMpM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=f/47bzwD; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=FCSbvQc4; arc=fail smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 1974641ef17211eeb8927bc1f75efef4-20240403
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=ALToTDOLXG1JUxgoypRInnHKy0z1IvTA4lbsrRxUGQ0=;
-	b=f/47bzwDuBPLi9cFe0mvTbw2y8t2Oq//Lo8XiH/4yp7xAkA8PUuWttCRji8hVc8l3AT4vjwYwEPRPwiyS76Rqh3mbcNdY2sYbS/o5WC2RyUZVFILiXv3nr0kDb/4A7DANOypladMD4+uqF3DrAR/pgP9apgKDX+afoG6BhPI9vE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:e8188b23-c155-4ae7-94cd-223564f94db7,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6f543d0,CLOUDID:0842a600-c26b-4159-a099-3b9d0558e447,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 1974641ef17211eeb8927bc1f75efef4-20240403
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <zhi.mao@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1618382479; Wed, 03 Apr 2024 12:24:45 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 3 Apr 2024 12:24:39 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 12:24:39 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j49nLxqyQoQ8ZL4ssKmZ13j/umeAxH6xq/HAq7HuYs6VSs9UkNAShz1QAOR6XvZzsv419IhI7olAf4dMeYAKOnucyRN8JKptDqMYfPF4lexdaH9kITIOPm6ckCwZDUiseIqP1vPLgSI+qoPOVnJ1whm6dtwRuZTG//xkRdbsNzb3xzoH45nXVdV6l1qQRDhs/3ruPAB1oBrwqd7gLb9UYX71hUjAZ+WfVmSB3iN/Mvx66NdJqX2MqJ8N6Um4a/eHTmxhYzcAyuqr8Mz5Hm9JXw7fbB+vZxVFYWa3+Bcz9T63Thajo00D3/s2UF74MciqQh3MMv3diZ2UbIRk0RLonA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ALToTDOLXG1JUxgoypRInnHKy0z1IvTA4lbsrRxUGQ0=;
- b=NAdNhTJhAqo2ET7eqqrWmQ8m3OY31pXWjmx2/wyBYXqHaLxhBqf5Xg7Vu9PhT+GAz9Mg1djTnissROJ6aF1wFKNlBxumklENMf8ypuYAAtLHX22j9i8kAlC265R9ibVp58VkGMPvVmqy9oxJOI34GRNOW9tAxn5iJ9jAIrb3KpxttiN4dmh8PWnRUQ4tVE7oVvXh5sxOW4MUtckB0dJ2Co60cZSbAMsBt7JQyZPXUkb91xbv29liHEdLBQ8atNyjmZ0Axn0wc+GxGNWpIJrGvnV027jvWR7OMWO0hE4Pq3Rda19/IrFEbE9C+5+QKIu7/LVR/VbRnkKW2jZcxVM88Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1845941
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 04:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712119984; cv=none; b=qyMs1tt+ebCB3F+gaUbovnV4v7Yznwj74EvotOHAdxiIdqbjG94VoJGIbWd7Shlvr4OY1rPD4kwGYjMKSyfpP0GPA0imP/zGyRnQpLufjRFgMAzMEhvM7Bz7KcEOI8PvikQVc0JlaLQf4+s6zmWLx6Ev6tEqMJEPyGAINV2ZA3Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712119984; c=relaxed/simple;
+	bh=fT8vAtoeL4zAlzxYFw74qe1NW83Csq0MgosRBnB6/DI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jB/GUdxHbzvkxtc0cBjQ5m2cjpdDjbWpZtD3PmZce0WXvUXJX01Z6uZLcCVVjF42wDxU5i8JqSG8hhTfqTex6P8q4BrmDjYehUR7m4k8pHNriqOQ/TrVIOef4DaNLrVcrfYPPIl3q88Momg4PuH/3nP3WzLPlXZ+QQRf3MM08b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EBiCumq/; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6151e2d037dso16946347b3.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Apr 2024 21:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ALToTDOLXG1JUxgoypRInnHKy0z1IvTA4lbsrRxUGQ0=;
- b=FCSbvQc4r1t25FTsRtsTg1wJhPVzN02U4PBCl/cgiZfumvSpmJqpxD6PQo6bWexeRynlUjBpw02n1LbiklMUP+ZSiFH9YF/gsZOyhEC8rAnuNnsY64URVbrZ08P5AQ2NqRJfH9mi0TKweJbWJYPKUZUrytTUftjI6XGh/jn8fcw=
-Received: from TYZPR03MB5566.apcprd03.prod.outlook.com (2603:1096:400:53::7)
- by SEZPR03MB8763.apcprd03.prod.outlook.com (2603:1096:101:218::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
- 2024 04:24:37 +0000
-Received: from TYZPR03MB5566.apcprd03.prod.outlook.com
- ([fe80::b39a:4ac4:5bf8:88d]) by TYZPR03MB5566.apcprd03.prod.outlook.com
- ([fe80::b39a:4ac4:5bf8:88d%5]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
- 04:24:36 +0000
-From: =?utf-8?B?WmhpIE1hbyAo5q+b5pm6KQ==?= <zhi.mao@mediatek.com>
-To: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-CC: "heiko@sntech.de" <heiko@sntech.de>, "gerald.loacker@wolfvision.net"
-	<gerald.loacker@wolfvision.net>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"yunkec@chromium.org" <yunkec@chromium.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "dan.scally@ideasonboard.com"
-	<dan.scally@ideasonboard.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-	=?utf-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?=
-	<shengnan.wang@mediatek.com>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	=?utf-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?= <Yaya.Chang@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "jacopo.mondi@ideasonboard.com"
-	<jacopo.mondi@ideasonboard.com>, "jernej.skrabec@gmail.com"
-	<jernej.skrabec@gmail.com>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "bingbu.cao@intel.com"
-	<bingbu.cao@intel.com>, Project_Global_Chrome_Upstream_Group
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "10572168@qq.com" <10572168@qq.com>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "laurent.pinchart@ideasonboard.com"
-	<laurent.pinchart@ideasonboard.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "macromorgan@hotmail.com"
-	<macromorgan@hotmail.com>
-Subject: Re: [PATCH v1 2/2] media: i2c: Add GC05A2 image sensor driver
-Thread-Topic: [PATCH v1 2/2] media: i2c: Add GC05A2 image sensor driver
-Thread-Index: AQHad00+IqkBATFIkUCM1xUJwrGHMrFAQfSAgARroYCAEWF6gA==
-Date: Wed, 3 Apr 2024 04:24:36 +0000
-Message-ID: <f2d8976b23b119ce8d002bde7a04d38babd93e08.camel@mediatek.com>
-References: <20240316025253.2300-1-zhi.mao@mediatek.com>
-	 <20240316025253.2300-3-zhi.mao@mediatek.com>
-	 <ZfqQPTgqzOw7tATK@kekkonen.localdomain>
-	 <8a6bbbdde57283b5bf8cab0ea7ecb0f201d437e7.camel@mediatek.com>
-In-Reply-To: <8a6bbbdde57283b5bf8cab0ea7ecb0f201d437e7.camel@mediatek.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB5566:EE_|SEZPR03MB8763:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VOqxJ5QhJ7a3sT+/ZT4coe/N2z5lmT/eEyra9BGLMj+uCWjF9hem5yW24HmxXyK/Jsn88e6ltlxryTEOVJLJjUzsQ+iqRo+veIKzRG2vAaAWBDVq0mTrpxnyrc0G5HUUvwpIBl+PoE/7bHF5h8WmRMz2A1ajjftGa0dvc5e2l7UA8QFTAVxRQKL7Bowyx2CwZDwf09jEyZ+zaz2T2HO1Lbglyx0unRK2mHPrrMa9VZdSoooqOZWh9jS/JZAXsnsoMn9FRtNizh0YldEWZl0glQUwnQps2Pa28WibMjalSH7luoMb1owy7Mg3M+R0evePFdW9MKUExpWxSWTC29xJjsTMbvDNrtCq3u2iIW3sMN+AAj2URUIVM9fpUZ7mfij2q6D/3qofR4dESiFte2TBCzgg2nN6kNRh/tZY/Exczwovh5Q2PTO8WAsjNziIlT1J2rIQRqLtrL3fI977DLBWdCsGhhLJhXPrbeNWFm6+3XfpkV7wm5I+fsx0SlcuOXQElAqv1aOHdPcNKhIa2GJPwmlgEFKt3+uhGlvVqbt3i1nrBSeL/Q77s6PGj70i202D9bKjKAQ2NFe+p64Rg0cqA5oy/qilgELzY62reHV+bt00F0XDejUwB1afwqAoaBmo
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB5566.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?LzZ3MGl2T0s2M2lHYkxwSU5GUG9EMTJvU3oxVGxSaGRCUUl1VVh2d2lLWjRB?=
- =?utf-8?B?UWd5WE91UkpwMDZmNEx1aHlPUFJ0Y2N5b0lRaUFXUmFaVUJ4UUZmQm5hWElQ?=
- =?utf-8?B?RnY4aUFSM0ZldFRVbUZWdXpXdmdVTi9pVnhRVS9UeGZwdDlQRkJNSTdaTEU5?=
- =?utf-8?B?RVIzdTdzckVTK3VlZFJzTmtFczNpeWhhNXY2L1VLdzRvbjRzN0MyQjZLTk9h?=
- =?utf-8?B?eng0bDBiSERLOFhHNUluRytueEtpSmxzTDM0SlduMndFaXhZY1NMOGRvREFJ?=
- =?utf-8?B?WkVLNXZ5UHN2R3VmMzVuVTVXT2VGUi9ITzFzQkY5TE5IQitQMktoenptWjNa?=
- =?utf-8?B?QUlQbVlTVktvME5WbVQvTHhpeVp4alhvVlpNZm4yc0ZObTdBTStqaFRnVjRS?=
- =?utf-8?B?SFdqWlZTN3ArWTVEck80SXZVRTVoTVVUQ1h4WVh5bE5kcDdSV3BoUFRPd2lC?=
- =?utf-8?B?Qk8ydkdrMUpFNjZ1QnlndE8xOGozWENSSWJKUVZwdkRzL0Fqb0hXQTFuYTRK?=
- =?utf-8?B?Z1BVMkxCSit4WUtBSUhKWWh3QVlWNlFOQUxqN3pTdDFmZlhMamQ1SUw1NWQw?=
- =?utf-8?B?N2RiV1dKOGY3emFpR1V6cmlTclVGUVNCYVBTbHFreEdjS0lFOGlodnNzbnN4?=
- =?utf-8?B?MDRyUStIL09yNkRPWEFnYjk1Qi9iVjlzTDdhSllzVjhteEVUbnFaQ2IvSmRJ?=
- =?utf-8?B?a09MMkl1elZvV2MrTFZzckNKTmpnd1o4cFRCUm5pNlZCNFVZVElGNjFMOGVD?=
- =?utf-8?B?aGIzYXpDanpUc3dKY3ErM1B2T2NXSFpHRUdJbkIrMlRjRzlzSjEzVUNOZVc1?=
- =?utf-8?B?NFdMMWlnVlk2N2RjVDA1alBWTEYrOHE4ejNhOFhsazVRb2ZKS3B3M3NWUy9w?=
- =?utf-8?B?cWtFcFdHWDVGSS9zOUlwOEd5cWJyK0RHZlA5QWlOOVQydGV4VFBNakpubkxi?=
- =?utf-8?B?NHlIcEVRbkw5U0ErSmE2RFMxQ3dkanJDclBRczFqTHFhTy8vNFora28xWmJK?=
- =?utf-8?B?SGg3V1JyWkNEa1BpRU90cGdIazJsVVZ0bldycHQ4QXZHZ3VibVFJY29SeFhP?=
- =?utf-8?B?ak5nNjJzSk9iaUxxeGVDdnQzUDdpenFRZXI3NU9QTHNrT0FiMXo2S1BoelVW?=
- =?utf-8?B?bzZEQW0yZEJ6R0tBQ2NKOVlxa0RGVE5DY0twNVdGQ2F1KzF3WlFlOHZtUGVH?=
- =?utf-8?B?Z1YrZ0ExVVk2WWZpbFU4bXQ0ZC9oMHFHZVluYWtZYStpMVFNcnIwMzNZMXlX?=
- =?utf-8?B?NTlDeGFxNllJNHdTUk5DaythcUxmb0E4KzBqWkxjL2VjUnZnRDhUcUhnVnJG?=
- =?utf-8?B?VDk4Q2JmVDlTb2MvQWhQUmlxTFZOYk5vakp0aTJ0R2pHczBhd2lzalNjRW1z?=
- =?utf-8?B?RG5lYVV3cVcvL1NleGo4Q1VwbDhLM2t1TmRDL2cvMnBaVVg3dVR2TnRLcnpx?=
- =?utf-8?B?c3ZySFMzanp4V2lMVHVqcFRnc3UwNHBxQUdscmZHOElndUVvQTNHQ0NQSSt5?=
- =?utf-8?B?VExmcmZzMHJ5Z2cwamJ1MDM1czJYZURpV1VvbVpPNWs3WUdhaUZaME12WTgv?=
- =?utf-8?B?VXhFNW9PbG5Mdi9DQzkzelQxOXUvdlRjYkh2Q3RjVWFGZGxzYzgxcXA0dnV1?=
- =?utf-8?B?dWRnY2NIM1RCV01mdzhGUHc1YVpSQ2E2RkRsdWxvNUp3Q2V6d1cvSHdmaDRr?=
- =?utf-8?B?blJ3cEU5aytZc2pKRTZxemtzWEpuaTd3a0pYa0pzWnF0cUkwNVpVOWs0YUpX?=
- =?utf-8?B?TFI1WnE1N3VoMzhYbXd5Q3U4TWwrSTJzY3RZbDU5bTFtZEdnL2YyRGhJM1RN?=
- =?utf-8?B?c2NLeDNFTUJWNmlya3EzN0VJc3lURGxqcUcxZ2FDNzRvTVBXY3dpUG1BcEZw?=
- =?utf-8?B?UUNBRU04a1VWQ01pU3VYWjc5bi9qRGh2dlBOc3JYRUVIeVBUZ0dSM2FqZzBT?=
- =?utf-8?B?QkdUNkl5TzRxT2hwam9Yc29ENlExQ1ZPRjdsK1hXNklZRXJDTDFpWlhxSUpo?=
- =?utf-8?B?MnpzQWlGS3IvOGE1OTQ4QVFUR21abnNHQ0pZSE5jbVNxTGlHNWVOcTBrQUJt?=
- =?utf-8?B?VWV0UzMvdjRtbUtZZTBia3ZMVCsrM2poSXc2QkNqQXRlWldyaGtVckQ4Qjlq?=
- =?utf-8?B?M01WSk9aRDhsc2xIcVJ6c0dEM1hsRkh6dStSRHBBY1RoMnhDK1dzVkNiQzl5?=
- =?utf-8?B?OVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6E66F93B9CA9384E90C5DC746E61DCBE@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=chromium.org; s=google; t=1712119981; x=1712724781; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UnCnxRcBL3diixPhP1r9vIS96E6vsKh/coA8cXOBr0U=;
+        b=EBiCumq/hSoRBC1NmNWuEaiPSSNy4BuABebAOebv7ucnHrZfns7Xfy+BtkterQ0ajr
+         6VGA2KYzmN1OPvX/n59PvvvwTdMw+KW8KxzhcS2W9kZxZ2aUf7xZ368gOvSrXI/QV+7D
+         be17aCqaf2go9VqZjupl28disKFd072t6Cnp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712119981; x=1712724781;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UnCnxRcBL3diixPhP1r9vIS96E6vsKh/coA8cXOBr0U=;
+        b=ZA8B6MlGGaNiRfmOeXl8cKNI7MUJdFDT6oQmLm84Vpprotok3XlefaNGvKhQAIPwYH
+         SG6izwxnqXvIYajClZyHlh/XTaisdnKxcDT5HRr0mMCRcuFEaj61wiu74T+GeRQq1ldV
+         IqiEJY9VEl9wGKXUL9eN6VvrLomzqV7lJgFrNwfffEOhywh2qZN8QzWi5xWsuYWZLIZi
+         7omHb5u8y4kOQ7+lKl5E5Fl05yfiEDFggQZC9jLWykN/VG4O0gtY2JxyNwufqNIuhJ9B
+         MV0EWvLoxQylkU7XROnG1GeiDAYU1H+ojn3qCqS05HxPi8yEPYvR+sjl71LlXIhlIa88
+         9pNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFVmz4pCHvoDU5nQYpZg2qGK+j4sR+FmE/2rg7kWhXayF3r1iO9SockpxGY/MwAKjYihV3kARgWvNy8fBXqY359VZpM3HE5g9TI20=
+X-Gm-Message-State: AOJu0YwpcccgsjcG3MnfcG5ZtKKmfyWz409B5ESrbsOdKvb2rba/JrDW
+	RZXDcwThg5eswxxSBRPBDzOhW9trN+oXuuM4JUnDT959bjHmdlZeFOyvjDTCB3HoKPPjaK4N0q2
+	i7Y3fHwAjRP/gz4l1GPL4gFDlyTlo2geoFMvF7BjKFk6nUywhEA==
+X-Google-Smtp-Source: AGHT+IHkgdVVF5IawRhUFTnmWQbaiqXvo8tyIdAB8qTUNDsvSrh6uaiPMZgN1OkPHj/lFsdSRqrvx9qpGa9xEEB1CFQ=
+X-Received: by 2002:a0d:d5c8:0:b0:615:3d71:b0ed with SMTP id
+ x191-20020a0dd5c8000000b006153d71b0edmr2771796ywd.12.1712119981448; Tue, 02
+ Apr 2024 21:53:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB5566.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c544155e-acb0-4f8e-0ca7-08dc5395f8b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2024 04:24:36.7351
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r7L/uHwgemAByKm809i0QaMYkeuwFvj7aiFeOPAMhkzJ2dRr4wVnfuI9Ce8oOxm0SxDQEG/nQVG/saiIxJnirQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB8763
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--16.951700-8.000000
-X-TMASE-MatchedRID: dc8Jy61QoRrUL3YCMmnG4uG5dRZCgxC3uLwbhNl9B5UNcckEPxfz2IP+
-	YDa/Dhu9JP00JqzxhIBrkO0aOJR63GaivMAy8a2BvHKClHGjjr2cyCGZko2aplVqIv0mjuMGo/7
-	b2ABiEdK+j2QY5cRmWtP+J/cFFKsSHyzWFbk8FLVLc5N+0s1+DTK1/qdbjc7QEqzh2sHXZHGiw+
-	Xvt/uB3M0AhBXEKaqYeo8Y7LCQaK8AiB89UisvLBWCVBr+Ay98wx0jRRxcQfNAiWCTfFh1XgBKG
-	kW9znn5NZgKuXgLgpPcHsyE3Hr9h0L9tcyTZdAsgxsfzkNRlfL+VmoNXJ/8FMBrudef+SZcjocz
-	muoPCq2UTGVAhB5EbQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--16.951700-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	AD25280E4E5CDFF39D33C5A62753ADED7DFE98F4DB50350C0B7F911A52CA933E2000:8
+References: <20240401063500.680384-1-yunkec@chromium.org> <CAAFQd5ASNmUv30xeCChebonLcpemny=-U1G=8bK4iO1vTUyjbg@mail.gmail.com>
+In-Reply-To: <CAAFQd5ASNmUv30xeCChebonLcpemny=-U1G=8bK4iO1vTUyjbg@mail.gmail.com>
+From: Yunke Cao <yunkec@chromium.org>
+Date: Wed, 3 Apr 2024 13:52:50 +0900
+Message-ID: <CAEDqmY5On01usBV7UmAqCrqaEs8sB47Oh3sWRou3WARK=LjJWg@mail.gmail.com>
+Subject: Re: [RFC PATCH] media: videobuf2-core: attach once if multiple planes
+ share the same dbuf
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgU2FrYXJpLA0KDQpVcGRhdGUgZ2MwNWEyIGRyaXZlciBwYXRjaC4NCg0KT24gU2F0LCAyMDI0
-LTAzLTIzIGF0IDEwOjU5ICswODAwLCB6aGkubWFvQG1lZGlhdGVrLmNvbSB3cm90ZToNCj4gSGkg
-U2FrYXJpLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHJldmlldy4NCj4gDQo+IE9uIFdlZCwgMjAy
-NC0wMy0yMCBhdCAwNzoyOSArMDAwMCwgU2FrYXJpIEFpbHVzIHdyb3RlOg0KPiA+ICAJIA0KPiA+
-IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFj
-aG1lbnRzDQo+ID4gdW50aWwNCj4gPiB5b3UgaGF2ZSB2ZXJpZmllZCB0aGUgc2VuZGVyIG9yIHRo
-ZSBjb250ZW50Lg0KPiA+ICBIaSBaaGksDQo+ID4gDQo+ID4gVGhhbmtzIGZvciB0aGUgc2V0Lg0K
-PiA+IA0KPiA+IE9uIFNhdCwgTWFyIDE2LCAyMDI0IGF0IDEwOjUyOjUzQU0gKzA4MDAsIFpoaSBN
-YW8gd3JvdGU6DQo+ID4gPiArc3RhdGljIGludCBnYzA1YTJfc2V0X2N0cmwoc3RydWN0IHY0bDJf
-Y3RybCAqY3RybCkNCj4gPiA+ICt7DQo+ID4gPiArc3RydWN0IGdjMDVhMiAqZ2MwNWEyID0NCj4g
-PiA+ICtjb250YWluZXJfb2YoY3RybC0+aGFuZGxlciwgc3RydWN0IGdjMDVhMiwgY3RybHMpOw0K
-PiA+ID4gK2ludCByZXQgPSAwOw0KPiA+ID4gK3M2NCBleHBvc3VyZV9tYXg7DQo+ID4gPiArc3Ry
-dWN0IHY0bDJfc3ViZGV2X3N0YXRlICpzdGF0ZTsNCj4gPiA+ICtjb25zdCBzdHJ1Y3QgdjRsMl9t
-YnVzX2ZyYW1lZm10ICpmb3JtYXQ7DQo+ID4gPiArDQo+ID4gPiArc3RhdGUgPSB2NGwyX3N1YmRl
-dl9nZXRfbG9ja2VkX2FjdGl2ZV9zdGF0ZSgmZ2MwNWEyLT5zZCk7DQo+ID4gPiArZm9ybWF0ID0g
-djRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Zvcm1hdChzdGF0ZSwgMCk7DQo+ID4gPiArDQo+ID4gPiAr
-aWYgKGN0cmwtPmlkID09IFY0TDJfQ0lEX1ZCTEFOSykgew0KPiA+ID4gKy8qIFVwZGF0ZSBtYXgg
-ZXhwb3N1cmUgd2hpbGUgbWVldGluZyBleHBlY3RlZCB2YmxhbmtpbmcgKi8NCj4gPiA+ICtleHBv
-c3VyZV9tYXggPSBmb3JtYXQtPmhlaWdodCArIGN0cmwtPnZhbCAtIEdDMDVBMl9FWFBfTUFSR0lO
-Ow0KPiA+ID4gK19fdjRsMl9jdHJsX21vZGlmeV9yYW5nZShnYzA1YTItPmV4cG9zdXJlLA0KPiA+
-ID4gKyBnYzA1YTItPmV4cG9zdXJlLT5taW5pbXVtLA0KPiA+ID4gKyBleHBvc3VyZV9tYXgsIGdj
-MDVhMi0+ZXhwb3N1cmUtPnN0ZXAsDQo+ID4gPiArIGV4cG9zdXJlX21heCk7DQo+ID4gPiArfQ0K
-PiA+ID4gKw0KPiA+ID4gKy8qDQo+ID4gPiArICogQXBwbHlpbmcgVjRMMiBjb250cm9sIHZhbHVl
-IG9ubHkgaGFwcGVucw0KPiA+ID4gKyAqIHdoZW4gcG93ZXIgaXMgb24gZm9yIHN0cmVhbWluZy4N
-Cj4gPiA+ICsgKi8NCj4gPiA+ICtpZiAoIXBtX3J1bnRpbWVfZ2V0X2lmX2luX3VzZShnYzA1YTIt
-PmRldikpDQo+ID4gDQo+ID4gVGhpcyBzaG91bGQgYmUgcG1fcnVudGltZV9nZXRfaWZfYWN0aXZl
-KCkuIFBsZWFzZSBhc3N1bWUgaXQgdGFrZXMgYQ0KPiA+IHNpbmdsZQ0KPiA+IGFyZ3VtZW50ICh0
-aGUgZGV2aWNlKS0tLXNlZSBjb21taXQNCj4gPiBjMGVmM2RmOGRiYWVmNTFlZTRjZmQ1OGE0NzFh
-ZGYyZWFlZTZmNmIzLg0KPiA+IA0KPiA+IFRoZSBzYW1lIGNvbW1lbnQgYXBwbGllcyB0byB0aGUg
-R0MwOEEzIGlmIGl0IHVzZXMgYXV0b3N1c3BlbmQsDQo+ID4gcGxlYXNlDQo+ID4gcG9zdA0KPiA+
-IGEgbmV3IHBhdGNoIGZvciB0aGF0Lg0KPiA+IA0KPiANCj4gZml4ZWQsIHBhdGNoIGFzIGJlbG93
-OiANCj4gZ2MwNWEgcGF0Y2g6djIgDQo+IA0KPiANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xp
-bnV4LW1lZGlhLzIwMjQwMzIzMDE0NzUxLjQ5ODktMS16aGkubWFvQG1lZGlhdGVrLmNvbS8NCj4g
-DQoNCmdjMDVhIGRyaXZlciB3YXMgdXBkYXRlZCB0byBwYXRjaDp2Mw0KDQpodHRwczovL2xvcmUu
-a2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDI0MDQwMzAzMzgyNS45MDcyLTEtemhpLm1hb0BtZWRp
-YXRlay5jb20vDQoNCg0KPiBnYzA4YSBwYXRjaDp2OA0KPiANCj4gDQpodHRwczovL2xvcmUua2Vy
-bmVsLm9yZy9saW51eC1tZWRpYS8yMDI0MDMyMzAyMzg1MS41NTAzLTEtemhpLm1hb0BtZWRpYXRl
-ay5jb20vDQo+IA0KPiA+IC0tIA0KPiA+IEtpbmQgcmVnYXJkcywNCj4gPiANCj4gPiBTYWthcmkg
-QWlsdXMNCg==
+Hi Tomasz,
+
+Thanks for the review!
+
+On Tue, Apr 2, 2024 at 7:21=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wro=
+te:
+>
+> Hi Yunke,
+>
+> On Mon, Apr 1, 2024 at 3:35=E2=80=AFPM Yunke Cao <yunkec@chromium.org> wr=
+ote:
+> >
+> > When multiple planes use the same dma buf, each plane will have its own=
+ dma
+> > buf attachment and mapping. It is a waste of IOVA space.
+> >
+> > This patch adds a duplicated_dbuf flag in vb2_plane. If a plane's dbuf
+> > is the same as an existing plane, do not create another attachment and
+> > mapping.
+> >
+> > Signed-off-by: Yunke Cao <yunkec@chromium.org>
+> > ---
+> >  .../media/common/videobuf2/videobuf2-core.c   | 30 +++++++++++++++----
+> >  include/media/videobuf2-core.h                |  3 ++
+> >  2 files changed, 28 insertions(+), 5 deletions(-)
+> >
+>
+> Thanks a lot for the patch! Please take a look at my comments inline.
+>
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/=
+media/common/videobuf2/videobuf2-core.c
+> > index b6bf8f232f48..b03e058ef2b1 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > @@ -304,10 +304,13 @@ static void __vb2_plane_dmabuf_put(struct vb2_buf=
+fer *vb, struct vb2_plane *p)
+> >         if (!p->mem_priv)
+> >                 return;
+> >
+> > -       if (p->dbuf_mapped)
+> > -               call_void_memop(vb, unmap_dmabuf, p->mem_priv);
+> > +       if (!p->duplicated_dbuf) {
+> > +               if (p->dbuf_mapped)
+> > +                       call_void_memop(vb, unmap_dmabuf, p->mem_priv);
+> > +
+> > +               call_void_memop(vb, detach_dmabuf, p->mem_priv);
+>
+> I wonder if we may want to reverse the iteration order in
+> __vb2_buf_dmabuf_put() so that we don't leave dangling pointers in
+> further planes when previous planes have their mem_priv freed.
+>
+
+The loop in __prepare_dmabuf() is of the same iteration order, so the
+same will happen.
+Is it still necessary to reverse the order in __vb2_buf_dmabuf_put()?
+
+> > +       }
+> >
+> > -       call_void_memop(vb, detach_dmabuf, p->mem_priv);
+> >         dma_buf_put(p->dbuf);
+> >         p->mem_priv =3D NULL;
+> >         p->dbuf =3D NULL;
+> > @@ -1327,7 +1330,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+> >         struct vb2_plane planes[VB2_MAX_PLANES];
+> >         struct vb2_queue *q =3D vb->vb2_queue;
+> >         void *mem_priv;
+> > -       unsigned int plane;
+> > +       unsigned int plane, i;
+> >         int ret =3D 0;
+> >         bool reacquired =3D vb->planes[0].mem_priv =3D=3D NULL;
+> >
+> > @@ -1383,6 +1386,22 @@ static int __prepare_dmabuf(struct vb2_buffer *v=
+b)
+> >                 vb->planes[plane].m.fd =3D 0;
+> >                 vb->planes[plane].data_offset =3D 0;
+> >
+> > +               if (mem_priv && plane > 0) {
+>
+> Is mem_priv the right thing to check for here? I think it would point
+> to the private data of the previous plane (i.e. plane - 1), but in the
+> loop below we may end up finding the match in an earlier plane (e.g.
+> plane - 2).
+>
+> > +                       for (i =3D 0; i < plane; ++i) {
+> > +                               if (dbuf =3D=3D vb->planes[i].dbuf) {
+> > +                                       vb->planes[plane].duplicated_db=
+uf =3D true;
+>
+> I guess we can set ...[plane].mem_priv to [i].mem_priv here.
+>
+> > +                                       break;
+> > +                               }
+> > +                       }
+> > +               }
+> > +
+> > +               /* There's no need to attach a duplicated dbuf. */
+> > +               if (vb->planes[plane].duplicated_dbuf) {
+> > +                       vb->planes[plane].dbuf =3D dbuf;
+> > +                       vb->planes[plane].mem_priv =3D mem_priv;
+>
+> I think this mem_priv would be the one from planes[plane-1] and not
+> necessarily the one with matching dbuf.
+
+Thanks for catching the error. Will fix it in the next version.
+
+>
+>
+> > +                       continue;
+> > +               }
+> > +
+> >                 /* Acquire each plane's memory */
+> >                 mem_priv =3D call_ptr_memop(attach_dmabuf,
+> >                                           vb,
+> > @@ -1396,6 +1415,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+> >                         goto err;
+> >                 }
+> >
+> > +               vb->planes[plane].duplicated_dbuf =3D false;
+> >                 vb->planes[plane].dbuf =3D dbuf;
+> >                 vb->planes[plane].mem_priv =3D mem_priv;
+> >         }
+> > @@ -1406,7 +1426,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+> >          * userspace knows sooner rather than later if the dma-buf map =
+fails.
+> >          */
+> >         for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> > -               if (vb->planes[plane].dbuf_mapped)
+> > +               if (vb->planes[plane].dbuf_mapped || vb->planes[plane].=
+duplicated_dbuf)
+> >                         continue;
+> >
+> >                 ret =3D call_memop(vb, map_dmabuf, vb->planes[plane].me=
+m_priv);
+> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-c=
+ore.h
+> > index 8b86996b2719..5db781da2ebc 100644
+> > --- a/include/media/videobuf2-core.h
+> > +++ b/include/media/videobuf2-core.h
+> > @@ -154,6 +154,8 @@ struct vb2_mem_ops {
+> >   * @mem_priv:  private data with this plane.
+> >   * @dbuf:      dma_buf - shared buffer object.
+> >   * @dbuf_mapped:       flag to show whether dbuf is mapped or not
+> > + * @duplicated_dbuf:   boolean to show whether dbuf is duplicated with=
+ a
+> > + *             previous plane of the buffer.
+> >   * @bytesused: number of bytes occupied by data in the plane (payload)=
+.
+> >   * @length:    size of this plane (NOT the payload) in bytes. The maxi=
+mum
+> >   *             valid size is MAX_UINT - PAGE_SIZE.
+> > @@ -179,6 +181,7 @@ struct vb2_plane {
+> >         void                    *mem_priv;
+> >         struct dma_buf          *dbuf;
+> >         unsigned int            dbuf_mapped;
+> > +       bool                    duplicated_dbuf;
+>
+> nit: We kind of seem to use the dbuf_ prefix already, so how about
+> dbuf_duplicated? Or maybe dbuf_reused? Hmm, naming is always hard...
+>
+
+dbuf_duplicated sounds good to me.
+
+Best,
+Yunke
+
+> Best regards,
+> Tomasz
 
