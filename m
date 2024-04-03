@@ -1,130 +1,86 @@
-Return-Path: <linux-media+bounces-8592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49015897BC8
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 00:49:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A83897BFA
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:24:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0273D28AE92
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 22:49:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2F831F27CCB
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:24:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842BE15667F;
-	Wed,  3 Apr 2024 22:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 040C3156991;
+	Wed,  3 Apr 2024 23:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BfVSQUgM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21FD29CA;
-	Wed,  3 Apr 2024 22:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249C3156663
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 23:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712184544; cv=none; b=CKY8mzIbydJQyvX+sIEOSJYnuTqS3zpAFPcWT9vbFeN5C+NBze/60RCkfb0XQFjIWoLQ2gkQ4bi5lAUOBiuu71Ktk6IzngORKuAcuCcUNVwqiksn+JEX3eye1M5U76xEorPnWS0wnAcZQZhin1ozBCeRZPH9c/3QCCsGAIfiz2M=
+	t=1712186680; cv=none; b=GkzHae8I+Iq+sGLAclSb60A6vlewEqfuWEx+gM1gCPQBo4FE+Cx9NSVbY4EUCNVgwqDeZg3N1a9D9Seh4B/jz2DrEEwuq9Aj6Bfn44eu1CV/E2WFmSsvh0WFUF679jZnght7PKv5/mOajuSR4MxgRTOGWX46JUlZk4uvI9JZag8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712184544; c=relaxed/simple;
-	bh=aXWZraWkuHUebmsbdINo56HuhEXVRhqs1totcDah4dg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LT5SVw22aTrkAqx0/foErHi6DuOD2o4JyJK/e3jZ8L6LIu3SXBN1o7Z4hK1cQ5HInB+duIbEq1AlvW1E7+cQtviXJ3hcp7VF4zHr7WyyPy5TKyRUMzep+5CvTfteBJjdvOPcEJJMIuWtGy9nbSFTXabkcYWmqM0OiOO8kqLrs+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Received: from i53875aaf.versanet.de ([83.135.90.175] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1rs9PL-0003DP-QW; Thu, 04 Apr 2024 00:48:39 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl,
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
-Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
-Date: Thu, 04 Apr 2024 00:48:38 +0200
-Message-ID: <3049149.687JKscXgg@diego>
-In-Reply-To: <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org>
-References:
- <20240327225057.672304-1-shreeya.patel@collabora.com>
- <35f774-660d3b80-3-513fcf80@97941910>
- <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org>
+	s=arc-20240116; t=1712186680; c=relaxed/simple;
+	bh=YCXZOjWUxB/VgoGdFpBNam95XhuBP+XXTJ4pR/ZZerI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z2nFAOExNo0pn/UgRO6ygMlNIG4IUZAt2uvBBLb4nJ73yyFZ0keJQUm1V4RfD6Dz3IvsBbJwpkzrq+BhSN3PJ+HaL0zGkMasKdWArdKx+2aIt0lVkO1rwz1jcQ1pALOW8qmQgEKoz97Z6KB8op6RwRkF9lQ8aXZvdN9Y1qJpg8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BfVSQUgM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88C664D4;
+	Thu,  4 Apr 2024 01:23:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712186638;
+	bh=YCXZOjWUxB/VgoGdFpBNam95XhuBP+XXTJ4pR/ZZerI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BfVSQUgMdkn2xIiEolHwH25DLi+k1VJfqwmHC6OikgzLIF4YDnr0c3iisZL0c4Fxs
+	 rrPIn3Fa19vpMUd7gw3Z7SjzFKbcEPHZ+1nakM0lZoQXtWYuQOacRn9i6LEkXZ5hrw
+	 uyIfYvqdaNxwzHLapaq3ldYZlVMAMzowQz/SjGdg=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Gregor Jasny <gjasny@googlemail.com>
+Subject: [v4l-utils] [PATCH 0/2] Drop stream support for the subdev crop API
+Date: Thu,  4 Apr 2024 02:24:23 +0300
+Message-ID: <20240403232425.22304-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Am Mittwoch, 3. April 2024, 13:24:05 CEST schrieb Krzysztof Kozlowski:
-> On 03/04/2024 13:20, Shreeya Patel wrote:
-> > On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> > 
-> >> On 03/04/2024 11:24, Shreeya Patel wrote:
-> >>> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@collabora.com> wrote:
-> >>>
-> >>>> This series implements support for the Synopsys DesignWare
-> >>>> HDMI RX Controller, being compliant with standard HDMI 1.4b
-> >>>> and HDMI 2.0.
-> >>>>
-> >>>
-> >>> Hi Mauro and Hans,
-> >>>
-> >>> I haven't received any reviews so far. Hence, this is just a gentle reminder to review this patch series.
-> >>
-> >> Why did you put clk changes here? These go via different subsystem. That
-> >> might be one of obstacles for your patchset.
-> >>
-> > 
-> > I added clock changes in this patch series because HDMIRX driver depends on it.
-> > I thought it is wrong to send the driver patches which don't even compile?
-> 
-> Hm, why HDMIRX driver depends on clock? How? This sounds really wrong.
-> Please get it reviewed internally first.
+Hello,
 
-For the change in question, the clock controller on the soc also handles
-the reset controls (hence its name CRU, clock-and-reset-unit) .
+This small patch series is the v4l-utils side of the corresponding
+kernel change, posted in [1].
 
-There are at least 660 reset lines in the unit and it seems the hdmi-rx one
-was overlooked on the initial submission, hence patches 1+2 add the
-reset-line.
+There's not much else to be said in this cover letter, please see
+individual patches for details.
 
-Of course, here only the "arm64: dts:" patch depends on the clock
-change, is it references the new reset-id.
+[1] https://lore.kernel.org/linux-media/20240403224233.18224-1-laurent.pinchart@ideasonboard.com/
+
+Laurent Pinchart (2):
+  utils: libv4l2subdev: Drop stream support for the crop API
+  v4l2-compliance: Drop stream support for the subdev crop API
+
+ utils/media-ctl/libv4l2subdev.c             |  1 -
+ utils/v4l2-compliance/v4l2-test-subdevs.cpp | 21 +++++++++++----------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
 
-Am Mittwoch, 3. April 2024, 12:22:57 CEST schrieb Krzysztof Kozlowski:
-> Please do not engage multiple subsystems in one patchset, if not
-> necessary. Especially do not mix DTS into media or USB subsystems. And
-> do not put DTS in the middle!
+base-commit: 62f1c6833e12f22c81750529761410621aa54830
+-- 
+Regards,
 
-picking up your reply from patch 4/6, there seem to be different "schools
-of thought" for this. Some maintainers might want to really only see
-patches that are explicitly for their subsystem - I guess networking
-might be a prime example for that, who will essentially apply whole series'
-if nobody protests in time (including dts patches)
-
-On the other hand I also remember seeing requests for "the full picture"
-and individual maintainers then just picking and applying the patches
-meant for their subsystem.
-
-The series as it stands right now is nice in that it allows (random)
-developers to just pick it up, apply it to a tree and test the actual driver
-without needing to hunt for multiple dependant series.
-
-
-Of course you're right, the "arm64: dts:" patch should be the last in the
-series and not be in the middle of it.
-
-
-Regards
-Heiko
-
-
+Laurent Pinchart
 
 
