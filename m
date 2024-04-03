@@ -1,190 +1,273 @@
-Return-Path: <linux-media+bounces-8498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D17D896A48
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:16:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47307896A70
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:25:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54E84B2B265
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:14:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F24E328A99B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147DB745D9;
-	Wed,  3 Apr 2024 09:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fmq1uT1k"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A6B7350C;
+	Wed,  3 Apr 2024 09:24:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F191171B4F
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 09:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631FB71733;
+	Wed,  3 Apr 2024 09:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712135600; cv=none; b=pHCDcm7j+6v4NpmtTb5ahHEQc6xo9jVyPALLiwaDhDx6KuKUljPBBWtLUIyZoO5aioqA02lkN7g7knypWF+KfzMKL/mf3V/5gA97PCtiBIqgNG/oltSsdlz0PKSxwh+x0vAmacVgVJ04jURnL6iwtfjlTKdWaSsYrVm9jK0tcl0=
+	t=1712136278; cv=none; b=Y6hNBPK2PB6nstY+ghQNh+bOhMvA6tQU2w0w5G8+J01kLEjlmshTZ+xaoeH6JS12QHS7zAc7iD+bSJuuspAty3uRFGYs72iWAnRXmkNVfPeb8sy069XTomP3U7UiFK26aU0XuK4OszN+Avz4mifOXViIQRT4M16lItJ5Pllnlmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712135600; c=relaxed/simple;
-	bh=POdkDInzdUvu0ghNCgxNK4ulMolIE+flfkF4jMBv0Vc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VXtzEqrGOK4zGxavYZgFJPSH2nqGWIJukLPkUhJukh9F4sFBRTBnVaskQCH4C96H5+IBVUDm9NbuliIiiRB3o8tuYB51EyBZZmaBH3wm9QlpoKkGbwdHFB/7r/lLMHOGWW6oS3G/sr8k5nxDlHK8atCmtwqafJmRF8gi+e6kstQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fmq1uT1k; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e0f2798cd8so50774345ad.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 02:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712135598; x=1712740398; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rvwLGUnkhMKJQa7aB2byIHr562jcELHGQ/vzY9XvszI=;
-        b=fmq1uT1kgkZ9VDVOhLejN9Qih3PtP3SfDpItsMYRSntyG6SqoGoP+bRtZ/DapCK42p
-         wPxqw0BDg6LUudJsoSr/ryiWJJtoODXHtbDAdImYMOPGpeF/RVHqxoUjpbuEi+/8fhj2
-         uqex7cYwwwjsel3xdtU+z7O4ZAAWnEOE2LDH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712135598; x=1712740398;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rvwLGUnkhMKJQa7aB2byIHr562jcELHGQ/vzY9XvszI=;
-        b=GlS/qR2OsXoRxqlA2phaV2dzF/+vMhxzfV+5d6DDVHRSs+tDQ/NAJwMPasX9kVPDRv
-         BpWQaBbkzrolp9yazD/2FdzIL2pkwQyRu+UfrX+dZV8T/oJUEuasuPAiekgdzrsfxIBP
-         ChK6h9bWa9jEIWpKZxUnl5TRFkDCAARsyqK59TDIUG61QKA1C/Cx17ib/Q+ypjdhzfV+
-         7QGJKHvZ2sf8+j8Yzo0zsXbp8NRMX4hauqaFnVq3hBpmwro4Q9Q2vpwhbt7XSsOmP3bi
-         lAT2w/vMUz0BBCwsCgCma6MQM69UaC2C00oXpEVVzse8FTVGCeoc8KYhi84+Ow34UDlf
-         aNFw==
-X-Gm-Message-State: AOJu0Ywyqffws1eVlfIynk7fJ8mMXyG8dhfn33GbGx/FHIsmbNGLFyCB
-	+R/I8LPXjMyxq9B0uljT34sBIKnRMv2vGaHxk1oUlClCsWHaHoAYH2SfHuS88w==
-X-Google-Smtp-Source: AGHT+IG/1npLPtoayDkIkgngDU0AXElvO6WVZRo6jM7auWAPU4ZT/lJjYcD51/AOjiLHamWFDREf0A==
-X-Received: by 2002:a17:902:eccc:b0:1e2:9aa7:fd21 with SMTP id a12-20020a170902eccc00b001e29aa7fd21mr391632plh.54.1712135598394;
-        Wed, 03 Apr 2024 02:13:18 -0700 (PDT)
-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:d5be:b59a:f5f7:246d])
-        by smtp.gmail.com with ESMTPSA id lo14-20020a170903434e00b001e0aded0ca7sm12692811plb.239.2024.04.03.02.13.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 02:13:18 -0700 (PDT)
-From: Yunke Cao <yunkec@chromium.org>
-To: Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@chromium.org>
-Subject: [PATCH v2 3/3] media: videobuf2-core: attach once if multiple planes share the same dbuf
-Date: Wed,  3 Apr 2024 18:13:06 +0900
-Message-ID: <20240403091306.1308878-4-yunkec@chromium.org>
-X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
-In-Reply-To: <20240403091306.1308878-1-yunkec@chromium.org>
-References: <20240403091306.1308878-1-yunkec@chromium.org>
+	s=arc-20240116; t=1712136278; c=relaxed/simple;
+	bh=pm7dIFQwXucYzqD33rAnVqVYJE21H5+Id7HA8+ZLncw=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=XrUSM6xrYu6O3bUnMqWpZyVX7fpb/DEkt0Ct5vcSJ5lCimM/KpAxSvf9AJzMrmv+dKzXt7VHLXsE6YAdl6n1wX/YbrtVTr4Cqh/QQMR1PUT8IG0QJ22f0JGJTgZ3ZH39RBoFVjzRinL/PY+0djgCNxdoGW9W3rn63+Lj4knLkFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 0BDBA3782089;
+	Wed,  3 Apr 2024 09:24:31 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <20240327225057.672304-1-shreeya.patel@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+Date: Wed, 03 Apr 2024 10:24:31 +0100
+Cc: heiko@sntech.de, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
+To: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <35e566-660d2080-1-7eb9eb00@16488675>
+Subject: =?utf-8?q?Re=3A?= [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-When multiple planes use the same dma buf, each plane will have its own dma
-buf attachment and mapping. It is a waste of IOVA space.
+On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@col=
+labora.com> wrote:
 
-This patch adds a dbuf_duplicated boolean in vb2_plane. If a plane's dbuf
-is the same as an existing plane, do not create another attachment and
-mapping.
+> This series implements support for the Synopsys DesignWare
+> HDMI RX Controller, being compliant with standard HDMI 1.4b
+> and HDMI 2.0.
+>=20
 
-Signed-off-by: Yunke Cao <yunkec@chromium.org>
----
- .../media/common/videobuf2/videobuf2-core.c   | 27 +++++++++++++++----
- include/media/videobuf2-core.h                |  3 +++
- 2 files changed, 25 insertions(+), 5 deletions(-)
+Hi Mauro and Hans,
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index a5368cef73bb..64fe3801b802 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -304,10 +304,13 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
- 	if (!p->mem_priv)
- 		return;
- 
--	if (p->dbuf_mapped)
--		call_void_memop(vb, unmap_dmabuf, p->mem_priv);
-+	if (!p->dbuf_duplicated) {
-+		if (p->dbuf_mapped)
-+			call_void_memop(vb, unmap_dmabuf, p->mem_priv);
-+
-+		call_void_memop(vb, detach_dmabuf, p->mem_priv);
-+	}
- 
--	call_void_memop(vb, detach_dmabuf, p->mem_priv);
- 	dma_buf_put(p->dbuf);
- 	p->mem_priv = NULL;
- 	p->dbuf = NULL;
-@@ -1327,7 +1330,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 	struct vb2_plane planes[VB2_MAX_PLANES];
- 	struct vb2_queue *q = vb->vb2_queue;
- 	void *mem_priv;
--	unsigned int plane;
-+	unsigned int plane, i;
- 	int ret = 0;
- 	bool reacquired = vb->planes[0].mem_priv == NULL;
- 
-@@ -1380,6 +1383,19 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 		__vb2_buf_dmabuf_put(vb);
- 
- 		for (plane = 0; plane < vb->num_planes; ++plane) {
-+			for (i = 0; i < plane; ++i) {
-+				if (planes[plane].dbuf == vb->planes[i].dbuf) {
-+					vb->planes[plane].dbuf_duplicated = true;
-+					vb->planes[plane].dbuf = vb->planes[i].dbuf;
-+					vb->planes[plane].mem_priv = vb->planes[i].mem_priv;
-+					break;
-+				}
-+			}
-+
-+			/* There's no need to attach a duplicated dbuf. */
-+			if (vb->planes[plane].dbuf_duplicated)
-+				continue;
-+
- 			/* Acquire each plane's memory */
- 			mem_priv = call_ptr_memop(attach_dmabuf,
- 						  vb,
-@@ -1392,6 +1408,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 				goto err_put_dbuf;
- 			}
- 
-+			vb->planes[plane].dbuf_duplicated = false;
- 			vb->planes[plane].dbuf = planes[plane].dbuf;
- 			vb->planes[plane].mem_priv = mem_priv;
- 		}
-@@ -1406,7 +1423,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 	 * userspace knows sooner rather than later if the dma-buf map fails.
- 	 */
- 	for (plane = 0; plane < vb->num_planes; ++plane) {
--		if (vb->planes[plane].dbuf_mapped)
-+		if (vb->planes[plane].dbuf_mapped || vb->planes[plane].dbuf_duplicated)
- 			continue;
- 
- 		ret = call_memop(vb, map_dmabuf, vb->planes[plane].mem_priv);
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 8b86996b2719..2484e7d2881d 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -154,6 +154,8 @@ struct vb2_mem_ops {
-  * @mem_priv:	private data with this plane.
-  * @dbuf:	dma_buf - shared buffer object.
-  * @dbuf_mapped:	flag to show whether dbuf is mapped or not
-+ * @duplicated_dbuf:	boolean to show whether dbuf is duplicated with a
-+ *		previous plane of the buffer.
-  * @bytesused:	number of bytes occupied by data in the plane (payload).
-  * @length:	size of this plane (NOT the payload) in bytes. The maximum
-  *		valid size is MAX_UINT - PAGE_SIZE.
-@@ -179,6 +181,7 @@ struct vb2_plane {
- 	void			*mem_priv;
- 	struct dma_buf		*dbuf;
- 	unsigned int		dbuf_mapped;
-+	bool			dbuf_duplicated;
- 	unsigned int		bytesused;
- 	unsigned int		length;
- 	unsigned int		min_length;
--- 
-2.44.0.478.gd926399ef9-goog
+I haven't received any reviews so far. Hence, this is just a gentle rem=
+inder to review this patch series.
+
+
+Thanks,
+Shreeya Patel
+
+> Features that are currently supported by the HDMI RX driver
+> have been tested on rock5b board using a HDMI to micro-HDMI cable.
+> It is recommended to use a good quality cable as there were
+> multiple issues seen during testing the driver.
+>=20
+> Please note the below information :-
+> * While testing the driver on rock5b we noticed that the binary BL31
+> from Rockchip contains some unknown code to get the HDMI-RX PHY
+> access working. With TF-A BL31, the HDMI-RX PHY doesn't work as
+> expected since there are no interrupts seen for rk=5Fhdmirx-hdmi
+> leading to some failures in the driver [0].
+> * We have tested the working of OBS studio with HDMIRX driver and
+> there were no issues seen.
+> * We also tested and verified the support for interlaced video.
+>=20
+> [0] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/tr=
+usted-firmware-a/-/issues/1
+>=20
+> To test the HDMI RX Controller driver, following example commands can=
+ be used :-
+>=20
+> root@debian-rockchip-rock5b-rk3588:~# v4l2-ctl --verbose -d /dev/vide=
+o0 \
+> --set-fmt-video=3Dwidth=3D1920,height=3D1080,pixelformat=3D'BGR3' --s=
+tream-mmap=3D4 \
+> --stream-skip=3D3 --stream-count=3D100 --stream-to=3D/home/hdmiin4k.r=
+aw --stream-poll
+>=20
+> root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawv=
+ideo \
+> -s 1920x1080 -r 60 -pix=5Ffmt bgr24 -i /home/hdmiin4k.raw output.mkv
+>=20
+>=20
+> Following is the v4l2-compliance test result :-
+>=20
+> root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video0
+> v4l2-compliance 1.27.0-5174, 64 bits, 64-bit time=5Ft
+> v4l2-compliance SHA: d700deb14368 2024-01-18 12:19:05
+>=20
+> Compliance test for snps=5Fhdmirx device /dev/video0:
+>=20
+> Driver Info:
+>         Driver name      : snps=5Fhdmirx
+>         Card type        : snps=5Fhdmirx
+>         Bus info         : platform: snps=5Fhdmirx
+>         Driver version   : 6.8.0
+>         Capabilities     : 0x84201000
+>                 Video Capture Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04201000
+>                 Video Capture Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>=20
+> Required ioctls:
+>         test VIDIOC=5FQUERYCAP: OK
+>         test invalid ioctls: OK
+>=20
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC=5FQUERYCAP: OK
+>         test VIDIOC=5FG/S=5FPRIORITY: OK
+>         test for unlimited opens: OK
+>=20
+> Debug ioctls:
+>         test VIDIOC=5FDBG=5FG/S=5FREGISTER: OK (Not Supported)
+>         test VIDIOC=5FLOG=5FSTATUS: OK
+>=20
+> Input ioctls:
+>         test VIDIOC=5FG/S=5FTUNER/ENUM=5FFREQ=5FBANDS: OK (Not Suppor=
+ted)
+>         test VIDIOC=5FG/S=5FFREQUENCY: OK (Not Supported)
+>         test VIDIOC=5FS=5FHW=5FFREQ=5FSEEK: OK (Not Supported)
+>         test VIDIOC=5FENUMAUDIO: OK (Not Supported)
+>         test VIDIOC=5FG/S/ENUMINPUT: OK
+>         test VIDIOC=5FG/S=5FAUDIO: OK (Not Supported)
+>         Inputs: 1 Audio Inputs: 0 Tuners: 0
+>=20
+> Output ioctls:
+>         test VIDIOC=5FG/S=5FMODULATOR: OK (Not Supported)
+>         test VIDIOC=5FG/S=5FFREQUENCY: OK (Not Supported)
+>         test VIDIOC=5FENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC=5FG/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC=5FG/S=5FAUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>=20
+> Input/Output configuration ioctls:
+>         test VIDIOC=5FENUM/G/S/QUERY=5FSTD: OK (Not Supported)
+>         test VIDIOC=5FENUM/G/S/QUERY=5FDV=5FTIMINGS: OK
+>         test VIDIOC=5FDV=5FTIMINGS=5FCAP: OK
+>         test VIDIOC=5FG/S=5FEDID: OK
+>=20
+> Control ioctls (Input 0):
+>         test VIDIOC=5FQUERY=5FEXT=5FCTRL/QUERYMENU: OK
+>         test VIDIOC=5FQUERYCTRL: OK
+>         test VIDIOC=5FG/S=5FCTRL: OK
+>         test VIDIOC=5FG/S/TRY=5FEXT=5FCTRLS: OK
+>         test VIDIOC=5F(UN)SUBSCRIBE=5FEVENT/DQEVENT: OK
+>         test VIDIOC=5FG/S=5FJPEGCOMP: OK (Not Supported)
+>         Standard Controls: 2 Private Controls: 0
+>=20
+> Format ioctls (Input 0):
+>         test VIDIOC=5FENUM=5FFMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC=5FG/S=5FPARM: OK
+>         test VIDIOC=5FG=5FFBUF: OK (Not Supported)
+>         test VIDIOC=5FG=5FFMT: OK
+>         test VIDIOC=5FTRY=5FFMT: OK
+>         test VIDIOC=5FS=5FFMT: OK
+>         test VIDIOC=5FG=5FSLICED=5FVBI=5FCAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+>=20
+> Codec ioctls (Input 0):
+>         test VIDIOC=5F(TRY=5F)ENCODER=5FCMD: OK (Not Supported)
+>         test VIDIOC=5FG=5FENC=5FINDEX: OK (Not Supported)
+>         test VIDIOC=5F(TRY=5F)DECODER=5FCMD: OK (Not Supported)
+>=20
+> Buffer ioctls (Input 0):
+>         test VIDIOC=5FREQBUFS/CREATE=5FBUFS/QUERYBUF: OK
+>         test CREATE=5FBUFS maximum buffers: OK
+>         test VIDIOC=5FEXPBUF: OK
+>         test Requests: OK (Not Supported)
+>=20
+> Total for snps=5Fhdmirx device /dev/video0: 46, Succeeded: 46, Failed=
+: 0, Warnings: 0
+>=20
+> Changes in v3 :-
+>   - Use v4l2-common helpers in the HDMIRX driver
+>   - Rename cma node and phandle names
+>   - Elaborate the comment to explain 160MiB calculation
+>   - Move &hdmi=5Freceiver=5Fcma to the rock5b dts file
+>   - Add information about interlaced video testing in the
+>     cover-letter
+>=20
+> Changes in v2 :-
+>   - Fix checkpatch --strict warnings
+>   - Move the dt-binding include file changes in a separate patch
+>   - Add a description for the hardware in the dt-bindings file
+>   - Rename resets, vo1 grf and HPD properties
+>   - Add a proper description for grf and vo1-grf phandles in the
+>     bindings
+>   - Rename the HDMI RX node name to hdmi-receiver
+>   - Include gpio header file in binding example to fix the
+>     dt=5Fbinding=5Fcheck failure
+>   - Move hdmirx=5Fcma node to the rk3588.dtsi file
+>   - Add an entry to MAINTAINERS file for the HDMIRX driver
+>=20
+> Shreeya Patel (6):
+>   dt-bindings: reset: Define reset id used for HDMI Receiver
+>   clk: rockchip: rst-rk3588: Add reset line for HDMI Receiver
+>   dt-bindings: media: Document HDMI RX Controller
+>   arm64: dts: rockchip: Add device tree support for HDMI RX Controlle=
+r
+>   media: platform: synopsys: Add support for hdmi input driver
+>   MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
+>=20
+>  .../bindings/media/snps,dw-hdmi-rx.yaml       |  132 +
+>  MAINTAINERS                                   |    8 +
+>  .../boot/dts/rockchip/rk3588-pinctrl.dtsi     |   41 +
+>  .../boot/dts/rockchip/rk3588-rock-5b.dts      |   19 +
+>  arch/arm64/boot/dts/rockchip/rk3588.dtsi      |   56 +
+>  drivers/clk/rockchip/rst-rk3588.c             |    1 +
+>  drivers/media/platform/Kconfig                |    1 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/synopsys/Kconfig       |    3 +
+>  drivers/media/platform/synopsys/Makefile      |    2 +
+>  .../media/platform/synopsys/hdmirx/Kconfig    |   18 +
+>  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
+>  .../platform/synopsys/hdmirx/snps=5Fhdmirx.c    | 2726 +++++++++++++=
+++++
+>  .../platform/synopsys/hdmirx/snps=5Fhdmirx.h    |  394 +++
+>  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.c         |  289 ++
+>  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.h         |   46 +
+>  .../dt-bindings/reset/rockchip,rk3588-cru.h   |    2 +
+>  17 files changed, 3743 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-h=
+dmi-rx.yaml
+>  create mode 100644 drivers/media/platform/synopsys/Kconfig
+>  create mode 100644 drivers/media/platform/synopsys/Makefile
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
+irx.c
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
+irx.h
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
+irx=5Fcec.c
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
+irx=5Fcec.h
+>=20
+> --=20
+> 2.39.2
+>=20
+> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+> This list is managed by https://mailman.collabora.com
 
 
