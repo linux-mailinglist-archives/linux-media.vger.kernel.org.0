@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-8577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8578-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53E8897889
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 20:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB2897893
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 20:49:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFBE11C21D9E
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:48:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F2051C254BC
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:49:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54591154448;
-	Wed,  3 Apr 2024 18:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5404F1552EE;
+	Wed,  3 Apr 2024 18:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="qMKKUSZV"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="K+nl8soQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6585B152E11;
-	Wed,  3 Apr 2024 18:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF8D154BFB;
+	Wed,  3 Apr 2024 18:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712170099; cv=none; b=l0VVw0K700jWjKfHG9+fP98+SQZa/0gOEfbEm84x4Cw7UWhiAJbZuKEn6jXp96B+bbVJXHZq5oEtG/P9In911oN0A+B9O+RyceKDlgdOKLcOvCANvQdApWMn0a4Qw7hXO+1nRFX1WJ0mcL0Dnlgim5ngk9t9lYmlv48SNcAcnz4=
+	t=1712170146; cv=none; b=LJ5wXYwU1nbFKlm5nPAdMMUTAXy0syKGcbviCMuoLHrqDveV67ndHDpBNWv85EMIPj6aoZmapiJL17YO8G2slV3IiJUKeaHRXHAc6caJTpAavJJvu2RCLgS7nXVwYqr/zlPD825+wIY09JcJdhY5UQh4p2ocww0PdvfSjwlPLPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712170099; c=relaxed/simple;
-	bh=K/mEWGGHah9AHjNaQJWc15nYOsNrbxisnfb/Qbn4y+Q=;
+	s=arc-20240116; t=1712170146; c=relaxed/simple;
+	bh=xk1bmaMFZ19sGYjOre1kvwVFxkAM10lNnBLw+cdz2Dg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rh7R0+QZOjLpt9T72/LdBzzEcgm4oBd4Helkoyhd02lzcq5xlbkER3L8hyvZoE8prFgJD1lurexpqWje5d3xheySlei9Fejv/uW9VAQozNHBQ5tpKYF8AIj9bM1FztgG158BGFV9FBJeAyM4q/TSCi7ogXWXHpYAXtfe7XG8D1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=qMKKUSZV; arc=none smtp.client-ip=46.255.230.98
+	 Content-Type:Content-Disposition:In-Reply-To; b=cJ05VSEAIFZYc9zB9X3Cy2rIjV/6wTWi5W/r1sEF3F2mqcPA9P+40XuU37utFQv1xxbxeQ6BmqsjjFYQNWu28ALhWIN+XZN2bJSIgsHqDMKPSevgEwfdU5WiNnKQXe3NjM6SkcPL9HxyjdrrBUHx1vemHXB+EF6rcq0M3DaqCfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=K+nl8soQ; arc=none smtp.client-ip=46.255.230.98
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id E54841C0084; Wed,  3 Apr 2024 20:48:16 +0200 (CEST)
+	id 7091C1C0087; Wed,  3 Apr 2024 20:49:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1712170096;
+	t=1712170143;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=paT4YqJAMwkZlVJkVbExyZAdVySI9UAMlsKbRN2SBQE=;
-	b=qMKKUSZVjKyIXhLKRbToX7OWbT98VFx0kPXAWcoqK8PBKk4Pt7/AbaMAspO/SfVBl69qHW
-	GKJdrDjBMrFRe4wIuqTkmemGonOyf40YhJWegW5Zp1qDpql3h/X40M/Dgb9gkz0JmnQtXA
-	f3vv5ZFlR47toYEpTGCZ/EzsoL17aKU=
-Date: Wed, 3 Apr 2024 20:48:16 +0200
+	bh=RTvO7HSpvLPJAXcoan3sFBqY0yG42E91r1IgstP0bco=;
+	b=K+nl8soQ3Kn3958hzmLx35/ZQUQNEoELSdrsJsgkwP+XHFS50PjSVJ+BM9MSX7qpx8pJGw
+	tdaWerEKNpJVDlLclkIsvmjWQc8EjCaNP/hVXNRaJu4CpN2MvhZTCvQOd4+vSs0P+jsr+4
+	jUEjz6A/u7/CcX5N7Mjlg3zlG7hnFHI=
+Date: Wed, 3 Apr 2024 20:49:03 +0200
 From: Pavel Machek <pavel@ucw.cz>
 To: git@luigi311.com
 Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
@@ -52,12 +52,12 @@ Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
 	festevam@gmail.com, sakari.ailus@linux.intel.com,
 	devicetree@vger.kernel.org, imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 12/25] media: i2c: imx258: Allow configuration of
- clock lane behaviour
-Message-ID: <Zg2kcI/1Gdgt0ilB@duo.ucw.cz>
+	phone-devel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
+Subject: Re: [PATCH v3 22/25] dt-bindings: media: imx258: Add binding for
+ powerdown-gpio
+Message-ID: <Zg2kn5/5T9ukP4nd@duo.ucw.cz>
 References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-13-git@luigi311.com>
+ <20240403150355.189229-23-git@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,46 +65,43 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1OdbHON6Ov4LarD5"
+	protocol="application/pgp-signature"; boundary="aOh4Ga+TUReev6xf"
 Content-Disposition: inline
-In-Reply-To: <20240403150355.189229-13-git@luigi311.com>
+In-Reply-To: <20240403150355.189229-23-git@luigi311.com>
 
 
---1OdbHON6Ov4LarD5
+--aOh4Ga+TUReev6xf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> The sensor supports the clock lane either remaining in HS mode
-> during frame blanking, or dropping to LP11.
+> From: Luis Garcia <git@luigi311.com>
 >=20
-> Add configuration of the mode via V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK.
+> Add powerdown-gpio binding as it is required for some boards
 
-> +	ret =3D imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
-> +			       IMX258_REG_VALUE_08BIT,
-> +			       imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
-> +			       1 : 0);
+"." at end of sentence.
 
-!! can be used to turn value into 1/0. I find it easier to read than ?
-1 : 0  combination, but possibly that's fine, too.
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> Signed-off-by: Luis Garcia <git@luigi311.com>
+
+If the patch is from Ondrej, he should be in From:, I believe.
 
 Best regards,
-								Pavel
-
+							Pavel
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---1OdbHON6Ov4LarD5
+--aOh4Ga+TUReev6xf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZg2kcAAKCRAw5/Bqldv6
-8tkWAJ9GsEARZ8KugFSLPWIezuc14sMwlQCfTUh6JxGCkAI/h9MaZY6O+/OE3jM=
-=uuSL
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZg2kngAKCRAw5/Bqldv6
+8m6RAKCkdQdkoikkf2a9bOcvas6pB7XJxgCfWPBVx3InUnnTgSH9LEsRVa2yuDo=
+=Tij2
 -----END PGP SIGNATURE-----
 
---1OdbHON6Ov4LarD5--
+--aOh4Ga+TUReev6xf--
 
