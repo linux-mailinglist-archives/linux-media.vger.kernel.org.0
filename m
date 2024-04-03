@@ -1,104 +1,205 @@
-Return-Path: <linux-media+bounces-8525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE84896EF7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 14:39:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B74C3896EFD
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 14:39:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CBB9284883
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:39:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DACF71C25B37
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BABE5645B;
-	Wed,  3 Apr 2024 12:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C9F913AA38;
+	Wed,  3 Apr 2024 12:39:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pnct/9nk"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B2u3Aj7J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11E54F602
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 12:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CD91C683;
+	Wed,  3 Apr 2024 12:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712147941; cv=none; b=KKOf06L7G/blVAiC6HG76OFOtyEhmIVtYadmT9z0flHtCJvwa4F6xrtZW+jCOeONBfCOCNbqBYxD4awszkN+CBefsB02qfnp8tZ+0L9Ut0d10uhu2tqtUPvw9GYybW7igaNzt3F2ERf9OmQ5jnKQSgrpL2r5BhlWVrf5OBTvP/8=
+	t=1712147975; cv=none; b=CauaBvQN/sGjmfB26ys+nFkja71njZmAQLaJZm5Us3eSuWw845RUWo+wkrzHAQz/GhK3f2kQ1K/pK7baEknK5AmgAYYiVSP5HAB9Dml7vBefjUzHCSeG7hyLWRAOaDFfP3RynIVJYr+QroWIyhdYdDJVTdRCrJ0O2XMBpWtttDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712147941; c=relaxed/simple;
-	bh=p9+6WTOpRy4XKbonj36XvUQVC5ww+AxFs3YfT0bhdHs=;
+	s=arc-20240116; t=1712147975; c=relaxed/simple;
+	bh=56cFVVN36vdvA9j0k6U4c9Yyi7PsljXwFIP8sKfDAn4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XLsfNXWIH0+MXwvmFvvy9SpPlDXJD3kFPDDY7Y14QB0AcotxJAFv78Csc+X8GAhLDsJu2lUTiWpNNhRzfmJN2/dNq3+CyRHsTiG/y1XNOwS/lcWQdgtXFs+wVi/ko0lJ9FsJQcQoHU0dVjJybGcWa8Q5ykDRvwNlee8jrf99uSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pnct/9nk; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712147940; x=1743683940;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p9+6WTOpRy4XKbonj36XvUQVC5ww+AxFs3YfT0bhdHs=;
-  b=Pnct/9nkbBTP0E4GntThjGwuB4bikh0ypoTcKI1oRwYsWMNWs9FsXaJW
-   +aNMLg5CT9vTJPJK2M21fNMlj89R1b9mPj7fq9QOCstVojbUeBGpBf9Q2
-   srropI/maiNd4Q4kx2zYYqNZygzTIrKmPq/WupMdq6TRV/bFFH4sTnwuu
-   4p8u7ldBmhfiCJfNxvY8y4sHsuGwo1VV2gKaLldqqumBJFo+Et/RbA96Z
-   nQ02xh4qyawy5iwrulDCmKToiU4wdJeMIVWOzKjrt68lNbznAAGKX1ZQr
-   e30RDixgKpsdn2JOFRuVYOvYT6oDBovq5dO8IXlgbSv626XPyIksxzEKN
-   A==;
-X-CSE-ConnectionGUID: msyn/CWBS9aBj6FdDczjyQ==
-X-CSE-MsgGUID: 2MUike+MShOrvDOk69K1hw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7562981"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="7562981"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:38:59 -0700
-X-CSE-ConnectionGUID: zh5VKzMLRJiJ+oghFhGcMQ==
-X-CSE-MsgGUID: kBi9RoJ3Tlqk9KykFLQzVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18861805"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:38:58 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9287411F811;
-	Wed,  3 Apr 2024 15:38:54 +0300 (EEST)
-Date: Wed, 3 Apr 2024 12:38:54 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: Julien Massot <julien.massot@collabora.com>, mchehab@kernel.org,
-	sylvain.petinot@foss.st.com, linux-media@vger.kernel.org,
-	kernel@collabora.com
-Subject: Re: [PATCH 3/4] media: i2c: st-vgxy61: Switch to
- {enable,disable}_streams
-Message-ID: <Zg1N3mURA-hI3gzR@kekkonen.localdomain>
-References: <20240315085158.1213159-1-julien.massot@collabora.com>
- <20240315085158.1213159-4-julien.massot@collabora.com>
- <b659efe5-6dbc-4145-b9e8-2da902ab51b3@foss.st.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZPIWcFRd3dp1PjmeYMy3nTYvYtoUPLeXR0v4edGJYoDOVsiIJR+sZn6DWS8wFI3lhU3XHQHUINBR0DpTcBzfywvkX3A23qRZqfrO4qzyLJlJYJ4M2OBHs95Tw6qdn5Lc4ZNAptDkNbW26GTqbP5eVgxQJlJJlJ6U6ocoIRlZ3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=B2u3Aj7J; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712147972;
+	bh=56cFVVN36vdvA9j0k6U4c9Yyi7PsljXwFIP8sKfDAn4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B2u3Aj7JWJ8T2VlEkSysWrQyL+7YwxPLSHmUGGV4BCQp8UFuxEVhBu/+jKSjZtaER
+	 vCqPQtjmwNfKZQbcMUePtxgVz+Kj6lPlMzM07fINBNnFf+6jGU+LlFRayM31Mee6jO
+	 XuvzckZb1w9G7nOLmdyKUFnydK0J1mornC2SEZ+eBKyBG9MGasDoorQ1E6ijzyLNs6
+	 ynJ4qR7K9G5Ho7qktbwUev0m2NHYsNYnU5F7PhHp6POrq4/5xNyXLkKGSkgt0Mib4z
+	 YVajJb6UlXXb08K4lXDsHnTQ0hmKMZpZoRKAcrJ4tXGDyyYDrL77NcPxfclDI4Ercj
+	 shje3a066P9Qw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C26C6378200D;
+	Wed,  3 Apr 2024 12:39:31 +0000 (UTC)
+Date: Wed, 3 Apr 2024 14:39:30 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH] media: mediatek: vcodec: fix the error sizeimage for
+ 10bit bitstream
+Message-ID: <20240403123930.wkzgxb6lymzb7hng@basti-XPS-13-9310>
+References: <20240403093018.13168-1-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <b659efe5-6dbc-4145-b9e8-2da902ab51b3@foss.st.com>
+In-Reply-To: <20240403093018.13168-1-yunfei.dong@mediatek.com>
 
-On Wed, Apr 03, 2024 at 02:26:32PM +0200, Benjamin Mugnier wrote:
-> > @@ -1188,20 +1188,35 @@ static int vgxy61_stream_disable(struct vgxy61_dev *sensor)
-> >  	return ret;
-> >  }
-> >  
-> > -static int vgxy61_s_stream(struct v4l2_subdev *sd, int enable)
-> > +static int vgxy61_enable_streams(struct v4l2_subdev *sd,
-> > +				 struct v4l2_subdev_state *state, u32 pad,
-> > +				 u64 streams_mask)
-> >  {
-> 
-> Should we also check that 'pad == 0' ? Or is it always so ?
+Hey Yunfei,
 
-If the number of pads in the sub-device is 1, then the pad is always 0
-here: this is checked in the framework.
+On 03.04.2024 17:30, Yunfei Dong wrote:
+>The sizeimage of each plane are calculated the same way for 8bit and
 
--- 
-Sakari Ailus
+s/The sizeimage of each plane are/The sizeimage for each plane is/
+
+>10bit bitstream. Need to enlarge the sizeimage with simeimage*5/4 for
+>10bit bitstream when try and set fmt.
+
+s/bitstream/bistreams/
+s/Need to enlarge the sizeimage with simeimage*5/4 for 10bit bitstream when try and set fmt./
+   Scale up the sizeimage by 25% for 10-bit bitstreams in try_fmt./
+
+>
+>Fixes: 9d86be9bda6c ("media: mediatek: vcodec: Add driver to support 10bit")
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>---
+> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 47 ++++++++++++++-----
+> 1 file changed, 34 insertions(+), 13 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>index 9107707de6c4..45209894f1fe 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>@@ -259,6 +259,7 @@ static int vidioc_try_fmt(struct mtk_vcodec_dec_ctx *ctx, struct v4l2_format *f,
+> 		pix_fmt_mp->num_planes = 1;
+> 		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
+> 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+>+		unsigned int dram_y, dram_c, dram_y_10bit, dram_c_10bit;
+> 		int tmp_w, tmp_h;
+>
+> 		/*
+>@@ -280,22 +281,42 @@ static int vidioc_try_fmt(struct mtk_vcodec_dec_ctx *ctx, struct v4l2_format *f,
+> 		    (pix_fmt_mp->height + 64) <= frmsize->max_height)
+> 			pix_fmt_mp->height += 64;
+>
+>-		mtk_v4l2_vdec_dbg(0, ctx,
+>-				  "before resize wxh=%dx%d, after resize wxh=%dx%d, sizeimage=%d",
+>-				  tmp_w, tmp_h, pix_fmt_mp->width, pix_fmt_mp->height,
+>-				  pix_fmt_mp->width * pix_fmt_mp->height);
+>+		dram_y = pix_fmt_mp->width * pix_fmt_mp->height;
+>+		dram_c = dram_y / 2;
+>+
+>+		dram_y_10bit = dram_y * 5 / 4;
+>+		dram_c_10bit = dram_y_10bit / 2;
+
+I'd skip the two 10 bit variables (dram_y_10bit & dram_c_10bit) and
+instead do it like this:
+
+```
+   dram_stride = pix_fmt_mp->width;
+   if (ctx->is_10bit_bitstream)
+     dram_stride = dram_stride * 5 / 4;
+
+   dram_y = dram_stride * pix_fmt_mp->height;
+   dram_c = dram_y / 2;
+
+   if (pix_fmt_mp->num_planes == 1) {
+     pix_fmt_mp->plane_fmt[0].bytesperline = dram_stride;
+     pix_fmt_mp->plane_fmt[0].sizeimage = dram_y + dram_c;
+   } else {
+     pix_fmt_mp->plane_fmt[0].bytesperline = dram_stride;
+     pix_fmt_mp->plane_fmt[1].bytesperline = dram_stride;
+     pix_fmt_mp->plane_fmt[0].sizeimage = dram_y;
+     pix_fmt_mp->plane_fmt[1].sizeimage = dram_c;
+     ...
+   }
+```
+
+Also, why do you call all the variables dram?
+
+Please this isn't tested, but shows the general direction to repeat a
+lot less code.
+
+Greetings,
+Sebastian
+
+>
+> 		pix_fmt_mp->num_planes = fmt->num_planes;
+>-		pix_fmt_mp->plane_fmt[0].sizeimage =
+>-				pix_fmt_mp->width * pix_fmt_mp->height;
+>-		pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
+>-
+>-		if (pix_fmt_mp->num_planes == 2) {
+>-			pix_fmt_mp->plane_fmt[1].sizeimage =
+>-				(pix_fmt_mp->width * pix_fmt_mp->height) / 2;
+>-			pix_fmt_mp->plane_fmt[1].bytesperline =
+>-				pix_fmt_mp->width;
+>+		if (pix_fmt_mp->num_planes == 1) {
+>+			if (ctx->is_10bit_bitstream) {
+>+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width * 5 / 4;
+>+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y_10bit + dram_c_10bit;
+>+			} else {
+>+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
+>+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y + dram_c;
+>+			}
+>+		} else {
+>+			if (ctx->is_10bit_bitstream) {
+>+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width * 5 / 4;
+>+				pix_fmt_mp->plane_fmt[1].bytesperline = pix_fmt_mp->width * 5 / 4;
+>+
+>+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y_10bit;
+>+				pix_fmt_mp->plane_fmt[1].sizeimage = dram_c_10bit;
+>+			} else {
+>+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
+>+				pix_fmt_mp->plane_fmt[1].bytesperline = pix_fmt_mp->width;
+>+
+>+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y;
+>+				pix_fmt_mp->plane_fmt[1].sizeimage = dram_c;
+>+			}
+> 		}
+>+
+>+		mtk_v4l2_vdec_dbg(0, ctx,
+>+				  "before resize:%dx%d, after resize:%dx%d, sizeimage=0x%x_0x%x",
+>+				  tmp_w, tmp_h, pix_fmt_mp->width, pix_fmt_mp->height,
+>+				  pix_fmt_mp->plane_fmt[0].sizeimage,
+>+				  pix_fmt_mp->plane_fmt[1].sizeimage);
+> 	}
+>
+> 	pix_fmt_mp->flags = 0;
+>-- 
+>2.25.1
+>
 
