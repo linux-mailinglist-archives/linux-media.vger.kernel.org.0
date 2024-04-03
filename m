@@ -1,168 +1,140 @@
-Return-Path: <linux-media+bounces-8502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263FF896AB0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:33:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB3D896B1D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:55:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4844A1C25C37
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:33:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DCC61C25FA6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:55:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA2613541A;
-	Wed,  3 Apr 2024 09:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D731350D2;
+	Wed,  3 Apr 2024 09:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eiJRGOy+"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ACWf8snr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865431350EB;
-	Wed,  3 Apr 2024 09:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522DB1350CC;
+	Wed,  3 Apr 2024 09:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712136629; cv=none; b=rZIB3lVln9hMxdW1pX9IsGKEFxJLiuonQguo/SFN06qPEMYQWR6iz+MaLrRuQPntuWOyDMNsNNfR0BZmWbUrmAHxFQ5p4YNcbyY/a78KvHuzCG6T/he1n+lGjBOwoQ1OBDuqanLhqrSelC+s2CuFrgbPJNXW+PUoEsqhsXmULm0=
+	t=1712138101; cv=none; b=DOfSl5QZ7YFT5uCe900GWqwtj1oz7ZOBbtBs/hMqUi9krfRX3w12s9WULoXK0JWAkFgUcgPBFokYbP48y2pdJ6GjOHmljj8oFjWnFWcxOGlatso2NzY37ZCkKuRvUDdrynmdK7nIe59VQlJ95IFYH7/FeIb64vsTEu7DxIS2pa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712136629; c=relaxed/simple;
-	bh=9v9/qRXgY1gDCX8J53AjFEj95UmJNbA67i2azxtGSYg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FPd6zw3GH1YF/Ky7OaLh39cUNH7Zh/sP5KF6cdsVyMNMenmkG/gxAPhaWMOsut4WSfQg/8McFABtoZeJt7yEjo/6mpW8/wmIzmWzizRUDQ0oLv3qXCb+KS2xZnHUh/JxNwDmGX/tE+lWKIijFkqjbZ9ZszgM3HEQ3CGLCUcIjA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eiJRGOy+; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: caaf9332f19c11eeb8927bc1f75efef4-20240403
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Wn/76pYQR540CZbFJPHpX8ZPYvd3JaV3IggNNQ6u4qw=;
-	b=eiJRGOy+/8Mz8jPvvzIxhYx2dZpUfwldR3fDlu+oumJoPi2yFxcmEr2i2/xC8IZBakAETPUzz6hQgW9GXlDPvOjZbxLbz90ggRFgrWIw9XSGh0iDpI3YLYwI5I+ko7MuhkhVgWVEuEbIDZccWGi+K7qcXIDDrODg/ncKijOcm0U=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:6d969045-7c73-4bf9-81d8-00744efc7bde,IP:0,U
-	RL:0,TC:0,Content:43,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:43
-X-CID-META: VersionHash:6f543d0,CLOUDID:50c94482-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: caaf9332f19c11eeb8927bc1f75efef4-20240403
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1435720581; Wed, 03 Apr 2024 17:30:21 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 3 Apr 2024 17:30:20 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 17:30:19 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] media: mediatek: vcodec: fix the error sizeimage for 10bit bitstream
-Date: Wed, 3 Apr 2024 17:30:18 +0800
-Message-ID: <20240403093018.13168-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1712138101; c=relaxed/simple;
+	bh=oiHWoWCvkabtwsxiv9dt0/qAEDnPmalSkxKaep9KOME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fg0bKCYNiDQYpdzOLA1Hxz82SIxDDIjEwiJSeGdEgYzDIwOevPw/+oq1xhAptX/Jh52KDCGydSgN8VWOEnmNnqncu8U50Lq9ClVBFChITsDk2vEpDqRveP6eCjp7wzG/AeyzBGxwqCMxdrU6ilXV87lNTtagErvLCPTsoThKWjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ACWf8snr; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4337xT9x002472;
+	Wed, 3 Apr 2024 09:54:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=zMbhq6D8bTCb7T/M1gze5YhKFdrGxfuN5JvaonxMTbg=; b=AC
+	Wf8snrHU7kMbBcl/RuK6YtfbB1ByseR15FkALVnMuj7nh9aBMxVsybipj2MehsK9
+	Gk50KFWMDyKgxXPirbEC9wkLaxqHVaiSKIDjg/eTJ7Su+YT+sxOWmvsv9z1DlVmi
+	ZjlEJ98prvhSonlzjbkxPl1LYdTNwDoLBbSF2tEq3UjxXyPDpZtGyx04KZ4q4w/x
+	Lz/MDewqJ/P/Bgf83dwJFSFHaOwzr8SnwfnqEVFKsiSuN+WdaUK2lZxc1vVmNmdT
+	NDQSwp+i3XJdB759s8NoXxArNcicNex17E9KLsKUaAdxnuwmgL8umszuaaazPswm
+	6bdTNLTHv2/ZU+9G4oFQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x9377r846-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 09:54:53 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4339sqd8004722
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 3 Apr 2024 09:54:52 GMT
+Received: from [10.251.45.126] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 3 Apr 2024
+ 02:54:49 -0700
+Message-ID: <93f9128f-dfe0-457d-8507-5866c97974ee@quicinc.com>
+Date: Wed, 3 Apr 2024 12:54:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Move camss version related defs in to resources
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
+References: <20240319173935.481-1-quic_grosikop@quicinc.com>
+ <60461c7b-b693-4560-ab29-8cd9d8ac4a44@linaro.org>
+Content-Language: en-US
+From: "Gjorgji Rosikopulos (Consultant)" <quic_grosikop@quicinc.com>
+In-Reply-To: <60461c7b-b693-4560-ab29-8cd9d8ac4a44@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 7SHcz20eWPAKLrJFEZpmgSLOkfmfZsOu
+X-Proofpoint-ORIG-GUID: 7SHcz20eWPAKLrJFEZpmgSLOkfmfZsOu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_09,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ clxscore=1011 suspectscore=0 mlxlogscore=999 adultscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2404030068
 
-The sizeimage of each plane are calculated the same way for 8bit and
-10bit bitstream. Need to enlarge the sizeimage with simeimage*5/4 for
-10bit bitstream when try and set fmt.
+Hi Bryan,
 
-Fixes: 9d86be9bda6c ("media: mediatek: vcodec: Add driver to support 10bit")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 47 ++++++++++++++-----
- 1 file changed, 34 insertions(+), 13 deletions(-)
+On 4/2/2024 1:35 AM, Bryan O'Donoghue wrote:
+> On 19/03/2024 17:39, Gjorgji Rosikopulos wrote:
+>> The different resources required for different camss soc versions are
+>> split in to two groups:
+> 
+> General series comment =>
+> 
+> You need to add your Signed-off-by: Gjorgji Rosikopulos
+> <quic_grosikop@quicinc.com>
+> 
+> for each of the patches you are submitting.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-index 9107707de6c4..45209894f1fe 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-@@ -259,6 +259,7 @@ static int vidioc_try_fmt(struct mtk_vcodec_dec_ctx *ctx, struct v4l2_format *f,
- 		pix_fmt_mp->num_planes = 1;
- 		pix_fmt_mp->plane_fmt[0].bytesperline = 0;
- 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-+		unsigned int dram_y, dram_c, dram_y_10bit, dram_c_10bit;
- 		int tmp_w, tmp_h;
- 
- 		/*
-@@ -280,22 +281,42 @@ static int vidioc_try_fmt(struct mtk_vcodec_dec_ctx *ctx, struct v4l2_format *f,
- 		    (pix_fmt_mp->height + 64) <= frmsize->max_height)
- 			pix_fmt_mp->height += 64;
- 
--		mtk_v4l2_vdec_dbg(0, ctx,
--				  "before resize wxh=%dx%d, after resize wxh=%dx%d, sizeimage=%d",
--				  tmp_w, tmp_h, pix_fmt_mp->width, pix_fmt_mp->height,
--				  pix_fmt_mp->width * pix_fmt_mp->height);
-+		dram_y = pix_fmt_mp->width * pix_fmt_mp->height;
-+		dram_c = dram_y / 2;
-+
-+		dram_y_10bit = dram_y * 5 / 4;
-+		dram_c_10bit = dram_y_10bit / 2;
- 
- 		pix_fmt_mp->num_planes = fmt->num_planes;
--		pix_fmt_mp->plane_fmt[0].sizeimage =
--				pix_fmt_mp->width * pix_fmt_mp->height;
--		pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
--
--		if (pix_fmt_mp->num_planes == 2) {
--			pix_fmt_mp->plane_fmt[1].sizeimage =
--				(pix_fmt_mp->width * pix_fmt_mp->height) / 2;
--			pix_fmt_mp->plane_fmt[1].bytesperline =
--				pix_fmt_mp->width;
-+		if (pix_fmt_mp->num_planes == 1) {
-+			if (ctx->is_10bit_bitstream) {
-+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width * 5 / 4;
-+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y_10bit + dram_c_10bit;
-+			} else {
-+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
-+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y + dram_c;
-+			}
-+		} else {
-+			if (ctx->is_10bit_bitstream) {
-+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width * 5 / 4;
-+				pix_fmt_mp->plane_fmt[1].bytesperline = pix_fmt_mp->width * 5 / 4;
-+
-+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y_10bit;
-+				pix_fmt_mp->plane_fmt[1].sizeimage = dram_c_10bit;
-+			} else {
-+				pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
-+				pix_fmt_mp->plane_fmt[1].bytesperline = pix_fmt_mp->width;
-+
-+				pix_fmt_mp->plane_fmt[0].sizeimage = dram_y;
-+				pix_fmt_mp->plane_fmt[1].sizeimage = dram_c;
-+			}
- 		}
-+
-+		mtk_v4l2_vdec_dbg(0, ctx,
-+				  "before resize:%dx%d, after resize:%dx%d, sizeimage=0x%x_0x%x",
-+				  tmp_w, tmp_h, pix_fmt_mp->width, pix_fmt_mp->height,
-+				  pix_fmt_mp->plane_fmt[0].sizeimage,
-+				  pix_fmt_mp->plane_fmt[1].sizeimage);
- 	}
- 
- 	pix_fmt_mp->flags = 0;
--- 
-2.25.1
+Agree that is missing i will do that for the next-patchset
 
+> 
+> Perhaps yourself or some of the other people in the series deserve to
+> have Co-developed-by for some of the patches too ?
+
+I agree as well i will double check if some people are missing.
+
+> 
+> I really like the reduction of code and the definition in one-place of
+> things so definitely the right direction.
+> 
+> I won't do a deeper dive into the code until V3 but for reference here
+> are the branches I verified db410c, rb3, rb5 and x13s with.
+> 
+> x13s:
+> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/sc8280xp-6.9-rc1-camss-resource-change-verification?ref_type=heads
+> 
+> db410c/rb3/rb5:
+> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-stable-v6.7.9-camss-rb5-20240319173935.481-1-quic_grosikop@quicinc.com?ref_type=heads
+
+Thanks, i will get your changes for x13's as commented in previous
+review and submit new patch-set.
+
+~Gjorgji
+
+> 
+> ---
+> bod
 
