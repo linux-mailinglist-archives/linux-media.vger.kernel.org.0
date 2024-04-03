@@ -1,124 +1,200 @@
-Return-Path: <linux-media+bounces-8470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E9896544
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:01:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E5889657B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:09:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC603284650
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 07:01:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C7DA1F23A9C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 07:09:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06BF655C22;
-	Wed,  3 Apr 2024 07:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493B76F086;
+	Wed,  3 Apr 2024 07:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iHQv9DZW"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Mv3zcQez"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B57548FD
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 07:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A97656B9E;
+	Wed,  3 Apr 2024 07:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712127693; cv=none; b=HwmRfWbNnZqO07X2IkFUBeYgR/bafy3eYFYW6OaxllV+otJ+bPv1Uttf/XPphgw0+JMI7n+iCWo/U9xOK3ALQahesr3XFvaIy8fOSEz5E0GxJj81Lk4fjaDa8XnLd5QkaSYArQ4OnLNt/pKkDh7oefMYerDlZAxCdUzbQ/3cHKA=
+	t=1712128066; cv=none; b=PqdPH+OxYJoaRpZRAg6InP2bOQdnVN87D7XZsuFLuLKuSqH51YnULGftbogto7UbP+6z+CghGMbyjkyb5vD6EbXZq95Egufuf1H86gwWesYGG2Oa0fG8E8We30qGWjuUoS+uwMJmiJ0VWHIcbmVutrdDY77ptUz2SENXz5ru/qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712127693; c=relaxed/simple;
-	bh=txFtA9KM1Ry7MTHWFveEbwhK7K4JAL0WUu/+qt4pOKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ntjpcv2Jx9en26kP7ITbXnDE09zDSkC28aHFEMA0k7mygigDLqN8ONKrtW3ZCn15kNgeUPmtsM+BKSbJzMaUR+b8z85ww5sI082A98dPh+W5OuWzegrrcgD06wS7Bsxbd6a/OZbK/ATxEG2HNOgIYo2fMeCWma/ome/Rx4vd0qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iHQv9DZW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15F96674;
-	Wed,  3 Apr 2024 09:00:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712127653;
-	bh=txFtA9KM1Ry7MTHWFveEbwhK7K4JAL0WUu/+qt4pOKw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iHQv9DZW4gC2WvFpAqJ3Uzat6erm3Q7L/bIWv3o8Vh+i9I3tjbtOyIqN0o36pwhct
-	 +VSKhiJCBDbt7WKH7KZ5QOPqjYrxpX6afJFf9b0mBBldAH7lNOwDVNBlmrUArdI2bM
-	 LY+TQ7r/IOwPOVslW8drdpJschx1PaG6U+w6kw4g=
-Date: Wed, 3 Apr 2024 10:01:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Fix stream handling for crop API
-Message-ID: <20240403070119.GI16740@pendragon.ideasonboard.com>
-References: <20240401233725.2401-1-laurent.pinchart@ideasonboard.com>
- <Zgu_xhcadm2F1Rxl@valkosipuli.retiisi.eu>
- <20240402084407.GC10288@pendragon.ideasonboard.com>
- <ZgvF1wi2UpkUTC9-@valkosipuli.retiisi.eu>
- <d5f3af05-77e7-4647-877a-ffddfd9a2623@ideasonboard.com>
- <Zgwi14Z7tciTBlIG@valkosipuli.retiisi.eu>
- <20240402201137.GB32172@pendragon.ideasonboard.com>
- <86075433-94d7-422c-bef2-65875faeaedb@ideasonboard.com>
+	s=arc-20240116; t=1712128066; c=relaxed/simple;
+	bh=gUc8ZxfqbwyO7IUWoIIsh7AjL01Yq8Z3hs8wwrRJNG0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oz6sPgeAhlbdcRBuRt7WGFdRAFFb/rGkNdTEwdDVccsQO1ULDpNeleQ8h8Ta0yr4Lplpmv0QGottF0TPEKNFtwc70OKPeZanHYefef6s57bzwxD0UGdTvPuuGMmeOS9hOENS68g6OwFAJLPrjWowBqeEtBlxsb/s3zpO4dHQjME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Mv3zcQez; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: d8ad35fcf18811eeb8927bc1f75efef4-20240403
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ut87YCMpGiLKr5P9aLD+HP7GJ2FoyM+iTiw6ikmp5rQ=;
+	b=Mv3zcQez8xjjD/6B8jZdGsmGa16tL4kDyIu6IaiFAIagztXw8AAK7K7plW9NM8HvlxAb9eD7RzdNy02wK6E36o6wIPR1UnZdwD9VXCWx3kEL5UcsdaCRC6Nu6gUlX+f1A/28njmSDZvZcbUUv2PMaz2+inCgsxi80xSl4Oo85BQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:9d325e0c-ab87-4adf-bd2c-2947075841c2,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:24f74282-4f93-4875-95e7-8c66ea833d57,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: d8ad35fcf18811eeb8927bc1f75efef4-20240403
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+	(envelope-from <shawn.sung@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1621767391; Wed, 03 Apr 2024 15:07:34 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 3 Apr 2024 15:07:33 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 15:07:33 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+	<shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v4 0/9] Add mediate-drm secure flow for SVP
+Date: Wed, 3 Apr 2024 15:07:23 +0800
+Message-ID: <20240403070732.22085-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <86075433-94d7-422c-bef2-65875faeaedb@ideasonboard.com>
+Content-Type: text/plain
+X-MTK: N
 
-On Wed, Apr 03, 2024 at 09:51:01AM +0300, Tomi Valkeinen wrote:
-> On 02/04/2024 23:11, Laurent Pinchart wrote:
-> > On Tue, Apr 02, 2024 at 03:23:03PM +0000, Sakari Ailus wrote:
-> >> On Tue, Apr 02, 2024 at 12:11:30PM +0300, Tomi Valkeinen wrote:
-> >>> On 02/04/2024 11:46, Sakari Ailus wrote:
-> >>>> On Tue, Apr 02, 2024 at 11:44:07AM +0300, Laurent Pinchart wrote:
-> >>>>> On Tue, Apr 02, 2024 at 08:20:22AM +0000, Sakari Ailus wrote:
-> >>>>>> Moi,
-> >>>>>>
-> >>>>>> On Tue, Apr 02, 2024 at 02:37:25AM +0300, Laurent Pinchart wrote:
-> >>>>>>> When support for streams was added to the V4L2 subdev API, the
-> >>>>>>> v4l2_subdev_crop structure was extended with a stream field, but the
-> >>>>>>> field was not handled in the core code that translates the
-> >>>>>>> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. Fix it.
-> >>>>>>
-> >>>>>> The field is indeed in the UAPI headers. But do we want to support the CROP
-> >>>>>> IOCTL for streams? Shouldn't the callers be using the [GS]_SELECTION
-> >>>>>> instead?
-> >>>>>
-> >>>>> They should, but if the field is there, we should support it :-) The
-> >>>>> alternative is to remove it. It will cause failures in v4l2-compliance
-> >>>>> that we'll need to handle though.
-> >>>>
-> >>>> I'd prefer to stick to selections here, this is new functionality so
-> >>>> [GS]_CROP support isn't required. I don't have a strong opinion on the
-> >>>> matter though.
-> >>>
-> >>> Maybe it's easier to just support the stream field, instead of making
-> >>> [GS]_CROP the odd case which looks like it should support streams, but then
-> >>> doesn't...
-> >>
-> >> It's an old IOCTL already replaced by the [GS]_SELECTION. I mainly write
-> >> kernel space software but overall I think it's better if we can provide a
-> >> single API for controlling cropping instead of two with similar
-> >> functionality, of which the user then should choose from.
-> >>
-> >> It should be also documented in this context if we choose support
-> >> [GS]_CROP.
-> >>
-> >> So I believe we have less work to do and have a better result if we just
-> >> drop the stream field there. :-)
-> > 
-> > I tend to agree, even if that's only a slight preference. Tomi, if
-> > you're fine with this, I'll update the patch.
-> 
-> I'm fine with it. So we now should move the 'stream' field back to 
-> reserved, and add documentation saying that [GS]_CROP works differently 
-> than the other ioctls?
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-That's the idea. I'll send patches.
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/userspace).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
 
--- 
-Regards,
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
 
-Laurent Pinchart
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
+
+DRM driver handles allocation of gem objects that are backed by a 'secure
+surface' and for displaying a 'secure surface' on the overlay plane.
+This introduces a new flag for object creation called
+DRM_MTK_GEM_CREATE_ENCRYPTED which indicates it should be a 'secure
+surface'. All changes here are in MediaTek specific code.
+---
+TODO:
+1) Remove get sec larb port interface in ddp_comp, ovl and ovl_adaptor.
+2) Verify instruction for enabling/disabling dapc and larb port in TEE
+   drop the sec_engine flags in normal world and.
+3) Move DISP_REG_OVL_SECURE setting to secure world for mtk_disp_ovl.c.
+4) Change the parameter register address in mtk_ddp_sec_write()
+   from "u32 addr" to "struct cmdq_client_reg *cmdq_reg".
+5) Implement setting mmsys routing table in the secure world series.
+---
+Based on 5 series and 1 patch:
+[1] v3 dma-buf: heaps: Add MediaTek secure heap
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=809023
+[2] v3 add driver to support secure video decoder
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=807308
+[3] v4 soc: mediatek: Add register definitions for GCE
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20231212121957.19231-2-shawn.sung@mediatek.com/
+[4] v2 Add CMDQ driver support for mt8188
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810302
+[5] Add mediatek,gce-events definition to mediatek,gce-mailbox bindings
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810938
+[6] v3 Add CMDQ secure driver for SVP
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=812379
+---
+Changes in v4:
+1. Rebase on mediatek-drm-next(278640d4d74cd) and fix the conflicts
+2. This series is based on 20240129063025.29251-1-yunfei.dong@mediatek.com
+3. This series is based on 20240322052829.9893-1-shawn.sung@mediatek.com
+4. This series is based on 20240403065603.21920-1-shawn.sung@mediatek.com
+
+Changes in v3:
+1. fix kerneldoc problems
+2. fix typo in title and commit message
+3. adjust naming for secure variable
+4. add the missing part for is_suecure plane implementation
+5. use BIT_ULL macro to replace bit shifting
+6. move modification of ovl_adaptor part to the correct patch
+7. add TODO list in commit message
+8. add commit message for using share memory to store execute count
+
+Changes in v2:
+
+1. remove the DRIVER_RDNDER flag for mtk_drm_ioctl
+2. move cmdq_insert_backup_cookie into client driver
+3. move secure gce node define from mt8195-cherry.dtsi to mt8195.dtsi
+---
+CK Hu (1):
+  drm/mediatek: Add interface to allocate MediaTek GEM buffer.
+
+Jason-JH.Lin (9):
+  drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_ENCRYPTED flag
+  drm/mediatek: Add secure buffer control flow to mtk_drm_gem
+  drm/mediatek: Add secure identify flag and funcution to mtk_drm_plane
+  drm/mediatek: Add mtk_ddp_sec_write to config secure buffer info
+  drm/mediatek: Add get_sec_port interface to mtk_ddp_comp
+  drm/mediatek: Add secure layer config support for ovl_adaptor
+  drm/mediatek: Add secure layer config support for ovl
+  drm/mediatek: Add secure flow support to mediatek-drm
+  drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
+
+ drivers/gpu/drm/mediatek/mtk_crtc.c           | 273 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |   1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  16 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h       |  13 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   3 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  30 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  15 +
+ drivers/gpu/drm/mediatek/mtk_gem.c            |  85 +++++-
+ drivers/gpu/drm/mediatek/mtk_gem.h            |   4 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  11 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |   2 +
+ drivers/gpu/drm/mediatek/mtk_plane.c          |  25 ++
+ drivers/gpu/drm/mediatek/mtk_plane.h          |   2 +
+ include/uapi/drm/mediatek_drm.h               |   1 +
+ 14 files changed, 465 insertions(+), 16 deletions(-)
+
+--
+2.18.0
+
 
