@@ -1,68 +1,119 @@
-Return-Path: <linux-media+bounces-8570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8571-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1DF8975E5
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 19:04:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A18897751
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 19:49:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C7101C26A46
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 17:04:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C09428C6E9
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 17:49:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39ACD152DF5;
-	Wed,  3 Apr 2024 17:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0493156C7E;
+	Wed,  3 Apr 2024 17:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=megous.com header.i=@megous.com header.b="MO0npq4t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJpsqN23"
 X-Original-To: linux-media@vger.kernel.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D326E152505;
-	Wed,  3 Apr 2024 17:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF49154C12;
+	Wed,  3 Apr 2024 17:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712163821; cv=none; b=eLcThpO9FWblRYa/HqfFwe33T/IwtCb7etjlKjxD9xUBlcjbC4NRR5mixLaOh9NGl4czDdOQ2EcKPHpAPHR46lQy4yWXWU8MkcB6soo6yyNnUXCOyFfShy6mAqGxP/RHO3ED5hishINqg14lWLPlKH8J5NiYlGi6lXt+0B0bT8A=
+	t=1712165287; cv=none; b=TFOsEpHPHvMpsXSVOrzdJ3xGTcagVMBNbbDwbmjf+qVtNIX0VuATQVq3fneF066Qom8Xs5LS2t4j+H9tYTDnf8IotFc28fiFCSiiPEGQOg+qRqzm/2YA9t5d2gVpxJlGToWYeXoivbOjEGcAVkFxtmS2i0mp2UY4NwbU6EIEgD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712163821; c=relaxed/simple;
-	bh=5oQ9PAIUbskmpNMMQyZgPbJVk82PwBM3Z1uyb7nioaQ=;
+	s=arc-20240116; t=1712165287; c=relaxed/simple;
+	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JaKGG3zG8DNohxOksv5TmXW4vR7kAgUqWYTM6PmESelSX8j7p3Dr/FCT42R/lcBtBXWWLd+WrzYueXSvFcJTvDykLjZ3GsIEoWhr1D092S74mH7TelITQRbTNMy5oYcpYqvFjt1TCZ77D+7bUglDj+JH0nmhLjwli30s4bmE9ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=megous.com; spf=pass smtp.mailfrom=megous.com; dkim=pass (1024-bit key) header.d=megous.com header.i=@megous.com header.b=MO0npq4t; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=megous.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=megous.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-	t=1712163817; bh=5oQ9PAIUbskmpNMMQyZgPbJVk82PwBM3Z1uyb7nioaQ=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=MO0npq4tWyuGwTaav38LDUD379CLRTbjTWXhqWWD37o4lA9WmySm+7G11xnzxBRPb
-	 Z45Lio0muMx4UnX1rh3TZ/e8jt0gHKbwnkkVk17k7CySVgjnOhhlvkOYBzN79HZ4PM
-	 vP3xXserb4s+Fr3wQRSguRa794bvKuUKqqolPs2k=
-Date: Wed, 3 Apr 2024 19:03:37 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: git@luigi311.com, linux-media@vger.kernel.org, 
-	dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, pavel@ucw.cz, 
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 24/25] drivers: media: i2c: imx258: Add support for
- reset gpio
-Message-ID: <vesqdx7w2sobjnx7tmk6s6i5zplbhsphamoalysx625r4aqffq@hos5otov5ids>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, git@luigi311.com, linux-media@vger.kernel.org, 
-	dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, pavel@ucw.cz, 
-	phone-devel@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-25-git@luigi311.com>
- <Zg2Dy2QBguXQoR3P@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ia2opbuoxHt0lFkgWDWQ6GW72TwXxCw0yfeQSJ/LhG7sn01WZkrj8WZRUJRsE4888fMYzSyz3Ech/P1f6Gxg8GCCmQni6+lw8lB91KappKy7elE43A1OQAfDim+Rx3i92Q5ooTwIdQtz8KoPEYKbLRt0tvnVMBkb7I6ZXCcHAOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJpsqN23; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25477C433F1;
+	Wed,  3 Apr 2024 17:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712165286;
+	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pJpsqN23a/bTPCDYI46/mddJ60857N8gxl0704dxwCHxM5gKzPHc731EgK6XTky8d
+	 UTSvCE/t886wLCwR1UtYWv7Xweb+uKowOagxSx/lUTLkXov7Dsf3h7EJVqcumDwZqs
+	 tOZb0mWrfqCf+8IONESe5080Pxu9nMjALf/FMnCDXF9xhUlL3R67eN2rH1I5mN6bzF
+	 1n8OJA3VkfjnGjVp4Z+o4CVz2zIgJ7Dmv0gNexlQEtkyGLrPexZxzjQpZtQ6ml5ppR
+	 mZhUqv9H4p4rGkxe60L9FXP3YjGI6r2+YWhPDeKU2GGU7vXAeDQM5+N6jWyDCaqmEM
+	 CqEUGy0nok9lw==
+Date: Wed, 3 Apr 2024 18:27:49 +0100
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [RFC PATCH net-next v8 06/14] page_pool: convert to use netmem
+Message-ID: <20240403172749.GP26556@kernel.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-7-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,92 +122,59 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zg2Dy2QBguXQoR3P@kekkonen.localdomain>
+In-Reply-To: <20240403002053.2376017-7-almasrymina@google.com>
 
-Hi,
-
-On Wed, Apr 03, 2024 at 04:28:59PM GMT, Sakari Ailus wrote:
-> Hi Luis,
+On Tue, Apr 02, 2024 at 05:20:43PM -0700, Mina Almasry wrote:
+> Abstrace the memory type from the page_pool so we can later add support
+> for new memory types. Convert the page_pool to use the new netmem type
+> abstraction, rather than use struct page directly.
 > 
-> Could you unify the subject prefix for the driver patches, please? E.g.
-> "media: imx258: " would be fine.
+> As of this patch the netmem type is a no-op abstraction: it's always a
+> struct page underneath. All the page pool internals are converted to
+> use struct netmem instead of struct page, and the page pool now exports
+> 2 APIs:
 > 
-> On Wed, Apr 03, 2024 at 09:03:53AM -0600, git@luigi311.com wrote:
-> > From: Luis Garcia <git@luigi311.com>
-> > 
-> > It was documented in DT, but not implemented.
-> > 
-> > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > Signed-off-by: Luis Garcia <git@luigi311.com>
-> > ---
-> >  drivers/media/i2c/imx258.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> > index 163f04f6f954..4c117c4829f1 100644
-> > --- a/drivers/media/i2c/imx258.c
-> > +++ b/drivers/media/i2c/imx258.c
-> > @@ -680,6 +680,7 @@ struct imx258 {
-> >  	unsigned int csi2_flags;
-> >  
-> >  	struct gpio_desc *powerdown_gpio;
-> > +	struct gpio_desc *reset_gpio;
-> >  
-> >  	/*
-> >  	 * Mutex for serialized access:
-> > @@ -1232,7 +1233,11 @@ static int imx258_power_on(struct device *dev)
-> >  		regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
-> >  	}
-> >  
-> > -	return ret;
-> > +	gpiod_set_value_cansleep(imx258->reset_gpio, 0);
-> > +
-> > +	usleep_range(400, 500);
+> 1. The existing struct page API.
+> 2. The new struct netmem API.
 > 
-> You could mention this at least in the commit message.
-
-This is T6 in the datasheet: https://megous.com/dl/tmp/92c9223ce877216e.png
-
-
-> > +
-> > +	return 0;
-> >  }
-> >  
-> >  static int imx258_power_off(struct device *dev)
-> > @@ -1243,6 +1248,7 @@ static int imx258_power_off(struct device *dev)
-> >  	clk_disable_unprepare(imx258->clk);
-> >  	regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
-> >  
-> > +	gpiod_set_value_cansleep(imx258->reset_gpio, 1);
+> Keeping the existing API is transitional; we do not want to refactor all
+> the current drivers using the page pool at once.
 > 
-> Same question than on the other GPIO: does this belong here?
-
-No, this should be before the regulator_bulk_disable.
-
-See: https://megous.com/dl/tmp/c96180b23d7ce63a.png
-
-kind regards,
-	o.
-
-> >  	gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
-> >  
-> >  	return 0;
-> > @@ -1554,6 +1560,12 @@ static int imx258_probe(struct i2c_client *client)
-> >  	if (IS_ERR(imx258->powerdown_gpio))
-> >  		return PTR_ERR(imx258->powerdown_gpio);
-> >  
-> > +	/* request optional reset pin */
-> > +	imx258->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-> > +						    GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(imx258->reset_gpio))
-> > +		return PTR_ERR(imx258->reset_gpio);
-> > +
-> >  	/* Initialize subdev */
-> >  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-> >  
+> The netmem abstraction is currently a no-op. The page_pool uses
+> page_to_netmem() to convert allocated pages to netmem, and uses
+> netmem_to_page() to convert the netmem back to pages to pass to mm APIs,
 > 
-> -- 
-> Regards,
+> Follow up patches to this series add non-paged netmem support to the
+> page_pool. This change is factored out on its own to limit the code
+> churn to this 1 patch, for ease of code review.
 > 
-> Sakari Ailus
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+
+...
+
+> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+
+...
+
+> @@ -170,9 +172,10 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
+>  	struct page *page;
+>  
+>  	/* Mask off __GFP_HIGHMEM to ensure we can use page_address() */
+> -	page = page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM);
+> +	page = netmem_to_page(
+> +		page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM));
+>  	if (unlikely(!page))
+> -		return NULL;
+> +		return 0;
+
+Hi Mina,
+
+This doesn't seem right, as the return type is a pointer rather than an
+integer.
+
+Flagged by Sparse.
+
+>  
+>  	return page_address(page) + offset;
+>  }
 
