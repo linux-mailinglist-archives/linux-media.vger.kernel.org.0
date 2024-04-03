@@ -1,273 +1,237 @@
-Return-Path: <linux-media+bounces-8499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47307896A70
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:25:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D4E896A76
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:26:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F24E328A99B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:24:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B0051C25058
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A6B7350C;
-	Wed,  3 Apr 2024 09:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7CC73509;
+	Wed,  3 Apr 2024 09:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EuUBsysc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631FB71733;
-	Wed,  3 Apr 2024 09:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6086EB4B;
+	Wed,  3 Apr 2024 09:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712136278; cv=none; b=Y6hNBPK2PB6nstY+ghQNh+bOhMvA6tQU2w0w5G8+J01kLEjlmshTZ+xaoeH6JS12QHS7zAc7iD+bSJuuspAty3uRFGYs72iWAnRXmkNVfPeb8sy069XTomP3U7UiFK26aU0XuK4OszN+Avz4mifOXViIQRT4M16lItJ5Pllnlmk=
+	t=1712136351; cv=none; b=gzLu9BcQKk1p/bKZPZ+3MvxNRyDWPssJFrOXNZ+4gvW/xT319qvP9doZCxRblUjS6NgiI3dbQ/P6o4Qz1gCmYGAaH+kbnIjGpbVi627Go2FB37vVxz1ivTn8HIeTTMvLZJ/vMB7IQYur7vWroPvJKAlOM4GHYGPxzNTw6pKqnpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712136278; c=relaxed/simple;
-	bh=pm7dIFQwXucYzqD33rAnVqVYJE21H5+Id7HA8+ZLncw=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=XrUSM6xrYu6O3bUnMqWpZyVX7fpb/DEkt0Ct5vcSJ5lCimM/KpAxSvf9AJzMrmv+dKzXt7VHLXsE6YAdl6n1wX/YbrtVTr4Cqh/QQMR1PUT8IG0QJ22f0JGJTgZ3ZH39RBoFVjzRinL/PY+0djgCNxdoGW9W3rn63+Lj4knLkFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id 0BDBA3782089;
-	Wed,  3 Apr 2024 09:24:31 +0000 (UTC)
-From: "Shreeya Patel" <shreeya.patel@collabora.com>
-In-Reply-To: <20240327225057.672304-1-shreeya.patel@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240327225057.672304-1-shreeya.patel@collabora.com>
-Date: Wed, 03 Apr 2024 10:24:31 +0100
-Cc: heiko@sntech.de, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
-To: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
+	s=arc-20240116; t=1712136351; c=relaxed/simple;
+	bh=StVSzN/2Pd+GrzQecKi4mcN8vhhh6CgWGTfZl2xfeFA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OPdpQCHj9gJasPf2ncddXMdDAgiGE8MvrVDaY6YP6vqCvjScKjxWKAd03tX/UZhp3M4f6DYM+u86IMurSxGDjVZdmjQlO218z0nyXA2qT0Q1FbOrQ38DPWMjMpuJVmmB/yLVJqdb7UFH4BmuZp9lFqQudtzH1wPFtytq1o6XG6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EuUBsysc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E34613A3;
+	Wed,  3 Apr 2024 11:25:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712136311;
+	bh=StVSzN/2Pd+GrzQecKi4mcN8vhhh6CgWGTfZl2xfeFA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EuUBsyscF9tO46HLnybDOihads2mdIGRaN2kU8VtWxHYHV64INgdtb67OqLt22y7Z
+	 E288IeH7g51E3ncCVDhUXufWiFNdJxxgirq96TGs6n9W/KVOsz/3lp2L6O9gMgFHwd
+	 rRM23pycIPGzQtiFO4236wEKks5x3hFmkjpZ6PXc=
+Message-ID: <a77160ef-7586-4b9b-8013-daf0872c4ab8@ideasonboard.com>
+Date: Wed, 3 Apr 2024 12:25:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <35e566-660d2080-1-7eb9eb00@16488675>
-Subject: =?utf-8?q?Re=3A?= [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
-User-Agent: SOGoMail 5.10.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l2-subdev: Support enable/disable_streams for
+ single-pad subdevs
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240325-single-pad-enable-streams-v1-1-142e19896a72@ideasonboard.com>
+ <20240325125055.GC23988@pendragon.ideasonboard.com>
+ <ZgF10EVLrfF7cl57@kekkonen.localdomain>
+ <0ad9841d-bb51-4512-9388-f9ce36372677@ideasonboard.com>
+ <ZgG5xt07XQ7DJ1_W@kekkonen.localdomain>
+ <e497a7a2-a973-4059-8981-1ea83ea3dd30@ideasonboard.com>
+ <ZgP5A0sN9FCoIoPs@kekkonen.localdomain>
+ <44e3f07f-9374-414e-a6db-a744127477b1@ideasonboard.com>
+ <ZgQf_LX1ohYykGjv@kekkonen.localdomain>
+ <a338c5a0-3239-4fb1-9af1-a127bcef366a@ideasonboard.com>
+ <Zgv0k01IQOFaMdSZ@kekkonen.localdomain>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <Zgv0k01IQOFaMdSZ@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@col=
-labora.com> wrote:
+On 02/04/2024 15:05, Sakari Ailus wrote:
+> On Wed, Mar 27, 2024 at 03:39:31PM +0200, Tomi Valkeinen wrote:
+>> On 27/03/2024 15:32, Sakari Ailus wrote:
+>>> Heissulivei,
+>>>
+>>> On Wed, Mar 27, 2024 at 01:06:42PM +0200, Tomi Valkeinen wrote:
+>>>> On 27/03/2024 12:46, Sakari Ailus wrote:
+>>>>> Heippa,
+>>>>>
+>>>>> On Mon, Mar 25, 2024 at 07:56:46PM +0200, Tomi Valkeinen wrote:
+>>>>>> On 25/03/2024 19:52, Sakari Ailus wrote:
+>>>>>>> Moi,
+>>>>>>>
+>>>>>>> On Mon, Mar 25, 2024 at 03:43:01PM +0200, Tomi Valkeinen wrote:
+>>>>>>>> On 25/03/2024 15:02, Sakari Ailus wrote:
+>>>>>>>>> Moi,
+>>>>>>>>>
+>>>>>>>>> Thanks for the patch.
+>>>>>>>>>
+>>>>>>>>> On Mon, Mar 25, 2024 at 02:50:55PM +0200, Laurent Pinchart wrote:
+>>>>>>>>>> Hi Tomi,
+>>>>>>>>>>
+>>>>>>>>>> On Mon, Mar 25, 2024 at 02:43:23PM +0200, Tomi Valkeinen wrote:
+>>>>>>>>>>> Currently a subdevice with a single pad, e.g. a sensor subdevice, must
+>>>>>>>>>>> use the v4l2_subdev_video_ops.s_stream op, instead of
+>>>>>>>>>>> v4l2_subdev_pad_ops.enable/disable_streams. This is because the
+>>>>>>>>>>> enable/disable_streams machinery requires a routing table which a subdev
+>>>>>>>>>>> cannot have with a single pad.
+>>>>>>>>>>>
+>>>>>>>>>>> Implement enable/disable_streams support for these single-pad subdevices
+>>>>>>>>>>> by assuming an implicit stream 0 when the subdevice has only one pad.
+>>>>>>>>>>>
+>>>>>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>>>>>>>> ---
+>>>>>>>>>>> Even though I did send this patch, I'm not sure if this is necessary.
+>>>>>>>>>>> s_stream works fine for the subdevs with a single pad. With the upcoming
+>>>>>>>>>>> internal pads, adding an internal pad to the subdev will create a
+>>>>>>>>>>> routing table, and enable/disable_streams would get "fixed" that way.
+>>>>>>>>>
+>>>>>>>>> I'd like to get rid of a redundant way to control streaming.
+>>>>>>>>
+>>>>>>>> We can't get rid of it anyway, can we? We're not going to convert old
+>>>>>>>> drivers to streams.
+>>>>>>>
+>>>>>>> I'd expect to do that but it'd take a long time. That being said, I think
+>>>>>>> we need to consider devices without pads (VCMs) so it may well be this
+>>>>>>> would remain after all.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> For new drivers, yes, we shouldn't use s_stream. But is the answer for new
+>>>>>>>> sensor drivers this patch, or requiring an internal pad?
+>>>>>>>
+>>>>>>> For new drivers I'd like to see an internal pad in fact.
+>>>>>>> {enable,disable}_streams is still internal to the kernel.
+>>>>>>
+>>>>>> So, you think this patch should be dropped?
+>>>>>
+>>>>> No, no. Not all sub-device drivers with pads are camera sensor drivers. :-)
+>>>>
+>>>> Hmm, alright. So we want to support enable/disable_streams for sub-devices
+>>>> with multiple source pads but no routing (so probably no sink pads)?
+>>>
+>>> That should be allowed indeed, in order to move from s_stream() to
+>>> {enable,disable}_streams().
+>>>
+>>>>
+>>>>>>>>>>> So perhaps the question is, do we want to support single-pad subdevs in
+>>>>>>>>>>> the future, in which case something like this patch is necessary, or
+>>>>>>>>>>> will all modern source subdev drivers have internal pads, in which
+>>>>>>>>>>> case this is not needed...
+>>>>>>>>>>
+>>>>>>>>>> I think the latter would be best. I however can't guarantee we won't
+>>>>>>>>>> have valid use cases for (enable|disable)_streams on single-pad subdevs
+>>>>>>>>>> though, so you patch could still be interesting.
+>>>>>>>>>
+>>>>>>>>> Instead of the number of pads, could we use instead the
+>>>>>>>>> V4L2_SUBDEV_FL_STREAMS flag or whether g_routing op is supported to
+>>>>>>>>> determine the need for this?
+>>>>>>>>
+>>>>>>>> Maybe, but are they better? Do you see some issue with checking for the
+>>>>>>>> number of pads? I considered a few options, but then thought that the most
+>>>>>>>> safest test for this case is 1) one pad 2) enable/disable_streams
+>>>>>>>> implemented.
+>>>>>>>
+>>>>>>> I think I'd actually prefer {enable,disable}_streams in fact.
+>>>>>>
+>>>>>> Hmm, sorry, now I'm confused =). What do you mean with that?
+>>>>>
+>>>>> I'd use V4L2_SUBDEV_FL_STREAMS flag instead of the number of pads. The
+>>>>> number of pads is less related to routing.
+>>>>
+>>>> Well, with one pad you cannot have routing =).
+>>>>
+>>>> In this patch I used sd->enabled_streams to track the enabled streams, but
+>>>> if we need to support multiple pads, I'll have to invent something new for
+>>>> that.
+>>>
+>>> What exactly do you think needs to be changed? This is just about starting
+>>> and stopping streaming using a different sent of callbacks, right?
+>>
+>> The helpers track which streams are enabled, so we need some place to store
+>> the enabled streams.
+>>
+>> For V4L2_SUBDEV_FL_STREAMS we have that in state->stream_configs for each
+>> stream. For the one-source-pad case we have a subdev wide
+>> sd->enabled_streams to store that. But we don't have any place at the moment
+>> to store if a pad is enabled.
+> 
+> If there are is no support for routing, isn't streaming either enabled or
+> disabled on all of them?
 
-> This series implements support for the Synopsys DesignWare
-> HDMI RX Controller, being compliant with standard HDMI 1.4b
-> and HDMI 2.0.
->=20
+Hmm, no, I don't see why that would be the case. If a subdev has two 
+source pads, and it gets an enable_streams() call on the first source 
+pad, why would the second source pad be enabled too?
 
-Hi Mauro and Hans,
-
-I haven't received any reviews so far. Hence, this is just a gentle rem=
-inder to review this patch series.
-
-
-Thanks,
-Shreeya Patel
-
-> Features that are currently supported by the HDMI RX driver
-> have been tested on rock5b board using a HDMI to micro-HDMI cable.
-> It is recommended to use a good quality cable as there were
-> multiple issues seen during testing the driver.
->=20
-> Please note the below information :-
-> * While testing the driver on rock5b we noticed that the binary BL31
-> from Rockchip contains some unknown code to get the HDMI-RX PHY
-> access working. With TF-A BL31, the HDMI-RX PHY doesn't work as
-> expected since there are no interrupts seen for rk=5Fhdmirx-hdmi
-> leading to some failures in the driver [0].
-> * We have tested the working of OBS studio with HDMIRX driver and
-> there were no issues seen.
-> * We also tested and verified the support for interlaced video.
->=20
-> [0] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/tr=
-usted-firmware-a/-/issues/1
->=20
-> To test the HDMI RX Controller driver, following example commands can=
- be used :-
->=20
-> root@debian-rockchip-rock5b-rk3588:~# v4l2-ctl --verbose -d /dev/vide=
-o0 \
-> --set-fmt-video=3Dwidth=3D1920,height=3D1080,pixelformat=3D'BGR3' --s=
-tream-mmap=3D4 \
-> --stream-skip=3D3 --stream-count=3D100 --stream-to=3D/home/hdmiin4k.r=
-aw --stream-poll
->=20
-> root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawv=
-ideo \
-> -s 1920x1080 -r 60 -pix=5Ffmt bgr24 -i /home/hdmiin4k.raw output.mkv
->=20
->=20
-> Following is the v4l2-compliance test result :-
->=20
-> root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video0
-> v4l2-compliance 1.27.0-5174, 64 bits, 64-bit time=5Ft
-> v4l2-compliance SHA: d700deb14368 2024-01-18 12:19:05
->=20
-> Compliance test for snps=5Fhdmirx device /dev/video0:
->=20
-> Driver Info:
->         Driver name      : snps=5Fhdmirx
->         Card type        : snps=5Fhdmirx
->         Bus info         : platform: snps=5Fhdmirx
->         Driver version   : 6.8.0
->         Capabilities     : 0x84201000
->                 Video Capture Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04201000
->                 Video Capture Multiplanar
->                 Streaming
->                 Extended Pix Format
->=20
-> Required ioctls:
->         test VIDIOC=5FQUERYCAP: OK
->         test invalid ioctls: OK
->=20
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC=5FQUERYCAP: OK
->         test VIDIOC=5FG/S=5FPRIORITY: OK
->         test for unlimited opens: OK
->=20
-> Debug ioctls:
->         test VIDIOC=5FDBG=5FG/S=5FREGISTER: OK (Not Supported)
->         test VIDIOC=5FLOG=5FSTATUS: OK
->=20
-> Input ioctls:
->         test VIDIOC=5FG/S=5FTUNER/ENUM=5FFREQ=5FBANDS: OK (Not Suppor=
-ted)
->         test VIDIOC=5FG/S=5FFREQUENCY: OK (Not Supported)
->         test VIDIOC=5FS=5FHW=5FFREQ=5FSEEK: OK (Not Supported)
->         test VIDIOC=5FENUMAUDIO: OK (Not Supported)
->         test VIDIOC=5FG/S/ENUMINPUT: OK
->         test VIDIOC=5FG/S=5FAUDIO: OK (Not Supported)
->         Inputs: 1 Audio Inputs: 0 Tuners: 0
->=20
-> Output ioctls:
->         test VIDIOC=5FG/S=5FMODULATOR: OK (Not Supported)
->         test VIDIOC=5FG/S=5FFREQUENCY: OK (Not Supported)
->         test VIDIOC=5FENUMAUDOUT: OK (Not Supported)
->         test VIDIOC=5FG/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC=5FG/S=5FAUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
->=20
-> Input/Output configuration ioctls:
->         test VIDIOC=5FENUM/G/S/QUERY=5FSTD: OK (Not Supported)
->         test VIDIOC=5FENUM/G/S/QUERY=5FDV=5FTIMINGS: OK
->         test VIDIOC=5FDV=5FTIMINGS=5FCAP: OK
->         test VIDIOC=5FG/S=5FEDID: OK
->=20
-> Control ioctls (Input 0):
->         test VIDIOC=5FQUERY=5FEXT=5FCTRL/QUERYMENU: OK
->         test VIDIOC=5FQUERYCTRL: OK
->         test VIDIOC=5FG/S=5FCTRL: OK
->         test VIDIOC=5FG/S/TRY=5FEXT=5FCTRLS: OK
->         test VIDIOC=5F(UN)SUBSCRIBE=5FEVENT/DQEVENT: OK
->         test VIDIOC=5FG/S=5FJPEGCOMP: OK (Not Supported)
->         Standard Controls: 2 Private Controls: 0
->=20
-> Format ioctls (Input 0):
->         test VIDIOC=5FENUM=5FFMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC=5FG/S=5FPARM: OK
->         test VIDIOC=5FG=5FFBUF: OK (Not Supported)
->         test VIDIOC=5FG=5FFMT: OK
->         test VIDIOC=5FTRY=5FFMT: OK
->         test VIDIOC=5FS=5FFMT: OK
->         test VIDIOC=5FG=5FSLICED=5FVBI=5FCAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
->=20
-> Codec ioctls (Input 0):
->         test VIDIOC=5F(TRY=5F)ENCODER=5FCMD: OK (Not Supported)
->         test VIDIOC=5FG=5FENC=5FINDEX: OK (Not Supported)
->         test VIDIOC=5F(TRY=5F)DECODER=5FCMD: OK (Not Supported)
->=20
-> Buffer ioctls (Input 0):
->         test VIDIOC=5FREQBUFS/CREATE=5FBUFS/QUERYBUF: OK
->         test CREATE=5FBUFS maximum buffers: OK
->         test VIDIOC=5FEXPBUF: OK
->         test Requests: OK (Not Supported)
->=20
-> Total for snps=5Fhdmirx device /dev/video0: 46, Succeeded: 46, Failed=
-: 0, Warnings: 0
->=20
-> Changes in v3 :-
->   - Use v4l2-common helpers in the HDMIRX driver
->   - Rename cma node and phandle names
->   - Elaborate the comment to explain 160MiB calculation
->   - Move &hdmi=5Freceiver=5Fcma to the rock5b dts file
->   - Add information about interlaced video testing in the
->     cover-letter
->=20
-> Changes in v2 :-
->   - Fix checkpatch --strict warnings
->   - Move the dt-binding include file changes in a separate patch
->   - Add a description for the hardware in the dt-bindings file
->   - Rename resets, vo1 grf and HPD properties
->   - Add a proper description for grf and vo1-grf phandles in the
->     bindings
->   - Rename the HDMI RX node name to hdmi-receiver
->   - Include gpio header file in binding example to fix the
->     dt=5Fbinding=5Fcheck failure
->   - Move hdmirx=5Fcma node to the rk3588.dtsi file
->   - Add an entry to MAINTAINERS file for the HDMIRX driver
->=20
-> Shreeya Patel (6):
->   dt-bindings: reset: Define reset id used for HDMI Receiver
->   clk: rockchip: rst-rk3588: Add reset line for HDMI Receiver
->   dt-bindings: media: Document HDMI RX Controller
->   arm64: dts: rockchip: Add device tree support for HDMI RX Controlle=
-r
->   media: platform: synopsys: Add support for hdmi input driver
->   MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
->=20
->  .../bindings/media/snps,dw-hdmi-rx.yaml       |  132 +
->  MAINTAINERS                                   |    8 +
->  .../boot/dts/rockchip/rk3588-pinctrl.dtsi     |   41 +
->  .../boot/dts/rockchip/rk3588-rock-5b.dts      |   19 +
->  arch/arm64/boot/dts/rockchip/rk3588.dtsi      |   56 +
->  drivers/clk/rockchip/rst-rk3588.c             |    1 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/synopsys/Kconfig       |    3 +
->  drivers/media/platform/synopsys/Makefile      |    2 +
->  .../media/platform/synopsys/hdmirx/Kconfig    |   18 +
->  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
->  .../platform/synopsys/hdmirx/snps=5Fhdmirx.c    | 2726 +++++++++++++=
-++++
->  .../platform/synopsys/hdmirx/snps=5Fhdmirx.h    |  394 +++
->  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.c         |  289 ++
->  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.h         |   46 +
->  .../dt-bindings/reset/rockchip,rk3588-cru.h   |    2 +
->  17 files changed, 3743 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-h=
-dmi-rx.yaml
->  create mode 100644 drivers/media/platform/synopsys/Kconfig
->  create mode 100644 drivers/media/platform/synopsys/Makefile
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
-irx.c
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
-irx.h
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
-irx=5Fcec.c
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fhdm=
-irx=5Fcec.h
->=20
-> --=20
-> 2.39.2
->=20
-> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
-> This list is managed by https://mailman.collabora.com
+  Tomi
 
 
