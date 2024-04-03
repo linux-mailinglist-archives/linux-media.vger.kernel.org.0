@@ -1,98 +1,94 @@
-Return-Path: <linux-media+bounces-8579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742DB8978C7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 21:06:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF158978DA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 21:14:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 869CCB29819
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:50:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 043E31C21329
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 19:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C254A153566;
-	Wed,  3 Apr 2024 18:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61561552F0;
+	Wed,  3 Apr 2024 19:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="SPAXzShL"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="jRRmQBjg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta230.mxroute.com (mail-108-mta230.mxroute.com [136.175.108.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD41C147C8C;
-	Wed,  3 Apr 2024 18:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F430154C05
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 19:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712170223; cv=none; b=sqyn154WiIlqROtxFPyPxxXeiQLpJfrxmJEDykQtwLax2fiRtTIz2TdIwIhty1U3EBY4A/fu6YHTsGHIT38tJSwxeG7s0b31VqDz7SX4UsKeZcmFgPRIpUOEehE43aPOkmxTsW5qQjlvLyIspnyR+DQAX6u+GqEQDx6xtahxP1E=
+	t=1712171671; cv=none; b=ETRnZk9gJ1SrVmTbWIjWR9u9KU4IJ323W9yEWEsOCG8mLbIsd4ul2G6Xcwq+hzyQLRnMgWcTlrqPz42NTnADnlLIQDFCnwOGdNnd3ZUrmm5Ibmig2RlY1dR/jgR74fcrkYiW7RGTsvCl5u5+bX0k5H+A8WAeaKffi6jQpVGXPxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712170223; c=relaxed/simple;
-	bh=xdUCX00krdG8tQrYAGTKOMTfs+W2Io6k8s946ktaUMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXOHda/fYsVM6n29fIyZ8oXRNMOUNdFRBDUTux8X9Sz+IngvghvTvOAcd2YDyDmwrlFyYmcL+NVbPqomelDApCLk4JeQLqvSUBLblvUUqbBSkOc4Jm8f828S5jX8YxuatMfXky/o6HHHcqeZgmspv9ulQbIUSHwm4pZi0QHBx7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=SPAXzShL; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 579BB1C007F; Wed,  3 Apr 2024 20:50:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1712170219;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OSiHGjyug/A7S31CdOg47HSCU2Ka9d1dJBzt4GMaEzg=;
-	b=SPAXzShL3WWOpuPck0KicBOaoxkR88clYRuFGaQE2GOjLeFbUCpVBUVDoSt/DYpwm/EfkJ
-	72+eW1K5xeKSdAiRB3YoCsH2NRt6vEYNvp/0P81PAmI3+97/0cTlgSIjNu/tdEN6itQZPA
-	On5zsZ4typTBxsq71vXsdulT0lvTIwg=
-Date: Wed, 3 Apr 2024 20:50:18 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: git@luigi311.com
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 00/25] imx258 improvement series
-Message-ID: <Zg2k6nWBUFLUWHMb@duo.ucw.cz>
-References: <20240403150355.189229-1-git@luigi311.com>
+	s=arc-20240116; t=1712171671; c=relaxed/simple;
+	bh=RDV4EuuQRUPtNUbTIxOGfcSTsN69sOlT5Pee3DKH33Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IISdJr0ymiF4h8UbN4lbUypGHFqKKYGFK6FMHsBs3n963ELcwO5UuBI77coYyh1l+zHueLi65Fk6iP9DVmDhLC7cOTLDy7uu7UXYw0sVRgJarkxRgtxnOAGWnGGNXuWecb7T0/4t2/zsvHWmDGBW/79NKbe0IUvPR6PevQZEOv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=jRRmQBjg; arc=none smtp.client-ip=136.175.108.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta230.mxroute.com (ZoneMTA) with ESMTPSA id 18ea5624ef20003bea.011
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 03 Apr 2024 19:14:27 +0000
+X-Zone-Loop: 467d93e2798742ab9f8d9c23b1daf390f9781890c34f
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=bcqiAtaFkA7M0l8Y8o9d5VCPmPSHyZdW1imoC/gPicM=; b=jRRmQBjgjtpwnlrh5H5qrXJe8t
+	hrPJtR9gFIy70lgEKNWi5+eFqFpbsHqvw2m9iAJ7ECTSkJrmro8OHQZp338ZMCT73WJ9xQQZbngS2
+	Yh3ucRZaXJA04IogxgEfRNViHpyQhsWNG6mY8KJYHl4IeAXKcPZmvwdV6lIo4c53G0OhEe2DnVkI4
+	XxyKRDLBiSpyLwHvsVoVqZALVBrZ8LUw25GfjtS1qgWKuWK9419V3v9TIBwqKjG2Lnye3/nI9MVjr
+	a+BrrPgqSjdz9wdjEsBtM36YLmsp930WHM0KNA7W8QTtIJBi8Q046itKyt67DTxX+G2ExEPPJJwM1
+	xORPiUDg==;
+Message-ID: <d31baabf-ca4c-4ed4-87af-c68d7a3aefed@luigi311.com>
+Date: Wed, 3 Apr 2024 13:14:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BP+FZsRBKnabhp5a"
-Content-Disposition: inline
-In-Reply-To: <20240403150355.189229-1-git@luigi311.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/25] media: i2c: imx258: Follow normal V4L2
+ behaviours for clipping exposure
+To: Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-11-git@luigi311.com> <Zg2j1XeOhFwO2Nf2@duo.ucw.cz>
+Content-Language: en-US
+From: Luigi311 <git@luigi311.com>
+In-Reply-To: <Zg2j1XeOhFwO2Nf2@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: git@luigi311.com
 
+On 4/3/24 12:45, Pavel Machek wrote:
+> On Wed 2024-04-03 09:03:39, git@luigi311.com wrote:
+>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>
+>> V4L2 sensor drivers are expected are expected to clip the supported
+> 
+> Remove one copy of "are expected".
+> 
+> Best regards,
+> 								Pavel
+> 
 
---BP+FZsRBKnabhp5a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-Thanks for doing this. I had some comments on 5, 9, 10, 11, 12, 21
-and 22. You can add "Reviewed-by: Pavel Machek <pavel@ucw.cz>" to the
-rest.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---BP+FZsRBKnabhp5a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZg2k6gAKCRAw5/Bqldv6
-8lBaAKCnolrbEXBNYoVX+tBLo0p38ybJ9ACglWQjTrZ1uCLLuRKrJRJzOCJCZSk=
-=oPTH
------END PGP SIGNATURE-----
-
---BP+FZsRBKnabhp5a--
+Done
 
