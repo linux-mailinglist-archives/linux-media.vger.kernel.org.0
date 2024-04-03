@@ -1,57 +1,59 @@
-Return-Path: <linux-media+bounces-8567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD6E89759F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:52:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C238975A6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:53:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09E311C25C1C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:52:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9345F28D0D2
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1ED15218F;
-	Wed,  3 Apr 2024 16:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D31CD152163;
+	Wed,  3 Apr 2024 16:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQJ5OWNa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYBf2O/G"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0BA1B7F4;
-	Wed,  3 Apr 2024 16:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5331B7F4;
+	Wed,  3 Apr 2024 16:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712163118; cv=none; b=iqiVuU2eWjLsgD7cc0fm8BZCpl/H1fD/6cTym/ZrrhjroHDnc8NMHxeu/8d/Qr+NAURJjnhOEFsXgoY5Ii04T02zxfdfDelNr0llbAGf1Zy9pE+likuzQPFF6QUM6cUYsCjo6v7MAVuuK9o0CK1BBP8Y/TFsC58afQaYkwINuBA=
+	t=1712163177; cv=none; b=toe2wEF+bptjkvxaenyBR8RvQS991UtjCKNcNf08k1LvANtRPV4VWB7vsFdkRfDh9L25pGSSosSLEKAbILIUnzI6gUDEmYBdLR3MP9meJNTdh+b4TSG2hI8DVSceJCRXqWyVWph9r3obDQo6a0EhmH6NRVLUOPoWGoiRQokgRJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712163118; c=relaxed/simple;
-	bh=749Ls6gqomWInLum9yLluZbwwLmTjtZOhHIjT4Dy0f4=;
+	s=arc-20240116; t=1712163177; c=relaxed/simple;
+	bh=VVoPY7zPCQ+cv0PGvXPEueMxlSVcXc9ZPX78cV1mndI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n4whw2loj4/KhCVXOWNPBMSKKZtRnxwGkLqQ+43lvursUWCHpeat6dD3HvZIEQcEwMQDGndDpGd1FhgeYEVmKcAOVPuUHzSBAzPs1b08NNiIoFZHVrotbxAfy2ZKjtIB6Ls6z82I80/Jv/HvryRgG8a6KnDbIJITG4VPxmoo81M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQJ5OWNa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2645CC433C7;
-	Wed,  3 Apr 2024 16:51:58 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=g16ZoqFSsLO3F3wjmxKh90xH/5W1FTeT/imXCngOXLKUoL8DJnSLbSwhjUM1L1FwcZ4BusUjPWseifSIPAVQQgHtYCj3Y9rQ6e3WSls1LfIH7Ph6qAkJLasEdhk2ceZ/HmiFUwzo3mIiLyxT7Ro5nJrudADts/0ZgNMz75jM26E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYBf2O/G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 884D9C433F1;
+	Wed,  3 Apr 2024 16:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712163118;
-	bh=749Ls6gqomWInLum9yLluZbwwLmTjtZOhHIjT4Dy0f4=;
+	s=k20201202; t=1712163176;
+	bh=VVoPY7zPCQ+cv0PGvXPEueMxlSVcXc9ZPX78cV1mndI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jQJ5OWNaKJvaXP/+dqMyDVNnVnsKxCcWBknitKC2Na4jLl3JKXu87rU5eLLu1uyKs
-	 nWk1BhE0BxPJTelKzy0NealcVFKi5pY7cwBECE+3FfRr7ZadS1uCb7kzgvwvHPyZcZ
-	 wUb4wAhpC+wtdXoStQ/MRSSnnJBepPeCDDjFYWHkfso+bqGUF860xeB8IK1qBTL7Pn
-	 CRxBmBaG7Az0BLsKHjq3MQNFU1Y01g1utKXbzYHnYS7Oa7Jo0rj5hhQqv9bt7xTew3
-	 0Cwf6iXbVP9iMmk7vg4QTNswbn1O7H64PT+E7q6b2T4aAsFqDkvLba3LrtR13rAML5
-	 KqFfQd+SKIzoQ==
-Date: Wed, 3 Apr 2024 11:51:56 -0500
+	b=eYBf2O/GxSwKTQRKtaEXS3x9B8H+ythuL2SnrNurYBaR00srfvbmzpFKPvLeMHjmY
+	 u1nS0zlVCdq4nUrqkYIRTFl9t7TXNFMSxN2Pr7rbPYDr1yhUnixNDaBhUMjz7TTn9D
+	 de3uLvzAq+7VrNNCd844vJZZido1u8XOqLRRDXS2DXFQB84IVGlk6lfAY52qTgZG+T
+	 B6CyjeOwsNTc0iaQpZ/Egyv3UHfw8hnaOdQ1XyKo3kxIZ+Zm75P0Wm6ZZqWeQ0kFPy
+	 AMR13RC8tYOJdOH68yiFpUZS/JabKSFUCuT/cmNRihFuUTrngWCxB0mErb5xGtf5Wn
+	 J4Pri1yTH99Fw==
+Date: Wed, 3 Apr 2024 11:52:54 -0500
 From: Rob Herring <robh@kernel.org>
 To: Fabio Estevam <festevam@gmail.com>
-Cc: Fabio Estevam <festevam@denx.de>, krzysztof.kozlowski+dt@linaro.org,
-	laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, hansg@kernel.org,
-	sakari.ailus@linux.intel.com, conor+dt@kernel.org, rmfrfs@gmail.com
-Subject: Re: [PATCH v4 1/2] media: dt-bindings: ovti,ov2680: Fix the power
- supply names
-Message-ID: <171216311346.3977852.12166569871249018805.robh@kernel.org>
+Cc: Fabio Estevam <festevam@denx.de>, rmfrfs@gmail.com,
+	laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+	conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+	krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+	hansg@kernel.org
+Subject: Re: [PATCH v4 2/2] media: dt-bindings: ovti,ov2680: Document
+ link-frequencies
+Message-ID: <171216317203.3979008.2467490229461130290.robh@kernel.org>
 References: <20240402174028.205434-1-festevam@gmail.com>
+ <20240402174028.205434-2-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,26 +62,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240402174028.205434-1-festevam@gmail.com>
+In-Reply-To: <20240402174028.205434-2-festevam@gmail.com>
 
 
-On Tue, 02 Apr 2024 14:40:27 -0300, Fabio Estevam wrote:
+On Tue, 02 Apr 2024 14:40:28 -0300, Fabio Estevam wrote:
 > From: Fabio Estevam <festevam@denx.de>
 > 
-> The original .txt bindings had the OV2680 power supply names correct,
-> but the transition from .txt to yaml spelled them incorrectly.
+> Document the link-frequencies property as recommended by the following
+> document:
 > 
-> Fix the OV2680 power supply names as the original .txt bindings
-> as these are the names used by the OV2680 driver and in devicetree.
+> https://www.kernel.org/doc/html/v6.9-rc1/driver-api/media/camera-sensor.html#handling-clocks
 > 
-> Fixes: 57226cd8c8bf ("media: dt-bindings: ov2680: convert bindings to yaml")
 > Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
 > Changes since v3:
-> - Newly introduced.
+> - Only document link-frequencies.
 > 
->  .../bindings/media/i2c/ovti,ov2680.yaml        | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+>  .../bindings/media/i2c/ovti,ov2680.yaml         | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
