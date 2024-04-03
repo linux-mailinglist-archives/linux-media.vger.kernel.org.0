@@ -1,148 +1,165 @@
-Return-Path: <linux-media+bounces-8506-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8507-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A96896C22
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:23:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46858896C14
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:21:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B31EB2FBC7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:16:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0FC71F27205
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:21:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77208137C2F;
-	Wed,  3 Apr 2024 10:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5974136E1B;
+	Wed,  3 Apr 2024 10:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HIbW1dW7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GY9YnPLK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFF613698D
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72241135A72
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712139367; cv=none; b=FHOxOhXHbWXtxYLrsuIGVSdDRlJ9a2Tb1Wj80Qdj/lBfjAADHxj/bsMqdhjmTuHNqQWVakx16re62ItutIHRcm7biUPmwxXMhjHWxIxcSOOEV055K96Nhsl1KIn1jezDdgEfKCyhbKWmwqusO96SJHVglTpROjGkuH5tuUn3png=
+	t=1712139671; cv=none; b=BVabrlpiEC7SiMffyJ1hEQld9C0kbCyUqchU2XazDdR0+GD5dKp+R2xAMRr6ryzr9i7Z3PxPTlogeQ7UN8AhXYECE7aLY+8DBbE9D9evhiE75laxjR5aUZyD6tSxvUArWf+TNNMseeJlzs+tEzTTlQJxY/rTJNQ/FolsiMJ+ytI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712139367; c=relaxed/simple;
-	bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZDvFRoGHnbOg1RXZ+CYw3kNLRXTaXC+Ykp17n3agl86vsKvUGKFM5eDBb+7twY4fFwjbpgbJgVOOt1cIjiLrDZrbnMwtRMZ9d655/hRHFkvTj1wno0CPVi3P9ECfCj24ifiGiOqDZqw504HJSKythMnxrNWxRsP57cElBcReQWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HIbW1dW7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 698F2B53;
-	Wed,  3 Apr 2024 12:15:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712139323;
-	bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=HIbW1dW7xEEopZ6mK06mkqVXTkRwNmcKeLTYzPihXZNjl1HoJOKc/c2RuhCOlOU1j
-	 fNAB4TNUa3pjJUWNiUahf+DnamkfNYMCRfillnEgxQ3Xf2qa2GEqV+71PjvVDIYD+T
-	 0cn8WXJat+Ucx4KkyROQXfrulHperT5OCQj6DbDk=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 03 Apr 2024 13:15:45 +0300
-Subject: [PATCH v4l-utils v2 2/2] v4l2-compliance: Fix streams use in
- testSubDevEnumFrameSize()
+	s=arc-20240116; t=1712139671; c=relaxed/simple;
+	bh=j9OWD1Egg+9iI5w7d3WeI7AlB92++uzCxocuqyXnMNk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F1ILjgOpbA66PwSsz8XvQEHEUwYERS86YUIeBWiNNR0M2or36/JP2oBPsEizjLK2VgVXQaKKDInRp7u/reL5XbvzNui2F8wY2JBh3bMwRNS5BNq7g2r7EroxWJOIgSjcrKEXxj9KfegCGx66B8OqTDG6QKO8WaF6D6thBh6zdCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GY9YnPLK; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56c197d042fso7284913a12.0
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 03:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712139668; x=1712744468; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=4lrg9u1DWO3N7iNCPwEbpDmzDHx9LenQFb2AaTvmxYY=;
+        b=GY9YnPLKZXBE+iUca2K7y4lMCLid4LK3ssU/bWG/X5IppxYMAHeSQGNpCUStDGl8II
+         gL0dFi9tyJLVZPPfUc27RrezDkWeXIXiKaySQyJHGXW5LzRQiBCSqPPemmQd4qeGxh3j
+         6G/bBM4mUUowbAGHvPyEBDEiCP7dG9tMcFmUfpMvDOSiFEODSozogYBcG+/+gkiGMEnP
+         qSrgncD1zXdRaZY0A0uniplIviabsc0syHr2bGJv3gRs4BlSrZ1jDmLfcoIA0CfxBsbu
+         5k/LbFLKlmUri56mLUy8F/A2m1zmQKPrPFsET5HzIJD7d4LD0gCMIcz5xrm4sLZ8rleZ
+         liDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712139668; x=1712744468;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4lrg9u1DWO3N7iNCPwEbpDmzDHx9LenQFb2AaTvmxYY=;
+        b=JHVTbi2XLdYA7L4Q0rDgY6lo86Z+IXu0/mgSFQOKAGGwkjFsD3qIjtjWxPWmoSe6ZY
+         b7fa+w+76WtrrazMk0DGlA3+eG85nYy5F+PvoULRuVnGA99f0SEAbPIH3SaVrlHTtakN
+         tScZK/rdCF7ZxmE4h2q+vzkSRblxbTLtqXWGNKztpzIvqjHjz0Bt2XY0PwK1Ts5Tb5AM
+         d4x6Vu3dPbjAaeyVmmsCAjAqcTHM9MxbGpvrFRCmIlEf5WOMsj/k0ibS4BVeeEtXRG6W
+         Q6T8Zut/cclvN2zJHer0QzKT1tWmzAeTwusksAct5Kkfq+jMz5d+v9EWNAk3kTXiPQgN
+         U3zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWaAIxX4xhWu44XiIL5spytPkN3Mr/LeRpjrCTOdo/p1wVH+H6lD9YseMpM17iR0A2evlr+/MZZ7MhWy9S0Kd8qnp6U2aQgI2L2j5E=
+X-Gm-Message-State: AOJu0Ywtn+N2EOunkhO0kcdnnvnjNUy7Me7eMmfz16LQMKZD4UQI5tgu
+	Ma2pNpOhXTZerm3+Urk4GHXok+F1gFrS/JtMQ11b67E4eTQLmIEsXG2Fo5SnDEs=
+X-Google-Smtp-Source: AGHT+IEP4Gm/j49EiS5w8Osi5IxulbUu7dmYZSs8UZrCWXoYjgFHKV6WkLihgHu5HCaYyGuLMqf+SQ==
+X-Received: by 2002:a17:907:11cd:b0:a4e:2d1e:6914 with SMTP id va13-20020a17090711cd00b00a4e2d1e6914mr9439566ejb.11.1712139667716;
+        Wed, 03 Apr 2024 03:21:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id bj7-20020a17090736c700b00a4e696e613esm3583799ejc.153.2024.04.03.03.21.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Apr 2024 03:21:07 -0700 (PDT)
+Message-ID: <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
+Date: Wed, 3 Apr 2024 12:21:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
+To: Shreeya Patel <shreeya.patel@collabora.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
+Cc: heiko@sntech.de, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm@lists.infradead.org
+References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+ <35e566-660d2080-1-7eb9eb00@16488675>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <35e566-660d2080-1-7eb9eb00@16488675>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-v4l2-compliance-streams-fixes-v2-2-be9b338dc204@ideasonboard.com>
-References: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
-In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
-To: linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2494;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmDSxeMpldOlkNRK/4VIX2oXtpxy0YTN/Mzp2i4
- 5zkcg3W3TGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZg0sXgAKCRD6PaqMvJYe
- 9U2ZEACrpctcA6kJDlt10akQg+hJFoA/DA3xZwdDLkwtgHUelqdcNtdgahTUt4qBlpnrjvLBV2G
- 0BrZYf0A8Qdq5VVeb5HFK3cWkJhYkVzIXrHHAjGWVQLhdRgYv8Nn+TGZFDdqD1bFaLLkzoA/h9z
- Gpo76qHAY7RqK54eHh33RHjHezob+mRh+/zfGf1w2GcVgB2ypPdbQ363G9E9EMS8ScQ7Wez9vn0
- alwNn73iEo+RLGoSqG8q5p3DNGak6mAP0iESGrK/pz92AGjz4uhMGLbjmAjVWaEGWfdnP4hYKr/
- HZHkBlEMONqIIopmuvHHKw4l6uj2ZVJpPdRpVx9JCckjMvCreTscOlkkmq+rRA2x5g3tUVYVVDl
- 2V+tznWtQDpmIhUjQC7ECqZesAAnadBgOo6Jcn8L2NNR8Q1yo+2rvrg+nS9ymqmR96wrWphP4eV
- re/7PfQYSAAxHPvoYz7+51r9VivtgkTyVOPb39pp/KH2SJB5KnsPn+tT2q6USUtBcNzSQXxrlZ/
- +mpK+di9s5n4Puwq1UUHFgWqKA8MneYGJqMUqO+4DxHqbkt8IHTJA3gc+efkGLnrQAoqELz4kNa
- H+6KQk5duqdLdOIEFMl55RIjeafFRFJg8CbtUO8vMbQM7g2X5x6/O+5s0LNgP1H/XIIyKr5xRrR
- HOvQWa/GT2rkZKA==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-We don't pass the stream number to testSubDevEnumFrameSize(), which
-instead always uses stream number 0. This causes failures when the
-subdevice uses streams.
+On 03/04/2024 11:24, Shreeya Patel wrote:
+> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@collabora.com> wrote:
+> 
+>> This series implements support for the Synopsys DesignWare
+>> HDMI RX Controller, being compliant with standard HDMI 1.4b
+>> and HDMI 2.0.
+>>
+> 
+> Hi Mauro and Hans,
+> 
+> I haven't received any reviews so far. Hence, this is just a gentle reminder to review this patch series.
 
-Fix this by adding stream parameter, and passing the correct stream ID.
+Why did you put clk changes here? These go via different subsystem. That
+might be one of obstacles for your patchset.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- utils/v4l2-compliance/v4l2-test-subdevs.cpp | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Also, you sent it just a week ago and you already ping. Please relax,
+and help out by reviewing other patches on the mailing lists in order to
+relieve the burden of maintainers and move your patches higher up the list.
 
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index 560efb70..da304a8c 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -121,7 +121,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- }
- 
- static int testSubDevEnumFrameSize(struct node *node, unsigned which,
--				   unsigned pad, unsigned code)
-+				   unsigned pad, unsigned stream, unsigned code)
- {
- 	struct v4l2_subdev_frame_size_enum fse;
- 	unsigned num_sizes;
-@@ -130,7 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
--	fse.stream = 0;
-+	fse.stream = stream;
- 	fse.code = code;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
- 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
-@@ -140,7 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 		memset(&fie, 0, sizeof(fie));
- 		fie.which = which;
- 		fie.pad = pad;
--		fie.stream = 0;
-+		fie.stream = stream;
- 		fie.code = code;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -156,7 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0xff, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
--	fse.stream = 0;
-+	fse.stream = stream;
- 	fse.code = code;
- 	fse.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
-@@ -266,7 +266,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
- 		fail_on_test(mbus_core_enum.stream != stream);
- 		fail_on_test(mbus_core_enum.index != i);
- 
--		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
-+		ret = testSubDevEnumFrameSize(node, which, pad, stream, mbus_core_enum.code);
- 		fail_on_test(ret && ret != ENOTTY);
- 	}
- 	return 0;
 
--- 
-2.34.1
+Best regards,
+Krzysztof
 
 
