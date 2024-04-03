@@ -1,180 +1,156 @@
-Return-Path: <linux-media+bounces-8571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A18897751
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 19:49:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6C8897763
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 19:53:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C09428C6E9
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 17:49:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1F6E1F326AC
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 17:53:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0493156C7E;
-	Wed,  3 Apr 2024 17:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2E11586DE;
+	Wed,  3 Apr 2024 17:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJpsqN23"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vnhtyz1u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF49154C12;
-	Wed,  3 Apr 2024 17:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7AE157E94
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 17:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712165287; cv=none; b=TFOsEpHPHvMpsXSVOrzdJ3xGTcagVMBNbbDwbmjf+qVtNIX0VuATQVq3fneF066Qom8Xs5LS2t4j+H9tYTDnf8IotFc28fiFCSiiPEGQOg+qRqzm/2YA9t5d2gVpxJlGToWYeXoivbOjEGcAVkFxtmS2i0mp2UY4NwbU6EIEgD8=
+	t=1712165937; cv=none; b=sMo5OGSXCyuRh+izD25XXIkUC0eKDu0k2+jpiKoBakOBtU2PpUoO+jIqMqEcKfRY7/tESJXNN41y8niqD1votTuom0D3jzUTL18Pp2R9UzXmk5/oEYF3LlmIT/ne8J3EE6jsxGnK8peDCniCI7XWX6K/BT6MHC+nQ6dtQk9+7t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712165287; c=relaxed/simple;
-	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ia2opbuoxHt0lFkgWDWQ6GW72TwXxCw0yfeQSJ/LhG7sn01WZkrj8WZRUJRsE4888fMYzSyz3Ech/P1f6Gxg8GCCmQni6+lw8lB91KappKy7elE43A1OQAfDim+Rx3i92Q5ooTwIdQtz8KoPEYKbLRt0tvnVMBkb7I6ZXCcHAOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJpsqN23; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25477C433F1;
-	Wed,  3 Apr 2024 17:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712165286;
-	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pJpsqN23a/bTPCDYI46/mddJ60857N8gxl0704dxwCHxM5gKzPHc731EgK6XTky8d
-	 UTSvCE/t886wLCwR1UtYWv7Xweb+uKowOagxSx/lUTLkXov7Dsf3h7EJVqcumDwZqs
-	 tOZb0mWrfqCf+8IONESe5080Pxu9nMjALf/FMnCDXF9xhUlL3R67eN2rH1I5mN6bzF
-	 1n8OJA3VkfjnGjVp4Z+o4CVz2zIgJ7Dmv0gNexlQEtkyGLrPexZxzjQpZtQ6ml5ppR
-	 mZhUqv9H4p4rGkxe60L9FXP3YjGI6r2+YWhPDeKU2GGU7vXAeDQM5+N6jWyDCaqmEM
-	 CqEUGy0nok9lw==
-Date: Wed, 3 Apr 2024 18:27:49 +0100
-From: Simon Horman <horms@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Florian Westphal <fw@strlen.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Aleksander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
-	Breno Leitao <leitao@debian.org>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RFC PATCH net-next v8 06/14] page_pool: convert to use netmem
-Message-ID: <20240403172749.GP26556@kernel.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-7-almasrymina@google.com>
+	s=arc-20240116; t=1712165937; c=relaxed/simple;
+	bh=l9OHJibJhF3bDqK+37elpO+FJ/BEq7B7LhRTZbPS3f0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cJ+6mQmH+FRc+D9Z+JaCmGVShHaC7kE0OFyFrmH5UW7lq412g//uf5sNx2lO2T8h/Rm8wlBpsPYZsRX8/uO+Y3eEQ2AQLBroHJWIDlQygsGifr/IZJD0TJbcGZ5wBVJbzpupOVuA07/T0Ui0G/a1C77Cn8XfNI+FoijxNP9sGkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vnhtyz1u; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a4e65dec03eso22640166b.0
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 10:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712165933; x=1712770733; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=smCMiV726QBOj801CvyUB4QpR4iY1i2Heb0clLKfLCU=;
+        b=Vnhtyz1usDCZR/MB3wrHpJfinhSqBTgZy2XtyAl3Dxl6RYtrdkKdZ5zVWpi6upZx1S
+         Avh/KfCj+8VHUL2Km/oz5S2kbyYNlWm8/et6siy28h6mihxJ6oZ31lpaJChWLzDWumzY
+         i3ESjvFvcPHM1xA/1KdLFdKsxuny+gshVfb+y0uYRSVszVKKc9kQ+XX0gLuPHHTx7/1y
+         1EvYpn1Ay1wfewstqwgvI04V+EHoUHImTHQa0LDjrnzYhsimGM3rZU0fmwHStXC/kkZj
+         TH4y8Fe9xtWVDrsyuOYiWUhTeE65UGx894xIc5AFcE6+O/+xupi8kiuQLG3C4JBb2R3r
+         CwJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712165933; x=1712770733;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=smCMiV726QBOj801CvyUB4QpR4iY1i2Heb0clLKfLCU=;
+        b=kjBUVfge0e2Z1ZDBf+fppcYgXnj8ofm06J1wi9SOvuwypZowB+4rF9fop0J/t31d/A
+         2lNVfvoQB4eNCAEoZkDe2P4+3/DvFIPt9L3jABQvWM293WfsqMUoUfZJpGzbq/Tm1Kv7
+         uGQIbWvnb5KHvsvOYNIgWX3XMBdgZNFAuISFgMu0ZM1UTxsjPKjaPSr9X1h4jgfWhEo8
+         lwRwmj3I06tJeTUiGEFTjzwcfTS1U02DbWGgBEGRXwr6eMThisY+lOFXR7KkQdamLSzY
+         y6mzNr9HPdwehvx5QWMTAF7iuf44rvcSR7z/1ELJQcqrupWESnLCzeFV/Csk9aUrFCUV
+         X6uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXakUgPy5/7Pbx30lKKRGzNQu1Or+N2oSuuDoGRbSwTZCbbT1/Q8pJyKr/iX26JaUjIR7aFKeqZ/Al+irptygy36BK6ffl9wFLEDdE=
+X-Gm-Message-State: AOJu0YyZbK1+QeQ6wGCNitJEpSW3GJIko97HxUxd4+Tg83egYJYnU8l5
+	XOTnnN7k9yI9xpC3LugX6vsbD1raAqMmzWMnHVTp/cVZW6bm0R2cNTa8YcKjL5c=
+X-Google-Smtp-Source: AGHT+IFYMHtCjQ4/pwXUdf3NVsI2/w4quh6q7XCCXFphmBGfy6ZYwD3rbNLIWDHICtxEdWaRYAAfAg==
+X-Received: by 2002:a17:906:f2d9:b0:a4e:1ba4:f73d with SMTP id gz25-20020a170906f2d900b00a4e1ba4f73dmr10402ejb.22.1712165933484;
+        Wed, 03 Apr 2024 10:38:53 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id y17-20020a170906071100b00a4e6626ae21sm4225478ejb.0.2024.04.03.10.38.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Apr 2024 10:38:53 -0700 (PDT)
+Message-ID: <9c330a82-7b52-4d45-a2db-66350c6a37a7@linaro.org>
+Date: Wed, 3 Apr 2024 19:38:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403002053.2376017-7-almasrymina@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 22/25] dt-bindings: media: imx258: Add binding for
+ powerdown-gpio
+To: git@luigi311.com, linux-media@vger.kernel.org
+Cc: dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
+ mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, sakari.ailus@linux.intel.com,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ pavel@ucw.cz, phone-devel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-23-git@luigi311.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240403150355.189229-23-git@luigi311.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 02, 2024 at 05:20:43PM -0700, Mina Almasry wrote:
-> Abstrace the memory type from the page_pool so we can later add support
-> for new memory types. Convert the page_pool to use the new netmem type
-> abstraction, rather than use struct page directly.
+On 03/04/2024 17:03, git@luigi311.com wrote:
+> From: Luis Garcia <git@luigi311.com>
 > 
-> As of this patch the netmem type is a no-op abstraction: it's always a
-> struct page underneath. All the page pool internals are converted to
-> use struct netmem instead of struct page, and the page pool now exports
-> 2 APIs:
+> Add powerdown-gpio binding as it is required for some boards
 > 
-> 1. The existing struct page API.
-> 2. The new struct netmem API.
-> 
-> Keeping the existing API is transitional; we do not want to refactor all
-> the current drivers using the page pool at once.
-> 
-> The netmem abstraction is currently a no-op. The page_pool uses
-> page_to_netmem() to convert allocated pages to netmem, and uses
-> netmem_to_page() to convert the netmem back to pages to pass to mm APIs,
-> 
-> Follow up patches to this series add non-paged netmem support to the
-> page_pool. This change is factored out on its own to limit the code
-> churn to this 1 patch, for ease of code review.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> Signed-off-by: Luis Garcia <git@luigi311.com>
+> ---
 
-...
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+Best regards,
+Krzysztof
 
-...
-
-> @@ -170,9 +172,10 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
->  	struct page *page;
->  
->  	/* Mask off __GFP_HIGHMEM to ensure we can use page_address() */
-> -	page = page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM);
-> +	page = netmem_to_page(
-> +		page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM));
->  	if (unlikely(!page))
-> -		return NULL;
-> +		return 0;
-
-Hi Mina,
-
-This doesn't seem right, as the return type is a pointer rather than an
-integer.
-
-Flagged by Sparse.
-
->  
->  	return page_address(page) + offset;
->  }
 
