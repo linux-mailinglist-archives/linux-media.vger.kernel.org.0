@@ -1,182 +1,219 @@
-Return-Path: <linux-media+bounces-8508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12330896C26
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:23:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A36896C70
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:30:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34B361C260EA
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:23:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D30901F2B4B5
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:30:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69DD8136E32;
-	Wed,  3 Apr 2024 10:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A631013E8BC;
+	Wed,  3 Apr 2024 10:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="exP4EdVA"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="DAXNwhgA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156A313698B
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF6013B798;
+	Wed,  3 Apr 2024 10:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712139783; cv=none; b=BDJqi5+VXCQNJEBOG0ih26nEU3EfcAKas+xqyTQa6H1wj4ns6tDLY5WVeyXTcpHyj9fuY0H2zGejldztfFRjFt6sn0KwmBNr3iIXojo27pdE5ODkRkoxT5mlymgHzdpHvQyeIhlbt7/2iWpXHvE+UfD9fOltWbBSR1CRUO/wsLg=
+	t=1712140036; cv=none; b=RUbmicTkbmDTBnTsUlYi64t3+vVsom9GVKABdsm1Vu3Rk1lg7CYAPeBxx6/jlVzwP7gzIsNI+iw+Zli5CZuxwT98JWyVXFKAm1d42rLmcioLSAAAu9wpaqf8/o6X10Zf19HCjk0s29i0s0WtErxaxOoiu/95Ve5/FX/KoVCX4pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712139783; c=relaxed/simple;
-	bh=Rj0Jsh8YxSWt3uMZSfSlxmzf0XSYrPzXk30gRPPxkz8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TklIqTowbLQW/1mpuE5qturstOaWfmns+QYTiEG8vDTIMjIm/m2g1R96UxDGwvgNdzsJVzSQ1Hqa7QVk8cVp83hyTq3hAYefaxfoR+MxIzjxAEKb6c92acI2GbTESpZLull2117MAJBi6QzrhD7dHyMiywyKkJsXjqyDh6FD650=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=exP4EdVA; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56dfba6ae21so1252837a12.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 03:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712139780; x=1712744580; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=HsoRFwc62TubYqg849tDBMhvYLUZpOn9BCroZEJYYio=;
-        b=exP4EdVAjdfkiSkfkk8oGrSkM0SEOLzmDHxCDQnCjXMbVqkROETfWIrX8TV8mi8ECP
-         fJETwsv2Oy3UM4y7ny4EPR4IS7V86RJAkSmDm24Qp47vx/xNbcd/AQAgOOFamlgcweVZ
-         WOmgbhPjeUcjTLDy9TUOJXw4KO0KhxRgeE/VgpjppNDvYSwntjI2/VocFWN/Y+Je+5hG
-         XdvcGSsvpYHo9JTjUr/4pA+jUfchjyxy2Ns69L4DUdLQUnrOsapQ9MT/ijAMWgCDFQ0t
-         POC1xLKfv9rxqTqGrmVyaRpzdNVWV13QZ2/5ZGIoAIV6lxy03JxTv+QClyggv4zqVGfx
-         8Ucg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712139780; x=1712744580;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HsoRFwc62TubYqg849tDBMhvYLUZpOn9BCroZEJYYio=;
-        b=hZnqFnmdhUyxn3wj1PfzT9je8ZG7cQwfAZTVSy/WbNGUPAiWwTents1sBbGDamYvrU
-         VL62SCID0H2+qg7jllNkE1liC4P9Cay+emfw9ieut4/YtkeXdbn5/VUwOETkA4Tdq/QV
-         b0IhAqsmK7ik7W4kz3qTJARNjIp1uod/mhgpKnBTD2PCnHbPQrd6fDSxfG20OtSnCbZ4
-         lBt5VIFgFeb5oi/5LqhD0Fw6owCj6dMpAXZtdI8PomSWEKhc0Ze6XyFz1NKz/BVnqw3B
-         cC8g+AUyCqV0bfbXYz0hIwVQAKukqFRPzKJcVw9jPz6y9L7HW5DGg+zD7y0fWLnUDyMh
-         1xSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXam1qekWoWLLpW4K33Dp+WVPZYqVWu+b5AtXzRwg8hADYnbjKrkWO+od0kV9pkEuqZLZUIoe6OfZGMNuHnfZ4LDWNT1a1KhK5lu4=
-X-Gm-Message-State: AOJu0YyB2ulXf0i51weSWX/D9rcEWHAUwPbzdlSHLP2nfFttsJZ9uHHG
-	zam8XNyrPsghzvErql8YCdYrP0JB/ysbPztStIRfeceN82TlAIfhswURcEAlIyY=
-X-Google-Smtp-Source: AGHT+IEMd2qY7HaeJ+Fxj3CC5iJW78JeSnJFgE3zvGwQSDJJVxBpSADaDpp09/VoAm7rqc/a73kH3g==
-X-Received: by 2002:a05:6402:3506:b0:56b:cecb:a4c8 with SMTP id b6-20020a056402350600b0056bcecba4c8mr14911177edd.39.1712139780444;
-        Wed, 03 Apr 2024 03:23:00 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05640205d100b0056c55252b1csm7476094edx.41.2024.04.03.03.22.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 03:22:59 -0700 (PDT)
-Message-ID: <f51da8d9-95e5-4935-9ad7-49a5ddde9dc3@linaro.org>
-Date: Wed, 3 Apr 2024 12:22:57 +0200
+	s=arc-20240116; t=1712140036; c=relaxed/simple;
+	bh=GdofCZa4O7XK3v53KxwxZ7ehW5I6J++TJXpOr2SpQj8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lRRvk4RYhXw+cGcKmF8ZYbRO0TGWQh+mNVpoyd/DarlsFpuldOQI4luEJjjV1scmG2Yhg8SXJ4SlhaNXxZKxlTRLalU3pqRJyZHMnZEcXkYKxky5yFRTY0LZvL44BZsAcwe6nxt50PXruSVmTUHmcp/83yJ/Yc60BgLc9hXpEdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=DAXNwhgA; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: b6cbb5b4f1a411eeb8927bc1f75efef4-20240403
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=kCRz0oPMocRZGjqww5JBr1zErPCbQO81YR95YuYxRFM=;
+	b=DAXNwhgAaEEunBek296qLYVs/Eo1Z0A0jJvWqy4iZjY/wwozm2IQ2in1i+pWTYzpTHkLgWq7Qp/kZ5QPtWpamug7cbzsngKWjgWqEdoUIVaNKXxJtO3KK7jH7F3OMGi2DTcEMA5zRZWwUHNAPw784q5bVHLkI/V+3zzfC44xE7I=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.37,REQID:93fe3104-5ffc-4c72-83c0-0914402275ce,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6f543d0,CLOUDID:5671aa00-c26b-4159-a099-3b9d0558e447,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: b6cbb5b4f1a411eeb8927bc1f75efef4-20240403
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+	(envelope-from <shawn.sung@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1948557643; Wed, 03 Apr 2024 18:27:03 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 3 Apr 2024 18:27:02 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 18:27:01 +0800
+From: Shawn Sung <shawn.sung@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>, Hsiao Chien Sung
+	<shawn.sung@mediatek.corp-partner.google.com>
+Subject: [PATCH v5 0/9] Add mediate-drm secure flow for SVP
+Date: Wed, 3 Apr 2024 18:26:52 +0800
+Message-ID: <20240403102701.369-1-shawn.sung@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] arm64: dts: rockchip: Add device tree support for
- HDMI RX Controller
-To: Shreeya Patel <shreeya.patel@collabora.com>, heiko@sntech.de,
- mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- dmitry.osipenko@collabora.com, sebastian.reichel@collabora.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
-References: <20240327225057.672304-1-shreeya.patel@collabora.com>
- <20240327225057.672304-5-shreeya.patel@collabora.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240327225057.672304-5-shreeya.patel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--2.362100-8.000000
+X-TMASE-MatchedRID: VXWhY3LS2Pv8rQJMqxBG8AI0yP/uoH+DviRliDV2nyxGL0g1nVmkYQnr
+	j+RY/ULmQSEG2fuaX6s4yjl5TF4FjOVPKBunz2ETsJN7JpKehD8k80hXoYXya+GkTiRMqa/cupN
+	sDJhuPOu+EfvYffI99GAuB1lK/wNflyrPeDQDh/L0hv/rD7WVZCG4xLksx3hx+8eaGHk0rep576
+	my5IxjunSpyLqZd1VUoCw9zUya6F2VhIWL9FEuN1z+axQLnAVB+KgiyLtJrSABR3WmPjzYK/qAD
+	eqinEVfUxPAM3J2QaoE/BRbzLrnDE2VnXMRzIBjV6iWWmDPLEBYN1akkye0qObjzgiSjlMe8oLz
+	UWewXkiVMlcqqHWd7aBVvEjzNBpCHxPMjOKY7A8LbigRnpKlKZx+7GyJjhAUxhSy4aMccSSKVVk
+	8SuJDE52vnieMRVnKY75ilN9FFaMejuF0DkcIeIBFrTYMKPW64IkYNprTxLs/zMaoLP2Pk5vjvl
+	dIa3VgSZrfNhP3sgUBh9AgBSEFrJm+YJspVvj2xkvrHlT8euI+kK598Yf3Mg==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--2.362100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	4A2A33B54F857CDB4A0BE30622D4EAD3ECDBDBF6F73FE993392554B5F03370562000:8
+X-MTK: N
 
-On 27/03/2024 23:50, Shreeya Patel wrote:
-> Add device tree support for Synopsys DesignWare HDMI RX
-> Controller.
-> 
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> ---
-> Changes in v3 :-
->   - Rename cma node and phandle names
->   - Elaborate the comment to explain 160MiB calculation
->   - Move &hdmi_receiver_cma to the rock5b dts file
-> 
-> Changes in v2 :-
->   - Fix some of the checkpatch errors and warnings
->   - Rename resets, vo1-grf and HPD
->   - Move hdmirx_cma node to the rk3588.dtsi file
-> 
->  .../boot/dts/rockchip/rk3588-pinctrl.dtsi     | 41 ++++++++++++++
->  .../boot/dts/rockchip/rk3588-rock-5b.dts      | 19 +++++++
->  arch/arm64/boot/dts/rockchip/rk3588.dtsi      | 56 +++++++++++++++++++
+From: Hsiao Chien Sung <shawn.sung@mediatek.corp-partner.google.com>
 
-Please do not engage multiple subsystems in one patchset, if not
-necessary. Especially do not mix DTS into media or USB subsystems. And
-do not put DTS in the middle!
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/userspace).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
 
-This is not a correct way to upstream DTS. DTS is independent of
-drivers, so your drivers cannot be based on this.
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
 
-Please reach to your experienced colleagues to explain you how
-submission of patches should look like.
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
 
-Best regards,
-Krzysztof
+DRM driver handles allocation of gem objects that are backed by a 'secure
+surface' and for displaying a 'secure surface' on the overlay plane.
+This introduces a new flag for object creation called
+DRM_MTK_GEM_CREATE_ENCRYPTED which indicates it should be a 'secure
+surface'. All changes here are in MediaTek specific code.
+---
+TODO:
+1) Remove get sec larb port interface in ddp_comp, ovl and ovl_adaptor.
+2) Verify instruction for enabling/disabling dapc and larb port in TEE
+   drop the sec_engine flags in normal world and.
+3) Move DISP_REG_OVL_SECURE setting to secure world for mtk_disp_ovl.c.
+4) Change the parameter register address in mtk_ddp_sec_write()
+   from "u32 addr" to "struct cmdq_client_reg *cmdq_reg".
+5) Implement setting mmsys routing table in the secure world series.
+---
+Based on 5 series and 1 patch:
+[1] v3 dma-buf: heaps: Add MediaTek secure heap
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=809023
+[2] v3 add driver to support secure video decoder
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=807308
+[3] v4 soc: mediatek: Add register definitions for GCE
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20231212121957.19231-2-shawn.sung@mediatek.com/
+[4] v2 Add CMDQ driver support for mt8188
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810302
+[5] Add mediatek,gce-events definition to mediatek,gce-mailbox bindings
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=810938
+[6] v3 Add CMDQ secure driver for SVP
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=812379
+---
+Changes in v5:
+1. Sync the local changes
+
+Changes in v4:
+1. Rebase on mediatek-drm-next(278640d4d74cd) and fix the conflicts
+2. This series is based on 20240129063025.29251-1-yunfei.dong@mediatek.com
+3. This series is based on 20240322052829.9893-1-shawn.sung@mediatek.com
+4. This series is based on 20240403065603.21920-1-shawn.sung@mediatek.com
+
+Changes in v3:
+1. fix kerneldoc problems
+2. fix typo in title and commit message
+3. adjust naming for secure variable
+4. add the missing part for is_suecure plane implementation
+5. use BIT_ULL macro to replace bit shifting
+6. move modification of ovl_adaptor part to the correct patch
+7. add TODO list in commit message
+8. add commit message for using share memory to store execute count
+
+Changes in v2:
+
+1. remove the DRIVER_RDNDER flag for mtk_drm_ioctl
+2. move cmdq_insert_backup_cookie into client driver
+3. move secure gce node define from mt8195-cherry.dtsi to mt8195.dtsi
+---
+CK Hu (1):
+  drm/mediatek: Add interface to allocate MediaTek GEM buffer.
+
+Jason-JH.Lin (9):
+  drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_ENCRYPTED flag
+  drm/mediatek: Add secure buffer control flow to mtk_drm_gem
+  drm/mediatek: Add secure identify flag and funcution to mtk_drm_plane
+  drm/mediatek: Add mtk_ddp_sec_write to config secure buffer info
+  drm/mediatek: Add get_sec_port interface to mtk_ddp_comp
+  drm/mediatek: Add secure layer config support for ovl
+  drm/mediatek: Add secure layer config support for ovl_adaptor
+  drm/mediatek: Add secure flow support to mediatek-drm
+  drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
+
+ drivers/gpu/drm/mediatek/mtk_crtc.c           | 275 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |   1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  16 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h       |  13 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   3 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  30 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  15 +
+ drivers/gpu/drm/mediatek/mtk_gem.c            |  85 +++++-
+ drivers/gpu/drm/mediatek/mtk_gem.h            |   4 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |  11 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |   2 +
+ drivers/gpu/drm/mediatek/mtk_plane.c          |  25 ++
+ drivers/gpu/drm/mediatek/mtk_plane.h          |   2 +
+ include/uapi/drm/mediatek_drm.h               |   1 +
+ 14 files changed, 467 insertions(+), 16 deletions(-)
+
+--
+2.18.0
 
 
