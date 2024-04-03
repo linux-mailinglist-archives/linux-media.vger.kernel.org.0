@@ -1,154 +1,130 @@
-Return-Path: <linux-media+bounces-8477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EADB896574
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:09:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE63896614
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 09:20:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E89962846B6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 07:09:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57200285BC6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 07:20:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA7D54906;
-	Wed,  3 Apr 2024 07:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F93259B4A;
+	Wed,  3 Apr 2024 07:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Gvrh3iWa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1qg+8I9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527F554744;
-	Wed,  3 Apr 2024 07:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB34D133;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712128064; cv=none; b=fFZOd8WFbampASHZt8upvBRi1IXGfKKwvdzJe16BjMiQIbusYL08AaLbfo0KkL9i7F7iZXzKZTemtCRjsIjJqmWX24WJfjZHf38LqbQvHf/Lsx4NE6ENmZ7fUc3DesP26AYLnYsicxkp17Akqa/VLCZl8c5PkGysiuN6+jLozwk=
+	t=1712128827; cv=none; b=JBGhuDAR4Bx8juI4iQ+efe/z1ILTtsragkY/T8EGs87IW71saTzaMUflwTZQakXD9bOtWdF492rbYIfZ0xibWYFBhCXFakPRAZ9d0mKPSE9N2uLx6y+OpRGG8kLfGjZTpKeKqZLlfao6d7xjSyK7H37vYzMUS06wTr66W5wwv9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712128064; c=relaxed/simple;
-	bh=cLlT4mqLupS99QTm5ar5iofcvuefHY3z1LknhXp46uI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FkSrgaoLESmyQn8GrnJEK64RtoUtKsXZkBnc4WwS6eCdnaZd01lYDjuxvC/sJ/KDg5dcJci0Teu8b0ReZcdUHGbRyi5VHhEFCvuiGk6+TQyT9ucroPPaRXXwCnsDPu1/WnPKgzA0RIOqcpsKGs7NmK6rspvNHgEF5MWAlLw1OUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Gvrh3iWa; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: d9cc8424f18811ee935d6952f98a51a9-20240403
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=pT+mAS1Yst5bND9qW5seLF2kjpLuzM8HwxDsfPgehOI=;
-	b=Gvrh3iWaPUeoUFiObBUmivw+l9uqxdo7DZyidid1Ab9uLrMrgmfV62JgKHVzzz9PE+iDfSHRWC7JXNi1JUF4oj+zn/Y6hOImtDmOR9Gdd51qr5hp51dnG1iaZsSKtkPgWgNcGn0jy7osr4mUybyCVKHZ/859nk8FKjGgRsR/DKw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:e0545fd3-0966-495c-8611-a856000b5d3c,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:5e10a800-c26b-4159-a099-3b9d0558e447,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: d9cc8424f18811ee935d6952f98a51a9-20240403
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
-	(envelope-from <shawn.sung@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1980470507; Wed, 03 Apr 2024 15:07:36 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 3 Apr 2024 15:07:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 3 Apr 2024 15:07:34 +0800
-From: Shawn Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
-	<sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, Jason-JH.Lin <jason-jh.lin@mediatek.com>,
-	Hsiao Chien Sung <shawn.sung@mediatek.com>
-Subject: [PATCH v4 9/9] drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
-Date: Wed, 3 Apr 2024 15:07:32 +0800
-Message-ID: <20240403070732.22085-10-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240403070732.22085-1-shawn.sung@mediatek.com>
-References: <20240403070732.22085-1-shawn.sung@mediatek.com>
+	s=arc-20240116; t=1712128827; c=relaxed/simple;
+	bh=+ye0ANlJ3AJBgvzVY9w5v2SVeZwz8u+XeZZr7JXa8yQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=qwf/I29g+xyF2yR0210oJSAf2vXElfm2SG5PSWyhHvmUP8XMVjCpoB5ewgyuRI2JIzuR6de7RFuLvQ7A+GuX6Ki5NeGnLINgaSCi2qQdxwKi9sfidZBJCSaHOEKYV21GrE0OgWZaEcNmoOkbSMZa6EAnQiepxV6b0SvXx8N4dWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1qg+8I9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D27DC433F1;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712128826;
+	bh=+ye0ANlJ3AJBgvzVY9w5v2SVeZwz8u+XeZZr7JXa8yQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=D1qg+8I9Meq1gWuzmyCbX4jtvHi/dBLn4GGYDCLGGaZs5xp4Auq/NFEyxa9Ph1o1Y
+	 qWhiXcwxf9NG6v6l07IIjI04GUqEipwFVgZEx32tIE7ukfO5Rz8brl4g1jGgb4hgRL
+	 BfdtMRJlaaVKkJcJVJ1gTiNSOI/3YheE6wOjqa8WJWHKtbKdEktsWcAn6BRvtquMVH
+	 wXOsnXakNmxTnsw9IHakAhf0Rhms220TNXHv3673cZaVCMJWRFaP0Uv48mizJD97va
+	 VLz/8a+/ebY1NU1scfuRGM8QriPQtqgMJ9iHLCQNfYjYEqIisdiiEF/P2GoHLWAY6a
+	 VYjN8k6uUcFUw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C2A0C43168;
+	Wed,  3 Apr 2024 07:20:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--9.712500-8.000000
-X-TMASE-MatchedRID: YXgS1C6OPWzob/hVdrvnXjPDkSOzeDWW+eBf9ovw8I27eXIF2U7rKy+8
-	OxujShyxE/UmhJjBrzZC3mgca9yt8kttpN+KVVd9syNb+yeIRArvJY9pBzgg1AdskglgNB06Wrv
-	rtnfQ0ritv1Ljw57Roa8VyW/hymUcP+blzYfeoH5DiyuN5FvFNkJfxXUWJFGS31GU/N5W5BBGrI
-	LfHhGdpOCvXbSo8NyzsBVstGxQO24YBLhRVmu+NuG5dRZCgxC3NACnndLvXwdnuv8pVwMzSaPFj
-	JEFr+olwXCBO/GKkVqOhzOa6g8KrZ6dUK0lcRRnJjV8ViTOjGoY/N7Roz/q3K0gT4tKfSqMWMHU
-	JHy0CyZDDKa3G4nrLQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--9.712500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	CBDB9CEA1B0D281A6C149F54596BA3FCB12C109C78A272B3F183B48BF64A7A792000:8
-X-MTK: N
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/18] platform/chrome: provide ID table for avoiding fallback
+ match
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171212882630.6261.5572341363969592219.git-patchwork-notify@kernel.org>
+Date: Wed, 03 Apr 2024 07:20:26 +0000
+References: <20240329075630.2069474-1-tzungbi@kernel.org>
+In-Reply-To: <20240329075630.2069474-1-tzungbi@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, groeck@chromium.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, sre@kernel.org,
+ alexandre.belloni@bootlin.com, chrome-platform@lists.linux.dev,
+ pmalani@chromium.org, linux-gpio@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, krzk@kernel.org
 
-From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Hello:
 
-Add cmdq_insert_backup_cookie to append some commands before EOC:
-1. Get GCE HW thread execute count from the GCE HW register.
-2. Add 1 to the execute count and then store into a shared memory.
-3. Set a software event siganl as secure irq to GCE HW.
+This series was applied to chrome-platform/linux.git (for-kernelci)
+by Tzung-Bi Shih <tzungbi@kernel.org>:
 
-Since the value of execute count + 1 is stored in a shared memory,
-CMDQ driver in the normal world can use it to handle task done in irq
-handler and CMDQ driver in the secure world will use it to schedule
-the task slot for each secure thread.
+On Fri, 29 Mar 2024 15:56:12 +0800 you wrote:
+> Inspired by [1].  Turn all MODULE_ALIAS() in ChromeOS EC platform drivers into
+> proper platform_device_id table and MODULE_DEVICE_TABLE().
+> 
+> The series is basically looking for drivers from:
+> - `struct mfd_cell` in drivers/mfd/cros_ec_dev.c.
+> - grep -R MODULE_ALIAS drivers/platform/chrome/.
+> 
+> [...]
 
-The reason why we use shared memory to record execute count here is:
-1. normal world can not access the register of secure GCE thread in
-normal world.
-2. calling TEE invoke cmd in the irq handler would be expensive and not
-stable. I've tested that a single TEE invloke cmd to CMDQ PTA costs
-19~53 us. Maybe it would cost more during the scenario that needs more
-CPU loading.
+Here is the summary with links:
+  - [01/18] media: platform: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [02/18] gpio: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [03/18] rtc: cros-ec: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [04/18] platform/chrome: cros_ec_sensorhub: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [05/18] power: supply: cros_usbpd: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [06/18] platform/chrome: cros_usbpd_logger: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [07/18] platform/chrome: cros_usbpd_notify: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [08/18] platform/chrome: cros_ec_chardev: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [09/18] platform/chrome: cros_ec_debugfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [10/18] platform/chrome: cros_ec_sysfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [11/18] power: supply: cros_pchg: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [12/18] platform/chrome: cros_ec_lightbar: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [13/18] platform/chrome: cros_ec_vbc: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [14/18] platform/chrome: cros_kbd_led_backlight: provide ID table for avoiding fallback match
+    https://git.kernel.org/chrome-platform/c/d91ca83599cd
+  - [15/18] platform/chrome: wilco_ec: telemetry: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [16/18] platform/chrome: wilco_ec: debugfs: provide ID table for avoiding fallback match
+    (no matching commit)
+  - [17/18] platform/chrome: wilco_ec: event: remove redundant MODULE_ALIAS
+    (no matching commit)
+  - [18/18] platform/chrome/wilco_ec: core: provide ID table for avoiding fallback match
+    (no matching commit)
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_crtc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index a6ba9965500f0..2fb52928a3055 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -186,7 +186,7 @@ void mtk_crtc_disable_secure_state(struct drm_crtc *crtc)
- 		sec_scn = CMDQ_SEC_SCNR_SUB_DISP_DISABLE;
- 
- 	cmdq_sec_pkt_set_data(&mtk_crtc->sec_cmdq_handle, sec_engine, sec_engine, sec_scn);
--
-+	cmdq_sec_insert_backup_cookie(&mtk_crtc->sec_cmdq_handle);
- 	cmdq_pkt_finalize(&mtk_crtc->sec_cmdq_handle);
- 	dma_sync_single_for_device(mtk_crtc->sec_cmdq_client.chan->mbox->dev,
- 				   mtk_crtc->sec_cmdq_handle.pa_base,
-@@ -810,6 +810,8 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-+		if (cmdq_handle->sec_data)
-+			cmdq_sec_insert_backup_cookie(cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
- 		dma_sync_single_for_device(cmdq_client.chan->mbox->dev,
- 					   cmdq_handle->pa_base,
+You are awesome, thank you!
 -- 
-2.18.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
