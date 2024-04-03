@@ -1,117 +1,104 @@
-Return-Path: <linux-media+bounces-8530-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8531-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD4689720F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:13:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0601A8972AA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:33:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB9F228D8CF
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 14:13:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 377DA1C2658F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 14:33:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E854A149003;
-	Wed,  3 Apr 2024 14:12:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 471C9487B6;
+	Wed,  3 Apr 2024 14:33:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="nKkVnfxX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpTFLIFg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98E1148308
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 14:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594343611A;
+	Wed,  3 Apr 2024 14:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712153578; cv=none; b=G0/hG0Qwr3oB020TY8odCuvPXZbKc7KXBvP4rDh9H7ZxBXuzLiHfDuLDjPz00UTyJXDGE93VA6vRIQfxwuhle66DE8JYQWyoKlS2AYukQuDQsQUNFGuFuMlZ8up8Si9a2e0d9MMULtfzSNJO2hP84521/RufMNzlUgs1s46ezTU=
+	t=1712154781; cv=none; b=InbU8P8yeVaIrUtaBGH6148u4IuFUGe9tVY/ezefcY3kM+FhOthCZ3NoXl8qRe4HfGnEQYXYvMgaa6YQepeddmtFLnT9rqjFtsER3J7EYOZEBn2cT6gg7DcG7pkWuL4PGkMIcZsiH+olgEU3m6cMCzLkvz3h1mavrYdBOAA4kW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712153578; c=relaxed/simple;
-	bh=GGh0Z3ydRDAXIKFczbiFMwEkwvZNBi5GQ4PvXOPBujw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mfGqgnZ+rjL32+5x/Q9HU7Eg0/XpV9RqTdqnGNna+czodRVKllR8KqEa2mBHtw9f/6XZ4veb/bNMpfUIHnT2fzoqnY1kgG8aEOLoCXlgkKTtFFDS8IWAVD++4hFeICJsTjpMV3k7shY1K/pmLX5VmKFcWDDuOJjkP5PFC/HuPG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=nKkVnfxX; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 433BKLxh021881;
-	Wed, 3 Apr 2024 16:12:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=JAQUs95NgLlIyYWIYRoa+F8yB3FE/wpul4yf0LLhsJE=; b=nK
-	kVnfxXoGTtWVuS/bFfTUI0NUWpz/cArckKaUov8wAPtiAMtx6+iXudSBt0YmgZrK
-	0ac5xI/Nx5A5jgys+Lcr4nxtH2fPTq83Io/+preNVfpNx2LJ5ay2HTU8v8x1Bu+9
-	GAYhgSNoUIVOaiOcQ/E9J09rZxkYyfDBTLzfHTHbl55kkR9zkrW/yFRC3r1SQ4HO
-	gUbDVbnkg+9mf6OTwxih+IrMCr7qIL71sNV2GhLIaWC7zxTxcStQMCk0gYuXLUnr
-	IoRPG0WcHeA1RZZwYlyITdE6B6mPpKMhBrx3HSClJd3YD4wE14RekGDgfH1sRroG
-	JyBSbkVdNPhUzqogTOwA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3x6w657hus-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Apr 2024 16:12:41 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 547654002D;
-	Wed,  3 Apr 2024 16:12:37 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2C0D121D3C8;
-	Wed,  3 Apr 2024 16:12:15 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 3 Apr
- 2024 16:12:14 +0200
-Message-ID: <74ce0bbc-7516-414f-aca6-51b041049415@foss.st.com>
-Date: Wed, 3 Apr 2024 16:12:14 +0200
+	s=arc-20240116; t=1712154781; c=relaxed/simple;
+	bh=OUJHSpU0stUn/PZ2Ed30p8qw/Z2Mp8wLrkvOjaU9UMI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JAPIdlG+JRe176CUUboKYu8PtOBjjkFtWYZaN4Wk0InK5c8m+ziuJozPEOH6XnpaFwFDysA2JMA8shML7ct7TQSQ2e+wS//Hqk4vrPMnny8EdSeZnK4BGwblgy3rgXI8uPK6GRU7/UOmxh/jiqB4pcym8j1bN+t1tnNgUFhX/pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpTFLIFg; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2a26243d9c4so395192a91.0;
+        Wed, 03 Apr 2024 07:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712154780; x=1712759580; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OUJHSpU0stUn/PZ2Ed30p8qw/Z2Mp8wLrkvOjaU9UMI=;
+        b=FpTFLIFg7VTkEBEgBgUjcS0HuObawWTLKfBxLY0PnuN+RWj7jtG3rPya1ztVxoSpJv
+         gS6rYvoKuSPQLabrTv59Ln/3FH79XD8AweAuFooWEpvrjy53PboM/PvxmHGzJreAF/Yq
+         qXVnh57yFV0zBYtGnlhasvEfCqMmQSfwyyR6jvkzP9vfS3VshQjimVD6W8dx01sjSOYK
+         Y/OfY4vlzAWMpsg+a5NAglGMaUlowwndp6B2EQ3syFQrBaSCOH1aDjqK3Vxn79jrF1EP
+         tYp0ogGVZh23cFQaHnsVRSRxRfIp/Sjw16piNlclSJVvwF7OoEZQ1YNVibaUhnLRH4np
+         n9vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712154780; x=1712759580;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OUJHSpU0stUn/PZ2Ed30p8qw/Z2Mp8wLrkvOjaU9UMI=;
+        b=STdsjsGobB7FLZ1mYjwvnrtPkjkpvpaYWoKbdm03jf0e08qljCMD7UmZIbeGCMCBhF
+         Eh3MEaEpVcFKrRBi8ixwwvo08IzllHfe79PKsjKaOj5MVQQU/k1szJ+d8g/emj+YqGS9
+         w0WvLBz2j/a+bvseB3HVmWASDqHxiakNITcXr0lHaZZL9AfneyRbXolfKBGZ3SZxIP4x
+         Re9lCs+Y8tiwNxYCjo8+mZDX1zr8zDFTtUAajhyckj4CeJNzP6eu/Bgm0koOtbvZU9NB
+         hhjTwuQXrd5lYLrAgW0VvahoLgTeTh+8pFVIGA8VRC5BwfXOuNXK6/DLYIX/wpHOdXn0
+         qaOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgXmLjwB6rzHPKaiKov8iKdjb0MezyTL4dGAZ4DDhmlOEj7hM9ofS6Bz6lsXz6HAnLfFPgpTMIcq4xmdvlOrCDIQuFkn8aXIg2hrVa+Wr1r38i9ZbRqQ4yL7/I1WxW1hC1cbChwbRK
+X-Gm-Message-State: AOJu0YwcCZJiO16yn/AdEU6vbd8OZyoe64l5ksXwpYE7hNbHg8oQoaa7
+	e9jhqv09syFd5k8Dro9UvKaF1iX0pAw0otxau3r+KmIhVjZc7Ln/wJCWGl3dhih5feV9MSJ2Cyh
+	CcueQvOEZZATqrN4Oet2z8eUDcro=
+X-Google-Smtp-Source: AGHT+IHWD11ulIJ1gHLJMETQReusUkHa/La2cTxwumjKPDyB4FsMTVQjn746D+1Obn8syZMkbkr5xY8NreFTIJu3mRY=
+X-Received: by 2002:a17:90b:124a:b0:2a2:666f:966d with SMTP id
+ gx10-20020a17090b124a00b002a2666f966dmr4091940pjb.1.1712154779670; Wed, 03
+ Apr 2024 07:32:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] media: i2c: st-vgxy61: Switch to
- {enable,disable}_streams
+References: <20240326231033.2048193-1-festevam@gmail.com> <ZgPtolH796HER4cP@kekkonen.localdomain>
+ <CAOMZO5AYjNPWZfy_dN12K9JNwWaWThpMs0W-FzETF5k8fobgeg@mail.gmail.com>
+ <ZgSeACFfBAmOPXdt@kekkonen.localdomain> <CAOMZO5BGYhnhOrBRS9zBeYYJFHXnQkqZCAV2wGtdpmiA3HZTqA@mail.gmail.com>
+ <ZgvCJ5F6KlhVGRPC@kekkonen.localdomain>
+In-Reply-To: <ZgvCJ5F6KlhVGRPC@kekkonen.localdomain>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 3 Apr 2024 11:32:47 -0300
+Message-ID: <CAOMZO5Ck5W3M_eWFqvQAtPcUUQDyF1fwvZ_Pi9vHgiPp7nsEXA@mail.gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: ovti,ov2680: Document clock/data-lanes
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Julien Massot <julien.massot@collabora.com>, <mchehab@kernel.org>,
-        <sylvain.petinot@foss.st.com>, <linux-media@vger.kernel.org>,
-        <kernel@collabora.com>
-References: <20240315085158.1213159-1-julien.massot@collabora.com>
- <20240315085158.1213159-4-julien.massot@collabora.com>
- <b659efe5-6dbc-4145-b9e8-2da902ab51b3@foss.st.com>
- <Zg1N3mURA-hI3gzR@kekkonen.localdomain>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <Zg1N3mURA-hI3gzR@kekkonen.localdomain>
+Cc: rmfrfs@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	Fabio Estevam <festevam@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-03_13,2024-04-03_01,2023-05-22_02
+Content-Transfer-Encoding: quoted-printable
 
+Hi Sakari,
 
+On Tue, Apr 2, 2024 at 5:30=E2=80=AFAM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 
-On 4/3/24 14:38, Sakari Ailus wrote:
-> On Wed, Apr 03, 2024 at 02:26:32PM +0200, Benjamin Mugnier wrote:
->>> @@ -1188,20 +1188,35 @@ static int vgxy61_stream_disable(struct vgxy61_dev *sensor)
->>>  	return ret;
->>>  }
->>>  
->>> -static int vgxy61_s_stream(struct v4l2_subdev *sd, int enable)
->>> +static int vgxy61_enable_streams(struct v4l2_subdev *sd,
->>> +				 struct v4l2_subdev_state *state, u32 pad,
->>> +				 u64 streams_mask)
->>>  {
->>
->> Should we also check that 'pad == 0' ? Or is it always so ?
-> 
-> If the number of pads in the sub-device is 1, then the pad is always 0
-> here: this is checked in the framework.
-> 
+> If it's a problem with the driver, you should fix the driver instead of
+> working around it in DT. Just remove the check.
 
-Perfect. Thank you for the clarification.
+Makes sense. I will send a driver patch to remove the check.
 
--- 
-Regards,
+I will wait for my ov2680 patches to be applied first and then I will
+submit an additional one.
 
-Benjamin
+Thanks
 
