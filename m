@@ -1,147 +1,104 @@
-Return-Path: <linux-media+bounces-8485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B15896881
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:26:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5329D8968AF
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:31:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7E731C220DF
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 08:26:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E73A288F1F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 08:31:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0566D1A3;
-	Wed,  3 Apr 2024 08:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6A76BFD5;
+	Wed,  3 Apr 2024 08:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tpsTaQsf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LkxXj4AB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F185FB85
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 08:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A40A5C82;
+	Wed,  3 Apr 2024 08:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712132228; cv=none; b=s8bEn+3PaX6hbo2Nt3jjgX+EEhjTQdnzoEjvyfdyZRFfBIOyJAfH2jvkt2/kBjlvY6MxwD36F8UehGx0W+/JQ4YekASPjQhcP3bg/uB7VOI+OpBeZUCooPmnjyP+jKFGHA3JfPBXqGfwGe8hEbD9vQxpzG10lXb7GB+Yi7n6wEI=
+	t=1712133030; cv=none; b=LPEjyNBnIyJGrgFu2j7lDoqAewuJc2wPwEXQE0NxDEFUZNGlXYe9CBPgSFuUazJS2lCdJmUjGEhJcyRbzguKFDGVbYwtI7XF6DjKT+vSnu3Oi/wd5BlnYU7yDkuaOrxd8vdUXdovohLi7Inmmm67H6eelvnqR8qgNCfFcBr6ZmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712132228; c=relaxed/simple;
-	bh=P5H5yxAQy8eZaZ8gX4xLN3+4xkla09JA1QWQ8WYZ68c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uFeP/SPEVXzKcb0wPW8Zrz59JJ41+Yuht50A4MkQliGe19SrXbmOnv73C9F7Iqcey5fZWlA5Wu+B8c12kTTV4K5kmvUSagQZu8QQ/CIVUhIbQU12u1fR5uUOnVZ+a3L6q0ZCeFMiQVe8PGTFkSP3CZnJvQ4PsXCb4mahaAUoL7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tpsTaQsf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2934B53;
-	Wed,  3 Apr 2024 10:16:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712132185;
-	bh=P5H5yxAQy8eZaZ8gX4xLN3+4xkla09JA1QWQ8WYZ68c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=tpsTaQsf67R7jdMj3IV07MyrMgF00SldnDATt0PfrUUMvWwipbq6zmbQEHfi60XtL
-	 EvsBkT1eZLrqmAYbI6m2JR8l5w83htUDYb5fW1tqvB8aku63H1v+hFX7QiwLeAgAIy
-	 oaNqghg7qnXYd5LNWrcsrSYbGCuUrDKklPMjrV2A=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 03 Apr 2024 11:16:29 +0300
-Subject: [PATCH v4l-utils 2/2] v4l2-compliance: Fix streams use in
- testSubDevEnumFrameSize()
+	s=arc-20240116; t=1712133030; c=relaxed/simple;
+	bh=kjqVQ6E3LGz0GgJpNmzzq9iKyJa7oFl6VehmuIK/HtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZeE9t+zCPwp4OI4eV3/KwUqsc13i3m3yJJiwNg4Uyi8VPkBIwJwke1okcj/5Xw4VpBtVOk0XNMbGNmnEo9wR91hqSMWySii9f+Qr07XPqcIj+PkufDj9WUWfsf1KAEHP55NJolQ4ZX9EWnwKo6DeSP2S3yzvX6xwEIhsvXX4L40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LkxXj4AB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1885CC433C7;
+	Wed,  3 Apr 2024 08:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712133029;
+	bh=kjqVQ6E3LGz0GgJpNmzzq9iKyJa7oFl6VehmuIK/HtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LkxXj4AB3ybXO0LR+NGpVlBB+kDGFlRF72bGs9vkfP4HGGLZxEwOxD9U6F28cjqOY
+	 RiNKp8BDBjQ80n8XEuYG8q3O7C2IZQT44SBdGWl7KrE4bHgFPIGdbLCoVW86m9sO0P
+	 aVnl3aDbCsex5TWqud/xBjGBs966IxfgtVsKL3dWTjv1btjykFVjr2jAZsg4dDw16x
+	 GNver1nnlp/7OTsB0ipqRWidTs4Jsz6NDxVRRwiRdygxd+zVARug5B617RefpVbP0t
+	 6IWSRkPdykyYh1lCk6yjDLqNOO7DV8b42TYN0QHcuCWv2lzbNovY9qkZrh/zfAr8kV
+	 s6scXTdj8lqAw==
+Date: Wed, 3 Apr 2024 11:30:25 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
+	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
+	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v0 01/14] IB/hfi1, IB/qib: Make I2C terminology more
+ inclusive
+Message-ID: <20240403083025.GT11187@unreal>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <20240329170038.3863998-2-eahariha@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-v4l2-compliance-streams-fixes-v1-2-a1c383cc2139@ideasonboard.com>
-References: <20240403-v4l2-compliance-streams-fixes-v1-0-a1c383cc2139@ideasonboard.com>
-In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v1-0-a1c383cc2139@ideasonboard.com>
-To: linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2427;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=P5H5yxAQy8eZaZ8gX4xLN3+4xkla09JA1QWQ8WYZ68c=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmDRB864RJvJ1ONva+56uU1vFldn5u/8jJiDsxQ
- nLPnfi1MoGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZg0QfAAKCRD6PaqMvJYe
- 9ZA/EACuZdMDSHsxExWgdpES6FU6mOwe2idvJIHgwujt10a1LNeh8Y0X/BBzbo372yqfSdSIjkN
- WzPVhYws8JTWDZWIjkVeFngfDfAH/Zs6a4eJ9W5wo2MvGFiCT7wDS423TmX18NzJpARgZ8PVcZ0
- sArxUcgMM/FfBea+hvQpDhdfFbzHJyxXT+Dh+aBORU2PLMckO6LAXSDOPzLmY5DA6hRVuqc1Lll
- CobCDnI9bJTjwmplO59TcUc6B6+VEZj6qIbOC94SmF5j95EJWZBZcM8ZnWx2UVzWUoucWtZWOvO
- KpL9/weMH5rvj6uXD4KjN7gxh1+XcIa8qW8h++pQLItVxZGIM7B8qJiLo/Rckhy1OUXQoIWFqgq
- VnYNlH/PMxa38RfO93+prxtXEs757MN3PzSJ6aAzxNLeVUiD5ziYeOK2lTQAoksam8FLrpGqAEa
- ldSHfVX29/3JOolp/5rUxwPUtaSMemb5qFyr6U/lKVKsHXtMGXjdIJZwD4PVHMCaDVy2XpUKT6d
- oimL0LK2VL607DAPxTKwGBlCT/S2+Ubu/tFLfNlUk+fsc4jV2oh1oNJAxNpNL8Md2P8ccP1QNWD
- eDksPAwt6VUhUfLJj9Zto2fqugUMiFEgcRzAjULuHEps0J5rQfpDR67fYMc2NBz7ZtAyf6B3eu+
- b549Q7Np1fl/fcQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240329170038.3863998-2-eahariha@linux.microsoft.com>
 
-We don't pass the stream number to testSubDevEnumFrameSize(), which
-instead always uses stream number 0. This causes failures when the
-subdevice uses streams.
+On Fri, Mar 29, 2024 at 05:00:25PM +0000, Easwar Hariharan wrote:
+> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+> with more appropriate terms. Inspired by and following on to Wolfram's series
+> to fix drivers/i2c[1], fix the terminology where I had a role to play, now that
+> the approved verbiage exists in the specification.
+> 
+> Compile tested, no functionality changes intended
+> 
+> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  drivers/infiniband/hw/hfi1/chip.c           |  6 ++--
+>  drivers/infiniband/hw/hfi1/chip.h           |  2 +-
+>  drivers/infiniband/hw/hfi1/chip_registers.h |  2 +-
+>  drivers/infiniband/hw/hfi1/file_ops.c       |  2 +-
+>  drivers/infiniband/hw/hfi1/firmware.c       | 22 ++++++-------
+>  drivers/infiniband/hw/hfi1/pcie.c           |  2 +-
+>  drivers/infiniband/hw/hfi1/qsfp.c           | 36 ++++++++++-----------
+>  drivers/infiniband/hw/hfi1/user_exp_rcv.c   |  2 +-
+>  drivers/infiniband/hw/qib/qib_twsi.c        |  6 ++--
+>  9 files changed, 40 insertions(+), 40 deletions(-)
 
-Fix this by adding stream parameter, and passing the correct stream ID.
+hfi1 and qib work perfectly fine with the current terminology. There is
+no need to change old code just for the sake of change.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- utils/v4l2-compliance/v4l2-test-subdevs.cpp | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Let's drop this patch.
 
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index fe7a9e1d..b2667a3b 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -121,7 +121,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- }
- 
- static int testSubDevEnumFrameSize(struct node *node, unsigned which,
--				   unsigned pad, unsigned code)
-+				   unsigned pad, unsigned stream, unsigned code)
- {
- 	struct v4l2_subdev_frame_size_enum fse;
- 	unsigned num_sizes;
-@@ -130,7 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
--	fse.stream = 0;
-+	fse.stream = stream;
- 	fse.code = code;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
- 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
-@@ -140,7 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 		memset(&fie, 0, sizeof(fie));
- 		fie.which = which;
- 		fie.pad = pad;
--		fie.stream = 0;
-+		fie.stream = stream;
- 		fie.code = code;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -156,7 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0xff, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
--	fse.stream = 0;
-+	fse.stream = stream;
- 	fse.code = code;
- 	fse.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
-@@ -266,7 +266,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
- 		fail_on_test(mbus_core_enum.stream != stream);
- 		fail_on_test(mbus_core_enum.index != i);
- 
--		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
-+		ret = testSubDevEnumFrameSize(node, which, pad, stream, mbus_core_enum.code);
- 		fail_on_test(ret && ret != ENOTTY);
- 	}
- 	return 0;
-
--- 
-2.34.1
-
+Thanks
 
