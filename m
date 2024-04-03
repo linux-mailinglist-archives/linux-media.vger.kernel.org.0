@@ -1,118 +1,87 @@
-Return-Path: <linux-media+bounces-8566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BEC897588
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:45:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD6E89759F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:52:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C337828D94F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:44:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09E311C25C1C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73E5E152DE8;
-	Wed,  3 Apr 2024 16:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1ED15218F;
+	Wed,  3 Apr 2024 16:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="enc6td2/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQJ5OWNa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8815514C58A;
-	Wed,  3 Apr 2024 16:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0BA1B7F4;
+	Wed,  3 Apr 2024 16:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712162667; cv=none; b=nhTNRSV7xxoJ/IvNkGllDjOJJWWzfecBBLKHXLyhOv+2UEgHuk2w7eCc90A+81hdWQOI+l8SbpiiVGrzGE3GzMz82ed/+kDpUTOyMHwHSqOlIfYr3/oz657PqDyO7gHhsJxEeEQbJNLMCbae8QWe9trJgoKp1WsL0FcB3xSkS00=
+	t=1712163118; cv=none; b=iqiVuU2eWjLsgD7cc0fm8BZCpl/H1fD/6cTym/ZrrhjroHDnc8NMHxeu/8d/Qr+NAURJjnhOEFsXgoY5Ii04T02zxfdfDelNr0llbAGf1Zy9pE+likuzQPFF6QUM6cUYsCjo6v7MAVuuK9o0CK1BBP8Y/TFsC58afQaYkwINuBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712162667; c=relaxed/simple;
-	bh=E/xU54rEeo/oDDTNeLyTGcgPNTZZ5c2Rcpkp/VoXpog=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pD5TQx9Pm3ronVSBxEpVwlifgVb8FO2guqkwjLjq8K6g25kobPztvPB0ueCqdz/+WnwhiICvWRF1GC6QusT0fggjJWO0PJwNhPWyA+oWqFv12mQXjgFiaV/YOX3n2ub6uxwu9hC8CU4d5kJaZrXuKbVwZG0EN/kJK7WYDghhKv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=enc6td2/; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.64.216.231] (unknown [20.29.225.195])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DEC6420E8CB1;
-	Wed,  3 Apr 2024 09:44:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DEC6420E8CB1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1712162666;
-	bh=JXwsd2AxoIuTbqYYBsm2eaH2T3RMwYhW+EuWf51ajaI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=enc6td2/9wYk/5AJ75GJ+d2KStC4HCCxos5X3NVTZDD2/oIurKS5e5aSfxG20NTAn
-	 i6QoaGybHsOcc9F8ukHIPO521Uu8BoKDrrjEMr1X1WvCtk0DqcVkd5bYcJVQCFeQeI
-	 efLmLz3IHfJYxowLOTc8KrIggtvkr42zcNpYJ/Ys=
-Message-ID: <2d2a22a5-25cf-4b15-904e-7928a92d6ff5@linux.microsoft.com>
-Date: Wed, 3 Apr 2024 09:44:24 -0700
+	s=arc-20240116; t=1712163118; c=relaxed/simple;
+	bh=749Ls6gqomWInLum9yLluZbwwLmTjtZOhHIjT4Dy0f4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4whw2loj4/KhCVXOWNPBMSKKZtRnxwGkLqQ+43lvursUWCHpeat6dD3HvZIEQcEwMQDGndDpGd1FhgeYEVmKcAOVPuUHzSBAzPs1b08NNiIoFZHVrotbxAfy2ZKjtIB6Ls6z82I80/Jv/HvryRgG8a6KnDbIJITG4VPxmoo81M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQJ5OWNa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2645CC433C7;
+	Wed,  3 Apr 2024 16:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712163118;
+	bh=749Ls6gqomWInLum9yLluZbwwLmTjtZOhHIjT4Dy0f4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jQJ5OWNaKJvaXP/+dqMyDVNnVnsKxCcWBknitKC2Na4jLl3JKXu87rU5eLLu1uyKs
+	 nWk1BhE0BxPJTelKzy0NealcVFKi5pY7cwBECE+3FfRr7ZadS1uCb7kzgvwvHPyZcZ
+	 wUb4wAhpC+wtdXoStQ/MRSSnnJBepPeCDDjFYWHkfso+bqGUF860xeB8IK1qBTL7Pn
+	 CRxBmBaG7Az0BLsKHjq3MQNFU1Y01g1utKXbzYHnYS7Oa7Jo0rj5hhQqv9bt7xTew3
+	 0Cwf6iXbVP9iMmk7vg4QTNswbn1O7H64PT+E7q6b2T4aAsFqDkvLba3LrtR13rAML5
+	 KqFfQd+SKIzoQ==
+Date: Wed, 3 Apr 2024 11:51:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Fabio Estevam <festevam@denx.de>, krzysztof.kozlowski+dt@linaro.org,
+	laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, hansg@kernel.org,
+	sakari.ailus@linux.intel.com, conor+dt@kernel.org, rmfrfs@gmail.com
+Subject: Re: [PATCH v4 1/2] media: dt-bindings: ovti,ov2680: Fix the power
+ supply names
+Message-ID: <171216311346.3977852.12166569871249018805.robh@kernel.org>
+References: <20240402174028.205434-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 01/14] IB/hfi1, IB/qib: Make I2C terminology more
- inclusive
-To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Leon Romanovsky <leon@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-2-eahariha@linux.microsoft.com>
- <20240403083025.GT11187@unreal>
- <0214214a-73c4-46b4-a099-189036954aa1@cornelisnetworks.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <0214214a-73c4-46b4-a099-189036954aa1@cornelisnetworks.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240402174028.205434-1-festevam@gmail.com>
 
-On 4/3/2024 8:54 AM, Dennis Dalessandro wrote:
+
+On Tue, 02 Apr 2024 14:40:27 -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
 > 
-> On 4/3/24 4:30 AM, Leon Romanovsky wrote:
->> On Fri, Mar 29, 2024 at 05:00:25PM +0000, Easwar Hariharan wrote:
->>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->>> with more appropriate terms. Inspired by and following on to Wolfram's series
->>> to fix drivers/i2c[1], fix the terminology where I had a role to play, now that
->>> the approved verbiage exists in the specification.
->>>
->>> Compile tested, no functionality changes intended
->>>
->>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>>
->>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->>> ---
->>>  drivers/infiniband/hw/hfi1/chip.c           |  6 ++--
->>>  drivers/infiniband/hw/hfi1/chip.h           |  2 +-
->>>  drivers/infiniband/hw/hfi1/chip_registers.h |  2 +-
->>>  drivers/infiniband/hw/hfi1/file_ops.c       |  2 +-
->>>  drivers/infiniband/hw/hfi1/firmware.c       | 22 ++++++-------
->>>  drivers/infiniband/hw/hfi1/pcie.c           |  2 +-
->>>  drivers/infiniband/hw/hfi1/qsfp.c           | 36 ++++++++++-----------
->>>  drivers/infiniband/hw/hfi1/user_exp_rcv.c   |  2 +-
->>>  drivers/infiniband/hw/qib/qib_twsi.c        |  6 ++--
->>>  9 files changed, 40 insertions(+), 40 deletions(-)
->>
->> hfi1 and qib work perfectly fine with the current terminology. There is
->> no need to change old code just for the sake of change.
->>
->> Let's drop this patch.
+> The original .txt bindings had the OV2680 power supply names correct,
+> but the transition from .txt to yaml spelled them incorrectly.
 > 
-> Agreed.
+> Fix the OV2680 power supply names as the original .txt bindings
+> as these are the names used by the OV2680 driver and in devicetree.
+> 
+> Fixes: 57226cd8c8bf ("media: dt-bindings: ov2680: convert bindings to yaml")
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+> Changes since v3:
+> - Newly introduced.
+> 
+>  .../bindings/media/i2c/ovti,ov2680.yaml        | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
 
-Will drop in v1.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Thanks,
-Easwar
 
