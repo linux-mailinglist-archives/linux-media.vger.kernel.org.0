@@ -1,133 +1,228 @@
-Return-Path: <linux-media+bounces-8560-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857F28974F6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:15:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 752D6897507
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 18:19:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B70BF1C22DA4
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:15:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB4F7B262C3
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 16:19:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3599314EC7A;
-	Wed,  3 Apr 2024 16:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 378C814F11D;
+	Wed,  3 Apr 2024 16:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+LnZsIa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkO0cMBu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795A914D433;
-	Wed,  3 Apr 2024 16:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652DE14EC62;
+	Wed,  3 Apr 2024 16:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712160895; cv=none; b=CMeKmWubor/TFTUeyQPhTTTlSupRw9TRY9ns68CLg/Lh6yAB7+buTFaqfld1N9Gj7deCLCMNMLjQq4UoWm5T8QQlEJCjMHgOeit1u9DDEqq35HW/p1tG5H0BbXnlqOJPUDvDtXP36f24AWRsPcXU25cQKfgUAyyOg5wxNCb4pIY=
+	t=1712161140; cv=none; b=JEDBj8gjDe52hGsMfuf/Z96M5pSWqUqBffFMtiRRk6/o5BQFM/GKYnqIIlSpazzkgiYnJmgtN7OHSUTpBD3FRO/ZVdZ6JoV6If0VH4XpfOeTTcZyWawXDmpQXlRztwIAMvwQw1FoGsbhd4Y3uh5W46SQxqx35YunohG9np0nKAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712160895; c=relaxed/simple;
-	bh=Dw4TMcgMCYmhY8DkUmtF9XK+klTwM7RxE/GPJ5ycJF0=;
+	s=arc-20240116; t=1712161140; c=relaxed/simple;
+	bh=SGfPVU8V5igH8YWHdvcYC/PRY8VGmklyP1mTAt5HW2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t2ku/qIfqaKY1E6dMhrNgD/EYFks25O20WFI1dIAPUWL4D4/hidTC5E4m2fsYTbxcnngYG/qeerJQ0vh2J5pmbBRCfAeAx9uSCtqP8uXvL0APVvfaTCGzjN3ceFq98313xahJazfYI61xgfcbC7DvLc17sIcXTeOjzU5BpD3DjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+LnZsIa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B015DC433F1;
-	Wed,  3 Apr 2024 16:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712160895;
-	bh=Dw4TMcgMCYmhY8DkUmtF9XK+klTwM7RxE/GPJ5ycJF0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q+LnZsIa2JGGoV12cX3ZMFQhd29l75NesZeX4wzM5ZgtWKEXLDNztOOzWr/GFhev1
-	 tE1H+SaIbAdpnugrYIgh6WzbcOp6E++9hG5TeVmT08B589T+ncsXxX68JxxZ80XJIT
-	 qAym+sr7rBOxZWGcWmPQPZXd1+F+lodeNob5iXBbn2aLh3XHAY/Mc6nLnnN9RSmFWD
-	 dSocGzn7mou1RMW/gV5GCp3DPFDxCi4EO5Y9QU50YdMEu4XHD4Lll9+xBJBA4jurGO
-	 ocpL8tD168CUWyUqz7acBtK5wIm2oe/mOcVoypANl6/J4V6Fk0Q6RJpl0wVl8HiSA+
-	 fdh54vM0/5inA==
-Date: Wed, 3 Apr 2024 17:14:49 +0100
-From: Conor Dooley <conor@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=W60BM0kNe+YpzFev3Hawob8TkOZPLNsepuv9NAn4OuUaGUbRTQCin1ZSlALxON48FaQSd+Goad1yEsH33TUhLRsaq94DnH57z1nMWdgQGAKuy39+m9Sr4q8oiivwFT3PXFqK2Yr9E+dQPvPmlEe6lWY4HtxY9IazQ8ITz0eXiTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SkO0cMBu; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712161139; x=1743697139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SGfPVU8V5igH8YWHdvcYC/PRY8VGmklyP1mTAt5HW2w=;
+  b=SkO0cMBu5yiJgvIV5m4piEuc6hdhcCs0Y5N85kgoKtDTldvq7sTdZEF0
+   Iqo/cXflcSx8KdN0EsDMDW6Z/kaMWxIuI8foLO0BnEkMPXU6LrtbSB71u
+   rcdGTKyNWRfxcYGyNSKQE+GrJhrZbtvT5epZN2cY8giXa+Y7wjGxd9ISh
+   rPyg305j9NCvuVtSqZuzvVRCZ5XI7YBtEbZgbrGyBXP0mQxBgg6Lp3TGC
+   aLlQzsdaMYsYjvTfn1bUmZvPfgR0o6JLY89CIdvyeKNYGL6QJfxXxxkQv
+   7r+eOK6wClYEMYQXu6/rIO/euFQJAiNe2pQbkVWY3stmmCuW9i31G5HKk
+   Q==;
+X-CSE-ConnectionGUID: sqt/afK5R3+PLBYO0oCxzg==
+X-CSE-MsgGUID: vNDgo3EpSuWPHAYm7Wi4bA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7594728"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="7594728"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 09:18:52 -0700
+X-CSE-ConnectionGUID: bjlkRXSBRHO8Nb0ulkHabQ==
+X-CSE-MsgGUID: +46wiwqRQ/qbWc2RyCbZKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="18552257"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 09:18:48 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 90B1C11F811;
+	Wed,  3 Apr 2024 19:18:45 +0300 (EEST)
+Date: Wed, 3 Apr 2024 16:18:45 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: git@luigi311.com
 Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
 	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
 	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	pavel@ucw.cz, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 18/25] dt-bindings: media: imx258: Add alternate
- compatible strings
-Message-ID: <20240403-vista-defendant-ebadbaa52059@spud>
+Subject: Re: [PATCH v3 19/25] media: i2c: imx258: Change register settings
+ for variants of the sensor
+Message-ID: <Zg2BZXQpzsm7jMnc@kekkonen.localdomain>
 References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-19-git@luigi311.com>
+ <20240403150355.189229-20-git@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dTboEyzG/5e2UTpE"
-Content-Disposition: inline
-In-Reply-To: <20240403150355.189229-19-git@luigi311.com>
-
-
---dTboEyzG/5e2UTpE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240403150355.189229-20-git@luigi311.com>
 
-On Wed, Apr 03, 2024 at 09:03:47AM -0600, git@luigi311.com wrote:
+Hi Luis, Dave,
+
+On Wed, Apr 03, 2024 at 09:03:48AM -0600, git@luigi311.com wrote:
 > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->=20
-> There are a number of variants of the imx258 modules that can not
-> be differentiated at runtime, so add compatible strings for the
-> PDAF variant.
->=20
+> 
+> Sony have advised that there are variants of the IMX258 sensor which
+> require slightly different register configuration to the mainline
+> imx258 driver defaults.
+> 
+> There is no available run-time detection for the variant, so add
+> configuration via the DT compatible string.
+> 
+> The Vision Components imx258 module supports PDAF, so add the
+> register differences for that variant
+> 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Luis Garcia <git@luigi311.com>
 > ---
->  .../devicetree/bindings/media/i2c/sony,imx258.yaml       | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml=
- b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> index bee61a443b23..c978abc0cdb3 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> @@ -13,11 +13,16 @@ description: |-
->    IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active p=
-ixel
->    type stacked image sensor with a square pixel array of size 4208 x 312=
-0. It
->    is programmable through I2C interface.  Image data is sent through MIPI
-> -  CSI-2.
-> +  CSI-2. The sensor exists in two different models, a standard variant
-> +  (IMX258) and a variant with phase detection autofocus (IMX258-PDAF).
-> +  The camera module does not expose the model through registers, so the
-> +  exact model needs to be specified.
-> =20
->  properties:
->    compatible:
-> -    const: sony,imx258
-> +    enum:
-> +      - sony,imx258
-> +      - sony,imx258-pdaf
+>  drivers/media/i2c/imx258.c | 48 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 44 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> index 775d957c9b87..fa48da212037 100644
+> --- a/drivers/media/i2c/imx258.c
+> +++ b/drivers/media/i2c/imx258.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -321,8 +322,6 @@ static const struct imx258_reg mipi_642mbps_24mhz_4l[] = {
+>  
+>  static const struct imx258_reg mode_common_regs[] = {
+>  	{ 0x3051, 0x00 },
+> -	{ 0x3052, 0x00 },
+> -	{ 0x4E21, 0x14 },
+>  	{ 0x6B11, 0xCF },
+>  	{ 0x7FF0, 0x08 },
+>  	{ 0x7FF1, 0x0F },
+> @@ -345,7 +344,6 @@ static const struct imx258_reg mode_common_regs[] = {
+>  	{ 0x7FA8, 0x03 },
+>  	{ 0x7FA9, 0xFE },
+>  	{ 0x7B24, 0x81 },
+> -	{ 0x7B25, 0x00 },
+>  	{ 0x6564, 0x07 },
+>  	{ 0x6B0D, 0x41 },
+>  	{ 0x653D, 0x04 },
+> @@ -460,6 +458,33 @@ static const struct imx258_reg mode_1048_780_regs[] = {
+>  	{ 0x034F, 0x0C },
+>  };
+>  
+> +struct imx258_variant_cfg {
+> +	const struct imx258_reg *regs;
+> +	unsigned int num_regs;
+> +};
+> +
+> +static const struct imx258_reg imx258_cfg_regs[] = {
+> +	{ 0x3052, 0x00 },
+> +	{ 0x4E21, 0x14 },
+> +	{ 0x7B25, 0x00 },
+> +};
+> +
+> +static const struct imx258_variant_cfg imx258_cfg = {
+> +	.regs = imx258_cfg_regs,
+> +	.num_regs = ARRAY_SIZE(imx258_cfg_regs),
+> +};
+> +
+> +static const struct imx258_reg imx258_pdaf_cfg_regs[] = {
+> +	{ 0x3052, 0x01 },
+> +	{ 0x4E21, 0x10 },
+> +	{ 0x7B25, 0x01 },
+> +};
+> +
+> +static const struct imx258_variant_cfg imx258_pdaf_cfg = {
+> +	.regs = imx258_pdaf_cfg_regs,
+> +	.num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
+> +};
+> +
+>  static const char * const imx258_test_pattern_menu[] = {
+>  	"Disabled",
+>  	"Solid Colour",
+> @@ -637,6 +662,8 @@ struct imx258 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+>  
+> +	const struct imx258_variant_cfg *variant_cfg;
+> +
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	/* V4L2 Controls */
+>  	struct v4l2_ctrl *link_freq;
+> @@ -1104,6 +1131,14 @@ static int imx258_start_streaming(struct imx258 *imx258)
+>  		return ret;
+>  	}
+>  
+> +	ret = imx258_write_regs(imx258, imx258->variant_cfg->regs,
+> +				imx258->variant_cfg->num_regs);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s failed to set variant config\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+>  	ret = imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
+>  			       IMX258_REG_VALUE_08BIT,
+>  			       imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
+> @@ -1492,6 +1527,10 @@ static int imx258_probe(struct i2c_client *client)
+>  
+>  	imx258->csi2_flags = ep.bus.mipi_csi2.flags;
+>  
+> +	imx258->variant_cfg = of_device_get_match_data(&client->dev);
 
-Does the pdaf variant support all of the features/is it register
-compatible with the regular variant? If it is, the regular variant
-should be a fallback compatible.
+You'll also need to keep this working for ACPI based systems. I.e. in
+practice remove "of_" prefix here and add the non-PDAF variant data to the
+relevant ACPI ID list.
 
-Cheers,
-Conor.
+> +	if (!imx258->variant_cfg)
+> +		imx258->variant_cfg = &imx258_cfg;
+> +
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
+>  
+> @@ -1579,7 +1618,8 @@ MODULE_DEVICE_TABLE(acpi, imx258_acpi_ids);
+>  #endif
+>  
+>  static const struct of_device_id imx258_dt_ids[] = {
+> -	{ .compatible = "sony,imx258" },
+> +	{ .compatible = "sony,imx258", .data = &imx258_cfg },
+> +	{ .compatible = "sony,imx258-pdaf", .data = &imx258_pdaf_cfg },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, imx258_dt_ids);
 
---dTboEyzG/5e2UTpE
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Kind regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZg2AeQAKCRB4tDGHoIJi
-0g9GAP9MN2G2glo0Nhr4UByr3u4eG2VrUcxCMe2B4Uzd1ErwTQEA7j5t7hgUL0mU
-pr1/uez8k5GMNQNEpwMErPYIlusOjw8=
-=KKOZ
------END PGP SIGNATURE-----
-
---dTboEyzG/5e2UTpE--
+Sakari Ailus
 
