@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-8505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8506-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE7D896C33
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A96896C22
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:23:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CF96B2FFB6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:16:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B31EB2FBC7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2CDE13774B;
-	Wed,  3 Apr 2024 10:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77208137C2F;
+	Wed,  3 Apr 2024 10:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LiZLm0nz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HIbW1dW7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A02134CEC
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:16:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFF613698D
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 10:16:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712139366; cv=none; b=UTgK+/qxUmCYNXKpw0PxdyNJ3YccXeRrxpzMTGwSRs+2k13i1gS46vD5mZGAEKuYV+fQD6NwTBJmpwt/FLBE7vHe5ty2rAaGyQLcwzwKFsFDShHvhKd6Wtjol0ZmMb7GjC4+gEl/ux8fRBw9UxqAu+Z/Jk5P/fzSQaP2yDUqh5c=
+	t=1712139367; cv=none; b=FHOxOhXHbWXtxYLrsuIGVSdDRlJ9a2Tb1Wj80Qdj/lBfjAADHxj/bsMqdhjmTuHNqQWVakx16re62ItutIHRcm7biUPmwxXMhjHWxIxcSOOEV055K96Nhsl1KIn1jezDdgEfKCyhbKWmwqusO96SJHVglTpROjGkuH5tuUn3png=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712139366; c=relaxed/simple;
-	bh=ir52GyRt8PzGCp/WvQKeCrjFaSRJOfwsrH95hZL9gJY=;
+	s=arc-20240116; t=1712139367; c=relaxed/simple;
+	bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DYzp2sLI71X8E4HNW8eEatTwSN+Fm7276wuRyIMvpxODdkBlaTey+cYAGGS4nC4p/HAyJjZ7pID+oMt/FMUW3gRC2yFAHz2Ez74fg9EoBGQDwhuE4vcSJQtlO6u+4QYW+UyTgpXTokiYJNqh0vMpWe7lNvFndcNHTTKEb2X4ufw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LiZLm0nz; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=ZDvFRoGHnbOg1RXZ+CYw3kNLRXTaXC+Ykp17n3agl86vsKvUGKFM5eDBb+7twY4fFwjbpgbJgVOOt1cIjiLrDZrbnMwtRMZ9d655/hRHFkvTj1wno0CPVi3P9ECfCj24ifiGiOqDZqw504HJSKythMnxrNWxRsP57cElBcReQWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HIbW1dW7; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04E50674;
-	Wed,  3 Apr 2024 12:15:22 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 698F2B53;
+	Wed,  3 Apr 2024 12:15:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1712139323;
-	bh=ir52GyRt8PzGCp/WvQKeCrjFaSRJOfwsrH95hZL9gJY=;
+	bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LiZLm0nzhcEY7vANxTWXICMGC+mb0667NNJ8GAFOa4AvTTQ2uQpFHwNOJm4IpA8dt
-	 zFlsPvlnsYMBNdiz1CHnU8Zq2IeXxM9ScBkmONY7wzq8gmJ/RVYo5OoJwoUehT01ac
-	 U8NRD9Kcn2ffWnsqaHFYmOiqlAB4q2dInuO3AGQw=
+	b=HIbW1dW7xEEopZ6mK06mkqVXTkRwNmcKeLTYzPihXZNjl1HoJOKc/c2RuhCOlOU1j
+	 fNAB4TNUa3pjJUWNiUahf+DnamkfNYMCRfillnEgxQ3Xf2qa2GEqV+71PjvVDIYD+T
+	 0cn8WXJat+Ucx4KkyROQXfrulHperT5OCQj6DbDk=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 03 Apr 2024 13:15:44 +0300
-Subject: [PATCH v4l-utils v2 1/2] v4l2-compliance: Fix use of routing on
- 32-bit platforms
+Date: Wed, 03 Apr 2024 13:15:45 +0300
+Subject: [PATCH v4l-utils v2 2/2] v4l2-compliance: Fix streams use in
+ testSubDevEnumFrameSize()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240403-v4l2-compliance-streams-fixes-v2-1-be9b338dc204@ideasonboard.com>
+Message-Id: <20240403-v4l2-compliance-streams-fixes-v2-2-be9b338dc204@ideasonboard.com>
 References: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
 In-Reply-To: <20240403-v4l2-compliance-streams-fixes-v2-0-be9b338dc204@ideasonboard.com>
 To: linux-media@vger.kernel.org, 
@@ -62,74 +62,85 @@ To: linux-media@vger.kernel.org,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2131;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2494;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=ir52GyRt8PzGCp/WvQKeCrjFaSRJOfwsrH95hZL9gJY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmDSxe3qlgklQ2KLFIu5csx9mREgDWN8Ui2HzND
- 5cApdFNwcaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZg0sXgAKCRD6PaqMvJYe
- 9ZpIEACPnqGbcMZkEUnsGNV5jtY43w06xLtzsQOvO7PvgEzrI6NBSbdv5KKZ/wOG2m3WSDfdluo
- 9/GnVsSyDSCdjSfCuTgGi8ErVBUXgTwmKwBelzPHrK7cYSdKdlWVKnqUGEF1vsD1cMnZWsLpr2v
- vqzV4HcRKV3BJsznBFzm8OuKleY0Gb1inW9xkouN9koqXQnIry2uPzv4zIVxSzuDDafiwjYfzBL
- WrxTGaZNjWkgroKFRpyfZR4Z/7uFxbOR4nybkvmt0fQaggh4Zxoj0/lqcHnL13Lgju4OmJcXsC4
- 1Ru04mGFXQzQdGN7cLebBxBey78ViLgq/KefURGEeBnR3JDaJNpXdW5WFn6wvNe7SuUkHhKSQju
- 1Nfz/K+VpV1R24xBIGMOHDr1EUF0tP8eYGiE6M1/h8zNQn+LlSluBwftiLD2cfnbbtrYGv/B0kT
- oAVAi8GPXnMPwhNidLsiLTa2NYv4o4gYIXckyfwEWKgwtoA8l9WIKspKijyu0EKlUzDiFSTXFpy
- v1Qw6dG/D19ZWc9lVd/TMiFlwCQ0+LM4MeMyFnlgMDCScTRxxY35i4+HJrAQ3/lXh3grwYLSjwR
- 2SA5NNIrkdB/+8uUz/wsrBNK45rJeTwqvQB/7Tm2nMb42vmIMldf3z903VSczv9bVp+XnglQgcR
- hGxnpBAbeYUbiMw==
+ bh=/d342kkljzgo3r0LvxBbz92ayYMdIqOOMoPh6QK+w7w=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmDSxeMpldOlkNRK/4VIX2oXtpxy0YTN/Mzp2i4
+ 5zkcg3W3TGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZg0sXgAKCRD6PaqMvJYe
+ 9U2ZEACrpctcA6kJDlt10akQg+hJFoA/DA3xZwdDLkwtgHUelqdcNtdgahTUt4qBlpnrjvLBV2G
+ 0BrZYf0A8Qdq5VVeb5HFK3cWkJhYkVzIXrHHAjGWVQLhdRgYv8Nn+TGZFDdqD1bFaLLkzoA/h9z
+ Gpo76qHAY7RqK54eHh33RHjHezob+mRh+/zfGf1w2GcVgB2ypPdbQ363G9E9EMS8ScQ7Wez9vn0
+ alwNn73iEo+RLGoSqG8q5p3DNGak6mAP0iESGrK/pz92AGjz4uhMGLbjmAjVWaEGWfdnP4hYKr/
+ HZHkBlEMONqIIopmuvHHKw4l6uj2ZVJpPdRpVx9JCckjMvCreTscOlkkmq+rRA2x5g3tUVYVVDl
+ 2V+tznWtQDpmIhUjQC7ECqZesAAnadBgOo6Jcn8L2NNR8Q1yo+2rvrg+nS9ymqmR96wrWphP4eV
+ re/7PfQYSAAxHPvoYz7+51r9VivtgkTyVOPb39pp/KH2SJB5KnsPn+tT2q6USUtBcNzSQXxrlZ/
+ +mpK+di9s5n4Puwq1UUHFgWqKA8MneYGJqMUqO+4DxHqbkt8IHTJA3gc+efkGLnrQAoqELz4kNa
+ H+6KQk5duqdLdOIEFMl55RIjeafFRFJg8CbtUO8vMbQM7g2X5x6/O+5s0LNgP1H/XIIyKr5xRrR
+ HOvQWa/GT2rkZKA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-At the moment we do:
+We don't pass the stream number to testSubDevEnumFrameSize(), which
+instead always uses stream number 0. This causes failures when the
+subdevice uses streams.
 
-routing.routes = (__u64)&routes;
+Fix this by adding stream parameter, and passing the correct stream ID.
 
-On 32-bit platforms the 32-bit address will be sign-extended, possibly
-resulting setting the address to, e.g., 0xff000000 -> 0xffffffffff000000.
-
-Fix this by converting the address to uintptr_t.
-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- utils/v4l2-compliance/v4l2-compliance.cpp   | 4 ++--
- utils/v4l2-compliance/v4l2-test-subdevs.cpp | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ utils/v4l2-compliance/v4l2-test-subdevs.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 2cf97909..fd7e7d76 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1274,7 +1274,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
- 
- 				sd_routing[which].which = which;
--				sd_routing[which].routes = (__u64)sd_routes[which];
-+				sd_routing[which].routes = (uintptr_t)sd_routes[which];
- 				sd_routing[which].num_routes = NUM_ROUTES_MAX;
- 
- 				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
-@@ -1305,7 +1305,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 					routes = sd_routes[which];
- 				} else {
- 					dummy_routing.num_routes = 1;
--					dummy_routing.routes = (__u64)&dummy_routes;
-+					dummy_routing.routes = (uintptr_t)&dummy_routes;
- 					dummy_routes[0].source_pad = pad;
- 					dummy_routes[0].source_stream = 0;
- 					dummy_routes[0].sink_pad = pad;
 diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index ebca1b94..560efb70 100644
+index 560efb70..da304a8c 100644
 --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
 +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -586,7 +586,7 @@ int testSubDevRouting(struct node *node, unsigned which)
- 	int ret;
+@@ -121,7 +121,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
+ }
  
- 	routing.which = which;
--	routing.routes = (__u64)&routes;
-+	routing.routes = (uintptr_t)&routes;
- 	routing.num_routes = 0;
- 	memset(routing.reserved, 0xff, sizeof(routing.reserved));
+ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+-				   unsigned pad, unsigned code)
++				   unsigned pad, unsigned stream, unsigned code)
+ {
+ 	struct v4l2_subdev_frame_size_enum fse;
+ 	unsigned num_sizes;
+@@ -130,7 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 	memset(&fse, 0, sizeof(fse));
+ 	fse.which = which;
+ 	fse.pad = pad;
+-	fse.stream = 0;
++	fse.stream = stream;
+ 	fse.code = code;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
+ 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
+@@ -140,7 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 		memset(&fie, 0, sizeof(fie));
+ 		fie.which = which;
+ 		fie.pad = pad;
+-		fie.stream = 0;
++		fie.stream = stream;
+ 		fie.code = code;
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
+ 		return ret;
+@@ -156,7 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 	memset(&fse, 0xff, sizeof(fse));
+ 	fse.which = which;
+ 	fse.pad = pad;
+-	fse.stream = 0;
++	fse.stream = stream;
+ 	fse.code = code;
+ 	fse.index = 0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
+@@ -266,7 +266,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
+ 		fail_on_test(mbus_core_enum.stream != stream);
+ 		fail_on_test(mbus_core_enum.index != i);
  
+-		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
++		ret = testSubDevEnumFrameSize(node, which, pad, stream, mbus_core_enum.code);
+ 		fail_on_test(ret && ret != ENOTTY);
+ 	}
+ 	return 0;
 
 -- 
 2.34.1
