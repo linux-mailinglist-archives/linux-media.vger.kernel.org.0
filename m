@@ -1,191 +1,128 @@
-Return-Path: <linux-media+bounces-8589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1126B897A3A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 22:46:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E9A897A7D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:13:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB57F28641D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 20:46:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 279511F23AA6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 21:13:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D5815665A;
-	Wed,  3 Apr 2024 20:46:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 885E8156674;
+	Wed,  3 Apr 2024 21:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="njFUKIJG"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qcAhwz51"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C654D1E493
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 20:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453A0156663;
+	Wed,  3 Apr 2024 21:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712177163; cv=none; b=KQ+/a+2stQERNvdyuVzOcl1zcRaeQxLeTMw6fq9crxk8uuiHJjd3sazXMr+ZQHlbpvIbEHs5fhSUEQ4jnxnT3FdyFFckc5rfNZCU+TKZnx9kwSmUw92AR9NZrhwPTHRZkYi1zHWPjh90paqsJkY0mZq4SKnP21GxQy1CL4PptIE=
+	t=1712178829; cv=none; b=qeRTy0JSyeYphvEPhpYUG/F0l1/qiziSJL2kUVrpg3aTom7M3SIjWjxHJnNk/xu/lqYKYQQ3jIcYrXcezNmo9YoRKE4nlYo3RUnhOrBMLXbUBh5elTtfGhYRhdkXikwxeVRYFCtuP4zWiKmc0GfKo8fRIELcyHuYghqdy0WwMxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712177163; c=relaxed/simple;
-	bh=5qSG2aA7zP86uqE7QONcq5Fa+fMoEGvSuBVv5RvKfgI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ndkiPI7d1dAW0lu9bD47O/LAUovIUU3iNrTS2bbYN2+ozLF4Si/iIFq7V14q3usvwy8jb/CAWkbVaD7deNWaCWSsuvP88IJ1U1Sc/J/2gIwkklevVtMyYGA//SSTT2kd5gL6+m2qQKioYMlg5bx20X7csiv/6SPtPQd+SrHXQNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=njFUKIJG; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56c197d042fso270280a12.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 13:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712177157; x=1712781957; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=itlV3Ei52sbNGGLJPwsBC3H98Sks2mSob1+Tdb5KXBg=;
-        b=njFUKIJGIalc2XIpeE5TB7u+0LgeWwz80KvzMKeOUZCAJL69eU85F4tS9NC8gJsnbT
-         0BnndwAr4VfKlOKaHWBYpHcn9DrSO3OEtdMds32WWDAgMrhXMMATBefGtvpVLMdzAo2r
-         +GpfjHRuf9iSVt0YywSHTkCShlc+j4IOwjg7g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712177157; x=1712781957;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=itlV3Ei52sbNGGLJPwsBC3H98Sks2mSob1+Tdb5KXBg=;
-        b=Lxvb8uq0OFBD3beZnOsWD9Pc4lm1BBHxgxx81UdHYohD+1wcrPHfm29QF9dsW8IUqs
-         RvEsqn5CM1l1jAldxPWmWIgbffkQGn17ZynNuFVFjRiwbMRERM6Kbtvp6BoY9Qj8I8oQ
-         ZKQgdjbXxsxY4cu89dOyRMwzqzZnzfov2ShNoQJuzIwTuwBXnLia0+exXpTI5nukY5kf
-         QsTFSgxgX3cgn0eMG1d9ZxBSJ6Gy86SL7VCXqpxWRyTVWZkIIMJ3Kd0udPo1dHUfeweA
-         bU2y7L8O8IHcjoek5N7Vh06KO/jWBUJjRe5dT23BIBHL1LkTdNujdJkgzpWspaqDn9ku
-         T/uw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtMGtOK6vqzvqxz0BCqg5qru2LHiZxN5dDYX8krLcE2WbLpxjCVu2NPO0BntKeWjohlWQCDbTWBsXyH5sxoit7ffVkWlw/tGfEK4A=
-X-Gm-Message-State: AOJu0YyU5oks/3Ky2tDHld2Uc//drqCCdXlD0Grd5J96pDMK7qQknw5L
-	LDiRJOcWtH8KQ0TncpEZ2SUbxVCqniYhmsKjHf5/A93N+8fseoc4YlqyahCVJ+0Msi1XcduQF1j
-	j6Q==
-X-Google-Smtp-Source: AGHT+IFZgiFsoCeqIQ7M3EHNJ81JZ9Rtw1x55AKQR7yElVsE1kf6wIBxIL7V6iz5ncnGCrbVI+xGBQ==
-X-Received: by 2002:a50:9e24:0:b0:56b:fd17:3522 with SMTP id z33-20020a509e24000000b0056bfd173522mr309140ede.14.1712177156073;
-        Wed, 03 Apr 2024 13:45:56 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id g28-20020a056402321c00b0056c1c2b851esm8383335eda.0.2024.04.03.13.45.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 13:45:55 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3439ce73766so112568f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 13:45:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWsw0RxVx1nP/TjDCqCTL/DKq9/i6fLe/k4BzfDGHyVnRALwyGqGjVHNDxHYA3pJ0s3MhcLoZHL6QBz0XY4egdgibPOlwsGznl+pao=
-X-Received: by 2002:a05:6000:190:b0:33e:cf4d:c581 with SMTP id
- p16-20020a056000019000b0033ecf4dc581mr421503wrx.41.1712177155304; Wed, 03 Apr
- 2024 13:45:55 -0700 (PDT)
+	s=arc-20240116; t=1712178829; c=relaxed/simple;
+	bh=A63swF0NGtwa4y1vtkAq5Zk0Yp4g068uJTxXmn8Afd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCK5xuEud2NM0w4azvYmJ6/vIJYBzwzhtBZeeD5mtqhx59z64+dtf3pWFDRct9UDaNgr2Toov2/1LoFvXa21G5QngEp/EubH7hu/OANDRoxs7a6UQDg81l9Bp3ZjaqhKrHNZC2mE2wDv8ncuVi4e73/rZ+RQDJ8wi8B2x1tFfos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qcAhwz51; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712178826;
+	bh=A63swF0NGtwa4y1vtkAq5Zk0Yp4g068uJTxXmn8Afd8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qcAhwz51NDjcmLMjMRi/zox0xmX5lsI1Rr2tTZrzWWWz/9mA7LSbVYz7Hci7Ew4id
+	 1F7eNbZHsZso1j8597z0gnhOB8G6qhf/bEoC9OWds0qh41gOSYgucuV2xsD/fMBtBq
+	 OUT4w3neJyVb2a/SrrOFqhS/EuYHrGwnz8POAoWXEp0BYpbCkDysX374Ltr6fVCcWR
+	 2UCnKyQUGH4Ux70SdvGPzJxtCnvKogTLbbZe4ZSOWA/hW2oh9jnF983jUT8Jj8KG8N
+	 1bodhTlhcLUDNF/q4hDH4lT9A5jg7ZBffRxgBM/5OB0beTb8wHbhUyQ4qNMqohTONx
+	 AhEn/qVTSBHrA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dbrouwer)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C1DD237813DC;
+	Wed,  3 Apr 2024 21:13:45 +0000 (UTC)
+Date: Wed, 3 Apr 2024 14:13:43 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Shreeya Patel <shreeya.patel@collabora.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, heiko@sntech.de,
+	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+	p.zabel@pengutronix.de, shawn.wen@rock-chips.com,
+	kernel@collabora.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-arm@lists.infradead.org
+Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
+Message-ID: <Zg3Gh8P97GaBtgAB@mz550>
+References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+ <35e566-660d2080-1-7eb9eb00@16488675>
+ <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
+ <35f774-660d3b80-3-513fcf80@97941910>
+ <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403-uvc-fix-relative-ptz-speed-v1-0-624c9267f745@securitylive.com>
- <20240403-uvc-fix-relative-ptz-speed-v1-2-624c9267f745@securitylive.com>
-In-Reply-To: <20240403-uvc-fix-relative-ptz-speed-v1-2-624c9267f745@securitylive.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 3 Apr 2024 22:45:42 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvfFuQSa5j7Zs-skXmPGTHRtGVH3moA8w=AG1BF1m=dLw@mail.gmail.com>
-Message-ID: <CANiDSCvfFuQSa5j7Zs-skXmPGTHRtGVH3moA8w=AG1BF1m=dLw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: uvcvideo: UVC minimum relative pan/tilt/zoom
- speed fix
-To: johnebgood@securitylive.com
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linh.tp.vu@gmail.com, soyer@irl.hu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org>
 
-Hi John
+On Wed, Apr 03, 2024 at 01:24:05PM +0200, Krzysztof Kozlowski wrote:
+> On 03/04/2024 13:20, Shreeya Patel wrote:
+> > On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> >> On 03/04/2024 11:24, Shreeya Patel wrote:
+> >>> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@collabora.com> wrote:
+> >>>
+> >>>> This series implements support for the Synopsys DesignWare
+> >>>> HDMI RX Controller, being compliant with standard HDMI 1.4b
+> >>>> and HDMI 2.0.
+> >>>>
+> >>>
+> >>> Hi Mauro and Hans,
+> >>>
+> >>> I haven't received any reviews so far. Hence, this is just a gentle reminder to review this patch series.
+> >>
+> >> Why did you put clk changes here? These go via different subsystem. That
+> >> might be one of obstacles for your patchset.
+> >>
+> > 
+> > I added clock changes in this patch series because HDMIRX driver depends on it.
+> > I thought it is wrong to send the driver patches which don't even compile?
+> 
+> Hm, why HDMIRX driver depends on clock? How? This sounds really wrong.
+> Please get it reviewed internally first.
+> 
+> > 
+> > Since you are a more experienced developer, can you help me understand what would
+> > be the right way to send patches in such scenarios?
+> 
+> I am not the substitute for your Collabora engineers and peers. You do
+> not get free work from the community. First, do the work and review
+> internally, to solve all trivial things, like how to submit patches
+> upstream or how to make your driver buildable, and then ask community
+> for the review.
 
-Can you squash all the patches in one and resend as v3?
+I don't think Shreeya was asking for "free" work from the community.
+Her question wasn't trivial or obvious since reasonable people seem to sometimes
+disagree about where to send a patch especially if it's needed to make a series compile.
+I heard the issue was already resolved but had to say something since this accusation
+seemed so unfair.
 
-When you send a new version of your patch, you want to send it as PATCHvX
-
-b4 should do this automatically for you:
-
-- just go to the original branch
-git checkout b4/uvc-relative-ptz-speed-fix
-
-- then edit the change with something like
-git rebase -i
-
-- then edit the cover to describe the changelog with
-b4 prep --edit-cover
-
--then submit
-b4 submit
-
-I will comment on your 2/2... but it should be squashed into your 1/2
-
-Thanks!
-
-
-On Wed, 3 Apr 2024 at 21:58, John Bauer via B4 Relay
-<devnull+johnebgood.securitylive.com@kernel.org> wrote:
->
-> From: John Bauer <johnebgood@securitylive.com>
->
-> Made recommended changes from Ricardo. I explored the case where
-> the minimum could be > 0 but less than the maximum. If this were
-> to occur the range of -maximum to maximum would still apply correctly
-> however there would be a range from -min to min that would possibly
-> not apply. It would be possible to capture the probed minimum and
-> check against that when setting the controls.
->
-> Signed-off-by: John Bauer <johnebgood@securitylive.com>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index b389ab3ee05d..04300a782c81 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1322,6 +1322,10 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->                 break;
->         }
->
-> +       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> +               v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
-> +                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +
->         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
->                 switch (v4l2_ctrl->id) {
->                 case V4L2_CID_ZOOM_CONTINUOUS:
-> @@ -1332,8 +1336,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->                          * value cannot be probed so it becomes the additive
->                          * inverse of maximum.
->                          */
-> -                       v4l2_ctrl->minimum = -1 * mapping->get(mapping, UVC_GET_MAX,
-> -                                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +                       v4l2_ctrl->minimum = -v4l2_ctrl->maximum;
->                         break;
->                 default:
->                         v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
-> @@ -1342,10 +1345,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->                 }
->         }
->
-> -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> -               v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
-> -                                    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> -
->         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
->                 v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
->                                   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> @@ -1940,7 +1939,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->                 case V4L2_CID_ZOOM_CONTINUOUS:
->                 case V4L2_CID_PAN_SPEED:
->                 case V4L2_CID_TILT_SPEED:
-> -                       min = max * -1;
-> +                       min = -max;
->                 default:
->                         break;
->                 }
->
-> --
-> 2.34.1
->
->
-
-
---
-Ricardo Ribalda
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
 
