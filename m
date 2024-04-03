@@ -1,139 +1,158 @@
-Return-Path: <linux-media+bounces-8595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFBB897BFC
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:24:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ED6897C08
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:26:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61EB428A465
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:24:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDE591C251B1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 23:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62913156C4D;
-	Wed,  3 Apr 2024 23:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 187A9156993;
+	Wed,  3 Apr 2024 23:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ofJhpJWm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sjnTc7Fx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CECC15666F
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 23:24:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E980D156227
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 23:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712186683; cv=none; b=bU5LRs2CSsUG2jYRu2jgR82GSJbBlypoVSIAi9JoDJriVZaAcRf2B+4U1vgbINbmouZplsuElc7EiQg2e2Z8xkCEhRV7iSrN4T0YvdKr65PEvdFC6R6J+NtE7IxCW8PUeR2OBy5W9iJRJ7/Y2dVGoMchg2N9c0Tsr563UkCsMPg=
+	t=1712186790; cv=none; b=WAOSP3doJD1pYm/y8Du7wruTuPNiaXq+AN3KUPewfetbrwWFmh/GepIuHXNfSuXzBxywSN5tMhBZKpqLRhPRxNHoVpbPhAuVdcR++EDrzpWmWIGzTg5H9D15q7GEutQJ5att4bmiFxqFlPK76/MFdsepJ5VPehQb3m+qitno+HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712186683; c=relaxed/simple;
-	bh=ih92BWjYpW41wlrYl8ysX5EsSHM9+ungCN8oXJjPWgw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ciuIh+KWYB3+V2/Whq5k/82OXdt2Qj8+cNDbdm/6EvJ+sA9NeCENl+vJoH/lHF6vcxYcjLV3fROk5iRpmtZItiC/q8fveUHso+Ln5A1RbE3g12WgDRCZefjIv7NxtznbR5J3QfAlewQIpU/m9bh2T+FYzp9AFdM4MK1kadriFjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ofJhpJWm; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1712186790; c=relaxed/simple;
+	bh=DasaMKtxHCBy8bnXKMsQVDtb5bUHFkPpBAcce6oZKYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5dEq+RxkF2E6Q7pfomNEK64ehLZ87uqnzIJUIrrYseKZYONEw+QVNIz9yT9AmpcPmDJt8Tdz/yqNQ+aqJHaMFAIKjDe7tRnXDGkCPlo5vZ7vzNoTRVfqijMHC+LMCohh7hA7y/cB2/aiPJ5ZlUQE0hcTEQNWo+QlnPivFCDfAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sjnTc7Fx; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E5CAACB;
-	Thu,  4 Apr 2024 01:24:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD8B04D4;
+	Thu,  4 Apr 2024 01:25:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712186641;
-	bh=ih92BWjYpW41wlrYl8ysX5EsSHM9+ungCN8oXJjPWgw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ofJhpJWmFtiV4kR60wm2JOtLAYo/1vw14Ar8grnfRTVlhB0Yz3oP1+Jztv527mqwE
-	 r+XnLo4Xc1+2jrULVwPtqIQv/wSS229x2ojSif1ST5sJc/WJeTPBZ7ucpsYqQIjeOy
-	 pBIzZPTsUdJ/Wo8WSlKcZLoDSr9QF+dPKr1azsas=
+	s=mail; t=1712186749;
+	bh=DasaMKtxHCBy8bnXKMsQVDtb5bUHFkPpBAcce6oZKYI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sjnTc7FxqscsMDseh/NDjVEKGNdzTUA7Z9iCHkIMuty3u5Hoz9TG7WtFNQ23xKXmz
+	 ocH09ZP6WHAExaGfYN2k9DS2USWh0Nq3dptRy8dBUQLFYkikCsSdCg1eiowU6wI7+T
+	 UOhcF5t+bTmyepa96eojTXEerykqoTOmitOQKcXU=
+Date: Thu, 4 Apr 2024 02:26:16 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Gregor Jasny <gjasny@googlemail.com>
-Subject: [v4l-utils] [PATCH 2/2] v4l2-compliance: Drop stream support for the subdev crop API
-Date: Thu,  4 Apr 2024 02:24:25 +0300
-Message-ID: <20240403232425.22304-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240403232425.22304-1-laurent.pinchart@ideasonboard.com>
-References: <20240403232425.22304-1-laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] media: v4l2-subdev: Remove stream support for the crop
+ API
+Message-ID: <20240403232616.GA22261@pendragon.ideasonboard.com>
+References: <20240403224233.18224-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240403224233.18224-1-laurent.pinchart@ideasonboard.com>
 
-The subdev crop API has never had working streams support in the kernel.
-The stream field of the v4l2_subdev_crop structure will be removed,
-prepare for that by not setting it.
+On Thu, Apr 04, 2024 at 01:42:33AM +0300, Laurent Pinchart wrote:
+> When support for streams was added to the V4L2 subdev API, the
+> v4l2_subdev_crop structure was extended with a stream field, but the
+> field was not handled in the core code that translates the
+> VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. This could be
+> fixed, but the crop API is deprecated and shouldn't be used by new
+> userspace code. It's therefore best to avoid extending it with new
+> features. Drop the stream field from the v4l2_subdev_crop structure, and
+> update the documentation and kernel code accordingly.
+> 
+> Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> This supersedes the "[PATCH] media: v4l2-subdev: Fix stream handling for
+> crop API" patch ([1]). I'll submit matching patches for v4l2-compliance.
 
-As the selection API tests checks that the crop and selection APIs
-return the same results, we also need to skip all those checks when
-testing selection support on streams.
+Done, see https://lore.kernel.org/linux-media/20240403232425.22304-1-laurent.pinchart@ideasonboard.com/
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- utils/v4l2-compliance/v4l2-test-subdevs.cpp | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> [1] https://patchwork.linuxtv.org/project/linux-media/patch/20240401233725.2401-1-laurent.pinchart@ideasonboard.com/
+> ---
+>  .../userspace-api/media/v4l/vidioc-subdev-g-crop.rst        | 5 +----
+>  drivers/media/v4l2-core/v4l2-subdev.c                       | 6 ------
+>  include/uapi/linux/v4l2-subdev.h                            | 4 +---
+>  3 files changed, 2 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> index 92d933631fda..7eeb7b553abf 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> @@ -96,10 +96,7 @@ modified format should be as close as possible to the original request.
+>        - ``rect``
+>        - Crop rectangle boundaries, in pixels.
+>      * - __u32
+> -      - ``stream``
+> -      - Stream identifier.
+> -    * - __u32
+> -      - ``reserved``\ [7]
+> +      - ``reserved``\ [8]
+>        - Reserved for future extensions. Applications and drivers must set
+>  	the array to zero.
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4c6198c48dd6..02c2a2b472df 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -725,9 +725,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		struct v4l2_subdev_crop *crop = arg;
+>  		struct v4l2_subdev_selection sel;
+>  
+> -		if (!client_supports_streams)
+> -			crop->stream = 0;
+> -
+>  		memset(crop->reserved, 0, sizeof(crop->reserved));
+>  		memset(&sel, 0, sizeof(sel));
+>  		sel.which = crop->which;
+> @@ -749,9 +746,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>  			return -EPERM;
+>  
+> -		if (!client_supports_streams)
+> -			crop->stream = 0;
+> -
+>  		memset(crop->reserved, 0, sizeof(crop->reserved));
+>  		memset(&sel, 0, sizeof(sel));
+>  		sel.which = crop->which;
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 7048c51581c6..f7eea12d8a2c 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -48,15 +48,13 @@ struct v4l2_subdev_format {
+>   * @which: format type (from enum v4l2_subdev_format_whence)
+>   * @pad: pad number, as reported by the media API
+>   * @rect: pad crop rectangle boundaries
+> - * @stream: stream number, defined in subdev routing
+>   * @reserved: drivers and applications must zero this array
+>   */
+>  struct v4l2_subdev_crop {
+>  	__u32 which;
+>  	__u32 pad;
+>  	struct v4l2_rect rect;
+> -	__u32 stream;
+> -	__u32 reserved[7];
+> +	__u32 reserved[8];
+>  };
+>  
+>  #define V4L2_SUBDEV_MBUS_CODE_CSC_COLORSPACE	0x00000001
+> 
+> base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
 
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index da304a8caa8a..2e4d20f657f8 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -484,7 +484,6 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
- 	targets[V4L2_SEL_TGT_NATIVE_SIZE].readonly = is_sink;
- 	memset(&crop, 0, sizeof(crop));
- 	crop.pad = pad;
--	crop.stream = stream;
- 	crop.which = which;
- 	memset(&sel, 0, sizeof(sel));
- 	sel.which = which;
-@@ -493,17 +492,20 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
- 	sel.target = V4L2_SEL_TGT_CROP;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
- 	node->has_subdev_selection |= (ret != ENOTTY) << which;
--	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_CROP, &crop) != ret);
-+	if (!stream)
-+		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_CROP, &crop) != ret);
- 	if (ret == ENOTTY) {
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_SELECTION, &sel) != ENOTTY);
--		fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_CROP, &crop) != ENOTTY);
-+		if (!stream)
-+			fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_CROP, &crop) != ENOTTY);
- 		return ret;
- 	}
--	fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
--	fail_on_test(crop.which != which);
--	fail_on_test(crop.pad != pad);
--	fail_on_test(crop.stream != stream);
--	fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
-+	if (!stream) {
-+		fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
-+		fail_on_test(crop.which != which);
-+		fail_on_test(crop.pad != pad);
-+		fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
-+	}
- 
- 	for (unsigned tgt = 0; targets[tgt].target != ~0U; tgt++) {
- 		targets[tgt].found = false;
-@@ -544,7 +546,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
- 		ret = doioctl(node, VIDIOC_SUBDEV_S_SELECTION, &s_sel);
- 		if (node->is_ro_subdev && which == V4L2_SUBDEV_FORMAT_ACTIVE)
- 			fail_on_test(ret != EPERM);
--		if (tgt == V4L2_SEL_TGT_CROP) {
-+		if (tgt == V4L2_SEL_TGT_CROP && !stream) {
- 			crop.rect = sel.r;
- 			memset(crop.reserved, 0xff, sizeof(crop.reserved));
- 			fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_CROP, &crop) != ret);
-@@ -552,7 +554,6 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
- 				fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
- 				fail_on_test(crop.which != which);
- 				fail_on_test(crop.pad != pad);
--				fail_on_test(crop.stream != stream);
- 				fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
- 			}
- 		}
 -- 
 Regards,
 
 Laurent Pinchart
-
 
