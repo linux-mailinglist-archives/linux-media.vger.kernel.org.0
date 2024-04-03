@@ -1,98 +1,100 @@
-Return-Path: <linux-media+bounces-8521-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8522-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C68E896CAF
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53B0896DFD
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 13:21:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3B15B2335C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 10:34:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E2CBB23E89
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:20:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 900DA148302;
-	Wed,  3 Apr 2024 10:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ULOAWaDl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92F4F142E7C;
+	Wed,  3 Apr 2024 11:20:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4F11386DC;
-	Wed,  3 Apr 2024 10:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54891353E2;
+	Wed,  3 Apr 2024 11:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712140327; cv=none; b=nAXc+zuqg8bL1KwmaYiuO/36C063AWNh58bjr1dGg+LSzB45pCKXhcThAC5P5Fzi7ctJrGxYD3zOVxl6jSTgInKtC6t4clMek3F4OjPGzKJzDj5A+4uAlSvoLAaGHngMXj+ar2LMUV5F5uStCYoYwdRUdXfqIOLAJJBuZ4jHXQo=
+	t=1712143208; cv=none; b=qgZDO5FXK37ISIITeEUWaYefJ7WHVs+egfDnGGipQmEdVAsHlH3tULQUplkmAPyV5VLYRNkAghpCPfVnsvTYs2DUk1wWqirwuVeFL4xwgLx06DlvmxkbP1JlwBK2s9+LN2gvZhOiKgyuPWECdjwMQweOo2N+/B7It3ES6XTARV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712140327; c=relaxed/simple;
-	bh=g339Nfakmy10N8LmQYjcsqMkACofjFVwJwlCIJNtuNY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y/4fsExgmlCMfJmERFWwQSfRz0fTe+tldcHCQOk4PzjApPW/O/axl80+vIXYo/VlNyBmhC5x+0V4g3GiWP1fLZdtCt7jjqGbYDYPGNkm1If0tee1QUXKCZqwaCRSQ0qMLxoMB7ICFrXuQbsQSFySaVOSDqj5tYHv2I4qw8bDh+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ULOAWaDl; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1712143208; c=relaxed/simple;
+	bh=LZcCaweuM6QMzoYUQ4SVyuK0er0XsmfzNV90+UiZHx4=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=WGz1yPOow/GUaFHyb5px5keyEwZ+85pfWHu5fa050pHfeIRrlqfdZhjXkcsM4TgbvNHCukoIiNU57CVggcgTEJKqE1vOo00QZiOKWCnFSPNUWEh92CiUM/Tfq4YUYoUCixzvkgONpUBNKlnks1byUo13+cVg3si3kAi/vcwxSCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712140324;
-	bh=g339Nfakmy10N8LmQYjcsqMkACofjFVwJwlCIJNtuNY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ULOAWaDlnGej6ZoXI94u56QiKae1+eyLqorV0zT1tS0I+JDbK45OP+5yqAKDN4BbX
-	 oh8c7chaZV7h40n/QhFLhlCkkucfVBhCFX2iPOgaeoThYsRhKbrKcanWRQc4fowgHN
-	 r0OIeRrmHxmZw50tFaKcBbWoxXh8wIrBTnMIT9cQ9NRFsRItJy733BXL2o/D/0jQNj
-	 l9nZfJCQd3hgsrk3ZIcCDVv/UL1JzLBKQ9sSaPjvAylJmm8TCuM+reIfSOEcQP8N4g
-	 lZE7sBpkjzBfSRRbRlOisH9c5LFNlvZX/p3GDiThLwiT9WybtY6mY10F30KUFFxHcV
-	 3oZDAIDKfyICw==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 19CFE37820EF;
-	Wed,  3 Apr 2024 10:32:03 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	kernel@collabora.com
-Subject: Re: [PATCH v2] soc: mediatek: cmdq: Don't log an error when gce-client-reg is not found
-Date: Wed,  3 Apr 2024 12:31:58 +0200
-Message-ID: <171214017002.130010.3184925664722710524.b4-ty@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240229-gce-client-reg-log-dbg-v2-1-4975077173d0@collabora.com>
-References: <20240229-gce-client-reg-log-dbg-v2-1-4975077173d0@collabora.com>
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 81D8037820E7;
+	Wed,  3 Apr 2024 11:20:03 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+ <35e566-660d2080-1-7eb9eb00@16488675> <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
+Date: Wed, 03 Apr 2024 12:20:03 +0100
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, heiko@sntech.de, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Message-ID: <35f774-660d3b80-3-513fcf80@97941910>
+Subject: =?utf-8?q?Re=3A?= [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Feb 2024 14:51:08 -0500, Nícolas F. R. A. Prado wrote:
-> Most of the callers to this function do not require CMDQ support, it is
-> optional, so the missing property shouldn't cause an error message.
-> However, it could result on degraded performance, so the fact that it's
-> missing should still be alerted. Furthermore, the callers that do
-> require CMDQ support already log at the error level when an error is
-> returned.
-> 
-> [...]
+On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.=
+kozlowski@linaro.org> wrote:
 
-Applied to v6.9-next/soc, thanks!
+> On 03/04/2024 11:24, Shreeya Patel wrote:
+> > On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel=
+@collabora.com> wrote:
+> >=20
+> >> This series implements support for the Synopsys DesignWare
+> >> HDMI RX Controller, being compliant with standard HDMI 1.4b
+> >> and HDMI 2.0.
+> >>
+> >=20
+> > Hi Mauro and Hans,
+> >=20
+> > I haven't received any reviews so far. Hence, this is just a gentle=
+ reminder to review this patch series.
+>=20
+> Why did you put clk changes here? These go via different subsystem. T=
+hat
+> might be one of obstacles for your patchset.
+>=20
 
-[1/1] soc: mediatek: cmdq: Don't log an error when gce-client-reg is not found
-      commit: ef964918d42b9d9cf534754f82ccdaa402783ecd
+I added clock changes in this patch series because HDMIRX driver depend=
+s on it.
+I thought it is wrong to send the driver patches which don't even compi=
+le?
 
-Cheers,
-Angelo
+Since you are a more experienced developer, can you help me understand =
+what would
+be the right way to send patches in such scenarios?
+
+Thanks,
+Shreeya Patel
+
+> Also, you sent it just a week ago and you already ping. Please relax,
+> and help out by reviewing other patches on the mailing lists in order=
+ to
+> relieve the burden of maintainers and move your patches higher up the=
+ list.
+>=20
+>=20
+> Best regards,
+> Krzysztof
+>
 
 
