@@ -1,75 +1,65 @@
-Return-Path: <linux-media+bounces-8523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF42896E2A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 13:24:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63213896ED8
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 14:27:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 354FA1F21DD7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 11:24:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 876111C2105E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Apr 2024 12:27:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E626814386D;
-	Wed,  3 Apr 2024 11:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB18B1420C4;
+	Wed,  3 Apr 2024 12:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LDFYbi50"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="qu39B/uH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69F91420A5
-	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 11:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6957146588
+	for <linux-media@vger.kernel.org>; Wed,  3 Apr 2024 12:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712143451; cv=none; b=iRyNmXj9Gu6b9lg6g++3/hxQh2aDQQOdr3/rBZW2EPcSRt1i6D7fXobsX+5EUUoajVLmqTb2U6d1+EFbcrq4zWIWqGUybR+CX0pPbLIBp+2VIVqz7lG7lrp1zkxeG++s7OWRMlH0wYYRxtgcxB8/WtIuzIxiOx+cMyDn0YMAs4Y=
+	t=1712147225; cv=none; b=HIL6QgjCJKiL94T+DEqcM3vyepJ2An/Kqx8Iu+9cVNVQb0La4/XUEOicxvYKC0V5u9KC4DptfJW8vC4zlb2XgdfTvlj1U08iygnkiz5uKULcnWDgzOQ5P+1Lnbm06LQwHNOHXEEfKdfKK1WGyuQFb9tvVNIy5akxeC7D1DyrDMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712143451; c=relaxed/simple;
-	bh=2wxJPp8aOolhWhZ/DV7ENKOsy9YRJfHxk5CeE947MXY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Osi5Stxaspje8d7AVOvOJytRrzcCTcPQDt8ECo13JhL7wPHdd5FyoZMwhvm/rlD0cNw8ZPll6pCIMOLvm04vhtBUhuTRmfKTs+4MVYY5Aje/sJKDFKxebpdHTXRF+wb0ZnCWohbdGbmjLQOJ+djtioyDBjv0RFKrs98lJwqrpdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LDFYbi50; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a50f170b7e3so42160666b.2
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 04:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712143448; x=1712748248; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IO6yw321pzkaoaCqh1hl5FnjaHB5/tUUufUSj5CW6t8=;
-        b=LDFYbi50vteZ2tjsvUOXOFI4S3XouRWq8Af0KMOzvndeTzNgMxWp639V4a8BT4GSu2
-         HVsDy23OIzBSez5h7WBZCyPWajqjZSCNStZUnUOgh1Mvhho3PFhGi5CMhHuqUlJRbxLL
-         OX/b0NYeNqcP5KI2xelyfdupWYUvDqHJX6P7Pai3XG6htc4eIFKutJB2VpchS2qzwloW
-         T9wEYSE9AINjmk6ScSxOZpGVPwJKFdy/JecV6UdJNwlOFWU8yxfxpL6sf0YCZb71iR85
-         lpaieuey8nW1k102U+yjC6QYu01bI0HD2yiDSaasSX3cVlWcpx2wRlshock65O+SOO9+
-         bxvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712143448; x=1712748248;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IO6yw321pzkaoaCqh1hl5FnjaHB5/tUUufUSj5CW6t8=;
-        b=lwndYGomhn2ApRD79LYPWq1DEkAbTivG1d8sJBMXP6nqSfzNnN9iCIhoLnjPlPTnuz
-         T8jHP4bzoADHTsg3fY37FWvp9y/V8gm70bJ1ea5n7xz8XW6FZK/BKYV4t2CrbsbEb/dD
-         h2uzc962SxPQJKO2HVY61ZKG3WBqfT6Gnho2DWAMxfDcfdpMN8YUmOQjTJ0OHLzQI/HB
-         ZjlT0xb+tZ8FIt0PPb40W25QluLXoJCa0EYGGk/x73dH5fe/iLM8gamYtoAo7RHD+gBO
-         oKpLQMjNr9pVs86NV+yGLnJp+UUDF547uN6qHmUsvyCVkvClsIFF01o1bFxDmTWg8b0I
-         ZuxA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhHpM6E8Pq7YOWhLz0FgSs2BcRg2vb3ppld/Qh2cx4OUVkPIQuu18ElWaXXidDT0H/Guf12Bx0rdxpPLUvhQg9gjDiZGUOiOImpqE=
-X-Gm-Message-State: AOJu0Yz7od5pe/Yp6KIo+jOE6lB91BEV1QL2BhzfxbnWx8YWtHDf+3rf
-	lj49Cs6hNsgpZ2WkAMRSIgCHMoBq4FktXvrIQscO9UN/OyTmaqUFnhlNXHSeRp8=
-X-Google-Smtp-Source: AGHT+IEqGdSJ246ZO00yUEFudXBJfQRgE/TyDPzINqn3RUr4Av0cbnFJpv2+C74POr8ucLFrJCfxmw==
-X-Received: by 2002:a17:907:7da1:b0:a4e:6957:de25 with SMTP id oz33-20020a1709077da100b00a4e6957de25mr7013926ejc.57.1712143448058;
-        Wed, 03 Apr 2024 04:24:08 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id wn7-20020a170907068700b00a4e533085aesm4912682ejb.129.2024.04.03.04.24.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 04:24:07 -0700 (PDT)
-Message-ID: <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org>
-Date: Wed, 3 Apr 2024 13:24:05 +0200
+	s=arc-20240116; t=1712147225; c=relaxed/simple;
+	bh=Zy/M8aNYONxJGXe3WuHCJOu2jY2K97JusptQ5Clk+cU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hATpnUgVImvDiBSZOArkVVA2hcrgaEvESaRQR4OTWvdSaWyBKOfxYv64BwfAPjNTi0j6Xbpz9Cb/89BysqUNDiiYRlmpEbyWS2x3tiwD3F4hjZNFBOtatSgDJugyofD0p6dfoVm+aGaTCajtoUohOW9lDexILNYt/Iw+2VcH1eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=qu39B/uH; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4339CuKW002614;
+	Wed, 3 Apr 2024 14:26:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=VxO9mKw9OH0OidKUhW58U4Aj9l4yR5RqL55NAfEEA3c=; b=qu
+	39B/uHui6L3SC4lefDY5Jd5R3T3EWgompRoWd//I1UZEHuMkN8o8/gT855MRrLf/
+	hxWqwCQRqdOd7m6nxM784sN4IVJQ0SzkxkERyp18aUEwH/l1P4XYclW4BtRW2M5i
+	oL5EYquUsYSUxoiWDmHricLNGeRNfDRSOvbdlYebqgLMjfM1/RiytqEZVWqgyF0W
+	Z/dWV5tmxZdFDDRv8bdCwaHF7gwM6ohxWMzk6yrh61NOcuTCIBRIMmCWWRcv4/0R
+	dQPOd/xpApFVuxKslEmQHlVkoazugVCUAOiyk/sgOI4zuxSx7XzyT7Bw1x3oVqkv
+	ho4euZV7BzVe6xvm+DJQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3x6wsuehce-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 14:26:51 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 728024002D;
+	Wed,  3 Apr 2024 14:26:46 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3F46421861B;
+	Wed,  3 Apr 2024 14:26:25 +0200 (CEST)
+Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 3 Apr
+ 2024 14:26:24 +0200
+Message-ID: <cd1f6c89-bd97-4b6b-9f01-28f3aeb1e7b1@foss.st.com>
+Date: Wed, 3 Apr 2024 14:26:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,106 +67,257 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl,
- heiko@sntech.de, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm@lists.infradead.org
-References: <20240327225057.672304-1-shreeya.patel@collabora.com>
- <35e566-660d2080-1-7eb9eb00@16488675>
- <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
- <35f774-660d3b80-3-513fcf80@97941910>
+Subject: Re: [PATCH 1/4] media: i2c: st-vgxy61: Use sub-device active state
+To: Julien Massot <julien.massot@collabora.com>, <mchehab@kernel.org>,
+        <sakari.ailus@linux.intel.com>, <sylvain.petinot@foss.st.com>
+CC: <linux-media@vger.kernel.org>, <kernel@collabora.com>
+References: <20240315085158.1213159-1-julien.massot@collabora.com>
+ <20240315085158.1213159-2-julien.massot@collabora.com>
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <35f774-660d3b80-3-513fcf80@97941910>
-Content-Type: text/plain; charset=UTF-8
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20240315085158.1213159-2-julien.massot@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_10,2024-04-03_01,2023-05-22_02
 
-On 03/04/2024 13:20, Shreeya Patel wrote:
-> On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Hi Julien,
+
+Thank you for your patch.
+
+
+First, sorry for the delay. I have a lot of stuff ongoing. I'll be more
+available now.
+
+Second, I don't currently have a setup that can handle the multi stream
+serie. Therefore I'm not able to test your serie. Following your
+patchset acquiring such a platform went up in my todo list.
+
+
+On 3/15/24 09:51, Julien Massot wrote:
+> Use sub-device active state. Rely on control handler lock to serialize
+> access to the active state.
 > 
->> On 03/04/2024 11:24, Shreeya Patel wrote:
->>> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@collabora.com> wrote:
->>>
->>>> This series implements support for the Synopsys DesignWare
->>>> HDMI RX Controller, being compliant with standard HDMI 1.4b
->>>> and HDMI 2.0.
->>>>
->>>
->>> Hi Mauro and Hans,
->>>
->>> I haven't received any reviews so far. Hence, this is just a gentle reminder to review this patch series.
->>
->> Why did you put clk changes here? These go via different subsystem. That
->> might be one of obstacles for your patchset.
->>
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+
+I have yet to dive deep into active states.
+I find curious that the 'current_mode' field in vgxy61_dev is still
+here. From my understanding it should be replaced by
+'v4l2_subdev_state_get_format', and all the 'current_mode->crop'
+replaced by 'v4l2_subdev_state_get_crop'.
+Someone tell me if this is incorrect.
+
+> ---
+>  drivers/media/i2c/st-vgxy61.c | 109 ++++++++++++----------------------
+>  1 file changed, 39 insertions(+), 70 deletions(-)
 > 
-> I added clock changes in this patch series because HDMIRX driver depends on it.
-> I thought it is wrong to send the driver patches which don't even compile?
+> diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+> index b9e7c57027b1..733713f909cf 100644
+> --- a/drivers/media/i2c/st-vgxy61.c
+> +++ b/drivers/media/i2c/st-vgxy61.c
+> @@ -397,8 +397,6 @@ struct vgxy61_dev {
+>  	u16 line_length;
+>  	u16 rot_term;
+>  	bool gpios_polarity;
+> -	/* Lock to protect all members below */
+> -	struct mutex lock;
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	struct v4l2_ctrl *pixel_rate_ctrl;
+>  	struct v4l2_ctrl *expo_ctrl;
+> @@ -686,27 +684,6 @@ static int vgxy61_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static int vgxy61_get_fmt(struct v4l2_subdev *sd,
+> -			  struct v4l2_subdev_state *sd_state,
+> -			  struct v4l2_subdev_format *format)
+> -{
+> -	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+> -	struct v4l2_mbus_framefmt *fmt;
+> -
+> -	mutex_lock(&sensor->lock);
+> -
+> -	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> -		fmt = v4l2_subdev_state_get_format(sd_state, format->pad);
+> -	else
+> -		fmt = &sensor->fmt;
+> -
+> -	format->format = *fmt;
+> -
+> -	mutex_unlock(&sensor->lock);
+> -
+> -	return 0;
+> -}
+> -
+>  static u16 vgxy61_get_vblank_min(struct vgxy61_dev *sensor,
+>  				 enum vgxy61_hdr_mode hdr)
+>  {
+> @@ -1167,16 +1144,17 @@ static int vgxy61_stream_disable(struct vgxy61_dev *sensor)
+>  static int vgxy61_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+> +	struct v4l2_subdev_state *sd_state;
+>  	int ret = 0;
+>  
+> -	mutex_lock(&sensor->lock);
+> +	sd_state = v4l2_subdev_lock_and_get_active_state(&sensor->sd);
+>  
+>  	ret = enable ? vgxy61_stream_enable(sensor) :
+>  	      vgxy61_stream_disable(sensor);
+>  	if (!ret)
+>  		sensor->streaming = enable;
+>  
+> -	mutex_unlock(&sensor->lock);
+> +	v4l2_subdev_unlock_state(sd_state);
+>  
+>  	return ret;
+>  }
+> @@ -1187,51 +1165,39 @@ static int vgxy61_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+>  	const struct vgxy61_mode_info *new_mode;
+> -	struct v4l2_mbus_framefmt *fmt;
+>  	int ret;
+>  
+> -	mutex_lock(&sensor->lock);
+> -
+> -	if (sensor->streaming) {
+> -		ret = -EBUSY;
+> -		goto out;
+> -	}
+> +	if (sensor->streaming)
+> +		return -EBUSY;
+>  
+>  	ret = vgxy61_try_fmt_internal(sd, &format->format, &new_mode);
+>  	if (ret)
+> -		goto out;
+> -
+> -	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> -		fmt = v4l2_subdev_state_get_format(sd_state, 0);
+> -		*fmt = format->format;
+> -	} else if (sensor->current_mode != new_mode ||
+> -		   sensor->fmt.code != format->format.code) {
+> -		fmt = &sensor->fmt;
+> -		*fmt = format->format;
+> -
+> -		sensor->current_mode = new_mode;
+> -
+> -		/* Reset vblank and framelength to default */
+> -		ret = vgxy61_update_vblank(sensor,
+> -					   VGXY61_FRAME_LENGTH_DEF -
+> -					   new_mode->crop.height,
+> -					   sensor->hdr);
+> -
+> -		/* Update controls to reflect new mode */
+> -		__v4l2_ctrl_s_ctrl_int64(sensor->pixel_rate_ctrl,
+> -					 get_pixel_rate(sensor));
+> -		__v4l2_ctrl_modify_range(sensor->vblank_ctrl,
+> -					 sensor->vblank_min,
+> -					 0xffff - new_mode->crop.height,
+> -					 1, sensor->vblank);
+> -		__v4l2_ctrl_s_ctrl(sensor->vblank_ctrl, sensor->vblank);
+> -		__v4l2_ctrl_modify_range(sensor->expo_ctrl, sensor->expo_min,
+> -					 sensor->expo_max, 1,
+> -					 sensor->expo_long);
+> -	}
+> +		return ret;
+> +
+> +	*v4l2_subdev_state_get_format(sd_state, format->pad) = format->format;
+>  
+> -out:
+> -	mutex_unlock(&sensor->lock);
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return 0;
+> +
+> +	sensor->current_mode = new_mode;
+> +
+> +	/* Reset vblank and framelength to default */
+> +	ret = vgxy61_update_vblank(sensor,
+> +				   VGXY61_FRAME_LENGTH_DEF -
+> +				   new_mode->crop.height,
+> +				   sensor->hdr);
+> +
+> +	/* Update controls to reflect new mode */
+> +	__v4l2_ctrl_s_ctrl_int64(sensor->pixel_rate_ctrl,
+> +				 get_pixel_rate(sensor));
+> +	__v4l2_ctrl_modify_range(sensor->vblank_ctrl,
+> +				 sensor->vblank_min,
+> +				 0xffff - new_mode->crop.height,
+> +				 1, sensor->vblank);
+> +	__v4l2_ctrl_s_ctrl(sensor->vblank_ctrl, sensor->vblank);
+> +	__v4l2_ctrl_modify_range(sensor->expo_ctrl, sensor->expo_min,
+> +				 sensor->expo_max, 1,
+> +				 sensor->expo_long);
+>  
+>  	return ret;
+>  }
+> @@ -1321,8 +1287,6 @@ static int vgxy61_init_controls(struct vgxy61_dev *sensor)
+>  	int ret;
+>  
+>  	v4l2_ctrl_handler_init(hdl, 16);
+> -	/* We can use our own mutex for the ctrl lock */
+> -	hdl->lock = &sensor->lock;
+>  	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN, 0, 0x1c, 1,
+>  			  sensor->analog_gain);
+>  	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_DIGITAL_GAIN, 0, 0xfff, 1,
+> @@ -1398,7 +1362,7 @@ static const struct v4l2_subdev_video_ops vgxy61_video_ops = {
+>  
+>  static const struct v4l2_subdev_pad_ops vgxy61_pad_ops = {
+>  	.enum_mbus_code = vgxy61_enum_mbus_code,
+> -	.get_fmt = vgxy61_get_fmt,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = vgxy61_set_fmt,
+>  	.get_selection = vgxy61_get_selection,
+>  	.enum_frame_size = vgxy61_enum_frame_size,
+> @@ -1801,7 +1765,7 @@ static int vgxy61_probe(struct i2c_client *client)
+>  	vgxy61_fill_framefmt(sensor, sensor->current_mode, &sensor->fmt,
+>  			     VGXY61_MEDIA_BUS_FMT_DEF);
+>  
+> -	mutex_init(&sensor->lock);
+> +	sensor->sd.state_lock = sensor->ctrl_handler.lock;
+>  
+>  	ret = vgxy61_update_hdr(sensor, sensor->hdr);
+>  	if (ret)
+> @@ -1820,6 +1784,10 @@ static int vgxy61_probe(struct i2c_client *client)
+>  		goto error_handler_free;
+>  	}
+>  
+> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> +	if (ret)
+> +		goto error_media_entity_cleanup;
+> +
+>  	/* Enable runtime PM and turn off the device */
+>  	pm_runtime_set_active(dev);
+>  	pm_runtime_enable(dev);
+> @@ -1841,11 +1809,12 @@ static int vgxy61_probe(struct i2c_client *client)
+>  error_pm_runtime:
+>  	pm_runtime_disable(&client->dev);
+>  	pm_runtime_set_suspended(&client->dev);
+> +	v4l2_subdev_cleanup(&sensor->sd);
+> +error_media_entity_cleanup:
+>  	media_entity_cleanup(&sensor->sd.entity);
+>  error_handler_free:
+>  	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
+>  error_power_off:
+> -	mutex_destroy(&sensor->lock);
+>  	vgxy61_power_off(dev);
+>  
+>  	return ret;
+> @@ -1857,7 +1826,7 @@ static void vgxy61_remove(struct i2c_client *client)
+>  	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+>  
+>  	v4l2_async_unregister_subdev(&sensor->sd);
+> -	mutex_destroy(&sensor->lock);
+> +	v4l2_subdev_cleanup(&sensor->sd);
+>  	media_entity_cleanup(&sensor->sd.entity);
+>  
+>  	pm_runtime_disable(&client->dev);
 
-Hm, why HDMIRX driver depends on clock? How? This sounds really wrong.
-Please get it reviewed internally first.
+-- 
+Regards,
 
-> 
-> Since you are a more experienced developer, can you help me understand what would
-> be the right way to send patches in such scenarios?
-
-I am not the substitute for your Collabora engineers and peers. You do
-not get free work from the community. First, do the work and review
-internally, to solve all trivial things, like how to submit patches
-upstream or how to make your driver buildable, and then ask community
-for the review.
-
-Best regards,
-Krzysztof
-
+Benjamin
 
