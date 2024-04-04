@@ -1,180 +1,214 @@
-Return-Path: <linux-media+bounces-8606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A0D89816F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:26:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CA1898189
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:35:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1CAB1C21FFE
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:26:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A45D287B91
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:35:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0AA4E1A8;
-	Thu,  4 Apr 2024 06:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330282E630;
+	Thu,  4 Apr 2024 06:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JTUd74/R"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YmHMrmdb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3614CB23
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E8918E20
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712211981; cv=none; b=uPzv0wkFqwRM0vC9Ly4pCuWczWiSei0tHBWqXkili4tjGNVprEiM173Wblby6XgitYV/wXsHMgtrGdLNOWhrz5vQAdJuKOOEx09tf9pvW7FWcbhs1SS80s6+tCTllHHX3sJBgFz14c6uUQEsp5pBY5IjP7BlfXCdIidjEyuBJK8=
+	t=1712212534; cv=none; b=cqZJbPdVe3YGSEzUpI7YIlMWpaazC7yKeDgAmkdwDgSQnuywV2IaTONG3JkzxpweaM5eKpVVlZFs+s7QenF91u39EfdfIZXFNEvwnR5KV5BnBw9ImBhJce4Hpr/KNXHKs7hdlesAhovvmT50J/Fe6GbA+Vz5TkKTRhkyGPLpI3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712211981; c=relaxed/simple;
-	bh=DXMdBYy+JURPXBmu6wf7aZo7UWB6Ed5DGqd53HDljvA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=r5JuHsc4aDJoI/w/3vf8wxjB2BkJWrROsN03YH4b5PS4a+8fkyvhu5HJmrgfRPCLq4rz4vQE6RncZyioyaH65PQg9u4xx2mATQXMb+lwIfpWY4tSHxpr4TiL/XyP3PJURR0rJgukQAGFoaCEY0ShXUmDAUmiI4+HjunrxJzKlrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JTUd74/R; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a4e60a64abcso287730866b.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:26:19 -0700 (PDT)
+	s=arc-20240116; t=1712212534; c=relaxed/simple;
+	bh=H9b5JJlTquQKI2VM9qJwXhoYJq+49fLigdSgodwpAeI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PaZh4ZVfO3gZF+zLdVpSUgWYNq1LM4+UdHwkIC4micycYVhNc4ks+zBvJ4Ueq3sPxWik+aJeFCS1zjrKv5CxeshMWd4fdd1Wj3VrJ534iTYQ5U7Phg+ktv1AZw8ol6t32hzlMoBDnF+3Tanl3FFowgXdYG8vHTzXpuFh+G45LMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YmHMrmdb; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6991e317e05so15843786d6.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712211978; x=1712816778; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSAY67R1WFy93YDpr7xFqvywbHMfxkjyKwnhViSeBMI=;
-        b=JTUd74/RhnvsWkM27Q0P9WRq0YMV+Wye3yuRXsTGYpNG2UZ56IX72pHL4Ti+jgcoXd
-         KZSx7A5IophK+iKcMJJRfya6gqNZ8Z/V74fIVnyqd+ecWiK8rRS8c+XANCHPgrQH7aGl
-         ZL+V8C1NWryF2RYM8mL8fL1yH8DYrQt9GRwuezr1hN29V7Y9UD99t/nZ8MQfhuT1Bvvy
-         T7gLfv9qJvwcnwQ9hO5xJcNFhyBPw6kWAbDpVjbREyPpq//YRjD2L5tRNRBYQkIYI273
-         LHOCPxO6lh8ORmEsLHdRKbNr9LGnTiGauZCQjVK1ZE3MAIX0VCx0eG5c5GQZd+L7VLZS
-         aTTA==
+        d=chromium.org; s=google; t=1712212531; x=1712817331; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aUS+OYnFgkVlJtdzc5TCv6ib1nQIE7c9RlYNdnpE+8c=;
+        b=YmHMrmdb/HpI98l08cx9jfydLZhZEXfHmWtGpHfoy0ULLv+GlAhMvqWPtHbh4kuEnT
+         0iO2yp52VMshW5XSbkUAgPmaRWXC3q2bRE/EqUQZWf9x9QUPOThmrdeVPPIolxJmdoY1
+         GLcdfztDO5jleCo0NPZSeaH82I34vbsUO4y+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712211978; x=1712816778;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iSAY67R1WFy93YDpr7xFqvywbHMfxkjyKwnhViSeBMI=;
-        b=cutOKQkBhIgMcxwl8w2XWvfNob5+NgL0ybF3OZdUsA/MbYtCKtG+LveZtyGmkdz7ZS
-         b+RIAHoexcMMJOlpMna13U+eNjPy8vBLyEvDr1587HkM17/3tsU1+s9Ar5Ry48EjBFhZ
-         fzpX/f1tatuzRFw2sGViIKfIJYMUFtesjb8gn54t7IAzglAr7IXDbKt6bgUA+9MjGrR4
-         yf+CyCzrdIwJrAnb3hpwzB4rrdrEGmXVAmCzFkq/U449qS1wttqlJo4n9ZOmZNAGV05+
-         6zs56CyG2X8nadUHIMSQ1GmFHRGW+3nlQEYsmlk6okDAdQfRVLiEuyll3p7yvwRo6xFA
-         Ka4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVnqHoaELdGEQW9+/E+0Ox1R2/pyjie7w5fYabgBAm0IoQzS0nFoL4B83E46ZENRWpqfA1/5p3ElGdPRZiRRWk6tCLEgFCcxQvW+Dc=
-X-Gm-Message-State: AOJu0YxtyYxPKp/loRH6/P8YXP4WgJGb2VpxVK0h/G1WCU5UxUEH/rgX
-	wRfVw75xYb+hY7LvJNEhN5sG428vc+D7FVf92bfFA6OT2kQNGucfWv6Mt91QvRk=
-X-Google-Smtp-Source: AGHT+IGBi+x3KcN//qD9D955Pat0vd8vxE5gcHmyvGdVx4wJ4DYpPNiVD0vAZDXzv9VQ8nJasXiTOA==
-X-Received: by 2002:a17:906:110c:b0:a4e:eb64:f669 with SMTP id h12-20020a170906110c00b00a4eeb64f669mr1512163eja.1.1712211977965;
-        Wed, 03 Apr 2024 23:26:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id wk8-20020a170907054800b00a4e2d7dd2d8sm7825972ejb.182.2024.04.03.23.26.16
+        d=1e100.net; s=20230601; t=1712212531; x=1712817331;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aUS+OYnFgkVlJtdzc5TCv6ib1nQIE7c9RlYNdnpE+8c=;
+        b=OVoo6Tdfa264E0vYmOPyi62I7JDQRG0zOpkg/PI8Rhg5Xk/57AKMlLZTRHvlteuQi5
+         MFV6FTvcNl/Ul6rnLhxyPT6pyxJS4HB1SRs5yVS2JxbV+mttbS2eSu2D1KmZrtNmTib3
+         KblT49pJIIYSxEQz5RL5p0nO/cyGkQ6+7czyptGzBWTsjniRjOAtASk424wHPrlWFfBR
+         jAtDMNv5lU4M27EnVbQ95WMWphc7OIxshpOG7MXuXLZeDbye0PJH1YkQWDKTx+WuBAwM
+         qbI8YDLP/AS7xIBZszMvsZ896McnBNRq7RKuFzgNMbH6jrScxAXWpnM0ZiSJG2KLMFzx
+         bQDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTP46pn5hnroSIDxXn/yslMsrZDTlSaPn5W9JlEhd69xdqOZQgUPz2TV9BDAdw5hQtbpQfLIw30kZUwosLcE7M2y0tOx9/4+nral0=
+X-Gm-Message-State: AOJu0YwxJixQ+O5fs7e8nlTnBBqfd/QDdectjMUg8HTuYBdw0n5aXDZi
+	/1iGsKgZnsIbo5Hv4UHQI8Yoigprm98NsZf73smoJ0w8PEEGtBEfgQplPZl44NyCI9Rjt4c7TDC
+	4RoL/
+X-Google-Smtp-Source: AGHT+IGr1MWyuBrOvNMgwe6GyJHr5Kto+z7NpdpbjsB1Eb1Om1Uf8W1S1iBReD7s0q6V1mJuY2w4dg==
+X-Received: by 2002:a05:6214:2388:b0:692:494f:f0aa with SMTP id fw8-20020a056214238800b00692494ff0aamr2777336qvb.9.1712212531386;
+        Wed, 03 Apr 2024 23:35:31 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
+        by smtp.gmail.com with ESMTPSA id 6-20020a05621420a600b006990b44228dsm3516721qvd.125.2024.04.03.23.35.30
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:26:17 -0700 (PDT)
-Message-ID: <af602862-5120-4717-adb6-694ada09e8d8@linaro.org>
-Date: Thu, 4 Apr 2024 08:26:15 +0200
+        Wed, 03 Apr 2024 23:35:30 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6991e317e05so15843636d6.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:35:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURIP/QfmeeUFE5vNuhxVUgP6SKGUPLPIGOlxW+xuUxJZ+j41FfBs7UgWGV8CdYC/tnUmfPt5hKvin+gcgiEi4FzP50cFt+P2S2TtY=
+X-Received: by 2002:a05:6214:1ccf:b0:691:67f9:16e7 with SMTP id
+ g15-20020a0562141ccf00b0069167f916e7mr2530909qvd.24.1712212529833; Wed, 03
+ Apr 2024 23:35:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] dt-bindings: media: imx-jpeg: add
- clocks,clock-names,slot to fix warning
-To: Frank Li <Frank.Li@nxp.com>, Mirela Rabulea <mirela.rabulea@nxp.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <imx@lists.linux.dev>,
- "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER"
- <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240404035205.59492-1-Frank.Li@nxp.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240404035205.59492-1-Frank.Li@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240325142611.15550-1-oleksandr@natalenko.name>
+ <6046664.lOV4Wx5bFT@natalenko.name> <20240404011120.GH23803@pendragon.ideasonboard.com>
+In-Reply-To: <20240404011120.GH23803@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 4 Apr 2024 08:35:14 +0200
+X-Gmail-Original-Message-ID: <CANiDSCu5-coAyJZeiL5q3cPOdJ9Xaf1oE3VP90Sj_EycGr_QRQ@mail.gmail.com>
+Message-ID: <CANiDSCu5-coAyJZeiL5q3cPOdJ9Xaf1oE3VP90Sj_EycGr_QRQ@mail.gmail.com>
+Subject: Re: [PATCH] media/uvcvideo: add quirk for invalid dev_sof in Logitech C920
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Oleksandr Natalenko <oleksandr@natalenko.name>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	"hn.chen" <hn.chen@sunplusit.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/04/2024 05:52, Frank Li wrote:
-> Fix below DTB_CHECK warning.
-> 
-> make CHECK_DTBS=y freescale/imx8qxp-mek.dtb
->   DTC_CHK arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb
-> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: jpegdec@58400000: 'assigned-clock-rates', 'assigned-clocks', 'clock-names', 'clocks', 'slot' do not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
+Hi Laurent
 
-No, that's not the reason to add properties. Add them if they are valid.
+On Thu, 4 Apr 2024 at 03:11, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Oleksandr,
+>
+> On Mon, Apr 01, 2024 at 06:45:16PM +0200, Oleksandr Natalenko wrote:
+> > On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 15:26:11, CEST Oleksandr Nata=
+lenko wrote:
+> > > Similarly to Logitech C922, C920 seems to also suffer from a firmware
+> > > bug that breaks hardware timestamping.
+> > >
+> > > Add a quirk for this camera model too.
+> > >
+> > > Before applying the quirk:
+> > >
+> > > ```
+> > > 100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mon=
+o/SoE
+> > > 101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mon=
+o/SoE
+> > > 102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mon=
+o/SoE
+> > > 103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mon=
+o/SoE
+> > > 104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono=
+/SoE
+> > > 105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mon=
+o/SoE
+> > > 106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mon=
+o/SoE
+> > > =E2=80=A6
+> > > ```
+> > >
+> > > After applying the quirk:
+> > >
+> > > ```
+> > > 154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/=
+SoE
+> > > 155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/=
+SoE
+> > > 156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/=
+SoE
+> > > 157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/=
+SoE
+> > > 158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/=
+SoE
+> > > 159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/=
+SoE
+> > > 160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/=
+SoE
+> > > ```
+> > >
+> > > Link: https://lore.kernel.org/lkml/5764213.DvuYhMxLoT@natalenko.name/
+> > > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/u=
+vc/uvc_driver.c
+> > > index 723e6d5680c2e..444d7089885ea 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] =3D=
+ {
+> > >       .bInterfaceClass      =3D USB_CLASS_VIDEO,
+> > >       .bInterfaceSubClass   =3D 1,
+> > >       .bInterfaceProtocol   =3D 0,
+> > > -     .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
+S_ON_INIT) },
+> > > +     .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
+S_ON_INIT
+> > > +                                          | UVC_QUIRK_INVALID_DEVICE=
+_SOF) },
+> > >     /* Logitech HD Pro Webcam C922 */
+> > >     { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
+> > >                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >
+> >
+> > Gentle ping on this one.
+>
+> Ricardo, could you include this in the next version of your hw timestamp
+> series ?
+
+There are no outstanding comments on the series
+https://patchwork.linuxtv.org/project/linux-media/list/?series=3D12485
+
+Do you need me to send a v11 with this patch? or you can take that
+directly from your tree?
+
+Thanks!
+
+>
+> > Also, should I have added:
+> >
+> > Fixes: 5d0fd3c806b9 ("[media] uvcvideo: Disable hardware timestamps by =
+default")
+> >
+> > ?
+>
+> I don't think that's needed, no.
+>
+> > (it's not that this change re-enables HW timestamping, but
+> > 5d0fd3c806b9 explicitly mentions C920 as affected)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
 
->  
-> +  slot:
-> +    description: Certain slot number is used.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 3
-
-NAK. Every time.
-
-Fix your DTS instead.
-
-Please read the feedback instead of pushing this stuff for the third time!
-
-https://lore.kernel.org/all/bbb1875b-7980-46aa-80b4-dbaf2a2d5755@linaro.org/
-
-Can NXP take responsibility for this piece of code?
-
-Best regards,
-Krzysztof
-
+--=20
+Ricardo Ribalda
 
