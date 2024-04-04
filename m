@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-8604-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8605-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F3C89814A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3B989814E
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:18:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1722C1C21576
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:16:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 205061C215E2
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3564C634;
-	Thu,  4 Apr 2024 06:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699B74C637;
+	Thu,  4 Apr 2024 06:17:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAgLNSig"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fWwKBcu8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673E347796
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3687247796
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712211356; cv=none; b=sEjxMdb9jud8kC9dmWYxamcEN9kZ5mQZvfcxtXAEosyY60DG2OpyPyQUdtW0S/Lv1bJ934S9pJA2lgncS+GUuaEHF6fER1r7eOlwwqgfka1lidd8ZJ4AhsqUiLyJOa75+yfCsK3oYy7v8lVEjGvugYoqPVmwVY+rSo9jH1RMPyg=
+	t=1712211476; cv=none; b=BmXCphHvSsgObhdx3h/xjFg2NowL02ptIID4Qy02/48EupSHFdGTLZ608bxeTw7HM/NRpcR04qEQAXB4H6CXcJQA+r65V5vtqTeuBIo5bJJhthvstcP0wapI1VFOqFz9UQtN394Y6t/WiRVR0Bngu2j60nPpI0eaBROwZ1uzLD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712211356; c=relaxed/simple;
-	bh=oEfmaNWz0Z/HE/GpBGwT412D1LQTjGwAgrYN+Del55M=;
+	s=arc-20240116; t=1712211476; c=relaxed/simple;
+	bh=ZJ7R9ncDVXtptVEBCmWeFsuNoZap0993lo95uag14cE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UksUJwB/uGkTbsT6n5B3b9wIht8xgTitNk9ElKQrubs9YLm78PwmoW2IWRy9JH3gc9G0Ggv2GpI0k3peRwYxw8AxjQhMxprqIcXXrLgNeEVNTbYX1fQ6NZD+RsoDBs/onwhwFQP00jdhZm/sjiQTJwaTwmAXB/3nGC/oBxzBlEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAgLNSig; arc=none smtp.client-ip=209.85.208.48
+	 In-Reply-To:Content-Type; b=iAOVnIdwZaQMMainKYAmeOvZfVMDlY7sutd3l4fJq1fkRJ3dns18fjstVSBPxzhj3dL52n55mgJ/+Wy7P0vxVSEMOl7Fx1+7SrRSTSCpk7FNTQo6Xz99YLx8YfUdIG/dHrMGO4wRvYcD8BYItYkiw0FyuN3GUzRsI5lJfG9hxJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fWwKBcu8; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-56e0f8480fbso565581a12.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:15:54 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56df87057bbso351586a12.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712211353; x=1712816153; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712211473; x=1712816273; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkkryztGvxqua4G6Yd1fhJtXsUUxe+HUuwQ8GN8ouqc=;
-        b=YAgLNSigoKeywtPTAlXlJ99hECTa9+fjbY7QQ4dcm/CY+iwnAyGjgU9zmHOwS8bHMK
-         T29chX/qVYPWdQSD8APel2Xo5Ul/KV/tDKs71AEzS+07cEgPfZd4F8+LOtZUlmZTRyRw
-         uUs2UZr9mdSUIkIK3xTrn1iWeT4Nps1Bm/GWikGip/Irc0KSHXL763DCj0OpxoyaJSla
-         USTGSXt7uG920c3KkujD3GNe7t9g9h7bSq0x+/RjzKGwanm4yl8ZJQ6S5gbL5JDjC9Bc
-         shgE3U2zuL1VibMGWCqvEppZjz15nXnVUQtkb7AUq3zNsv4gnlwz5oQFF5v1mtZXpr20
-         aVwA==
+        bh=QstkA/0puettnYJmAHPNH5ZaCqi91hpEvWVtbV4p+ks=;
+        b=fWwKBcu8jDOhCYNszm7P9KA0hpyPg3PQmx1tCqsPNM2ba11gTTXgZfEkU29F1dRw9A
+         QBxAtjzR+KrMhPGoi1q++HvopurLSwy0B/kauv9/U4g8BGD8/PbuV7/IkcOZIq80bzbw
+         AhOydA9nPAq/jUnEnjVAuQ0Sp7UA9ON/RL9POrvfhl9cV55cnc+N5daolovfRrUR9uSy
+         scaIzGdpPKi/P+Ql3i+P2tR8wqlJcSmRy7Cr9ER+q9DNUoxV1oIqslHVC3BzwQc/rFpP
+         ERq//LbPeUdPKMLmN66BtHXOcyTFjyWN5+V1TZe3pQ50Xus6LQbzMfypzRtoWHTy/Sx6
+         fTjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712211353; x=1712816153;
+        d=1e100.net; s=20230601; t=1712211473; x=1712816273;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bkkryztGvxqua4G6Yd1fhJtXsUUxe+HUuwQ8GN8ouqc=;
-        b=xDGmrkIpxz/372S9twNSY5opT3L1JHQXNyCYVFaqwhaMPDMy2pCGteInKbdbls9MqM
-         9isn8KDatkplbWufm/EolNUAnhd88eov26nAwZs7Klw+z40lOFZz9t51PRF0Y5/dskcH
-         YObkxz6SdRWt3y6vi3XBnsfq7fbRBR09yVQuCovWJ1PEYR4TRYQAD9AKuaXuhRbLNiKD
-         LrIbHzVBSNe4PkOVKFJR2nVjCzdQfVMnHg8lrKrUFDfn8c+EwnRA7hq8U61JnDNGdtFC
-         wz/nWgo+Aq+qMPg6VCBNeWHq5Ix9M6dbrmm+fmSObUX8dWevdJcX50QwC2xuXt/NqSwg
-         yi/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWzUqVyQ0wRGrSbPoB3vi51yjHOwZszcuh5nPG5OZn10SVjk8ZlgKfosrUINxoI0PklPJjxzcR4iPur2Y9+Ggc3x30gxhkrj33IDuo=
-X-Gm-Message-State: AOJu0YzvbUgMz9XGde1X4Nhxa0UMUFk4flnCQdD/EnKJrvNgxy0wy5Zr
-	1oCJ96kRScxrfV5TcQD9lc1tBowwBrZki4KiM+9EIGybkPEkmEm9uWIVjzFEeYs=
-X-Google-Smtp-Source: AGHT+IECxEGe1zWvmCgAOpHAIAYRCeDTejPuXOKuqZUxaRFgNCPybdhXgvVdvf3cPcwAdtHZQFMMaA==
-X-Received: by 2002:a50:cd4e:0:b0:56d:f637:451c with SMTP id d14-20020a50cd4e000000b0056df637451cmr805971edj.32.1712211352779;
-        Wed, 03 Apr 2024 23:15:52 -0700 (PDT)
+        bh=QstkA/0puettnYJmAHPNH5ZaCqi91hpEvWVtbV4p+ks=;
+        b=CS44lvYqyYYl5egeY2i1VnyHIxJxkQW3bPW1NBp0pANawIQojlMVqbC2FfMhIqNNiX
+         zRgy6Zv/jMfNq37OvKeNV/SkuqBBJvnIfnOJl3aMX9ukFyKIBZp34yeuxBcj+NOMayMs
+         ivurdfYE2IpX1nmkyRvCsfELmNYSj7gMsCbdm6DOT81Pyk2gLA0LUVTy3UplfNvbQdjF
+         uDQRYeOiS+23JigZ+A+xEaDVDFLwyWpxQrVX6V/bC/5MGGjugFFl+c/mE0aUzuKFN22c
+         48eCPD8Mpsa10YOTIDobiAM5M6BgkiFH5fy6LuSr4+wbB16xqcGKcHzMmo0LKSfPXFmj
+         2ubA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpGmtE22XbSw4dvlFUa3cyuLlDhIjrls2icRlgBc9NrN5TlTMn0CZY8zR65nW7gQvo97tJ0sTlJdSUWZQ6Pxkhps60QPnNcZvt1E4=
+X-Gm-Message-State: AOJu0Yz579WcoDtdQx7HNQM3XFF6gtX4RRrnSB5JykcmEWTQwTEItmDe
+	rFDFPbjm96+8Ys1Mb0Wpn3IfZA9RCPPVFEZaBlTFqSK1xNBL7uHdS6hEdFhyHRQ=
+X-Google-Smtp-Source: AGHT+IEENym2ijmiU/kB6DhuJTWO7Em2jtRiY2Gc4RM4VO0AhN926Sag75h5SCWL36XOduQzAl1fEg==
+X-Received: by 2002:a17:906:2a52:b0:a46:5e1b:58a3 with SMTP id k18-20020a1709062a5200b00a465e1b58a3mr875670eje.35.1712211473598;
+        Wed, 03 Apr 2024 23:17:53 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id m7-20020aa7c487000000b0056bf2e2c898sm8832781edq.1.2024.04.03.23.15.50
+        by smtp.gmail.com with ESMTPSA id bb1-20020a1709070a0100b00a4e7dfb5abasm3550712ejc.171.2024.04.03.23.17.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:15:52 -0700 (PDT)
-Message-ID: <c790c8ba-a9bd-4820-8084-1294e5e523d9@linaro.org>
-Date: Thu, 4 Apr 2024 08:15:50 +0200
+        Wed, 03 Apr 2024 23:17:52 -0700 (PDT)
+Message-ID: <e6e8c1b1-e1e5-4598-83ac-654c242dc6fc@linaro.org>
+Date: Thu, 4 Apr 2024 08:17:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,9 +78,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl,
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: Shreeya Patel <shreeya.patel@collabora.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, heiko@sntech.de,
  robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
  mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
  shawn.wen@rock-chips.com, kernel@collabora.com,
@@ -89,8 +89,10 @@ Cc: mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl,
  linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
  linux-arm@lists.infradead.org
 References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+ <35e566-660d2080-1-7eb9eb00@16488675>
+ <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
  <35f774-660d3b80-3-513fcf80@97941910>
- <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org> <3049149.687JKscXgg@diego>
+ <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org> <Zg3Gh8P97GaBtgAB@mz550>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -137,12 +139,12 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3049149.687JKscXgg@diego>
+In-Reply-To: <Zg3Gh8P97GaBtgAB@mz550>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 04/04/2024 00:48, Heiko Stübner wrote:
-> Am Mittwoch, 3. April 2024, 13:24:05 CEST schrieb Krzysztof Kozlowski:
+On 03/04/2024 23:13, Deborah Brouwer wrote:
+> On Wed, Apr 03, 2024 at 01:24:05PM +0200, Krzysztof Kozlowski wrote:
 >> On 03/04/2024 13:20, Shreeya Patel wrote:
 >>> On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 >>>
@@ -167,52 +169,30 @@ On 04/04/2024 00:48, Heiko Stübner wrote:
 >>
 >> Hm, why HDMIRX driver depends on clock? How? This sounds really wrong.
 >> Please get it reviewed internally first.
+>>
+>>>
+>>> Since you are a more experienced developer, can you help me understand what would
+>>> be the right way to send patches in such scenarios?
+>>
+>> I am not the substitute for your Collabora engineers and peers. You do
+>> not get free work from the community. First, do the work and review
+>> internally, to solve all trivial things, like how to submit patches
+>> upstream or how to make your driver buildable, and then ask community
+>> for the review.
 > 
-> For the change in question, the clock controller on the soc also handles
-> the reset controls (hence its name CRU, clock-and-reset-unit) .
-> 
-> There are at least 660 reset lines in the unit and it seems the hdmi-rx one
-> was overlooked on the initial submission, hence patches 1+2 add the
-> reset-line.
-> 
-> Of course, here only the "arm64: dts:" patch depends on the clock
-> change, is it references the new reset-id.
+> I don't think Shreeya was asking for "free" work from the community.
+> Her question wasn't trivial or obvious since reasonable people seem to sometimes
+> disagree about where to send a patch especially if it's needed to make a series compile.
+> I heard the issue was already resolved but had to say something since this accusation
+> seemed so unfair.
 
-Wait, that's expected, but it is not what was written. Claim was HDMIRX
-driver depends *build time* ("don't even compile").
+If HDMI driver does not build because of clock driver, something is
+really wrong at the basics level. Therefore I am sure my statement was
+fair,. based on Shreeya statement of build failure.
 
-> 
-> 
-> Am Mittwoch, 3. April 2024, 12:22:57 CEST schrieb Krzysztof Kozlowski:
->> Please do not engage multiple subsystems in one patchset, if not
->> necessary. Especially do not mix DTS into media or USB subsystems. And
->> do not put DTS in the middle!
-> 
-> picking up your reply from patch 4/6, there seem to be different "schools
-> of thought" for this. Some maintainers might want to really only see
-> patches that are explicitly for their subsystem - I guess networking
-> might be a prime example for that, who will essentially apply whole series'
-> if nobody protests in time (including dts patches)
-
-There is no school saying DTS is allowed to be in the middle.
-
-Other schools are indeed saying that seeing DTS is good and
-recommendation is to post it separate and provide a link. That's way you
-avoid DTS being pulled by Greg, media or networking.
-
-> 
-> On the other hand I also remember seeing requests for "the full picture"
-> and individual maintainers then just picking and applying the patches
-> meant for their subsystem.
-> 
-> The series as it stands right now is nice in that it allows (random)
-> developers to just pick it up, apply it to a tree and test the actual driver
-> without needing to hunt for multiple dependant series.
-> 
-> 
-> Of course you're right, the "arm64: dts:" patch should be the last in the
-> series and not be in the middle of it.
-
+I am sorry, but independence of drivers and independence of DTS is a
+basic thing, so to solve such you can easily get help internally from
+your experienced folks (which you have).
 
 Best regards,
 Krzysztof
