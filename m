@@ -1,104 +1,105 @@
-Return-Path: <linux-media+bounces-8678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0911E898EDA
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 21:18:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B99898F59
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 22:03:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8268AB22928
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 19:18:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B815F1C23302
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 20:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F9E134404;
-	Thu,  4 Apr 2024 19:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201D1134733;
+	Thu,  4 Apr 2024 20:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RwqT6YsJ"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="ZbngQNR9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDBC1133413;
-	Thu,  4 Apr 2024 19:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712258290; cv=none; b=PVcFauwgrDCQbleavT3X7D76QcALh/RCMYRPsql1+oFF2Ymbg/lHEIi0M78XwZpWOlFPVGHt2t+y3K9xc0fkqzvzywYKrOCDraE1O4YRXX6tcRabtotMMbqqpkclFZHnTX1xb4Q1Ei5zT2uHwjiMQyiqomQS7iTuI8PSIIR4udA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712258290; c=relaxed/simple;
-	bh=hQsnH1190673HPRgjVKyfoJUxLWZ/psXgZYe+KtS/p0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=praF+cH34qWqQQh1TXjL5H69FujFZKKWqfTrvD3GV0WrqN4thMzhk1H2pPEzfbTu33EGoDde/EyoFgFlcRTjXOAZt5sWg8F6clkTl+50JruvbqsgzR1QcB2RqLGVKJ3f8t+h4CEgYEWpjM9k55F5CiS66OY0Iass9CI4mi6JaNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RwqT6YsJ; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.64.1.95] (unknown [20.29.225.195])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C9C2320E94A7;
-	Thu,  4 Apr 2024 12:18:07 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C9C2320E94A7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1712258288;
-	bh=A7Q2axkjCx78vPEBshdngJM72aZQ9s5wZHp2jmg55+0=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=RwqT6YsJmdnnrXHHFSbq9RKV256RC5Z2Qt1RVhzqRL41d+g/++plFbI7OaU0y5lXa
-	 xK8Id/EOOOiRvURMOaHIKIxUsjRApKXm1zpvse7+6DRvz6Eo35XBhJyn02mxudZJMU
-	 R8AAFulwPcZAJ5CM+lurbHElalUA+2ztG0FICXFk=
-Message-ID: <0c6ff90d-0709-4fc5-951e-1b0f0b1273dc@linux.microsoft.com>
-Date: Thu, 4 Apr 2024 12:18:06 -0700
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AA16D1AB
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 20:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712261032; cv=pass; b=JenmHVN4G7FFkXmkvfwTRm/izN+kXQyFnmeyAGnx24snvju0tjIsunfNt3yF+9MUp5f5hVSe6i/CgejTuPcpwAZh7X4N45WGKVKl6Px2kmTg1fWpKJAYyGAzCfswOVXwwsP3MT98uJxCHY8UooEi20NXyLui7x8Uh7257zC/rwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712261032; c=relaxed/simple;
+	bh=9zCFxmlkcJ7sk3w5GGK7xQKNGVnQ4aT0oWrjuk6xRts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MdxBTNpund6gZCCi8rNf02iQzIKAr+0Ru5MXdv7oPoMrJQbv/uUBOvtpYPQvV0VaUewpdnqHKiixusmUh6eajF1DWE+lba3kfr/duV4UKEXm/TkOu5pNcrq4/Ft0uiPBEo0IgMdJzvqtA328prUNCUPj+H+1nuesYwRTiOQWNoc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=ZbngQNR9; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4V9XcX1FWdzyNX;
+	Thu,  4 Apr 2024 23:03:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1712261021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMLvjOuCt1/1txqYjbtsO9uhwTAn/6CNFj8EVq/qAEc=;
+	b=ZbngQNR9zsipVmj6pKET8OQZU1zM5EKB5B2h1xB1sWzFmiPPeP2Gcm8N3cc2Ykfj/KpqZ/
+	cCvjLG7Dy/vYwHWekCXYJPU8rvCvrAum4/3RY5ZOS/pR3bGBI7qHOI/OoLqkVbL7nJfL8E
+	3EBE9CKpaiqKEgegXFMGDbGpwayjPqI=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1712261021; a=rsa-sha256; cv=none;
+	b=ZR3lDFaXfEMP4Ehu75fN6OPscUAm4ZzGb4vdmWgfkWDr5Z1AnqZaOPhIOk4b29ruOJv61b
+	D1qcUZ85S7CFz5qOEcaW/kfN1wkYg3Hu0s6AKIoAi/0z/V23FiMCiRggbMVeOTLAbLH2Xs
+	XRnLO1sIZHlMPp//+CkAQmqgiaUL+H8=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1712261021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMLvjOuCt1/1txqYjbtsO9uhwTAn/6CNFj8EVq/qAEc=;
+	b=VSPIZmOWM6HXrY/Z+1SlAu72fFzgNSStohi1ZsE/5idRDIDDzyCXH8/iv1/obfYaoJbgL2
+	5g3+EMzR/wjnILcJzKnlQSRkqVBkl0P9XuifLrBfllRC9f7qcPz8uvAxnxEwAniaPqZd/A
+	XfdGaAl9+E5DTUp7j6bSv6coBinHp0U=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EAD74634C93;
+	Thu,  4 Apr 2024 23:03:38 +0300 (EEST)
+Date: Thu, 4 Apr 2024 20:03:38 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Gregor Jasny <gjasny@googlemail.com>
+Subject: Re: [v4l-utils] [PATCH 1/2] utils: libv4l2subdev: Drop stream
+ support for the crop API
+Message-ID: <Zg8HmvykGpVCXFRD@valkosipuli.retiisi.eu>
+References: <20240403232425.22304-1-laurent.pinchart@ideasonboard.com>
+ <20240403232425.22304-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-To: Edward Cree <ecree.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
- "open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
- <20240402090028.GA1759653@gmail.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <20240402090028.GA1759653@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403232425.22304-2-laurent.pinchart@ideasonboard.com>
 
-On 4/2/2024 2:00 AM, Martin Habets wrote:
-> On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
->> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
->>
->> Compile tested, no functionality changes intended
->>
->> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>
->> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+On Thu, Apr 04, 2024 at 02:24:24AM +0300, Laurent Pinchart wrote:
+> The subdev crop API has never had working streams support in the kernel.
+> The stream field of the v4l2_subdev_crop structure will be removed,
+> prepare for that by not setting it.
 > 
-> Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
-> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thank you, Martin, for reviewing. I believe that we are settling on controller/target
-terminology from feedback on the other drivers in this series. Would you want to re-review
-v1 with that change, or should I add your R-B in v1 despite the change?
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Thanks,
-Easwar
-
+-- 
+Sakari Ailus
 
