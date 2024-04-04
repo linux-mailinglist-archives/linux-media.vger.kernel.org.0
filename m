@@ -1,210 +1,174 @@
-Return-Path: <linux-media+bounces-8629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0F8983A5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 10:58:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0A489847C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 11:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99373282C8F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:58:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85FA51C21B84
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 09:58:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F51E7351A;
-	Thu,  4 Apr 2024 08:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A387580B;
+	Thu,  4 Apr 2024 09:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="G+solaG5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z158XmQ5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DFF3D96B
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 08:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712221133; cv=pass; b=JEhWeyuFPyHNAwsyb355GiXmaZj3YcF03exWjKDvlpczePIeLIioQugVS3MVxmBMHCCJvD7HdZiz//mqRveQWmdGg/6KvSQPvooaCJKmIY2MQ4b+j2J2tk6NqfwjVMdSzfnFxJoD2R8BpXU3ZjvQboRC2r6g+Ji5D4iG5mH1eNU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712221133; c=relaxed/simple;
-	bh=2Ba8M7fDvklkCiqhNIWw9nV2mdk8gXKus4iB176fKBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RCVmdKWI3B72lLOgq/P9eRCt57Ez6NpisOhi1a+Rf1MaVPVMEhB/TLy4hHXiVi+BuoBeZI6mp7dkgQnoOQj4Ds6pw9ol0JjPnIb1vU+opB5aoE25m2s8ZRCXsRQ2oKWe0a47yNeWvyBUNpjYpyQgOAn9JllQfqTbl/+Asj38HSo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=G+solaG5; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4V9FsL6P3Dz49Psw;
-	Thu,  4 Apr 2024 11:58:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1712221127;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D229174BF0
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 09:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712224717; cv=none; b=KHiqCiCzi3O+aTZXslCfV9ped55O+Jgvoql3ilb5vv9TnbMpVjPJC3HicPMtiTbOF9uquGU7helHtSHdNJuVD1SZKhwNShqEA7lgTtYAGHTZ5SZ+FTCjPVJIbJRjSDO3oqyeR7KZntZaPnyOYXjBMwInFVLzvH/IBW9NqhyT66c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712224717; c=relaxed/simple;
+	bh=ODiTlGgRQsjehNRj3kmLlyExikmmOkr5QSGrCtILmIE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZcTV7VZo/tGV1nYvQERUclP2RqDXVNsWCmtplmeyv1+yb7r1g16oZYKLC6Ju4rfX4ATAcpeSPdosVRxdWyH+Z8unCotpg85j3Ln1AyjIhe85ZALrXVHeH0rh5WB1+T5W3cx1HYvx/HBeANR04Vu/XAr/KQTJtVOsi8J45AaXZYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z158XmQ5; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712224714;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NhAs9Jf0+CCYOSzTjIdtpOkcNQpMZgbb50KqMi4gok4=;
-	b=G+solaG51O9AjM/9R4WVkMwYQVfGjaC+I1dAnn3r+H4q0z4KzUmv2NRIHHDbCrf5DHH1i6
-	Y3W/nnNgUCbH27jHFVBYe/e6sdjfvKbDsXN23uMN2sUDrGBIZKUbUVxKzezxjOkRZZKYd0
-	O7ZOYs+9L/eu2ceXNA0Mi0j6Hv39N4N1spAHInL9GB3FdW8nT2hjR4q8GjAMcpQO/74Qwu
-	W4x+IHp8gUd4rS1YCeI9Wc/0cvplzU7K2ohCBeYka2CTqeGPxLvdpyDyS6HlYb0qg/Yydh
-	cElSwSa6Hiu96N7lqa/5nNmhwFHmlGjevvnrnoYuprqgqLY3EceGZds084SLhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1712221127;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NhAs9Jf0+CCYOSzTjIdtpOkcNQpMZgbb50KqMi4gok4=;
-	b=b+OePspJ3f9Owh6ABasqxIRBQjDwfS4+2u/zm9d++aLQPsc9M7O4XLU/f/VQUF2+pP2Buo
-	HvyhqaVOkfsexQaSHb6Nz/7PgaTK/DPK53Z7YArwRKv3faSfzzv4/HMHFwD+S3kUCVO4wt
-	NyPXg6ut5WaPbMAp2Xcq+EBy4Kk6SXfAjTpUE8Cdfhgi6B6sFpbB6DvzJtv085QK54Zu9f
-	YkHc/bxm49desmlK8aDm70lI629odbnmzrXj8iAwRHr7h8vAVNP0NmOyX+gUEejX48CiYs
-	VOnJU0K0hBw0rr5RqL00sigKIl3wHVzLLLj0B6e53uX1V040XZVC3xNQhphwcA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1712221127; a=rsa-sha256;
-	cv=none;
-	b=cYCK83UCjDi4cXPzVRqpD3Tpxj6asndApIeuC6gaSCcnkOiG7vwSkLML04H4xwyi1pF613
-	CgsFGeRdxuHmYYCseUWgLL0JCq6eCLVBovRUTiCjd22eerCJOKnRsd4fXpyXBkd6mgOV4D
-	ImHcUhJvmg71MWjmDohjIsMkzvG8ZugW4pBEyekGMKC9g42Us5wSJdO/WJAn/a4hLz22D3
-	+pyFb3lIXnOZUYC9Bc+DW3RxQjLn7WUtrPyGAJ+80Ph0xDnjcVu7/0T65AzxKdExhN+7x7
-	SAr3ExBsTF1kY5ygjWBUe6TYl/Fz1+v/WKi+Yv1+BSwdtJbQP81GXjL+4TINZw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id BAA65634C93;
-	Thu,  4 Apr 2024 11:58:45 +0300 (EEST)
-Date: Thu, 4 Apr 2024 08:58:45 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-subdev: Remove stream support for the crop
- API
-Message-ID: <Zg5rxcKlMohGbL_U@valkosipuli.retiisi.eu>
-References: <20240403224233.18224-1-laurent.pinchart@ideasonboard.com>
- <ba1d234f-ec2b-4406-9c18-3e59445301de@xs4all.nl>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Orry6me8Y86MAhIHpdcMtXnc6PoIoyVukOysNCbSjdE=;
+	b=Z158XmQ5hqEp4XJ3OgdbeFaGbv/cqZWxoqEmWSeQkMj4aYYPqBnXlZxvPRGRODxCYBJJVV
+	QaSKnq2OaAfQXwcDxg0J8/naiE93CUInGzArPY7gWSJevIAgvGYozh+LMF9sQ5g+AHERGr
+	73TVO4UeRA1XaG+yJYyudTKrR8tKr2U=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-197-u3NY_3H_MdmHGOcLtR0QNA-1; Thu, 04 Apr 2024 05:58:32 -0400
+X-MC-Unique: u3NY_3H_MdmHGOcLtR0QNA-1
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2d6884f6de1so1563641fa.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 02:58:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712224711; x=1712829511;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Orry6me8Y86MAhIHpdcMtXnc6PoIoyVukOysNCbSjdE=;
+        b=j1Yu+bmMRaNPiIla1fdAA0koMeSqvuoHEjPjQhP56rMSpMU3MAfSCJhslfBEye+D4D
+         F8e1opL39HavCJGeED5M1Ep0LaETd8E/V7SBbgO3538kRzwjk0z831HZzi+j0LaSfN6k
+         ARGVxBa9SGf2BO+QY6yxi/7f3Fa9T25S3iRZYZpk2/mt8lYYANWuO+4nkzHYrNtCeY6H
+         JNOcdPtYTvqi6hDrM8MBgLZ4RgoBpeXD+ttj8l5cXSP+ft1SmffAJcEJTLpxiDBov9t5
+         DXwmaWy9QpHT/pQguiNichX5DCorHB5Ee0bJrjk/tBxfFU2dutt5c7hCR/rYdkZb3iti
+         uS8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXm+BvOd3sDQdHXmN27gpfDnuDcLQLaQberzxdYdY67IgCyrzF6zOcIiyiDZNZuM8/AdKyqJhPO4dlAyuvrSBei3LlZW6J1UijEUgE=
+X-Gm-Message-State: AOJu0Yzx3D10EWtlRjava2TThSD9VmsFv5qLpQglLiLxEgBxCblnzaE7
+	33Uv3Q0ptlPSVqgsGPpNJspWrixCKf8Q74Eh5Z2tUpG4tjMbdy+KQOMoPSnESgJN2nncL4w1/8o
+	2+hZz06EZYCvo7tj9y3PZxiKqJkCQS1m6XCVY9KJcibnwvpKG8lwqZtWpwtUM
+X-Received: by 2002:a2e:8495:0:b0:2d4:25c5:df1e with SMTP id b21-20020a2e8495000000b002d425c5df1emr1307553ljh.5.1712224710814;
+        Thu, 04 Apr 2024 02:58:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGL9iywRDTD5XwyTF1/J3z+dPLA+SbOUXVfOYlOrhd3UzBRJvxC5ppQjeIq9Frucy4B4viYOQ==
+X-Received: by 2002:a2e:8495:0:b0:2d4:25c5:df1e with SMTP id b21-20020a2e8495000000b002d425c5df1emr1307537ljh.5.1712224710432;
+        Thu, 04 Apr 2024 02:58:30 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-247-213.dyn.eolo.it. [146.241.247.213])
+        by smtp.gmail.com with ESMTPSA id m10-20020a05600c4f4a00b0041562a58b75sm2097660wmq.13.2024.04.04.02.58.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 02:58:29 -0700 (PDT)
+Message-ID: <4f44a9cb2d7cbd00d5dfa571bf87068bfd91f622.camel@redhat.com>
+Subject: Re: [PATCH net-next v6 3/3] net: ethernet: ti: am65-cpsw: Add
+ minimal XDP support
+From: Paolo Abeni <pabeni@redhat.com>
+To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
+ <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Russell King <linux@armlinux.org.uk>,  Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend
+ <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Simon Horman
+ <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Ratheesh Kannoth
+ <rkannoth@marvell.com>, Naveen Mamindlapalli <naveenm@marvell.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org
+Date: Thu, 04 Apr 2024 11:58:28 +0200
+In-Reply-To: <20240223-am65-cpsw-xdp-basic-v6-3-212eeff5bd5f@baylibre.com>
+References: <20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com>
+	 <20240223-am65-cpsw-xdp-basic-v6-3-212eeff5bd5f@baylibre.com>
+Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba1d234f-ec2b-4406-9c18-3e59445301de@xs4all.nl>
 
-Hi Hans,
+On Tue, 2024-04-02 at 12:33 +0200, Julien Panis wrote:
+[...]
+> +static int am65_cpsw_run_xdp(struct am65_cpsw_common *common, struct am6=
+5_cpsw_port *port,
+> +			     struct xdp_buff *xdp, int desc_idx, int cpu, int *len)
+> +{
+> +	struct am65_cpsw_rx_chn *rx_chn =3D &common->rx_chns;
+> +	struct net_device *ndev =3D port->ndev;
+> +	int ret =3D AM65_CPSW_XDP_CONSUMED;
+> +	struct am65_cpsw_tx_chn *tx_chn;
+> +	struct netdev_queue *netif_txq;
+> +	struct xdp_frame *xdpf;
+> +	struct bpf_prog *prog;
+> +	struct page *page;
+> +	u32 act;
+> +
+> +	prog =3D READ_ONCE(port->xdp_prog);
+> +	if (!prog)
+> +		return AM65_CPSW_XDP_PASS;
+> +
+> +	act =3D bpf_prog_run_xdp(prog, xdp);
+> +	/* XDP prog might have changed packet data and boundaries */
+> +	*len =3D xdp->data_end - xdp->data;
+> +
+> +	switch (act) {
+> +	case XDP_PASS:
+> +		ret =3D AM65_CPSW_XDP_PASS;
+> +		goto out;
+> +	case XDP_TX:
+> +		tx_chn =3D &common->tx_chns[cpu % AM65_CPSW_MAX_TX_QUEUES];
+> +		netif_txq =3D netdev_get_tx_queue(ndev, tx_chn->id);
+> +
+> +		xdpf =3D xdp_convert_buff_to_frame(xdp);
+> +		if (unlikely(!xdpf))
+> +			break;
+> +
+> +		__netif_tx_lock(netif_txq, cpu);
+> +		ret =3D am65_cpsw_xdp_tx_frame(ndev, tx_chn, xdpf,
+> +					     AM65_CPSW_TX_BUF_TYPE_XDP_TX);
+> +		__netif_tx_unlock(netif_txq);
+> +		if (ret)
+> +			break;
+> +
+> +		ndev->stats.rx_bytes +=3D *len;
+> +		ndev->stats.rx_packets++;
+> +		ret =3D AM65_CPSW_XDP_CONSUMED;
+> +		goto out;
+> +	case XDP_REDIRECT:
+> +		if (unlikely(xdp_do_redirect(ndev, xdp, prog)))
+> +			break;
+> +
+> +		xdp_do_flush();
 
-On Thu, Apr 04, 2024 at 10:27:49AM +0200, Hans Verkuil wrote:
-> Hi Laurent,
-> 
-> On 04/04/2024 00:42, Laurent Pinchart wrote:
-> > When support for streams was added to the V4L2 subdev API, the
-> > v4l2_subdev_crop structure was extended with a stream field, but the
-> > field was not handled in the core code that translates the
-> > VIDIOC_SUBDEV_[GS]_CROP ioctls to the selection API. This could be
-> > fixed, but the crop API is deprecated and shouldn't be used by new
-> > userspace code. It's therefore best to avoid extending it with new
-> > features. Drop the stream field from the v4l2_subdev_crop structure, and
-> > update the documentation and kernel code accordingly.
-> > 
-> > Fixes: 2f91e10ee6fd ("media: subdev: add stream based configuration")
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > This supersedes the "[PATCH] media: v4l2-subdev: Fix stream handling for
-> > crop API" patch ([1]). I'll submit matching patches for v4l2-compliance.
-> > 
-> > [1] https://patchwork.linuxtv.org/project/linux-media/patch/20240401233725.2401-1-laurent.pinchart@ideasonboard.com/
-> > ---
-> >  .../userspace-api/media/v4l/vidioc-subdev-g-crop.rst        | 5 +----
-> >  drivers/media/v4l2-core/v4l2-subdev.c                       | 6 ------
-> >  include/uapi/linux/v4l2-subdev.h                            | 4 +---
-> >  3 files changed, 2 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> > index 92d933631fda..7eeb7b553abf 100644
-> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
-> > @@ -96,10 +96,7 @@ modified format should be as close as possible to the original request.
-> >        - ``rect``
-> >        - Crop rectangle boundaries, in pixels.
-> >      * - __u32
-> > -      - ``stream``
-> > -      - Stream identifier.
-> > -    * - __u32
-> > -      - ``reserved``\ [7]
-> > +      - ``reserved``\ [8]
-> >        - Reserved for future extensions. Applications and drivers must set
-> >  	the array to zero.
-> >  
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 4c6198c48dd6..02c2a2b472df 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -725,9 +725,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >  		struct v4l2_subdev_crop *crop = arg;
-> >  		struct v4l2_subdev_selection sel;
-> >  
-> > -		if (!client_supports_streams)
-> > -			crop->stream = 0;
-> > -
-> >  		memset(crop->reserved, 0, sizeof(crop->reserved));
-> >  		memset(&sel, 0, sizeof(sel));
-> >  		sel.which = crop->which;
-> > @@ -749,9 +746,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >  		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
-> >  			return -EPERM;
-> >  
-> > -		if (!client_supports_streams)
-> > -			crop->stream = 0;
-> > -
-> >  		memset(crop->reserved, 0, sizeof(crop->reserved));
-> >  		memset(&sel, 0, sizeof(sel));
-> >  		sel.which = crop->which;
-> > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> > index 7048c51581c6..f7eea12d8a2c 100644
-> > --- a/include/uapi/linux/v4l2-subdev.h
-> > +++ b/include/uapi/linux/v4l2-subdev.h
-> > @@ -48,15 +48,13 @@ struct v4l2_subdev_format {
-> >   * @which: format type (from enum v4l2_subdev_format_whence)
-> >   * @pad: pad number, as reported by the media API
-> >   * @rect: pad crop rectangle boundaries
-> > - * @stream: stream number, defined in subdev routing
-> >   * @reserved: drivers and applications must zero this array
-> >   */
-> >  struct v4l2_subdev_crop {
-> >  	__u32 which;
-> >  	__u32 pad;
-> >  	struct v4l2_rect rect;
-> > -	__u32 stream;
-> > -	__u32 reserved[7];
-> > +	__u32 reserved[8];
-> >  };
-> 
-> Sorry, but you can't remove this field. This field has been in the uAPI since
-> v6.3, and applications might be using it, even if only to set it to 0. Removing
-> this field will break compilation of such applications.
-> 
-> Just fix the stream support instead, rather than removing it, as you did in
-> your original patch:
-> 
-> https://lore.kernel.org/linux-media/20240401233725.2401-1-laurent.pinchart@ideasonboard.com/
+The above will kill XDP redirect performances. Even if this HW has the
+same limitation of cpsw, the above will still deserve an explicit
+comment.
 
-Referring to the discussion that has already taken place, we'd rather offer
-a single API to control cropping and that is the selection API. But I agree
-that there is a theoretical possibility someone might have set this to zero
-and thus compilation could fail.
+Quickly skimming over the code it does not look so, so you could
+possibly move xdp_do_flush() in am65_cpsw_nuss_rx_poll().
 
-I'm sure this could be handled on the application still as there was never
-anything to configure here. Breaking binary compatibility would be a real
-issue but that's not what we have here.
+Cheers,
 
--- 
-Kind regards,
+Paolo
 
-Sakari Ailus
 
