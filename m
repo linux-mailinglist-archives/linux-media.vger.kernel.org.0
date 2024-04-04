@@ -1,214 +1,182 @@
-Return-Path: <linux-media+bounces-8607-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8608-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CA1898189
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:35:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03017898196
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:47:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A45D287B91
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:35:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73E7A1F23B79
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330282E630;
-	Thu,  4 Apr 2024 06:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B22DD44C87;
+	Thu,  4 Apr 2024 06:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YmHMrmdb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OL/XYWWT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E8918E20
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4817634CD8;
+	Thu,  4 Apr 2024 06:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712212534; cv=none; b=cqZJbPdVe3YGSEzUpI7YIlMWpaazC7yKeDgAmkdwDgSQnuywV2IaTONG3JkzxpweaM5eKpVVlZFs+s7QenF91u39EfdfIZXFNEvwnR5KV5BnBw9ImBhJce4Hpr/KNXHKs7hdlesAhovvmT50J/Fe6GbA+Vz5TkKTRhkyGPLpI3w=
+	t=1712213210; cv=none; b=Hp+NoJeyIQ3RDwdRV3Eff6o5TxKFTvE7HSAumTWVvuTI7VmH/EZ8tYTaEVeXmqeJVo0l28VTi+kAr5TGnkt419GSiEUPIPEiviYj+JfjAGVncTiixH2KkiqjiwcwN98kbS8vMzzn0K61zbvJ+ILHfNsHRaGvH4FycAdcEFPMFvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712212534; c=relaxed/simple;
-	bh=H9b5JJlTquQKI2VM9qJwXhoYJq+49fLigdSgodwpAeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PaZh4ZVfO3gZF+zLdVpSUgWYNq1LM4+UdHwkIC4micycYVhNc4ks+zBvJ4Ueq3sPxWik+aJeFCS1zjrKv5CxeshMWd4fdd1Wj3VrJ534iTYQ5U7Phg+ktv1AZw8ol6t32hzlMoBDnF+3Tanl3FFowgXdYG8vHTzXpuFh+G45LMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YmHMrmdb; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6991e317e05so15843786d6.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712212531; x=1712817331; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aUS+OYnFgkVlJtdzc5TCv6ib1nQIE7c9RlYNdnpE+8c=;
-        b=YmHMrmdb/HpI98l08cx9jfydLZhZEXfHmWtGpHfoy0ULLv+GlAhMvqWPtHbh4kuEnT
-         0iO2yp52VMshW5XSbkUAgPmaRWXC3q2bRE/EqUQZWf9x9QUPOThmrdeVPPIolxJmdoY1
-         GLcdfztDO5jleCo0NPZSeaH82I34vbsUO4y+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712212531; x=1712817331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aUS+OYnFgkVlJtdzc5TCv6ib1nQIE7c9RlYNdnpE+8c=;
-        b=OVoo6Tdfa264E0vYmOPyi62I7JDQRG0zOpkg/PI8Rhg5Xk/57AKMlLZTRHvlteuQi5
-         MFV6FTvcNl/Ul6rnLhxyPT6pyxJS4HB1SRs5yVS2JxbV+mttbS2eSu2D1KmZrtNmTib3
-         KblT49pJIIYSxEQz5RL5p0nO/cyGkQ6+7czyptGzBWTsjniRjOAtASk424wHPrlWFfBR
-         jAtDMNv5lU4M27EnVbQ95WMWphc7OIxshpOG7MXuXLZeDbye0PJH1YkQWDKTx+WuBAwM
-         qbI8YDLP/AS7xIBZszMvsZ896McnBNRq7RKuFzgNMbH6jrScxAXWpnM0ZiSJG2KLMFzx
-         bQDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTP46pn5hnroSIDxXn/yslMsrZDTlSaPn5W9JlEhd69xdqOZQgUPz2TV9BDAdw5hQtbpQfLIw30kZUwosLcE7M2y0tOx9/4+nral0=
-X-Gm-Message-State: AOJu0YwxJixQ+O5fs7e8nlTnBBqfd/QDdectjMUg8HTuYBdw0n5aXDZi
-	/1iGsKgZnsIbo5Hv4UHQI8Yoigprm98NsZf73smoJ0w8PEEGtBEfgQplPZl44NyCI9Rjt4c7TDC
-	4RoL/
-X-Google-Smtp-Source: AGHT+IGr1MWyuBrOvNMgwe6GyJHr5Kto+z7NpdpbjsB1Eb1Om1Uf8W1S1iBReD7s0q6V1mJuY2w4dg==
-X-Received: by 2002:a05:6214:2388:b0:692:494f:f0aa with SMTP id fw8-20020a056214238800b00692494ff0aamr2777336qvb.9.1712212531386;
-        Wed, 03 Apr 2024 23:35:31 -0700 (PDT)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
-        by smtp.gmail.com with ESMTPSA id 6-20020a05621420a600b006990b44228dsm3516721qvd.125.2024.04.03.23.35.30
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:35:30 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6991e317e05so15843636d6.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:35:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURIP/QfmeeUFE5vNuhxVUgP6SKGUPLPIGOlxW+xuUxJZ+j41FfBs7UgWGV8CdYC/tnUmfPt5hKvin+gcgiEi4FzP50cFt+P2S2TtY=
-X-Received: by 2002:a05:6214:1ccf:b0:691:67f9:16e7 with SMTP id
- g15-20020a0562141ccf00b0069167f916e7mr2530909qvd.24.1712212529833; Wed, 03
- Apr 2024 23:35:29 -0700 (PDT)
+	s=arc-20240116; t=1712213210; c=relaxed/simple;
+	bh=bMDLNBhBvkhLFpcvsy0yCqj4AI0a6AiW29CLCySMGFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cza/Iyu1bYGeBv034TB6wh/9VfbrQU5wyowdlBPbi7GQijaq478Rw9B15CDqkHkPwAeGOQDGYw1Zsz7XwZgw5+0pPGTnUjD95dtDJQGQlGt5dY1TlqL6RF7CazCVLZrmQyD2g0/ec1EWu94552tSARAwV/TSi9URAlkWwpCWDIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OL/XYWWT; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712213208; x=1743749208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bMDLNBhBvkhLFpcvsy0yCqj4AI0a6AiW29CLCySMGFE=;
+  b=OL/XYWWTKz4CzHFjNlOgxSQzTAn7SxKbDpqwTut3JCHRx0xxqfL3nkH1
+   C00MwkU09kkEZ/DSwwu5EkEtX9tXq9zTDG2wpoylAJ8CMOYRxB7w1ZKhT
+   SH89gCpZIbO7lcJarzvJC03iaV/zpGM4NnyZIJSndmaEHlFVWZw+1LyYL
+   /kkCYvmS8YetvfvdpFRRh+14IrRxXQzLjXF58RasB1S7gZuciMy88r3ZI
+   kWrXWa7qqz2GUyUHTpkOIbtnPyBgmBSStDCzXK610qPO2tiszaFd5k1vN
+   2SxZD3JZXLjUiQR1R54sfH/dFwFTqyU2uxGLloVwgCEK2nalsVLDpCTkg
+   A==;
+X-CSE-ConnectionGUID: GiunqB3hSoeVRSfS4kHMBQ==
+X-CSE-MsgGUID: sW1oCmmGQt6JpM0ylrgh+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7379357"
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="7379357"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 23:46:47 -0700
+X-CSE-ConnectionGUID: VdGosPykQImF++czo0WKFw==
+X-CSE-MsgGUID: 5Z/d2OWiTuSW0zkKSBOjTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="18525005"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 23:46:42 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3D31211F855;
+	Thu,  4 Apr 2024 09:46:39 +0300 (EEST)
+Date: Thu, 4 Apr 2024 06:46:39 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Luigi311 <git@luigi311.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	pavel@ucw.cz, phone-devel@vger.kernel.org,
+	Ondrej Jirman <megi@xff.cz>
+Subject: Re: [PATCH v3 21/25] drivers: media: i2c: imx258: Use macros
+Message-ID: <Zg5Mz0QSqNDXzY4o@kekkonen.localdomain>
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-22-git@luigi311.com>
+ <Zg2CirmwL3JfjA8s@kekkonen.localdomain>
+ <df8c245a-40e9-4bf5-b870-7efe321d820a@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240325142611.15550-1-oleksandr@natalenko.name>
- <6046664.lOV4Wx5bFT@natalenko.name> <20240404011120.GH23803@pendragon.ideasonboard.com>
-In-Reply-To: <20240404011120.GH23803@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 4 Apr 2024 08:35:14 +0200
-X-Gmail-Original-Message-ID: <CANiDSCu5-coAyJZeiL5q3cPOdJ9Xaf1oE3VP90Sj_EycGr_QRQ@mail.gmail.com>
-Message-ID: <CANiDSCu5-coAyJZeiL5q3cPOdJ9Xaf1oE3VP90Sj_EycGr_QRQ@mail.gmail.com>
-Subject: Re: [PATCH] media/uvcvideo: add quirk for invalid dev_sof in Logitech C920
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Oleksandr Natalenko <oleksandr@natalenko.name>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"hn.chen" <hn.chen@sunplusit.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df8c245a-40e9-4bf5-b870-7efe321d820a@luigi311.com>
 
-Hi Laurent
+On Wed, Apr 03, 2024 at 01:17:26PM -0600, Luigi311 wrote:
+> On 4/3/24 10:23, Sakari Ailus wrote:
+> > Hi Luis,
+> > 
+> > On Wed, Apr 03, 2024 at 09:03:50AM -0600, git@luigi311.com wrote:
+> >> From: Luis Garcia <git@luigi311.com>
+> >>
+> >> Use understandable macros instead of raw values.
+> >>
+> >> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> >> Signed-off-by: Luis Garcia <git@luigi311.com>
+> >> ---
+> >>  drivers/media/i2c/imx258.c | 434 ++++++++++++++++++-------------------
+> >>  1 file changed, 207 insertions(+), 227 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> >> index e2ecf6109516..30352c33f63c 100644
+> >> --- a/drivers/media/i2c/imx258.c
+> >> +++ b/drivers/media/i2c/imx258.c
+> >> @@ -33,8 +33,6 @@
+> >>  #define IMX258_VTS_30FPS_VGA		0x034c
+> >>  #define IMX258_VTS_MAX			65525
+> >>  
+> >> -#define IMX258_REG_VTS			0x0340
+> >> -
+> >>  /* HBLANK control - read only */
+> >>  #define IMX258_PPL_DEFAULT		5352
+> >>  
+> >> @@ -90,6 +88,53 @@
+> >>  #define IMX258_PIXEL_ARRAY_WIDTH	4208U
+> >>  #define IMX258_PIXEL_ARRAY_HEIGHT	3120U
+> >>  
+> >> +/* regs */
+> >> +#define IMX258_REG_PLL_MULT_DRIV                  0x0310
+> >> +#define IMX258_REG_IVTPXCK_DIV                    0x0301
+> >> +#define IMX258_REG_IVTSYCK_DIV                    0x0303
+> >> +#define IMX258_REG_PREPLLCK_VT_DIV                0x0305
+> >> +#define IMX258_REG_IOPPXCK_DIV                    0x0309
+> >> +#define IMX258_REG_IOPSYCK_DIV                    0x030b
+> >> +#define IMX258_REG_PREPLLCK_OP_DIV                0x030d
+> >> +#define IMX258_REG_PHASE_PIX_OUTEN                0x3030
+> >> +#define IMX258_REG_PDPIX_DATA_RATE                0x3032
+> >> +#define IMX258_REG_SCALE_MODE                     0x0401
+> >> +#define IMX258_REG_SCALE_MODE_EXT                 0x3038
+> >> +#define IMX258_REG_AF_WINDOW_MODE                 0x7bcd
+> >> +#define IMX258_REG_FRM_LENGTH_CTL                 0x0350
+> >> +#define IMX258_REG_CSI_LANE_MODE                  0x0114
+> >> +#define IMX258_REG_X_EVN_INC                      0x0381
+> >> +#define IMX258_REG_X_ODD_INC                      0x0383
+> >> +#define IMX258_REG_Y_EVN_INC                      0x0385
+> >> +#define IMX258_REG_Y_ODD_INC                      0x0387
+> >> +#define IMX258_REG_BINNING_MODE                   0x0900
+> >> +#define IMX258_REG_BINNING_TYPE_V                 0x0901
+> >> +#define IMX258_REG_FORCE_FD_SUM                   0x300d
+> >> +#define IMX258_REG_DIG_CROP_X_OFFSET              0x0408
+> >> +#define IMX258_REG_DIG_CROP_Y_OFFSET              0x040a
+> >> +#define IMX258_REG_DIG_CROP_IMAGE_WIDTH           0x040c
+> >> +#define IMX258_REG_DIG_CROP_IMAGE_HEIGHT          0x040e
+> >> +#define IMX258_REG_SCALE_M                        0x0404
+> >> +#define IMX258_REG_X_OUT_SIZE                     0x034c
+> >> +#define IMX258_REG_Y_OUT_SIZE                     0x034e
+> >> +#define IMX258_REG_X_ADD_STA                      0x0344
+> >> +#define IMX258_REG_Y_ADD_STA                      0x0346
+> >> +#define IMX258_REG_X_ADD_END                      0x0348
+> >> +#define IMX258_REG_Y_ADD_END                      0x034a
+> >> +#define IMX258_REG_EXCK_FREQ                      0x0136
+> >> +#define IMX258_REG_CSI_DT_FMT                     0x0112
+> >> +#define IMX258_REG_LINE_LENGTH_PCK                0x0342
+> >> +#define IMX258_REG_SCALE_M_EXT                    0x303a
+> >> +#define IMX258_REG_FRM_LENGTH_LINES               0x0340
+> >> +#define IMX258_REG_FINE_INTEG_TIME                0x0200
+> >> +#define IMX258_REG_PLL_IVT_MPY                    0x0306
+> >> +#define IMX258_REG_PLL_IOP_MPY                    0x030e
+> >> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_H       0x0820
+> >> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_L       0x0822
+> >> +
+> >> +#define REG8(a, v) { a, v }
+> >> +#define REG16(a, v) { a, ((v) >> 8) & 0xff }, { (a) + 1, (v) & 0xff }
+> > 
+> > The patch is nice but these macros are better replaced by the V4L2 CCI
+> > helper that also offers register access functions. Could you add a patch to
+> > convert the driver to use it (maybe after this one)?
+> > 
+> 
+> Ohh perfect, using something else would be great. Ill go ahead and see
+> if I can get that working.
 
-On Thu, 4 Apr 2024 at 03:11, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Oleksandr,
->
-> On Mon, Apr 01, 2024 at 06:45:16PM +0200, Oleksandr Natalenko wrote:
-> > On pond=C4=9Bl=C3=AD 25. b=C5=99ezna 2024 15:26:11, CEST Oleksandr Nata=
-lenko wrote:
-> > > Similarly to Logitech C922, C920 seems to also suffer from a firmware
-> > > bug that breaks hardware timestamping.
-> > >
-> > > Add a quirk for this camera model too.
-> > >
-> > > Before applying the quirk:
-> > >
-> > > ```
-> > > 100 (4) [-] none 100 200717 B 212.919114 213.079004 33.727 fps ts mon=
-o/SoE
-> > > 101 (5) [-] none 101 200889 B 213.003703 213.114996 11.822 fps ts mon=
-o/SoE
-> > > 102 (6) [-] none 102 200926 B 213.035571 213.146999 31.379 fps ts mon=
-o/SoE
-> > > 103 (7) [-] none 103 200839 B 213.067424 213.179003 31.394 fps ts mon=
-o/SoE
-> > > 104 (0) [-] none 104 200692 B 213.293180 213.214991 4.430 fps ts mono=
-/SoE
-> > > 105 (1) [-] none 105 200937 B 213.322374 213.247001 34.254 fps ts mon=
-o/SoE
-> > > 106 (2) [-] none 106 201013 B 213.352228 213.279005 33.496 fps ts mon=
-o/SoE
-> > > =E2=80=A6
-> > > ```
-> > >
-> > > After applying the quirk:
-> > >
-> > > ```
-> > > 154 (2) [-] none 154 192417 B 42.199823 42.207788 27.779 fps ts mono/=
-SoE
-> > > 155 (3) [-] none 155 192040 B 42.231834 42.239791 31.239 fps ts mono/=
-SoE
-> > > 156 (4) [-] none 156 192213 B 42.263823 42.271822 31.261 fps ts mono/=
-SoE
-> > > 157 (5) [-] none 157 191981 B 42.299824 42.303827 27.777 fps ts mono/=
-SoE
-> > > 158 (6) [-] none 158 191953 B 42.331835 42.339811 31.239 fps ts mono/=
-SoE
-> > > 159 (7) [-] none 159 191904 B 42.363824 42.371813 31.261 fps ts mono/=
-SoE
-> > > 160 (0) [-] none 160 192210 B 42.399834 42.407801 27.770 fps ts mono/=
-SoE
-> > > ```
-> > >
-> > > Link: https://lore.kernel.org/lkml/5764213.DvuYhMxLoT@natalenko.name/
-> > > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > Signed-off-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/u=
-vc/uvc_driver.c
-> > > index 723e6d5680c2e..444d7089885ea 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -2573,7 +2573,8 @@ static const struct usb_device_id uvc_ids[] =3D=
- {
-> > >       .bInterfaceClass      =3D USB_CLASS_VIDEO,
-> > >       .bInterfaceSubClass   =3D 1,
-> > >       .bInterfaceProtocol   =3D 0,
-> > > -     .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
-S_ON_INIT) },
-> > > +     .driver_info          =3D UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRL=
-S_ON_INIT
-> > > +                                          | UVC_QUIRK_INVALID_DEVICE=
-_SOF) },
-> > >     /* Logitech HD Pro Webcam C922 */
-> > >     { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
-> > >                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > >
-> >
-> > Gentle ping on this one.
->
-> Ricardo, could you include this in the next version of your hw timestamp
-> series ?
+Thanks. It may be easier to just do it in this one actually. Up to you.
 
-There are no outstanding comments on the series
-https://patchwork.linuxtv.org/project/linux-media/list/?series=3D12485
-
-Do you need me to send a v11 with this patch? or you can take that
-directly from your tree?
-
-Thanks!
-
->
-> > Also, should I have added:
-> >
-> > Fixes: 5d0fd3c806b9 ("[media] uvcvideo: Disable hardware timestamps by =
-default")
-> >
-> > ?
->
-> I don't think that's needed, no.
->
-> > (it's not that this change re-enables HW timestamping, but
-> > 5d0fd3c806b9 explicitly mentions C920 as affected)
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
---=20
-Ricardo Ribalda
+-- 
+Sakari Ailus
 
