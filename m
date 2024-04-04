@@ -1,264 +1,298 @@
-Return-Path: <linux-media+bounces-8663-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8664-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79518989A5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 16:13:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3938898A08
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 16:25:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 664591F2C1A1
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 14:13:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D26FE1C21680
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 14:25:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2421129A7D;
-	Thu,  4 Apr 2024 14:13:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0EB129A9C;
+	Thu,  4 Apr 2024 14:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="mUA21glA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qCyKjovu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7731292FC
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 14:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C26B128834;
+	Thu,  4 Apr 2024 14:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712239982; cv=none; b=n5c1nwmu6jLPt++bwDelZpu96ndzWixXYdsTVGSP5VWyD52iJsOaTWwD5f+40nvB39C8srwNd/xZXJSJ5mS64hslW1F8Xm+c4asSnnn2YpWqQL2VzVDSMlFx/WG6wjhTlBpFTNQr+nqGqXL5xCp9+cokxTul3l7dEI6nouubwDw=
+	t=1712240729; cv=none; b=ikgdwzj7+Itma50Hn0xr4FLFc/IUwBMvoar4MGMo0kRlFdFsbNCMGFVbPyYvBVoIDdVU7U3ITiWmscmWq7pbHuuh/EaHf2x+lj00Yi2hc46RFxRu6i9abYle8CV1lniruRg4bzyJxgAlY3QeUmFrvnNs5/O6LwsEjwkmhzyH0nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712239982; c=relaxed/simple;
-	bh=24DVCB0AtO6sSu8g6iu7VSYImGTEkT8jVFxncvRBhFk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UwRab4VTyGPHnXXNL3uZDuJijKEdwbusj3dtSaSsYosKjEZa4ZKborG+Baz2h+/6FRCCx8daXEIEBdU0L1Gyd+azhpPMa9WRi+vAGBFmgx9xMCBnwIhv0OxB766mimgP87Z8iISz8ZqiZyJc8gG15G1tJpz2c8Snwp1mdaUdJsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=mUA21glA; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc236729a2bso1033274276.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 07:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1712239978; x=1712844778; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ptApJg0lZA58LEoF0DTe5yUBAeVKWs9Xi1CFZCKcXxk=;
-        b=mUA21glAzn3GYXuuB27gAwTa61C8yJVtmMH0SkjKgjmOefSpecUzJXvLpjtOxAK7/a
-         lgg27jOxkUSqqOf6rqk6Z4X95V5saD8PE3oTlZB7qURtAqbZjBit8V9SnXLbDn0E/w5O
-         azwFkwg/4ec8fgoV/jXskWsaZ5jTHMVbvjHbTKdy3HSnAnzmUQwOYRdp7Gdu0Lt32w8q
-         4zAM5f4A76HuxkINeFcA15Emm83Xh/+jGdWkeEtFeIMj5VZh3ernuXl27V0Q99B1PSsE
-         kHnZ3FfqhkxzJqh2JbHVyoPADdh7QV/lsrqJ1cytAKXsZZfTC58h1PVeTFQQVa3yOMz7
-         U6+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712239978; x=1712844778;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ptApJg0lZA58LEoF0DTe5yUBAeVKWs9Xi1CFZCKcXxk=;
-        b=r5NyIagiasOmKLuDMpr+QBMEbhREqT1PYhB/417qpMjHm1RxfUjHO1u+R904l1RdoZ
-         NSwg6bZDwn3TlaTMcOFOGXfT74oFPLgPl40ZMAyi9ck0IqQfHg8b7GRJfXS1LY4liJcx
-         siWDgm5GUqFKx4QrrpFwcygY+YbpEQfe3Tn5rYO1dwMfYv1ScqzeXwiAJrewAdX5V4lJ
-         t/xPfY/VumxszNjJLbTLPk2SjO4aJ1Xp38uFZ5H32bi3wDYUet1P05yGm4oEuAG3jltg
-         +WJss6fN06yhn8NOkNXGiknxNPV/w8BX/RxxD6zH7ddDwEHta8YhPsJRD6Y2RZESCDRu
-         2VUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkQtK3DDUD4R8gaQ8NcDmMd5l6ypcTr4ojgh9lUOlmFLq6Any1DtH00hztsqzSlA+XglEvdO1JlhCWoWpFWuW0GEDZPT3BZfePqJw=
-X-Gm-Message-State: AOJu0Yx+jZrTRL4Sm1mtDcnbmilWVtAsLJI+T4Hp+ZguhaHiRB9rF0JI
-	28nlTyoPPPmXkj1fL7XJEQsoYBTdCb9TfcCTMj0vEBG/7XiUr90iqXodlTNHKf7bge4gVkEN//L
-	WHUZOzQ/rFatS4Hs/cS2TDhSutSSc3I2snI7jhw==
-X-Google-Smtp-Source: AGHT+IFY4/FdCnSuzKJ1eMiQ01HA592h+X+sKaRzMe2lVBT5Rjt65RxAtvBBhTXwCHu7tLtZ/tYJJVE8QkX+SGVDQGs=
-X-Received: by 2002:a25:848e:0:b0:dcf:a52d:6134 with SMTP id
- v14-20020a25848e000000b00dcfa52d6134mr2583779ybk.26.1712239978579; Thu, 04
- Apr 2024 07:12:58 -0700 (PDT)
+	s=arc-20240116; t=1712240729; c=relaxed/simple;
+	bh=aAPOzc2+WreCpo8XIFq0ibbeJ127vpP4ofKSCjSQELA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P3IhkngBdZO2/FelFu+hvvH+zkVHz0EeWQ+hagl44zYx/SWfrkINa/KD0e7t5a8LhncaXh2sp2w6eo66niXrAojd8/SS/g0n/yJsMlSytrsSz/3QgeQitE7/E3k53ER64kJqPEC02075ZpguPmkRPQeZS4MoDgDxAL4FpsZedMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qCyKjovu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 954C41A2;
+	Thu,  4 Apr 2024 16:24:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712240687;
+	bh=aAPOzc2+WreCpo8XIFq0ibbeJ127vpP4ofKSCjSQELA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qCyKjovuI8/S+h12ILTJ5ge2Cma1S6qOdcCljeTFLPLt85Rv91fyLU6XPt1XSx0mH
+	 8mvRXED2L+NtUpWoDUuMBHv8M4v8MFLjTvEcgr6ao6e1wfVZK1flXHW+GhsKiHCK32
+	 Z34XNv993zv71njMU6IIY4FA9rTZaS14RoaQSywg=
+Date: Thu, 4 Apr 2024 17:25:14 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] media: subdev: Improve
+ v4l2_subdev_enable/disable_streams_fallback
+Message-ID: <20240404142514.GT23803@pendragon.ideasonboard.com>
+References: <20240404-enable-streams-impro-v1-0-1017a35bbe07@ideasonboard.com>
+ <20240404-enable-streams-impro-v1-3-1017a35bbe07@ideasonboard.com>
+ <Zg6anfpQt80gSKjN@kekkonen.localdomain>
+ <a5ea5844-a7ba-408b-8007-2000dc94be24@ideasonboard.com>
+ <20240404130617.GR23803@pendragon.ideasonboard.com>
+ <e26e1251-de1d-4c86-9041-a5e3b2e2d765@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403150355.189229-1-git@luigi311.com> <20240403150355.189229-24-git@luigi311.com>
- <Zg2DBasC501hMQSS@kekkonen.localdomain> <wjlcde7yoooygj4hhdmiwrdloh6l4p6i2qbmjek5uwsifyzwgu@xjhutvmsdfou>
- <dd0e64c8-5eef-421a-9d9f-8a5865743369@luigi311.com>
-In-Reply-To: <dd0e64c8-5eef-421a-9d9f-8a5865743369@luigi311.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 4 Apr 2024 15:12:42 +0100
-Message-ID: <CAPY8ntAcB3wyLj1wNE5YBx0_UGRiXEv6057XfEBfjk8NOLC9yQ@mail.gmail.com>
-Subject: Re: [PATCH v3 23/25] drivers: media: i2c: imx258: Add support for
- powerdown gpio
-To: Luigi311 <git@luigi311.com>
-Cc: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e26e1251-de1d-4c86-9041-a5e3b2e2d765@ideasonboard.com>
 
-Hi Luigi
+On Thu, Apr 04, 2024 at 04:47:41PM +0300, Tomi Valkeinen wrote:
+> On 04/04/2024 16:06, Laurent Pinchart wrote:
+> > On Thu, Apr 04, 2024 at 03:38:45PM +0300, Tomi Valkeinen wrote:
+> >> On 04/04/2024 15:18, Sakari Ailus wrote:
+> >>> On Thu, Apr 04, 2024 at 01:50:02PM +0300, Tomi Valkeinen wrote:
+> >>>> v4l2_subdev_enable/disable_streams_fallback() supports falling back to
+> >>>> .s_stream() for subdevs with a single source pad. It also tracks the
+> >>>> enabled streams for that one pad in the sd->enabled_streams field.
+> >>>>
+> >>>> Tracking the enabled streams with sd->enabled_streams does not make
+> >>>> sense, as with .s_stream() there can only be a single stream per pad.
+> >>>> Thus, as the v4l2_subdev_enable/disable_streams_fallback() only supports
+> >>>> a single source pad, all we really need is a boolean which tells whether
+> >>>> streaming has been enabled on this pad or not.
+> >>>>
+> >>>> However, as we only need a true/false state for a pad (instead of
+> >>>> tracking which streams have been enabled for a pad), we can easily
+> >>>> extend the fallback mechanism to support multiple source pads as we only
+> >>>> need to keep track of which pads have been enabled.
+> >>>>
+> >>>> Change the sd->enabled_streams field to sd->enabled_pads, which is a
+> >>>> 64-bit bitmask tracking the enabled source pads. With this change we can
+> >>>> remove the restriction that
+> >>>> v4l2_subdev_enable/disable_streams_fallback() only supports a single
+> >>>> soruce pad.
+> > 
+> > s/soruce/source/
+> > 
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>> ---
+> >>>>    drivers/media/v4l2-core/v4l2-subdev.c | 68 ++++++++++++++++++++---------------
+> >>>>    include/media/v4l2-subdev.h           |  9 +++--
+> >>>>    2 files changed, 44 insertions(+), 33 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>> index 3b3310bce5d4..91298bb84e6b 100644
+> >>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>> @@ -2090,37 +2090,43 @@ static int v4l2_subdev_enable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+> >>>>    					       u64 streams_mask)
+> >>>>    {
+> >>>>    	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> >>>> -	unsigned int i;
+> >>>>    	int ret;
+> >>>>    
+> >>>>    	/*
+> >>>>    	 * The subdev doesn't implement pad-based stream enable, fall back
+> >>>> -	 * on the .s_stream() operation. This can only be done for subdevs that
+> >>>> -	 * have a single source pad, as sd->enabled_streams is global to the
+> >>>> -	 * subdev.
+> >>>> +	 * on the .s_stream() operation.
+> > 
+> > While at it, s/on/to/
+> 
+> Actually, now that we support multiple pads here... Should the comment 
+> and the if below, checking whether the pad is a source pad, be removed? 
+> Is there any reason to require a source pad here (but not in the 
+> non-fallback case)?
 
-On Wed, 3 Apr 2024 at 20:34, Luigi311 <git@luigi311.com> wrote:
->
-> On 4/3/24 10:57, Ond=C5=99ej Jirman wrote:
-> > Hi Sakari and Luis,
-> >
-> > On Wed, Apr 03, 2024 at 04:25:41PM GMT, Sakari Ailus wrote:
-> >> Hi Luis, Ondrej,
+Mostly the lack of test platforms where we handle stream start/stop from
+source to sink, calling the operations on sink pads. I'm sure there will
+be unforeseen issues :-)
+
+> > Same below.
+> > 
+> >>>>    	 */
+> >>>>    	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+> >>>>    		return -EOPNOTSUPP;
+> >>>>    
+> >>>> -	for (i = 0; i < sd->entity.num_pads; ++i) {
+> >>>> -		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> >>>> -			return -EOPNOTSUPP;
+> >>>> -	}
+> >>>> +	/*
+> >>>> +	 * .s_stream() means there is no streams support, so only allowed stream
+> >>>> +	 * is the imlicit stream 0.
+> > 
+> > s/imlicit/implicit/
+> > 
+> > Same below.
+> > 
+> >>>> +	 */
+> >>>> +	if (streams_mask != BIT_ULL(0))
+> >>>> +		return -EOPNOTSUPP;
+> >>>> +
+> >>>> +	/*
+> >>>> +	 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
+> >>>> +	 * with 64 pads or less can be supported.
+> >>>> +	 */
+> >>>> +	if (pad >= sizeof(sd->enabled_pads) * 8)
+> >>>
+> >>> s/8/BITS_PER_BYTE/
+> >>>
+> >>>> +		return -EOPNOTSUPP;
+> >>>>    
+> >>>> -	if (sd->enabled_streams & streams_mask) {
+> >>>> -		dev_dbg(dev, "set of streams %#llx already enabled on %s:%u\n",
+> >>>> -			streams_mask, sd->entity.name, pad);
+> >>>> +	if (sd->enabled_pads & BIT_ULL(pad)) {
+> >>>> +		dev_dbg(dev, "pad %u already enabled on %s\n",
+> >>>> +			pad, sd->entity.name);
+> >>>>    		return -EALREADY;
+> >>>>    	}
+> >>>>    
+> >>>> -	/* Start streaming when the first streams are enabled. */
+> >>>> -	if (!sd->enabled_streams) {
+> >>>> +	/* Start streaming when the first pad is enabled. */
+> >>>> +	if (!sd->enabled_pads) {
+> >>>>    		ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> >>>>    		if (ret)
+> >>>>    			return ret;
+> >>>>    	}
+> >>>>    
+> >>>> -	sd->enabled_streams |= streams_mask;
+> >>>> +	sd->enabled_pads |= BIT_ULL(pad);
+> >>>>    
+> >>>>    	return 0;
+> >>>>    }
+> >>>> @@ -2207,37 +2213,43 @@ static int v4l2_subdev_disable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+> >>>>    						u64 streams_mask)
+> >>>>    {
+> >>>>    	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> >>>> -	unsigned int i;
+> >>>>    	int ret;
+> >>>>    
+> >>>>    	/*
+> >>>> -	 * If the subdev doesn't implement pad-based stream enable, fall  back
+> >>>> -	 * on the .s_stream() operation. This can only be done for subdevs that
+> >>>> -	 * have a single source pad, as sd->enabled_streams is global to the
+> >>>> -	 * subdev.
+> >>>> +	 * If the subdev doesn't implement pad-based stream enable, fall back
+> >>>> +	 * on the .s_stream() operation.
+> >>>>    	 */
+> >>>>    	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+> >>>>    		return -EOPNOTSUPP;
+> >>>>    
+> >>>> -	for (i = 0; i < sd->entity.num_pads; ++i) {
+> >>>> -		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> >>>> -			return -EOPNOTSUPP;
+> >>>> -	}
+> >>>> +	/*
+> >>>> +	 * .s_stream() means there is no streams support, so only allowed stream
+> >>>> +	 * is the imlicit stream 0.
+> >>>> +	 */
+> >>>> +	if (streams_mask != BIT_ULL(0))
+> >>>> +		return -EOPNOTSUPP;
+> >>>> +
+> >>>> +	/*
+> >>>> +	 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
+> >>>> +	 * with 64 pads or less can be supported.
+> >>>> +	 */
+> >>>> +	if (pad >= sizeof(sd->enabled_pads) * 8)
+> >>>
+> >>> Ditto.
+> >>>
+> >>> How much of the code of the two functions is the same? Could some of this
+> >>> be put to a common function both would call? They look (almost) exactly the
+> >>> same.
 > >>
-> >> On Wed, Apr 03, 2024 at 09:03:52AM -0600, git@luigi311.com wrote:
-> >>> From: Luis Garcia <git@luigi311.com>
-> >>>
-> >>> On some boards powerdown signal needs to be deasserted for this
-> >>> sensor to be enabled.
-> >>>
-> >>> Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> >>> Signed-off-by: Luis Garcia <git@luigi311.com>
-> >>> ---
-> >>>  drivers/media/i2c/imx258.c | 13 +++++++++++++
-> >>>  1 file changed, 13 insertions(+)
-> >>>
-> >>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> >>> index 30352c33f63c..163f04f6f954 100644
-> >>> --- a/drivers/media/i2c/imx258.c
-> >>> +++ b/drivers/media/i2c/imx258.c
-> >>> @@ -679,6 +679,8 @@ struct imx258 {
-> >>>     unsigned int lane_mode_idx;
-> >>>     unsigned int csi2_flags;
-> >>>
-> >>> +   struct gpio_desc *powerdown_gpio;
-> >>> +
-> >>>     /*
-> >>>      * Mutex for serialized access:
-> >>>      * Protect sensor module set pad format and start/stop streaming =
-safely.
-> >>> @@ -1213,6 +1215,8 @@ static int imx258_power_on(struct device *dev)
-> >>>     struct imx258 *imx258 =3D to_imx258(sd);
-> >>>     int ret;
-> >>>
-> >>> +   gpiod_set_value_cansleep(imx258->powerdown_gpio, 0);
-> >>
-> >> What does the spec say? Should this really happen before switching on =
-the
-> >> supplies below?
-> >
-> > There's no powerdown input in the IMX258 manual. The manual only mentio=
-ns
-> > that XCLR (reset) should be held low during power on.
-> >
-> > https://megous.com/dl/tmp/15b0992a720ab82d.png
-> >
-> > https://megous.com/dl/tmp/f2cc991046d97641.png
-> >
-> >    This sensor doesn=E2=80=99t have a built-in =E2=80=9CPower ON Reset=
-=E2=80=9D function. The XCLR pin
-> >    is set to =E2=80=9CLOW=E2=80=9D and the power supplies are brought u=
-p. Then the XCLR pin
-> >    should be set to =E2=80=9CHigh=E2=80=9D after INCK supplied.
-> >
-> > So this input is some feature on camera module itself outside of the
-> > IMX258 chip, which I think is used to gate power to the module. Eg. on =
-Pinephone
-> > Pro, there are two modules with shared power rails, so enabling supply =
-to
-> > one module enables it to the other one, too. So this input becomes the =
-only way
-> > to really enable/disable power to the chip when both are used at once a=
-t some
-> > point, because regulator_bulk_enable/disable becomes ineffective at tha=
-t point.
-> >
-> > Luis, maybe you saw some other datasheet that mentions this input? IMO,
-> > it just gates the power rails via some mosfets on the module itself, si=
-nce
-> > there's not power down input to the chip itself.
-> >
-> > kind regards,
-> >       o.
-> >
->
-> Ondrej, I did not see anything else in the datasheet since I'm pretty sur=
-e
-> I'm looking at the same datasheet as it was supplied to me by Pine64. I'm
-> not sure what datasheet Dave has access to since he got his for a
-> completely different module than what we are testing with though.
+> >> v4l2_subdev_enable_streams_fallback and v4l2_subdev_enable_streams? They
+> >> have similar parts, but I don't right away see how combining them or
+> >> making some common functions would help.
+> > 
+> > You could move the three checks to a
+> > v4l2_subdev_streams_fallback_check() function (bikeshedding the name is
+> > allowed).
+> > 
+> >>>> +		return -EOPNOTSUPP;
+> >>>>    
+> >>>> -	if ((sd->enabled_streams & streams_mask) != streams_mask) {
+> >>>> -		dev_dbg(dev, "set of streams %#llx already disabled on %s:%u\n",
+> >>>> -			streams_mask, sd->entity.name, pad);
+> >>>> +	if ((sd->enabled_pads & BIT_ULL(pad)) != BIT_ULL(pad)) {
+> > 
+> > 	if (!(sd->enabled_pads & BIT_ULL(pad))) {
+> > 
+> >>>> +		dev_dbg(dev, "pad %u already disabled on %s\n",
+> >>>> +			pad, sd->entity.name);
+> >>>>    		return -EALREADY;
+> >>>>    	}
+> >>>>    
+> >>>>    	/* Stop streaming when the last streams are disabled. */
+> >>>> -	if (!(sd->enabled_streams & ~streams_mask)) {
+> >>>> +	if (!(sd->enabled_pads & ~BIT_ULL(pad))) {
+> >>>>    		ret = v4l2_subdev_call(sd, video, s_stream, 0);
+> >>>>    		if (ret)
+> >>>>    			return ret;
+> >>>>    	}
+> >>>>    
+> >>>> -	sd->enabled_streams &= ~streams_mask;
+> >>>> +	sd->enabled_pads &= ~BIT_ULL(pad);
+> >>>>    
+> >>>>    	return 0;
+> >>>>    }
+> >>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >>>> index 8bd1e3c96d2b..7077aec3176c 100644
+> >>>> --- a/include/media/v4l2-subdev.h
+> >>>> +++ b/include/media/v4l2-subdev.h
+> >>>> @@ -1039,10 +1039,9 @@ struct v4l2_subdev_platform_data {
+> >>>>     * @active_state: Active state for the subdev (NULL for subdevs tracking the
+> >>>>     *		  state internally). Initialized by calling
+> >>>>     *		  v4l2_subdev_init_finalize().
+> >>>> - * @enabled_streams: Bitmask of enabled streams used by
+> >>>> - *		     v4l2_subdev_enable_streams() and
+> >>>> - *		     v4l2_subdev_disable_streams() helper functions for fallback
+> >>>> - *		     cases.
+> >>>> + * @enabled_pads: Bitmask of enabled pads used by v4l2_subdev_enable_streams()
+> >>>> + *		  and v4l2_subdev_disable_streams() helper functions for
+> >>>> + *		  fallback cases.
+> >>>>     * @streaming_enabled: Tracks whether streaming has been enabled with s_stream.
+> >>>>     *
+> >>>>     * Each instance of a subdev driver should create this struct, either
+> >>>> @@ -1091,7 +1090,7 @@ struct v4l2_subdev {
+> >>>>    	 * doesn't support it.
+> >>>>    	 */
+> >>>>    	struct v4l2_subdev_state *active_state;
+> >>>> -	u64 enabled_streams;
+> >>>> +	u64 enabled_pads;
+> >>>>    	bool streaming_enabled;
+> >>>>    };
+> >>>>    
 
-I only have a leaked datasheet (isn't the internet wonderful!)  [1]
-XCLR is documented in that, as Ondrej has said.
+-- 
+Regards,
 
-If this powerdown GPIO is meant to be driving XCLR, then it is in the
-wrong order against the supplies.
-
-This does make me confused over the difference between this powerdown
-GPIO and the reset GPIO that you implement in 24/25.
-
-Following the PinePhone Pro DT [3] and schematics [4]
-reset-gpios =3D <&gpio1 RK_PA0 GPIO_ACTIVE_LOW>;
-powerdown-gpios =3D <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
-
-Schematic page 11 upper right block
-GPIO1_A0/ISP0_SHUTTER_EN/ISP1_SHUTTER_EN/TCPD_VBUS_SINK_EN_d becomes
-Camera_RST_L. Page 18 feeds that through to the RESET on the camera
-connector.
-Page 11 left middle block GPIO2_D4/SDIO0_BKPWR_d becomes DVP_PDN1_H.
-Page 18 feeds that through to the PWDN on the camera connector.
-
-Seeing as we apparently have a lens driver kicking around as well,
-potentially one is reset to the VCM, and one to the sensor? DW9714
-does have an XSD shutdown pin.
-Only the module integrator is going to really know the answer,
-although potentially a little poking with gpioset and i2cdetect may
-tell you more.
-
-  Dave
-
-[1] https://web.archive.org/web/20201027131326/www.hi.app/IMX258-datasheet.=
-pdf
-[2] https://files.pine64.org/doc/PinePhonePro/PinephonePro-Schematic-V1.0-2=
-0211127.pdf
-[3] https://xff.cz/git/linux/tree/arch/arm64/boot/dts/rockchip/rk3399-pinep=
-hone-pro.dts?h=3Dorange-pi-5.18#n868
-[4] https://files.pine64.org/doc/PinePhonePro/PinephonePro-Schematic-V1.0-2=
-0211127.pdf
-
-
-> >>> +
-> >>>     ret =3D regulator_bulk_enable(IMX258_NUM_SUPPLIES,
-> >>>                                 imx258->supplies);
-> >>>     if (ret) {
-> >>> @@ -1224,6 +1228,7 @@ static int imx258_power_on(struct device *dev)
-> >>>     ret =3D clk_prepare_enable(imx258->clk);
-> >>>     if (ret) {
-> >>>             dev_err(dev, "failed to enable clock\n");
-> >>> +           gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
-> >>>             regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->suppl=
-ies);
-> >>>     }
-> >>>
-> >>> @@ -1238,6 +1243,8 @@ static int imx258_power_off(struct device *dev)
-> >>>     clk_disable_unprepare(imx258->clk);
-> >>>     regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
-> >>>
-> >>> +   gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
-> >>> +
-> >>>     return 0;
-> >>>  }
-> >>>
-> >>> @@ -1541,6 +1548,12 @@ static int imx258_probe(struct i2c_client *cli=
-ent)
-> >>>     if (!imx258->variant_cfg)
-> >>>             imx258->variant_cfg =3D &imx258_cfg;
-> >>>
-> >>> +   /* request optional power down pin */
-> >>> +   imx258->powerdown_gpio =3D devm_gpiod_get_optional(&client->dev, =
-"powerdown",
-> >>> +                                               GPIOD_OUT_HIGH);
-> >>> +   if (IS_ERR(imx258->powerdown_gpio))
-> >>> +           return PTR_ERR(imx258->powerdown_gpio);
-> >>> +
-> >>>     /* Initialize subdev */
-> >>>     v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-> >>>
-> >>
-> >> --
-> >> Regards,
-> >>
-> >> Sakari Ailus
->
+Laurent Pinchart
 
