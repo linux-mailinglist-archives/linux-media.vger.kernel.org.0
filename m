@@ -1,192 +1,106 @@
-Return-Path: <linux-media+bounces-8683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D09C8990F7
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 00:04:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C521899151
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 00:29:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97FD8B26761
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 22:04:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1EC8B28AC0
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 22:29:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCBC113C3D8;
-	Thu,  4 Apr 2024 22:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED1813C673;
+	Thu,  4 Apr 2024 22:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HYNrNpJH"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="VT8yPpxE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta46.mxroute.com (mail-108-mta46.mxroute.com [136.175.108.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80E982D90
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 22:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191B213C3EB
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 22:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712268273; cv=none; b=JRkyyLoXAYaD6Iu+pgd3RwCcwD4T73fPmxhrlrrlZAxczTARooVubuu97yZjf+oFVpqfchylKVBJAY2Wb1sFnYzXFIiaWV3UftI+Rk4XgodP1bLaA9IfQvCTnghu9bxuVnM9dbJ3PbXioS2Icbc7Oust7744FgFV+ybvnJYfQvU=
+	t=1712269765; cv=none; b=CpysP9mamSM8X5P2QoxREQjytwy/Ca6mPS3yaNRq0A19HjaheNiivRiHO6Iv8n0vJgZ3b+WW1nRVvv9gdNPltUsCEtxqckJrrOW3DKjTWy5Z8m4MZYn00RJqOVngGOX6U+uLFltXdtmglXwkaNt8BvCIHUH0BHxyQPw2KLCrloI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712268273; c=relaxed/simple;
-	bh=h+DpP32KIXjCBtv7JjiaxgeBIHnZEjySt6Mxd4ivso8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHB8U2qFFPxNxxZQdgWfig+TzGgVjF4HNqW9vwMikcgK6rAlmOAmXAZcIHNWi98CoHyCY3/07rvvHMTGM1aFEAUOloDyrn2RghdElLhWF8mnZlqpHKzHNYPDgKTx4/Vob09CUxDcLc5TEoQGZorOsgJKiq7odkH3jKDV8EuyTBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HYNrNpJH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FC7422A;
-	Fri,  5 Apr 2024 00:03:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712268232;
-	bh=h+DpP32KIXjCBtv7JjiaxgeBIHnZEjySt6Mxd4ivso8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HYNrNpJHy4S4YVHmI0rVZc4uLO69C5gTXXyy5HgDQP6lz7BuHnPfl10Bkxka8amR8
-	 fFc7UJYTy3fztYURQIYyya+MDkmqkwdS87TfQWfQ5tVB1uvBYC+4HDhiWCibsnuf9x
-	 sXLH+B6SEUaxskTgSv/4LwoPmlH1G4tykukX9fgQ=
-Date: Fri, 5 Apr 2024 01:04:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, Gregor Jasny <gjasny@googlemail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [v4l-utils] [PATCH 1/8] utils: media-ctl: Print MUST_CONNECT pad
- flags
-Message-ID: <20240404220419.GA22530@pendragon.ideasonboard.com>
-References: <20240402000033.4007-1-laurent.pinchart@ideasonboard.com>
- <20240402000033.4007-2-laurent.pinchart@ideasonboard.com>
- <20240403084034.GA4168@pendragon.ideasonboard.com>
- <129d17fc-a26d-4b79-adef-f76b0e457c00@ideasonboard.com>
- <96853248-ff15-4676-a428-69889740bec3@xs4all.nl>
- <Zg8KxZDq9iOXshvk@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1712269765; c=relaxed/simple;
+	bh=7gOnPN1J8zc+sOjKnhu29RZ/HZGY4Msw0cPdBeM4CQw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZN2YZC3cdSScTftiKXSBM78U8gEn3HYIiPx2XF5iWN1B6IzDRgxlMqNulFnZVQ71wKJspzro0a0SXFNiKiOg0Nx9WtPBglO5u5tGhaUWuV/yPuSiz8qHM9TeUt1l+MoJRrDOt7qMcLZLCAmPVoV4cWVEv8vahmGzIYAXP5/e0hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=VT8yPpxE; arc=none smtp.client-ip=136.175.108.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta46.mxroute.com (ZoneMTA) with ESMTPSA id 18eab3b056b0003bea.011
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 04 Apr 2024 22:29:15 +0000
+X-Zone-Loop: 864872fb24f9f5951e00a5edafdb6f107a19cc8bcf1f
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=b0vJntwX4Lap8ep/ms4s2qljGex8NbqYYt5JzOJnwNk=; b=VT8yPpxETHdqpbnHBBV74VKE38
+	LlhHBt61GXAtPGRCgkd4bAC67Inwzf7tnU0sITgWiXRDE8BiQ0wlxsrSqk+DuZcaO4aaBvRva9Jzz
+	hNPVirkAFp3MeQP9Xq8U/bABDC+FiQQt5JdX3pmeOkOu8c1m4T0ysTALzEQ7VvAVlrXWk8Kpm1yCU
+	pUN6eCaFwnAivyDEs0pYjb4qiXpgazk1D2v6o4RXFVlwJc2CPlay5JN40sCigInJXO5G5Vevslv+i
+	nM6iO21uhfOR4dTxVooMzNJg7SqX1BKf/MY+A3WTgO9+HUBdDGC9aTfC2GK2LlRHw1f1b2w5jZ0Vn
+	wajJm28Q==;
+Message-ID: <6c15e492-411a-40aa-b02e-83b8a6d107da@luigi311.com>
+Date: Thu, 4 Apr 2024 16:29:11 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zg8KxZDq9iOXshvk@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 12/25] media: i2c: imx258: Allow configuration of clock
+ lane behaviour
+To: Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-13-git@luigi311.com> <Zg2kcI/1Gdgt0ilB@duo.ucw.cz>
+Content-Language: en-US
+From: Luigi311 <git@luigi311.com>
+In-Reply-To: <Zg2kcI/1Gdgt0ilB@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: git@luigi311.com
 
-On Thu, Apr 04, 2024 at 08:17:09PM +0000, Sakari Ailus wrote:
-> On Wed, Apr 03, 2024 at 10:56:55AM +0200, Hans Verkuil wrote:
-> > On 03/04/2024 10:43, Tomi Valkeinen wrote:
-> > > On 03/04/2024 11:40, Laurent Pinchart wrote:
-> > >> On Tue, Apr 02, 2024 at 03:00:26AM +0300, Laurent Pinchart wrote:
-> > >>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >>>
-> > >>> Print the MUST_CONNECT pad flag for each pad.
-> > >>>
-> > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >>> ---
-> > >>>   utils/media-ctl/media-ctl.c | 50 +++++++++++++++++++++----------------
-> > >>>   1 file changed, 28 insertions(+), 22 deletions(-)
-> > >>>
-> > >>> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-> > >>> index 2081f111f2db..1b40552253f1 100644
-> > >>> --- a/utils/media-ctl/media-ctl.c
-> > >>> +++ b/utils/media-ctl/media-ctl.c
-> > >>> @@ -368,26 +368,6 @@ static const char *media_entity_subtype_to_string(unsigned type)
-> > >>>       }
-> > >>>   }
-> > >>>   -static const char *media_pad_type_to_string(unsigned flag)
-> > >>> -{
-> > >>> -    static const struct {
-> > >>> -        __u32 flag;
-> > >>> -        const char *name;
-> > >>> -    } flags[] = {
-> > >>> -        { MEDIA_PAD_FL_SINK, "Sink" },
-> > >>> -        { MEDIA_PAD_FL_SOURCE, "Source" },
-> > >>> -    };
-> > >>> -
-> > >>> -    unsigned int i;
-> > >>> -
-> > >>> -    for (i = 0; i < ARRAY_SIZE(flags); i++) {
-> > >>> -        if (flags[i].flag & flag)
-> > >>> -            return flags[i].name;
-> > >>> -    }
-> > >>> -
-> > >>> -    return "Unknown";
-> > >>> -}
-> > >>> -
-> > >>>   static void media_print_topology_dot(struct media_device *media)
-> > >>>   {
-> > >>>       unsigned int nents = media_get_entities_count(media);
-> > >>> @@ -525,6 +505,25 @@ static void media_print_pad_text(struct media_entity *entity,
-> > >>>           v4l2_subdev_print_subdev_dv(entity);
-> > >>>   }
-> > >>>   +static unsigned int weight(uint32_t word)
-> > >>> +{
-> > >>> +    unsigned int w = 0, i;
-> > >>> +
-> > >>> +    for (i = 0; i < sizeof(word) << 3; i++, word >>= 1)
-> > >>> +        w += word & 1U;
-> > >>> +
-> > >>> +    return w;
-> > >>> +}
-> > >>> +
-> > >>> +static const char *comma(uint32_t flag, uint32_t prev_flags, uint32_t flags)
-> > >>> +{
-> > >>> +    static const char *empty = "", *comma = ", ";
-> > >>> +    if (!(flag & flags))
-> > >>> +        return empty;
-> > >>> +
-> > >>> +    return weight(prev_flags & flags) ? comma : empty;
-> > >>
-> > >> Unless I'm mistaken, we can write this
-> > >>
-> > >>     return prev_flags & flags ? comma : empty;
-> > >>
-> > >> and drop the weight function.
+On 4/3/24 12:48, Pavel Machek wrote:
+> Hi!
 > 
-> Correct. An earlier version of the patch used it and I forgot to remove it.
+>> The sensor supports the clock lane either remaining in HS mode
+>> during frame blanking, or dropping to LP11.
+>>
+>> Add configuration of the mode via V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK.
 > 
-> It should be possible to write this as:
+>> +	ret = imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
+>> +			       IMX258_REG_VALUE_08BIT,
+>> +			       imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
+>> +			       1 : 0);
 > 
-> static const char *comma(uint32_t flag, uint32_t prev_flags, uint32_t flags)
-> {
-> 	return flag & flags && prev_flags & flags ? ", " : "";
-> }
+> !! can be used to turn value into 1/0. I find it easier to read than ?
+> 1 : 0  combination, but possibly that's fine, too.
 > 
-> This nicely demonstrates C operator precedence.
+> Best regards,
+> 								Pavel
 > 
-> > >>
-> > >>> +}
-> > >>> +
-> > >>>   static void media_print_topology_text_entity(struct media_device *media,
-> > >>>                            struct media_entity *entity)
-> > >>>   {
-> > >>> @@ -567,8 +566,15 @@ static void media_print_topology_text_entity(struct media_device *media,
-> > >>>       for (j = 0; j < info->pads; j++) {
-> > >>>           const struct media_pad *pad = media_entity_get_pad(entity, j);
-> > >>>   -        printf("\tpad%u: %s\n", j, media_pad_type_to_string(pad->flags));
-> > >>> -
-> > >>> +        printf("\tpad%u: %s%s%s%s%s\n", j,
-> > >>> +               pad->flags & MEDIA_PAD_FL_SINK ? "Sink" : "",
-> > >>> +               comma(MEDIA_PAD_FL_SOURCE, MEDIA_PAD_FL_SINK,
-> > >>> +                 pad->flags),
-> > >>> +               pad->flags & MEDIA_PAD_FL_SOURCE ? "Source" : "",
-> > >>> +               comma(MEDIA_PAD_FL_MUST_CONNECT,
-> > >>> +                 MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE,
-> > >>> +                 pad->flags),
-> > >>> +               pad->flags & MEDIA_PAD_FL_MUST_CONNECT ? "Must connect" : "");
-> > >>
-> > >> To be honest, this looks overly complicated. How about printing the
-> > >> flags with a loop ?
-> > > 
-> > > I was just about to reply that this looks a bit too "smart" to me... I'd prefer just a simple loop here for readability's and maintainability's sake, even if it's not as optimal.
-> > 
-> > Same comment from me :-)
-> 
-> The above gets it done as a single printf call. Perhaps it doesn't matter
-> much if it doesn't though, this isn't printk. Still do note that checking
-> whether the commas will be printed isn't trivial so replacing this with a
-> loop isn't necessarily making the code notably simpler.
 
-See https://lore.kernel.org/linux-media/20240404220312.8019-1-laurent.pinchart@ideasonboard.com
+I assume you mean by using 
 
--- 
-Regards,
+!!(imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
 
-Laurent Pinchart
+I can go ahead and use that instead
 
