@@ -1,209 +1,134 @@
-Return-Path: <linux-media+bounces-8611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC908981ED
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 09:08:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2549898231
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 09:28:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D42BB26634
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 07:08:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B5842820FD
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 07:28:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BB455E58;
-	Thu,  4 Apr 2024 07:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48B25CDD0;
+	Thu,  4 Apr 2024 07:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GK6f4asm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asXyt6EQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0F554902;
-	Thu,  4 Apr 2024 07:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C25159158;
+	Thu,  4 Apr 2024 07:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712214442; cv=none; b=U0wX6AO0oZMVtfvqzjIUTqTZcTKNSMr0GOxIRcMqYpoSTO8h+SRTvwCVn8NybdKnvtXhLmcd7OZ/Oc+WaGpq4PWt0KV91RpnsL43hpYA2JZ94jlY59FCg/qWIYhs0YTq/SEJgB1WQlw7zolutPpHnSgGG60FCm8DGkW31kA6C5E=
+	t=1712215680; cv=none; b=dOmerWTy8qFM3YwbvDWhPsY3vWgjrtfq2Cp1D2I0+WFI3URUuVRNQy+39HAaEnV9AKp4odu0T8ePO8wmjXhfG9K19hW29+nsJarsVahDCXQDAVcB9bUJ2EPya4XGpSN2ESMpPLKFSRIpadUdxdbzriJehF8fG9BEdexqGinVglI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712214442; c=relaxed/simple;
-	bh=tjbbmFyUGmir3OJpfaGpvWL1H1B8isI2qONOSsxGtMM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qkfbvfjtN1GjbDxzKJVhF3CMAQGISo3MU5R0RwiLexV9ZDfMvEeCd1utDuqsfZMmUolStENR5NaaB1VmrdymbsbXTwuSgfGPEadwOhMCC60nDHP4LoVGhgm34Y7TLPP2qhEt5HcH4cNWALSWisXm43VNMlQOoPAs+z8oQtDNr1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GK6f4asm; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1712215680; c=relaxed/simple;
+	bh=RKQ+b/6tx0j5fcRbGd1+ZSjUZNL7pamhVmxxau7bjRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1AVk9S0tX8WOlXod62BmJKJnvtuJl6JBew18lV+7RNEDjsO7QT9kxyzLYlPvuLVY9E1gNxV1Nv673me+jAS9F66EDVe000T8iZCL83yK/YNINnvlAJsfYL02wuc239IodvJMro0Tar8UIc2FMGP8X5EwNqp5KkHKXiH0OxPT5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asXyt6EQ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712214441; x=1743750441;
-  h=date:from:to:subject:message-id:references:mime-version:
-   content-transfer-encoding:in-reply-to;
-  bh=tjbbmFyUGmir3OJpfaGpvWL1H1B8isI2qONOSsxGtMM=;
-  b=GK6f4asmx+6mjUWAEzV4qLS5/G0fMmmkinUaTg73HHFC8n1EC1YIng4b
-   349MCKHIgW1b3bgvDXyasjhtLW16abNOol2gLiiuW5IQov2DnTxbttSUH
-   K5Me8tg/4ieY4niuVeq7pNhO7HgUE2tJ0UBVt05j95xVx+JhpHc88nUqD
-   DhYeFeC+Ca+Rp06ivREgQFXfUsi2foSH2vAQBMkb1QcVLKGspV7/H5+oU
-   XyE6y6+9H/48+cPvzG03kSh0U3UmBwJvbNhPLVqFmoVA6kA3NWpuyxNiE
-   lmpcWnylOj1melc6MnOGcaN6FfxyLc5FnWgqeMnfllag9FCy1cXDe4JQt
-   g==;
-X-CSE-ConnectionGUID: wHCX0AtxQyOxkVcYjT/YyQ==
-X-CSE-MsgGUID: fzSf6FC2T7KfHmzAuOJzJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="24937331"
+  t=1712215679; x=1743751679;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=RKQ+b/6tx0j5fcRbGd1+ZSjUZNL7pamhVmxxau7bjRk=;
+  b=asXyt6EQqJKrNjoNw/DnP1R0Ggm+kIyoggjSe8OzmqOdqgi9jQoTed5B
+   yTAT5+wY/5p2Wq7s5hRWJKgUbTIRXjoG1Dxrutv1KlpwBG1eiDD6qPodq
+   R01UwcMllCIhaxASc8TdAEPHbJn9rf4IGN4rOuqCARlf9AMcullCnZ8NM
+   5W/5FiNbhd2rspK+qt92aLX2w2Sh8kF89NeSqc+64gHHORrMo7MJyRd7L
+   Bg5Y3s9eP6rCcV9wCSa5ukcb4Ph2Jlbg0i1U3Xq41boTviHqc41hBEf02
+   glCc1i+a+MXCfbBjyWyUOfb+jYd3YAQXk+LgzxQZvD1GFiX3dnnw2u+/c
+   Q==;
+X-CSE-ConnectionGUID: 9xeE+pR2QtScVCODI1CcMQ==
+X-CSE-MsgGUID: O5cOmguMQAOV/syGdiTSiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="18639036"
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="24937331"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 00:07:20 -0700
-X-CSE-ConnectionGUID: q0v0pLBsRLGeoCKZTqlbxw==
-X-CSE-MsgGUID: J7gP4feRQfqFqPlm4D3YLQ==
+   d="scan'208";a="18639036"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 00:27:58 -0700
+X-CSE-ConnectionGUID: oppg5AWXS++CeE9U/jyXuw==
+X-CSE-MsgGUID: Ivckoag3Qg6Aicdl0XJzcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="56139003"
+   d="scan'208";a="18802468"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 00:07:16 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 00:27:50 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2680C11F855;
-	Thu,  4 Apr 2024 10:07:12 +0300 (EEST)
-Date: Thu, 4 Apr 2024 07:07:12 +0000
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id A685611F855;
+	Thu,  4 Apr 2024 10:27:47 +0300 (EEST)
+Date: Thu, 4 Apr 2024 07:27:47 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>, git@luigi311.com,
-	linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 23/25] drivers: media: i2c: imx258: Add support for
- powerdown gpio
-Message-ID: <Zg5RoHjvpLhDo5NE@kekkonen.localdomain>
-References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-24-git@luigi311.com>
- <Zg2DBasC501hMQSS@kekkonen.localdomain>
- <wjlcde7yoooygj4hhdmiwrdloh6l4p6i2qbmjek5uwsifyzwgu@xjhutvmsdfou>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Hyungwoo Yang <hyungwoo.yang@intel.com>,
+	Rajmohan Mani <rajmohan.mani@intel.com>,
+	Vijaykumar Ramya <ramya.vijaykumar@intel.com>,
+	Samu Onkalo <samu.onkalo@intel.com>,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
+	Jouni Ukkonen <jouni.ukkonen@intel.com>,
+	Antti Laakso <antti.laakso@intel.com>
+Subject: Re: [PATCH] media: ipu-cio2: Remove unnecessary runtime PM power
+ state setting
+Message-ID: <Zg5Wc6DMPYBqlCFr@kekkonen.localdomain>
+References: <20240325220325.1452712-1-helgaas@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <wjlcde7yoooygj4hhdmiwrdloh6l4p6i2qbmjek5uwsifyzwgu@xjhutvmsdfou>
+In-Reply-To: <20240325220325.1452712-1-helgaas@kernel.org>
 
-Hi Ondřej,
+Hi Bjorn,
 
-On Wed, Apr 03, 2024 at 06:57:56PM +0200, Ondřej Jirman wrote:
-> Hi Sakari and Luis,
+On Mon, Mar 25, 2024 at 05:03:25PM -0500, Bjorn Helgaas wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
 > 
-> On Wed, Apr 03, 2024 at 04:25:41PM GMT, Sakari Ailus wrote:
-> > Hi Luis, Ondrej,
-> > 
-> > On Wed, Apr 03, 2024 at 09:03:52AM -0600, git@luigi311.com wrote:
-> > > From: Luis Garcia <git@luigi311.com>
-> > > 
-> > > On some boards powerdown signal needs to be deasserted for this
-> > > sensor to be enabled.
-> > > 
-> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > Signed-off-by: Luis Garcia <git@luigi311.com>
-> > > ---
-> > >  drivers/media/i2c/imx258.c | 13 +++++++++++++
-> > >  1 file changed, 13 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> > > index 30352c33f63c..163f04f6f954 100644
-> > > --- a/drivers/media/i2c/imx258.c
-> > > +++ b/drivers/media/i2c/imx258.c
-> > > @@ -679,6 +679,8 @@ struct imx258 {
-> > >  	unsigned int lane_mode_idx;
-> > >  	unsigned int csi2_flags;
-> > >  
-> > > +	struct gpio_desc *powerdown_gpio;
-> > > +
-> > >  	/*
-> > >  	 * Mutex for serialized access:
-> > >  	 * Protect sensor module set pad format and start/stop streaming safely.
-> > > @@ -1213,6 +1215,8 @@ static int imx258_power_on(struct device *dev)
-> > >  	struct imx258 *imx258 = to_imx258(sd);
-> > >  	int ret;
-> > >  
-> > > +	gpiod_set_value_cansleep(imx258->powerdown_gpio, 0);
-> > 
-> > What does the spec say? Should this really happen before switching on the
-> > supplies below?
+> ipu-cio2 uses generic power management, and pci_pm_runtime_suspend() and
+> pci_pm_runtime_resume() already take care of setting the PCI device power
+> state, so the driver doesn't need to do it explicitly.
 > 
-> There's no powerdown input in the IMX258 manual. The manual only mentions
-> that XCLR (reset) should be held low during power on.
+> Remove explicit setting to D3hot or D0 during runtime suspend and resume.
 > 
-> https://megous.com/dl/tmp/15b0992a720ab82d.png
+> Remove #defines that are no longer used.
 > 
-> https://megous.com/dl/tmp/f2cc991046d97641.png
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Hyungwoo Yang <hyungwoo.yang@intel.com>
+> Cc: Rajmohan Mani <rajmohan.mani@intel.com>
+> Cc: Vijaykumar Ramya <ramya.vijaykumar@intel.com>
+> Cc: Samu Onkalo <samu.onkalo@intel.com>
+> Cc: Jouni H�gander <jouni.hogander@intel.com>
+> Cc: Jouni Ukkonen <jouni.ukkonen@intel.com>
+> Cc: Antti Laakso <antti.laakso@intel.com>
+> ---
+> This code was initially added by c2a6a07afe4a ("media: intel-ipu3: cio2:
+> add new MIPI-CSI2 driver").
 > 
->    This sensor doesn’t have a built-in “Power ON Reset” function. The XCLR pin
->    is set to “LOW” and the power supplies are brought up. Then the XCLR pin
->    should be set to “High” after INCK supplied.
+> Even at that time, the explicit power state setting should not have been
+> necessary, so maybe there's a reason for it.  I have no way to test this,
+> so if it *is* needed, please:
 > 
-> So this input is some feature on camera module itself outside of the
-> IMX258 chip, which I think is used to gate power to the module. Eg. on Pinephone
-> Pro, there are two modules with shared power rails, so enabling supply to
-> one module enables it to the other one, too. So this input becomes the only way
-> to really enable/disable power to the chip when both are used at once at some
-> point, because regulator_bulk_enable/disable becomes ineffective at that point.
+>   - Add a comment about the reason and
+> 
+>   - Convert it to use pci_set_power_state() so the PCI core knows about the
+>     change and all the required state transition delays are observed.
 
-The hardware designers sometimes do not consider the difficulty of
-implementing software support for their choice of design. Maybe this could
-be modelled as a GPIO regulator? But it'd depend on another regulator and
-I'm not sure that is covered.
+Thanks for the patch.
 
-The camera sensor generally consume very little power in software standby
-mode so the potential saving here are probably irrelevant.
-
-> 
-> Luis, maybe you saw some other datasheet that mentions this input? IMO,
-> it just gates the power rails via some mosfets on the module itself, since
-> there's not power down input to the chip itself.
-> 
-> kind regards,
-> 	o.
-> 
-> > > +
-> > >  	ret = regulator_bulk_enable(IMX258_NUM_SUPPLIES,
-> > >  				    imx258->supplies);
-> > >  	if (ret) {
-> > > @@ -1224,6 +1228,7 @@ static int imx258_power_on(struct device *dev)
-> > >  	ret = clk_prepare_enable(imx258->clk);
-> > >  	if (ret) {
-> > >  		dev_err(dev, "failed to enable clock\n");
-> > > +		gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
-> > >  		regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
-> > >  	}
-> > >  
-> > > @@ -1238,6 +1243,8 @@ static int imx258_power_off(struct device *dev)
-> > >  	clk_disable_unprepare(imx258->clk);
-> > >  	regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
-> > >  
-> > > +	gpiod_set_value_cansleep(imx258->powerdown_gpio, 1);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  
-> > > @@ -1541,6 +1548,12 @@ static int imx258_probe(struct i2c_client *client)
-> > >  	if (!imx258->variant_cfg)
-> > >  		imx258->variant_cfg = &imx258_cfg;
-> > >  
-> > > +	/* request optional power down pin */
-> > > +	imx258->powerdown_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
-> > > +						    GPIOD_OUT_HIGH);
-> > > +	if (IS_ERR(imx258->powerdown_gpio))
-> > > +		return PTR_ERR(imx258->powerdown_gpio);
-> > > +
-> > >  	/* Initialize subdev */
-> > >  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-> > >  
-> > 
-> > -- 
-> > Regards,
-> > 
-> > Sakari Ailus
+The device seems to work fine with the patch applied so I presume it wasn't
+necessary to begin with.
 
 -- 
 Regards,
