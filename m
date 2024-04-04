@@ -1,106 +1,166 @@
-Return-Path: <linux-media+bounces-8645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B32C8985A5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 13:04:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBE18985CF
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 13:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD3371F29DA8
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 11:04:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2513C1F244F5
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 11:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529DC84A3E;
-	Thu,  4 Apr 2024 11:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D3D81AC6;
+	Thu,  4 Apr 2024 11:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncZz3BWq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nv940WBb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D96983A07;
-	Thu,  4 Apr 2024 11:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70318004D;
+	Thu,  4 Apr 2024 11:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712228606; cv=none; b=h1FnSvEk/oF/bPOXcruWJRl+9QHhUVwmicbmQE+mp3Jri+IpMpoooSskfMjwwCVExWDoTxTz+EOhGK9U4C9sIt2myt2toOla8RYPFfJ4wrXBZrStrFYzJEtdE21UZJ4hFU9k+wb4e7KKAXXFZ3R/hxESVUs+wLt9zJks/a6BtCU=
+	t=1712229181; cv=none; b=MArefy6pqcRn85JJxjn36jBd8zCkY3xbffZFoPDC4MptruIM9ryg1YVT3AnGdbuUTnmXcgcOhwUbioA68A8opuOSj40SPnVDzgNUdsZ0MTwyd0WFhUghXDjXeyl3pARhDEzYhKEmehj9Auh7Fpt2+jit0Q5Dk624+McwA3YZ9MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712228606; c=relaxed/simple;
-	bh=+hAeU74QQfbsZOvQyLbhO6tKobZra3FmBs+/7VBvJaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EncSGdVUnlGmIUEGbO2rHKdPiUbBle/CuMCpiQS+9bxRHz3m2d/xx+tf4RrBcV0RECtM8Ey8Zmm/zUry7qW3kEbrYeQw4dBw/Yc6Gy0SWqhMgE7zSIkxX7of5J7hCTbIM6Nj0mpMV9Y6ggw1qssp0O6lUvptFpH3ZLzrhktL5K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncZz3BWq; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6ecf1d22d78so95213b3a.0;
-        Thu, 04 Apr 2024 04:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712228605; x=1712833405; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hAeU74QQfbsZOvQyLbhO6tKobZra3FmBs+/7VBvJaE=;
-        b=ncZz3BWqXMnSTxYkZrAbQ457QC7NzCagsI4GgAs0jqX8sxDPA0eu8Hh4urLtGXTuT7
-         FvRdSt9Nb385aVFG4/WNdNkIIExPdvdrBHqN0y/UKmVy+jnggpmobIxft81kLjJOWZeY
-         8GRDDbo27bfBHLeB3X+5yQHUzVlhKmzfRoZYOW8O1RTPJ/GdK1L2i7DFs2uvdstnNGcV
-         nP4l43iGvNjOD5w3GRzdE2431aKERYQTzPBL3CHJrdP0VoTtWT34LR9y1pxNZhoGwDI9
-         7icm/aE4ypebqJz7yu1d1Ffhtw45LL4cNd8ToVVKeSsMohN+Bkj6OwIu/opNqchXFydz
-         5mkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712228605; x=1712833405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+hAeU74QQfbsZOvQyLbhO6tKobZra3FmBs+/7VBvJaE=;
-        b=VtpQF3ourOsk8CbaVx4My3jesVGWNZZqPxm0BQxG9adPH05yAOSdi832YOaW2ZvWFC
-         LwFTk+y1yLflDzWcGwSgr1/uET4rV0jqIT/jcNIkdag8rvzo8UwMv1Tav4RGVPOPXao+
-         DooNr0RDdxWVpdy3SgzvNF8scj37m6E7Ja44OZEj5beO+uxUmMgaB9/sAYsdBxhiXHbb
-         bMTeqlIC7eYJ9X/VGap/nfQmPwWpIZOBqLKmuMQjFZN0ZVEqOLbS5Wz6IRwWvUz7DyLb
-         Qf69J0qb6wGrdeZF8JKMuoU0KKLebJqZcYu2pYX3Jy05izpcy6Tr53sSg6YtMXBu3XYI
-         4X8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWfHD5gGrCSoSwsrRYYznVZZspVzGeO+bn+6h/7Kw3rNJUvIQxf+mtFpudua5F6tNHMhidG2Vgkp+7AQX2weAaEN2khFsOJMQ6qfeuBJ0CAxKHScc1YigfhAKNR2kaP/ODgr2fHNchMlfgAvc05roogwRB6gtvQpCbXVpokBrufrrlTsGqy
-X-Gm-Message-State: AOJu0Yxi2pOmMxALkWXQYsQ2cRvmK6DPwI/cBZbZCRJgwZhHA6WKIo8Z
-	+Up/t0Y/tZT/AroFH8Z60c9yKMehH5f5WXvXHipuYyNHMfNkcCBGvK54hBZNLFKANO5Lsv8iaD6
-	9nHpRUIXw0zHLeNObJaBgwHKtYkQ=
-X-Google-Smtp-Source: AGHT+IEiV3mYP5jcL1qYae16r/KN6hqKughbDlZ4LxlcHlZBBb1xETAo6BgRMuLOSJwR/Fy2iLftYZBAuG/Ww1JZaBM=
-X-Received: by 2002:a05:6a21:6d88:b0:1a7:199:8ac5 with SMTP id
- wl8-20020a056a216d8800b001a701998ac5mr2303003pzb.4.1712228604634; Thu, 04 Apr
- 2024 04:03:24 -0700 (PDT)
+	s=arc-20240116; t=1712229181; c=relaxed/simple;
+	bh=KFRAf7adv9egbazr+liWze3HmaS3w18nIpmGl7aX3X0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQqb1pFSnP53Om7ZwwkpKNHgub3mpBlXbb6zMf/jdkTQPZZAQ6y9JwHteOuxN+vNyMGXkRJ+36QWkJfFhkFcyXz4qyB9Lzh8ARRprjsGoJdQgP4u6Se+wzgkTFIJM8eRvKSjSm9LFEMpbt2RJydKQRJhT05GnN4R2Y7N6grXGyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nv940WBb; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712229180; x=1743765180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KFRAf7adv9egbazr+liWze3HmaS3w18nIpmGl7aX3X0=;
+  b=Nv940WBbPgK9JHcs68zpIzJIKdROGE2VG4rIXgtkzcUElhAAw55OG7iN
+   vEOs6fdESpYvMShYrWurlkcXsIirTPx+sDf4+nvX8qqNmRaelkcIE2cFb
+   kP5wGdNyAF+KI1UlpHj23LRSiL77PocdmFB/nPyGKO3QJ1gllq9MWnHwN
+   cBUekTzmEL9yTOj28N7PLEPAfK/cUtPeD0QKts550DddlMATa+649h/Sa
+   qVfpmjMGFpARoZr3U7HsPt0tXDF1YiW7NRz6H/nYlBsb7rhYg40/TD2fo
+   MgaGC8NWCAHgNoDd4SmdtQUGj8BJ/ap4oYKibQBcmgAOghpy6mJz5+G+u
+   A==;
+X-CSE-ConnectionGUID: lQ8uB05fTuq89qrVdmj3dw==
+X-CSE-MsgGUID: 1PBVUUaMQ/SgpKahbHp+qg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="11329026"
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="11329026"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 04:10:03 -0700
+X-CSE-ConnectionGUID: ep56NlGqRmSyGNeepw/Rsw==
+X-CSE-MsgGUID: YVi14ByXSCy2t9s85AIxOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="18721931"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 04:10:01 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4B0B811FC1A;
+	Thu,  4 Apr 2024 14:09:58 +0300 (EEST)
+Date: Thu, 4 Apr 2024 11:09:58 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: subdev: Add checks for subdev features
+Message-ID: <Zg6KhifvtowlixCS@kekkonen.localdomain>
+References: <20240404-enable-streams-impro-v1-0-1017a35bbe07@ideasonboard.com>
+ <20240404-enable-streams-impro-v1-1-1017a35bbe07@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404035205.59492-1-Frank.Li@nxp.com> <af602862-5120-4717-adb6-694ada09e8d8@linaro.org>
- <f5fa1872-0bae-4f04-aa94-27db937516e9@linaro.org>
-In-Reply-To: <f5fa1872-0bae-4f04-aa94-27db937516e9@linaro.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 4 Apr 2024 08:03:12 -0300
-Message-ID: <CAOMZO5Dtd_p02YeX6tcWMGzujZ-GwLQMQBPBOx9xLmEgs6VVNg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] dt-bindings: media: imx-jpeg: add clocks,clock-names,slot
- to fix warning
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Frank Li <Frank.Li@nxp.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	"open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <imx@lists.linux.dev>, 
-	"open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <linux-media@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240404-enable-streams-impro-v1-1-1017a35bbe07@ideasonboard.com>
 
-On Thu, Apr 4, 2024 at 3:54=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Moi,
 
-> And for the clocks, instead pick up this patch:
-> https://lore.kernel.org/all/20230721111020.1234278-3-alexander.stein@ew.t=
-q-group.com/
+On Thu, Apr 04, 2024 at 01:50:00PM +0300, Tomi Valkeinen wrote:
+> Add some checks to verify that the subdev driver implements required
+> features.
+> 
+> A subdevice that supports streams (V4L2_SUBDEV_FL_STREAMS) must do one
+> of the following:
+> 
+> - Implement neither .enable/disable_streams() nor .s_stream(), if the
+>   subdev is part of a video driver that uses an internal method to
+>   enable the subdev.
+> - Implement only .enable/disable_streams(), if support for legacy
+>   sink-side subdevices is not needed.
+> - Implement .enable/disable_streams() and .s_stream(), if support for
+>   legacy sink-side subdevices is needed.
+> 
+> At the moment the framework doesn't check this requirement. Add the
+> check.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4c6198c48dd6..b90b5185e87f 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1519,6 +1519,33 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+>  				struct lock_class_key *key)
+>  {
+>  	struct v4l2_subdev_state *state;
+> +	struct device *dev = sd->dev;
+> +	bool has_disable_streams;
+> +	bool has_enable_streams;
+> +	bool has_s_stream;
+> +
+> +	/* Check that the subdevice implements the required features */
+> +
+> +	has_s_stream = sd->ops && sd->ops->video && sd->ops->video->s_stream;
+> +	has_enable_streams = sd->ops && sd->ops->pad && sd->ops->pad->enable_streams;
+> +	has_disable_streams = sd->ops && sd->ops->pad && sd->ops->pad->disable_streams;
 
-Or maybe this one:
-https://lore.kernel.org/linux-devicetree/DB9PR04MB923493D0DA82C9EC4386BC2A8=
-FF1A@DB9PR04MB9234.eurprd04.prod.outlook.com/
+There is v4l2_subdev_has_op(). Please also run:
+
+	./scripts/checkpatch.pl --strict --max-line-length=80
+
+on this.
+
+> +
+> +	if (has_enable_streams != has_disable_streams) {
+> +		dev_err(dev,
+> +			"subdev '%s' must implement both or neither of .enable_streams() and .disable_streams()\n",
+> +			sd->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
+> +		if (has_s_stream && !has_enable_streams) {
+
+Is the s_stream callback allowed to be something else than NULL or
+v4l2_subdev_s_stream_helper?
+
+> +			dev_err(dev,
+> +				"subdev '%s' must implement .enable/disable_streams()\n",
+> +				sd->name);
+> +
+> +			return -EINVAL;
+> +		}
+> +	}
+>  
+>  	state = __v4l2_subdev_state_alloc(sd, name, key);
+>  	if (IS_ERR(state))
+> 
+
+-- 
+Terveisin,
+
+Sakari Ailus
 
