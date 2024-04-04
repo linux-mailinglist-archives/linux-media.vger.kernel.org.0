@@ -1,61 +1,57 @@
-Return-Path: <linux-media+bounces-8599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DE1897D1D
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 02:33:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D999897D47
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 03:04:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7592BB2A5DD
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 00:33:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C3A61F2465C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 01:04:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A653525E;
-	Thu,  4 Apr 2024 00:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51BAF610D;
+	Thu,  4 Apr 2024 01:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lKtE8no3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZqCX2+Km"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F409423CE;
-	Thu,  4 Apr 2024 00:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28BA1C290;
+	Thu,  4 Apr 2024 01:04:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712190771; cv=none; b=iltiJ2cETMJ6NrOfVA7TRWm8PxuCV/cs0m9qubT25EmLVlPSlFpsW6ZtSSbxgw+bewKKsgrunoSbfIXP/6jbpGMtYirqs4GQs1sDYR9nq24Lwkhkp68VtFDz2WaA9FV9WgUTYrDN+bCzgBApH4Rjz9vrE9Sg1Gov0XcgNTyp8Po=
+	t=1712192668; cv=none; b=hL+mgajxiK4newfSWk5H1YLGMpiR1Ty56R3zeTrCV9udD42fVYDyGjbGT3HDbl0a5gAHjLfmNEJ3nqg9O+W+4w9Nzm/5GmypUUXn6sKDDEiLy8a+BzFfExYwkw+UYS177Vpyu/tAGnRAEw+l4TxUN4Ekux7xWxLDGrlFX2VvoCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712190771; c=relaxed/simple;
-	bh=v6ELGC0wWuhzAcp7TF7tSfRbebnHs2P8lRKexVxuir4=;
+	s=arc-20240116; t=1712192668; c=relaxed/simple;
+	bh=CsSunsGsmrBhTTg8MRk6DIdjh8MY9O8BuTCfLBCOtSE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZjLr3Q68DVqlkv9G+uBargNpmM0tyJCzj+G1t8Qw8FlTWGyqsaX+TdQTtt8BedDE9gOtVvM/78y3+bklqi8AvVXMXw002hksupYejFkPntxwEhUB48OdCHsLF9Wwi3sDwYmOHWTPdMQyRwM/nKn9CnWYmVmpDevwBDnBH5+bFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lKtE8no3; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pfcjTj2jz1zTTjpqOiMBPB1VsfD5J25ZcfXKjt75y8CtwG2OKI811cSt8+MzRLUT0e0ChhtNwTT+N1ZtxmgHfv1dxcK8shwBUP7vV43UsizxUGy6Ccx9X/o2p1SAOI1Gvgt9y3kM1wNABaKIxchkg5Ql/atr8vZELLT3lfp/MeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZqCX2+Km; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83ED5CCC;
-	Thu,  4 Apr 2024 02:32:10 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 636CA4D4;
+	Thu,  4 Apr 2024 03:03:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712190730;
-	bh=v6ELGC0wWuhzAcp7TF7tSfRbebnHs2P8lRKexVxuir4=;
+	s=mail; t=1712192627;
+	bh=CsSunsGsmrBhTTg8MRk6DIdjh8MY9O8BuTCfLBCOtSE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lKtE8no3H6w862RIl8SSijlaCBm4Rhdr+FVHmYpPNYT9yV4AXVedYzvjniRQsujMP
-	 0eg+kpZavOg5jYrBp7mOBkXG23aXFyDkg1jY3jReEQtPPqoonFtPCHP2t0CMZkOjXO
-	 mCFby0GhUHfZO0x8va4VjW3PpdZPnj/3i7wbCoDw=
-Date: Thu, 4 Apr 2024 03:32:37 +0300
+	b=ZqCX2+Kmhzxea3Q0l5I2ggzAB3ZK79ftDIm79k7kix7FDxgxBA5HNX2f+smdDTxce
+	 iJEq+ZcDW28uE6TR6u4SGD05C/40T4cUUyfghUWScqFTvXQxb0b2lNyn1B1NZ89NRw
+	 ugDN1BcNOJlqmkeTxlcdy3pY8qCibtTCGkJVWYjE=
+Date: Thu, 4 Apr 2024 04:04:14 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, stable@vger.kernel.org,
-	Oliver Neukum <oneukum@suse.com>,
-	Devinder Khroad <dkhroad@logitech.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v5] media: ucvideo: Add quirk for Logitech Rally Bar
-Message-ID: <20240404003237.GE23803@pendragon.ideasonboard.com>
-References: <20240402-rallybar-v5-1-7bdd0fbc51f7@chromium.org>
- <20240404003055.GD23803@pendragon.ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Explicit alignment of uvc_frame and
+ uvc_format
+Message-ID: <20240404010414.GF23803@pendragon.ideasonboard.com>
+References: <20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org>
+ <20240322115606.GA31979@pendragon.ideasonboard.com>
+ <CANiDSCuB0jABPPsoj0RxJ2UbV1UD0i5WwnubySDB0p7LocNJDQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,148 +60,162 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240404003055.GD23803@pendragon.ideasonboard.com>
+In-Reply-To: <CANiDSCuB0jABPPsoj0RxJ2UbV1UD0i5WwnubySDB0p7LocNJDQ@mail.gmail.com>
 
-One more thing, s/ucvideo/uvcvideo/ in the subject line.
+Hi Ricardo,
 
-On Thu, Apr 04, 2024 at 03:30:57AM +0300, Laurent Pinchart wrote:
-> Hi Ricardo,
+On Fri, Mar 22, 2024 at 03:26:39PM +0100, Ricardo Ribalda wrote:
+> On Fri, 22 Mar 2024 at 12:56, Laurent Pinchart wrote:
+> > On Mon, May 01, 2023 at 04:49:31PM +0200, Ricardo Ribalda wrote:
+> > > Struct uvc_frame and uvc_format are packaged together on
+> > > streaming->formats on a sigle allocation.
+> >
+> > s/sigle/single/
+> >
+> > > This is working fine because both structures have a field with a
+> > > pointer, but it will stop working when the sizeof() of any of those
+> > > structs is not a muliple of the sizeof(void*).
+> > >
+> > > Make that aligment contract explicit.
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > > This is better than 3 allocations, and do not have any performance
+> > > penalty.
+> > > ---
+> > >  drivers/media/usb/uvc/uvcvideo.h | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 9a596c8d894a..03e8a543c8e6 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -252,7 +252,7 @@ struct uvc_frame {
+> > >       u8  bFrameIntervalType;
+> > >       u32 dwDefaultFrameInterval;
+> > >       u32 *dwFrameInterval;
+> > > -};
+> > > +} __aligned(sizeof(void *)); /* uvc_frame is packed on streaming->formats. */
+> >
+> > Don't we need u32 alignment here, not void * alignment, given that
+> > uvc_frame is followed by an array of u32 ?
 > 
-> Thank you for the patch.
+> Let me make sure that I explain myself :)
 > 
-> On Tue, Apr 02, 2024 at 12:09:29PM +0000, Ricardo Ribalda wrote:
-> > Logitech Rally Bar devices, despite behaving as UVC cameras, have a
-> > different power management system that the other cameras from Logitech.
-> > 
-> > USB_QUIRK_RESET_RESUME is applied to all the UVC cameras from Logitech
-> > at the usb core. Unfortunately, USB_QUIRK_RESET_RESUME causes undesired
-> > USB disconnects in the Rally Bar that make them completely unusable.
-> > 
-> > There is an open discussion about if we should fix this in the core or
-> > add a quirk in the UVC driver. In order to enable this hardware, let's
-> > land this patch first, and we can revert it later if there is a
-> > different conclusion.
-> > 
-> > Fixes: e387ef5c47dd ("usb: Add USB_QUIRK_RESET_RESUME for all Logitech UVC webcams")
-> > Cc:  <stable@vger.kernel.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > Cc: Oliver Neukum <oneukum@suse.com>
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Devinder Khroad <dkhroad@logitech.com>
-> > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Tested with a Rallybar Mini with an Acer Chromebook Spin 513
-> > ---
-> > Changes in v5:
-> > - Update commit message to describe that this is a temp solution.
-> > - Link to v4: https://lore.kernel.org/r/20240108-rallybar-v4-1-a7450641e41b@chromium.org
-> > 
-> > Changes in v4:
-> > - Include Logi Rally Bar Huddle (Thanks Kyle!)
-> > - Link to v3: https://lore.kernel.org/r/20240102-rallybar-v3-1-0ab197ce4aa2@chromium.org
-> > 
-> > Changes in v3:
-> > - Move quirk to uvc driver
-> > - Link to v2: https://lore.kernel.org/r/20231222-rallybar-v2-1-5849d62a9514@chromium.org
-> > 
-> > Changes in v2:
-> > - Add Fixes tag
-> > - Add UVC maintainer as Cc
-> > - Link to v1: https://lore.kernel.org/r/20231222-rallybar-v1-1-82b2a4d3106f@chromium.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 30 ++++++++++++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
-> >  2 files changed, 31 insertions(+)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 08fcd2ffa727b..9663bcac68438 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/usb.h>
-> > +#include <linux/usb/quirks.h>
-> >  #include <linux/usb/uvc.h>
-> >  #include <linux/videodev2.h>
-> >  #include <linux/vmalloc.h>
-> > @@ -2233,6 +2234,8 @@ static int uvc_probe(struct usb_interface *intf,
-> >  	}
-> >  
-> >  	uvc_dbg(dev, PROBE, "UVC device initialized\n");
-> > +	if (dev->quirks & UVC_QUIRK_FORCE_RESUME)
+> I made a small program in compiler explorer:
+> https://godbolt.org/z/7s9z8WTsx that shows the error that I want to
+> avoid
 > 
-> The quirk isn't really about forcing resume, but about not resetting on
-> resume. Can we name it UVC_QUIRK_NO_RESET_RESUME ?
+> When we have a structure like this:
 > 
-> > +		udev->quirks &= ~USB_QUIRK_RESET_RESUME;
+> struct n_foo_bar {
+>    int n;
+>    struct foo *foo;
+>    struct bar *bar;
+> };
 > 
-> Let's move this before the uvc_dbg().
+> We expect that *foo and *bar point to memory addresses with the right
+> cpu alignment for each struct. Otherwise accessing foo and bar could
+> be slow or simply not work.
+
+So far, so good.
+
+> In the driver we are doing something like this to allocate the structure:
 > 
-> With that, the patch looks good to me. I can apply those changes
-> locally if you don't want to submit a v6.
+> int size
+> struct n_foo_bar *out;
 > 
-> >  	usb_enable_autosuspend(udev);
-> >  	return 0;
-> >  
-> > @@ -2574,6 +2577,33 @@ static const struct usb_device_id uvc_ids[] = {
-> >  	  .bInterfaceSubClass	= 1,
-> >  	  .bInterfaceProtocol	= 0,
-> >  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-> > +	/* Logitech Rally Bar Huddle */
-> > +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > +	  .idVendor		= 0x046d,
-> > +	  .idProduct		= 0x087c,
-> > +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> > +	  .bInterfaceSubClass	= 1,
-> > +	  .bInterfaceProtocol	= 0,
-> > +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
-> > +	/* Logitech Rally Bar */
-> > +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > +	  .idVendor		= 0x046d,
-> > +	  .idProduct		= 0x089b,
-> > +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> > +	  .bInterfaceSubClass	= 1,
-> > +	  .bInterfaceProtocol	= 0,
-> > +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
-> > +	/* Logitech Rally Bar Mini */
-> > +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > +	  .idVendor		= 0x046d,
-> > +	  .idProduct		= 0x08d3,
-> > +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> > +	  .bInterfaceSubClass	= 1,
-> > +	  .bInterfaceProtocol	= 0,
-> > +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_RESUME) },
-> >  	/* Chicony CNF7129 (Asus EEE 100HE) */
-> >  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> >  				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 6fb0a78b1b009..fa59a21d2a289 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -73,6 +73,7 @@
-> >  #define UVC_QUIRK_FORCE_Y8		0x00000800
-> >  #define UVC_QUIRK_FORCE_BPP		0x00001000
-> >  #define UVC_QUIRK_WAKE_AUTOSUSPEND	0x00002000
-> > +#define UVC_QUIRK_FORCE_RESUME		0x00004000
-> >  
-> >  /* Format flags */
-> >  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-> > 
-> > ---
-> > base-commit: c0f65a7c112b3cfa691cead54bcf24d6cc2182b5
-> > change-id: 20231222-rallybar-19ce0c64d5e6
+> size = n*sizeof(struct foo)+n*sizeof(struct bar) +sizeof(struct n_foo_bar);
+> out = malloc(size);
+> if (!out)
+>   return out;
 > 
-> -- 
-> Regards,
+> out->foo=(void *)(out)+sizeof(struct n_foo_bar);
+> out->bar=(void *)(out->foo)+n*sizeof(struct foo);
 > 
-> Laurent Pinchart
+> But that only works if sizeof(struct foo) is a multiple of the
+> alignment required by struct bar.
+
+The real requirement is a bit more complex, it's sizeof(struct n_foo_bar) +
+sizeof(struct foo) that needs to be a multiple of the alignment required
+by struct bar (and even that is simplified, as it assumes that malloc()
+returns a pointer aligned to the requirements of struct bar, which in
+practice should always be the case).
+
+> We are "lucky" now because we have a
+> pointer in each struct and that gives us a void* padding. ... but if
+> we ever remove that pointer from the structure we will be in a bad
+> position.
+
+We have three levels in uvcvideo. The top-level structure (your
+equivalent of n_foo_bar), struct uvc_format, has a pointer to an array
+of struct uvc_frame. The second level, struct uvc_frame, has a pointer
+to an array of u32. All three are then allocated in one go,
+contiguously.
+
+The largest field in uvc_frame is a pointer, so the alignment
+requirement will be fulfilled if struct uvc_format is aligned to
+sizeof(void *). When it comes to struct uvc_frame, however, its size
+needs to be a multiple of sizeof(u32), not of sizeof(void *).
+
+Given that the alignment constraints are not intrinsic to these
+structures, I think it would be better to handle them when allocating
+the memory. Something along the line of
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index f33a01dbb329..cbc40d663e4f 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -687,8 +687,11 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+ 		goto error;
+ 	}
+
+-	size = nformats * sizeof(*format) + nframes * sizeof(*frame)
++	size = nformats * sizeof(*format);
++	size = ALIGN(size, __alignof__(*frame)) + nframes * sizeof(*frame);
++	size = ALIGN(size, __alignof__(*interval))
+ 	     + nintervals * sizeof(*interval);
++
+ 	format = kzalloc(size, GFP_KERNEL);
+ 	if (format == NULL) {
+ 		ret = -ENOMEM;
+
+plus a corresponding change when calculating the pointers to the frames
+and intervals just after.
+
+> With the  __aligned(sizeof(void *)); I want to explicitly say:
+> 
+> "Ey, this struct is embedded in another struct and they are allocated
+> contiguously"
+> 
+> Does it make more sense now?
+>
+> > >
+> > >  struct uvc_format {
+> > >       u8 type;
+> > > @@ -266,7 +266,7 @@ struct uvc_format {
+> > >
+> > >       unsigned int nframes;
+> > >       struct uvc_frame *frame;
+> > > -};
+> > > +} __aligned(sizeof(void *)); /* uvc_format is packed on streaming->formats. */
+> >
+> > Same here, technically we need to ensure that the following uvc_frame
+> > will be aligned. void * alignment will give us that now, but that's not
+> > the actual constraint.
+> >
+> > Wouldn't it be better to handle the alignment constraints explicitly
+> > when allocating the memory ? It's not that uvc_frame and uvc_format have
+> > intrinsic alignment constraints, the constraints are only needed because
+> > of the way memory is allocated.
+> >
+> > >
+> > >  struct uvc_streaming_header {
+> > >       u8 bNumFormats;
+> > >
+> > > ---
+> > > base-commit: 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+> > > change-id: 20230501-uvc-align-6ff202b68dab
 
 -- 
 Regards,
