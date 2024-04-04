@@ -1,415 +1,184 @@
-Return-Path: <linux-media+bounces-8661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7760089894A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 15:54:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE427898955
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 15:55:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9372E1C2200F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 13:54:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F6A7B29A3D
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 13:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F281292CE;
-	Thu,  4 Apr 2024 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BF11292E5;
+	Thu,  4 Apr 2024 13:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ukCnlCA1"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="QiHpgWtE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2094.outbound.protection.outlook.com [40.107.103.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC94512839D;
-	Thu,  4 Apr 2024 13:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712238841; cv=none; b=BCmO4Fug8+z7dNDd1IvPDnVJ1OqVhm2CKtcz5mWFrJMHelF1I3xG13CH44H8ex4kU/61WXiALTmhcSN0GVmSmUPcjLkcicDsXVYqm3lf7GtOOeWR2eOI8f51yiQBF4n7a56tjFbFChf/Ew1PhAEOl5x9o1xE8+EbvWO6gujvEbc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712238841; c=relaxed/simple;
-	bh=rHGwoKG09JOiSfZHMXZ5zTOUqRGK+5ViCwByZmRhBC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVQxe6VT2k2WxnsbMaZgKIz5CByQmqQTfiU7YvGzLV8jLslXzCoSwOJ3IVRKll+B+Dt+DnZDxELF5FWiNNH6gCTfJL890zBhS+QfdUiQkvrrCORMnRqzbBZ/SgOOc8nFJHOoAeqGZrbCliAWeVjeq3RZfmUrE8nNR6Zz9q3vxBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ukCnlCA1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BABE21A2;
-	Thu,  4 Apr 2024 15:53:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712238799;
-	bh=rHGwoKG09JOiSfZHMXZ5zTOUqRGK+5ViCwByZmRhBC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ukCnlCA18C9A3PJMUFiAZbCtNS7P877Mnm3qCnTQQVb5mx+hByjlkmdrXzE6pNYRR
-	 YJWIBWv9qBNriaI8oKqifnBGbwW4KaV7Fp8/G21dOYNyF7R+uUSBEnJIfIe7ZQ4vp0
-	 y7VTHYAtom3sUwhVKvMbKofEci68GDK/AMbyGgzI=
-Date: Thu, 4 Apr 2024 16:53:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A58C128830;
+	Thu,  4 Apr 2024 13:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712238896; cv=fail; b=rHcKPKK8iXX6hNJa80kphqnVs16vStseokSZw7nt3dp+Mz9FdlZchRT1AEqvxZ+eCvupc5irj13ZYy4jf21mdTl/Y5/aHNbiWDIiPyWIOgp+GaOGk07pWYOTMdcSbXJELCLhWmY44Aj6GpyQTkWC1c1EwbHRo0Gf1ulSfBZVVnE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712238896; c=relaxed/simple;
+	bh=CQHSOeFW9ClE84V7FuoO011bDx6xpQ2Jv5OlCVLGr0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=OgKvwoAQMMmnckAtXaRSo1ALJVuKSqtF5UxfoWDSpklt8JCsHkI2bEG5WO6KY0DMpfszRiZ3TFnQQ3GB6/KTBfDHqFCvH7qwqfpNXwjoRPiyG3402dbg5LbLADl4QC8DQha7WAq5gnx5MYCPbf2Hoj1cJ0xtqcJftL3xvI572aY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=QiHpgWtE; arc=fail smtp.client-ip=40.107.103.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QdzxCLErrFQl2hGQO/cxnd0yTw/OpPGG0y5WYXeQkjLUKW4bfdxESGGpwtvqsGnMVSZAK6rYqd9PCQ2VGCPaXXeoQy9PfyucT/xFVDkw2KAP3DkmWf4ElIyT2jyctOb2TwcrYkfZ9Cupq23ZVpWS2vTu2GjfAmXVDS/ZBWR/Y+jD7hx10AVnpMcc0uflhlaZnLcW5R1AxUSPYfWa77WA2kCJF7LT3rfvCZrx4hTdyriBOHULxmIAtm6f2qHXyf7aaGozbF8MpTvSVFTR518yiyA62+RZoXTES0yd+xfyaBdt36PVm7SPLn3bVj+ES9OYwwNSoCtbTrMVfEVrE8V7/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h1O4B8tRQhG9ej7pk4ZWHbQDGftm00ZDJfKtFl2elmo=;
+ b=ELL4rKeJL38am0Wj7sZY9QRrOG3+poNx3zllllYQEaJJ6Xd51QWaHfz70TiE5BNYQQxD7wAssU+QsUHg6nf+sgOvDRIFcU1wtf77BDvDYKeNYUWKQxp2nEXofiSozm7y/pn8v4YKpevAVEtZuao1Jg1JjzDkpb51DDbiPeSdDilAUpS5sHRcifSefdMrwC/+IzdOBU+s7n9YqJQ3UMP+0qAPfzQ+lswnmAsOXPfclKVC8TAwCNUWsBwL1UAUZq0htngv+PrBkMdKRCjt6dK0ojqQr3v9Jqnw2G1JyQksThk+UWob5zIkvIuEk7aWV6KP5CTFNT4AMjk67YqA2R7kzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h1O4B8tRQhG9ej7pk4ZWHbQDGftm00ZDJfKtFl2elmo=;
+ b=QiHpgWtEZZL67HDO7EuxBvb8VQHlHFoArL8mslbwsbbAIMUDp/p/DLFsSPmrg+Vg/eDM2EOA292VTMXslEhPTiPd9sFfjdu4tzQQ4ZlIs4PEQlMlKzILdHL6/XYDEnh4ZDBSupcmGqtkqGP1GakHH3yncLU+uWSjzt0Ix+a5rkg=
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by PAWPR04MB9959.eurprd04.prod.outlook.com (2603:10a6:102:387::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 4 Apr
+ 2024 13:54:50 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::3168:91:27c6:edf6]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::3168:91:27c6:edf6%3]) with mapi id 15.20.7409.042; Thu, 4 Apr 2024
+ 13:54:50 +0000
+Date: Thu, 4 Apr 2024 09:54:42 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Fabio Estevam <festevam@gmail.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v9 04/10] media: bcm2835-unicam: Add support for
- CCP2/CSI2 camera interface
-Message-ID: <20240404135346.GA12590@pendragon.ideasonboard.com>
-References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com>
- <20240402000424.4650-5-laurent.pinchart@ideasonboard.com>
- <11107704-46a7-4228-99da-55389e210553@xs4all.nl>
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	"open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <imx@lists.linux.dev>,
+	"open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <linux-media@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] dt-bindings: media: imx-jpeg: add
+ clocks,clock-names,slot to fix warning
+Message-ID: <Zg6xIjIQysjIVNzw@lizhi-Precision-Tower-5810>
+References: <20240404035205.59492-1-Frank.Li@nxp.com>
+ <af602862-5120-4717-adb6-694ada09e8d8@linaro.org>
+ <f5fa1872-0bae-4f04-aa94-27db937516e9@linaro.org>
+ <CAOMZO5Dtd_p02YeX6tcWMGzujZ-GwLQMQBPBOx9xLmEgs6VVNg@mail.gmail.com>
+ <e78c8c2e-1c83-4492-9db9-08f06856a414@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e78c8c2e-1c83-4492-9db9-08f06856a414@linaro.org>
+X-ClientProxiedBy: BYAPR07CA0034.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::47) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <11107704-46a7-4228-99da-55389e210553@xs4all.nl>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PAWPR04MB9959:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	l4JoTQZga9rVNdx3FA4X3hG9HsQnpXHEzXeM2JsZbF5XvcyISMnJhKWjPCH6Gs9Okd/e1STZVTPMNylpvMYddBwS3mu3HoeLernCJioqBLpq4bzAXeL/4ICw+EtoQZpTeW8/gCkf++xjOPtv6OzLL6FcAtMOgcnbR7tLiXy7JaTqD6RGkouUdU8wAHit98QoldM09wp9KxPATSuMdTJfBjIRjI6746f9l6C/+99vr2oNoW2716SXEBcAL0GbG6sDuIlK9FRR7SZr7y0Je7VXpijmbhlFtVOfIHJK9AB1g/9/9k0MOI4xmaWhEoRZe42kCiWUx63hs/cWeCicz5qE5V506cMcHSAOptCaDtUfzCSoLG2XvqPWgS1amd3/m4a6rhP67DZWaeNMDe67bJhPl4hH1/DfUJpp426NJWFu9x+t9JfcOeqElfk9GfK4HaEwsHvVcQQtDz889Btkpur6LSWjNdwtvy4tvLodUXeyY8j4VdTNo02kqoCrKuOJUBGzxVcAmH1fKI8NTWr6Clz3UTULNr5GwPfnIqzUmeQaCX8BQa4WwhDfBz6mpi+hoPfx3JljyYIsmdD/Po7AWOXPqzDNprsyR+uXBAH773PH+ymRD0kasZb/GPnfr47ArZc/6GmoZCNN3uzyp1DOfYnk0CjoiIG/U8IihEwdPjvBF3U=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d3FWRXd2UGM3cXA3c2NwRzNsb0U3Skdva094MXQySXdCbjZCUFpybnV5OXhv?=
+ =?utf-8?B?MDV4cjBkOElDbUU4UUoyNHpIUFowSDQzZ0x0emlxSWttVVcxcFBCMFZrTjVn?=
+ =?utf-8?B?SVQ5bVlLUWliUU9OMEI3WVZXNkhleDVST3V2V1hNZm1Dd0pQTzBZQnF1M1Z4?=
+ =?utf-8?B?Q052K1JRR2lOVmw5c0dJV1AxT3RkeUx1VTBLR3BtOEVmcFVzcEdrcUNiZVVx?=
+ =?utf-8?B?TnU3L3BybEJRWGVZRC9kOUJuVUJoYm1wa3MxL00zM0pVYTRrME0rdmVuQjhQ?=
+ =?utf-8?B?eHNyVnpGM1NHVXZCenQ0eVZyU0VvUGduczB4TkU1eFZWbUdTSzgvZkVseG8v?=
+ =?utf-8?B?dmdMRlZwY0ZGL3FWUHhsQUl3OTVUWnlSSUl4N3gwZ0FZL0hHTjBDTDJCTjk1?=
+ =?utf-8?B?bGZ4c1ZIU3prbzkrNVFzTkFEQm1UaVk2VTVhS2E3bHprRWhZOFFPVCtIUzZj?=
+ =?utf-8?B?NTMxYUpmbXF3eHVlMmtkNEFycVBuYjNSS2EwZGRMS0VhMk1oNVJzbUdvU1ph?=
+ =?utf-8?B?NXlDMmtaSkNlaHVOdVZLVGY4cGVrb0ZmeWNmUjNwaHhtZXZrdFBwTnNQQkNu?=
+ =?utf-8?B?SzFkOE8zNnVzVHN2VVZKeGtxRWFudTdCbFJ0ZDZMMlFUaUg1L0paa1dyb3BR?=
+ =?utf-8?B?WEJmUk13K1RWazlSSnpPR1pQcXdvOENwVEFpaDBJTGo4UnNTV3J0SU5FN3I4?=
+ =?utf-8?B?R1VlTklsbXZlWGtkZU9DQUJyYVlDZkd1emFWSjJMeXZ1NDhYc3MwbjlmYmNF?=
+ =?utf-8?B?WHVrdWdHMXZyNGhWTll0cTF6cXR2MjNzMDVjL2YvWGwwaGkzVUVoNW5rMlc4?=
+ =?utf-8?B?V1dQWEZXRis5cGxpT08vZkYvVnpkOEUwdVhzZ2Zzb2hZZHBVcnBiZkQwbU9v?=
+ =?utf-8?B?R2tqUU5Ld2o3TENyd3RHOGdpRHdSd2ZacXFISFZyMUJNN0pQQmV3VG5TMjJy?=
+ =?utf-8?B?ZmxPdm4xNU9LZUo2S0pWSGlYeGgzMUNHdzJmZXNjYTlwM1BzMlJRdEgvYThx?=
+ =?utf-8?B?NGFtN0J4Mmo0U0R4V1d4b3h4VTNPZWhNWVl5V0VPVGFtWHMyMGV5ZU1MdzVK?=
+ =?utf-8?B?UFgyeTd6MzdBRm1NckovZVAvbkMxNjYrVmJ4WjlvRDlIUU0xaWhHQWZjM2Vq?=
+ =?utf-8?B?RGhvQXFQYTJOcm84a0xieHk1ZU9SdlE2aUJwSFZ1ZXZWem5TeDZHdE0rWmtM?=
+ =?utf-8?B?aFI2c05OSzBpOGZNSjBUVUtPeWFFS0p4em5BUkFjRWlqOWJlZzdLSjBKUnk4?=
+ =?utf-8?B?Z0ptd1VBaVFlcVM1bjdBaFZrdFBKa3I5SjhpUVBLS0lFTGlRdlJ6U2dYa2pJ?=
+ =?utf-8?B?NDBrNWNUSTFQVlJ4N2lCTlFodGI5enhYaWh3eXRRNythdW85VklKNXRYOWQ2?=
+ =?utf-8?B?c0UzeStuUGtoSGVncWVEQnFaODkrN0p3eXNzeW5INTJrZ05KVUQvVzZUcHdu?=
+ =?utf-8?B?Nlp5UEtKNUFYYUg1ZEJqYkVCRnBxZkM0N1c5V0VneTZaTWJNcEZGVUh1eGR2?=
+ =?utf-8?B?VURvdWxqbWJWMnBBQmpLZWk3WXptRzc4QjgvOWFRYjIvZzEwUC8raHpFTUdv?=
+ =?utf-8?B?RHhGNlhEalJaZ0lBVmIveDU2azRKUXBtS1JEalF1WTRFM0FxNXY3MlJLMCtI?=
+ =?utf-8?B?VlFMS21nZDk1emJ4VFQzbURXWDlLajAySVlLUy9OQW1xNThEK1lxRkFXVGY1?=
+ =?utf-8?B?QitKS3F4MGRZOGVTSUVYaEsxWWZhaHIySVNIanZMQytLemNpY3lTN0dKZ3ZE?=
+ =?utf-8?B?WS9HRkg2dE5lWnZ3WEkzQ0lHUDFGODlDQ2JJald3ZkNpSUF5ZXo1UWJVdG4x?=
+ =?utf-8?B?NTQyNzBDMjlHeWR5TDNkdEpraW52bFZkOVlLTW5tRmp0M1NOMnNUVmN2N3hR?=
+ =?utf-8?B?Ymk4WVVuZDZqemhQeGJaWlRKbUVGMFh6aGF0a0hXQ29mSWJDek13VjJvVjM5?=
+ =?utf-8?B?S1BWeU9aRmZFa0Zlei9WU0xTUGQxT0RBdG9FLzdZdDlvOWhWK09RRkFLNFI1?=
+ =?utf-8?B?d1VTR2VLdnlDc2ZaSXB1MlZEL0hnanZEM2xtSHNMMjg1aGJ0NlBBejBSNkYy?=
+ =?utf-8?B?amxNUjYyallDSXM4ME5NdGR0NWErY1JXRm9yenpBM01kT2JTNkpsZnV1SVJ6?=
+ =?utf-8?Q?ZiEMaVNP8XQr4DmLrCijlH2pR?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c263bda-720a-4967-27ed-08dc54aecc1c
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 13:54:50.6610
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c/gre/7zkyqYzQUwhBV6J6nbk3iZQBcPYB4oNmbPlXicbUtX0f8LmGW3YyB6bF3LsOelP49yRqveXhhsAOGuLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9959
 
-Hi Hans,
+On Thu, Apr 04, 2024 at 01:59:57PM +0200, Krzysztof Kozlowski wrote:
+> On 04/04/2024 13:03, Fabio Estevam wrote:
+> > On Thu, Apr 4, 2024 at 3:54 AM Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> >> And for the clocks, instead pick up this patch:
+> >> https://lore.kernel.org/all/20230721111020.1234278-3-alexander.stein@ew.tq-group.com/
+> > 
+> > Or maybe this one:
+> > https://lore.kernel.org/linux-devicetree/DB9PR04MB923493D0DA82C9EC4386BC2A8FF1A@DB9PR04MB9234.eurprd04.prod.outlook.com/
+> 
+> 
+> Three people were fixing same clocks issue... and three or more people
+> were trying to fix the slot property.
+> 
+> This is really bad binding maintenance and driver upstreaming, NXP.
 
-On Thu, Apr 04, 2024 at 03:36:12PM +0200, Hans Verkuil wrote:
-> Just two minor comments:
+Thanks everyone help make imx dts and binding better. I should google
+before send. 
 
-For a new large driver, I'll take this as a sign we're very close to
-completion :-)
+Patchwork for imx already was created.
+https://patchwork.kernel.org/project/imx/list/?series=&submitter=150701&state=&q=&archive=&delegate=
 
-> On 02/04/2024 02:04, Laurent Pinchart wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > 
-> > Add a driver for the Unicam camera receiver block on BCM283x processors.
-> > It is represented as two video device nodes: unicam-image and
-> > unicam-embedded which are connected to an internal subdev (named
-> > unicam-subdev) in order to manage streams routing.
-> > 
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Co-developed-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v8:
-> > 
-> > - Use MIPI_CSI2_DT_* macros
-> > - Disable image stream on start error
-> > - Move hardware configuration to unicam_sd_enable_streams()
-> > - Get VC and DT from frame descriptor
-> > - Don't cache fmtinfo in unicam_node
-> > - Calculate line_int_freq based on subdev format
-> > - Fix try_fmt_meta regression from v5
-> > 
-> > Changes since v7:
-> > 
-> > - Indentation, line wrap and white space fixes
-> > - Add copyright notice for Ideas on Board
-> > - Use unsigned values for shifts in macro
-> > - Replace condition and assignment with max()
-> > - Don't set the serial to an empty string manually
-> > - Don't use loop for lane clocks setting
-> > - Store PUM value in struct unicam_format_info
-> > 
-> > Changes since v6:
-> > 
-> > - Fix typos in comments
-> > - Drop outdated comment
-> > - Indentation fixes
-> > - Turn UNICAM_SD_PAD_* into an enum
-> > - Drop unicam_format_info.metadata_fmt
-> > - Remove unneeded dev_dbg()
-> > - Report meta frame sizes as V4L2_FRMSIZE_TYPE_STEPWISE
-> > - Drop stray semicolons
-> > - Set V4L2_FMT_FLAG_META_LINE_BASED for metadata format
-> > - Rename error label
-> > - Use .get_mbus_config() to get number of data lanes
-> > - Drop minimum of 3 buffers in .queue_setup()
-> > - Merge locks for the two video nodes
-> > - Rework start/stop to avoid race conditions
-> > 
-> > Changes since v5:
-> > 
-> > - Move to drivers/media/platform/broadcom/
-> > - Port to the upstream V4L2 streams API
-> > - Rebase on latest metadata API proposal
-> > - Add missing error message
-> > - Drop unneeded documentation block for unicam_isr()
-> > - Drop unneeded dev_dbg() and dev_err() messages
-> > - Drop unneeded streams_mask and fmt checks
-> > - Drop unused unicam_sd_pad_is_sink()
-> > - Drop unneeded includes
-> > - Drop v4l2_ctrl_subscribe_event() call
-> > - Use pm_runtime_resume_and_get()
-> > - Indentation and line wrap fixes
-> > - Let the framework set bus_info
-> > - Use v4l2_fwnode_endpoint_parse()
-> > - Fix media device cleanup
-> > - Drop lane reordering checks
-> > - Fix subdev state locking
-> > - Drop extra debug messages
-> > - Move clock handling to runtime PM handlers
-> > - Reorder functions
-> > - Rename init functions for more clarity
-> > - Initialize runtime PM earlier
-> > - Clarify error messages
-> > - Simplify subdev init with local variable
-> > - Fix subdev cleanup
-> > - Fix typos and indentation
-> > - Don't initialize local variables needlessly
-> > - Simplify num lanes check
-> > - Fix metadata handling in subdev set_fmt
-> > - Drop manual fallback to .s_stream()
-> > - Pass v4l2_pix_format to unicam_calc_format_size_bpl()
-> > - Simplify unicam_set_default_format()
-> > - Fix default format settings
-> > - Add busy check in unicam_s_fmt_meta()
-> > - Add missing \n at end of format strings
-> > - Fix metadata handling in subdev set_fmt
-> > - Fix locking when starting streaming
-> > - Return buffers from start streaming fails
-> > - Fix format validation for metadata node
-> > - Use video_device_pipeline_{start,stop}() helpers
-> > - Simplify format enumeration
-> > - Drop unset variable
-> > - Update MAINTAINERS entry
-> > - Update to the upstream v4l2_async_nf API
-> > - Update to the latest subdev routing API
-> > - Update to the latest subdev state API
-> > - Move from subdev .init_cfg() to .init_state()
-> > - Update to the latest videobuf2 API
-> > - Fix v4l2_subdev_enable_streams() error check
-> > - Use correct pad for the connected subdev
-> > - Return buffers to vb2 when start streaming fails
-> > - Improve debugging in start streaming handler
-> > - Simplify DMA address management
-> > - Drop comment about bcm2835-camera driver
-> > - Clarify comments that explain min/max sizes
-> > - Pass v4l2_pix_format to unicam_try_fmt()
-> > - Drop unneeded local variables
-> > - Rename image-related constants and functions
-> > - Turn unicam_fmt.metadata_fmt into bool
-> > - Rename unicam_fmt to unicam_format_info
-> > - Rename unicam_format_info variables to fmtinfo
-> > - Rename unicam_node.v_fmt to fmt
-> > - Add metadata formats for RAW10, RAW12 and RAW14
-> > - Make metadata formats line-based
-> > - Validate format on metadata video device
-> > - Add Co-devlopped-by tags
-> > 
-> > Changes since v3:
-> > 
-> > - Add the vendor prefix for DT name
-> > - Use the reg-names in DT parsing
-> > - Remove MAINTAINERS entry
-> > 
-> > Changes since v2:
-> > 
-> > - Change code organization
-> > - Remove unused variables
-> > - Correct the fmt_meta functions
-> > - Rewrite the start/stop streaming
-> >   - You can now start the image node alone, but not the metadata one
-> >   - The buffers are allocated per-node
-> >   - only the required stream is started, if the route exists and is
-> >     enabled
-> > - Prefix the macros with UNICAM_ to not have too generic names
-> > - Drop colorspace support
-> > 
-> > Changes since v1:
-> > 
-> > - Replace the unicam_{info,debug,error} macros with dev_*()
-> > ---
-> >  MAINTAINERS                                   |    1 +
-> >  drivers/media/platform/Kconfig                |    1 +
-> >  drivers/media/platform/Makefile               |    1 +
-> >  drivers/media/platform/broadcom/Kconfig       |   23 +
-> >  drivers/media/platform/broadcom/Makefile      |    3 +
-> >  .../platform/broadcom/bcm2835-unicam-regs.h   |  246 ++
-> >  .../media/platform/broadcom/bcm2835-unicam.c  | 2745 +++++++++++++++++
-> >  7 files changed, 3020 insertions(+)
-> >  create mode 100644 drivers/media/platform/broadcom/Kconfig
-> >  create mode 100644 drivers/media/platform/broadcom/Makefile
-> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
-> >  create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
-> > 
-> 
-> <snip>
-> 
-> > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > new file mode 100644
-> > index 000000000000..1418f209d6ad
-> > --- /dev/null
-> > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > @@ -0,0 +1,2745 @@
-> 
-> <snip>
-> 
-> > +static int unicam_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > +{
-> > +	struct unicam_node *node = vb2_get_drv_priv(vq);
-> > +	struct unicam_device *unicam = node->dev;
-> > +	struct unicam_buffer *buf;
-> > +	struct media_pipeline_pad_iter iter;
-> > +	struct media_pad *pad;
-> > +	unsigned long flags;
-> > +	int ret;
-> > +
-> > +	dev_dbg(unicam->dev, "Starting stream on %s device\n",
-> > +		is_metadata_node(node) ? "metadata" : "image");
-> > +
-> > +	/*
-> > +	 * Start the pipeline. This validates all links, and populates the
-> > +	 * pipeline structure.
-> > +	 */
-> > +	ret = video_device_pipeline_start(&node->video_dev, &unicam->pipe.pipe);
-> > +	if (ret < 0) {
-> > +		dev_dbg(unicam->dev, "Failed to start media pipeline: %d\n", ret);
-> > +		goto err_buffers;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Determine which video nodes are included in the pipeline, and get the
-> > +	 * number of data lanes.
-> > +	 */
-> > +	if (unicam->pipe.pipe.start_count == 1) {
-> > +		unicam->pipe.nodes = 0;
-> > +
-> > +		media_pipeline_for_each_pad(&unicam->pipe.pipe, &iter, pad) {
-> > +			if (pad->entity != &unicam->subdev.sd.entity)
-> > +				continue;
-> > +
-> > +			if (pad->index == UNICAM_SD_PAD_SOURCE_IMAGE)
-> > +				unicam->pipe.nodes |= BIT(UNICAM_IMAGE_NODE);
-> > +			else if (pad->index == UNICAM_SD_PAD_SOURCE_METADATA)
-> > +				unicam->pipe.nodes |= BIT(UNICAM_METADATA_NODE);
-> > +		}
-> > +
-> > +		if (!(unicam->pipe.nodes & BIT(UNICAM_IMAGE_NODE))) {
-> > +			dev_dbg(unicam->dev,
-> > +				"Pipeline does not include image node\n");
-> > +			ret = -EPIPE;
-> > +			goto err_pipeline;
-> > +		}
-> > +
-> > +		ret = unicam_num_data_lanes(unicam);
-> > +		if (ret < 0)
-> > +			goto err_pipeline;
-> > +
-> > +		unicam->pipe.num_data_lanes = ret;
-> > +
-> > +		dev_dbg(unicam->dev, "Running with %u data lanes, nodes %u\n",
-> > +			unicam->pipe.num_data_lanes, unicam->pipe.nodes);
-> > +	}
-> > +
-> > +	node->streaming = true;
-> 
-> Hmm, do you need to keep track of this here? Can't you use vb2_start_streaming_called()?
-> 
-> Generally I dislike keeping track of the same information in two places.
+I hope to patchwork help reduce duplicate work.
 
-It looks like I can, I'll give it a try for the next version.
+Frank
 
-> > +
-> > +	/* Arm the node with the first buffer from the DMA queue. */
-> > +	spin_lock_irqsave(&node->dma_queue_lock, flags);
-> > +	buf = list_first_entry(&node->dma_queue, struct unicam_buffer, list);
-> > +	node->cur_frm = buf;
-> > +	node->next_frm = buf;
-> > +	list_del(&buf->list);
-> > +	spin_unlock_irqrestore(&node->dma_queue_lock, flags);
-> > +
-> > +	/*
-> > +	 * Wait for all the video devices in the pipeline to have been started
-> > +	 * before starting the hardware. In the general case, this would
-> > +	 * prevent capturing multiple streams independently. However, the
-> > +	 * Unicam DMA engines are not generic, they have been designed to
-> > +	 * capture image data and embedded data from the same camera sensor.
-> > +	 * Not only does the main use case not benefit from independent
-> > +	 * capture, it requires proper synchronization of the streams at start
-> > +	 * time.
-> > +	 */
-> > +	if (unicam->pipe.pipe.start_count < hweight32(unicam->pipe.nodes))
-> > +		return 0;
-> > +
-> > +	ret = pm_runtime_resume_and_get(unicam->dev);
-> > +	if (ret < 0) {
-> > +		dev_err(unicam->dev, "PM runtime resume failed: %d\n", ret);
-> > +		goto err_pipeline;
-> > +	}
-> > +
-> > +	/* Enable the streams on the source. */
-> > +	ret = v4l2_subdev_enable_streams(&unicam->subdev.sd,
-> > +					 UNICAM_SD_PAD_SOURCE_IMAGE,
-> > +					 BIT(0));
-> > +	if (ret < 0) {
-> > +		dev_err(unicam->dev, "stream on failed in subdev\n");
-> > +		goto err_pm_put;
-> > +	}
-> > +
-> > +	if (unicam->pipe.nodes & BIT(UNICAM_METADATA_NODE)) {
-> > +		ret = v4l2_subdev_enable_streams(&unicam->subdev.sd,
-> > +						 UNICAM_SD_PAD_SOURCE_METADATA,
-> > +						 BIT(0));
-> > +		if (ret < 0) {
-> > +			dev_err(unicam->dev, "stream on failed in subdev\n");
-> > +			goto err_disable_streams;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +err_disable_streams:
-> > +	v4l2_subdev_disable_streams(&unicam->subdev.sd,
-> > +				    UNICAM_SD_PAD_SOURCE_IMAGE, BIT(0));
-> > +err_pm_put:
-> > +	pm_runtime_put_sync(unicam->dev);
-> > +err_pipeline:
-> > +	video_device_pipeline_stop(&node->video_dev);
-> > +err_buffers:
-> > +	unicam_return_buffers(node, VB2_BUF_STATE_QUEUED);
-> > +	node->streaming = false;
-> > +	return ret;
-> > +}
 > 
-> <snip>
+> Best regards,
+> Krzysztof
 > 
-> > +static void unicam_unregister_nodes(struct unicam_device *unicam)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(unicam->node); i++) {
-> > +		struct unicam_node *node = &unicam->node[i];
-> > +
-> > +		if (node->dummy_buf_cpu_addr)
-> > +			dma_free_coherent(unicam->dev, node->dummy_buf.size,
-> > +					  node->dummy_buf_cpu_addr,
-> > +					  node->dummy_buf.dma_addr);
-> > +
-> > +		if (node->registered) {
-> > +			video_unregister_device(&node->video_dev);
-> 
-> Call vb2_video_unregister_device instead of video_unregister_device.
-> That ensures that unregistering the device will also stop streaming.
-> See comments in include/media/videobuf2-v4l2.h.
-
-I had forgotten about that function. I'll do so.
-
-> > +			node->registered = false;
-> > +		}
-> > +	}
-> > +}
-> 
-> <snip>
-
--- 
-Regards,
-
-Laurent Pinchart
 
