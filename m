@@ -1,124 +1,99 @@
-Return-Path: <linux-media+bounces-8624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8628-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B7789834F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 10:41:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A099898381
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 10:52:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3591B28F40
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:40:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCE0828FB62
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6AB7175D;
-	Thu,  4 Apr 2024 08:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30FA07352F;
+	Thu,  4 Apr 2024 08:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LapAMU1J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9576027D;
-	Thu,  4 Apr 2024 08:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8BF73186
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 08:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712220049; cv=none; b=cy5eZn6pyYvu1LBEuBmHCynKM44Xvzp6Ni7ZXIoFpNOaPOOxoJ9kzfkr7Nfe74ORpphU278Qhi/fbUvvGv2JvTi4WP9tOhFug66qNFLpE+P429MRnITvpImrWuHTEAdqfMdUHZIO7oMRXYyAAN6DRIroGn40CztCt61GGy8wjd4=
+	t=1712220728; cv=none; b=BQCuz8gdd4G+m8WFvnbioCcSC9/BWWyMiBAfvP5aAakhHjGQVSg1ekdakE/4l6kYA7FiKEDotrVye/XyxxG23PtJ9IglfDkZ3ZYsbt2AhDhz/cUDe5RtrNDup+d905AwkbQ5O6dUcGTnOzPoCttAeuE7cTPz0Vd6VNCDNRmsIno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712220049; c=relaxed/simple;
-	bh=wn7xtsjaTkXfKIzw5gjpPwLITNNhyQ7OfsOpriiQNiY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rkrpu4sauoCffvnZeJUto/zSm9RP3IH6wPJihpqHRFcy0R3FCMCh1QEXHc13xhuo2ecfW2TcU1hIfgj7qe2Y5mec+ZhfuygHBHlJffFfyHHKwmIFl/5tPEM80rgI+w1JI6de3bKfTiZ4gswqWaohGjbB8mzq4/+xTXBD96e6+DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC91EC433C7;
-	Thu,  4 Apr 2024 08:40:46 +0000 (UTC)
-Message-ID: <1caa6a4c-d4c1-474a-abf2-63384dba3cbb@xs4all.nl>
-Date: Thu, 4 Apr 2024 10:40:44 +0200
+	s=arc-20240116; t=1712220728; c=relaxed/simple;
+	bh=p+3l+7ZcKOQO9E+ShdU1NfyVaRVNj4u4GWZPxfccvA4=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=fW9gkM1sM5JJM6mr/1pnDo4NI0yUA0LGWK4RCAAOaUbd8M1zDUnNXzKVu+QweiZ6BmdQXi9VcK9X+wngLvmuJmvgPircjKXLbsyJERx2Kl9QYD1tlB6k/jc4oMkYzEaOBr1dln5C1vPldehlthn/iPGjwtUqWtsRwcHv7CRSr6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LapAMU1J; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712220726; x=1743756726;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=p+3l+7ZcKOQO9E+ShdU1NfyVaRVNj4u4GWZPxfccvA4=;
+  b=LapAMU1JXG7aRjPU1jz0pxxxOg/MtQdJ49juGzFwoEQB6BFR7mg9cKML
+   tN0Kd9w/Lxr5P0rKoGplr5Fzlh8dhneu5Jr0rjkzYgog7NXyTOA9ATCLI
+   vA3bZ8eU/Z1FhUuxXR982cChYsnILCRhRwKn5+CjF/+vmFk+xBpLK011q
+   N2lH1wxYxQ0lh6WPMrQr9l+yObCQvmt2T1e0LTAgJ3qh4Ndtp0ZyEU5JV
+   5mxgCtcxMdpQW0KJQJeKkIWEOE3WZaK43kFH15h5K1BtRAGaEsaF299G2
+   DPYiU0eKc/PWDgBa+3dxRIlYp6F57CDikgfgWwnZUvvpQWutPzuua2PFy
+   g==;
+X-CSE-ConnectionGUID: tp8+rYY7QNe6U883y2p8VQ==
+X-CSE-MsgGUID: RdrD+WYUQmupF3+FYVl1ug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7658995"
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="7658995"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 01:51:49 -0700
+X-CSE-ConnectionGUID: SuI8ppS5THeV/K9BO0NYyQ==
+X-CSE-MsgGUID: NZ6BQr23RzCyTK7EOHPlzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="23186562"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 01:51:48 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B0C7B11F82F
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 11:51:45 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1rsIoz-001hOG-24
+	for linux-media@vger.kernel.org;
+	Thu, 04 Apr 2024 11:51:45 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Subject: [PATCH 0/3] Remove old e-mail addresses
+Date: Thu,  4 Apr 2024 11:51:32 +0300
+Message-Id: <20240404085135.405104-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: cec: core: remove length check of Timer Status
-Content-Language: en-US, nl
-To: nini.song@mediatek.com
-Cc: ci.wu@mediatek.com, mchehab@kernel.org, nicolas@fjasle.eu,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-References: <20240125132850.10430-1-nini.song@mediatek.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240125132850.10430-1-nini.song@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Nini,
+Hi folks,
 
-This patch has now been merged in mainline as commit ce5d241c3ad45
-("media: cec: core: remove length check of Timer Status").
+This set removes inactive e-mail addresses from Intel-contributed drivers.
 
-To get this into older kernels please post this patch to
-stable@vger.kernel.org, CC the linux-media mailinglist, and mention the
-mainline commit that I provided above.
+Sakari Ailus (3):
+  media: ipu3-cio2: Update e-mail addresses
+  media: dw9714: Update e-mail addresses
+  staging: media: ipu3-imgu: Update e-mail addresses
 
-Also mention that this patch applies to 5.10 and up. You can mention
-that the patch applies to 5.4 and 4.19 as well after removing the '/core'
-directory from the pathnames.
+ drivers/media/i2c/dw9714.c               | 6 +++---
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 8 ++++----
+ drivers/staging/media/ipu3/ipu3.c        | 6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-Since you are the author of the patch, you should be the one to post
-the patch.
-
-Regards,
-
-	Hans
-
-
-On 25/01/2024 14:28, nini.song@mediatek.com wrote:
-> From: "nini.song" <nini.song@mediatek.com>
-> 
-> The valid_la is used to check the length requirements,
-> including special cases of Timer Status. If the length is
-> shorter than 5, that means no Duration Available is returned,
-> the message will be forced to be invalid.
-> 
-> However, the description of Duration Available in the spec
-> is that this parameter may be returned when these cases, or
-> that it can be optionally return when these cases. The key
-> words in the spec description are flexible choices.
-> 
-> Remove the special length check of Timer Status to fit the
-> spec which is not compulsory about that.
-> 
-> Signed-off-by: Nini Song <nini.song@mediatek.com>
-> ---
->  drivers/media/cec/core/cec-adap.c | 14 --------------
->  1 file changed, 14 deletions(-)
-> 
-> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-> index 5741adf09a2e..559a172ebc6c 100644
-> --- a/drivers/media/cec/core/cec-adap.c
-> +++ b/drivers/media/cec/core/cec-adap.c
-> @@ -1151,20 +1151,6 @@ void cec_received_msg_ts(struct cec_adapter *adap,
->  	if (valid_la && min_len) {
->  		/* These messages have special length requirements */
->  		switch (cmd) {
-> -		case CEC_MSG_TIMER_STATUS:
-> -			if (msg->msg[2] & 0x10) {
-> -				switch (msg->msg[2] & 0xf) {
-> -				case CEC_OP_PROG_INFO_NOT_ENOUGH_SPACE:
-> -				case CEC_OP_PROG_INFO_MIGHT_NOT_BE_ENOUGH_SPACE:
-> -					if (msg->len < 5)
-> -						valid_la = false;
-> -					break;
-> -				}
-> -			} else if ((msg->msg[2] & 0xf) == CEC_OP_PROG_ERROR_DUPLICATE) {
-> -				if (msg->len < 5)
-> -					valid_la = false;
-> -			}
-> -			break;
->  		case CEC_MSG_RECORD_ON:
->  			switch (msg->msg[2]) {
->  			case CEC_OP_RECORD_SRC_OWN:
+-- 
+2.39.2
 
 
