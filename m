@@ -1,289 +1,180 @@
-Return-Path: <linux-media+bounces-8665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAC0898D0C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 19:13:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6606F898D67
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 19:41:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E92F828FD2C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 17:12:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E96D61F21F86
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 17:41:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE0F12D1ED;
-	Thu,  4 Apr 2024 17:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A626B12E1D9;
+	Thu,  4 Apr 2024 17:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EEVemeH5"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Q1FML0sB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A611CAA2
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 17:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1BB12CD9C
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 17:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712250772; cv=none; b=PdLelEnYqzUORmL6zD6n3Dbr8pJxGS1Al5cLvNqlRIVCr51LS5pqrE36Mw9cRa8rANnC3jtQGgN//KimF7zvRZqNyRQo1ZNaeSAWAwkHbDtF/0E176LGEfGnmeuURWTx3pD4q5Y9rVcX7B7Labl3DzvTd8v3VDX+tVl4xs9YO4Q=
+	t=1712252479; cv=none; b=SF5va3zKswoE+wDADHXIocSahYWRoM42QLwHKeCFjf41QrRDT7z38O5ihbAM2ZAjXRBEozRlcWrN+tlEsv3TsdqYVqMB3hEiT6oQPPJA3eFCiJ+ZP0pKc+c7DvsGrWxB2q7N0ECpvCbAaozzUTGIwphW6fU5JaTJQWpRVtRqWZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712250772; c=relaxed/simple;
-	bh=q2vSnLkZdK+cF5cwh1lLcPQrmaY/O+d2loT+u8w1Gjg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mn+C2yLrhuWhEtFUnsoWtJ8jKG8RhjjVtyCT44OMCvxYGH3Ui66tjMsrGWoj9eXAbbqKBf+AGFm0wj/5J2QGEBSmbZMALkZp6n6lQou5hdIC3rodk9OtEJQi3toGcvhtVrPNWwxSmzAHT/lNHWuNWQZQxaYxYhV5BfHtAQLUJz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EEVemeH5; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42f4b66dc9eso5732611cf.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 10:12:50 -0700 (PDT)
+	s=arc-20240116; t=1712252479; c=relaxed/simple;
+	bh=OA/jUJ05jo1vzjvMVzohJkoM+kxDKZwUgLxh7dqwh/8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cqY1wn5QxqrOg3aaZnJLe8Uu9IzYjtNn5vE39bBMmvuZ3cBBkQZrRfw7f1eqA6EddDgtdd2qPzGLIiiTxYQJMlTeZCR30faGsWa706cckVn6MFtoBl1QdJa8BiaEyLKRZNdkvA53/U9IlmKe6l3Cws4AjXJlJuLkpIcbO/Pv5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Q1FML0sB; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-221a9e5484aso743990fac.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 10:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712250769; x=1712855569; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CrvNXh1BQUyZBtc3CRIqLlUYNYDJkZ5+/l+Xgjsutwo=;
-        b=EEVemeH50Z3f8Mw5CK6jPAQd2P3yqCaPJ0r9V9EUcDp7SihhCumnebeli42G0B69Fr
-         SBk9o0whnPCdnQCtRUYk9ZeJHVXlUjIr+wq//4xN4zcnbNa97zCFLYp8UAm2JphcTohM
-         /2DKYMi22TC4aN0r916C+UDYhIc4GaZ+wqhm0=
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1712252476; x=1712857276; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PDCUlJMzIv/laHrjUCGrOmU4Uxm0ZKwh32oebCX4CUg=;
+        b=Q1FML0sBLXmGl3v6o2JEGhd2xRFrZpCt5PAkmRiaRIMw6TBqJRx1IEXwlSGUBWeLcD
+         KbDNPwEKJPBddDS0n2202LGIG8D+eWpbbeN93ZM1bmTeiguI7C5bErEjQpRJ/xIOJ1F8
+         CQ2jIs99jQPiQkDxmGcG0MDQDyLiUFgsgsYGzo7nrlkbHQuFuG5NDx6AUewN766NXOzB
+         5NOHjyF1lVEhI2Ucy1NBBS6+S3g+iK0fimg2DmJkaiKr5FvHz2/nP2AJ62OQ/iI4CvQy
+         xgM2FgzfpFzPBOZUMv3D00kQsDOHy4bYddfvU7Ic6jG40oQ542gDftE6/egs1LhRiDCB
+         B1dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712250769; x=1712855569;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CrvNXh1BQUyZBtc3CRIqLlUYNYDJkZ5+/l+Xgjsutwo=;
-        b=fI7Rhp5C/G/3yLGPXCx44ebq2zq5o63+/0OXdhwLy55lwjlbrfEz6EgV+XyCC/OEsf
-         JnDek3DTaPsQmSAghaPNX320A3nWk7tGlHzPo4+DhQOeBio90wzkt2mVOAhnmw0/61vk
-         tyAsZqKWSnwpxtfWf1l4WITlJ+ehXcd/Baubgi/WzEIm3M5EQqVxq90LkVfIXl6PHSfY
-         FpZS0troNSw5HNk5V4JDpv4J7EczbBJo5P0yR7+7L6f4FbtvsJMq3d7Ke0wJHH0ddnlB
-         q/TuyrFhVwepzOs1orpIUIdrzfyBzLZc+EuAvrsEALrpVRk00MokwJL2kNJe/DtixQ75
-         u70w==
-X-Forwarded-Encrypted: i=1; AJvYcCWI/YCvDDYKwCDUbAelH4n///DMgMA/0gjz8hlvj55BvqkazkIQtkMgZpCkVypBit3p8o26KryCt+/Ptz9f5AJuRiHfZa8pnL+4EiY=
-X-Gm-Message-State: AOJu0YwturytfJNNL/nM6I2JIh4jM7alFvI7dgX5EszMsvw792g2oT4u
-	QM3yJ6bvLWRbVLKOtlqpXvXRT+TIOeqKzUSrbJgZtlllKnbXlIslblAd7HJWqJAvNFT5PK0lBW+
-	7ji52
-X-Google-Smtp-Source: AGHT+IFKVELcSsiSx3YyYbTIOdKrmMf1iah0XeNX5zSGJPN912bfbFkouQUr9Wc69kd88YWnNOCvMA==
-X-Received: by 2002:a05:622a:2:b0:432:a566:cf71 with SMTP id x2-20020a05622a000200b00432a566cf71mr382158qtw.9.1712250769233;
-        Thu, 04 Apr 2024 10:12:49 -0700 (PDT)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com. [209.85.222.170])
-        by smtp.gmail.com with ESMTPSA id gb7-20020a05622a598700b00434386bf75asm2709844qtb.34.2024.04.04.10.12.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Apr 2024 10:12:48 -0700 (PDT)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-789e2bf854dso65545885a.3
-        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 10:12:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVo2gNCcARoGXzkAn0jjY4m4UK0J36DVe4/7itFXXL4RtL0uFgVEOzM+XYNk+w6eoiunMN9/UZgXH18VV/q85AABeA0AD5ozTpR+o4=
-X-Received: by 2002:ad4:5949:0:b0:699:39ce:7453 with SMTP id
- eo9-20020ad45949000000b0069939ce7453mr286213qvb.33.1712250767706; Thu, 04 Apr
- 2024 10:12:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712252476; x=1712857276;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDCUlJMzIv/laHrjUCGrOmU4Uxm0ZKwh32oebCX4CUg=;
+        b=mIMtLJ2PgL8cfMz39DUUI0h809TxVBi9qCwpnUfzcIInjIEf2Cl6inIBA78u6FZFxs
+         Cv4iHEFrU3iu6Al8nN1XIVDqC8UNtegBpmlkF2ptipaWrg+3/EpNVQoIiK3zqlo84rjm
+         uQ8XTMK5o6VvhLIBjZ+wjAhlCMPZ1BuBzUupphFXrvCwm4bWO0c5g+lROocECy22CKj0
+         c4YhBU9siHu/YXnAoVhIVNHQ/IpZeAw5kGGegX8Vqz3A0skNwNtwLxjVCVWoRmPM1pfv
+         y380nB/5BhgIknYXygjQGZ5cgpZEaSMeMHgAPvYSeXONgHOtAK4dD9FsvctOIWixiVvV
+         K9yg==
+X-Forwarded-Encrypted: i=1; AJvYcCVuUEacYkTO3X7IYUdRX6S92qKAZWfw+fpkSidZ3++0Q+iZKu7uywtsH9Lrrz6FlisTvnrylaGZIs00rQMfQm6nTBSZThNIR0gZVBo=
+X-Gm-Message-State: AOJu0YzPkBhD3J3gSujWDEYTvSZWN9WAOtx7yF4aX5tYjSyDSCmbY2m+
+	2VetVtIarzb296rrLCvBXui3L6WHyttXigjaKSIvUNPhpPTd/8NRgG0xRuBi8bg=
+X-Google-Smtp-Source: AGHT+IH6SPgr9ERE/vwlY2jNucRJ8k5kekJ4QNJCT/jjb/z1ac1mW4/lQwO5MYeuUEjOj8KsCc0l4g==
+X-Received: by 2002:a05:6870:c194:b0:22e:15fd:e247 with SMTP id h20-20020a056870c19400b0022e15fde247mr3396329oad.5.1712252476562;
+        Thu, 04 Apr 2024 10:41:16 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6448:fa75:a4ff:fe45:b56])
+        by smtp.gmail.com with ESMTPSA id l13-20020a37f50d000000b0078a4d950935sm6051176qkk.12.2024.04.04.10.41.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 10:41:16 -0700 (PDT)
+Message-ID: <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 0/2] Enable JPEG encoding on rk3588
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, 
+	linux-kernel@vger.kernel.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>, Will
+ Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Sebastian
+ Reichel <sebastian.reichel@collabora.com>,  Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Dragan Simic <dsimic@manjaro.org>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Chris Morgan
+ <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>, Nicolas
+ Frattaroli <frattaroli.nicolas@gmail.com>,  linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  iommu@lists.linux.dev
+Date: Thu, 04 Apr 2024 13:41:15 -0400
+In-Reply-To: <20240327134115.424846-1-linkmauve@linkmauve.fr>
+References: <20240327134115.424846-1-linkmauve@linkmauve.fr>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org>
- <20240322115606.GA31979@pendragon.ideasonboard.com> <CANiDSCuB0jABPPsoj0RxJ2UbV1UD0i5WwnubySDB0p7LocNJDQ@mail.gmail.com>
- <20240404010414.GF23803@pendragon.ideasonboard.com>
-In-Reply-To: <20240404010414.GF23803@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 4 Apr 2024 19:12:30 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtkWtnJT28fzRuo8Tk7U3Z1OyeY0MuM3X26mbUaq9QXAQ@mail.gmail.com>
-Message-ID: <CANiDSCtkWtnJT28fzRuo8Tk7U3Z1OyeY0MuM3X26mbUaq9QXAQ@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Explicit alignment of uvc_frame and uvc_format
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Laurent
+Hi,
 
-On Thu, 4 Apr 2024 at 03:04, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Fri, Mar 22, 2024 at 03:26:39PM +0100, Ricardo Ribalda wrote:
-> > On Fri, 22 Mar 2024 at 12:56, Laurent Pinchart wrote:
-> > > On Mon, May 01, 2023 at 04:49:31PM +0200, Ricardo Ribalda wrote:
-> > > > Struct uvc_frame and uvc_format are packaged together on
-> > > > streaming->formats on a sigle allocation.
-> > >
-> > > s/sigle/single/
-> > >
-> > > > This is working fine because both structures have a field with a
-> > > > pointer, but it will stop working when the sizeof() of any of those
-> > > > structs is not a muliple of the sizeof(void*).
-> > > >
-> > > > Make that aligment contract explicit.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > > This is better than 3 allocations, and do not have any performance
-> > > > penalty.
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvcvideo.h | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index 9a596c8d894a..03e8a543c8e6 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -252,7 +252,7 @@ struct uvc_frame {
-> > > >       u8  bFrameIntervalType;
-> > > >       u32 dwDefaultFrameInterval;
-> > > >       u32 *dwFrameInterval;
-> > > > -};
-> > > > +} __aligned(sizeof(void *)); /* uvc_frame is packed on streaming->formats. */
-> > >
-> > > Don't we need u32 alignment here, not void * alignment, given that
-> > > uvc_frame is followed by an array of u32 ?
-> >
-> > Let me make sure that I explain myself :)
-> >
-> > I made a small program in compiler explorer:
-> > https://godbolt.org/z/7s9z8WTsx that shows the error that I want to
-> > avoid
-> >
-> > When we have a structure like this:
-> >
-> > struct n_foo_bar {
-> >    int n;
-> >    struct foo *foo;
-> >    struct bar *bar;
-> > };
-> >
-> > We expect that *foo and *bar point to memory addresses with the right
-> > cpu alignment for each struct. Otherwise accessing foo and bar could
-> > be slow or simply not work.
->
-> So far, so good.
->
-> > In the driver we are doing something like this to allocate the structure:
-> >
-> > int size
-> > struct n_foo_bar *out;
-> >
-> > size = n*sizeof(struct foo)+n*sizeof(struct bar) +sizeof(struct n_foo_bar);
-> > out = malloc(size);
-> > if (!out)
-> >   return out;
-> >
-> > out->foo=(void *)(out)+sizeof(struct n_foo_bar);
-> > out->bar=(void *)(out->foo)+n*sizeof(struct foo);
-> >
-> > But that only works if sizeof(struct foo) is a multiple of the
-> > alignment required by struct bar.
->
-> The real requirement is a bit more complex, it's sizeof(struct n_foo_bar) +
-> sizeof(struct foo) that needs to be a multiple of the alignment required
-> by struct bar (and even that is simplified, as it assumes that malloc()
-> returns a pointer aligned to the requirements of struct bar, which in
-> practice should always be the case).
->
+Le mercredi 27 mars 2024 =C3=A0 14:41 +0100, Emmanuel Gil Peyrot a =C3=A9cr=
+it=C2=A0:
+> Only the JPEG encoder is available for now, although there are patches
+> for the undocumented VP8 encoder floating around[0].
 
-struct n_foo_bar, has two pointers: foo and bar. Because of the
-padding, Its sizeof has to be a multiple of sizeof(void *).
-We only care about the sizeof(foo).
+[0] seems like a broken link. The VP8 encoder RFC is for RK3399 (and Hantro=
+ H1
+posted by ST more recently). The TRM says "VEPU121(JPEG encoder only)", whi=
+ch
+suggest that the H.264 and VP8 encoders usually found on the VEPU121 are
+removed. As Rockchip have remove the synthesize register while modifying th=
+e H1
+IP, it is difficult to verify. Confusingly the H.264 specific registers are
+documented in the TRM around VEPU121.
 
-And malloc has to provide an alignment of at least sizeof(void *),
-otherwise the implementation is pretty broken :)
+>=20
+> This has been tested on a rock-5b, resulting in four /dev/video*
+> encoders.  The userspace program I=E2=80=99ve been using to test them is
+> Onix[1], using the jpeg-encoder example, it will pick one of these four
+> at random (but displays the one it picked):
+> % ffmpeg -i <input image> -pix_fmt yuvj420p temp.yuv
+> % jpeg-encoder temp.yuv <width> <height> NV12 <quality> output.jpeg
 
-for kmalloc the alignment is ARCH_KMALLOC_MINALIGN
+I don't like that we exposing each identical cores a separate video nodes. =
+I
+think we should aim for 1 device, and then multi-plex and schedule de cores=
+ from
+inside the Linux kernel.
 
+Not doing this now means we'll never have an optimal hardware usage
+distribution. Just consider two userspace software wanting to do jpeg encod=
+ing.
+If they both take a guess, they may endup using a single core. Where with p=
+roper
+scheduling in V4L2, the kernel will be able to properly distribute the load=
+. I
+insist on this, since if we merge you changes it becomes an ABI and we can'=
+t
+change it anymore.
 
-> > We are "lucky" now because we have a
-> > pointer in each struct and that gives us a void* padding. ... but if
-> > we ever remove that pointer from the structure we will be in a bad
-> > position.
->
-> We have three levels in uvcvideo. The top-level structure (your
-> equivalent of n_foo_bar), struct uvc_format, has a pointer to an array
-> of struct uvc_frame. The second level, struct uvc_frame, has a pointer
-> to an array of u32. All three are then allocated in one go,
-> contiguously.
->
-> The largest field in uvc_frame is a pointer, so the alignment
-> requirement will be fulfilled if struct uvc_format is aligned to
-> sizeof(void *). When it comes to struct uvc_frame, however, its size
-> needs to be a multiple of sizeof(u32), not of sizeof(void *).
+I understand that this impose a rework of the mem2mem framework so that we =
+can
+run multiple jobs, but this will be needed anyway on RK3588, since the rkvd=
+ec2,
+which we don't have a driver yet is also multi-core, but you need to use 2 =
+cores
+when the resolution is close to 8K.
 
-OK, we might save 2 bytes :), at the cost that we cannot reshuffle the
-fields in the top-level struct.
+Nicolas
 
->
-> Given that the alignment constraints are not intrinsic to these
-> structures, I think it would be better to handle them when allocating
-> the memory. Something along the line of
+>=20
+> [0] https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D78=
+9885
+> [1] https://crates.io/crates/onix
+>=20
+> Changes since v1:
+> - Dropped patches 1 and 4.
+> - Use the proper compatible form, since this device should be fully
+>   compatible with the VEPU of rk356x.
+> - Describe where the VEPU121 name comes from, and list other encoders
+>   and decoders present in this SoC.
+> - Properly test the device tree changes, I previously couldn=E2=80=99t si=
+nce I
+>   was using a too recent version of python-jsonschema=E2=80=A6
+>=20
+> Emmanuel Gil Peyrot (2):
+>   media: dt-binding: media: Document rk3588=E2=80=99s VEPU121
+>   arm64: dts: rockchip: Add VEPU121 to rk3588
+>=20
+>  .../bindings/media/rockchip,rk3568-vepu.yaml  |  8 +-
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 80 +++++++++++++++++++
+>  2 files changed, 86 insertions(+), 2 deletions(-)
+>=20
 
-This is what I was trying to avoid, but with the __alignof__ macros it
-does not look that bad...
-
-Maybe we should just make 3 allocations instead of having our mini
-malloc implementation :)
-
-Let me send a v2
-
-Thanks!
-
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index f33a01dbb329..cbc40d663e4f 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -687,8 +687,11 @@ static int uvc_parse_streaming(struct uvc_device *dev,
->                 goto error;
->         }
->
-> -       size = nformats * sizeof(*format) + nframes * sizeof(*frame)
-> +       size = nformats * sizeof(*format);
-> +       size = ALIGN(size, __alignof__(*frame)) + nframes * sizeof(*frame);
-> +       size = ALIGN(size, __alignof__(*interval))
->              + nintervals * sizeof(*interval);
-> +
->         format = kzalloc(size, GFP_KERNEL);
->         if (format == NULL) {
->                 ret = -ENOMEM;
->
-> plus a corresponding change when calculating the pointers to the frames
-> and intervals just after.
->
-> > With the  __aligned(sizeof(void *)); I want to explicitly say:
-> >
-> > "Ey, this struct is embedded in another struct and they are allocated
-> > contiguously"
-> >
-> > Does it make more sense now?
-> >
-> > > >
-> > > >  struct uvc_format {
-> > > >       u8 type;
-> > > > @@ -266,7 +266,7 @@ struct uvc_format {
-> > > >
-> > > >       unsigned int nframes;
-> > > >       struct uvc_frame *frame;
-> > > > -};
-> > > > +} __aligned(sizeof(void *)); /* uvc_format is packed on streaming->formats. */
-> > >
-> > > Same here, technically we need to ensure that the following uvc_frame
-> > > will be aligned. void * alignment will give us that now, but that's not
-> > > the actual constraint.
-> > >
-> > > Wouldn't it be better to handle the alignment constraints explicitly
-> > > when allocating the memory ? It's not that uvc_frame and uvc_format have
-> > > intrinsic alignment constraints, the constraints are only needed because
-> > > of the way memory is allocated.
-> > >
-> > > >
-> > > >  struct uvc_streaming_header {
-> > > >       u8 bNumFormats;
-> > > >
-> > > > ---
-> > > > base-commit: 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
-> > > > change-id: 20230501-uvc-align-6ff202b68dab
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
 
