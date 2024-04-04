@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-8605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3B989814E
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:18:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A0D89816F
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:26:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 205061C215E2
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:18:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1CAB1C21FFE
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 06:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699B74C637;
-	Thu,  4 Apr 2024 06:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0AA4E1A8;
+	Thu,  4 Apr 2024 06:26:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fWwKBcu8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JTUd74/R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3687247796
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3614CB23
+	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 06:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712211476; cv=none; b=BmXCphHvSsgObhdx3h/xjFg2NowL02ptIID4Qy02/48EupSHFdGTLZ608bxeTw7HM/NRpcR04qEQAXB4H6CXcJQA+r65V5vtqTeuBIo5bJJhthvstcP0wapI1VFOqFz9UQtN394Y6t/WiRVR0Bngu2j60nPpI0eaBROwZ1uzLD0=
+	t=1712211981; cv=none; b=uPzv0wkFqwRM0vC9Ly4pCuWczWiSei0tHBWqXkili4tjGNVprEiM173Wblby6XgitYV/wXsHMgtrGdLNOWhrz5vQAdJuKOOEx09tf9pvW7FWcbhs1SS80s6+tCTllHHX3sJBgFz14c6uUQEsp5pBY5IjP7BlfXCdIidjEyuBJK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712211476; c=relaxed/simple;
-	bh=ZJ7R9ncDVXtptVEBCmWeFsuNoZap0993lo95uag14cE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iAOVnIdwZaQMMainKYAmeOvZfVMDlY7sutd3l4fJq1fkRJ3dns18fjstVSBPxzhj3dL52n55mgJ/+Wy7P0vxVSEMOl7Fx1+7SrRSTSCpk7FNTQo6Xz99YLx8YfUdIG/dHrMGO4wRvYcD8BYItYkiw0FyuN3GUzRsI5lJfG9hxJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fWwKBcu8; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1712211981; c=relaxed/simple;
+	bh=DXMdBYy+JURPXBmu6wf7aZo7UWB6Ed5DGqd53HDljvA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=r5JuHsc4aDJoI/w/3vf8wxjB2BkJWrROsN03YH4b5PS4a+8fkyvhu5HJmrgfRPCLq4rz4vQE6RncZyioyaH65PQg9u4xx2mATQXMb+lwIfpWY4tSHxpr4TiL/XyP3PJURR0rJgukQAGFoaCEY0ShXUmDAUmiI4+HjunrxJzKlrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JTUd74/R; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56df87057bbso351586a12.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:17:54 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a4e60a64abcso287730866b.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Apr 2024 23:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712211473; x=1712816273; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712211978; x=1712816778; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=QstkA/0puettnYJmAHPNH5ZaCqi91hpEvWVtbV4p+ks=;
-        b=fWwKBcu8jDOhCYNszm7P9KA0hpyPg3PQmx1tCqsPNM2ba11gTTXgZfEkU29F1dRw9A
-         QBxAtjzR+KrMhPGoi1q++HvopurLSwy0B/kauv9/U4g8BGD8/PbuV7/IkcOZIq80bzbw
-         AhOydA9nPAq/jUnEnjVAuQ0Sp7UA9ON/RL9POrvfhl9cV55cnc+N5daolovfRrUR9uSy
-         scaIzGdpPKi/P+Ql3i+P2tR8wqlJcSmRy7Cr9ER+q9DNUoxV1oIqslHVC3BzwQc/rFpP
-         ERq//LbPeUdPKMLmN66BtHXOcyTFjyWN5+V1TZe3pQ50Xus6LQbzMfypzRtoWHTy/Sx6
-         fTjQ==
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=iSAY67R1WFy93YDpr7xFqvywbHMfxkjyKwnhViSeBMI=;
+        b=JTUd74/RhnvsWkM27Q0P9WRq0YMV+Wye3yuRXsTGYpNG2UZ56IX72pHL4Ti+jgcoXd
+         KZSx7A5IophK+iKcMJJRfya6gqNZ8Z/V74fIVnyqd+ecWiK8rRS8c+XANCHPgrQH7aGl
+         ZL+V8C1NWryF2RYM8mL8fL1yH8DYrQt9GRwuezr1hN29V7Y9UD99t/nZ8MQfhuT1Bvvy
+         T7gLfv9qJvwcnwQ9hO5xJcNFhyBPw6kWAbDpVjbREyPpq//YRjD2L5tRNRBYQkIYI273
+         LHOCPxO6lh8ORmEsLHdRKbNr9LGnTiGauZCQjVK1ZE3MAIX0VCx0eG5c5GQZd+L7VLZS
+         aTTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712211473; x=1712816273;
+        d=1e100.net; s=20230601; t=1712211978; x=1712816778;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QstkA/0puettnYJmAHPNH5ZaCqi91hpEvWVtbV4p+ks=;
-        b=CS44lvYqyYYl5egeY2i1VnyHIxJxkQW3bPW1NBp0pANawIQojlMVqbC2FfMhIqNNiX
-         zRgy6Zv/jMfNq37OvKeNV/SkuqBBJvnIfnOJl3aMX9ukFyKIBZp34yeuxBcj+NOMayMs
-         ivurdfYE2IpX1nmkyRvCsfELmNYSj7gMsCbdm6DOT81Pyk2gLA0LUVTy3UplfNvbQdjF
-         uDQRYeOiS+23JigZ+A+xEaDVDFLwyWpxQrVX6V/bC/5MGGjugFFl+c/mE0aUzuKFN22c
-         48eCPD8Mpsa10YOTIDobiAM5M6BgkiFH5fy6LuSr4+wbB16xqcGKcHzMmo0LKSfPXFmj
-         2ubA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpGmtE22XbSw4dvlFUa3cyuLlDhIjrls2icRlgBc9NrN5TlTMn0CZY8zR65nW7gQvo97tJ0sTlJdSUWZQ6Pxkhps60QPnNcZvt1E4=
-X-Gm-Message-State: AOJu0Yz579WcoDtdQx7HNQM3XFF6gtX4RRrnSB5JykcmEWTQwTEItmDe
-	rFDFPbjm96+8Ys1Mb0Wpn3IfZA9RCPPVFEZaBlTFqSK1xNBL7uHdS6hEdFhyHRQ=
-X-Google-Smtp-Source: AGHT+IEENym2ijmiU/kB6DhuJTWO7Em2jtRiY2Gc4RM4VO0AhN926Sag75h5SCWL36XOduQzAl1fEg==
-X-Received: by 2002:a17:906:2a52:b0:a46:5e1b:58a3 with SMTP id k18-20020a1709062a5200b00a465e1b58a3mr875670eje.35.1712211473598;
-        Wed, 03 Apr 2024 23:17:53 -0700 (PDT)
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iSAY67R1WFy93YDpr7xFqvywbHMfxkjyKwnhViSeBMI=;
+        b=cutOKQkBhIgMcxwl8w2XWvfNob5+NgL0ybF3OZdUsA/MbYtCKtG+LveZtyGmkdz7ZS
+         b+RIAHoexcMMJOlpMna13U+eNjPy8vBLyEvDr1587HkM17/3tsU1+s9Ar5Ry48EjBFhZ
+         fzpX/f1tatuzRFw2sGViIKfIJYMUFtesjb8gn54t7IAzglAr7IXDbKt6bgUA+9MjGrR4
+         yf+CyCzrdIwJrAnb3hpwzB4rrdrEGmXVAmCzFkq/U449qS1wttqlJo4n9ZOmZNAGV05+
+         6zs56CyG2X8nadUHIMSQ1GmFHRGW+3nlQEYsmlk6okDAdQfRVLiEuyll3p7yvwRo6xFA
+         Ka4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVnqHoaELdGEQW9+/E+0Ox1R2/pyjie7w5fYabgBAm0IoQzS0nFoL4B83E46ZENRWpqfA1/5p3ElGdPRZiRRWk6tCLEgFCcxQvW+Dc=
+X-Gm-Message-State: AOJu0YxtyYxPKp/loRH6/P8YXP4WgJGb2VpxVK0h/G1WCU5UxUEH/rgX
+	wRfVw75xYb+hY7LvJNEhN5sG428vc+D7FVf92bfFA6OT2kQNGucfWv6Mt91QvRk=
+X-Google-Smtp-Source: AGHT+IGBi+x3KcN//qD9D955Pat0vd8vxE5gcHmyvGdVx4wJ4DYpPNiVD0vAZDXzv9VQ8nJasXiTOA==
+X-Received: by 2002:a17:906:110c:b0:a4e:eb64:f669 with SMTP id h12-20020a170906110c00b00a4eeb64f669mr1512163eja.1.1712211977965;
+        Wed, 03 Apr 2024 23:26:17 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id bb1-20020a1709070a0100b00a4e7dfb5abasm3550712ejc.171.2024.04.03.23.17.51
+        by smtp.gmail.com with ESMTPSA id wk8-20020a170907054800b00a4e2d7dd2d8sm7825972ejb.182.2024.04.03.23.26.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:17:52 -0700 (PDT)
-Message-ID: <e6e8c1b1-e1e5-4598-83ac-654c242dc6fc@linaro.org>
-Date: Thu, 4 Apr 2024 08:17:51 +0200
+        Wed, 03 Apr 2024 23:26:17 -0700 (PDT)
+Message-ID: <af602862-5120-4717-adb6-694ada09e8d8@linaro.org>
+Date: Thu, 4 Apr 2024 08:26:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,22 +77,24 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: Shreeya Patel <shreeya.patel@collabora.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, heiko@sntech.de,
- robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- shawn.wen@rock-chips.com, kernel@collabora.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm@lists.infradead.org
-References: <20240327225057.672304-1-shreeya.patel@collabora.com>
- <35e566-660d2080-1-7eb9eb00@16488675>
- <a2f88176-b4e1-4202-843c-a00c5a2b1622@linaro.org>
- <35f774-660d3b80-3-513fcf80@97941910>
- <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org> <Zg3Gh8P97GaBtgAB@mz550>
+Subject: Re: [PATCH 1/1] dt-bindings: media: imx-jpeg: add
+ clocks,clock-names,slot to fix warning
+To: Frank Li <Frank.Li@nxp.com>, Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <imx@lists.linux.dev>,
+ "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER"
+ <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240404035205.59492-1-Frank.Li@nxp.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -139,60 +141,38 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <Zg3Gh8P97GaBtgAB@mz550>
+In-Reply-To: <20240404035205.59492-1-Frank.Li@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2024 23:13, Deborah Brouwer wrote:
-> On Wed, Apr 03, 2024 at 01:24:05PM +0200, Krzysztof Kozlowski wrote:
->> On 03/04/2024 13:20, Shreeya Patel wrote:
->>> On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->>>
->>>> On 03/04/2024 11:24, Shreeya Patel wrote:
->>>>> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.patel@collabora.com> wrote:
->>>>>
->>>>>> This series implements support for the Synopsys DesignWare
->>>>>> HDMI RX Controller, being compliant with standard HDMI 1.4b
->>>>>> and HDMI 2.0.
->>>>>>
->>>>>
->>>>> Hi Mauro and Hans,
->>>>>
->>>>> I haven't received any reviews so far. Hence, this is just a gentle reminder to review this patch series.
->>>>
->>>> Why did you put clk changes here? These go via different subsystem. That
->>>> might be one of obstacles for your patchset.
->>>>
->>>
->>> I added clock changes in this patch series because HDMIRX driver depends on it.
->>> I thought it is wrong to send the driver patches which don't even compile?
->>
->> Hm, why HDMIRX driver depends on clock? How? This sounds really wrong.
->> Please get it reviewed internally first.
->>
->>>
->>> Since you are a more experienced developer, can you help me understand what would
->>> be the right way to send patches in such scenarios?
->>
->> I am not the substitute for your Collabora engineers and peers. You do
->> not get free work from the community. First, do the work and review
->> internally, to solve all trivial things, like how to submit patches
->> upstream or how to make your driver buildable, and then ask community
->> for the review.
+On 04/04/2024 05:52, Frank Li wrote:
+> Fix below DTB_CHECK warning.
 > 
-> I don't think Shreeya was asking for "free" work from the community.
-> Her question wasn't trivial or obvious since reasonable people seem to sometimes
-> disagree about where to send a patch especially if it's needed to make a series compile.
-> I heard the issue was already resolved but had to say something since this accusation
-> seemed so unfair.
+> make CHECK_DTBS=y freescale/imx8qxp-mek.dtb
+>   DTC_CHK arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb
+> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: jpegdec@58400000: 'assigned-clock-rates', 'assigned-clocks', 'clock-names', 'clocks', 'slot' do not match any of the regexes: 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
 
-If HDMI driver does not build because of clock driver, something is
-really wrong at the basics level. Therefore I am sure my statement was
-fair,. based on Shreeya statement of build failure.
+No, that's not the reason to add properties. Add them if they are valid.
 
-I am sorry, but independence of drivers and independence of DTS is a
-basic thing, so to solve such you can easily get help internally from
-your experienced folks (which you have).
+
+
+>  
+> +  slot:
+> +    description: Certain slot number is used.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 3
+
+NAK. Every time.
+
+Fix your DTS instead.
+
+Please read the feedback instead of pushing this stuff for the third time!
+
+https://lore.kernel.org/all/bbb1875b-7980-46aa-80b4-dbaf2a2d5755@linaro.org/
+
+Can NXP take responsibility for this piece of code?
 
 Best regards,
 Krzysztof
