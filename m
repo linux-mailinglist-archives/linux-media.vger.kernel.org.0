@@ -1,170 +1,282 @@
-Return-Path: <linux-media+bounces-8650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3998986A7
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 14:00:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1604E89875D
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 14:26:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF4B82832DC
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 12:00:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36CCC1C21E3C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 12:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB8F85264;
-	Thu,  4 Apr 2024 12:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0CF8126F1A;
+	Thu,  4 Apr 2024 12:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NwwGXHR+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VhWhRSF4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037B284D35
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 12:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D18A1292F8;
+	Thu,  4 Apr 2024 12:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712232003; cv=none; b=Xh0XgWoDjG9WXgmDdGg/N8dz88hABzfkbhnG3flQRcISr9EEnjuG397MgEcllt7BypFJFMlLcvnBic8JN/sZ7paCKvzf7/Tuo2mdzIASEELKu9qVkr1nRukqfqOELbTDdauqdoEbW0LDcA8BuhBSEREjrZmwpzQw2m4+vuVl07c=
+	t=1712233440; cv=none; b=sfKgMxFsFb0ho99tQb3CFdxWUkyqn6unWXMK5y776C7+FPhoDeFq+R/bHc3NjntBpqTvRj4f4bI+DdmaH1Ys4I0v+R/mgtDvuuE0MoBFfkD80Vfr/N1awuFXFbkeLIbPAK58Vx9HybnRKu8K8sg2GK4V2rpEOoteIrY97o3o2Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712232003; c=relaxed/simple;
-	bh=FEeqM0QXIfOr3fliFm1l8zjQQUGQnK0ajtDwI4qCyjs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TvUkX8XbAE3K9gsaPC20L9Kk7O9GzZHN5Ep1GHVS4A4Ezkd4VhbW2INqw9EwB+TGihylpnJYGXGtai3RGfS1BGCHrd0VZb/xoiMXn1bj1RbXI9QPBiaYGclKT7XJ2fL85XbKtNbIJeoIcSgSnex6bKM/M3RB0VgJDlk9I8befXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NwwGXHR+; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56dc9955091so963898a12.1
-        for <linux-media@vger.kernel.org>; Thu, 04 Apr 2024 05:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712232000; x=1712836800; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=nXx5yz65zaeAOrWd6X0p4TMONHDZtAudltRg4le3KKs=;
-        b=NwwGXHR+B4zADzo4wRhKcGEDZGTmWciCFAZs1GAHJFLDOkL9Rb0fSuw4Au18OWGjiq
-         Uvchh+WGIsiujhWBT5FosycMTo1NhWyKK95mblghy8FDIfNIouptOVgl3XZfHRCvhmZ+
-         THWRjWDoN6573MpUSdkPBZvpbhEUe34s50cIGGMIIGpUvpP6MFBV4gdekzPB1I3Pay1L
-         LHu+lsPetmi7/Ne7c40kEJu/0COJClTEqaeZqscYW253f0nqrdbWCupov5yZx0Tz+zMD
-         ZZy+OR8TODzsjuYSQAU3O0hlLPD4Juyy8mvU9XFYRendLlZ0Glx53hh2zItaz7POOvUs
-         OB8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712232000; x=1712836800;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nXx5yz65zaeAOrWd6X0p4TMONHDZtAudltRg4le3KKs=;
-        b=Sqf7bRja9+LY5/al9qVGJHb3r0Fz2XO38NoPILmsLVkKGzzlPAWP7EVi8GRlHikMmJ
-         E1UU4Ga9VE1uMZCMveMpQqA6PeHMwnw9eeJJ0oY+0gkKN18A3PFmChodcoF4qUB5SNwi
-         b347qMgKu307oZX1zCreysLIaIi4RzWPUwVvZl76CJA6Qzb47qa4pIu6Qaq6P7KL+isa
-         srfmpQFqEItFiDfD+iLr+Eh5ULLnipYasfKDDZalIghTcAeC6ZJmuzpG0LjCTgZzzXZ2
-         4a3PnyYjvns3VW4P0s62GDUEzV7yzX7JU58lMBUpO83QuYOXYVCwjW8X6uIiWvm6VDtc
-         rSSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOgNKUSyWkY57XqGvaW/xAVDSEbfsU2nLkrCLr4th1pzO4MDS/E5Zibm1KZr9/MHRTMlaelyr87tCjA+FXbYc4MyVvfaxQJbEF9jI=
-X-Gm-Message-State: AOJu0Yz6yW2McOTSZB/jlfjOtVqyXHcMiA+LMrr+GDjhmw1XTjWCZ1vm
-	S41InAJItixm3zq5TP+CI7VQF5FMulr4qsANOpUZWTIWk4mWY6dNq/zch3hjefw=
-X-Google-Smtp-Source: AGHT+IHCWsBjiESlX+BWKOs8k4LriA4MwY8hUEBP7Jwq9fmc2PdD8jlpYByT4Mw/hMUat/3xwY8ocg==
-X-Received: by 2002:a50:ab50:0:b0:56c:d20:22df with SMTP id t16-20020a50ab50000000b0056c0d2022dfmr1582068edc.20.1712232000241;
-        Thu, 04 Apr 2024 05:00:00 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id u17-20020aa7db91000000b0056c06d5dce1sm9256367edt.81.2024.04.04.04.59.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Apr 2024 04:59:59 -0700 (PDT)
-Message-ID: <e78c8c2e-1c83-4492-9db9-08f06856a414@linaro.org>
-Date: Thu, 4 Apr 2024 13:59:57 +0200
+	s=arc-20240116; t=1712233440; c=relaxed/simple;
+	bh=KnqkCZZxEC8uS/Ao+n5Ee2O7zuea/twrqNzDm4+8APY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dFXcEETp0p6WJTqRxbByPIPtXgb+wOYXiszEF+18ytDfmaIm+fd6Kl8XuC1dKRxKV8vqnhzE+p+D3E2BmzQXhtCZezvclWHyX9n3drEMgHu3TIRQmPnUebsHIKHwjrrxtPyL0QeBIHXcOJaVxwdPNoflClrXXYtGGcK9SznjJC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VhWhRSF4; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712233436; x=1743769436;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KnqkCZZxEC8uS/Ao+n5Ee2O7zuea/twrqNzDm4+8APY=;
+  b=VhWhRSF46TcT4zDY1n1TzqjT/li+ztTozGid/FChOF8PyEUtBWa9bHg2
+   QeDbhpFkaOohcaI5Z3NNLeEhEzVkeT+cgrn9ah4u+OkXEjUXgJ7OO/pOU
+   bgPhA9qeK95bhWOLjcBZtg+1/MtlQ5kWi30HOB9+2XF/jXY+wCM4uS/sz
+   dC9uZCZD1WVt/et7tw+/CJA++eyBEco+ghROawJCSD7TGUK5S2d6djcHi
+   2Y4H/2Ct6s7fCehQbzEvj/if+UwiW/CKZlhLYxJpCbH3bd+yby9+BPumg
+   CqNgpMneCu8Tqxt+8ky+fxufOCf+KxVOwty1yKRO+xoxemfcUVpJpF26s
+   A==;
+X-CSE-ConnectionGUID: I7pJ65guTn2BsGF8mC4xlg==
+X-CSE-MsgGUID: 38zkMPpwQZi+kMm1/M0yXw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7618767"
+X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
+   d="scan'208";a="7618767"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 05:18:43 -0700
+X-CSE-ConnectionGUID: YIABzNY1QySeA69ilqqoKg==
+X-CSE-MsgGUID: ZJ60WyGVQ3madHQa637Olg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="23457504"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 05:18:40 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 33E2411F819;
+	Thu,  4 Apr 2024 15:18:37 +0300 (EEST)
+Date: Thu, 4 Apr 2024 12:18:37 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] media: subdev: Improve
+ v4l2_subdev_enable/disable_streams_fallback
+Message-ID: <Zg6anfpQt80gSKjN@kekkonen.localdomain>
+References: <20240404-enable-streams-impro-v1-0-1017a35bbe07@ideasonboard.com>
+ <20240404-enable-streams-impro-v1-3-1017a35bbe07@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] dt-bindings: media: imx-jpeg: add
- clocks,clock-names,slot to fix warning
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Frank Li <Frank.Li@nxp.com>, Mirela Rabulea <mirela.rabulea@nxp.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER" <imx@lists.linux.dev>,
- "open list:NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER"
- <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240404035205.59492-1-Frank.Li@nxp.com>
- <af602862-5120-4717-adb6-694ada09e8d8@linaro.org>
- <f5fa1872-0bae-4f04-aa94-27db937516e9@linaro.org>
- <CAOMZO5Dtd_p02YeX6tcWMGzujZ-GwLQMQBPBOx9xLmEgs6VVNg@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAOMZO5Dtd_p02YeX6tcWMGzujZ-GwLQMQBPBOx9xLmEgs6VVNg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240404-enable-streams-impro-v1-3-1017a35bbe07@ideasonboard.com>
 
-On 04/04/2024 13:03, Fabio Estevam wrote:
-> On Thu, Apr 4, 2024 at 3:54 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
+Moi,
+
+Thanks for the patch.
+
+On Thu, Apr 04, 2024 at 01:50:02PM +0300, Tomi Valkeinen wrote:
+> v4l2_subdev_enable/disable_streams_fallback() supports falling back to
+> .s_stream() for subdevs with a single source pad. It also tracks the
+> enabled streams for that one pad in the sd->enabled_streams field.
 > 
->> And for the clocks, instead pick up this patch:
->> https://lore.kernel.org/all/20230721111020.1234278-3-alexander.stein@ew.tq-group.com/
+> Tracking the enabled streams with sd->enabled_streams does not make
+> sense, as with .s_stream() there can only be a single stream per pad.
+> Thus, as the v4l2_subdev_enable/disable_streams_fallback() only supports
+> a single source pad, all we really need is a boolean which tells whether
+> streaming has been enabled on this pad or not.
 > 
-> Or maybe this one:
-> https://lore.kernel.org/linux-devicetree/DB9PR04MB923493D0DA82C9EC4386BC2A8FF1A@DB9PR04MB9234.eurprd04.prod.outlook.com/
+> However, as we only need a true/false state for a pad (instead of
+> tracking which streams have been enabled for a pad), we can easily
+> extend the fallback mechanism to support multiple source pads as we only
+> need to keep track of which pads have been enabled.
+> 
+> Change the sd->enabled_streams field to sd->enabled_pads, which is a
+> 64-bit bitmask tracking the enabled source pads. With this change we can
+> remove the restriction that
+> v4l2_subdev_enable/disable_streams_fallback() only supports a single
+> soruce pad.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 68 ++++++++++++++++++++---------------
+>  include/media/v4l2-subdev.h           |  9 +++--
+>  2 files changed, 44 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 3b3310bce5d4..91298bb84e6b 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -2090,37 +2090,43 @@ static int v4l2_subdev_enable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+>  					       u64 streams_mask)
+>  {
+>  	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> -	unsigned int i;
+>  	int ret;
+>  
+>  	/*
+>  	 * The subdev doesn't implement pad-based stream enable, fall back
+> -	 * on the .s_stream() operation. This can only be done for subdevs that
+> -	 * have a single source pad, as sd->enabled_streams is global to the
+> -	 * subdev.
+> +	 * on the .s_stream() operation.
+>  	 */
+>  	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+>  		return -EOPNOTSUPP;
+>  
+> -	for (i = 0; i < sd->entity.num_pads; ++i) {
+> -		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> -			return -EOPNOTSUPP;
+> -	}
+> +	/*
+> +	 * .s_stream() means there is no streams support, so only allowed stream
+> +	 * is the imlicit stream 0.
+> +	 */
+> +	if (streams_mask != BIT_ULL(0))
+> +		return -EOPNOTSUPP;
+> +
+> +	/*
+> +	 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
+> +	 * with 64 pads or less can be supported.
+> +	 */
+> +	if (pad >= sizeof(sd->enabled_pads) * 8)
 
+s/8/BITS_PER_BYTE/
 
-Three people were fixing same clocks issue... and three or more people
-were trying to fix the slot property.
+> +		return -EOPNOTSUPP;
+>  
+> -	if (sd->enabled_streams & streams_mask) {
+> -		dev_dbg(dev, "set of streams %#llx already enabled on %s:%u\n",
+> -			streams_mask, sd->entity.name, pad);
+> +	if (sd->enabled_pads & BIT_ULL(pad)) {
+> +		dev_dbg(dev, "pad %u already enabled on %s\n",
+> +			pad, sd->entity.name);
+>  		return -EALREADY;
+>  	}
+>  
+> -	/* Start streaming when the first streams are enabled. */
+> -	if (!sd->enabled_streams) {
+> +	/* Start streaming when the first pad is enabled. */
+> +	if (!sd->enabled_pads) {
+>  		ret = v4l2_subdev_call(sd, video, s_stream, 1);
+>  		if (ret)
+>  			return ret;
+>  	}
+>  
+> -	sd->enabled_streams |= streams_mask;
+> +	sd->enabled_pads |= BIT_ULL(pad);
+>  
+>  	return 0;
+>  }
+> @@ -2207,37 +2213,43 @@ static int v4l2_subdev_disable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+>  						u64 streams_mask)
+>  {
+>  	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> -	unsigned int i;
+>  	int ret;
+>  
+>  	/*
+> -	 * If the subdev doesn't implement pad-based stream enable, fall  back
+> -	 * on the .s_stream() operation. This can only be done for subdevs that
+> -	 * have a single source pad, as sd->enabled_streams is global to the
+> -	 * subdev.
+> +	 * If the subdev doesn't implement pad-based stream enable, fall back
+> +	 * on the .s_stream() operation.
+>  	 */
+>  	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+>  		return -EOPNOTSUPP;
+>  
+> -	for (i = 0; i < sd->entity.num_pads; ++i) {
+> -		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> -			return -EOPNOTSUPP;
+> -	}
+> +	/*
+> +	 * .s_stream() means there is no streams support, so only allowed stream
+> +	 * is the imlicit stream 0.
+> +	 */
+> +	if (streams_mask != BIT_ULL(0))
+> +		return -EOPNOTSUPP;
+> +
+> +	/*
+> +	 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
+> +	 * with 64 pads or less can be supported.
+> +	 */
+> +	if (pad >= sizeof(sd->enabled_pads) * 8)
 
-This is really bad binding maintenance and driver upstreaming, NXP.
+Ditto.
 
-Best regards,
-Krzysztof
+How much of the code of the two functions is the same? Could some of this
+be put to a common function both would call? They look (almost) exactly the
+same.
 
+> +		return -EOPNOTSUPP;
+>  
+> -	if ((sd->enabled_streams & streams_mask) != streams_mask) {
+> -		dev_dbg(dev, "set of streams %#llx already disabled on %s:%u\n",
+> -			streams_mask, sd->entity.name, pad);
+> +	if ((sd->enabled_pads & BIT_ULL(pad)) != BIT_ULL(pad)) {
+> +		dev_dbg(dev, "pad %u already disabled on %s\n",
+> +			pad, sd->entity.name);
+>  		return -EALREADY;
+>  	}
+>  
+>  	/* Stop streaming when the last streams are disabled. */
+> -	if (!(sd->enabled_streams & ~streams_mask)) {
+> +	if (!(sd->enabled_pads & ~BIT_ULL(pad))) {
+>  		ret = v4l2_subdev_call(sd, video, s_stream, 0);
+>  		if (ret)
+>  			return ret;
+>  	}
+>  
+> -	sd->enabled_streams &= ~streams_mask;
+> +	sd->enabled_pads &= ~BIT_ULL(pad);
+>  
+>  	return 0;
+>  }
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 8bd1e3c96d2b..7077aec3176c 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1039,10 +1039,9 @@ struct v4l2_subdev_platform_data {
+>   * @active_state: Active state for the subdev (NULL for subdevs tracking the
+>   *		  state internally). Initialized by calling
+>   *		  v4l2_subdev_init_finalize().
+> - * @enabled_streams: Bitmask of enabled streams used by
+> - *		     v4l2_subdev_enable_streams() and
+> - *		     v4l2_subdev_disable_streams() helper functions for fallback
+> - *		     cases.
+> + * @enabled_pads: Bitmask of enabled pads used by v4l2_subdev_enable_streams()
+> + *		  and v4l2_subdev_disable_streams() helper functions for
+> + *		  fallback cases.
+>   * @streaming_enabled: Tracks whether streaming has been enabled with s_stream.
+>   *
+>   * Each instance of a subdev driver should create this struct, either
+> @@ -1091,7 +1090,7 @@ struct v4l2_subdev {
+>  	 * doesn't support it.
+>  	 */
+>  	struct v4l2_subdev_state *active_state;
+> -	u64 enabled_streams;
+> +	u64 enabled_pads;
+>  	bool streaming_enabled;
+>  };
+>  
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
