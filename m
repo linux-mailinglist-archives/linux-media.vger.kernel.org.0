@@ -1,145 +1,204 @@
-Return-Path: <linux-media+bounces-8613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39742898234
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 09:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3135889826A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 09:46:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6F1928A80E
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 07:29:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBEB3288C73
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 07:46:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9844B59B78;
-	Thu,  4 Apr 2024 07:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536485C90B;
+	Thu,  4 Apr 2024 07:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OxCZa6iR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F085788E
-	for <linux-media@vger.kernel.org>; Thu,  4 Apr 2024 07:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4441535AC;
+	Thu,  4 Apr 2024 07:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712215780; cv=none; b=Cl/7UBLhF9T/Zfs3rsJ+6n2VT+SMb3u7WCPEZejfghrNiPAK4hKzk9WFMFQn81SIh8icsGo17+vjrcBpG/H1YgIxJMc+4Q/dUk1hg/51jXYt8pl41xha07R5iUHXX5NZAg89vXIddu9o2981TY+q+73A9IBriabZHtM7tbBqJ1o=
+	t=1712216805; cv=none; b=Zbio6KOb5loDcwntyO+ck2m+ldcFI1kgKJmwHn7IlxUGeSYj7lh/mRfMSwOBxI8T15OiICe8Ca5CzXGgk8xgCv+4+390cf/yULa85ntMyPGc3ej/KuudvWVqWkqFnqxaSqML38NF09c8hv2jdyy8JPX8o1XXm2ztXFWoKZn+ydo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712215780; c=relaxed/simple;
-	bh=/S/wmSfpMV2QdN8LX5/fnDH3JLd82IsQsgxq/vBkLWE=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=V5QaO/NLTnnneAmfVxp34OGrVDpmRZkokkJNn4kpnwuB8ITYBkqpTC1p0H6I7X26NWZDJLAYJbjUvEFGcN2ruvV3aD7TcyVKDhm2DLSWk/MWPH3U6T799jcPp1kUvm8Lg1RpJTsFGVUAZxKIJ2w9sA0Urp/T/KbUzri+XyXda2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1A82C433F1;
-	Thu,  4 Apr 2024 07:29:36 +0000 (UTC)
-Message-ID: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl>
-Date: Thu, 4 Apr 2024 09:29:34 +0200
+	s=arc-20240116; t=1712216805; c=relaxed/simple;
+	bh=8fjyQ4a6KkFNlvYWPQl0dz8P/T4HTCFfrRFJF+4Z1jE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgJaJ+fZ5g4mZmA505xRh592wlNEIHdLflQo8eX/TLTnVx6WICIYrIq5Oj6yeUmZW6PAYDtz3ryrEl7McK3uReoqJauj+EOj3wHxt0yiRIpFjFYNjg8PP8SjMwLRjPyEyrQCAUmrMAOKc7VPj3AFmDGBjlkoS1CWuoVi0ftsyK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OxCZa6iR; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712216796;
+	bh=8fjyQ4a6KkFNlvYWPQl0dz8P/T4HTCFfrRFJF+4Z1jE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OxCZa6iRIEhboawFHu2UBNEkC6XN76y1a/xlEbuxzNb55C8vdi/P5bgXAFo06hxzp
+	 bEDaqOwfK1bipWyKSBXephZQvbB4fkiD3rnv39GLuWJ2WhoYk89vl62A7v3N5/mgu1
+	 aIy3hsNcwnyAbG7A4Vybr/v9OjFYYKW8jlH3WGnk4UIF+6S1aPKx3NS6mOKFARPCSf
+	 jTuJXshEixcV1jIYtlSAVzAycwm0Av98XqraSH7Kb6ThvEi71PEl6jhBMphG3BvbiZ
+	 6xFzGuF4SgbmyjRwhue0s53E9QC1Ml/lWj+WmukgF4blflPxpm9nqf/LDA+ew14g60
+	 9hC/06o9EiPjQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E384F378209A;
+	Thu,  4 Apr 2024 07:46:35 +0000 (UTC)
+Date: Thu, 4 Apr 2024 09:46:34 +0200
+From: "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+	"nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	"lafley.kim" <lafley.kim@chipsnmedia.com>,
+	"b-brnich@ti.com" <b-brnich@ti.com>
+Subject: Re: [RESEND PATCH v2 0/4] Add auto suspend/resume,YUV422
+ format,SPS/PPS generation for each IDR
+Message-ID: <20240404074634.fcxv62xi73ie2nhz@basti-XPS-13-9310>
+References: <20240311105623.20406-1-jackson.lee@chipsnmedia.com>
+ <SE1P216MB1303D2A884C6F904553E4432ED362@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media Summit 2024: where to hold it?
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <SE1P216MB1303D2A884C6F904553E4432ED362@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
 
-Hi all,
+Hey Jackson,
 
-Normally we like to have a one day Media Summit meeting co-located with
-the Embedded Linux Conference Europe, however there isn't one this year.
-Instead of organizing an ELC both in North America and in Europe each
-year, the Linux Foundation switched to alternating between NA and Europe,
-and this year it is in North America.
+On 25.03.2024 06:19, jackson.lee wrote:
+>Hello Sebastian, Hans and Nicolas
+>
+>Could you please review the below patch series ?
 
-The problem is that most media subsystem developers are based in Europe
-for some strange reason.
+Sorry for the delay, me and Nicolas are currently quite busy. So, the
+review of the patchset will be delayed a bit longer, current goal would
+be review this until the 20th of April. I'll try to keep you updated.
 
-So we have to make a choice this year: we can co-locate with the gStreamer
-and XDC conference in Montreal, Canada on October 7 or 8, or we can
-organize a meeting somewhere in Europe ourselves. One possibility is
-to try and co-locate with the Open Source Summit Europe/LPC conferences
-in Vienna, Austria in the week of September 16-20. Another is just to
-organize something ourselves somewhere in Europe. But that's a last resort,
-co-locating with a conference is generally more appealing for people.
+Greetings,
+Sebastian
 
-The advantage of picking Montreal is that the gStreamer conference is
-more applicable to the work we do, and we can get a meeting room there
-free of charge. Besides, I've never been to Montreal :-)
-
-But can we get enough of the core media maintainers there? There is no
-point otherwise. I suspect that the same company travel constraints that
-were present last year are still in force this year.
-
-If we pick Vienna instead (assuming we can get a meeting room for a decent
-price), would that work better?
-
-So if you are a core media maintainer, or an active media developer interested
-in joining a Media Summit, please let me know if:
-
-1) Montreal, October 7 or 8, works for me!
-2) Vienna, one day in the period September 16-20, works for me!
-
-Please respond asap, I'd like to get a clear picture soon, ideally by the end
-of next week.
-
-Regards,
-
-	Hans
+>
+>
+>https://patchwork.linuxtv.org/project/linux-media/list/?series=12404
+>
+>
+>thanks
+>Jackson
+>
+>> -----Original Message-----
+>> From: jackson.lee <jackson.lee@chipsnmedia.com>
+>> Sent: Monday, March 11, 2024 7:56 PM
+>> To: mchehab@kernel.org; nicolas@ndufresne.ca;
+>> sebastian.fricke@collabora.com
+>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
+>> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; jackson.lee
+>> <jackson.lee@chipsnmedia.com>
+>> Subject: [RESEND PATCH v2 0/4] Add auto suspend/resume,YUV422
+>> format,SPS/PPS generation for each IDR
+>>
+>> From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+>>
+>> The wave5 codec driver is a stateful encoder/decoder.
+>> The following patches is for supporting yuv422 inpuy format, supporting
+>> runtime suspend/resume feature and extra things.
+>>
+>> v4l2-compliance results:
+>> ========================
+>>
+>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>
+>> Buffer ioctls:
+>>             warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
+>> supported
+>>             warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
+>> supported
+>>     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>     test VIDIOC_EXPBUF: OK
+>>     test Requests: OK (Not Supported)
+>>
+>> Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0,
+>> Warnings: 2 Total for wave5-enc device /dev/video1: 45, Succeeded: 45,
+>> Failed: 0, Warnings: 0
+>>
+>> Fluster test results:
+>> =====================
+>>
+>> Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0
+>> Using 1 parallel job(s)
+>> Ran 132/147 tests successfully               in 94.782 secs
+>>
+>> (1 test fails because of not supporting to parse multi frames, 1 test
+>> fails because of a missing frame and slight corruption, 2 tests fail
+>> because of sizes which are incompatible with the IP, 11 tests fail because
+>> of unsupported 10 bit format)
+>>
+>> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0
+>> Using 1 parallel job(s)
+>> Ran 77/135 tests successfully               in 37.364 secs
+>>
+>> (58 fail because the hardware is unable to decode  MBAFF / FMO / Field /
+>> Extended profile streams.)
+>>
+>>
+>> Chnage since v1:
+>> =================
+>>
+>> * For [PATCH v2 0/4] media: chips-media: wave5: Support SPS/PPS generation
+>> for each IDR
+>>  - define a macro for register addresses
+>>
+>> * For [PATCH v2 1/4] media: chips-media: wave5: Support runtime
+>> suspend/resume
+>>  - add auto suspend/resume
+>>
+>> * For [PATCH v2 2/4] media: chips-media: wave5: Use helpers to calculate
+>> bytesperline and sizeimage
+>>  - use helper functions to calculate bytesperline and sizeimage
+>>
+>> * For [PATCH v2 3/4] media: chips-media: wave5: Support YUV422 raw pixel-
+>> formats on the encoder
+>>  - remove unnecessary codes
+>>
+>> Change since v0:
+>> =================
+>> The DEFAULT_SRC_SIZE macro was defined using multiple lines, To make a
+>> simple define, tab and multiple lines has been removed, The macro is
+>> defined using one line.
+>>
+>> Jackson.lee (4):
+>>   media: chips-media: wave5: Support SPS/PPS generation for each IDR
+>>   media: chips-media: wave5: Support runtime suspend/resume
+>>   media: chips-media: wave5: Use helpers to calculate bytesperline and
+>>     sizeimage.
+>>   media: chips-media: wave5: Support YUV422 raw pixel-formats on the
+>>     encoder.
+>>
+>>  .../platform/chips-media/wave5/wave5-helper.c |  24 ++
+>>  .../platform/chips-media/wave5/wave5-helper.h |   4 +
+>>  .../platform/chips-media/wave5/wave5-hw.c     |  23 +-
+>>  .../chips-media/wave5/wave5-vpu-dec.c         | 261 +++++-------------
+>>  .../chips-media/wave5/wave5-vpu-enc.c         | 260 +++++++++--------
+>>  .../platform/chips-media/wave5/wave5-vpu.c    |  43 +++
+>>  .../platform/chips-media/wave5/wave5-vpu.h    |   4 -
+>>  .../platform/chips-media/wave5/wave5-vpuapi.c |  14 +-
+>>  .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
+>>  .../chips-media/wave5/wave5-vpuconfig.h       |  25 +-
+>>  .../media/platform/chips-media/wave5/wave5.h  |   3 +
+>>  11 files changed, 329 insertions(+), 333 deletions(-)
+>>
+>> --
+>> 2.43.0
+>
 
