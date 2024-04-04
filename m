@@ -1,371 +1,224 @@
-Return-Path: <linux-media+bounces-8616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D108982C1
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 10:04:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21B88982D9
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 10:08:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C13B283EA7
-	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:04:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE3051C21B92
+	for <lists+linux-media@lfdr.de>; Thu,  4 Apr 2024 08:08:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D52B260ED0;
-	Thu,  4 Apr 2024 08:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyAJOz6W"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3E1679ED;
+	Thu,  4 Apr 2024 08:07:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189545D73A;
-	Thu,  4 Apr 2024 08:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1C7433B0;
+	Thu,  4 Apr 2024 08:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712217848; cv=none; b=LGEOFVnXfcLTpYdy8Nd/kjmXkLcLzElXeh3NXmKUpv+S6+mtVn6z0/cNgZ9lJ1wcJSqjMlA38m3O5XdRnVOvPRrkelfWhea75Aetyb9IG2Mh5sT0nX5NO+VPvXkUz55xF5fn3ic4+0khFifhAAWT2/7/nXEaiRS3HgnRkpQrrXA=
+	t=1712218072; cv=none; b=XKXyf33IHzaW7EQT8KB7hNt9wtnM7woQZ4ph8FUljSHqsUcK6+HhJZRtR1WPkdSPe9x4/Y2r4cqRJFL7sAQiaYAhh6+Ll34+L5NxFOilLhALv0Cqeb8V7+GSMrdQmeD1b8pgg5K9Qr0ZAV8ju/sOAN7p8NO7dwGO1LOjxvjUSds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712217848; c=relaxed/simple;
-	bh=jOkqW2E7hIrpQcS2etNxADrH9Qc++Sk6dDKBF1O+XXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C6NROvwEMug5ReUz2C4dE5/60Y4NOjLMwxTAYCDC9vE5+QnMr46E4llAacs1PLjQHVgIy+IiM1O6PHW7HkZzq/yapNSX/usPP3kL+qGseLN9BbCI4IiVq+Yo7npSK0V619vRi2/NSNqD7BTn1nP3/E1lBtl3bkdIxbNVXBaOBEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyAJOz6W; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712217846; x=1743753846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jOkqW2E7hIrpQcS2etNxADrH9Qc++Sk6dDKBF1O+XXw=;
-  b=ZyAJOz6W7kOMGMl/pC7h6yNcx/z0Enhl80Dvwyfvh2oZz160+pSyxSNr
-   vSAPhwgl337LtKzL/nnZHfjCXyM84dghFdAfngn52AxpAuoxyMXXp4zgT
-   tO1Xf+A1hO0zgUGK5FQMHGvQmkfBWckRfAnJyo7l8xFcf6XqpNnr7HLuK
-   vZwuNULFUZSyUWcQhp6gS3ilY+8U3EUuvNV7J82mW5bo9i1+GRjjrUeGS
-   UULgw+pJySFokpIYhXK5DN462THJxoMOfX+HBrrnpwTYrXjR33FzZbpbD
-   A7d+M/rdDqamSoOKzCLt19Kb0+3N77Z7uAvuhpp/pOj1NVtknrhfGG2YX
-   A==;
-X-CSE-ConnectionGUID: Esmn/59FTX6M2kis8ztoRA==
-X-CSE-MsgGUID: tiVBZby8QNOTll1AGSPzRg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="8063233"
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="8063233"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 01:04:05 -0700
-X-CSE-ConnectionGUID: HhBK4V/wTBG1ubej6USvBg==
-X-CSE-MsgGUID: ZtpcSPjFQjq6uyK9CGSKXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="56154819"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 01:04:02 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9091111F82F;
-	Thu,  4 Apr 2024 11:03:58 +0300 (EEST)
-Date: Thu, 4 Apr 2024 08:03:58 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Luigi311 <personal@luigi311.com>
-Cc: git@luigi311.com, linux-media@vger.kernel.org,
-	dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/23] media: i2c: imx258: Add support for 24MHz clock
-Message-ID: <Zg5e7teCn2LDfUZt@kekkonen.localdomain>
-References: <20240327231710.53188-1-git@luigi311.com>
- <20240327231710.53188-9-git@luigi311.com>
- <ZgUlzCfUN-PnF8Yy@kekkonen.localdomain>
- <11f2e7d8-fd4c-4e14-81d8-cbc2cd2442fa@luigi311.com>
+	s=arc-20240116; t=1712218072; c=relaxed/simple;
+	bh=rExwqTNfKLv3TIywfVqg5viYD88ixVjYzp96V6sW5qE=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=gLSgULOX5A1PctiVTRhCbFFfwyL/vFKbONgkGrM8WufBUZxGG9vV9lsuDw+sEyqxQWHt0Csv12eWq5EYLGCdNLCGGCYPem5jb5KyFn7cXVv0uzBx4IOldSRqzpt8PxBA/ZvurC6gLxxZmh/XNk0LfYJgJOLg5SraoPZPeek61TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 0F869378209A;
+	Thu,  4 Apr 2024 08:07:47 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <c790c8ba-a9bd-4820-8084-1294e5e523d9@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240327225057.672304-1-shreeya.patel@collabora.com>
+ <35f774-660d3b80-3-513fcf80@97941910>
+ <86150c89-11d5-4d52-987e-974b1a03018f@linaro.org> <3049149.687JKscXgg@diego> <c790c8ba-a9bd-4820-8084-1294e5e523d9@linaro.org>
+Date: Thu, 04 Apr 2024 09:07:47 +0100
+Cc: =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, mchehab@kernel.org, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, shawn.wen@rock-chips.com, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-clk@vger.kernel.org, linux-arm@lists.infradead.org
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11f2e7d8-fd4c-4e14-81d8-cbc2cd2442fa@luigi311.com>
+Message-ID: <36bd27-660e6000-3-6c1c1e00@12777057>
+Subject: =?utf-8?q?Re=3A?= [PATCH v3 0/6] Add Synopsys DesignWare HDMI RX Controller
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-Hi Luigi311,
+On Thursday, April 04, 2024 11:45 IST, Krzysztof Kozlowski <krzysztof.k=
+ozlowski@linaro.org> wrote:
 
-On Thu, Mar 28, 2024 at 11:55:24AM -0600, Luigi311 wrote:
-> On 3/28/24 02:09, Sakari Ailus wrote:
-> > Hi Luigi311,
-> > 
-> > Thank you for the patchset.
-> > 
-> > On Wed, Mar 27, 2024 at 05:16:54PM -0600, git@luigi311.com wrote:
-> >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> On 04/04/2024 00:48, Heiko St=C3=BCbner wrote:
+> > Am Mittwoch, 3. April 2024, 13:24:05 CEST schrieb Krzysztof Kozlows=
+ki:
+> >> On 03/04/2024 13:20, Shreeya Patel wrote:
+> >>> On Wednesday, April 03, 2024 15:51 IST, Krzysztof Kozlowski <krzy=
+sztof.kozlowski@linaro.org> wrote:
+> >>>
+> >>>> On 03/04/2024 11:24, Shreeya Patel wrote:
+> >>>>> On Thursday, March 28, 2024 04:20 IST, Shreeya Patel <shreeya.p=
+atel@collabora.com> wrote:
+> >>>>>
+> >>>>>> This series implements support for the Synopsys DesignWare
+> >>>>>> HDMI RX Controller, being compliant with standard HDMI 1.4b
+> >>>>>> and HDMI 2.0.
+> >>>>>>
+> >>>>>
+> >>>>> Hi Mauro and Hans,
+> >>>>>
+> >>>>> I haven't received any reviews so far. Hence, this is just a ge=
+ntle reminder to review this patch series.
+> >>>>
+> >>>> Why did you put clk changes here? These go via different subsyst=
+em. That
+> >>>> might be one of obstacles for your patchset.
+> >>>>
+> >>>
+> >>> I added clock changes in this patch series because HDMIRX driver =
+depends on it.
+> >>> I thought it is wrong to send the driver patches which don't even=
+ compile?
 > >>
-> >> There's no reason why only a clock of 19.2MHz is supported.
-> >> Indeed this isn't even a frequency listed in the datasheet.
-> >>
-> >> Add support for 24MHz as well.
-> >> The PLL settings result in slightly different link frequencies,
-> >> so parameterise those.
-> >>
-> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >> Signed-off-by: Luigi311 <git@luigi311.com>
-> > 
-> > Is Luigi311 your real name? As per
-> > Documentation/process/submitting-patches.rst, anonymous (or pseudonym I'd
-> > say as well) contributions are not an option.
-> 
-> Luigi311 is not my real name but it would be a lot easier to find me if
-> it was. My real name is Luis Garcia which is a super common name so its
-> actually way easier to find me and all my work using my online name of
-> Luigi311. I can go ahead and swap over to Luis Garcia if required but a
-> name like that would provide no value in contacting/finding me since I'm
-> not famous like all the other Luis Garcia's that appear on google.
+> >> Hm, why HDMIRX driver depends on clock? How? This sounds really wr=
+ong.
+> >> Please get it reviewed internally first.
+> >=20
+> > For the change in question, the clock controller on the soc also ha=
+ndles
+> > the reset controls (hence its name CRU, clock-and-reset-unit) .
+> >=20
+> > There are at least 660 reset lines in the unit and it seems the hdm=
+i-rx one
+> > was overlooked on the initial submission, hence patches 1+2 add the
+> > reset-line.
+> >=20
+> > Of course, here only the "arm64: dts:" patch depends on the clock
+> > change, is it references the new reset-id.
+>=20
+> Wait, that's expected, but it is not what was written. Claim was HDMI=
+RX
+> driver depends *build time* ("don't even compile").
+>=20
 
-Thanks. E-mail addresses are still unique, presumably, so that helps.
+For some context, when I was testing the downstream driver against the
+device tree, I saw some failures because of the missing reset ( which I=
+ am trying
+to add in the first two patches for this series )
 
-> 
-> > 
-> >> ---
-> >>  drivers/media/i2c/imx258.c | 133 +++++++++++++++++++++++++++++--------
-> >>  1 file changed, 107 insertions(+), 26 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> >> index 351add1bc5d5..6ee7de079454 100644
-> >> --- a/drivers/media/i2c/imx258.c
-> >> +++ b/drivers/media/i2c/imx258.c
-> >> @@ -76,9 +76,6 @@
-> >>  #define REG_CONFIG_MIRROR_FLIP		0x03
-> >>  #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
-> >>  
-> >> -/* Input clock frequency in Hz */
-> >> -#define IMX258_INPUT_CLOCK_FREQ		19200000
-> >> -
-> >>  struct imx258_reg {
-> >>  	u16 address;
-> >>  	u8 val;
-> >> @@ -115,7 +112,9 @@ struct imx258_mode {
-> >>  };
-> >>  
-> >>  /* 4208x3120 needs 1267Mbps/lane, 4 lanes */
-> >> -static const struct imx258_reg mipi_data_rate_1267mbps[] = {
-> >> +static const struct imx258_reg mipi_1267mbps_19_2mhz[] = {
-> >> +	{ 0x0136, 0x13 },
-> >> +	{ 0x0137, 0x33 },
-> >>  	{ 0x0301, 0x05 },
-> >>  	{ 0x0303, 0x02 },
-> >>  	{ 0x0305, 0x03 },
-> >> @@ -133,7 +132,29 @@ static const struct imx258_reg mipi_data_rate_1267mbps[] = {
-> >>  	{ 0x0823, 0xCC },
-> >>  };
-> >>  
-> >> -static const struct imx258_reg mipi_data_rate_640mbps[] = {
-> >> +static const struct imx258_reg mipi_1272mbps_24mhz[] = {
-> >> +	{ 0x0136, 0x18 },
-> >> +	{ 0x0137, 0x00 },
-> >> +	{ 0x0301, 0x05 },
-> >> +	{ 0x0303, 0x02 },
-> >> +	{ 0x0305, 0x04 },
-> >> +	{ 0x0306, 0x00 },
-> >> +	{ 0x0307, 0xD4 },
-> >> +	{ 0x0309, 0x0A },
-> >> +	{ 0x030B, 0x01 },
-> >> +	{ 0x030D, 0x02 },
-> >> +	{ 0x030E, 0x00 },
-> >> +	{ 0x030F, 0xD8 },
-> >> +	{ 0x0310, 0x00 },
-> >> +	{ 0x0820, 0x13 },
-> >> +	{ 0x0821, 0x4C },
-> >> +	{ 0x0822, 0xCC },
-> >> +	{ 0x0823, 0xCC },
-> >> +};
-> >> +
-> >> +static const struct imx258_reg mipi_640mbps_19_2mhz[] = {
-> >> +	{ 0x0136, 0x13 },
-> >> +	{ 0x0137, 0x33 },
-> >>  	{ 0x0301, 0x05 },
-> >>  	{ 0x0303, 0x02 },
-> >>  	{ 0x0305, 0x03 },
-> >> @@ -151,9 +172,27 @@ static const struct imx258_reg mipi_data_rate_640mbps[] = {
-> >>  	{ 0x0823, 0x00 },
-> >>  };
-> >>  
-> >> +static const struct imx258_reg mipi_642mbps_24mhz[] = {
-> >> +	{ 0x0136, 0x18 },
-> >> +	{ 0x0137, 0x00 },
-> >> +	{ 0x0301, 0x05 },
-> >> +	{ 0x0303, 0x02 },
-> >> +	{ 0x0305, 0x04 },
-> >> +	{ 0x0306, 0x00 },
-> >> +	{ 0x0307, 0x6B },
-> >> +	{ 0x0309, 0x0A },
-> >> +	{ 0x030B, 0x01 },
-> >> +	{ 0x030D, 0x02 },
-> >> +	{ 0x030E, 0x00 },
-> >> +	{ 0x030F, 0xD8 },
-> >> +	{ 0x0310, 0x00 },
-> >> +	{ 0x0820, 0x0A },
-> >> +	{ 0x0821, 0x00 },
-> >> +	{ 0x0822, 0x00 },
-> >> +	{ 0x0823, 0x00 },
-> >> +};
-> >> +
-> >>  static const struct imx258_reg mode_common_regs[] = {
-> >> -	{ 0x0136, 0x13 },
-> >> -	{ 0x0137, 0x33 },
-> >>  	{ 0x3051, 0x00 },
-> >>  	{ 0x3052, 0x00 },
-> >>  	{ 0x4E21, 0x14 },
-> >> @@ -313,10 +352,6 @@ static const char * const imx258_supply_name[] = {
-> >>  
-> >>  #define IMX258_NUM_SUPPLIES ARRAY_SIZE(imx258_supply_name)
-> >>  
-> >> -/* Configurations for supported link frequencies */
-> >> -#define IMX258_LINK_FREQ_634MHZ	633600000ULL
-> >> -#define IMX258_LINK_FREQ_320MHZ	320000000ULL
-> >> -
-> >>  enum {
-> >>  	IMX258_LINK_FREQ_1267MBPS,
-> >>  	IMX258_LINK_FREQ_640MBPS,
-> >> @@ -335,25 +370,55 @@ static u64 link_freq_to_pixel_rate(u64 f)
-> >>  }
-> >>  
-> >>  /* Menu items for LINK_FREQ V4L2 control */
-> >> -static const s64 link_freq_menu_items[] = {
-> >> +/* Configurations for supported link frequencies */
-> >> +#define IMX258_LINK_FREQ_634MHZ	633600000ULL
-> >> +#define IMX258_LINK_FREQ_320MHZ	320000000ULL
-> >> +
-> >> +static const s64 link_freq_menu_items_19_2[] = {
-> >>  	IMX258_LINK_FREQ_634MHZ,
-> >>  	IMX258_LINK_FREQ_320MHZ,
-> >>  };
-> >>  
-> >> +/* Configurations for supported link frequencies */
-> >> +#define IMX258_LINK_FREQ_636MHZ	636000000ULL
-> >> +#define IMX258_LINK_FREQ_321MHZ	321000000ULL
-> > 
-> > These values aren't used outside the array below and the macro names are
-> > imprecise anyway. Could you put the numerical values to the array instead?
-> 
-> Ok I've removed the defines and just threw the values into the array instead.
-> 
-> > 
-> >> +
-> >> +static const s64 link_freq_menu_items_24[] = {
-> >> +	IMX258_LINK_FREQ_636MHZ,
-> >> +	IMX258_LINK_FREQ_321MHZ,
-> >> +};
-> >> +
-> >>  /* Link frequency configs */
-> >> -static const struct imx258_link_freq_config link_freq_configs[] = {
-> >> +static const struct imx258_link_freq_config link_freq_configs_19_2[] = {
-> >>  	[IMX258_LINK_FREQ_1267MBPS] = {
-> >>  		.pixels_per_line = IMX258_PPL_DEFAULT,
-> >>  		.reg_list = {
-> >> -			.num_of_regs = ARRAY_SIZE(mipi_data_rate_1267mbps),
-> >> -			.regs = mipi_data_rate_1267mbps,
-> >> +			.num_of_regs = ARRAY_SIZE(mipi_1267mbps_19_2mhz),
-> >> +			.regs = mipi_1267mbps_19_2mhz,
-> >>  		}
-> >>  	},
-> >>  	[IMX258_LINK_FREQ_640MBPS] = {
-> >>  		.pixels_per_line = IMX258_PPL_DEFAULT,
-> >>  		.reg_list = {
-> >> -			.num_of_regs = ARRAY_SIZE(mipi_data_rate_640mbps),
-> >> -			.regs = mipi_data_rate_640mbps,
-> >> +			.num_of_regs = ARRAY_SIZE(mipi_640mbps_19_2mhz),
-> >> +			.regs = mipi_640mbps_19_2mhz,
-> >> +		}
-> >> +	},
-> >> +};
-> >> +
-> >> +static const struct imx258_link_freq_config link_freq_configs_24[] = {
-> >> +	[IMX258_LINK_FREQ_1267MBPS] = {
-> >> +		.pixels_per_line = IMX258_PPL_DEFAULT,
-> >> +		.reg_list = {
-> >> +			.num_of_regs = ARRAY_SIZE(mipi_1272mbps_24mhz),
-> >> +			.regs = mipi_1272mbps_24mhz,
-> >> +		}
-> >> +	},
-> >> +	[IMX258_LINK_FREQ_640MBPS] = {
-> >> +		.pixels_per_line = IMX258_PPL_DEFAULT,
-> >> +		.reg_list = {
-> >> +			.num_of_regs = ARRAY_SIZE(mipi_642mbps_24mhz),
-> >> +			.regs = mipi_642mbps_24mhz,
-> >>  		}
-> >>  	},
-> >>  };
-> >> @@ -410,6 +475,9 @@ struct imx258 {
-> >>  	/* Current mode */
-> >>  	const struct imx258_mode *cur_mode;
-> >>  
-> >> +	const struct imx258_link_freq_config *link_freq_configs;
-> >> +	const s64 *link_freq_menu_items;
-> >> +
-> >>  	/*
-> >>  	 * Mutex for serialized access:
-> >>  	 * Protect sensor module set pad format and start/stop streaming safely.
-> >> @@ -713,7 +781,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
-> >>  		imx258->cur_mode = mode;
-> >>  		__v4l2_ctrl_s_ctrl(imx258->link_freq, mode->link_freq_index);
-> >>  
-> >> -		link_freq = link_freq_menu_items[mode->link_freq_index];
-> >> +		link_freq = imx258->link_freq_menu_items[mode->link_freq_index];
-> >>  		pixel_rate = link_freq_to_pixel_rate(link_freq);
-> >>  		__v4l2_ctrl_s_ctrl_int64(imx258->pixel_rate, pixel_rate);
-> >>  		/* Update limits and set FPS to default */
-> >> @@ -727,7 +795,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
-> >>  			vblank_def);
-> >>  		__v4l2_ctrl_s_ctrl(imx258->vblank, vblank_def);
-> >>  		h_blank =
-> >> -			link_freq_configs[mode->link_freq_index].pixels_per_line
-> >> +			imx258->link_freq_configs[mode->link_freq_index].pixels_per_line
-> >>  			 - imx258->cur_mode->width;
-> >>  		__v4l2_ctrl_modify_range(imx258->hblank, h_blank,
-> >>  					 h_blank, 1, h_blank);
-> >> @@ -747,7 +815,7 @@ static int imx258_start_streaming(struct imx258 *imx258)
-> >>  
-> >>  	/* Setup PLL */
-> >>  	link_freq_index = imx258->cur_mode->link_freq_index;
-> >> -	reg_list = &link_freq_configs[link_freq_index].reg_list;
-> >> +	reg_list = &imx258->link_freq_configs[link_freq_index].reg_list;
-> >>  	ret = imx258_write_regs(imx258, reg_list->regs, reg_list->num_of_regs);
-> >>  	if (ret) {
-> >>  		dev_err(&client->dev, "%s failed to set plls\n", __func__);
-> >> @@ -946,9 +1014,9 @@ static int imx258_init_controls(struct imx258 *imx258)
-> >>  	imx258->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> >>  				&imx258_ctrl_ops,
-> >>  				V4L2_CID_LINK_FREQ,
-> >> -				ARRAY_SIZE(link_freq_menu_items) - 1,
-> >> +				ARRAY_SIZE(link_freq_menu_items_19_2) - 1,
-> >>  				0,
-> >> -				link_freq_menu_items);
-> >> +				imx258->link_freq_menu_items);
-> >>  
-> >>  	if (imx258->link_freq)
-> >>  		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >> @@ -964,8 +1032,10 @@ static int imx258_init_controls(struct imx258 *imx258)
-> >>  	if (vflip)
-> >>  		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >>  
-> >> -	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
-> >> -	pixel_rate_min = link_freq_to_pixel_rate(link_freq_menu_items[1]);
-> >> +	pixel_rate_max =
-> >> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[0]);
-> >> +	pixel_rate_min =
-> >> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[1]);
-> > 
-> > The arrays currently have two entries so this works but it'd nice to have a
-> > bit more robust way to handle differences between the two arrays. Could you
-> > maintain e.g. the number of entries in the array in a struct field perhaps?
-> 
-> Would it make more sense to do something like default to index 0 and then use 
-> ARRAY_SIZE to iterate through the array and do a comparison to get the min and
-> max size so it would always choose the correct value no matter how many entries
-> there are?
+...
+	hdmirx=5Fdev->rst=5Fbiu =3D devm=5Freset=5Fcontrol=5Fget(hdmirx=5Fdev-=
+>dev, "rst=5Fbiu");
+	if (IS=5FERR(hdmirx=5Fdev->rst=5Fbiu)) {
+		dev=5Ferr(dev, "failed to get rst=5Fbiu control\n");
+		return PTR=5FERR(hdmirx=5Fdev->rst=5Fbiu);
+	}
 
-I'll check that later patch you mentioned in the follow-up separately.
+shreeya@shreeya:~/collabora/rd/rockchip/linux$ make dtbs
+  DTC     arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb
+Error: arch/arm64/boot/dts/rockchip/rk3588.dtsi:187.23-24 syntax error
+FATAL ERROR: Unable to parse input tree
+make[3]: *** [scripts/Makefile.lib:419: arch/arm64/boot/dts/rockchip/rk=
+3588-coolpi-cm5-evb.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:481: arch/arm64/boot/dts/rockchip]=
+ Error 2
+make[1]: *** [/home/shreeya/collabora/rd/rockchip/linux/Makefile:1392: =
+dtbs] Error 2
+make: *** [Makefile:240: =5F=5Fsub-make] Error 2
 
--- 
-Kind regards,
+Sorry for referring this as a driver build failure but I am sure you wo=
+uld=20
+also have not been okay with the above issues.
+Ofcourse I can simply remove this dependency from the driver but maybe
+that will affect the functionality and I didn't want to send a buggy pa=
+tch series.
 
-Sakari Ailus
+My intention here was just like Heiko said, to keep all the dependent p=
+atches
+together. I didn't know that would be a trouble for Maintainers.
+
+FWIW, HDMIRX patch series was reviewed multiple times and that is why y=
+ou
+see a Reviewed-by tag from a Collabora Engineer. Sometimes the things t=
+hat look
+problematic to one might not look the same to others and that is why I =
+asked you
+to provide some more details about the problem that you were seeing.
+
+https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/=
+merge=5Frequests/21
+https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/=
+merge=5Frequests/17
+
+
+> >=20
+> >=20
+> > Am Mittwoch, 3. April 2024, 12:22:57 CEST schrieb Krzysztof Kozlows=
+ki:
+> >> Please do not engage multiple subsystems in one patchset, if not
+> >> necessary. Especially do not mix DTS into media or USB subsystems.=
+ And
+> >> do not put DTS in the middle!
+> >=20
+> > picking up your reply from patch 4/6, there seem to be different "s=
+chools
+> > of thought" for this. Some maintainers might want to really only se=
+e
+> > patches that are explicitly for their subsystem - I guess networkin=
+g
+> > might be a prime example for that, who will essentially apply whole=
+ series'
+> > if nobody protests in time (including dts patches)
+>=20
+> There is no school saying DTS is allowed to be in the middle.
+>=20
+> Other schools are indeed saying that seeing DTS is good and
+> recommendation is to post it separate and provide a link. That's way =
+you
+> avoid DTS being pulled by Greg, media or networking.
+>=20
+
+This was my mistake and I simply forgot to remove the DTS when I was
+testing the driver for the last time before sending the v3 upstream.
+Adding it in the middle was incorrect, I should have added it as a sepa=
+rate
+patch but honestly this has always been very confusing and the expectat=
+ion
+differs from maintainers to maintainers.
+
+> >=20
+> > On the other hand I also remember seeing requests for "the full pic=
+ture"
+> > and individual maintainers then just picking and applying the patch=
+es
+> > meant for their subsystem.
+> >=20
+> > The series as it stands right now is nice in that it allows (random=
+)
+> > developers to just pick it up, apply it to a tree and test the actu=
+al driver
+> > without needing to hunt for multiple dependant series.
+> >=20
+> >=20
+> > Of course you're right, the "arm64: dts:" patch should be the last =
+in the
+> > series and not be in the middle of it.
+>=20
+
+I will make sure to correct this in my v4.
+
+Thanks,
+Shreeya Patel
+>=20
+> Best regards,
+> Krzysztof
+>
+
 
