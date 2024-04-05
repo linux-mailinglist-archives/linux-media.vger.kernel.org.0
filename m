@@ -1,117 +1,167 @@
-Return-Path: <linux-media+bounces-8707-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8708-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF7A8997A6
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:18:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF868997BE
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:26:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F3EE1C20C8D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 08:18:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EB271F22E26
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 08:26:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C1D145FE8;
-	Fri,  5 Apr 2024 08:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA24146A70;
+	Fri,  5 Apr 2024 08:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lNDi1GUq"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Zuyj1HTx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491C648CF2;
-	Fri,  5 Apr 2024 08:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E64C14535C;
+	Fri,  5 Apr 2024 08:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712305073; cv=none; b=M4Irst499W+Y/DW/Mspb5TgbQHqH79vHkNWaMDVa9Zu8gE9TKLQSHnWN+a6APxoMNsZKXULAcXwk/44ezoveVy3RgxBb4yQO40pTupgoanR1zUas1lFFo6wI0IvwrIbtPawSNb1NzjxdAW2rP7YwV5QzMCzQ8s8gyCt8BJr0hDw=
+	t=1712305594; cv=none; b=ftbfQN2p6m5CYWmvrb9WZQXNf0AHJ6VdB5G937I7XSzo0LbLM2YFSwVTZJm65UfUKb3wOLjzX5WFtmIyIA3ozLMb75As1g6drbLILWddQnvu3LWRRJ6CTxPpWpjKvjoAGQsrDNjM6G2pcSZVq9nlrAq7Ht13fmqxoTyF5fBjS8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712305073; c=relaxed/simple;
-	bh=2ttnx/syndg1SQwF3EPAEoa5ox2rpecAHGxXciYNAHA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QrKMQJcm2uQ3/oV62lMQciFrnOh1dYysj9uhPY2Why6sug3O0mVWS68Rr8vVhmMky7IX3V/UinpQwcYhv/TUhWUHr8avj0Lg7azD8RmcIjAHztaSyqfc5QZGo2T9Pe72XHTUpaImbgu4P3w1myfdwb/h79SlidA7mBc2cjhrPpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lNDi1GUq; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712305070;
-	bh=2ttnx/syndg1SQwF3EPAEoa5ox2rpecAHGxXciYNAHA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lNDi1GUq481w8n4ZvQHskVubVZVHye+7Mk7oZ4ndKU3aKRXi0wnBIRrRrUsZSr8sM
-	 xPvcR7vsjVNzh0nC7bQ2uMvNmkhNxPw6bgv8JCcVBG+2Mr4Ey+jY2uKPCuKiX0DhNI
-	 EhE1L49+O+6Dtd5BxYrqV+/SJtktnSQNw+81/jKBivKNqKDMnIlgFXI1d3zO+tarKl
-	 9nYSww5mpaH/LOqFLpqxbxCbYjvbLXzJT+dg9k8+2OwybGNheaTQd097QbeUco3gq2
-	 1thO+Wi05vVqT8HPEhvlGJ7yA5amGyeBDlm6Tz6mfbRnvmgfLPp3AHAoTqU7n6cDx1
-	 EV+OPSJKAk+3w==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id F0E073780EC6;
-	Fri,  5 Apr 2024 08:17:49 +0000 (UTC)
-Message-ID: <ebbe249f-bce6-4e81-969f-c63ab4b063f3@collabora.com>
-Date: Fri, 5 Apr 2024 10:17:49 +0200
+	s=arc-20240116; t=1712305594; c=relaxed/simple;
+	bh=j9RoPLZmCC7wWzTStv2sVugCxNGztVnkFeyD2s4KlwM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=u2I+4YxTTE04+yBo3OcbxTnxeXhiFRMFcpNCtt96F9UUH78Z5j2Q86osb7UzkEbygCo1V29TUgrLz2FDaxs3HOlGqzCjti9+ElveuTYS/am1DbTjdnzmmq6EQG6glS47d4W2wHkTAYYTAXLL7xQfz2xjKrUSSs/IYUvrPGdHcbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Zuyj1HTx; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43556DRS003669;
+	Fri, 5 Apr 2024 08:26:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=MXiuHfSkLYp7Elwz53wcV8mv8XCf2+1rKM2cnUVWS7A=; b=Zu
+	yj1HTxHxFVsRVMcbVV7dX+9MKG1UsDCvYC3tiNVrG9RcKd98f+lr7EEjdJnh5RCZ
+	hUGy9lWV0frkj8KlJRmbJ+2lh2YBiBLp30Aufz48/wU3Y7I6olDCfZatl1HNbDUO
+	37GvZ3VlIB4PkfvSnuYBhS+CI97BAyzLQ24Gs/rJWFpkKKZUgNJRlhOW8XGDEM3r
+	quPHFpgKRNH58ZiI4GcJndrrQif4rfNcjAGs73EE7fvpC31GqMs3jpLSDqAm++Pc
+	6PqecxiHMYlt4lqQrM3a3O9Bs/KO0AxLQnxCoklVbku1eHb0kpwmxpL0NpRCMweo
+	Lvq3QIvRrtcgQVJXZuLw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa7m5gqds-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Apr 2024 08:26:23 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4358QMOe024730
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 5 Apr 2024 08:26:22 GMT
+Received: from [10.216.11.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
+ 01:26:17 -0700
+Message-ID: <80c0ecb3-1157-1d7a-0829-c3b68b65f17f@quicinc.com>
+Date: Fri, 5 Apr 2024 13:56:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: verisilicon: AV1: Be more fexible on postproc
- capabilities
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, mchehab@kernel.org, heiko@sntech.de
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20240328093439.18712-1-benjamin.gaignard@collabora.com>
- <e4d01c27aa976c44e0b7122e39111be062a4deb4.camel@ndufresne.ca>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 03/19] media: venus: pm_helpers: Add kerneldoc to
+ venus_clks_get()
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <e4d01c27aa976c44e0b7122e39111be062a4deb4.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross
+	<agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov
+	<stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab+huawei@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
+ <20230911-topic-mars-v3-3-79f23b81c261@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20230911-topic-mars-v3-3-79f23b81c261@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DdnvdMB5zzqwN8pobNHKJNEHEaOs26ic
+X-Proofpoint-GUID: DdnvdMB5zzqwN8pobNHKJNEHEaOs26ic
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-05_07,2024-04-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ mlxlogscore=999 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2404050061
 
 
-Le 04/04/2024 à 19:59, Nicolas Dufresne a écrit :
-> Hi,
->
-> Le jeudi 28 mars 2024 à 10:34 +0100, Benjamin Gaignard a écrit :
->> RK3588 post-processor block is able to convert 10 bits streams
->> into 8 bits pixels format.
-> Does it come with any HDR to SDR capabilities ? cause stripping off 2 bits means
-> that tone mapping will cause a lot of banding as it won't have the expected
-> precision. I'm simply trying to make up the big portrait so we don't just offer
-> yet another foot gun. But perhaps its fine to offer this, its just that we don't
-> have a mechanism to report which pixel format in the selection will cause data
-> lost.
 
-No it just to enable post-processor capabilities like we have already for G2/HEVC.
-Since it is a post-processor pixel format it will be enumerated after V4L2_PIX_FMT_NV15_4L4
-so it will update to userland to decide to use it or not.
+On 3/27/2024 11:38 PM, Konrad Dybcio wrote:
+> To make it easier to understand the various clock requirements within
+> this driver, add kerneldoc to venus_clk_get() explaining the fluff.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 28 ++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index ac7c83404c6e..cf91f50a33aa 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -23,6 +23,34 @@
+>  
+>  static bool legacy_binding;
+>  
+> +/**
+> + * venus_clks_get() - Get Venus clocks that are not bound to a vcodec
+> + * @core: A pointer to the venus core resource
+> + *
+> + * The Venus block (depending on the generation) can be split into a couple
+> + * of clock domains: one for main logic and one for each video core (0-2 instances).
+> + *
+> + * MSM8916 (and possibly other HFIv1 users) only feature the "main logic"
+> + * domain, so this function is the only kind if clk_get necessary there.
+> + *
+> + * MSM8996 (and other HFIv3 users) feature two video cores, with core0 being
+> + * statically defined a decoder and core1 an encoder, with both having
+> + * their own clock domains.
+> + *
+> + * SDM845 features two video cores, each one of which may or may not be
+> + * subdivided into two encoder/decoder threads.
+> + *
+> + * Other SoCs either feature a single video core (with its own clock domain)
+> + * or one video core and one CVP (Computer Vision Processor) core. In both cases
+> + * we treat it the same way (CVP only happens to live near-by Venus on the SoC).
+> + *
+> + * Due to unfortunate developments in the past, we need to support legacy
+why unfortunate? please re-phrase this.
+> + * bindings (MSM8996, SDM660, SDM845) that require specifying the clocks and
+> + * power-domains associated with a video core domain in a bogus sub-node,
+> + * which means that additional fluff is necessary..
+> + *
+> + * Return: 0 on success, negative errno on failure.
+> + */
+>  static int venus_clks_get(struct venus_core *core)
+>  {
+>  	const struct venus_resources *res = core->res;
+> 
 
-Benjamin
-
->
-> Nicolas
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Fixes: 003afda97c65 ("media: verisilicon: Enable AV1 decoder on rk3588")
->> ---
->>   drivers/media/platform/verisilicon/rockchip_vpu_hw.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->> index f97527670783..964122e7c355 100644
->> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->> @@ -82,7 +82,6 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
->>   	{
->>   		.fourcc = V4L2_PIX_FMT_NV12,
->>   		.codec_mode = HANTRO_MODE_NONE,
->> -		.match_depth = true,
->>   		.postprocessed = true,
->>   		.frmsize = {
->>   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->
+Thanks,
+Dikshita
 
