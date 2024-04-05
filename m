@@ -1,129 +1,250 @@
-Return-Path: <linux-media+bounces-8730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8732-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A62899AF6
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 12:34:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D4B899B75
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 12:59:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B04AC1F21020
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:34:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E62681C2033D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F16012CD8F;
-	Fri,  5 Apr 2024 10:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61D4816ABF6;
+	Fri,  5 Apr 2024 10:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ioB9Qn76"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hk/Aw6QR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D787748A
-	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 10:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084B416ABDE;
+	Fri,  5 Apr 2024 10:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712313257; cv=none; b=R0HcIh7GqUd7U7ifV3/gFKjGsMsYIs63MTakdA0GNfGSue+aebf25Ii6rPHP7pSiemVBeiW6WxboJTIPOqxWYcD57dU/4M/FMaRAoFTWPScpHdwBmF0ny3MrXr10ysntFmclct4SsjNUdcobRrskxQWA0zgXLThvZP0g0BgvgCk=
+	t=1712314784; cv=none; b=mQD5P2rcpvAfpuy2A8oJebnHGtPaswC8GScJ8e1IoPSsn7w+vwiT/N6BO0Hf6sHChNQfqIYJXg3rc7VPPZBuj3wAL9GyS4MbTAxGC4UTjCzEKn+xpL7e7+JD1T/J8W7aO0P4DdeyCAZphi54cA4mWDfm6YXiS7v2aIXj7IJk5mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712313257; c=relaxed/simple;
-	bh=Ki+Q5Lk1tqES9yiJ4CyGCRmvs2hLUYHblbTpIWEx5Fc=;
+	s=arc-20240116; t=1712314784; c=relaxed/simple;
+	bh=D8Y8kSPgdNQltZQgMyJDuKh4/mxZzHlrbAO8HfxrMCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qEluJINbWJ0HfGJuhrGaKdBe9zlQThCYLQ2nQxeqis5cR9NdXnvMd3Bl/uheOxv0+4kp1/xj+aYXpbGEdSuCmZs+eqlOJuE8HprNUmZ7WcJMcK/3I5Y2PkNwt7rl/n7+YnmB5N4tivN1yBaCYL4XWjquvHxsCLunRgK+vidvjgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ioB9Qn76; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-51-50.net.vodafone.it [5.90.51.50])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4BB36B9A;
-	Fri,  5 Apr 2024 12:33:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712313214;
-	bh=Ki+Q5Lk1tqES9yiJ4CyGCRmvs2hLUYHblbTpIWEx5Fc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ioB9Qn76suMiDmW+3vgkCGzicORumdpOtUPgo9vjRRRkK5YNvKxtJrhrbnaAlJXMI
-	 TqXrZwbbUMyU51vZN1uJX88AOlPgdvXsJN88CRw+9tGqBhj9jiExCtzWO0DIz8rQ1M
-	 3XmA9Tyhl/R3pJ6Db1QF99hFcBSXHU5Ep5XAv5DM=
-Date: Fri, 5 Apr 2024 12:34:08 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [ANN] Media Summit 2024: where to hold it?
-Message-ID: <owxr3ldmniftjsuiacqb6hxyfx46bwosk5wq2i27wgbtss6dgz@ixs3modz3r2q>
-References: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=kn6/zmH6k4lnDIRgOwq7gsRwZeh2fKFBDLG+JVaqtb9E87AxPIl90XwjfNZpJgyLcrEGYKIx2DL6+/SPLHnW4sMZ65MrjyT0WM5CjCIoyOYW90GacywahzsBpX8IcuEJgqV9oFPbWeMDHAOZ4TT7B+5E1tnho0QWmNn8sk+N4Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hk/Aw6QR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712314783; x=1743850783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D8Y8kSPgdNQltZQgMyJDuKh4/mxZzHlrbAO8HfxrMCg=;
+  b=hk/Aw6QRVjc+TDWO7LGfvw/Oycq7GWqCx/duzNxBgkkJwLQiNQmtSr2V
+   svNepizPcZukDzMaADXCsN8m7QJ4JTudYJnHUu/FE+E3YKbrc85Msvq/9
+   P1dOr7oBSK3qAxlTJ0uPz34zBSI7JGwjCd46J1pZ6z6wNmfNU0EkKXPn+
+   sZECxkdCKcSP1pMo7aZ1JQmMLitnvgz2EA7IlHRTkEbyHArrx1pYpOCP2
+   iuWmUtnX3oKZ2fKDDJ1yN/CXWHpZU9iqd/CoFU63mrahouAwd+zHJcm49
+   pRNeZX7MHlxyxyI8FfppQGdtM06nrL684h3pSDs4Cy4tNNMekUeMzZ1/4
+   g==;
+X-CSE-ConnectionGUID: cERLTsSpQ1Ko8qdYn16wEA==
+X-CSE-MsgGUID: yf9wv9JGSt6BD9E9I82HSQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="11431796"
+X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
+   d="scan'208";a="11431796"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 03:59:42 -0700
+X-CSE-ConnectionGUID: IuMHpOWjTvq08bwRRgjn6A==
+X-CSE-MsgGUID: 6/LVX0bqSlWd8NIDS/R2qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
+   d="scan'208";a="19579543"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 03:59:38 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 68C1311F8B1;
+	Fri,  5 Apr 2024 13:59:35 +0300 (EEST)
+Date: Fri, 5 Apr 2024 10:59:35 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Luigi311 <git@luigi311.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	pavel@ucw.cz, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 19/25] media: i2c: imx258: Change register settings
+ for variants of the sensor
+Message-ID: <Zg_Zl0Q2kEDJoQoe@kekkonen.localdomain>
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-20-git@luigi311.com>
+ <Zg2BZXQpzsm7jMnc@kekkonen.localdomain>
+ <998efafa-699b-4226-91d4-2ebba85d63ec@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl>
+In-Reply-To: <998efafa-699b-4226-91d4-2ebba85d63ec@luigi311.com>
 
-Hi Hans
-   thanks for starting this conversation
+Hi Luis, Dave,
 
-On Thu, Apr 04, 2024 at 09:29:34AM +0200, Hans Verkuil wrote:
-> Hi all,
->
-> Normally we like to have a one day Media Summit meeting co-located with
-> the Embedded Linux Conference Europe, however there isn't one this year.
-> Instead of organizing an ELC both in North America and in Europe each
-> year, the Linux Foundation switched to alternating between NA and Europe,
-> and this year it is in North America.
->
-> The problem is that most media subsystem developers are based in Europe
-> for some strange reason.
->
-> So we have to make a choice this year: we can co-locate with the gStreamer
-> and XDC conference in Montreal, Canada on October 7 or 8, or we can
-> organize a meeting somewhere in Europe ourselves. One possibility is
-> to try and co-locate with the Open Source Summit Europe/LPC conferences
-> in Vienna, Austria in the week of September 16-20. Another is just to
-> organize something ourselves somewhere in Europe. But that's a last resort,
-> co-locating with a conference is generally more appealing for people.
+On Thu, Apr 04, 2024 at 04:44:05PM -0600, Luigi311 wrote:
+> On 4/3/24 10:18, Sakari Ailus wrote:
+> > Hi Luis, Dave,
+> > 
+> > On Wed, Apr 03, 2024 at 09:03:48AM -0600, git@luigi311.com wrote:
+> >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >>
+> >> Sony have advised that there are variants of the IMX258 sensor which
+> >> require slightly different register configuration to the mainline
+> >> imx258 driver defaults.
+> >>
+> >> There is no available run-time detection for the variant, so add
+> >> configuration via the DT compatible string.
+> >>
+> >> The Vision Components imx258 module supports PDAF, so add the
+> >> register differences for that variant
+> >>
+> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >> Signed-off-by: Luis Garcia <git@luigi311.com>
+> >> ---
+> >>  drivers/media/i2c/imx258.c | 48 ++++++++++++++++++++++++++++++++++----
+> >>  1 file changed, 44 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> >> index 775d957c9b87..fa48da212037 100644
+> >> --- a/drivers/media/i2c/imx258.c
+> >> +++ b/drivers/media/i2c/imx258.c
+> >> @@ -6,6 +6,7 @@
+> >>  #include <linux/delay.h>
+> >>  #include <linux/i2c.h>
+> >>  #include <linux/module.h>
+> >> +#include <linux/of_device.h>
+> >>  #include <linux/pm_runtime.h>
+> >>  #include <linux/regulator/consumer.h>
+> >>  #include <media/v4l2-ctrls.h>
+> >> @@ -321,8 +322,6 @@ static const struct imx258_reg mipi_642mbps_24mhz_4l[] = {
+> >>  
+> >>  static const struct imx258_reg mode_common_regs[] = {
+> >>  	{ 0x3051, 0x00 },
+> >> -	{ 0x3052, 0x00 },
+> >> -	{ 0x4E21, 0x14 },
+> >>  	{ 0x6B11, 0xCF },
+> >>  	{ 0x7FF0, 0x08 },
+> >>  	{ 0x7FF1, 0x0F },
+> >> @@ -345,7 +344,6 @@ static const struct imx258_reg mode_common_regs[] = {
+> >>  	{ 0x7FA8, 0x03 },
+> >>  	{ 0x7FA9, 0xFE },
+> >>  	{ 0x7B24, 0x81 },
+> >> -	{ 0x7B25, 0x00 },
+> >>  	{ 0x6564, 0x07 },
+> >>  	{ 0x6B0D, 0x41 },
+> >>  	{ 0x653D, 0x04 },
+> >> @@ -460,6 +458,33 @@ static const struct imx258_reg mode_1048_780_regs[] = {
+> >>  	{ 0x034F, 0x0C },
+> >>  };
+> >>  
+> >> +struct imx258_variant_cfg {
+> >> +	const struct imx258_reg *regs;
+> >> +	unsigned int num_regs;
+> >> +};
+> >> +
+> >> +static const struct imx258_reg imx258_cfg_regs[] = {
+> >> +	{ 0x3052, 0x00 },
+> >> +	{ 0x4E21, 0x14 },
+> >> +	{ 0x7B25, 0x00 },
+> >> +};
+> >> +
+> >> +static const struct imx258_variant_cfg imx258_cfg = {
+> >> +	.regs = imx258_cfg_regs,
+> >> +	.num_regs = ARRAY_SIZE(imx258_cfg_regs),
+> >> +};
+> >> +
+> >> +static const struct imx258_reg imx258_pdaf_cfg_regs[] = {
+> >> +	{ 0x3052, 0x01 },
+> >> +	{ 0x4E21, 0x10 },
+> >> +	{ 0x7B25, 0x01 },
+> >> +};
+> >> +
+> >> +static const struct imx258_variant_cfg imx258_pdaf_cfg = {
+> >> +	.regs = imx258_pdaf_cfg_regs,
+> >> +	.num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
+> >> +};
+> >> +
+> >>  static const char * const imx258_test_pattern_menu[] = {
+> >>  	"Disabled",
+> >>  	"Solid Colour",
+> >> @@ -637,6 +662,8 @@ struct imx258 {
+> >>  	struct v4l2_subdev sd;
+> >>  	struct media_pad pad;
+> >>  
+> >> +	const struct imx258_variant_cfg *variant_cfg;
+> >> +
+> >>  	struct v4l2_ctrl_handler ctrl_handler;
+> >>  	/* V4L2 Controls */
+> >>  	struct v4l2_ctrl *link_freq;
+> >> @@ -1104,6 +1131,14 @@ static int imx258_start_streaming(struct imx258 *imx258)
+> >>  		return ret;
+> >>  	}
+> >>  
+> >> +	ret = imx258_write_regs(imx258, imx258->variant_cfg->regs,
+> >> +				imx258->variant_cfg->num_regs);
+> >> +	if (ret) {
+> >> +		dev_err(&client->dev, "%s failed to set variant config\n",
+> >> +			__func__);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >>  	ret = imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
+> >>  			       IMX258_REG_VALUE_08BIT,
+> >>  			       imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
+> >> @@ -1492,6 +1527,10 @@ static int imx258_probe(struct i2c_client *client)
+> >>  
+> >>  	imx258->csi2_flags = ep.bus.mipi_csi2.flags;
+> >>  
+> >> +	imx258->variant_cfg = of_device_get_match_data(&client->dev);
+> > 
+> > You'll also need to keep this working for ACPI based systems. I.e. in
+> > practice remove "of_" prefix here and add the non-PDAF variant data to the
+> > relevant ACPI ID list.
+> > 
+> 
+> Removing of_ is easy enough and looking at all the other commits that make
+> this change in other drivers I dont see anything else being done besides
+> adding in the .data section that is down below for both imx258 and pdaf
+> versions. Is that what you are referencing or is there some other place
+> to add variant data to ACPI ID list?
 
-Co-locating is always easier, people is more likely to get
-permits/budget for travelling if there are other events happening.
+Speaking of which---are you absolutely certain there are two variants of
+this sensor? Many sensors that have a different pixel pattern (PDAF pixels
+or a non-Bayer pattern) can produce Bayer data when condigured so. The fact
+that you have differing register configuration for the PDAF and non-PDAF
+cases suggests this may well be the case.
 
->
-> The advantage of picking Montreal is that the gStreamer conference is
-> more applicable to the work we do, and we can get a meeting room there
-> free of charge. Besides, I've never been to Montreal :-)
->
-> But can we get enough of the core media maintainers there? There is no
-> point otherwise. I suspect that the same company travel constraints that
-> were present last year are still in force this year.
->
-> If we pick Vienna instead (assuming we can get a meeting room for a decent
-> price), would that work better?
->
-> So if you are a core media maintainer, or an active media developer interested
-> in joining a Media Summit, please let me know if:
->
-> 1) Montreal, October 7 or 8, works for me!
-> 2) Vienna, one day in the period September 16-20, works for me!
->
+> 
+> >> +	if (!imx258->variant_cfg)
+> >> +		imx258->variant_cfg = &imx258_cfg;
+> >> +
+> >>  	/* Initialize subdev */
+> >>  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
+> >>  
+> >> @@ -1579,7 +1618,8 @@ MODULE_DEVICE_TABLE(acpi, imx258_acpi_ids);
+> >>  #endif
+> >>  
+> >>  static const struct of_device_id imx258_dt_ids[] = {
+> >> -	{ .compatible = "sony,imx258" },
+> >> +	{ .compatible = "sony,imx258", .data = &imx258_cfg },
+> >> +	{ .compatible = "sony,imx258-pdaf", .data = &imx258_pdaf_cfg },
+> >>  	{ /* sentinel */ }
+> >>  };
+> >>  MODULE_DEVICE_TABLE(of, imx258_dt_ids);
+> > 
+> 
 
-I would surely be interested in visiting Montreal, also considering the
-co-located events happening there, but it's way more likely I'll be in
-Vienna, also due to the fact there will be a mini-ELC track as part of E-OSS
-program.
+-- 
+Regards,
 
-Option 2 would then be my preference.
-
-Thanks
-  j
-
-> Please respond asap, I'd like to get a clear picture soon, ideally by the end
-> of next week.
->
-> Regards,
->
-> 	Hans
+Sakari Ailus
 
