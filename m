@@ -1,165 +1,125 @@
-Return-Path: <linux-media+bounces-8762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8763-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6321A899FC7
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:31:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B21889A1E5
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 17:52:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 194281F233F3
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 14:31:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B616DB28201
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 15:52:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD2816F8F5;
-	Fri,  5 Apr 2024 14:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16402171069;
+	Fri,  5 Apr 2024 15:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FDOCrt2C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFB016F859;
-	Fri,  5 Apr 2024 14:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0654416C45E;
+	Fri,  5 Apr 2024 15:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712327453; cv=none; b=S+F/FzL3xoEeErcZzhvkKPPuBUKvj6SkrtY4w2S4pmflLvq2vllVj5gw0IfWPlNuBk/L2IRqJjjT9DrkwtuaZEyAJzKLKz+/QqDXRCBHNYbNIrZ30qvCoh7RfQlOWKeToC4Ti/aGHwXx+dnq0VsTDbzx6hzMwDkMglUJpxljyDs=
+	t=1712332350; cv=none; b=bIk3vO2N3Fu8YTX6v9/Sk+XdF94m1TDAj+eO+4qxQd3bq7DaL3bp66CxSzMiwKJHo7YRA8k4Pypbgisd/WLXDy3xsVS+TcNSNGsKQvcs8iYMH70lSJJxaKQSBEXcAaAuZvZtFtD52u02gDpk/wGkuOogfTrOzddOGN3dqXgGX1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712327453; c=relaxed/simple;
-	bh=OAIDc5kctipri1hRyW8oc3G7ind5HlKJOPmKLgo/ZtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L7YDRKzmZn0eaGWoqRomB68i8KwWjYUQ1g54whtA3rs1FVsNkmbeRf03SCEgG56gdzKPSbKt7LBiplDv0b/Hw2gR9Y9ys1pMRHo3NP7gTKNOsi8yXKlK7C32OinRKaShC8W9kYM7A17j7oq/H0U0jiuCmvRjmsH0s3tQSshwjjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id BA81A106966F; Fri,  5 Apr 2024 16:21:30 +0200 (CEST)
-Date: Fri, 5 Apr 2024 16:21:30 +0200
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	linux-kernel@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] Enable JPEG encoding on rk3588
-Message-ID: <ZhAI6tQZTD7BTosI@desktop>
-References: <20240327134115.424846-1-linkmauve@linkmauve.fr>
- <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
+	s=arc-20240116; t=1712332350; c=relaxed/simple;
+	bh=0DLwPXtz3s/pnpDyHKeyGJUx5h2MKJ57J8vOGPMiy/c=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=BESQYpEplEZtaQgMljUlYXB0Mvoyjc2AuyQpNzWwsR2wapg2pm98W+Uppzppb5Qw1Cq1Z/OGq/vuuYwk//jwMbs+VOaqc0p8Vpkuk0p2epfRxHeSM3hRs6fIrDatEY77ZjOptfGYtGp7jf0fED/F8Ga7br+m7GB1n6NsuudzTjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FDOCrt2C; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 435CUeX8010410;
+	Fri, 5 Apr 2024 15:52:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=sG1XfZTCDkK5
+	lGZiblJPHTJdQCUMcIt2vLP9MBa3y/g=; b=FDOCrt2CyWpUzvcOXWQuIEh/Y945
+	r3i+y8KDvr4qLAJhiaDr2i2jrR/v6pAxOpkvwLlmQo+V3HwwMlA5eJ7xZtthlfep
+	+lhiurRhzpOLhLUSK+M5jZwYk86cx7vadtjKyQU+5Ys+8ws+91Zc9NKBbVNUIrBH
+	awqWyCNlouQmIhB3JoXHKr28oNt7fdTBGbP8hH0xhLQZ2llH/IkxBlpwCXAr01Rn
+	UCJJRt55330h2yAUP0mTvwyu2112A/HffggRShhzSjgF6Nb4ZA2euvgmCrygzbp4
+	t9JGFQWeaLxhN9vvvP2/jj6Nol514+al+oaplY1hx3uxG8W0ZwqDqFA6Tg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xahb10fyn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Apr 2024 15:52:24 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 435FqLQP014489;
+	Fri, 5 Apr 2024 15:52:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3x6btmhjcb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 05 Apr 2024 15:52:21 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 435FqLno014468;
+	Fri, 5 Apr 2024 15:52:21 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 435FqKlb014465;
+	Fri, 05 Apr 2024 15:52:21 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+	id 85BA42F4D; Fri,  5 Apr 2024 21:22:19 +0530 (+0530)
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH] media: venus: fix use after free in vdec_close
+Date: Fri,  5 Apr 2024 21:21:59 +0530
+Message-Id: <1712332319-11767-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: r8h5ePs04KIbg_F1SCrB67TU-uymLv6c
+X-Proofpoint-GUID: r8h5ePs04KIbg_F1SCrB67TU-uymLv6c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-05_17,2024-04-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 spamscore=0 malwarescore=0 impostorscore=0 mlxlogscore=999
+ mlxscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404050112
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
-Jabber-ID: linkmauve@linkmauve.fr
 
-On Thu, Apr 04, 2024 at 01:41:15PM -0400, Nicolas Dufresne wrote:
-> Hi,
+There appears to be a possible use after free with vdec_close().
+The firmware will add buffer release work to the work queue through
+HFI callbacks as a normal part of decoding. Randomly closing the
+decoder device from userspace during normal decoding can incur
+a read after free for inst.
 
-Hi,
+Fix it by cancelling the delayed work in vdec_close.
 
-> 
-> Le mercredi 27 mars 2024 à 14:41 +0100, Emmanuel Gil Peyrot a écrit :
-> > Only the JPEG encoder is available for now, although there are patches
-> > for the undocumented VP8 encoder floating around[0].
-> 
-> [0] seems like a broken link. The VP8 encoder RFC is for RK3399 (and Hantro H1
-> posted by ST more recently). The TRM says "VEPU121(JPEG encoder only)", which
-> suggest that the H.264 and VP8 encoders usually found on the VEPU121 are
-> removed. As Rockchip have remove the synthesize register while modifying the H1
-> IP, it is difficult to verify. Confusingly the H.264 specific registers are
-> documented in the TRM around VEPU121.
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+ drivers/media/platform/qcom/venus/vdec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Ah, the link became, and was indeed ST’s series:
-https://patchwork.kernel.org/project/linux-rockchip/list/?series=789885&archive=both
-
-But the TRM part 1 says the VEPU121 supports H.264 encoding (page 367),
-and it’s likely they didn’t remove just VP8 support since the codec
-features are pretty close to H.264’s.
-
-> 
-> > 
-> > This has been tested on a rock-5b, resulting in four /dev/video*
-> > encoders.  The userspace program I’ve been using to test them is
-> > Onix[1], using the jpeg-encoder example, it will pick one of these four
-> > at random (but displays the one it picked):
-> > % ffmpeg -i <input image> -pix_fmt yuvj420p temp.yuv
-> > % jpeg-encoder temp.yuv <width> <height> NV12 <quality> output.jpeg
-> 
-> I don't like that we exposing each identical cores a separate video nodes. I
-> think we should aim for 1 device, and then multi-plex and schedule de cores from
-> inside the Linux kernel.
-
-I agree, but this should be handled in the driver not in the device
-tree, and it can be done later.
-
-> 
-> Not doing this now means we'll never have an optimal hardware usage
-> distribution. Just consider two userspace software wanting to do jpeg encoding.
-> If they both take a guess, they may endup using a single core. Where with proper
-> scheduling in V4L2, the kernel will be able to properly distribute the load. I
-> insist on this, since if we merge you changes it becomes an ABI and we can't
-> change it anymore.
-
-Will it really become ABI just like that?  Userspace should always
-discover the video nodes and their capabilities and not hardcode e.g. a
-specific /dev/videoN file for a specific codec.  I would argue that this
-series would let userspace do JPEG encoding right away, even if in a
-less optimal way than if the driver would round-robin them through a
-single video node, but that can always be added in a future version.
-
-> 
-> I understand that this impose a rework of the mem2mem framework so that we can
-> run multiple jobs, but this will be needed anyway on RK3588, since the rkvdec2,
-> which we don't have a driver yet is also multi-core, but you need to use 2 cores
-> when the resolution is close to 8K.
-
-I think the mediatek JPEG driver already supports that, would it be ok
-to do it the same way?
-
-> 
-> Nicolas
-> 
-> > 
-> > [0] https://patchwork.kernel.org/project/linux-rockchip/list/?series=789885
-> > [1] https://crates.io/crates/onix
-> > 
-> > Changes since v1:
-> > - Dropped patches 1 and 4.
-> > - Use the proper compatible form, since this device should be fully
-> >   compatible with the VEPU of rk356x.
-> > - Describe where the VEPU121 name comes from, and list other encoders
-> >   and decoders present in this SoC.
-> > - Properly test the device tree changes, I previously couldn’t since I
-> >   was using a too recent version of python-jsonschema…
-> > 
-> > Emmanuel Gil Peyrot (2):
-> >   media: dt-binding: media: Document rk3588’s VEPU121
-> >   arm64: dts: rockchip: Add VEPU121 to rk3588
-> > 
-> >  .../bindings/media/rockchip,rk3568-vepu.yaml  |  8 +-
-> >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 80 +++++++++++++++++++
-> >  2 files changed, 86 insertions(+), 2 deletions(-)
-> > 
-> 
-
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 29130a9..8dda46a 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1747,6 +1747,7 @@ static int vdec_close(struct file *file)
+ 
+ 	vdec_pm_get(inst);
+ 
++	cancel_delayed_work_sync(&inst->delayed_process_work);
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	vdec_ctrl_deinit(inst);
 -- 
-Link Mauve
+2.7.4
+
 
