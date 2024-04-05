@@ -1,143 +1,186 @@
-Return-Path: <linux-media+bounces-8729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F598899AB0
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 12:26:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC61899B01
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 12:39:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB89E1C219C4
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:26:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2483A282BC7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 10:39:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A4A16ABC8;
-	Fri,  5 Apr 2024 10:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97974161B43;
+	Fri,  5 Apr 2024 10:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="p9BH6h0S"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="pATTLDVL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-108-mta154.mxroute.com (mail-108-mta154.mxroute.com [136.175.108.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7D1161B52
-	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 10:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EB7748A
+	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 10:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712312770; cv=none; b=Urt5LpQIEGPBk/9qbcMff/POk1/LzFHLToj2xsA4bIlgKrz1WQD2/ekgM4X2HZIj6f/8clF44tpyH2/In36LVf0fp1dcl77UkwxVKNNlXct/JqKoVu79WmBPAwULB5VcCmUem4D/ISvfK/NmAEloG2bINg9/fDEZ+9Q0nxT1TQE=
+	t=1712313539; cv=none; b=qxR1HpR61z4ov6kSs+a0CxeIYjpcoZN1NnyKr73amK+5n2DQhGrhOdvdyGw9XxU5QHb/9nQR/GKA12I1IaGrePqDgNJkAVafJpVpuXwCKYin1kT1SSJ0squpQitwLr6JDzIMKulitZvkn1A2ITPN/AGzYQtH/iNZQPZrZ3ggpAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712312770; c=relaxed/simple;
-	bh=BmBFgykMPvqdnMoOyGWVJk45cd5kDC9vL/wpVpRu1Xs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iu/gw6664rfJeCr5H0MiJ+Z7b2yUFEkwYBGPW6E0OQAuPRmxMIJquTwurd8wRxnn0BKIEXSfyIwgH+R52SqwGoOHClPV9KSvDdE4YeKaic5AX5Lr9d1mQk3LDuJTcSOb6xrspiUjb3A4ozf3xwI4OVTCqFsenV4+cnCqTvkcNCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=p9BH6h0S; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcc71031680so1996146276.2
-        for <linux-media@vger.kernel.org>; Fri, 05 Apr 2024 03:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1712312766; x=1712917566; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iARPaYJhsEjl43QzURc5h56Y/6xNJ33w7/reZZghG84=;
-        b=p9BH6h0S5gK+WTCDV66QyrPRpG2IELHqzgoT2ckfqC/SmyxB9mCQAvRgO7mhWuz2NT
-         ojbvmKt9Y3swtLE50ZnkTHJUeFolks7+bZFbY3nfcFiA0dde6npQGzebgjiklP+4um8M
-         TQNN8MlDFAv8WRSV5ncwy2h5gqjiB4t9NFesBOIVTkd0BJIBIkiPQDsGQMWdyPLZ4PrR
-         QhUdRQ1njlk/d1KALeSEHnWmJ2lVvbLPbZo0KXkwGSR9tRF9HRYyXUnKLOhdA0QS2EaV
-         FD3BuTtyERfjzadLeYOfFxYHdPAD/c8K5x+1ox2dDwjzFctROywebUMgZcVH4hsADJOq
-         MwEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712312766; x=1712917566;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iARPaYJhsEjl43QzURc5h56Y/6xNJ33w7/reZZghG84=;
-        b=Pk5HyGbTa39bObO4BtGmFQ5OusxOPjxWvNyoVBRuvprLF2mXC3izn8nX2ycpGMA+ja
-         lrJt6uf2V/adUl1U19VwHqOYnbNrnu0UX5AakAedBgmg0DPiJ3bUc9GFVa1NHXgZJGbc
-         2K9bw1m6XjWLRyLU01vCe/ogdzxTDH1Q2SeM2+Dnvd6DwpGxAD1sTCc6LGNrrd5PdnWj
-         rX20T2pW5in2KbOWiKXBxJbqvIjnfXk6OCQkaUqyDj8Td31V1R/xZN10UYhyHdHvz6mR
-         dV3MLybUpZhpVslB5TUEFZsWva7mnkwgoaTIVxUcnWtJa3ayJpeu8uxD60caxsl7bliT
-         4n0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVfzKbzoAi9TtKOEx+lLgbkriblKCCrGMhDqUgo/S6PSnE7LSqjDxFfnjpJru8436VarniJhogmgDAF2qgwfGngA1PyK2AqW+avU0=
-X-Gm-Message-State: AOJu0YwGmoOoXzdiOSAAppxYT/VHzLDhMvzqG5Tz+ZfkdGmzTS1qktL+
-	AVbdgOz3U/uJoL2bCw3QzPswG4bTjD2JNhB/LqU+vzDBrP8a3XKfwaRkTcOsugNz3tgR1qrVaQC
-	N5q7Ybn6TxYgJSTbdaDn5zSAkuG5htSLrYeSHUQ==
-X-Google-Smtp-Source: AGHT+IGiNf41UOijFcS+nvm5XPR4W+ctyL+gK32z/KhUeqbVvoF5ElMWQNkmalXvInXcffwLsTBQ8Hmu10M3phXGLpo=
-X-Received: by 2002:a5b:f04:0:b0:dc6:d22e:ef4c with SMTP id
- x4-20020a5b0f04000000b00dc6d22eef4cmr765600ybr.17.1712312766450; Fri, 05 Apr
- 2024 03:26:06 -0700 (PDT)
+	s=arc-20240116; t=1712313539; c=relaxed/simple;
+	bh=xLI22zriJDENRfnsRmIjvn6POO6xOPVHd6HwhyKlUrk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jSuv9UeYVwTo0Ka4X6CV5vGSQNVviRT0k3HOmmdxHJPPaz7pdifNZR3MC2ZJ5P9QlkgUBg5/qSOXHKXFIGerUaCzaTw66zFR54YdDD6AgvlPKzsiSl6ySt1HcfP/Z0WGgAOQ/Ved0NKFUCWMqP9mpA0+RmK60G2Z5ZJWwSxONLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=pATTLDVL; arc=none smtp.client-ip=136.175.108.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta154.mxroute.com (ZoneMTA) with ESMTPSA id 18eadd248db0003bea.011
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Fri, 05 Apr 2024 10:33:43 +0000
+X-Zone-Loop: 6769620db43b5dc44a3dafa336599caa41c8981e96d6
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vfGoyAWCyKZOHSAUcGDkEoz4paY7t5qH+0okM64n3Do=; b=pATTLDVLYKydxuA4/oMU+IXM8X
+	evupdRWiPyqRs4QJYB3u83H2KriInjeFUXtv7UFyjn6jkcDdJywE8kQQFpc+NqypqFdtPp/GqgeSd
+	/JArjSTKWOw4SHSRhZtEcsmwMEB27salHAMo/GhT7wMAzmOnETj//CUNv+jnhskVyBq40F4+UH5UH
+	7OJ7pX+RVUagog04vV55RXxUCrj1Yzra14eOEvWyRmA7JrKFBfxmFmQE8Ra7esLdGtQ/ZyM94ymdX
+	Ztl/Ad9Q6l8RKhYyN45hZ/K36FNA5jhYIhMrhkxuoUbDzmOduRhdl/cAIENpmkLIPPR9hNlD+gaZK
+	UpvwQaAw==;
+Message-ID: <082190a8-7ac5-4240-9a16-6b9168c67d57@luigi311.com>
+Date: Fri, 5 Apr 2024 04:33:38 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403150355.189229-1-git@luigi311.com> <20240403150355.189229-19-git@luigi311.com>
- <20240403-vista-defendant-ebadbaa52059@spud>
-In-Reply-To: <20240403-vista-defendant-ebadbaa52059@spud>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 5 Apr 2024 11:25:50 +0100
-Message-ID: <CAPY8ntC9SHJ6Ma17s0Vf2coB-0NUk-xgCLK9KCkxFMuXKHXNwg@mail.gmail.com>
-Subject: Re: [PATCH v3 18/25] dt-bindings: media: imx258: Add alternate
- compatible strings
-To: Conor Dooley <conor@kernel.org>
-Cc: git@luigi311.com, linux-media@vger.kernel.org, 
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	sakari.ailus@linux.intel.com, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 21/25] drivers: media: i2c: imx258: Use macros
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ pavel@ucw.cz, phone-devel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-22-git@luigi311.com>
+ <Zg2CirmwL3JfjA8s@kekkonen.localdomain>
+ <df8c245a-40e9-4bf5-b870-7efe321d820a@luigi311.com>
+ <Zg5Mz0QSqNDXzY4o@kekkonen.localdomain>
+Content-Language: en-US
+From: Luis Garcia <git@luigi311.com>
+In-Reply-To: <Zg5Mz0QSqNDXzY4o@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Id: git@luigi311.com
 
-Hi Conor
+On 4/4/24 00:46, Sakari Ailus wrote:
+> On Wed, Apr 03, 2024 at 01:17:26PM -0600, Luigi311 wrote:
+>> On 4/3/24 10:23, Sakari Ailus wrote:
+>>> Hi Luis,
+>>>
+>>> On Wed, Apr 03, 2024 at 09:03:50AM -0600, git@luigi311.com wrote:
+>>>> From: Luis Garcia <git@luigi311.com>
+>>>>
+>>>> Use understandable macros instead of raw values.
+>>>>
+>>>> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+>>>> Signed-off-by: Luis Garcia <git@luigi311.com>
+>>>> ---
+>>>>  drivers/media/i2c/imx258.c | 434 ++++++++++++++++++-------------------
+>>>>  1 file changed, 207 insertions(+), 227 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>>>> index e2ecf6109516..30352c33f63c 100644
+>>>> --- a/drivers/media/i2c/imx258.c
+>>>> +++ b/drivers/media/i2c/imx258.c
+>>>> @@ -33,8 +33,6 @@
+>>>>  #define IMX258_VTS_30FPS_VGA		0x034c
+>>>>  #define IMX258_VTS_MAX			65525
+>>>>  
+>>>> -#define IMX258_REG_VTS			0x0340
+>>>> -
+>>>>  /* HBLANK control - read only */
+>>>>  #define IMX258_PPL_DEFAULT		5352
+>>>>  
+>>>> @@ -90,6 +88,53 @@
+>>>>  #define IMX258_PIXEL_ARRAY_WIDTH	4208U
+>>>>  #define IMX258_PIXEL_ARRAY_HEIGHT	3120U
+>>>>  
+>>>> +/* regs */
+>>>> +#define IMX258_REG_PLL_MULT_DRIV                  0x0310
+>>>> +#define IMX258_REG_IVTPXCK_DIV                    0x0301
+>>>> +#define IMX258_REG_IVTSYCK_DIV                    0x0303
+>>>> +#define IMX258_REG_PREPLLCK_VT_DIV                0x0305
+>>>> +#define IMX258_REG_IOPPXCK_DIV                    0x0309
+>>>> +#define IMX258_REG_IOPSYCK_DIV                    0x030b
+>>>> +#define IMX258_REG_PREPLLCK_OP_DIV                0x030d
+>>>> +#define IMX258_REG_PHASE_PIX_OUTEN                0x3030
+>>>> +#define IMX258_REG_PDPIX_DATA_RATE                0x3032
+>>>> +#define IMX258_REG_SCALE_MODE                     0x0401
+>>>> +#define IMX258_REG_SCALE_MODE_EXT                 0x3038
+>>>> +#define IMX258_REG_AF_WINDOW_MODE                 0x7bcd
+>>>> +#define IMX258_REG_FRM_LENGTH_CTL                 0x0350
+>>>> +#define IMX258_REG_CSI_LANE_MODE                  0x0114
+>>>> +#define IMX258_REG_X_EVN_INC                      0x0381
+>>>> +#define IMX258_REG_X_ODD_INC                      0x0383
+>>>> +#define IMX258_REG_Y_EVN_INC                      0x0385
+>>>> +#define IMX258_REG_Y_ODD_INC                      0x0387
+>>>> +#define IMX258_REG_BINNING_MODE                   0x0900
+>>>> +#define IMX258_REG_BINNING_TYPE_V                 0x0901
+>>>> +#define IMX258_REG_FORCE_FD_SUM                   0x300d
+>>>> +#define IMX258_REG_DIG_CROP_X_OFFSET              0x0408
+>>>> +#define IMX258_REG_DIG_CROP_Y_OFFSET              0x040a
+>>>> +#define IMX258_REG_DIG_CROP_IMAGE_WIDTH           0x040c
+>>>> +#define IMX258_REG_DIG_CROP_IMAGE_HEIGHT          0x040e
+>>>> +#define IMX258_REG_SCALE_M                        0x0404
+>>>> +#define IMX258_REG_X_OUT_SIZE                     0x034c
+>>>> +#define IMX258_REG_Y_OUT_SIZE                     0x034e
+>>>> +#define IMX258_REG_X_ADD_STA                      0x0344
+>>>> +#define IMX258_REG_Y_ADD_STA                      0x0346
+>>>> +#define IMX258_REG_X_ADD_END                      0x0348
+>>>> +#define IMX258_REG_Y_ADD_END                      0x034a
+>>>> +#define IMX258_REG_EXCK_FREQ                      0x0136
+>>>> +#define IMX258_REG_CSI_DT_FMT                     0x0112
+>>>> +#define IMX258_REG_LINE_LENGTH_PCK                0x0342
+>>>> +#define IMX258_REG_SCALE_M_EXT                    0x303a
+>>>> +#define IMX258_REG_FRM_LENGTH_LINES               0x0340
+>>>> +#define IMX258_REG_FINE_INTEG_TIME                0x0200
+>>>> +#define IMX258_REG_PLL_IVT_MPY                    0x0306
+>>>> +#define IMX258_REG_PLL_IOP_MPY                    0x030e
+>>>> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_H       0x0820
+>>>> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_L       0x0822
+>>>> +
+>>>> +#define REG8(a, v) { a, v }
+>>>> +#define REG16(a, v) { a, ((v) >> 8) & 0xff }, { (a) + 1, (v) & 0xff }
+>>>
+>>> The patch is nice but these macros are better replaced by the V4L2 CCI
+>>> helper that also offers register access functions. Could you add a patch to
+>>> convert the driver to use it (maybe after this one)?
+>>>
+>>
+>> Ohh perfect, using something else would be great. Ill go ahead and see
+>> if I can get that working.
+> 
+> Thanks. It may be easier to just do it in this one actually. Up to you.
+> 
 
-On Wed, 3 Apr 2024 at 17:14, Conor Dooley <conor@kernel.org> wrote:
->
-> On Wed, Apr 03, 2024 at 09:03:47AM -0600, git@luigi311.com wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > There are a number of variants of the imx258 modules that can not
-> > be differentiated at runtime, so add compatible strings for the
-> > PDAF variant.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Luis Garcia <git@luigi311.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/sony,imx258.yaml       | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > index bee61a443b23..c978abc0cdb3 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > @@ -13,11 +13,16 @@ description: |-
-> >    IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
-> >    type stacked image sensor with a square pixel array of size 4208 x 3120. It
-> >    is programmable through I2C interface.  Image data is sent through MIPI
-> > -  CSI-2.
-> > +  CSI-2. The sensor exists in two different models, a standard variant
-> > +  (IMX258) and a variant with phase detection autofocus (IMX258-PDAF).
-> > +  The camera module does not expose the model through registers, so the
-> > +  exact model needs to be specified.
-> >
-> >  properties:
-> >    compatible:
-> > -    const: sony,imx258
-> > +    enum:
-> > +      - sony,imx258
-> > +      - sony,imx258-pdaf
->
-> Does the pdaf variant support all of the features/is it register
-> compatible with the regular variant? If it is, the regular variant
-> should be a fallback compatible.
-
-It has the same register set, but certain registers have to be
-programmed differently so that the image is corrected for the
-partially shielded pixels used for phase detect auto focus (PDAF).
-Either compatible will "work" on either variant of the module, but
-you'll get weird image artifacts when using the wrong one.
-
-  Dave
-
-> Cheers,
-> Conor.
+I've made the swap but looks like its not playing nice with my ppp,
+its causing a crash and showing a call trace as soon as it does its
+first read to check the identity. I went in and dropped the cci_read
+and left it with the original implementation and I'm getting a very
+similar crash with cci_write too so it looks like its not liking
+how I'm implementing it. Looking at the few other drivers that were
+swapped over to use that, I don't seem to be missing anything. It's
+a big change so its not really something I can describe what I've
+changed but I do have the change on my github here
+https://github.com/luigi311/linux/commit/840593acb20eee87ce361e6929edf51eefbbe737
+if you can provide some guidance, if not I can skip this change
+all together and we can do a separate attempt at swapping over to it.
 
