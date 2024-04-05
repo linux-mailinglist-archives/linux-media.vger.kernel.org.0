@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-8766-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8767-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DFD89A26F
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 18:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FF689A275
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 18:25:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92C50B23EC0
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:24:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB47DB244A2
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECF0D17164C;
-	Fri,  5 Apr 2024 16:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A1417164A;
+	Fri,  5 Apr 2024 16:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgzQSD8g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcsClS20"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEED171078;
-	Fri,  5 Apr 2024 16:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3F016FF5D;
+	Fri,  5 Apr 2024 16:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712334257; cv=none; b=r7pHueQ1J9r57f2JuGOP2PYlHXgmQ0GHTdAv1HkaPq4GVn6gTven+48YYigKncxY2RucyZpJCw/QTLnNKzlgi4XtolyfzjxXor/xgcXsM9ynrsDm0fO/+2Z/G3hQ2jR6CFEjCJyzzuEuTnKMnJf8DRgW87MeNcbsU1XLMAaCmpQ=
+	t=1712334302; cv=none; b=AxLZqr3XVVLLhVNfApvFY3/1nj10rTs9Oep70blvJxbr9ANP9FxCdZsAW4mXNCXJnFIR51iPGwrorkEgJqtvQ6z7F5isT+MUT78R1j1MpEJ49kveUZ8z1gF6/lBfJLZm3E9Nz/N4EbRIJt5JckujHaTIYLJpnZ7dxDCExt2aVnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712334257; c=relaxed/simple;
-	bh=6JpRDvCOuHegc46R7erCygMAd1uj2iB5Om6sD8dxs6w=;
+	s=arc-20240116; t=1712334302; c=relaxed/simple;
+	bh=e631Y6MEiUM4bdY0i8+RqUnFcYHrbYvYh4AY3c2OKqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EHGOg5u2cgT/vylOfvzn15jLVeY0Rgduyd/+YmuArbD3KlDUEN025yglZOY0BpPClSpokRCGV7YsCe6tgcL7AxmSo0iWZJKFIL3Av/MsoUpGhM+1h0kFb5KeHk/swjR4Le7EBlFPJAsCYwLA2b7WPJOvaLODDb1S/dMCi97FBQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LgzQSD8g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2935FC433C7;
-	Fri,  5 Apr 2024 16:24:12 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=MVrxTCX+tX/B9ibu9opIwh0uV9hzcPholw7mXzxyRVvPWMXOFe/yyFPdFbAx5ujnK8Z08+5YJywaiIQmERJoiZiacIOTzqgiIphNHV7PXGMjoMQ7/KL9f4Za9ywtCUrr6y8hhUY0kHQjeJAWp/eZ10PK1Gerd/mCH40S+OMvy28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcsClS20; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E052C433F1;
+	Fri,  5 Apr 2024 16:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712334256;
-	bh=6JpRDvCOuHegc46R7erCygMAd1uj2iB5Om6sD8dxs6w=;
+	s=k20201202; t=1712334301;
+	bh=e631Y6MEiUM4bdY0i8+RqUnFcYHrbYvYh4AY3c2OKqs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LgzQSD8g6+0ukVg19qWTPxYqtTPJlfP4azdnG0YKeUGXpgUogSoC/jh7iZDyaEwyI
-	 n7KZd65j8+X0DFnKSfEAUp1s2gyyNpQQZcuE857C6bIUQ1GsWHsrTviIT3EsYMUt+l
-	 SozHICPe1KDgb1Ul7AV1682paZ9MJY961AF+fqJ+eRsnF+ooW5MrRg6yXOhNfZzSMa
-	 UGogYM6cWamzWapOQIOTUEwZ/VPu9jJTzw2MpdOhTw3oPI5ETQPHDYrekSGqFMnVHw
-	 0XXiqX0jBf31eR/uoOCIvqc62m6vvhFn8J1yQPU8DjX0ffZPUuWe4R/hit26yKBPCt
-	 wx0YrMOhSQWvA==
-Date: Fri, 5 Apr 2024 17:24:11 +0100
+	b=hcsClS20Fq4SLI/FbUZXI/30MEJwCw0mPfLZrr/R0EkMRetSPyJ5iYwp1vzcFPnTQ
+	 3UfE9PH7aWXRdPKCpMlC36hJ2kQCuN4x6MzeGumMdjC0VsDAd3F6duoKVW+rSNrAfZ
+	 +0HA8OL2NfF/FCSaULcSPyMmeRTMwuBJOcfpwaQw83HmXIJ2GmQROXqP0I8bdntGM5
+	 YbxT4k39KnYQwO8QadL/IFPXiVgcc06YtlbIYY5ImjqSKvXgnQMi7YwHaMmA94jJln
+	 9lFAWQ1KpmN5HlwVEOqF+1b/prbhr/0cAHdjnhCF2E8gP9x72z2l9XpeBwpuUzC0bH
+	 A3LaECE2Q8gig==
+Date: Fri, 5 Apr 2024 17:24:55 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc: git@luigi311.com, linux-media@vger.kernel.org,
@@ -54,11 +54,12 @@ Cc: git@luigi311.com, linux-media@vger.kernel.org,
 	pavel@ucw.cz, phone-devel@vger.kernel.org
 Subject: Re: [PATCH v3 18/25] dt-bindings: media: imx258: Add alternate
  compatible strings
-Message-ID: <20240405-affair-cruelly-a7e9d23b597c@spud>
+Message-ID: <20240405-citizen-rendering-a8345fc96fb0@spud>
 References: <20240403150355.189229-1-git@luigi311.com>
  <20240403150355.189229-19-git@luigi311.com>
  <20240403-vista-defendant-ebadbaa52059@spud>
  <CAPY8ntC9SHJ6Ma17s0Vf2coB-0NUk-xgCLK9KCkxFMuXKHXNwg@mail.gmail.com>
+ <20240405-affair-cruelly-a7e9d23b597c@spud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,88 +67,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4VSlIssbWGjCqHBw"
+	protocol="application/pgp-signature"; boundary="J+r6cgI5MeerLX5y"
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntC9SHJ6Ma17s0Vf2coB-0NUk-xgCLK9KCkxFMuXKHXNwg@mail.gmail.com>
+In-Reply-To: <20240405-affair-cruelly-a7e9d23b597c@spud>
 
 
---4VSlIssbWGjCqHBw
+--J+r6cgI5MeerLX5y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 05, 2024 at 11:25:50AM +0100, Dave Stevenson wrote:
-> Hi Conor
+On Fri, Apr 05, 2024 at 05:24:11PM +0100, Conor Dooley wrote:
+> On Fri, Apr 05, 2024 at 11:25:50AM +0100, Dave Stevenson wrote:
+> > Hi Conor
+> >=20
+> > On Wed, 3 Apr 2024 at 17:14, Conor Dooley <conor@kernel.org> wrote:
+> > >
+> > > On Wed, Apr 03, 2024 at 09:03:47AM -0600, git@luigi311.com wrote:
+> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > >
+> > > > There are a number of variants of the imx258 modules that can not
+> > > > be differentiated at runtime, so add compatible strings for the
+> > > > PDAF variant.
+> > > >
+> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > Signed-off-by: Luis Garcia <git@luigi311.com>
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/sony,imx258.yaml       | 9 +++++=
+++--
+> > > >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx25=
+8.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> > > > index bee61a443b23..c978abc0cdb3 100644
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> > > > @@ -13,11 +13,16 @@ description: |-
+> > > >    IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS ac=
+tive pixel
+> > > >    type stacked image sensor with a square pixel array of size 4208=
+ x 3120. It
+> > > >    is programmable through I2C interface.  Image data is sent throu=
+gh MIPI
+> > > > -  CSI-2.
+> > > > +  CSI-2. The sensor exists in two different models, a standard var=
+iant
+> > > > +  (IMX258) and a variant with phase detection autofocus (IMX258-PD=
+AF).
+> > > > +  The camera module does not expose the model through registers, s=
+o the
+> > > > +  exact model needs to be specified.
+> > > >
+> > > >  properties:
+> > > >    compatible:
+> > > > -    const: sony,imx258
+> > > > +    enum:
+> > > > +      - sony,imx258
+> > > > +      - sony,imx258-pdaf
+> > >
+> > > Does the pdaf variant support all of the features/is it register
+> > > compatible with the regular variant? If it is, the regular variant
+> > > should be a fallback compatible.
+> >=20
+> > It has the same register set, but certain registers have to be
+> > programmed differently so that the image is corrected for the
+> > partially shielded pixels used for phase detect auto focus (PDAF).
+> > Either compatible will "work" on either variant of the module, but
+> > you'll get weird image artifacts when using the wrong one.
 >=20
-> On Wed, 3 Apr 2024 at 17:14, Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Wed, Apr 03, 2024 at 09:03:47AM -0600, git@luigi311.com wrote:
-> > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >
-> > > There are a number of variants of the imx258 modules that can not
-> > > be differentiated at runtime, so add compatible strings for the
-> > > PDAF variant.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Signed-off-by: Luis Garcia <git@luigi311.com>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/sony,imx258.yaml       | 9 +++++++=
---
-> > >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx258.=
-yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > index bee61a443b23..c978abc0cdb3 100644
-> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > @@ -13,11 +13,16 @@ description: |-
-> > >    IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS acti=
-ve pixel
-> > >    type stacked image sensor with a square pixel array of size 4208 x=
- 3120. It
-> > >    is programmable through I2C interface.  Image data is sent through=
- MIPI
-> > > -  CSI-2.
-> > > +  CSI-2. The sensor exists in two different models, a standard varia=
-nt
-> > > +  (IMX258) and a variant with phase detection autofocus (IMX258-PDAF=
-).
-> > > +  The camera module does not expose the model through registers, so =
-the
-> > > +  exact model needs to be specified.
-> > >
-> > >  properties:
-> > >    compatible:
-> > > -    const: sony,imx258
-> > > +    enum:
-> > > +      - sony,imx258
-> > > +      - sony,imx258-pdaf
-> >
-> > Does the pdaf variant support all of the features/is it register
-> > compatible with the regular variant? If it is, the regular variant
-> > should be a fallback compatible.
->=20
-> It has the same register set, but certain registers have to be
-> programmed differently so that the image is corrected for the
-> partially shielded pixels used for phase detect auto focus (PDAF).
-> Either compatible will "work" on either variant of the module, but
-> you'll get weird image artifacts when using the wrong one.
+> To paraphase, a fallback compatible is not suitable.
 
-To paraphase, a fallback compatible is not suitable.
+Whoops, I forgot this:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thanks Dave,
+Cheers,
 Conor.
 
---4VSlIssbWGjCqHBw
+--J+r6cgI5MeerLX5y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhAlqgAKCRB4tDGHoIJi
-0kW8AP9KV3LJt1DLGYbcIRYYQzVjf5OtXnW7AC81UNn0epIypwEAwwW/zJA3Q3J0
-t6MuHgfu+Sabt0Z5TRNsffWfpDbtfwI=
-=6umV
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhAl1wAKCRB4tDGHoIJi
+0kUVAPsHQcxSj1YlxmEykZ2pdEnrRssajk9+59xTX2aSDtjvjgD/QiU/zXLjFTnh
+wmmKk8lfqMokfNL4ZXerYYFKC/oSUAY=
+=wHSR
 -----END PGP SIGNATURE-----
 
---4VSlIssbWGjCqHBw--
+--J+r6cgI5MeerLX5y--
 
