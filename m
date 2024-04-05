@@ -1,158 +1,134 @@
-Return-Path: <linux-media+bounces-8767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FF689A275
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 18:25:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB8389A288
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 18:30:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB47DB244A2
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:25:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D6F21C22414
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A1417164A;
-	Fri,  5 Apr 2024 16:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7750D16F275;
+	Fri,  5 Apr 2024 16:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcsClS20"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DvATwmVZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3F016FF5D;
-	Fri,  5 Apr 2024 16:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1E76AB6;
+	Fri,  5 Apr 2024 16:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712334302; cv=none; b=AxLZqr3XVVLLhVNfApvFY3/1nj10rTs9Oep70blvJxbr9ANP9FxCdZsAW4mXNCXJnFIR51iPGwrorkEgJqtvQ6z7F5isT+MUT78R1j1MpEJ49kveUZ8z1gF6/lBfJLZm3E9Nz/N4EbRIJt5JckujHaTIYLJpnZ7dxDCExt2aVnM=
+	t=1712334622; cv=none; b=X+dGDtMA5WYPLN63jCyQtuYGwjr7hnu0YVKXDxbEuF6VqqD+WykxglO3Nk6orTE71Q3mXuVoglEaocm9am8l5DBDPOZo45oBISQkA5kqPK5j5X8cVKbYrLA33V4xN4+jhQmUq5HdA/V34ecjWr7ms0w+VsV+CMgBJoQpFumpfFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712334302; c=relaxed/simple;
-	bh=e631Y6MEiUM4bdY0i8+RqUnFcYHrbYvYh4AY3c2OKqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MVrxTCX+tX/B9ibu9opIwh0uV9hzcPholw7mXzxyRVvPWMXOFe/yyFPdFbAx5ujnK8Z08+5YJywaiIQmERJoiZiacIOTzqgiIphNHV7PXGMjoMQ7/KL9f4Za9ywtCUrr6y8hhUY0kHQjeJAWp/eZ10PK1Gerd/mCH40S+OMvy28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcsClS20; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E052C433F1;
-	Fri,  5 Apr 2024 16:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712334301;
-	bh=e631Y6MEiUM4bdY0i8+RqUnFcYHrbYvYh4AY3c2OKqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hcsClS20Fq4SLI/FbUZXI/30MEJwCw0mPfLZrr/R0EkMRetSPyJ5iYwp1vzcFPnTQ
-	 3UfE9PH7aWXRdPKCpMlC36hJ2kQCuN4x6MzeGumMdjC0VsDAd3F6duoKVW+rSNrAfZ
-	 +0HA8OL2NfF/FCSaULcSPyMmeRTMwuBJOcfpwaQw83HmXIJ2GmQROXqP0I8bdntGM5
-	 YbxT4k39KnYQwO8QadL/IFPXiVgcc06YtlbIYY5ImjqSKvXgnQMi7YwHaMmA94jJln
-	 9lFAWQ1KpmN5HlwVEOqF+1b/prbhr/0cAHdjnhCF2E8gP9x72z2l9XpeBwpuUzC0bH
-	 A3LaECE2Q8gig==
-Date: Fri, 5 Apr 2024 17:24:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: git@luigi311.com, linux-media@vger.kernel.org,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v3 18/25] dt-bindings: media: imx258: Add alternate
- compatible strings
-Message-ID: <20240405-citizen-rendering-a8345fc96fb0@spud>
-References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-19-git@luigi311.com>
- <20240403-vista-defendant-ebadbaa52059@spud>
- <CAPY8ntC9SHJ6Ma17s0Vf2coB-0NUk-xgCLK9KCkxFMuXKHXNwg@mail.gmail.com>
- <20240405-affair-cruelly-a7e9d23b597c@spud>
+	s=arc-20240116; t=1712334622; c=relaxed/simple;
+	bh=JoKQWpVUXVsBSo1x1Idtb87+5vnLdbcK1yTV2XBkRHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bUyhZB1RStGHVkEYGZM+Tqe13OHbSzo8cVhdOVChogPoH7TO2G1coozSnTsTwvl4TyHPZMI88vZLsuS+V1Vq/VcYwWTBLcon6eJhCnWOVJuBwWsXQX7RPRK4Y/0KB8gYb/3rg21iD+NDKaOjmRfrE2+tg/wzQ3KytfZNP8v961U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DvATwmVZ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [100.64.217.16] (unknown [20.29.225.195])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6099820E98B9;
+	Fri,  5 Apr 2024 09:30:14 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6099820E98B9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1712334614;
+	bh=w130JaeBPpS+L9M4QU8ZQXXwRcANcq5ZUO69X1bKRmU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DvATwmVZCnu2mWeOkHNjSOn3NP+uGroDac1iSpu2wd+v3d//PQw85B2Bdx0Po6Lvd
+	 ZjMGVuaZ73P4XTz+rG7byN35W0KUrpl5gZ3alXfZ8frHGqOGX4PxPO84VA9eudZIJk
+	 732o/mFjv1LuWV0m4a0o7Gs9Fy/VV5ERgAzWEo3E=
+Message-ID: <e6b04b76-c695-47b4-9432-f2316e174585@linux.microsoft.com>
+Date: Fri, 5 Apr 2024 09:30:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="J+r6cgI5MeerLX5y"
-Content-Disposition: inline
-In-Reply-To: <20240405-affair-cruelly-a7e9d23b597c@spud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v0 13/14] drm/nouveau: Make I2C terminology more inclusive
+To: Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <20240329170038.3863998-14-eahariha@linux.microsoft.com>
+ <4dc6fb16-3d85-4a7f-85f9-ed249da0df1a@redhat.com>
+Content-Language: en-CA
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <4dc6fb16-3d85-4a7f-85f9-ed249da0df1a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 4/5/2024 9:15 AM, Danilo Krummrich wrote:
+> Hi Easwar,
+> 
+> On 3/29/24 18:00, Easwar Hariharan wrote:
+>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
+>>
+>> Compile tested, no functionality changes intended
+>>
+>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>> ---
+>>   drivers/gpu/drm/nouveau/dispnv04/dfp.c             | 14 +++++++-------
+>>   .../gpu/drm/nouveau/include/nvkm/subdev/bios/dcb.h |  2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_bios.c             |  4 ++--
+>>   3 files changed, 10 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+>> index d5b129dc623b..65b791006b19 100644
+>> --- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+>> +++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+>> @@ -149,7 +149,7 @@ void nv04_dfp_update_fp_control(struct drm_encoder *encoder, int mode)
+>>       }
+>>   }
+>>   -static struct drm_encoder *get_tmds_slave(struct drm_encoder *encoder)
+>> +static struct drm_encoder *get_tmds_client(struct drm_encoder *encoder)
+>>   {
+>>       struct drm_device *dev = encoder->dev;
+>>       struct dcb_output *dcb = nouveau_encoder(encoder)->dcb;
+>> @@ -172,7 +172,7 @@ static struct drm_encoder *get_tmds_slave(struct drm_encoder *encoder)
+>>           struct dcb_output *slave_dcb = nouveau_encoder(slave)->dcb;
+>>             if (slave_dcb->type == DCB_OUTPUT_TMDS && get_slave_funcs(slave) &&
+>> -            slave_dcb->tmdsconf.slave_addr == dcb->tmdsconf.slave_addr)
+>> +            slave_dcb->tmdsconf.client_addr == dcb->tmdsconf.client_addr)
+>>               return slave;
+> 
+> While, personally, I think master/slave was well suiting for the device relationship
+> on those busses, I think that if we change it up to conform with the change in
+> specification, we should make sure to update drivers consistently.
+> 
+> We should make sure to also change the names of the sourrounding structures and variable
+> names, otherwise we just make this code harder to read.
+> 
+> - Danilo
+> 
 
---J+r6cgI5MeerLX5y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review, and for the appetite to go further! So we are on the same page, you would prefer
+renaming to controller/target like the feedback on other drm drivers (i915, gma500, radeon)?
 
-On Fri, Apr 05, 2024 at 05:24:11PM +0100, Conor Dooley wrote:
-> On Fri, Apr 05, 2024 at 11:25:50AM +0100, Dave Stevenson wrote:
-> > Hi Conor
-> >=20
-> > On Wed, 3 Apr 2024 at 17:14, Conor Dooley <conor@kernel.org> wrote:
-> > >
-> > > On Wed, Apr 03, 2024 at 09:03:47AM -0600, git@luigi311.com wrote:
-> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > >
-> > > > There are a number of variants of the imx258 modules that can not
-> > > > be differentiated at runtime, so add compatible strings for the
-> > > > PDAF variant.
-> > > >
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Signed-off-by: Luis Garcia <git@luigi311.com>
-> > > > ---
-> > > >  .../devicetree/bindings/media/i2c/sony,imx258.yaml       | 9 +++++=
-++--
-> > > >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx25=
-8.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > > index bee61a443b23..c978abc0cdb3 100644
-> > > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
-> > > > @@ -13,11 +13,16 @@ description: |-
-> > > >    IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS ac=
-tive pixel
-> > > >    type stacked image sensor with a square pixel array of size 4208=
- x 3120. It
-> > > >    is programmable through I2C interface.  Image data is sent throu=
-gh MIPI
-> > > > -  CSI-2.
-> > > > +  CSI-2. The sensor exists in two different models, a standard var=
-iant
-> > > > +  (IMX258) and a variant with phase detection autofocus (IMX258-PD=
-AF).
-> > > > +  The camera module does not expose the model through registers, s=
-o the
-> > > > +  exact model needs to be specified.
-> > > >
-> > > >  properties:
-> > > >    compatible:
-> > > > -    const: sony,imx258
-> > > > +    enum:
-> > > > +      - sony,imx258
-> > > > +      - sony,imx258-pdaf
-> > >
-> > > Does the pdaf variant support all of the features/is it register
-> > > compatible with the regular variant? If it is, the regular variant
-> > > should be a fallback compatible.
-> >=20
-> > It has the same register set, but certain registers have to be
-> > programmed differently so that the image is corrected for the
-> > partially shielded pixels used for phase detect auto focus (PDAF).
-> > Either compatible will "work" on either variant of the module, but
-> > you'll get weird image artifacts when using the wrong one.
->=20
-> To paraphase, a fallback compatible is not suitable.
+Thanks,
+Easwar
 
-Whoops, I forgot this:
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
---J+r6cgI5MeerLX5y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhAl1wAKCRB4tDGHoIJi
-0kUVAPsHQcxSj1YlxmEykZ2pdEnrRssajk9+59xTX2aSDtjvjgD/QiU/zXLjFTnh
-wmmKk8lfqMokfNL4ZXerYYFKC/oSUAY=
-=wHSR
------END PGP SIGNATURE-----
-
---J+r6cgI5MeerLX5y--
 
