@@ -1,237 +1,189 @@
-Return-Path: <linux-media+bounces-8712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3918998D5
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:03:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A206899919
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:13:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8944282C02
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:03:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80F991F217BD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:13:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C182161318;
-	Fri,  5 Apr 2024 09:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E24415FCEB;
+	Fri,  5 Apr 2024 09:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="psE90geG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qikckSXg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C108C611E;
-	Fri,  5 Apr 2024 09:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8892EEEB2;
+	Fri,  5 Apr 2024 09:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712307724; cv=none; b=byZ1v6K+V0EVJrY+c1WuF7rLvp1XEjfqzBPdtwWsx7kWmmhaTbRXXV5wrdzeUXveEvtW6hw39jmy2Zvz0KatJR4dRR9VymAKf6a1OKebTuRQJb+WDY5jCS1KlY37rZ12j0MZUigz2Sgw39ZQesGOkWVbpPJ0xXvhokPqdhxxg3I=
+	t=1712308386; cv=none; b=HrwgZ4Bphcc90eD7xcA/Cyey41CPPFIlZUpzIrto4vePCNfEcM0u163hggz6XDDWtLfJlQK4EfL7cSk8+c+KWz1utVGF3wFWWlQ5/1eV9JjqK+ZbTBGdfUNc/ZOCyJL49ns6DBgpyIWg1QLycTOgsvect5Wp9KC9hgRTzQhvNlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712307724; c=relaxed/simple;
-	bh=LO8uoYa0Kop1cFAdEsaEnaPl/zeYP88Pn25Q7kwvzMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=O2BiP+2cC4VhYYFw4PlDpAXdAqsp4pJXiELbpruBQhcgWaPnPYAKeyHUCAsExwHkCBZ1wxVewTlOb4JipU2t15a3QZyLM+xuKxJ1IAbNDH9xlnkipvhInt4oDyiP0JsKAW1KGyc8PKCE36inVowE3gkEIHZpWHS+1KgGBfpc3V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=psE90geG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43591lWP017030;
-	Fri, 5 Apr 2024 09:01:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=LI3eh8Na7WPVV/V/8E+2ZqlECRmfWXjLS4d7R5f95As=; b=ps
-	E90geGA6LWCI1/JXyowSg8/uY5f/x7UZyb81Lfy1PPW6PqR4yUlPI26zjoRmVqHa
-	rN/C+uPCBGzwtwKHU8FmthmrY4XWuB7CGRuItHv8gN6LxYWp+/UDEDWVB3ySYdWw
-	VQsbPrZ71KTCRcYdrZp70safmqyCCL899pBYqx7SE0iFl9JOU4RKjFYE6EDPiVLn
-	DvU1OhDnrYf//Ot96FBnHflcxEdzVds1aA4TW+KUUcuY+qgxEpZtXIa4K73NbyU4
-	vaSVWC2PWCmHungUl2fDazFC5c7pA2kq5F0es74/0Vcb3fNRT+lXuVdvQtAEzA/O
-	s2woLqyAc6o9h7SknWpw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa2q3997b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 09:01:47 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43591kB2030539
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 5 Apr 2024 09:01:46 GMT
-Received: from [10.216.11.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 02:01:41 -0700
-Message-ID: <20852e0a-0a33-d9c9-2c1b-f9a5ffd96358@quicinc.com>
-Date: Fri, 5 Apr 2024 14:31:37 +0530
+	s=arc-20240116; t=1712308386; c=relaxed/simple;
+	bh=z1ZWq0j+mRwPcDjUEA3itQlC7Sw6jERs5mKc1dSfrOw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XpR27lCiCIlqsKdIeYktIeFuOYlf35Cvn64BeldErPO55yJBK9alQdKHzOJIBC1wgn8YNBLzzAL+jQiFqY/hC0XpOmmIsOQK8gkXMC+Av5CHCKWgVbRr1tqyT2JMGZNcdWMiUiRhXbBwHYEOjkosuidt/yzz/13LRNfd5gjPW+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qikckSXg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CCA2A63B;
+	Fri,  5 Apr 2024 11:12:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712308338;
+	bh=z1ZWq0j+mRwPcDjUEA3itQlC7Sw6jERs5mKc1dSfrOw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qikckSXg88ehWJ5EIiVpEIBBEeycG8a0ZktnSv5gfrIf6ZpJdmVAvJ3O6JpAvqfYX
+	 p29eZBL1Q+lhEGa6QUmiHMhJfYnV1nDRDHGnqThYeaIaIa+upZlt+V6hzpR28/R+m7
+	 xoYYyCU6TvwtpcrqEXtnikcEecaswrHhU7Zn5p4A=
+Message-ID: <46ea1389-999b-42b4-9f59-955cb8ad14a2@ideasonboard.com>
+Date: Fri, 5 Apr 2024 12:12:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 13/19] media: venus: pm_helpers: Remove
- pm_ops->core_put
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] media: subdev: Improve
+ v4l2_subdev_enable/disable_streams_fallback
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240404-enable-streams-impro-v1-0-1017a35bbe07@ideasonboard.com>
+ <20240404-enable-streams-impro-v1-3-1017a35bbe07@ideasonboard.com>
+ <Zg6anfpQt80gSKjN@kekkonen.localdomain>
+ <a5ea5844-a7ba-408b-8007-2000dc94be24@ideasonboard.com>
+ <20240404130617.GR23803@pendragon.ideasonboard.com>
+ <e26e1251-de1d-4c86-9041-a5e3b2e2d765@ideasonboard.com>
+ <20240404142514.GT23803@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross
-	<agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Mauro Carvalho
- Chehab" <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: Marijn Suijten <marijn.suijten@somainline.org>,
-        Stanimir Varbanov
-	<stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
- <20230911-topic-mars-v3-13-79f23b81c261@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20230911-topic-mars-v3-13-79f23b81c261@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240404142514.GT23803@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: vhBJd-IEhCgHNtzUICr6HgMmfJLP1YsJ
-X-Proofpoint-GUID: vhBJd-IEhCgHNtzUICr6HgMmfJLP1YsJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_08,2024-04-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050066
 
+On 04/04/2024 17:25, Laurent Pinchart wrote:
+> On Thu, Apr 04, 2024 at 04:47:41PM +0300, Tomi Valkeinen wrote:
+>> On 04/04/2024 16:06, Laurent Pinchart wrote:
+>>> On Thu, Apr 04, 2024 at 03:38:45PM +0300, Tomi Valkeinen wrote:
+>>>> On 04/04/2024 15:18, Sakari Ailus wrote:
+>>>>> On Thu, Apr 04, 2024 at 01:50:02PM +0300, Tomi Valkeinen wrote:
+>>>>>> v4l2_subdev_enable/disable_streams_fallback() supports falling back to
+>>>>>> .s_stream() for subdevs with a single source pad. It also tracks the
+>>>>>> enabled streams for that one pad in the sd->enabled_streams field.
+>>>>>>
+>>>>>> Tracking the enabled streams with sd->enabled_streams does not make
+>>>>>> sense, as with .s_stream() there can only be a single stream per pad.
+>>>>>> Thus, as the v4l2_subdev_enable/disable_streams_fallback() only supports
+>>>>>> a single source pad, all we really need is a boolean which tells whether
+>>>>>> streaming has been enabled on this pad or not.
+>>>>>>
+>>>>>> However, as we only need a true/false state for a pad (instead of
+>>>>>> tracking which streams have been enabled for a pad), we can easily
+>>>>>> extend the fallback mechanism to support multiple source pads as we only
+>>>>>> need to keep track of which pads have been enabled.
+>>>>>>
+>>>>>> Change the sd->enabled_streams field to sd->enabled_pads, which is a
+>>>>>> 64-bit bitmask tracking the enabled source pads. With this change we can
+>>>>>> remove the restriction that
+>>>>>> v4l2_subdev_enable/disable_streams_fallback() only supports a single
+>>>>>> soruce pad.
+>>>
+>>> s/soruce/source/
+>>>
+>>>>>>
+>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>>>> ---
+>>>>>>     drivers/media/v4l2-core/v4l2-subdev.c | 68 ++++++++++++++++++++---------------
+>>>>>>     include/media/v4l2-subdev.h           |  9 +++--
+>>>>>>     2 files changed, 44 insertions(+), 33 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>>>> index 3b3310bce5d4..91298bb84e6b 100644
+>>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>>>>> @@ -2090,37 +2090,43 @@ static int v4l2_subdev_enable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+>>>>>>     					       u64 streams_mask)
+>>>>>>     {
+>>>>>>     	struct device *dev = sd->entity.graph_obj.mdev->dev;
+>>>>>> -	unsigned int i;
+>>>>>>     	int ret;
+>>>>>>     
+>>>>>>     	/*
+>>>>>>     	 * The subdev doesn't implement pad-based stream enable, fall back
+>>>>>> -	 * on the .s_stream() operation. This can only be done for subdevs that
+>>>>>> -	 * have a single source pad, as sd->enabled_streams is global to the
+>>>>>> -	 * subdev.
+>>>>>> +	 * on the .s_stream() operation.
+>>>
+>>> While at it, s/on/to/
+>>
+>> Actually, now that we support multiple pads here... Should the comment
+>> and the if below, checking whether the pad is a source pad, be removed?
+>> Is there any reason to require a source pad here (but not in the
+>> non-fallback case)?
+> 
+> Mostly the lack of test platforms where we handle stream start/stop from
+> source to sink, calling the operations on sink pads. I'm sure there will
+> be unforeseen issues :-)
 
+Have we tested that for the full streams version?
 
-On 3/27/2024 11:38 PM, Konrad Dybcio wrote:
-> Without an OPP table and with vcodec_pmdomains_num (so, v1, v3 and
-> sdm845_legacy targets), core_put_v4 is a NOP, jut like core_put_v1.
-> Unify them!
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c       |  8 +++-----
->  drivers/media/platform/qcom/venus/pm_helpers.c | 17 +----------------
->  drivers/media/platform/qcom/venus/pm_helpers.h |  2 +-
->  3 files changed, 5 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 6bbb8153797c..5b18b1f41267 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -426,15 +426,14 @@ static int venus_probe(struct platform_device *pdev)
->  err_core_deinit:
->  	hfi_core_deinit(core, false);
->  err_core_put:
-> -	if (core->pm_ops->core_put)
-> -		core->pm_ops->core_put(core);
-> +	vcodec_domains_put(core);
-> +
->  	return ret;
->  }
->  
->  static void venus_remove(struct platform_device *pdev)
->  {
->  	struct venus_core *core = platform_get_drvdata(pdev);
-> -	const struct venus_pm_ops *pm_ops = core->pm_ops;
->  	struct device *dev = core->dev;
->  	int ret;
->  
-> @@ -452,8 +451,7 @@ static void venus_remove(struct platform_device *pdev)
->  	pm_runtime_put_sync(dev);
->  	pm_runtime_disable(dev);
->  
-> -	if (pm_ops->core_put)
-> -		pm_ops->core_put(core);
-> +	vcodec_domains_put(core);
->  
->  	v4l2_device_unregister(&core->v4l2_dev);
->  
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 3410039bb641..d717e150b34f 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -318,13 +318,8 @@ static int load_scale_v1(struct venus_inst *inst)
->  	return ret;
->  }
->  
-> -static void core_put_v1(struct venus_core *core)
-> -{
-> -}
-> -
->  static const struct venus_pm_ops pm_ops_v1 = {
->  	.core_get = venus_clks_get,
-> -	.core_put = core_put_v1,
->  	.load_scale = load_scale_v1,
->  };
->  
-> @@ -396,7 +391,6 @@ static int venc_power_v3(struct device *dev, int on)
->  
->  static const struct venus_pm_ops pm_ops_v3 = {
->  	.core_get = venus_clks_get,
-> -	.core_put = core_put_v1,
->  	.vdec_get = vdec_get_v3,
->  	.vdec_power = vdec_power_v3,
->  	.venc_get = venc_get_v3,
-> @@ -893,7 +887,7 @@ static int vcodec_domains_get(struct venus_core *core)
->  	return ret;
->  }
->  
-> -static void vcodec_domains_put(struct venus_core *core)
-> +void vcodec_domains_put(struct venus_core *core)
->  {
->  	dev_pm_domain_detach_list(core->pmdomains);
->  
-> @@ -968,14 +962,6 @@ static int core_get_v4(struct venus_core *core)
->  	return 0;
->  }
->  
-> -static void core_put_v4(struct venus_core *core)
-> -{
-> -	if (legacy_binding)
-> -		return;
-> -
-> -	vcodec_domains_put(core);
-> -}
-> -
->  int venus_core_power(struct venus_core *core, int on)
->  {
->  	struct device *dev = core->dev;
-> @@ -1123,7 +1109,6 @@ static int load_scale_v4(struct venus_inst *inst)
->  
->  static const struct venus_pm_ops pm_ops_v4 = {
->  	.core_get = core_get_v4,
-> -	.core_put = core_put_v4,
->  	.vdec_get = vdec_get_v4,
->  	.vdec_put = vdec_put_v4,
->  	.vdec_power = vdec_power_v4,
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.h b/drivers/media/platform/qcom/venus/pm_helpers.h
-> index 77db940a265c..3014b39aa6e3 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.h
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.h
-> @@ -11,7 +11,6 @@ struct venus_core;
->  
->  struct venus_pm_ops {
->  	int (*core_get)(struct venus_core *core);
-> -	void (*core_put)(struct venus_core *core);
->  
->  	int (*vdec_get)(struct device *dev);
->  	void (*vdec_put)(struct device *dev);
-> @@ -28,6 +27,7 @@ struct venus_pm_ops {
->  
->  const struct venus_pm_ops *venus_pm_get(enum hfi_version version);
->  int venus_core_power(struct venus_core *core, int on);
-> +void vcodec_domains_put(struct venus_core *core);
->  
->  static inline int venus_pm_load_scale(struct venus_inst *inst)
->  {
-> 
-Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In the v2 I'll send shortly I have extended this test to cover also the 
+full streams version. We can discuss there if this test is ok, or should 
+it be dropped or only limited to the fallback case.
+
+  Tomi
+
 
