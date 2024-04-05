@@ -1,194 +1,125 @@
-Return-Path: <linux-media+bounces-8725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFFD899972
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:30:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88964899A0F
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:57:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EF701F2278D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:30:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA0F71C220ED
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD5C15FD1E;
-	Fri,  5 Apr 2024 09:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CB916C44B;
+	Fri,  5 Apr 2024 09:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="5RUoa4u7"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="pXq43Nyv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3851115FCE2;
-	Fri,  5 Apr 2024 09:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AE616C43C;
+	Fri,  5 Apr 2024 09:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712309394; cv=none; b=HDZzeVuMzou43LzFfJyO8zpmAV8Os8lxrkKhXjEkjMV3nKGURejou4hzNuwu8SFknvUTSo+3UVD1haW8wfU6uX7cAcvTgOBH7hs6IeM17y59Jpa2EnSwKziGd7ceZ43xB1Xu4S5jcH2Rt46OgBYmS0FZANMAXsiDeJsLsAm04k4=
+	t=1712310908; cv=none; b=qhtI9Vejb0ryDdB2tvw6IOldglDdQ0TX/hB/CHbvmNy4PwRxh6E2ccwcE/3oKVIkaO4/HijVoICqhbpQxOrWYlOTkoEuPsKZfNfrxfWcHvVSst8rdzjtSamzTgZ5JJateB0S4kII4MW2byHVlTpVUez+jAhyrvQoiVUJbhKrFww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712309394; c=relaxed/simple;
-	bh=1XOKZGXshsQ///KoTh0XHfCQcdhzM+EgFmJYlctb1iY=;
+	s=arc-20240116; t=1712310908; c=relaxed/simple;
+	bh=NyWIdfoLw4+Om5494u2pahfJXuPCd1feRA04/HEmkhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mv7hVfWFjNkwnV8DDATJK5wxSBZtdK9nWaJWCawa02Jj+5ilCad7UEZqSyIwQ27zqs/iFK35bi095EazChrxzL44MV3wsSaMhbQ/NlGRvXKaTE2L7SCK15AsCAf/z085zPFTGHC+21AHT7WdjPvVQwWl4PxL7ipYSY8JaMLxTFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=5RUoa4u7; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712309391;
-	bh=1XOKZGXshsQ///KoTh0XHfCQcdhzM+EgFmJYlctb1iY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=5RUoa4u77q8qb4bYxjP5FFYd8uzH/rCVesLHzZoDTFNxy2tZoPZ8eGkUr+4RUeO7C
-	 QSQMpQMh87gUg88C9ZU8X9EQTOupiPPVH5s6yAz1k0wQFB+EbDiIfwQAlrkAhphGP1
-	 vLZg9o0GaeDYcfuEdNFI3LqGv1I9oYrgqAQ9kg3P4EeA1KsbRMDcHn4yHsnEIPTIWJ
-	 VcCb2dajWYbJFVxRp1dMSv/X4BgJf0LrIYRTKXWSgkkPn27lCxeSTCaYhirUafeiGh
-	 lSp1iyZFIFp3klvcjneUG8h21mP8tDgWystHbsBp0mKn0vqUA844nt3qwlfvCXKbh5
-	 oWwV7lC1aZf5w==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4152B3781116;
-	Fri,  5 Apr 2024 09:29:51 +0000 (UTC)
-Date: Fri, 5 Apr 2024 11:29:50 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Ivan Bornyakov <brnkv.i1@gmail.com>
-Cc: Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] media: chips-media: wave5: separate irq setup
- routine
-Message-ID: <20240405092950.wt5cvhvhiujicc5h@basti-XPS-13-9310>
-References: <20240325064102.9278-1-brnkv.i1@gmail.com>
- <20240325064102.9278-4-brnkv.i1@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dzbMP29pkhj1lpajurlplH9exkFPg4LSSx8UChlhN/bYFIHx5cIsxMpEaXRBPk17COOr+N5zDf9v5lD7W76VEH6AsykbMt/cs/ogSRwqYv9cl2hyuN5lMjFCjIL5BW204qCvm/TyOElxgEGNjf0BmhRInftAexiSg5AOMckEHeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=pXq43Nyv; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 5F22D1C0081; Fri,  5 Apr 2024 11:54:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1712310898;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KeeSzrV/c8t8t/nPYFpFifWuxbREJt0Oh2urSISuXnE=;
+	b=pXq43Nyvr4+L+9FP3GWnql7Lv0CHkXyMhVFm+sfYi/+RkKZOMqxacu72RVctjOwMkTGq/N
+	mpuQ1AAI+ydn4pdTIlAxuDEXo3+BWP8kIaifTqQilFiWuwefKA8DiJnRg3R/j7byKnvjIC
+	xvU5oYJ2quDsoQNuzG1YjL3fitmsm70=
+Date: Fri, 5 Apr 2024 11:54:57 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Luigi311 <git@luigi311.com>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, sakari.ailus@linux.intel.com,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 12/25] media: i2c: imx258: Allow configuration of
+ clock lane behaviour
+Message-ID: <Zg/KcQ6OI5QhgMaI@duo.ucw.cz>
+References: <20240403150355.189229-1-git@luigi311.com>
+ <20240403150355.189229-13-git@luigi311.com>
+ <Zg2kcI/1Gdgt0ilB@duo.ucw.cz>
+ <6c15e492-411a-40aa-b02e-83b8a6d107da@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="webUCHTtncLR1UEx"
 Content-Disposition: inline
-In-Reply-To: <20240325064102.9278-4-brnkv.i1@gmail.com>
+In-Reply-To: <6c15e492-411a-40aa-b02e-83b8a6d107da@luigi311.com>
 
-Hey Ivan,
 
-On 25.03.2024 09:40, Ivan Bornyakov wrote:
->Separate interrupts setup routine to reduce code duplication. Also
+--webUCHTtncLR1UEx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-s/Separate interrupts setup routine/Implement a separate setup routine for interrupts/
+On Thu 2024-04-04 16:29:11, Luigi311 wrote:
+> On 4/3/24 12:48, Pavel Machek wrote:
+> > Hi!
+> >=20
+> >> The sensor supports the clock lane either remaining in HS mode
+> >> during frame blanking, or dropping to LP11.
+> >>
+> >> Add configuration of the mode via V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK.
+> >=20
+> >> +	ret =3D imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
+> >> +			       IMX258_REG_VALUE_08BIT,
+> >> +			       imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
+> >> +			       1 : 0);
+> >=20
+> > !! can be used to turn value into 1/0. I find it easier to read than ?
+> > 1 : 0  combination, but possibly that's fine, too.
+> >=20
+> > Best regards,
+> > 								Pavel
+> >=20
+>=20
+> I assume you mean by using=20
+>=20
+> !!(imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
+>=20
+> I can go ahead and use that instead
 
->enable interrupts based on vpu_attr->support_encoders and
->vpu_attr->support_decoders fields to facilitate other Wave5xx IPs
->support, because not all of them are both encoders and decoders.
+Yes, I'd do that.
 
-s/other Wave5xx IPs support/support for other Wave5xx IPs/
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-The rest looks good to me.
+--webUCHTtncLR1UEx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Greetings,
-Sebastian
+-----BEGIN PGP SIGNATURE-----
 
->
->Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
->---
-> .../platform/chips-media/wave5/wave5-hw.c     | 53 +++++++++----------
-> 1 file changed, 24 insertions(+), 29 deletions(-)
->
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/drivers/media/platform/chips-media/wave5/wave5-hw.c
->index 2d82791f575e..cdd0a0948a94 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
->@@ -299,6 +299,27 @@ static int wave5_send_query(struct vpu_device *vpu_dev, struct vpu_instance *ins
-> 	return wave5_vpu_firmware_command_queue_error_check(vpu_dev, NULL);
-> }
->
->+static void setup_wave5_interrupts(struct vpu_device *vpu_dev)
->+{
->+	u32 reg_val = 0;
->+
->+	if (vpu_dev->attr.support_encoders) {
->+		/* Encoder interrupt */
->+		reg_val |= BIT(INT_WAVE5_ENC_SET_PARAM);
->+		reg_val |= BIT(INT_WAVE5_ENC_PIC);
->+		reg_val |= BIT(INT_WAVE5_BSBUF_FULL);
->+	}
->+
->+	if (vpu_dev->attr.support_decoders) {
->+		/* Decoder interrupt */
->+		reg_val |= BIT(INT_WAVE5_INIT_SEQ);
->+		reg_val |= BIT(INT_WAVE5_DEC_PIC);
->+		reg_val |= BIT(INT_WAVE5_BSBUF_EMPTY);
->+	}
->+
->+	return vpu_write_reg(vpu_dev, W5_VPU_VINT_ENABLE, reg_val);
->+}
->+
-> static int setup_wave5_properties(struct device *dev)
-> {
-> 	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
->@@ -340,6 +361,8 @@ static int setup_wave5_properties(struct device *dev)
-> 	p_attr->support_vcpu_backbone = FIELD_GET(FEATURE_VCPU_BACKBONE, hw_config_def0);
-> 	p_attr->support_vcore_backbone = FIELD_GET(FEATURE_VCORE_BACKBONE, hw_config_def0);
->
->+	setup_wave5_interrupts(vpu_dev);
->+
-> 	return 0;
-> }
->
->@@ -417,16 +440,6 @@ int wave5_vpu_init(struct device *dev, u8 *fw, size_t size)
-> 	wave5_fio_writel(vpu_dev, W5_BACKBONE_AXI_PARAM, 0);
-> 	vpu_write_reg(vpu_dev, W5_SEC_AXI_PARAM, 0);
->
->-	/* Encoder interrupt */
->-	reg_val = BIT(INT_WAVE5_ENC_SET_PARAM);
->-	reg_val |= BIT(INT_WAVE5_ENC_PIC);
->-	reg_val |= BIT(INT_WAVE5_BSBUF_FULL);
->-	/* Decoder interrupt */
->-	reg_val |= BIT(INT_WAVE5_INIT_SEQ);
->-	reg_val |= BIT(INT_WAVE5_DEC_PIC);
->-	reg_val |= BIT(INT_WAVE5_BSBUF_EMPTY);
->-	vpu_write_reg(vpu_dev, W5_VPU_VINT_ENABLE, reg_val);
->-
-> 	reg_val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
-> 	if (FIELD_GET(FEATURE_BACKBONE, reg_val)) {
-> 		reg_val = ((WAVE5_PROC_AXI_ID << 28) |
->@@ -1034,16 +1047,6 @@ int wave5_vpu_re_init(struct device *dev, u8 *fw, size_t size)
-> 		wave5_fio_writel(vpu_dev, W5_BACKBONE_AXI_PARAM, 0);
-> 		vpu_write_reg(vpu_dev, W5_SEC_AXI_PARAM, 0);
->
->-		/* Encoder interrupt */
->-		reg_val = BIT(INT_WAVE5_ENC_SET_PARAM);
->-		reg_val |= BIT(INT_WAVE5_ENC_PIC);
->-		reg_val |= BIT(INT_WAVE5_BSBUF_FULL);
->-		/* Decoder interrupt */
->-		reg_val |= BIT(INT_WAVE5_INIT_SEQ);
->-		reg_val |= BIT(INT_WAVE5_DEC_PIC);
->-		reg_val |= BIT(INT_WAVE5_BSBUF_EMPTY);
->-		vpu_write_reg(vpu_dev, W5_VPU_VINT_ENABLE, reg_val);
->-
-> 		reg_val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
-> 		if (FIELD_GET(FEATURE_BACKBONE, reg_val)) {
-> 			reg_val = ((WAVE5_PROC_AXI_ID << 28) |
->@@ -1134,15 +1137,7 @@ static int wave5_vpu_sleep_wake(struct device *dev, bool i_sleep_wake, const uin
-> 		wave5_fio_writel(vpu_dev, W5_BACKBONE_AXI_PARAM, 0);
-> 		vpu_write_reg(vpu_dev, W5_SEC_AXI_PARAM, 0);
->
->-		/* Encoder interrupt */
->-		reg_val = BIT(INT_WAVE5_ENC_SET_PARAM);
->-		reg_val |= BIT(INT_WAVE5_ENC_PIC);
->-		reg_val |= BIT(INT_WAVE5_BSBUF_FULL);
->-		/* Decoder interrupt */
->-		reg_val |= BIT(INT_WAVE5_INIT_SEQ);
->-		reg_val |= BIT(INT_WAVE5_DEC_PIC);
->-		reg_val |= BIT(INT_WAVE5_BSBUF_EMPTY);
->-		vpu_write_reg(vpu_dev, W5_VPU_VINT_ENABLE, reg_val);
->+		setup_wave5_interrupts(vpu_dev);
->
-> 		reg_val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
-> 		if (FIELD_GET(FEATURE_BACKBONE, reg_val)) {
->-- 
->2.44.0
->
->
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZg/KcQAKCRAw5/Bqldv6
+8mS+AKCFPh0X/iB6sA+t92hWIheMuvdPJgCgrDY5MXzkkvty0rnIgJpFyEfabBg=
+=ZRF5
+-----END PGP SIGNATURE-----
+
+--webUCHTtncLR1UEx--
 
