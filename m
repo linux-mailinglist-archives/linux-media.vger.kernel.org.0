@@ -1,293 +1,161 @@
-Return-Path: <linux-media+bounces-8742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C123899E21
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 15:17:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37411899E33
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 15:23:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6A3928300A
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 13:17:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68A211C22353
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 13:23:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6D3416D338;
-	Fri,  5 Apr 2024 13:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24EF016D9AA;
+	Fri,  5 Apr 2024 13:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="L/K4Mspr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="4uUX/WiM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7963F16C877
-	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 13:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFC716D4CA;
+	Fri,  5 Apr 2024 13:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712323011; cv=none; b=UkO7Bk/niQQjw6NMJBCpZcWhTeAMOYj4veKThQyrFO3+lmu0+MhgHgPX26h8Yf4eSEnt6q8/yUpwJOrtyEUZrDmQk4Q23xfgEHsmG3nYNXozSbzv6RL5S5L67rUHE5owt3sp7naowRYJNlEo4xcIgIH/+alsdEzKtv6jffwfpvE=
+	t=1712323413; cv=none; b=git+O95NbHz1T90HVqxU2aYlxnQdx40Yb+GQ17UbI64aLy/s8kg/pzBMFz9TpJ1p2vOjuxwVqyDRGCbolJxDDLU0ewml4NtT3zxdLd8UHQj4cg05jQe2qo8K+QX0e57cJJicbf5mPUmprXJTmd1a+OLlwseykct80L2DIn25g24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712323011; c=relaxed/simple;
-	bh=v+58sPjlJWwPhy9bXXhoEqmcsCKhB+tXkTf2JPX+wLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XJM+ONSe4C4AryfQRUol9Bv+WfWE4xNBQskxJ2ZXzPufAio89JMPRpvrVvNAtyYLAz5+xyZ8/NS8tTof/4Ca3it99GmKqoZNoPpY8HCiSBz4Gc1ckm/0sS1fpKUaDIZCAmi/LVhhBO6Fltv//RflyBzNnObrHS6bGcGl5Ja1KL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=L/K4Mspr; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-61149e50602so15274477b3.0
-        for <linux-media@vger.kernel.org>; Fri, 05 Apr 2024 06:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1712323007; x=1712927807; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nm6GyRvyXdEHSXH68cKBfVuLP4/sYuxdrZ1b0Ijwf88=;
-        b=L/K4MsprLywCST6/QDC0+8/2caOWRU5p3XMYBe2D4p2du8GgGqZXWjBdObxjXyh7XR
-         ONZ95LGBHzww90hMcodvsq6OkAhDIlGZZLr9qEMhiDBh68sO/vOReJY2XFqvH4wsYT/3
-         ANTGR8j7O/8P+00aHxfjr5v8bcsqSvHxh5UFm0u/F4ritTn5k/BGq99293OCbb9TQ7Ru
-         TYWZn39JzzoaTFZBuv97w7cv/t1duayrJ7QodKYSlJyEBEvsMeXgfxfx4oeHhKKl794K
-         kSvJ4Ne+Ji9EczkzJ2sLnogvEc47OaDkW6jq9/nVvCgWtI2j4Da3OhjBMFRr9EpKlOKv
-         zz4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712323007; x=1712927807;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nm6GyRvyXdEHSXH68cKBfVuLP4/sYuxdrZ1b0Ijwf88=;
-        b=D8/dgQ7GmfiVIKzCMCQwq1tDZTiUy/DYGJuW5/VM4GrHqgs9vivTv0tgc2q/5/4q93
-         MKvrI7HF8btQNIQyjDoN6SmQHoam5nYRShWIYB5Fd0BcIrWAxqWok48FDOzchObEtdm3
-         w04tzqo5magGOurnmcm8NJ9rXsojBf9uY1bRAyH8ueB72FuPTEefFqBPZ/P2UAdXB66g
-         ov+Cx/M/0BdaSFOcVGK+cm+3jDkZ7Z553sLnBmJK5rdLESr/ChOaAUugdjQ8NEv3Vghj
-         W/flBKSVLiescj1iGa7xQ732M8PH/snEPeXdNLulNH9xNKmte6Gqdc1PdpBI/YLNC1xI
-         rMKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVNXKU5esKayaFacxlmh+1Qed5IWPN8+7OpXosYkSZQxS6sjgJI5YsRnHksHVuba0vHGRWuNabvjkqQfugSt33D3VDREgD9oDfDaU=
-X-Gm-Message-State: AOJu0YyMqmPdszJaWadM+Oi85004kjwvQTLSqOlf6VFoxGR2NsDwCRWV
-	C+hGAtchRK2wqrLliWlO2aOy16fK7O3Xtx/I55WCVDDEOGwzdUeZg+9h14Wa0/o2tKdUY57wsLg
-	2PPGr8sk/GEScN0Bcf/OcSOBsrBm1c75M0D4W6w==
-X-Google-Smtp-Source: AGHT+IGGzv5DKk7hAo4Ucod67oLXhZeqqbHJigGfmjUCeFcvZrRc6n7AxJVltV6Ks5AqvtIUIJpZwg7AecCIBUIZIpA=
-X-Received: by 2002:a81:4304:0:b0:615:fd7:f4dc with SMTP id
- q4-20020a814304000000b006150fd7f4dcmr1711846ywa.21.1712323007377; Fri, 05 Apr
- 2024 06:16:47 -0700 (PDT)
+	s=arc-20240116; t=1712323413; c=relaxed/simple;
+	bh=/Q23M0xGDCKWgKQFCm9vYo0xphLavpB6Diurno/eQv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HbWWXdgCtbsoscIfwVaCud6ZyD7/O3uLceLXtE4os85AyuKiKpUD3ogGtowi7QYaoeDICFdCaNum6gbJhfbE25cE9hhsk0l9T7lHXJJXFkxecrFbBIopRasCiqbtfH31WdPn1rs6x31fhZ2zANtmfUL8+imQIhmqOJPb68cIJzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=4uUX/WiM; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712323409;
+	bh=/Q23M0xGDCKWgKQFCm9vYo0xphLavpB6Diurno/eQv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=4uUX/WiMVXouAtweVC+Pc6XxmGGXm1DQAOuapVP2Y5UJzRWsQZEGl8hWflfhXIXVE
+	 XFM3A0n9uBDd5aAOGZtCaNZqrEuSKziR0leaT9u0hWAKD/UHEPispG9n+8ws6o4uYy
+	 kOxFo/j9T7GOaXCOjOCRcC5kQS9ax/m0DtsYrAvMLvrujsvYLNognb3ZX7QA1FN5er
+	 urdiY7VjTSs7RHVXTt5I/L3Ob/S8zQSvLrcmFwvzmOdHluqZQx1PIqe1tyBJ4w+TYg
+	 CtbYeWOxeT7zSgVe3ItZyZ2m8wU9ykVIOpkkdlvNP/jBca2ZhCGf+fP8tgFXHoBuLQ
+	 8i3Rp8Zkt/vXw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CFA253782128;
+	Fri,  5 Apr 2024 13:23:28 +0000 (UTC)
+Date: Fri, 5 Apr 2024 15:23:27 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Ivan Bornyakov <brnkv.i1@gmail.com>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] media: chips-media: wave5: support reset lines
+Message-ID: <20240405132327.z6uyicg7kosqvi6w@basti-XPS-13-9310>
+References: <20240325064102.9278-1-brnkv.i1@gmail.com>
+ <20240325064102.9278-3-brnkv.i1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403150355.189229-1-git@luigi311.com> <20240403150355.189229-20-git@luigi311.com>
- <Zg2BZXQpzsm7jMnc@kekkonen.localdomain> <998efafa-699b-4226-91d4-2ebba85d63ec@luigi311.com>
- <Zg_Zl0Q2kEDJoQoe@kekkonen.localdomain>
-In-Reply-To: <Zg_Zl0Q2kEDJoQoe@kekkonen.localdomain>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 5 Apr 2024 14:16:31 +0100
-Message-ID: <CAPY8ntDP-EPQK_d=5NeVM-ZTjfhtpYRq_y6PVSn9dRzxD5b1_A@mail.gmail.com>
-Subject: Re: [PATCH v3 19/25] media: i2c: imx258: Change register settings for
- variants of the sensor
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Luigi311 <git@luigi311.com>, linux-media@vger.kernel.org, 
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240325064102.9278-3-brnkv.i1@gmail.com>
 
-Hi Sakari
+Hey Ivan,
 
-On Fri, 5 Apr 2024 at 11:59, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+On 25.03.2024 09:40, Ivan Bornyakov wrote:
+>Add initial support for optional reset lines. For now, simply deassert
+>resets on driver probe and assert them back on driver remove.
+
+LGTM.
+
+Greetings,
+Sebastian
 >
-> Hi Luis, Dave,
+>Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+>---
+> .../media/platform/chips-media/wave5/wave5-vpu.c | 16 +++++++++++++++-
+> .../platform/chips-media/wave5/wave5-vpuapi.h    |  1 +
+> 2 files changed, 16 insertions(+), 1 deletion(-)
 >
-> On Thu, Apr 04, 2024 at 04:44:05PM -0600, Luigi311 wrote:
-> > On 4/3/24 10:18, Sakari Ailus wrote:
-> > > Hi Luis, Dave,
-> > >
-> > > On Wed, Apr 03, 2024 at 09:03:48AM -0600, git@luigi311.com wrote:
-> > >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >>
-> > >> Sony have advised that there are variants of the IMX258 sensor which
-> > >> require slightly different register configuration to the mainline
-> > >> imx258 driver defaults.
-> > >>
-> > >> There is no available run-time detection for the variant, so add
-> > >> configuration via the DT compatible string.
-> > >>
-> > >> The Vision Components imx258 module supports PDAF, so add the
-> > >> register differences for that variant
-> > >>
-> > >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >> Signed-off-by: Luis Garcia <git@luigi311.com>
-> > >> ---
-> > >>  drivers/media/i2c/imx258.c | 48 ++++++++++++++++++++++++++++++++++----
-> > >>  1 file changed, 44 insertions(+), 4 deletions(-)
-> > >>
-> > >> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> > >> index 775d957c9b87..fa48da212037 100644
-> > >> --- a/drivers/media/i2c/imx258.c
-> > >> +++ b/drivers/media/i2c/imx258.c
-> > >> @@ -6,6 +6,7 @@
-> > >>  #include <linux/delay.h>
-> > >>  #include <linux/i2c.h>
-> > >>  #include <linux/module.h>
-> > >> +#include <linux/of_device.h>
-> > >>  #include <linux/pm_runtime.h>
-> > >>  #include <linux/regulator/consumer.h>
-> > >>  #include <media/v4l2-ctrls.h>
-> > >> @@ -321,8 +322,6 @@ static const struct imx258_reg mipi_642mbps_24mhz_4l[] = {
-> > >>
-> > >>  static const struct imx258_reg mode_common_regs[] = {
-> > >>    { 0x3051, 0x00 },
-> > >> -  { 0x3052, 0x00 },
-> > >> -  { 0x4E21, 0x14 },
-> > >>    { 0x6B11, 0xCF },
-> > >>    { 0x7FF0, 0x08 },
-> > >>    { 0x7FF1, 0x0F },
-> > >> @@ -345,7 +344,6 @@ static const struct imx258_reg mode_common_regs[] = {
-> > >>    { 0x7FA8, 0x03 },
-> > >>    { 0x7FA9, 0xFE },
-> > >>    { 0x7B24, 0x81 },
-> > >> -  { 0x7B25, 0x00 },
-> > >>    { 0x6564, 0x07 },
-> > >>    { 0x6B0D, 0x41 },
-> > >>    { 0x653D, 0x04 },
-> > >> @@ -460,6 +458,33 @@ static const struct imx258_reg mode_1048_780_regs[] = {
-> > >>    { 0x034F, 0x0C },
-> > >>  };
-> > >>
-> > >> +struct imx258_variant_cfg {
-> > >> +  const struct imx258_reg *regs;
-> > >> +  unsigned int num_regs;
-> > >> +};
-> > >> +
-> > >> +static const struct imx258_reg imx258_cfg_regs[] = {
-> > >> +  { 0x3052, 0x00 },
-> > >> +  { 0x4E21, 0x14 },
-> > >> +  { 0x7B25, 0x00 },
-> > >> +};
-> > >> +
-> > >> +static const struct imx258_variant_cfg imx258_cfg = {
-> > >> +  .regs = imx258_cfg_regs,
-> > >> +  .num_regs = ARRAY_SIZE(imx258_cfg_regs),
-> > >> +};
-> > >> +
-> > >> +static const struct imx258_reg imx258_pdaf_cfg_regs[] = {
-> > >> +  { 0x3052, 0x01 },
-> > >> +  { 0x4E21, 0x10 },
-> > >> +  { 0x7B25, 0x01 },
-> > >> +};
-> > >> +
-> > >> +static const struct imx258_variant_cfg imx258_pdaf_cfg = {
-> > >> +  .regs = imx258_pdaf_cfg_regs,
-> > >> +  .num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
-> > >> +};
-> > >> +
-> > >>  static const char * const imx258_test_pattern_menu[] = {
-> > >>    "Disabled",
-> > >>    "Solid Colour",
-> > >> @@ -637,6 +662,8 @@ struct imx258 {
-> > >>    struct v4l2_subdev sd;
-> > >>    struct media_pad pad;
-> > >>
-> > >> +  const struct imx258_variant_cfg *variant_cfg;
-> > >> +
-> > >>    struct v4l2_ctrl_handler ctrl_handler;
-> > >>    /* V4L2 Controls */
-> > >>    struct v4l2_ctrl *link_freq;
-> > >> @@ -1104,6 +1131,14 @@ static int imx258_start_streaming(struct imx258 *imx258)
-> > >>            return ret;
-> > >>    }
-> > >>
-> > >> +  ret = imx258_write_regs(imx258, imx258->variant_cfg->regs,
-> > >> +                          imx258->variant_cfg->num_regs);
-> > >> +  if (ret) {
-> > >> +          dev_err(&client->dev, "%s failed to set variant config\n",
-> > >> +                  __func__);
-> > >> +          return ret;
-> > >> +  }
-> > >> +
-> > >>    ret = imx258_write_reg(imx258, IMX258_CLK_BLANK_STOP,
-> > >>                           IMX258_REG_VALUE_08BIT,
-> > >>                           imx258->csi2_flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK ?
-> > >> @@ -1492,6 +1527,10 @@ static int imx258_probe(struct i2c_client *client)
-> > >>
-> > >>    imx258->csi2_flags = ep.bus.mipi_csi2.flags;
-> > >>
-> > >> +  imx258->variant_cfg = of_device_get_match_data(&client->dev);
-> > >
-> > > You'll also need to keep this working for ACPI based systems. I.e. in
-> > > practice remove "of_" prefix here and add the non-PDAF variant data to the
-> > > relevant ACPI ID list.
-> > >
-> >
-> > Removing of_ is easy enough and looking at all the other commits that make
-> > this change in other drivers I dont see anything else being done besides
-> > adding in the .data section that is down below for both imx258 and pdaf
-> > versions. Is that what you are referencing or is there some other place
-> > to add variant data to ACPI ID list?
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>index 1b3df5b04249..1e631da58e15 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+>@@ -10,6 +10,7 @@
+> #include <linux/clk.h>
+> #include <linux/firmware.h>
+> #include <linux/interrupt.h>
+>+#include <linux/reset.h>
+> #include "wave5-vpu.h"
+> #include "wave5-regdefine.h"
+> #include "wave5-vpuconfig.h"
+>@@ -151,6 +152,16 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+> 	dev_set_drvdata(&pdev->dev, dev);
+> 	dev->dev = &pdev->dev;
 >
-> Speaking of which---are you absolutely certain there are two variants of
-> this sensor? Many sensors that have a different pixel pattern (PDAF pixels
-> or a non-Bayer pattern) can produce Bayer data when condigured so. The fact
-> that you have differing register configuration for the PDAF and non-PDAF
-> cases suggests this may well be the case.
-
-I had a discussion with our contact at Sony over the configuration,
-and Soho Enterprises who made the module I have also consulted with
-Sony (their main person is ex Sony himself).
-
-There is a spec version field in the OTP which reflects the pixel
-pattern. It has defined options of:
-- HDR pattern
-- Binning pattern
-- mono
-- non-PDAF
-- HDR HDD
-
-Sony can't release information on how to read that information from
-the sensor OTP as it is contractually locked by contracts with Intel.
-Whilst information obtained via other routes means I have checked it
-on my module as HDR pattern whilst the Nautilus platform has the
-non-PDAF variant, I'm not going to spoil our relationship with Sony by
-releasing that.
-
-It's possible that the Nautilus sensor will work happily with the
-settings required for the PDAF variant, but I have no way of testing
-that, and the registers in question are undocumented. Changing them
-blindly isn't going to make any friends, and I doubt existing platform
-users wish to rerun all their image quality tests on the sensor to
-validate the change.
-
-Unless Intel wish to release the information on reading the OTP, we
-have no way of telling the variants apart but need different register
-configurations. If there is a better way of handling that situation
-than compatible strings, then I'm open to suggestions.
-
-There's a short thread on libcamera-devel from back in 2022 where I
-was looking into this [1]
-
-  Dave
-
-[1] https://lists.libcamera.org/pipermail/libcamera-devel/2022-June/031449.html
-
-> >
-> > >> +  if (!imx258->variant_cfg)
-> > >> +          imx258->variant_cfg = &imx258_cfg;
-> > >> +
-> > >>    /* Initialize subdev */
-> > >>    v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-> > >>
-> > >> @@ -1579,7 +1618,8 @@ MODULE_DEVICE_TABLE(acpi, imx258_acpi_ids);
-> > >>  #endif
-> > >>
-> > >>  static const struct of_device_id imx258_dt_ids[] = {
-> > >> -  { .compatible = "sony,imx258" },
-> > >> +  { .compatible = "sony,imx258", .data = &imx258_cfg },
-> > >> +  { .compatible = "sony,imx258-pdaf", .data = &imx258_pdaf_cfg },
-> > >>    { /* sentinel */ }
-> > >>  };
-> > >>  MODULE_DEVICE_TABLE(of, imx258_dt_ids);
-> > >
-> >
+>+	dev->resets = devm_reset_control_array_get_optional_exclusive(&pdev->dev);
+>+	if (IS_ERR(dev->resets)) {
+>+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->resets),
+>+				     "Failed to get reset control\n");
+>+	}
+>+
+>+	ret = reset_control_deassert(dev->resets);
+>+	if (ret)
+>+		return dev_err_probe(&pdev->dev, ret, "Failed to deassert resets\n");
+>+
+> 	ret = devm_clk_bulk_get_all(&pdev->dev, &dev->clks);
 >
-> --
-> Regards,
+> 	/* continue without clock, assume externally managed */
+>@@ -163,7 +174,7 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+> 	ret = clk_bulk_prepare_enable(dev->num_clks, dev->clks);
+> 	if (ret) {
+> 		dev_err(&pdev->dev, "Enabling clocks, fail: %d\n", ret);
+>-		return ret;
+>+		goto err_reset_assert;
+> 	}
 >
-> Sakari Ailus
+> 	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
+>@@ -246,6 +257,8 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+> 	wave5_vdi_release(&pdev->dev);
+> err_clk_dis:
+> 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+>+err_reset_assert:
+>+	reset_control_assert(dev->resets);
+>
+> 	return ret;
+> }
+>@@ -256,6 +269,7 @@ static void wave5_vpu_remove(struct platform_device *pdev)
+>
+> 	mutex_destroy(&dev->dev_lock);
+> 	mutex_destroy(&dev->hw_lock);
+>+	reset_control_assert(dev->resets);
+> 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+> 	wave5_vpu_enc_unregister_device(dev);
+> 	wave5_vpu_dec_unregister_device(dev);
+>diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>index 465ff9dfe8b1..da530fd98964 100644
+>--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+>@@ -758,6 +758,7 @@ struct vpu_device {
+> 	struct ida inst_ida;
+> 	struct clk_bulk_data *clks;
+> 	int num_clks;
+>+	struct reset_control *resets;
+> };
+>
+> struct vpu_instance;
+>-- 
+>2.44.0
+>
+>
 
