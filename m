@@ -1,165 +1,165 @@
-Return-Path: <linux-media+bounces-8761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8762-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0B7899F5D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:19:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6321A899FC7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:31:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11F4F282F57
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 14:19:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 194281F233F3
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 14:31:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76AE8171E79;
-	Fri,  5 Apr 2024 14:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yCIY2Y5r"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD2816F8F5;
+	Fri,  5 Apr 2024 14:30:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCC8171E5B
-	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 14:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFB016F859;
+	Fri,  5 Apr 2024 14:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712326536; cv=none; b=Wk66UdIAhbSvGF27wLpXC4vmbI4CrHmpwRhdknh5aua/zT1iT709bpgawSkvDmutQkXwnR6RREzvFys7Huf1Jz6XIoaaWU6Dd+EP50Kk7kGU2pUhasYT4Onq6RFchr9sq3VeGLfIVdMkr53eowI+NFHmLPh3AEEjpImf8t/UIEU=
+	t=1712327453; cv=none; b=S+F/FzL3xoEeErcZzhvkKPPuBUKvj6SkrtY4w2S4pmflLvq2vllVj5gw0IfWPlNuBk/L2IRqJjjT9DrkwtuaZEyAJzKLKz+/QqDXRCBHNYbNIrZ30qvCoh7RfQlOWKeToC4Ti/aGHwXx+dnq0VsTDbzx6hzMwDkMglUJpxljyDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712326536; c=relaxed/simple;
-	bh=i4Tr+nVq+Xi4RO9+q//9cew+LkXLU25d9j5EEYLNZ0w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XmoTCjvLThMe/PtUpUgOgw9PnlzDXwWNZQ8cp9/Q20SyleQRFZRr/EDxSenNT+cUfPQMaeZ+P32MaDBsTEZ2UcOrpg0eIQyVSfK+LhLuN++G0qwpnuhWyxT3i1FFXGF0awaRNs5Y+mJq20eH/CTmJfv0CeVwnXLLjmvkT2AwjB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yCIY2Y5r; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-60a4ee41269so37802857b3.0
-        for <linux-media@vger.kernel.org>; Fri, 05 Apr 2024 07:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712326534; x=1712931334; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zsDOfX+3b1RUaLhcJa3oIsCx6Cf2GznngtDV1SnNmvI=;
-        b=yCIY2Y5r52Kg6SeycmYxCmlYo5begxTNog5Kx0TJ9ixkHE7TKjqSHA6Ykf72dzaucG
-         fYUsOsB7xI2/Lp8dPDQxyitXD+hKdadvHKdreDk03wTWvegycvnnQjysvhOYd+GmNsJM
-         V9INDvqTjD6zRrL1UW3oVrRwAyVStaq89EU2rLASAn4InIOBcK9XUKm64D7zObIAPVT7
-         +KDf2U0j1fJXvQZ9EI4wj4PkXVmfYySLWw921dCyKovkc0JlgyxyAMVugJreVfC8K6+J
-         41LVyunD7aJBqE0+iKbMHbJOz3IsO3XgHc8nHPNZUCuxYx74dTJV0yRqaiYug50wnzoc
-         13Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712326534; x=1712931334;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zsDOfX+3b1RUaLhcJa3oIsCx6Cf2GznngtDV1SnNmvI=;
-        b=C5Q7WDw61o13FJhwlkW/ldop/wFwhDIJxzSMtQjnDY//wvCh5lJfvvqQqk1cUsr0FH
-         toM6SdwZepQnVJFVsGBC1EJNbLd12wWyQ00nJj9as+hhyLxjKBak39xJsDR8Sml/nIJ9
-         4PkHgAvrdpSyUachxJELrpvltTy5weCaYKPBEFzAjgvRwKtfgUI/tkeUYfGeTjRexMJj
-         zGdDRcufSIv0yG0jJNHjV3/Wge/Z302h0hWTng5KdEyEMs3V6crJFEjiUCi8eNvkA7Q1
-         va72X8RdUeceYAXJGn4XzDtYZCCO3Ce07N0Porn6Vtzqocm8alcSCApRhRJYKePv32KT
-         LK8A==
-X-Gm-Message-State: AOJu0YylPdarLFmoOvnml2GNt27gAcyiJ2jdetMIeszgkjG1Od0ZOW8q
-	MVl9PqxJd+9yLGk0JURUPN8+Tfsc8A3GccNMAe8wjIUK763KUTwWPFfguInqWFXcGyqRnAPfqmN
-	WHur9mxFLfg==
-X-Google-Smtp-Source: AGHT+IEazU1D3+af0NVMWywuHy/ujQAr1fDtXw2VNn2XTE2hgtIiqfvfx0Pk6JxWWw8zhjW8vAbmO2PrbYxeKw==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a81:6c92:0:b0:617:cb4f:a5df with SMTP id
- h140-20020a816c92000000b00617cb4fa5dfmr370403ywc.3.1712326534377; Fri, 05 Apr
- 2024 07:15:34 -0700 (PDT)
-Date: Fri,  5 Apr 2024 14:14:11 +0000
-In-Reply-To: <20240405141411.1807189-1-panikiel@google.com>
+	s=arc-20240116; t=1712327453; c=relaxed/simple;
+	bh=OAIDc5kctipri1hRyW8oc3G7ind5HlKJOPmKLgo/ZtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L7YDRKzmZn0eaGWoqRomB68i8KwWjYUQ1g54whtA3rs1FVsNkmbeRf03SCEgG56gdzKPSbKt7LBiplDv0b/Hw2gR9Y9ys1pMRHo3NP7gTKNOsi8yXKlK7C32OinRKaShC8W9kYM7A17j7oq/H0U0jiuCmvRjmsH0s3tQSshwjjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+	id BA81A106966F; Fri,  5 Apr 2024 16:21:30 +0200 (CEST)
+Date: Fri, 5 Apr 2024 16:21:30 +0200
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+	linux-kernel@vger.kernel.org,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] Enable JPEG encoding on rk3588
+Message-ID: <ZhAI6tQZTD7BTosI@desktop>
+References: <20240327134115.424846-1-linkmauve@linkmauve.fr>
+ <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240405141411.1807189-1-panikiel@google.com>
-X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
-Message-ID: <20240405141411.1807189-17-panikiel@google.com>
-Subject: [PATCH 16/16] media: v4l2-subdev: Remove non-pad dv timing callbacks
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
-	hverkuil-cisco@xs4all.nl, tharvey@gateworks.com, 
-	niklas.soderlund@ragnatech.se, prabhakar.csengg@gmail.com, 
-	charles-antoine.couret@nexvision.fr, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, 
-	"=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
+Jabber-ID: linkmauve@linkmauve.fr
 
-After the conversion of dv timing calls to use a pad argument is done,
-remove the old callbacks. Update the subdev ioctl handlers to use the
-new callbacks.
+On Thu, Apr 04, 2024 at 01:41:15PM -0400, Nicolas Dufresne wrote:
+> Hi,
 
-Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c |  6 +++---
- include/media/v4l2-subdev.h           | 14 --------------
- 2 files changed, 3 insertions(+), 17 deletions(-)
+Hi,
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-cor=
-e/v4l2-subdev.c
-index 07759cdd0844..6572667fd5c4 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -906,16 +906,16 @@ static long subdev_do_ioctl(struct file *file, unsign=
-ed int cmd, void *arg,
- 	}
-=20
- 	case VIDIOC_SUBDEV_QUERY_DV_TIMINGS:
--		return v4l2_subdev_call(sd, video, query_dv_timings, arg);
-+		return v4l2_subdev_call(sd, pad, query_dv_timings, 0, arg);
-=20
- 	case VIDIOC_SUBDEV_G_DV_TIMINGS:
--		return v4l2_subdev_call(sd, video, g_dv_timings, arg);
-+		return v4l2_subdev_call(sd, pad, g_dv_timings, 0, arg);
-=20
- 	case VIDIOC_SUBDEV_S_DV_TIMINGS:
- 		if (ro_subdev)
- 			return -EPERM;
-=20
--		return v4l2_subdev_call(sd, video, s_dv_timings, arg);
-+		return v4l2_subdev_call(sd, pad, s_dv_timings, 0, arg);
-=20
- 	case VIDIOC_SUBDEV_G_STD:
- 		return v4l2_subdev_call(sd, video, g_std, arg);
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index a5213411ef2b..1af16b16f0bf 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -452,14 +452,6 @@ enum v4l2_subdev_pre_streamon_flags {
-  *
-  * @g_pixelaspect: callback to return the pixelaspect ratio.
-  *
-- * @s_dv_timings: Set custom dv timings in the sub device. This is used
-- *	when sub device is capable of setting detailed timing information
-- *	in the hardware to generate/detect the video signal.
-- *
-- * @g_dv_timings: Get custom dv timings in the sub device.
-- *
-- * @query_dv_timings: callback for VIDIOC_QUERY_DV_TIMINGS() ioctl handler=
- code.
-- *
-  * @s_rx_buffer: set a host allocated memory buffer for the subdev. The su=
-bdev
-  *	can adjust @size to a lower value and must not write more data to the
-  *	buffer starting at @data than the original value of @size.
-@@ -490,12 +482,6 @@ struct v4l2_subdev_video_ops {
- 	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
- 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
- 	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
--	int (*s_dv_timings)(struct v4l2_subdev *sd,
--			struct v4l2_dv_timings *timings);
--	int (*g_dv_timings)(struct v4l2_subdev *sd,
--			struct v4l2_dv_timings *timings);
--	int (*query_dv_timings)(struct v4l2_subdev *sd,
--			struct v4l2_dv_timings *timings);
- 	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
- 			   unsigned int *size);
- 	int (*pre_streamon)(struct v4l2_subdev *sd, u32 flags);
---=20
-2.44.0.478.gd926399ef9-goog
+> 
+> Le mercredi 27 mars 2024 à 14:41 +0100, Emmanuel Gil Peyrot a écrit :
+> > Only the JPEG encoder is available for now, although there are patches
+> > for the undocumented VP8 encoder floating around[0].
+> 
+> [0] seems like a broken link. The VP8 encoder RFC is for RK3399 (and Hantro H1
+> posted by ST more recently). The TRM says "VEPU121(JPEG encoder only)", which
+> suggest that the H.264 and VP8 encoders usually found on the VEPU121 are
+> removed. As Rockchip have remove the synthesize register while modifying the H1
+> IP, it is difficult to verify. Confusingly the H.264 specific registers are
+> documented in the TRM around VEPU121.
 
+Ah, the link became, and was indeed ST’s series:
+https://patchwork.kernel.org/project/linux-rockchip/list/?series=789885&archive=both
+
+But the TRM part 1 says the VEPU121 supports H.264 encoding (page 367),
+and it’s likely they didn’t remove just VP8 support since the codec
+features are pretty close to H.264’s.
+
+> 
+> > 
+> > This has been tested on a rock-5b, resulting in four /dev/video*
+> > encoders.  The userspace program I’ve been using to test them is
+> > Onix[1], using the jpeg-encoder example, it will pick one of these four
+> > at random (but displays the one it picked):
+> > % ffmpeg -i <input image> -pix_fmt yuvj420p temp.yuv
+> > % jpeg-encoder temp.yuv <width> <height> NV12 <quality> output.jpeg
+> 
+> I don't like that we exposing each identical cores a separate video nodes. I
+> think we should aim for 1 device, and then multi-plex and schedule de cores from
+> inside the Linux kernel.
+
+I agree, but this should be handled in the driver not in the device
+tree, and it can be done later.
+
+> 
+> Not doing this now means we'll never have an optimal hardware usage
+> distribution. Just consider two userspace software wanting to do jpeg encoding.
+> If they both take a guess, they may endup using a single core. Where with proper
+> scheduling in V4L2, the kernel will be able to properly distribute the load. I
+> insist on this, since if we merge you changes it becomes an ABI and we can't
+> change it anymore.
+
+Will it really become ABI just like that?  Userspace should always
+discover the video nodes and their capabilities and not hardcode e.g. a
+specific /dev/videoN file for a specific codec.  I would argue that this
+series would let userspace do JPEG encoding right away, even if in a
+less optimal way than if the driver would round-robin them through a
+single video node, but that can always be added in a future version.
+
+> 
+> I understand that this impose a rework of the mem2mem framework so that we can
+> run multiple jobs, but this will be needed anyway on RK3588, since the rkvdec2,
+> which we don't have a driver yet is also multi-core, but you need to use 2 cores
+> when the resolution is close to 8K.
+
+I think the mediatek JPEG driver already supports that, would it be ok
+to do it the same way?
+
+> 
+> Nicolas
+> 
+> > 
+> > [0] https://patchwork.kernel.org/project/linux-rockchip/list/?series=789885
+> > [1] https://crates.io/crates/onix
+> > 
+> > Changes since v1:
+> > - Dropped patches 1 and 4.
+> > - Use the proper compatible form, since this device should be fully
+> >   compatible with the VEPU of rk356x.
+> > - Describe where the VEPU121 name comes from, and list other encoders
+> >   and decoders present in this SoC.
+> > - Properly test the device tree changes, I previously couldn’t since I
+> >   was using a too recent version of python-jsonschema…
+> > 
+> > Emmanuel Gil Peyrot (2):
+> >   media: dt-binding: media: Document rk3588’s VEPU121
+> >   arm64: dts: rockchip: Add VEPU121 to rk3588
+> > 
+> >  .../bindings/media/rockchip,rk3568-vepu.yaml  |  8 +-
+> >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 80 +++++++++++++++++++
+> >  2 files changed, 86 insertions(+), 2 deletions(-)
+> > 
+> 
+
+-- 
+Link Mauve
 
