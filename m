@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-8698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8699-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962688996B6
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:39:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1588996EC
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:50:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B987285D69
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 07:39:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 146EB1F2161D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 07:50:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 305A212F5A0;
-	Fri,  5 Apr 2024 07:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9882614036E;
+	Fri,  5 Apr 2024 07:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jBTG5G5W"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gNcMN11P"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3586F12BF2D;
-	Fri,  5 Apr 2024 07:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1313FD8F;
+	Fri,  5 Apr 2024 07:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712302776; cv=none; b=WxOJfuxgwdpqgrCyqYGMb17VUZ3RDBYg4VyjeCEE/QCwHJZ9WeDsSSFJN+GW2CxNKk/M40c+PJQxJhaPD5qg6A+HrILE3FsaF3W/mqxfSKy+FgyPv69OyQIzpfSH9q72vzDtAwTD3h/FP0biglJYukG0p8KYux9Fi3z5W8A1i3A=
+	t=1712303373; cv=none; b=seLS6X1ZL+0jI5LUhaePTLPy351lXuRU7T4z18ulYBpl43Xb+I1bLG88SopYIZw5/idcTBD6R1YGMEdyCYRL34Hr+ZyCe+iNuNw8/5Hhdvq2g2mUNolPOJnOXU6KdgnNP3F6W30nX5YzT5FDxRl4Rmd/cOUbqI5r+jQs7qDVZHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712302776; c=relaxed/simple;
-	bh=QORV4pD15vZ3OzypvqpxnQvSoqXSnK5DsqvoayCIrCU=;
+	s=arc-20240116; t=1712303373; c=relaxed/simple;
+	bh=IL3QlAO21pjc5kEHG5xfrqaCGu5EaVPPzQbjg7p0oJk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=momG6MSmijrnjFHhTlBIh3/xKR+aHWbsIrqkExPMu/vhIcrAG8gxRuwxwU4x/pURi7W8KjsvdP08y8NHchFfKmlOHs6kunLYIryRccZ2cMu5YBNhF0+vlWL0rW5KlGMSiDbA+yBjRUv4IhMgfIntkZMYonpw26wG67254QLlJdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jBTG5G5W; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=PaxraRMuD66l+/8txTmAexM1lv9MVLcqF07h8Vhj0mlpgZ6/v9T7bxGbiW1w4RX0Jtr/1FpRW8M3WpNS4VuX7cPlAhfLScsHEE5gASSLhXn1Th2QYErbRNIGYJrBoCygr+hYV61jGD10CujpQO9UX2MUrzOPOFopGqTkxOf9AOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gNcMN11P; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4355ATg1031822;
-	Fri, 5 Apr 2024 07:39:24 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43576ESQ030288;
+	Fri, 5 Apr 2024 07:49:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	message-id:date:mime-version:subject:to:cc:references:from
 	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=3Z1qhTERAHY9u7xtJ3fTK4uczfNK3XCfZWVKTFMT7DY=; b=jB
-	TG5G5WM3Dpx6ELoYVHtsiNaaHSgwLHIc/P00q8kyb8kRU8tMCdk+y73yhgiMFoFL
-	1XI16Tksf02Fuhvy5geA9meNS1U49qZccNWE3sHoFRW24BOhuBNHnAVXrFJUkuvR
-	FAuJgAlFuAcL2ycfmTjte9y50YQOmAoF8TuwR+omUMKoxvUSLGVJF4AlPOvZDmzt
-	KQkvxW6HDtSTfPiajfhEwdGGJIQr+3a3W5kdsSCFfiWnw7fiFO1GWv2rceL4cr90
-	9K2tUYq/ys9nAIUOprF6WNiFCkCJHqdklEQ45b4oFTrw7QbYnUF4nsK3hpG+hAsq
-	UOiYTotuL9QaJpSkCuzQ==
+	qcppdkim1; bh=nGTZXMtykADfNHX49+YH57IBVCrnlnN/rjAlNFJmnhU=; b=gN
+	cMN11Pek1nUYrePLHo4z1HqvsxeLmOSzoZ1AI2Ch3gGEi8KjfV0fFNo/xRQwQ144
+	AUzk/+W4HKmwtVgFKZ8wgWF4NuSS//ndHy2IqxX8jyf+Icf0u0icKJonIk5MpUC1
+	Inx3eS9f0oai+RbtZXl52Uo64RhVXSifr+UDIrToHlmPGshwEq8mzEeg1Ah+mwjM
+	eISfyJnTtrrnqxORP1R9ISGbOBukheTBMIjTOEaU8mvf3cwQw071km85Fg7a3r15
+	C3/BhtPVAf/Ljet5R/+6EEsdRTONgYSnB7otkB02s9vfHXCRn+FwznBVWzw0p65e
+	ef+CiCxYEwuDCPRUsnsA==
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x9en0kjhb-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x9en0kk70-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 07:39:24 +0000 (GMT)
+	Fri, 05 Apr 2024 07:49:20 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4357dD7f031799
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4357nJjR014285
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 5 Apr 2024 07:39:13 GMT
+	Fri, 5 Apr 2024 07:49:19 GMT
 Received: from [10.216.11.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 00:39:08 -0700
-Message-ID: <5c3f6747-86f6-3fe9-6dfa-edc44b53c0b1@quicinc.com>
-Date: Fri, 5 Apr 2024 13:09:04 +0530
+ 00:49:14 -0700
+Message-ID: <fe9744d9-2db0-b1f3-72be-0fff1ee90d07@quicinc.com>
+Date: Fri, 5 Apr 2024 13:19:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v3 04/19] media: venus: core: Set OPP clkname in a common
- code path
+Subject: Re: [PATCH v3 05/19] media: venus: pm_helpers: Kill dead code
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov
@@ -88,17 +87,17 @@ CC: Marijn Suijten <marijn.suijten@somainline.org>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
- <20230911-topic-mars-v3-4-79f23b81c261@linaro.org>
+ <20230911-topic-mars-v3-5-79f23b81c261@linaro.org>
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20230911-topic-mars-v3-4-79f23b81c261@linaro.org>
+In-Reply-To: <20230911-topic-mars-v3-5-79f23b81c261@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 57Arb5L_f6dJ5K6qzLk9j6jW-c6fzNul
-X-Proofpoint-GUID: 57Arb5L_f6dJ5K6qzLk9j6jW-c6fzNul
+X-Proofpoint-ORIG-GUID: qY1hLuAcZw4r9_sBoydw2ocrB5kiIS1k
+X-Proofpoint-GUID: qY1hLuAcZw4r9_sBoydw2ocrB5kiIS1k
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-05_06,2024-04-04_01,2023-05-22_02
@@ -106,103 +105,81 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowprio
  clxscore=1015 impostorscore=0 adultscore=0 priorityscore=1501 phishscore=0
  mlxscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050055
+ engine=8.19.0-2404010003 definitions=main-2404050056
 
 
 
 On 3/27/2024 11:38 PM, Konrad Dybcio wrote:
-> Calling devm_pm_opp_set_clkname() is repeated for all HFI versions in
-> pm_ops->core_power.
+> A situation like:
 > 
-> Move it to the common codepath.
+> if (!foo)
+> 	goto bar;
 > 
-> This also lets us get rid of core_get_v1.
+> for (i = 0; i < foo; i++)
+> 	...1...
+> 
+> bar:
+> 	...2...
+> 
+> is totally identical to:
+> 
+> for (i = 0; i < 0; i++) // === if (0)
+> 	...1...
+> 
+> ...2...
+> 
+> Get rid of such boilerplate.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c       |  5 +++++
->  drivers/media/platform/qcom/venus/pm_helpers.c | 23 ++---------------------
->  2 files changed, 7 insertions(+), 21 deletions(-)
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 10 ----------
+>  1 file changed, 10 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index ce206b709754..5ab3c414ec0f 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -14,6 +14,7 @@
->  #include <linux/of.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  #include <linux/pm_domain.h>
-> @@ -319,6 +320,10 @@ static int venus_probe(struct platform_device *pdev)
->  	if (!core->pm_ops)
->  		return -ENODEV;
->  
-> +	ret = devm_pm_opp_set_clkname(dev, "core");
-> +	if (ret)
-> +		return ret;
-> +
->  	if (core->pm_ops->core_get) {
->  		ret = core->pm_ops->core_get(core);
->  		if (ret)
 > diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index cf91f50a33aa..ef4b0f0da36f 100644
+> index ef4b0f0da36f..730c4b593cec 100644
 > --- a/drivers/media/platform/qcom/venus/pm_helpers.c
 > +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -318,21 +318,6 @@ static int load_scale_v1(struct venus_inst *inst)
->  	return ret;
->  }
+> @@ -878,14 +878,10 @@ static int vcodec_domains_get(struct venus_core *core)
+>  		.pd_flags = PD_FLAG_NO_DEV_LINK,
+>  	};
 >  
-> -static int core_get_v1(struct venus_core *core)
-> -{
-> -	int ret;
+> -	if (!res->vcodec_pmdomains_num)
+> -		goto skip_pmdomains;
 > -
-> -	ret = venus_clks_get(core);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = devm_pm_opp_set_clkname(core->dev, "core");
-> -	if (ret)
-> -		return ret;
-> -
-> -	return 0;
-> -}
-> -
->  static void core_put_v1(struct venus_core *core)
->  {
->  }
-> @@ -350,7 +335,7 @@ static int core_power_v1(struct venus_core *core, int on)
->  }
+this condition should still be there to skip calling
+dev_pm_domain_attach_list if vcodec_pmdomains_num is 0.
+>  	ret = dev_pm_domain_attach_list(dev, &vcodec_data, &core->pmdomains);
+>  	if (ret < 0)
+>  		return ret;
 >  
->  static const struct venus_pm_ops pm_ops_v1 = {
-> -	.core_get = core_get_v1,
-> +	.core_get = venus_clks_get,
->  	.core_put = core_put_v1,
->  	.core_power = core_power_v1,
->  	.load_scale = load_scale_v1,
-> @@ -423,7 +408,7 @@ static int venc_power_v3(struct device *dev, int on)
->  }
->  
->  static const struct venus_pm_ops pm_ops_v3 = {
-> -	.core_get = core_get_v1,
-> +	.core_get = venus_clks_get,
->  	.core_put = core_put_v1,
->  	.core_power = core_power_v1,
->  	.vdec_get = vdec_get_v3,
-> @@ -1013,10 +998,6 @@ static int core_get_v4(struct venus_core *core)
->  	if (legacy_binding)
+> -skip_pmdomains:
+>  	if (!core->res->opp_pmdomain)
 >  		return 0;
 >  
-> -	ret = devm_pm_opp_set_clkname(dev, "core");
-> -	if (ret)
-> -		return ret;
+> @@ -928,9 +924,6 @@ static int core_resets_reset(struct venus_core *core)
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!res->resets_num)
+> -		return 0;
 > -
->  	ret = vcodec_domains_get(core);
->  	if (ret)
->  		return ret;
+ACK
+>  	for (i = 0; i < res->resets_num; i++) {
+>  		ret = reset_control_assert(core->resets[i]);
+>  		if (ret)
+> @@ -953,9 +946,6 @@ static int core_resets_get(struct venus_core *core)
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!res->resets_num)
+> -		return 0;
+> -
+ACK
+>  	for (i = 0; i < res->resets_num; i++) {
+>  		core->resets[i] =
+>  			devm_reset_control_get_exclusive(dev, res->resets[i]);
 > 
->
-Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+
+Thanks,
+Dikshita
 
