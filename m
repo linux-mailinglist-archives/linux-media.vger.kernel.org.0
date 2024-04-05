@@ -1,199 +1,121 @@
-Return-Path: <linux-media+bounces-8724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E8089994C
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:19:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB528999AD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 11:38:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8BE1B22BBF
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:19:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B4721C2145C
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 09:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D880F15FCF8;
-	Fri,  5 Apr 2024 09:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E42E16132A;
+	Fri,  5 Apr 2024 09:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MJmfTMOY"
+	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="ZcrcoLqs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956FD13D265;
-	Fri,  5 Apr 2024 09:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CAC15FA9C;
+	Fri,  5 Apr 2024 09:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.227.64.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712308754; cv=none; b=m61ECbSloj83aIaQKgQvk+2J+xpmydUOmsvh1mnsf4rB78s2yXELe1ZQhP5NVJbgW65sqg+BXW4hc33sHOoFj35FgH5QbZttkrFqloBvagrHM3VsCmu0Yu5h/P1zZl/sgA9O/G5MANm3pzedllAfDGpT4RJnXFscSwwYZsFBHRw=
+	t=1712309901; cv=none; b=AkwXRnRMetJ0L9IbHlnUlbm/I0PKkqbVheFMD6/h7gGzzCCEy3N0M6MCj5zef/kgVgDLuYdVbDKvVZa2ntxLYmVOH9+UNCMoJUCM5lDHULesMw/QG1A4N4mKQkWQ1JBmToVuVKemW8967bjjTRSDQiUl8coDx2ZJP5dEQov/leg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712308754; c=relaxed/simple;
-	bh=RMmTgTiM6AekMReGIHsGkEpQVtvna/w6We09nnKfFLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=W/gWvkBW7Bugy9xqQnWvr6eMmgBnPaQQiXljOA0FPObxROL/Len7CsulmndOTF+eyyo9W58ekt/rwJK66kFujupMQDuQdDNJqFHllaQtfUAF6gbKioyXTVigaG1o2qgtOEGAMvNRUNthb51Fw4ngNpK5eLojEXqOK5JrZmCPHWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MJmfTMOY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4356cSFK027558;
-	Fri, 5 Apr 2024 09:19:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Yht7Xcc05+Ym6Fmdn8oyFxXQHLV5+oEHVmmq7hXQb9o=; b=MJ
-	mfTMOYhFiFLi7dBBpNcVNBaOkeLqytcppXHE/uUjiQ0N9NEzgN+aidKpLDYv0esh
-	NfClPWMZ7OI3gjSQSenApD/WEPazs2xvsi2b4bBTqAsOtn5Y9p+k4XjUnDvZ7pQK
-	Rp7c4x86OTniXPAEMQK1OjWkT7YwwWli1bYmtpCKTDBjcdeOLmfLUeY8+xg4VDIN
-	EG7viIXhhQmkmgHOG9EvHu2TmogDubu74+Glk7ZSfUMgE7t21Mas5yuyaqbOQoHZ
-	Jf6kFzAp6nrZtuwdgZWtIG6QiUeUNXU8Sk04J8K+VY5bgWBJpA9BraRvJMp/Q4FL
-	9+cjTLKzusY8wAO3g3qw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa1gx9e87-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 09:19:02 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4359J1GQ010157
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 5 Apr 2024 09:19:01 GMT
-Received: from [10.216.11.24] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 5 Apr 2024
- 02:18:56 -0700
-Message-ID: <704e4a60-ae8b-e951-87c0-3b0aa4cf26d6@quicinc.com>
-Date: Fri, 5 Apr 2024 14:48:51 +0530
+	s=arc-20240116; t=1712309901; c=relaxed/simple;
+	bh=gui0f6MViE5zSAEEOcDKHdPoDszSctiaYWprNP7GSNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYx9XDMOKHsxsxgpErRPS/ygvPDzCeAlZTHPD8jU6Un/vl7oitKkIppyqtOYrexLuq9vY46aMb/YVGm7xn8ldd+hst08TGbqT5Eu4ZsNBxcPdZveBtSAApHlqy+wE0mswPrfmKn1k9Vlu1n6YEW+MMhGa8Dopk6yoUAbjF5ae08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rere.qmqm.pl; spf=pass smtp.mailfrom=rere.qmqm.pl; dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b=ZcrcoLqs; arc=none smtp.client-ip=91.227.64.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rere.qmqm.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rere.qmqm.pl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+	t=1712309337; bh=gui0f6MViE5zSAEEOcDKHdPoDszSctiaYWprNP7GSNc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZcrcoLqsz/zzlMruWf44PYk75DueBejOUyr1Eh31EyaZcoY7ODel3t0vFK51sQutC
+	 YY7dBqw6x5FiEghmAZFtz/zTJMGq5GtkEocuVfbQcN9BDPuRIei5HZ4DdjLpHxZ7+6
+	 E7lgHaOaQ5/+P2XOh5i4UPTyYivuDu5pF+wIovDfOhmC0jyS7Po0jdQpgN6Tw+kWcU
+	 BR21bYeWeQT2EX7dHW/mtmIf4RbdkqX5exTxh2367mA4o2zBmZSc7BFV4XrNkiEptZ
+	 Q5SBD2Ru9xBFkYUfXpcQGRwkKRKwaEBGta6Gar0WuqKpV+3lBKaNoDOSXQIouXFRPP
+	 Bq/roRR1X1cQQ==
+Received: from remote.user (localhost [127.0.0.1])
+	by rere.qmqm.pl (Postfix) with ESMTPSA id 4V9tTX48kvz8B;
+	Fri,  5 Apr 2024 11:28:48 +0200 (CEST)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 1.0.3 at mail
+Date: Fri, 5 Apr 2024 11:28:47 +0200
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org,
+	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
+	florian.fainelli@broadcom.com, rjui@broadcom.com,
+	sbranden@broadcom.com, paul@crapouillou.net,
+	Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
+	vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
+	zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+	andersson@kernel.org, konrad.dybcio@linaro.org, orsonzhai@gmail.com,
+	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org,
+	wens@csie.org, jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, jassisinghbrar@gmail.com, mchehab@kernel.org,
+	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
+	ulf.hansson@linaro.org, manuel.lauss@gmail.com,
+	jh80.chung@samsung.com, oakad@yahoo.com,
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+	brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
+	duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-mediatek@lists.infradead.org,
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
+Message-ID: <Zg_ET2XmZM_Id_Ad@qmqm.qmqm.pl>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-10-apais@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 08/19] media: venus: core: Get rid of vcodec_num
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross
-	<agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Mauro Carvalho
- Chehab" <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: Marijn Suijten <marijn.suijten@somainline.org>,
-        Stanimir Varbanov
-	<stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20230911-topic-mars-v3-0-79f23b81c261@linaro.org>
- <20230911-topic-mars-v3-8-79f23b81c261@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20230911-topic-mars-v3-8-79f23b81c261@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: MdkkAsO5D-Pr1RBt7OrM3WeHgL_UyTq0
-X-Proofpoint-GUID: MdkkAsO5D-Pr1RBt7OrM3WeHgL_UyTq0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_08,2024-04-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404050068
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
 
-
-
-On 3/27/2024 11:38 PM, Konrad Dybcio wrote:
-> That field was only introduced to differentiate between the legacy and
-> non-legacy SDM845 binding. Get rid of it.
+On Wed, Mar 27, 2024 at 04:03:14PM +0000, Allen Pais wrote:
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> 
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+> 
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 > ---
->  drivers/media/platform/qcom/venus/core.c       | 5 -----
->  drivers/media/platform/qcom/venus/core.h       | 1 -
->  drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
->  3 files changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 5e7cb54e6088..26a0c264685a 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -651,7 +651,6 @@ static const struct venus_resources sdm660_res = {
->  	.vcodec0_clks = { "vcodec0_core" },
->  	.vcodec1_clks = { "vcodec0_core" },
->  	.vcodec_clks_num = 1,
-> -	.vcodec_num = 1,
->  	.max_load = 1036800,
->  	.hfi_version = HFI_VERSION_3XX,
->  	.vmem_id = VIDC_RESOURCE_NONE,
-> @@ -725,7 +724,6 @@ static const struct venus_resources sdm845_res_v2 = {
->  	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0", "vcodec1" },
->  	.vcodec_pmdomains_num = 3,
->  	.opp_pmdomain = pd_names_cx,
-> -	.vcodec_num = 2,
->  	.max_load = 3110400,	/* 4096x2160@90 */
->  	.hfi_version = HFI_VERSION_4XX,
->  	.vpu_version = VPU_VERSION_AR50,
-> @@ -774,7 +772,6 @@ static const struct venus_resources sc7180_res = {
->  	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
->  	.vcodec_pmdomains_num = 2,
->  	.opp_pmdomain = pd_names_cx,
-> -	.vcodec_num = 1,
->  	.hfi_version = HFI_VERSION_4XX,
->  	.vpu_version = VPU_VERSION_AR50,
->  	.vmem_id = VIDC_RESOURCE_NONE,
-> @@ -831,7 +828,6 @@ static const struct venus_resources sm8250_res = {
->  	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
->  	.vcodec_pmdomains_num = 2,
->  	.opp_pmdomain = pd_names_mx,
-> -	.vcodec_num = 1,
->  	.max_load = 7833600,
->  	.hfi_version = HFI_VERSION_6XX,
->  	.vpu_version = VPU_VERSION_IRIS2,
-> @@ -890,7 +886,6 @@ static const struct venus_resources sc7280_res = {
->  	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
->  	.vcodec_pmdomains_num = 2,
->  	.opp_pmdomain = pd_names_cx,
-> -	.vcodec_num = 1,
->  	.hfi_version = HFI_VERSION_6XX,
->  	.vpu_version = VPU_VERSION_IRIS2_1,
->  	.num_vpp_pipes = 1,
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 6a77de374454..376de1161114 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -74,7 +74,6 @@ struct venus_resources {
->  	const char **vcodec_pmdomains;
->  	unsigned int vcodec_pmdomains_num;
->  	const char **opp_pmdomain;
-> -	unsigned int vcodec_num;
->  	const char * const resets[VIDC_RESETS_NUM_MAX];
->  	unsigned int resets_num;
->  	enum hfi_version hfi_version;
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 5b2a40a2f524..ba63e6427eb9 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -622,7 +622,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool lo
->  			VIDC_CORE_ID_1 : VIDC_CORE_ID_2;
->  	*min_load = min(core1_load, core2_load);
->  
-> -	if (cores_max < VIDC_CORE_ID_2 || core->res->vcodec_num < 2> +	if (cores_max < VIDC_CORE_ID_2 || legacy_binding) {
-core->res->vcodec_num < 2 doesn't mean legacy binding.
-7180, 8250 and 7280 have vcodec num as 1 but they don't follow legacy
-binding and they still have one core which is VIDC_CORE_ID_1.
->  		*min_coreid = VIDC_CORE_ID_1;
->  		*min_load = core1_load;
->  	}
-> 
+[...]
+>  drivers/mmc/host/cb710-mmc.c                  | 15 ++--
+>  drivers/mmc/host/cb710-mmc.h                  |  3 +-
+[...]
 
-Thanks,
-Dikshita
+Acked-by: Micha³ Miros³aw <mirq-linux@rere.qmqm.pl>
 
