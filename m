@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-8753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02D7899F4A
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1B7899F4D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 16:17:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F5481F263DC
-	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 14:17:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D35101F2687D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Apr 2024 14:17:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9684E16EC11;
-	Fri,  5 Apr 2024 14:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C03516FF27;
+	Fri,  5 Apr 2024 14:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="koNcX9m1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aGVrssa2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8687E16F852
-	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 14:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D316F905
+	for <linux-media@vger.kernel.org>; Fri,  5 Apr 2024 14:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712326520; cv=none; b=mQSEPv1ma6kYHqIz0hhvp2OzTS/NOywXAtjEu+F7oovSMyeCWp6jlqTCCzUqf3Br4N85leh6UD1sDz8CwObS8xQ4r0cG5V8Ji5ABEjdrw5niNJU99M6g5T8EFru+/x84IJFwu8SvGoFOcadqlpGcducO/A1/dCoUe9eS0U/lEN0=
+	t=1712326522; cv=none; b=tBP5prZvbwrNNk7ytuXSxq/0vf4eVU3e6v5NQ2RTVLlouECsssl/eSs7aPxywgaKeGwn+jylkvj+zW2jiIjgEnMj7MfP3jJZFdQjfvV8+fhgvanWOCy6W6mo5F9UH4nk3j7uwIJHktDYcovuHvEqGOfWu9zAgAegsYa+uHhg3S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712326520; c=relaxed/simple;
-	bh=ZMS7hM6KW9z07sWnfqtb0vfUnCFSGDurCvDVGwpKtH4=;
+	s=arc-20240116; t=1712326522; c=relaxed/simple;
+	bh=6SE0kPCYxfLmOcadEJPk07sX9YIfwYS2lpWnkue2zR8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=lUcmF/Vrg0ISMr8qRgDN3SIHv9HBPA7PuvwNoTKFWa0lKqElK1aDPJuuHfOwsd23OpRGchqVBn0Pm6YTY44Wzrxw/CAdRUmwGopFdbR0URMXYoh8dmIU1EqqsmMgQglWfReNBuBED3QF/Izie01y0gB1QagHnJVMjbWPcMBWNxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=koNcX9m1; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=etLi8CHfuuTCNTiUcUqnubeIpgez7VQ/PNyD3NUZ2VrTuNxK0RMZOfXRTlGTzbNUUSn0r7nTQHIsT7njPYI2uRcvIIxBFvUmC9jgBCH7ctJlaqwbUNlJV/x0XfYI4ugQSqkpbQHWn+XIZHngjS65b22Kkg1HJ7d/SC2f4vZWg2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aGVrssa2; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dced704f17cso3849748276.1
-        for <linux-media@vger.kernel.org>; Fri, 05 Apr 2024 07:15:18 -0700 (PDT)
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-41481ad9364so16300395e9.0
+        for <linux-media@vger.kernel.org>; Fri, 05 Apr 2024 07:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712326517; x=1712931317; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1712326519; x=1712931319; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=94YlLU32Aw+sMxB+PMoafcDiaHrqtTcDMU3Gx4Hxs1I=;
-        b=koNcX9m1Ps2wwp0tQBqFmNo8qemsmuR+pkJ6lBfjalreLVYj/Zg9JtbXfU70owHpWh
-         gPAqGJDJIhZIIxEwuucfEyiAylMu1JOTyWOleu7XpgjxDxixOvtMxq1/PVfx2//nLIEe
-         w1eGhREbvLdrl6mgqJ0RWWrXZMzpYvQft2Znd3xun1qiWyJ6ZaHp61+1Y4BKDlfertnY
-         0Vyc7SYwtitDBZ7TZLZ7iJIfTjJaoBFdEdSKJ/aEzElPRkcVOVJ/gVkXO4M+bbkDXGDl
-         E3EjnCEcd7+9m1VEHmauaMeYN6EuJ20XJWndN9QzTn9M/x12GlY/BhXURA1Hl9CMWvbF
-         WO1Q==
+        bh=tPWJ94tQJYhK3/OOBFjDm8S/NzfWr3sQ4mvAu40pbWw=;
+        b=aGVrssa208/JedoXdhuAsfVNsbChm8ilvckj5H+2nfjKmQhqWXzeEFotcsfeNU7Ngy
+         G6qqHzMWDo+GYN/rs1Ot/FsHE21DGl28cYBv8MKFsModJMsVnhlgN5XDI02CezGC/cD5
+         yHlKpH97FucAjF1VfHEeyrtkTnCGC0+Cy40BWpiGTFcss4wYCTWMuuloRmGM3+hX1DE1
+         ZIg47Uuqx4VMzT+A2+Fjz+CwC0KMRCeU5sDF8JhbSYiipNNL+Qx44Dep88ITy0R8zOw3
+         ySHS5peYFH3y1XPMk+fjBCtDr7qOETY5vlcHPYF3jfegCP6KZx9bxaDk9w/djpf44yXN
+         NJfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712326517; x=1712931317;
+        d=1e100.net; s=20230601; t=1712326519; x=1712931319;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=94YlLU32Aw+sMxB+PMoafcDiaHrqtTcDMU3Gx4Hxs1I=;
-        b=GhVoSFOtVi4BpF4cPreMHCdHruVe79RBBTWm/7F6Jcil5da0iI2JRPldUinvTssC75
-         LVdBnhHFswaVucwPQ3vG7XuQoI3ZziTux/yxV2ss45vM9H4QC2ebS1PU/nOT+OGWiJpI
-         44i6fbC3HucgGExZS5CaWuOInXC6tDxejBqLxomBsXatV66zVOOMrVrlZIFgPc+NI11y
-         rVYLXUq74JCBe8wJ+ixSkiXzx7d8PvRoMfmve9P2SUyty49sKqjaZ4RZ1KCVypJinSOV
-         9iST4g8hiqnDPLAqgFWDCXihrEwlOVUufhV91fFwhcKDs6m0hqxnxIfcUXCPxdbuqt4R
-         JKkA==
-X-Gm-Message-State: AOJu0YzgZdWJcj7TJChBP7L9/kXgOhU6b2wgKZmPS2b0O1eyrFWFKlll
-	3zevX8Gxx8rDV35kRXLUh7X9msUrRk3XAEMeoskcZsJ/2zPckZxe1LTljsaf7pNy1O2X3I1lIho
-	iqUpTH1s80g==
-X-Google-Smtp-Source: AGHT+IGrK5D+Al9x3FTMCHj14GU/jIUebXWjMWxE2WeT0/GABiLAK8y3wTuNfqwVvbVtebybpNUuNDmYAKkDAA==
+        bh=tPWJ94tQJYhK3/OOBFjDm8S/NzfWr3sQ4mvAu40pbWw=;
+        b=YhhAB+Drt8bldo3uyVFuZs5OGkVk7S2gcZcYIaUDHNKeCjujH9FXswgjNJnB0EzUT9
+         tBSUo2usr3U3uJ6B3QzWs/InfRyn+90h/ahrl1XfoY7NaQR4jdvySscqmd/atC3xAFNa
+         MoJ5v8Qvyu4WykVA2pzR8cDcMar+5pT5dLTuW96+5fu/0gOiwjBYeIbbCanSRf2MmPpz
+         zC4Je2UsmNEXc6ViXjOmfn+7piRQ3Qz1xmAzEYnMxI8j2ck+HjzmqNOn5cuwYqDt9L/X
+         vOgdliySaC9VcX17kxf3Ab84vJdoqQ8EAH2Oh0vhvMODSiYwjNmi1l2qefH6FGW0BKhS
+         9uyg==
+X-Gm-Message-State: AOJu0YyHUx9UPNQ1tCE1j+YdhN+Or88MdsFxMxotWDtgrTX1iAppM9fx
+	goCHaWhemEwyc+juVaEDiClw1VCyZGH6quSlsTZt8GeyjnyMce6+dsAjNloYMteNFR4b3Rl3NAa
+	gf1Zo+ohlGw==
+X-Google-Smtp-Source: AGHT+IHQfTupTS6QFxw4wd1lUfUH34e1AoeuC2pe3b5AQePG8p20sMvmkeKQHBjCW7WGybe4z/i4eJInLgDU+Q==
 X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:6902:1502:b0:dd9:1b94:edb5 with SMTP
- id q2-20020a056902150200b00dd91b94edb5mr78790ybu.10.1712326517609; Fri, 05
- Apr 2024 07:15:17 -0700 (PDT)
-Date: Fri,  5 Apr 2024 14:14:03 +0000
+ (user=panikiel job=sendgmr) by 2002:a05:600c:1d12:b0:416:2c7a:6b6 with SMTP
+ id l18-20020a05600c1d1200b004162c7a06b6mr5110wms.0.1712326519687; Fri, 05 Apr
+ 2024 07:15:19 -0700 (PDT)
+Date: Fri,  5 Apr 2024 14:14:04 +0000
 In-Reply-To: <20240405141411.1807189-1-panikiel@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -75,8 +75,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240405141411.1807189-1-panikiel@google.com>
 X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
-Message-ID: <20240405141411.1807189-9-panikiel@google.com>
-Subject: [PATCH 08/16] media: i2c: ths7303: Switch dv timing callbacks to pad ops
+Message-ID: <20240405141411.1807189-10-panikiel@google.com>
+Subject: [PATCH 09/16] media: i2c: ths8200: Switch dv timing callbacks to pad ops
 From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
 To: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
 	hverkuil-cisco@xs4all.nl, tharvey@gateworks.com, 
@@ -94,47 +94,66 @@ a pad argument.
 
 Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
 ---
- drivers/media/i2c/ths7303.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ths8200.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ths7303.c b/drivers/media/i2c/ths7303.c
-index ea70c1c13872..5e4a76eaf507 100644
---- a/drivers/media/i2c/ths7303.c
-+++ b/drivers/media/i2c/ths7303.c
-@@ -193,7 +193,7 @@ static int ths7303_s_stream(struct v4l2_subdev *sd, int=
- enable)
+diff --git a/drivers/media/i2c/ths8200.c b/drivers/media/i2c/ths8200.c
+index 0e0f676cd221..ce0a7f809f19 100644
+--- a/drivers/media/i2c/ths8200.c
++++ b/drivers/media/i2c/ths8200.c
+@@ -358,13 +358,16 @@ static void ths8200_setup(struct v4l2_subdev *sd, str=
+uct v4l2_bt_timings *bt)
+ 		 bt->hsync, bt->vsync);
  }
 =20
- /* for setting filter for HD output */
--static int ths7303_s_dv_timings(struct v4l2_subdev *sd,
-+static int ths7303_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
- 			       struct v4l2_dv_timings *dv_timings)
+-static int ths8200_s_dv_timings(struct v4l2_subdev *sd,
++static int ths8200_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
+ 				struct v4l2_dv_timings *timings)
  {
- 	struct ths7303_state *state =3D to_state(sd);
-@@ -210,7 +210,6 @@ static int ths7303_s_dv_timings(struct v4l2_subdev *sd,
- static const struct v4l2_subdev_video_ops ths7303_video_ops =3D {
- 	.s_stream	=3D ths7303_s_stream,
- 	.s_std_output	=3D ths7303_s_std_output,
--	.s_dv_timings   =3D ths7303_s_dv_timings,
- };
+ 	struct ths8200_state *state =3D to_state(sd);
 =20
- #ifdef CONFIG_VIDEO_ADV_DEBUG
-@@ -317,9 +316,14 @@ static const struct v4l2_subdev_core_ops ths7303_core_=
-ops =3D {
- #endif
- };
+ 	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
 =20
-+static const struct v4l2_subdev_pad_ops ths7303_pad_ops =3D {
-+	.s_dv_timings =3D ths7303_s_dv_timings,
-+};
++	if (pad !=3D 0)
++		return -EINVAL;
 +
- static const struct v4l2_subdev_ops ths7303_ops =3D {
- 	.core	=3D &ths7303_core_ops,
- 	.video	=3D &ths7303_video_ops,
-+	.pad	=3D &ths7303_pad_ops,
+ 	if (!v4l2_valid_dv_timings(timings, &ths8200_timings_cap,
+ 				NULL, NULL))
+ 		return -EINVAL;
+@@ -385,13 +388,16 @@ static int ths8200_s_dv_timings(struct v4l2_subdev *s=
+d,
+ 	return 0;
+ }
+=20
+-static int ths8200_g_dv_timings(struct v4l2_subdev *sd,
++static int ths8200_g_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
+ 				struct v4l2_dv_timings *timings)
+ {
+ 	struct ths8200_state *state =3D to_state(sd);
+=20
+ 	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
+=20
++	if (pad !=3D 0)
++		return -EINVAL;
++
+ 	*timings =3D state->dv_timings;
+=20
+ 	return 0;
+@@ -420,11 +426,11 @@ static int ths8200_dv_timings_cap(struct v4l2_subdev =
+*sd,
+ /* Specific video subsystem operation handlers */
+ static const struct v4l2_subdev_video_ops ths8200_video_ops =3D {
+ 	.s_stream =3D ths8200_s_stream,
+-	.s_dv_timings =3D ths8200_s_dv_timings,
+-	.g_dv_timings =3D ths8200_g_dv_timings,
  };
 =20
- static int ths7303_probe(struct i2c_client *client)
+ static const struct v4l2_subdev_pad_ops ths8200_pad_ops =3D {
++	.s_dv_timings =3D ths8200_s_dv_timings,
++	.g_dv_timings =3D ths8200_g_dv_timings,
+ 	.enum_dv_timings =3D ths8200_enum_dv_timings,
+ 	.dv_timings_cap =3D ths8200_dv_timings_cap,
+ };
 --=20
 2.44.0.478.gd926399ef9-goog
 
