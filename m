@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-8786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D5E89A929
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 07:29:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E106189A924
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 07:26:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBD8F1C2150F
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 05:29:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 233EAB20EA2
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 05:26:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB34208BA;
-	Sat,  6 Apr 2024 05:29:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9511EB5E;
+	Sat,  6 Apr 2024 05:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="RU30JmeZ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="yRxZ3zyb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta170.mxroute.com (mail-108-mta170.mxroute.com [136.175.108.170])
+Received: from mail-108-mta112.mxroute.com (mail-108-mta112.mxroute.com [136.175.108.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1648F1EB5E
-	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 05:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487BD22EF3
+	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 05:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712381341; cv=none; b=eX2xcJ+yGGnSwRW3nyCppo2b2ttyvoWzIXIEghwpxf5MFujdwY9vxmTqOLAKg8ySXAFXdkvBUY4l2ITEvlMhbRbysALIEmWzwbzTNY8BTFY0iyomF6ZSKRcruYtn/AMuF6vc/Y65gqd72rRM9vzfLCb1qqJQg1+2lkc/YmrsszM=
+	t=1712381156; cv=none; b=Cr/R7UQHBPRYoRqnnccAbflLyElgc5QDv/wkb2MGVwzCDqvCm2NWkMVT+SnU3RF71nePEAa3qLEADATDxce7wvvrx96e8jIze24p7o6nmtWhzAHcUG/n96lCGFmy23WeXt+jtTv8fLzJDLlcFlq+6t/K7fPaKJjK5ydrND4+qb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712381341; c=relaxed/simple;
-	bh=XvGGiaKjAp46vAegdWKN0fVnxmrfC1H1J6zN0QKFTrw=;
+	s=arc-20240116; t=1712381156; c=relaxed/simple;
+	bh=PcVc0enR4j7Fu4qIcJTJAGfb9eIbRBk+MbR+x31n5Z4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b18wrU10kKIR7ztROAhRGkeO7L7pLnXngdfB4FaI83Cm0HJG6rU/AbffJza9V9LDmCwaPpNfYXOO1ZkpB5CCF0HxRunrrHUTcqAuOFYjPrTnzlvZpxhlya6E/iepBUffQuiMdvGIiO4JslI7CAm6DoAh/aVmBO1349uTBMGWMiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=RU30JmeZ; arc=none smtp.client-ip=136.175.108.170
+	 In-Reply-To:Content-Type; b=gZTAZhadm3llKe58GfNHXPSgTXyPYvlABkWCcmJAJlF/6Buwvzj7/4kf0SN517eopunc4ypyJzNcCX1s3ZuWs9nvQNdWJqROzTDWDyiT7LHQjd8VxyIreL6PuJ3B2ZwdYh1wrMd+BFW28JsDzj3lCMHY/0RfChpoas74syoeHPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=yRxZ3zyb; arc=none smtp.client-ip=136.175.108.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
 Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
  (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta170.mxroute.com (ZoneMTA) with ESMTPSA id 18eb1dce0660003bea.011
+ by mail-108-mta112.mxroute.com (ZoneMTA) with ESMTPSA id 18eb1deb1d70003bea.011
  for <linux-media@vger.kernel.org>
  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sat, 06 Apr 2024 05:23:46 +0000
-X-Zone-Loop: 9a9ba47788bce267b6043d87b456303d67594a390ebc
+ Sat, 06 Apr 2024 05:25:45 +0000
+X-Zone-Loop: 0812d2876e3d564a7520d9051c874cab35e5df42216c
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
 	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZmuhkTALxM8lf0cfAvP+7dJ0PJ20DaBe8z1ii1wZ960=; b=RU30JmeZw8NfKZujRbkVuhHZc7
-	Wdnson/TB15EBa0BLASqHxyQNxUo4sK/fpaxMJHvihEmZLBTATxOJV2BXo3NfWsttfvLKNJJWHRsE
-	CeKtDYAyQP6Ppj2blTGdGqOtuua7XHqeODzZls2nZUb2ZPnnyrjg5+IiMbLf1veOem4ZcIE6FulIa
-	cFzdxpC9SCQ77SbyAmHMfGhhZKRZBLnK2b3qt+pu5WL3NOdQhoD4Sx3PAD7JyD1tpsiBRFs/Iw5M2
-	WYtRtpD/Nl5uPmjzU7acJ0j6ti7PD2GE0ijqjph2h/9H2Iu3mWHFgIpfSZoj8eNzC+j+RW3r4jlbG
-	IjfS1GLw==;
-Message-ID: <bbf7c8c3-ca67-43a1-88d0-199cc9299c6d@luigi311.com>
-Date: Fri, 5 Apr 2024 23:23:42 -0600
+	bh=sz1o3+H/QzcFhJgMgxzNEIq38+fbX0fuDgjyR3Z3QQc=; b=yRxZ3zybwPCDOXYc6dTeGjFcrD
+	oJ/ez3YSCH/U3R+W7HZ+fcllfTNo6nDrKK/J6LtIS+6pGlvAFrg1BKy+05tElSeHU+XVi9lLN7Jjq
+	N9wWf/YR2FfU3yz4kxdskDLVFCSxd7zRrbZErNyZKiZ8MEh3oScdzDZhatOoB/q3+riVjlqTrkRy7
+	Hqeh+nMcad2X60AuJoWOblCKmKuwLSR4xq2i1LF1f++LiJf/cQxwpQUlP0h1QbgLNhKUUez/MFVEI
+	p5YxnOGH1HDkg3IQGhGvjSPxDKypqt8FcRQbW50njJ2QApLlk+PAT2yoMCtocDpSVBdl4iJWE7/by
+	Vyq36ttA==;
+Message-ID: <803b0bd3-e615-41c1-888e-69b6ecca0b8a@luigi311.com>
+Date: Fri, 5 Apr 2024 23:25:41 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/25] media: i2c: imx258: Add regulator control
+Subject: Re: [PATCH v3 09/25] media: i2c: imx258: Add support for running on 2
+ CSI data lanes
 To: Pavel Machek <pavel@ucw.cz>
 Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
  jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
@@ -69,37 +70,57 @@ Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
 References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-6-git@luigi311.com> <Zg2jgmmqw0nXDYcF@duo.ucw.cz>
+ <20240403150355.189229-10-git@luigi311.com> <Zg2jvUDFnY83drlg@duo.ucw.cz>
 Content-Language: en-US
 From: Luis Garcia <git@luigi311.com>
-In-Reply-To: <Zg2jgmmqw0nXDYcF@duo.ucw.cz>
+In-Reply-To: <Zg2jvUDFnY83drlg@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Authenticated-Id: git@luigi311.com
 
-On 4/3/24 12:44, Pavel Machek wrote:
+On 4/3/24 12:45, Pavel Machek wrote:
 > Hi!
 > 
->> The device tree bindings define the relevant regulators for the
->> sensor, so update the driver to request the regulators and control
->> them at the appropriate times.
+>> +/*
+>> + * 4208x3120 @ 30 fps needs 1267Mbps/lane, 4 lanes.
+>> + * To avoid further computation of clock settings, adopt the same per
+>> + * lane data rate when using 2 lanes, thus allowing a maximum of 15fps.
+>> + */
+>> +static const struct imx258_reg mipi_1267mbps_19_2mhz_2l[] = {
+>> +	{ 0x0136, 0x13 },
+>> +	{ 0x0137, 0x33 },
+>> +	{ 0x0301, 0x0A },
+>> +	{ 0x0303, 0x02 },
+>> +	{ 0x0305, 0x03 },
+>> +	{ 0x0306, 0x00 },
+>> +	{ 0x0307, 0xC6 },
+>> +	{ 0x0309, 0x0A },
+>> +	{ 0x030B, 0x01 },
+>> +	{ 0x030D, 0x02 },
+>> +	{ 0x030E, 0x00 },
+>> +	{ 0x030F, 0xD8 },
+>> +	{ 0x0310, 0x00 },
+>> +
+>> +	{ 0x0114, 0x01 },
+>> +	{ 0x0820, 0x09 },
+>> +	{ 0x0821, 0xa6 },
+>> +	{ 0x0822, 0x66 },
+>> +	{ 0x0823, 0x66 },
+>> +};
+>> +
+>> +static const struct imx258_reg mipi_1267mbps_19_2mhz_4l[] = {
+>>  	{ 0x0136, 0x13 },
+>>  	{ 0x0137, 0x33 },
+>>  	{ 0x0301, 0x05 },
 > 
->> @@ -995,9 +1007,19 @@ static int imx258_power_on(struct device *dev)
->>  	struct imx258 *imx258 = to_imx258(sd);
->>  	int ret;
->>  
->> +	ret = regulator_bulk_enable(IMX258_NUM_SUPPLIES,
->> +				    imx258->supplies);
->> +	if (ret) {
-> 
-> Will this make it fail for all current users?
+> I wish we did not have to copy all the magic values like this.
 > 
 > Best regards,
 > 								Pavel
 > 								
 
-It shouldn't affect current users as this was added in by dave for
-a completely different sensor and it still works on my ppp. Looking
-at the dmesg for imx258 it does reference the regulators that the
-ppp doesnt have but it still works.
+no kidding, magic values everywhere.... it makes it annoying
+for me to move things around because they all start to look
+similar. Down the line we added in more defined names so its
+not as bad but still its bad lol.
 
