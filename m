@@ -1,171 +1,178 @@
-Return-Path: <linux-media+bounces-8788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644AD89AA36
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 11:34:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C2989AAC4
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 14:35:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B84AF2827D5
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 09:34:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CCF9B21A14
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 12:35:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6667823767;
-	Sat,  6 Apr 2024 09:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B312869B;
+	Sat,  6 Apr 2024 12:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FQwcFkdh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1041B225CF
-	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 09:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA94CE546
+	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 12:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712396089; cv=none; b=XWHZmbtAj7FrksegpmEcdhC2WiEIxd1SPxTds682Bi/KDQIW0qxnRlDC7QolKUFYGTU3p7kGi/IDt9DLCjyX80v0/82AygZe+hm3vhdmBGHqsK8tIt7JlEiiGwF7A+eHW4MUcJFFOHfYeeKAe+8duL07TwlCnpR4UEKbbcZch+w=
+	t=1712406905; cv=none; b=sPHx0/ho7n2xI4MIn9nH8AK2oI+hcDADRRuP7T0z6CqX+DpU6wnAXeuLURdbwPEvoyPy+u4uaBypfUUqwCIe0WhdG9TGc9PXnTjMSTYmTBBpOljDbwHpUPeBTB5N3tvI2Ff2n4eBARzub7oDWG+QdggNSF2izREEmIO1avB5yec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712396089; c=relaxed/simple;
-	bh=jqDTRlx41iV58EFZtUC7eMBgUM0BkG17vQO/lcuv1Us=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OCHsm9kb4TPSPrR3CT1buEj/GcT4xA/4kh8O7yvjfCdmKTxYZ2lUVGfd44GlJoWxCCoLYOLS29+DydFESOEXPRE+TxrytpxNx6zkT9XNDVogURYdVp7fss5yf7jHU3cG1Eshq8Y6HMF047/kNIjFJ0umKBL23Y0Mr2o+QBoz/aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433D4C433F1;
-	Sat,  6 Apr 2024 09:34:45 +0000 (UTC)
-Message-ID: <bb4d3cf1-03a1-42f0-82c7-5421d9af28cc@xs4all.nl>
-Date: Sat, 6 Apr 2024 11:34:43 +0200
+	s=arc-20240116; t=1712406905; c=relaxed/simple;
+	bh=PgLZGgbB7pRKcZwxAPWD0reZVU0kuTBEcd0XZ3D/oLw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IMnxfOHwcEfRbNfYmn1ozYVBqG5npVjPkKn/XTmYrHGBxE3PiIbWQxehdlu8SMT6VzCvHcXEUxIin5yKoB/+z2ii8Nm9cf4bsE4iSkxDUYDKRVCr4nv1TQpi6RsuyrL9YKwdVC3VEoQQKwWvOV3LFPX6xInR1N6kW0DeIbDUAsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FQwcFkdh; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-516a01c8490so3596066e87.1
+        for <linux-media@vger.kernel.org>; Sat, 06 Apr 2024 05:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1712406902; x=1713011702; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fTqfNfgVvG17SQS+nQW1vZDRZtnVmPZ2TWsdgazdFrU=;
+        b=FQwcFkdhZl/IRyJhRDwsTpIePDLvYS5L3vDmc9UenebWufnuuaEXgYwYRgRNez+2Oy
+         bBoQ3Us99v4h6XnHAHmFyyuajb/JSmC32Om1dcWR/Y0Y73s98o9m6fyehpiRaYgWnXxj
+         udDD+4FNis/4sbTc/aD24CNPTea7Ljin7oCME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712406902; x=1713011702;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fTqfNfgVvG17SQS+nQW1vZDRZtnVmPZ2TWsdgazdFrU=;
+        b=Ku9EBSpa+Q3+cHwk300m55b4MCKY6wBNnkEy8nRKB1sF8Z98qFJQovpRZJj7abSCRA
+         7+Rzyq8BIGEoa5W59bOB106faTfXwVlVm0iI4N6sfZ4Oo6H13AhNtfYj7UUZShuNka8Q
+         5L4OOBlrY2SB3Zy7Xhi230b65zOK1+lHtNOwaqwBQlmnpssKw62/nyEg8rFszTYG0MZ1
+         t6U9cOfAGcV53gJk6PTbypzbUORspKH0mggS3gpNphbj3WsjKceNqB8oVPemOOPQJ1Th
+         DtqyqfK5Z0Nokqir9ULJ5N1u9Z0+X1FcN+3j0PQBzsj+55sxCWnIXEZStuMirQNfleB/
+         8adw==
+X-Gm-Message-State: AOJu0YyGIh9mOdeWRtntKHuAUadh9HFe3FAT9flv/D4Al6wJbJNZGMMb
+	2x1Ws1mz/EaI2hoMjLh7oyt3q03PeiOlR1skkDSA0/wR7Ak/IQdkTN9OBnjRFgrCKAUq+Li17g2
+	ydp44YEW5yeAhHoioQ+9UKfKcBZY+Gn1TV6uv
+X-Google-Smtp-Source: AGHT+IEjjE3vFi++fITR5aaazmRVDY9+fuTG8XTxfg5Si9NGnH25rGqyqTwDAJwfMDkr02ArkyUma3rIJ5o7kLr7a6s=
+X-Received: by 2002:a19:f019:0:b0:514:b4c7:9f5c with SMTP id
+ p25-20020a19f019000000b00514b4c79f5cmr1592215lfc.9.1712406901679; Sat, 06 Apr
+ 2024 05:35:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl> <bb4d3cf1-03a1-42f0-82c7-5421d9af28cc@xs4all.nl>
+In-Reply-To: <bb4d3cf1-03a1-42f0-82c7-5421d9af28cc@xs4all.nl>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Sat, 6 Apr 2024 20:34:50 +0800
+Message-ID: <CAGXv+5EnB6uvo8vr0pXNRARzWy-j8ssqKbvwUUJjeaAdfH_cag@mail.gmail.com>
 Subject: Re: [ANN] Media Summit 2024: where to hold it?
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.org>
-References: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
- BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
- 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
- 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
- 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
- +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
- OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
- 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
- wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
- qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
- vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
- 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
- IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
- KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
- UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
- c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
- AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
- Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
- KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
- gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
- sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
- UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	"stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-
-Based on the responses it is clear that Vienna is the winner here.
-
-However nice Montreal is, it is simply not an option for several key
-developers.
-
-I contacted the Linux Foundation to see if we can get a meeting room
-co-located with the Open Source Summit Europe/ELC. I am aiming for
-16 or 17 September.
-
-When I know more I will post an announcement with more info and a request
-for topics.
-
-Thank you all for your quick replies!
-
-Regards,
-
-	Hans
-
-On 04/04/2024 09:29, Hans Verkuil wrote:
+On Sat, Apr 6, 2024 at 5:34=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
+ote:
+>
 > Hi all,
-> 
-> Normally we like to have a one day Media Summit meeting co-located with
-> the Embedded Linux Conference Europe, however there isn't one this year.
-> Instead of organizing an ELC both in North America and in Europe each
-> year, the Linux Foundation switched to alternating between NA and Europe,
-> and this year it is in North America.
-> 
-> The problem is that most media subsystem developers are based in Europe
-> for some strange reason.
-> 
-> So we have to make a choice this year: we can co-locate with the gStreamer
-> and XDC conference in Montreal, Canada on October 7 or 8, or we can
-> organize a meeting somewhere in Europe ourselves. One possibility is
-> to try and co-locate with the Open Source Summit Europe/LPC conferences
-> in Vienna, Austria in the week of September 16-20. Another is just to
-> organize something ourselves somewhere in Europe. But that's a last resort,
-> co-locating with a conference is generally more appealing for people.
-> 
-> The advantage of picking Montreal is that the gStreamer conference is
-> more applicable to the work we do, and we can get a meeting room there
-> free of charge. Besides, I've never been to Montreal :-)
-> 
-> But can we get enough of the core media maintainers there? There is no
-> point otherwise. I suspect that the same company travel constraints that
-> were present last year are still in force this year.
-> 
-> If we pick Vienna instead (assuming we can get a meeting room for a decent
-> price), would that work better?
-> 
-> So if you are a core media maintainer, or an active media developer interested
-> in joining a Media Summit, please let me know if:
-> 
-> 1) Montreal, October 7 or 8, works for me!
-> 2) Vienna, one day in the period September 16-20, works for me!
-> 
-> Please respond asap, I'd like to get a clear picture soon, ideally by the end
-> of next week.
-> 
-> Regards,
-> 
-> 	Hans
-> 
+>
+> Based on the responses it is clear that Vienna is the winner here.
+>
+> However nice Montreal is, it is simply not an option for several key
+> developers.
+>
+> I contacted the Linux Foundation to see if we can get a meeting room
+> co-located with the Open Source Summit Europe/ELC. I am aiming for
+> 16 or 17 September.
+>
+> When I know more I will post an announcement with more info and a request
+> for topics.
+>
+> Thank you all for your quick replies!
 
+Sorry for the late reply. I'm replying on behalf of the ChromeOS V4L2
+video team, whom I had been supporting previously. They'd prefer Montreal,
+though they will try to send one person to attend regardless of the
+location.
+
+
+ChenYu
+
+
+
+> Regards,
+>
+>         Hans
+>
+> On 04/04/2024 09:29, Hans Verkuil wrote:
+> > Hi all,
+> >
+> > Normally we like to have a one day Media Summit meeting co-located with
+> > the Embedded Linux Conference Europe, however there isn't one this year=
+.
+> > Instead of organizing an ELC both in North America and in Europe each
+> > year, the Linux Foundation switched to alternating between NA and Europ=
+e,
+> > and this year it is in North America.
+> >
+> > The problem is that most media subsystem developers are based in Europe
+> > for some strange reason.
+> >
+> > So we have to make a choice this year: we can co-locate with the gStrea=
+mer
+> > and XDC conference in Montreal, Canada on October 7 or 8, or we can
+> > organize a meeting somewhere in Europe ourselves. One possibility is
+> > to try and co-locate with the Open Source Summit Europe/LPC conferences
+> > in Vienna, Austria in the week of September 16-20. Another is just to
+> > organize something ourselves somewhere in Europe. But that's a last res=
+ort,
+> > co-locating with a conference is generally more appealing for people.
+> >
+> > The advantage of picking Montreal is that the gStreamer conference is
+> > more applicable to the work we do, and we can get a meeting room there
+> > free of charge. Besides, I've never been to Montreal :-)
+> >
+> > But can we get enough of the core media maintainers there? There is no
+> > point otherwise. I suspect that the same company travel constraints tha=
+t
+> > were present last year are still in force this year.
+> >
+> > If we pick Vienna instead (assuming we can get a meeting room for a dec=
+ent
+> > price), would that work better?
+> >
+> > So if you are a core media maintainer, or an active media developer int=
+erested
+> > in joining a Media Summit, please let me know if:
+> >
+> > 1) Montreal, October 7 or 8, works for me!
+> > 2) Vienna, one day in the period September 16-20, works for me!
+> >
+> > Please respond asap, I'd like to get a clear picture soon, ideally by t=
+he end
+> > of next week.
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+>
+>
 
