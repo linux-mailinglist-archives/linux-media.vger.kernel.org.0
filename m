@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-8785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539D789A925
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 07:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D5E89A929
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 07:29:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 765BE1C20F8B
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 05:26:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBD8F1C2150F
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 05:29:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE48200BF;
-	Sat,  6 Apr 2024 05:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB34208BA;
+	Sat,  6 Apr 2024 05:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="lYYo38LY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="RU30JmeZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta119.mxroute.com (mail-108-mta119.mxroute.com [136.175.108.119])
+Received: from mail-108-mta170.mxroute.com (mail-108-mta170.mxroute.com [136.175.108.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448BC19479
-	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 05:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1648F1EB5E
+	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 05:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712381195; cv=none; b=bl8iopkdC31vtpqjPTTnIdbQd6jA++tc1fDr1LcaHIxdYtxVdvInszxGMh5FjFUmBSg10pLqWRwz1AWMBtYSeSXw2WRSjmJ2rTd6cr44h+kTIG0nOR+/o12V24tXETuUUpTmpuMtaGqy4AVpkqokZJAXzyiT1uV4Y2Ztc8oI760=
+	t=1712381341; cv=none; b=eX2xcJ+yGGnSwRW3nyCppo2b2ttyvoWzIXIEghwpxf5MFujdwY9vxmTqOLAKg8ySXAFXdkvBUY4l2ITEvlMhbRbysALIEmWzwbzTNY8BTFY0iyomF6ZSKRcruYtn/AMuF6vc/Y65gqd72rRM9vzfLCb1qqJQg1+2lkc/YmrsszM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712381195; c=relaxed/simple;
-	bh=BG8LcYwweZBCV9PEAn7PNGz++FzqdB3/RIwjA6WLWIA=;
+	s=arc-20240116; t=1712381341; c=relaxed/simple;
+	bh=XvGGiaKjAp46vAegdWKN0fVnxmrfC1H1J6zN0QKFTrw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rb3CRsf90p/hVv5CuKqF2Ob78Cg2iuDAA4lH3JI3cWMQOrSb2gtWjrqezN60Mz5zZesT16o+e27dQl7oBlOp7v54i8lSKuhjI++R+jcbPPSosTclszz0VXql8nyC1rRSqgVsjHv3uk0s8npN4le+tDQjx6CI618CzyNU+TD/EVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=lYYo38LY; arc=none smtp.client-ip=136.175.108.119
+	 In-Reply-To:Content-Type; b=b18wrU10kKIR7ztROAhRGkeO7L7pLnXngdfB4FaI83Cm0HJG6rU/AbffJza9V9LDmCwaPpNfYXOO1ZkpB5CCF0HxRunrrHUTcqAuOFYjPrTnzlvZpxhlya6E/iepBUffQuiMdvGIiO4JslI7CAm6DoAh/aVmBO1349uTBMGWMiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=RU30JmeZ; arc=none smtp.client-ip=136.175.108.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
 Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
  (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta119.mxroute.com (ZoneMTA) with ESMTPSA id 18eb1daa55d0003bea.012
+ by mail-108-mta170.mxroute.com (ZoneMTA) with ESMTPSA id 18eb1dce0660003bea.011
  for <linux-media@vger.kernel.org>
  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sat, 06 Apr 2024 05:21:20 +0000
-X-Zone-Loop: b3b61d5c0df5ac4c452706881d8ea265fb376d663fd6
+ Sat, 06 Apr 2024 05:23:46 +0000
+X-Zone-Loop: 9a9ba47788bce267b6043d87b456303d67594a390ebc
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
 	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=BNON1J0zR9mGYVO4Em2CLHDLLvir7/ucqCdtp1IZ9CM=; b=lYYo38LYiW6zyh7FZufIl1WrzC
-	eisaOu/2/JNj0Asq7SEj5D8O1BNbyKV8Xxzme3LXfzwSoQlbvuUhsIFqujBChYeqh09PebGSaquFJ
-	EKgVdk9UoTU0WmhHy0ck2qrk9wP/jyLcbw5Ac2p8SJ1SJfq9Th9xsMfrilUwnOtW8Im91SlXAOPSI
-	56nA9jIB22PoEB4yAN2wZ1yhzx0RmXBG4NJV8UbUI2sEv2JNmcLAzzvsGq4lkt0owpfehT9W9D5Oh
-	0A9TfIFZAuba817gNb/gBw2rZffqNoLcm36yN6yDAkcnEX2hAQSJkU/xWsYPVb8aaGixuoHkIx3KD
-	Wr7P1BjQ==;
-Message-ID: <3050aed0-df58-440f-87b9-d91d30382c41@luigi311.com>
-Date: Fri, 5 Apr 2024 23:21:15 -0600
+	bh=ZmuhkTALxM8lf0cfAvP+7dJ0PJ20DaBe8z1ii1wZ960=; b=RU30JmeZw8NfKZujRbkVuhHZc7
+	Wdnson/TB15EBa0BLASqHxyQNxUo4sK/fpaxMJHvihEmZLBTATxOJV2BXo3NfWsttfvLKNJJWHRsE
+	CeKtDYAyQP6Ppj2blTGdGqOtuua7XHqeODzZls2nZUb2ZPnnyrjg5+IiMbLf1veOem4ZcIE6FulIa
+	cFzdxpC9SCQ77SbyAmHMfGhhZKRZBLnK2b3qt+pu5WL3NOdQhoD4Sx3PAD7JyD1tpsiBRFs/Iw5M2
+	WYtRtpD/Nl5uPmjzU7acJ0j6ti7PD2GE0ijqjph2h/9H2Iu3mWHFgIpfSZoj8eNzC+j+RW3r4jlbG
+	IjfS1GLw==;
+Message-ID: <bbf7c8c3-ca67-43a1-88d0-199cc9299c6d@luigi311.com>
+Date: Fri, 5 Apr 2024 23:23:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,173 +59,47 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/25] drivers: media: i2c: imx258: Use macros
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
- mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v3 05/25] media: i2c: imx258: Add regulator control
+To: Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+ jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, pavel@ucw.cz, phone-devel@vger.kernel.org,
- Ondrej Jirman <megi@xff.cz>
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
 References: <20240403150355.189229-1-git@luigi311.com>
- <20240403150355.189229-22-git@luigi311.com>
- <Zg2CirmwL3JfjA8s@kekkonen.localdomain>
- <df8c245a-40e9-4bf5-b870-7efe321d820a@luigi311.com>
- <Zg5Mz0QSqNDXzY4o@kekkonen.localdomain>
- <082190a8-7ac5-4240-9a16-6b9168c67d57@luigi311.com>
- <ZhAGi0X2wVOdsrSe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20240403150355.189229-6-git@luigi311.com> <Zg2jgmmqw0nXDYcF@duo.ucw.cz>
 Content-Language: en-US
 From: Luis Garcia <git@luigi311.com>
-In-Reply-To: <ZhAGi0X2wVOdsrSe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+In-Reply-To: <Zg2jgmmqw0nXDYcF@duo.ucw.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Authenticated-Id: git@luigi311.com
 
-On 4/5/24 08:11, Tommaso Merciai wrote:
-> Hi Luis,
+On 4/3/24 12:44, Pavel Machek wrote:
+> Hi!
 > 
-> On Fri, Apr 05, 2024 at 04:33:38AM -0600, Luis Garcia wrote:
->> On 4/4/24 00:46, Sakari Ailus wrote:
->>> On Wed, Apr 03, 2024 at 01:17:26PM -0600, Luigi311 wrote:
->>>> On 4/3/24 10:23, Sakari Ailus wrote:
->>>>> Hi Luis,
->>>>>
->>>>> On Wed, Apr 03, 2024 at 09:03:50AM -0600, git@luigi311.com wrote:
->>>>>> From: Luis Garcia <git@luigi311.com>
->>>>>>
->>>>>> Use understandable macros instead of raw values.
->>>>>>
->>>>>> Signed-off-by: Ondrej Jirman <megi@xff.cz>
->>>>>> Signed-off-by: Luis Garcia <git@luigi311.com>
->>>>>> ---
->>>>>>  drivers/media/i2c/imx258.c | 434 ++++++++++++++++++-------------------
->>>>>>  1 file changed, 207 insertions(+), 227 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
->>>>>> index e2ecf6109516..30352c33f63c 100644
->>>>>> --- a/drivers/media/i2c/imx258.c
->>>>>> +++ b/drivers/media/i2c/imx258.c
->>>>>> @@ -33,8 +33,6 @@
->>>>>>  #define IMX258_VTS_30FPS_VGA		0x034c
->>>>>>  #define IMX258_VTS_MAX			65525
->>>>>>  
->>>>>> -#define IMX258_REG_VTS			0x0340
->>>>>> -
->>>>>>  /* HBLANK control - read only */
->>>>>>  #define IMX258_PPL_DEFAULT		5352
->>>>>>  
->>>>>> @@ -90,6 +88,53 @@
->>>>>>  #define IMX258_PIXEL_ARRAY_WIDTH	4208U
->>>>>>  #define IMX258_PIXEL_ARRAY_HEIGHT	3120U
->>>>>>  
->>>>>> +/* regs */
->>>>>> +#define IMX258_REG_PLL_MULT_DRIV                  0x0310
->>>>>> +#define IMX258_REG_IVTPXCK_DIV                    0x0301
->>>>>> +#define IMX258_REG_IVTSYCK_DIV                    0x0303
->>>>>> +#define IMX258_REG_PREPLLCK_VT_DIV                0x0305
->>>>>> +#define IMX258_REG_IOPPXCK_DIV                    0x0309
->>>>>> +#define IMX258_REG_IOPSYCK_DIV                    0x030b
->>>>>> +#define IMX258_REG_PREPLLCK_OP_DIV                0x030d
->>>>>> +#define IMX258_REG_PHASE_PIX_OUTEN                0x3030
->>>>>> +#define IMX258_REG_PDPIX_DATA_RATE                0x3032
->>>>>> +#define IMX258_REG_SCALE_MODE                     0x0401
->>>>>> +#define IMX258_REG_SCALE_MODE_EXT                 0x3038
->>>>>> +#define IMX258_REG_AF_WINDOW_MODE                 0x7bcd
->>>>>> +#define IMX258_REG_FRM_LENGTH_CTL                 0x0350
->>>>>> +#define IMX258_REG_CSI_LANE_MODE                  0x0114
->>>>>> +#define IMX258_REG_X_EVN_INC                      0x0381
->>>>>> +#define IMX258_REG_X_ODD_INC                      0x0383
->>>>>> +#define IMX258_REG_Y_EVN_INC                      0x0385
->>>>>> +#define IMX258_REG_Y_ODD_INC                      0x0387
->>>>>> +#define IMX258_REG_BINNING_MODE                   0x0900
->>>>>> +#define IMX258_REG_BINNING_TYPE_V                 0x0901
->>>>>> +#define IMX258_REG_FORCE_FD_SUM                   0x300d
->>>>>> +#define IMX258_REG_DIG_CROP_X_OFFSET              0x0408
->>>>>> +#define IMX258_REG_DIG_CROP_Y_OFFSET              0x040a
->>>>>> +#define IMX258_REG_DIG_CROP_IMAGE_WIDTH           0x040c
->>>>>> +#define IMX258_REG_DIG_CROP_IMAGE_HEIGHT          0x040e
->>>>>> +#define IMX258_REG_SCALE_M                        0x0404
->>>>>> +#define IMX258_REG_X_OUT_SIZE                     0x034c
->>>>>> +#define IMX258_REG_Y_OUT_SIZE                     0x034e
->>>>>> +#define IMX258_REG_X_ADD_STA                      0x0344
->>>>>> +#define IMX258_REG_Y_ADD_STA                      0x0346
->>>>>> +#define IMX258_REG_X_ADD_END                      0x0348
->>>>>> +#define IMX258_REG_Y_ADD_END                      0x034a
->>>>>> +#define IMX258_REG_EXCK_FREQ                      0x0136
->>>>>> +#define IMX258_REG_CSI_DT_FMT                     0x0112
->>>>>> +#define IMX258_REG_LINE_LENGTH_PCK                0x0342
->>>>>> +#define IMX258_REG_SCALE_M_EXT                    0x303a
->>>>>> +#define IMX258_REG_FRM_LENGTH_LINES               0x0340
->>>>>> +#define IMX258_REG_FINE_INTEG_TIME                0x0200
->>>>>> +#define IMX258_REG_PLL_IVT_MPY                    0x0306
->>>>>> +#define IMX258_REG_PLL_IOP_MPY                    0x030e
->>>>>> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_H       0x0820
->>>>>> +#define IMX258_REG_REQ_LINK_BIT_RATE_MBPS_L       0x0822
->>>>>> +
->>>>>> +#define REG8(a, v) { a, v }
->>>>>> +#define REG16(a, v) { a, ((v) >> 8) & 0xff }, { (a) + 1, (v) & 0xff }
->>>>>
->>>>> The patch is nice but these macros are better replaced by the V4L2 CCI
->>>>> helper that also offers register access functions. Could you add a patch to
->>>>> convert the driver to use it (maybe after this one)?
->>>>>
->>>>
->>>> Ohh perfect, using something else would be great. Ill go ahead and see
->>>> if I can get that working.
->>>
->>> Thanks. It may be easier to just do it in this one actually. Up to you.
->>>
->>
->> I've made the swap but looks like its not playing nice with my ppp,
->> its causing a crash and showing a call trace as soon as it does its
->> first read to check the identity. I went in and dropped the cci_read
->> and left it with the original implementation and I'm getting a very
->> similar crash with cci_write too so it looks like its not liking
->> how I'm implementing it. Looking at the few other drivers that were
->> swapped over to use that, I don't seem to be missing anything. It's
->> a big change so its not really something I can describe what I've
->> changed but I do have the change on my github here
->> https://github.com/luigi311/linux/commit/840593acb20eee87ce361e6929edf51eefbbe737
+>> The device tree bindings define the relevant regulators for the
+>> sensor, so update the driver to request the regulators and control
+>> them at the appropriate times.
 > 
-> I checked your commit to switch to cci helper.
-> I think you are missing the right cci regmap initialization.
+>> @@ -995,9 +1007,19 @@ static int imx258_power_on(struct device *dev)
+>>  	struct imx258 *imx258 = to_imx258(sd);
+>>  	int ret;
+>>  
+>> +	ret = regulator_bulk_enable(IMX258_NUM_SUPPLIES,
+>> +				    imx258->supplies);
+>> +	if (ret) {
 > 
-> Please take care to use: devm_cci_regmap_init_i2c
+> Will this make it fail for all current users?
 > 
-> /**
->  * devm_cci_regmap_init_i2c() - Create regmap to use with cci_*() register
->  *                              access functions
->  *
->  * @client: i2c_client to create the regmap for
->  * @reg_addr_bits: register address width to use (8 or 16)
->  *
->  * Note the memory for the created regmap is devm() managed, tied to the client.
->  *
->  * Return: %0 on success or a negative error code on failure.
->  */
-> 
-> Check drivers/media/i2c/imx290.c:1530
-> Hope this help :)
-> 
-> Note:
-> Somewhere into the github commit you are reading 16bit reg and storing
-> that into 64bit val. Take care! :)
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> 
+> Best regards,
+> 								Pavel
+> 								
 
-Ohh my god your right, looks like i missed that when i was replicating
-the cci patch for that same driver lol. Looks like that fixed it and
-the driver is now loading so i can continue to debug it and make sure
-everything is set correct since i had a few that were messed up since
-i couldn't test it.
-
->> if you can provide some guidance, if not I can skip this change
->> all together and we can do a separate attempt at swapping over to it.
->>
-
+It shouldn't affect current users as this was added in by dave for
+a completely different sensor and it still works on my ppp. Looking
+at the dmesg for imx258 it does reference the regulators that the
+ppp doesnt have but it still works.
 
