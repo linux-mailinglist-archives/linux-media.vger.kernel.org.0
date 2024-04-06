@@ -1,178 +1,168 @@
-Return-Path: <linux-media+bounces-8789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8790-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C2989AAC4
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 14:35:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E20989AB3F
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 16:03:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CCF9B21A14
-	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 12:35:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40FED1C20D46
+	for <lists+linux-media@lfdr.de>; Sat,  6 Apr 2024 14:03:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B312869B;
-	Sat,  6 Apr 2024 12:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92F0A3770B;
+	Sat,  6 Apr 2024 14:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FQwcFkdh"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="nhpiI5Uh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="C/PpYlJW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow7-smtp.messagingengine.com (flow7-smtp.messagingengine.com [103.168.172.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA94CE546
-	for <linux-media@vger.kernel.org>; Sat,  6 Apr 2024 12:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B61026ACA;
+	Sat,  6 Apr 2024 14:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712406905; cv=none; b=sPHx0/ho7n2xI4MIn9nH8AK2oI+hcDADRRuP7T0z6CqX+DpU6wnAXeuLURdbwPEvoyPy+u4uaBypfUUqwCIe0WhdG9TGc9PXnTjMSTYmTBBpOljDbwHpUPeBTB5N3tvI2Ff2n4eBARzub7oDWG+QdggNSF2izREEmIO1avB5yec=
+	t=1712412227; cv=none; b=sZGyUKYaLtcy4qNnsPhpWBPHHYmsrSM/AyK9dTNPN0nfPy/0NxAEwmATJhRBzmU4RXGNPZjBu6WfVkd2CQu1Bd17iB4U+KhW3FxjqZzOYL3wnSATUUIiCP2LqAFEuNOKGeZDBVh/CWXLaWkFulTrQM0ROo09zLqymhORfuZM9p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712406905; c=relaxed/simple;
-	bh=PgLZGgbB7pRKcZwxAPWD0reZVU0kuTBEcd0XZ3D/oLw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IMnxfOHwcEfRbNfYmn1ozYVBqG5npVjPkKn/XTmYrHGBxE3PiIbWQxehdlu8SMT6VzCvHcXEUxIin5yKoB/+z2ii8Nm9cf4bsE4iSkxDUYDKRVCr4nv1TQpi6RsuyrL9YKwdVC3VEoQQKwWvOV3LFPX6xInR1N6kW0DeIbDUAsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FQwcFkdh; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-516a01c8490so3596066e87.1
-        for <linux-media@vger.kernel.org>; Sat, 06 Apr 2024 05:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712406902; x=1713011702; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fTqfNfgVvG17SQS+nQW1vZDRZtnVmPZ2TWsdgazdFrU=;
-        b=FQwcFkdhZl/IRyJhRDwsTpIePDLvYS5L3vDmc9UenebWufnuuaEXgYwYRgRNez+2Oy
-         bBoQ3Us99v4h6XnHAHmFyyuajb/JSmC32Om1dcWR/Y0Y73s98o9m6fyehpiRaYgWnXxj
-         udDD+4FNis/4sbTc/aD24CNPTea7Ljin7oCME=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712406902; x=1713011702;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fTqfNfgVvG17SQS+nQW1vZDRZtnVmPZ2TWsdgazdFrU=;
-        b=Ku9EBSpa+Q3+cHwk300m55b4MCKY6wBNnkEy8nRKB1sF8Z98qFJQovpRZJj7abSCRA
-         7+Rzyq8BIGEoa5W59bOB106faTfXwVlVm0iI4N6sfZ4Oo6H13AhNtfYj7UUZShuNka8Q
-         5L4OOBlrY2SB3Zy7Xhi230b65zOK1+lHtNOwaqwBQlmnpssKw62/nyEg8rFszTYG0MZ1
-         t6U9cOfAGcV53gJk6PTbypzbUORspKH0mggS3gpNphbj3WsjKceNqB8oVPemOOPQJ1Th
-         DtqyqfK5Z0Nokqir9ULJ5N1u9Z0+X1FcN+3j0PQBzsj+55sxCWnIXEZStuMirQNfleB/
-         8adw==
-X-Gm-Message-State: AOJu0YyGIh9mOdeWRtntKHuAUadh9HFe3FAT9flv/D4Al6wJbJNZGMMb
-	2x1Ws1mz/EaI2hoMjLh7oyt3q03PeiOlR1skkDSA0/wR7Ak/IQdkTN9OBnjRFgrCKAUq+Li17g2
-	ydp44YEW5yeAhHoioQ+9UKfKcBZY+Gn1TV6uv
-X-Google-Smtp-Source: AGHT+IEjjE3vFi++fITR5aaazmRVDY9+fuTG8XTxfg5Si9NGnH25rGqyqTwDAJwfMDkr02ArkyUma3rIJ5o7kLr7a6s=
-X-Received: by 2002:a19:f019:0:b0:514:b4c7:9f5c with SMTP id
- p25-20020a19f019000000b00514b4c79f5cmr1592215lfc.9.1712406901679; Sat, 06 Apr
- 2024 05:35:01 -0700 (PDT)
+	s=arc-20240116; t=1712412227; c=relaxed/simple;
+	bh=ENTO6UB09qGYIRM+6RLPcHTPSVS4p+i2x0+J7oR4SWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IjbmZ4rdVg4O9C1Fjni9cbehYqIp3KiFgGEBtjIrhSvmOjmMXStxE7AQZ6FfbYYBGMeftlsUU6xlThBNh4GhNkrCCr2QHAT7t/9u3bZX2fsuFsRhCgGZuJ1tlgdZSrf3hqw7Y3ESeYTErfWmF5laI74LqIA3c6f1EnIuhm7smIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=nhpiI5Uh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=C/PpYlJW; arc=none smtp.client-ip=103.168.172.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 4C7FE20043B;
+	Sat,  6 Apr 2024 10:03:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 06 Apr 2024 10:03:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1712412222;
+	 x=1712415822; bh=PUh1xzVqpnfSlXumwj/nAAafAm5GRaA7LoifatDtllA=; b=
+	nhpiI5UhCBdd0X1csnzvORn9ocq8aTbSyhI/rXU4z2/HT6L3kxmYWtlwsm+2hniA
+	w2sRTKfrwSUY47T285uwkJpDytum2WvUfV/l4VMIGkUpZCQM8oH5FFllc/HU2hVV
+	mbfXyrfw9yU64JLTGTDJ14DXfOwxmrk0fMV0zXPuWH15uV6Ywd7FbpStfqJhreuF
+	SPGSXDVD7Li+S45bfEz3GkHI1CSr3F7B4qWhjMPg166As22PMMxxJ/qAZFQZxvXw
+	bAzuzMwguh9HlkbyJjsb5Gx5/O6hu65PJPiE/EppIu5L2KcTXkKFY2KnQf97seYF
+	SpZgTErYJBa3x5JCIdr0pw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1712412222; x=
+	1712415822; bh=PUh1xzVqpnfSlXumwj/nAAafAm5GRaA7LoifatDtllA=; b=C
+	/PpYlJWKhUYgLV4Bk0gbBs5URC8eW6rrj66BLWxEfjxfpanN+NliYT3GoUNd5v0E
+	ODtH3Ox5bt3ZX9SdhJjfPkp0LWXPQUy7eqYbnQPopJYmtrUUazgUrL+v41cVZwKl
+	Rby9hbXS4EWsM8uE9W2pKia10vq9v59JZVmRCN8s2s+zmpAIN/56q8zYjIAr1Coh
+	f09QUbZKxTgiaf/miaxfrs3tCH9euS1VjsFWmpgU94EpXT0Ufo33XTne76Z0DNcb
+	IGdcE8BQkYMdRP8uzjocyBDJl/dN3Hpsjw//NpaROmpPSwQ9qiKMnvpon4b8fphp
+	l2Hzvm6r7wqMZ6lfe89ow==
+X-ME-Sender: <xms:PFYRZrPRMr3peoqhSVFqZgcXj91qT_GBl_8d19Zn-bnnGvCs4aVXHw>
+    <xme:PFYRZl83BApdr1J7SRa38Qk_7HKSPXHvdZy6QWxWAHLNKpgGqbWWpXhDHdeMPz7lU
+    TUDDSnzgiCNPb_b5V8>
+X-ME-Received: <xmr:PFYRZqRFf3IkBGNjOrq7dr3_ZPLO_808yx27UcMcxr2in3AOzWL91mKwEQBHtci3Ws_2sgCE2euGrWZFuFme0lIht1MtGCQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegvddgjeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
+    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeef
+    heetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgr
+    ghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:PFYRZvtq1cjcK9gy4UPY21vp4k1B8iOMt7v7xupkfC-HgMFtVCYMzA>
+    <xmx:PFYRZjfTo8bDsKxXdf7_Qq9vVcQyCqo0dqwbEw5drkVVRK9C46GbFg>
+    <xmx:PFYRZr30Hq1gNFW-9lZrDbsmNnX_peDut0uBbJcLZHfqSvryz7lnnA>
+    <xmx:PFYRZv-T6XyP8nsg_i3E4hiB3FGe7nOGMJnAEJ5XtqjY_Pu7X62PXw>
+    <xmx:PVYRZh2SruAQsatXPh7b_-iP4YYwzuZ7TFE1bOU0HRrVl1_y1VzWmgrM>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 6 Apr 2024 10:03:39 -0400 (EDT)
+Date: Sat, 6 Apr 2024 16:03:37 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, tharvey@gateworks.com,
+	prabhakar.csengg@gmail.com, charles-antoine.couret@nexvision.fr,
+	thierry.reding@gmail.com, jonathanh@nvidia.com,
+	skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chromeos-krk-upstreaming@google.com
+Subject: Re: [PATCH 13/16] media: rcar-vin: Use pad variant of dv timing
+ subdev calls
+Message-ID: <20240406140337.GB2024639@ragnatech.se>
+References: <20240405141411.1807189-1-panikiel@google.com>
+ <20240405141411.1807189-14-panikiel@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <607815ae-57b5-4c67-9a52-0de795aefc52@xs4all.nl> <bb4d3cf1-03a1-42f0-82c7-5421d9af28cc@xs4all.nl>
-In-Reply-To: <bb4d3cf1-03a1-42f0-82c7-5421d9af28cc@xs4all.nl>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Sat, 6 Apr 2024 20:34:50 +0800
-Message-ID: <CAGXv+5EnB6uvo8vr0pXNRARzWy-j8ssqKbvwUUJjeaAdfH_cag@mail.gmail.com>
-Subject: Re: [ANN] Media Summit 2024: where to hold it?
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	"stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240405141411.1807189-14-panikiel@google.com>
 
-On Sat, Apr 6, 2024 at 5:34=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
-ote:
->
-> Hi all,
->
-> Based on the responses it is clear that Vienna is the winner here.
->
-> However nice Montreal is, it is simply not an option for several key
-> developers.
->
-> I contacted the Linux Foundation to see if we can get a meeting room
-> co-located with the Open Source Summit Europe/ELC. I am aiming for
-> 16 or 17 September.
->
-> When I know more I will post an announcement with more info and a request
-> for topics.
->
-> Thank you all for your quick replies!
+Hi Paweł,
 
-Sorry for the late reply. I'm replying on behalf of the ChromeOS V4L2
-video team, whom I had been supporting previously. They'd prefer Montreal,
-though they will try to send one person to attend regardless of the
-location.
+Thanks for your work.
 
+On 2024-04-05 14:14:08 +0000, Paweł Anikiel wrote:
+> Use the pad variant for all (s|g|query)_dv_timings subdev calls, which
+> includes a pad argument.
+> 
+> Signed-off-by: Paweł Anikiel <panikiel@google.com>
 
-ChenYu
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> index 073f70c6ac68..bb4b07bed28d 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+> @@ -730,7 +730,8 @@ static int rvin_s_dv_timings(struct file *file, void *priv_fh,
+>  	struct v4l2_subdev *sd = vin_to_source(vin);
+>  	int ret;
+>  
+> -	ret = v4l2_subdev_call(sd, video, s_dv_timings, timings);
+> +	ret = v4l2_subdev_call(sd, pad, s_dv_timings,
+> +			       vin->parallel.sink_pad, timings);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -744,7 +745,8 @@ static int rvin_g_dv_timings(struct file *file, void *priv_fh,
+>  	struct rvin_dev *vin = video_drvdata(file);
+>  	struct v4l2_subdev *sd = vin_to_source(vin);
+>  
+> -	return v4l2_subdev_call(sd, video, g_dv_timings, timings);
+> +	return v4l2_subdev_call(sd, pad, g_dv_timings,
+> +				vin->parallel.sink_pad, timings);
+>  }
+>  
+>  static int rvin_query_dv_timings(struct file *file, void *priv_fh,
+> @@ -753,7 +755,8 @@ static int rvin_query_dv_timings(struct file *file, void *priv_fh,
+>  	struct rvin_dev *vin = video_drvdata(file);
+>  	struct v4l2_subdev *sd = vin_to_source(vin);
+>  
+> -	return v4l2_subdev_call(sd, video, query_dv_timings, timings);
+> +	return v4l2_subdev_call(sd, pad, query_dv_timings,
+> +				vin->parallel.sink_pad, timings);
+>  }
+>  
+>  static int rvin_dv_timings_cap(struct file *file, void *priv_fh,
+> -- 
+> 2.44.0.478.gd926399ef9-goog
+> 
 
-
-> Regards,
->
->         Hans
->
-> On 04/04/2024 09:29, Hans Verkuil wrote:
-> > Hi all,
-> >
-> > Normally we like to have a one day Media Summit meeting co-located with
-> > the Embedded Linux Conference Europe, however there isn't one this year=
-.
-> > Instead of organizing an ELC both in North America and in Europe each
-> > year, the Linux Foundation switched to alternating between NA and Europ=
-e,
-> > and this year it is in North America.
-> >
-> > The problem is that most media subsystem developers are based in Europe
-> > for some strange reason.
-> >
-> > So we have to make a choice this year: we can co-locate with the gStrea=
-mer
-> > and XDC conference in Montreal, Canada on October 7 or 8, or we can
-> > organize a meeting somewhere in Europe ourselves. One possibility is
-> > to try and co-locate with the Open Source Summit Europe/LPC conferences
-> > in Vienna, Austria in the week of September 16-20. Another is just to
-> > organize something ourselves somewhere in Europe. But that's a last res=
-ort,
-> > co-locating with a conference is generally more appealing for people.
-> >
-> > The advantage of picking Montreal is that the gStreamer conference is
-> > more applicable to the work we do, and we can get a meeting room there
-> > free of charge. Besides, I've never been to Montreal :-)
-> >
-> > But can we get enough of the core media maintainers there? There is no
-> > point otherwise. I suspect that the same company travel constraints tha=
-t
-> > were present last year are still in force this year.
-> >
-> > If we pick Vienna instead (assuming we can get a meeting room for a dec=
-ent
-> > price), would that work better?
-> >
-> > So if you are a core media maintainer, or an active media developer int=
-erested
-> > in joining a Media Summit, please let me know if:
-> >
-> > 1) Montreal, October 7 or 8, works for me!
-> > 2) Vienna, one day in the period September 16-20, works for me!
-> >
-> > Please respond asap, I'd like to get a clear picture soon, ideally by t=
-he end
-> > of next week.
-> >
-> > Regards,
-> >
-> >       Hans
-> >
->
->
+-- 
+Kind Regards,
+Niklas Söderlund
 
