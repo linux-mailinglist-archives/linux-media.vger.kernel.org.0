@@ -1,216 +1,227 @@
-Return-Path: <linux-media+bounces-8794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F78289AF6E
-	for <lists+linux-media@lfdr.de>; Sun,  7 Apr 2024 10:09:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8739F89AF8C
+	for <lists+linux-media@lfdr.de>; Sun,  7 Apr 2024 10:19:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A33C31C2156D
-	for <lists+linux-media@lfdr.de>; Sun,  7 Apr 2024 08:09:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFFAEB21660
+	for <lists+linux-media@lfdr.de>; Sun,  7 Apr 2024 08:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C271119A;
-	Sun,  7 Apr 2024 08:09:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B3D11720;
+	Sun,  7 Apr 2024 08:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="eHA8wJQ9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQL45DWu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDE41876
-	for <linux-media@vger.kernel.org>; Sun,  7 Apr 2024 08:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F022911181;
+	Sun,  7 Apr 2024 08:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712477371; cv=none; b=aC7+Oycu4+2ybnCi/Q0yKuIHLHZw7XHE/6TXYh6uJdgraUwiy10NHq/lYeLM+25ii+NbD+sDoLweAdcYJDGlwcc2elUD2JaZwqZA+705/4XKfIp3LcL4NNDKaMgfE4ftOY33uFT1zMXu0nVxwKMNHD9o5qugvFyVSgy2F0Kq+U0=
+	t=1712477946; cv=none; b=XJiZkaY4n3V0WZHEV1XviI6K4iscHG5y2dolkQLTwkCSU5ijA0WEhDWJUhAvHsbdzHxbSMOjH0e7BYeMUcAt8Wq3CK+bFcuP2yA62UCKX0RYKUgo1r7ODvQhIJlTTu8Dp3RLnRJ6Jq45NKvasTp4BV+a0vT7WaK4UCyv3UC3pfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712477371; c=relaxed/simple;
-	bh=L5AAMQbSoF0YudkIwfBHSSHgJwFQtAS3w22mcBvp7F0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FTPzfxg/w3ZKT2YURq4n3vNNRJOeN4gO0lJdcWri3MuKdzDZAWPBnRN8xLfHfN+VLJVS5QKtE6wpoQO3GKrlqDQOYqg4dVktBheVJzZeRk3edd1aGei1U+gNZvvjw2i2B7PSJ1eEAQqZi+zBIQXqbguUllMGF6EO/z0A2M6XL+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=eHA8wJQ9; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-516d487659bso2729351e87.2
-        for <linux-media@vger.kernel.org>; Sun, 07 Apr 2024 01:09:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1712477368; x=1713082168; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RoR1pZo3Vw2aL2foO6O0rlclxwNL4uebAWFaAlNYhYo=;
-        b=eHA8wJQ9uOAlvgGF9crKXIBujUfFI8vSlRUb1ZXHo3GQ403c345zGzNuEzJjtl0lkS
-         twuQpNRAPaL8yMG4zvdDC/7b/Q2hjCoAwWe0IoPdJMH75O1Du3ghN24qYwe+3GkyL4gI
-         c32clIHqfHTSxpfc9EedsOyEeVagsWZRD85h0F/NpYN9Rvxgj8iG+B8tzia8hHCru6zU
-         rNXvZwRUuM63hW7PQBls++jCIjEky/wARmijlYSqLPdz6AgMLl9mOpTpe+FA/VPngoe3
-         RjACHjgtnz2fwps8NEuvxms7f3NUKPt0Lpfjkaf5QBy4JJtkpODtCYGOjEZe6iODF7b0
-         soWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712477368; x=1713082168;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RoR1pZo3Vw2aL2foO6O0rlclxwNL4uebAWFaAlNYhYo=;
-        b=RxRukA0QyoHJbcgBC3vZixJoo9KME8oDv5bYj7G3/+GlwdV4aEf8tTaFUXbIgW2o5U
-         AHUrxy1e8ztMgMOMHYjFMd3JqyKh+w4ojsuatC7nSRcEsWdn4BSQcJEqoReT4Rs89BMk
-         sK4lTOT3v08BqFNJqvAweQK/KB3Sz/o1Qa3caKSkCRM8vab3nsv3+73DyPLnxlaBRS0B
-         12m8JcXBjMpZIChWsV9tWXWXIGihQZA+24+D2ZxmZQdyqHCCzez52OWy58uLTVjxmbeG
-         UrkR2dyjRDLarQCri+g9K0M76s+iH3Xp5mWhxKhmMqryR4gXveNYLx13JnLa6bOtsM0p
-         NIXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXN0pyty58Me5jCgBlyVrcmr7/XUesoMhjKfWo8j/3Pfg8vRQmaalMaTNKFvbpbmt8AD3Qv6Ey7u4+fh/WiilqYmgThFVa18kBJ8WE=
-X-Gm-Message-State: AOJu0YyxW6BD9ToU6RVMKAE0OxAE8A9ayb4G7PyoMr+T51bJgTvwW8iE
-	ZK4gk5OVfH6xkET+TDQDSSgpqclWlduyqLoIhD17tvbWkQSI67HsLPspjHg0PsA=
-X-Google-Smtp-Source: AGHT+IH0P9sWNMW1yyWdHET4wFxBLnPE44dQ6iyO/SJlklsjpRQZxUghb+32SdG+wT+lEVbRaNVwUg==
-X-Received: by 2002:ac2:4c3c:0:b0:516:d482:d720 with SMTP id u28-20020ac24c3c000000b00516d482d720mr3681790lfq.30.1712477368029;
-        Sun, 07 Apr 2024 01:09:28 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (ip-185-104-138-24.ptr.icomera.net. [185.104.138.24])
-        by smtp.gmail.com with ESMTPSA id s7-20020adfea87000000b0033e7de97214sm6144093wrm.40.2024.04.07.01.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Apr 2024 01:09:27 -0700 (PDT)
-Message-ID: <ed0b32ec6da10f46ff5d820612bfe700388fae1e.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 0/2] Enable JPEG encoding on rk3588
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: linux-kernel@vger.kernel.org, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>,  Heiko Stuebner <heiko@sntech.de>, Joerg Roedel
- <joro@8bytes.org>, Will Deacon <will@kernel.org>,  Robin Murphy
- <robin.murphy@arm.com>, Sebastian Reichel
- <sebastian.reichel@collabora.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Dragan Simic <dsimic@manjaro.org>,
- Shreeya Patel <shreeya.patel@collabora.com>, Chris Morgan
- <macromorgan@hotmail.com>, Andy Yan <andy.yan@rock-chips.com>, Nicolas
- Frattaroli <frattaroli.nicolas@gmail.com>,  linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  iommu@lists.linux.dev
-Date: Sun, 07 Apr 2024 10:08:58 +0200
-In-Reply-To: <ZhAI6tQZTD7BTosI@desktop>
-References: <20240327134115.424846-1-linkmauve@linkmauve.fr>
-	 <bbcb66e9499120a86b367e7abdac2d8e2e704bfb.camel@ndufresne.ca>
-	 <ZhAI6tQZTD7BTosI@desktop>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1712477946; c=relaxed/simple;
+	bh=e9UXYTAc5sFI75CK5XgqAQXmOoDPNUpaUP0KGJszuPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpJ5bzhQftrsakbUNkfUzf5EhcJGC3Ma6cIAEau8+6/BYp/oqghW+0N3jLzwt4nAtO6cKgDl3Grgh7RZJV9+6QeJkueIyPIvasQdRANJ5UGh6NijnLaDalSjZgoS3JBR95I/nb6qb8bDvPirgNRkirmVsLJGyLGym8r29qhcUwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQL45DWu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F29BC433F1;
+	Sun,  7 Apr 2024 08:19:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712477945;
+	bh=e9UXYTAc5sFI75CK5XgqAQXmOoDPNUpaUP0KGJszuPQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bQL45DWu0HxJomMb0clRFnENNm4bArAijal3EZ3qTPml9cdTdnQD/Jv+nZ6r4estn
+	 tdFm3p3nVi1vJ7RNY79r2A213/2M8AZsb3FfhENk6Agglm3lvLZmkpgMrH5L3HWAuU
+	 1mdfJp57B03c6ql4jqZ4OM6opBEQZTdC85Czud6bGKKwlGvmwv3roxGCrb88TvH02/
+	 TPIjgoqyRoHs4zvdtsgjgaUksKCcFJEmaIFG1lDVXc4m8ISrskkrOi2Hn/iIHyNQtI
+	 JNoPhQ3FBDp0yzYfHuEd/7iNzyF1QjxWLZZwhc+321A+Kax/Gni7nVcjqHjoPfQVAD
+	 +9J6be2H9OZHg==
+Date: Sun, 7 Apr 2024 13:49:00 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+Message-ID: <ZhJW9JEqN2wrejvC@matsya>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+ <20240310124836.31863-2-paul@crapouillou.net>
+ <ZgUM1LFEWs3lwoAU@matsya>
+ <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
 
-Le vendredi 05 avril 2024 =C3=A0 16:21 +0200, Link Mauve a =C3=A9crit=C2=A0=
-:
-> On Thu, Apr 04, 2024 at 01:41:15PM -0400, Nicolas Dufresne wrote:
-> > Hi,
->=20
-> Hi,
->=20
-> >=20
-> > Le mercredi 27 mars 2024 =C3=A0 14:41 +0100, Emmanuel Gil Peyrot a =C3=
-=A9crit=C2=A0:
-> > > Only the JPEG encoder is available for now, although there are patche=
-s
-> > > for the undocumented VP8 encoder floating around[0].
-> >=20
-> > [0] seems like a broken link. The VP8 encoder RFC is for RK3399 (and Ha=
-ntro H1
-> > posted by ST more recently). The TRM says "VEPU121(JPEG encoder only)",=
- which
-> > suggest that the H.264 and VP8 encoders usually found on the VEPU121 ar=
-e
-> > removed. As Rockchip have remove the synthesize register while modifyin=
-g the H1
-> > IP, it is difficult to verify. Confusingly the H.264 specific registers=
- are
-> > documented in the TRM around VEPU121.
->=20
-> Ah, the link became, and was indeed ST=E2=80=99s series:
-> https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D789885=
-&archive=3Dboth
->=20
-> But the TRM part 1 says the VEPU121 supports H.264 encoding (page 367),
-> and it=E2=80=99s likely they didn=E2=80=99t remove just VP8 support since=
- the codec
-> features are pretty close to H.264=E2=80=99s.
->=20
-> >=20
-> > >=20
-> > > This has been tested on a rock-5b, resulting in four /dev/video*
-> > > encoders.  The userspace program I=E2=80=99ve been using to test them=
- is
-> > > Onix[1], using the jpeg-encoder example, it will pick one of these fo=
-ur
-> > > at random (but displays the one it picked):
-> > > % ffmpeg -i <input image> -pix_fmt yuvj420p temp.yuv
-> > > % jpeg-encoder temp.yuv <width> <height> NV12 <quality> output.jpeg
-> >=20
-> > I don't like that we exposing each identical cores a separate video nod=
-es. I
-> > think we should aim for 1 device, and then multi-plex and schedule de c=
-ores from
-> > inside the Linux kernel.
->=20
-> I agree, but this should be handled in the driver not in the device
-> tree, and it can be done later.
+On 02-04-24, 13:31, Paul Cercueil wrote:
+> Hi Vinod,
+> 
+> Le jeudi 28 mars 2024 à 11:53 +0530, Vinod Koul a écrit :
+> > On 10-03-24, 13:48, Paul Cercueil wrote:
+> > > This function can be used to initiate a scatter-gather DMA
+> > > transfer,
+> > > where the address and size of each segment is located in one entry
+> > > of
+> > > the dma_vec array.
+> > > 
+> > > The major difference with dmaengine_prep_slave_sg() is that it
+> > > supports
+> > > specifying the lengths of each DMA transfer; as trying to override
+> > > the
+> > > length of the transfer with dmaengine_prep_slave_sg() is a very
+> > > tedious
+> > > process. The introduction of a new API function is also justified
+> > > by the
+> > > fact that scatterlists are on their way out.
+> > > 
+> > > Note that dmaengine_prep_interleaved_dma() is not helpful either in
+> > > that
+> > > case, as it assumes that the address of each segment will be higher
+> > > than
+> > > the one of the previous segment, which we just cannot guarantee in
+> > > case
+> > > of a scatter-gather transfer.
+> > > 
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> > > 
+> > > ---
+> > > v3: New patch
+> > > 
+> > > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
+> > > struct
+> > >     'dma_vec'.
+> > >     Note that at some point we will need to support cyclic
+> > > transfers
+> > >     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+> > >     parameter to the function?
+> > > 
+> > > v7:
+> > >   - Renamed *device_prep_slave_dma_vec() ->
+> > > device_prep_peripheral_dma_vec();
+> > >   - Added a new flag parameter to the function as agreed between
+> > > Paul
+> > >     and Vinod. I renamed the first parameter to prep_flags as it's
+> > > supposed to
+> > >     be used (I think) with enum dma_ctrl_flags. I'm not really sure
+> > > how that API
+> > >     can grow but I was thinking in just having a bool cyclic
+> > > parameter (as the
+> > >     first intention of the flags is to support cyclic transfers)
+> > > but ended up
+> > >     "respecting" the previously agreed approach.
+> > > ---
+> > >  include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> > > 
+> > > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> > > index 752dbde4cec1..856df8cd9a4e 100644
+> > > --- a/include/linux/dmaengine.h
+> > > +++ b/include/linux/dmaengine.h
+> > > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+> > >  	struct data_chunk sgl[];
+> > >  };
+> > >  
+> > > +/**
+> > > + * struct dma_vec - DMA vector
+> > > + * @addr: Bus address of the start of the vector
+> > > + * @len: Length in bytes of the DMA vector
+> > > + */
+> > > +struct dma_vec {
+> > > +	dma_addr_t addr;
+> > > +	size_t len;
+> > > +};
+> > > +
+> > >  /**
+> > >   * enum dma_ctrl_flags - DMA flags to augment operation
+> > > preparation,
+> > >   *  control completion, and communicate status.
+> > > @@ -910,6 +920,10 @@ struct dma_device {
+> > >  	struct dma_async_tx_descriptor
+> > > *(*device_prep_dma_interrupt)(
+> > >  		struct dma_chan *chan, unsigned long flags);
+> > >  
+> > > +	struct dma_async_tx_descriptor
+> > > *(*device_prep_peripheral_dma_vec)(
+> > > +		struct dma_chan *chan, const struct dma_vec *vecs,
+> > > +		size_t nents, enum dma_transfer_direction
+> > > direction,
+> > > +		unsigned long prep_flags, unsigned long flags);
+> > >  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+> > >  		struct dma_chan *chan, struct scatterlist *sgl,
+> > >  		unsigned int sg_len, enum dma_transfer_direction
+> > > direction,
+> > > @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor
+> > > *dmaengine_prep_slave_single(
+> > >  						  dir, flags,
+> > > NULL);
+> > >  }
+> > >  
+> > > +static inline struct dma_async_tx_descriptor
+> > > *dmaengine_prep_peripheral_dma_vec(
+> > > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
+> > > nents,
+> > > +	enum dma_transfer_direction dir, unsigned long prep_flags,
+> > > +	unsigned long flags)
+> > > +{
+> > > +	if (!chan || !chan->device || !chan->device-
+> > > >device_prep_peripheral_dma_vec)
+> > > +		return NULL;
+> > > +
+> > > +	return chan->device->device_prep_peripheral_dma_vec(chan,
+> > > vecs, nents,
+> > > +							    dir,
+> > > prep_flags,
+> > > +							   
+> > > flags);
+> > > +}
+> > 
+> > API looks good to me, thanks
+> > Few nits though:
+> > - Can we add kernel-doc for this new API please
+> > - Also update the documentation adding this new api
+> > - Lastly, we seem to have two flags, I know you have added a comment
+> > but
+> >   I dont seem to recall the discussion (looked at old threads for
+> > clue
+> >   as well), can you please remind me why we need both? And in your
+> > case,
+> >   what is the intended usage of these flags, i would prefer single
+> >   clean one...
+> > 
+> 
+> The "prep_flags" is a mask of "enum dma_ctrl_flags".
+> 
+> The second "flags" was supposed to be specific to this function, and
+> was to future-proof the API as we eventually want to have a "cyclic"
+> flag, which would emulate a cyclic transfer by linking the SG hardware
+> descriptors accordingly.
+> 
+> However - I think we can already do that with DMA_PREP_REPEAT and
+> DMA_PREP_LOAD_EOT, right? So we can probably drop the second "flags".
 
-As the behaviour we want is that these cores becomes a group and get schedu=
-le
-together, its certainly a good time to slow down and evaluate if that part =
-needs
-to be improve in the DT too.
+Yeah that could be done, we should add Documentation to clarify this
 
-Hantro G1/H1 and VEPU/VDPU121 combos originally shared the same sram region=
-. Its
-not clear if any of these cores have this limitation and if this should be
-expressed in the DT / driver.
-
->=20
-> >=20
-> > Not doing this now means we'll never have an optimal hardware usage
-> > distribution. Just consider two userspace software wanting to do jpeg e=
-ncoding.
-> > If they both take a guess, they may endup using a single core. Where wi=
-th proper
-> > scheduling in V4L2, the kernel will be able to properly distribute the =
-load. I
-> > insist on this, since if we merge you changes it becomes an ABI and we =
-can't
-> > change it anymore.
->=20
-> Will it really become ABI just like that?  Userspace should always
-> discover the video nodes and their capabilities and not hardcode e.g. a
-> specific /dev/videoN file for a specific codec.  I would argue that this
-> series would let userspace do JPEG encoding right away, even if in a
-> less optimal way than if the driver would round-robin them through a
-> single video node, but that can always be added in a future version.
-
-Might be on the gray side, but there is good chances software written for y=
-our
-specific board can stop working after te grouping is done.
-
->=20
-> >=20
-> > I understand that this impose a rework of the mem2mem framework so that=
- we can
-> > run multiple jobs, but this will be needed anyway on RK3588, since the =
-rkvdec2,
-> > which we don't have a driver yet is also multi-core, but you need to us=
-e 2 cores
-> > when the resolution is close to 8K.
->=20
-> I think the mediatek JPEG driver already supports that, would it be ok
-> to do it the same way?
-
-I don't know for JPEG, the MTK vcoder do support cascading cores. This is
-different from concurrent cores. In MTK architecture, for some of the codec=
-,
-there is LAT (entropy decoder) and CORE (the reconstruction block) that are
-split.
-
-Nicolas
+-- 
+~Vinod
 
