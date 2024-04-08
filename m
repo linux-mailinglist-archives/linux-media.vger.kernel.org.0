@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-8849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAAE89C6C2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 16:19:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0125B89C777
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 16:48:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39661B28064
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:18:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FBF61C21735
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E04412A171;
-	Mon,  8 Apr 2024 14:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45DFA13F42B;
+	Mon,  8 Apr 2024 14:47:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43858127B4E;
-	Mon,  8 Apr 2024 14:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E150913F428
+	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 14:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712585884; cv=none; b=C0KsXaBkvOX9o65nXp99/JN/IWceXuvsZi5mlu7ZtFoWzjJHWJxaBQ4lnMt4gI+Lss+X+oKxxQfaV3xb5EoDfrWHOI3Bvo7rZeU6go/S5UcLuUro5EFEc+j3L8JDtnj3qQ9PEsAmdEPSpGXOG2t244YasMmT0qo+4vNFov+tnJc=
+	t=1712587676; cv=none; b=Qk1XJ8mCI0SN4qbvX9/V+ddpsiy6wmi2+0NDzSQ5jp6kd9HuGSW8XlJHm2FxcD8XDVcA9L6K17SDAI06eOVn68oKS10SKInla2enwCWwg6vvB61XyWC55yyvIbUCijaNd1kWADypFfLmv+FLmiEEPecg8cLTAlRptPwnUTCVEXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712585884; c=relaxed/simple;
-	bh=H92i75+oyvNWVJtkoi+cDWvL0dIIzwlAH92gqf8Shvo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=dLMFOll4dZfHGuc9lzRcD0JP95OuZ9QmablSafB/aRB4j5u/oO8sAih3Oin5n6yP/FWgSMrpBSQpgWfresLaNYTl4V4RHcN/EQrY06noIy0xWFJPmCLQKfS5iG/oJbCWLbCZ3VzZiH3alnJN4WsLw7thi99ABZPBEpjlShvgBaM=
+	s=arc-20240116; t=1712587676; c=relaxed/simple;
+	bh=LiLALYE37ilkesnHeuXLREglcDMwOIJZ2TAjYMYPNeo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XhSG7zEWtfI2hZ409AsgZwc/JMWQUuEJ6Kc6KlM70Ond1axVdPMMI/ztnDR2ZSKRnZjjvfYr69cWf4D7Myf9N+Nm6i2yyF4EulzzAyWuF3pW2H7vKnAMRVSMlamUWj5v83nsWfkeraGdZ3BgMJMNIADOdAk58shF5O2a4up6fQ8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03FBEC43399;
-	Mon,  8 Apr 2024 14:18:00 +0000 (UTC)
-Message-ID: <5aa6d853-60f5-485b-b892-e6e81acdfc12@xs4all.nl>
-Date: Mon, 8 Apr 2024 16:17:59 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B954C433C7;
+	Mon,  8 Apr 2024 14:47:55 +0000 (UTC)
+Message-ID: <2da4bcf4-e4ce-4870-9d6d-84b9e8bf850a@xs4all.nl>
+Date: Mon, 8 Apr 2024 16:47:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,124 +38,223 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/16] Switch subdev dv timing callbacks to pad ops
+Subject: Re: [PATCH 04/11] media: ttpci: checkpatch fixes: braces
 Content-Language: en-US, nl
+To: Stefan Herdler <herdler@nurfuerspam.de>
+Cc: linux-media@vger.kernel.org, smoch@web.de, tmn505@gmail.com,
+ vinschen@redhat.com
+References: <20240328020522.50995-1-herdler@nurfuerspam.de>
+ <20240328020522.50995-5-herdler@nurfuerspam.de>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>,
- kieran.bingham@ideasonboard.com, mchehab@kernel.org, tharvey@gateworks.com,
- niklas.soderlund@ragnatech.se, prabhakar.csengg@gmail.com,
- charles-antoine.couret@nexvision.fr, thierry.reding@gmail.com,
- jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- chromeos-krk-upstreaming@google.com
-References: <20240405141411.1807189-1-panikiel@google.com>
- <6027dacf-549e-4855-97d9-dd02e65fd94a@xs4all.nl>
-In-Reply-To: <6027dacf-549e-4855-97d9-dd02e65fd94a@xs4all.nl>
+In-Reply-To: <20240328020522.50995-5-herdler@nurfuerspam.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 08/04/2024 16:15, Hans Verkuil wrote:
-> On 05/04/2024 16:13, Paweł Anikiel wrote:
->> Currently, subdev dv timing calls (i.e. g/s/query_dv_timings) are video
->> ops without a pad argument. This is a problem if the subdevice can have
->> different dv timings for each pad (e.g. a DisplayPort receiver with
->> multiple virtual channels).
->>
->> This patchset changes subdev dv timing callbacks to include a pad
->> argument, and moves them from video to pad ops. All the affected
->> drivers are updated to use the new pad ops version.
->>
->> The affected drivers were updated in a way that mathes how they deal
->> with the pad argument in other callbacks (mainly enum_dv_timings,
->> dv_timings_cap, get/set_edid).
->>
->> This was originally a part of a larger patchset:
->> https://lore.kernel.org/lkml/20240221160215.484151-2-panikiel@google.com/
->>
->> Paweł Anikiel (16):
->>   media: v4l2-subdev: Add pad versions of dv timing subdev calls
->>   media: i2c: adv748x: Switch dv timing callbacks to pad ops
->>   media: i2c: adv7511: Switch dv timing callbacks to pad ops
->>   media: i2c: adv7604: Switch dv timing callbacks to pad ops
->>   media: i2c: adv7842: Switch dv timing callbacks to pad ops
->>   media: i2c: tc358743: Switch dv timing callbacks to pad ops
->>   media: i2c: tda1997x: Switch dv timing callbacks to pad ops
->>   media: i2c: ths7303: Switch dv timing callbacks to pad ops
->>   media: i2c: ths8200: Switch dv timing callbacks to pad ops
->>   media: i2c: tvp7002: Switch dv timing callbacks to pad ops
->>   media: spi: gs1662: Switch dv timing callbacks to pad ops
->>   media: cobalt: Use pad variant of dv timing subdev calls
->>   media: rcar-vin: Use pad variant of dv timing subdev calls
->>   media: vpif_capture: Use pad variant of dv timing subdev calls
->>   media: tegra-video: Use pad variant of dv timing subdev calls
->>   media: v4l2-subdev: Remove non-pad dv timing callbacks
+On 28/03/2024 03:05, Stefan Herdler wrote:
+> This patch fixes the following checkpatch warnings and errors:
 > 
-> You missed one:
+> WARNING:BRACES: braces {} are not necessary for any arm of this statement
+> WARNING:BRACES: braces {} are not necessary for single statement blocks
+> ERROR:OPEN_BRACE: that open brace { should be on the previous line
 > 
-> In file included from include/media/v4l2-device.h:13,
->                  from drivers/media/platform/ti/davinci/vpif_display.h:13,
->                  from drivers/media/platform/ti/davinci/vpif_display.c:26:
-> drivers/media/platform/ti/davinci/vpif_display.c: In function 'vpif_s_dv_timings':
-> include/media/v4l2-subdev.h:1816:56: error: 'const struct v4l2_subdev_video_ops' has no member named 's_dv_timings'
->  1816 |                 else if (!(__sd->ops->o && __sd->ops->o->f))            \
->       |                                                        ^~
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expansion of macro 'v4l2_subdev_call'
->   937 |         ret = v4l2_subdev_call(ch->sd, video, s_dv_timings, timings);
->       |               ^~~~~~~~~~~~~~~~
-> include/media/v4l2-subdev.h:1819:53: error: 'const struct v4l2_subdev_video_ops' has no member named 's_dv_timings'
->  1819 |                          v4l2_subdev_call_wrappers.o->f)                \
->       |                                                     ^~
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expansion of macro 'v4l2_subdev_call'
->   937 |         ret = v4l2_subdev_call(ch->sd, video, s_dv_timings, timings);
->       |               ^~~~~~~~~~~~~~~~
-> include/media/v4l2-subdev.h:1820:63: error: 'const struct v4l2_subdev_video_ops' has no member named 's_dv_timings'
->  1820 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
->       |                                                               ^~
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expansion of macro 'v4l2_subdev_call'
->   937 |         ret = v4l2_subdev_call(ch->sd, video, s_dv_timings, timings);
->       |               ^~~~~~~~~~~~~~~~
-> include/media/v4l2-subdev.h:1823:48: error: 'const struct v4l2_subdev_video_ops' has no member named 's_dv_timings'
->  1823 |                         __result = __sd->ops->o->f(__sd, ##args);       \
->       |                                                ^~
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expansion of macro 'v4l2_subdev_call'
->   937 |         ret = v4l2_subdev_call(ch->sd, video, s_dv_timings, timings);
->       |               ^~~~~~~~~~~~~~~~
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no member 's_dv_timings' in struct v4l2_subdev_video_ops
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no member 's_dv_timings' in struct v4l2_subdev_video_ops
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no member 's_dv_timings' in struct v4l2_subdev_video_ops
-> drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no member 's_dv_timings' in struct v4l2_subdev_video_ops
+> 
+> Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
+> ---
+> 
+>  drivers/media/pci/ttpci/budget-av.c | 31 ++++++++++-------------------
+>  drivers/media/pci/ttpci/budget-ci.c | 17 ++++++----------
+>  drivers/media/pci/ttpci/budget.c    |  9 +++------
+>  3 files changed, 20 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/media/pci/ttpci/budget-av.c b/drivers/media/pci/ttpci/budget-av.c
+> index dbd4ef40e..2faea2861 100644
+> --- a/drivers/media/pci/ttpci/budget-av.c
+> +++ b/drivers/media/pci/ttpci/budget-av.c
+> @@ -309,16 +309,14 @@ static int ciintf_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open
+>  	/* read from attribute memory in reset/ready state to know when the CAM is ready */
+>  	if (budget_av->slot_status == SLOTSTATUS_RESET) {
+>  		result = ciintf_read_attribute_mem(ca, slot, 0);
+> -		if (result == 0x1d) {
+> +		if (result == 0x1d)
+>  			budget_av->slot_status = SLOTSTATUS_READY;
+> -		}
+>  	}
+> 
+>  	/* work out correct return code */
+>  	if (budget_av->slot_status != SLOTSTATUS_NONE) {
+> -		if (budget_av->slot_status & SLOTSTATUS_READY) {
+> +		if (budget_av->slot_status & SLOTSTATUS_READY)
+>  			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY;
+> -		}
+>  		return DVB_CA_EN50221_POLL_CAM_PRESENT;
+>  	}
+>  	return 0;
+> @@ -1237,15 +1235,13 @@ static void frontend_init(struct budget_av *budget_av)
+>  		if (saa->pci->subsystem_vendor == 0x1894) {
+>  			fe = dvb_attach(stv0299_attach, &cinergy_1200s_1894_0010_config,
+>  					     &budget_av->budget.i2c_adap);
+> -			if (fe) {
+> +			if (fe)
+>  				dvb_attach(tua6100_attach, fe, 0x60, &budget_av->budget.i2c_adap);
+> -			}
+>  		} else {
+>  			fe = dvb_attach(stv0299_attach, &typhoon_config,
+>  					     &budget_av->budget.i2c_adap);
+> -			if (fe) {
+> +			if (fe)
+>  				fe->ops.tuner_ops.set_params = philips_su1278_ty_ci_tuner_set_params;
+> -			}
+>  		}
+>  		break;
+> 
+> @@ -1257,19 +1253,17 @@ static void frontend_init(struct budget_av *budget_av)
+>  	case SUBID_DVBS_EASYWATCH_2:
+>  		fe = dvb_attach(stv0299_attach, &philips_sd1878_config,
+>  				&budget_av->budget.i2c_adap);
+> -		if (fe) {
+> +		if (fe)
+>  			dvb_attach(dvb_pll_attach, fe, 0x60,
+>  				   &budget_av->budget.i2c_adap,
+>  				   DVB_PLL_PHILIPS_SD1878_TDA8261);
+> -		}
+>  		break;
+> 
+>  	case SUBID_DVBS_TYPHOON:
+>  		fe = dvb_attach(stv0299_attach, &typhoon_config,
+>  				    &budget_av->budget.i2c_adap);
+> -		if (fe) {
+> +		if (fe)
+>  			fe->ops.tuner_ops.set_params = philips_su1278_ty_ci_tuner_set_params;
+> -		}
+>  		break;
+>  	case SUBID_DVBS2_KNC1:
+>  	case SUBID_DVBS2_KNC1_OEM:
+> @@ -1282,9 +1276,8 @@ static void frontend_init(struct budget_av *budget_av)
+>  	case SUBID_DVBS_CINERGY1200:
+>  		fe = dvb_attach(stv0299_attach, &cinergy_1200s_config,
+>  				    &budget_av->budget.i2c_adap);
+> -		if (fe) {
+> +		if (fe)
+>  			fe->ops.tuner_ops.set_params = philips_su1278_ty_ci_tuner_set_params;
+> -		}
+>  		break;
+> 
+>  	case SUBID_DVBC_KNC1:
+> @@ -1300,9 +1293,8 @@ static void frontend_init(struct budget_av *budget_av)
+>  			fe = dvb_attach(tda10021_attach, &philips_cu1216_config_altaddress,
+>  					     &budget_av->budget.i2c_adap,
+>  					     read_pwm(budget_av));
+> -		if (fe) {
+> +		if (fe)
+>  			fe->ops.tuner_ops.set_params = philips_cu1216_tuner_set_params;
+> -		}
+>  		break;
+> 
+>  	case SUBID_DVBC_EASYWATCH_MK3:
+> @@ -1316,9 +1308,8 @@ static void frontend_init(struct budget_av *budget_av)
+>  			&philips_cu1216_tda10023_config,
+>  			&budget_av->budget.i2c_adap,
+>  			read_pwm(budget_av));
+> -		if (fe) {
+> +		if (fe)
+>  			fe->ops.tuner_ops.set_params = philips_cu1216_tuner_set_params;
+> -		}
+>  		break;
+> 
+>  	case SUBID_DVBT_EASYWATCH:
+> diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci/budget-ci.c
+> index ebf340417..047b1f07e 100644
+> --- a/drivers/media/pci/ttpci/budget-ci.c
+> +++ b/drivers/media/pci/ttpci/budget-ci.c
+> @@ -412,24 +412,20 @@ static int ciintf_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open
+>  	flags = ttpci_budget_debiread(&budget_ci->budget, DEBICICTL, DEBIADDR_CICONTROL, 1, 1, 0);
+>  	if (flags & CICONTROL_CAMDETECT) {
+>  		// mark it as present if it wasn't before
+> -		if (budget_ci->slot_status & SLOTSTATUS_NONE) {
+> +		if (budget_ci->slot_status & SLOTSTATUS_NONE)
+>  			budget_ci->slot_status = SLOTSTATUS_PRESENT;
+> -		}
+> 
+>  		// during a RESET, we check if we can read from IO memory to see when CAM is ready
+>  		if (budget_ci->slot_status & SLOTSTATUS_RESET) {
+> -			if (ciintf_read_attribute_mem(ca, slot, 0) == 0x1d) {
+> +			if (ciintf_read_attribute_mem(ca, slot, 0) == 0x1d)
+>  				budget_ci->slot_status = SLOTSTATUS_READY;
+> -			}
+>  		}
+> -	} else {
+> +	} else
+>  		budget_ci->slot_status = SLOTSTATUS_NONE;
+> -	}
+> 
+>  	if (budget_ci->slot_status != SLOTSTATUS_NONE) {
+> -		if (budget_ci->slot_status & SLOTSTATUS_READY) {
+> +		if (budget_ci->slot_status & SLOTSTATUS_READY)
+>  			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY;
+> -		}
+>  		return DVB_CA_EN50221_POLL_CAM_PRESENT;
+>  	}
+> 
+> @@ -494,11 +490,10 @@ static int ciintf_init(struct budget_ci *budget_ci)
+>  	// Setup CI slot IRQ
+>  	if (budget_ci->ci_irq) {
+>  		tasklet_setup(&budget_ci->ciintf_irq_tasklet, ciintf_interrupt);
+> -		if (budget_ci->slot_status != SLOTSTATUS_NONE) {
+> +		if (budget_ci->slot_status != SLOTSTATUS_NONE)
+>  			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQLO);
+> -		} else {
+> +		else
+>  			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQHI);
+> -		}
+>  		SAA7146_IER_ENABLE(saa, MASK_03);
+>  	}
+> 
+> diff --git a/drivers/media/pci/ttpci/budget.c b/drivers/media/pci/ttpci/budget.c
+> index 9fe087add..79b34c909 100644
+> --- a/drivers/media/pci/ttpci/budget.c
+> +++ b/drivers/media/pci/ttpci/budget.c
+> @@ -229,8 +229,7 @@ static int alps_bsrv2_tuner_set_params(struct dvb_frontend *fe)
+>  	return 0;
+>  }
+> 
+> -static struct ves1x93_config alps_bsrv2_config =
+> -{
+> +static struct ves1x93_config alps_bsrv2_config = {
+>  	.demod_address = 0x08,
+>  	.xin = 90100000UL,
+>  	.invert_pwm = 0,
+> @@ -678,8 +677,7 @@ static void frontend_init(struct budget *budget)
+>  					tt1600_stv090x_config.tuner_set_refclk	  = ctl->tuner_set_refclk;
+>  					tt1600_stv090x_config.tuner_get_status	  = ctl->tuner_get_status;
+> 
+> -					/*
+> -					 * call the init function once to initialize
+> +					/* call the init function once to initialize
+>  					 * tuner's clock output divider and demod's
+>  					 * master clock
+>  					 */
 
-No need to post a v2. Just post a single patch '14.5/16' to convert vpif_display that
-will be added after patch [14/16], then I'll take care of it.
+This change is unrelated to braces, and also the original looks fine to me.
+
+Is this a mistake?
 
 Regards,
 
 	Hans
 
+> @@ -786,9 +784,8 @@ static int budget_attach(struct saa7146_dev *dev, struct saa7146_pci_extension_d
+>  	int err;
 > 
-> Regards,
+>  	budget = kmalloc(sizeof(struct budget), GFP_KERNEL);
+> -	if (NULL == budget) {
+> +	if (NULL == budget)
+>  		return -ENOMEM;
+> -	}
 > 
-> 	Hans
+>  	dprintk(2, "dev:%p, info:%p, budget:%p\n", dev, info, budget);
 > 
->>
->>  drivers/media/i2c/adv748x/adv748x-hdmi.c      | 16 ++++----
->>  drivers/media/i2c/adv7511-v4l2.c              | 14 +++++--
->>  drivers/media/i2c/adv7604.c                   | 14 +++----
->>  drivers/media/i2c/adv7842.c                   | 25 ++++++++----
->>  drivers/media/i2c/tc358743.c                  | 23 +++++++----
->>  drivers/media/i2c/tda1997x.c                  | 12 +++---
->>  drivers/media/i2c/ths7303.c                   |  8 +++-
->>  drivers/media/i2c/ths8200.c                   | 14 +++++--
->>  drivers/media/i2c/tvp7002.c                   | 26 +++++++++----
->>  drivers/media/pci/cobalt/cobalt-v4l2.c        | 12 +++---
->>  .../platform/renesas/rcar-vin/rcar-v4l2.c     |  9 +++--
->>  .../media/platform/ti/davinci/vpif_capture.c  |  4 +-
->>  drivers/media/spi/gs1662.c                    | 21 +++++++---
->>  drivers/media/v4l2-core/v4l2-subdev.c         | 39 +++++++++++++++++--
->>  drivers/staging/media/tegra-video/vi.c        | 12 +++---
->>  include/media/v4l2-subdev.h                   | 28 ++++++-------
->>  16 files changed, 183 insertions(+), 94 deletions(-)
->>
+> --
+> 2.34.0
 > 
 > 
 
