@@ -1,131 +1,652 @@
-Return-Path: <linux-media+bounces-8844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815F489BFAA
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:59:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B0089C238
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 15:28:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F40FAB26073
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 12:59:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23D53283210
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 13:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743A07173E;
-	Mon,  8 Apr 2024 12:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3262A81723;
+	Mon,  8 Apr 2024 13:23:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ECF70CC5
-	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 12:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35177D419
+	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 13:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712580980; cv=none; b=M91nUowklsmY6VStFtoOX7HVx9SV5bTOYedVrmPf5k09jPSo6uA4ncIpW7z3Lc1AAFbK8jYnXMptiq8Oz4bOs/HbP7kCbnF/eq3btm/oNXhg7LLz8bZqcKwR1U74zT0riNe7kbzezN6q6LdZqI9u/1CrJjKCizlZ3kc4tXu33RY=
+	t=1712582634; cv=none; b=rCcG6oS+supzywhUJz8JkyU0BBf6PVP2WHs1Ic8KweM49xP8iI6ytH/tfDYgMhrWqmJNQoNYH5uZbSBZxLoh+km6wIUPSlUTJ4ixGyl3FnxqsygEWnBT2zfAv3oRRHS8lZeT97YY82+J4oYB6u8SLAaRAuweacZqz7I5BKcrQMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712580980; c=relaxed/simple;
-	bh=TvHcatU/stwEg+v7Eoko+5MPQCiRA4MnQ3sg+VK3PIU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=FMWAuruV7G+uVHndNnUZq8RdvHS2ox4+ZtAdMUyTTRJHpsnrHV12VMw2eO+X/XlqRNF2+h3I/fNTwG0C1s7Fd5/a/OMyjh46aRGB/uHmxQgy38DMN/x8g6ApxTGNp9MWOwHnuMeyTIsp/XBucP7PCbRUg2gcevB4sNsnEhMyjlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24162C433C7;
-	Mon,  8 Apr 2024 12:56:18 +0000 (UTC)
-Message-ID: <fa7eb5cc-9999-49b9-96ea-abdd3dda855c@xs4all.nl>
-Date: Mon, 8 Apr 2024 14:56:17 +0200
+	s=arc-20240116; t=1712582634; c=relaxed/simple;
+	bh=Z/I1Q//dfmfnL+pvvkLeWI/G1hGH4gWVD8nEu9XijZs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mFeRvGPkQO3bghcuwE8+6zs2usFDFeVGhjayXdqT6zxOt8ifuLuP7rRP0gKDwzusFYvdJXWdt9+QnlbsuAX/QQl/S95ynYdXz348ouw9en2p3GXWZhPP5o28xOOHaR9Les/rk08kNgYwDpzvJiw1iTgqr7A7+82yt1be8qkyUbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1rtoyS-0008LU-20;
+	Mon, 08 Apr 2024 13:23:48 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1rtoyR-006ADP-2q;
+	Mon, 08 Apr 2024 13:23:48 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.10] media: qcom: camss: Add sc8280xp support (#100618)
+Date: Mon,  8 Apr 2024 13:23:47 +0000
+Message-Id: <20240408132347.1469226-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <fa7eb5cc-9999-49b9-96ea-abdd3dda855c@xs4all.nl>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.10] media: qcom: camss: Add sc8280xp support
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
- BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
- 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
- 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
- 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
- +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
- OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
- 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
- wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
- qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
- vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
- 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
- IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
- KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
- UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
- c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
- AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
- Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
- KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
- gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
- sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
- UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-I plan to merge this later today if there are no objections.
+From: builder@linuxtv.org
 
-	Hans
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/fa7eb5cc-9999-49b9-96ea-abdd3dda855c@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/394065/
+Build time: 00:20:34
+Link: https://lore.kernel.org/linux-media/fa7eb5cc-9999-49b9-96ea-abdd3dda855c@xs4all.nl
 
-The following changes since commit b82779648dfd3814df4e381f086326ec70fd791f:
+gpg: Signature made Mon 08 Apr 2024 12:54:56 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [marginal]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: hverkuil@xs4all.nl: Verified 7 signatures in the past 7 weeks.  Encrypted
+     0 messages.
+gpg: hverkuil-cisco@xs4all.nl: Verified 7 signatures in the past 7 weeks.
+     Encrypted 0 messages.
+gpg: Warning: you have yet to encrypt a message to this key!
+gpg: Warning: if you think you've seen more signatures by this key and these
+     user ids, then this key might be a forgery!  Carefully examine the email
+     addresses for small variations.  If the key is suspect, then use
+       gpg --tofu-policy bad 052CDE7BC215053B689F1BCABD2D614866143B4C
+     to mark it as being bad.
 
-  Merge tag 'v6.9-rc2' into media_stage (2024-04-01 10:08:18 +0200)
+Summary: got 5/6 patches with issues, being 4 at build time
 
-are available in the Git repository at:
+Error/warnings:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.10c
+patches/0001-media-dt-bindings-media-camss-Add-qcom-sc8280xp-cams.patch:
 
-for you to fetch changes up to 0c953354c1957f59d04f2acc9a1f82df76f3b2b0:
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	/usr/local/bin/compile_checks: line 4: 1402441 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1403541 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1403742 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1403342 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1403900 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1403968 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1404055 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3066 atomisp_set_parameters() error: kvzalloc() does not make sense for no sleep code
+	/usr/local/bin/compile_checks: line 4: 1404126 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3414:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3414:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3417:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3417:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3420:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3420:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3423:46: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3423:46: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1404157 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1404169 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3414:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3414:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3417:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3417:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3420:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3420:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3423:46: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/sh_css_params.c ../drivers/staging/media/atomisp/pci/sh_css_params.c:3423:46: error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1404261 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1404349 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:58:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:58:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:60:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:60:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:62:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:62:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:32:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:32:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:37:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:37:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:39:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:39:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:40:20: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:40:20: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:58:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:58:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:60:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:60:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:62:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c:62:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:32:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:32:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:37:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:37:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:39:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:39:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:40:20: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c:40:20: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:36:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:36:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:38:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:38:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:41:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:41:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:61:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:61:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:63:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:63:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:66:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:66:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:68:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:68:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:70:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:70:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:72:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:72:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:74:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:74:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:36:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:36:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:38:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:38:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:76:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:76:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:41:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c:41:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:78:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:78:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:80:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:80:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:45:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:45:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:48:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:48:13: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1404113 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:45:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:45:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:48:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c:48:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:61:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:61:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:63:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:63:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:66:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:66:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:68:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:68:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:70:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:70:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:72:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:72:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:74:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:74:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:76:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:76:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:78:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:78:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:80:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/dp/dp_1.0/ia_css_dp.host.c:80:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:41:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:41:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:42:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:42:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:43:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:43:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:44:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:44:29: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:55:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:55:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:41:29: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:41:29: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:42:29: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:57:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:42:29: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:57:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:43:29: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:43:29: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:44:29: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ob/ob2/ia_css_ob2.host.c:44:29: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:59:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:59:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:71:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:71:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:73:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:73:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:75:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:75:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:90:21: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:90:21: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:41:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:41:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:93:21: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:93:21: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:43:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:43:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:45:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:45:13: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1405289 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:43:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:43:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:46:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:46:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:49:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:49:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:52:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:52:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c:47:23: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c:47:23: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:41:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:41:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:43:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:43:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:45:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c:45:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c:47:23: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_1.0/ia_css_xnr.host.c:47:23: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:47:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:47:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:49:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:49:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:51:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:51:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:53:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:53:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:55:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:55:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:55:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:55:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:57:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:57:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:59:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:59:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:73:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:73:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:75:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:75:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:90:21: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:90:21: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:93:21: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c:93:21: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:43:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:43:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:46:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:46:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:49:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:49:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: :error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:52:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/wb/wb_1.0/ia_css_wb.host.c:52:13: error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1405588 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: :error: too long token expansion
+	../drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c: ../drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:126 ia_css_isp_param_allocate_isp_parameters() error: kvcalloc() does not make sense for no sleep code
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:83:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:83:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:86:14: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:86:14: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:89:14: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:89:14: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:104:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:104:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:107:13: :error: too long token expansion
+	../drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c: ../drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c:286 ia_css_isp_dvs2_statistics_allocate() error: kvcalloc() does not make sense for no sleep code
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:107:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:109:13: :error: too long token expansion
+	SMATCH:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:109:13: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1405818 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c: ../drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c:592 pipeline_stage_create() error: kvzalloc() does not make sense for no sleep code
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:47:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:47:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:49:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:49:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:51:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:51:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:53:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:53:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:55:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:55:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:71:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:75:13: error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1405504 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:83:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:83:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:86:14: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:86:14: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:89:14: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:89:14: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:104:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:104:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:107:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:107:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:109:13: error: too long token expansion
+	SPARSE:../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c ../drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.c:109:13: error: too long token expansion
 
-  media: qcom: camss: vfe-17x: Rename camss-vfe-170 to camss-vfe-17x (2024-04-08 13:53:08 +0200)
+    allyesconfig: return code #0:
+	/usr/local/bin/compile_checks: line 4: 1406753 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1406747 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1406786 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1406966 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1407325 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1407572 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1407824 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1408114 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1408791 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409205 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409356 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409640 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409239 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409443 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1409799 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/v4l2-core/v4l2-event.c: ../drivers/media/v4l2-core/v4l2-event.c:238 v4l2_event_subscribe() error: kvzalloc() does not make sense for no sleep code
+	/usr/local/bin/compile_checks: line 4: 1409956 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1410204 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1410427 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411288 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411407 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/v4l2-core/v4l2-subdev.c: ../drivers/media/v4l2-core/v4l2-subdev.c:1471 __v4l2_subdev_state_alloc() error: kvcalloc() does not make sense for no sleep code
+	../drivers/media/v4l2-core/v4l2-subdev.c: ../drivers/media/v4l2-core/v4l2-subdev.c:1710 v4l2_subdev_init_stream_configs() error: kvcalloc() does not make sense for no sleep code
+	/usr/local/bin/compile_checks: line 4: 1411623 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411582 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411895 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411730 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1411980 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1412084 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/i2c/ccs/ccs-data.c: ../drivers/media/i2c/ccs/ccs-data.c:45 bin_backing_alloc() error: kvzalloc() does not make sense for no sleep code
+	/usr/local/bin/compile_checks: line 4: 1412280 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1412356 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1412461 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/common/videobuf2/videobuf2-dma-sg.c: ../drivers/media/common/videobuf2/videobuf2-dma-sg.c:129 vb2_dma_sg_alloc() error: kvcalloc() does not make sense for no sleep code
+	/usr/local/bin/compile_checks: line 4: 1412694 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1412865 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1413260 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1413228 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1413789 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1413928 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414316 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414473 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414439 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414742 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414919 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1414948 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1415017 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1415104 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1415271 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1415355 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1416010 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	/usr/local/bin/compile_checks: line 4: 1416084 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1416482 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1416508 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1416626 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417186 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417362 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417328 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417436 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417514 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417560 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417591 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417532 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417729 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417842 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1417956 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418120 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418286 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418390 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418560 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418600 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418589 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418796 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1418755 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419071 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419792 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419812 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419886 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419835 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419903 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1419988 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420023 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420107 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420151 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420489 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420612 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420768 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1420885 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1421292 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1421560 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:690 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 690.
+	/usr/local/bin/compile_checks: line 4: 1421519 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1421832 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422021 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422170 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422253 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422466 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422519 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422599 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1423009 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1423223 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1422762 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1424500 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/platform/rockchip/rga/rga-buf.c: ../drivers/media/platform/rockchip/rga/rga-buf.c:83 rga_buf_init() error: 'f' dereferencing possible ERR_PTR()
+	/usr/local/bin/compile_checks: line 4: 1425779 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1426228 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1426274 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1426704 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2511 dvb_register() parse error: OOM: 3002676Kb sm_state_count = 1740732
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2511 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2511 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
+	/usr/local/bin/compile_checks: line 4: 1427732 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1428209 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1428235 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1428381 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1429066 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1429314 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:396 medusa_set_videostandard() parse error: OOM: 3000832Kb sm_state_count = 2111
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:396 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 3 seconds
+	/usr/local/bin/compile_checks: line 4: 1429614 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1429791 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1430784 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-core.c ../drivers/media/pci/solo6x10/solo6x10-core.c:362:24: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-core.c ../drivers/media/pci/solo6x10/solo6x10-core.c:362:24: :error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-core.c ../drivers/media/pci/solo6x10/solo6x10-core.c:362:24: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-core.c ../drivers/media/pci/solo6x10/solo6x10-core.c:362:24: error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: :error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:309:13: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-p2m.c ../drivers/media/pci/solo6x10/solo6x10-p2m.c:310:17: error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1431709 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1431722 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: :error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1431888 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c ../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: :error: too long token expansion
+	SMATCH:../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c ../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: :error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:245:18: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-enc.c ../drivers/media/pci/solo6x10/solo6x10-enc.c:270:24: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c ../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: error: too long token expansion
+	SPARSE:../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c ../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:468:30: error: too long token expansion
+	/usr/local/bin/compile_checks: line 4: 1432388 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1432820 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433011 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433645 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433661 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433748 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433808 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1433995 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434028 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434128 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434155 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434334 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434343 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	/usr/local/bin/compile_checks: line 4: 1434419 Segmentation fault      /opt/smatch/smatch -p=kernel "$@" 1>&2
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2886 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0001-media-dt-bindings-media-camss-Add-qcom-sc8280xp-cams.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-----------------------------------------------------------------
-Bryan O'Donoghue (6):
-      media: dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
-      media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 two-phase MIPI CSI-2 DPHY init
-      media: qcom: camss: Add CAMSS_SC8280XP enum
-      media: qcom: camss: Add sc8280xp resources
-      media: qcom: camss: Add sc8280xp support
-      media: qcom: camss: vfe-17x: Rename camss-vfe-170 to camss-vfe-17x
+patches/0002-media-qcom-camss-csiphy-3ph-Add-Gen2-v1.1-two-phase-.patch:
 
- Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml       | 512 +++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/qcom/camss/Makefile                             |   2 +-
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c               | 108 ++++++++-
- drivers/media/platform/qcom/camss/camss-csiphy.c                       |   1 +
- drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} |   0
- drivers/media/platform/qcom/camss/camss-vfe.c                          |  25 ++-
- drivers/media/platform/qcom/camss/camss-video.c                        |   1 +
- drivers/media/platform/qcom/camss/camss.c                              | 307 ++++++++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h                              |   1 +
- 9 files changed, 948 insertions(+), 9 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
- rename drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} (100%)
+    allyesconfig: return code #512:
+	../drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:153:14: error: ‘lane_regs_sc8280xp’ defined but not used [-Werror=unused-const-variable=]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o] Error 1
+	make[7]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom/camss] Error 2
+	make[6]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom] Error 2
+	make[5]: *** [../scripts/Makefile.build:485: drivers/media/platform] Error 2
+	make[4]: *** [../scripts/Makefile.build:485: drivers/media] Error 2
+	make[3]: *** [../scripts/Makefile.build:485: drivers] Error 2
+	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1919: .] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:240: __sub-make] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
+
+patches/0003-media-qcom-camss-Add-CAMSS_SC8280XP-enum.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:153:14: error: ‘lane_regs_sc8280xp’ defined but not used [-Werror=unused-const-variable=]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o] Error 1
+	make[8]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/camss/camss-csiphy.c: In function ‘msm_csiphy_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c:569:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy.o] Error 1
+	make[7]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom/camss] Error 2
+	make[6]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom] Error 2
+	make[5]: *** [../scripts/Makefile.build:485: drivers/media/platform] Error 2
+	make[4]: *** [../scripts/Makefile.build:485: drivers/media] Error 2
+	make[3]: *** [../scripts/Makefile.build:485: drivers] Error 2
+	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1919: .] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:240: __sub-make] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c: In function ‘msm_csiphy_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c:569:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy.o] Error 1
+	make[8]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘vfe_src_pad_code’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:174:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘msm_vfe_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:1499:17: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-vfe.o] Error 1
+	make[7]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom/camss] Error 2
+	make[6]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom] Error 2
+	make[5]: *** [../scripts/Makefile.build:485: drivers/media/platform] Error 2
+	make[4]: *** [../scripts/Makefile.build:485: drivers/media] Error 2
+	make[3]: *** [../scripts/Makefile.build:485: drivers] Error 2
+	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1919: .] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:240: __sub-make] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
+
+patches/0004-media-qcom-camss-Add-sc8280xp-resources.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:153:14: error: ‘lane_regs_sc8280xp’ defined but not used [-Werror=unused-const-variable=]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o] Error 1
+	make[8]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/camss/camss-csiphy.c: In function ‘msm_csiphy_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c:569:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy.o] Error 1
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘vfe_src_pad_code’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:174:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘msm_vfe_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:1499:17: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-vfe.o] Error 1
+	make[7]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom/camss] Error 2
+	make[6]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom] Error 2
+	make[5]: *** [../scripts/Makefile.build:485: drivers/media/platform] Error 2
+	make[4]: *** [../scripts/Makefile.build:485: drivers/media] Error 2
+	make[3]: *** [../scripts/Makefile.build:485: drivers] Error 2
+	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1919: .] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:240: __sub-make] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c: In function ‘msm_csiphy_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-csiphy.c:569:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-csiphy.o] Error 1
+	make[8]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/camss/camss-video.c: In function ‘msm_video_register’:
+	../drivers/media/platform/qcom/camss/camss-video.c:1009:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-video.o] Error 1
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘vfe_src_pad_code’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:174:9: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	../drivers/media/platform/qcom/camss/camss-vfe.c: In function ‘msm_vfe_subdev_init’:
+	../drivers/media/platform/qcom/camss/camss-vfe.c:1499:17: error: enumeration value ‘CAMSS_8280XP’ not handled in switch [-Werror=switch]
+	cc1: all warnings being treated as errors
+	make[8]: *** [../scripts/Makefile.build:244: drivers/media/platform/qcom/camss/camss-vfe.o] Error 1
+	make[7]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom/camss] Error 2
+	make[6]: *** [../scripts/Makefile.build:485: drivers/media/platform/qcom] Error 2
+	make[5]: *** [../scripts/Makefile.build:485: drivers/media/platform] Error 2
+	make[4]: *** [../scripts/Makefile.build:485: drivers/media] Error 2
+	make[3]: *** [../scripts/Makefile.build:485: drivers] Error 2
+	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1919: .] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:240: __sub-make] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0004-media-qcom-camss-Add-sc8280xp-resources.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:176: WARNING: line length of 102 exceeds 100 columns
+	-:192: WARNING: line length of 102 exceeds 100 columns
+	-:208: WARNING: line length of 102 exceeds 100 columns
+	-:224: WARNING: line length of 102 exceeds 100 columns
+
+patches/0006-media-qcom-camss-vfe-17x-Rename-camss-vfe-170-to-cam.patch:
+
+   checkpatch.pl:
+	$ cat patches/0006-media-qcom-camss-vfe-17x-Rename-camss-vfe-170-to-cam.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
 
