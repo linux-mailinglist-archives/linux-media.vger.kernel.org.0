@@ -1,172 +1,225 @@
-Return-Path: <linux-media+bounces-8836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCAC89BE69
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 13:51:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AA089BEA2
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:07:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 154501C2153E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 11:51:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 337AEB228C5
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 12:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC566A329;
-	Mon,  8 Apr 2024 11:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42186A352;
+	Mon,  8 Apr 2024 12:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="h2GdTKpv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2100.outbound.protection.outlook.com [40.107.104.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D476A010
-	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 11:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712577055; cv=none; b=YMeIE69GYwlw4jxifWXQSnOBMViJvwbcwlmcDhMp6qMKbY0ZCxTyIzn3PdI+IqYCWMptm782ubKqG0AYBFIERo/Oie9PAXFPRTwcW6XPFP5bNFakxDrLmPdOwMts58PglqdVgyoPArBGbjTkkt/rb1T/ELU/VyY6k9PuLs7s/KM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712577055; c=relaxed/simple;
-	bh=ZzcXEmqR4XM1cg8SR2k6g0M4M79LYxLPYUTW6G0IQu4=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=fTIKcVZsXbek7z0R6Sd8DJPdwO1ZJwsRMiob+JLu7ozjiEe0PfRXXQ0ZdIB+HL6LVZlkzKWTRffK+bFBiYQeFHfYdDdGjAImCvYP9nHQcBhY6TTPTfcBbZbNQUpCC7yLkRAy8MwLDs3r5HdpEyE8VTUcSi4QsDLRaT+uf3tQZyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A587C433C7
-	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 11:50:54 +0000 (UTC)
-Message-ID: <b370f61a-6301-41cd-8d02-3d532c5ff2ea@xs4all.nl>
-Date: Mon, 8 Apr 2024 13:50:52 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EF46A328;
+	Mon,  8 Apr 2024 12:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.100
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712578041; cv=fail; b=n0iLa7InQLE040nKDuu9nvzX5GfEqHy3vVLtBYXB/58jzh1989KN3BipwgtoY6TdZ8Jz38ZhKm5RJXbR4mpNc2oeYsBLTO8hVN9ki8NaaqOO+rA5IuKyGoF8iVT558BW1mIV1TucI2No0rnwhDQ8Nh6biJr4sr1i4Ys0qd+v6UE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712578041; c=relaxed/simple;
+	bh=/nCrm3MPPDlE4v5xmkBteuqThER1QdYk2Y22EVFN9PM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=PjRG+d1OVFR8rprguPiPtGM72sBbuCdJkhVlrNN2OohgrZJm52bdJE0Ycu2vPQZqPQXmDNUzy6oAs1txEV4M/Wfcz9p2FiixOiFiukd6DG1okdgav+w6x27jiWPRLB0/IQu9DpZVJHtYoC6tH0Dvi4/A6zT1ej6wZPzY2vvVbYI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=h2GdTKpv; arc=fail smtp.client-ip=40.107.104.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O82EhtKWAXLI0V4pybAktTh6fVtPQaTtNhGDnIKGY/ItvzXFTDtlNisVFPXUccd0YnfEgY4SL54ncfCsjeXM4QHQFexJBaIdHAsnmXTEzvQxQ6PLFV5JTDsn1LBs1RSL366C4ldeqMpVe9mxaP0j2TXdBPyT2cHEeum194maEgdgaieCHEzCbyZgYSSigfhk2NegYccGqiZL+VsM4p1G8MNKO5rIZh7fVY5BTyEerfpPmt0VywlXq2Xlz0f+Bj7dm4Ft+3YD6AVooTNaP9E1uMKL4RIZbs78byDlk0Ofu8E3FKFcZMlmpfSGppDQzcsxC+yC2WQ9xqfPsBYgUZLYMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bC9/hsXvLpcsSZ2/zcwidhkcx/lSKz5cPkQOa6Ew4K8=;
+ b=Z+dVXOxUnEQXCzCna+vSrxVP/YAdIodWBqSIAIYwhy1cu77Y5FK/ygfMnRnapvzZZJE4TEB1ydJuYdqeC/bE1/ynpusIj1nVJ5OoMh+reh15tpZlVjLh9lIOQY7UyDP9M28aAVQP46j5bFMWZM9UHjdh4MdEUyI4PB1CtvOQ1qIPGbzH491Np7/CGM2sN8eMraNFgy3Lsk9VuQhv2fYXgQMjXLOdqZILyY5FaXw9L+l2o3q3/KeWDAm5iVKRQZ+t6XWjYufhNtkGEMZfCa9yyOYKVNEy6XFE8KWIhGfI4gY6Kit2E9JsjLZ8A52tCYktWWnq3rwIr7/x3Jksfsm2ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bC9/hsXvLpcsSZ2/zcwidhkcx/lSKz5cPkQOa6Ew4K8=;
+ b=h2GdTKpvJmMCvKxlrOd6Pty0KtTOaWOHgoDDWtayeVPxi1bsm24O9IsAEj8iqwaUAHbuYpOnZ/i7N33EaZCDGEZY8woa8HQGzpvPVxMbLnlAeLiYstHxwoFsjO3AV8Ee8wLH2mXK3Km3KRjBIQbfJMbVZpBQSHzHNfgair+xGQ0=
+Received: from PAXPR04MB9231.eurprd04.prod.outlook.com (2603:10a6:102:2bb::10)
+ by PA1PR04MB10416.eurprd04.prod.outlook.com (2603:10a6:102:446::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
+ 2024 12:07:12 +0000
+Received: from PAXPR04MB9231.eurprd04.prod.outlook.com
+ ([fe80::c2ee:dfc0:577:cc57]) by PAXPR04MB9231.eurprd04.prod.outlook.com
+ ([fe80::c2ee:dfc0:577:cc57%3]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
+ 12:07:12 +0000
+From: Mirela Rabulea <mirela.rabulea@nxp.com>
+To: shawnguo@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	festevam@denx.de,
+	festevam@gmail.com,
+	alexander.stein@ew.tq-group.com,
+	Frank.li@nxp.com,
+	ming.qian@nxp.com
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 1/2] media: dt-bindings: nxp,imx8-jpeg: Add clocks entries
+Date: Mon,  8 Apr 2024 15:06:53 +0300
+Message-Id: <20240408120654.1196880-1-mirela.rabulea@nxp.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR06CA0177.eurprd06.prod.outlook.com
+ (2603:10a6:803:c8::34) To PAXPR04MB9231.eurprd04.prod.outlook.com
+ (2603:10a6:102:2bb::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.10] Various fixes and enhacements
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9231:EE_|PA1PR04MB10416:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	YslSjzYneqSN+H6XeoFSrA8xnT4nRoC8i5KNNmSZzKT+afgm4j9WJ2hR+WGns8VBkJRahUPemaszljTRPuoUB+kVUdl5ZMKqJtZ12oUg6Cdg44q/au1gR4i1xvMbCOj8MdgYToehCWrVqUnXD92499f+ymiY6uA/FCsUaDmpCxj0mKfxBUlizthjUTiGiJq1GrDktKLf7NHfxyWp9mOqrCiTXtxR0ffSaeW/q3bxP6kFUytxUp7f4lVzIcSpAVjTVfcUIoJ7GcJQ7zLu1F7A0RirPe6Mqu45TLrJ3NOB2IchdC2zDnekWCW6Uj+vUMMcWdJtLusssq96VCW3PIwRHk6LjjaxD9zy10if5Pn0/TZy56ZMJS4DxTCBEUF/aBqOVeFHWspJVedGVIRCbDusoIgPQKTSxX4VQr4msdTWB7JsTGbj8YqllZFhQkxh1mnVoWIlGIR51+wQCSCFAc6V4qfbieMj4bJNvR/6Yza3DOfXYZt6B0gBGbK/N3cANymraYc4uM33iouh/DAudoI1vxs+ltycJHT8mkpAkdj8Y+w/f907zkyKdvl4LsEOtl0Tg5QrF4LobY+XwWsf6h/kvf1JJwLru3zR3AHMrpNnyxLAVTVXqd1qi8lFPXd5l9PEjKvvyVSJDOkgAXS6jCgw15TptVNeddInl1Yc7YSu5DQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9231.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(376005)(366007)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qXUSYvbKEfaOZTTJRnqQoa9YW5wS+g+ZS5qxBFXC/zbGnFHMnemW85d7i3ae?=
+ =?us-ascii?Q?VB6qin2h00L/SoIAMUeZvYSQItIMRmnRenMlFn1I4EgwvWbO/6n9ufkOCaFY?=
+ =?us-ascii?Q?o/RmP1I6t6UuHYdS5NjByX5usfR2Ck1uB+6ulPFDL4otNbXzy5UxcT+AnFFb?=
+ =?us-ascii?Q?ZdhabUop55TDq7MdAJcvnJ9pYOFuQUsoHhs/0LGceKlQuoaa/wuG8l64H4B0?=
+ =?us-ascii?Q?NMMLuSQRxmAkzoGtLvDuWZaPe3NCBNgp5AqztManHZg2Y9/20vYR78zouwCO?=
+ =?us-ascii?Q?BwLWIZHbE3TkbcCkk0VeivxwER2YaP0TLsFSw64AA8DvP58C/cQe5/ZFvSRk?=
+ =?us-ascii?Q?oZlujJEkJp/VQlxROTKdosiDj+EBw9MdfcaDw7O2jPIxUoHOF7JFnNpenC7D?=
+ =?us-ascii?Q?yTZ7/uZ+zgvp5YtYF4myCJYSPFokzHW1ZO+35bWma0jZJjlyc42BkJYWFwz5?=
+ =?us-ascii?Q?vS2oBn8POpZO+Cz+Y5h0f4brbJWtvaVdEMYHKJki3Qre0yBdJA6LMCvvhlCD?=
+ =?us-ascii?Q?/Qbt3XruM5FY6Q6e9r9fgEutM2APyzMeSEhUFdGbAEJ7LSgCa1lPzJWVmLFh?=
+ =?us-ascii?Q?yYRyYf5xET5t6TA/tJzAYTUidleLrthEBmoOTGQEa28MGxppu+KskfF5B+ru?=
+ =?us-ascii?Q?qDIKgP/VsrO+mWThBRqLLp7BlGX0yUbnk9kMWiEbvgsBDCjVUSSv0TQrSZ9f?=
+ =?us-ascii?Q?98oqC4d4OYSg7r5wxhikXGxN48IbcNbY3XEDcjTlEezI7icq1+bmUBY3Ar1W?=
+ =?us-ascii?Q?75QrY+qDP3Zpwm82DvSm+JvWj0ZGdcFXCDzp6w9n6S1BlHJFwPIgSFOBq/Ey?=
+ =?us-ascii?Q?u+S9QOQzZBcwMFCpe/nO5rdVKtwRhxe0ThbHbixI43xvitT3O7ULEtjb3S9g?=
+ =?us-ascii?Q?BpB5kJnICicuXkHysoGodr8wNhIcOdM2uSGEZKv7wM5+qm7KVUGDDreRtga3?=
+ =?us-ascii?Q?iwWUbehIbpE1+7r/woTd0PtBNIMfS90q+4acmf03rrkf7x35ogvC2DGhgNJg?=
+ =?us-ascii?Q?h1xTmRAlEKnluTG0YCVdYuk/TTXHEsa+Mi12dcz+N0BSR+Jz/8IjZFzLpyHa?=
+ =?us-ascii?Q?StRwnkBUovt3myp6gDBG4/WChnIQjbAbYJY+btN+nSlJhgBXXVS1l0K09+ux?=
+ =?us-ascii?Q?cLiL12+HxltusAszECJOyMf0AvHa2J0cOqnU/L58bfqEtXJf8WFS9DZlgcAi?=
+ =?us-ascii?Q?m0T4jQsFCt+QpoLuGT1QWr/DdtU6R9MsgsN9gJ6c9V69M6ZyhZrC/4mxQCpx?=
+ =?us-ascii?Q?OO4tg/6vM5DI/awsb3ENZ2HbDlfx8sfHvQ1ulAySWGpFEVffkhVQhGYTCb25?=
+ =?us-ascii?Q?vpvsmnimh+MY8+IshnQYEvQZNViMoJDcPmKLWun8k42gBH5CWnpae5JCboyY?=
+ =?us-ascii?Q?srTj/vVUyHtHzzgqtwJGTlUOndWox0y1aAJCfnhyx37skBa9/TUFSHTKN4WI?=
+ =?us-ascii?Q?oxXIEZkPkGnJwfymdPC0wK9rmZ5NsvxI0Azm1VYs7OPfQUDW03gRo4O9gFHe?=
+ =?us-ascii?Q?lCHDAPN5BMlH3o0ewMvLSesWA8Vi3nI7EIY0+PcwYgKxIZ0BtXtxEr6ESlh4?=
+ =?us-ascii?Q?9tV52epwYklS2Xm8gGKuFApcELQLB/Um1SsUGCL2?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17d051b5-7bea-4b0e-6d6e-08dc57c46c24
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9231.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 12:07:12.0776
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZBGaZ31hr1aa6+lAFO++Xu/nNbVflqVz8tLmUlpkFACwMt6m3uLnyNOSpkx1rDtWUNKXpV47svG270IpME4kqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10416
 
-I'll merge this by the end of the day if there are no objections.
+From: Fabio Estevam <festevam@denx.de>
 
-Regards,
+The JPEG decoder/encoder present in iMX8QXP and iMX8QM SoCs need
+the PER and IPG clocks to be functional, so add the clock entries.
 
-	Hans
+This also fixes the following schema warning:
 
-The following changes since commit b82779648dfd3814df4e381f086326ec70fd791f:
+imx8qm-apalis-eval.dtb: jpegdec@58400000: 'assigned-clock-rates', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+        from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
 
-  Merge tag 'v6.9-rc2' into media_stage (2024-04-01 10:08:18 +0200)
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+---
+Changes since v5:
+- Remove one extra ":" from subject (thanks Fabio!)
+- Use <festevam@denx.de> address for both Author and Signed-of (Fabio's feedback)
 
-are available in the Git repository at:
+Changes since v4:
+- Remove redundant description and update subject prefix (per Krzysztof's feddback)
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.10b
+Changes since v3:
+- Add items for clocks (per Krzysztof's feddback)
+- Add description for clocks (per Conor's feddback to the other similar patch from Alexander)
+- Add "media:" to the subject
+- Add Mirela's signed-off
+- For the similar patches that were sent for this issue, should Co-developed-by/Signed-off-by be added? Alexander Stein? Frank Li?
 
-for you to fetch changes up to a9e421db3c71fc7d3d3bc08beb2f89d911502373:
+Changes since v2:
+- Remove clock-names. (Mirela)
 
-  media: platform: cros-ec: provide ID table for avoiding fallback match (2024-04-08 13:27:55 +0200)
+ .../devicetree/bindings/media/nxp,imx8-jpeg.yaml      | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-----------------------------------------------------------------
-Tag branch
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+index 3d9d1db37040..2be30c5fdc83 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+@@ -31,6 +31,11 @@ properties:
+   reg:
+     maxItems: 1
+ 
++  clocks:
++    items:
++      - description: AXI DMA engine clock for fetching JPEG bitstream from memory (per)
++      - description: IP bus clock for register access (ipg)
++
+   interrupts:
+     description: |
+       There are 4 slots available in the IP, which the driver may use
+@@ -49,6 +54,7 @@ properties:
+ required:
+   - compatible
+   - reg
++  - clocks
+   - interrupts
+   - power-domains
+ 
+@@ -56,12 +62,15 @@ additionalProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/clock/imx8-lpcg.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/firmware/imx/rsrc.h>
+ 
+     jpegdec: jpegdec@58400000 {
+         compatible = "nxp,imx8qxp-jpgdec";
+         reg = <0x58400000 0x00050000 >;
++        clocks = <&img_jpeg_dec_lpcg IMX_LPCG_CLK_0>,
++                 <&img_jpeg_dec_lpcg IMX_LPCG_CLK_4>;
+         interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
+                      <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
+                      <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
+@@ -76,6 +85,8 @@ examples:
+     jpegenc: jpegenc@58450000 {
+         compatible = "nxp,imx8qm-jpgenc", "nxp,imx8qxp-jpgenc";
+         reg = <0x58450000 0x00050000 >;
++        clocks = <&img_jpeg_enc_lpcg IMX_LPCG_CLK_0>,
++                 <&img_jpeg__lpcg IMX_LPCG_CLK_4>;
+         interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
+                      <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
+                      <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
+-- 
+2.25.1
 
-----------------------------------------------------------------
-Aleksandr Burakov (1):
-      media: ngene: Add dvb_ca_en50221_init return value check
-
-Arnd Bergmann (1):
-      media: rcar-vin: work around -Wenum-compare-conditional warning
-
-Changhuang Liang (1):
-      staging: media: starfive: Remove links when unregistering devices
-
-Hans Verkuil (1):
-      media: v4l2-ctrls: add support for area type logging
-
-István Váradi (1):
-      media: anysee: accept read buffers of length 1 in anysee_master_xfer
-
-Jacopo Mondi (1):
-      media: v4l2-common: Add Y210 and Y216 format info
-
-Krzysztof Kozlowski (1):
-      media: mmc: siano: simplify module initialization
-
-Martin Tůma (1):
-      media: admin-guide: Fix mgb4 driver documentation structure
-
-Matthijs Kooijman (1):
-      media: docs: Fix mem_offset name in multiplane example
-
-Prasad Pandit (1):
-      media: cxd2880: Add terminating new line to Kconfig
-
-Ricardo Ribalda (3):
-      staging: media: tegra-video: Fix -Wmaybe-unitialized warn in gcc
-      media: radio-shark2: Avoid led_names truncations
-      media: dvbdev: Initialize sbuf
-
-Tzung-Bi Shih (1):
-      media: platform: cros-ec: provide ID table for avoiding fallback match
-
-Uwe Kleine-König (1):
-      media: staging: media: starfive: camss: Convert to platform remove callback returning void
-
-hanchunchao (1):
-      media: docs: Remove the repeated word "the" in docs.
-
- Documentation/admin-guide/media/mgb4.rst                  | 35 +++++++++++++++--------------------
- Documentation/userspace-api/media/dvb/frontend_f_open.rst |  2 +-
- Documentation/userspace-api/media/v4l/mmap.rst            |  2 +-
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c          |  9 ++++++++-
- drivers/media/dvb-core/dvbdev.c                           |  2 +-
- drivers/media/dvb-frontends/cxd2880/Kconfig               |  2 +-
- drivers/media/mmc/siano/smssdio.c                         | 25 +------------------------
- drivers/media/pci/ngene/ngene-core.c                      |  4 +++-
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h        |  2 +-
- drivers/media/radio/radio-shark2.c                        |  2 +-
- drivers/media/usb/dvb-usb-v2/anysee.c                     |  4 ++--
- drivers/media/v4l2-core/v4l2-common.c                     |  2 ++
- drivers/media/v4l2-core/v4l2-ctrls-core.c                 |  3 +++
- drivers/staging/media/starfive/camss/stf-camss.c          | 12 ++++++++----
- drivers/staging/media/tegra-video/tegra20.c               |  1 +
- 15 files changed, 49 insertions(+), 58 deletions(-)
 
