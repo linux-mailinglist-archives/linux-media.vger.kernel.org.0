@@ -1,115 +1,115 @@
-Return-Path: <linux-media+bounces-8852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F8189C788
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 16:54:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717A389C7DC
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 17:10:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E8511F22381
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:54:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10FB51F231E7
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 15:10:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5295613F422;
-	Mon,  8 Apr 2024 14:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0EA13FD7E;
+	Mon,  8 Apr 2024 15:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bDBnwG0i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF75B13F011
-	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 14:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C6B13FD77
+	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 15:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712588043; cv=none; b=UWW6Rs/mUV85zjWUIlDP6ixbqZCXepgtrMPVzNRi0KvkySbEstlr/ItN1Mg8SZzdFblQP6zk2bYShfBe6H5HX2CbnAjVtDcz7R1t6qGugTz7NtRKdHhVCLg/DapR2nhHT/oJMJAw5jCyCQqflWtxFCYa3l41dbnhu77uHQ2+clw=
+	t=1712589009; cv=none; b=lC2ei1ACFSl+CychBLoUZkQXtlI2olcDeG9TzIbdsnA08VlNnNKI+n0ZSqOOIa45QVDGWO7ADJLWLDQCEOoG/cjjCnwPW+6EU/aeAp2/SPFwA6iKdSb5kIzBizjY8NeUtL3JVhRX1P8qlzJ/jO/2F+REIkpA19/+COfgyJL8PjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712588043; c=relaxed/simple;
-	bh=rt5DAiAgNwU/DfWEBcXPaKicSfaqx12MLfGvE0qO804=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q5Mu08vHx/sL7V/gXPx5n93enlRHalwg7rOA9XpDZa5rbpivhmDzwAiOL0GPK3mhsNeRIBfJePcxjJwSZTdTn1AEdmPLBjvdpRrDkO4D93OVGDNBm/BQN7nWrUqF4luIUC/uxnpNfffJFfVkDrvrBaG59aQojF1YCDKvs6dQ4YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 600A8C433F1;
-	Mon,  8 Apr 2024 14:54:01 +0000 (UTC)
-Message-ID: <fdd16aef-7feb-4de4-9d79-c9b682217a40@xs4all.nl>
-Date: Mon, 8 Apr 2024 16:54:01 +0200
+	s=arc-20240116; t=1712589009; c=relaxed/simple;
+	bh=O1GMpv6U3bMpWegdyahz7zYDEcDjAVdDHz0mxZQn8uA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=stwRLoRtrB4hYOsErSsAOWgdoul/IGVyR1Crjv2MAudslbmVm74KcNKe6NtZIs+mEPac85HmTemfOYzA+/Ha9X2qZ+bjf37nRGWRYTAWtUGExYg2u2c46xsm2lADZ/LUdAlbIcJy3PqsjGNWUatAguiF4YKqULX84mZpWcCSOrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bDBnwG0i; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4140225e68aso23114335e9.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Apr 2024 08:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712589006; x=1713193806; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yi/uhABnlcTj8gbmFZY62AYsFukjoKviscCUG5WiDB4=;
+        b=bDBnwG0i8F+UFm+KU/IxneJ1To3SidWDc8exyhNYmUlMql/8909k0wSl9L7JA/BZeB
+         1ixzAPbwmmJGtF6aUfR8PMluPzV6erhQC6wvTOnZY78KezrQq4A2Tj189o33k6TeDSn+
+         cWqZKIetB0+x1WnOQiWHGJbsrA3Tco9L14NLHn+ZMrfEYTOF/PWtfCmGz4dZe5TJyXb4
+         DGItmu4gAEwmO6DoRxHApMIC5kXZEh34uJAv5J/TPcFep33QxA9jHWtwbFhczaXaHXIB
+         ozRZka7UT/BSTjYInHGSn9JiLcOe4aj//WxYAhNPdZTnVoXkpjPTIGci+1F6MW1sdJf0
+         K1pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712589006; x=1713193806;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yi/uhABnlcTj8gbmFZY62AYsFukjoKviscCUG5WiDB4=;
+        b=E4xRcXqDQEZ5+XNavaK6/ao2w3zcgNiLV0IjpgXmO4vvjl/rOxnJpVPLQPb4kvi0+O
+         d+drCkmWg3vKvk2K6mN/bFeM2bxfW+2QFKdze7kxx3LhgbzMv9EoAxSazUy4I2ueQr0N
+         Fn8ji3B4jp4bNeGWhDCCdFIqwfxJkgYn20o+t3+OW6KIKBVYDzkal27v7FMGZAj66Ff/
+         l52VpyCnrQZhWsZixwW32A66NMi+RXuh0WqUIokVY1oKY8KlcCYStHcYZMN/cIegdGv7
+         M3BAn7eCgKsH0RnWzu3z6++8aIqfyI+uTegZmUKjvbI8pfaDTFpJ65s/8XpB8m5Mktmk
+         eFpg==
+X-Gm-Message-State: AOJu0YxsHx8smLHOo9a+LHK43wrz86SkZqpH31F3fmOY9xed3nTumHtM
+	0HcM4D2pzmx3Gm1hQBj0+IIjJce2y7zVPlH27+aEsJWTUu5N9wGK70j5okZv5GLCD26xmeyl9q9
+	3d4wcdUwKFA==
+X-Google-Smtp-Source: AGHT+IEj6+9O6AsYPRrE4sDXih3UjVlzc8R/gTi9MA/Rcp6Esze+SIQ0OaemxfVs/sEeTnu5OTi30izBkY9Zgg==
+X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
+ (user=panikiel job=sendgmr) by 2002:a05:600c:3ca6:b0:414:1390:57a2 with SMTP
+ id bg38-20020a05600c3ca600b00414139057a2mr24707wmb.4.1712589006133; Mon, 08
+ Apr 2024 08:10:06 -0700 (PDT)
+Date: Mon,  8 Apr 2024 15:10:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] media: ttpci: make checkpatch happy
-Content-Language: en-US, nl
-To: Stefan Herdler <herdler@nurfuerspam.de>
-Cc: linux-media@vger.kernel.org, smoch@web.de, tmn505@gmail.com,
- vinschen@redhat.com
-References: <20240328020522.50995-1-herdler@nurfuerspam.de>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240328020522.50995-1-herdler@nurfuerspam.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Message-ID: <20240408151002.2283184-1-panikiel@google.com>
+Subject: [PATCH 14.5/16] media: vpif_display: Use pad variant of dv timing
+ subdev calls
+From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
+To: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl, tharvey@gateworks.com, 
+	niklas.soderlund@ragnatech.se, prabhakar.csengg@gmail.com, 
+	charles-antoine.couret@nexvision.fr, thierry.reding@gmail.com, 
+	jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, 
+	"=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stefan,
+Use the pad variant for all (s|g|query)_dv_timings subdev calls, which
+includes a pad argument.
 
-On 28/03/2024 03:05, Stefan Herdler wrote:
-> Hi Hans,
-> 
-> last year I promised to take a look at the chackpatch warnings.
-> Well, it took a little longer then expected but here is the first result.
-> 
-> This patchset should remove all chackpatch warnings and errors in the
-> ttpci budget driver(s) if applied completely.
-> 
-> This is the first in a series of similar fixes for the SAA7146 related
-> drivers (at least that is my plan).
-> This first patchset is also a test for my whole tool chain. Please give
-> me some feedback if there is something, that could be improved next time.
-> 
-> Initially I had planned to start with the AV7110 driver, but then decided
-> to start with this one, because it was the easiest one to fix. It didn't
-> had any complicated issues and the list of warnings was one of the
-> shortest among the SAA7146 drivers.
+Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+---
+ drivers/media/platform/ti/davinci/vpif_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If I run 'checkpatch.pl --strict' over these patches, then reports several
-of these warnings about the subject line:
-
-WARNING: A patch subject line should describe the change not the tool that found it
-
-I think if you fix that and post a v2 (fixing 04/11 and dropping 11/11),
-then I can merge it.
-
-Regards,
-
-	Hans
-
-> 
-> Regards
-> Stefan
-> 
-> 
-> Stefan Herdler (11):
->   media: ttpci: checkpatch fixes: whitespace and newlines
->   media: ttpci: checkpatch fixes: whitespace
->   media: ttpci: checkpatch fixes: comments
->   media: ttpci: checkpatch fixes: braces
->   media: ttpci: checkpatch fixes: export_symbol
->   media: ttpci: checkpatch fixes: assign_in_if
->   media: ttpci: checkpatch fixes: trailing_statements
->   media: ttpci: checkpatch fixes: constant_comparsation
->   media: ttpci: checkpatch fixes: miscellaneous
->   media: ttpci: checkpatch fixes: logging
->   media: ttpci: checkpatch fixes: msleep
-> 
->  drivers/media/pci/ttpci/budget-av.c   | 574 +++++++++++++-------------
->  drivers/media/pci/ttpci/budget-ci.c   | 501 +++++++++++-----------
->  drivers/media/pci/ttpci/budget-core.c |  38 +-
->  drivers/media/pci/ttpci/budget.c      | 170 ++++----
->  drivers/media/pci/ttpci/budget.h      |  19 +-
->  5 files changed, 658 insertions(+), 644 deletions(-)
-> 
-> --
-> 2.34.0
-> 
-> 
+diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/med=
+ia/platform/ti/davinci/vpif_display.c
+index 02ede1fe12cb..76d8fa8ad088 100644
+--- a/drivers/media/platform/ti/davinci/vpif_display.c
++++ b/drivers/media/platform/ti/davinci/vpif_display.c
+@@ -934,7 +934,7 @@ static int vpif_s_dv_timings(struct file *file, void *p=
+riv,
+ 	}
+=20
+ 	/* Configure subdevice timings, if any */
+-	ret =3D v4l2_subdev_call(ch->sd, video, s_dv_timings, timings);
++	ret =3D v4l2_subdev_call(ch->sd, pad, s_dv_timings, 0, timings);
+ 	if (ret =3D=3D -ENOIOCTLCMD || ret =3D=3D -ENODEV)
+ 		ret =3D 0;
+ 	if (ret < 0) {
+--=20
+2.44.0.478.gd926399ef9-goog
 
 
