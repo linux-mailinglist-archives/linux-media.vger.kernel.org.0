@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-8812-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8813-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5342B89B88A
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:36:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F93B89B94D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:53:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EEC4281E4C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 07:36:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2A5B1C21F90
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 07:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A6572C6BB;
-	Mon,  8 Apr 2024 07:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7067D5BAF0;
+	Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88782B9D4;
-	Mon,  8 Apr 2024 07:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37085B043;
+	Mon,  8 Apr 2024 07:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712561771; cv=none; b=fQegQGp1oiofGsTU3Q+qiKTR0aZqPbRzP7+cZOr8FXKGzD/9GECy9eG9gxnzer5RjcHg2gLYwqpwkEzy1VtxvMx+teVNplTcUKnma2ELOdQ9/hu7125EBcAX7Q5oFmquV1Y8/hY3JlVu2u90SXU0y/PbbvBGjKVoB/8OziXHSvA=
+	t=1712562500; cv=none; b=Uf956maEr2OykIa4UaL9ocP+IlwoZ7fuKHvA8uSzfn7JNofrNEllaW1TxlToE9PaY4jRfW2ZVF1QNmVMNIpLqUXzCo73AUb3S/LWryzYueWAjF+orZUua30ih1ZaQ6bTrQZaGRMDinyY9/Cu7CAb+rvP6KJlB1NkP+GTRB60tkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712561771; c=relaxed/simple;
-	bh=MYVEQ4Bnra1nXlCfh4cdc1ky1mz9ACZ0YBff5gnAeHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=shaoHMKw0tZcZ+nixAlmTFr4HvVloLdJPzuTlBnIT8CY2XswDzNKgu8Y8qDjJf3AoE7d+44y9HKqe1AqBB3hdQCYmYkCx9/NSdVsXUuRhA1I0rNiKEiXyb3SANXIjU3l1BChdSKC4wqZzMK/8IcDUZu6v5pneBo1KvMIgkRbS6w=
+	s=arc-20240116; t=1712562500; c=relaxed/simple;
+	bh=Ds4WWTaPfBAY8QE5hs8uu8bmRScO9DPoptIQA+2BO7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=gj+056myh2lXhqhm/eWWJnegnTrzxUfHPIbVUZoc5X+2wzbSytiCf+Qm9FmZj/Ue2imNe1OPvFrchjwzvSIWuJWaWeJu5I94CUB0LrDCrFFffg83WMGXUF4y32UoRlbkSGLBw+XjieC2ATY7HB11Tsbpd0DGOOzZNDSF8gB1SLM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83CAFC433C7;
-	Mon,  8 Apr 2024 07:36:08 +0000 (UTC)
-Message-ID: <0ee2d906-8ba3-4c3a-b731-4ed2f5d9fecc@xs4all.nl>
-Date: Mon, 8 Apr 2024 09:36:06 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6E6C433F1;
+	Mon,  8 Apr 2024 07:48:17 +0000 (UTC)
+Message-ID: <12daffe3-ae5e-4b0f-bb61-3dd233e344bb@xs4all.nl>
+Date: Mon, 8 Apr 2024 09:48:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,84 +38,121 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] media: platform: cros-ec: provide ID table for
- avoiding fallback match
+Subject: Re: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C
+ Algobit and consumers
 Content-Language: en-US, nl
-To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
- groeck@chromium.org, linus.walleij@linaro.org, brgl@bgdev.pl,
- mchehab@kernel.org, sre@kernel.org
-Cc: chrome-platform@lists.linux.dev, pmalani@chromium.org,
- linux-gpio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, krzk@kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20240401030052.2887845-1-tzungbi@kernel.org>
- <20240401030052.2887845-2-tzungbi@kernel.org>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240401030052.2887845-2-tzungbi@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
+ <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/04/2024 05:00, Tzung-Bi Shih wrote:
-> Instead of using fallback driver name match, provide ID table[1] for the
-> primary match.
+On 05/04/2024 12:18, Wolfram Sang wrote:
+> Hello Easwar,
 > 
-> [1]: https://elixir.bootlin.com/linux/v6.8/source/drivers/base/platform.c#L1353
+> On Fri, Mar 29, 2024 at 05:00:24PM +0000, Easwar Hariharan wrote:
+>> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of the
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
 > 
-> Reviewed-by: Benson Leung <bleung@chromium.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> I really appreciate that you want to assist in this task to improve the
+> I2C core. I do. I am afraid, however, that you took the second step
+> before the first one, though. As I mentioned in my original cover
+> letter, this is not only about renaming but also improving the I2C API
+> (splitting up header files...). So, drivers are not a priority right
+> now. They can be better fixed once the core is ready.
+> 
+> It is true that I changed quite some controller drivers within the i2c
+> realm. I did this to gain experience. As you also noticed quite some
+> questions came up. We need to agree on answers first. And once we are
+> happy with the answers we found, then IMO we can go outside of the i2c
+> realm and send patches to other subsystems referencing agreed
+> precedence. I intentionally did not go outside i2c yet. Since your
+> patches are already there, you probably want to foster them until they
+> are ready for inclusion. Yet, regarding further patches, my suggestion
+> is to wait until the core is ready. That might take a while, though.
+> However, there is enough to discuss until the core is ready. So, your
+> collaboration there is highly appreciated!
+> 
+>> The last patch updating the .master_xfer method to .xfer depends on
+>> patch 1 of Wolfram's series below, but the series is otherwise
+>> independent. It may make sense for the last patch to go in with
+> 
+> Please drop the last patch from this series. It will nicely remove the
+> dependency. Also, like above, I first want to gain experience with i2c
+> before going to other subsystems. That was intended.
 
-Looks OK, I'll queue this patch up for v6.10.
+OK, based on this I'll mark the media patches in this series as 'Deferred'
+in our patchwork.
 
 Regards,
 
 	Hans
 
-> ---
-> Changes from v1:
-> - No code changes.
-> - Add R-b tags.
 > 
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+> All the best and happy hacking,
 > 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 48ed2993d2f0..8fbbb4091455 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -8,6 +8,7 @@
->  
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/platform_device.h>
->  #include <linux/dmi.h>
->  #include <linux/pci.h>
-> @@ -573,6 +574,12 @@ static void cros_ec_cec_remove(struct platform_device *pdev)
->  	}
->  }
->  
-> +static const struct platform_device_id cros_ec_cec_id[] = {
-> +	{ DRV_NAME, 0 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(platform, cros_ec_cec_id);
-> +
->  static struct platform_driver cros_ec_cec_driver = {
->  	.probe = cros_ec_cec_probe,
->  	.remove_new = cros_ec_cec_remove,
-> @@ -580,6 +587,7 @@ static struct platform_driver cros_ec_cec_driver = {
->  		.name = DRV_NAME,
->  		.pm = &cros_ec_cec_pm_ops,
->  	},
-> +	.id_table = cros_ec_cec_id,
->  };
->  
->  module_platform_driver(cros_ec_cec_driver);
-> @@ -587,4 +595,3 @@ module_platform_driver(cros_ec_cec_driver);
->  MODULE_DESCRIPTION("CEC driver for ChromeOS ECs");
->  MODULE_AUTHOR("Neil Armstrong <narmstrong@baylibre.com>");
->  MODULE_LICENSE("GPL");
-> -MODULE_ALIAS("platform:" DRV_NAME);
+>    Wolfram
+> 
 
 
