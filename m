@@ -1,156 +1,182 @@
-Return-Path: <linux-media+bounces-8821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF37B89BB52
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 11:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F05989BBD7
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 11:35:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C300B22E5A
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:13:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3CCEB21A92
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BFBB4084B;
-	Mon,  8 Apr 2024 09:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3401D4D10A;
+	Mon,  8 Apr 2024 09:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HAJzuBNs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCFC34CDE;
-	Mon,  8 Apr 2024 09:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBA46FBF;
+	Mon,  8 Apr 2024 09:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712567617; cv=none; b=ToV+d1F6kFmFC9jKQLWn+khNuUeCV9I+dUI6xNJu2IOTL1M2i4JOuzUrUV/IAja9UYoO0GGuyoJOJepuPymVsodwHrjbfxnZtJiUy7AzsqwfIb5F2OmSqHA+V4/PjL9sjJ830eQ0Z1puyGf1LMQWofa2ZsRythOfB6P17wyZj40=
+	t=1712568877; cv=none; b=moryqkQcdiLEyK5K/K0brse4E7NuIOAIs72Vcr2hRccHwapNo0bVxf/LooN+Is6OPV4/XGfRpFOkqExVOASIKK7XkFVtW9I4aroRLKfXD6WO/VisXs2O3AAvI/5RHGWEmrDlXvLEIu5JscDxzs5SPYYrkiE/dFCszzL2xLhhiKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712567617; c=relaxed/simple;
-	bh=yTqsvhBCkSc78Imgw8E+ZDntOPJsWlkyEET4fsR9Q6k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OBZRGBS3HCuXUGTq6fzhbI8OJUMjuNh3O4L+8aD47HGgZY1WTM/FBR8o4QbQATYi4d2h8j6pptUfdJ9b6M55bVtVwrT2aKxzKG/ew4n19QG5kIKHTyByRx4jysUQefj8yM/kOxAD/1MoerJSOAN1DKEXkhfyjdi7x0/qYKfttZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10ED0C433C7;
-	Mon,  8 Apr 2024 09:13:35 +0000 (UTC)
-Message-ID: <b7ed772f-f66b-48cf-a419-0826777df974@xs4all.nl>
-Date: Mon, 8 Apr 2024 11:13:34 +0200
+	s=arc-20240116; t=1712568877; c=relaxed/simple;
+	bh=frFJy5Iffrice8TATlhPSbyjdDx4lsgbTrENNwTKGyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=i8XH5rCxRcD6cvrNJh51X1W+DFIp+m0dwXIkt1nQpdW44mpJQb9LtDJVWUF8xXk7ptt0DkJKhmNmC/emYf+cvuln0Yt8aSa37tx6AX6EvBIOfaEf/4NbQdHJQAYLxeC32T4Iy+oxwGxmyI1NrK5hnle7lKvHcv5TXF7H71XzDdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HAJzuBNs; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4389674X018763;
+	Mon, 8 Apr 2024 09:33:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=HRb08lOvL/RkQcGPtpnIO47HiV3JbnaC5Kla4WlkdPg=;
+ b=HAJzuBNsO2JwyXcSUPA5KKjMXoa85ATgDBDMdlUVrWrD4LTczUD9Nzq1exAuSBYIXiod
+ e0MbeFjiTJ8BhZHNrUhGGDzWKY8EITc7XduqdLDZ5GctKya+kVyoKq/IkOu0SedUx2z5
+ pQp8LeJGmQfs2CM+LTbmD/KJRvxg9VmuuBuJ1NKV4C1xxrojFpma6UqwA03Fy2zslw5J
+ vQkdyyQm/5xiBkjpSpVWZG0r2JfzA51m5ovZNnFXMysbeE8Tuv+bGvb6/0yFAENxHcVu
+ qAKQ1mFWZTC2QuNZ6UtiF13rTIvo2INwrArwDWHsJE6MYCmUQBSAMU8Fvb7Q48Tb74E1 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageb0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:21 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4389WAD8027701;
+	Mon, 8 Apr 2024 09:33:20 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageav-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:20 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4388CHai022664;
+	Mon, 8 Apr 2024 09:33:19 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbhqnqanr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:19 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4389XFRb40632662
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Apr 2024 09:33:17 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E7ADC2004B;
+	Mon,  8 Apr 2024 09:33:14 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43F2D20040;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Received: from osiris (unknown [9.171.19.167])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Date: Mon, 8 Apr 2024 11:33:09 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org,
+        vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
+        florian.fainelli@broadcom.com, rjui@broadcom.com,
+        sbranden@broadcom.com, paul@crapouillou.net,
+        Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
+        vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
+        zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr, andersson@kernel.org,
+        konrad.dybcio@linaro.org, orsonzhai@gmail.com,
+        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+        patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
+        jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        jassisinghbrar@gmail.com, mchehab@kernel.org,
+        maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
+        ulf.hansson@linaro.org, manuel.lauss@gmail.com,
+        mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
+        duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
+        openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
+Message-ID: <20240408093309.9447-A-hca@linux.ibm.com>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-8-apais@linux.microsoft.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327160314.9982-8-apais@linux.microsoft.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iEx_GL3tt0mvzHnM4XY0RznJTIWn8Sle
+X-Proofpoint-GUID: YubKogQl91W9lviSSqhJG7ZeEe8HfK38
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l2-tpg: Fix division by zero error in
- color_to_hsv
-Content-Language: en-US, nl
-To: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240301170838.57421-1-m.lobanov@rosalinux.ru>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240301170838.57421-1-m.lobanov@rosalinux.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_07,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=816 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2404010000 definitions=main-2404080073
 
-On 01/03/2024 18:08, Mikhail Lobanov wrote:
-> In the color_to_hsv function, division by zero is possible due to
-> attributes r,g,b are equal so diff_rgb = 0.
+On Wed, Mar 27, 2024 at 04:03:12PM +0000, Allen Pais wrote:
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
 > 
-> Fixes: 54fb15348385 ("[media] vivid: Add support for HSV formats")
-> Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 
-With this patch I get this compiler warning:
-
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c: In function 'precalculate_color':
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:1004:35: warning: 'h' may be used uninitialized [-Wmaybe-uninitialized]
- 1004 |                 tpg->colors[k][0] = h;
-      |                 ~~~~~~~~~~~~~~~~~~^~~
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:1001:21: note: 'h' was declared here
- 1001 |                 int h, s, v;
-      |                     ^
-
-In any case, I think this patch is wrong.
-
-Based on this formula:
-
-https://www.rapidtables.com/convert/color/rgb-to-hsv.html
-
-The bug is in:
-
-        *s = aux;
-        if (!aux) {
-                *h = 0;
-                return;
-        }
-
-'if (!aux)' should be 'if (!diff_rgb)'.
-
-Regards,
-
-	Hans
+I guess this dependency is a hard requirement due to commit 134874e2eee9
+("workqueue: Allow cancel_work_sync() and disable_work() from atomic contexts
+on BH work items")?
 
 > ---
->  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> index a366566f22c3..943aab3ad97c 100644
-> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-> @@ -597,6 +597,11 @@ static void color_to_hsv(struct tpg_data *tpg, int r, int g, int b,
->  		third = third_size * 2;
->  	}
->  
-> +	if (!diff_rgb) {
-> +		*s = 0;
-> +		return;
-> +	}
-> +
->  	aux *= third_size / 2;
->  	aux += diff_rgb / 2;
->  	aux /= diff_rgb;
+>  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
+>  drivers/s390/block/dasd_int.h          | 10 +++---
+>  drivers/s390/char/con3270.c            | 27 ++++++++--------
+>  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
+>  drivers/s390/crypto/ap_bus.h           |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
+>  drivers/s390/net/ctcm_fsms.c           |  4 +--
+>  drivers/s390/net/ctcm_main.c           | 15 ++++-----
+>  drivers/s390/net/ctcm_main.h           |  5 +--
+>  drivers/s390/net/ctcm_mpc.c            | 12 +++----
+>  drivers/s390/net/ctcm_mpc.h            |  7 ++--
+>  drivers/s390/net/lcs.c                 | 26 +++++++--------
+>  drivers/s390/net/lcs.h                 |  2 +-
+>  drivers/s390/net/qeth_core_main.c      |  2 +-
+>  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
+>  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
+>  17 files changed, 117 insertions(+), 121 deletions(-)
 
+I'm asking since this patch comes with multiple compile errors. Probably due
+to lack of cross compiler tool chain on your side.
+
+If the above wouldn't be a hard dependency I'd say we could take those parts
+of your patch which are fine into the s390 tree for 6.10, fix the rest, and
+schedule that as well for 6.10 via the s390 tree.
 
