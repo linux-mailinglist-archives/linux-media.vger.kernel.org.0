@@ -1,151 +1,176 @@
-Return-Path: <linux-media+bounces-8819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8820-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FF289BA69
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 10:35:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC8989BAC0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 10:48:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65185284C3C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 08:35:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 662B81F235BD
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 08:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D450739FEF;
-	Mon,  8 Apr 2024 08:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62E3152F62;
+	Mon,  8 Apr 2024 08:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsabOnJL"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="H0Hz8koo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E8034CDE;
-	Mon,  8 Apr 2024 08:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65E83BB3D;
+	Mon,  8 Apr 2024 08:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712565328; cv=none; b=OpeySaG8s7djHZ0yVZIo443yE/0VG+h1x++YonwhT9FxXv/b7kSQjUpsP0mBftY3f0KdRwMxwtf/YG56Muk8gvuQUESG0gfDjVa0nOHnUlVUSNHm6P0/i1TAYmuDKorRGFSnoKeZYVK0iPOoXdYQCN6K3P21IdL9P2IjlWRryX0=
+	t=1712565915; cv=none; b=iab7RC4ZR62zkaq94fSNdm8gUQt/AI9D2EyWEeNmhVwH5ligwAqW7jHW8V2cpVb6/Te74+zkmO4sMuqobJA7WpGEVXDhyLo8ugncddc5gZ4dl0yMnogIEPvAP16Oe9YtcWzXsYdZTFIEmNqLgkUEFZiPjRLQFr0ZgeQRIninmo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712565328; c=relaxed/simple;
-	bh=fDIFzq2+GjeMRLsPFfkdydig1/xFOVehlykYBoiVtNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpbLzUtcFjgl932o87j3mYngN6ajCg5i820hNjD+EkJJPzlxRM6dwCRVE1rYp5sTQKxg0vhTJIr+ukI7/Urfxtg72CIt7L4rIqiOfXETRsK+LqiwjWrpCart0p8jVE3DnT+P1qFm93xGqkjETjF5ZtdocdaEdjFwe309avRLun8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsabOnJL; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4166ccac75cso5386245e9.0;
-        Mon, 08 Apr 2024 01:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712565325; x=1713170125; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uYeAXyuKGODULO+FbNEaQzDLowkIhH9uCziDxOY+3pM=;
-        b=NsabOnJLVkWksOwd3uRRxlAvCgmqFTcbIM5CIHm9ToZ/VgoQ893dJP2Ekg/wz2nDjV
-         gs5E1t1nVoODaamYzuUigtryT+0uMi1PzSSGes1Nm8pahHo9fVvQzCv2naLz0bGI/UHz
-         +pw1ezTaUYUeF9fKw34gJya+4KYVZZ4Zz8WApL2m+2z8Ily74ufC/7MOk26p9ZhyjXln
-         ILPbBeiNoQ4lJGt9HezDQBEdtdWKoNs6hy/LdpKagYAoW2zId9Z//L3FpBOR3fn6fi7E
-         +1oyyX3zeUd33pCujGy3mQsty4YluTYI59atywKZUJN2nZnvtq8W0geOixsarZy8e09n
-         Ot2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712565325; x=1713170125;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uYeAXyuKGODULO+FbNEaQzDLowkIhH9uCziDxOY+3pM=;
-        b=wPs+kft9EvsKmrZyODhvsT2QHWMklUp6WVji+Rs/qUKAg0oJza6dY8Kk8+pHBXSm0d
-         DDoZrJuIeUoQCAfAI2qi/+r7prTFa6NH18mYcGGwSYxzO0EMh/ZdyLPiVDm7dEQ+riPU
-         MqIYieuFgwJQ6ytCEA2bX8ye9reb7zheEIF4ewcrVL0uIvVo0u1DKk3OtX/iwHQbBWpM
-         ZDuxQ/NIf9OftxUwfUrjE//UQT7fo9NTAvoEL4677tt1GNpeRsGBGnvk/K8J8fvpNWTT
-         QUvBHloX0UkEaQEUyT4cT0NNrn3Ry4a/JwWZHQjlrqreWChV7dkKkBvw48nTkfnnYJns
-         ojjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZS45wn25kmQ3qiYKFLmgPfx3kKEzzrRl2b792x2zFzsAXzzTbPOOT3JlQRiDi5ByeiLEaDJlUYtD6NwR0VxiRQFEgZvmch7MUzJSbtOfAhmjIX4nq1ZLG7tHfZY3PZeMJejOgMbb+Y8I/ngN2DTyi4wJst3ef5xzAIgZ3xQAWWrJIOpi0cHTZyDJpTUnXWgaHvP6X22RWupeOFv42xlJEsSBLPfw7osuBp1GNEso6K0qQVih2dAim2g==
-X-Gm-Message-State: AOJu0YxjaSCMswK2C6vdsnx0GBHymFFBk47pseh6EYRdj+SEjSrpxQxX
-	v5GPvkkg++krIRsFYTbGmdT34P9gD4A6dv+yA91/StwN5Fb6RKv0
-X-Google-Smtp-Source: AGHT+IHU5k1SefaWsJ4Dm8FLb/xA0Oa19OOVbWsUeKtS2E4eDYDTEpvWcL36P791FhCHmqL0tKsDyA==
-X-Received: by 2002:a05:600c:468b:b0:415:6dae:7759 with SMTP id p11-20020a05600c468b00b004156dae7759mr5328190wmo.19.1712565324886;
-        Mon, 08 Apr 2024 01:35:24 -0700 (PDT)
-Received: from localhost ([185.57.101.252])
-        by smtp.gmail.com with ESMTPSA id be9-20020a05600c1e8900b004163ee3922csm7570545wmb.38.2024.04.08.01.35.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 01:35:24 -0700 (PDT)
-Date: Mon, 8 Apr 2024 09:35:23 +0100
-From: Martin Habets <habetsm.xilinx@gmail.com>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
-	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v0 10/14] sfc: falcon: Make I2C terminology more inclusive
-Message-ID: <20240408083523.GA5341@gmail.com>
-Mail-Followup-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
-	"open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>,
-	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>,
-	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
-	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
-	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-11-eahariha@linux.microsoft.com>
- <20240402090028.GA1759653@gmail.com>
- <0c6ff90d-0709-4fc5-951e-1b0f0b1273dc@linux.microsoft.com>
+	s=arc-20240116; t=1712565915; c=relaxed/simple;
+	bh=vJ9C9ICtmHohArhbC1wa6KFi5aR/p0VT/SWDNweoaAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ijTG/Zev4+IewAS92WQMcGoe4B9xBz9m+AhR7/9mdIZ2k3mJOnRMCT/k6RGPcorXc7r2+0v9D0OpCeKmo+/6i7CW96zACIF487FjVd8CLNHqPnGuwtGLdusth+1KaJagAL9ABXv8f15Q/gLANwrllJwXEFjFAMBOfOOIV0xpxUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=H0Hz8koo; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4387SNEk009700;
+	Mon, 8 Apr 2024 10:44:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=p9CMLavhVsATyBEL2PMrrzwDGq1Q/Uy83NePUSe/nV8=; b=H0
+	Hz8kooN+RWyeLVNT5G6PnWy8ULfDSW6CpoagsFb+J3M0DtuXTtnHqwuFRioi3gAA
+	z5t7reJ8TsDXoNyseC06fx94TQCm6ALfyu6bsdF56llYVodLg9zaUIGjwFgk8DmE
+	zXqWHU2YrzgiaVhWnsN82v10SkaVMrvQJ80OkoBuvJLqZ+Kpqac574MQ8DF/PNQk
+	FZ7K4mrgNckGiIqwFgGzwaEUM/92Kh75C09Nbbz1efURqgiAW/I7HKGkw+Rcqd5J
+	lc1lWbYAnp3PuE8qyX64hAyomATyqJvNHG1wh159HfLOx5KBBLJVFOjc6Rg6NG0V
+	F9DOJvtck291a9gQZoMA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xaw9cnmn1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 10:44:21 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id F2D0D40059;
+	Mon,  8 Apr 2024 10:44:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2018E211978;
+	Mon,  8 Apr 2024 10:43:02 +0200 (CEST)
+Received: from [10.48.86.79] (10.48.86.79) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 8 Apr
+ 2024 10:42:59 +0200
+Message-ID: <61608010-fbce-46c6-a83d-94c04d0f000d@foss.st.com>
+Date: Mon, 8 Apr 2024 10:42:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c6ff90d-0709-4fc5-951e-1b0f0b1273dc@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/13] Introduce STM32 Firewall framework
+To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
+        <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <vkoul@kernel.org>, <jic23@kernel.org>,
+        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
+        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
+        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
+        <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+        <peng.fan@oss.nxp.com>, <lars@metafoo.de>, <rcsekar@samsung.com>,
+        <wg@grandegger.com>, <mkl@pengutronix.de>
+CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+References: <20240105130404.301172-1-gatien.chevallier@foss.st.com>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20240105130404.301172-1-gatien.chevallier@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_07,2024-04-05_02,2023-05-22_02
 
-On Thu, Apr 04, 2024 at 12:18:06PM -0700, Easwar Hariharan wrote:
-> On 4/2/2024 2:00 AM, Martin Habets wrote:
-> > On Fri, Mar 29, 2024 at 05:00:34PM +0000, Easwar Hariharan wrote:
-> >> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> >> with more appropriate terms. Inspired by and following on to Wolfram's
-> >> series to fix drivers/i2c/[1], fix the terminology for users of
-> >> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> >> in the specification.
-> >>
-> >> Compile tested, no functionality changes intended
-> >>
-> >> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
-> >>
-> >> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> > 
-> > Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
-> > 
+Hi Gatien,
+
+On 1/5/24 14:03, Gatien Chevallier wrote:
+> Introduce STM32 Firewall framework for STM32MP1x and STM32MP2x
+> platforms. STM32MP1x(ETZPC) and STM32MP2x(RIFSC) Firewall controllers
+> register to the framework to offer firewall services such as access
+> granting.
 > 
-> Thank you, Martin, for reviewing. I believe that we are settling on controller/target
-> terminology from feedback on the other drivers in this series. Would you want to re-review
-> v1 with that change, or should I add your R-B in v1 despite the change?
-
-You can add in my Reviewed-by.
-
-Martin
-
-> Thanks,
-> Easwar
+> This series of patches is a new approach on the previous STM32 system
+> bus, history is available here:
+> https://lore.kernel.org/lkml/20230127164040.1047583/
 > 
+> The need for such framework arises from the fact that there are now
+> multiple hardware firewalls implemented across multiple products.
+> Drivers are shared between different products, using the same code.
+> When it comes to firewalls, the purpose mostly stays the same: Protect
+> hardware resources. But the implementation differs, and there are
+> multiple types of firewalls: peripheral, memory, ...
+> 
+> Some hardware firewall controllers such as the RIFSC implemented on
+> STM32MP2x platforms may require to take ownership of a resource before
+> being able to use it, hence the requirement for firewall services to
+> take/release the ownership of such resources.
+> 
+> On the other hand, hardware firewall configurations are becoming
+> more and more complex. These mecanisms prevent platform crashes
+> or other firewall-related incoveniences by denying access to some
+> resources.
+> 
+> The stm32 firewall framework offers an API that is defined in
+> firewall controllers drivers to best fit the specificity of each
+> firewall.
+> 
+> For every peripherals protected by either the ETZPC or the RIFSC, the
+> firewall framework checks the firewall controlelr registers to see if
+> the peripheral's access is granted to the Linux kernel. If not, the
+> peripheral is configured as secure, the node is marked populated,
+> so that the driver is not probed for that device.
+> 
+> The firewall framework relies on the access-controller device tree
+> binding. It is used by peripherals to reference a domain access
+> controller. In this case a firewall controller. The bus uses the ID
+> referenced by the access-controller property to know where to look
+> in the firewall to get the security configuration for the peripheral.
+> This allows a device tree description rather than a hardcoded peripheral
+> table in the bus driver.
+> 
+> The STM32 ETZPC device is responsible for filtering accesses based on
+> security level, or co-processor isolation for any resource connected
+> to it.
+> 
+> The RIFSC is responsible for filtering accesses based on Compartment
+> ID / security level / privilege level for any resource connected to
+> it.
+> 
+> STM32MP13/15/25 SoC device tree files are updated in this series to
+> implement this mecanism.
+> 
+
+...
+
+After minor cosmetic fixes, series applied on stm32-next.
+Seen with Arnd: it will be part on my next PR and will come through 
+arm-soc tree.
+
+Thanks
+Alex
+
+
+
 
