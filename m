@@ -1,158 +1,181 @@
-Return-Path: <linux-media+bounces-8813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F93B89B94D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:53:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7D789B960
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 09:55:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2A5B1C21F90
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 07:53:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6604C1F2161E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 07:55:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7067D5BAF0;
-	Mon,  8 Apr 2024 07:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC0924EB23;
+	Mon,  8 Apr 2024 07:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="W1fDBm7S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2113.outbound.protection.outlook.com [40.107.20.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37085B043;
-	Mon,  8 Apr 2024 07:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712562500; cv=none; b=Uf956maEr2OykIa4UaL9ocP+IlwoZ7fuKHvA8uSzfn7JNofrNEllaW1TxlToE9PaY4jRfW2ZVF1QNmVMNIpLqUXzCo73AUb3S/LWryzYueWAjF+orZUua30ih1ZaQ6bTrQZaGRMDinyY9/Cu7CAb+rvP6KJlB1NkP+GTRB60tkk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712562500; c=relaxed/simple;
-	bh=Ds4WWTaPfBAY8QE5hs8uu8bmRScO9DPoptIQA+2BO7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=gj+056myh2lXhqhm/eWWJnegnTrzxUfHPIbVUZoc5X+2wzbSytiCf+Qm9FmZj/Ue2imNe1OPvFrchjwzvSIWuJWaWeJu5I94CUB0LrDCrFFffg83WMGXUF4y32UoRlbkSGLBw+XjieC2ATY7HB11Tsbpd0DGOOzZNDSF8gB1SLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6E6C433F1;
-	Mon,  8 Apr 2024 07:48:17 +0000 (UTC)
-Message-ID: <12daffe3-ae5e-4b0f-bb61-3dd233e344bb@xs4all.nl>
-Date: Mon, 8 Apr 2024 09:48:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBDD3C48D;
+	Mon,  8 Apr 2024 07:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.113
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712562610; cv=fail; b=ktb6iFmwCTfMmNki9h8vLm7QkeoosGdEjNsKwdJG2erXxJLtFckvTSreoiqbfQN4zgcfcQxb6Plv5e3qObvvyuCQMGkfK3bt8LKVD4M84tvDxUc7QSpuXFmk7kVULN6emcECZVnX9mN/bJWc0z2AyDI6nA0olOl8JtMAdrhq7mU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712562610; c=relaxed/simple;
+	bh=R9+q49ZbvqINkWf+jGSXywn16E0VSzbn5+szbiebXfQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=uGM8GuLq0aoVrBZ9uEmw6R5YIb0KE2SwzroM6ymH5jPdjSN2hGpmj4qFIpHW+WD66qiqv5IIBpQd7AEVxarWuu5RyYHrcgqaF01K+QbLo0BTHqHKwTB/8eHuSkGRROeofWmwEWVMX2koPaI8cKWB4J8S9JBtizw6gOWKKRg4gYs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=W1fDBm7S; arc=fail smtp.client-ip=40.107.20.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JT4EqBLzgM7ZOKxJWwO5os0BeXiJ/5dh8X5/mBoUb0/UB8cbOFYMQgdkmkE6Bd2rGQbuQeNmVDhDyt5mUOpDsacf/fLzM6PurQS9XQmQjPgjuH9hkIWAEUmwtu6deKI8En1Rzjh4lIHaJgSX7eW6D4sGCb1nhhrWvHVtt9tecRcEo2BqVhhzYCR5KtXh6VVAdecS3VB51rbTlY4FumbZBLN3RwcAdRzXOYXTVvpsAFOjFSP1keEp8hsba7b9ZJy1DF2GGp94E/84l3k7q3X/JA7i9bebJoxJ3HFoUrfD8xdEcl+2ava6PsoeOOexs5/ia2EvHB+TgPkS6XNY7e2FaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PiMWilwkmPNZge8EsTLNHRIWqbfxTe37oPlQRLv2XYg=;
+ b=ih/jyGCcIv00z30VQrylA0fwbUtw0sO2kYIzi4ROh5JQf5+mrLDAcuqIh2KNxmOltHEqCjXXw47x0Wj9XOLtzpwsTJE0LpNyBSZnsOBQz4fcsH04Z2FPlUdHnAO/F3/k1hGKYFlEdK4h9DcsvmBqwdT7T2bISjGXefYpV6+6E7JOBgbw4f0wN2e60V8KI6yMbwEaEub4a2u1KQjSmVvDIMWFeXVX5lg40zt+uE/yherQRuh9ZjA0gi+n/lLgx5HQaarhDDb8aALEerWBxptCVZ7DqXxpXhUr1t4Ms0TvAknd1FWpcH3cH078nBT0h7Ly5Ak2Q8E8T1ZwSD88nzHIdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PiMWilwkmPNZge8EsTLNHRIWqbfxTe37oPlQRLv2XYg=;
+ b=W1fDBm7S433aO3TUQyIliepNS56J1M9pRr0annj8IWiikrDPjR3st22H/zQYnRCKOsQExw4ZK0bAzd4mXBWYLItA0KVFksSaQ+zRBOxH//gSVDAYYISZDlPPXjalIFRJYJtY56fog3AG6rytBcv0ww82eAYB5rYsAB8yosMixOQ=
+Received: from PAXPR04MB9231.eurprd04.prod.outlook.com (2603:10a6:102:2bb::10)
+ by DBBPR04MB7644.eurprd04.prod.outlook.com (2603:10a6:10:20c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
+ 2024 07:50:05 +0000
+Received: from PAXPR04MB9231.eurprd04.prod.outlook.com
+ ([fe80::c2ee:dfc0:577:cc57]) by PAXPR04MB9231.eurprd04.prod.outlook.com
+ ([fe80::c2ee:dfc0:577:cc57%3]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
+ 07:50:05 +0000
+Message-ID: <58b0a77d-8bcf-4d76-82a0-15bfc1cc2e43@nxp.com>
+Date: Mon, 8 Apr 2024 10:50:02 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [PATCH v4 1/2] dt-bindings: media: imx8-jpeg: Add clocks
+ entries
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ shawnguo@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ festevam@denx.de, festevam@gmail.com, alexander.stein@ew.tq-group.com,
+ Frank.li@nxp.com, ming.qian@nxp.com
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, mchehab@kernel.org, hverkuil@xs4all.nl,
+ linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240408030734.1191069-1-mirela.rabulea@nxp.com>
+ <fd1d99fe-943f-4fcc-a736-9d97dba5a80e@linaro.org>
+From: Mirela Rabulea <mirela.rabulea@nxp.com>
+In-Reply-To: <fd1d99fe-943f-4fcc-a736-9d97dba5a80e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR10CA0109.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:28::38) To PAXPR04MB9231.eurprd04.prod.outlook.com
+ (2603:10a6:102:2bb::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 00/14] Make I2C terminology more inclusive for I2C
- Algobit and consumers
-Content-Language: en-US, nl
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ffumcagmzdstcf3qcn3f26555pnu7i6azjppciyd4zvcoit7pv@vu262tsfnqyr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9231:EE_|DBBPR04MB7644:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	7YVKRCQt84UqsOaIb+cNgKO5T+SxAXERkogUOxmRrb/yhCQFN0rm23wgz4ONii9ZY2rmA34lRK9SOZRMowxg3baffXLgn+fYePMTBWGygCPN4bgG6S1fX+YmZxLgga8R5ksV1qo3iW7DaAFVKptwsGPPuj78IxasImp1RvD0Z1s8h2lkEBG7Drrgj8v6DB4LiPVT5yDVSwnWWc3TO0vtqlo40xvnXHS9T80q87Oe/M7EERarKTu5vaZDu7ghG3ny7VlNZcjPHXbLdTxWOMdhzH4naP78CMe7B/sdirHDN3s0GbEwhzmDxFwsZ+Pf9v8DZFXl8FbVSSjfMJ/h5Nvb+1pZyPpRrPNYyJnsc4cKS7of2t+kEOdTrazLc4z///XxHdYd3QHN14DYCjlxCf2VpM4ghKRZb3s0Me2OHwctH9AKH6YDVqPz/YuUZsXa8nPP6eM7q/pcUS5huZX/wGhvmijDvcUZM3EMepoNtVkT2ZwCK2TzyBiZnvMbpOLRfuGOeVZ3IfSv01PiUM0P7uINKxeRYoO6WLbG/UVyQx8Nld2pzQGYS3tAQnNhErWiwhWH2lsGu/eveLPiYN/GbLRB3bbhn2b1o1p8wfLB3+ICEGs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9231.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(7416005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NnpvM25FU3FMUFVBNG42dVJRV2IyMGRLNXpEZDlYY2YwSU5oaGY2WVI5VXda?=
+ =?utf-8?B?ckN6dUh0cW0zSm9DbTZta3Q2SEwwbU9kUGdnNFphWU43aHlaNTRKRCs2UkVt?=
+ =?utf-8?B?TGU5UHhKaTNjQld4SkQ0TXd6cFlBN25YeUlsREt2QmhVbEZoRnNEUFFUNmhP?=
+ =?utf-8?B?dlJobzJKSW5OOG9aRXVVMENFbUFOSk8zRjF1cXRJMkxlc0RlYVhiOTZSbGth?=
+ =?utf-8?B?T1p6cnUrbS9LRkNMa3ZrREkrTlhKU0ZBOTM3RDcrNVNJbTk2QVFTVHpvMTJZ?=
+ =?utf-8?B?VVF2dnJlY2FVcStxZ2c2NExCckg2ZCs5N01PTTBpdzg4ZnpRWGZ0WWN2dXU5?=
+ =?utf-8?B?T1l2bzRVWnkvQm44aHZidjdEOEFOcEw1YnNHWG9KcHNjT1BxbzNiYi9Sb1Z6?=
+ =?utf-8?B?dDE2SzA1QTB4c3AvdUN3c0RHN0lxb0RuYm5MdlN6d0YvZm9DTEppL05YSGdB?=
+ =?utf-8?B?WTRsc2JBd3RtVm5TVUdyeVpManpQZ3RGMC9kS1dFeC9RbEhPRjhiOStJYkxx?=
+ =?utf-8?B?VURCMjVacUlkdDhaWGtqVVNvK0RzV0pRRjd2ckNHaVBGRWVQa2lqME8vZXVR?=
+ =?utf-8?B?YWRuV2JFQmM5SDVGbGV5NW14VlJTckc5Ujh6UkdZbDQ3VFlpR3BEYUZxV3Fa?=
+ =?utf-8?B?UUdqMUtCSDQwTWJJMTJtV0IxaUl0dUlZeDVZeUd4OEwxVHlCMDllVTJUNE5X?=
+ =?utf-8?B?SDZINWJNRHIrbDJiV2JpZGllSFkzdmRLQVVpZUl4a3o0QkdwTHYzQXBGaGxG?=
+ =?utf-8?B?bEtqY28xdFFOWFk4Y2s3amdkM2ljcUg2U0NsWFc5Y0thRGFORkNRVmVnM0tz?=
+ =?utf-8?B?SUNrcXFNWk5lcG5HOThyZXpVeGJiVUNXb0NEdlRzdW1vZHphS2syMm9vTC9R?=
+ =?utf-8?B?ZmU1SlFMd0pSUElBakxkMTZCaElmYm1RendKUzlHOTlBYlhSSHIvMm81VzB1?=
+ =?utf-8?B?UkVVdEEzYU9hVm5NUktDRlBRMnBYVDVCWTFEUWNIRkZOQ1cwTmJGWEFSc3dY?=
+ =?utf-8?B?Y3gwQ092ZEdzc3NWREhjTk0rMmF4amlZSkwzS2dGVnFIb250SFIvMTNaN2ph?=
+ =?utf-8?B?NkVsd2xDdFh6RHRydDhIaHNhd2kxV1VoVktqZW1rWTc5cEFGRVM3MlBVelNJ?=
+ =?utf-8?B?ckdzMVpnaXV3WkVGSFF6VG5JQUNUT3ViSTZ3RERKZUNBTTNIVnlSOGZFMFpr?=
+ =?utf-8?B?emJKYjFGc2MySU52WjcrbE1oOTdLcHJCb0E4ZjlTR3QyWDRpV2dDdXJiY2pW?=
+ =?utf-8?B?K2NnM3IyanZvUUdCdjJMbWRVQ2hvTFhza0trL2RwVVdSZXhuOEoySGEvR3Fm?=
+ =?utf-8?B?b3JCMHFKNkNsSFpoSGw4OWRwdGZxZDZjeW9IY0JNd0wxTEZrdFRQdDVpL0gv?=
+ =?utf-8?B?Wm1odEZDVTBGZk1TQ1hDbUNtSW8zVGRicG9XOXZNbjZqaGlTVFlwYXdhS1cv?=
+ =?utf-8?B?ck5pbGZDNzkrZy83NWZHVVVaQnhXS2sxTVFoU3lpc2ljMHhYcGhnMGJaWkdt?=
+ =?utf-8?B?RVRaMnAvTGw5SUU0UTlrWUdjelhLZFRRMlNLWWM5WnY5L0d5T3huQ0tHTkVx?=
+ =?utf-8?B?bmJPYmRiV3RlZTcvS1Bzd0Zmc2lhUittdCt0L3VlbzNoQTM5NWdwbDJoRDNt?=
+ =?utf-8?B?UWliQzlDVVJ6a2E2K2pUcjdoYUJ1VFc0dE9kM0hoclhzaWxpdGNWcHpDcVpF?=
+ =?utf-8?B?elRYS1FXSUd3NXM5QzN4TXJjZnN2cm5SOGVOdm5GVTIrbkVjdUhhcXlRa0Yy?=
+ =?utf-8?B?RDhBU3ltTmRydGtBbUlpTXNZS1FTWXpxcnJ5VEM1STcrdzNEeFYyak5ORjI3?=
+ =?utf-8?B?UmNkdWsydEhMQjdqYWRDMUFMSm9LNGFEQ0IrbDlneHJOZW1rNVQ2aERTVW52?=
+ =?utf-8?B?b2JFYTgxaW5WY1BZeHFUQ2VEdUpUUUJBTG4reUhjWmwreFE4T1g5Qk1RL0Rs?=
+ =?utf-8?B?Q3pndTErSUFoUTdZRTJLaFBydWJhaFkzUUJPQnRnd1RYWThNUnhlWDBBaXJZ?=
+ =?utf-8?B?VjdNcktHaFBjYkttcEJQMWJ0YlZseG5TU3ZhM3htQXcreGFWd25qWTBvalhO?=
+ =?utf-8?B?amVwajRXL1BNUUVIVnphUUdCVUZPMGdVOWdBT0E1Q3gzUHU3MmFXN2UzeEYy?=
+ =?utf-8?Q?QL+AyYbnsYFdRznaRPGMei4nI?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51229028-4323-46ed-c917-08dc57a0811b
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9231.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 07:50:05.3769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZVzEQ3tCT5WSv1B7I93D5sDUIjW+KqKbqz8td2NRGOl1AThDz2lozJdL6nOxOmVkMVyO9/+wXPRjuY2996Mh1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7644
 
-On 05/04/2024 12:18, Wolfram Sang wrote:
-> Hello Easwar,
-> 
-> On Fri, Mar 29, 2024 at 05:00:24PM +0000, Easwar Hariharan wrote:
->> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of the
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
-> 
-> I really appreciate that you want to assist in this task to improve the
-> I2C core. I do. I am afraid, however, that you took the second step
-> before the first one, though. As I mentioned in my original cover
-> letter, this is not only about renaming but also improving the I2C API
-> (splitting up header files...). So, drivers are not a priority right
-> now. They can be better fixed once the core is ready.
-> 
-> It is true that I changed quite some controller drivers within the i2c
-> realm. I did this to gain experience. As you also noticed quite some
-> questions came up. We need to agree on answers first. And once we are
-> happy with the answers we found, then IMO we can go outside of the i2c
-> realm and send patches to other subsystems referencing agreed
-> precedence. I intentionally did not go outside i2c yet. Since your
-> patches are already there, you probably want to foster them until they
-> are ready for inclusion. Yet, regarding further patches, my suggestion
-> is to wait until the core is ready. That might take a while, though.
-> However, there is enough to discuss until the core is ready. So, your
-> collaboration there is highly appreciated!
-> 
->> The last patch updating the .master_xfer method to .xfer depends on
->> patch 1 of Wolfram's series below, but the series is otherwise
->> independent. It may make sense for the last patch to go in with
-> 
-> Please drop the last patch from this series. It will nicely remove the
-> dependency. Also, like above, I first want to gain experience with i2c
-> before going to other subsystems. That was intended.
+Hi Krzysztof,
 
-OK, based on this I'll mark the media patches in this series as 'Deferred'
-in our patchwork.
+On 08.04.2024 09:38, Krzysztof Kozlowski wrote:
+> Please correct subject. You already got comments on this.
+> https://lore.kernel.org/linux-devicetree/2fb8c43c-c079-e04e-f727-3bc1dc29996e@linaro.org/
 
-Regards,
+Sorry I missed that.
 
-	Hans
+I will update the prefix to "media: dt-bindings: nxp,imx8-jpeg:". as you 
+suggested in v2.
+>> Changes since v3:
+>> - Add items for clocks (per Krzysztof's feddback)
+>> - Add description for clocks (per Conor's feddback to the other similar patch from Alexander)
+>> - Add "media:" to the subject
+> Where? It was there before, so what did you change?
 
-> 
-> All the best and happy hacking,
-> 
->    Wolfram
-> 
+I started from v3 here: 
+https://lore.kernel.org/linux-devicetree/20230912163810.1750488-1-festevam@gmail.com/
+
+The subject was: "[PATCH v3 1/3] dt-bindings: imx8-jpeg: Add clocks 
+entries", I had just added "media:". Anyways, will update it again.
+
+>> +  clocks:
+>> +    description:
+>> +      The JPEG decoder/encoder requires two clocks for it's wrapper (AXI and APB),
+>> +      and one clock for it's core engine (AXI, same source as for the wrapper)
+> Description is now redundant, drop it.
+
+Ok, I will do so in v5.
+
+Thanks a lot for feedback,
+
+Mirela
+
 
 
