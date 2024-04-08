@@ -1,239 +1,205 @@
-Return-Path: <linux-media+bounces-8855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6059889C835
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 17:25:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FED989C86D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 17:34:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84D8E1C233EC
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 15:25:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FD8CB24D76
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 15:34:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 665691411C6;
-	Mon,  8 Apr 2024 15:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2C181419B3;
+	Mon,  8 Apr 2024 15:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fXaihqeH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2EAEEGQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1269A14039D
-	for <linux-media@vger.kernel.org>; Mon,  8 Apr 2024 15:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F38126F0A;
+	Mon,  8 Apr 2024 15:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712589934; cv=none; b=O74WdQonswm6vUKu1bln/985oZqyn6XpLzucYzxaIuJrEF3RLOphNs0x+KRAgUpDXPHfuZ+NZOcEHeGK/LRoR0mp4KdCpVN4t0roQucs2yRcr0aS2nTN5Gry9JF7AvACi316He9UtChymWwq8CU1q3Xubl6V3Sns0yHD6OyKm24=
+	t=1712590471; cv=none; b=cbHXdu42OrOV7ykJUvlUdzgJ5+sIeoNH4vabPtPFWME4KFDDv/gtE5ndujGRv7s0xHnVbO177Kh7UFb4msbxp4nDMQNblZn2I3GucZALFypSBcL4KygdhiY1/B92KGef+kaj9v/JwsNuj+ZkzFhO1s4GzH2T60EVaggdPV8LDEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712589934; c=relaxed/simple;
-	bh=B/v1v3h2AYw4P1pjILLZrQfWcIRBhUaMnA8TnkMXbps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pbIqexKA0mGSL9Rlav4VPpHxeyHuDnpur+ucM4feOalTHdPgtD7wSK6PxRilyPULtBG4fm/geOlbtHRuudgfc7ZlZ9lVDyxi7cp0dbmnz5MP+gC1EeACU+wKhGQqFVEh9VpNnKh20I7pZRdw1gwAJuqu9ZHhcdYJK0hrl2bSP7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fXaihqeH; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-36a133ff27eso6924195ab.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Apr 2024 08:25:32 -0700 (PDT)
+	s=arc-20240116; t=1712590471; c=relaxed/simple;
+	bh=4YKRX0MlfiV5mpfCzOeBNiJQnPi5WzZXviugTinSpNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QArUo6xInyOSGsy43zIZHs0a4wTh6fA4eALBmXPfrxvr0HaNti7YcbJ5tNYL59ueU+z8jK42WlJAABRnYW03heLiQ7QmDH56OynF/s1kZW2zo9KHpsCuE45doPkMOAEYbazFSEh1CjbK3klHFALpZaUZ5bB8Y7TwYCaj4YE+b14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2EAEEGQ; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ed627829e6so439601b3a.1;
+        Mon, 08 Apr 2024 08:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712589932; x=1713194732; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dyLeEtLJTKGlZTVOKTvm8+gq5ePSTykbDWLodWR3pJk=;
-        b=fXaihqeHobvHFOMSh6wbKZNHxvhuGh8REeGSzKe7vcpCrCp4wrqtGyqWzYt3xF6FIT
-         G9ZwhZFAAkqWMhz2TGAtz6H299VTT2/3jzNA5ykX0HSYUGOfw8wV74VEOOuCSnweoZRO
-         ESbicSrKmNI16nwFJfc8JITLG10Ot4+9CavmCuqk5CbA2BX25asDHdZ6Oto+Xh0TgF+n
-         MPb+tpqq1PDWyHXiVhz87hiy/S1WZpAiIGJXoZqF37+b+/0b5HiQM1bY8tR4X+wANfxr
-         gDUffVINdlNavkfIfn4pjIyXDrljpr+LLhCS8GpElCKngY6pHX4q1Zj4FLRUuLrJyeJW
-         FdyA==
+        d=gmail.com; s=20230601; t=1712590469; x=1713195269; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XzmG06Fco0ZTrSThkuHAMjjsKBRNcTmAqJu1Q2E5r5g=;
+        b=g2EAEEGQARbhbZodLg1Q71essx5NxOLt1+t7HXWuEBtP2GFhJ48uvE/BeeBMYYwu9g
+         yHs2iUYxM04BIDYiTV/mswHbYfKJxCyAybPY6rmR617sk1z27w/nUfjsTu6GvgoYidrV
+         K9icdU93ee85M1IMHlzcl3j+qPEMarUlF4m3t8N895aDUkyzAW4nufEt7eiaGp83PYz6
+         5smDlNPatzvuC95Q5VDHHGSfqocjm5x7YZTlQIG9gZb5bnxxEWmlPenZpUkYjO1d1iaj
+         dn1dyabZvQTnlDklvshhhPnd/JpckcVfjfbePZQaY4onHO1fiDW7PNk6eVizXYnOwKI+
+         5OFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712589932; x=1713194732;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dyLeEtLJTKGlZTVOKTvm8+gq5ePSTykbDWLodWR3pJk=;
-        b=h4N65nEBRvk8pvgzjwxZFaC/7SZ3zBNBZMPhEEmU9vDXOwQrUkvWMwzUED7KtL/9n1
-         WK2wBjQlSVf8NXIl7PcuuJO+BGR/8BrYeEbsDZvFpWwRA52tjIGyXJ8/hWHwAJtbky67
-         Wl43qeyOVT8ldqkJaukuAIExJe1wUqJ+bT6xYQvg5jA19RsNcrVBdteWydeUcDtp63Ii
-         GwC1KbEtc5dPez+zfZfZcxfYIsRtoWBNVQjaKMbL70m3ItDBKv+tR1qxf8ab0fYK//38
-         NRgxNKG65AbNWZZl78jcd1SK7J0KvqDFK9bYDo+F0/tqYXScr5fipmqjSH3DMDPCcltF
-         /nig==
-X-Forwarded-Encrypted: i=1; AJvYcCVP91lERbE2wYs2YdSmN19KvJ8fBnq7aopHwFPPvrE4UJz0plK+z6iGItr8JHAxjbIHoWJuQQta57iB9T2uswze5X5bHMHulMO0wsU=
-X-Gm-Message-State: AOJu0YxLbLTEZGU9YQp8rBYrPRpPvITaqg7Bt7Kviru9//vU8hD+l7H2
-	O3tTa7kCGWSK4m51WmewxOBtOpyEflwVbdNBajFQfS/8XG2lbtgmZ6sTlxr0j9/WziG9S1PYdkG
-	AvcP4HeYsL+RlFRjTdZI7lijV1YqNQAZvfwQmRLR2Vx9ffpCm4j6QJHE=
-X-Google-Smtp-Source: AGHT+IFoibPO7BhL7RK/sv94V3MP2D2AB7zKuNJZK2klNQtL4Sva6nteovilZR+8Gxg0RywxiuMfLjq9IgnaG49qvAE=
-X-Received: by 2002:a92:c68e:0:b0:368:7571:686d with SMTP id
- o14-20020a92c68e000000b003687571686dmr2483ilg.1.1712589932007; Mon, 08 Apr
- 2024 08:25:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712590469; x=1713195269;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XzmG06Fco0ZTrSThkuHAMjjsKBRNcTmAqJu1Q2E5r5g=;
+        b=R4/W27N65uwZMzN5dBdxizc8EfDzgMoLLqbuaOA/0Di+Llxw3lCW5Bmd6+3VoE6OnB
+         4o8ra0hpMIM5S8ifhcsbZf4Y1ENFe7x6yXrCsTnW+w321oAcJxHcXySQJnPDXKE3wxaS
+         eJ+ppH/24+91xcB7DAkifBPe0r8X9ARlTR75l19//Y9CW5w8AdqGsikLe3g27Lbqh2vx
+         SvPHsCVHKdUUNfCy7faDRfWXvy4SqQ6yi0p+yUEe9rJTMn57n+Zh66RTXXtQluMBBGV7
+         21fbB9dIAD4nhFa08EjG0Enk6gg8CEOKM7kO4ba0A0lAlEQ4w3PeMOUxGQ0v0DJWUOYO
+         Ky/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYOzx06o08AlNy3qbEm8GGTgh6TmnlinybgbKX3mNfSOtPQ3wu6YGtfpO/+cvQ/06LYY1KskWCsIXo5/b5TN42p36iulmykd6L5gkrahmiI6XR1TcT99K9CjJieL++ydGVDC5g2xziNq6r56dPCiwJxZs8OAao4zF4l8ezyLvjFj7cJqzttsckJ7C4YonAtRZyNgtMzhKa43/1wF6ibUU/BFbGx8ZgFm5V5ZjjwSVgN019kGz6llBBQ37yP6irppi5AUEcFuyRO/afe3t+ShpeLbj9aSzoLm0uYPF8ZpVF23W6Sd/DLp0SI0JFVyaesSG539uieH37eeK+WsxbTghxYb5lKaad/ppa9pFg0GlKBZqo/u0eJ5ir4e/SQzgxtlTuTT/9ksgxlbWEUWnrrLQY6Y0qi25Wl46Ib7IFfxeV6CH7KmfECCf3HxbSa04NQGJOdq2bv40V4SVw/hHYLLX8+yztF4vX3YPQo8ah9z7gj8WICPqAk6I9c2aJ8dn0egu0o2RjXQ==
+X-Gm-Message-State: AOJu0YwcFJIAOg6DBsic/Gb3gnjT5zWImrA0tRUFYlNotbrkL9GK56pM
+	H5h12J7MII8snt7VEGC3aFrBH22GNot97N71JiaJNE2/yPuvm7Ep
+X-Google-Smtp-Source: AGHT+IHBXATYsnCAi18Pnmd94XM8gXF1KK2c5ntBdRmFa9x8kfwO+o1mRSI9SAgTVsohRvBTBjU3lg==
+X-Received: by 2002:a05:6a00:8618:b0:6ed:1c7:8c65 with SMTP id hg24-20020a056a00861800b006ed01c78c65mr9832006pfb.10.1712590468982;
+        Mon, 08 Apr 2024 08:34:28 -0700 (PDT)
+Received: from localhost ([2601:647:6881:9060:13a8:4fe8:4da1:7ea2])
+        by smtp.gmail.com with ESMTPSA id s7-20020aa78d47000000b006e5808b472esm6878408pfe.95.2024.04.08.08.34.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 08:34:27 -0700 (PDT)
+Date: Mon, 8 Apr 2024 08:34:26 -0700
+From: Cong Wang <xiyou.wangcong@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Marc Harvey <marcharvey@google.com>,
+	"Cong Wang ." <cong.wang@bytedance.com>, shakeel.butt@linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZhQOgjkna94y9VBx@pop-os.localdomain>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
+ <ZfegzB341oNc_Ocz@infradead.org>
+ <CAHS8izOUi6qGp=LSQb_o5oph-EnhNOuhLkPSfbQRU3eniZvbdA@mail.gmail.com>
+ <ZgC5JoSiWAYf3IgX@infradead.org>
+ <CAHS8izO5-giYhM1bVCLLOXRXq-Xd0=pi0kPq5E1-R=3i=XihmQ@mail.gmail.com>
+ <ZgUc07Szbx5x-obb@infradead.org>
+ <CAHS8izM8iLC9J1xSHScMrMkVyoY5HZ_nFMRO4V7HYarHhZhk6Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240405141411.1807189-1-panikiel@google.com> <6027dacf-549e-4855-97d9-dd02e65fd94a@xs4all.nl>
- <5aa6d853-60f5-485b-b892-e6e81acdfc12@xs4all.nl>
-In-Reply-To: <5aa6d853-60f5-485b-b892-e6e81acdfc12@xs4all.nl>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 8 Apr 2024 17:25:21 +0200
-Message-ID: <CAM5zL5qqv=XFnCwV2g1ErNzjMP0LzJaxRRCPEmqOkvWNDr8U3A@mail.gmail.com>
-Subject: Re: [PATCH 00/16] Switch subdev dv timing callbacks to pad ops
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org, tharvey@gateworks.com, 
-	niklas.soderlund@ragnatech.se, prabhakar.csengg@gmail.com, 
-	charles-antoine.couret@nexvision.fr, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izM8iLC9J1xSHScMrMkVyoY5HZ_nFMRO4V7HYarHhZhk6Q@mail.gmail.com>
 
-On Mon, Apr 8, 2024 at 4:18=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4all.=
-nl> wrote:
->
-> On 08/04/2024 16:15, Hans Verkuil wrote:
-> > On 05/04/2024 16:13, Pawe=C5=82 Anikiel wrote:
-> >> Currently, subdev dv timing calls (i.e. g/s/query_dv_timings) are vide=
-o
-> >> ops without a pad argument. This is a problem if the subdevice can hav=
-e
-> >> different dv timings for each pad (e.g. a DisplayPort receiver with
-> >> multiple virtual channels).
-> >>
-> >> This patchset changes subdev dv timing callbacks to include a pad
-> >> argument, and moves them from video to pad ops. All the affected
-> >> drivers are updated to use the new pad ops version.
-> >>
-> >> The affected drivers were updated in a way that mathes how they deal
-> >> with the pad argument in other callbacks (mainly enum_dv_timings,
-> >> dv_timings_cap, get/set_edid).
-> >>
-> >> This was originally a part of a larger patchset:
-> >> https://lore.kernel.org/lkml/20240221160215.484151-2-panikiel@google.c=
-om/
-> >>
-> >> Pawe=C5=82 Anikiel (16):
-> >>   media: v4l2-subdev: Add pad versions of dv timing subdev calls
-> >>   media: i2c: adv748x: Switch dv timing callbacks to pad ops
-> >>   media: i2c: adv7511: Switch dv timing callbacks to pad ops
-> >>   media: i2c: adv7604: Switch dv timing callbacks to pad ops
-> >>   media: i2c: adv7842: Switch dv timing callbacks to pad ops
-> >>   media: i2c: tc358743: Switch dv timing callbacks to pad ops
-> >>   media: i2c: tda1997x: Switch dv timing callbacks to pad ops
-> >>   media: i2c: ths7303: Switch dv timing callbacks to pad ops
-> >>   media: i2c: ths8200: Switch dv timing callbacks to pad ops
-> >>   media: i2c: tvp7002: Switch dv timing callbacks to pad ops
-> >>   media: spi: gs1662: Switch dv timing callbacks to pad ops
-> >>   media: cobalt: Use pad variant of dv timing subdev calls
-> >>   media: rcar-vin: Use pad variant of dv timing subdev calls
-> >>   media: vpif_capture: Use pad variant of dv timing subdev calls
-> >>   media: tegra-video: Use pad variant of dv timing subdev calls
-> >>   media: v4l2-subdev: Remove non-pad dv timing callbacks
+On Mon, Apr 01, 2024 at 12:22:24PM -0700, Mina Almasry wrote:
+> On Thu, Mar 28, 2024 at 12:31 AM Christoph Hellwig <hch@infradead.org> wrote:
 > >
-> > You missed one:
+> > On Tue, Mar 26, 2024 at 01:19:20PM -0700, Mina Almasry wrote:
+> > >
+> > > Are you envisioning that dmabuf support would be added to the block
+> > > layer
 > >
-> > In file included from include/media/v4l2-device.h:13,
-> >                  from drivers/media/platform/ti/davinci/vpif_display.h:=
-13,
-> >                  from drivers/media/platform/ti/davinci/vpif_display.c:=
-26:
-> > drivers/media/platform/ti/davinci/vpif_display.c: In function 'vpif_s_d=
-v_timings':
-> > include/media/v4l2-subdev.h:1816:56: error: 'const struct v4l2_subdev_v=
-ideo_ops' has no member named 's_dv_timings'
-> >  1816 |                 else if (!(__sd->ops->o && __sd->ops->o->f))   =
-         \
-> >       |                                                        ^~
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expan=
-sion of macro 'v4l2_subdev_call'
-> >   937 |         ret =3D v4l2_subdev_call(ch->sd, video, s_dv_timings, t=
-imings);
-> >       |               ^~~~~~~~~~~~~~~~
-> > include/media/v4l2-subdev.h:1819:53: error: 'const struct v4l2_subdev_v=
-ideo_ops' has no member named 's_dv_timings'
-> >  1819 |                          v4l2_subdev_call_wrappers.o->f)       =
-         \
-> >       |                                                     ^~
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expan=
-sion of macro 'v4l2_subdev_call'
-> >   937 |         ret =3D v4l2_subdev_call(ch->sd, video, s_dv_timings, t=
-imings);
-> >       |               ^~~~~~~~~~~~~~~~
-> > include/media/v4l2-subdev.h:1820:63: error: 'const struct v4l2_subdev_v=
-ideo_ops' has no member named 's_dv_timings'
-> >  1820 |                         __result =3D v4l2_subdev_call_wrappers.=
-o->f(      \
-> >       |                                                               ^=
-~
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expan=
-sion of macro 'v4l2_subdev_call'
-> >   937 |         ret =3D v4l2_subdev_call(ch->sd, video, s_dv_timings, t=
-imings);
-> >       |               ^~~~~~~~~~~~~~~~
-> > include/media/v4l2-subdev.h:1823:48: error: 'const struct v4l2_subdev_v=
-ideo_ops' has no member named 's_dv_timings'
-> >  1823 |                         __result =3D __sd->ops->o->f(__sd, ##ar=
-gs);       \
-> >       |                                                ^~
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: note: in expan=
-sion of macro 'v4l2_subdev_call'
-> >   937 |         ret =3D v4l2_subdev_call(ch->sd, video, s_dv_timings, t=
-imings);
-> >       |               ^~~~~~~~~~~~~~~~
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no memb=
-er 's_dv_timings' in struct v4l2_subdev_video_ops
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no memb=
-er 's_dv_timings' in struct v4l2_subdev_video_ops
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no memb=
-er 's_dv_timings' in struct v4l2_subdev_video_ops
-> > drivers/media/platform/ti/davinci/vpif_display.c:937:15: error: no memb=
-er 's_dv_timings' in struct v4l2_subdev_video_ops
->
-> No need to post a v2. Just post a single patch '14.5/16' to convert vpif_=
-display that
-> will be added after patch [14/16], then I'll take care of it.
+> > Yes.
+> >
+> > > (which I understand is part of the VFS and not driver specific),
+> >
+> > The block layer isn't really the VFS, it's just another core stack
+> > like the network stack.
+> >
+> > > or as part of the specific storage driver (like nvme for example)? If
+> > > we can add dmabuf support to the block layer itself that sounds
+> > > awesome. We may then be able to do devmem TCP on all/most storage
+> > > devices without having to modify each individual driver.
+> >
+> > I suspect we'll still need to touch the drivers to understand it,
+> > but hopefully all the main infrastructure can live in the block layer.
+> >
+> > > In your estimation, is adding dmabuf support to the block layer
+> > > something technically feasible & acceptable upstream? I notice you
+> > > suggested it so I'm guessing yes to both, but I thought I'd confirm.
+> >
+> > I think so, and I know there has been quite some interest to at least
+> > pre-register userspace memory so that the iommu overhead can be
+> > pre-loaded.  It also is a much better interface for Peer to Peer
+> > transfers than what we currently have.
+> >
 
-I probably thought vpif-capture.c and vpif-display.c were the same
-file. I sent the 14.5 patch as you requested.
+Thanks for copying me on this. This sounds really great. 
 
-As an aside, how did you run the compile test? It would be nice to
-know for the future. For this, I did a few greps and manually enabled
-all the drivers in menuconfig. Is there a better way?
+Also P2PDMA requires PCI root complex to support this kind of direct transfer,
+and IIUC dmabuf does not have such hardware dependency.
 
-Regards,
-Pawe=C5=82
+> 
+> I think this is positively thrilling news for me. I was worried that
+> adding devmemTCP support to storage devices would involve using a
+> non-dmabuf standard of buffer sharing like pci_p2pdma_
+> (drivers/pci/p2pdma.c) and that would require messy changes to
+> pci_p2pdma_ that would get nacked. Also it would require adding
+> pci_p2pdma_ support to devmem TCP, which is a can of worms. If adding
+> dma-buf support to storage devices is feasible and desirable, that's a
+> much better approach IMO. (a) it will maybe work with devmem TCP
+> without any changes needed on the netdev side of things and (b)
+> dma-buf support may be generically useful and a good contribution even
+> outside of devmem TCP.
 
->
-> Regards,
->
->         Hans
->
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> >>
-> >>  drivers/media/i2c/adv748x/adv748x-hdmi.c      | 16 ++++----
-> >>  drivers/media/i2c/adv7511-v4l2.c              | 14 +++++--
-> >>  drivers/media/i2c/adv7604.c                   | 14 +++----
-> >>  drivers/media/i2c/adv7842.c                   | 25 ++++++++----
-> >>  drivers/media/i2c/tc358743.c                  | 23 +++++++----
-> >>  drivers/media/i2c/tda1997x.c                  | 12 +++---
-> >>  drivers/media/i2c/ths7303.c                   |  8 +++-
-> >>  drivers/media/i2c/ths8200.c                   | 14 +++++--
-> >>  drivers/media/i2c/tvp7002.c                   | 26 +++++++++----
-> >>  drivers/media/pci/cobalt/cobalt-v4l2.c        | 12 +++---
-> >>  .../platform/renesas/rcar-vin/rcar-v4l2.c     |  9 +++--
-> >>  .../media/platform/ti/davinci/vpif_capture.c  |  4 +-
-> >>  drivers/media/spi/gs1662.c                    | 21 +++++++---
-> >>  drivers/media/v4l2-core/v4l2-subdev.c         | 39 +++++++++++++++++-=
--
-> >>  drivers/staging/media/tegra-video/vi.c        | 12 +++---
-> >>  include/media/v4l2-subdev.h                   | 28 ++++++-------
-> >>  16 files changed, 183 insertions(+), 94 deletions(-)
-> >>
-> >
-> >
->
+I think the major difference is its interface, which exposes an mmap memory
+region instead of fd: https://lwn.net/Articles/906092/.
+
+> 
+> I don't have a concrete user for devmem TCP for storage devices but
+> the use case is very similar to GPU and I imagine the benefits in perf
+> can be significant in some setups.
+
+We have storage use cases at ByteDance, we use NVME SSD to cache videos
+transferred through network, so moving data directly from SSD to NIC
+would help a lot.
+
+Thanks!
 
