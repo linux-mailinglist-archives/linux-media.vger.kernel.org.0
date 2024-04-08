@@ -1,188 +1,218 @@
-Return-Path: <linux-media+bounces-8839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C38D89BEA5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:07:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6893B89BEB9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 14:16:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 91AD2B23940
-	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 12:07:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5B78282BB5
+	for <lists+linux-media@lfdr.de>; Mon,  8 Apr 2024 12:16:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01AF96A32F;
-	Mon,  8 Apr 2024 12:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="L542gy1t"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CC906A347;
+	Mon,  8 Apr 2024 12:16:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2100.outbound.protection.outlook.com [40.107.104.100])
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8077B6A337;
-	Mon,  8 Apr 2024 12:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.100
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712578043; cv=fail; b=qbJQSOXRtqKomqBsyfYbAm2nGGbuMJpZNRnAI9pTMB+THNR+l/op/WHooaRNse3v2qptD758FOwhxc4DY0n1FUqsVNY7nFmju8Yw09p+poD2NYY3u3w9ukn5OCjm/b2eoc2r6NiTsuG/ehHuDHeQ+dowdP0HwqeVmBbozg5mux8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712578043; c=relaxed/simple;
-	bh=ZHkBYrQbR0L5KMKu/omdGqRQbUYkewuR6DQuddHPaCo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Rl9i3SiHXn2ibqJotB33Cbu8Cqs+rAeyPeHMedcsrwYAOlpPqa6qI/eqgcD6PCXxXyL0MTaw1u9IB5kp5KstgvFWVCMp1GhowvId76Id03kxluVvvgMXgs9fYSoUKszixXhk1fmckECxjgSGbbar8iSnc+b1/EZjmtOUpLVJU3Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=L542gy1t; arc=fail smtp.client-ip=40.107.104.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HPNDHnbBS9Y+j14Glr7Q3QA/NGk1sR8AfwPmDAMylf18LhuOoq7NTYaqCUQIoCtWL82Lp4LWuEyhZvN35dP9QoFS601hCmYj/f6C5XbwDxe0eAIVBMMwUaYJft0HsT2br4ZTWe3mpNE9pVMZ9k0dhkaieRl/Ays4BGHvhj2orjeBcwudMNU6VLMaS1275jSSPGhNv5W5fXnSGIckPynsy9QaRYwf6qM8MzZmjlhZxm9qfSgXdeu4jn5wrUD2BieG3Pqyg8WZibX1XG92tpAhGFWYJZPieM5aQ3wmGMn4NYK/GaFcJtzmh68a2VEDOx2FZwhKYDeoApiVIz4fE3kshA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/TCaknamnu/SmzZJBQSL92jC7qzhNnXOjqDbf/p8Vmw=;
- b=F3J3Le8lUHwvRyvQmWal9d6csAkTPkaFpJY+iKNKb0n2OF4nTvIbX+A5GnJO90w5J7tCYOkBr0lZU91UHSNyeYLmzjqUXClPoLMzyPBnPFWVJbf9CI3MZBLWa6sykuDTOsi+z+AGSGkv+vwSySrlI941uzByncj1JLYJgmXxpub9Qv5sHW9qE8YuxUPxk/iXbp3Ge5XXScq9Q6u9K2uV6gIuhX5PtXO+ehTSmFNFVK/tPXuYtiKD4XVW1ihFCQMMBy52vgwENjazLU4JRugF5ESUrFq+meoJr+6BQ8ODwHqhFFEb8W1Nug0SICgJGszpeblAC9KB/96LVMcbp3+tKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/TCaknamnu/SmzZJBQSL92jC7qzhNnXOjqDbf/p8Vmw=;
- b=L542gy1t2rfY3xYQysnLX6qs0YHqOECcrKXm/kHWq+GYALA/eYr8aDZf/kjNPG5Pc5eNrmCRwA8fhscciReZMKYaQnI6WvTylivwYfQwidZHT66P5vybBMvIPJDdlNB33PTnLtW565PT7xnwD7D7DViSxspq6wkpzezzlpN8Ouk=
-Received: from PAXPR04MB9231.eurprd04.prod.outlook.com (2603:10a6:102:2bb::10)
- by PA1PR04MB10416.eurprd04.prod.outlook.com (2603:10a6:102:446::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
- 2024 12:07:13 +0000
-Received: from PAXPR04MB9231.eurprd04.prod.outlook.com
- ([fe80::c2ee:dfc0:577:cc57]) by PAXPR04MB9231.eurprd04.prod.outlook.com
- ([fe80::c2ee:dfc0:577:cc57%3]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
- 12:07:13 +0000
-From: Mirela Rabulea <mirela.rabulea@nxp.com>
-To: shawnguo@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	festevam@denx.de,
-	festevam@gmail.com,
-	alexander.stein@ew.tq-group.com,
-	Frank.li@nxp.com,
-	ming.qian@nxp.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/2] arm64: dts: imx8-ss-img: Remove JPEG clock-names
-Date: Mon,  8 Apr 2024 15:06:54 +0300
-Message-Id: <20240408120654.1196880-2-mirela.rabulea@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240408120654.1196880-1-mirela.rabulea@nxp.com>
-References: <20240408120654.1196880-1-mirela.rabulea@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR06CA0177.eurprd06.prod.outlook.com
- (2603:10a6:803:c8::34) To PAXPR04MB9231.eurprd04.prod.outlook.com
- (2603:10a6:102:2bb::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DE06A33B;
+	Mon,  8 Apr 2024 12:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712578585; cv=none; b=PIqg+67z3rO5qhxLe0BKxPfGCNCKyHEfZnK4EalcKuiaSs2xq7flzDFvkJgy2JZj3IkwIPVgIVLSXHTFUdGd0ZIig+XMOka0yOq+OBWEC3X3HVFNBzDVa1yT2Z7X2cS+E3YIiCXw3oNx3IwSXyU4mMUu1/0RT0d4ErhRzCiPHO8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712578585; c=relaxed/simple;
+	bh=7kyTgXF+l/D1yUkeDReKvPd+BApRODrhaVfvG8dm16U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eb3BXw7O3mD/ybPNmA8f5QuddDEuYYvFNmGVwsNp9OQdB7flFLHmSH+vxiGy+dNWXKDLhsUJ1F4WW9tDtQ2Dgok8li+I1vepQlVSI1E0NrC+wYxMyNJCd9V5mbCx4aC0bmgEauIPbrEGXGATr5LhEfrvriXk8E3lE7ODSvq/P+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from [192.168.4.14] (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id C3E1443C61;
+	Mon,  8 Apr 2024 14:16:07 +0200 (CEST)
+Message-ID: <c9525f1b-701a-4731-987a-43dbae51fa8c@gpxsee.org>
+Date: Mon, 8 Apr 2024 14:16:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9231:EE_|PA1PR04MB10416:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	jANXkPkFjbkmLlY8qQWcsXH4kYIYSlf587j9/ATHmGpPZobfffABx+DnuDlE1CukY/AQE0Czta5IKDSzO7jfSsoUbK3HY7lPqnkuT8JjesEaHNRCrb640lhoxpOrqyVW4mWYQS07At9hg5aegvWGj9Dl0O6NPR5zTXUVa+MOSH0TOUbz4qvDQHmhop5z9WeSxBUiVIzAvVUlcmY3tn1RS+5s4dCbb+ytu2sjyOzmlYcnwvTFtg5bSxQ6iWYFnVIU5rQMn9oQJidMz98pxC4xCQDv4iuF2/j+b5myQUNTjirxh0yomz2VN7UDn1qa4injiY4PYLuy9zjrEINdsPWVIIMElQikS7Uzmwgdznef8Z27WDNhigWwSUm4KoMvZifnGlr3+VMgZm+4DoTWvX9jwCzf4Q/F0UgXp7lKb8PQM3TALX0V1P30XNJH6Qy+pGTbKg83OAnGvCUdAIt2gY7skYNDUdGj4p+crPdm8F/tnFN3MieLCE/V057a3Av4/LWiRZqRBQtSTjauorylIOVBs6dQNAXLB99jyo3pbbb/Jv6D/Hy7LQXRRb23SVV1wZ15xkpy8Bg74xA/vhUh1um3UgDuaKSl1Wkd65VH8d/td+ady4TR/U6FIcKUyghqr2j8kO8D6QcqPtyO9gl8BswCpjr/kzwUWPNQ5nVaQ5aUIfpoyJ5dGUbILzJsK7ktdHKbOHstvN5H7TZ2IFaRmtzLx7wIjG7cdHceXc4hhIcAzew=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9231.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(376005)(366007)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7WpjifQqwWH3N0IM5STexbwdjSNZLTTfUUE+M8cArTPv470slFCqXDpjKAiU?=
- =?us-ascii?Q?FjweKoclSGrRIABEkye4giI0g7PIo42/VD12HRutJKVbaQsMHzPnLp8hJjBX?=
- =?us-ascii?Q?TBqRJ1fcDImyMxEB3RrIHDdmvWDQh0EI1qs3RRgOJqMmg1nrYmDl8bRPf01+?=
- =?us-ascii?Q?ZNzYqDRdRWU98ArgyzxE5FvBEW9wifFmdMEHXy8PBkuIcbCbv6AfcEBs+ahf?=
- =?us-ascii?Q?EMppsiO3GoO5t5ZH08bjmJ8QAQVYPROVYbt8H6hLQj+nCpiYNuiDVduexW1P?=
- =?us-ascii?Q?DtJmmJ/VxIoWniQ+dsfej/rL/lwfiHINRMYPEQKx6gfyRfOVu+B7e3mK/g2n?=
- =?us-ascii?Q?aOs76zpDNmFjOGyYvby+iUTSmY4ZAcGL+IC6EH56CMsDjRUSjUNGhmomwRiR?=
- =?us-ascii?Q?wZiEmQtx2r3n8t1nD0GWPP+NdeECnnniS6M7t0TBkvwgc/yheb0BVCcEHq5j?=
- =?us-ascii?Q?k0tgNKQELGUQ1Knb3vdQUI3vwWulZWsyevau22YPBZOm5ciJYpMMnOvSNDv+?=
- =?us-ascii?Q?OT6WUXt7xbAqbZzzDRzSQR5YHYMoxpKXenAF/xoDSf4qfkZ3Dskl8+8+rYTM?=
- =?us-ascii?Q?kDrjsnvx2A0qiAPfA1MpsUQVKUQbuk/OktNaxZZXCyoWII7KATU9QzQ90BjQ?=
- =?us-ascii?Q?0vLhP1IjER6QinrR4PLe4Uxpc1v+wp1WzCtiOAMVa35ittAYbBoieiLoFvO2?=
- =?us-ascii?Q?+Kf1Q1b1WtWx0FsEzSF3bkOIadBvp6ihCwTcpCA3dL6HeMXxG3Hr/meSqNS2?=
- =?us-ascii?Q?arr4IzDaVtyQ2SlpOR4xs++Uz62y0Vdc0S0ISy58KbhGpDy71h7zBPtUjUTW?=
- =?us-ascii?Q?x5yiYh8f9lv13vmDFB2wZQJt/UL7gGQpI+4Ae4UD91M/vJ3Q3ccmBKSUM2T9?=
- =?us-ascii?Q?pI7EqURHpiEYOEFETbiazxhkxggWh5CgohhGE8/l9dI1YrjhzceIuTRL6wuH?=
- =?us-ascii?Q?xsPfkN84aPl/uFQBco2+gesizOUYIEJFK/wT5RGjjtbYPSJss7x9dQPgmFdj?=
- =?us-ascii?Q?3NNeXfQ0y8LkxGtWeze4kgYIuOZuv/jH3jtAmFbeokRHcKDLn8kV+ukzuM/R?=
- =?us-ascii?Q?FA+bN7vW66rSvpY4DqyBssGOGikWpm8jPZTOkDwtz3ZxCIS2XUZtLmBEQTN+?=
- =?us-ascii?Q?bf8XR+jqFJlfvstDrGBRWV+2crBbfaD3KvsOWxrhxH80J4yfa9NdHdzwUSVn?=
- =?us-ascii?Q?7/rmdgdO8MLQ2CQLw3b+QLW+mYIwpRNzJq2x5aCnEnOgzBnklKJLfqYS/lXp?=
- =?us-ascii?Q?tEuAvJfwRyox/qfb7wg1YW1wBABKQqc1azZErrOorcvr4Wz6T/hkc83vBqAQ?=
- =?us-ascii?Q?UX/Pb39dQWw5YqAzTLVLY0YJEt7rH8tFaUI9f/ZmsyhIbFAfPWfZoTTeD/h9?=
- =?us-ascii?Q?bAvUgd3hvid1W/Q0gI/UiFZTC9namkDORHlxV7EImZdK3Qlu7NmpBcU5Clan?=
- =?us-ascii?Q?N5IA/CiZg5c0oyIYqSWJ3dpcc70sF0Ee2xYNjp9Xi0KSGE1vKFnUhzl1vGVK?=
- =?us-ascii?Q?sdTXLzK59uaxWygbdhbseJ9ZgqJqxQY3BFu2BDFljH9aZ1X0zt27N4C3FC58?=
- =?us-ascii?Q?gDdjo/FU2NmOUdUzap2oU4cyUrUUdyFUA0una0v0QG3QTzwv2sOsqPzVjBNu?=
- =?us-ascii?Q?ig=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cec0880-1092-4d33-8fb0-08dc57c46cd9
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9231.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 12:07:13.3203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TKyzNdk8N0XJ4Jro0s08vSHAUNBLmVh5Zk8J01cTG5jkrtxQiy3NEzzrk4Ppl5iymhKR23qf9+o+nuwgHFVsmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10416
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] media: mgb4: Fixed signal frame rate limit
+ handling
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+References: <20240322151005.3499-1-tumic@gpxsee.org>
+ <20240322151005.3499-4-tumic@gpxsee.org>
+ <8a0cf515-e450-41b8-950c-4356f2fb9879@xs4all.nl>
+Content-Language: en-US
+From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
+In-Reply-To: <8a0cf515-e450-41b8-950c-4356f2fb9879@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Fabio Estevam <festevam@denx.de>
+Hi,
 
-Per nxp,imx8-jpeg.yaml, the clock-names entry is not valid.
+On 08. 04. 24 12:47, Hans Verkuil wrote:
+> On 22/03/2024 16:10, tumic@gpxsee.org wrote:
+>> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+>>
+>> Properly document the function of the mgb4 output frame_rate sysfs parameter
+>> and fix the corner case when the frame rate is set to zero causing a "divide
+>> by zero" kernel panic.
+> 
+> This is mixing a fix and a documentation improvement into one patch. This
+> should be split.
+> 
 
-Remove them.
+Well, the "core" of the patch is really just the correct description 
+what the "magic" frame_rate sysfs parameter really does. The code "just" 
+adjusts the internal naming to better fit the real purpose of the parameter.
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v5:
-- Use <festevam@denx.de> address for both Author and Signed-of (Fabio's feedback)
-Changes since v4:
-- None
-Changes since v3:
-- Just added "imx8-ss-img:" in the subject
+The remaining lines change the default timings parameters so that the 
+default gives a correct "timings equation" without the need of 
+"crippling" the signal using the frame rate limit. While the numbers are 
+different, the outcome is the same - the defaults are still for the same 
+default display (Škoda Octavia) as before, but the numbers make more 
+sense (and the signal on the line is not "crippled")
 
-Changes since v2:
-- Newly introduced.
+> Also, shouldn't the fix be either part of the previous patch or come before
+> that patch?
+>
 
- arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi | 2 --
- 1 file changed, 2 deletions(-)
+While "detected" when fiddling with the previous patch and "by name" it 
+looks like it has something to do with it, in reality it is something 
+different. In the V1 patch it was even send together with the 
+V4L2_CAP_TIMEPERFRAME patch but I have then explicitly splitted it to 
+make clear it is something different. This change (and our "magic" 
+frame_rate sysfs parameter) affects the signal on the line while the 
+V4L2_CAP_TIMEPERFRAME is about the frame rate the user uses to provide 
+the frames to the card and should be a standard v4l2 mechanism.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-index e7783cc2d830..77d2928997b4 100644
---- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-@@ -21,7 +21,6 @@ jpegdec: jpegdec@58400000 {
- 		interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&img_jpeg_dec_lpcg IMX_LPCG_CLK_0>,
- 			 <&img_jpeg_dec_lpcg IMX_LPCG_CLK_4>;
--		clock-names = "per", "ipg";
- 		assigned-clocks = <&img_jpeg_dec_lpcg IMX_LPCG_CLK_0>,
- 				  <&img_jpeg_dec_lpcg IMX_LPCG_CLK_4>;
- 		assigned-clock-rates = <200000000>, <200000000>;
-@@ -35,7 +34,6 @@ jpegenc: jpegenc@58450000 {
- 		interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&img_jpeg_enc_lpcg IMX_LPCG_CLK_0>,
- 			 <&img_jpeg_enc_lpcg IMX_LPCG_CLK_4>;
--		clock-names = "per", "ipg";
- 		assigned-clocks = <&img_jpeg_enc_lpcg IMX_LPCG_CLK_0>,
- 				  <&img_jpeg_enc_lpcg IMX_LPCG_CLK_4>;
- 		assigned-clock-rates = <200000000>, <200000000>;
--- 
-2.25.1
+M.
+
+>>
+>> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+>> ---
+>>   Documentation/admin-guide/media/mgb4.rst |  8 ++++++--
+>>   drivers/media/pci/mgb4/mgb4_sysfs_out.c  |  9 +++++----
+>>   drivers/media/pci/mgb4/mgb4_vout.c       | 12 ++++++------
+>>   drivers/media/pci/mgb4/mgb4_vout.h       |  2 +-
+>>   4 files changed, 18 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
+>> index 2977f74d7e26..6fff886003e2 100644
+>> --- a/Documentation/admin-guide/media/mgb4.rst
+>> +++ b/Documentation/admin-guide/media/mgb4.rst
+>> @@ -228,8 +228,12 @@ Common FPDL3/GMSL output parameters
+>>       open.*
+>>   
+>>   **frame_rate** (RW):
+>> -    Output video frame rate in frames per second. The default frame rate is
+>> -    60Hz.
+>> +    Output video signal frame rate limit in frames per second. Due to
+>> +    the limited output pixel clock steps, the card can not always generate
+>> +    a frame rate perfectly matching the value required by the connected display.
+>> +    Using this parameter one can limit the frame rate by "crippling" the signal
+>> +    so that the lines are not equal but the signal appears like having the exact
+>> +    frame rate to the connected display. The default frame rate limit is 60Hz.
+> 
+> It's not clear what is meant with 'crippling'. Normally when dealing with video
+> framerates the driver will pick the closest video timing to the requested framerate.
+> It is understood that you can't always get the exact framerate, so drivers can
+> make adjustments.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>   
+>>   **hsync_polarity** (RW):
+>>       HSYNC signal polarity.
+>> diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+>> index f67ff2a48329..573aa61c69d4 100644
+>> --- a/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+>> +++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+>> @@ -229,9 +229,9 @@ static ssize_t frame_rate_show(struct device *dev,
+>>   	struct video_device *vdev = to_video_device(dev);
+>>   	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
+>>   	u32 period = mgb4_read_reg(&voutdev->mgbdev->video,
+>> -				   voutdev->config->regs.frame_period);
+>> +				   voutdev->config->regs.frame_limit);
+>>   
+>> -	return sprintf(buf, "%u\n", MGB4_HW_FREQ / period);
+>> +	return sprintf(buf, "%u\n", period ? MGB4_HW_FREQ / period : 0);
+>>   }
+>>   
+>>   /*
+>> @@ -245,14 +245,15 @@ static ssize_t frame_rate_store(struct device *dev,
+>>   	struct video_device *vdev = to_video_device(dev);
+>>   	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
+>>   	unsigned long val;
+>> -	int ret;
+>> +	int limit, ret;
+>>   
+>>   	ret = kstrtoul(buf, 10, &val);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> +	limit = val ? MGB4_HW_FREQ / val : 0;
+>>   	mgb4_write_reg(&voutdev->mgbdev->video,
+>> -		       voutdev->config->regs.frame_period, MGB4_HW_FREQ / val);
+>> +		       voutdev->config->regs.frame_limit, limit);
+>>   
+>>   	return count;
+>>   }
+>> diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+>> index a6b55669f0a8..cd001ceaae63 100644
+>> --- a/drivers/media/pci/mgb4/mgb4_vout.c
+>> +++ b/drivers/media/pci/mgb4/mgb4_vout.c
+>> @@ -680,12 +680,12 @@ static void fpga_init(struct mgb4_vout_dev *voutdev)
+>>   	mgb4_write_reg(video, regs->config, 0x00000011);
+>>   	mgb4_write_reg(video, regs->resolution,
+>>   		       (DEFAULT_WIDTH << 16) | DEFAULT_HEIGHT);
+>> -	mgb4_write_reg(video, regs->hsync, 0x00102020);
+>> -	mgb4_write_reg(video, regs->vsync, 0x40020202);
+>> -	mgb4_write_reg(video, regs->frame_period, DEFAULT_PERIOD);
+>> +	mgb4_write_reg(video, regs->hsync, 0x00283232);
+>> +	mgb4_write_reg(video, regs->vsync, 0x40141F1E);
+>> +	mgb4_write_reg(video, regs->frame_limit, DEFAULT_PERIOD);
+>>   	mgb4_write_reg(video, regs->padding, 0x00000000);
+>>   
+>> -	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 70000 >> 1) << 1;
+>> +	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 61150 >> 1) << 1;
+>>   
+>>   	mgb4_write_reg(video, regs->config,
+>>   		       (voutdev->config->id + MGB4_VIN_DEVICES) << 2 | 1 << 4);
+>> @@ -711,8 +711,8 @@ static void debugfs_init(struct mgb4_vout_dev *voutdev)
+>>   	voutdev->regs[3].offset = voutdev->config->regs.hsync;
+>>   	voutdev->regs[4].name = "VIDEO_PARAMS_2";
+>>   	voutdev->regs[4].offset = voutdev->config->regs.vsync;
+>> -	voutdev->regs[5].name = "FRAME_PERIOD";
+>> -	voutdev->regs[5].offset = voutdev->config->regs.frame_period;
+>> +	voutdev->regs[5].name = "FRAME_LIMIT";
+>> +	voutdev->regs[5].offset = voutdev->config->regs.frame_limit;
+>>   	voutdev->regs[6].name = "PADDING_PIXELS";
+>>   	voutdev->regs[6].offset = voutdev->config->regs.padding;
+>>   	if (has_timeperframe(video)) {
+>> diff --git a/drivers/media/pci/mgb4/mgb4_vout.h b/drivers/media/pci/mgb4/mgb4_vout.h
+>> index ab9b58b1deb7..adc8fe1e7ae6 100644
+>> --- a/drivers/media/pci/mgb4/mgb4_vout.h
+>> +++ b/drivers/media/pci/mgb4/mgb4_vout.h
+>> @@ -19,7 +19,7 @@ struct mgb4_vout_regs {
+>>   	u32 config;
+>>   	u32 status;
+>>   	u32 resolution;
+>> -	u32 frame_period;
+>> +	u32 frame_limit;
+>>   	u32 hsync;
+>>   	u32 vsync;
+>>   	u32 padding;
+> 
 
 
