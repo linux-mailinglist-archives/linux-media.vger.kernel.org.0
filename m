@@ -1,262 +1,224 @@
-Return-Path: <linux-media+bounces-8899-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8900-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8BE89D6C0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 12:20:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A25489D7A7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 13:12:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F5F61C20EFE
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 10:20:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C801D1F24FE9
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 11:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D31F131E28;
-	Tue,  9 Apr 2024 10:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE9685C59;
+	Tue,  9 Apr 2024 11:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C+Il1Jf6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uk5BpYe1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F81130E36
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100E31E885
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 11:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712657652; cv=none; b=oxlLYWm8anpQCSuLDLQBfAatOxA7yWlwsmHF20yn1GdOeJPHUNuDH8qJ/iGklbnAFsOHqPy8Bdqll2+d7mWNzOs1+TSzzHKVVG+O32d5/NUM3CXGFbjVTm5FYhChHkeItZcyHDwp2HiGFHnSDDRBK5GaA91f5D4fGkyiw/8LEwA=
+	t=1712661132; cv=none; b=ItWEPL39BThmfsRVV1W7pDfQNBZxYRjJAnL46T8Wxb4Sw1av8smHix12xQ1ika09ipVsNDmoA14kc9a7YPAgc51CTlOMkgwdU3wGPMDhpc/YDDYJeoDUX5v582N/8yYJZT2uv8h3HFaGBCcXI5lm0Uv3f0HlVHh/C5SgWJNM6ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712657652; c=relaxed/simple;
-	bh=uSzLvOfclK6XqDtrVAYhNkEKbGoFUCZ/BcUUGGGjtWY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RrW8zjPw3fDJJg7Dw0bGnHezwtEiLisAiKrD5FuS5Rjg1uvrCMGlr2hBEzEeNJbk9mpb2wU1fMhQ2ilmNHRG0uYBkf9+T++wqyOq3IUFIvZYRUYAeHArv2KkI+7fA/cRcfDR6NhQ0xZwwD6ah1pMBbxCvWjmF+4a58s83E1Fr14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C+Il1Jf6; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-415523d9824so55355695e9.3
-        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 03:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712657648; x=1713262448; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PlNVVt0wcqoKbTlcpTD2Av1BFgB4YmPyV+Qn5GBtCCs=;
-        b=C+Il1Jf62ISvX1o03J/QSt1hKq1AV0Z0UKYzp0n+lPKga6ZsCbnwbVfUJIpj8nICdA
-         /V2LVppBjpl5/C8I+wDtY/vGKMeUmWtmPIjRArf/eKx8sXXAoyirf7R8bO/oiJVInZFp
-         giM8YoPVpcAuiNht4EpKXoZ81WF3PCUyz44dyDf4wUTLQ6yoVIj4aV65gu0BiGbV2TX2
-         OIAbpD2e32iqvQygvStKEgqo+uE7ZkRtF2yoQ0y1x2LfiHggIn68i90wAIcZfkWIHDC7
-         trfnFuz7wzV/B1faFFMTMAiOI8FFIEd6h48SrCkDwaANweJ9HHxfWjqbJsCClY1BSdM9
-         f3XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712657648; x=1713262448;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PlNVVt0wcqoKbTlcpTD2Av1BFgB4YmPyV+Qn5GBtCCs=;
-        b=ZwamEUW3vFInX09oaFm7ixLuXJxe8gtqyQFsPvmvzcdzBWWjZwNyYxkUhweceVXAOi
-         fAxzwKNAMF9APMQeaSYx0+7PkZwFtH89owTWGJBTqov8gobK6LkiTq9TU3Byq5tMEeJV
-         NFGJqSwS3uAWAdsRKl+LCdmQdRmjAjJ+mFRsw6HtnAljJ56aZc4qCLNy1YU58760l/pR
-         HqxtokugxB9IQKh3f0YnekT4PAU9kxjoW5zY8UFwcu2rpYvcAOyEeCopeuTs7g3ucheJ
-         ZRz0jSK/B025sdsspD34MoY5vOHnDNHkZPw0Cf7wT0f86OJNmo0AitZAbtmkGpdyxD/V
-         9vwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7dWmxou0uB1a5hIp+0hQxG1hOaSN1OIh+bY7o/aZt9aQbDPvBFj+1WCw74m0nHjYWpfjsWrF7Jt7qhUXr9b9SHu5rQH1zfXtlwM8=
-X-Gm-Message-State: AOJu0YxRRPXxB57+B8NBocLHCY7FFH8dl6ThIdXBq5BIWMToFI2VVCA+
-	ci450piHqfWuOCcOlYG3cG0eDN9yKSaEx6F/1W5sluwaYTDg/WOu+PzZmBiFMzU=
-X-Google-Smtp-Source: AGHT+IH93tvacaOiFnd4nqmc7gPsI2OQnyM0ybPS1MyBc1NNs/vnBJCMth9sI4K2Y7Z5nTAcW1vKuQ==
-X-Received: by 2002:a05:600c:1986:b0:416:4973:4d87 with SMTP id t6-20020a05600c198600b0041649734d87mr7777580wmq.3.1712657648192;
-        Tue, 09 Apr 2024 03:14:08 -0700 (PDT)
-Received: from [127.0.1.1] ([93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id r7-20020a05600c458700b00416b035c2d8sm1124149wmo.3.2024.04.09.03.14.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 03:14:07 -0700 (PDT)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Tue, 09 Apr 2024 12:13:39 +0200
-Subject: [PATCH v2 18/18] arm64: dts: mediatek: add audio support for
- mt8365-evk
+	s=arc-20240116; t=1712661132; c=relaxed/simple;
+	bh=N/mIwayxR+fwz38hFqatBnTMwHhFMzNkGePlz323GR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WY3MzLFy/MNdnXNzuh9HYCqxCrIrsLtn8CI4GYIIyqg8ryZYkLTJQ3o7twdjJ7K3Co1jd6+zlQSvks2EzuuBU2s6AFQp5dYZ+F6PdIEOsiG6iXLRSBeiAAscZgCnLuYyxhXLxR9ir4g492C5vj99GDiuY8ryLoB7tCi9wb0Q4Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uk5BpYe1; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712661131; x=1744197131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N/mIwayxR+fwz38hFqatBnTMwHhFMzNkGePlz323GR8=;
+  b=Uk5BpYe1CrRl2HOBQqWn0C5jqTa8IRMV1qzaYR67ezZxIavFEPRFPEqw
+   RWh2TfS5ZBzEFMUKDemr+CTVo+jh1OcwJocAiUb92HasHz5YF3efhphxD
+   Yv6ePk1tOwiLcsdduStf3ehHOacx6oB5QEHyiA8athcRqqea0U9vdUj6y
+   NdKRMrzb9Aq/7jFlVJjN5Q2HwxeLUxRZ9as2yzDTxmZ74TMZwKb2QVtyj
+   o4j4OGvrQ71qb9SoqqNVgO2Ju2pwQyvorVDDXW0bTKxh56mFFPCvMxUQa
+   /2zrHdLPcsH9imb0mPjg/22BBBLHTTI5PsCwpeCrYSkBr2JKLs7ViVojG
+   Q==;
+X-CSE-ConnectionGUID: 4dPI4o/PRy+NKUHER9f4RA==
+X-CSE-MsgGUID: vid0I5aLQ0OA7Vs1InA34Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8542747"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="8542747"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:12:10 -0700
+X-CSE-ConnectionGUID: 9nx3e5ckR7WEjytbYuCbDg==
+X-CSE-MsgGUID: OyqZslmkTs6nqnj1U2yHSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="20766349"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:12:07 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E4210120433;
+	Tue,  9 Apr 2024 14:12:04 +0300 (EEST)
+Date: Tue, 9 Apr 2024 11:12:04 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 08/38] media: Documentation: Document embedded data
+ guidelines for camera sensors
+Message-ID: <ZhUihNnf6vQXWTyO@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-9-sakari.ailus@linux.intel.com>
+ <20240320000300.GM8501@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240226-audio-i350-v2-18-3043d483de0d@baylibre.com>
-References: <20240226-audio-i350-v2-0-3043d483de0d@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v2-0-3043d483de0d@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3962; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=uSzLvOfclK6XqDtrVAYhNkEKbGoFUCZ/BcUUGGGjtWY=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmFRTTPFBV6yfp7E/gtZ8jajBrd4nrGJXU7zuvHqAn
- MYzj5GiJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZhUU0wAKCRArRkmdfjHURd7sD/
- 0d7oIOsEwKg1zZ6wKlZHYUcZVM3MBOkC/s+el2n0OhNu8d0vnDZUAx+2NSBnPNMYQIop5CXn599unK
- zTB9ZeemTVqcMLVooBi6G4H5zf1lXsZ0agCq1THO622I/7O/KyLM9HjgyytiVUS3YuIV7DmWnJyGDu
- JWxyOmTQoU5uvqQUYIowraVjoLhkxK3w+BoqD4+vcVUZnTPHDQkKsy2Yee+HqURFMKbREfaB68KkhC
- wacoL0XJvC2lG6ZkP5zkaO7QqqigeYrlE0QMlqnVxtrOb3STiREQptLDQy5W9iomslHnnwrirzTNXt
- wkvQnflZmuetIt96UlaJ7EfwpUfpcSnSyvIECFNKmEtBMlzzQcbBWvoRAR4crLjNi5Ni7VJMEive9T
- ZcNWB9rmdABfIoaj1hgs2V4kiA/cdx4C7/N2csgJGJfbfKN7KCDYtETjmaTZvrmfPtgWOd+KcQEu0F
- Scb6Cwuj55Hc7Yvvv6xQ9X9O82nSU8gyZ12H14H4jFh787GExA6h33K1MJwN0WAuok1upuW7MFqYkZ
- iitq8obavvUIfmBnqn9zRN++w1YJ3yvkdGcWPiJGV3vy4Mfi9isOq1jgOiSHCL+fhBPxBqImEsENqO
- LBlB7ibM5IOmfrPDyZ4N8yx3kZJR4+icLeV0DNeOR6m5LqtiDNRvLaxwtt9A==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240320000300.GM8501@pendragon.ideasonboard.com>
 
-Add the sound node which is linked to the MT8365 SoC AFE and
-the MT6357 audio codec.
+Hi Laurent,
 
-Update the file header.
+On Wed, Mar 20, 2024 at 02:03:00AM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Mar 13, 2024 at 09:24:46AM +0200, Sakari Ailus wrote:
+> > Document how embedded data support should be implemented for camera
+> > sensors, and when and how CCS embedded data format should be referenced.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/drivers/camera-sensor.rst           | 29 +++++++++++++++++++
+> >  1 file changed, 29 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index 919a50e8b9d9..92545538b855 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -102,3 +102,32 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> >  values programmed by the register sequences. The default values of these
+> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> >  independently of the sensor's mounting rotation.
+> > +
+> > +Embedded data
+> > +-------------
+> > +
+> > +Many sensors, mostly raw sensors, support embedded data which is used to convey
+> > +the sensor configuration for the captured frame back to the host. While CSI-2 is
+> > +the most common bus used by such sensors, embedded data can be available on
+> > +other bus types as well.
+> > +
+> > +Embedded data support shall use an internal source pad (a pad that has
+> 
+> s/source pad/sink pad/
+> 
+> Or do we call those "internal source pad" ?
 
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 98 +++++++++++++++++++++++++++--
- 1 file changed, 94 insertions(+), 4 deletions(-)
+As I wrote in the earlier e-mail, I'm quite unhappy with the "internal
+source pad" term, mainly because of the conflict with the term itself and the
+flags that indicate it. I'd just call them "internal sink pads" and then
+explain they're actually a source of data.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 50cbaefa1a99..bf15d3c7a965 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -1,9 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (c) 2021-2022 BayLibre, SAS.
-- * Authors:
-- * Fabien Parent <fparent@baylibre.com>
-- * Bernhard Rosenkränzer <bero@baylibre.com>
-+ * Copyright (c) 2024 BayLibre, SAS.
-+ * Authors: Fabien Parent <fparent@baylibre.com>
-+ *	    Bernhard Rosenkränzer <bero@baylibre.com>
-+ *	    Alexandre Mergnat <amergnat@baylibre.com>
-  */
- 
- /dts-v1/;
-@@ -86,6 +86,29 @@ optee_reserved: optee@43200000 {
- 			reg = <0 0x43200000 0 0x00c00000>;
- 		};
- 	};
-+
-+	sound: sound {
-+		compatible = "mediatek,mt8365-mt6357";
-+		pinctrl-names = "default",
-+				"dmic",
-+				"miso_off",
-+				"miso_on",
-+				"mosi_off",
-+				"mosi_on";
-+		pinctrl-0 = <&aud_default_pins>;
-+		pinctrl-1 = <&aud_dmic_pins>;
-+		pinctrl-2 = <&aud_miso_off_pins>;
-+		pinctrl-3 = <&aud_miso_on_pins>;
-+		pinctrl-4 = <&aud_mosi_off_pins>;
-+		pinctrl-5 = <&aud_mosi_on_pins>;
-+		mediatek,platform = <&afe>;
-+		status = "okay";
-+	};
-+};
-+
-+&afe {
-+	mediatek,dmic-mode = <1>;
-+	status = "okay";
- };
- 
- &cpu0 {
-@@ -174,6 +197,12 @@ &mmc1 {
- 	status = "okay";
- };
- 
-+&mt6357_codec {
-+	vaud28-supply = <&mt6357_vaud28_reg>;
-+	mediatek,micbias0-microvolt = <1900000>;
-+	mediatek,micbias1-microvolt = <1700000>;
-+};
-+
- &mt6357_pmic {
- 	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
- 	interrupt-controller;
-@@ -181,6 +210,67 @@ &mt6357_pmic {
- };
- 
- &pio {
-+	aud_default_pins: audiodefault-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-+			 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-+			 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-+			 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-+		};
-+	};
-+
-+	aud_dmic_pins: audiodmic-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_117_DMIC0_CLK__FUNC_DMIC0_CLK>,
-+			 <MT8365_PIN_118_DMIC0_DAT0__FUNC_DMIC0_DAT0>,
-+			 <MT8365_PIN_119_DMIC0_DAT1__FUNC_DMIC0_DAT1>;
-+		};
-+	};
-+
-+	aud_miso_off_pins: misooff-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_GPIO53>,
-+			 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_GPIO54>,
-+			 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_GPIO55>,
-+			 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_GPIO56>;
-+		input-enable;
-+		bias-pull-down;
-+		drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_miso_on_pins: misoon-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_AUD_CLK_MISO>,
-+			 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_AUD_SYNC_MISO>,
-+			 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_AUD_DAT_MISO0>,
-+			 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_AUD_DAT_MISO1>;
-+		drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
-+	aud_mosi_off_pins: mosioff-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_GPIO49>,
-+			 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_GPIO50>,
-+			 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_GPIO51>,
-+			 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_GPIO52>;
-+		input-enable;
-+		bias-pull-down;
-+		drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_mosi_on_pins: mosion-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_AUD_CLK_MOSI>,
-+			 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_AUD_SYNC_MOSI>,
-+			 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_AUD_DAT_MOSI0>,
-+			 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_AUD_DAT_MOSI1>;
-+		drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
- 	ethernet_pins: ethernet-pins {
- 		phy_reset_pins {
- 			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
+> 
+> As this is uAPI documentation, it is mainly targetting (in my opinion)
+> userspace developers. I would write "Embedded data support uses ..." to
+> describe the behaviour seen from userspace, instead of using "shall" to
+> describe the requirements towards drivers.
+
+Sounds good.
+
+> 
+> > +``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+> > +<MEDIA-PAD-FL-INTERNAL>`` flags set) and route to the external pad. If embedded
+> > +data output can be disabled in hardware, it should be possible to disable the
+> > +embedded data route via ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> 
+> You should mention the image pad here too:
+> 
+> Such sensors expose two internal sink pads (pads that have both the
+> ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
+> <MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
+> embedded data streams. Each of those pads produces a single stream, and the
+
+s/Each of those/Both of these/
+
+> sub-device routes those streams to the external (source) pad. If embedded data
+> output can be disabled in hardware, the sub-device allows disabling the
+> embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+
+In the last sentence, we need to refer to the driver.
+
+But generally I agree. I'll use:
+
+"If the sub-device driver supports disabling embedded data, this can be
+done by disabling the embedded data route via the
+``VIDIOC_SUBDEV_S_ROUTING`` IOCTL."
+
+> 
+> > +
+> > +In general, changing the embedded data format from the driver-configured values
+> > +is not supported. The height of the metadata is hardware specific and the width
+> 
+> s/hardware specific/device-specific/
+
+Yes.
+
+> 
+> > +is that (or less of that) of the image width, as configured on the pixel data
+> > +stream.
+> > +
+> > +CCS and non-CCS embedded data
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Embedded data which is compliant with CCS definitions shall use ``CCS embedded
+> > +data format <MEDIA-BUS-FMT-CCS-EMBEDDED>``. Device specific embedded data which
+> 
+> You should clarify here that you're talking about the internal sink pad.
+> 
+> s/Device specific/Only device-specific/
+> 
+> > +is compliant up to MIPI CCS embedded data levels 1 or 2 only shall refer to CCS
+> 
+> s/up to/with the/
+> s/only shall/may/
+> 
+> > +embedded data formats and document the level of conformance. The rest of the
+> > +device specific embedded data format shall be documented in the context of the
+> 
+> s/device specific/device-specific/
+> 
+> > +data format itself.
+> 
+> Not sure what you mean by the context in the last sentence.
+
+This refers to CCS embedded data support levels which appears to be
+documented in a later patch in the series ("media: uapi: ccs: Add media bus
+code for MIPI CCS embedded data"). I'll add this paragraph after that patch.
+
+The paragraph became finally:
+
+Embedded data which is fully compliant with CCS definitions uses ``CCS embedded
+data format <MEDIA-BUS-FMT-CCS-EMBEDDED>`` media bus code (level
+3). Device-specific embedded data compliant with either MIPI CCS embedded data
+levels 1 or 2 only shall not use CCS embedded data mbus code, but may refer to
+CCS embedded data documentation with the level of conformance specified and omit
+documenting these aspects of the format. The rest of the device-specific
+embedded data format is documented in the context of the data format itself.
 
 -- 
-2.25.1
+Regards,
 
+Sakari Ailus
 
