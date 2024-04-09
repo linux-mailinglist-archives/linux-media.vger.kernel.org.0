@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-8939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B82489E04B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 18:25:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CE289DFAF
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 17:51:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE6E4B210A4
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 15:48:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 465AD1F2118B
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 15:51:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8FE13BC0E;
-	Tue,  9 Apr 2024 15:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E126139D0D;
+	Tue,  9 Apr 2024 15:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jL964Hmt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WBi/K0Uy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5E2137930
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 15:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68C013699D
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 15:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712677617; cv=none; b=XcZkeBaiBKkJe2EnHOo9dDOrTiKpx+NSBXawC3oefrVnkzWI9vFqv8tkwQCAet15WOKlnt1nWNInCCi3afVI0hnOXXuHSkasEkoGNH5AisIV4evYKXsK5GQLYLxtj4bwiPyksFDHKwLtCz2XgXFsC3L2YklLXG87RRX2NcnP9+c=
+	t=1712677869; cv=none; b=jmm0TJLzMq1gDFZonTFsd6cQazcycBuljjev+fQhppakhNV7QT9yUEQcIMQQSc0j8UYafq9hT6Xq1lhB6ZUlmkOJVhP1+yqdXHuVivfSMKVr72qFWRA6BIKsuZGJj0Y5E/NSUFEELUq3B5gs1D9n16kn0GaAE7URiHeabYSOXCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712677617; c=relaxed/simple;
-	bh=BDErqaONOw/NheOlMB0Ewp9ma2cyw7Wy9NHVDoOliXU=;
+	s=arc-20240116; t=1712677869; c=relaxed/simple;
+	bh=a3RqMX0lMRNv9/PRuIekvVESwhEjPNu02+UXwN9ChGI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uLRDyczVbBLibZwJSFfFM7LowerBA92t0q0Z5BHb9XJzW3PW0kcSkrgdXy1rV7Dwf+6fimM/ezVo3j93i7P/+PVha6O2jfqATwFgbXtFOWbir/Rg268kOm3XVRtK5tkW5XbmkEWiJZsMWntiELC6CIuKKsNg0AnsKDztDKwauQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jL964Hmt; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=HK026tzI9eJhhc/3JsXH/Y4Zw62TBj2v3+2KYOUHV5+1YOVtPYnpSABM1H/iNFshVMff3oAzpk01xCQz2hFEX2RNcsLm80hWV7OvSEnRslykYrs70lN/rniuOyxxs6VpXNUADAE+5SJTIswXyQgsHJYdAKA3ghiTN5SA/MsjWCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WBi/K0Uy; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-415515178ceso37498285e9.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 08:46:55 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a51fea60c0bso81449466b.3
+        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 08:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712677614; x=1713282414; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712677866; x=1713282666; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=K6BgW7TKW7TJF3BVL0a/s0l7TG5JEGfNfhDuPjBIbTQ=;
-        b=jL964Hmt94K+Oo5lkQH8YoWSRu8RqE4gNf12SvYvuRwtCmcTlzQrEJeX5v16HMJr7Z
-         uRivst9lO3jzsjv1Y8dqJRpd98k10P47VX3Oxfui7GU1ACpicuUBOYc3uOt2+IftyZGj
-         1opkSKGCXV97mFVBvPYnjKV39yj/aNBcnfHKZVa1H2vL35OFfMFHVYLN4u4RwzRzA6dh
-         Y09hZFivhDXYn7skDqyXZo75yaJPuvoEmXIQt7cJHiIlcmlhkQO7nOfyM8Qd8jG9V8Z3
-         UFlCBhVsgzUzS4no7ZGnPG/NwSGXPL16lA/AAZV61KycEPAG3/aA02N8TKRFPMDNyKhO
-         RSAQ==
+        bh=WAcVj2leURwW7GHrvYtyBl+mwjZPdduiH8yugxEIqH8=;
+        b=WBi/K0UymR/R/PnuPKlbqQPiO6gyiDqupqG2eb1aSN+5gUjWKA6QIP5HRDmxVhWScx
+         pdYL3VBdyqjlEbYtyVTRLUOflS0NzafX+/AbmRl1EAKQqiAI2NJSN2c1WbnP9YzfCrBT
+         RfI5owuKYGAQQAEubI2hbfPjRUHBeSzryEB2lfHi/zzpnVplW18bwaaNrMoYR/M3lMQR
+         9X50XVaq7Tr6umV4ULFInkn3cbqTfnBXIh3YIxxkHhq/sHJ0oM5Znx/ghhllMt2y+wQ5
+         HNheDmCnDdNibeD5ydDQu2xkShoLQi8LnUS2JnoC2DYpCtiwRIUpqlProed/18pgt3hV
+         UZtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712677614; x=1713282414;
+        d=1e100.net; s=20230601; t=1712677866; x=1713282666;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K6BgW7TKW7TJF3BVL0a/s0l7TG5JEGfNfhDuPjBIbTQ=;
-        b=oIWr9TnoY4G7oQLUgZG3qZcrahSVoGkOFmtq4FDLVww+3onYjq9S26CdBumHxwvQk/
-         mXdhxzYoY06ePN1dm4nfF9p3FjCaHVLBcJemJNDGv8bSvRKElDVt7eGgt2GtcR/uxqWg
-         BJ5uRAKGKnSuJmYf2QjdYKa9tcee8OH232fLwAF9MKH2iWnUKZVay0211kEje2rdRB4p
-         Xv5iwrfn7ZkwEsPKp1M+by+eYdTvV0Bl5SAEhlwgsm8jrMomI8WcF6mjGKhjeJNHG1vO
-         gJfdU7PhcRTqVRddnTX5JRhTx0CTvuJjt+CfZBYb/eqDg+ZC+0l6wZzbJcYI9lq3Hf/I
-         Sc9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVY36B2i9tjmxK6c/FDzVMk6oUMS80rJMpKsstVxOnD2NKWHa77J2J0fuCcjNXHO0AwqMOLzpzCgOP81pzTH17QmDeUWiuKhlPBk24=
-X-Gm-Message-State: AOJu0Yx44Sh046SDJAKzaD0g8IIFBdxWcasa2vaX6gZvSjcDbXylWr5A
-	PcCnpopVV2lbaXukp6wT1Ti0icLwl8fHUlvSyC3zv2u4s/DsN21Ud94ZVsTDaWw=
-X-Google-Smtp-Source: AGHT+IH7yLU9ymU3WSBUPIfLwxHfg1GJE0CJH8Nj4cDnB1ykPmPR7bTIlNdKgyMi2etLwEzgtU2KqQ==
-X-Received: by 2002:a05:600c:4e93:b0:416:950b:6aee with SMTP id f19-20020a05600c4e9300b00416950b6aeemr69127wmq.9.1712677613868;
-        Tue, 09 Apr 2024 08:46:53 -0700 (PDT)
+        bh=WAcVj2leURwW7GHrvYtyBl+mwjZPdduiH8yugxEIqH8=;
+        b=LXxMc06FyjGXAneGYHWYXmNSIXfiOUOaPlCiXcPt/KwCchhyIfBOSgMWDCQ2s3/jdg
+         NDwM3X3tJwHYckBm1TXhR8rTDnD+Nze9ukM8hmVd4s6x1lQL5lU1ew9d7MmVO6HH/cNY
+         1QLFBD9rdYNXW80+UXVEXsObchQBXp3oF/6nV3eHHyoxBbFp1rM9si6IRN7iIZvjtWWk
+         zi+bpyUggRvKhsh1aVjr3bqadE94HSACFGoimkn2aOr5Cw0ONSSfTeSPunoi0GCzbwNK
+         l8qLXzVmygzU4xzt/JAA2w/bSLp2mDmXsVYRBnMTQHBpt+c6Hc3pt7MvPMVahNGFuMm7
+         t/Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMI3NXABWMiHi5xU4WxzKLBKg+I9MXkn8ilqOAst87n5EOM9o0ckJgWz3DuysB5E+d2FRK2OEIUsEl8vndx8fuZBTULVDUB9ImXlc=
+X-Gm-Message-State: AOJu0YxsNnt9A7qU3R76p3GGOuF7RoYwnkHTTXgc0D3c+eF0HzBZdvCe
+	DGzUQIOvjKLiqEArSRrPvB83F6rXIiyAuoh2js0jDJ1SRZbKDaGCsrhiOHcTzUI=
+X-Google-Smtp-Source: AGHT+IH7zOuDOE8g3kAQ3c1Owo8pZbxi7R/DXadZH5wD0HvZ1cy01CVCWbe7vJXfSSifnlO4bAfWoA==
+X-Received: by 2002:a17:907:1c26:b0:a51:d605:49ea with SMTP id nc38-20020a1709071c2600b00a51d60549eamr5041474ejc.8.1712677865970;
+        Tue, 09 Apr 2024 08:51:05 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id a20-20020a05600c349400b00416b28651e1sm1896045wmq.36.2024.04.09.08.46.51
+        by smtp.gmail.com with ESMTPSA id qx3-20020a170906fcc300b00a4e26377bf1sm5908338ejb.175.2024.04.09.08.51.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 08:46:53 -0700 (PDT)
-Message-ID: <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
-Date: Tue, 9 Apr 2024 17:46:51 +0200
+        Tue, 09 Apr 2024 08:51:05 -0700 (PDT)
+Message-ID: <cd49aa86-49b8-4a06-ba0c-8cacfa34eb3f@linaro.org>
+Date: Tue, 9 Apr 2024 17:51:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,8 +77,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add
- audio afe document
+Subject: Re: [PATCH v3 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -97,7 +97,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-1-16bb2c974c55@baylibre.com>
+ <20240226-audio-i350-v3-2-16bb2c974c55@baylibre.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -144,114 +144,43 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v3-1-16bb2c974c55@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v3-2-16bb2c974c55@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/04/2024 15:41, Alexandre Mergnat wrote:
-> Add MT8365 audio front-end bindings
+On 09/04/2024 15:42, Alexandre Mergnat wrote:
+> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
 
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8365-afe-pcm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    items:
-> +      - description: 26M clock
-> +      - description: mux for audio clock
-> +      - description: audio i2s0 mck
-> +      - description: audio i2s1 mck
-> +      - description: audio i2s2 mck
-> +      - description: audio i2s3 mck
-> +      - description: engen 1 clock
-> +      - description: engen 2 clock
-> +      - description: audio 1 clock
-> +      - description: audio 2 clock
-> +      - description: mux for i2s0
-> +      - description: mux for i2s1
-> +      - description: mux for i2s2
-> +      - description: mux for i2s3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: top_clk26m_clk
-> +      - const: top_audio_sel
-> +      - const: audio_i2s0_m
-> +      - const: audio_i2s1_m
-> +      - const: audio_i2s2_m
-> +      - const: audio_i2s3_m
-> +      - const: engen1
-> +      - const: engen2
-> +      - const: aud1
-> +      - const: aud2
-> +      - const: i2s0_m_sel
-> +      - const: i2s1_m_sel
-> +      - const: i2s2_m_sel
-> +      - const: i2s3_m_sel
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  mediatek,dmic-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+> +patternProperties:
+> +  "^dai-link-[0-9]+$":
+> +    type: object
 > +    description:
-> +      Indicates how many data pins are used to transmit two channels of PDM
-> +      signal. 1 means two wires, 0 means one wire. Default value is 0.
-> +    enum:
-> +      - 0 # one wire
-> +      - 1 # two wires
+> +      Container for dai-link level properties and CODEC sub-nodes.
 > +
-> +  mediatek,topckgen:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the mediatek topckgen controller
-
-Nothing improved, so again, so something which is not obvious. What is
-it used for? Why AFE needs topckgen for example?
-
+> +    properties:
+> +      codec:
+> +        type: object
+> +        description: Holds subnode which indicates codec dai.
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - power-domains
-> +  - mediatek,topckgen
+> +        properties:
+> +          sound-dai:
+> +            maxItems: 1
+> +            description: phandle of the codec DAI
 > +
-> +additionalProperties: false
+> +        additionalProperties: false
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        afe@11220000 {
+> +      link-name:
+> +        description:
+> +          This property corresponds to the name of the BE dai-link to which
+> +          we are going to update parameters in this node.
+> +        items:
+> +          const: 2ND_I2S_BE
 
-Did you implement the comment or decided to keep afe?
-
-BTW, whatever "consistency" you have in mind, it does not really matter
-that much for that example. And for sure do not add incorrect code
-intentionally just to fix it in next patch.
-
-
+What is the type of link-name? Why is it fixed? How can you have here
+multiple dai links if all of them must have the same name?
 
 Best regards,
 Krzysztof
