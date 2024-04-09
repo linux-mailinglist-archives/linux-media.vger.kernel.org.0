@@ -1,246 +1,162 @@
-Return-Path: <linux-media+bounces-8944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0693289DFF1
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 18:02:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C8289E09A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 18:37:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E301BB2A977
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 16:00:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22E1F1F22081
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 16:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B710613D88E;
-	Tue,  9 Apr 2024 16:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F679153589;
+	Tue,  9 Apr 2024 16:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L5dHXokQ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uGGXWA65"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8326113D633
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 16:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82623153575
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 16:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712678422; cv=none; b=mMYKPHyhOVA3doskZvvb3lEN0IaiYiUkzAv9dni36k8T2vwB4jFiZwDPKjyVpJl5fDYU1khnjQpJRD9qEhfDrAMi7zD7QzVWbc6YVi8eOBfZMnDivDGbKCsZH9ii8B/O/N0W/IBAcXW0FeHiMRlI7NW267MQiLYo7uqDTjji3DA=
+	t=1712680642; cv=none; b=L247r7B8ws3+btLFVb+y0Jj36KKpF3RG6adL/N5e+h6WOxg0/6r+NYPclr/6IlAE3t6GTQ7xoful/TP4RWvjBn2UUwgjI3fhVnQwqHC7j6UCdPP8xfBT7iONoQX3Pahe2MCq0rJRpCFwxAVquzxzIWdF7STKSRzMFmTXKLtobRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712678422; c=relaxed/simple;
-	bh=E3LQw7BIH6NFeKqXEwye3PeW+RQje2qB7r+WxoyVbG8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rVFfjmlGZiAOutCps0OGHr8305HvV8+xlwRI2yCgKWyC+79T0+t6ac5LLpkQLrEe/OXG5RssH+0Q8yye1sP9cDe4K1+eSc/DAWM56jONXSnMNYVosk2KJYfzuxfTry1Bc31ZjGuiVIqMcEVI6F7B9kNFC7O18D1fQtKFZ7k2rXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L5dHXokQ; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3458b699d6cso1114506f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 09:00:20 -0700 (PDT)
+	s=arc-20240116; t=1712680642; c=relaxed/simple;
+	bh=HdCPsHozXYwytuqNw0ZGiEDF8p+ZYozg6NI6BJrhggw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tlBV5LIecdTFcvQDJPp/G0jAt/iFevksFkWebH4ubjMr7PUFan28cySSp5cra3rHPahuThe5zokgR4GkE4U8lVOfqpMfpzm70IVJIOGqe1YCJ9wmrxxLX3Yhf35RlnYlht4hO6DexPrsk13/unmQ+JN1hI0vshitF/oyul9imC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uGGXWA65; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso6087802276.2
+        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 09:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712678419; x=1713283219; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vl2WAWZiRqw9Ns4ylVujkmqdUMbnF+5lRwOPnf5XU7k=;
-        b=L5dHXokQ1nzXeoXdFV8LRViHdrbl5rmy8sgDV0c16Eax6paVFXhsc1mr/2T26UcyxR
-         mRbE2XXgMcdJTHg1cTxO4ro3O7sEmZucjtQJ5WI5koV3Nhdcc92Y7B6z8IB3uSblF7S3
-         GEx1mNo7crrsHocbjgXKkJWVxmAtlFl0onE+CYrLuJofhTXh7sWH0B4f84e6tfgc0ukD
-         hvzvN3sD/reOL5Jk0rUHzDSFWii65Sb/C/RuRvC+/+DjKEk5X/596aGDuqR16IsNTrWp
-         LQrI8CubTguLqUgUDQrvfec1pHEkbN9RIfUwlpTBzUYSsnWDc48VO6/OkyVhRZfGOFwa
-         rkbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712678419; x=1713283219;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1712680639; x=1713285439; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Vl2WAWZiRqw9Ns4ylVujkmqdUMbnF+5lRwOPnf5XU7k=;
-        b=KiKjIGlnXZ3ZDpm1VCFmNuCfQga6GoeDpJI7/GRRqx77eV2K6qbXrOR7L77Hec5NpZ
-         JQcCRwFhslWCHGp6+S4h29Lcj4/YzFGPPQVobuoByhvsVTZ5iMo0SwLxSraFH8kdE7+3
-         qrivKU7YE97BlAJnuN4C4Er1xfHutVz7NQ5DyhTKfZEDXhkd9MzixRJLI6tmQQNpXAPp
-         ALPN1q4jPOmLLrKG3MFWSqpGBb40ir3aV5iPywElvqYR0solCT9dHiT1ySm1zVzvP+Sw
-         KXkkF3BpnVU82g2LjQMFkZOwR+pclV01RVhufF2qdvuP4vX/YprOj+Y5K5M7AXphCtMZ
-         HCDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVl9Wga/80SaJQYmHtk31EKptnam738uxr5JtyjtBZrn/Jpp3c7xH2IUqqLMSoaa2hjd3DM24LYObvki4AW/4IMKJKNAxaHBWVteLg=
-X-Gm-Message-State: AOJu0Yz36Zz57iiiz/twD4DaYMcBwtDYmBdfyKBecvvgv1FF228i9HLO
-	YHwu0y6XtmofQ71yjs7pzTYyeFWi0FPPkoEYhSLCXymyg4SDaSNPIk4zFI61SbI=
-X-Google-Smtp-Source: AGHT+IHXyvG8mKfTY4naLXWGXb6e7X0FvCeImKpBuVDysC36RkLPoOdejDcQfesyOgvubSVgZ97dCw==
-X-Received: by 2002:adf:f1c4:0:b0:341:e4f4:4399 with SMTP id z4-20020adff1c4000000b00341e4f44399mr83235wro.68.1712678418814;
-        Tue, 09 Apr 2024 09:00:18 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id k2-20020adff282000000b0033e9d9f891csm11740838wro.58.2024.04.09.09.00.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 09:00:18 -0700 (PDT)
-Message-ID: <62b1f2fe-7892-405c-bbb9-4bc77173a801@linaro.org>
-Date: Tue, 9 Apr 2024 18:00:16 +0200
+        bh=VWrgc6fSc3w4dKU6IsZCUM+SMdZmjryY3zaMUJ1lg5M=;
+        b=uGGXWA65SXFIIj2rsXWkBxBOk3P8Bnitw0HHVrRv3Y1Pm8FMSQE6N9O2Ax54Bfjusr
+         KPmgw/Bd57hKZkE40jDYgve8SIuxkKTbP6eEs6zTpAMwesNgNjKBpa6Okx5LS7X0y77g
+         3QdzW8HB95QZPmxtT7ot9q0IpM28mQetfoFb9gCZCfBN59nBzFdS2L0XA6B+zxjZAsEa
+         D1hpi2n0MgB7+XCBajpI+c5LTe8j7KCd6iUpNkVeLTpAd6nM1GgtxI+kyG4Uu4314+mn
+         pBDm710ePO9fJ42fOJyURyF2CKocu+y+U8LKpzP67GmyU3rpNcstS/sH8cLQzar3eC+O
+         rLOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712680639; x=1713285439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VWrgc6fSc3w4dKU6IsZCUM+SMdZmjryY3zaMUJ1lg5M=;
+        b=OMcvSAmRXqYTH/xhzqx6OtxxF4Ijr4ZtZJz7QCKfJYSZsOIskxadQ0MsckX27uJiEb
+         2/E23MxXeWW0m1M/FOZ8dz3h0n4kerB1YRzUK66v6qmrBmhPxitC08Sm/RqtZVUfvGG0
+         j52oySCCJseo6/+HKZpDThfb5ZLGVHH7Tf5ZJtRCbk3W06uLKrRg2X/eSjkMIP/UBH5o
+         mBfTZYbCsscESArxjph6bgDpxYDP5iI9n8Dgb01QG1WEoc9EWTr2njjPa4/9QoFLwrf9
+         ZY278HbWAiGivgg0y/GObZiSgb8lTAeGuiVCqzWZoL93Lmt5axz2PxYCL/cKqonzaDzM
+         APdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWroaUPhtK/q0uEP75uhE46qNDKGHWdl2Z0eYdlmrZtgsqRcntdIQDaHCB/insGg1uzfvEmnkJ2VFbdq6IqbkSjT1GFPPFXx9Gr4vM=
+X-Gm-Message-State: AOJu0YwUHtF7wWHEOui/rWML/k6TxHHKK+wh4YmVKlMxvB52eOVdijFJ
+	6INsnkZX6EgecVwDlpnLMAykmHZ8OB70Dn6UwaBy0n4g48SPDXo9ij2TIbHPThH7na6ln0LTGn0
+	LiJOA9F5hrangPOV/eC6EP04j8zyNCEa5QfVI
+X-Google-Smtp-Source: AGHT+IGJRrnZd6GpHhz2e2NeVhdfIMLHOtWWI1dHIs7kshaTz2NJhrtoPZ84nV+L11Kpx9q3bco9EMqTwIkVE14CEDU=
+X-Received: by 2002:a5b:cc8:0:b0:de0:de50:d6d4 with SMTP id
+ e8-20020a5b0cc8000000b00de0de50d6d4mr296806ybr.8.1712680639127; Tue, 09 Apr
+ 2024 09:37:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/18] arm64: dts: mediatek: add audio support for
- mt8365-evk
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-18-16bb2c974c55@baylibre.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v3-18-16bb2c974c55@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+ <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com> <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
+ <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com> <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+In-Reply-To: <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 9 Apr 2024 09:37:07 -0700
+Message-ID: <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+To: Rong Qianfeng <11065417@vivo.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu <jay.xu@rock-chips.com>, sumit.semwal@linaro.org, 
+	pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/04/2024 15:42, Alexandre Mergnat wrote:
-> Add the sound node which is linked to the MT8365 SoC AFE and
-> the MT6357 audio codec.
-> 
-> Update the file header.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 98 +++++++++++++++++++++++++++--
->  1 file changed, 94 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> index 50cbaefa1a99..eb0c5f076dd4 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> @@ -1,9 +1,9 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * Copyright (c) 2021-2022 BayLibre, SAS.
-> - * Authors:
-> - * Fabien Parent <fparent@baylibre.com>
-> - * Bernhard Rosenkränzer <bero@baylibre.com>
-> + * Copyright (c) 2024 BayLibre, SAS.
+On Tue, Apr 9, 2024 at 12:34=E2=80=AFAM Rong Qianfeng <11065417@vivo.com> w=
+rote:
+>
+>
+> =E5=9C=A8 2024/4/8 15:58, Christian K=C3=B6nig =E5=86=99=E9=81=93:
+> > Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
+> >> [SNIP]
+> >>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+> >>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+> >>>> offset and len.
+> >>>
+> >>> You have not given an use case for this so it is a bit hard to
+> >>> review. And from the existing use cases I don't see why this should
+> >>> be necessary.
+> >>>
+> >>> Even worse from the existing backend implementation I don't even see
+> >>> how drivers should be able to fulfill this semantics.
+> >>>
+> >>> Please explain further,
+> >>> Christian.
+> >> Here is a practical case:
+> >> The user space can allocate a large chunk of dma-buf for
+> >> self-management, used as a shared memory pool.
+> >> Small dma-buf can be allocated from this shared memory pool and
+> >> released back to it after use, thus improving the speed of dma-buf
+> >> allocation and release.
+> >> Additionally, custom functionalities such as memory statistics and
+> >> boundary checking can be implemented in the user space.
+> >> Of course, the above-mentioned functionalities require the
+> >> implementation of a partial cache sync interface.
+> >
+> > Well that is obvious, but where is the code doing that?
+> >
+> > You can't send out code without an actual user of it. That will
+> > obviously be rejected.
+> >
+> > Regards,
+> > Christian.
+>
+> In fact, we have already used the user-level dma-buf memory pool in the
+> camera shooting scenario on the phone.
+>
+>  From the test results, The execution time of the photo shooting
+> algorithm has been reduced from 3.8s to 3s.
+>
+For phones, the (out of tree) Android version of the system heap has a
+page pool connected to a shrinker. That allows you to skip page
+allocation without fully pinning the memory like you get when
+allocating a dma-buf that's way larger than necessary. If it's for a
+camera maybe you need physically contiguous memory, but it's also
+possible to set that up.
+
+https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/d=
+rivers/dma-buf/heaps/system_heap.c#377
 
 
-What is happening with your copyrights? Why do you change existing ones?
-
-> + * Authors: Fabien Parent <fparent@baylibre.com>
-> + *	    Bernhard Rosenkränzer <bero@baylibre.com>
-> + *	    Alexandre Mergnat <amergnat@baylibre.com>
->   */
->  
->  /dts-v1/;
-> @@ -86,6 +86,29 @@ optee_reserved: optee@43200000 {
->  			reg = <0 0x43200000 0 0x00c00000>;
->  		};
->  	};
-> +
-> +	sound: sound {
-> +		compatible = "mediatek,mt8365-mt6357";
-> +		pinctrl-names = "default",
-> +				"dmic",
-> +				"miso_off",
-> +				"miso_on",
-> +				"mosi_off",
-> +				"mosi_on";
-> +		pinctrl-0 = <&aud_default_pins>;
-> +		pinctrl-1 = <&aud_dmic_pins>;
-> +		pinctrl-2 = <&aud_miso_off_pins>;
-> +		pinctrl-3 = <&aud_miso_on_pins>;
-> +		pinctrl-4 = <&aud_mosi_off_pins>;
-> +		pinctrl-5 = <&aud_mosi_on_pins>;
-> +		mediatek,platform = <&afe>;
-> +		status = "okay";
-
-Where did you disable the node?
-
-> +	};
-> +};
-> +
-> +&afe {
-> +	mediatek,dmic-mode = <1>;
-> +	status = "okay";
->  };
->  
->  &cpu0 {
-> @@ -174,6 +197,12 @@ &mmc1 {
->  	status = "okay";
->  };
->  
-> +&mt6357_codec {
-> +	mediatek,micbias0-microvolt = <1900000>;
-> +	mediatek,micbias1-microvolt = <1700000>;
-> +	mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
-> +};
-> +
->  &mt6357_pmic {
->  	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
->  	interrupt-controller;
-> @@ -181,6 +210,67 @@ &mt6357_pmic {
->  };
->  
->  &pio {
-> +	aud_default_pins: audiodefault-pins {
-> +		pins {
-> +		pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-> +			 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-> +			 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-> +			 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-
-You have broken indentation everywhere.
-
-Best regards,
-Krzysztof
-
+> To be honest, I didn't understand your concern "...how drivers should be
+> able to fulfill this semantics." Can you please help explain it in more
+> detail?
+>
+> Thanks,
+>
+> Rong Qianfeng.
+>
+> >
+> >>
+> >> Thanks
+> >> Rong Qianfeng.
+> >
+>
 
