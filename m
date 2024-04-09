@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-8940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CE289DFAF
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 17:51:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569CC89DFC5
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 17:55:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 465AD1F2118B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 15:51:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 794B11C22A1D
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 15:55:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E126139D0D;
-	Tue,  9 Apr 2024 15:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBDE013B590;
+	Tue,  9 Apr 2024 15:55:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WBi/K0Uy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tii0mZcq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68C013699D
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 15:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5191C137C38
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 15:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712677869; cv=none; b=jmm0TJLzMq1gDFZonTFsd6cQazcycBuljjev+fQhppakhNV7QT9yUEQcIMQQSc0j8UYafq9hT6Xq1lhB6ZUlmkOJVhP1+yqdXHuVivfSMKVr72qFWRA6BIKsuZGJj0Y5E/NSUFEELUq3B5gs1D9n16kn0GaAE7URiHeabYSOXCg=
+	t=1712678149; cv=none; b=jCCXiQbpk442XXXqkoMX1YiJxWS2bhfCTdLgbKML7lnGD6dqziQ/MjoA+Q70POWxET/ORhL3Af43i/Ml7LWQKYIGEc2CG/OFdulpOEE6lcyhdaoFWkqJl6vXQd+lHIphifAIc69jrovRZOjtS5bMxJdykT7CbqHRbv4J0htjz/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712677869; c=relaxed/simple;
-	bh=a3RqMX0lMRNv9/PRuIekvVESwhEjPNu02+UXwN9ChGI=;
+	s=arc-20240116; t=1712678149; c=relaxed/simple;
+	bh=/v3xd5tpwqQczAUStdWouaUww6aWbM/eMoyZGiW+Nqs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HK026tzI9eJhhc/3JsXH/Y4Zw62TBj2v3+2KYOUHV5+1YOVtPYnpSABM1H/iNFshVMff3oAzpk01xCQz2hFEX2RNcsLm80hWV7OvSEnRslykYrs70lN/rniuOyxxs6VpXNUADAE+5SJTIswXyQgsHJYdAKA3ghiTN5SA/MsjWCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WBi/K0Uy; arc=none smtp.client-ip=209.85.218.44
+	 In-Reply-To:Content-Type; b=EuKjnq0hUK96yYJHFBjQsbdFNN+hdvR+8Ao4bjSSbx5HSeCZdh5HOBY1hCKnF4vPDM6JdluEJAhKY+PnGT19a7hxJQ4rNa+wJYgAZAXY115+CEmnb1irGxqjJNq/+EfTR81q/I3ECV4fceWtQnTpuxzi0WqmaIA/+Q6YCljf9m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tii0mZcq; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a51fea60c0bso81449466b.3
-        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 08:51:07 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a51a7d4466bso520986366b.2
+        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 08:55:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712677866; x=1713282666; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712678145; x=1713282945; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=WAcVj2leURwW7GHrvYtyBl+mwjZPdduiH8yugxEIqH8=;
-        b=WBi/K0UymR/R/PnuPKlbqQPiO6gyiDqupqG2eb1aSN+5gUjWKA6QIP5HRDmxVhWScx
-         pdYL3VBdyqjlEbYtyVTRLUOflS0NzafX+/AbmRl1EAKQqiAI2NJSN2c1WbnP9YzfCrBT
-         RfI5owuKYGAQQAEubI2hbfPjRUHBeSzryEB2lfHi/zzpnVplW18bwaaNrMoYR/M3lMQR
-         9X50XVaq7Tr6umV4ULFInkn3cbqTfnBXIh3YIxxkHhq/sHJ0oM5Znx/ghhllMt2y+wQ5
-         HNheDmCnDdNibeD5ydDQu2xkShoLQi8LnUS2JnoC2DYpCtiwRIUpqlProed/18pgt3hV
-         UZtw==
+        bh=4zDFe+SJOHdCWHBOFhw/wvJPaYDwCUjUbFRmrHFT7xI=;
+        b=tii0mZcqMPjlTVxWH25n7oOEDTn2DAlar7L2OmL55ctqbfmUmmtXBitLkKMV5QbyMG
+         JFrvIaNurCaZYtjP45q21yiED+Tr4zR3BwMHV21QbbmYx6QSTXugAfav4ync/14U6Me0
+         G36loKaduM8FAT2J+lNMuz7zo64p0yoBIGQpzksAehgQ2nzYGIbmaPVmWcSI31dCIwV2
+         ux52PsOnFIsr9ABXA+qVXhib8zEEZE4ZhHRvtUtOULC7OjG2v0KfwUdo7xTlcH4TvG3X
+         oJ6aBWegmfvtlNpyOw9DX+9Pt6rjkBdc1WR1zQ7zBkBS8XF+sY75IG5R/ce3vz8gLydq
+         Evlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712677866; x=1713282666;
+        d=1e100.net; s=20230601; t=1712678145; x=1713282945;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WAcVj2leURwW7GHrvYtyBl+mwjZPdduiH8yugxEIqH8=;
-        b=LXxMc06FyjGXAneGYHWYXmNSIXfiOUOaPlCiXcPt/KwCchhyIfBOSgMWDCQ2s3/jdg
-         NDwM3X3tJwHYckBm1TXhR8rTDnD+Nze9ukM8hmVd4s6x1lQL5lU1ew9d7MmVO6HH/cNY
-         1QLFBD9rdYNXW80+UXVEXsObchQBXp3oF/6nV3eHHyoxBbFp1rM9si6IRN7iIZvjtWWk
-         zi+bpyUggRvKhsh1aVjr3bqadE94HSACFGoimkn2aOr5Cw0ONSSfTeSPunoi0GCzbwNK
-         l8qLXzVmygzU4xzt/JAA2w/bSLp2mDmXsVYRBnMTQHBpt+c6Hc3pt7MvPMVahNGFuMm7
-         t/Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMI3NXABWMiHi5xU4WxzKLBKg+I9MXkn8ilqOAst87n5EOM9o0ckJgWz3DuysB5E+d2FRK2OEIUsEl8vndx8fuZBTULVDUB9ImXlc=
-X-Gm-Message-State: AOJu0YxsNnt9A7qU3R76p3GGOuF7RoYwnkHTTXgc0D3c+eF0HzBZdvCe
-	DGzUQIOvjKLiqEArSRrPvB83F6rXIiyAuoh2js0jDJ1SRZbKDaGCsrhiOHcTzUI=
-X-Google-Smtp-Source: AGHT+IH7zOuDOE8g3kAQ3c1Owo8pZbxi7R/DXadZH5wD0HvZ1cy01CVCWbe7vJXfSSifnlO4bAfWoA==
-X-Received: by 2002:a17:907:1c26:b0:a51:d605:49ea with SMTP id nc38-20020a1709071c2600b00a51d60549eamr5041474ejc.8.1712677865970;
-        Tue, 09 Apr 2024 08:51:05 -0700 (PDT)
+        bh=4zDFe+SJOHdCWHBOFhw/wvJPaYDwCUjUbFRmrHFT7xI=;
+        b=GSrbcZEjSxsEaEO27v93VzPGQuweptJL7vkim/lz3oa5YpeDoqbSDmcj5I82akw13d
+         1fVcWZ+OVQ6nTF1PXEdMrA3DShkWfFIilp8m3PAv6y6MTfPeJXX4h9cALM7qEqqzTjqc
+         NAzwJVVQTcYbb+3B6Dt4w3c53zYEyorzMnLPBb3hoNkQ53bsDVdAuOYU2FN6JsT/5AgT
+         UiJbG5GxkBrS0S6rwILDWYYxNb0UKh/6tkS5coD4NutTzTeV+AlgNzzonSraMPZsnFEQ
+         zq5IxsHd+3QTmJoY0kPEO1dRqg4SkGmFSFzPuwwF96/MsJ1fdcz4GRROumlUQIYOCSI9
+         nyTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWrJuYdo7P/x0ZP8rw/6sdpDid3vPq50GsEQ2PYbzWhT/B7SvAL5n11jYkFdhJYGrhuM5zPZrGlV/+1yZJIbjW1nhCrnb3a++Irsg0=
+X-Gm-Message-State: AOJu0Ywg+PPl0klXPFvtYKnRjwyezw2lvsagX2CsZSVIYVPwKsLJ/N6M
+	1zrOwFLYGGzs2Jr/9kER4ITxT5PBc13D7KouK5o5yy7tkjonbnfxN0lo9AkNywg=
+X-Google-Smtp-Source: AGHT+IENY+948bK5WfWlPqf5keCbB+LeNzCM68n0PMclNi34psfNLCR/L4zknT/HYkHYWQfMeiEAQw==
+X-Received: by 2002:a17:907:72c2:b0:a4e:2570:ff56 with SMTP id du2-20020a17090772c200b00a4e2570ff56mr10325798ejc.0.1712678145523;
+        Tue, 09 Apr 2024 08:55:45 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id qx3-20020a170906fcc300b00a4e26377bf1sm5908338ejb.175.2024.04.09.08.51.03
+        by smtp.gmail.com with ESMTPSA id j20-20020a170906255400b00a51cd604c4bsm3476656ejb.149.2024.04.09.08.55.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 08:51:05 -0700 (PDT)
-Message-ID: <cd49aa86-49b8-4a06-ba0c-8cacfa34eb3f@linaro.org>
-Date: Tue, 9 Apr 2024 17:51:03 +0200
+        Tue, 09 Apr 2024 08:55:45 -0700 (PDT)
+Message-ID: <481abafd-33af-44a6-8460-068b4a85d764@linaro.org>
+Date: Tue, 9 Apr 2024 17:55:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,8 +77,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
+Subject: Re: [PATCH v3 03/18] ASoC: dt-bindings: mt6357: Add audio codec
+ document
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -97,7 +97,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-2-16bb2c974c55@baylibre.com>
+ <20240226-audio-i350-v3-3-16bb2c974c55@baylibre.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -144,43 +144,105 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v3-2-16bb2c974c55@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v3-3-16bb2c974c55@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/04/2024 15:42, Alexandre Mergnat wrote:
-> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+> Add MT8365 audio codec bindings to set required
+> and optional voltage properties between the codec and the board.
+> The properties are:
+> - phandle of the requiered power supply.
+
+typo
+
+> - Setup of microphone bias voltage.
+> - Setup of the speaker pin pull-down.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  .../devicetree/bindings/sound/mt6357.yaml          | 54 ++++++++++++++++++++++
 
+Filename using compatible syntax, so missing vendor prefix.
 
-> +patternProperties:
-> +  "^dai-link-[0-9]+$":
-> +    type: object
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/mt6357.yaml b/Documentation/devicetree/bindings/sound/mt6357.yaml
+> new file mode 100644
+> index 000000000000..381cb71b959f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mt6357.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mt6357.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT6357 Codec
+> +
+> +maintainers:
+> +  - Alexandre Mergnat <amergnat@baylibre.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  This is the required and optional voltage properties for this subdevice.
+> +  The communication between MT6357 and SoC is through Mediatek PMIC wrapper.
+> +  For more detail, please visit Mediatek PMIC wrapper documentation.
+> +  Must be a child node of PMIC wrapper.
+
+Why?
+
+> +
+> +properties:
+> +
+
+Drop blank line
+
+> +  mediatek,hp-pull-down:
 > +    description:
-> +      Container for dai-link level properties and CODEC sub-nodes.
+> +      Earphone driver positive output stage short to
+> +      the audio reference ground.
+> +    type: boolean
 > +
-> +    properties:
-> +      codec:
-> +        type: object
-> +        description: Holds subnode which indicates codec dai.
+> +  mediatek,micbias0-microvolt:
+> +    description: Selects MIC Bias 0 output voltage.
+> +    enum: [1700000, 1800000, 1900000, 2000000,
+> +           2100000, 2500000, 2600000, 2700000]
+> +    default: 1700000
 > +
-> +        properties:
-> +          sound-dai:
-> +            maxItems: 1
-> +            description: phandle of the codec DAI
+> +  mediatek,micbias1-microvolt:
+> +    description: Selects MIC Bias 1 output voltage.
+> +    enum: [1700000, 1800000, 1900000, 2000000,
+> +           2100000, 2500000, 2600000, 2700000]
+> +    default: 1700000
 > +
-> +        additionalProperties: false
-> +
-> +      link-name:
-> +        description:
-> +          This property corresponds to the name of the BE dai-link to which
-> +          we are going to update parameters in this node.
-> +        items:
-> +          const: 2ND_I2S_BE
+> +  mediatek,vaud28-supply:
+> +    description: 2.8 volt supply phandle for the audio codec
 
-What is the type of link-name? Why is it fixed? How can you have here
-multiple dai links if all of them must have the same name?
+Supplies go without vendor prefixes.
+
+> +
+> +required:
+> +  - mediatek,vaud28-supply
+
+That's basically no-op schema. I do not understand what you are trying
+to achieve here.
+
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    codec {
+> +        mediatek,micbias0-microvolt = <1900000>;
+> +        mediatek,micbias1-microvolt = <1700000>;
+> +        mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
+
+Sorry, this does not work. Change voltage to 1111111 and check the results.
 
 Best regards,
 Krzysztof
