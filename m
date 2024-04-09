@@ -1,58 +1,85 @@
-Return-Path: <linux-media+bounces-8906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732D489D906
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 14:15:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADEF89D9FE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 15:21:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B040B28D30
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 12:14:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EF5C1F21D72
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 13:21:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F90512BF2D;
-	Tue,  9 Apr 2024 12:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F77112F36D;
+	Tue,  9 Apr 2024 13:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u902tTqa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0Ql4poq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960B880043;
-	Tue,  9 Apr 2024 12:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3D58287F
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 13:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712664877; cv=none; b=MrNwF+ZXKV1ecYaBDNKY9C4pSzdBcy7EwNBh4ldRQsl6V1fi/cZcff2H8nCQOZWrShxE9vvmsJ+ihJ+/uJHQu2o72RUXQXd0x7iTmb7FSfwc+IMcWkziQ7gVoX07/QLGv/TQmZo4YcIukgyXzYFM91Nt6wvr5QngPfmQ5KMIhtE=
+	t=1712668885; cv=none; b=u5wjUh0yWgtzXTJ95wwRxFM8CB9p5hGLZv0GT8Io6BdP97uueLFAkb3A0l2zQBHyHwNrGNtIUb6jeachW6WkdS/hqc+1oQVmGsNJ+Os9dSuMxV6RHwc8xWLECDKVyMyjIz5OyVz2ejeFStYmdh8AqFC4yvydl/jUMGvx1kOjfCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712664877; c=relaxed/simple;
-	bh=b6JwoQx9iqUWXaUmbAB3ya+MdSagj6m7QwNqt/Lxn+M=;
+	s=arc-20240116; t=1712668885; c=relaxed/simple;
+	bh=ToplDtg4PkPUc0nzrfvNlW/I/rNmUehSQdiCvO3KuFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y03JYXo46y0M8bPpxJLBA2J0lcByBD2ilaBQPD4PGMd3dxJlOuKB1nbui8jg42Le4qNwgg0HTm7XPzUlZc6HLr7GBvyb/YNYY/2Iblu9IfRVT337H3iOo1TL84QpLRGhiBQ1cL5UJt2A5hJq9YcyDFH5jW2ybIPL0R3HSGQ2j38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u902tTqa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEDB2C43390;
-	Tue,  9 Apr 2024 12:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712664877;
-	bh=b6JwoQx9iqUWXaUmbAB3ya+MdSagj6m7QwNqt/Lxn+M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u902tTqa9EOdqFofkXIH03QWbKFlfzdl79ctoI6PXU2cx/k7Vw+be+EmYpYeTUrUt
-	 ccjnEo8OLYsrdcWQCASKWCOdiddtPXPYptPTRTmYncwtUObdct1DS/WtYd7v7utmQa
-	 anctvW8YG0B3/n3nD5YB/4lWA+In/P+Rtb/85p0k=
-Date: Tue, 9 Apr 2024 14:14:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pascal FONTAIN <Pascal.FONTAIN@bachmann.info>
-Cc: linux-kernel@vger.kernel.org, Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	afd@ti.com, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 2/2] misc: sram: Add DMA-BUF Heap exporting of SRAM
- areas
-Message-ID: <2024040944-flashcard-tribune-6a8e@gregkh>
-References: <20240409120605.4138472-1-Pascal.FONTAIN@bachmann.info>
- <20240409120605.4138472-3-Pascal.FONTAIN@bachmann.info>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lmr9dKnnwmhA5oiwWfjR3HjB/0TXEIAJ6hVJp34J9sYcDSm93I9hCZWjBegosnX2ZImm2YoDm/IvK3M6CH306wWWscJ4CUwHI8QUOPWB1rAf6fSOt+wfl7VDJ6oS+oJUVyMRz/tXfBGdR6UctA3IBS4eJyxiWKrDDEl0UYdsAfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X0Ql4poq; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712668883; x=1744204883;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ToplDtg4PkPUc0nzrfvNlW/I/rNmUehSQdiCvO3KuFw=;
+  b=X0Ql4poqlkfTGBEmLbY55a8pugJr5fk0tMN2CDLVSWKFCFVa1YlNaE6n
+   /rb+XAf1sbeOu5CEMRME7J1vGM6jPKDCcuNlNn6/txoS9WJ8c8YF1IDKj
+   2S7H4FQh4gZzbyoiYBTDyEhxaxJb2wHRIxo3Egq2LmQc+a7//Jcrvx6LL
+   HGnotmJmJ5DBGusGC7HfeS7MZR08iGcJuibJbixGPOnAeFzITDeCieTqO
+   rZ0UPSIlA2hIfSljYXrxzW0MWJC9EAwmrJ2RdHEuK3B1PZUFnRbLQ++Ny
+   A2cD6P7LKG81kwYhx5ibPVEpBzw7NEVw46AtTsrJwKuPVXiCurhjO+PUs
+   w==;
+X-CSE-ConnectionGUID: 2r/mzKaRRzeRyDRRsjAeqA==
+X-CSE-MsgGUID: DAkV3MVEQd+JcuV4V0u66w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8136965"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="8136965"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:21:21 -0700
+X-CSE-ConnectionGUID: Vf8847/kTsqSZCGzmbNEfw==
+X-CSE-MsgGUID: eILwEUD/S22W6FwzUD2J4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="57683873"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 06:21:19 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 60E8A120433;
+	Tue,  9 Apr 2024 16:21:16 +0300 (EEST)
+Date: Tue, 9 Apr 2024 13:21:16 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, bingbu.cao@intel.com,
+	hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 36/38] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+ sub-device routing flag
+Message-ID: <ZhVAzBX6udgWZQcs@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-37-sakari.ailus@linux.intel.com>
+ <9265171e-b4a7-468e-83b4-51af5e8823dc@ideasonboard.com>
+ <ZfFYJTkwld-WIh5Y@kekkonen.localdomain>
+ <20240321170308.GK9582@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,50 +88,109 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240409120605.4138472-3-Pascal.FONTAIN@bachmann.info>
+In-Reply-To: <20240321170308.GK9582@pendragon.ideasonboard.com>
 
-On Tue, Apr 09, 2024 at 02:06:05PM +0200, Pascal FONTAIN wrote:
-> From: Andrew Davis <afd@ti.com>
+Hi Laurent,
+
+On Thu, Mar 21, 2024 at 07:03:08PM +0200, Laurent Pinchart wrote:
+> Hello,
 > 
-> This new export type exposes to userspace the SRAM area as a DMA-BUF
-> Heap,
-> this allows for allocations of DMA-BUFs that can be consumed by various
-> DMA-BUF supporting devices.
+> On Wed, Mar 13, 2024 at 07:39:17AM +0000, Sakari Ailus wrote:
+> > On Wed, Mar 13, 2024 at 09:34:13AM +0200, Tomi Valkeinen wrote:
+> > > On 13/03/2024 09:25, Sakari Ailus wrote:
+> > > > Add a flag to denote immutable routes, V4L2_SUBDEV_ROUTE_FL_IMMUTABLE.
+> > > > Such routes cannot be changed and they're always active.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >   Documentation/userspace-api/media/v4l/dev-subdev.rst         | 3 ++-
+> > > >   .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
+> > > >   include/uapi/linux/v4l2-subdev.h                             | 5 +++++
+> > > >   3 files changed, 12 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > index 08495cc6f4a6..2f2423f676cf 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > @@ -572,7 +572,8 @@ internal pad always has a single stream only (0).
+> > > >   Routes from an internal source pad to an external source pad are typically not
+> > > >   modifiable but they can be activated and deactivated using the
+> > > >   :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> > > > -on driver capabilities.
+> > > > +on driver capabilities. This capatibility is indicated by the
+> > > > +:ref:`V4L2_SUBDEV_ROUTE_FL_IMMUTABLE <v4l2-subdev-routing-flags>` flag.
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> Tested-by: Pascal Fontain <pascal.fontain@bachmann.info>
+> That's not very clear, it sounds like V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+> indicates that the route can be enabled/disabled. I'd rewrite this.
 
-When sending on a patch from someone else, you too must sign off on it
-as per our documenation.  Please read it and understand what you are
-agreeing to when you do that for a new version please.
+I'll use instead:
 
-> ---
->  drivers/misc/Kconfig         |   7 +
->  drivers/misc/Makefile        |   1 +
->  drivers/misc/sram-dma-heap.c | 246 +++++++++++++++++++++++++++++++++++
->  drivers/misc/sram.c          |   6 +
->  drivers/misc/sram.h          |  16 +++
->  5 files changed, 276 insertions(+)
->  create mode 100644 drivers/misc/sram-dma-heap.c
+The :ref:`V4L2_SUBDEV_ROUTE_FL_IMMUTABLE <v4l2-subdev-routing-flags>` flag
+indicates that the ``V4L2_SUBDEV_ROUTE_FLAG_ACTIVE`` of the route may not
+be unset.
+
 > 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 9e4ad4d61f06..e6674e913168 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -448,6 +448,13 @@ config SRAM
->  config SRAM_EXEC
->  	bool
->  
-> +config SRAM_DMA_HEAP
-> +	bool "Export on-chip SRAM pools using DMA-Heaps"
-> +	depends on DMABUF_HEAPS && SRAM
-> +	help
-> +	  This driver allows the export of on-chip SRAM marked as both pool
-> +	  and exportable to userspace using the DMA-Heaps interface.
+> > > >   Interaction between routes, streams, formats and selections
+> > > >   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > index 08b8d17cef3f..cd7735f9104e 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > @@ -139,6 +139,11 @@ Also ``VIDIOC_SUBDEV_S_ROUTING`` may return more route than the user provided in
+> > > >       * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > >         - 0x0001
+> > > >         - The route is enabled. Set by applications.
+> > > > +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+> > > > +      - 0x0002
+> > > > +      - The route is immutable. Set by the driver. The
+> > > > +	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
+> > > > +	changed.
+> 
+> May not be changed and will always be set ?
 
-What will use this in userspace?
+How about "may not be unset"?
 
-thanks,
+> 
+> > > >   Return Value
+> > > >   ============
+> > > > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> > > > index ca543982460c..7e501cb45e4e 100644
+> > > > --- a/include/uapi/linux/v4l2-subdev.h
+> > > > +++ b/include/uapi/linux/v4l2-subdev.h
+> > > > @@ -200,6 +200,11 @@ struct v4l2_subdev_capability {
+> > > >    * on a video node.
+> > > >    */
+> > > >   #define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1U << 0)
+> > > > +/*
+> > > > + * Is the route immutable. The ACTIVE flag of an immutable route may not be
+> > > > + * changed.
+> > > > + */
+> > > > +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
+> > > >   /**
+> > > >    * struct v4l2_subdev_route - A route inside a subdev
+> > > 
+> > > Is the route fully immutable? The sink/source stream ID cannot be changed
+> > > (or any new fields we might come up with in the future)?
+> > 
+> > I think the new fields should be considered separately when they're added.
+> > This also applies to the stream IDs, I'll add this to the documentation.
+> > 
+> > The naming of the flag is aligned with MC link flag with a similar purpose.
+> > 
+> > > Hmm, or would a route with different stream IDs be a, well, different
+> > > route...
+> > > 
+> > > The docs here only talk about the ACTIVE flag. Would
+> > > V4L2_SUBDEV_ROUTE_FL_ALWAYS_ACTIVE be a better name, to be more explicit on
+> > > the meaning?
+> > 
+> > I prefer immutable. I wonder what Laurent and Hans think.
+> 
+> I'm fine with either. IMMUTABLE is shorter, if that makes a difference.
+> 
 
-greg k-h
+-- 
+Kind regards,
+
+Sakari Ailus
 
