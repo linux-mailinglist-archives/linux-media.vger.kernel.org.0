@@ -1,181 +1,347 @@
-Return-Path: <linux-media+bounces-8874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DDB89D394
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 09:52:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6318189D3E3
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 10:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E238B2844AA
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 07:52:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5C351F246DE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 08:13:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C279C7CF17;
-	Tue,  9 Apr 2024 07:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 395437E58C;
+	Tue,  9 Apr 2024 08:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hTKWcnO4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UW2oOX5k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016397D3EC
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 07:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712649166; cv=pass; b=kiI+aBOwizMfI9ZLYraUfPiQANZcGr54aGNWQd6TsLqxfhrKKmJsIVH+p8VBpPrONrJtAhhmJ0D2LEI1v31cB1zHgthS/6VEA1HjhvQaRoPbeG+ce2bR4nsxqGdRj9RX8JX/oFd/rxmKd/6+RHAAb7Y2hO7hrObqJe9feubuy8w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712649166; c=relaxed/simple;
-	bh=ASyb0yp058X5KP8FlMaj0y+a2ZG3KH606C20d7M+K6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iQN4MTxjubVMe3tkn4CkgZ3ItI86Hx+RKXoVBPDcGyGzM3qTFaQr8BUntV1VPTuCz8IDKU4zW55P9I2BfseIzlsOd2I79M2WNW6tMatSeqIEK5a9fbsVx6UYHLsHwf4ENOSympO36oYdCor9cybhYUc2XNEuMlBu6BVNIzmMo7Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hTKWcnO4; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VDJ8h1D1kz49Pyv;
-	Tue,  9 Apr 2024 10:52:36 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1712649156;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+tzqvZTgdEhSXTfEBGtXIh5dovqbo/maknSFzQR8ax8=;
-	b=hTKWcnO4iq/n/9z1OlLdVNEaUZxPBKldtbbLFEFiMa4gxDzhEViSvaNrTcE80dyM2hcDVA
-	oEXzcK6/HxRQBsHrJ1M+O+VF3jkclMDBIGCyuFIse5V7WweCgh7f/QumxlBJQyBOLVCuCP
-	nOUixcKXJcoxTmYs1qeO/zpPivtG/+dAzSNvDe+neKb0qHNtV5LJ3Kulfotf1bYaqsJ/HB
-	KpUTWYml65bw8i0qVIVEjzK8fIzihFvjq+mVC8FnydYALgYTNd2lENn7HLDFjvRYp8o+QM
-	ejnFhZivYvYznaStEQX5DM3yexMdRm4oiWNcXa+5BUk37z0vaW+00sRy8FfQaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1712649156;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+tzqvZTgdEhSXTfEBGtXIh5dovqbo/maknSFzQR8ax8=;
-	b=pncSu90+djpB1iApV6WhzHOGj2AN3ogTED/fwcgQgkOOye06I5m6YHPgUrBSLGNEuuR8Hj
-	Pe4/InR1EwjB0LHYhIwRRRLPUanMH7UwUOosbKHKHbHTvzOUIRt4HX3+PHgAG7XPVUi4EO
-	NfI3l+/rTm2riVktYG7dgYkazKDOE7gp9jvQVuygW1axuLgIsAS24cImuRI7/12+/YdTCB
-	7cUkvi+zhrL8b1WdaV7woZQhN+Wgvbjj3+foeVsN0m7if9rTWJhnrllK18wLrD2VHVmgUy
-	xnbylPBCJCBVF6R9783OCaTainGLymSGkYr1UV6WG40Dc6xbZ8Mh3E8aqmE5EQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1712649156; a=rsa-sha256;
-	cv=none;
-	b=LFWNt5toID6J87gemlpVbsrL1B99oWxZ73QQu+Cna5wUVR+GAZ93K7yPYw+upkg4E7ckZH
-	3pk3dP3louMGKL/g8Zy1yhe8ZI+1HMhkD9E+4nXWppR/FWw0WvSbnOIHFCL8IbYY0C1LWb
-	s4nMIJcA6a71Ap6kmPkybyR8bC3Vp9Qrw2Q3USdvOev1x3p9D5CG0ttZRBhkUjUnr/6qdP
-	jqck8ui3ID6UgsSuS6+Lp6KenXSWtmcbjuBSr1c5xWH5on9LMZZbcbhHlq++8oKy10Ltt3
-	TlCcmLPKkLRBCX+Vw1BNeT/nQbaTl1uRHy+sU2aq5vKOmiThHJJrtxpRERYI/g==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 91ED3634C96;
-	Tue,  9 Apr 2024 10:52:35 +0300 (EEST)
-Date: Tue, 9 Apr 2024 07:52:35 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR 6.10] Mostly camera related patches
-Message-ID: <ZhTzw2ZG-7zxdJJB@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF11E7E0FF;
+	Tue,  9 Apr 2024 08:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712650331; cv=none; b=ququOUQRGrwMNAvtVo7xIaHOGjjdMy9tmh4Eym0/relSRaEz0i1Np/TC6bA1BEJLUXnjT4reg8fJAQo9HRmOmAgz6lJJJUuReNNWUZfA4ukhzbFkkhaGUVT8eZbIRIcgSlv6UeQjtkD8zhEAvdNulltrv8QBLjbsSsipmSeJmWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712650331; c=relaxed/simple;
+	bh=nZo2wMb32ghNIpPxrtuiDRI8kma8KvKCG7s1wLtjRws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J95uHZWnbUupGRHDSW1VEUDtrZZPHQYsY387FNl2RywmEbrivNKnXwH6Gssy/OcypDp/2wL6WHJPSRq3mydZ6l6R9e0I63SsybeGE4Ctf+k247OHq3WstRUEwmh0psXdJv1UuXeM9AlnrsP8utd+TqFGDAZ4NSAuUDh5nSwFBLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UW2oOX5k; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-516a01c8490so5284624e87.1;
+        Tue, 09 Apr 2024 01:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712650328; x=1713255128; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UKRbDg+hptmOInjg61uPR9fJTiU7+0+1LuZmHDST6ok=;
+        b=UW2oOX5k9XbpsiOJ57iETZOULj43hA+uxGM/yW0NMXl+bprJy5SFvwHe5RpjACbekv
+         HVCBfggwfYRwGwT31HU7fxCn1jUAhy+CHR24AuXKukjHJLqbCR+gzFPwQxdv1C5Pmu2y
+         nOe7yWvC7hh1ULPbvE3jyfDarMFbU7WYGXMZRXrTmlPsdvRuy+74AD4x+wnsFHU6yhiz
+         KfFlyuGIZU0a6AUiajaQ/ZJIrCIL+6ndJig1WbV1UzdUZXiZO19kiV4Z92Uz4K3vikFl
+         iobQB3AJMGoWTvvVDKj2PyIkuE7N+q501KW9C6obNWIHvYepwBh4+glhlMzFwneoaoaY
+         bkxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712650328; x=1713255128;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UKRbDg+hptmOInjg61uPR9fJTiU7+0+1LuZmHDST6ok=;
+        b=dI39/oA9EO5eWN5ubbeKWePKWt6SI+ZeZiGV7fT0lzgY6e78bBhkZhdrSlqBB/jMl/
+         eUj8urZPfxsd2Ux5Zb92IjIhZzduWBejUBdQyQYI5a3q+EadE9q9G0vax25POkPcWni8
+         cECyOEnfhQpJbrBsu70u2VlmYAnIJAklMHZS5lAozafwV+kwptURhcS9zDJMDSB2TLAf
+         EzwH8vgbxU/ppwA8chva1Mr4RYDJWST4NfaJFJtKgcqS1a2vKOKiXsb2HvdQngzSQNS9
+         dm2e7Nru3vEm28PFOBLovpv062gtlJWY+4TIzqp2YWNxK/4UKz3flJ/tQ1NYSU+s7ayu
+         JD3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXhHMfJYsDSa61gwVEw362L/o6CWGVtYxhPGLgzqiwnbazk+Ic12Svyu64X9ANsCwGBkOdC0vKZHI8kJVVlUwWJCjsBx7fRA5j4sVoZtZJoxdJzmt7BVR4KveU8yS9LV4H/T9XYrRJ1NDs=
+X-Gm-Message-State: AOJu0YyZlpcqtLOLgnxIRqMmkHOsUn9iDWy1vwLqPb/pt8DxsONWVR9l
+	JsgKA5dgFSsHHTxekeg1PExHC61pjQJmYKuFH77QvAZ09bdSpLpT
+X-Google-Smtp-Source: AGHT+IE1K5DTT9Bzs+eYNZ+5d4vEmMPmrMuCSIFcsczs2jcVdVG9PJoOrBo8ds8I7I9Dw7XHpPH3Dg==
+X-Received: by 2002:ac2:5309:0:b0:516:c8c3:60cf with SMTP id c9-20020ac25309000000b00516c8c360cfmr672960lfh.18.1712650327694;
+        Tue, 09 Apr 2024 01:12:07 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id a7-20020ac25207000000b00516c0e178fbsm1486056lfl.282.2024.04.09.01.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 01:12:07 -0700 (PDT)
+Date: Tue, 9 Apr 2024 11:12:05 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: RE: [PATCH v3 4/5] media: chips-media: wave5: drop "sram-size"
+ DT prop
+Message-ID: <zrwlu2e2slf7g4izorqbzwahysz6a3diux6zjyfmgtkofzdpuj@cvfl4kqhzvef>
+References: <20240405164112.24571-1-brnkv.i1@gmail.com>
+ <20240405164112.24571-5-brnkv.i1@gmail.com>
+ <SE1P216MB130327BE82553DA3F34BBF17ED072@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <SE1P216MB130327BE82553DA3F34BBF17ED072@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
 
-Hi Hans, Mauro,
+Hi, Jackson
 
-Here's a bunch of patches for 6.10.
+On Tue, Apr 09, 2024 at 04:50:15AM +0000, jackson.lee wrote:
+> Hey Ivan
+> 
+> > -----Original Message-----
+> > From: Ivan Bornyakov <brnkv.i1@gmail.com>
+> > Sent: Saturday, April 6, 2024 1:41 AM
+> > To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+> > <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>;
+> > Philipp Zabel <p.zabel@pengutronix.de>; Sebastian Fricke
+> > <sebastian.fricke@collabora.com>
+> > Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
+> > linux-kernel@vger.kernel.org
+> > Subject: [PATCH v3 4/5] media: chips-media: wave5: drop "sram-size" DT
+> > prop
+> > 
+> > Move excessive "sram-size" device-tree property to device match data.
+> > Also change SRAM memory allocation strategy: instead of allocation exact
+> > sram_size bytes, allocate all available SRAM memory up to sram_size.
+> > Add placeholders wave5_vpu_dec_validate_sec_axi() and
+> > wave5_vpu_enc_validate_sec_axi() for validation that allocated SRAM memory
+> > is enough to decode/encode bitstream of given resolution.
+> > 
+> > Signed-off-by: Ivan Bornyakov <brnkv.i1@gmail.com>
+> > ---
+> >  .../platform/chips-media/wave5/wave5-hw.c     | 62 +++++++++++++++++--
+> >  .../platform/chips-media/wave5/wave5-vdi.c    | 21 ++++---
+> >  .../platform/chips-media/wave5/wave5-vpu.c    | 11 ++--
+> >  3 files changed, 72 insertions(+), 22 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> > b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> > index cdd0a0948a94..36f2fc818013 100644
+> > --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> > +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> > @@ -843,6 +843,36 @@ int wave5_vpu_dec_register_framebuffer(struct
+> > vpu_instance *inst, struct frame_b
+> >  	return ret;
+> >  }
+> > 
+> > +static u32 wave5_vpu_dec_validate_sec_axi(struct vpu_instance *inst) {
+> > +	struct dec_info *p_dec_info = &inst->codec_info->dec_info;
+> > +	u32 bit_size = 0, ip_size = 0, lf_size = 0, ret = 0;
+> 
+> The bit_size, ip_size and 1f_size is always 0? If so, why are you using them ?
+> 
 
-Quite a few are actually fixes this time, there are a few fixes for the
-V4L2 async framework changes that went in for 6.6 already, an MC graph walk
-fix from Tomi, also cc'ing stable for 6.1 and later. More fixes for the
-ov2680 DT bindings, IPU3-CIO2 and et8ek8 drivers and removal of obsolete
-e-mail addresses.
+Since I don't have documentation on Wave521, this is a placeholder for
+someone who have documentation to write proper SRAM size validation,
+hence TODO comment.
 
-Please pull.
+In the next patch "media: chips-media: wave5: support Wave515 decoder"
+I added validation of SRAM usage for Wave515, for which I do have
+documentation.
 
+> 
+> > +	u32 sram_size = inst->dev->sram_size;
+> > +
+> > +	if (!sram_size)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * TODO: calculate bit_size, ip_size, lf_size from inst-
+> > >src_fmt.width
+> > +	 * and inst->codec_info->dec_info.initial_info.luma_bitdepth
+> > +	 */
+> > +
+> > +	if (p_dec_info->sec_axi_info.use_bit_enable && sram_size >=
+> > bit_size) {
+> > +		ret |= BIT(0);
+> > +		sram_size -= bit_size;
+> > +	}
+> > +
+> > +	if (p_dec_info->sec_axi_info.use_ip_enable && sram_size >= ip_size)
+> > {
+> > +		ret |= BIT(9);
+> > +		sram_size -= ip_size;
+> > +	}
+> > +
+> > +	if (p_dec_info->sec_axi_info.use_lf_row_enable && sram_size >=
+> > lf_size)
+> > +		ret |= BIT(15);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  int wave5_vpu_decode(struct vpu_instance *inst, u32 *fail_res)  {
+> >  	u32 reg_val;
+> > @@ -855,9 +885,7 @@ int wave5_vpu_decode(struct vpu_instance *inst, u32
+> > *fail_res)
+> >  	vpu_write_reg(inst->dev, W5_BS_OPTION,
+> > get_bitstream_options(p_dec_info));
+> > 
+> >  	/* secondary AXI */
+> > -	reg_val = p_dec_info->sec_axi_info.use_bit_enable |
+> > -		(p_dec_info->sec_axi_info.use_ip_enable << 9) |
+> > -		(p_dec_info->sec_axi_info.use_lf_row_enable << 15);
+> > +	reg_val = wave5_vpu_dec_validate_sec_axi(inst);
+> >  	vpu_write_reg(inst->dev, W5_USE_SEC_AXI, reg_val);
+> > 
+> >  	/* set attributes of user buffer */
+> > @@ -1938,6 +1966,31 @@ int wave5_vpu_enc_register_framebuffer(struct
+> > device *dev, struct vpu_instance *
+> >  	return ret;
+> >  }
+> > 
+> > +static u32 wave5_vpu_enc_validate_sec_axi(struct vpu_instance *inst) {
+> > +	struct enc_info *p_enc_info = &inst->codec_info->enc_info;
+> > +	u32 rdo_size = 0, lf_size = 0, ret = 0;
+> 
+> The rdo_size and 1f_size is always 0? If so, why are you using them ?
+>
 
-The following changes since commit b82779648dfd3814df4e381f086326ec70fd791f:
+Same as above. It is a placeholder for someone else to implement these.
 
-  Merge tag 'v6.9-rc2' into media_stage (2024-04-01 10:08:18 +0200)
+> > +	u32 sram_size = inst->dev->sram_size;
+> > +
+> > +	if (!sram_size)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * TODO: calculate rdo_size and lf_size from inst->src_fmt.width
+> > and
+> > +	 * inst->codec_info-
+> > >enc_info.open_param.wave_param.internal_bit_depth
+> > +	 */
+> > +
+> > +	if (p_enc_info->sec_axi_info.use_enc_rdo_enable && sram_size >=
+> > rdo_size) {
+> > +		ret |= BIT(11);
+> > +		sram_size -= rdo_size;
+> > +	}
+> > +
+> > +	if (p_enc_info->sec_axi_info.use_enc_lf_enable && sram_size >=
+> > lf_size)
+> > +		ret |= BIT(15);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  int wave5_vpu_encode(struct vpu_instance *inst, struct enc_param *option,
+> > u32 *fail_res)  {
+> >  	u32 src_frame_format;
+> > @@ -1959,8 +2012,7 @@ int wave5_vpu_encode(struct vpu_instance *inst,
+> > struct enc_param *option, u32 *f
+> > 
+> >  	vpu_write_reg(inst->dev, W5_CMD_ENC_PIC_SRC_AXI_SEL,
+> > DEFAULT_SRC_AXI);
+> >  	/* secondary AXI */
+> > -	reg_val = (p_enc_info->sec_axi_info.use_enc_rdo_enable << 11) |
+> > -		(p_enc_info->sec_axi_info.use_enc_lf_enable << 15);
+> > +	reg_val = wave5_vpu_enc_validate_sec_axi(inst);
+> >  	vpu_write_reg(inst->dev, W5_CMD_ENC_PIC_USE_SEC_AXI, reg_val);
+> > 
+> >  	vpu_write_reg(inst->dev, W5_CMD_ENC_PIC_REPORT_PARAM, 0); diff --
+> > git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> > b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> > index 3809f70bc0b4..556de2f043fe 100644
+> > --- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> > +++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> 
+> 
+> The below code is not based on the current upstream code. Where did you get the original code ?
+> 
 
-are available in the Git repository at:
+What do you mean? This patch series is based on the latest linux-next.
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-1.1-signed
-
-for you to fetch changes up to 3a375a90df85acbcc18eaed7be259a24ffd8a172:
-
-  media: v4l2-subdev: Fix stream handling for crop API (2024-04-09 09:30:04 +0300)
-
-----------------------------------------------------------------
-V4L2 patches for 6.10
-
-----------------------------------------------------------------
-Alexander Stein (1):
-      media: v4l: async: Fix notifier list entry init
-
-Bjorn Helgaas (1):
-      media: ipu-cio2: Remove unnecessary runtime PM power state setting
-
-Colin Ian King (1):
-      staging: media: ipu3: remove redundant assignment to pointer css_pipe
-
-Fabio Estevam (4):
-      media: ov2680: Clear the 'ret' variable on success
-      media: ov2680: Allow probing if link-frequencies is absent
-      media: dt-bindings: ovti,ov2680: Fix the power supply names
-      media: dt-bindings: ovti,ov2680: Document link-frequencies
-
-Laurent Pinchart (1):
-      media: v4l2-subdev: Fix stream handling for crop API
-
-Rajeshwar R Shinde (1):
-      staging: media: imx: Remove duplicate Kconfig dependency
-
-Sakari Ailus (8):
-      media: ipu3-cio2: Request IRQ earlier
-      media: mc: Add nop implementations of media_device_{init,cleanup}
-      media: v4l: async: Don't set notifier's V4L2 device if registering fails
-      media: v4l: async: Properly re-initialise notifier entry in unregister
-      media: ov2740: Fix LINK_FREQ and PIXEL_RATE control value reporting
-      media: ipu3-cio2: Update e-mail addresses
-      media: dw9714: Update e-mail addresses
-      staging: media: ipu3-imgu: Update e-mail addresses
-
-Tomi Valkeinen (1):
-      media: mc: Fix graph walk in media_pipeline_start
-
-Uwe Kleine-König (1):
-      media: i2c: et8ek8: Don't strip remove function when driver is builtin
-
- .../devicetree/bindings/media/i2c/ovti,ov2680.yaml | 35 +++++++++++++++-------
- drivers/media/i2c/dw9714.c                         |  6 ++--
- drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +--
- drivers/media/i2c/ov2680.c                         | 10 +++++--
- drivers/media/i2c/ov2740.c                         | 11 +++----
- drivers/media/mc/mc-entity.c                       |  6 ++++
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           | 29 ++++++------------
- drivers/media/pci/intel/ipu3/ipu3-cio2.h           |  4 ---
- drivers/media/v4l2-core/v4l2-async.c               | 12 +++-----
- drivers/media/v4l2-core/v4l2-subdev.c              |  2 ++
- drivers/staging/media/imx/Kconfig                  |  1 -
- drivers/staging/media/ipu3/ipu3-css.c              |  1 -
- drivers/staging/media/ipu3/ipu3.c                  |  6 ++--
- include/media/media-device.h                       |  6 ++++
- 14 files changed, 74 insertions(+), 59 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
+> > @@ -174,16 +174,19 @@ int wave5_vdi_allocate_array(struct vpu_device
+> > *vpu_dev, struct vpu_buf *array,  void wave5_vdi_allocate_sram(struct
+> > vpu_device *vpu_dev)  {
+> >  	struct vpu_buf *vb = &vpu_dev->sram_buf;
+> > +	dma_addr_t daddr;
+> > +	void *vaddr;
+> > +	size_t size;
+> > 
+> > -	if (!vpu_dev->sram_pool || !vpu_dev->sram_size)
+> > +	if (!vpu_dev->sram_pool || vb->vaddr)
+> >  		return;
+> > 
+> > -	if (!vb->vaddr) {
+> > -		vb->size = vpu_dev->sram_size;
+> > -		vb->vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, vb->size,
+> > -					       &vb->daddr);
+> > -		if (!vb->vaddr)
+> > -			vb->size = 0;
+> > +	size = min_t(size_t, vpu_dev->sram_size, gen_pool_avail(vpu_dev-
+> > >sram_pool));
+> > +	vaddr = gen_pool_dma_alloc(vpu_dev->sram_pool, size, &daddr);
+> > +	if (vaddr) {
+> > +		vb->vaddr = vaddr;
+> > +		vb->daddr = daddr;
+> > +		vb->size = size;
+> >  	}
+> > 
+> >  	dev_dbg(vpu_dev->dev, "%s: sram daddr: %pad, size: %zu, vaddr:
+> > 0x%p\n", @@ -197,9 +200,7 @@ void wave5_vdi_free_sram(struct vpu_device
+> > *vpu_dev)
+> >  	if (!vb->size || !vb->vaddr)
+> >  		return;
+> > 
+> > -	if (vb->vaddr)
+> > -		gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr,
+> > -			      vb->size);
+> > +	gen_pool_free(vpu_dev->sram_pool, (unsigned long)vb->vaddr, vb-
+> > >size);
+> > 
+> >  	memset(vb, 0, sizeof(*vb));
+> >  }
+> > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > index 1e631da58e15..9e93969ab6db 100644
+> > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > @@ -25,6 +25,7 @@
+> >  struct wave5_match_data {
+> >  	int flags;
+> >  	const char *fw_name;
+> > +	u32 sram_size;
+> >  };
+> > 
+> >  int wave5_vpu_wait_interrupt(struct vpu_instance *inst, unsigned int
+> > timeout) @@ -177,17 +178,12 @@ static int wave5_vpu_probe(struct
+> > platform_device *pdev)
+> >  		goto err_reset_assert;
+> >  	}
+> > 
+> > -	ret = of_property_read_u32(pdev->dev.of_node, "sram-size",
+> > -				   &dev->sram_size);
+> > -	if (ret) {
+> > -		dev_warn(&pdev->dev, "sram-size not found\n");
+> > -		dev->sram_size = 0;
+> > -	}
+> > -
+> >  	dev->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> >  	if (!dev->sram_pool)
+> >  		dev_warn(&pdev->dev, "sram node not found\n");
+> > 
+> > +	dev->sram_size = match_data->sram_size;
+> > +
+> >  	dev->product_code = wave5_vdi_read_register(dev,
+> > VPU_PRODUCT_CODE_REGISTER);
+> >  	ret = wave5_vdi_init(&pdev->dev);
+> >  	if (ret < 0) {
+> > @@ -281,6 +277,7 @@ static void wave5_vpu_remove(struct platform_device
+> > *pdev)  static const struct wave5_match_data ti_wave521c_data = {
+> >  	.flags = WAVE5_IS_ENC | WAVE5_IS_DEC,
+> >  	.fw_name = "cnm/wave521c_k3_codec_fw.bin",
+> > +	.sram_size = (64 * 1024),
+> >  };
+> > 
+> >  static const struct of_device_id wave5_dt_ids[] = {
+> > --
+> > 2.44.0
+> 
 
