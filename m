@@ -1,162 +1,183 @@
-Return-Path: <linux-media+bounces-8945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C8289E09A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 18:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DBE89E0D5
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 18:53:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22E1F1F22081
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 16:37:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95FA11F22694
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 16:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F679153589;
-	Tue,  9 Apr 2024 16:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57476FCB;
+	Tue,  9 Apr 2024 16:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uGGXWA65"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="HQMi2ym3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82623153575
-	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 16:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328601509B4
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 16:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712680642; cv=none; b=L247r7B8ws3+btLFVb+y0Jj36KKpF3RG6adL/N5e+h6WOxg0/6r+NYPclr/6IlAE3t6GTQ7xoful/TP4RWvjBn2UUwgjI3fhVnQwqHC7j6UCdPP8xfBT7iONoQX3Pahe2MCq0rJRpCFwxAVquzxzIWdF7STKSRzMFmTXKLtobRU=
+	t=1712681600; cv=none; b=EIjpgsJ0G1A7+9YYoZsTg2q9sOaavLB9hfQstsJyU9Q9ZNBQ3DR1pXQ+dcJbMkC2ym89tm9L0sNWKUOOqFzAIT4nO1uFFBfqxeEPUwUOGAz/UWXjlpc48809Ef1b5yi5b0yipUmartu0UnSiXMO6YQEI49ZasYfWrlbiy75IILM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712680642; c=relaxed/simple;
-	bh=HdCPsHozXYwytuqNw0ZGiEDF8p+ZYozg6NI6BJrhggw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tlBV5LIecdTFcvQDJPp/G0jAt/iFevksFkWebH4ubjMr7PUFan28cySSp5cra3rHPahuThe5zokgR4GkE4U8lVOfqpMfpzm70IVJIOGqe1YCJ9wmrxxLX3Yhf35RlnYlht4hO6DexPrsk13/unmQ+JN1hI0vshitF/oyul9imC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uGGXWA65; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso6087802276.2
-        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 09:37:20 -0700 (PDT)
+	s=arc-20240116; t=1712681600; c=relaxed/simple;
+	bh=XW/cKXS47dSToNjHivxJI+dmAvfRUIEI3+x1pyJyZNE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CpUbn4i8DiUs+wnmN6H8dqIHdQc/T3TipJyj6RRC7sY/pHFsRemCfDfwwt9pQAFv9dgcL7aK5V4vdD/NCM5ce2PMaapCSezAlyd1o2PFGG99G02P2xsnqhoQYyozewumZ2LFZ8BOVKdeHWALUVU5SkpjNayRO5z1tL318QGAYFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=HQMi2ym3; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-416c1d6504cso733515e9.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Apr 2024 09:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712680639; x=1713285439; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VWrgc6fSc3w4dKU6IsZCUM+SMdZmjryY3zaMUJ1lg5M=;
-        b=uGGXWA65SXFIIj2rsXWkBxBOk3P8Bnitw0HHVrRv3Y1Pm8FMSQE6N9O2Ax54Bfjusr
-         KPmgw/Bd57hKZkE40jDYgve8SIuxkKTbP6eEs6zTpAMwesNgNjKBpa6Okx5LS7X0y77g
-         3QdzW8HB95QZPmxtT7ot9q0IpM28mQetfoFb9gCZCfBN59nBzFdS2L0XA6B+zxjZAsEa
-         D1hpi2n0MgB7+XCBajpI+c5LTe8j7KCd6iUpNkVeLTpAd6nM1GgtxI+kyG4Uu4314+mn
-         pBDm710ePO9fJ42fOJyURyF2CKocu+y+U8LKpzP67GmyU3rpNcstS/sH8cLQzar3eC+O
-         rLOQ==
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1712681596; x=1713286396; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ks8W5HAhxntR4JTIe7uMyj8tS0eQUNu82PBBacvu4NI=;
+        b=HQMi2ym3L3WU3GsAv2+ZhxiYD3HlLYqkSEWfCN1nCxd5DC1pIzUZdgIN07XO1/VuPd
+         TFXaw9acKIz8ZG1NC7cgrIutkyVMUVcUnsJD6IwcvZoHeUgMbHYNbLbBfl4CV82R+3LM
+         M7HX2isaM9IGeRbAdWa07NM0+DCoBVEnq0LXwnreRRl8WjWnBqkj/PKbenDBKUcIZ97B
+         Ddg3ZPO4SdqZFwzkAriaeaq5LokVO9VJjH0QYptQxKOJPd6/spYbo58K5V62L0ShMj4o
+         Ifln059FWcPw8N1GQRzZRAEUkMQvHrWAfikDtJOzQdrAxoQZKmh0b8nzbK/Si0/5XQCe
+         e+eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712680639; x=1713285439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VWrgc6fSc3w4dKU6IsZCUM+SMdZmjryY3zaMUJ1lg5M=;
-        b=OMcvSAmRXqYTH/xhzqx6OtxxF4Ijr4ZtZJz7QCKfJYSZsOIskxadQ0MsckX27uJiEb
-         2/E23MxXeWW0m1M/FOZ8dz3h0n4kerB1YRzUK66v6qmrBmhPxitC08Sm/RqtZVUfvGG0
-         j52oySCCJseo6/+HKZpDThfb5ZLGVHH7Tf5ZJtRCbk3W06uLKrRg2X/eSjkMIP/UBH5o
-         mBfTZYbCsscESArxjph6bgDpxYDP5iI9n8Dgb01QG1WEoc9EWTr2njjPa4/9QoFLwrf9
-         ZY278HbWAiGivgg0y/GObZiSgb8lTAeGuiVCqzWZoL93Lmt5axz2PxYCL/cKqonzaDzM
-         APdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWroaUPhtK/q0uEP75uhE46qNDKGHWdl2Z0eYdlmrZtgsqRcntdIQDaHCB/insGg1uzfvEmnkJ2VFbdq6IqbkSjT1GFPPFXx9Gr4vM=
-X-Gm-Message-State: AOJu0YwUHtF7wWHEOui/rWML/k6TxHHKK+wh4YmVKlMxvB52eOVdijFJ
-	6INsnkZX6EgecVwDlpnLMAykmHZ8OB70Dn6UwaBy0n4g48SPDXo9ij2TIbHPThH7na6ln0LTGn0
-	LiJOA9F5hrangPOV/eC6EP04j8zyNCEa5QfVI
-X-Google-Smtp-Source: AGHT+IGJRrnZd6GpHhz2e2NeVhdfIMLHOtWWI1dHIs7kshaTz2NJhrtoPZ84nV+L11Kpx9q3bco9EMqTwIkVE14CEDU=
-X-Received: by 2002:a5b:cc8:0:b0:de0:de50:d6d4 with SMTP id
- e8-20020a5b0cc8000000b00de0de50d6d4mr296806ybr.8.1712680639127; Tue, 09 Apr
- 2024 09:37:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712681596; x=1713286396;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ks8W5HAhxntR4JTIe7uMyj8tS0eQUNu82PBBacvu4NI=;
+        b=ct0K48DI6yRvIj3vALraeWFAZ8eyJm7G9NvHeaCCdJYiI6Pn8u/xgeR+SziVTkooRW
+         5pZ5R6ti3dsCq0wcJrkPy10IC746Xn/oJT7mJcbELV9MtI96eJHkLKSz267y2D2UdcvC
+         M5NX+eUECePAt8cgoq6PK2p8HUj57RI/BVt9CMMbMUeSFvDaLNb15PYP4UBniwOAsXt6
+         SqHlTXkbp1Ni0uwBxVV2kW0EbddXxuPvzq5Nm7xj1h/3H+UBkk2OEPjxaFNPg0ASOLS3
+         1g4AOMr+aH4k6o96n/xok22ey1EMn/rDtDOj8bPCaUF4n/vbn++Pi10AZiwbUNH4eBGd
+         55sA==
+X-Gm-Message-State: AOJu0Yy+4e8pvjlov27fZZWxddmg727e0M28WQs3wcf4vAxDc2BCklF1
+	D5tY/JmfG72whAdjSzIMxbXFZwrxSLTbv4ny/HYPquAnbEoOEkQAFnMEYKaYufA=
+X-Google-Smtp-Source: AGHT+IGZENGxoK8eqL3tiI2lcbMjU0HQSyrZoGRxi/80A/BsKuBtiBhdmcvCTEfsoMk+RzF8lx1y8g==
+X-Received: by 2002:a05:600c:19cf:b0:415:691c:f83d with SMTP id u15-20020a05600c19cf00b00415691cf83dmr177952wmq.33.1712681596567;
+        Tue, 09 Apr 2024 09:53:16 -0700 (PDT)
+Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
+        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b004166b960469sm8691750wmq.38.2024.04.09.09.53.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 09:53:15 -0700 (PDT)
+Message-ID: <02a32387-1a30-44cd-b552-6e47023b997d@freebox.fr>
+Date: Tue, 9 Apr 2024 18:53:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
- <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com> <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
- <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com> <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
-In-Reply-To: <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 9 Apr 2024 09:37:07 -0700
-Message-ID: <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
-To: Rong Qianfeng <11065417@vivo.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu <jay.xu@rock-chips.com>, sumit.semwal@linaro.org, 
-	pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media <linux-media@vger.kernel.org>,
+ MSM <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Pierre-Hugues Husson
+ <phh@phh.me>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <CAA8EJpq=G21h87W69_4U-BZ=Sa5VEs15Y-zE-G5x9VxVx4qjsA@mail.gmail.com>
+ <81dc6452-4039-4eb4-92ba-df248215fca2@linaro.org>
+ <b8325dbf-67c5-4898-bc23-ff093ae6e14a@freebox.fr>
+ <87db77f7-fda4-4cf7-adfd-8545c40c3365@linaro.org>
+ <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+ <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+ <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
+ <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
+ <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+ <21b833cf-61c3-4fb5-8c55-492aac0fd3b6@freebox.fr>
+ <8170522f-b813-19a4-3f85-f2880809d9a5@quicinc.com>
+ <c2ce34ce-d532-4039-bb9f-d4d1b2fb23b0@freebox.fr>
+ <09bc9231-0e59-4cb2-a05f-02e2fcaf3d15@linaro.org>
+Content-Language: en-US
+From: Marc Gonzalez <mgonzalez@freebox.fr>
+In-Reply-To: <09bc9231-0e59-4cb2-a05f-02e2fcaf3d15@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 9, 2024 at 12:34=E2=80=AFAM Rong Qianfeng <11065417@vivo.com> w=
-rote:
->
->
-> =E5=9C=A8 2024/4/8 15:58, Christian K=C3=B6nig =E5=86=99=E9=81=93:
-> > Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
-> >> [SNIP]
-> >>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
-> >>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
-> >>>> offset and len.
-> >>>
-> >>> You have not given an use case for this so it is a bit hard to
-> >>> review. And from the existing use cases I don't see why this should
-> >>> be necessary.
-> >>>
-> >>> Even worse from the existing backend implementation I don't even see
-> >>> how drivers should be able to fulfill this semantics.
-> >>>
-> >>> Please explain further,
-> >>> Christian.
-> >> Here is a practical case:
-> >> The user space can allocate a large chunk of dma-buf for
-> >> self-management, used as a shared memory pool.
-> >> Small dma-buf can be allocated from this shared memory pool and
-> >> released back to it after use, thus improving the speed of dma-buf
-> >> allocation and release.
-> >> Additionally, custom functionalities such as memory statistics and
-> >> boundary checking can be implemented in the user space.
-> >> Of course, the above-mentioned functionalities require the
-> >> implementation of a partial cache sync interface.
-> >
-> > Well that is obvious, but where is the code doing that?
-> >
-> > You can't send out code without an actual user of it. That will
-> > obviously be rejected.
-> >
-> > Regards,
-> > Christian.
->
-> In fact, we have already used the user-level dma-buf memory pool in the
-> camera shooting scenario on the phone.
->
->  From the test results, The execution time of the photo shooting
-> algorithm has been reduced from 3.8s to 3s.
->
-For phones, the (out of tree) Android version of the system heap has a
-page pool connected to a shrinker. That allows you to skip page
-allocation without fully pinning the memory like you get when
-allocating a dma-buf that's way larger than necessary. If it's for a
-camera maybe you need physically contiguous memory, but it's also
-possible to set that up.
+On 09/04/2024 13:27, Bryan O'Donoghue wrote:
 
-https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/d=
-rivers/dma-buf/heaps/system_heap.c#377
+> Can you give it a try ?
+
+Random notes
+
+For easy reference, I've used this command to test:
+
+$ mpv --hwdec=v4l2m2m-copy --vo=tct --quiet --no-audio demo-480.webm
+
+And it displays the video directly in the terminal :)
+(Rendering speed depends on terminal size)
+
+I'd never played the video to the end.
+I notice I get:
+
+[  397.410006] qcom-venus cc00000.video-codec: session error: event id:1001 (deadb000), session id:79d7c000
+[  397.410114] qcom-venus-decoder cc00000.video-codec:video-decoder: dec: event session error 1001
+
+How bad is that?
 
 
-> To be honest, I didn't understand your concern "...how drivers should be
-> able to fulfill this semantics." Can you please help explain it in more
-> detail?
->
-> Thanks,
->
-> Rong Qianfeng.
->
-> >
-> >>
-> >> Thanks
-> >> Rong Qianfeng.
-> >
->
+Sometimes, decoding simply fails immediately.
+Must quit & restart.
+Will have to script a 100 starts and check frequency of failures.
+
+
+Will test with higher-resolution video.
+
+# time mpv --hwdec=v4l2m2m-copy --vo=null --quiet --no-audio --untimed demo-480.webm
+ (+) Video --vid=1 (*) (vp9 854x480 29.970fps)
+     Audio --aid=1 --alang=eng (*) (opus 2ch 48000Hz)
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+Using hardware decoding (v4l2m2m-copy).
+VO: [null] 854x480 nv12
+[ffmpeg/video] vp9_v4l2m2m: capture POLLERR
+Exiting... (Quit)
+/*** HANGS UNTIL CTRL-C ***/
+
+real	0m21.467s
+user	0m3.795s
+sys	0m1.914s
+
+
+# time mpv --hwdec=v4l2m2m-copy --vo=null --quiet --no-audio --untimed --length=30 demo-1440.webm 
+ (+) Video --vid=1 (*) (vp9 2560x1440 59.940fps)
+     Audio --aid=1 --alang=eng (*) (opus 2ch 48000Hz)
+[ffmpeg/video] vp9_v4l2m2m: VIDIOC_G_FMT ioctl
+Using hardware decoding (v4l2m2m-copy).
+VO: [null] 2560x1440 nv12
+Exiting... (End of file)
+
+real	0m16.433s
+user	0m1.764s
+sys	0m1.118s
+
+
+Regards
+
 
