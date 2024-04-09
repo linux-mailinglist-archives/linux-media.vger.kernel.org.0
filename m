@@ -1,200 +1,181 @@
-Return-Path: <linux-media+bounces-8873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8874-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C1089D334
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 09:34:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DDB89D394
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 09:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9D531F236E0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 07:34:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E238B2844AA
+	for <lists+linux-media@lfdr.de>; Tue,  9 Apr 2024 07:52:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109BC7E776;
-	Tue,  9 Apr 2024 07:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C279C7CF17;
+	Tue,  9 Apr 2024 07:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="jTCeL9KW"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="hTKWcnO4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2096.outbound.protection.outlook.com [40.107.215.96])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962DC7EEE2;
-	Tue,  9 Apr 2024 07:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016397D3EC
+	for <linux-media@vger.kernel.org>; Tue,  9 Apr 2024 07:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712647961; cv=fail; b=Mr8E7RTPUvZLqPh6Fi4qOsmmh968GlIGNRQ6qrTwf4TopKZPlIu+3Jc+4k8lZXaGIhIWV433uML3Jp38SaskitsaAHf5HD5o7iT/rxZGM7FQafndCig4lPf7DNpwy0NAsYtYrtHUa7ac+4UwprLd0ZrjQ1Uoo0MEXtSotebdnpE=
+	t=1712649166; cv=pass; b=kiI+aBOwizMfI9ZLYraUfPiQANZcGr54aGNWQd6TsLqxfhrKKmJsIVH+p8VBpPrONrJtAhhmJ0D2LEI1v31cB1zHgthS/6VEA1HjhvQaRoPbeG+ce2bR4nsxqGdRj9RX8JX/oFd/rxmKd/6+RHAAb7Y2hO7hrObqJe9feubuy8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712647961; c=relaxed/simple;
-	bh=M27SM/zlkJXNge8CH5muAdAExpLGDO6NYXaqcCNs6TQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DaNNHllh57J+kAV5zdoi7Odvdk5DY1ls+gmUywDtFRV4EbdyaX3tX4nvXf6MNU61tLt1BART+0+4qdmz0FrLbaVyhDk7xm7kbcTt2P9wNPB7SbsvCnOiCpg/CjMnLSTC+zWGqR8kZ8ZCtdgTy4qml0Aea1TxW4gvdc8uoeQYb2s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=jTCeL9KW; arc=fail smtp.client-ip=40.107.215.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xullh10Zva2jD0YY/derK6gSwYBFf0jK/zRJRECtNkMxPoWGDPpGT2FgybIQiGg+AXXci0dRFVxCA4Pc2KSdrDCvOxaGbyvaoFgMeRUdEf+FEnxVmWlykbj+F5jge2/E/dAip38cS0ieRT8uvKaf8180dqloSE5T3hce9uZ9QSaSz8dcvIDJJL9JCx6oJZYRrBzBfRq948a+n/KFBC+4Y92ZoZQBRobCnPrcXESBmRyzRKk1g4NH3Io7rIUkuxgJgQQMlw3brhhI3e8DMG60h9pFCoUxky8MJV1Gu9Z01G48jA0zrDYEctkVv1hzw1wg9YqjEsomCI/BUl4a7u8+4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2pB/4+zaZFgcr/yH5WFbcvfSTz7QiVNqcENnUiVVQdQ=;
- b=UZUHURbhgWSw6Jf2RDBjCGpEfC2Y6ZU+JFhNzdQf9I8MCMrMcmJrTRBmSFk0DM5os8aIyg8NFDmCXxxwwDoHD08FL7c/+ltWAa165o65R0yNZ1BXD7zvFoH0l5iCHQnzvf828PiB2v9ck+h/NQOXawzeWIn9KQqHpXUtQfeBxYslKTEGiUFLbR+T4hf/vu5kS5NytlYtsE7gNeP17fFipeEnl96SPXV/6WdjWfwKl28IeaeSR1cjDGso4Tog6azdFHT/t/taXWYfmlEByvOu1bfViE7xNvOP0cx50sFt+1wZycWFJVH7TjNFGOeE6OS0uB214l3WeI9JrkFWxMoTwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2pB/4+zaZFgcr/yH5WFbcvfSTz7QiVNqcENnUiVVQdQ=;
- b=jTCeL9KWGhPraDrhUrNAeXPmXGZpiEfIkz3X4TIv1TepaaD+fPNUBHxsFRUht4IGQnp+Tx8NnG3PZ4x2c9tFFYEoLigs2XcOkOEXKu0mFqEPqULMdKIlbDB4O39c6GR0e1FlDDE3OTq3KOOPS7I5NmKVp0r2FTcVIqhQkBTUXCAsVrqEfyz5bS43IR3R2V77e/3K5mU8PhLBmyz1/25cWDLLrBGO3DHUt2/3O8AL5ZxhCTu5ZehnT/g6Kp4dSeP2uTv10YwLdFUTX4nl8oRRqzbR4Kj+clgb3DlQvGQakavu2q/Gw9H9INsyFmZDb+c2XlPEz+Y6dHfpIb73D5/tvw==
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- SEYPR06MB6564.apcprd06.prod.outlook.com (2603:1096:101:16c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 9 Apr
- 2024 07:32:34 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::a60c:298:c201:e4a1]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::a60c:298:c201:e4a1%3]) with mapi id 15.20.7409.053; Tue, 9 Apr 2024
- 07:32:34 +0000
-Message-ID: <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
-Date: Tue, 9 Apr 2024 15:32:31 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu <jay.xu@rock-chips.com>,
- sumit.semwal@linaro.org
-Cc: pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
- <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
- <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
- <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
-From: Rong Qianfeng <11065417@vivo.com>
-In-Reply-To: <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0025.apcprd02.prod.outlook.com
- (2603:1096:4:195::21) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+	s=arc-20240116; t=1712649166; c=relaxed/simple;
+	bh=ASyb0yp058X5KP8FlMaj0y+a2ZG3KH606C20d7M+K6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iQN4MTxjubVMe3tkn4CkgZ3ItI86Hx+RKXoVBPDcGyGzM3qTFaQr8BUntV1VPTuCz8IDKU4zW55P9I2BfseIzlsOd2I79M2WNW6tMatSeqIEK5a9fbsVx6UYHLsHwf4ENOSympO36oYdCor9cybhYUc2XNEuMlBu6BVNIzmMo7Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=hTKWcnO4; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VDJ8h1D1kz49Pyv;
+	Tue,  9 Apr 2024 10:52:36 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1712649156;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+tzqvZTgdEhSXTfEBGtXIh5dovqbo/maknSFzQR8ax8=;
+	b=hTKWcnO4iq/n/9z1OlLdVNEaUZxPBKldtbbLFEFiMa4gxDzhEViSvaNrTcE80dyM2hcDVA
+	oEXzcK6/HxRQBsHrJ1M+O+VF3jkclMDBIGCyuFIse5V7WweCgh7f/QumxlBJQyBOLVCuCP
+	nOUixcKXJcoxTmYs1qeO/zpPivtG/+dAzSNvDe+neKb0qHNtV5LJ3Kulfotf1bYaqsJ/HB
+	KpUTWYml65bw8i0qVIVEjzK8fIzihFvjq+mVC8FnydYALgYTNd2lENn7HLDFjvRYp8o+QM
+	ejnFhZivYvYznaStEQX5DM3yexMdRm4oiWNcXa+5BUk37z0vaW+00sRy8FfQaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1712649156;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+tzqvZTgdEhSXTfEBGtXIh5dovqbo/maknSFzQR8ax8=;
+	b=pncSu90+djpB1iApV6WhzHOGj2AN3ogTED/fwcgQgkOOye06I5m6YHPgUrBSLGNEuuR8Hj
+	Pe4/InR1EwjB0LHYhIwRRRLPUanMH7UwUOosbKHKHbHTvzOUIRt4HX3+PHgAG7XPVUi4EO
+	NfI3l+/rTm2riVktYG7dgYkazKDOE7gp9jvQVuygW1axuLgIsAS24cImuRI7/12+/YdTCB
+	7cUkvi+zhrL8b1WdaV7woZQhN+Wgvbjj3+foeVsN0m7if9rTWJhnrllK18wLrD2VHVmgUy
+	xnbylPBCJCBVF6R9783OCaTainGLymSGkYr1UV6WG40Dc6xbZ8Mh3E8aqmE5EQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1712649156; a=rsa-sha256;
+	cv=none;
+	b=LFWNt5toID6J87gemlpVbsrL1B99oWxZ73QQu+Cna5wUVR+GAZ93K7yPYw+upkg4E7ckZH
+	3pk3dP3louMGKL/g8Zy1yhe8ZI+1HMhkD9E+4nXWppR/FWw0WvSbnOIHFCL8IbYY0C1LWb
+	s4nMIJcA6a71Ap6kmPkybyR8bC3Vp9Qrw2Q3USdvOev1x3p9D5CG0ttZRBhkUjUnr/6qdP
+	jqck8ui3ID6UgsSuS6+Lp6KenXSWtmcbjuBSr1c5xWH5on9LMZZbcbhHlq++8oKy10Ltt3
+	TlCcmLPKkLRBCX+Vw1BNeT/nQbaTl1uRHy+sU2aq5vKOmiThHJJrtxpRERYI/g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 91ED3634C96;
+	Tue,  9 Apr 2024 10:52:35 +0300 (EEST)
+Date: Tue, 9 Apr 2024 07:52:35 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR 6.10] Mostly camera related patches
+Message-ID: <ZhTzw2ZG-7zxdJJB@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|SEYPR06MB6564:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	9B9aUgMtylU1x8nnPKjLeIMIFC9V3kN+7PqNKzeOaqFmLW9ARSmNmXmkAsRYngQRFqif+eP7U/v+KyZnvCVYxBfspWiRLghySbI+szp2BqgTev3gLP8BsoB4bMkS/rh/JTVp6g8NHtK2Vqr4I8BJAw225PFmu4AqoxdOb9R5XG1jd//8c6k40lLrvBGllB87kEdrhm3clRayvuoRtC7oElGYeY4me0toDf8/DzpRQpCtPrtwLF7m0fMaFgd/fTPvw6rIep++v9ycDthitPjomEpEGK/SfY5e4FySO1yWXk8FwUBz8fEw4UQdd/E6U3G9Kd7RNEOtxW05nJhqPcWURk9vtJ+pCA9/lUe2PYs9iyEfk3dbB4QJgEUNlo6YY6iw/qhF6CxEPPyyTgRADkbrFmzU7J6UEiLrqtPZ9vAJNQXFOnWfY+wAxSa3nPjMFFedW1RrOtvrTGU0PpUmOlZUGNo3Zs51CSDirZcqzhIKwWxCTEMfSy17NZwo5mjp8KLnKLKCgW7SXemmSLLX2EjH3pBZROG2dX2UfDOcD4OACu9ilJz0l2QWMbTCxC9PTH4PZFRm7R70magKCq3m+bCQSORBau5BGMDvD4/j0BtyPM9PFUcm1YPMX/8DSbrMdEqAYY5E2N+m7SxSfefbtsuEpmX/wPweXQsEZ8GafwgYcOwmH1OQlqPiVit81zX11gKHk1NmHx+4wSn7732MyCl56naYbKdYxYwtYLpRRfiHwUQ08JQWsu5tpEAnyIXf+BHx
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(1800799015)(52116005)(376005)(38350700005)(81742002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXpMZGFEM2w0aTdjYjViZmlzVzFzL0I4US94M1hzS3Y3L2puSmpzMFIyck9I?=
- =?utf-8?B?VmJ4Ny95Q0xJekRHS1h3UzZsTkhIaWpYMTViY1dxcGhBS2tMN1F6Vyt5eXpq?=
- =?utf-8?B?RllmL01LTXE5ekxTWlZGY2NHcU9sS3ZIRDFwOG1TZ1JBNmpxd2lqajY1UWRU?=
- =?utf-8?B?VHJYSFZmclN4NGViN3ZxZm5udnVKc25sVmEwY2xtWnBHbUYrL3ZZdTBLVGZv?=
- =?utf-8?B?QUY5TWZMamZuTHZDVHdDSE9oanE5Nm04cW9yN0hWQUN4bGdpRnF4cnQ4bEM3?=
- =?utf-8?B?WWt3MUlyeEdLeWJnRFpzMFBRSmFLN0RXNnN1MkhxejBxQk04YVByTDFraTRF?=
- =?utf-8?B?Z0ptOHFBVGw4M2ZyKzlyM3puRGM3OTZJRnNZbVkxK1oyb1g2RWJFUGhrUnZU?=
- =?utf-8?B?czZqMUlHc0g5bnl1VGdXeU9oSlVYd0h0Q2xIS2pueENPdjlkeUxvMStrVW5a?=
- =?utf-8?B?UDJ6SU9OSGNGOUhSVmFnZXU1WGcrSTdoYlRmMDVxcGpwU0tyWmJwK0tMenRZ?=
- =?utf-8?B?MC9PYzVVeUwwTUhjY0o2TThlcUJDV0NOTjVTaUgyL0JZMStDNGZCRVVyNE95?=
- =?utf-8?B?Uy95YllacjFEaTlpUHFXNVZUbVJ6eGlKNmZUQlZmKzU3Z3lta3FCY2FkUjBm?=
- =?utf-8?B?RHV2M29leXY4dEVvM1J5WXR5ZTZCdnduWnRJNW9DS1RHcFVsUWhJMVVRZTkz?=
- =?utf-8?B?KzRpTHVBeFB6VGpXVm44OHhQcXQxRWtCTGhiZWE2ZDJkeGpXNFZhVng1VEdi?=
- =?utf-8?B?VVlrU2huVDBXOTZzZGRSSVJPUWptZVROdU5lM2t5S2hCcjFOT0hzNmFWeXRr?=
- =?utf-8?B?ZjE2blZvMFMvaEZsdzB4SUtJb0dHVlJCV2R0Q1g5RUZQVTBpWVZQMFg4dWpD?=
- =?utf-8?B?NnROczcwNGZqdFlhQjFqenRRL3RYVzBQWGJYblJINGpGTU5TVlZrNHpKNHM0?=
- =?utf-8?B?RGRMSENNRmp6OG9qT1F1Y0VXZFpwbndYNk5GakFoU0hnaG9vblpPVHN2eWh3?=
- =?utf-8?B?L3BLdEdVeUVpcVhzV3JxTTd5RXhta0RiSkg1N0szamRKK1BMc1lsamNPYmkw?=
- =?utf-8?B?ODUyN0pTakVwSkFnWUZLbkZPN0JvV3N4d05NQklDY2hBYXl4dGlzS1NZNHRB?=
- =?utf-8?B?MlA2UjlxRjV6LzQ4cXVkWUZRSm1aUmRQM05PQXJFZkJGQ1JvcTVYM1Zsczcy?=
- =?utf-8?B?NlhTYXBubWY3dU5OTjlZV0NzejNKeXJtZXUzNWEyck93MmxrczVKMmNaK1Uz?=
- =?utf-8?B?cThubFFUSHh5NzZ6U25yM3lqdE1GeUcxR1VROWlmMGdzMzVFS0V1Vk1UWVFn?=
- =?utf-8?B?YVZaK2R0YWwyZmtBSFIyOThtcmZwRWZpNWt3Rlc0THJxa0paOHpXVDAvaXFV?=
- =?utf-8?B?SmMzQjRrdUI4US9YbDE1TGY1VnE0M1NMeENiREdrNjZvc0wwbnFNaXVBMThI?=
- =?utf-8?B?WVMxYVhZMG1TeWVvVmNEMFlTcUNjTzlXZmFpRHUyNldwZTdxdFl4b3BYZTFl?=
- =?utf-8?B?Y2tweW9XUTk4eGJSWHV0L3lGemErVkhQSWQ0QXU5N0I5bUpvYzU4WG9OZnM5?=
- =?utf-8?B?RXhiTXEybDU3VjlqL0xTWXE5SUV4cVRBWlJLTFBFZFJmMHJ1Y1hmUDQ5MXF0?=
- =?utf-8?B?aTYwTEc5MG9Pcjg4akFORjY3ZXl2M3k2RGhyVmdJSWYwVnpaZDV0dCtVcGdr?=
- =?utf-8?B?dS8zMVJzaUM0Wkd1L1ZYdzk0aEg0amVidHZJRUpieHVjNlMvVEVGd1FqbHpT?=
- =?utf-8?B?L09WQUdXUUlWVG1qaGwya0hKZmhUNHU4T1FxWllrenFMM05NSS9YNnFVYU9D?=
- =?utf-8?B?eXZvQjlqOTB0RHVHQzF2MURTSU1LSjcvSTBDNVExVWdTcVV5UndUN2ZiU2tx?=
- =?utf-8?B?d0VzRHM1WlZ6ZGZEUGRMVWNNb3R4bmJiUlBLREU5czF6Rk8zUTc0cXp1OS9M?=
- =?utf-8?B?VjQwbHpjUlRia3MzUHgxRDZzb3JnL1BWeEh4K0FOcHlzczVCYzdON3dpMlZx?=
- =?utf-8?B?WUIzZnhmenJtdkZSQTB2RWxvNWVLWC9WZ1I5UFRyb1lFcHJraTJQWHZ1aU9q?=
- =?utf-8?B?TmJXS2RLbUVqa1cxdGJLN0c3bHVWaFJadmRrbEFOWnRWa0hNNEpDdVNDN0k3?=
- =?utf-8?Q?PCMRcrvQ7AULorsMfuWsoWTzV?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdde8fc7-a667-4a37-fcbf-08dc58673929
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 07:32:34.4558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9AiXdDMq2Ip/SwPt5KE9T0wFYk/DFqL30aL6JKOrraoQjBACTjeVylYigNfO+0EWv1eutw/mZCQ3Vv9zwL8S8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6564
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+Hi Hans, Mauro,
+
+Here's a bunch of patches for 6.10.
+
+Quite a few are actually fixes this time, there are a few fixes for the
+V4L2 async framework changes that went in for 6.6 already, an MC graph walk
+fix from Tomi, also cc'ing stable for 6.1 and later. More fixes for the
+ov2680 DT bindings, IPU3-CIO2 and et8ek8 drivers and removal of obsolete
+e-mail addresses.
+
+Please pull.
 
 
-在 2024/4/8 15:58, Christian König 写道:
-> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
->> [SNIP]
->>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
->>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
->>>> offset and len.
->>>
->>> You have not given an use case for this so it is a bit hard to 
->>> review. And from the existing use cases I don't see why this should 
->>> be necessary.
->>>
->>> Even worse from the existing backend implementation I don't even see 
->>> how drivers should be able to fulfill this semantics.
->>>
->>> Please explain further,
->>> Christian.
->> Here is a practical case:
->> The user space can allocate a large chunk of dma-buf for 
->> self-management, used as a shared memory pool.
->> Small dma-buf can be allocated from this shared memory pool and 
->> released back to it after use, thus improving the speed of dma-buf 
->> allocation and release.
->> Additionally, custom functionalities such as memory statistics and 
->> boundary checking can be implemented in the user space.
->> Of course, the above-mentioned functionalities require the 
->> implementation of a partial cache sync interface.
->
-> Well that is obvious, but where is the code doing that?
->
-> You can't send out code without an actual user of it. That will 
-> obviously be rejected.
->
-> Regards,
-> Christian.
+The following changes since commit b82779648dfd3814df4e381f086326ec70fd791f:
 
-In fact, we have already used the user-level dma-buf memory pool in the 
-camera shooting scenario on the phone.
+  Merge tag 'v6.9-rc2' into media_stage (2024-04-01 10:08:18 +0200)
 
- From the test results, The execution time of the photo shooting 
-algorithm has been reduced from 3.8s to 3s.
+are available in the Git repository at:
 
-To be honest, I didn't understand your concern "...how drivers should be 
-able to fulfill this semantics." Can you please help explain it in more 
-detail?
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-1.1-signed
 
-Thanks,
+for you to fetch changes up to 3a375a90df85acbcc18eaed7be259a24ffd8a172:
 
-Rong Qianfeng.
+  media: v4l2-subdev: Fix stream handling for crop API (2024-04-09 09:30:04 +0300)
 
->
->>
->> Thanks
->> Rong Qianfeng.
->
+----------------------------------------------------------------
+V4L2 patches for 6.10
+
+----------------------------------------------------------------
+Alexander Stein (1):
+      media: v4l: async: Fix notifier list entry init
+
+Bjorn Helgaas (1):
+      media: ipu-cio2: Remove unnecessary runtime PM power state setting
+
+Colin Ian King (1):
+      staging: media: ipu3: remove redundant assignment to pointer css_pipe
+
+Fabio Estevam (4):
+      media: ov2680: Clear the 'ret' variable on success
+      media: ov2680: Allow probing if link-frequencies is absent
+      media: dt-bindings: ovti,ov2680: Fix the power supply names
+      media: dt-bindings: ovti,ov2680: Document link-frequencies
+
+Laurent Pinchart (1):
+      media: v4l2-subdev: Fix stream handling for crop API
+
+Rajeshwar R Shinde (1):
+      staging: media: imx: Remove duplicate Kconfig dependency
+
+Sakari Ailus (8):
+      media: ipu3-cio2: Request IRQ earlier
+      media: mc: Add nop implementations of media_device_{init,cleanup}
+      media: v4l: async: Don't set notifier's V4L2 device if registering fails
+      media: v4l: async: Properly re-initialise notifier entry in unregister
+      media: ov2740: Fix LINK_FREQ and PIXEL_RATE control value reporting
+      media: ipu3-cio2: Update e-mail addresses
+      media: dw9714: Update e-mail addresses
+      staging: media: ipu3-imgu: Update e-mail addresses
+
+Tomi Valkeinen (1):
+      media: mc: Fix graph walk in media_pipeline_start
+
+Uwe Kleine-K�nig (1):
+      media: i2c: et8ek8: Don't strip remove function when driver is builtin
+
+ .../devicetree/bindings/media/i2c/ovti,ov2680.yaml | 35 +++++++++++++++-------
+ drivers/media/i2c/dw9714.c                         |  6 ++--
+ drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +--
+ drivers/media/i2c/ov2680.c                         | 10 +++++--
+ drivers/media/i2c/ov2740.c                         | 11 +++----
+ drivers/media/mc/mc-entity.c                       |  6 ++++
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c           | 29 ++++++------------
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h           |  4 ---
+ drivers/media/v4l2-core/v4l2-async.c               | 12 +++-----
+ drivers/media/v4l2-core/v4l2-subdev.c              |  2 ++
+ drivers/staging/media/imx/Kconfig                  |  1 -
+ drivers/staging/media/ipu3/ipu3-css.c              |  1 -
+ drivers/staging/media/ipu3/ipu3.c                  |  6 ++--
+ include/media/media-device.h                       |  6 ++++
+ 14 files changed, 74 insertions(+), 59 deletions(-)
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
