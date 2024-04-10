@@ -1,228 +1,117 @@
-Return-Path: <linux-media+bounces-9044-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7898889F9CB
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:22:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1533289FA84
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:52:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3EB21F21C0D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 14:22:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 414D51C21B43
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 14:52:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3856B15F308;
-	Wed, 10 Apr 2024 14:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754D916F0FC;
+	Wed, 10 Apr 2024 14:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ft7AR8Na"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="UvWhaROV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2121.outbound.protection.outlook.com [40.107.244.121])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E276015ADB0;
-	Wed, 10 Apr 2024 14:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.121
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712758947; cv=fail; b=FCcmbL0A0G9kcwPCcZGMhM4oxrnx1cHZ5U8W78Xikb+pVk2kl7TaIS56M6VxOXY8uJ1y5VRlEOvKLO76JHY3UaCG1DgMCDFpm6HHJHQL0uB181Zc8LelQ4GictCBBKG+GaXWH8nzAuefch5YZs20YwvxZ1zfZuesbX4RtckYRGA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712758947; c=relaxed/simple;
-	bh=oQM9YExNdB+eKt6HLKsjeJClW1lAXsBoS0t89t/UNQU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=u5M47IKmcE3oRhs5zOV3ydDmQ4daKoB1QyEhArXg9MkkZNPh+a/0f2Wx/2bLbDhKbEvW5l2M+zsn1Lj+8iPOyD+wDG/YHoltJ56IVia31fnSHhtrKObmJAQDqSZ29ei83C+Q4ilQQ6Tj/Lxr5zbJUcDFAce+jsXQmHYgNAKv3gQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ft7AR8Na; arc=fail smtp.client-ip=40.107.244.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A/A39cTkRMay/8oLdSh+p5+w7tV7NcR+N18b1ZEOpspBZ2Fb7OpQ88YmVHRoGdjth7gLuKc/lEoO7HUrfyAbNONFHkeItgNdrwat7xVDHNx0jYGjLYxzGL9dzdv166AvM1x//dBZDJwzEU7/LrxFGjkAhV3OABIew/NAhwZatVBmpxOik9yX8XsiKQ5Y28lgTbqsHQXVcoawc6/uHrnXTf5IWniQr8BqtAUjWpVloP4JnctGYFRnybAbPe0PES/Roe38Et6whXxDo4xl4reX6UenNACwuqwpkscaXbuzr9Idqa137rXuBjt7LyIwE7r+Mlmsneo9rcruvD1ImEQLkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bK2luO03Ielw2QJsOORU4GatgvD/LP3DVTBkFsLY5t4=;
- b=T9oXnmiwLXAHBrnKPNZrn+DpRYvEcMJMRQve+kZUnXkpxJDPulAcpuyWPwGpz9+40pg7qhlvFiQ4D4V0y7D1qh2Zydnn9O9JGkAMn9McrhRUEZkORzL2rP7wr5wHem/b/ZSog9DFHebopF23WLl3G2yHQBdWb+eGptUM/BVCjT+TjXmcpLXDtzoBpRMAfa55KZg6UE2lSGIGg8/xoPYEJUbQx5ECYs0pzoxYWm6oHfLDHtwAn15MDxEbTrg8LUzD/kpMgFIayW8+cTuitzbrZrZ0PD1iz4Oyra3xqy5bEp0PNIaiBmm31+fh3hm5ZMGMv8s2QJjw341L6ERig85qaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bK2luO03Ielw2QJsOORU4GatgvD/LP3DVTBkFsLY5t4=;
- b=ft7AR8NaC9NpiJQjA3IT/5GuwLYTjeNtobEsVGwwgxgemozN/AOOKdH72Fh6B77NWDApKnwH9EPADdkxapavzhUhtZtUcKrDWSMpmwic/JTr/9VAuKND1fwcFaPyq+Hvvolw/RGBDeYOu/bTLGw96et7vi5U4kajIcRq2UF2jOA=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB5721.namprd12.prod.outlook.com (2603:10b6:8:5c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 10 Apr
- 2024 14:22:19 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.042; Wed, 10 Apr 2024
- 14:22:18 +0000
-Message-ID: <0df41277-ded5-4a42-9df5-864d2b6646f5@amd.com>
-Date: Wed, 10 Apr 2024 16:22:00 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
-To: "T.J. Mercier" <tjmercier@google.com>, Rong Qianfeng <11065417@vivo.com>
-Cc: Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu
- <jay.xu@rock-chips.com>, sumit.semwal@linaro.org,
- pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
- <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
- <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
- <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
- <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
- <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR08CA0239.eurprd08.prod.outlook.com
- (2603:10a6:802:15::48) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD1E16D30C;
+	Wed, 10 Apr 2024 14:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712760211; cv=none; b=SE8tKQCH6BvRdU1m/Sqqn/LPnS3N5bhIfLNywdwHCyuOYjJezjd+0Hm0rGhtQPl+dWQ/2kxw4LaQ//PcGYKDl8i48UdB1jeXTZ7voeJY/bWx7msaa8Vohfh3BPBsghDCERUyDRF+aKq4MUYu2ahONmWXA/SgtDgEoOMWce4vnXM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712760211; c=relaxed/simple;
+	bh=k2hi3unLT57nDJF5zNI6cNBtlT23Yvls+wYLytdrX4E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eS3qgUGZBis1wgoBcazySTscGt3qyS34D6JILSg3nCwpyf5ctjtmpXsjt8C6p7jKahWELQRKxOK/wh0r93HPlFPlkiRSG5Rnx+F46iTCktXX2RcB39uXZqrkreQptASyGuq+baH47/4UdUwlKh9Kg8reDZc8BH/AKhMvCEzKmzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=UvWhaROV; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43AC4vK0002860;
+	Wed, 10 Apr 2024 16:43:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=selector1; bh=8QujdN4
+	XDCTSNrM7s5UiY+ADwmGpvJW4wLZimrrKB/s=; b=UvWhaROVFRo/53vXc7kRWqi
+	A96MfYR8i/aFyf+TEULyInW53w8OlYyrNgP8qx16ZCt6r7/zCxBgCS3cyCL1Kgz/
+	a1PLoiIgR4G4osqH13Me9kWOXsu89CMNBtESZy9FFmmv8Q/pCU4HWKIZvyqZDNoC
+	hKfWPSbLaI8uLtiqu4WqdhWQ7rn6nsdAWcbrAhN4Ii1XRy+6g8GnE+15RJ86GszL
+	TF0biueF28B9IFr3HcnuupknCr5/zOHuRG7J1P7nxfkt5pwGbvvsMIEnaYYUDP4N
+	1yRhQDHX+UMIS75qt8tQkWdyINHD0hCyXPmPFi46A95OrTNmFTBkhBDmv9IxACw=
+	=
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xautg14cb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Apr 2024 16:43:13 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A82D340045;
+	Wed, 10 Apr 2024 16:43:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DF81F22AFEB;
+	Wed, 10 Apr 2024 16:42:31 +0200 (CEST)
+Received: from localhost (10.48.86.141) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 10 Apr
+ 2024 16:42:31 +0200
+From: Hugues Fruchet <hugues.fruchet@foss.st.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+CC: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Subject: [PATCH] media: dt-bindings: media: add access-controllers to STM32MP25 video codecs
+Date: Wed, 10 Apr 2024 16:42:22 +0200
+Message-ID: <20240410144222.714172-1-hugues.fruchet@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5721:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	RAXuz9Ue2n4VdHjHSbGXIZ/vzZ+1nvGL/X64R5AM9YvsqaC7qLb4moYn+texMzZJEs4RHXH1J63x1CftnPE+uPopw8Hf4VKx0twtv0cumaQR2+SQZDAAHCNjXbjFsR4VcPLGcTckAVhRIwo1kbu9cMkBvy46p7ArjtkR/ojVU20Vyxpj1XdZe9hzJIrVvMH2jz+ZwbgBhgqES8iOCHHC8kGaICcJtpOvPfJh3DzYHOjW5A8ylok+xcn2kjXuL5nkmSZlbEPe3Yb3V5JvJnL5KWgVmFvo2Vdg+bVkVbA7RPutVHXlfMfkzEiuE183NCCLql4VF1MIXJFr3+6mGlhgSwb7wbriPvzS82952Z/JQzYfR91FPFmyCdr5vyJyEFvPGWLl6/nQT84ZNd95iGjChALeZpxwzCy0q5nZxDa54qP3ysoFojNpLdqNEm7siT5NcBTgKqUrvm4cPCfin5pZHrmcp0sQoZJxQY75PamlbYk12s6YfG5hp+KGNSSFWJSU2U4wjzhWQTUmFDZdaNPYsabSAySyRkWzd51deif6u66aFM7UgDI1x0oddYvg4O37M9t3z52R+zuP5X9dvQ6TM2K8W3vNLNWqE/p47LlUv+o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d1JCRnczTDVWSzRSeXhIN3FTYk1lTXhuWkpWUG9FK2Y5bEx4UFd2ekRJa0hU?=
- =?utf-8?B?R3BxN29GemtIMWdja0MvMlptcW9jY3NtWm5CM25PTHpHTk84RWRCOU9KMzd6?=
- =?utf-8?B?YXdMclR0b1NBR3lnWkJwN2tCdllpQ0d3K0l6bjM5cEQ5ME5WRlUxbjZVUDhp?=
- =?utf-8?B?cXJ0SlNTZTExc3lqV213MjlYK0ZRdjduc3B3MFFUZnErK29OTXB1c05vaG1R?=
- =?utf-8?B?eDFGNkloeUNFdUZqMU1yVVF1OWZrQmZYYXRCSHh3VUtwZDJiR0V4NC9KdTNP?=
- =?utf-8?B?S2hsTHZDWEZDbzRSMnZxaTZwZmxYSlVzd01uakQ3VlZYcTBVbnpUcU53WUJs?=
- =?utf-8?B?R284RkVyRzJzV2hxbnhFa09LaFBxRFlmTkw5UGFRQUZkK0MzYk1XeThMUkRV?=
- =?utf-8?B?RmRlQURiQUtMMTNnS09hWXM5Rm44TWZoV1FVem1iQlF3VCtiUUZzZVFaVzJw?=
- =?utf-8?B?emF4NElvYTM3RUFlVi81M3pRWGNKWkpCTXdpRndyd2RldTJUM3BUbXE4ZnM0?=
- =?utf-8?B?YUxRSW5SZ0d5UlFWS1RXMGwxQWxUZGl4OXcvN2JwdFhIc1lzejJkOE5kWkpJ?=
- =?utf-8?B?Vk5tNG53TVY0L21iYWtRSE9XakxDZjU1MUo0bzNqREdwVExIZlB2UEZScUhH?=
- =?utf-8?B?aU1aUk4vc1p5clo2UUwwUkFmQ0xtQ2FST2ZEVGtpcDI2VE9hNUJSSkRma1A4?=
- =?utf-8?B?aDM1NEJLRzM3RzZiNHJiK21LOG9odGE2aVNDL2RzQXRsajU1dTFHSUNXTkpK?=
- =?utf-8?B?SVNXM2ltd1B5Y0xjdktvVFo0YnRnWERHdkdNZlhRRHY1bkozSnlqbElXTE9z?=
- =?utf-8?B?T25Sd201b0oxelgwbmV1QnR4eGY1aGxIQkZJWXQrRzcxamx4MW4zN25BeXZ1?=
- =?utf-8?B?K1RmOTlic0tISEIzVHg4N0J1Zi9oTzlqYU15ZHJrUWdVNitrOGdMR0szZkZC?=
- =?utf-8?B?ZTZCNmRPdnNieFFqMXcrS1hmamxZMFgyblF4WnFqc0VNYUM2MEx0blk1SGor?=
- =?utf-8?B?OVJHaWFSMWtpMEJRVU5SSnJxUDlHLzFZMUptSFJ1SG45V3YxV1BoYXdvRkhS?=
- =?utf-8?B?ZU1wNUQyaDFQVFBCam1iK1BmMDhBdzcxazB2ajVCTWZFVGc2SHFlT0szMlNH?=
- =?utf-8?B?OXk4WUprbTRUUGxQZUZPQ0xuQWF0b2J6a0ZyaWRmckNDN3ppdnFDa2g0ZmYw?=
- =?utf-8?B?OHJlVXhpYXN1UlJUWlE2N2Nkc1k2dHBucVJvSVJYVUlpZVA0dXpoM05CeHVG?=
- =?utf-8?B?UDF2Y09Qc1lldG8zbnhWazd0Q284UXRIOW5QL1dscTdEaFFoRTZPOHQ5L1lx?=
- =?utf-8?B?MXM1Q3JCZGVwSlVtbWxOMkxaL01FS1QxajRISndXblJmYmozK0l0NkpCZXNk?=
- =?utf-8?B?WDVreWNnQzNSa2xKOTZoOHp6ZVB0Z2JzZ1A5TW9qRDByOVdMQmhPbzllWC9V?=
- =?utf-8?B?ZlNYT3E2d1d6MEh1VFBLR0owMXVBWTA3SVdvSGhRazhzMmpjeVJWZExFbVZl?=
- =?utf-8?B?Mkd2Q2J6aVUrSmhXK1VHaTRBeURSUWJOMnBHc0tNSm84dVcvdzdnZUhHUHls?=
- =?utf-8?B?NlFGUWtlOG9ZVU4zdDk1aVBGTEloLy9DaDBsM2pReXdyU2U4cC9sOWNjaTZi?=
- =?utf-8?B?WnJjbVJNWUFvRkpibFlNdlVJbEp2TmpXd25iWE1SRENpTm82UVhwN25XL3k2?=
- =?utf-8?B?M2pLbWpsNVVhZnUvSnNuV0NVT2oydkE2SE9BdllZdGFNMmxhQVN5N1haRnBF?=
- =?utf-8?B?K1hWSE5oS0FaWkdUOHB0d2YvQWROdW44dFdac0pjR2p2b1lZR2VjbHFhU2ZF?=
- =?utf-8?B?R2ppNzlDcEp0VUNEeEwzU04yMHFHZ3JVeVJJQS9sZGltYzQzbWlOQXhpYlNp?=
- =?utf-8?B?Tzh4TnlLOEtEWllUS3Z4aFJud2pMaUE1ekVjd1FMWkJsaWdIRkF5RFU4THpK?=
- =?utf-8?B?cGV0ODNHMmJIRDZVazN4NzF4ZGN5YkhFdll6dzl1SFVKYVRyYTUzMW10OUlN?=
- =?utf-8?B?SDh4L3ppeDdBSGV4NzYvN09RQ0xnKy9MeFgzaDc3WUtFRHV4M0s0WjN1OHg3?=
- =?utf-8?B?aFNQZ0tpK1NRWTVkQmMzY1RvV0o5QWt5TmFSZFdxQWJaMC9RemxYd1F6cG1s?=
- =?utf-8?Q?v17umNHXgyWVmR1ZeLPtGRGUg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0acf21fd-0ed0-4e31-a196-08dc5969a0e0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2024 14:22:18.8185
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /2ZcmmtpC3S/0NksgbRKDopFUvc261CS1ni5e3G/T190y/UqE0sEOZuo3TzKDG3x
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5721
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-10_04,2024-04-09_01,2023-05-22_02
 
-Am 09.04.24 um 18:37 schrieb T.J. Mercier:
-> On Tue, Apr 9, 2024 at 12:34 AM Rong Qianfeng <11065417@vivo.com> wrote:
->>
->> 在 2024/4/8 15:58, Christian König 写道:
->>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
->>>> [SNIP]
->>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
->>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
->>>>>> offset and len.
->>>>> You have not given an use case for this so it is a bit hard to
->>>>> review. And from the existing use cases I don't see why this should
->>>>> be necessary.
->>>>>
->>>>> Even worse from the existing backend implementation I don't even see
->>>>> how drivers should be able to fulfill this semantics.
->>>>>
->>>>> Please explain further,
->>>>> Christian.
->>>> Here is a practical case:
->>>> The user space can allocate a large chunk of dma-buf for
->>>> self-management, used as a shared memory pool.
->>>> Small dma-buf can be allocated from this shared memory pool and
->>>> released back to it after use, thus improving the speed of dma-buf
->>>> allocation and release.
->>>> Additionally, custom functionalities such as memory statistics and
->>>> boundary checking can be implemented in the user space.
->>>> Of course, the above-mentioned functionalities require the
->>>> implementation of a partial cache sync interface.
->>> Well that is obvious, but where is the code doing that?
->>>
->>> You can't send out code without an actual user of it. That will
->>> obviously be rejected.
->>>
->>> Regards,
->>> Christian.
->> In fact, we have already used the user-level dma-buf memory pool in the
->> camera shooting scenario on the phone.
->>
->>   From the test results, The execution time of the photo shooting
->> algorithm has been reduced from 3.8s to 3s.
->>
-> For phones, the (out of tree) Android version of the system heap has a
-> page pool connected to a shrinker.
+access-controllers is an optional property that allows a peripheral to
+refer to one or more domain access controller(s).
 
-Well, it should be obvious but I'm going to repeat it here: Submitting 
-kernel patches for our of tree code is a rather *extreme* no-go.
+Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+---
+ .../devicetree/bindings/media/st,stm32mp25-video-codec.yaml   | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-That in kernel code *must* have an in kernel user is a number one rule.
-
-When somebody violates this rule he pretty much disqualifying himself as 
-reliable source of patches since maintainers then have to assume that 
-this person tries to submit code which doesn't have a justification to 
-be upstream.
-
-So while this actually looks useful from the technical side as long as 
-nobody does an implementation based on an upstream driver I absolutely 
-have to reject it from the organizational side.
-
-Regards,
-Christian.
-
->   That allows you to skip page
-> allocation without fully pinning the memory like you get when
-> allocating a dma-buf that's way larger than necessary. If it's for a
-> camera maybe you need physically contiguous memory, but it's also
-> possible to set that up.
->
-> https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/drivers/dma-buf/heaps/system_heap.c#377
->
->
->> To be honest, I didn't understand your concern "...how drivers should be
->> able to fulfill this semantics." Can you please help explain it in more
->> detail?
->>
->> Thanks,
->>
->> Rong Qianfeng.
->>
->>>> Thanks
->>>> Rong Qianfeng.
+diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
+index b8611bc8756c..73726c65cfb9 100644
+--- a/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
++++ b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
+@@ -30,6 +30,10 @@ properties:
+   clocks:
+     maxItems: 1
+ 
++  access-controllers:
++    minItems: 1
++    maxItems: 2
++
+ required:
+   - compatible
+   - reg
+-- 
+2.25.1
 
 
