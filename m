@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-8997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F22D89F013
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:41:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F4289F016
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:41:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA72A1F23A29
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:41:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2CDC285BE4
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FCDB15956F;
-	Wed, 10 Apr 2024 10:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C7D15921C;
+	Wed, 10 Apr 2024 10:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPEaQLLF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fNYEm0ek"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227FB1581E5
-	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 10:41:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E8C15921D
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 10:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712745662; cv=none; b=VcKjoPOyBYq9CO54C/uO1S+mi/6rqpq8jeBQLQXsZB6hvqBd8AG6tEOdBbWDJwzdhqKN2nDuSWDiZLdfqHpYGnrAntKIMMMZsIZfFQPXU/MJKvOc6sivtd5rSCyBzs29IgwNuZh9ExtfvN00oUti2fqwXBRkqK5tdgigS+j78O8=
+	t=1712745681; cv=none; b=ieyNSjWQpKerY4Yc+2UaeFWipbBfJiqC1HDGuNyr1KI9SaRMBytzll1UVkd/BlBF9ycaSs//Jd3fl5pJv1Ff5tzzuDlKKhRRlai77T1wK/bA75m/csouid91HPaiOvsrRndGrEDKsc23fGEI1ieIZS77ioIX5yjtzs3msitjNc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712745662; c=relaxed/simple;
-	bh=d2rePbaAXYB09qw9YelL3lAO5AZZaCWIiQiczn1FsTs=;
+	s=arc-20240116; t=1712745681; c=relaxed/simple;
+	bh=wx6wi8yCPz7bbedzJAtXAmz1WN/tIuP0sowM0cLJaO8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ITYrLWBKjb4sJMjjwOu2MtDHuyYhem9LcLjdwEzkK0tN8U6hvHUlErwDkOG5xmqoCB4mXjjMc1tDrDcO/qtCgjJHqPusesxtonwDdBboJc7ppR5nKM6FmI+2Fd/qrpwbPzNj23taI9HFLrn2Cz1NJ9vw6Jd295uyoSrqWwZttY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DPEaQLLF; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=pbyZbxWucDM804z4Zw/lTqmKYv3NzG6tLJUyWTN3k/TtWRLMvIz0rU9/oCnq1S0h1ZzgQg9eY7bzWKpzzxSGUZLJ+xZzEZO8rHQimAih59gKq44CL3dOSqx864zJOyB3L1RH/0OzEv5k59wy480IPYptWAzExOEKEPb6oxYgdEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fNYEm0ek; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712745659;
+	s=mimecast20190719; t=1712745679;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+TeWdebrCO/in8a4ZQ+ikj065Xf+M/htxdxpFkTfUTI=;
-	b=DPEaQLLFhC2IoTnQ8jmLIpcn3JhIn/kHiZrMc483TneoLeKSsLPR+qXc2/RUscK08Oqnbv
-	/ho71IJpCJ5zHjNA5Ejaa4/kDJZbuO/2a6Ws5AizdhpfAJ5M8VuKThGjguLtzqlP7ClT/+
-	rFVDy9Z3XA/pkFuO5Ofnl0/JVrR1qo8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LLYUOsiCK89ppriD2/U9aWZQKaEkdNaVp3Rv912e/iQ=;
+	b=fNYEm0ek/omkDcN2Bd2CYSL5ZqlRVj+aqjJG1FCvd6DpdqAzYqCmaiOI3VZj49wyPe5e+a
+	+I+bM6mhSt3BSZjUdb3PADmD2+qseWX7xiSb8bi9Ow+W8j+zSgci8U8NFyWSvC+m+JVuwK
+	GSO5UC7fW2NNiytKFlVJSTnRt8csw1o=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-OcT6nIHxMvemj9226Szrgw-1; Wed, 10 Apr 2024 06:40:58 -0400
-X-MC-Unique: OcT6nIHxMvemj9226Szrgw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a52052809caso59921666b.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 03:40:58 -0700 (PDT)
+ us-mta-642-YQG7cHDhNxmEJeo_L2LWMA-1; Wed, 10 Apr 2024 06:41:17 -0400
+X-MC-Unique: YQG7cHDhNxmEJeo_L2LWMA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a5198c1a6f4so317165166b.3
+        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 03:41:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712745657; x=1713350457;
+        d=1e100.net; s=20230601; t=1712745676; x=1713350476;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+TeWdebrCO/in8a4ZQ+ikj065Xf+M/htxdxpFkTfUTI=;
-        b=I5Hd75L5AFXADEhrrV+7riSLxmBD0mnaAqUYbGMMa4bSCPZ9uJ8x1CooSjGi0YAAqg
-         ggNKdaiyYa2NlTnwDfFYEMcNmCOCKpdjIJ/pg9FGA6+JnSUqNp0KTaqBXjtgLwv++IXD
-         H7O/XkTtAZNhsV/eK52L1nQJ4MmvFf0ATVd7msy7O9lVdB171tsdABkf0bmNlHa9L7Rl
-         17r7asnWlFp8h6wZQx2XKvEegxDk7NYUKHpl0jPvQIngzdCy4WG2wgMgnCqGANqPstZU
-         ouC8v3ge//I5TfQvNAp2I3yCjov0vF9l9vAyr0Q83lPzp9AEI0FAF1AYGa4zErR/9P42
-         IBxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW65OGcjPezGn5s85p1QLxyiQqtQyVi+/9EuolIb4qNJjNU2d0MAyZe0p7PfhGqupm1FRYYg76g0pKRQsKj1o24Z71B52INxykEGUg=
-X-Gm-Message-State: AOJu0YwibQhYbFxt3FZ+rOhVmoEyKGzMDuy0lgdF3AkPXhHpz82mzxwg
-	+ta36cPH/Y60sGGbvILLeSjBCJQvifkE4m1ibtC3tlGxsg3JrmCFTqTI57H4j3HHWBMkGLfJ4Zh
-	sjQr5WMf4+lnHvv59jO5Lepjuz2NuIHtkiNwbGs6JSue9wtRVnvUDAw5CdvxL
-X-Received: by 2002:a17:906:f116:b0:a52:10dc:4ca8 with SMTP id gv22-20020a170906f11600b00a5210dc4ca8mr946683ejb.72.1712745657390;
-        Wed, 10 Apr 2024 03:40:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHhdJBzUX4DuqZ2uULshWmUbL6QUe6whMHXJ3hUs3QrHGHJpjCoySP9VM42gaV/tN/8rWUJoQ==
-X-Received: by 2002:a17:906:f116:b0:a52:10dc:4ca8 with SMTP id gv22-20020a170906f11600b00a5210dc4ca8mr946665ejb.72.1712745657028;
-        Wed, 10 Apr 2024 03:40:57 -0700 (PDT)
+        bh=LLYUOsiCK89ppriD2/U9aWZQKaEkdNaVp3Rv912e/iQ=;
+        b=LN9eyV5QGA1WhGzexRgwaaF0uF01tg7Y6m2g/zBYNlcfJHvfDOoRBvDchcIgwLzBc4
+         94tN0TN28omHuG+XRW6SAdbK4IVTnfkSN7mtjL0yZLj9YgXwSvwnU/afZF7QzQe6cC9O
+         vJ7UG97IPHsP9pJEKEl0R7/aekxa/tEZXVoZQmzKDTyOSThYrcqd+w5jXVmBey8KLnYl
+         lGE0sPf897egLgE+xoTN3u629nTL6nXg6s4KQWnP/uoW0j+Ixk78O20QOR+6qOuE8Xsl
+         bkEJZj6RQ3rUSHo4Z50uxhfeuXXIDRogI/SlxJBinzlw4HR1Rf028anY9HexlwODaUc2
+         rw3g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2axMXRMq9OryProZM9WlbXbvCJ2CxnQUHNyQOnzdQpE4tBhA6shkDGfG+xL5HrfzmowQIYB/htvjwpzjn+tXKqI7N4wXjL+rUBJs=
+X-Gm-Message-State: AOJu0YwfBu0pB4Xj5wiFJrNGt44cBUIKAjA9IhKURpAypzKlw8RfKlgO
+	2k4KpzJBdX3qpnKVqH0MN4pv+Mtj3Ibcri1pMwdmEZasA9yU9l8zrAPkAAdbV4KoZ4NCa7YZ5nC
+	8knhwC92LrixNVeHc41vSLA7n3vXhvSY3HWUjO2jt+iG8UIeo1FWUQtjAhYud1OCHso4Q
+X-Received: by 2002:a17:907:2ce3:b0:a4e:8c9d:a724 with SMTP id hz3-20020a1709072ce300b00a4e8c9da724mr1807517ejc.69.1712745676123;
+        Wed, 10 Apr 2024 03:41:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsq1n8hzJjx1qsuq6HCtVmCpRcsDxAqj3z/woUl7oARPWIpHpyA+Ro8wjU6p3J9OHQCuuPFg==
+X-Received: by 2002:a17:907:2ce3:b0:a4e:8c9d:a724 with SMTP id hz3-20020a1709072ce300b00a4e8c9da724mr1807499ejc.69.1712745675912;
+        Wed, 10 Apr 2024 03:41:15 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id lg11-20020a170906f88b00b00a4e2db8ffdcsm6790801ejb.111.2024.04.10.03.40.55
+        by smtp.gmail.com with ESMTPSA id ld10-20020a170906f94a00b00a51cded71f6sm4408050ejb.104.2024.04.10.03.41.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:40:55 -0700 (PDT)
-Message-ID: <39268d69-7a40-4891-847a-af167faa8581@redhat.com>
-Date: Wed, 10 Apr 2024 12:40:54 +0200
+        Wed, 10 Apr 2024 03:41:15 -0700 (PDT)
+Message-ID: <282cc68b-3730-4e8c-94cb-e4013159fad2@redhat.com>
+Date: Wed, 10 Apr 2024 12:41:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,25 +82,28 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove unsused macros
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH_v1_1/2=5D_media=3A_atomisp=3A_Put_PMIC_dev?=
+ =?UTF-8?Q?ice_after_getting_its_I=C2=B2C_address?=
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240326190903.1422069-1-andriy.shevchenko@linux.intel.com>
+References: <20240326202813.1425431-1-andriy.shevchenko@linux.intel.com>
+ <20240326202813.1425431-2-andriy.shevchenko@linux.intel.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240326190903.1422069-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240326202813.1425431-2-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On 3/26/24 8:09 PM, Andy Shevchenko wrote:
-> Entire defs.h can be killed, so do that.
-> Also kill same macro definitions in hive_types.h
+On 3/26/24 9:27 PM, Andy Shevchenko wrote:
+> We don't use the PMIC I²C client device after getting its address.
+> Drop the reference to it. We do not expect device to disappear
+> as it should be taken care by the OpRegion drivers.
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
@@ -117,136 +120,39 @@ Regards,
 Hans
 
 
+
 > ---
->  drivers/staging/media/atomisp/pci/bits.h      |  4 +-
->  drivers/staging/media/atomisp/pci/defs.h      | 37 -------------------
->  .../pci/hive_isp_css_common/host/dma_local.h  |  1 -
->  .../staging/media/atomisp/pci/hive_types.h    | 19 ----------
->  .../pci/runtime/debug/src/ia_css_debug.c      |  3 +-
->  5 files changed, 4 insertions(+), 60 deletions(-)
->  delete mode 100644 drivers/staging/media/atomisp/pci/defs.h
+>  .../media/atomisp/pci/atomisp_gmin_platform.c       | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/bits.h b/drivers/staging/media/atomisp/pci/bits.h
-> index 9fab02ebddc5..f7a66287d763 100644
-> --- a/drivers/staging/media/atomisp/pci/bits.h
-> +++ b/drivers/staging/media/atomisp/pci/bits.h
-> @@ -16,9 +16,9 @@
->  #ifndef _HRT_BITS_H
->  #define _HRT_BITS_H
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index 139ad7ad1dcf..80aa2211cdc3 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -497,16 +497,19 @@ static u8 gmin_get_pmic_id_and_addr(struct device *dev)
+>  	if (pmic_id)
+>  		return pmic_i2c_addr;
 >  
-> -#include "defs.h"
-> +#include <linux/args.h>
+> -	if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power))
+> +	if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power)) {
+>  		pmic_id = PMIC_TI;
+> -	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power))
+> +	} else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power)) {
+>  		pmic_id = PMIC_AXP;
+> -	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power))
+> +	} else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power)) {
+>  		pmic_id = PMIC_CRYSTALCOVE;
+> -	else
+> +	} else {
+>  		pmic_id = PMIC_REGULATOR;
+> +		return 0;
+> +	}
 >  
-> -#define _hrt_ones(n) HRTCAT(_hrt_ones_, n)
-> +#define _hrt_ones(n)	CONCATENATE(_hrt_ones_, n)
->  #define _hrt_ones_0x0  0x00000000U
->  #define _hrt_ones_0x1  0x00000001U
->  #define _hrt_ones_0x2  0x00000003U
-> diff --git a/drivers/staging/media/atomisp/pci/defs.h b/drivers/staging/media/atomisp/pci/defs.h
-> deleted file mode 100644
-> index 785e7a670a00..000000000000
-> --- a/drivers/staging/media/atomisp/pci/defs.h
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * Support for Intel Camera Imaging ISP subsystem.
-> - * Copyright (c) 2015, Intel Corporation.
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms and conditions of the GNU General Public License,
-> - * version 2, as published by the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - */
-> -
-> -#ifndef _HRT_DEFS_H_
-> -#define _HRT_DEFS_H_
-> -
-> -#ifndef HRTCAT
-> -#define _HRTCAT(m, n)     m##n
-> -#define HRTCAT(m, n)      _HRTCAT(m, n)
-> -#endif
-> -
-> -#ifndef HRTSTR
-> -#define _HRTSTR(x)   #x
-> -#define HRTSTR(x)    _HRTSTR(x)
-> -#endif
-> -
-> -#ifndef HRTMIN
-> -#define HRTMIN(a, b) (((a) < (b)) ? (a) : (b))
-> -#endif
-> -
-> -#ifndef HRTMAX
-> -#define HRTMAX(a, b) (((a) > (b)) ? (a) : (b))
-> -#endif
-> -
-> -#endif /* _HRT_DEFS_H_ */
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
-> index 48a1ace79897..1a71dbebbbe2 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
-> @@ -19,7 +19,6 @@
->  #include <type_support.h>
->  #include "dma_global.h"
->  
-> -#include <defs.h>				/* HRTCAT() */
->  #include <bits.h>				/* _hrt_get_bits() */
->  #include <hive_isp_css_defs.h>		/* HIVE_DMA_NUM_CHANNELS */
->  #include <dma_v2_defs.h>
-> diff --git a/drivers/staging/media/atomisp/pci/hive_types.h b/drivers/staging/media/atomisp/pci/hive_types.h
-> index 55d36931f079..34f462c0c9f9 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_types.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_types.h
-> @@ -17,25 +17,6 @@
->  #define _HRT_HIVE_TYPES_H
->  
->  #include "version.h"
-> -#include "defs.h"
-> -
-> -#ifndef HRTCAT3
-> -#define _HRTCAT3(m, n, o)     m##n##o
-> -#define HRTCAT3(m, n, o)      _HRTCAT3(m, n, o)
-> -#endif
-> -
-> -#ifndef HRTCAT4
-> -#define _HRTCAT4(m, n, o, p)     m##n##o##p
-> -#define HRTCAT4(m, n, o, p)      _HRTCAT4(m, n, o, p)
-> -#endif
-> -
-> -#ifndef HRTMIN
-> -#define HRTMIN(a, b) (((a) < (b)) ? (a) : (b))
-> -#endif
-> -
-> -#ifndef HRTMAX
-> -#define HRTMAX(a, b) (((a) > (b)) ? (a) : (b))
-> -#endif
->  
->  /* boolean data type */
->  typedef unsigned int hive_bool;
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> index 3e92794555ec..3807b31bb98f 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> @@ -31,6 +31,7 @@
->  #define __INLINE_STREAM2MMIO__
->  #endif
->  
-> +#include <linux/args.h>
->  #include <linux/string.h> /* for strscpy() */
->  
->  #include "ia_css_debug.h"
-> @@ -861,7 +862,7 @@ void ia_css_debug_wake_up_sp(void)
+> -	pmic_i2c_addr = power ? power->addr : 0;
+> +	pmic_i2c_addr = power->addr;
+> +	put_device(&power->dev);
+>  	return pmic_i2c_addr;
 >  }
 >  
->  #define FIND_DMEM_PARAMS_TYPE(stream, kernel, type) \
-> -	(struct HRTCAT(HRTCAT(sh_css_isp_, type), _params) *) \
-> +	(struct CONCATENATE(CONCATENATE(sh_css_isp_, type), _params) *) \
->  	findf_dmem_params(stream, offsetof(struct ia_css_memory_offsets, dmem.kernel))
->  
->  #define FIND_DMEM_PARAMS(stream, kernel) FIND_DMEM_PARAMS_TYPE(stream, kernel, kernel)
 
 
