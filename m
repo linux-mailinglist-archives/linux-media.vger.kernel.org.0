@@ -1,249 +1,187 @@
-Return-Path: <linux-media+bounces-9007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9008-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C4389F0C8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:29:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FF189F0ED
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:32:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67DAE28AF73
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 11:29:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E93E28BDB3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 11:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A88C15ADAA;
-	Wed, 10 Apr 2024 11:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D6E7159917;
+	Wed, 10 Apr 2024 11:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPLuWMgV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkEshHke"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AFC159598;
-	Wed, 10 Apr 2024 11:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC80159574;
+	Wed, 10 Apr 2024 11:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712748435; cv=none; b=VVOcMckFa2HZLViTFwSCI8hcGvXUlh5xZHzZmoyagi1gaZS0Lz6GmOJBVeEz26jyfs0yr2/VD9mAf+hJEX0GNHuQJtMD8OfEtefPhqEbLwSm/n78i9PcBoCEL77q0eTBk0WSMpPkLG7HS+UiYt+QxAzV3Zeuut+GPXN/Qcc5XD8=
+	t=1712748715; cv=none; b=mz/X+ypYBwFDnYfOnUCjtrSaHuycXHXYFeQmnCP1TWDJhTwgcLWBmXSwfsKUqg1ve9wfWxH0sWutNbw9NmxYNe7TDh8jvrazj6SXsrwFZHPLlUQgjTRipLJ5pIV039/d4EJtvPGvETF/sSeINU7CjqzhExx7LqZEsxZ+ftZ8yrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712748435; c=relaxed/simple;
-	bh=FsOWXLW0PHDHZni/M6GeHDub8yyvYPEYUuELjlh26os=;
+	s=arc-20240116; t=1712748715; c=relaxed/simple;
+	bh=5sSQ86qr8d5vM2cW2QvQ3quhmmC9GGv+5QhAl43SbTY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NTUmOd2qSg231S6/GiuGf2kzD40z6OzBC9vO0sn82RkA9c192+1k90YJZxgnF5JqhzoBtXb6QM9OtryCMgDkG2tLy7piGmZIR6kCS9ZlYA4ehHCsXdLB8K16qDQOeAXyRq9xH/Dw19uBBYXsY2lqvJ58oF/XPqMRT7X9E111sas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPLuWMgV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9A2AC433C7;
-	Wed, 10 Apr 2024 11:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712748435;
-	bh=FsOWXLW0PHDHZni/M6GeHDub8yyvYPEYUuELjlh26os=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oPLuWMgV4Ro+rz/gs08+aKeQeKpkKgHvt8o88/C0ptaAhIw4eeuP+qdoIWkzpxx60
-	 QXZObbEInpnD6RbWaEzPVV6poph9LaVwAhfor2xzYdN1YVpwVaP2YBtMMh19vcmHH9
-	 fr4rIsixpea2bMEUDORoIsITm0z81+/mikhb1v02Sj1Lr8jjxRcMCqO61AdGOLfYUV
-	 c1aKnJ1eG117TwzfkT4+GLkkf3NPNJ3Y1dG3ftY4eIbDv4ZlTUe8s8LtN5gxMieWHA
-	 NI9lyiE2T37SEoPwjmk+sUv8pE06b2EC9Km07eKUO/Wfmts7QHzEBW0qNGUUGiAkHW
-	 KdHtpTM+JJAbg==
-Date: Wed, 10 Apr 2024 12:27:07 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Zhi Mao <zhi.mao@mediatek.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, shengnan.wang@mediatek.com,
-	yaya.chang@mediatek.com, yunkec@chromium.org, 10572168@qq.com
-Subject: Re: [PATCH 1/2] media: dt-bindings: i2c: add Giantec GT97xx VCM
- driver
-Message-ID: <20240410-rice-fringe-4ae992217a2f@spud>
-References: <20240410104002.1197-1-zhi.mao@mediatek.com>
- <20240410104002.1197-2-zhi.mao@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=l2X2uuZAvVNJhqdwpKvqh7vNceTItGJ93UpQMeHvdooDit8ZHcWN+pgPG3vVapL7xR5+AsRonF6WnLe0rvVHBWoBZ7NXQiEvknbo4iAI59GwPGFk5q8Km/wyn9pejC/if2mDsIjr+3kYSrz+ExHfKITarG0fp1awQbC+RorAFUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkEshHke; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712748714; x=1744284714;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5sSQ86qr8d5vM2cW2QvQ3quhmmC9GGv+5QhAl43SbTY=;
+  b=hkEshHkeYuJTEL4C6X6ak1saD0WpQlYJuV7mqj2uEGw6buti+fOUnScR
+   ANLdbUUZMGnKHVnFpsJ5/I6DKvTkC2UY7evve97Y1ilvLSvmQz3j9wO0s
+   Px83On0Grkx5Q2TeMFWDndDr2lICI3H9IzaU63aKLvq6S7eRNare1OIrp
+   jcfwlvuuFcsjl9zmHkyQU8VriTuFtJO6X049rl7Ula5EyAp5WcSCQ6ZZb
+   3dOV6stCwSK7vRWxMrAEPUT2ABjXStmA6Zmyq+XxHZ74an7O/0JAjf0i4
+   FeCHShdEF5czRvYLwnw+IBB30F+l4AQRI7KVbvQt6pLau/eKmLFfI0GCw
+   g==;
+X-CSE-ConnectionGUID: 3ZixcB7rSiWpNOOAo369zw==
+X-CSE-MsgGUID: R69Onw9kQh++THZju+ydGQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18668597"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="18668597"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:31:54 -0700
+X-CSE-ConnectionGUID: Hz3adGCaRVSLRuhTqToDeg==
+X-CSE-MsgGUID: w3u/QF3gThSnmezPLT7KMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="20959292"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:31:51 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 088221203E6;
+	Wed, 10 Apr 2024 14:31:48 +0300 (EEST)
+Date: Wed, 10 Apr 2024 11:31:47 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: v4l: Don't turn on privacy LED if streamon
+ fails
+Message-ID: <ZhZ4o_B99V1trEE2@kekkonen.localdomain>
+References: <20240410100301.658824-1-sakari.ailus@linux.intel.com>
+ <50457efb-f145-4eac-a625-28e3bfc8a7af@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ISZ8o4WhYZ7L06Pc"
-Content-Disposition: inline
-In-Reply-To: <20240410104002.1197-2-zhi.mao@mediatek.com>
-
-
---ISZ8o4WhYZ7L06Pc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <50457efb-f145-4eac-a625-28e3bfc8a7af@redhat.com>
 
-Hey,
+Hi Hans,
 
-On Wed, Apr 10, 2024 at 06:40:01PM +0800, Zhi Mao wrote:
-> Add YAML device tree binding for GT97xx VCM driver,
+Thanks for the review.
 
-Please don't mention drivers here, bindings are for hardware.
+On Wed, Apr 10, 2024 at 12:12:33PM +0200, Hans de Goede wrote:
+> Hi Sakari,
+> 
+> Thank you for fixing this.
+> 
+> On 4/10/24 12:03 PM, Sakari Ailus wrote:
+> > Turn on the privacy LED only if streamon succeeds. This can be done after
+> > enabling streaming on the sensor.
+> > 
+> > Fixes: b6e10ff6c23d ("media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 19 ++++++++++---------
+> >  1 file changed, 10 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 4c6198c48dd6..acb7c3003ab6 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -412,15 +412,6 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	if (WARN_ON(!!sd->enabled_streams == !!enable))
+> >  		return 0;
+> >  
+> > -#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> > -	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
+> > -		if (enable)
+> > -			led_set_brightness(sd->privacy_led,
+> > -					   sd->privacy_led->max_brightness);
+> > -		else
+> > -			led_set_brightness(sd->privacy_led, 0);
+> > -	}
+> > -#endif
+> >  	ret = sd->ops->video->s_stream(sd, enable);
+> >  
+> >  	if (!enable && ret < 0) {
+> > @@ -431,6 +422,16 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	if (!ret)
+> >  		sd->enabled_streams = enable ? BIT(0) : 0;
+> >  
+> > +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> > +	if (!IS_ERR_OR_NULL(sd->privacy_led) && !(enable && ret < 0)) {
+> 
+> There already is a:
+> 
+> 	if (!enable && ret < 0)
+> 		ret = 0;
+> 
+> block above to ignore stream-off errors, so you can just test for:
+> 
+> 	if (!ret && !IS_ERR_OR_NULL(sd->privacy_led)) {
+> 		...
+> 	}
+> 
+> And then you can move the whole block to inside the existing:
+> 
+> 	if (!ret)
+> 		sd->enabled_streams = enable ? BIT(0) : 0;
+> 
+> block, so you get something like this:
+> 
+> 	if (!ret) {
+> 		sd->enabled_streams = enable ? BIT(0) : 0;
+> #if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> 		if (!IS_ERR_OR_NULL(sd->privacy_led)) {
+> 			if (enable)
+> 				led_set_brightness(sd->privacy_led,
+> 						   sd->privacy_led->max_brightness);
+> 			else
+> 				led_set_brightness(sd->privacy_led, 0);
+> 		}
+> #endif
+> 	}
 
-> and the relevant MAINTAINERS entries.
->=20
-> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> ---
->  .../bindings/media/i2c/giantec,gt97xx.yaml    | 91 +++++++++++++++++++
->  1 file changed, 91 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/giantec,g=
-t97xx.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/giantec,gt97xx.y=
-aml b/Documentation/devicetree/bindings/media/i2c/giantec,gt97xx.yaml
-> new file mode 100644
-> index 000000000000..8c9f1eb4dac8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/giantec,gt97xx.yaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/giantec,gt97xx.yaml#
+Seems reasonable, I'll send v2.
 
-Filename patching compatible please.
+> 
+> Which then cleans up nicely by Tomi's patch
+> introducing the privacy LED helper functions,
+> to something like this:
+> 
+> 	if (!ret {
+> 		if (enable) {
+> 			sd->enabled_streams = BIT(0);
+> 			v4l2_subdev_enable_privacy_led(sd);
+> 		} else {
+> 			sd->enabled_streams = 0;
+> 			v4l2_subdev_disable_privacy_led(sd);
+> 		}
+> 	}
+> 
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Giantec Semiconductor, Crop. GT97xx Voice Coil Motor (VCM)
-> +
-> +maintainers:
-> +  - Zhi Mao <zhi.mao@mediatek.com>
-> +
-> +description: |-
-> +  The Giantec GT97xx is a 10-bit DAC with current sink capability.
-> +  The DAC is controlled via I2C bus that operates at clock rates up to 1=
-MHz.
-> +  This chip integrates Advanced Actuator Control (AAC) technology
-> +  and is intended for driving voice coil lens in camera modules.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - giantec,gt9768 # for GT9768 VCM
-> +      - giantec,gt9769 # for GT9769 VCM
+-- 
+Kind regards,
 
-I don't think these comments are needed, they should be clear from the
-compatibles, no?
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vin-supply: true
-> +
-> +  vdd-supply: true
-> +
-> +  giantec,aac-mode:
-> +    description:
-> +      Indication of AAC mode select.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 1    #  AAC2 mode(operation time# 0.48 x Tvib)
-> +      - 2    #  AAC3 mode(operation time# 0.70 x Tvib)
-> +      - 3    #  AAC4 mode(operation time# 0.75 x Tvib)
-> +      - 5    #  AAC8 mode(operation time# 1.13 x Tvib)
-
-I dislike these enum based properties and I would rather this either be
-the values themselves (0.48, 0.70 etc).
-
-> +    default: 2
-> +
-> +  giantec,aac-timing:
-> +    description:
-> +      Number of AAC Timing count that controlled by one 6-bit period of
-> +      vibration register AACT[5:0], the unit of which is 100 us.
-
-Then the property should be in a standard unit of time, not "random" hex
-numbers that correspond to register values.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 0x20
-> +    minimum: 0x00
-> +    maximum: 0x3f
-> +
-> +  giantec,clock-presc:
-> +    description:
-> +      Indication of VCM internal clock dividing rate select, as one mult=
-iple
-> +      factor to calculate VCM ring periodic time Tvib.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0    #  Dividing Rate -  2
-> +      - 1    #  Dividing Rate -  1
-> +      - 2    #  Dividing Rate -  1/2
-> +      - 3    #  Dividing Rate -  1/4
-> +      - 4    #  Dividing Rate -  8
-> +      - 5    #  Dividing Rate -  4
-
-Same here, you should not need these comments explaining the values, use
-an enum with meaningful values please.=20
-
-> +    default: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vin-supply
-> +  - vdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        vcm@c {
-
-"vcm" is not a generic node-name, can you use one please?
-Look around similar bindings or at the dt spec for generic node-names.
-
-Thanks,
-Conor.
-
-> +            compatible =3D "giantec,gt9768";
-> +            reg =3D <0x0c>;
-> +
-> +            vin-supply =3D <&gt97xx_vin>;
-> +            vdd-supply =3D <&gt97xx_vdd>;
-> +            giantec,aac-timing =3D <0x20>;
-> +        };
-> +    };
-> +
-> +...
-> --=20
-> 2.25.1
->=20
-
---ISZ8o4WhYZ7L06Pc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhZ3iwAKCRB4tDGHoIJi
-0qQVAP9+OK/cYtTAIsZGXslgYKki3/Se5piJRnHXuSw9pqWl+wD/a7O+OCtP7921
-6LtI+5nuhgIdoOKzNL+cFkLRYvI5nQM=
-=cJO3
------END PGP SIGNATURE-----
-
---ISZ8o4WhYZ7L06Pc--
+Sakari Ailus
 
