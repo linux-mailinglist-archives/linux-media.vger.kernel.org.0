@@ -1,78 +1,73 @@
-Return-Path: <linux-media+bounces-9037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C03889F43B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 15:28:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCBD89F449
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 15:29:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2104128C6DC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:28:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F17941C212CD
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:29:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2E4715F415;
-	Wed, 10 Apr 2024 13:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD88115ECD2;
+	Wed, 10 Apr 2024 13:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T11EZJx8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dk+M56r3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E63313D2BC
-	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 13:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5D815B153
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 13:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712755658; cv=none; b=QZmXEkTFJrtDJeEiIUvQQBMJ8cJcCRv5eX07hdSbkcg/4FFEHrueSgZ7Eq1cX0pdY9Z/IfXD47OqRBm7CxpJjfAQS0fzzLY1EM+cnKv+uSPIRdoskcP7sBYwJvSFsIXPiI0BXfDy4or8Amb7wNSJN4r7dSw9UnxyjYC5m7OHRLE=
+	t=1712755771; cv=none; b=hyULtKCS4ggr2IoUpzNZEKVhXMAzrZtwhJY/o2/YgUhEB0jM9aDH8jGJMQboq/Ayp9L5WvIFct47qttR9sNKOUh7RTXq0ToFmOW3FYLvpZ2BZ5gpBQiC7MiilpAGbzw2xK6ga+TzPcidZWgPaRvzfZA74xwtD3sER+0yKvVg0FM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712755658; c=relaxed/simple;
-	bh=uekwfcb18dx43Zuv2A5bZgoGi53LxIaSg0xkA8BmqxM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=a4lXZyfSjt8PhfJR5w6GCUNqonZE6qn7xUAWkKy7YR8I5p4DnzIWjRpS/kCHVwewY36HK75xWaikL+UaJaLBK3rQigRFe4eg3O6+HSN4UavfgbkK1urM4J+o3uzIhQoz9R1xTtWWCNp1+ocrl7NgmAuLQqNIirqirN9fQfJV87o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T11EZJx8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712755655;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ts6+EaFTV3hqFveRg5zgnMS23rvp01fyPF7R6Av4b8Y=;
-	b=T11EZJx8Qski/cTfwLxs3YDGSHup1utBwAGBEu/UBeM1gnfw8xrJLNgso2sUWo31G1NfvM
-	Lbf1JVKwSo2phkWv9scO7K5AJpmqc+lt8nek1qVlRBFcvKAi1oWzvfiL6n7XSDdCkCtCUz
-	fAdtFeRlsI5o2I4beEBdRqO+2/F3RKQ=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-478-AMALg4KlOTiiqHILatRx1A-1; Wed, 10 Apr 2024 09:27:33 -0400
-X-MC-Unique: AMALg4KlOTiiqHILatRx1A-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a5190b1453fso401737966b.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 06:27:32 -0700 (PDT)
+	s=arc-20240116; t=1712755771; c=relaxed/simple;
+	bh=YVgwftwVY6+BzEoBnedEFymcgC78+dUg2rmNRT1jEhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R2lzdFs0pM4g8r8YC/FrZ+dCrp6fJ6uD5M2LIaH440KE+7xcPXzXP7g324qPJnqsTFoFnhBWL4OIbCssGIh6zpCw99m1wq5K7UuFE4csKy1rrozoGQv3lANV0gkzQI17m/4pV6th92FIS6oC2oMlMn2hFREFYErzwv1I0hq+lrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dk+M56r3; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-417c4bd59b3so1316085e9.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 06:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712755768; x=1713360568; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c49iPDK4U7F9bhFe9uHIwDW1cTsFEeQxM7cJjpTwJmo=;
+        b=Dk+M56r395GypZCQ0fB063i6N8kePS4UUx7Hlf8yTjRoQv2OvzHZzTxlEvk0YWKHEq
+         AaB+h0MdFBt8/VrOPiUgFw+PSbZmNInzXq664g7dF40ZzU0mNP5qMFPc4JjXTJf/LTIC
+         aK7HPN2muq7Wnu5e5KROoQPvVeXXalM672alIJI9o+giSSadVtvk2371cBnYmZCXIA80
+         emptMF9BgqIeQ+riQ9/gGs1zXUaTXkcixL+cYlqQ8ZPbFYVcyC1XlU4tEuGqsW4eVgRL
+         QX2qZ3m9tfjyb6QesjYY/nLHneg37pb/ALhxEi1s2YeaTEaD188pP8Zph9J0Ls2NH6Y/
+         mIcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712755651; x=1713360451;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ts6+EaFTV3hqFveRg5zgnMS23rvp01fyPF7R6Av4b8Y=;
-        b=iEgqATWds3EgN3+Ivv0BOVv3m53CL64KjhHn4zk314eIRoSDD/pt3+SU0/AjhxUyB8
-         1Zxg5Psn4UXhFEbMBNA9CvrLPqApGTr7Ieh0d2v15MRIt3qqX6O1kKKx8NNyotKb/+Qj
-         QCOsleHCYv8BMo6XPVglG83BsOcpg9kOvIVC0HqjtO2/62T1Ls3JwYx6in9sDTA4iiCS
-         yYEqcpHmRxL16ycsIPvc8tSBUEqB3PeyWzpFcN/lIVSX843Er1qWM6WsQsxoTZET7sVG
-         z+o6ksKr3g319J9a0GBgVLMZA1XttvK2mpvsS6Uu+5evWqrHj7MSnPwvjFfjIDTyZlfg
-         y72A==
-X-Forwarded-Encrypted: i=1; AJvYcCWj1UjP0n4DOaqc/e99zIcYqPMJPb4Z2Zzv5+S0PQGT6RsRhAU44sok4ZMfg2OPXeU0bXBCwcq/CWV+XwmOUFqnT6wrY9tzyA2UkAU=
-X-Gm-Message-State: AOJu0YwhaxjI6Ewcndq68k16HNDiGcUonZ8fHM5UEAkbUvcR7Wsj7qen
-	KSomh2CVGzzq5iKACjM+4Og/rcL17zx7X6aHmIiTI4KuJveMiLuYaRia+92Z7iIDdiKySzTmZnJ
-	9xuZ4EKimDUtMYssHW1ltyFp8L3GoeCk5qwvTJrPt7ZsrsP34Fyiwt5WUwN1+
-X-Received: by 2002:a17:907:7202:b0:a51:9d21:2a1e with SMTP id dr2-20020a170907720200b00a519d212a1emr2069208ejc.73.1712755651394;
-        Wed, 10 Apr 2024 06:27:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEJ+daPelqFrKT4dh1ETe0KM84w8B3Wi+iEbgtKxmadbgK2+t7oBjVXR985fyDy09YM4Js/mA==
-X-Received: by 2002:a17:907:7202:b0:a51:9d21:2a1e with SMTP id dr2-20020a170907720200b00a519d212a1emr2069194ejc.73.1712755651009;
-        Wed, 10 Apr 2024 06:27:31 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id dr19-20020a170907721300b00a4a33cfe593sm6925153ejc.39.2024.04.10.06.27.30
+        d=1e100.net; s=20230601; t=1712755768; x=1713360568;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c49iPDK4U7F9bhFe9uHIwDW1cTsFEeQxM7cJjpTwJmo=;
+        b=gdH/BXqLXYgQi4liyLIyrKR2BiZikf+ruijqzm4Q6BDJccSYjtrfrunsoV8NmR1Wdw
+         VvTK5/DOMKshxH5k1eG6CLC2H0yxHFGBnAgGehYdbnBLVcdAUwTGrKvL2Y3cy1WXTQoH
+         J7gsadP5WeH9UKiwFDnrHah3gBHjfTU6LE3QvpseQ5n/sWnGAi4x8pv6J7fEUk3O4VEa
+         uD9nee9OBFgLmZs+kA7SNqzu3MZqykKFZ+kwVw8REf4okGm+zLhB7XOtWJb8tF0GB2Yr
+         14U+ZTggwTYTSPeNYJv69ySALxfuvUpc3RgCAjyUlAcS+TK4BJiWC+lzBMr0ZVihwLzN
+         LKJw==
+X-Gm-Message-State: AOJu0YzG2HWMkq9n+TaiVHH0rAJr34AFFkEliFF2Ew9HBguCDZIjXQaU
+	I6V/p4hpvLOOOCRNMJcUlu2vw37HeDn6JnrdLke96QLmhprNsc4Xd+Ge0xTg6/w=
+X-Google-Smtp-Source: AGHT+IEBCgd8KCtzGqcKZ/SY7hho9AXrqRJJTRZDuq1uMrfp0XF6kst7APRW+ta1RRPhszH4q6y+jA==
+X-Received: by 2002:a05:600c:294c:b0:416:4973:4d59 with SMTP id n12-20020a05600c294c00b0041649734d59mr2118786wmd.12.1712755767939;
+        Wed, 10 Apr 2024 06:29:27 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id m18-20020a05600c3b1200b0041668162b45sm2289683wms.26.2024.04.10.06.29.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 06:27:30 -0700 (PDT)
-Message-ID: <d73b0bb6-2fcb-4c53-aefb-fadc25b98105@redhat.com>
-Date: Wed, 10 Apr 2024 15:27:29 +0200
+        Wed, 10 Apr 2024 06:29:27 -0700 (PDT)
+Message-ID: <014f64ca-fed4-4a44-bb61-154a2d6cd268@linaro.org>
+Date: Wed, 10 Apr 2024 14:29:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,117 +75,101 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] media: atomisp: Changes for 6.10-1
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media <linux-media@vger.kernel.org>,
+ MSM <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Pierre-Hugues Husson
+ <phh@phh.me>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
+ <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
+ <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
+ <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
+ <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
+ <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
+ <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
+ <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
+ <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
+ <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
+ <21b833cf-61c3-4fb5-8c55-492aac0fd3b6@freebox.fr>
+ <8170522f-b813-19a4-3f85-f2880809d9a5@quicinc.com>
+ <c2ce34ce-d532-4039-bb9f-d4d1b2fb23b0@freebox.fr>
+ <09bc9231-0e59-4cb2-a05f-02e2fcaf3d15@linaro.org>
+ <02a32387-1a30-44cd-b552-6e47023b997d@freebox.fr>
+ <8b9cc46d-4267-43fb-b2be-f5996566a349@linaro.org>
+ <0159169f-8da9-4ca8-a427-8160a9b09a9c@freebox.fr>
+ <bd49cfcd-13d2-4e4f-bc9d-c491558e5af7@linaro.org>
+ <651b56f2-1261-43b9-a078-adde5da555e7@freebox.fr>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <651b56f2-1261-43b9-a078-adde5da555e7@freebox.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro, Hans,
+On 10/04/2024 14:18, Marc Gonzalez wrote:
+> On 10/04/2024 15:14, Bryan O'Donoghue wrote:
+> 
+>> On 10/04/2024 13:23, Marc Gonzalez wrote:
+>>
+>>> FWIW, I get the same behavior with 854x480 and 2560x1440:
+>>>
+>>> 1) If mpv runs with '--length=N' (play only part of the file)
+>>> then mpv exits cleanly, with no kernel messages.
+>>
+>> On -next ?
+>>
+>> I think you mentioned before you were doing your work on an older kernel
+>> and forward porting patches ?
+> 
+> I work on v6.9-rc1
+> Is -next that much different in that area?
 
-Here is a first round of atomisp changes for 6.10,
-this pull-request supersedes / replace my
-"media: atomisp: Changes for 6.9-1" pull-request.
+No, I thought you were on a 4.x kernel for some reason.
 
-Various cleanup patches from Jonathan Bergh and Andy +
-a set of patches from me which has been reviewed
-by Andy and Kieran.
+6.9.x is fine
 
-Highlights:
-- Remove more dead / unwanted code
-- Changes to make the atomisp driver work with libcamera,
-  this has been tested with libcamera's simple pipelinehandler
-  together with an ov2680 sensor
+> 
+>>> 2) If mpv plays the entire file, then mpv hangs at the end
+>>> (needs CTRL-C to exit) and driver prints to kernel:
+>>> [68643.935888] qcom-venus cc00000.video-codec: session error: event id:1001 (deadb000), session id:79d42000
+>>> [68643.935995] qcom-venus-decoder cc00000.video-codec:video-decoder: dec: event : 1001
+>>
+>> Hmm
+>>
+>> #define HFI_ERR_SESSION_FATAL				0x1001
+>>
+>> Something is causing the firmware to return this packet to you.
+>>
+>> Probably worth tracing the last five messages sent by the firmware prior
+>> to that to see if we can root-cause.
+> 
+> I'm not seeing anything from the FW in dmesg.
+> I suppose I need to enable DEBUG in various places?
 
-Regards,
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -129,7 +129,8 @@ struct venus_hfi_device {
+         u8 dbg_buf[IFACEQ_VAR_HUGE_PKT_SIZE];
+  };
 
-Hans
+-static bool venus_pkt_debug;
++#define DEBUG
++static bool venus_pkt_debug = true;
 
+We can add additional flags - it'd be nice if these could be controlled 
+by a module prameter or debugfs trigger - to this
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+venus_fw_debug = 0x2f;
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+But start with the default mask = int venus_fw_debug = 
+HFI_DEBUG_MSG_ERROR | HFI_DEBUG_MSG_FATAL
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.10-1
-
-for you to fetch changes up to b3462fa5eff2ada1f2f6ae750f568af22d5b5db7:
-
-  media: atomisp: Get rid of PCI device ID hack check (2024-04-10 12:48:18 +0200)
-
-----------------------------------------------------------------
-atomisp staging driver changes for 6.10-1
-
-Highlights:
-- Changes to make the atomisp driver work with libcamera,
-  this has been tested with libcamera's simple pipelinehandler
-  together with an ov2680 sensor
-- Remove more dead / unwanted code
-- Various cleanup patches from Jonathan Bergh and Andy Shevchenko
-
-----------------------------------------------------------------
-Andy Shevchenko (4):
-      media: atomisp: Remove unsused macros
-      media: atomisp: Put PMIC device after getting its I²C address
-      media: atomisp: Replace open-coded i2c_find_device_by_fwnode()
-      media: atomisp: Get rid of PCI device ID hack check
-
-Hans de Goede (14):
-      media: atomisp: Fix double negation in unsupported revision error
-      media: atomisp: Remove isp_subdev_propagate()
-      media: atomisp: Rename atomisp_set_crop_and_fmt()
-      media: atomisp: Remove custom VCM handling
-      media: atomisp: Remove ISP controls which get passed through to the camera
-      media: atomisp: Stop setting sd->devnode for the ATOMISP_SUBDEV v4l2-subdev
-      media: atomisp: Add DMABUF support
-      media: atomisp: Change ISP subdev name to "ATOM ISP"
-      media: atomisp: Make MC link from ISP to /dev/video# output node immutable
-      media: atomisp: Implement link_setup() op for ISP subdev MC entity
-      media: atomisp: Drop second V4L2_PIX_FMT_UYVY atomisp_output_fmts[] entry
-      media: atomisp: Replace V4L2_PIX_FMT_RGB32 with V4L2_PIX_FMT_RGBX32
-      media: atomisp: Disable broken V4L2_PIX_FMT_RGBX32 output support
-      media: atomisp: Initialize sequence counters to 0 instead of -1
-
-Jonathan Bergh (10):
-      staging: media: atomisp: Fix various formatting issues and remove unneccesary braces
-      staging: media: atomisp: Fix formatting issues and minor code issue
-      staging: media: atomisp: Remove unnecessary braces from single line conditional statements
-      staging: media: atomisp: Fixed "unsigned int *" rather than "unsigned *" declaration in variable declaration
-      staging: media: atomisp: Ensure trailing statements are on a newline and remove spurious whitespaces
-      staging: media: atomisp: Remove unnecessary parentheses from conditional statement
-      staging: media: atomisp: Remove unneeded return statement from void function
-      staging: media: atomisp: Remove old commented code and fix multiple block comment style
-      staging: media: atomisp: Fix various multiline block comment formatting instances
-      staging: media: atomisp: Remove extra whitespace after opening parentheses
-
-Zhipeng Lu (1):
-      media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
-
- .../staging/media/atomisp/include/linux/atomisp.h  |  24 --
- .../media/atomisp/include/linux/atomisp_platform.h |   5 +-
- drivers/staging/media/atomisp/pci/atomisp_cmd.c    |  31 +-
- .../media/atomisp/pci/atomisp_gmin_platform.c      |  28 +-
- .../staging/media/atomisp/pci/atomisp_internal.h   |   7 +-
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c  | 362 +--------------------
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 102 +++---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  98 +++---
- drivers/staging/media/atomisp/pci/bits.h           |   4 +-
- drivers/staging/media/atomisp/pci/defs.h           |  37 ---
- .../pci/hive_isp_css_common/host/dma_local.h       |   1 -
- drivers/staging/media/atomisp/pci/hive_types.h     |  19 --
- .../atomisp/pci/runtime/debug/src/ia_css_debug.c   |   3 +-
- drivers/staging/media/atomisp/pci/sh_css.c         |   1 +
- drivers/staging/media/atomisp/pci/sh_css_sp.c      | 113 ++++---
- 15 files changed, 221 insertions(+), 614 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/defs.h
-
+---
+bod
 
 
