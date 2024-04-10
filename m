@@ -1,103 +1,118 @@
-Return-Path: <linux-media+bounces-8956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8957-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE76089E740
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 02:49:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCED89E7F0
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 03:48:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68B1D1F22674
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 00:49:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 527591C212C5
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 01:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF76D1C2E;
-	Wed, 10 Apr 2024 00:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8L5XQ7U"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5A341C2E;
+	Wed, 10 Apr 2024 01:48:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FBC391;
-	Wed, 10 Apr 2024 00:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CB4748E
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 01:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712710170; cv=none; b=Xuv8OF5z86YiYux7zIhE6Nh5CCgiGPtNuKvjfFdET9jMz3TGNgVJkksiQB2+zad5vh5/fJErxEBpeFIK4W0vRo83DS6M2D26P85CD+09XwOeFROrw2GfI0cD0qSIrCl7tcFxg3iJOtoSuhiSHHd6X7Uu+dndr1hiGW3w4QIsT7A=
+	t=1712713705; cv=none; b=BpFqoNW33w5xV46YwGcR3uTmx8+gYY1QlcLzyMqCsASkhnUHJwbanCcepq6wR8VxdFFw89EeTm3KbaJonMTI3l7Gmd4J/kgso/1roaQzJ9CUY2ji4iKzfM1/XQB45bgWgPYNAkfUddp520d0whTLmXujyb8qp39J379zqbowp9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712710170; c=relaxed/simple;
-	bh=4dQCSPVGdX7rBPcNynyhRW6/uaF2WhuiAp6auxw113o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J/BzGEnSVKRgcyhmn8saSGjQBxkCc+7IO1bN5wr5nfqZCHZrYFdIaMP6o6LxCk3XkA4U6NWqx5RErWtL6zFPsS0O9I1DzEv6blmUSrA3STL4vWe7sWdDlTx8o5JRryd3HrGCObjR5WuHcqClg46+Y6PiZLyoi3vGNv9q0+qPZEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8L5XQ7U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246CAC433F1;
-	Wed, 10 Apr 2024 00:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712710170;
-	bh=4dQCSPVGdX7rBPcNynyhRW6/uaF2WhuiAp6auxw113o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N8L5XQ7Uyt1p7D86PM0X9FaE6vHZHDfNfuH9YFuO+/Jv+9nv0C8w2nqJoGRT5rWu8
-	 j9BBJDcdPfGXM1lFTqzgL/VqFo1kuEcQFTHzbOJhPlyXc+ZiRpTQDK7XOFDQynMD7Y
-	 cIH3sJPdfzwxouZTNEZN85j5odVTZPHNHqnG4NJHQCrYf4v86s+FxIe0Z2htkcO80N
-	 hlOGZqLDF6eCcf0jGutD0n3JVP4DVNhd/gwuzZlV2h5qr7I809K7D9AGFj8ASa6uFL
-	 Reh8saRGPvMjhqmzqhPTLpvcqEf2S2pVFao+QbNSfqtRvHU5lD4/2xyVvI2ci1kier
-	 OwSq0tEYCqMUw==
-Date: Tue, 9 Apr 2024 17:49:28 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Julien Panis <jpanis@baylibre.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Russell King
- <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
- <andrew@lunn.ch>, Ratheesh Kannoth <rkannoth@marvell.com>, Naveen
- Mamindlapalli <naveenm@marvell.com>, danishanwar@ti.com,
- yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH net-next v8 3/3] net: ethernet: ti: am65-cpsw: Add
- minimal XDP support
-Message-ID: <20240409174928.58a7c3f0@kernel.org>
-In-Reply-To: <20240223-am65-cpsw-xdp-basic-v8-3-f3421b58da09@baylibre.com>
-References: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
-	<20240223-am65-cpsw-xdp-basic-v8-3-f3421b58da09@baylibre.com>
+	s=arc-20240116; t=1712713705; c=relaxed/simple;
+	bh=awYaoQ5RjTiXEd2zyXOdi1T+j0zQPMuy5DS4CsxUd30=;
+	h=Date:From:To:Subject:Message-Id; b=ZjjGkPAOW+uUQpS0rTAfGJPx9Dj+xkMOVYvq1LMAjU2zdF/63PijOGQ17KL31KEAMICaWWbuCzdWE/nEhLsD7ammO1v8y7iNH7zwxvVtVSI3moZxAQKs3Ep4tYDJrlIJ+keh8mwKRwc9lmWnpbF9FAktph//ktfDN4FGc5aVk9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BF3C433F1
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 01:48:24 +0000 (UTC)
+Date: Wed, 10 Apr 2024 03:48:21 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240410014824.62BF3C433F1@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 08 Apr 2024 11:38:04 +0200 Julien Panis wrote:
-> +static struct sk_buff *am65_cpsw_alloc_skb(struct am65_cpsw_rx_chn *rx_chn,
-> +					   struct net_device *ndev,
-> +					   unsigned int len,
-> +					   int desc_idx,
-> +					   bool allow_direct)
-> +{
-> +	struct sk_buff *skb;
-> +	struct page *page;
-> +
-> +	page = page_pool_dev_alloc_pages(rx_chn->page_pool);
-> +	if (unlikely(!page))
-> +		return NULL;
-> +
-> +	len += AM65_CPSW_HEADROOM;
-> +
-> +	skb = build_skb(page_address(page), len);
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-You shouldn't build the skb upfront any more. Give the page to the HW,
-once HW sends you a completion - build the skbs. If build fails
-(allocation failure) just give the page back to HW. If it succeeds,
-however, you'll get a skb which is far more likely to be cache hot.
+Results of the daily build of media_tree:
 
-> +	if (unlikely(!skb)) {
-> +		page_pool_put_full_page(rx_chn->page_pool, page, allow_direct);
-> +		rx_chn->pages[desc_idx] = NULL;
-> +		return NULL;
-> +	}
+date:			Wed Apr 10 03:00:46 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	682f4968084a3d3eed08718b23fe9b6777dd6c2a
+v4l-utils git hash:	20e3e93450850280ddce5cef44a7dcf7e9d96105
+edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8627-gd1052429
+sparse version:		v0.5.0-8627-gd1052429
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a7ebc7863dd57d9fa70443fa9f071ca22da90b8c
+host hardware:		x86_64
+host os:		6.5.0-26-generic
+
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/spi/cxd2880-spi.c:391 cxd2880_start_feed() warn: Please consider using kzalloc instead of kmalloc
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/v4l2-core/v4l2-ctrls-api.c:1091 v4l2_query_ext_ctrl() warn: iterator used outside loop: 'ref'
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+drivers/media/test-drivers/vivid/vivid-core.c:1989 vivid_create_instance() parse error: turning off implications after 60 seconds
+drivers/media/usb/em28xx/em28xx-video.c:2861 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Wed Apr 10 03:14:29 CEST 2024
+virtme-64: WARNINGS: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 5
+
+date:			Wed Apr 10 03:47:06 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
