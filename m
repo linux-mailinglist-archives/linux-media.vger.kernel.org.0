@@ -1,142 +1,228 @@
-Return-Path: <linux-media+bounces-9043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B32E89F95F
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:07:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7898889F9CB
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:22:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CA4A1C252CC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 14:07:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3EB21F21C0D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 14:22:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BD1178CE7;
-	Wed, 10 Apr 2024 14:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3856B15F308;
+	Wed, 10 Apr 2024 14:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BGd3q1gL"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ft7AR8Na"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2121.outbound.protection.outlook.com [40.107.244.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA081178CC5
-	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 14:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712757727; cv=none; b=sIcrkf7U1OWz61TcICMugsUxHeLsI/YIRq/5XACd0issvqioz2mQsfQVqRttxZ+KTBMC100j7VAKlRjxdj7MLTbxsBeFwRkdl9BPnmzlBt+X3+jeli5ievE0HM7RFGdEqFSpCGcRFRqbYRqE1dSb4Ng29uJ24rrXAB7o3PeoLnI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712757727; c=relaxed/simple;
-	bh=KvnLaO2vh9JKCCC44F3x8MRuznqiG8mlc5GYk8UjGJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WPmgF7nAQA87E6PRWRR5bPUvU2pPQH4eP4W2Ra+B7phaDjJP/8ynk7d++sTpiVEyBIN8XY4oZOBXP39J0Ee+H+A1aEFGKvuKgGBJIrs4Y3zVtTSZqMMeeGY8jjMsJiOG19yqq57dp5AckOVLawKuk2LuotaZwOSEOvIN3+8GSn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BGd3q1gL; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d8b2389e73so18788731fa.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 07:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712757724; x=1713362524; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U2BLuV2TaoJubB+i1BbXKPJs9YF+spnADheAPSMmIQo=;
-        b=BGd3q1gL58C1Sgbyp8sRkLt5rnoS1GJiDbAQ2zMUHqTxTl5gzvv8gDGrVGCCLR/fz4
-         NxwjQ0FELDcbIkCpyACsY3afM3J5vkHccw9k4Ja3j9Gp7fni4yPrHMXwrw13Yyk4UzyB
-         VhpS5zW8flhsDRzV0CO12pkHBb+YUyBocd+VHS5TsvScmv17M2ms5spW0zLH+jFf4BOS
-         o7iy+JRUDv6DuUBfUSYr8cP/R8UzOKoBnkREoUQipVpbFOmSfMwzcoAUgPiVcGCZKwLQ
-         ZBSo001KQFaoWGYBvvkTO2FgAVE3Iu++k+wsZ6CqMtaYLiMY2/o8BhomTHFWnBPfb3rO
-         duhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712757724; x=1713362524;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U2BLuV2TaoJubB+i1BbXKPJs9YF+spnADheAPSMmIQo=;
-        b=t5EFSSvsoogdLsup3IcKE4b9i7vl2MwuRU4EtUdLpZIz/gMMaH9BLIGTa5DgHNg4Cj
-         eV3Zw5EwjFA56p6SQOFDnhrD0VOd8CvMVBhUuUO7X+vIcGfxqruBvAzrgzRn6vVSHaz6
-         KYd+37HComsU7BClV433+fOI+bqzKRQA7x+J5BWneFNijECiJ6IXz4Bxb5HjYBaX70Ag
-         jDXNz3aZDwWCzqmu1J1fzJIraf5n6k+enPTc4MOWeeCVhykqOZUWj7tB26eeiw8LsyA+
-         2Es9tgis0ewy24gWanVgEUJ1bL1VnDzg+mpKnSfFwJ+iZ6rBruGpuN3IB0GEibKLF0iz
-         ga3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXnZQq6X/0KujTkQr5+unX1Ra5uPhRkWV+QDapBTAY3WwAjwRIOSV5Fp7EMyilOsGujtw5jTWZXbKmXn8GzGEFzirmr4pJ4FAKeexc=
-X-Gm-Message-State: AOJu0Ywn15HFAw4dt7OxpJAT+dX0JvJzLbwT44x3ZoccmeF2Jr+w8etU
-	+x14eu7Ibk8EUz9JS6uIo92AiiUBRmQBgRHCmHjukS5+IjJ5bENzLPohZrW+Mms=
-X-Google-Smtp-Source: AGHT+IHDued1BgxOQepma0f2LhqTqT7GeyNGendravbhe/f3zWxtfonddLPg0YjH5l/Vd7JY0K220Q==
-X-Received: by 2002:a05:651c:19a9:b0:2d8:3fc1:3b20 with SMTP id bx41-20020a05651c19a900b002d83fc13b20mr2155380ljb.31.1712757723799;
-        Wed, 10 Apr 2024 07:02:03 -0700 (PDT)
-Received: from [192.168.1.70] ([84.102.31.74])
-        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b00416a6340025sm2350977wmo.6.2024.04.10.07.02.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 07:02:03 -0700 (PDT)
-Message-ID: <9cb903df-3e83-409a-aa4b-218742804cc6@baylibre.com>
-Date: Wed, 10 Apr 2024 16:02:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E276015ADB0;
+	Wed, 10 Apr 2024 14:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.121
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712758947; cv=fail; b=FCcmbL0A0G9kcwPCcZGMhM4oxrnx1cHZ5U8W78Xikb+pVk2kl7TaIS56M6VxOXY8uJ1y5VRlEOvKLO76JHY3UaCG1DgMCDFpm6HHJHQL0uB181Zc8LelQ4GictCBBKG+GaXWH8nzAuefch5YZs20YwvxZ1zfZuesbX4RtckYRGA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712758947; c=relaxed/simple;
+	bh=oQM9YExNdB+eKt6HLKsjeJClW1lAXsBoS0t89t/UNQU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=u5M47IKmcE3oRhs5zOV3ydDmQ4daKoB1QyEhArXg9MkkZNPh+a/0f2Wx/2bLbDhKbEvW5l2M+zsn1Lj+8iPOyD+wDG/YHoltJ56IVia31fnSHhtrKObmJAQDqSZ29ei83C+Q4ilQQ6Tj/Lxr5zbJUcDFAce+jsXQmHYgNAKv3gQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ft7AR8Na; arc=fail smtp.client-ip=40.107.244.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A/A39cTkRMay/8oLdSh+p5+w7tV7NcR+N18b1ZEOpspBZ2Fb7OpQ88YmVHRoGdjth7gLuKc/lEoO7HUrfyAbNONFHkeItgNdrwat7xVDHNx0jYGjLYxzGL9dzdv166AvM1x//dBZDJwzEU7/LrxFGjkAhV3OABIew/NAhwZatVBmpxOik9yX8XsiKQ5Y28lgTbqsHQXVcoawc6/uHrnXTf5IWniQr8BqtAUjWpVloP4JnctGYFRnybAbPe0PES/Roe38Et6whXxDo4xl4reX6UenNACwuqwpkscaXbuzr9Idqa137rXuBjt7LyIwE7r+Mlmsneo9rcruvD1ImEQLkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bK2luO03Ielw2QJsOORU4GatgvD/LP3DVTBkFsLY5t4=;
+ b=T9oXnmiwLXAHBrnKPNZrn+DpRYvEcMJMRQve+kZUnXkpxJDPulAcpuyWPwGpz9+40pg7qhlvFiQ4D4V0y7D1qh2Zydnn9O9JGkAMn9McrhRUEZkORzL2rP7wr5wHem/b/ZSog9DFHebopF23WLl3G2yHQBdWb+eGptUM/BVCjT+TjXmcpLXDtzoBpRMAfa55KZg6UE2lSGIGg8/xoPYEJUbQx5ECYs0pzoxYWm6oHfLDHtwAn15MDxEbTrg8LUzD/kpMgFIayW8+cTuitzbrZrZ0PD1iz4Oyra3xqy5bEp0PNIaiBmm31+fh3hm5ZMGMv8s2QJjw341L6ERig85qaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bK2luO03Ielw2QJsOORU4GatgvD/LP3DVTBkFsLY5t4=;
+ b=ft7AR8NaC9NpiJQjA3IT/5GuwLYTjeNtobEsVGwwgxgemozN/AOOKdH72Fh6B77NWDApKnwH9EPADdkxapavzhUhtZtUcKrDWSMpmwic/JTr/9VAuKND1fwcFaPyq+Hvvolw/RGBDeYOu/bTLGw96et7vi5U4kajIcRq2UF2jOA=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB5721.namprd12.prod.outlook.com (2603:10b6:8:5c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 10 Apr
+ 2024 14:22:19 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7409.042; Wed, 10 Apr 2024
+ 14:22:18 +0000
+Message-ID: <0df41277-ded5-4a42-9df5-864d2b6646f5@amd.com>
+Date: Wed, 10 Apr 2024 16:22:00 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+To: "T.J. Mercier" <tjmercier@google.com>, Rong Qianfeng <11065417@vivo.com>
+Cc: Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu
+ <jay.xu@rock-chips.com>, sumit.semwal@linaro.org,
+ pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+ <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
+ <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
+ <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
+ <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+ <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR08CA0239.eurprd08.prod.outlook.com
+ (2603:10a6:802:15::48) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 3/3] net: ethernet: ti: am65-cpsw: Add minimal
- XDP support
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Naveen Mamindlapalli <naveenm@marvell.com>, danishanwar@ti.com,
- yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v8-3-f3421b58da09@baylibre.com>
- <20240409174928.58a7c3f0@kernel.org>
-Content-Language: en-US
-From: Julien Panis <jpanis@baylibre.com>
-In-Reply-To: <20240409174928.58a7c3f0@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5721:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	RAXuz9Ue2n4VdHjHSbGXIZ/vzZ+1nvGL/X64R5AM9YvsqaC7qLb4moYn+texMzZJEs4RHXH1J63x1CftnPE+uPopw8Hf4VKx0twtv0cumaQR2+SQZDAAHCNjXbjFsR4VcPLGcTckAVhRIwo1kbu9cMkBvy46p7ArjtkR/ojVU20Vyxpj1XdZe9hzJIrVvMH2jz+ZwbgBhgqES8iOCHHC8kGaICcJtpOvPfJh3DzYHOjW5A8ylok+xcn2kjXuL5nkmSZlbEPe3Yb3V5JvJnL5KWgVmFvo2Vdg+bVkVbA7RPutVHXlfMfkzEiuE183NCCLql4VF1MIXJFr3+6mGlhgSwb7wbriPvzS82952Z/JQzYfR91FPFmyCdr5vyJyEFvPGWLl6/nQT84ZNd95iGjChALeZpxwzCy0q5nZxDa54qP3ysoFojNpLdqNEm7siT5NcBTgKqUrvm4cPCfin5pZHrmcp0sQoZJxQY75PamlbYk12s6YfG5hp+KGNSSFWJSU2U4wjzhWQTUmFDZdaNPYsabSAySyRkWzd51deif6u66aFM7UgDI1x0oddYvg4O37M9t3z52R+zuP5X9dvQ6TM2K8W3vNLNWqE/p47LlUv+o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d1JCRnczTDVWSzRSeXhIN3FTYk1lTXhuWkpWUG9FK2Y5bEx4UFd2ekRJa0hU?=
+ =?utf-8?B?R3BxN29GemtIMWdja0MvMlptcW9jY3NtWm5CM25PTHpHTk84RWRCOU9KMzd6?=
+ =?utf-8?B?YXdMclR0b1NBR3lnWkJwN2tCdllpQ0d3K0l6bjM5cEQ5ME5WRlUxbjZVUDhp?=
+ =?utf-8?B?cXJ0SlNTZTExc3lqV213MjlYK0ZRdjduc3B3MFFUZnErK29OTXB1c05vaG1R?=
+ =?utf-8?B?eDFGNkloeUNFdUZqMU1yVVF1OWZrQmZYYXRCSHh3VUtwZDJiR0V4NC9KdTNP?=
+ =?utf-8?B?S2hsTHZDWEZDbzRSMnZxaTZwZmxYSlVzd01uakQ3VlZYcTBVbnpUcU53WUJs?=
+ =?utf-8?B?R284RkVyRzJzV2hxbnhFa09LaFBxRFlmTkw5UGFRQUZkK0MzYk1XeThMUkRV?=
+ =?utf-8?B?RmRlQURiQUtMMTNnS09hWXM5Rm44TWZoV1FVem1iQlF3VCtiUUZzZVFaVzJw?=
+ =?utf-8?B?emF4NElvYTM3RUFlVi81M3pRWGNKWkpCTXdpRndyd2RldTJUM3BUbXE4ZnM0?=
+ =?utf-8?B?YUxRSW5SZ0d5UlFWS1RXMGwxQWxUZGl4OXcvN2JwdFhIc1lzejJkOE5kWkpJ?=
+ =?utf-8?B?Vk5tNG53TVY0L21iYWtRSE9XakxDZjU1MUo0bzNqREdwVExIZlB2UEZScUhH?=
+ =?utf-8?B?aU1aUk4vc1p5clo2UUwwUkFmQ0xtQ2FST2ZEVGtpcDI2VE9hNUJSSkRma1A4?=
+ =?utf-8?B?aDM1NEJLRzM3RzZiNHJiK21LOG9odGE2aVNDL2RzQXRsajU1dTFHSUNXTkpK?=
+ =?utf-8?B?SVNXM2ltd1B5Y0xjdktvVFo0YnRnWERHdkdNZlhRRHY1bkozSnlqbElXTE9z?=
+ =?utf-8?B?T25Sd201b0oxelgwbmV1QnR4eGY1aGxIQkZJWXQrRzcxamx4MW4zN25BeXZ1?=
+ =?utf-8?B?K1RmOTlic0tISEIzVHg4N0J1Zi9oTzlqYU15ZHJrUWdVNitrOGdMR0szZkZC?=
+ =?utf-8?B?ZTZCNmRPdnNieFFqMXcrS1hmamxZMFgyblF4WnFqc0VNYUM2MEx0blk1SGor?=
+ =?utf-8?B?OVJHaWFSMWtpMEJRVU5SSnJxUDlHLzFZMUptSFJ1SG45V3YxV1BoYXdvRkhS?=
+ =?utf-8?B?ZU1wNUQyaDFQVFBCam1iK1BmMDhBdzcxazB2ajVCTWZFVGc2SHFlT0szMlNH?=
+ =?utf-8?B?OXk4WUprbTRUUGxQZUZPQ0xuQWF0b2J6a0ZyaWRmckNDN3ppdnFDa2g0ZmYw?=
+ =?utf-8?B?OHJlVXhpYXN1UlJUWlE2N2Nkc1k2dHBucVJvSVJYVUlpZVA0dXpoM05CeHVG?=
+ =?utf-8?B?UDF2Y09Qc1lldG8zbnhWazd0Q284UXRIOW5QL1dscTdEaFFoRTZPOHQ5L1lx?=
+ =?utf-8?B?MXM1Q3JCZGVwSlVtbWxOMkxaL01FS1QxajRISndXblJmYmozK0l0NkpCZXNk?=
+ =?utf-8?B?WDVreWNnQzNSa2xKOTZoOHp6ZVB0Z2JzZ1A5TW9qRDByOVdMQmhPbzllWC9V?=
+ =?utf-8?B?ZlNYT3E2d1d6MEh1VFBLR0owMXVBWTA3SVdvSGhRazhzMmpjeVJWZExFbVZl?=
+ =?utf-8?B?Mkd2Q2J6aVUrSmhXK1VHaTRBeURSUWJOMnBHc0tNSm84dVcvdzdnZUhHUHls?=
+ =?utf-8?B?NlFGUWtlOG9ZVU4zdDk1aVBGTEloLy9DaDBsM2pReXdyU2U4cC9sOWNjaTZi?=
+ =?utf-8?B?WnJjbVJNWUFvRkpibFlNdlVJbEp2TmpXd25iWE1SRENpTm82UVhwN25XL3k2?=
+ =?utf-8?B?M2pLbWpsNVVhZnUvSnNuV0NVT2oydkE2SE9BdllZdGFNMmxhQVN5N1haRnBF?=
+ =?utf-8?B?K1hWSE5oS0FaWkdUOHB0d2YvQWROdW44dFdac0pjR2p2b1lZR2VjbHFhU2ZF?=
+ =?utf-8?B?R2ppNzlDcEp0VUNEeEwzU04yMHFHZ3JVeVJJQS9sZGltYzQzbWlOQXhpYlNp?=
+ =?utf-8?B?Tzh4TnlLOEtEWllUS3Z4aFJud2pMaUE1ekVjd1FMWkJsaWdIRkF5RFU4THpK?=
+ =?utf-8?B?cGV0ODNHMmJIRDZVazN4NzF4ZGN5YkhFdll6dzl1SFVKYVRyYTUzMW10OUlN?=
+ =?utf-8?B?SDh4L3ppeDdBSGV4NzYvN09RQ0xnKy9MeFgzaDc3WUtFRHV4M0s0WjN1OHg3?=
+ =?utf-8?B?aFNQZ0tpK1NRWTVkQmMzY1RvV0o5QWt5TmFSZFdxQWJaMC9RemxYd1F6cG1s?=
+ =?utf-8?Q?v17umNHXgyWVmR1ZeLPtGRGUg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0acf21fd-0ed0-4e31-a196-08dc5969a0e0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2024 14:22:18.8185
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /2ZcmmtpC3S/0NksgbRKDopFUvc261CS1ni5e3G/T190y/UqE0sEOZuo3TzKDG3x
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5721
 
-On 4/10/24 02:49, Jakub Kicinski wrote:
-> On Mon, 08 Apr 2024 11:38:04 +0200 Julien Panis wrote:
->> +static struct sk_buff *am65_cpsw_alloc_skb(struct am65_cpsw_rx_chn *rx_chn,
->> +					   struct net_device *ndev,
->> +					   unsigned int len,
->> +					   int desc_idx,
->> +					   bool allow_direct)
->> +{
->> +	struct sk_buff *skb;
->> +	struct page *page;
->> +
->> +	page = page_pool_dev_alloc_pages(rx_chn->page_pool);
->> +	if (unlikely(!page))
->> +		return NULL;
->> +
->> +	len += AM65_CPSW_HEADROOM;
->> +
->> +	skb = build_skb(page_address(page), len);
-> You shouldn't build the skb upfront any more. Give the page to the HW,
-> once HW sends you a completion - build the skbs. If build fails
-> (allocation failure) just give the page back to HW. If it succeeds,
-> however, you'll get a skb which is far more likely to be cache hot.
+Am 09.04.24 um 18:37 schrieb T.J. Mercier:
+> On Tue, Apr 9, 2024 at 12:34 AM Rong Qianfeng <11065417@vivo.com> wrote:
+>>
+>> 在 2024/4/8 15:58, Christian König 写道:
+>>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
+>>>> [SNIP]
+>>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+>>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+>>>>>> offset and len.
+>>>>> You have not given an use case for this so it is a bit hard to
+>>>>> review. And from the existing use cases I don't see why this should
+>>>>> be necessary.
+>>>>>
+>>>>> Even worse from the existing backend implementation I don't even see
+>>>>> how drivers should be able to fulfill this semantics.
+>>>>>
+>>>>> Please explain further,
+>>>>> Christian.
+>>>> Here is a practical case:
+>>>> The user space can allocate a large chunk of dma-buf for
+>>>> self-management, used as a shared memory pool.
+>>>> Small dma-buf can be allocated from this shared memory pool and
+>>>> released back to it after use, thus improving the speed of dma-buf
+>>>> allocation and release.
+>>>> Additionally, custom functionalities such as memory statistics and
+>>>> boundary checking can be implemented in the user space.
+>>>> Of course, the above-mentioned functionalities require the
+>>>> implementation of a partial cache sync interface.
+>>> Well that is obvious, but where is the code doing that?
+>>>
+>>> You can't send out code without an actual user of it. That will
+>>> obviously be rejected.
+>>>
+>>> Regards,
+>>> Christian.
+>> In fact, we have already used the user-level dma-buf memory pool in the
+>> camera shooting scenario on the phone.
+>>
+>>   From the test results, The execution time of the photo shooting
+>> algorithm has been reduced from 3.8s to 3s.
+>>
+> For phones, the (out of tree) Android version of the system heap has a
+> page pool connected to a shrinker.
 
-Not sure I get this point.
+Well, it should be obvious but I'm going to repeat it here: Submitting 
+kernel patches for our of tree code is a rather *extreme* no-go.
 
-"Give the page to the HW" = Do you mean that I should dma_map_single()
-a full page (|PAGE_SIZE|) in am65_cpsw_nuss_rx_push() ?
+That in kernel code *must* have an in kernel user is a number one rule.
 
+When somebody violates this rule he pretty much disqualifying himself as 
+reliable source of patches since maintainers then have to assume that 
+this person tries to submit code which doesn't have a justification to 
+be upstream.
 
+So while this actually looks useful from the technical side as long as 
+nobody does an implementation based on an upstream driver I absolutely 
+have to reject it from the organizational side.
+
+Regards,
+Christian.
+
+>   That allows you to skip page
+> allocation without fully pinning the memory like you get when
+> allocating a dma-buf that's way larger than necessary. If it's for a
+> camera maybe you need physically contiguous memory, but it's also
+> possible to set that up.
 >
->> +	if (unlikely(!skb)) {
->> +		page_pool_put_full_page(rx_chn->page_pool, page, allow_direct);
->> +		rx_chn->pages[desc_idx] = NULL;
->> +		return NULL;
->> +	}
+> https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/drivers/dma-buf/heaps/system_heap.c#377
+>
+>
+>> To be honest, I didn't understand your concern "...how drivers should be
+>> able to fulfill this semantics." Can you please help explain it in more
+>> detail?
+>>
+>> Thanks,
+>>
+>> Rong Qianfeng.
+>>
+>>>> Thanks
+>>>> Rong Qianfeng.
 
 
