@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-9001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1638D89F057
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:06:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9397C89F058
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:07:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 464B4B220CE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 11:06:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F18528295B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 11:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E2213D274;
-	Wed, 10 Apr 2024 11:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14CE15958A;
+	Wed, 10 Apr 2024 11:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjSYlsnE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8tm7INe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600D11591E1
-	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 11:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8433913D274
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 11:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712747204; cv=none; b=HhuYYEe7oc+8LwIUTuXTUCEks2lKMLLpAslHv91gp/RA5XM+mKOCbDlSoUOfIA0oLP6H99JhEqHt6LuBCRczyF3ed0QIdO95TiCZW6IItt0tkZMozQmGjtE4xBdBKKS0pspdOmVmOeI433U7bSOUcZsD04rqDBk1mS0xO3FKjTU=
+	t=1712747249; cv=none; b=b+cAsDAHhOkaVRV/6e8wd/FwknOJ6KXLVA2PzaAzBmd16uShj9pZ7sAEErzYy5+sLJU/RtzDFfaBRHskCe5b+zF5kyFY1I0yIVA1TS1MhSuR+66Xj7oyf8Ek6aDQrCRRqcSLb8LsgcPInhGYBKmBxNEDlU0HMfa1XzsaPxhDQLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712747204; c=relaxed/simple;
+	s=arc-20240116; t=1712747249; c=relaxed/simple;
 	bh=E/yi8qXgYYDnk9oqqSnKlnrRphRaPUTXE11fg+jbIYU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S3OXbGwpChF0JLutCDAqkslYWT8//1mkrsR96fw6GJ821dumyjFLI3NMO9jPu17rsEmqUO3QT4YJOtNq8komSvqqHsvKuEwVIGhdJYhf9UbvO+I5f5aIIQLBbqcl7RCr0UABe43elDeVWeE83LUSGPtXc6CHd0dZx55/2elgIiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjSYlsnE; arc=none smtp.client-ip=192.198.163.11
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BziAf5MZRLqEBkWmdD49xNh7DEOYyuzBIHqanuZAZAe2Nb/Up6T31W87NdHKeXOIBIK0Ny3ekdhjbc4Qo+L3tFfDM0U+TVVI8YGQH5CCdc5UkteQiE4np+06NnWw4I0M+b3geZyU+x1UOmr3+QYYbQHhrO++NIBuKKHIquFN+Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8tm7INe; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712747202; x=1744283202;
+  t=1712747247; x=1744283247;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=E/yi8qXgYYDnk9oqqSnKlnrRphRaPUTXE11fg+jbIYU=;
-  b=AjSYlsnEDDCkyx80z7wmgfOCQxTVdHxPmhYw0lIKSvpgfkbYvXMZ+lnr
-   n3EDL4d7Z2SyP9uNlO/0E85m51ISY0Z1nBLIamjWaGQvICBwdG+oKdn+4
-   YgVfGA1RcgR7P4qvGwPDAdOK7jFD6Qeiu9fzaJKnmF6x9h4sLw0pb8Duu
-   2MXwyaOjz0tQvs5uJo+ECybHtMZZPnaMzTbOL1+yE0dUie1im+W7JX5VN
-   QF7+5KxSwZxuYCIK7mxQ/CTrA5McT8+dZM5eWjbBq8XA748PlTyc9/Bl8
-   pOdWLzHqp2QcuXfx38E2E7i34xymCEIZBYFZMB7GR/byZlSTNNcyMg+7V
+  b=V8tm7INen6uMqSPK1Ydq1iJJennAhSxWxSZNdjMU2TkwIsleIw/6ZQVB
+   33zRykyTPBWtonLtYfqjhLMlRGm/k4kdgV/77HPDAL7ehSv4TPuD1PynR
+   mw44yWvW/Dno6QADhhCtMLyickCMQ9Bl/l7sretjwmP1+pjFcmbbS1Iwa
+   6bV4fHfImy14Q3j+0jg4fRE5/cJ3prasLIZudSFWLaz+R7ezMOBvrJf9N
+   EUeNkLNwEPLJln+YyA78p+eL04ibo+/ctRXmVY+zUaGky2gQHBb4wp5bR
+   etf/cIdwUj7TR0+Lk4B+mq0A/zD26TYGVP6YWZEeBjMd9oedT3ltKJTHG
    A==;
-X-CSE-ConnectionGUID: x2+3vNwyS42U8h1uz5zCzQ==
-X-CSE-MsgGUID: C+SlpwbOQ5CDN/5WaBmaSw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18710000"
+X-CSE-ConnectionGUID: o0PCah0jR1e631Q/kXJMdQ==
+X-CSE-MsgGUID: +cIy9H1eRHGbkBicxq4Rrg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="33509634"
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="18710000"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:06:41 -0700
-X-CSE-ConnectionGUID: mRAW3E8RRz+s2CJPHSVzVA==
-X-CSE-MsgGUID: ebbq0P2PQEyiwRpRifRVOA==
+   d="scan'208";a="33509634"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:07:26 -0700
+X-CSE-ConnectionGUID: dYDXwUWOTpa21fBx/AXS+Q==
+X-CSE-MsgGUID: xCSGt2DBQMCzHHMbo755aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="51491204"
+   d="scan'208";a="43764644"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:06:41 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:07:24 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B299E1203E6;
-	Wed, 10 Apr 2024 14:06:37 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0113F1203E6;
+	Wed, 10 Apr 2024 14:07:22 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1ruVmn-001kE3-26;
-	Wed, 10 Apr 2024 14:06:37 +0300
+	id 1ruVnV-001kEP-37;
+	Wed, 10 Apr 2024 14:07:21 +0300
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: hverkuil@xs4all.nl,
-	jacopo.mondi@punajuuri.localdomain,
+	jacopo.mondi@ideasonboard.com,
 	Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH 1/1] media: v4l: async: Properly re-initialise notifier entry in unregister
-Date: Wed, 10 Apr 2024 14:06:27 +0300
-Message-Id: <20240410110627.416011-1-sakari.ailus@linux.intel.com>
+Subject: [RESEND PATCH 1/1] media: v4l: async: Properly re-initialise notifier entry in unregister
+Date: Wed, 10 Apr 2024 14:07:11 +0300
+Message-Id: <20240410110711.416033-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
