@@ -1,156 +1,190 @@
-Return-Path: <linux-media+bounces-8985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-8986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9E889EFA0
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:11:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BB889EFA2
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:12:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28D94B21BB6
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:11:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2FF61C218DD
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:12:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D642158A03;
-	Wed, 10 Apr 2024 10:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB19015887C;
+	Wed, 10 Apr 2024 10:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfKwwXjd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G7BSH9JW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D810C158204;
-	Wed, 10 Apr 2024 10:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DA9125CD
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 10:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712743896; cv=none; b=sGc4RFLehVuwHMGQkv1T32l0SBI4GH3m94SO0kjwb3Et8Gq3MSrhyT55685qJeRrg+uZpmbjjMTQmVLlHN56nqrEYJpcyr9tA1aA4jjktdt/3CfraTdfnWHyRcu8j8X6nQtFZpjxSujijSptIemYBZy5/BkTsFiHzmh3jkVQiF0=
+	t=1712743960; cv=none; b=NiN/BALlx1Jqh5AOeqk2KRadFO7EzkaB1HBbTTogJf2y3DHfyUgS/1tYXwy2m7XH61JnQ6h6H7XBzg/Zqq0w107/SMNjfbeGZCdVmhIl2xEsEAkLLKus339INPN3YB3P/pM2q9upG1pkzR0ksav8M9JoAfy5CnCALdS89OTh120=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712743896; c=relaxed/simple;
-	bh=QzeJL5gMeLtcySlknYL+kljOGPy2dP5ClNu55TRB8ug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lcd4B9JFucfBKnyeGP8CxUEtfC7ZjwYhUMkJ7KJx9qWulh3MQ3rM03RXC9MWMNFDCi4ZEw9YPKO2cNDsgHhxmQGIPEfK6/SGBskV4NV86T6UodzAEqdBPfjtzzSZrezimiRSBwVNglV9wsLRy6dj1saC4pAAsCU9/OEje40Lxho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfKwwXjd; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712743895; x=1744279895;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QzeJL5gMeLtcySlknYL+kljOGPy2dP5ClNu55TRB8ug=;
-  b=FfKwwXjdmm4HiQbCNe9GgNr2PkdWSI40hSjGB0btVHRsXS35UAoIjWkC
-   0WvrecgEL1X8wgfm4BJX/BT9qbdk0tfWTU/cbjweHqksT265NsXuF55oR
-   rdPJJSANgtUIvW7VcHiKFHbJAaNraSZheyBJivsN+i5BHRkmEAQjTO7j2
-   IMgr3Q/R0TjpxXaoUd+eqVVwQc0JUb1IDwos3lW6SmTSO/aRa9l1VaqNG
-   ZjQvRqjwAM3xOnWuhTDoynYMxKqHlztjDSRwD9sQfFzZeU5gLaBB9rPMr
-   6Q4NhKtVEtj+uLaCgpz2IGKKJE5m3JZb9rd96qvtq+Yl25G939pkDmqJT
-   Q==;
-X-CSE-ConnectionGUID: Nd0DQowhQdq+O+DW9hJ5xw==
-X-CSE-MsgGUID: JI7Ua+dfRp+BBEhy2SO/6g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7953803"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7953803"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 03:11:34 -0700
-X-CSE-ConnectionGUID: 0xmUzNqoQTm00E91gMT8lQ==
-X-CSE-MsgGUID: vtg0z1SmTBGjaRgfHcQwpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="25287426"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 03:11:32 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0DFFB11FC46;
-	Wed, 10 Apr 2024 13:11:29 +0300 (EEST)
-Date: Wed, 10 Apr 2024 10:11:29 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 7/9] media: subdev: Support privacy led in
- v4l2_subdev_enable/disable_streams()
-Message-ID: <ZhZl0Se7I5eeQfW8@kekkonen.localdomain>
-References: <20240405-enable-streams-impro-v2-0-22bca967665d@ideasonboard.com>
- <20240405-enable-streams-impro-v2-7-22bca967665d@ideasonboard.com>
+	s=arc-20240116; t=1712743960; c=relaxed/simple;
+	bh=c3fHj3f6Tb37tJcF51EaeueTBNGIfxGFVzHMFdrd18w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mNSqlhq8UM3hu4VAZSEagT+MsYgOB3V5/x54MuD/yHwu3JozFgYcffbEcZEkC1XRI9Yuq+6XRF5nGajTh4GYygxWkTq3fK0fH+gYOeF56nj3luy56ACbhJFz1eJmimBZCdFZYqe2ZEi02z0A7Es0KgSjyalDbJn74/bdF1BUZD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G7BSH9JW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712743957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zj4eK0HbC8GnhqxWjGdxCCoDiTEZXC9IURckNzSmv1E=;
+	b=G7BSH9JW9Z1o1JPTWUuvR/rf70TCj1Mn1KilBfVUaf8QZarVhjVIY7OFJDAf337h4TVBt9
+	6zEJ3foLb2N9WnkLWVwarM5uIw8Xf8tMiKFwL3T25SVXg5vWYAnpt2VuAJRv33Xmy6j088
+	6LirauWKlHYJDDJOtT+NEPTe21sb4uc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-YMPlyEJONa6L60skttrEzQ-1; Wed, 10 Apr 2024 06:12:36 -0400
+X-MC-Unique: YMPlyEJONa6L60skttrEzQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a51aec8eb93so289037366b.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 03:12:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712743955; x=1713348755;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zj4eK0HbC8GnhqxWjGdxCCoDiTEZXC9IURckNzSmv1E=;
+        b=Gokkx/n4PLvPZp/ENb2lX6hZJ+JG+bL7NXsdvIiGXWZqOwKS4bzS6Edzv1Kbvv+Ltp
+         6dYt8KM6ugG8vHcUSNGeE7dQJ2Ni1RVOGW2d0KlmoG14L1w5T690aNUiCvZK0LCA/8cO
+         M/pkwCtlT3Lbv+Y//lTcsXs2Edm4qup7uasueLI0dt3azxSuAAn6LkN9+buCZQhFGcL5
+         UA5nIheGomIHdjhRdJxW7c/rnLASOfb5sPDDxJEq+jU04Uy8DK3SVD1IT5LDeCpZod75
+         rmlzhw0eVNJr5TOXLUb3Myr6OZRdzIkWwgeNH7c6kIiecvEINb4IFWk1Qndy8LzFS1PW
+         I2yg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKaWYIrJLVWqJSwtamdB8iL/hXOTOe6m2DAThi5+ugIPw/DzrOWDKLdX2RTgwnVHHkLALJvDXB35t31qgI3acP1Qu/nwM430VitH0=
+X-Gm-Message-State: AOJu0Yz6GfECPV4SjimaGU4Z9IrxdaYInFb4cF8xQIoLB5f40b+CNu22
+	AJP5wQtgL+FqMfB5B5NJSL19xebkoTkNGgqxCZw7qJwr1UPIGn8crgshf57OuRQp5+hD4BTjis2
+	dkupUrbX2fg9XS2Bv81sPYUCuHe7Fphd7sdOQSCPC3qaShbquOArdubvwQ31G
+X-Received: by 2002:a17:906:1694:b0:a51:a2ee:fab8 with SMTP id s20-20020a170906169400b00a51a2eefab8mr1216046ejd.36.1712743954949;
+        Wed, 10 Apr 2024 03:12:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEovKVJPzj2mdSNWaxlDLbFEsKX4U7+JyPTWszCFDHcFNGSkUo15VNIiIyVRSEbIBcIEkrIvw==
+X-Received: by 2002:a17:906:1694:b0:a51:a2ee:fab8 with SMTP id s20-20020a170906169400b00a51a2eefab8mr1216038ejd.36.1712743954641;
+        Wed, 10 Apr 2024 03:12:34 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id lx26-20020a170906af1a00b00a4e440989f5sm6763257ejb.159.2024.04.10.03.12.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 03:12:34 -0700 (PDT)
+Message-ID: <50457efb-f145-4eac-a625-28e3bfc8a7af@redhat.com>
+Date: Wed, 10 Apr 2024 12:12:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405-enable-streams-impro-v2-7-22bca967665d@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] media: v4l: Don't turn on privacy LED if streamon
+ fails
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: tomi.valkeinen@ideasonboard.com,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-kernel@vger.kernel.org
+References: <20240410100301.658824-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240410100301.658824-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Moi,
+Hi Sakari,
 
-On Fri, Apr 05, 2024 at 12:14:25PM +0300, Tomi Valkeinen wrote:
-> We support camera privacy leds with the .s_stream, in call_s_stream, but
-> we don't have that support when the subdevice implements
-> .enable/disable_streams.
+Thank you for fixing this.
+
+On 4/10/24 12:03 PM, Sakari Ailus wrote:
+> Turn on the privacy LED only if streamon succeeds. This can be done after
+> enabling streaming on the sensor.
 > 
-> Add the support by enabling the led when the first stream for a
-> subdevice is enabled, and disabling the led then the last stream is
-> disabled.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Fixes: b6e10ff6c23d ("media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index b4981447961a..015f2fb423c9 100644
+> index 4c6198c48dd6..acb7c3003ab6 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -2149,6 +2149,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  {
->  	struct device *dev = sd->entity.graph_obj.mdev->dev;
->  	struct v4l2_subdev_state *state;
-> +	bool already_streaming;
->  	u64 found_streams = 0;
->  	unsigned int i;
->  	int ret;
-> @@ -2197,6 +2198,11 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+> @@ -412,15 +412,6 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>  	if (WARN_ON(!!sd->enabled_streams == !!enable))
+>  		return 0;
 >  
->  	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
+> -#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> -	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
+> -		if (enable)
+> -			led_set_brightness(sd->privacy_led,
+> -					   sd->privacy_led->max_brightness);
+> -		else
+> -			led_set_brightness(sd->privacy_led, 0);
+> -	}
+> -#endif
+>  	ret = sd->ops->video->s_stream(sd, enable);
 >  
-> +	already_streaming = v4l2_subdev_is_streaming(sd);
-> +
-> +	if (!already_streaming)
-> +		v4l2_subdev_enable_privacy_led(sd);
-> +
->  	/* Call the .enable_streams() operation. */
->  	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
->  			       streams_mask);
-> @@ -2216,6 +2222,9 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  	}
+>  	if (!enable && ret < 0) {
+> @@ -431,6 +422,16 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>  	if (!ret)
+>  		sd->enabled_streams = enable ? BIT(0) : 0;
 >  
->  done:
-> +	if (ret && !already_streaming)
-> +		v4l2_subdev_disable_privacy_led(sd);
+> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> +	if (!IS_ERR_OR_NULL(sd->privacy_led) && !(enable && ret < 0)) {
 
-I think you could also lit the LED only if enabling streaming succeeds.
+There already is a:
 
-> +
->  	v4l2_subdev_unlock_state(state);
->  
->  	return ret;
-> @@ -2339,6 +2348,9 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->  	}
->  
->  done:
-> +	if (!v4l2_subdev_is_streaming(sd))
-> +		v4l2_subdev_disable_privacy_led(sd);
-> +
->  	v4l2_subdev_unlock_state(state);
->  
->  	return ret;
-> 
+	if (!enable && ret < 0)
+		ret = 0;
 
--- 
-Terveisin,
+block above to ignore stream-off errors, so you can just test for:
 
-Sakari Ailus
+	if (!ret && !IS_ERR_OR_NULL(sd->privacy_led)) {
+		...
+	}
+
+And then you can move the whole block to inside the existing:
+
+	if (!ret)
+		sd->enabled_streams = enable ? BIT(0) : 0;
+
+block, so you get something like this:
+
+	if (!ret) {
+		sd->enabled_streams = enable ? BIT(0) : 0;
+#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+		if (!IS_ERR_OR_NULL(sd->privacy_led)) {
+			if (enable)
+				led_set_brightness(sd->privacy_led,
+						   sd->privacy_led->max_brightness);
+			else
+				led_set_brightness(sd->privacy_led, 0);
+		}
+#endif
+	}
+
+Which then cleans up nicely by Tomi's patch
+introducing the privacy LED helper functions,
+to something like this:
+
+	if (!ret {
+		if (enable) {
+			sd->enabled_streams = BIT(0);
+			v4l2_subdev_enable_privacy_led(sd);
+		} else {
+			sd->enabled_streams = 0;
+			v4l2_subdev_disable_privacy_led(sd);
+		}
+	}
+
+Regards,
+
+Hans
+
+
 
