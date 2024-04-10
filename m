@@ -1,80 +1,48 @@
-Return-Path: <linux-media+bounces-8999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6E189F024
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:48:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C82489F02C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 12:52:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22B88282679
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:48:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B52F31F23212
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 10:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1791A15956E;
-	Wed, 10 Apr 2024 10:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F33E15956F;
+	Wed, 10 Apr 2024 10:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wy1jXUpZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qgqZ+3S0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14041E893
-	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 10:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA1047A5C;
+	Wed, 10 Apr 2024 10:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712746097; cv=none; b=CFcSIoDwnTiNhSaivPxPYOQ4j7knwrRykIzXGwHhBcawSaEmaqINzpM0KETaacG7N1U87MVBuao/Ul85b1kgYmZ/r0Qf1GBcxIJOVCxSBUsxkyNtCWH87jap08LaDKgyQyLvrsR+52/2LmJn+8qVzqaDVKEPqeWek7JbiM+IVGA=
+	t=1712746331; cv=none; b=UfODhbWH+Wl1BGW8dwP664xrxabldVEvbViu2yOkwCkCtOl5IqPETLGuFb/hQjZCdjHhLS51sfFgl20C/7nAYAC5CgOyubacBqLFRKUNk7H2hSrnaWeKKj5OSDo7tefVMKArdOGGIsmX6BL6QnbG7pQl939nDTmF3NSp7ouYvjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712746097; c=relaxed/simple;
-	bh=3Yb1ghpPTQ86XpldcVJrb9JNr752HZfwLU+Be/0ePOQ=;
+	s=arc-20240116; t=1712746331; c=relaxed/simple;
+	bh=/lA1/XWdSaFvOr8JyB0gqR4FOrl2IV6ImEUHrT7xH6Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fW6YCTsotPO8M7v0+UzGZFRUFpbHnyIfA2v8ogpjil9Q3IxIv6ABfdMw1RRISDFKMOH2T/DhcApheWtwdx0dFFYZMgDKtjtHhhhrTRXgdfJ0KAdBPXRLHPk6H83W2l8R6e76AwE0F7iHr/xFhbJzW83+a7RajKn84DWO40V+vpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wy1jXUpZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712746093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i3VI9T4uivNjRj5++S1JJ33tXKS8Bk1Y/4/7XhHNepY=;
-	b=Wy1jXUpZXbYQO8ah+PKVTQ68x1prfTOBYibiJRMWpwbewahC9gK5AiGgQI60jPO1jHQVpX
-	xAmj206zyJFScEot0ZX9Ljh1xtYMCNdSewM1aMaOaGHpzYk603z2+8vOdzOc5bsjkidWUE
-	zZd8ifEPwrf51UIqt3/QDs0WLDxhTxY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-LX9E225qMPyMD5_OGD9OMw-1; Wed, 10 Apr 2024 06:48:12 -0400
-X-MC-Unique: LX9E225qMPyMD5_OGD9OMw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a51d062b178so219522366b.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 03:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712746091; x=1713350891;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i3VI9T4uivNjRj5++S1JJ33tXKS8Bk1Y/4/7XhHNepY=;
-        b=Dzg70LQM9gMTsNyWNuTkA2ehwWX6T8Jp5Z7O1yNWp0iNcv8svgV9kFnROka431udmW
-         wuqx1wEBOi4610Ee2mlHG1mk8ZQ7jyghM9iv1OIIzzcDl4eL+JTz0agNtIppbJrdOL4L
-         8VyMs4GMQXFM5yifr0ofeaL0Qiq+ZMOWcXJsYHPpFhox9qBGO7FxRKCZ3HRTkYCzxrQw
-         bgZCFljN76VmP8rxR+/sVoXkg9mCG/YN6Eg3t3fTaOgUSWzTY3DhKryAQrnlaRYIyb0C
-         v/rv+Ysu8gZRI1SQ8u8tHJPjCtYQ0rDmaFeMpLmF7Tp3PvOZaWlQtf234O4b75WJHte4
-         9wQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMEuUdw+0eMlW5jCtC0aGaiJplPBRsUPVH+IJLwuNSztXbILTXhfp9xetVOUfypcCv6P9WEgRmD4UGQUFnIDdlGClt0TCBGJppwSE=
-X-Gm-Message-State: AOJu0Yyx4AjJkpziUCNTGZubm+nDVCGFpKBAH17FUAqD7Wm7DqLCmdx6
-	KbmWbSncmITg4t7Mvcwk3G5eGp1FDgDN9Zp0UXnS1RILO8ZK22/FzFhJHBn2hGZirWbKKwXl/gG
-	MPCCX0NKM7/qiA3hVkUYflA0CHDLn0Ljb4xGdCoOahZM41HGz6ko1atXGg+8v
-X-Received: by 2002:a50:8a84:0:b0:56d:c722:93a3 with SMTP id j4-20020a508a84000000b0056dc72293a3mr1740113edj.21.1712746091326;
-        Wed, 10 Apr 2024 03:48:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0AVH2rE/fy4MIBSvrtzt9zQf1zOiezMHKpxPj3u+E8iYjX4bJ6t8tKVOrC8dvkLrwFtFHXg==
-X-Received: by 2002:a50:8a84:0:b0:56d:c722:93a3 with SMTP id j4-20020a508a84000000b0056dc72293a3mr1740099edj.21.1712746090984;
-        Wed, 10 Apr 2024 03:48:10 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id fe10-20020a056402390a00b0056e4556834csm4964425edb.66.2024.04.10.03.48.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:48:10 -0700 (PDT)
-Message-ID: <38dd4c60-e951-4951-bbad-90116af4603e@redhat.com>
-Date: Wed, 10 Apr 2024 12:48:09 +0200
+	 In-Reply-To:Content-Type; b=gEFtCc7Z6bu/XvCemhAKm5GRPJ8w1JeMHKjw7g+DbtXz8te/siTho965IlnXwhIDNgtDiZiXlA/FyEHYByZuVpuFm5zE+Buk+d2pWASvkeuxLni0V1yU0apxErmGCquPlNUHggiruFMfPNdEBzBfSYwjKOLnMfKQnYPrBAmS1rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qgqZ+3S0; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C447D741;
+	Wed, 10 Apr 2024 12:51:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712746286;
+	bh=/lA1/XWdSaFvOr8JyB0gqR4FOrl2IV6ImEUHrT7xH6Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qgqZ+3S0VutDKcy2pbBJVEnZrTl/8i4boHhe4wwdBvcZReHYYm83jOO/Wcx3+/Wkt
+	 svimNkVcpI1JKWE9FXjzVRiBKyirtOWR84I/R+AjEsSFsvgDdHa/cYbDIH/IFKUt7A
+	 WmjBKnW2le9QVtj7YyR86qjN4umCZW63fR9xqcxE=
+Message-ID: <ed9383f9-6620-4678-a4fe-8f8e92ecd401@ideasonboard.com>
+Date: Wed, 10 Apr 2024 13:52:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,135 +50,155 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: atomisp: Get rid of PCI device ID hack
- check
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240402204447.294280-1-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240402204447.294280-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 4/9] media: subdev: Fix use of sd->enabled_streams in
+ call_s_stream()
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240405-enable-streams-impro-v2-0-22bca967665d@ideasonboard.com>
+ <20240405-enable-streams-impro-v2-4-22bca967665d@ideasonboard.com>
+ <ZhZkURwXETI9URKy@kekkonen.localdomain>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ZhZkURwXETI9URKy@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Andy,
-
-On 4/2/24 10:44 PM, Andy Shevchenko wrote:
-> Always check exact PCI ID match and drop hack checks.
+On 10/04/2024 13:05, Sakari Ailus wrote:
+> Moi,
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Thank you for your patch.
-
-I have merged this in my media-atomisp branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-
-And this patch will be included in my next
-pull-request to Mauro (to media subsystem maintainer)
-
-Regards,
-
-Hans
-
-
-
-> ---
->  .../media/atomisp/pci/atomisp_internal.h      |  3 +-
->  .../staging/media/atomisp/pci/atomisp_v4l2.c  | 40 +++++++++----------
->  2 files changed, 21 insertions(+), 22 deletions(-)
+> On Fri, Apr 05, 2024 at 12:14:22PM +0300, Tomi Valkeinen wrote:
+>> call_s_stream() uses sd->enabled_streams to track whether streaming has
+>> already been enabled. However,
+>> v4l2_subdev_enable/disable_streams_fallback(), which was the original
+>> user of this field, already uses it, and
+>> v4l2_subdev_enable/disable_streams_fallback() will call call_s_stream().
+>>
+>> This leads to a conflict as both functions set the field. Afaics, both
+>> functions set the field to the same value, so it won't cause a runtime
+>> bug, but it's still wrong and if we, e.g., change how
+>> v4l2_subdev_enable/disable_streams_fallback() operates we might easily
+>> cause bugs.
+>>
+>> Fix this by adding a new field, 'streaming_enabled', for
+>> call_s_stream().
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 8 ++------
+>>   include/media/v4l2-subdev.h           | 3 +++
+>>   2 files changed, 5 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index a15a41576918..94483b238f2a 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -421,12 +421,8 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>>   	 * The .s_stream() operation must never be called to start or stop an
+>>   	 * already started or stopped subdev. Catch offenders but don't return
+>>   	 * an error yet to avoid regressions.
+>> -	 *
+>> -	 * As .s_stream() is mutually exclusive with the .enable_streams() and
+>> -	 * .disable_streams() operation, we can use the enabled_streams field
+>> -	 * to store the subdev streaming state.
+>>   	 */
+>> -	if (WARN_ON(!!sd->enabled_streams == !!enable))
+>> +	if (WARN_ON(!!sd->streaming_enabled == !!enable))
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> index bba9bc64d447..e6a090d9f310 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> @@ -49,14 +49,13 @@
->  	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
->  	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
->  
-> -#define ATOMISP_PCI_DEVICE_SOC_MASK	0xfff8
-> +#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
->  /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
->  #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
->  /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
->  #define ATOMISP_PCI_DEVICE_SOC_MRFLD_1179	0x1179
->  /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
->  #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
-> -#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
->  #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
->  #define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
->  
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index f736e54c7df3..4f414b812408 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1238,7 +1238,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  	const struct atomisp_platform_data *pdata;
->  	struct atomisp_device *isp;
->  	unsigned int start;
-> -	int err, val;
-> +	u32 val;
-> +	int err;
->  
->  	/* Pointer to struct device. */
->  	atomisp_dev = &pdev->dev;
-> @@ -1266,8 +1267,10 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  
->  	pci_set_drvdata(pdev, isp);
->  
-> -	switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK) {
-> +	switch (id->device) {
->  	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
-> +	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
-> +	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
->  		isp->media_dev.hw_revision =
->  		    (ATOMISP_HW_REVISION_ISP2400
->  		     << ATOMISP_HW_REVISION_SHIFT) |
-> @@ -1420,28 +1423,25 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  	 */
->  	atomisp_css2_hw_store_32(MRFLD_CSI_RECEIVER_SELECTION_REG, 1);
->  
-> -	if ((id->device & ATOMISP_PCI_DEVICE_SOC_MASK) ==
-> -	    ATOMISP_PCI_DEVICE_SOC_MRFLD) {
-> -		u32 csi_afe_trim;
-> -
-> +	switch (id->device) {
-> +	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
-> +	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
-> +	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
->  		/*
->  		 * Workaround for imbalance data eye issue which is observed
->  		 * on TNG B0.
->  		 */
-> -		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &csi_afe_trim);
-> -		csi_afe_trim &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
-> -				   MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-> -				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
-> -				   MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-> -				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
-> -				   MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
-> -		csi_afe_trim |= (MRFLD_PCI_CSI1_HSRXCLKTRIM <<
-> -				 MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-> -				(MRFLD_PCI_CSI2_HSRXCLKTRIM <<
-> -				 MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-> -				(MRFLD_PCI_CSI3_HSRXCLKTRIM <<
-> -				 MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
-> -		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, csi_afe_trim);
-> +		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &val);
-> +		val &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-> +			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-> +			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
-> +		val |= (MRFLD_PCI_CSI1_HSRXCLKTRIM << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
-> +		       (MRFLD_PCI_CSI2_HSRXCLKTRIM << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
-> +		       (MRFLD_PCI_CSI3_HSRXCLKTRIM << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
-> +		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, val);
-> +		break;
-> +	default:
-> +		break;
->  	}
->  
->  	err = atomisp_initialize_modules(isp);
+> A single ! is enough on both sides.
+
+Or perhaps (sd->streaming_enabled == !!enable).
+
+> 
+>>   		return 0;
+>>   
+>>   	if (enable)
+>> @@ -442,7 +438,7 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>>   	}
+>>   
+>>   	if (!ret)
+>> -		sd->enabled_streams = enable ? BIT(0) : 0;
+>> +		sd->streaming_enabled = !!enable;
+> 
+> No need for !! unless you think it needs to be very loud. Casting a
+> non-boolean value to boolean results in true if it's non-zero.
+
+Indeed. My coding style for booleans seems to be from times long past.
+
+  Tomi
+
+> 
+>>   
+>>   	return ret;
+>>   }
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index a9e6b8146279..f55d03e0acc1 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1043,6 +1043,8 @@ struct v4l2_subdev_platform_data {
+>>    *		     v4l2_subdev_enable_streams() and
+>>    *		     v4l2_subdev_disable_streams() helper functions for fallback
+>>    *		     cases.
+>> + * @streaming_enabled: Tracks whether streaming has been enabled with s_stream.
+>> + *                     This is only for call_s_stream() internal use.
+>>    *
+>>    * Each instance of a subdev driver should create this struct, either
+>>    * stand-alone or embedded in a larger struct.
+>> @@ -1091,6 +1093,7 @@ struct v4l2_subdev {
+>>   	 */
+>>   	struct v4l2_subdev_state *active_state;
+>>   	u64 enabled_streams;
+>> +	bool streaming_enabled;
+>>   };
+>>   
+>>   
+>>
+> 
 
 
