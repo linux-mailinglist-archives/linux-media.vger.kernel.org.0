@@ -1,121 +1,142 @@
-Return-Path: <linux-media+bounces-9042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C56889F93A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:04:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B32E89F95F
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 16:07:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC8BAB32A5E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 13:56:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CA4A1C252CC
+	for <lists+linux-media@lfdr.de>; Wed, 10 Apr 2024 14:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2134F16D33A;
-	Wed, 10 Apr 2024 13:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BD1178CE7;
+	Wed, 10 Apr 2024 14:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igrRdy6u"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BGd3q1gL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF70161330;
-	Wed, 10 Apr 2024 13:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA081178CC5
+	for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 14:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712757000; cv=none; b=m3KfZTiPND4U7fhYic7cdzWhG9T3hBt42r3S9kfepuTF8XMideitciiwBd0v1ln0UA/0PKo1pQ6fwgDB0mJaKn1h+U36Wy8qzW6wiBaHj2vP0zwcS515HXpL2K7FHzlcng84WYHdXi0sRPwVRwK9QEq8CiHHHGuI7wHavJ5TuM8=
+	t=1712757727; cv=none; b=sIcrkf7U1OWz61TcICMugsUxHeLsI/YIRq/5XACd0issvqioz2mQsfQVqRttxZ+KTBMC100j7VAKlRjxdj7MLTbxsBeFwRkdl9BPnmzlBt+X3+jeli5ievE0HM7RFGdEqFSpCGcRFRqbYRqE1dSb4Ng29uJ24rrXAB7o3PeoLnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712757000; c=relaxed/simple;
-	bh=W4+YbNUqKogJXfDDJSCYKuOrE+ecQbdSDpvdWU+QHYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fz1rrw9FIHb0vonDWIUZDqSfQfZJjriQ0+pKqNMEeKZgTL6bWaDfD+i5a+43hSY8fZM5S5tCRMMW4wxH157wyiF9pkiwDl24hX0+2Yy4gVDN/1XY/JEV8mg6I+XNiFwqy3vg8n0o6IFiimQmtgtFpfoon/q5Aia6N0+LIV5UMhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igrRdy6u; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712756999; x=1744292999;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W4+YbNUqKogJXfDDJSCYKuOrE+ecQbdSDpvdWU+QHYI=;
-  b=igrRdy6u1h6IRBnxzbF22t+SGdXgJ02C7CbbILpaVmk3U40OwQpY24sh
-   UEoEDVGVsH4+ZtDTR7TMBJQlhqRzfuzSTgOcZkOl9v1RFHgx0KvsQ4TEf
-   6UKQN2S5pRvmfjRFnGo247s/SyPSLBngJvM1ovpgSZHsTf5j/XYaOXtpz
-   U7SREIa2fi36/7/QVDZ4zxHZ7FDJLCeTL+eYg1NQRDUA9eL9lnz3Tz/Fv
-   mYjEY+UJEbUoDsHgcUW+8RmAz2lCpiJCbZnbxYWhYLehIx2MrLaeuWhQ9
-   VoOCzUQOcouWWZT4WesdBJk8Jtg1ihefRtz3Beui6xTO2j/RPhAwOlKva
-   Q==;
-X-CSE-ConnectionGUID: wqPbS27zROKCmyqFrG71yA==
-X-CSE-MsgGUID: 1VdtrMQwSAK4dAm1DboUig==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7992403"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7992403"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:49:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915433555"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="915433555"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:49:56 -0700
-Received: from andy by smile with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ruYKo-0000000357e-0ywy;
-	Wed, 10 Apr 2024 16:49:54 +0300
-Date: Wed, 10 Apr 2024 16:49:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 2/2] media: atomisp: Replace open-coded
- i2c_find_device_by_fwnode()
-Message-ID: <ZhaZAdUdAwL80Tza@smile.fi.intel.com>
-References: <20240326202813.1425431-1-andriy.shevchenko@linux.intel.com>
- <20240326202813.1425431-3-andriy.shevchenko@linux.intel.com>
- <c9741df0-6c12-4ff5-90b4-5a13f0bd9b51@redhat.com>
- <ZhaVnYtFoTaFOKD-@smile.fi.intel.com>
- <911d84a7-cb3b-4ca5-86a1-334e7b3f85c6@redhat.com>
+	s=arc-20240116; t=1712757727; c=relaxed/simple;
+	bh=KvnLaO2vh9JKCCC44F3x8MRuznqiG8mlc5GYk8UjGJg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WPmgF7nAQA87E6PRWRR5bPUvU2pPQH4eP4W2Ra+B7phaDjJP/8ynk7d++sTpiVEyBIN8XY4oZOBXP39J0Ee+H+A1aEFGKvuKgGBJIrs4Y3zVtTSZqMMeeGY8jjMsJiOG19yqq57dp5AckOVLawKuk2LuotaZwOSEOvIN3+8GSn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BGd3q1gL; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d8b2389e73so18788731fa.3
+        for <linux-media@vger.kernel.org>; Wed, 10 Apr 2024 07:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712757724; x=1713362524; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U2BLuV2TaoJubB+i1BbXKPJs9YF+spnADheAPSMmIQo=;
+        b=BGd3q1gL58C1Sgbyp8sRkLt5rnoS1GJiDbAQ2zMUHqTxTl5gzvv8gDGrVGCCLR/fz4
+         NxwjQ0FELDcbIkCpyACsY3afM3J5vkHccw9k4Ja3j9Gp7fni4yPrHMXwrw13Yyk4UzyB
+         VhpS5zW8flhsDRzV0CO12pkHBb+YUyBocd+VHS5TsvScmv17M2ms5spW0zLH+jFf4BOS
+         o7iy+JRUDv6DuUBfUSYr8cP/R8UzOKoBnkREoUQipVpbFOmSfMwzcoAUgPiVcGCZKwLQ
+         ZBSo001KQFaoWGYBvvkTO2FgAVE3Iu++k+wsZ6CqMtaYLiMY2/o8BhomTHFWnBPfb3rO
+         duhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712757724; x=1713362524;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U2BLuV2TaoJubB+i1BbXKPJs9YF+spnADheAPSMmIQo=;
+        b=t5EFSSvsoogdLsup3IcKE4b9i7vl2MwuRU4EtUdLpZIz/gMMaH9BLIGTa5DgHNg4Cj
+         eV3Zw5EwjFA56p6SQOFDnhrD0VOd8CvMVBhUuUO7X+vIcGfxqruBvAzrgzRn6vVSHaz6
+         KYd+37HComsU7BClV433+fOI+bqzKRQA7x+J5BWneFNijECiJ6IXz4Bxb5HjYBaX70Ag
+         jDXNz3aZDwWCzqmu1J1fzJIraf5n6k+enPTc4MOWeeCVhykqOZUWj7tB26eeiw8LsyA+
+         2Es9tgis0ewy24gWanVgEUJ1bL1VnDzg+mpKnSfFwJ+iZ6rBruGpuN3IB0GEibKLF0iz
+         ga3w==
+X-Forwarded-Encrypted: i=1; AJvYcCXnZQq6X/0KujTkQr5+unX1Ra5uPhRkWV+QDapBTAY3WwAjwRIOSV5Fp7EMyilOsGujtw5jTWZXbKmXn8GzGEFzirmr4pJ4FAKeexc=
+X-Gm-Message-State: AOJu0Ywn15HFAw4dt7OxpJAT+dX0JvJzLbwT44x3ZoccmeF2Jr+w8etU
+	+x14eu7Ibk8EUz9JS6uIo92AiiUBRmQBgRHCmHjukS5+IjJ5bENzLPohZrW+Mms=
+X-Google-Smtp-Source: AGHT+IHDued1BgxOQepma0f2LhqTqT7GeyNGendravbhe/f3zWxtfonddLPg0YjH5l/Vd7JY0K220Q==
+X-Received: by 2002:a05:651c:19a9:b0:2d8:3fc1:3b20 with SMTP id bx41-20020a05651c19a900b002d83fc13b20mr2155380ljb.31.1712757723799;
+        Wed, 10 Apr 2024 07:02:03 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.74])
+        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b00416a6340025sm2350977wmo.6.2024.04.10.07.02.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 07:02:03 -0700 (PDT)
+Message-ID: <9cb903df-3e83-409a-aa4b-218742804cc6@baylibre.com>
+Date: Wed, 10 Apr 2024 16:02:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <911d84a7-cb3b-4ca5-86a1-334e7b3f85c6@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v8 3/3] net: ethernet: ti: am65-cpsw: Add minimal
+ XDP support
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>, danishanwar@ti.com,
+ yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com>
+ <20240223-am65-cpsw-xdp-basic-v8-3-f3421b58da09@baylibre.com>
+ <20240409174928.58a7c3f0@kernel.org>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <20240409174928.58a7c3f0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 10, 2024 at 03:41:15PM +0200, Hans de Goede wrote:
-> On 4/10/24 3:35 PM, Andy Shevchenko wrote:
-> > On Wed, Apr 10, 2024 at 12:35:29PM +0200, Hans de Goede wrote:
-> >> On 3/26/24 9:27 PM, Andy Shevchenko wrote:
+On 4/10/24 02:49, Jakub Kicinski wrote:
+> On Mon, 08 Apr 2024 11:38:04 +0200 Julien Panis wrote:
+>> +static struct sk_buff *am65_cpsw_alloc_skb(struct am65_cpsw_rx_chn *rx_chn,
+>> +					   struct net_device *ndev,
+>> +					   unsigned int len,
+>> +					   int desc_idx,
+>> +					   bool allow_direct)
+>> +{
+>> +	struct sk_buff *skb;
+>> +	struct page *page;
+>> +
+>> +	page = page_pool_dev_alloc_pages(rx_chn->page_pool);
+>> +	if (unlikely(!page))
+>> +		return NULL;
+>> +
+>> +	len += AM65_CPSW_HEADROOM;
+>> +
+>> +	skb = build_skb(page_address(page), len);
+> You shouldn't build the skb upfront any more. Give the page to the HW,
+> once HW sends you a completion - build the skbs. If build fails
+> (allocation failure) just give the page back to HW. If it succeeds,
+> however, you'll get a skb which is far more likely to be cache hot.
 
-...
+Not sure I get this point.
 
-> >> I'm going to merge this variant into my media-atomisp branch
-> >> instead of the orignal.
-> > 
-> > Thanks!
-> > 
-> > This explains why changelog made the commit message.
-> > Was it done deliberately?
-> 
-> Oops, no that was by accident. I normally git send-email
-> + git am my patches and then git am cuts it off...
-> 
-> I just send out a pull-request with this minor wart in it
-> (after testing), so unless there are other reasons to respin
-> I guess we'll have to live with it.
+"Give the page to the HW" = Do you mean that I should dma_map_single()
+a full page (|PAGE_SIZE|) in am65_cpsw_nuss_rx_push() ?
 
-You might check the linux-next scripts or ask Stephen if this is an issue.
-In any case we will know sooner or later :-)
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+>
+>> +	if (unlikely(!skb)) {
+>> +		page_pool_put_full_page(rx_chn->page_pool, page, allow_direct);
+>> +		rx_chn->pages[desc_idx] = NULL;
+>> +		return NULL;
+>> +	}
 
 
