@@ -1,158 +1,164 @@
-Return-Path: <linux-media+bounces-9100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE178A13B9
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 13:57:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E238A13DE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:03:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8C6C2888CC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 11:57:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 03ABEB24334
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:03:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A45A514B06C;
-	Thu, 11 Apr 2024 11:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1009814AD2E;
+	Thu, 11 Apr 2024 12:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LHCNT2q6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AxdAMtPA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8519314AD31;
-	Thu, 11 Apr 2024 11:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2D114AD26;
+	Thu, 11 Apr 2024 12:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712836630; cv=none; b=s5Qj7cuTWDouysMG3+1mdCjgaTevZ5c/+31V/KtV5IaegUF4JNQEzubawb8it7qZLcoE0wJyeazoKGWvED8r1wgyUZoj6pHJT/OY5oq/nv2U9oPT20E1d9bh702y/YjcmDIl8izn4sLoPykGsLaoe3Q3uBQpUCijYuDMn8gMuqU=
+	t=1712836979; cv=none; b=KegLV6LWNXMW8W8ugL8Z5I9V8lUgNnZXUeKTRPxYEP6jON12YQAtPYfm8GGWXXAym3vYA1fTJ3QaPdr5NZ1KmnP1PRI5ON6s+E4C45UHBenvBN92RmZDTZPLt7gDu7da2EvhhRYKhUtmd192g4fgvHV/HiBzDyhMoppl8rE570k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712836630; c=relaxed/simple;
-	bh=/EHMPJY0NFe5Dbv3rrgKk5uP5iHNJUMUYb7il9F09YA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kGi+SD+o9gqrtPaduNwjLfNDJaDeQaTY/ZoWqela9i0SSO1Bdbry3p4MXC3zOvQtPtS0t0oZc9u3EhA7JApNR9OF1ZzuGXVenRRfYZiDzLxJGqaYO6G13+p592l9a5ilcvOtJayk9ODDgyy5sohs3G/zY7qV3pJ49TxayLIwEbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LHCNT2q6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (unknown [103.251.226.65])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3452B23F;
-	Thu, 11 Apr 2024 13:56:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712836584;
-	bh=/EHMPJY0NFe5Dbv3rrgKk5uP5iHNJUMUYb7il9F09YA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LHCNT2q6eGtXii1KQZgY0UgAGxIFTsB+UTyXzplj/eHAifzzXkVMkCTd967FBAuxw
-	 aQHCnfAe8flZLqkWxlIn2eFYmptR4py5Qey1VMS9HG9TX0EHrMboB5Jxj1eq7RFQYg
-	 1LNnkcuQ7rEq6u183bvumM9J1quhP4sz9hAexUvA=
-Message-ID: <d8c3349e-4ecc-4564-aeb4-40efcae5a43e@ideasonboard.com>
-Date: Thu, 11 Apr 2024 17:26:58 +0530
+	s=arc-20240116; t=1712836979; c=relaxed/simple;
+	bh=NUChQD7L1PzpSkBKFayAUtvIDZjjyv5AjRgErLbm498=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=aSpgaMb6tdIf0gsEXDpr3YaXvbi6omNmmNgqNp65jOlEuFpHCUyeGfKUFfD+Dg5ccvkM5F81i6ZGlu3itDYk20zgYq6cFJ8OjyunzeaYGqEL7JMAUnhD+qjMPJ1CGEL7qrW7ziN8l0S2bVKjYU85ZJmre/b+dbuJ+DyJki7UTdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AxdAMtPA; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2a53b331400so2707351a91.1;
+        Thu, 11 Apr 2024 05:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712836977; x=1713441777; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qDIUcsRKzDDRzeuhZx5cMagTLLTJx/wTwjnhBA/vtbg=;
+        b=AxdAMtPAlbvfIYgGa8NN1TOwL7/TkjGN5vyinLoCNWPE+jmdK0e2P6B9QJKaA9wHkf
+         z54YblURDbkXj2FZTKRhBYn1jM8tj+M3SY92Q1ZkoXhJxINv8MRrvF1Pp9UsQIS26Lbh
+         jjpxCzAoeeQj6rznrk1LrGnb0+9FYooflTmzfXu4phKyDPkNr/z5F+KLbAFtdAFPVvuR
+         poS7Ym+9/KV53SjxPMdGb20otXokyC/FXfisA5Odx4i121KZLDMJn/wkd1e/rwp8Za5o
+         ruDtLYYlyMwdGX86UAWRhJt6M/xG15/UMUwaiMSXuQ052bGwLa9kgg0FVnxlrVZo+880
+         H1Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712836977; x=1713441777;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qDIUcsRKzDDRzeuhZx5cMagTLLTJx/wTwjnhBA/vtbg=;
+        b=sS32BczSumJkLSRlP9SHYKdj1Hs0zGEz1FLj9EKzLZCL/T/TL2Ym8soKwLB0ZPwusN
+         mGBaRnf03gYUU2FBs/jzy8/u7tB+feUUULeeBcF7hm3deerXGrfU8NhCJGNbPQhUDkmo
+         Daq3isODE+7OqCbdYuKm28NaNazuz75x2Oq6BrBS/CePuYQPYr/P6NYOl2n9wHc7R6dd
+         gVm5UlqvXEJy+ePyVPUJkjhvIT867Gz9wKT2Aoz8W8LseJn/TDEVTzJdI+I6QEgM07Eq
+         MAo6fnpr4eaWDjPTO7jPQMOsVQihGUM6SVMTyXKCA4PffHvTFVRzXv3z6+YiKSNV6/xT
+         P0gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfYES73XG/AT4jvvF+k2yae2gV2OITam0P4iAEebuS1Mxy6UOLnMMP/7umselqSGQhx3bL1zlEP5cGSqH5ejjsZ7M1oaJRGkw+gioBYT5nyscCe94VzRZtjKdL3PVEtYtkCF8o9AgqVJw=
+X-Gm-Message-State: AOJu0YygcF1d40QQ8TcCS9hh9eT5wgFt3RzIWUBGuSLCUYtsuIo87b7o
+	RKZb4bxja3lpoldFovXYmbQyzyPpBuSVJxhlDtLS1e/ajDase9Z1d7uKU24M3YEMjMQC5tYMvrF
+	1uxr4JnxSBjEe9MnHPwm+JyyROOKw5A==
+X-Google-Smtp-Source: AGHT+IGWZd7rv0JGb7jCs5pNNkhIYDQrDsSg0XecCaVkqEcQCQ8f+wHHYTqrccy/fyzSUnkl06LofEZv2NF1B+rIQX8=
+X-Received: by 2002:a17:90b:4f83:b0:2a2:7693:399e with SMTP id
+ qe3-20020a17090b4f8300b002a27693399emr5050228pjb.4.1712836977114; Thu, 11 Apr
+ 2024 05:02:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] media: subdev: Support single-stream case in
- v4l2_subdev_enable/disable_streams()
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240410-enable-streams-impro-v3-0-e5e7a5da7420@ideasonboard.com>
- <20240410-enable-streams-impro-v3-9-e5e7a5da7420@ideasonboard.com>
- <f8e293b7-6a06-4477-9c7e-d1b83163f8e1@ideasonboard.com>
- <72940e89-0384-4fd3-8a10-42d6db44fdf0@ideasonboard.com>
- <155bb2c2-21b9-48d5-9615-7a44d4b6a590@ideasonboard.com>
- <da30ee6a-d8b1-44ad-8a29-fc9ac84aba9d@ideasonboard.com>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <da30ee6a-d8b1-44ad-8a29-fc9ac84aba9d@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
+In-Reply-To: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
+From: YongSu Yoo <yongsuyoo0215@gmail.com>
+Date: Thu, 11 Apr 2024 21:02:45 +0900
+Message-ID: <CANXPkT6Bcj0Xbn308jNGp-vqTEcB9LKtUjZ1_zS-tc7KuBEMwA@mail.gmail.com>
+Subject: Re: [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into CA_RESET
+To: mchehab@kernel.org, yongsuyoo0215@gmail.com, v4bel@theori.io, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomi
+Dear All
 
-On 11/04/24 5:23 pm, Tomi Valkeinen wrote:
-> On 11/04/2024 14:48, Umang Jain wrote:
->> Hi Tomi,
->>
->> On 11/04/24 4:37 pm, Tomi Valkeinen wrote:
->>> On 11/04/2024 14:02, Umang Jain wrote:
->>>> Hi Tomi,
->>>>
->>>> On 10/04/24 6:05 pm, Tomi Valkeinen wrote:
->>>>> At the moment the v4l2_subdev_enable/disable_streams() functions call
->>>>> fallback helpers to handle the case where the subdev only implements
->>>>> .s_stream(), and the main function handles the case where the subdev
->>>>> implements streams (V4L2_SUBDEV_FL_STREAMS, which implies
->>>>> .enable/disable_streams()).
->>>>>
->>>>> What is missing is support for subdevs which do not implement streams
->>>>> support, but do implement .enable/disable_streams(). Example cases of
->>>>> these subdevices are single-stream cameras, where using
->>>>> .enable/disable_streams() is not required but helps us remove the 
->>>>> users
->>>>> of the legacy .s_stream(), and subdevices with multiple source 
->>>>> pads (but
->>>>> single stream per pad), where .enable/disable_streams() allows the
->>>>> subdevice to control the enable/disable state per pad.
->>>>>
->>>>> The two single-streams cases (.s_stream() and 
->>>>> .enable/disable_streams())
->>>>> are very similar, and with small changes we can change the
->>>>> v4l2_subdev_enable/disable_streams() functions to support all three
->>>>> cases, without needing separate fallback functions.
->>>>>
->>>>> A few potentially problematic details, though:
->>>>
->>>> Does this mean the patch needs to be worked upon more ?
->>>
->>> I don't see the two issues below as blockers.
->>>
->>>> I quickly tested the series by applying it locally with my use case 
->>>> of IMX283 .enable/disable streams and s_stream as the helper 
->>>> function and it seems I am still seeing the same behaviour as 
->>>> before (i.e. not being streamed) and have to carry the workaround 
->>>> as mentioned in [1] **NOTE**
->>>
->>> Ok... Then something bugs here, as it is supposed to fix the 
->>> problem. Can you trace the code a bit to see where it goes wrong?
->>>
->>> The execution should go to the "if (!(sd->flags & 
->>> V4L2_SUBDEV_FL_STREAMS))" blocks in v4l2_subdev_collect_streams() 
->>> and v4l2_subdev_set_streams_enabled(),
->>
->> The execution is not reaching in v4l2_subdev_collect streams() even, 
->> it returns at
->>
->>      if (!streams_mask)
->>                  return 0;
->>
->> in v4l2_subdev_enable_streams()
->>
->> Refer to : https://paste.debian.net/1313760/
->>
->> My tree is based on v6.8 currently, but the series applies cleanly, 
->> so I have not introduced any  rebase artifacts. If you think, v6.8 
->> might be causing issues, I'll then try to test on RPi 5 with the 
->> latest media tree perhaps.
+Can you review this patch ?
+Can you share how this modification is going ?
+
+2024=EB=85=84 3=EC=9B=94 8=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 9:13, <y=
+ongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> So who is calling the v4l2_subdev_enable_streams? I presume it comes 
-> from v4l2_subdev_s_stream_helper(), in other words the sink side in 
-> your pipeline is using legacy s_stream?
-
-Yes it comes from the helper function
-
-static const struct v4l2_subdev_video_ops imx283_video_ops = {
-         .s_stream = v4l2_subdev_s_stream_helper,
-};
-
+> From: Yongsu yoo <yongsuyoo0215@gmail.com>
 >
-> Indeed, that helper still needs work. It needs to detect if there's no 
-> routing, and use the implicit stream 0. I missed that one.
-
-Yes, no routing in the driver.
+> Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
 >
->  Tomi
+> In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET ioctl
+> is called, in a normal case, the state of the thread of the
+> dvb_ca_en50221_thread_state_machine will transit like below order.
+> DVB_CA_SLOTSTATE_NONE -> DVB_CA_SLOTSTATE_UNINITIALISED ->
+> DVB_CA_SLOTSTATE_WAITREADY -> DVB_CA_SLOTSTATE_VALIDATE ->
+> DVB_CA_SLOTSTATE_WAITFR -> DVB_CA_SLOTSTATE_LINKINIT ->
+> DVB_CA_SLOTSTATE_RUNNING
+> But in some problem cases, the state will become DVB_CA_SLOTSTATE_INVALID=
+.
+> Among the above mentioned states, the DVB_CA_SLOTSTATE_NONE and
+> the DVB_CA_SLOTSTATE_INVALID are "already stablized" states,
+> whereas other states are "transiting" states.
+> The "already stablized" states mean no matter how long time we wait,
+> the state will not be changed.
+> The "transiting" states mean the states whose final state is not yet
+> determined. The state keeps to be changed. Only after some time passes,
+> we get to know whether the final state will be DVB_CA_SLOTSTATE_RUNNING
+> or DVB_CA_SLOTSTATE_INVALID.
+> During the "transiting" states, we do not yet know whether the
+> CA_RESET operation, which triggered the "transiting" states, will
+> succeed or fail. For this reason, during the "transiting" states, if
+> another CA_RESET ioctl is called and if this new CA_RESET ioctl
+> operation begins again, it will be meaningless and waste time.
+> For preventing this problem from happening, we make CA_RESET ioctl do
+> nothing and only return EBUSY if the ioctl is called during the
+> "transiting" states.
+> ---
+>  drivers/media/dvb-core/dvb_ca_en50221.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-
+> diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-=
+core/dvb_ca_en50221.c
+> index baf64540dc00..2e8aec354b7c 100644
+> --- a/drivers/media/dvb-core/dvb_ca_en50221.c
+> +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+> @@ -1362,13 +1362,19 @@ static int dvb_ca_en50221_io_do_ioctl(struct file=
+ *file,
+>                         struct dvb_ca_slot *sl =3D &ca->slot_info[slot];
+>
+>                         mutex_lock(&sl->slot_lock);
+> -                       if (sl->slot_state !=3D DVB_CA_SLOTSTATE_NONE) {
+> +                       if ((sl->slot_state =3D=3D DVB_CA_SLOTSTATE_RUNNI=
+NG) ||
+> +                           (sl->slot_state =3D=3D DVB_CA_SLOTSTATE_INVAL=
+ID)) {
+>                                 dvb_ca_en50221_slot_shutdown(ca, slot);
+>                                 if (ca->flags & DVB_CA_EN50221_FLAG_IRQ_C=
+AMCHANGE)
+>                                         dvb_ca_en50221_camchange_irq(ca->=
+pub,
+>                                                                      slot=
+,
+>                                                                      DVB_=
+CA_EN50221_CAMCHANGE_INSERTED);
+>                         }
+> +                       else {
+> +                               if (sl->slot_state !=3D DVB_CA_SLOTSTATE_=
+NONE) {
+> +                                       err =3D -EBUSY;
+> +                               }
+> +                       }
+>                         mutex_unlock(&sl->slot_lock);
+>                 }
+>                 ca->next_read_slot =3D 0;
+> --
+> 2.17.1
+>
 
