@@ -1,239 +1,236 @@
-Return-Path: <linux-media+bounces-9086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DDC8A0AEE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 10:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6AE8A0B09
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 10:21:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C74621C219B2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:13:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DB621C21EF3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E9C13FD80;
-	Thu, 11 Apr 2024 08:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7590A13FD81;
+	Thu, 11 Apr 2024 08:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="MAV2UL0c"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="YLVJghjW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020003.outbound.protection.outlook.com [52.101.156.3])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2077.outbound.protection.outlook.com [40.107.215.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDDB13FD74;
-	Thu, 11 Apr 2024 08:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.156.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49BA26ACC;
+	Thu, 11 Apr 2024 08:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.77
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712823224; cv=fail; b=VuCNizv+u2RJZ/CsdmjlGOoaQdSR/7JtZ4T/O5ZrnK3s9ln4kus37N3najnosan1afUvA9/1Mzo31KJS6AuqvR4kKWpxvDsEkYyQlvo1oW7NQEmZnCevccLdbV7OAKpx/UXA87AsOX8+HOb/G+jGl8s9jooP8c2ZhaXLZ6/DDxA=
+	t=1712823707; cv=fail; b=UXgbvSJheg/t8DDz51CImj582/GMRZWWldG2CE8ZsNQHP29HLXuop18LEcmTPXek52mV3uanF1njgQkRZVK76Wh/JrVzBmeW2yENjaoNWDxQ2JQOWx0HqJ/KsF/VQaflQwZTP5HPrJwuCTeJZtNapZyxMgszQRKhDbqMQrFLfnQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712823224; c=relaxed/simple;
-	bh=BfHR0lDNxUuU0bYWV0C+7tniHRVFMlUkIBxu7LVuNQ4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UWwAX26ec2yovXY9bHOuNPzu4tH4IvjVnCMMKJiMlqk/t5gxKVx9JPfbOHEKeagFeiGKydnUi7pGqgMaNaqutVKxhrCoRsZZxh5GNt2UeDaMI3gXfwaMSdYPRX0fXq3qAARDq+ccvd95DoVxSweDhpdqBZre6q4ul4JyQwr4x7E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=MAV2UL0c; arc=fail smtp.client-ip=52.101.156.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
+	s=arc-20240116; t=1712823707; c=relaxed/simple;
+	bh=ePahArRnZsZ32GFknuw5ZdB8AqBBeB0OWnM42QK7c50=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Oj3lmcFHpq0lUfYKq3nrSa0QIpF2ricuNDGUHlBCSAILeNm6qm5N9D1OFxinzTUTRhzqyzjpJBSON6XTImHgB/uw6rNYklR9QRX7h5ol0DSpMT0R1QK39rKbVf4dBa4mFLfz0h7ftRzNYUEiBHUfZvioH8GS9D0amz2GMjtNZfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=YLVJghjW; arc=fail smtp.client-ip=40.107.215.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IGm/9wZWcVyQSk6GL3hN0/vxe/ed7E++SBb5br1XapqoX0qlS4oYKbzdeydokStotu+ODJKTls/GzU7IVScqV5XdC37VDinQeHsyuDG3qMt9o8iIhFK7Q08GF0DSEMe9//2vcATJP0l4xZY6kuzFWIadTUP63+jgY8p7IAzwx6gwanbjCfYqPl5A8B/qxtctuWKDnRIF7KXIcrHdp14xoxc2GjZi9Uots4gDbot2YEo0lu4b1Cq4zXR0MLzT/eZAoDKdbYvui2WgYXQ+FwS43WUNlYOfsRk9OxUWfhprnexzywgpsV8mCO81nP0YYQ5FjTIQkAy8W1wV94khhI/BWw==
+ b=FFLY4IMkRyIU1B7Xsb1Bh4T6ReeLXtf7HEY0u+K823k/l+ALlKsFii3ytVskQwFh9oYU2R6fGMITkp4SmbEtAxo6gpTxQwxLV/kx79jfrRSW+twR5G5QyzWzrbcr8y5qbM2EpkKuaYeEx2fI/Rasw+i3vnLgIs4ltYSRo/6etSgQH9EgwewaXRI7WrULkN4tbaMl95cRyl5X7bn/MBI1SEVK2hJIZkmhguauAdQUMNkvWWGQMYOas3qCUFkuhcCOHd0OFv7IIlesJJAVCjJ2txTIKuIM8Gz3LiJJUS1PVogyYzzEcC+AJYydb8VYz8GeypahvMy8Y8o5a4tccfA6Jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gxgdZcYupD6ok0+aHsBMUbxrHrnt3SPzFQFi+/Ed+pM=;
- b=achkv5cb2r3DWhak9YCBfk3tsu/WWuF1Vi+Tzf0isz38KZU2VYEVOl1ydnwU5JGpH9s73fEWWQzFZMJCh2bi6Tlyc5dpKs6noOm3Fak0+mYYD7YdFGXn8dBb3ykjLiRCKc+CEIhF1QEo76XLxCYbk940qqZfZCCk10f8y9/cfk1OiXbRk0IHGkgjdfjx7pSTo/63ycpPxqqww0/Q8Ue22VHJ3tCU9/rznvbkfdNKojovQaJDJwul9OA+e3A8ndwA2/j4KlVhFxlLtCd/X+Np6vnbPNv9jQZvpJd+tnCD4wHPm2mLJ/eCI5n/L1IPIF25WLsgJMNMqJCeX1/F1EzRgw==
+ bh=/hPcPS95zttMrz0qxfz2tjAHVxiJ4U3XtIdvYHu9DLI=;
+ b=CiznLYhQOv9NUV/3TszJGSk/5UcZE/3W5gw6Z3L7w9HMmk/Y8/RRpYU8o0+H6phob+fauS0fffAoYQn6luBTFLVt4ZmOBHHBzmeaXd6psrYNspNlAHZ8/i9DT38qmBFjpMwRW1EijU9TAndJ9wO9ldZLB+gQN2JOvEDsW6IgLpD3qAof3YPU/IGJa4YsAb+J1FDFcLJCjZ8zFxQGuTWNLRIMXll7/IHCjodr1oHWGNuio73TTDywVgQtUysY6BBN5Mkw9PDwi3lb9wpE6mvzfSuL3aa9IGghRno0bU03F4y6ROknfGvYpTssi5ITNrwZzRk0r9TqSzpZf8qZMxm51Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxgdZcYupD6ok0+aHsBMUbxrHrnt3SPzFQFi+/Ed+pM=;
- b=MAV2UL0c+BmxURhTYHSprTPGVmBH91sLXW2xoJXf9pI6MvtEmY32jKBi1bL5LinjVTZZi500f93QITy7uEBFLum+3TlrW/vrJdkB6m2knqgCcagJO5B079EqpkCQ3O9NRAQghq1VB4E7vY9HGQ9UmD7owBHNNjHhNLV4fQA2mjU=
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
- SL2P216MB1692.KORP216.PROD.OUTLOOK.COM (2603:1096:101:101::7) with Microsoft
+ bh=/hPcPS95zttMrz0qxfz2tjAHVxiJ4U3XtIdvYHu9DLI=;
+ b=YLVJghjWvj8T9izYxqqwWpe37h781/1xGrIykOtxaiJgVWUevcdPCbPMgAfWaqYbi4Hvldy9ZBvEQawYCogTGEdvm67hg5tkrDCTpDZhgJD4msyO2zsWLeV4rOQ/Q8PdnJ7S6d3CkNWSGxqaAW3ZX+SrVrmM+lwTW82C3wN9u688s/TwcrWSZSiX//WUy83okfnijLfYR/tbql1u/UKRACEzuko/Zki39vFhh2ZKzIGG+ncA5WyAp75kFNf3Y3zn3BDuedO/FM4Wf/8gBQcQQ4T5Z1yeP77//DbNX+vTzy/MZAGnBhjdKoz4CuvvNg/XvEdUsnSBdfFY0szPYQrG9w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ SEYPR06MB5790.apcprd06.prod.outlook.com (2603:1096:101:b9::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.55; Thu, 11 Apr 2024 08:13:39 +0000
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::4fff:e9f3:e95:3d05]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::4fff:e9f3:e95:3d05%3]) with mapi id 15.20.7409.053; Thu, 11 Apr 2024
- 08:13:39 +0000
-From: jackson.lee <jackson.lee@chipsnmedia.com>
-To: Ivan Bornyakov <brnkv.i1@gmail.com>, Nas Chung
-	<nas.chung@chipsnmedia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Sebastian Fricke
-	<sebastian.fricke@collabora.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 0/5] Wave515 decoder IP support
-Thread-Topic: [PATCH v3 0/5] Wave515 decoder IP support
-Thread-Index: AQHah3gdQC6P/IVPV0iUT4LRIjlhhbFiwQfQ
-Date: Thu, 11 Apr 2024 08:13:39 +0000
-Message-ID:
- <SE1P216MB130385EC5A67C80D9CB61522ED052@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240405164112.24571-1-brnkv.i1@gmail.com>
-In-Reply-To: <20240405164112.24571-1-brnkv.i1@gmail.com>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB1303:EE_|SL2P216MB1692:EE_
-x-ms-office365-filtering-correlation-id: 08e3e6a7-de1e-4516-6a3d-08dc59ff4b71
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- RHQ9K9fnGoBU2G0bYQ6wQMhxhuUFdFUYgXJGn8hAkEqbd+YC0HEQ7DhbYyBfLHjuc5zp+JiN4uZtDJmG4xZkzZ/JGQ/Cd5O2MAYnfikFJMyIdHfeEXinTlGHsZprQogMhrYH+c3nn4DmEYHKRhW3aqAhZ7auyVpHjel3pN77Tcj+TRGa4bNjJYU9H2Uh2dyVg4p31AwlbjnplPXqu0i72tEaeIegIVsAi+PZVyQLoAQv6+xCrofVQ29rndpNgVCVRHOB3NB28edZJGiexMrDtbltoY9pk0HhJGJolaPBhs4kkpfjTgf1+JIG/aYmxv5IC8/tMgZ4CZTtVQ8eken89Zfo9OQZdA0FmjGkM0QzHJyju1+/ljEBcLBbiSx6xylnvgpgFD6wje7c/pzOnQMdMh7LAhSIR9DpjkEBWflTwZ1Rtbh5pZoK/jXagBc+rU5mGkd3L2s11BC5+SnEFj4nW+r+BFWcsC1XbjcBEo7fPx7ggtt0lCaJQY0U2qdReQURQiEqvbxnqPsDF6zjT8yXTn7r7rp7wt92MoqMkW5LVQzoaRzazrfvuntdv7TnGYofqVW/9S6oWDdpKVsdzZtg3AZZaiN5RoJdjEPMxw8FvRW2VA0vGJ0lcf416hhgfbaV2iJh7NYANVBo1/D9V05kehaKc4arSqntlMldKiHbD52oysv9ZeSrxJRO/cwwXuUAQY583bUAANduBt7JhJdIfw==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?aUjfZ+oI7lzg5bxe34LXo4A7+x/8e9hQptML95o03sxFxwTQjVN5wY3ExHqQ?=
- =?us-ascii?Q?vPCyOlV+NoGm1Z+MedpC6Tyr4ZwaPvWPYqR1veJjn8dfI4qMO5PBFBKoSpxS?=
- =?us-ascii?Q?PA3oj/ql/QPvkKREQNIKC1vKId8H/tHho+wvAzDbsTbQHe8R7u7avBsSHR9N?=
- =?us-ascii?Q?9oAiOoJuIwbvCngZyr3mC03CpOibsMDA7FdEXndoQw52dXJ2kjBOtTqjtISM?=
- =?us-ascii?Q?YFIq3vbBsixo50GXnD77K9CtZECSBCe76uWtjsVed20Mq2b6Gr6XWtccR458?=
- =?us-ascii?Q?a7YlAt1pEswVE4kCNn+IGVkLe+lzP7ZRSf4FPXRZlqITpgnAiY+YeuSXuk/g?=
- =?us-ascii?Q?XVomH9r8LS6iEzkgPdo5l9t7yJkdl3kSciF1Ndzb0bWId0Mzb2Zwsea3IY9j?=
- =?us-ascii?Q?ykcI9y6EeGVBqiFt6Z74LvDJ0FsGdh8cmm4iI2MsJBJRVAaINGrss6YzzfLQ?=
- =?us-ascii?Q?nBR8/uMKB2U8gcfDxLpNtZ3s0/8CaqxcqCeFUlSdOKpB6rYVqCKpnTxBOgyW?=
- =?us-ascii?Q?ULdpr/Y4jCYTJquQmUJZO5F8aRm5o/EA8hQKngUl7Em0Waw48rTJa/pYDhuu?=
- =?us-ascii?Q?eqM262FaMwQRk860Pt4V7haWybx0SJ1o6ErQlUzhIdJ/LouaUUcqmCMZpBUf?=
- =?us-ascii?Q?1EsYZZInwHRreWzDQFw0XxpJFhkMrSKhPdNHSJBOeB30SsDhC2nRTZw5ESTI?=
- =?us-ascii?Q?gABLZEtoQFOBSM3bLL6Afi5NRIDINLaA084bZVHhAThGK7INMhVDALwtVOGv?=
- =?us-ascii?Q?b+mp9wHjc1OfiTW1a0cGlFgvoKCEKmD7B4J4s4X3fD5vPHHFcKmGNHTLZOst?=
- =?us-ascii?Q?ZJMlrRD0jaHEYIo/cI6FVeo7yTOmYxl6sPjC6BmSImC8KeRdP6NcK9kqrirC?=
- =?us-ascii?Q?fPrMWidJnMCdQOMtbmizMUDmQBwOunMxDS7L9fyaKF1gnXuxXyRyGTYmQoOu?=
- =?us-ascii?Q?ZfhYc3AYc+2D3P78R107o/3H22PbaLg0RAKfbgXDsFLR6yYTeqZ8DO0zZYsU?=
- =?us-ascii?Q?rViin4cwbaAgiBxRb1KsQ1DbLo0XklJ53X7Ssr9TWRBohXFLP+v6KHY5T0mn?=
- =?us-ascii?Q?6yksPsMd0S+7UZHbCKIXgjoFxoH6e1F8n8PXdG+WWTVDhF9KBW95LD7CNLCe?=
- =?us-ascii?Q?0G5tQbA1aOcBUValZX9l/6hCKfypPBIMS1CKbKMbiI9ZBqwDrWDk15iUVOP+?=
- =?us-ascii?Q?xwx/aOsGNwjdeaJ6lympw2VH+tjOy50ecTbjdjbKOiTLA+MnQSoj3K0luBRd?=
- =?us-ascii?Q?77YCc0CJ9jzAusxDVWLCR3eJ3jfOp4apGdgeSA/za3XMvxe5ELTSmh5vCiLU?=
- =?us-ascii?Q?rex1izYxV2PAd7ZK14p/ayHO1RbrYtX3YwSVgXjxx/+QQldlfxQ59YCgyzM9?=
- =?us-ascii?Q?iRgjQizJiETzoXZ9wUlULy2vXCrTUqoJVZGaeJCf/9UD+B/foqfu082tOm1S?=
- =?us-ascii?Q?80pkTXHqUCADXHfkyK/ogV3EcwEllXIkzujMWD20ixSuHdfAch+9j5aVpp3K?=
- =?us-ascii?Q?RgqLA8V9jlXpVL+9ApbjcgmCoKgfAKLW2NZg3GE8jthKN0K7KzYgjVxhWCdm?=
- =?us-ascii?Q?WlT6vDkFvFPm80S4bT7JnOmla1QQRD5uSbq0DnqH395VGtmvkHfXEEi2HiKv?=
- =?us-ascii?Q?Hw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.20.7409.54; Thu, 11 Apr 2024 08:21:40 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::a60c:298:c201:e4a1]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::a60c:298:c201:e4a1%3]) with mapi id 15.20.7409.053; Thu, 11 Apr 2024
+ 08:21:39 +0000
+Message-ID: <da21fe55-2ffb-4c8e-9863-2f27aa18cf5c@vivo.com>
+Date: Thu, 11 Apr 2024 16:21:37 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+Content-Language: en-US
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu <jay.xu@rock-chips.com>,
+ sumit.semwal@linaro.org, pekka.paalanen@collabora.com,
+ daniel.vetter@ffwll.ch, jason@jlekstrand.net, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+ <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
+ <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
+ <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
+ <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+ <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+From: Rong Qianfeng <11065417@vivo.com>
+In-Reply-To: <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR04CA0191.apcprd04.prod.outlook.com
+ (2603:1096:4:14::29) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|SEYPR06MB5790:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72f537aa-b87f-4435-924d-08dc5a006980
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ybecs4ZzUde41V0oN5ffbAyMWIO80R55gIjIYH9v8xWkJjjFnlalT+is9pyQRK685WrVDM5iteI4HKjOZuluIozu1ejDhSx5I6emLClGvGo09y38JawQMZZGWCGb3whfGA5FjGI2fgrebGRDqspD1YivSFzAKsro5cEYAJlG4flkjrMcs6A+muHuTsZDriETac58d5dnYSddO7JT0q8CY93dS3H5yfF3eoXVqPMUxzJvCNwIhj8BdUWkzFXB3mmRZQ1zpmlMD7JqSPnb15hATtlITGwV9NlL6AndpGlhecu64dwY6cB/OBfVoOsi17cSu77xsmo7Dsdh4Il6ediGQ17Xgv5hKGNvGtXri1QK6+NoFLQUlBocXe/G0OPvSBzTYRl+4Rc3yEqnnxdMSo+Qhwv3NtqGl9NHoSdSzWyBFGGLU7wKh9s4hBH+uRCqYU0hTSnCbjjjspicMCcv1L696P2fAX0ytDgAQW+Y5OKhV5OicNfq1/FSnfofifPiVqOgyMHPjptV+eLHXBoCZHzt6L1u/TXTgMYQ4KCYumwQ/5sHp04BbVq9JultB95P9xUF4kS9x3px5FsOsSdYOLskRLiATq7NVudfZxpSv0EjYBy7EMIiyI2kkZdjofsglMd3iAVcRCts/HItn9cuA8YJTak0nLVOOMNTQyKuYg1nCOisDtzxfbmuIKfUdXzYXgq4
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(52116005)(1800799015)(38350700005)(81742002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z2dRdWpCbktTSXdDb1pFUFlsa1dybnZZeThCQk1ZeEdaNlgvYVBGb3B0WDRp?=
+ =?utf-8?B?anR1QmtHQTBYNVhWUndMRTFnaUVrNWlCZWNKVWpHNmNMa0hDODhHeVEwUUdQ?=
+ =?utf-8?B?L05nNFNaVDVOMTRLNUExZ21ndlR0OGdxajlRY3BWcE1SeERPTmtUSjR2aFpx?=
+ =?utf-8?B?S1VoVFZlRUx2aVhvNTBYU3lhVWkvRUN2RW45WG1oNVhvdDlTOGozejQxajRJ?=
+ =?utf-8?B?RzFoeXFLSEpJeGdlekFoVjNnaWhoQVJrVHUvSWY5dkJzd3JaZ0JtTmVvWS9P?=
+ =?utf-8?B?RjMzUmxJa2toVjFGTVAvNk5vMDQrU2NQaUIveUMrV0FqSzhrbE5YT1hQY1JM?=
+ =?utf-8?B?aUduRGtTNUdDSTVCNldEdFd1bUEwb1hleXozR3VLQ3FtakpDdVFSemxHbktv?=
+ =?utf-8?B?QmRjUDY4d05FcHlrdGliWVl1a1F3R0g3Zk9EOFZBTnprb0UxSTRLWGpydG9O?=
+ =?utf-8?B?SHhldERXTEZ2K1lxVE1VRDM5TGl6Rml6cjVxKzllTG4veGd0enV2eExLMUdM?=
+ =?utf-8?B?TUxTa1JNMitBSEZ1L0h1NTNHQzMxZTRKVjZpb0xMU1hFOTQ4WExxT1I3NDZK?=
+ =?utf-8?B?TkRZSFgvU2t4Tml3ajFUd0tGWFdtdytiU2NEcjh3c0E5Kytqc2xEakEyaGpr?=
+ =?utf-8?B?NnlSYzd6dFViY3RoWHJ1QURMRWNCcUZTSksvckUycGNCVnhyaGZ2N1ZEZ3BT?=
+ =?utf-8?B?eDNickJvMDkycFdTNmZOLzRYR05rc0FvMjhMMDdsaHRwdFk1d1RTU2o3dzgy?=
+ =?utf-8?B?NW9RZWltYkNldFFlQlQzTEhjSXZDYWhPZE5VODFLMWo0TTI0M2dGaWt4L3pw?=
+ =?utf-8?B?a1F5eFlWQU1obWl2NDJTMUFvQzQxRHNZK2NCUUtUcEFySkVucy9zamRHT0ZY?=
+ =?utf-8?B?SXRUd24ycmhpRmVPSHAyVk1XSXgwWGcvbWQwV3RXMElCVmdOR2k4SEFWR0ly?=
+ =?utf-8?B?Q3dWQ3NzdDIrR1crQ1hkQXQ1VCtZb3ZlVWZ3N3ZPTkMwVUVBeEdpQUJieGxs?=
+ =?utf-8?B?MDhtcGhBdFlITVdqU1FaY25uYVJMeUVBM2J0ajBiNWJKV3A1bS9OSlU3aFh1?=
+ =?utf-8?B?WURnMTFCR21ObUJIVXZwWFR3Wis3QTNUMjE2SlAzeTZzODJDczVpWjYrV2pW?=
+ =?utf-8?B?Ni9iMFl0Ymk5akVMM1ArZTcraDlkNS9zbUhpcUMwUWM2L2ZiQXFkRHFuMzdQ?=
+ =?utf-8?B?TExrZk5yTFFaVitEdjZucE5BczJFVDBHQmtFTDA5L25ibWF1RXQzdFFITEU0?=
+ =?utf-8?B?OUpLcnBBN2tieW1LdGpsN0I5NHdWZStyS1p6bzFyU2Y1Sm4vZ2oxdWFwUmNU?=
+ =?utf-8?B?RnAzUHlHdEhSaWkrUmhDQWdETlJjcUUrVE1RMXJWOWhoSkI4ekExVWljMkds?=
+ =?utf-8?B?KzExb2tjQnBteURKYjdycGZRSEp3c0ExczcwYUwrVzJydUFkS0laeis3c1hw?=
+ =?utf-8?B?d0RKV0RjUDl1RXgyMTZUNFZTMmpmNVZHNWpmbEl4SEdJb3p0Q0Q3QmM5ZlFG?=
+ =?utf-8?B?dmlRTzcvWFlJL1BWa05BOEVCVGdTNXhsMUZkamQ2YkhVV05EWFBkNXVqQXl2?=
+ =?utf-8?B?NWpUQ3JOei9DVTF6SGpYSFc4TS9pWmFaVTIxQzh1UjBYOTBFWHd0OHVHWFc0?=
+ =?utf-8?B?ZXRQYmkya1ViTWp3VDdubVdOYWpRY1ZuUUdmcm9EMFZXVDQ3WW9keTB0R005?=
+ =?utf-8?B?SmJpK1FFL3hpRy9SQ2RXTDF3RTE2Ulo3aTB6OVR0cjJRUHgyNHJGV080WUw5?=
+ =?utf-8?B?c0ttN01oTTFyK1Y5T0xpR3VwVUkzZFNjWXptWnJ5YjJtTG90YU9KNkhUcWlM?=
+ =?utf-8?B?OUx1Mi9WQ1hNYU1hT1JHenhZTDNUbDl0bUlMVnlhRGdZVVBiZFBDd1ZaR0hs?=
+ =?utf-8?B?RHdOOUFQQkRxTllJUCtwZjhzRkJiY3dUZXZMYXpXZ0dHNmliOTZaRXVENkhL?=
+ =?utf-8?B?WUtqOHN0R0I0b3pZV3ZWeU9JZUxJMjdKWFplekg4cGZHSzRiUlhuSEhMUEEr?=
+ =?utf-8?B?MTNwN0RlYUE2bWcrMUxrb2NlT1lhR21LTVBOZFgyVlljT3E4WUJzSncwVlBE?=
+ =?utf-8?B?aW83aUtVUkVIWm1abEJ1VkM5Z1lqaktHQUtsRXppbGJwYWF3dzFNTmc0a1h6?=
+ =?utf-8?Q?HrcqIDZmktTlGj17cR2wZECy0?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72f537aa-b87f-4435-924d-08dc5a006980
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08e3e6a7-de1e-4516-6a3d-08dc59ff4b71
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2024 08:13:39.6737
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 08:21:39.7731
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PT8VdJsTL3ez8hVDik/tAGLviq2FeEu6w3MmnmxM8MMvE1SZQAb0cTbUDLwoIekRB5Qb52s5d8SZnduOWt1j9s7Ra2HwiMqLEsctml0jGPA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB1692
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k8uH721oj1dwx/gr2g/2HvfkiIP/Y2M7M9H2hZd31+r991GUgRO6sqM0uJeuce+zvZ5OjkHctwCoh98iiCofIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5790
 
-Hi Ivan
 
-Can you provide a score for testing a fluster tool so that we can verify th=
-e change on your HW?
+在 2024/4/10 0:37, T.J. Mercier 写道:
+> [You don't often get email from tjmercier@google.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> On Tue, Apr 9, 2024 at 12:34 AM Rong Qianfeng <11065417@vivo.com> wrote:
+>>
+>> 在 2024/4/8 15:58, Christian König 写道:
+>>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
+>>>> [SNIP]
+>>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+>>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+>>>>>> offset and len.
+>>>>> You have not given an use case for this so it is a bit hard to
+>>>>> review. And from the existing use cases I don't see why this should
+>>>>> be necessary.
+>>>>>
+>>>>> Even worse from the existing backend implementation I don't even see
+>>>>> how drivers should be able to fulfill this semantics.
+>>>>>
+>>>>> Please explain further,
+>>>>> Christian.
+>>>> Here is a practical case:
+>>>> The user space can allocate a large chunk of dma-buf for
+>>>> self-management, used as a shared memory pool.
+>>>> Small dma-buf can be allocated from this shared memory pool and
+>>>> released back to it after use, thus improving the speed of dma-buf
+>>>> allocation and release.
+>>>> Additionally, custom functionalities such as memory statistics and
+>>>> boundary checking can be implemented in the user space.
+>>>> Of course, the above-mentioned functionalities require the
+>>>> implementation of a partial cache sync interface.
+>>> Well that is obvious, but where is the code doing that?
+>>>
+>>> You can't send out code without an actual user of it. That will
+>>> obviously be rejected.
+>>>
+>>> Regards,
+>>> Christian.
+>> In fact, we have already used the user-level dma-buf memory pool in the
+>> camera shooting scenario on the phone.
+>>
+>>   From the test results, The execution time of the photo shooting
+>> algorithm has been reduced from 3.8s to 3s.
+>>
+> For phones, the (out of tree) Android version of the system heap has a
+> page pool connected to a shrinker. That allows you to skip page
+> allocation without fully pinning the memory like you get when
+> allocating a dma-buf that's way larger than necessary. If it's for a
+> camera maybe you need physically contiguous memory, but it's also
+> possible to set that up.
+>
+> https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/drivers/dma-buf/heaps/system_heap.c#377
+>
+Thank you for the reminder.
+
+The page pool of the system heap can meet the needs of most scenarios, 
+but the camera shooting scenario is quite special.
+
+Why the camera shooting scenario needs to have a dma-buf memory pool in 
+the user-level？
+
+(1) The memory demand is extremely high and time requirements are 
+stringent.
+
+(2) The memory in the page pool(system heap) is easily reclaimed or used 
+by other apps.
+
+(3) High concurrent allocation and release (with deferred-free) lead to 
+high memory usage peaks.
+
+
+Additionally, after the camera exits, the shared memory pool can be 
+released, with minimal impact.
 
 Thanks
-Jackson
 
-> -----Original Message-----
-> From: Ivan Bornyakov <brnkv.i1@gmail.com>
-> Sent: Saturday, April 6, 2024 1:41 AM
-> To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
-> <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>=
-;
-> Philipp Zabel <p.zabel@pengutronix.de>; Sebastian Fricke
-> <sebastian.fricke@collabora.com>
-> Cc: Ivan Bornyakov <brnkv.i1@gmail.com>; linux-media@vger.kernel.org;
-> linux-kernel@vger.kernel.org
-> Subject: [PATCH v3 0/5] Wave515 decoder IP support
->=20
-> Initial support for Wave515 multi-decoder IP among other refinements.
-> This was tested on FPGA prototype, so wave5_dt_ids[] was not expanded.
->=20
-> fluster score for JCT-VC-HEVC_V1 testsuite with
-> GStreamer-H.265-V4L2-Gst1.0 decoder is 132/147
->=20
-> The issue with Main10 tests is that fluster expects decoded file to be in
-> yuv420p10le format while this driver decodes HEVC Main10 into 8-bit
-> yuv420p. Though result is looks alright to the naked eye, proper decoding
-> into yuv420p10le is to be added.
->=20
-> The rest failed fluster tests are common with Wave521.
->=20
-> ChangeLog:
->   v1:
-> https://lore.kernel.org/linux-media/20240318144225.30835-1-
-> brnkv.i1@gmail.com/
->   v2:
-> https://lore.kernel.org/linux-media/20240325064102.9278-1-
-> brnkv.i1@gmail.com/
->     * drop patch "dt-bindings: media: cnm,wave521c: drop resets
-> restriction"
->       The only user of Wave5 in mainline is TI K3 boards, thus there is
->       no real need to alter dt-bindings
->     * in patch "media: chips-media: wave5: support decoding HEVC Main10
-> profile"
->       add check for flag "support_hevc10bit_dec"
->     * in patch "media: chips-media: wave5: support reset lines" move
->       reset_control_deassert() out of else branch, add
->       reset_control_assert() to probe error path.
->     * rework patch "media: chips-media: wave5: drop "sram-size" DT prop"
->        - don't move alloc/free form device open/close
->        - intead of exact configuration of reserved SRAM memory in DT and
-> 	 allocating all of it, allocate all available SRAM memory up to
-> 	 WAVE5_MAX_SRAM_SIZE from whatever pool provided.
->     * adjust patch "media: chips-media: wave5: support Wave515 decoder"
->       according to changes in patches
->       "media: chips-media: wave5: support decoding HEVC Main10 profile" a=
-nd
->       "media: chips-media: wave5: drop "sram-size" DT prop"
->   v3:
->     * reword patch "media: chips-media: wave5: separate irq setup routine=
-"
->       a bit.
->     * in patch "media: chips-media: wave5: drop "sram-size" DT prop"
->        - move MAX_SRAM_SIZE define into match_data->sram_size
->        - add placeholders for validation that allocated SRAM memory is
-> 	 enough to encode/decode bitstream of given resolution before
-> 	 setting W5_USE_SEC_AXI and W5_CMD_ENC_PIC_USE_SEC_AXI registers
->        - reword accordingly
->     * in patch "media: chips-media: wave5: support Wave515 decoder"
->        - add comments around SRAM memory allocation/freeing about
-> 	 Wave515 specifics
->        - add comments about BSOPTION_RD_PTR_VALID_FLAG bit in
-> 	 W5_BS_OPTION register
->        - add W[AVE]521_ prefix to defines, for wich there are W[AVE]515_
-> 	 alternatieves
->        - add semi-magic Wave515 specific formulas to estimate SRAM usage
->=20
-> Ivan Bornyakov (5):
->   media: chips-media: wave5: support decoding HEVC Main10 profile
->   media: chips-media: wave5: support reset lines
->   media: chips-media: wave5: separate irq setup routine
->   media: chips-media: wave5: drop "sram-size" DT prop
->   media: chips-media: wave5: support Wave515 decoder
->=20
->  .../platform/chips-media/wave5/wave5-helper.c |   8 +-
->  .../platform/chips-media/wave5/wave5-hw.c     | 395 +++++++++++++-----
->  .../chips-media/wave5/wave5-regdefine.h       |   5 +
->  .../platform/chips-media/wave5/wave5-vdi.c    |  27 +-
->  .../chips-media/wave5/wave5-vpu-dec.c         |  51 ++-
->  .../chips-media/wave5/wave5-vpu-enc.c         |   2 +-
->  .../platform/chips-media/wave5/wave5-vpu.c    |  35 +-
->  .../platform/chips-media/wave5/wave5-vpuapi.h |   3 +
->  .../chips-media/wave5/wave5-vpuconfig.h       |  16 +-
->  .../media/platform/chips-media/wave5/wave5.h  |   6 +
->  10 files changed, 407 insertions(+), 141 deletions(-)
->=20
-> --
-> 2.44.0
-
+Rong Qianfeng
+>> To be honest, I didn't understand your concern "...how drivers should be
+>> able to fulfill this semantics." Can you please help explain it in more
+>> detail?
+>>
+>> Thanks,
+>>
+>> Rong Qianfeng.
+>>
+>>>> Thanks
+>>>> Rong Qianfeng.
 
