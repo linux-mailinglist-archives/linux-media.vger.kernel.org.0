@@ -1,136 +1,151 @@
-Return-Path: <linux-media+bounces-9102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9103-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849E48A13E6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:03:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 206218A1421
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:14:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E661B23226
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:03:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D04ED282965
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAFB6147C87;
-	Thu, 11 Apr 2024 12:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEED214B088;
+	Thu, 11 Apr 2024 12:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8YWoFer"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZDCP2AVr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052C2143898;
-	Thu, 11 Apr 2024 12:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923D6149C75
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 12:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712837013; cv=none; b=QnKXKxbPxxs0zISQxgxutLl+KdduUUjttZqTRJDKYccsPmhl7fnOL9BfSzUxDO8Icb9ulpKDQECyj8HGVkFbEDSepifiyS73HpDXCR956Y0kWBKDos0U2qcjfd/mgoFh8bkYu5EZ1u8lSBzSO6Ncl8dDTPI6BP7kA1t8s2gsTXU=
+	t=1712837649; cv=none; b=IYCZRbYdbPwQkaWpHVtRUjgeCZmz9zP1ZB/Sn3buF+xz5KW1Jzsguf247FHUMOpGB4rbkxIpZBku0TycVmXVoE2MQjDl/poJLhNQ+OS09EZ+KMZ39RWcDy+pG4JaKLKMGAuCjVyiLY+HntLI7OxU9CLmywczpdOg0WKw2/7vnHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712837013; c=relaxed/simple;
-	bh=b7k5sCvXgr5cKU8jGKYUf0FBvVisLtLitgRXFAw9OhU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=AFGljxZmtWkE6mNYXXwWOzOz/2Wh7LYtBR0T6mVMmWdkLSB+ECc67tYj/17dx7uUOLijJYrJylzpgcm0lfvrE5X1VWpBAnjfPCoJ0OxAzq6ViVARSvXW7MF+7w1zzJOAFr0gdybR2+h73uSibu1pGBEUxwLbmCMq1PDrdLYzrL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8YWoFer; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5d8b70b39efso5946915a12.0;
-        Thu, 11 Apr 2024 05:03:30 -0700 (PDT)
+	s=arc-20240116; t=1712837649; c=relaxed/simple;
+	bh=BakRmhmicJbDKcrReng5xepS9oRzju+Zi4eHkXz5Gjo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LgX0MVIjWjhDsXhN/EzW1UCLwiera53aH+i+rFe5ij8i+0drf0WmrDepW22WufyNClqVT/AaE5pB5i9ogbjv2BfIj5E+a4tREiNx3pHBW39fOKRLMy8OOL6bxXnMccK0hpOa1BOD2bUEa7HuNQMsczOVCBpH1Xms1wD6ghnZv4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZDCP2AVr; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4dac5a3fbeaso1821526e0c.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 05:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712837010; x=1713441810; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dC3dxQYcnHC/jIqeccSVEMvUjj7u07W27lVj2MYVHOE=;
-        b=D8YWoFerP5c7ijo+t4moFPxZGplc0G0egKk80lSSTqPXsBBUjz+TzbxA3ACy0fh7Bp
-         baLbSfYq4gKBeakk5Uv9HINYHqPoZkpRtTaLxw14+rEdpbKyoHfm9inNaqm9PAkg9fAC
-         5T/JbjLJUz/Lmy6ioPOzINiaGCK3ZgHXUp67W2OKEhRxdxpIEwZwlcgCq6TI5fbFsMyv
-         78BYp0iaRiBPH5EaZKuCLOWnBLraCYe/vUPmXjXNfhQ37RJBDiTf8ihtmXVuKC9wrY7a
-         9RJVwYo28DYYNNniKzLhzMicNRo6YRAltNQ0kP2zPuL+2bIdTrRFFPSEVT1uVRwPjIqD
-         tjsQ==
+        d=chromium.org; s=google; t=1712837646; x=1713442446; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vhafsI5LvdFGZSOAF0fGhLimdJSORh40J/r9x8oZUU=;
+        b=ZDCP2AVr58e+6I9Laiyd9ffuj/n6oixpjNdGqpamYQDXQmJwzn3CiyVohbQZdHagsI
+         wZftIm6B/bnfuZWsoX04Gf0nBGgqagm0EP/CPYQ6NTiHqgWMGfTbcat/HpfpyR/oGnBe
+         oO1O1VYEDoSaKwTazzcPdhNKnvl/FKEga6kDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712837010; x=1713441810;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dC3dxQYcnHC/jIqeccSVEMvUjj7u07W27lVj2MYVHOE=;
-        b=XKJWI/PZTAGIuUDIj3L6Jg/VriQVgBE/s4Y1Wg/D/b4lB1NX+VM2uKh77DlWhyVATM
-         nHRYonsTY8QT13+3kC0yhkIfQhnD/PaOf8pLeJNT57B+CTd8Q/JU9zUqltDy175aD7jm
-         M9+Zo6iEzDOR+U/j1SVIF5qPK3C0WmY1IbzH4o+nDAnz9Tja7Ge/MjBPl41BCzs3Kwb8
-         hDxVB/HlQwUiGCwOefUTYFouvnkwnCRxl7EmxJ3/kgsYTJCKdcom9GBZ+LqsrcJsrMru
-         htbePsMI9lK7R9SEY9g/MkS+gQ/12oHKFZG0VAxNBEmqTiofD151+IGsgdoyJcdCIIrx
-         gBuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgcpF9LsB7KjJGc61/T+grrXLZe83XrNwcheCPiF0WXOt4GJxGp5vpXeQ5MJlWvxX2plO2EZ89v1axN7SsuAdy5UxZD0A7lFftNXuC4bTgPkOP0C75J1qkyhKLNpe8m1x/qJx9S8v4Q+c=
-X-Gm-Message-State: AOJu0YwkV1OSk+7eolUao7umDpGIYcwYUaSu7jCa52vp2kgVx9KsM+hC
-	xvHHC0RFtgQusNOU7WB55Eo2g+pdg6Xkjkye70lnqT0Hqh2p0eRrs0kPDvm2QkBbn9zHFo6tosr
-	XTavHVCA49tMYAOOWraNOpLsHXRc=
-X-Google-Smtp-Source: AGHT+IHaXa6zLXrIwwxw35tFKWAztkCw6auyKXq4dF0laNUaTtwNedm5O0YIEsrrveWo+TKIRfTw/JFSdSEOsSnEoCA=
-X-Received: by 2002:a17:90a:4cc7:b0:2a4:a87c:b907 with SMTP id
- k65-20020a17090a4cc700b002a4a87cb907mr4848297pjh.4.1712837010194; Thu, 11 Apr
- 2024 05:03:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712837646; x=1713442446;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1vhafsI5LvdFGZSOAF0fGhLimdJSORh40J/r9x8oZUU=;
+        b=tDVM71JMqLWtDQyxWXNYX3xvfWaVRDv6i5/ARWTUDVPGnDD1kQW59DCaVJZX3O4ZQ3
+         nZMletQdwF3vxF4QL42xcTJvzKJ5GKVPE4RBRRWS0lk9J1/f3hu0wj9ffNLxLCqjswBt
+         KbTVsFJwsY/+2ZAaWnY1mXb12wGfLhrNn7/g1/8EMj8865XSEIJpvIVPxGy/4mJrtZdC
+         T6SOcg8a6njJHjGPhaAOKXXVsi/Hay+a5kehkaXBCTI5r3QzGfO8/0h9V2dZBhCA5hFE
+         BBovcLsMfwEEHInjvzUso/AjCDqDJHVoQCMS+gEixUkMAbFS8HwHJVRqti/e/amTGRi4
+         3P6A==
+X-Forwarded-Encrypted: i=1; AJvYcCV6UzxHgzXY/SAjkv36oe6eNwXr1X+cy//DnrP+nY4E2I6J87CY7IA0SOxpU6N1idnRiIje+2xEAb0uNrbVLAVawPRg5ucyd9ii/bU=
+X-Gm-Message-State: AOJu0YzMAmdL02HB3CCu9/r2k9ubsHAiIFhwyplVbAZOWy++jpHQJXPP
+	6EkiXPN++83dH0Tqz94bJQppS11+niANDovR3XKm8VK4I8YKXFATQ+SOYeVaKw==
+X-Google-Smtp-Source: AGHT+IGrz19TKSvIV3DMbiUB+Anzc4f3GG8bD5xEZa2OJ57IT5TTkk/P+nBFmtMj28v6ucHX2QJjqQ==
+X-Received: by 2002:a05:6102:290e:b0:47a:2545:12e with SMTP id cz14-20020a056102290e00b0047a2545012emr4256388vsb.5.1712837645325;
+        Thu, 11 Apr 2024 05:14:05 -0700 (PDT)
+Received: from denia.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
+        by smtp.gmail.com with ESMTPSA id l18-20020a0ce092000000b0069b12b5ab57sm855799qvk.89.2024.04.11.05.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 05:14:04 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 11 Apr 2024 12:14:03 +0000
+Subject: [PATCH] media: c8sectpfe: Do not depend on DEBUG_FS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240308121021.1732-1-yongsuyoo0215@gmail.com>
-In-Reply-To: <20240308121021.1732-1-yongsuyoo0215@gmail.com>
-From: YongSu Yoo <yongsuyoo0215@gmail.com>
-Date: Thu, 11 Apr 2024 21:03:18 +0900
-Message-ID: <CANXPkT4_9dkLVe8VUBaOceFRTBMqZOD=u9a1=X54TqvcOjv67A@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ca_en50221: Fix a bug for detecting CI MODULE
-To: mchehab@kernel.org, yongsuyoo0215@gmail.com, v4bel@theori.io, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240411-debugfs-v1-1-220c164afaf5@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAArUF2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDE0ND3ZTUpNL0tGLdtBSzZEPjRANzk7QUJaDqgqLUtMwKsEnRsbW1ANs
+ Oln5ZAAAA
+To: Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-Dear All
+Make dependency on DEBUG_FS conditional, that way we are not forced to
+enable DEBUG_FS if we can to use this driver.
 
-Can you review this patch ?
-Can you share how this modification is going ?
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/platform/st/sti/c8sectpfe/Kconfig             | 1 -
+ drivers/media/platform/st/sti/c8sectpfe/Makefile            | 7 +++++--
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h | 5 +++++
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
-2024=EB=85=84 3=EC=9B=94 8=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 9:10, <y=
-ongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> From: Yongsu yoo <yongsuyoo0215@gmail.com>
->
-> Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
->
-> In source/drivers/media/dvb-core/dvb_ca_en50221.c, if the CA_RESET
-> ioctl is called, the dvb_ca_en50221_slot_shutdown will also be called.
-> Inside of the dvb_ca_en50221_slot_shutdown,
-> the ca->slot_info[slot].slot_state will become DVB_CA_SLOTSTATE_NONE.
-> In the most of cases, the ca->slot_info[slot].slot_state will quickly
-> becomes restored to other states by the subsequent operations of the
-> thread dvb_ca_en50221_thread_state_machine.
-> But in some rare cases, when the CA_GET_SLOT_INFO ioctl is immediately
-> called after the CA_RESET ioctl is called, the
-> the ca->slot_info[slot].slot_state can still remains at
-> DVB_CA_SLOTSTATE_NONE, and this causes CA_GET_SLOT_INFO ioctl not to
-> return CA_CI_MODULE_PRESENT as info->flags even if CA_CI_MODULE is
-> really connected on TV. This means that the CA_GET_SLOT_INFO ioctl
-> does not return right informtion. This is a Bug. We fix this bug.
-> ---
->  drivers/media/dvb-core/dvb_ca_en50221.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-=
-core/dvb_ca_en50221.c
-> index baf64540dc00..8d37c3c13227 100644
-> --- a/drivers/media/dvb-core/dvb_ca_en50221.c
-> +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-> @@ -1403,6 +1403,10 @@ static int dvb_ca_en50221_io_do_ioctl(struct file =
-*file,
->                     (sl->slot_state !=3D DVB_CA_SLOTSTATE_INVALID)) {
->                         info->flags =3D CA_CI_MODULE_PRESENT;
->                 }
-> +               if ((sl->slot_state =3D=3D DVB_CA_SLOTSTATE_NONE) &&
-> +                   (sl->camchange_type =3D=3D DVB_CA_EN50221_CAMCHANGE_I=
-NSERTED)) {
-> +                       info->flags =3D CA_CI_MODULE_PRESENT;
-> +               }
->                 if (sl->slot_state =3D=3D DVB_CA_SLOTSTATE_RUNNING)
->                         info->flags |=3D CA_CI_MODULE_READY;
->                 break;
-> --
-> 2.17.1
->
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/Kconfig b/drivers/media/platform/st/sti/c8sectpfe/Kconfig
+index 702b910509c9c..01c33d9c9ec37 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/Kconfig
++++ b/drivers/media/platform/st/sti/c8sectpfe/Kconfig
+@@ -5,7 +5,6 @@ config DVB_C8SECTPFE
+ 	depends on PINCTRL && DVB_CORE && I2C
+ 	depends on ARCH_STI || ARCH_MULTIPLATFORM || COMPILE_TEST
+ 	select FW_LOADER
+-	select DEBUG_FS
+ 	select DVB_LNBP21 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STV090x if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_STB6100 if MEDIA_SUBDRV_AUTOSELECT
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/Makefile b/drivers/media/platform/st/sti/c8sectpfe/Makefile
+index aedfc725cc19d..99425137ee0a9 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/Makefile
++++ b/drivers/media/platform/st/sti/c8sectpfe/Makefile
+@@ -1,6 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+-c8sectpfe-y += c8sectpfe-core.o c8sectpfe-common.o c8sectpfe-dvb.o \
+-		c8sectpfe-debugfs.o
++c8sectpfe-y += c8sectpfe-core.o c8sectpfe-common.o c8sectpfe-dvb.o
++
++ifneq ($(CONFIG_DEBUG_FS),)
++c8sectpfe-y += c8sectpfe-debugfs.o
++endif
+ 
+ obj-$(CONFIG_DVB_C8SECTPFE) += c8sectpfe.o
+ 
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
+index d2c35fb32d7ef..8e1bfd8605247 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
+@@ -12,7 +12,12 @@
+ 
+ #include "c8sectpfe-core.h"
+ 
++#if defined(CONFIG_DEBUG_FS)
+ void c8sectpfe_debugfs_init(struct c8sectpfei *);
+ void c8sectpfe_debugfs_exit(struct c8sectpfei *);
++#else
++static inline void c8sectpfe_debugfs_init(struct c8sectpfei *) {};
++static inline void c8sectpfe_debugfs_exit(struct c8sectpfei *) {};
++#endif
+ 
+ #endif /* __C8SECTPFE_DEBUG_H */
+
+---
+base-commit: 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8
+change-id: 20240411-debugfs-fd6c13a074fd
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
 
