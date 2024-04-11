@@ -1,471 +1,285 @@
-Return-Path: <linux-media+bounces-9113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B2C8A1500
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982BE8A1521
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:57:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2BB5282ECA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:48:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 455F6289BBB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348EB14F9E6;
-	Thu, 11 Apr 2024 12:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EEF14A4E5;
+	Thu, 11 Apr 2024 12:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O5IsH8Gl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXWKh94m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6883314F12E;
-	Thu, 11 Apr 2024 12:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8911474A7
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 12:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712839613; cv=none; b=MLJgl7lQFiGEQkecW/xvf2nZ4fNWKR6ups+H0FT/VrBGdK7Z8MXPvsTnfUDznu6Ua2hvFhTJxd0ffCpH4AgpCClyhSVv0qpT7d4yzFul6Ct0H2ClCM0qS+9sWE5DRTboSL+LSbJ3VuLXX7VwTDLRnQHj3cVM04CbRQbNM1+wKA0=
+	t=1712840255; cv=none; b=VUJSVQ0cs+4HiwlQh33w41arjlp1/k9lVHiy/h99qFEClpxSGcryFkoojQrJQYU0+GKcVHTLaZkpEbDYgjxZWfBjsuqL+FYP9K9u8KfL/lwAH2WWCXlDY+8wtoRSNLvYng317XArO104dqu/JfOmSqmcN7EIwtlKq/f8fw+96iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712839613; c=relaxed/simple;
-	bh=RSOJGtO6BR2UMj8bCDctwIDhEW7LJmJnk8q/eA/Q7A4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P2tvfbahbkZFFprcryb2M6YD+E1xUonRtYUJUcJN2ESdsxv/N5fXwIa26cynjt7pNklM+H0Hmzs69MogzTUBHzTW07SxbwyqJWWtiB2JH9EieIlhr5WWfXYCPMOPBsP1VjdItqLFFIndKuBzmr/AdmKzSzYaNILukVUu0e+H3gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O5IsH8Gl; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43BBvEVA026116;
-	Thu, 11 Apr 2024 12:46:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=yxxX504SH2pM8o/T+MNJC+WIBvBAN8ME0Ew0/cwMKSs=; b=O5
-	IsH8GlEaN6Ai9/UvQ7lYdOnGC25g5DY3zlgRjBcwoch9oSLyamvjcWupKx0fFwgg
-	Wd7q+qX3zip8du6pgEj6p3c/1R/zjFwDMSuh7umIkiV9aFCttCWx3xDUfnhCX6PE
-	VUwwocsRJ89jeU4eY/mBNb0sPw7f0UFsiQ7pniQXiah8PMf6KngkiqJbIEqPASDU
-	p34njBPNYA9+OYM4y6e4jP4nY2BSPfRB61BI9w/8kRDEQXpOW5n9vzB6xpiNEYrB
-	JylDv8wiLLKpAMLcE8WNFnn6RKaMy74kohOXAbz3+KcTaab53WE5m29shCyBRuE3
-	jNZ8YLCWQQlKMHx2otfA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xe9js9vnb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 12:46:45 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BCkiEJ027699
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 12:46:44 GMT
-Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Thu, 11 Apr 2024 05:46:41 -0700
-From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
-        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
-Subject: [PATCH v3 8/8] media: qcom: camss: Decouple VFE from CSID
-Date: Thu, 11 Apr 2024 15:45:43 +0300
-Message-ID: <20240411124543.199-9-quic_grosikop@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240411124543.199-1-quic_grosikop@quicinc.com>
-References: <20240411124543.199-1-quic_grosikop@quicinc.com>
+	s=arc-20240116; t=1712840255; c=relaxed/simple;
+	bh=4piwY1YzyeEjTOq1l27mM1xmH3T98Gba8wk5cXMF/sw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c2AMJStLX7UlWqOnn4guYNaV94dyo3FUsHUfFux6+YX2XnHy9ZVa8Of3axSF3LWnXd3Lc0Y3mKRtE6NFUEOFInAImBbcQOwx6Herz4KCoK9Q3FCWaIOlasYJiYV6aweCGRXbtDJw1COqWAZtXWZynCfUM81Pzrnjq+blgpz9BlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXWKh94m; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712840253; x=1744376253;
+  h=date:from:to:cc:subject:message-id;
+  bh=4piwY1YzyeEjTOq1l27mM1xmH3T98Gba8wk5cXMF/sw=;
+  b=VXWKh94mMNZM+CKUm2OQnn4dZFh03BHbBksXVPCLkKvekmPMt56vEBBh
+   H2F7zji1rPwyekOk8ODZhlM/R2yKIHtX/eUHm19WocRbzUU6/j5gPVCZw
+   dHlfyZpyg1VBiJeAmaAchCOAVLkfjb3h39WW5AWVBMqRTiHVau2x57r/r
+   vIaYyGuTMkDJs2AgIcj04QBHR4a1KroFOt21fvturArvpcS45kFYnYwbl
+   vDVZ9Z3q0zdHFaab8AJI44i/ts9aT7kJvf+wrW5CVIWpVkxOdBL6wpn1W
+   5DuvDGf/3hCULbWF1JE5kPhfGQdGO4+qHcn/VHGYPwqQ2PtrSHX5Sdc38
+   Q==;
+X-CSE-ConnectionGUID: P50n7R6sRX2r6YEpRLD4RQ==
+X-CSE-MsgGUID: j1Bf7g1eTFymuDQHOnYsUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="18849357"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="18849357"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 05:57:32 -0700
+X-CSE-ConnectionGUID: nL5fdTO0TZ6PChKm2GQ8QQ==
+X-CSE-MsgGUID: CAnocbXcRSa8Cu/+cQpdtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="20963873"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Apr 2024 05:57:31 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rutzc-0008cr-1p;
+	Thu, 11 Apr 2024 12:57:28 +0000
+Date: Thu, 11 Apr 2024 20:56:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8
+Message-ID: <202404112038.cY7dBkTQ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: nGk9UKk-iOAZevs6_EuU-KIK6qr80Tcy
-X-Proofpoint-GUID: nGk9UKk-iOAZevs6_EuU-KIK6qr80Tcy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-11_06,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- spamscore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404110093
 
-From: Milen Mitkov <quic_mmitkov@quicinc.com>
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8  media: v4l2-subdev: Fix stream handling for crop API
 
-Decouple the direct calls to VFE's vfe_get/put in the CSID subdev
-in order to prepare for the introduction of IFE subdev.
+elapsed time: 1414m
 
-Also decouple CSID base address from VFE since on the Titan platform
-CSID register base address resides within VFE's base address.
+configs tested: 192
+configs skipped: 3
 
-Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-Signed-off-by: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
----
- .../media/platform/qcom/camss/camss-csid.c    | 16 +++--
- .../media/platform/qcom/camss/camss-csid.h    |  1 +
- drivers/media/platform/qcom/camss/camss.c     | 69 +++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h     |  8 +++
- 4 files changed, 89 insertions(+), 5 deletions(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 5b23f5b8746d..858db5d4ca75 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -602,7 +602,6 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 	struct csid_device *csid = v4l2_get_subdevdata(sd);
- 	struct camss *camss = csid->camss;
- 	struct device *dev = camss->dev;
--	struct vfe_device *vfe = &camss->vfe[csid->id];
- 	int ret = 0;
- 
- 	if (on) {
-@@ -611,7 +610,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 		 * switching on the CSID. Do so unconditionally, as there is no
- 		 * drawback in following the same powering order on older SoCs.
- 		 */
--		ret = vfe_get(vfe);
-+		ret = csid->res->parent_dev_ops->get(camss, csid->id);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -663,7 +662,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 		regulator_bulk_disable(csid->num_supplies,
- 				       csid->supplies);
- 		pm_runtime_put_sync(dev);
--		vfe_put(vfe);
-+		csid->res->parent_dev_ops->put(camss, csid->id);
- 	}
- 
- 	return ret;
-@@ -1021,6 +1020,11 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 	csid->id = id;
- 	csid->res = &res->csid;
- 
-+	if (dev_WARN_ONCE(dev, !csid->res->parent_dev_ops,
-+			  "Error: CSID depends on VFE/IFE device ops!\n")) {
-+		return -EINVAL;
-+	}
-+
- 	csid->res->hw_ops->subdev_init(csid);
- 
- 	/* Memory */
-@@ -1031,9 +1035,11 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 		 * VFE to be initialized before CSID
- 		 */
- 		if (id >= 2) /* VFE/CSID lite */
--			csid->base = camss->vfe[id].base + VFE_480_LITE_CSID_OFFSET;
-+			csid->base = csid->res->parent_dev_ops->get_base_address(camss, id)
-+				+ VFE_480_LITE_CSID_OFFSET;
- 		else
--			csid->base = camss->vfe[id].base + VFE_480_CSID_OFFSET;
-+			csid->base = csid->res->parent_dev_ops->get_base_address(camss, id)
-+				 + VFE_480_CSID_OFFSET;
- 	} else {
- 		csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
- 		if (IS_ERR(csid->base))
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 0e385d17c250..8cdae98e4dca 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -157,6 +157,7 @@ struct csid_hw_ops {
- struct csid_subdev_resources {
- 	bool is_lite;
- 	const struct csid_hw_ops *hw_ops;
-+	const struct parent_dev_ops *parent_dev_ops;
- 	const struct csid_formats *formats;
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 37060eaa0ba5..4d625ef59cf7 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -32,6 +32,8 @@
- #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
- #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
- 
-+static const struct parent_dev_ops vfe_parent_dev_ops;
-+
- static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 	/* CSIPHY0 */
- 	{
-@@ -87,6 +89,7 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_1,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_1
- 		}
- 	},
-@@ -109,6 +112,7 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_1,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_1
- 		}
- 	},
-@@ -226,6 +230,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -248,6 +253,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -270,6 +276,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -292,6 +299,7 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	}
-@@ -445,6 +453,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -470,6 +479,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -495,6 +505,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	},
-@@ -520,6 +531,7 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_4_7,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_4_7
- 		}
- 	}
-@@ -714,6 +726,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -739,6 +752,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -765,6 +779,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	}
-@@ -957,6 +972,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -974,6 +990,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.type = CAMSS_SUBDEV_TYPE_CSID,
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -991,6 +1008,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1008,6 +1026,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	}
-@@ -1212,6 +1231,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.interrupt = { "csid0" },
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1227,6 +1247,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.interrupt = { "csid1" },
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1242,6 +1263,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.interrupt = { "csid2" },
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1257,6 +1279,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.interrupt = { "csid3" },
- 		.csid = {
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1272,6 +1295,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1287,6 +1311,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1302,6 +1327,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	},
-@@ -1317,6 +1343,7 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 		.csid = {
- 			.is_lite = true,
- 			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
- 			.formats = &csid_formats_gen2
- 		}
- 	}
-@@ -1661,6 +1688,48 @@ void camss_pm_domain_off(struct camss *camss, int id)
- 	}
- }
- 
-+static int vfe_parent_dev_ops_get(struct camss *camss, int id)
-+{
-+	int ret = -EINVAL;
-+
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		ret = vfe_get(vfe);
-+	}
-+
-+	return ret;
-+}
-+
-+static int vfe_parent_dev_ops_put(struct camss *camss, int id)
-+{
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		vfe_put(vfe);
-+	}
-+
-+	return 0;
-+}
-+
-+static void __iomem
-+*vfe_parent_dev_ops_get_base_address(struct camss *camss, int id)
-+{
-+	if (id < camss->res->vfe_num) {
-+		struct vfe_device *vfe = &camss->vfe[id];
-+
-+		return vfe->base;
-+	}
-+
-+	return NULL;
-+}
-+
-+static const struct parent_dev_ops vfe_parent_dev_ops = {
-+	.get = vfe_parent_dev_ops_get,
-+	.put = vfe_parent_dev_ops_put,
-+	.get_base_address = vfe_parent_dev_ops_get_base_address
-+};
-+
- /*
-  * camss_of_parse_endpoint_node - Parse port endpoint node
-  * @dev: Device
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index a5be9e872992..b3c967bcf8a9 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -143,6 +143,12 @@ struct camss_clock {
- 	u32 nfreqs;
- };
- 
-+struct parent_dev_ops {
-+	int (*get)(struct camss *camss, int id);
-+	int (*put)(struct camss *camss, int id);
-+	void __iomem *(*get_base_address)(struct camss *camss, int id);
-+};
-+
- void camss_add_clock_margin(u64 *rate);
- int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- 			struct device *dev);
-@@ -153,6 +159,8 @@ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
- int camss_pm_domain_on(struct camss *camss, int id);
- void camss_pm_domain_off(struct camss *camss, int id);
-+int camss_vfe_get(struct camss *camss, int id);
-+void camss_vfe_put(struct camss *camss, int id);
- void camss_delete(struct camss *camss);
- 
- #endif /* QC_MSM_CAMSS_H */
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                     haps_hs_smp_defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240411   gcc  
+arc                   randconfig-002-20240411   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                        keystone_defconfig   gcc  
+arm                           omap1_defconfig   gcc  
+arm                   randconfig-001-20240411   gcc  
+arm                   randconfig-002-20240411   gcc  
+arm                   randconfig-003-20240411   clang
+arm                   randconfig-004-20240411   gcc  
+arm                        realview_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   clang
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240411   clang
+arm64                 randconfig-002-20240411   gcc  
+arm64                 randconfig-003-20240411   gcc  
+arm64                 randconfig-004-20240411   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240411   gcc  
+csky                  randconfig-002-20240411   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240411   clang
+hexagon               randconfig-002-20240411   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240411   clang
+i386         buildonly-randconfig-002-20240411   clang
+i386         buildonly-randconfig-003-20240411   clang
+i386         buildonly-randconfig-004-20240411   clang
+i386         buildonly-randconfig-005-20240411   clang
+i386         buildonly-randconfig-006-20240411   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240411   gcc  
+i386                  randconfig-002-20240411   gcc  
+i386                  randconfig-003-20240411   clang
+i386                  randconfig-004-20240411   clang
+i386                  randconfig-005-20240411   gcc  
+i386                  randconfig-006-20240411   clang
+i386                  randconfig-011-20240411   clang
+i386                  randconfig-012-20240411   gcc  
+i386                  randconfig-013-20240411   gcc  
+i386                  randconfig-014-20240411   gcc  
+i386                  randconfig-015-20240411   clang
+i386                  randconfig-016-20240411   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240411   gcc  
+loongarch             randconfig-002-20240411   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+m68k                           sun3_defconfig   gcc  
+m68k                          sun3x_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         bigsur_defconfig   gcc  
+mips                           ci20_defconfig   clang
+mips                     cu1830-neo_defconfig   gcc  
+mips                      fuloong2e_defconfig   gcc  
+mips                         rt305x_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240411   gcc  
+nios2                 randconfig-002-20240411   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc                randconfig-001-20240411   gcc  
+parisc                randconfig-002-20240411   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                   currituck_defconfig   clang
+powerpc                       holly_defconfig   clang
+powerpc                 mpc832x_rdb_defconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   clang
+powerpc                    mvme5100_defconfig   gcc  
+powerpc               randconfig-001-20240411   gcc  
+powerpc               randconfig-002-20240411   clang
+powerpc               randconfig-003-20240411   gcc  
+powerpc                 xes_mpc85xx_defconfig   gcc  
+powerpc64             randconfig-001-20240411   clang
+powerpc64             randconfig-002-20240411   gcc  
+powerpc64             randconfig-003-20240411   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240411   clang
+riscv                 randconfig-002-20240411   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240411   clang
+s390                  randconfig-002-20240411   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                    randconfig-001-20240411   gcc  
+sh                    randconfig-002-20240411   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                           se7206_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          alldefconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240411   gcc  
+sparc64               randconfig-002-20240411   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240411   gcc  
+um                    randconfig-002-20240411   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240411   gcc  
+x86_64       buildonly-randconfig-002-20240411   clang
+x86_64       buildonly-randconfig-003-20240411   clang
+x86_64       buildonly-randconfig-004-20240411   gcc  
+x86_64       buildonly-randconfig-005-20240411   clang
+x86_64       buildonly-randconfig-006-20240411   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240411   clang
+x86_64                randconfig-002-20240411   clang
+x86_64                randconfig-003-20240411   gcc  
+x86_64                randconfig-004-20240411   clang
+x86_64                randconfig-005-20240411   gcc  
+x86_64                randconfig-006-20240411   clang
+x86_64                randconfig-011-20240411   clang
+x86_64                randconfig-012-20240411   gcc  
+x86_64                randconfig-013-20240411   clang
+x86_64                randconfig-014-20240411   gcc  
+x86_64                randconfig-015-20240411   gcc  
+x86_64                randconfig-016-20240411   gcc  
+x86_64                randconfig-071-20240411   clang
+x86_64                randconfig-072-20240411   clang
+x86_64                randconfig-073-20240411   clang
+x86_64                randconfig-074-20240411   gcc  
+x86_64                randconfig-075-20240411   gcc  
+x86_64                randconfig-076-20240411   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240411   gcc  
+xtensa                randconfig-002-20240411   gcc  
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
