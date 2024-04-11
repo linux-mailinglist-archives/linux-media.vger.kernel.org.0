@@ -1,72 +1,73 @@
-Return-Path: <linux-media+bounces-9124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0578A20C6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 23:19:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3758A20C8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 23:19:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 368F8286A97
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 21:19:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64738B24236
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 21:19:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3986441C6D;
-	Thu, 11 Apr 2024 21:18:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1B1446AC;
+	Thu, 11 Apr 2024 21:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ntrkH0K0"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OR3RTLBD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BB13F9F9
-	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 21:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04DF4174C
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 21:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712870280; cv=none; b=YfJntdTeO73XZ+wtJLEh8L3SoSoVNfjXlJsGQgJxsJXQzJdwhqfUJ21Fa4nJLN0wEAHyS151/qsTMBjfn+U107v/QDoCgRX8B6c2HUIZkZKYoDv3Vyu4A8Bb5q/UGkKnP/aQOFvZVHnS0rk9QlzLuHIgNC/cnOLIB7oDWc9HpBY=
+	t=1712870282; cv=none; b=ScUlmZ0XXv+Vr0SCXLwRArUFGupZ31QYJvuH+FzbzatJc5fzA3Q2cu3sAneM/ga3oXqzjRCLMhcqRJLZQR9x/VBDZfOHnXzAoT7j19FQGN8Kvy5IT7l6Q2TLd7sLAm5UXwXner8Qvk4LqSkVpuy4UuFxPJLxihh6UlrDPOTsEKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712870280; c=relaxed/simple;
-	bh=dp4RMhErGFhr4bpB4GWRG+LeS25vv/r3I5ywr16IJEQ=;
+	s=arc-20240116; t=1712870282; c=relaxed/simple;
+	bh=Ogh+hSh4Or5uPuB9tfRQOhwkH7pUIRHWmEF19NCyWzA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Z9I2ayxoPzDDxjdjdejGzKDXavver+f/Xgi2lDww39gVhMdKdy1phWPlz3JINTxD15ZbWTSSJJsu4nDQIJAZrwHwgWX1FvuHHil71R0RYDnjg8K3lzGws9enGPY4ZEWDN0DY99Se8USWdU+wMzsbP7yrFWSQvm0cLDDHPDDhV4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ntrkH0K0; arc=none smtp.client-ip=209.85.161.44
+	 In-Reply-To:To:Cc; b=t0cqE7wN9h8ID7WZgW10RoW9HrKAiNPgKh8HUJJAJSL3Q8TB1z3QEH2hd1mDge31lm6H2ehL0aDfnQO9jSGaQp6Wmqp5HtLwYecPQ+ctUgC0p4raDzkjIW6pGqyUxPgtwP5UciXbXqqHbvILBTgaAkBs3NU89qu97Y+3wri5eB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OR3RTLBD; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5aa12c21ff4so183009eaf.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 14:17:59 -0700 (PDT)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5aa25e99414so191574eaf.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 14:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712870278; x=1713475078; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1712870280; x=1713475080; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7uKL1mHSZL4YF4kY3BJqD6MsU90syv43Ru49OzukfDM=;
-        b=ntrkH0K086JJwfBHvGT5bb5VuGHKzxCZeV+zfZjg9H/AZdpOIBuvUBnFqqiE4Gzdu7
-         /TfWC86WGODUY5y7LbE5XimrOgNAg9qwRaxzK0yDKN8yikvlUcZVfXOY+I2MDtbohfKx
-         sKuEWleuiHBybEx64rdHSYKamoQK0IgBIAqYY=
+        bh=e5nSR1yFGYwMcL96r69NW1l3sh3LFO29KJ2x2ErdnHk=;
+        b=OR3RTLBD8M6HjvxKqQsArPSGRNkTaTccLQxASsqwwgk10DQFBL1f00ZYJq6qZEPWRn
+         +/9KPeOmghux+xSZjoJZtiJWkd3UnceAQSRastwyRf+TRN9KLg7JtzpoiqG6jDn8cnVO
+         929Kd8wu+awJ27msuRO8KN1r/IR82+UXECqR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712870278; x=1713475078;
+        d=1e100.net; s=20230601; t=1712870280; x=1713475080;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7uKL1mHSZL4YF4kY3BJqD6MsU90syv43Ru49OzukfDM=;
-        b=CCirKVXavD/NsW1qLPe1vJDKiZsZuoUvoBcobxUmu6lqskiuc4yCg3CYYOGtAkL/rP
-         tXLzM8S952czr0a122aDCQAhNQwh4/AjIqopa8fCwN6kmHS6hpGEA29d7kwXKJXL4jQU
-         K0zxVDhUjgZYrGLhQe2C6mVkF1kFPmiI+NLbEBPEy5Pn9jmoctywTLx9eFfBmLEEMb6C
-         BMvwJuMKmL7ptMXCDG+O+wYslpkrsdSxhR0hZn/nDidSCqhxq8SBrUkbNqFKEb9S9t6Q
-         eLTkP04AcMS56O5WsxPPzdqJsgZ3wyufVNhYi2l67cYAochmBInMqlu+MnWh1/hwiLjB
-         JRpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ43psn+Bvd4EKa9lj0pzYwSUjUUH277P2jZPXJVexjTG+JYwFfDh9ZI71Yla2WIWd3NK2fZOaCB9v4VK0DqChP6ilsDDyhd9O6Rk=
-X-Gm-Message-State: AOJu0Yztq+3Le189yqHVwUV44RLSfFrL/a0eb2uDYP+4TwR+ZXVK3uCu
-	lwMrWzXi8Fgy3aOOP6GnZmHqmnb/V1uiF1StCa3vnyhGu/nsn8gsKa0zkzbW1Q==
-X-Google-Smtp-Source: AGHT+IGhlN9obDs811TzuFeTw+yQpMZFy0dDvN3jgb99c2lssw4pJXubU4SOxjWfkOF/RoOypkxSZg==
-X-Received: by 2002:a05:6358:9807:b0:186:12cb:d1a8 with SMTP id y7-20020a056358980700b0018612cbd1a8mr629894rwa.25.1712870278344;
-        Thu, 11 Apr 2024 14:17:58 -0700 (PDT)
+        bh=e5nSR1yFGYwMcL96r69NW1l3sh3LFO29KJ2x2ErdnHk=;
+        b=RrGWfk46xDT728Uuj2ccI/ECm0Of/Ne5Vy+QJ+5BKP4MtMmG/QrigwmVfbjvwzoXqr
+         6bFDeOv3uipfBq5TZn9Tc7FGYyb55JwK+TJDJufVjxnF7boOAPEvtshRogdu8QTFArSe
+         vtUg5ouZZ0NPaVia9CJm9yUfddN/OZoBNMUFVWJxx7g0OIYXsCpJiZhT0gTVEttEfNAG
+         1Zg8rVJtjfYEWUJ3VcwSYnyD501ovX3frG9o4PEtkdIOEOhEhsFtGpNs9EO/FoBz3mw1
+         c7hF20UFsy+F1dnoL3DF8oZzt9FXuRBkb9SBqxuq5DSb3i13gardLirvDsVBxYyVnYrg
+         PSiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCtgwaUP1qvUpQEYnVbj9bv7pqCYS85QlMKAWod8r31qgpOMzLFOk3XwIB/qFNVNUD4RqqdiKGbQN9A+8FC9vhRiADNy0aeG1XH7M=
+X-Gm-Message-State: AOJu0Yy7ql333U2kxBZFJGu5Fn6GetMASINoYsbcJ+TJHkJzrm/fYRYD
+	HJ7hZXawxuVYqpA5SN/9kCS2kF1ESvMvVnpXErQ/Omten78+NAIpI3d36MS5zQ==
+X-Google-Smtp-Source: AGHT+IEh0blwfOKKlbWUs8oomzyYZwweaLJ6NFxR3Gr9CI9V/VL83VlcnszoDVWX3MZ+lZ28+ZL6Tg==
+X-Received: by 2002:a05:6358:4b45:b0:186:f3f:3252 with SMTP id ks5-20020a0563584b4500b001860f3f3252mr667180rwc.14.1712870279979;
+        Thu, 11 Apr 2024 14:17:59 -0700 (PDT)
 Received: from denia.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
-        by smtp.gmail.com with ESMTPSA id k20-20020ac84794000000b00434d7c4f9fasm1373362qtq.8.2024.04.11.14.17.57
+        by smtp.gmail.com with ESMTPSA id k20-20020ac84794000000b00434d7c4f9fasm1373362qtq.8.2024.04.11.14.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 14:17:58 -0700 (PDT)
+        Thu, 11 Apr 2024 14:17:59 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 11 Apr 2024 21:17:54 +0000
-Subject: [PATCH 5/7] media: tunner: xc5000: Refactor firmware load
+Date: Thu, 11 Apr 2024 21:17:55 +0000
+Subject: [PATCH 6/7] media: dvb-frontends: drx39xyj: Refactor firmware
+ upload
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +76,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240411-fix-smatch-v1-5-045f92467937@chromium.org>
+Message-Id: <20240411-fix-smatch-v1-6-045f92467937@chromium.org>
 References: <20240411-fix-smatch-v1-0-045f92467937@chromium.org>
 In-Reply-To: <20240411-fix-smatch-v1-0-045f92467937@chromium.org>
 To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>, 
@@ -86,107 +87,152 @@ To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
  Patrice Chotard <patrice.chotard@foss.st.com>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Ricardo Ribalda <ribalda@chromium.org>, Shuah Khan <shuah@kernel.org>
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Make sure the firmware is released when we leave
-xc_load_fw_and_init_tuner()
+Do not cache the file, instead load it on demand.
 
-This change makes smatch happy:
-drivers/media/tuners/xc5000.c:1213 xc_load_fw_and_init_tuner() warn: 'fw' from request_firmware() not released on lines: 1213.
+This makes smatch a happy parser:
+drivers/media/dvb-frontends/drx39xyj/drxj.c:11908 drx_ctrl_u_code() warn: 'fw' from request_firmware() not released on lines: 11877,11886,11896.
 
-Cc: Shuah Khan <shuah.kh@samsung.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/tuners/xc5000.c | 39 +++++++++++++++++----------------------
- 1 file changed, 17 insertions(+), 22 deletions(-)
+ drivers/media/dvb-frontends/drx39xyj/drx_driver.h |  2 -
+ drivers/media/dvb-frontends/drx39xyj/drxj.c       | 49 +++++++++++------------
+ 2 files changed, 23 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/media/tuners/xc5000.c b/drivers/media/tuners/xc5000.c
-index 2182e5b7b6064..30aa4ee958bde 100644
---- a/drivers/media/tuners/xc5000.c
-+++ b/drivers/media/tuners/xc5000.c
-@@ -58,7 +58,7 @@ struct xc5000_priv {
- 	struct dvb_frontend *fe;
- 	struct delayed_work timer_sleep;
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drx_driver.h b/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
+index 15f7e58c5a308..2c2fd4bf79ccf 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
++++ b/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
+@@ -33,7 +33,6 @@
  
--	const struct firmware   *firmware;
-+	bool inited;
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+-#include <linux/firmware.h>
+ #include <linux/i2c.h>
+ 
+ /*
+@@ -1910,7 +1909,6 @@ struct drx_demod_instance {
+ 	/* generic demodulator data */
+ 
+ 	struct i2c_adapter	*i2c;
+-	const struct firmware	*firmware;
  };
  
- /* Misc Defines */
-@@ -1110,23 +1110,19 @@ static int xc_load_fw_and_init_tuner(struct dvb_frontend *fe, int force)
- 	if (!force && xc5000_is_firmware_loaded(fe) == 0)
- 		return 0;
+ /*-------------------------------------------------------------------------
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+index 19d8de400a687..1ef53754bc037 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+@@ -56,6 +56,7 @@ INCLUDE FILES
+ #define pr_fmt(fmt) KBUILD_MODNAME ":%s: " fmt, __func__
  
--	if (!priv->firmware) {
--		ret = request_firmware(&fw, desired_fw->name,
--					priv->i2c_props.adap->dev.parent);
--		if (ret) {
--			pr_err("xc5000: Upload failed. rc %d\n", ret);
--			return ret;
+ #include <linux/module.h>
++#include <linux/firmware.h>
+ #include <linux/init.h>
+ #include <linux/string.h>
+ #include <linux/slab.h>
+@@ -11750,6 +11751,7 @@ static int drx_ctrl_u_code(struct drx_demod_instance *demod,
+ 	u8 *mc_data = NULL;
+ 	unsigned size;
+ 	char *mc_file;
++	const struct firmware *fw;
+ 
+ 	/* Check arguments */
+ 	if (!mc_info || !mc_info->mc_file)
+@@ -11757,28 +11759,22 @@ static int drx_ctrl_u_code(struct drx_demod_instance *demod,
+ 
+ 	mc_file = mc_info->mc_file;
+ 
+-	if (!demod->firmware) {
+-		const struct firmware *fw = NULL;
+-
+-		rc = request_firmware(&fw, mc_file, demod->i2c->dev.parent);
+-		if (rc < 0) {
+-			pr_err("Couldn't read firmware %s\n", mc_file);
+-			return rc;
 -		}
--		dprintk(1, "firmware read %zu bytes.\n", fw->size);
-+	ret = request_firmware(&fw, desired_fw->name,
-+			       priv->i2c_props.adap->dev.parent);
-+	if (ret) {
-+		pr_err("xc5000: Upload failed. rc %d\n", ret);
-+		return ret;
-+	}
-+	dprintk(1, "firmware read %zu bytes.\n", fw->size);
- 
--		if (fw->size != desired_fw->size) {
--			pr_err("xc5000: Firmware file with incorrect size\n");
--			release_firmware(fw);
--			return -EINVAL;
+-		demod->firmware = fw;
+-
+-		if (demod->firmware->size < 2 * sizeof(u16)) {
+-			rc = -EINVAL;
+-			pr_err("Firmware is too short!\n");
+-			goto release;
 -		}
--		priv->firmware = fw;
--	} else
--		fw = priv->firmware;
-+	if (fw->size != desired_fw->size) {
-+		pr_err("xc5000: Firmware file with incorrect size\n");
-+		release_firmware(fw);
-+		return -EINVAL;
++	rc = request_firmware(&fw, mc_file, demod->i2c->dev.parent);
++	if (rc < 0) {
++		pr_err("Couldn't read firmware %s\n", mc_file);
++		return rc;
 +	}
  
- 	/* Try up to 5 times to load firmware */
- 	for (i = 0; i < 5; i++) {
-@@ -1204,6 +1200,7 @@ static int xc_load_fw_and_init_tuner(struct dvb_frontend *fe, int force)
+-		pr_info("Firmware %s, size %zu\n",
+-			mc_file, demod->firmware->size);
++	if (fw->size < 2 * sizeof(u16)) {
++		rc = -EINVAL;
++		pr_err("Firmware is too short!\n");
++		goto release;
  	}
  
- err:
-+	release_firmware(fw);
- 	if (!ret)
- 		printk(KERN_INFO "xc5000: Firmware %s loaded and running.\n",
- 		       desired_fw->name);
-@@ -1274,7 +1271,7 @@ static int xc5000_resume(struct dvb_frontend *fe)
- 
- 	/* suspended before firmware is loaded.
- 	   Avoid firmware load in resume path. */
--	if (!priv->firmware)
-+	if (!priv->inited)
- 		return 0;
- 
- 	return xc5000_set_params(fe);
-@@ -1293,6 +1290,8 @@ static int xc5000_init(struct dvb_frontend *fe)
- 	if (debug)
- 		xc_debug_dump(priv);
- 
-+	priv->inited = true;
+-	mc_data_init = demod->firmware->data;
+-	size = demod->firmware->size;
++	pr_info("Firmware %s, size %zu\n", mc_file, fw->size);
 +
- 	return 0;
- }
++	mc_data_init = fw->data;
++	size = fw->size;
  
-@@ -1306,10 +1305,6 @@ static void xc5000_release(struct dvb_frontend *fe)
+ 	mc_data = (void *)mc_data_init;
+ 	/* Check data */
+@@ -11874,7 +11870,8 @@ static int drx_ctrl_u_code(struct drx_demod_instance *demod,
+ 						    0x0000)) {
+ 					pr_err("error reading firmware at pos %zd\n",
+ 					       mc_data - mc_data_init);
+-					return -EIO;
++					rc = -EIO;
++					goto release;
+ 				}
  
- 	if (priv) {
- 		cancel_delayed_work(&priv->timer_sleep);
--		if (priv->firmware) {
--			release_firmware(priv->firmware);
--			priv->firmware = NULL;
--		}
- 		hybrid_tuner_release_state(priv);
+ 				result = memcmp(curr_ptr, mc_data_buffer,
+@@ -11883,7 +11880,8 @@ static int drx_ctrl_u_code(struct drx_demod_instance *demod,
+ 				if (result) {
+ 					pr_err("error verifying firmware at pos %zd\n",
+ 					       mc_data - mc_data_init);
+-					return -EIO;
++					rc = -EIO;
++					goto release;
+ 				}
+ 
+ 				curr_addr += ((dr_xaddr_t)(bytes_to_comp / 2));
+@@ -11893,17 +11891,17 @@ static int drx_ctrl_u_code(struct drx_demod_instance *demod,
+ 			break;
+ 		}
+ 		default:
+-			return -EINVAL;
++			rc = -EINVAL;
++			goto release;
+ 
+ 		}
+ 		mc_data += mc_block_nr_bytes;
  	}
  
+-	return 0;
++	rc = 0;
+ 
+ release:
+-	release_firmware(demod->firmware);
+-	demod->firmware = NULL;
++	release_firmware(fw);
+ 
+ 	return rc;
+ }
+@@ -12271,7 +12269,6 @@ static void drx39xxj_release(struct dvb_frontend *fe)
+ 	kfree(demod->my_ext_attr);
+ 	kfree(demod->my_common_attr);
+ 	kfree(demod->my_i2c_dev_addr);
+-	release_firmware(demod->firmware);
+ 	kfree(demod);
+ 	kfree(state);
+ }
 
 -- 
 2.44.0.683.g7961c838ac-goog
