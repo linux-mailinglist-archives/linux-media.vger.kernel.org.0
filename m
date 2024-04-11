@@ -1,71 +1,72 @@
-Return-Path: <linux-media+bounces-9119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335298A20BC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 23:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401188A20BE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 23:18:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0C82B21BA2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 21:18:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C264AB21DD7
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 21:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8910E3717B;
-	Thu, 11 Apr 2024 21:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CE83A8FF;
+	Thu, 11 Apr 2024 21:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FgXs8HVU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UMJglONx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46CB2E3EF
-	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 21:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45122E40D
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 21:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712870275; cv=none; b=B3wETw2BEJaF68R/CnJfqG+AXF6ICIEd3aYnSUCVN1cYvAez96KykaUu/BODJd3pQiU0iO123vUXPqVxvdEc7wvhpmvlmHCiea+ozEQS3Cob8AARUzM7ckUS/jrfI9rCLtn0NFJ8xKndekl/RJ1nz4qvjbxazd1hSWbDKMFHZWA=
+	t=1712870276; cv=none; b=LxBUsuhpPAj1xwwXNJ/hYEy/oSqHT/Pu39JMlleNCSCrcM3cHpD79ZM2rs1TV7BlvIo7eu6Qk3qAizo0NpOFX3XN68B0wbVcw8fLOZ4/nGSnFgY2Qo9usGBXSqjpqLc30RtLTplQfcRDpJDGOO2S7eTOjKsfra/nKQdpecDdKlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712870275; c=relaxed/simple;
-	bh=s6xMOF20B4qYnFL8ZR3c00RdegXMuufiIQSgbqLKoU0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KmNW+dt9EEebTnN2elrWIb9guRqegASluDlj3kXCrdJBDjIlWaSDxxD8br/BMe0Bwni8Tuynj+ehT6PvDR8IOyQCSJhRB4GI0t5e2RUb7pGDSq+jtJC01QNP8VvHMc/YznftGJ2DH4etpCZrBMYHM5NzFROeuWu2DBfqoOxDJyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FgXs8HVU; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1712870276; c=relaxed/simple;
+	bh=ulv1JL7xWZsExyNUt9ao2hlmY9qTFZqMDhceV7YHm44=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kddPEyTyuLQ4sdCqPBxl+Tc8q+6jt0kN9EONJo5GInw+/vPuOvRZgWW5YuLjJz7w6MvZ2W5slycsYwEydEcqtOuirNgFxdxmUOeedfhDxpFRlEtLENO94Q8QhdemXynVo4OAAnfV6tjPUxm71manng4OLiAdG+x79aRxX+Uspyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UMJglONx; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-43444a599d0so1271141cf.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 14:17:53 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4347dadc2cfso1483011cf.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 14:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1712870272; x=1713475072; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UXgieRcG+rkonTZ60EMAThjqhGOmVBK8DdZAwLfR+j4=;
-        b=FgXs8HVUtq81G/AaJN9rvkiHoIUc+NzYiHLFaEW7KrkdutgOBEdmLM015OotKBVdMP
-         ntBBAy+89jodwV6Q36Y5XGtvGAkWtUSBm79gwNc5Ki+fI+VMMYrO8kVSc1XygMiHEz1P
-         1lw5cH3zjXubIWb9oyVXLtZ3vdtusB+U5r6j8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712870272; x=1713475072;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1712870274; x=1713475074; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UXgieRcG+rkonTZ60EMAThjqhGOmVBK8DdZAwLfR+j4=;
-        b=qlGq+AZ7/JJxp+x2PnkFtG41LHvdUlpawOROg8nidTbO6lRONGuOUW+zMQHRKbAhzC
-         rmSpMGbsXdfbZOQoVH/fCrwKLe1nGDW1u8H1ymlU6eqLRc2bRpHThdU25Yqr3jh9b5sG
-         0q+RqyDlyNzcx7yju88i6mJ5GVkd7ktdNz7zEvTUntPcuHTvs7aPbGXvemsB0fVHy0XJ
-         zWNyHMcVkTePIzcvYuy/0VaeN8ARLoIF66ZH6BgsHdnaTUgsAZLCByU3/G6KOMcRFVrk
-         uTe3RcFuYiIZV9908cKWiTtHnElDAgSu83kj6wLWvq/QkQB2u5EFfCb3/hhRXP/uMtV4
-         Lo5A==
-X-Forwarded-Encrypted: i=1; AJvYcCV35cCxbITmiayBacdbeNtUzfgvd70f0JRdVs4Ig68Rk1k81Tr08XEdO185teqj7xRADRkPBbBV2FqDA5R13jELTYAjE0pi/hryEsA=
-X-Gm-Message-State: AOJu0YxTtgOqdkoT20BZ1FV+lLgtBCnB/5yEX0zLhCTZzYiyNyRXCite
-	SPQbIMl0lQ2wgKu8/ZKY3thWlJi/d0JfLq+Zas5luITbkMWy+PeGWbrAyCUOvA==
-X-Google-Smtp-Source: AGHT+IHY9n56LQHya8nQxc7cMaUBUO8W0KGUpEX4EunQu29vFiKFzzjnJBArAMIAzXk3xsAFMZxSxw==
-X-Received: by 2002:a05:622a:1189:b0:434:7189:d688 with SMTP id m9-20020a05622a118900b004347189d688mr980610qtk.30.1712870272592;
-        Thu, 11 Apr 2024 14:17:52 -0700 (PDT)
+        bh=KJkkcaX8CIYhd9XR8ScMRJRxMuN5zFK8kc96J/lpLIM=;
+        b=UMJglONx7J8e4urvd2gDSLQDRIBrZp7O+Vx3DRJ8eoB2BWOQUMOHmxIFdq4iTFbwfv
+         cS5iPNta+LHLy3EZNaeVeYip+AHjYoiRqkKkOCdRGrDW1PhV2NrxXdLcAVC1T+UJ7HYL
+         iNbFgxps236tOIgf31Fpjm4GAXnR+GN3POcnI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712870274; x=1713475074;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KJkkcaX8CIYhd9XR8ScMRJRxMuN5zFK8kc96J/lpLIM=;
+        b=YWqnlfxEcTcMUkpxXUS/lVn7NdSgRzP9wtjHAIhvGmSIOD+N8p50TrzAVjSm+vuHoY
+         jZHkD6ZOeij8WneFomLDbhmHKE1r8zJnaFpHTYVvYhRtdENWq2aCnO9Wt45yhkJicngx
+         GXja0XTdx6js84FX13llsPGbNmiafmEMw5+IoKIyojsIBlb6Rmq/dIx0kBcvHXuGJCMU
+         rozpnlNiHx5QG7DM9rgmIZu9rcqAt3zQfQRM7NZdHIhZlU4vG3PFmDUIlMyL4YqBBpTU
+         YVpXkj84Ik+SOyk8XB787GrQPe07nHanLL0Y4gyfnSe/4cnxGSJgWuPtBEcgdw1Y31GD
+         GgyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWu9bcN6JE0VU9VZxf+VoQ6T7TL0ds1Pyz3YUlO6oEMtL4sqoQQC9100PqwQzStfDbgzAzC+UdI+HApEjPJMv+eCw+hDGZB1i8bO48=
+X-Gm-Message-State: AOJu0YwPGPzlrlMmp0nK1Oix0GXAdbFOghfMK780sne/aGpM4swX7dGz
+	ZCB8lZ5u+kJ1//jopi42+u41YDmAG4cbWq8HEOF8pzI+J7y2rstQLu0QWJvj5Q==
+X-Google-Smtp-Source: AGHT+IFTnqRZcteRINuntinTUGBmdgsxI+3hZuPuD7cseAqS47blu7YOY7bCkvUON9r8YSt9U/Nl/Q==
+X-Received: by 2002:a05:622a:107:b0:434:68f6:ae2a with SMTP id u7-20020a05622a010700b0043468f6ae2amr1066381qtw.16.1712870273700;
+        Thu, 11 Apr 2024 14:17:53 -0700 (PDT)
 Received: from denia.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
-        by smtp.gmail.com with ESMTPSA id k20-20020ac84794000000b00434d7c4f9fasm1373362qtq.8.2024.04.11.14.17.51
+        by smtp.gmail.com with ESMTPSA id k20-20020ac84794000000b00434d7c4f9fasm1373362qtq.8.2024.04.11.14.17.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 11 Apr 2024 14:17:52 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 0/7] media: Fix more smatch warnings
-Date: Thu, 11 Apr 2024 21:17:49 +0000
-Message-Id: <20240411-fix-smatch-v1-0-045f92467937@chromium.org>
+Date: Thu, 11 Apr 2024 21:17:50 +0000
+Subject: [PATCH 1/7] media: solo6x10: Use pcim functions
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,9 +75,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH1TGGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDE0ND3bTMCt3i3MSS5Axd4yTDFAMjU8s0U1NjJaCGgqJUoCzYsOjY2lo
- Aqn9jdlwAAAA=
+Message-Id: <20240411-fix-smatch-v1-1-045f92467937@chromium.org>
+References: <20240411-fix-smatch-v1-0-045f92467937@chromium.org>
+In-Reply-To: <20240411-fix-smatch-v1-0-045f92467937@chromium.org>
 To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>, 
  Anton Sviridenko <anton@corp.bluecherry.net>, 
  Andrey Utkin <andrey_utkin@fastmail.com>, 
@@ -85,36 +86,55 @@ To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
  Patrice Chotard <patrice.chotard@foss.st.com>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Ricardo Ribalda <ribalda@chromium.org>, Shuah Khan <shuah@kernel.org>
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-This has only been compile tested.
+Instead of handling manually the release of the memory regions let devm
+do that for us.
+
+Makes smatch happy:
+drivers/media/pci/solo6x10/solo6x10-core.c:631 solo_pci_probe() warn: 'pdev' from pci_request_regions() not released on lines: 631.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Ricardo Ribalda (7):
-      media: solo6x10: Use pcim functions
-      media: solo6x10: Use devm functions
-      media: saa7134: Use devm_request_irq
-      media: c8sectpfe: Refactor load_c8sectpfe_fw
-      media: tunner: xc5000: Refactor firmware load
-      media: dvb-frontends: drx39xyj: Refactor firmware upload
-      media: dvb-usb: dib0700_devices: Add missing release_firmware()
+ drivers/media/pci/solo6x10/solo6x10-core.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
- drivers/media/dvb-frontends/drx39xyj/drx_driver.h  |  2 -
- drivers/media/dvb-frontends/drx39xyj/drxj.c        | 49 ++++++++++------------
- drivers/media/pci/saa7134/saa7134-alsa.c           |  9 +---
- drivers/media/pci/solo6x10/solo6x10-core.c         | 16 ++-----
- .../platform/st/sti/c8sectpfe/c8sectpfe-core.c     |  2 +-
- drivers/media/tuners/xc5000.c                      | 39 ++++++++---------
- drivers/media/usb/dvb-usb/dib0700_devices.c        | 18 ++++++--
- 7 files changed, 62 insertions(+), 73 deletions(-)
----
-base-commit: b14257abe7057def6127f6fb2f14f9adc8acabdb
-change-id: 20240411-fix-smatch-3b1d0259f553
+diff --git a/drivers/media/pci/solo6x10/solo6x10-core.c b/drivers/media/pci/solo6x10/solo6x10-core.c
+index 6d87fbb0ee04a..abf30b7609e17 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-core.c
++++ b/drivers/media/pci/solo6x10/solo6x10-core.c
+@@ -145,10 +145,8 @@ static void free_solo_dev(struct solo_dev *solo_dev)
+ 		/* Now cleanup the PCI device */
+ 		solo_irq_off(solo_dev, ~0);
+ 		free_irq(pdev->irq, solo_dev);
+-		pci_iounmap(pdev, solo_dev->reg_base);
+ 	}
+ 
+-	pci_release_regions(pdev);
+ 	pci_disable_device(pdev);
+ 	v4l2_device_unregister(&solo_dev->v4l2_dev);
+ 	pci_set_drvdata(pdev, NULL);
+@@ -480,15 +478,10 @@ static int solo_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	pci_write_config_byte(pdev, 0x40, 0x00);
+ 	pci_write_config_byte(pdev, 0x41, 0x00);
+ 
+-	ret = pci_request_regions(pdev, SOLO6X10_NAME);
++	ret = pcim_iomap_regions(pdev, BIT(0), SOLO6X10_NAME);
+ 	if (ret)
+ 		goto fail_probe;
+-
+-	solo_dev->reg_base = pci_ioremap_bar(pdev, 0);
+-	if (solo_dev->reg_base == NULL) {
+-		ret = -ENOMEM;
+-		goto fail_probe;
+-	}
++	solo_dev->reg_base = pcim_iomap_table(pdev)[0];
+ 
+ 	chip_id = solo_reg_read(solo_dev, SOLO_CHIP_OPTION) &
+ 				SOLO_CHIP_ID_MASK;
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.44.0.683.g7961c838ac-goog
 
 
