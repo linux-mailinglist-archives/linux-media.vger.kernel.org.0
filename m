@@ -1,167 +1,186 @@
-Return-Path: <linux-media+bounces-9090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4458A0BC3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 11:02:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F07688A0BCE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 11:05:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B5B81F2492A
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 09:02:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A69D9287309
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 09:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E3E14264F;
-	Thu, 11 Apr 2024 09:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17487142629;
+	Thu, 11 Apr 2024 09:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zcrsyNel"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gIKnMzsf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1848813DDC3
-	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 09:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01011411FE
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 09:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712826152; cv=none; b=o6yB9JSc+/EDHJRkhlyB/RMrlNfpdG/IgN4TImV97nIOmrRVz65MngMjAWd8V+QSlcr+AFfcganf/FYCyW+RvHNjPrE+T3oUqEmBq/8mBq+JdGedevD/arivQ0DuXINnaB7R2+qVw8HuXQxeqIgUCFwCfyY+sUEpjEEd+QF7g+g=
+	t=1712826295; cv=none; b=hMa74CLFyaF94UawbzDkhVpnz/bk/JCSb7xjZrLbJSyQeCiXng65HRnjF+2L+/gYAD8LMZtDb7Lm06pkTn7MaiMi7E5Ctw8N3IwglGz7grAGteeUx84WXGMh1ZDfvIo3VGOuHjDZ6w4Stf30zxk1Tn90dQsF/PcCpLmf1BCv9eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712826152; c=relaxed/simple;
-	bh=HQLR5v8dHbAgT5JsnA4jrGnYtBzOHB94zNCkt2VsBv0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hVkFv/6/p2e1n/kSErDdka+5Ai50U1t/MUCYjfnuI9uWu9i+px6gzumVH1I8kVeorcO4BEcziaBPDedHbx82HsfriReHkLsy/2iVOiOBzwut9gDxHmOzHeojVuVxVs6BoG1TuTCXrb0a7XFqMJHbNGT10C4SCQKg2b7ir/Hx6E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zcrsyNel; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-346b09d474dso565616f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 02:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712826149; x=1713430949; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5v9YozhmdzgXiTELH0nicoXPoxpaUBv6/qUNPM0IjXg=;
-        b=zcrsyNelPOQ5FfbFJB4K8qUDE677F+0sDTzxXTMYqgvvt2aw3comB/qiD0I+EZSUW4
-         OB0kLA0AIJItCsfk6SQiZpzcGJNZ8r169u4Bj1r8paOXrnN3ow1WaXnZTmxcJzCy19jA
-         fQq5gzfb6GkAK2TiekHiBEUUeDpyvoshLBy+uAglas7/fiJaeiIkHGZ39hLnn+H+4Xrr
-         d3C7OPXdcVKGrl0fAEreJ63fYkOlkYkjgwNhjVeoI6fhfMYDSH/9Jr1fAb2GPRL7JDWo
-         JTSNFfDMByvftNHPXZaR8/lSDw8vo6yuZLYzM8s2NwV9XX3cVRRGcoqyUs9Uk534CI8f
-         001Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712826149; x=1713430949;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5v9YozhmdzgXiTELH0nicoXPoxpaUBv6/qUNPM0IjXg=;
-        b=ri7cfvXXzmjiuhiw64DOuaaZZVBWR3dvN+Qzqwdt/C8l4w9qoR0xht2Jgrs0yXqdhq
-         dXZNC9OcxevkdSe/KZn6jpR+SuoQyFrAsYRTf7q/iBdaicCbIe53SuSCJq4HoVSZAJjZ
-         pVREADkON4Ub9ndsWANmMA/i+Xq23yOfTlFd6vKDc/eLblr6ovHxZJ5R4mOC/wYU+tbr
-         7pPv6sy02i7p9UnBN4uLlqZ1lXiQbvoSpB73U9GMDN8tQiRtbOjsACFTv9I93Bdg0/n2
-         F75qjcYRoR5YB2LA3g2UGmiwoQBATxAN6w48NX8UsPXCYIP+BBqV2yfqSXwTO5Zcrhj7
-         Zs4Q==
-X-Gm-Message-State: AOJu0Yzt1yNymkoNz8C9OLMyBJSGazeSVkPXutGrhSe9IQKOYAdvWqUQ
-	0P+kPqcljC+MaiQJ+oEmyQOKTUepBg47tx9a3ncVZwlRcTgnKumiexTObkCIVpI=
-X-Google-Smtp-Source: AGHT+IF+6tI7PyCZj9mhlBeLnOVQpKv9aou4b8uDFyq4b/Xepm29ZZSRq4KERLkrVFdFW8a9cYvPuw==
-X-Received: by 2002:adf:f283:0:b0:343:6b09:653c with SMTP id k3-20020adff283000000b003436b09653cmr4113019wro.43.1712826149353;
-        Thu, 11 Apr 2024 02:02:29 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id o18-20020a5d6852000000b00343e8968917sm1285454wrw.1.2024.04.11.02.02.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 02:02:29 -0700 (PDT)
-Message-ID: <b93ff9ea-367c-4382-bce2-4c8fa95cb849@linaro.org>
-Date: Thu, 11 Apr 2024 10:02:28 +0100
+	s=arc-20240116; t=1712826295; c=relaxed/simple;
+	bh=L3CH/MJi6uZAy/iehzOKgtTd3sp4886S0cuIYsAfJQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qg3g/WveO9ryifBLa1nCSxXDLbvtCT5K8JtOQiwK2RslEd5fB0In7v4355Y0Oe2K6DmD/lmTz07bOBDRFhwe2nBdGdAMAAObFCyWUjPp8HNqefVatq8rXzpYFeKYJ+HSgBV8TrQ4S5F/MSKTXXkoJyU+T7rMIKpKBlL5DEwaprc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gIKnMzsf; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712826293; x=1744362293;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=L3CH/MJi6uZAy/iehzOKgtTd3sp4886S0cuIYsAfJQs=;
+  b=gIKnMzsf1hPK7EfJIS9ZPWdTGld65ehXalORYdbVRb5IMGlLddXAQe2F
+   o7T4QAqgG7LdPr/rH570NWDcsUDbxOeQ96iu7yvRwzQCkK9qmwMb1/ge3
+   y3wpSv9LlekIkVU3FDlryNZJB7LPx/TDKMEINkG+wAMcDEBNX5wwlAOGX
+   hfJB31ZKGKeKKXBNQIj4+jbxSOAib6XXjdtV6Xs9w+mV94Z5C+kfQSwCZ
+   +a3pjGMJFMZk3+z6VNRNXf9d4XQkEn5n0vTFJSJnPn4YmUh5JsEVNOGZY
+   3ZAW7o4uFMylqGjLfPwNyHlT26Lnv6q2K52i1CSgh/+TAcMqWZe8m8/I+
+   A==;
+X-CSE-ConnectionGUID: xUup3cokQzWg82L0XQe0vQ==
+X-CSE-MsgGUID: BOzGKX/LQX+fiubVhIskxw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18828731"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="18828731"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:04:52 -0700
+X-CSE-ConnectionGUID: u8/fETgTRR2eAlNf1jUcYQ==
+X-CSE-MsgGUID: zEotTEqRSRCUbVroBowwNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="25485671"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:04:50 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BA69F12035C;
+	Thu, 11 Apr 2024 12:04:47 +0300 (EEST)
+Date: Thu, 11 Apr 2024 09:04:47 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 23/38] media: uapi: ccs: Add media bus code for MIPI
+ CCS embedded data
+Message-ID: <Zhenr8ykPs9vlkh6@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-24-sakari.ailus@linux.intel.com>
+ <20240321164914.GD9582@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC WIP PATCH] venus: add qcom,no-low-power property
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Marc Gonzalez <mgonzalez@freebox.fr>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media <linux-media@vger.kernel.org>,
- MSM <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Pierre-Hugues Husson
- <phh@phh.me>, Marijn Suijten <marijn.suijten@somainline.org>
-References: <0843621b-386b-4173-9e3c-9538cdb4641d@freebox.fr>
- <10fe67af-0572-4faa-91c6-fce9c8f9dc92@linaro.org>
- <6342e92d-eed0-45c2-8f04-3779aa2e521d@freebox.fr>
- <4ab95e87-c912-469b-b8d4-be0cf0e4710b@linaro.org>
- <a8c5b27c-47a9-044a-78e8-51c67acf19a6@quicinc.com>
- <c6a9c20e-02d3-4334-badd-2efe5be9ce7e@freebox.fr>
- <d5abf142-3a2b-454c-660a-249c0fb25208@quicinc.com>
- <33382ecb-8a73-4d2f-96b1-8048df7a6414@freebox.fr>
- <3914555d-3c89-a5c5-2906-0bd24d0bf735@quicinc.com>
- <72741d2e-5165-4505-b079-d7b5d1491888@freebox.fr>
- <edb29faa-01b3-3b96-7c05-3378eb3af073@quicinc.com>
- <21b833cf-61c3-4fb5-8c55-492aac0fd3b6@freebox.fr>
- <8170522f-b813-19a4-3f85-f2880809d9a5@quicinc.com>
- <c2ce34ce-d532-4039-bb9f-d4d1b2fb23b0@freebox.fr>
- <09bc9231-0e59-4cb2-a05f-02e2fcaf3d15@linaro.org>
- <02a32387-1a30-44cd-b552-6e47023b997d@freebox.fr>
- <8b9cc46d-4267-43fb-b2be-f5996566a349@linaro.org>
- <0159169f-8da9-4ca8-a427-8160a9b09a9c@freebox.fr>
- <bd49cfcd-13d2-4e4f-bc9d-c491558e5af7@linaro.org>
-Content-Language: en-US
-In-Reply-To: <bd49cfcd-13d2-4e4f-bc9d-c491558e5af7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240321164914.GD9582@pendragon.ideasonboard.com>
 
-On 10/04/2024 14:14, Bryan O'Donoghue wrote:
-> On 10/04/2024 13:23, Marc Gonzalez wrote:
->> FWIW, I get the same behavior with 854x480 and 2560x1440:
->>
->> 1) If mpv runs with '--length=N' (play only part of the file)
->> then mpv exits cleanly, with no kernel messages.
-> 
-> On -next ?
-> 
-> I think you mentioned before you were doing your work on an older kernel 
-> and forward porting patches ?
-> 
->> 2) If mpv plays the entire file, then mpv hangs at the end
->> (needs CTRL-C to exit) and driver prints to kernel:
->> [68643.935888] qcom-venus cc00000.video-codec: session error: event 
->> id:1001 (deadb000), session id:79d42000
->> [68643.935995] qcom-venus-decoder cc00000.video-codec:video-decoder: 
->> dec: event : 1001
-> 
-> Hmm
-> 
-> #define HFI_ERR_SESSION_FATAL                0x1001
-> 
-> Something is causing the firmware to return this packet to you.
-> 
-> Probably worth tracing the last five messages sent by the firmware prior 
-> to that to see if we can root-cause.
-> 
-> ---
-> bod
+Hi Laurent,
 
-BTW I think you've found two bugs here
+On Thu, Mar 21, 2024 at 06:49:14PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Mar 13, 2024 at 09:25:01AM +0200, Sakari Ailus wrote:
+> > Add new MIPI CCS embedded data media bus code
+> > (MEDIA_BUS_FMT_CCS_EMBEDDED).
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/v4l/subdev-formats.rst              | 28 +++++++++++++++++++
+> >  include/uapi/linux/media-bus-format.h         |  3 ++
+> >  2 files changed, 31 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > index cbd475f7cae9..c8f982411e70 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > @@ -8564,3 +8564,31 @@ and finally the bit number in subscript. "X" indicates a padding bit.
+> >        - X
+> >        - X
+> >        - X
+> > +
+> > +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
+> > +
+> > +MIPI CCS Embedded Data Formats
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
+> > +metadata format for sensor embedded data, which is used to store the register
+> > +configuration used for capturing a given frame. The format is defined in the CCS
+> > +specification. The media bus code for this format is
+> > +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
+> > +
+> > +The CCS embedded data format definition includes three levels:
+> > +
+> > +1. Padding within CSI-2 bus :ref:`Data unit <media-glossary-data-unit>` as
+> 
+> s/Data unit/Data Unit/
 
-1. When we receive a fatal error from firmware we don't "bug out"
-    properly. So we hang forever waiting for more events which
-    won't come.
-    We should fix the handling of SESSION_FATAL to => termination.
-    Clearly after HFI_ERR_SESSION_FATAL we should be completely done
-    not hanging around waiting for additional inputs.
+Yes.
 
-2. Why do we get a fatal error for the session ?
-    Are we continuing to send commands to the firmware after
-    termination maybe - so is there a incongruous context
-    between firmware and Linux ?
+> 
+> > +   documented in the MIPI CCS specification.
+> > +
+> > +2. The tagged data format as documented in the MIPI CCS specification.
+> > +
+> > +3. Register addresses and register documentation as documented in the MIPI CCS
+> > +   specification.
+> > +
+> > +The format definition shall be used only by devices that fulfill all three
+> > +levels above.
+> 
+> Hmmmm... Do we need to mandate level 3 ? There are lots of sensors that
+> comply with the first two levels but have their own register set. Would
+> you like a sensor-specific embedded data format for each of them ? If
+> so, how would we document it without essentially copying the datasheet ?
 
-I don't think either is a blocker specifically for your DTS submission 
-so I think you should go ahead with your DTS stuff.
+You could refer to the datasheet if it's publicly available.
 
-Also though, I think 1) we don't exit properly on HFI_ERR_SESSION_FATAL 
-and 2) we should root-cause why HFI_ERR_SESSION_FATAL is generated at all.
+The CCS static data format is meaningful only for accessing (level 1) and
+parsing (level 2) the data without knowing its meaning, which is the most
+important aspect. The user space will need to know the meaning of the data
+and can additionally select the same data unpacker than for CCS and
+possibly also the CCS data parser if applicable.
 
----
-bod
+The user space should especially not have to have a list of CCS-compliant
+sensors which would become necessary, should we skip on the 3rd level
+requirement here.
+
+> 
+> > +
+> > +This mbus code are only used for "2-byte simplified tagged data format" (code
+> > +0xa) but their use may be extended further in the future, to cover other CCS
+> > +embedded data format codes.
+> > diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> > index d4c1d991014b..03f7e9ab517b 100644
+> > --- a/include/uapi/linux/media-bus-format.h
+> > +++ b/include/uapi/linux/media-bus-format.h
+> > @@ -183,4 +183,7 @@
+> >  #define MEDIA_BUS_FMT_META_20			0x8006
+> >  #define MEDIA_BUS_FMT_META_24			0x8007
+> >  
+> > +/* Specific metadata formats. Next is 0x9002. */
+> > +#define MEDIA_BUS_FMT_CCS_EMBEDDED		0x9001
+> > +
+> >  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
 
