@@ -1,288 +1,259 @@
-Return-Path: <linux-media+bounces-9088-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9089-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656418A0B66
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 10:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185BB8A0B8D
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 10:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D1F3285CB0
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:37:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C33BD28BC5B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 553901448D0;
-	Thu, 11 Apr 2024 08:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAAA3140E2F;
+	Thu, 11 Apr 2024 08:43:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fiOod2CZ"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="EN8Nmyen"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2062.outbound.protection.outlook.com [40.107.215.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F214813CF92
-	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 08:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712824437; cv=none; b=pmlxh9yzNH2jMSXZow9tpNoO7F0+CtmmWAqzs53OlVd44RJdcCTVXPCIw9emsJBw6yjLVGNmaR9JPcfzE2uG4pKyfggZn7akuh7Itg9aunuNfCNhxYzTkHkac/D+SYpJ72bDz012rL9C1F75dhhoBIigaf33AQ6YZDdqIiOMmRo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712824437; c=relaxed/simple;
-	bh=BByt8eipEHuQjwgg7ug7c5NbP6csN7WTabwodV6Cyqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AniIEvs/QdwQjNR8NLZty/P4KxLvwGR6J0O+5M7Rxfa31zN0cIn2Xh2dFEReQ6KHTv+yLR1eCvxWh+NE2kokkGxzNSR4WJ/RUiSuKoIkre/HhHGjbJAuT9zpPRmHD4vn5YktBo5tYK4WAG3/Nmiu91Ag15FZS4G4Hm5rdk3pblE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fiOod2CZ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712824436; x=1744360436;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BByt8eipEHuQjwgg7ug7c5NbP6csN7WTabwodV6Cyqc=;
-  b=fiOod2CZwjJRLjYUt+xXANksWY8X23rUHLG7i8X2oN+sOblatnhEzsBg
-   Jc9RmVviKQrHKqqtVdNdlkflwm0C3z4LdJ3OycTNHUFS4u42KLq1UmgQw
-   XiWt8652sDennYHfPt0GmMdR9LYlQBIYo1O3jDsE/MrarYiazyEkW4GvC
-   vZiXmfcsM5HOAiYb+zulKzEXIDYQtac1YhP2rO1XEdE0rqmKN+iFjBZAq
-   PH2a06Vdow8TOzRHrdyUvFkf/Dq197hta4Zw+NoxYmg5IbtOz3mkgWRdz
-   doUcgeo8paFlXqgGxoIbRntDOEMSacgyf2woXjmAhbpnmYCxg9Y1ZfrVM
-   A==;
-X-CSE-ConnectionGUID: BcjZKQf2Ql+PPCw9j17MLQ==
-X-CSE-MsgGUID: 2gSEM7rNTVy/eGw+xbPPYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8348366"
-X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="8348366"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 01:33:56 -0700
-X-CSE-ConnectionGUID: RMVEO68MQoGNy/GJUONWig==
-X-CSE-MsgGUID: ycxU+cYrRhaaJDHkU7BLww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="25314324"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 01:33:53 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6776912035C;
-	Thu, 11 Apr 2024 11:33:50 +0300 (EEST)
-Date: Thu, 11 Apr 2024 08:33:50 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 22/38] media: ccs: Support frame descriptors
-Message-ID: <Zhegbln1EfUEKROU@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-23-sakari.ailus@linux.intel.com>
- <20240321164448.GC9582@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3803913CAA2;
+	Thu, 11 Apr 2024 08:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712825039; cv=fail; b=B2OLHeG+emTEQSUBZR3Dpi3EAYmEKZQh8Dp9QRU6t33c6ecV9/j+7ayxLzviVOJBxGiSEqiitaolMottns0u/LyUl6bOkqMUOPm4b/bauBDcFBThPHpIjXPmZaLqIHJwfmAA2gx+M4Ex/wRH4WkYkrFQqdKtZ8B9S0s/1oFLRLA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712825039; c=relaxed/simple;
+	bh=Zc+FtKc5dRZUt+MnQybmhskpB6NEO9o8xMEP7N9ZV0k=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KVXCOfjbA4x9+HrWrdeFJsquffit9CIqCE563866+4wLviPVfYuS8NejBysYKYFZRyEj7EIpmxLYDcaeCsMuiJCP7ttKfSEf/apk5AYABZJH0qG7M4VHsbkCDUXFsoah+cFCYBFn56dxsmvk3VnH2srG8oX6DwZTkldI2ZwEy4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=EN8Nmyen; arc=fail smtp.client-ip=40.107.215.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gPZAC99mUn1DYKpNRgj8pz4U5VF9hOgXwLsJa4dCdrjPJRnJEaPOJ93CIrUYDp4gnon/6AYEL0u5obec8In47G8ZD+MAOxq2/q3yOEBtN+UyCOlKVYoV2/qWKVTZ/9KLDbAqkoocHZdMpQO+6O5dLs5VBexFIDrxGMFNLFYfDP7H7I2zP4l5IKSJCsXd0ejqBe4kUxsBHTLCuzQYgBDUXdReTwt4gvThty5GUtCbl1L7m5sGF1KV8yDJvDXHnuk7r2Wbr2oiPsaEwSk1fKoqHwzVGqM2GkJhyG2S5QvaPZ0/bKE9h5Q0YREIuLRNK2Dq7RlA0oYN6nGMVzaDI7l0PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YdICYd8AHPB/nqHMaPuFEH7y6fHOJe7YCrfuid59zlA=;
+ b=G5mdKMdoXxM7pgwfETk+/zJkWhZrYRb7JnWfqTwY7n1pHJUdYoDY60JhYnaNLp1U0uiffmo/dWj3bWVBkIce2sVFum+udhrUg+yRv2FRjpQ5bdIRwuUsQJ4XLiwze88Uch0qT2BiePMWZ1RQZ7+FxscBDBtgwVjdKgNQDWQiedcnBxXDrzMGVNxL3ixuMWEgz+GZSvuHFpoq+cBAizYqp2y91++izI6esiuFGjaXgGNUentVA/lPu347+cQCmTl0kaDVzMpFbQupBrpJAo7qiTDlOLIMVXtHzuOoA7JyfVSZ83HIGBETVBVxx9Xkqtxh90IIROPkczgyf42g7kOPZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YdICYd8AHPB/nqHMaPuFEH7y6fHOJe7YCrfuid59zlA=;
+ b=EN8Nmyen2/aDpKTQv27JamiB+YYUDuvsNepnZS2sgZqhoJHc2R3TR7Hnzp/rYj6W2NjeU8Dqlc8kmLEkzRgoSfCryryb769goeY2H+lFgyKebs9x7rdau1PhZpXC/BRBwEbtXGzn7cxPjzejZ+2rCbQeUagEW2IrV/qwciQrycEOMmSr6ChafQgFgr/lBMTlXVja2VlFBnUems0gcOpoahiA4j7N1FvdEsr0DeagRXXuj6ZIpnobaJ0NGlUkFntg00KkVkrZJBh4Wk0+N5CMWxD4YEBrnf9c2GhTh31+rUycEWjWEOYrhPTa3O+zoz6Ef5Y/ZYLiuJhFt5mkXTW2CQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ JH0PR06MB6703.apcprd06.prod.outlook.com (2603:1096:990:36::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.55; Thu, 11 Apr 2024 08:43:51 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::a60c:298:c201:e4a1]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::a60c:298:c201:e4a1%3]) with mapi id 15.20.7409.053; Thu, 11 Apr 2024
+ 08:43:51 +0000
+Message-ID: <32f166c8-7810-4cef-befb-44e34f9b5372@vivo.com>
+Date: Thu, 11 Apr 2024 16:43:46 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+Content-Language: en-US
+To: "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rong Qianfeng <rongqianfeng@vivo.com>, Jianqun Xu
+ <jay.xu@rock-chips.com>, sumit.semwal@linaro.org,
+ pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+ <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
+ <3175d41a-fc44-4741-91ac-005c8f21abb8@vivo.com>
+ <9e6f1f52-db49-43bb-a0c2-b0ad12c28aa1@amd.com>
+ <5c7ac24c-79fa-45fc-a4fd-5b8fc77a741b@vivo.com>
+ <CABdmKX1OZ9yT3YQA9e7JzKND9wfiL-hnf87Q6v9pwtnAeLHrdA@mail.gmail.com>
+ <0df41277-ded5-4a42-9df5-864d2b6646f5@amd.com>
+ <CABdmKX03Of7OE_9PfAy5DWcCwwvQvJGXDjzAE8c4WRrz_0Z_eg@mail.gmail.com>
+From: Rong Qianfeng <11065417@vivo.com>
+In-Reply-To: <CABdmKX03Of7OE_9PfAy5DWcCwwvQvJGXDjzAE8c4WRrz_0Z_eg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYCPR01CA0058.jpnprd01.prod.outlook.com
+ (2603:1096:405:2::22) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240321164448.GC9582@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|JH0PR06MB6703:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20d083b1-c31a-4df6-045e-08dc5a038340
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	JliPPk+JxF9RK3lSif6gsh2/Gkn26W9T8AMHohRj2FTd+V6Z7BuL9/6UzGdVgYSILrr76gU9fwY6Lj9aAmnmkGIpyjCkUcWs7bgeNEIS1fZHzCyM0FciDp0XFBFMQIaCMWLenzgXducC6OOPjcSwcQC9uGmyfiXn0iU81ZZENRbwKvDKs7LU1F/YtNW651DNNgt3/t846OwXI30w3pDoidr5n6GTJ4U1oUCko4QqY/r+jYgFIXDWTphnwkoNigHF9KBU9v4NEUBigtLVy0vqCjxIn+BKJoeCeCpf7Fdy7aHDbLF+nb1+IKOfHN6+fVhc2LScI+DCIiom9SXLEtbLVYHpjUg9JWwFKGiBOZTEkCkF8qpFIkuEjPTYIoFljyY3RGH35xUZmE2+MRWAq64VNoxBidoGBCi7sBsdKmaARepaKDaYgjzbrMpUPh0twAW+PH3VGfjl7RJE9ukb/Xk9gEGpImUTNOyhH/oaAKzAvgmqK6yphR4H+jEelN1S+N3CFQtJs8xhoQ7f+Z3mBqBqd4peWF5BS50USEmQrorF8l8EdwgpC0IYffVR8x+zryvsEirotTBZVRH5vy0gDIfe1sX/lD0DG/ZtvXyaq7/VYjVf+eI7O2PDCp3xI4un9vrQxGRGoIlWsZr/2STBCtRQ5gXKdx6vHE6nJl8bdB70U7CuR3R8l9cLNIeSawgqZyDr
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(1800799015)(376005)(366007)(7416005)(38350700005)(81742002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OXNyV3E5R05HdURORXVZUHhoK1pZQXNEblZzMzI0d0JUVVVQUnNmREIzNzlS?=
+ =?utf-8?B?Qi9jNUM3ck84dHg2OXQyWXBzZFFjcWFCRjNJdHQrVnRGVnJnSlNsNENoNi9m?=
+ =?utf-8?B?ZVg3NytCVERwTDZ1dlh0ZElkVkdESmticVpsLzczQ1BhVHRkSkV0aGJUeWR3?=
+ =?utf-8?B?ZFo4OXMvczcxdmo3a283VlRzdStZczZra1lIVmI0YnRBSkJmL1B3ZmpKN0Ir?=
+ =?utf-8?B?N3hYUHNpV3UwQWxRa1V6Tldpb0p2RnpaZFJuUDNVZ0RFNjgwRW5BS3VXd2cy?=
+ =?utf-8?B?WFpTOGtvc1FoS3YraGg2aFc2ekh6cThrV2llbXp5QWhzYXhvNmxPYTVIMlhG?=
+ =?utf-8?B?WkxWOVlUZ3pmdkFCWFA3dVBYczJKM242c1dVSU13OFZxM3QxMFBQbm43SklD?=
+ =?utf-8?B?NmdaOC9aMWNERjZOY0RqeGZvTDJTUjlBVGJmR3lPYzhyM1pSNkZlb1lwSDN1?=
+ =?utf-8?B?bkQ3WUEvN29XV0hGSWxEQ3hTWmVqanJyNkVuTFowUG1sUGdDcFhHdFpyU0VF?=
+ =?utf-8?B?aFRhTEhQVC9SY1RpN210RXB6cG5aa0Y4YVJxamEyUnlNcW93THRIbzJjbjR4?=
+ =?utf-8?B?MHBLSEtuRk9wZ0ZoTTFRb2FqTXV3cVR4aU44cGNpek9NWlFUbFY1U3IybnM2?=
+ =?utf-8?B?WmRpcFIrNDFOSkl6cUVFenNPZkc5NVFhb2wvMjBQSUZoUGQrYkxMQW5TRmtz?=
+ =?utf-8?B?QVhySkt2SythdFhmL1p1N09RU3lpTnV1QzFraHgxWTBWMnlWY2hJekg2S0Zy?=
+ =?utf-8?B?eDZrY3VIN2FEUXZJUnd0dEhwRW1WbkExTTB1ZkFIbUxEYkhuQTRhRFdGQ0F3?=
+ =?utf-8?B?ZExsZDQvWjY0U1dsWGY5ME5ZYTk0QkJkU2VnbEtsa2RkaVhXQ09sNEhCNmhE?=
+ =?utf-8?B?dkE5SzRNWmlqcVBFTUhoUWxaN1QrcjhMWC92REdidWpqazVodEk0ejhQWGxm?=
+ =?utf-8?B?aC9SRll0Z2M2ODdYRWIybVZYRFN0d0JoN1B3OEUyMmc5ZUMxeHdvZjFwV0I0?=
+ =?utf-8?B?anFkTUZBOUZxQVE1Q29UQ2pkNm02dm53MWJNeS9iMU1vRC9PWXhwMk50RXpG?=
+ =?utf-8?B?WklTaGpLSVVDdnMyeEd1MCtrUjBHektybURnVTUybEF2Z2dWQVQ1bU1zUWZ5?=
+ =?utf-8?B?YWhWdW5kYlVLSVlwRStrVGRqbXJnWjJIQVBsWmgxMm44cTFUblpBeHNnelNO?=
+ =?utf-8?B?STJ4UDlBc013ZTJzUWJlVEozSDdrdE81Y0drYklaYzFIcWZyUTJ2RDBha1NJ?=
+ =?utf-8?B?UmRKeDd0Zkk5RVptQUhyMTY5N2F6bEwvMTdQc05GRGNZOHA3U3g4bkJSUnpU?=
+ =?utf-8?B?bmlVMnpQR21pQXpSYk42U0VPQmUybzFTalJXMDYrUFJXQlVXUDVrU0hDUHFV?=
+ =?utf-8?B?RjA2MnZTUFNoMFNFaS9KVWJ2YlFqbkpFM0o0VG1Yc21ZYm0yZDBzTUlEYkV4?=
+ =?utf-8?B?bEFNR0dhcnd0L2o2WFJjNTlFSUM4YWVXSW5kcTFkVVp2Tll0UkhWTjUvOGVD?=
+ =?utf-8?B?VjNMU1U3Yjd3MGRyckNsK1hvLytvNVppYzJ0bFZlUkMwODJzaE40cTZtZU1S?=
+ =?utf-8?B?a2VrdnZaS0ZiUFUvblRndnpTdEtmcTcwZkprNVlYcmEvSXVjS0lmRWdGa21s?=
+ =?utf-8?B?Nm00RDhXb0hscE5yMEw4NUViWGlVeWE1ZEowY3pLYXJrVjk2SHRuRlhLWity?=
+ =?utf-8?B?eGJucUYxYi9US0ZEV2xTRXdkS0VYWWg1S1V1TE9ERWswbGtJVWEzVlo4UG1O?=
+ =?utf-8?B?aThZcmNrZ0kvMnNvY1B1eWQxS3VUK0VDNEpqenFCdG9IdzE1NC9oNzNOVHZl?=
+ =?utf-8?B?dW9Zenl0MFFnRVpWaVMwdThJb241VlNYdlhDcEhWcitDVTF1c3lPbTRYOGZU?=
+ =?utf-8?B?dDRPQ09KZU8yQURBSnhNejJETnUvQjJEUlBRTkxxMGwwbXlGdWRsOFBYR09r?=
+ =?utf-8?B?a2pxNmVJWkpTdmRDZHNnMTd0MWppbEJvOXVnYVM4dERPK3pmbEpZT21BS204?=
+ =?utf-8?B?UTB3eWlRTlRGYTREeHBrMmlxK3JDT3ZFV1FTSS82NTlKRXc0ZDNneEdyQ2FL?=
+ =?utf-8?B?VWJ0aHlFZVBVZjF0MnN4eTlkL2VqRFEvWElkQU1FSzUwWGVNSVNUeUdTNENq?=
+ =?utf-8?Q?u7Y7f6oMlIo9tXOtvT0ELVPm9?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20d083b1-c31a-4df6-045e-08dc5a038340
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 08:43:51.5678
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zrk6kkKR4Dd6+Ibr+AUoezzmZq6cQOnLsaO6fcmzm/N6LPJJZfI6BRqQ9IsSVluUlPqu0OTH2Rji31wLMehorQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6703
 
-Hi Laurent,
 
-On Thu, Mar 21, 2024 at 06:44:48PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
+在 2024/4/10 23:07, T.J. Mercier 写道:
+> [You don't often get email from tjmercier@google.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> On Wed, Apr 10, 2024 at 7:22 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 09.04.24 um 18:37 schrieb T.J. Mercier:
+>>> On Tue, Apr 9, 2024 at 12:34 AM Rong Qianfeng <11065417@vivo.com> wrote:
+>>>> 在 2024/4/8 15:58, Christian König 写道:
+>>>>> Am 07.04.24 um 09:50 schrieb Rong Qianfeng:
+>>>>>> [SNIP]
+>>>>>>> Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+>>>>>>>> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+>>>>>>>> offset and len.
+>>>>>>> You have not given an use case for this so it is a bit hard to
+>>>>>>> review. And from the existing use cases I don't see why this should
+>>>>>>> be necessary.
+>>>>>>>
+>>>>>>> Even worse from the existing backend implementation I don't even see
+>>>>>>> how drivers should be able to fulfill this semantics.
+>>>>>>>
+>>>>>>> Please explain further,
+>>>>>>> Christian.
+>>>>>> Here is a practical case:
+>>>>>> The user space can allocate a large chunk of dma-buf for
+>>>>>> self-management, used as a shared memory pool.
+>>>>>> Small dma-buf can be allocated from this shared memory pool and
+>>>>>> released back to it after use, thus improving the speed of dma-buf
+>>>>>> allocation and release.
+>>>>>> Additionally, custom functionalities such as memory statistics and
+>>>>>> boundary checking can be implemented in the user space.
+>>>>>> Of course, the above-mentioned functionalities require the
+>>>>>> implementation of a partial cache sync interface.
+>>>>> Well that is obvious, but where is the code doing that?
+>>>>>
+>>>>> You can't send out code without an actual user of it. That will
+>>>>> obviously be rejected.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>> In fact, we have already used the user-level dma-buf memory pool in the
+>>>> camera shooting scenario on the phone.
+>>>>
+>>>>    From the test results, The execution time of the photo shooting
+>>>> algorithm has been reduced from 3.8s to 3s.
+>>>>
+>>> For phones, the (out of tree) Android version of the system heap has a
+>>> page pool connected to a shrinker.
+>> Well, it should be obvious but I'm going to repeat it here: Submitting
+>> kernel patches for our of tree code is a rather *extreme* no-go.
+>>
+> Sorry I think my comment led to some confusion. I wasn't suggesting
+> you should take the patch; it's clearly incomplete. I was pointing out
+> another option to Rong. It appears Rong is creating a single oversized
+> dma-buf, and subdividing it in userspace to avoid multiple allocations
+> for multiple buffers. That would lead to a need for a partial sync of
+> the buffer from userspace. Instead of that, using a heap with a page
+> pool gets you kind of the same thing with a lot less headache in
+> userspace, and no need for partial sync. So I wanted to share that
+> option, and that can go in just Android if necessary without this
+> patch.
 
-Thanks for the review!
+Hi T.J.
 
-> 
-> On Wed, Mar 13, 2024 at 09:25:00AM +0200, Sakari Ailus wrote:
-> > Provide information on the frame layout using frame descriptors.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ccs/ccs-core.c  | 60 +++++++++++++++++++++++++++++++
-> >  drivers/media/i2c/ccs/ccs-quirk.h |  7 ++++
-> >  drivers/media/i2c/ccs/ccs.h       |  4 +++
-> >  3 files changed, 71 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > index 0efbc63534bc..9cc2080b73ec 100644
-> > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > @@ -25,6 +25,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/smiapp.h>
-> >  #include <linux/v4l2-mediabus.h>
-> > +#include <media/mipi-csi2.h>
-> >  #include <media/v4l2-cci.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-fwnode.h>
-> > @@ -245,6 +246,33 @@ static int ccs_read_all_limits(struct ccs_sensor *sensor)
-> >  	return ret;
-> >  }
-> >  
-> > +static u8 ccs_mipi_csi2_data_type(unsigned int bpp)
-> > +{
-> > +	switch (bpp) {
-> > +	case 6:
-> > +		return MIPI_CSI2_DT_RAW6;
-> > +	case 7:
-> > +		return MIPI_CSI2_DT_RAW7;
-> > +	case 8:
-> > +		return MIPI_CSI2_DT_RAW8;
-> > +	case 10:
-> > +		return MIPI_CSI2_DT_RAW10;
-> > +	case 12:
-> > +		return MIPI_CSI2_DT_RAW12;
-> > +	case 14:
-> > +		return MIPI_CSI2_DT_RAW14;
-> > +	case 16:
-> > +		return MIPI_CSI2_DT_RAW16;
-> > +	case 20:
-> > +		return MIPI_CSI2_DT_RAW20;
-> > +	case 24:
-> > +		return MIPI_CSI2_DT_RAW24;
-> > +	default:
-> > +		WARN_ON(1);
-> > +		return 0;
-> > +	}
-> > +}
-> > +
-> >  static int ccs_read_frame_fmt(struct ccs_sensor *sensor)
-> >  {
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> > @@ -2632,6 +2660,37 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
-> >  	return ret;
-> >  }
-> >  
-> > +static int ccs_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
-> > +				 struct v4l2_mbus_frame_desc *desc)
-> > +{
-> > +	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > +	struct v4l2_mbus_frame_desc_entry *entry = desc->entry;
-> > +
-> > +	if (ccs_has_quirk(sensor, frame_desc))
-> > +		return ccs_call_quirk(sensor, frame_desc, desc);
-> 
-> I would introduce the quirk later, along with the patch that will use
-> it.
+If there is a chance to use this patch on Android, I can explain to you 
+in detail
 
-There is no user for this quirk in the series. It's been added for quirk
-infrastructure completeness, I guess I can move it in a separate patch and
-postpone that.
+why the user layer needs the dma-buf memory pool.
 
-> 
-> > +
-> > +	switch (sensor->hwcfg.csi_signalling_mode) {
-> > +	case CCS_CSI_SIGNALING_MODE_CSI_2_DPHY:
-> > +	case CCS_CSI_SIGNALING_MODE_CSI_2_CPHY:
-> > +		desc->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> > +		break;
-> > +	default:
-> > +		/* FIXME: CCP2 support */
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	entry->pixelcode = sensor->csi_format->code;
-> > +	entry->stream = CCS_STREAM_PIXEL;
-> > +	entry->bus.csi2.dt =
-> > +		sensor->csi_format->width == sensor->csi_format->compressed ?
-> > +		ccs_mipi_csi2_data_type(sensor->csi_format->compressed) :
-> 
-> Functionally equivalent,
-> 
-> 		ccs_mipi_csi2_data_type(sensor->csi_format->width) :
-> 
-> would be clearer I think. The way it's written today made me wonder why
-> you want the DT for the compressed format, which is not what you're
-> doing.
+Thanks
 
-Sounds good.
+Rong Qianfeng
 
-> 
-> > +		CCS_DEFAULT_COMPRESSED_DT;
-> > +	entry++;
-> > +	desc->num_entries++;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int ccs_get_skip_frames(struct v4l2_subdev *subdev, u32 *frames)
-> >  {
-> >  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > @@ -3054,6 +3113,7 @@ static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
-> >  	.set_selection = ccs_set_selection,
-> >  	.enable_streams = ccs_enable_streams,
-> >  	.disable_streams = ccs_disable_streams,
-> > +	.get_frame_desc = ccs_get_frame_desc,
-> >  };
-> >  
-> >  static const struct v4l2_subdev_sensor_ops ccs_sensor_ops = {
-> > diff --git a/drivers/media/i2c/ccs/ccs-quirk.h b/drivers/media/i2c/ccs/ccs-quirk.h
-> > index 392c97109617..3e1d9eaa33fa 100644
-> > --- a/drivers/media/i2c/ccs/ccs-quirk.h
-> > +++ b/drivers/media/i2c/ccs/ccs-quirk.h
-> > @@ -36,6 +36,7 @@ struct ccs_sensor;
-> >   *			 access may be done by the caller (default read
-> >   *			 value is zero), else negative error code on error
-> >   * @flags: Quirk flags
-> > + * @frame_desc: Obtain the frame descriptor
-> >   */
-> >  struct ccs_quirk {
-> >  	int (*limits)(struct ccs_sensor *sensor);
-> > @@ -46,6 +47,8 @@ struct ccs_quirk {
-> >  	int (*init)(struct ccs_sensor *sensor);
-> >  	int (*reg_access)(struct ccs_sensor *sensor, bool write, u32 *reg,
-> >  			  u32 *val);
-> > +	int (*frame_desc)(struct ccs_sensor *sensor,
-> > +			  struct v4l2_mbus_frame_desc *desc);
-> >  	unsigned long flags;
-> >  };
-> >  
-> > @@ -62,6 +65,10 @@ struct ccs_reg_8 {
-> >  		.val = _val,		\
-> >  	}
-> >  
-> > +#define ccs_has_quirk(sensor, _quirk)					\
-> > +	((sensor)->minfo.quirk &&					\
-> > +	 (sensor)->minfo.quirk->_quirk)
-> > +
-> >  #define ccs_call_quirk(sensor, _quirk, ...)				\
-> >  	((sensor)->minfo.quirk &&					\
-> >  	 (sensor)->minfo.quirk->_quirk ?				\
-> > diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-> > index 4725e6eca8d0..adb152366ea2 100644
-> > --- a/drivers/media/i2c/ccs/ccs.h
-> > +++ b/drivers/media/i2c/ccs/ccs.h
-> > @@ -46,6 +46,8 @@
-> >  
-> >  #define CCS_COLOUR_COMPONENTS		4
-> >  
-> > +#define CCS_DEFAULT_COMPRESSED_DT	0x30
-> 
-> I'd write
-> 
-> #define CCS_DEFAULT_COMPRESSED_DT	MIPI_CSI2_DT_USER_DEFINED(0)
-
-Yes.
-
-> 
-> > +
-> >  #define SMIAPP_NAME			"smiapp"
-> >  #define CCS_NAME			"ccs"
-> >  
-> > @@ -175,6 +177,8 @@ struct ccs_csi_data_format {
-> >  #define CCS_PAD_SRC			1
-> >  #define CCS_PADS			2
-> >  
-> > +#define CCS_STREAM_PIXEL		0
-> > +
-> >  struct ccs_binning_subtype {
-> >  	u8 horizontal:4;
-> >  	u8 vertical:4;
-> 
-
--- 
-Sakari Ailus
+>
+>> That in kernel code *must* have an in kernel user is a number one rule.
+>>
+>> When somebody violates this rule he pretty much disqualifying himself as
+>> reliable source of patches since maintainers then have to assume that
+>> this person tries to submit code which doesn't have a justification to
+>> be upstream.
+>>
+>> So while this actually looks useful from the technical side as long as
+>> nobody does an implementation based on an upstream driver I absolutely
+>> have to reject it from the organizational side.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>    That allows you to skip page
+>>> allocation without fully pinning the memory like you get when
+>>> allocating a dma-buf that's way larger than necessary. If it's for a
+>>> camera maybe you need physically contiguous memory, but it's also
+>>> possible to set that up.
+>>>
+>>> https://android.googlesource.com/kernel/common/+/refs/heads/android14-6.1/drivers/dma-buf/heaps/system_heap.c#377
+>>>
+>>>
+>>>> To be honest, I didn't understand your concern "...how drivers should be
+>>>> able to fulfill this semantics." Can you please help explain it in more
+>>>> detail?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Rong Qianfeng.
+>>>>
+>>>>>> Thanks
+>>>>>> Rong Qianfeng.
 
