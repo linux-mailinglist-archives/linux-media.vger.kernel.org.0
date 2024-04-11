@@ -1,206 +1,123 @@
-Return-Path: <linux-media+bounces-9074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD92B8A0854
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1F78A08EE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 08:57:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F21E51C20843
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 06:19:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE43C1C20920
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 06:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 401E013CAA9;
-	Thu, 11 Apr 2024 06:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660F513D8BB;
+	Thu, 11 Apr 2024 06:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F9mZS8Jh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="laMJp300"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B4E13BC35;
-	Thu, 11 Apr 2024 06:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1456013D89C
+	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 06:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712816348; cv=none; b=WfaLq5C3Ci89zUSZm/7lp6V1MKCGRDeUCIGC/WU4DdbfDC/64cgV5k1AO4mJkRPXYJ7UVA8q/6RTSL8bSReftzEPkmTGpur85HK9jLkOE5SknS0TqsadYM4WFbhQzkp096jd7LYsXt7WMH25IXqW7BtiD3o2ah0vvu7r9Q3lgSA=
+	t=1712818616; cv=none; b=uGcFOMKpTHFKzVZ6+B/umTyK4Tge154QNVG0zJKq1lBIgbe5vrVZgX3aSXKyz6SOBvLFw1ywfTxkqBNkwJB/OtTHdVWnNahd+gau6wxjcgPJBLDw3St3eZJ8ju8oV0Bcv5M3WoHWUfnsUBUAtxvqvCH7o3VGPUTpymOk7vCTzW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712816348; c=relaxed/simple;
-	bh=7EnwAdBBibzODmOvOgcbLEmdsYHVCcGgOSsbKx7Brqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FCNSZd+ZilLl7kO34KzXPsTtkYgkSqR4Ugb8zESv1wSLyt07OZNDh8FRuJtZDJ6pPteVCv28PhPPM7+UCu+tPHCCLt849gy/CW6PmTG6F3NYYVLRWE6TzVFUqHxFNsaKiQ3KReM5lRAWMEmaYrvLdBOeH9OUpfp5bDPwmUA6meA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F9mZS8Jh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C34EC23F;
-	Thu, 11 Apr 2024 08:18:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712816303;
-	bh=7EnwAdBBibzODmOvOgcbLEmdsYHVCcGgOSsbKx7Brqk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F9mZS8JhKSRqvDajd/6+o2GpasJ+e8pqAUhLeKObPssx0LdIUWRFTib7WEz6zuY0+
-	 17S306UQQnTt9GxAbtsHoHl1U/LZt/R91q6fWDTCQNdEa6vnpq7Jw7Jp++ZP8Patps
-	 U33E3etMbBEaq5kKEtb3a1oDrttLpaZdCz+H0AV8=
-Message-ID: <e9f0ed24-6e24-4575-8028-b62eac1f37c6@ideasonboard.com>
-Date: Thu, 11 Apr 2024 09:19:02 +0300
+	s=arc-20240116; t=1712818616; c=relaxed/simple;
+	bh=5eKdi5kSwU1LfKZN6Ek9FRz1cnbWfefoSVKL8iIQMQQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ndO2YHZbKPw0yS6merqx0lNNTr+kVTYM7OO2Tlj9zqi2beE1iZ9jocfKX7O5puB2Q34zQmZ44dFzQU9dfSLFRAulIInioAUySZQMEO3I8ginMSK2eeOXfYe5ZLJY/pRaJYb93rN2so4uANnPDaliY6YIMF1vHPyufKYbgOkTWak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=laMJp300; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712818616; x=1744354616;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5eKdi5kSwU1LfKZN6Ek9FRz1cnbWfefoSVKL8iIQMQQ=;
+  b=laMJp300FrW4oPua/weA+zsi5SWpF5g8L4S6IQg0T3vic2mZ/1Y7DUU7
+   1p4wqCtBPT4wN2mFSE3kGwDt1/UPU+qUav7Ba3HBzMYr/XSc1NjcyQx4w
+   pZFoHshsBsOuBT1GgaaKP5LwMCZpcUBgXVXJkc8BuowJ6S0TMaVnAr0Pi
+   Kisd394OvLm52PwQG7K5nMiMbuTaps7kx5s86PPEl0oHgpIoKKUgLXutg
+   S+jjzLhnyTClJ7dfXEQDV9KvenUk0OdcAAIndTXVGY6zgdwTXNTrVilaE
+   QxQ5rH8uySUg0AEmVC1qPB6eT6+un8a7KWTFtxW3h937sHYjd6MqrA39+
+   A==;
+X-CSE-ConnectionGUID: p2zGXzvWTqOk6z0KwuHkgA==
+X-CSE-MsgGUID: 4PKxcBzzSmu2ueOUY87uHg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="12002903"
+X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
+   d="scan'208";a="12002903"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 23:56:53 -0700
+X-CSE-ConnectionGUID: NAByjibvSx6ZWdQCScMuTQ==
+X-CSE-MsgGUID: pvL0ok6oRPW1MA1LEKnv8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
+   d="scan'208";a="25575502"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 23:56:52 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 40E1C12035C;
+	Thu, 11 Apr 2024 09:56:49 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1ruoMb-001kWA-0Z;
+	Thu, 11 Apr 2024 09:56:49 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>
+Subject: [PATCH 1/1] media: staging: ipu3-imgu: Update firmware path
+Date: Thu, 11 Apr 2024 09:56:39 +0300
+Message-Id: <20240411065639.417134-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] media: subdev: Fix use of sd->enabled_streams in
- call_s_stream()
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240410-enable-streams-impro-v3-0-e5e7a5da7420@ideasonboard.com>
- <20240410-enable-streams-impro-v3-4-e5e7a5da7420@ideasonboard.com>
- <a808c81c-2006-410e-ba8c-74c5405acbdf@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <a808c81c-2006-410e-ba8c-74c5405acbdf@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11/04/2024 08:16, Umang Jain wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch
-> 
-> On 10/04/24 6:05 pm, Tomi Valkeinen wrote:
->> call_s_stream() uses sd->enabled_streams to track whether streaming has
->> already been enabled. However,
->> v4l2_subdev_enable/disable_streams_fallback(), which was the original
->> user of this field, already uses it, and
->> v4l2_subdev_enable/disable_streams_fallback() will call call_s_stream().
->>
->> This leads to a conflict as both functions set the field. Afaics, both
->> functions set the field to the same value, so it won't cause a runtime
->> bug, but it's still wrong and if we, e.g., change how
->> v4l2_subdev_enable/disable_streams_fallback() operates we might easily
->> cause bugs.
->>
->> Fix this by adding a new field, 'streaming_enabled', for
->> call_s_stream().
-> 
-> Just a suggestion, as this is only used in call_s_stream(), maybe naming 
-> this field 's_stream_enabled' ?
+Use the current firmware path in linux-firmware repository. Check the
+older paths still in order to avoid causing issues to the users.
 
-Yes, I think that's a good idea.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/staging/media/ipu3/ipu3-css-fw.c | 4 +++-
+ drivers/staging/media/ipu3/ipu3-css-fw.h | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-  Tomi
-
-> Rest looks good to me,
-> 
-> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-> 
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 8 ++------
->>   include/media/v4l2-subdev.h           | 3 +++
->>   2 files changed, 5 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
->> b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 606a909cd778..6cd353d83dfc 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -421,12 +421,8 @@ static int call_s_stream(struct v4l2_subdev *sd, 
->> int enable)
->>        * The .s_stream() operation must never be called to start or 
->> stop an
->>        * already started or stopped subdev. Catch offenders but don't 
->> return
->>        * an error yet to avoid regressions.
->> -     *
->> -     * As .s_stream() is mutually exclusive with the 
->> .enable_streams() and
->> -     * .disable_streams() operation, we can use the enabled_streams 
->> field
->> -     * to store the subdev streaming state.
->>        */
->> -    if (WARN_ON(!!sd->enabled_streams == !!enable))
->> +    if (WARN_ON(sd->streaming_enabled == !!enable))
->>           return 0;
->>       ret = sd->ops->video->s_stream(sd, enable);
->> @@ -437,7 +433,7 @@ static int call_s_stream(struct v4l2_subdev *sd, 
->> int enable)
->>       }
->>       if (!ret) {
->> -        sd->enabled_streams = enable ? BIT(0) : 0;
->> +        sd->streaming_enabled = enable;
->>           if (enable)
->>               v4l2_subdev_enable_privacy_led(sd);
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index a9e6b8146279..f55d03e0acc1 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -1043,6 +1043,8 @@ struct v4l2_subdev_platform_data {
->>    *             v4l2_subdev_enable_streams() and
->>    *             v4l2_subdev_disable_streams() helper functions for 
->> fallback
->>    *             cases.
->> + * @streaming_enabled: Tracks whether streaming has been enabled with 
->> s_stream.
->> + *                     This is only for call_s_stream() internal use.
->>    *
->>    * Each instance of a subdev driver should create this struct, either
->>    * stand-alone or embedded in a larger struct.
->> @@ -1091,6 +1093,7 @@ struct v4l2_subdev {
->>        */
->>       struct v4l2_subdev_state *active_state;
->>       u64 enabled_streams;
->> +    bool streaming_enabled;
->>   };
->>
-> 
+diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.c b/drivers/staging/media/ipu3/ipu3-css-fw.c
+index 2b659b0ccca1..37482b626c3c 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-fw.c
++++ b/drivers/staging/media/ipu3/ipu3-css-fw.c
+@@ -117,7 +117,9 @@ int imgu_css_fw_init(struct imgu_css *css)
+ 	unsigned int i, j, binary_nr;
+ 	int r;
+ 
+-	r = request_firmware(&css->fw, IMGU_FW_NAME_20161208, css->dev);
++	r = request_firmware(&css->fw, IMGU_FW_NAME_IPU_20161208, css->dev);
++	if (r == -ENOENT)
++		r = request_firmware(&css->fw, IMGU_FW_NAME_20161208, css->dev);
+ 	if (r == -ENOENT)
+ 		r = request_firmware(&css->fw, IMGU_FW_NAME, css->dev);
+ 	if (r)
+diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
+index f9403da75785..c956aa21df25 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-fw.h
++++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
+@@ -9,6 +9,8 @@
+ #define IMGU_FW_NAME		"intel/ipu3-fw.bin"
+ #define IMGU_FW_NAME_20161208	\
+ 	"intel/irci_irci_ecr-master_20161208_0213_20170112_1500.bin"
++#define IMGU_FW_NAME_IPU_20161208	\
++	"intel/ipu/irci_irci_ecr-master_20161208_0213_20170112_1500.bin"
+ 
+ typedef u32 imgu_fw_ptr;
+ 
+-- 
+2.39.2
 
 
