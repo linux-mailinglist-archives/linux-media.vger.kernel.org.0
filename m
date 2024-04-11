@@ -1,233 +1,195 @@
-Return-Path: <linux-media+bounces-9104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDDE8A1449
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:19:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 907978A14E8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 14:46:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 563D11F21E92
-	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:19:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FC021F23BE0
+	for <lists+linux-media@lfdr.de>; Thu, 11 Apr 2024 12:46:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D286114D282;
-	Thu, 11 Apr 2024 12:19:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D57C213E88B;
+	Thu, 11 Apr 2024 12:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eQStDgt2"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dzGsU5Fe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A448A14C5A7
-	for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 12:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983AA1E4A0;
+	Thu, 11 Apr 2024 12:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712837963; cv=none; b=sqV9GwbwUNzWi2dP04zILKYHIZq/5zXJYHcnqrrYqWRAqIeMFFgGl8lQfsnXHPS36t0iA2qh4hi591aHTc1nEaIfcptNw72zMQg3Kt0ckgFIbRjrwIQ1rFRyqX7ivGjv1dfqOBekBIJaGrS41dVoD1Ie7oIWiocaBYfpiREn8SI=
+	t=1712839589; cv=none; b=bwSBSQc73QayqHgLue7Hts4Pph4VmwQVpqaCf3my/9cjNy+hhWmsu4RQlt9vXQfjycQ6EEP9pUspYraaZKGvVU6Zci5ZTrrFIdoqsD8NsRa45XJcl3M8HH0GSP7LniIYdHgQQQRk/GGpfAQs4MH0rZjcLz2QYTbc1+ZNV15wHy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712837963; c=relaxed/simple;
-	bh=SJPIVRABhO0r9Q5Cqna8N44nOSK+BxiZ3MuFm7TPR/A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mWgx6TBr90DDkosWxsbWuhlM4LuWT2bFsceQHC4QdHvWaRzJ8BpriQbpiWIYsRMtIJR4J0j/mLtEbbmkpv1CHwrq6UoiBG13Ukhk1vLvYMMFY2n3Tz4feT4X9DrVI0o/TLUV18vWMvpMUDEv4XiksBaqv8qGpCdvJEqtkrPNImU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eQStDgt2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712837959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XEs/DQYTphVYms3otpi4FgjdX2S710P8m6BoIw53x68=;
-	b=eQStDgt2R2iB5INFNxMaja5sKU2DaMWjAnmbSYP3aPY9EfjvFZixkN7qRFo5cos8Al37UE
-	ztSKw8+2duHgfrkxM3PbEeJ6xM+zXPKKL/lriiFCVSA0o5wYyUMYePIbjcEqGE8VbCokq3
-	XNqbvea711BVXSdOVOA6LK8nZ5hFuzo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-689-t7OXFdh8PpC4i9T22juC2A-1; Thu, 11 Apr 2024 08:19:18 -0400
-X-MC-Unique: t7OXFdh8PpC4i9T22juC2A-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a51fdbd06c8so203718166b.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Apr 2024 05:19:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712837957; x=1713442757;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XEs/DQYTphVYms3otpi4FgjdX2S710P8m6BoIw53x68=;
-        b=t/Jfvv3Om7ykdVOctX0QE5+qLD1NiHks+NF/26r/PR6t+wqzg0R2wocZoWd7Sk03At
-         50eSm+vObiGy4buExYjsbRpqWxmXmsnjktJ4Np5DhLZOtwPFdr8KR471piPgC14/EfDm
-         HM8DoMnQgaVd5jvQbVpEfYzx8vYpD2Hzq6U/20PVwYIIsR0MZPFyAhJansMak7dqG2BJ
-         vSWeUFIi6AT46EMgmANTe6Kseuc3bC4tBfjceP3k5zKOhzsHd/EhL5cNz8RXhQEQgi9n
-         mTM06CpmopRTe//oAfbHXYLsYd9XDY5eO+J+8Fhyml+WKyDJK4vQU/ekdWdnNGexd2Bx
-         zbXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHovXauHRZ5Ls7th8AvjEighGiimEv3BCYqi/egOsQmoC67nH4sy+DcKW1qQu99O+L4w7O/kKFJRGy+annP4wK82vWjaKp6s9HXAo=
-X-Gm-Message-State: AOJu0Yw2qA2xPXXXXm6qU/OMW3YbmaTsPGR243Qf9qUf774AwpYcd8kj
-	Eh4T0J6Y+xJnaj4ArfXiQJDLe8ubwbv04hEBrERHkaNX6NIN+lZ8l8ZOip3AW6mHvjuT/w5yjRC
-	IVxgFq5l349Fw4ldYaCONbuPxLhieGj+3zwRfaWO1ekxyk5BZ8iWPYjOHhCDY
-X-Received: by 2002:a17:907:986:b0:a46:966b:ebfe with SMTP id bf6-20020a170907098600b00a46966bebfemr4428251ejc.46.1712837956929;
-        Thu, 11 Apr 2024 05:19:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6ZHZh2ZrzYU8y8txDhD4KcpsEJgdc3c2z2p6XsGfmuFej8Wl1LiS2EDHRxREFQZttTwARlA==
-X-Received: by 2002:a17:907:986:b0:a46:966b:ebfe with SMTP id bf6-20020a170907098600b00a46966bebfemr4428234ejc.46.1712837956473;
-        Thu, 11 Apr 2024 05:19:16 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a8-20020a17090640c800b00a51a34eba63sm699949ejk.85.2024.04.11.05.19.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 05:19:16 -0700 (PDT)
-Message-ID: <3fbce286-42a0-41ec-b031-4f32dc9f1678@redhat.com>
-Date: Thu, 11 Apr 2024 14:19:15 +0200
+	s=arc-20240116; t=1712839589; c=relaxed/simple;
+	bh=0HBx/V3ie6EYfvZeus2BhytdEBFjKVzzxd71k0El80k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VmcvizDfzNueTBMEIV680NX+H8IB/NHYvvQOi26bMIWwlRQUkDl005cPb5/8n/ceBmilOA32Rj4OmRWZeRaFjr1wvujeqD1B6oyGdl/jC0T9S7XLzPv9xZUEs+YHU/efsRuzEUe9lvcTpVQDOH1uzYdKH2Wdnn0nuZJkjKuAvyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dzGsU5Fe; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43BAnMO3011841;
+	Thu, 11 Apr 2024 12:46:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=up4cLKg
+	7EE/kMScgPBOrCCRKmY4MNpxpojlOjsxtvV4=; b=dzGsU5FeM4mmlqA6msalEi6
+	dhOhKHS6SEbC0ZepW+o6Ncd9oC5IiTM4mFFGouWaLVNQCL9zixmQviNiZGWAl+QU
+	fQ93rs0Gd8Rs7db2N1xB/1vYnxBYlo1nYSKePIwG0nh7bhj+LbgWjXlEHDJmCtbW
+	qf1/K9P2BHUkz6+rLUWT1cKyl0N3dIY7nwBc5FfplCL9agg8NYQcjHi2mF8SXnl3
+	gXKRlwKbZpwkN4SWpErRR7wUoMtQI2l8SdzC9+q1DbxX0Ai6aXfgMVlHKsxs779G
+	+utM0P16NmUGlJxXa8iYj6rIygc3Z80SySCcq7RO7BFDhu89Hl4IJS0iCGq/T7Q=
+	=
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xec6dh2w8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Apr 2024 12:46:19 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BCkJQt024040
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Apr 2024 12:46:19 GMT
+Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Thu, 11 Apr 2024 05:46:16 -0700
+From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
+Subject: [PATCH v3 0/8] Move camss version related defs in to resources
+Date: Thu, 11 Apr 2024 15:45:35 +0300
+Message-ID: <20240411124543.199-1-quic_grosikop@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] media: ov2680: Stop sending more data then requested
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20240216223237.326523-1-hdegoede@redhat.com>
- <20240216223237.326523-2-hdegoede@redhat.com>
- <170818429397.1206667.7109669506551567157@ping.linuxembedded.co.uk>
- <1ad989d8-08e7-43c0-9b35-98e54e4a3de2@redhat.com>
- <171278425800.3085322.3202909682266232934@ping.linuxembedded.co.uk>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <171278425800.3085322.3202909682266232934@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Ia4MSDh51Qy-ygPSaCBhYNwyfCb1XMd1
+X-Proofpoint-ORIG-GUID: Ia4MSDh51Qy-ygPSaCBhYNwyfCb1XMd1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-11_06,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2404110093
 
-Hi,
+The different resources required for different camss soc versions are
+split in to two groups:
 
-On 4/10/24 11:24 PM, Kieran Bingham wrote:
-> Quoting Hans de Goede (2024-04-10 12:27:03)
->> Hi,
->>
->> Sorry for being very slow with replying to this.
->>
-> 
-> No worries,
-> 
-> 
->> On 2/17/24 4:38 PM, Kieran Bingham wrote:
->>> Quoting Hans de Goede (2024-02-16 22:32:33)
->>>> There is no reason to send OV2680_END_MARGIN extra columns on top of
->>>> the mode width and the same for sending extra lines over the mode height.
->>>>
->>>> This sending of extra lines/columns was inherited from the atomisp
->>>> ov2680 driver, it is unclear why this was done and this complicates
->>>> adding V4L2_CID_VBLANK support, so remove it.
->>>
->>> Was this some niave way of adding some HBLANK to let the AtomISP keep up
->>> with processing each line?
->>
->> The total amount of pixels per line and of lines per frame are fixed:
->>
->> #define OV2680_PIXELS_PER_LINE                 1704
->> #define OV2680_LINES_PER_FRAME                 1294
->>
->> This patch only changes the h_end and v_end registers which
->> before AFAIK configure when to stop sending actual pixel
->> data (and move over to sending blanking data). So this was
->> actually requesting for more pixels to be send then there are.
->>
->>> Or is it an optical black region? or padding? (I hit issues around that
->>> on the IMX283 lately).
->>
->> AFAICT (from the datasheet) there is no optical black region, so
->> this really just seemed some weirdness in the original Android
->> kernel driver where this is derived from.
->>
->> The datasheet says:
->>
->> "2.4 pixel array addresses
->> The addressable pixel array of the OV2680 sensor is 1616 x 1216. The addressed region of the pixel array is controlled
->> by the horizontal_start, vertical_start, horizontal_end and vertical_end registers. The start and end addresses are limited
->> to even and odd numbers, respectively, to ensure that there is always an even number of pixels read out in x and y."
->>
->>> Is this a sensor you have and can visually check?
->>
->> Yes this is a sensor which I have, not sure what you mean with
->> visually check. The atomisp driver does not allow getting the full
-> 
-> Me neither at this point. I was probably worried about the impact of
-> changing these values causing visible issues in the stride/line widths
-> or such. But if you're testing and capturing images successfully I'm not
-> worried now.
-> 
-> 
->> resolution as the ISP needs some padding. So the max I can get
->> is 1600x1200. I think the original Android code just added
->> the 16 extra pixels needed by the ISP to h_end and v_end
->> twice. Starting with the extra 16 pixels which are actually
->> there on the sensor and then adding an extra 16 which are
->> fully made up by the driver author and somehow this still
->> works (I guess the sensor just sends all 0 data for these).
-> 
-> Or maybe that was the part to check visually ;-) But I guess it's not
-> easy to capture the full raw images for these ?
+1. Camss device related. In this group are all resources described
+in the device tree, clocks, regulators etc.
 
-Besides a bunch of devices with the atomisp I also have 1 IPU3
-based device with an ov2680 sensor. So I could capture full
-raw resolution there. But unless I modify the driver full
-raw resolution is 1616x1216 where as before this patch the driver
-sets v_end to 1631 so more pixels then the full size, which is
-the weirdness this patch corrects.
+2. Sub-device specific resources. In the initialization
+of the each sub-device, the version of camss is passed.
+Based on this version the sub-device adds: hw layer support,
+per pad formats, number of dma's etc.
 
-Regards,
+The code for "1" group lives in camss.c. However the "2" group
+is spread across all sub-device implementations including video device.
 
-Hans
+This kind of separation is not very convenient when adding new camss soc
+version. The reason is that you need to add support in all sub-device
+implementations.
 
+There were some improvements in this direction where some of the
+hw version related definitions were moved in to the "1". One
+example is attaching of the hw operations.
 
+This series aim to improve the things more and add additional definitions
+in to the "1".
 
+What is included:
 
-> 
->>>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>>  drivers/media/i2c/ov2680.c | 9 ++-------
->>>>  1 file changed, 2 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
->>>> index 39d321e2b7f9..5b04c6c0554a 100644
->>>> --- a/drivers/media/i2c/ov2680.c
->>>> +++ b/drivers/media/i2c/ov2680.c
->>>> @@ -86,9 +86,6 @@
->>>>  #define OV2680_PIXELS_PER_LINE                 1704
->>>>  #define OV2680_LINES_PER_FRAME                 1294
->>>>  
->>>> -/* If possible send 16 extra rows / lines to the ISP as padding */
->>>> -#define OV2680_END_MARGIN                      16
->>>> -
->>>>  /* Max exposure time is VTS - 8 */
->>>>  #define OV2680_INTEGRATION_TIME_MARGIN         8
->>>>  
->>>> @@ -359,11 +356,9 @@ static void ov2680_calc_mode(struct ov2680_dev *sensor)
->>>>         sensor->mode.v_start = (sensor->mode.crop.top +
->>>>                                 (sensor->mode.crop.height - height) / 2) & ~1;
->>>>         sensor->mode.h_end =
->>>> -               min(sensor->mode.h_start + width + OV2680_END_MARGIN - 1,
->>>> -                   OV2680_NATIVE_WIDTH - 1);
->>>> +               min(sensor->mode.h_start + width - 1, OV2680_NATIVE_WIDTH - 1);
->>>>         sensor->mode.v_end =
->>>> -               min(sensor->mode.v_start + height + OV2680_END_MARGIN - 1,
->>>> -                   OV2680_NATIVE_HEIGHT - 1);
->>>> +               min(sensor->mode.v_start + height - 1, OV2680_NATIVE_HEIGHT - 1);
->>>>         sensor->mode.h_output_size = orig_width;
->>>>         sensor->mode.v_output_size = orig_height;
->>>>         sensor->mode.hts = OV2680_PIXELS_PER_LINE;
->>>
->>> Especially as seeing hts = OV2680_PIXELS_PER_LINE it does sound like the
->>> margin is superfluous.
->>
->> Right.
->>
->> Regards,
->>
->> Hans
->>
->>
-> 
+- Remove all format definitions from camss video. The will be passed
+  by the parent sub-device
+
+- Make camss generic format definition mapping, containing mbus to
+  v4l2 mapping, mbus bpp and other required fields used by the
+  sub-device and video node.
+
+- Add per sub-device type union in the resources, different
+  sub-devices are using different resources, as an example: is_lite flag.
+
+- Move camss link operation in to the resources. Currently one
+  function supports different topologies depending of the number
+  of devices. As hw version support increases this is not good
+  way of supporting different topologies.
+
+- Add parent device ops in to the resources. This resolves
+  inter-dependencies of vfe and csid. Csid requests the clocks
+  regulators etc from parent device instead calling directly vfe
+  functions.
+
+- Some cleanups in csid code for split the configuration of
+  RX and testgen and RDI.
+
+Changes in V3:
+- Incorporate missing changes in resources reported and fixed by
+  Bryan O'Donoghue <bryan.odonoghue@linaro.org> taken from the branch:
+  https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/sc8280xp-6.9-rc1-camss-resource-change-verification?ref_type=heads
+- Added missing signed-off to the changes submitted by me.
+
+Changes in V2:
+- Rebased on top of sc8280xp v6.
+- The change "Designate lite subdevices in resources" was dropped,
+  it was already merged in previous series.
+
+Atanas Filipov (1):
+  media: qcom: camss: Decompose register and link operations
+
+Milen Mitkov (2):
+  media: qcom: camss: Split testgen, RDI and RX for CSID 170
+  media: qcom: camss: Decouple VFE from CSID
+
+Radoslav Tsvetkov (5):
+  media: qcom: camss: Add per sub-device type resources
+  media: qcom: camss: Attach formats to VFE resources
+  media: qcom: camss: Attach formats to CSID resources
+  media: qcom: camss: Attach formats to CSIPHY resources
+  media: qcom: camss: Move format related functions
+
+ drivers/media/platform/qcom/camss/Makefile    |   1 +
+ .../platform/qcom/camss/camss-csid-4-1.c      | 132 +---
+ .../platform/qcom/camss/camss-csid-4-7.c      | 160 +---
+ .../platform/qcom/camss/camss-csid-gen2.c     | 410 ++++------
+ .../media/platform/qcom/camss/camss-csid.c    | 512 +++++++++++-
+ .../media/platform/qcom/camss/camss-csid.h    |  32 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  74 +-
+ .../media/platform/qcom/camss/camss-csiphy.h  |  23 +-
+ .../media/platform/qcom/camss/camss-format.c  |  98 +++
+ .../media/platform/qcom/camss/camss-format.h  |  67 ++
+ .../media/platform/qcom/camss/camss-vfe-17x.c |  10 +-
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   6 +-
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   6 +-
+ .../platform/qcom/camss/camss-vfe-gen1.c      |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c | 483 +++++++-----
+ drivers/media/platform/qcom/camss/camss-vfe.h |  22 +-
+ .../media/platform/qcom/camss/camss-video.c   | 295 +------
+ .../media/platform/qcom/camss/camss-video.h   |   5 +-
+ drivers/media/platform/qcom/camss/camss.c     | 729 +++++++++++++-----
+ drivers/media/platform/qcom/camss/camss.h     |  28 +-
+ 21 files changed, 1767 insertions(+), 1338 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.h
+
+-- 
+2.17.1
 
 
