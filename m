@@ -1,126 +1,140 @@
-Return-Path: <linux-media+bounces-9164-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9165-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA6E8A2B5B
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 11:39:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 698B78A2B9F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 11:55:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AE5F1F225C8
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:39:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25B11284B0F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:55:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08C451C4C;
-	Fri, 12 Apr 2024 09:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519C352F92;
+	Fri, 12 Apr 2024 09:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oyc966U6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R7zceF5I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC511446B6;
-	Fri, 12 Apr 2024 09:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309FF537EE
+	for <linux-media@vger.kernel.org>; Fri, 12 Apr 2024 09:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712914742; cv=none; b=TRp4a/8TKGuvU9xljHiVZgHBp6qBBAuhRK2uaU1X31sMqS/okGflYIqmqUi7U0cRzRSJplrSzhQL/ngyBmW8yKpMQrrBI6o3coa3MRPpUiSYE2ryBNp5ISKIFGpZphLDcmX8NEj9yPD+xtqE5MjKOXuvz8is87s6CQSUeTR6LLI=
+	t=1712915714; cv=none; b=KVTvSPww58Q14hmAKDSYpT8juf9/g84yu6ANgArWUKyY0+doHtUnGGXQFrkyGTdm8fUds5y5jdMwClCrx41gbcC+nzPTAlpXJz9KX9VNgH9Aqe49LxOFWZsVf3U90rUClZfyz9TbPtOeopkjWOEn4/a026QfYMnmBuRz2H81Fh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712914742; c=relaxed/simple;
-	bh=xhZLSdqjCJGkrq/1WHroNk1xCdiol0gprEN4wXQPrlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U8V/RWzuTUETQYMMEc9Ol0Mw1RVF9ThKLyey0PNqEhUr7Zyx9jVPx4cr2x71McZ5qq2VvKFFWoxrXbvAUDnjrONjuaIwsD9NvQTpcTf1Lj44MlEsjzbIPUCAn4HJVNDEJtKNo2u6S+DGkF6RA2/ffHEYu0d5YPaAyKC7qGesP8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oyc966U6; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712914741; x=1744450741;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xhZLSdqjCJGkrq/1WHroNk1xCdiol0gprEN4wXQPrlU=;
-  b=Oyc966U6AQSKPXz8WeHsn8245G4djhYxi2VH5JA6pqriz/6kragD1Pul
-   MR8UIRYJKr5WlRtJvH+DCpblOhx8phlltOPOKfyxZ+cs8P+zzLG5Iox2F
-   dVyMibwEeW5bpSUpelx3bVz8IHL9myFJCI1XazHAz2ctrtFaxSNPuntFt
-   YSD0jdA/h1fZ7pjHGR/AbftfKpIdOcUG+ffi+xADANXq0ubkrVnD6pxOQ
-   2Na9B9RFM9/06KfFxX+qp/GHFKliUE9Nx05J4WVKL1i5bpinR9mcGDEid
-   iBQYuzWOcM6jBvDd18boDuaVTmGk7ogHkHsVMfWjZlgACFtsWVqq85PA7
-   A==;
-X-CSE-ConnectionGUID: 1NobwrQ+SCuf3UOQvonNDw==
-X-CSE-MsgGUID: z0g6NxYJQ5ax2PUGnINwIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="12148183"
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="12148183"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 02:39:00 -0700
-X-CSE-ConnectionGUID: TEnw0//TQtG62goI0XrVyw==
-X-CSE-MsgGUID: XWlRxbLtQnW4iW48NYWBHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="25988920"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 02:38:53 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 304D911FA58;
-	Fri, 12 Apr 2024 12:38:51 +0300 (EEST)
-Date: Fri, 12 Apr 2024 09:38:51 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Zhi Mao <zhi.mao@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, shengnan.wang@mediatek.com,
-	yaya.chang@mediatek.com, yunkec@chromium.org, 10572168@qq.com
-Subject: Re: [PATCH 2/2] media: i2c: Add GT97xx VCM driver
-Message-ID: <ZhkBIee2X0UY40yD@kekkonen.localdomain>
-References: <20240410104002.1197-1-zhi.mao@mediatek.com>
- <20240410104002.1197-3-zhi.mao@mediatek.com>
- <CAHp75VfF0pbrKXjWZg7sTr-T=_CbjP+deFQP-VLCGX8ooahctg@mail.gmail.com>
+	s=arc-20240116; t=1712915714; c=relaxed/simple;
+	bh=FiH1b4/eSoB5q8l2RvLTcxcZlxlQxs/CysxzJSN2GEo=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=R83UUUv+pCMYxAcaskOQo+55jev1yPbyXJezYWx5fy900CQJyBKsnUC4Xq2Wy1HScIzJ7HJppzpVAgFb7tv3JB0e19MIrYS3NRWAm7VAgzRxqK3z+Gd+qaOk7aK9Wq6XTy39RxUCKDNOJuwQkga9vfd2EnbW0s2RcpE5gq1dnuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R7zceF5I; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0691A68;
+	Fri, 12 Apr 2024 11:45:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712915150;
+	bh=FiH1b4/eSoB5q8l2RvLTcxcZlxlQxs/CysxzJSN2GEo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=R7zceF5I++SOAPvwPz9oi2iBYiCklODRNJD38iPQFuOexvf//RYTcqa+qIQklqL+K
+	 R6cRJXxqdUXQd6Zz1ADwNPYOC4pRI518kbfiHSOqULnBfVtXRBG71rD6cCu6qqVm7t
+	 DF5MiMdn+u3priRGDzC5qm9ozOJL4GUA3n7NlwhQ=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfF0pbrKXjWZg7sTr-T=_CbjP+deFQP-VLCGX8ooahctg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240412092836.69031-1-umang.jain@ideasonboard.com>
+References: <20240412092836.69031-1-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH] media: Documentation: dev-subdev: Fix sentence conjunction
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Date: Fri, 12 Apr 2024 10:46:30 +0100
+Message-ID: <171291519054.887138.4299460749413944806@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Hi Andy, Zhi,
+Hi Umang,
 
-On Wed, Apr 10, 2024 at 07:00:02PM +0300, Andy Shevchenko wrote:
-> > +static int gt97xx_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > +{
-> > +       return pm_runtime_resume_and_get(sd->dev);
-> > +}
-> > +
-> > +static int gt97xx_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > +{
-> > +       return pm_runtime_put(sd->dev);
-> > +}
-> 
-> Hmm... Shouldn't v4l2 take care about these (PM calls)?
+Quoting Umang Jain (2024-04-12 10:28:36)
+> Fix sentence conjunction in the streams and routes section.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  Documentation/userspace-api/media/v4l/dev-subdev.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Docum=
+entation/userspace-api/media/v4l/dev-subdev.rst
+> index 43988516acdd..7f6620cbdf78 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -561,7 +561,7 @@ selections. The order of configuring formats and sele=
+ctions along a stream is
+>  the same as without streams (see :ref:`format-propagation`).
+> =20
+>  Instead of the sub-device wide merging of streams from all sink pads
+> -towards all source pads, data flows for each route are separate from each
+> +towards all source pads, data flows for each route that are separate fro=
+m each
 
-Ideally yes. We don't have a good mechanism for this at the moment as the
-lens isn't part of the image pipeline. Non-data links may be used for this
-in the future but that's not implemented yet.
+I'm not sure this is correct I'm afraid.
 
--- 
-Regards,
+The original explains that there are multiple flows of data ('streams?')
+and that they are each separate (and can flow in different routes?)
 
-Sakari Ailus
+I would only expect a 'that' if there was some further expansion which
+doesn't follow.
+
+In fact, I just tried, and I can't make the little green 'grammar-ok'
+light in my head illuminate when there is a 'that' added here ;-S
+
+
+My grammar skills are not good enough to distinguish/explain precisely
+except for that magic builtin-native-speaker-right-wrong check and so
+ChatGPT (take with a pinch of salt) explained the following:
+
+https://chat.openai.com/share/632bbcae-22f7-4b42-bbe0-6f9178a36d14
+
+Between Sentence A and Sentence B, Sentence A is more grammatically
+correct.
+
+Sentence A: "Instead of the sub-device wide merging of streams from all
+sink pads towards all source pads, data flows for each route are
+separate from each other."
+
+In this sentence, "data flows for each route are separate from each
+other" is a clear and independent clause, indicating that the data flows
+are separate for each route.
+
+Sentence B: "Instead of the sub-device wide merging of streams from all
+sink pads towards all source pads, data flows for each route that are
+separate from each other."
+
+In this sentence, the phrase "that are separate from each other" is a
+restrictive relative clause modifying "each route." However, this
+construction makes the sentence slightly confusing because it seems to
+imply that the separation applies to the routes themselves, not to the
+data flows. The sentence structure leads to ambiguity regarding what
+exactly is separate from what.
+
+Therefore, Sentence A is clearer and more grammatically sound in the
+context provided.
+
+
+--
+Kieran
+
+
+>  other. Any number of routes from streams on sink pads towards streams on
+>  source pads is allowed, to the extent supported by drivers. For every
+>  stream on a source pad, however, only a single route is allowed.
+> --=20
+> 2.44.0
+>
 
