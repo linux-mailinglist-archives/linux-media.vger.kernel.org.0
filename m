@@ -1,138 +1,94 @@
-Return-Path: <linux-media+bounces-9135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EC88A27AE
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:09:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B5E8A27C7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:14:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7042F281AF7
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 07:09:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84181B25580
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 07:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBF9482DA;
-	Fri, 12 Apr 2024 07:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 112B44C3C3;
+	Fri, 12 Apr 2024 07:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="EalXs2sz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E569246444
-	for <linux-media@vger.kernel.org>; Fri, 12 Apr 2024 07:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8444CDF9;
+	Fri, 12 Apr 2024 07:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712905708; cv=none; b=BSv9GquX67u/MGPh2qayEEzrpgiLvozSufNSorJVzYGN/bQ762SFOOcRSTFfsjs5DoSxjlI/dzmgtRQICY6tP+IZ2XTOhnyIFfY0yQ43LS2CuCWNfP2ZZWJwkjrVp/eKVKIwaLQnE7uQqOeWOcBGFoz4Q7/pXlJPnfmEvDgq6tM=
+	t=1712906043; cv=none; b=by2302E9+q1N/oMtDIvM+DD8r7SvY2hmcAX7FSDOJXtMcr5RSTYLiGlB1uXDtv11MhQlC5EPonF90y4PeyI40wQWI9a0Fbse5upZ6P0nhms9KUIBiWdrVWwPfg+yNxZwECnqr8PrZVekOGLG7Bcs9iI5VEJWHviJeAA+YiaEuUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712905708; c=relaxed/simple;
-	bh=ClQ0BLQzOQg2jtR+VeDBEbmCd/vsAKEPEvUZhKMxUMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YrIp+WsBddKnRKmQlTmJ/IgOACf4pgEboMLdtzC7u/QjUB7MxE7Mntcf30Lh5z4f1SMtLLKyoakuWEFh4NQmsA8QG7lowoegWHP998mQJ/Y90rF8PS4MbNUPrfiZfsTA9SOTA84a7/VUJSWdRGP9VbHOZ55qD3fkri3xqrgRNE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1G-0003QT-0D; Fri, 12 Apr 2024 09:08:18 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1F-00BplX-0P; Fri, 12 Apr 2024 09:08:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1E-0011mH-2z;
-	Fri, 12 Apr 2024 09:08:16 +0200
-Date: Fri, 12 Apr 2024 09:08:16 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "kernel@pengutronix.de" <kernel@pengutronix.de>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIG1lZGlhOiBzdGFnaW5nOiBt?=
- =?utf-8?Q?edia=3A_starfive?= =?utf-8?Q?=3A?= camss: Convert to platform
- remove callback returning void
-Message-ID: <e5h2nqe6umpbzw3a7hhpdttmqr2w6kprwe7mavb4lj3cbmg2hk@k7xk6wgh5veh>
-References: <20240411072836.221625-2-u.kleine-koenig@pengutronix.de>
- <SH0PR01MB066755DE4798EB2BD5EE04A9F204A@SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1712906043; c=relaxed/simple;
+	bh=0E8Zvt4lAAHQzvRXBnp0JBjP3kaoaumws36hdpe3GLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WUVYx/HC5d5s73ezJFIHvSruh3E7gM2lN2KyhuONgUL6/yHNCdpBxixByh4tU6DYcROg/QsBA6He7WVAN5M0QcMvi3ry9jzliFODnVsGrOnA3k3SMQ0+iWvOoG9D+z0ITfb4f7PH6n7TWEQafW3i1gnYUvWsjlmnaDUKCgEOZIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=EalXs2sz; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=G7y/Tidz+LO01yOcA7IMl40yvIemasjGuLXHx2vTUzs=; b=EalXs2sz/LcepabTg/JSNpWYiE
+	O79I2Ju1MMCCXV1ZLHUsl12Pzx1OZj7yg2vvCBsGBiBtqEmh5DYODsTu4kabfk3HsbEUOpvOLlRsu
+	/dpcig2EcXBpYEx9IYFURxU3g4M56JROiHqKDl/qmcZL7GdDfGf4Un+lbo6FSNVJGCothMIofK72j
+	OMZqmHfD31+mdTGfTh0aUsxaUoOMdaQwwfcbanoDLvt6h9RI5uqaNms5O45UkweL1COf1tjOVOBFG
+	d3D4etqiKu85byrhp79RunADhUTqLjHYCW8zBxu19IAgXd1pilXrDZi4Z1NR3wF19QVMYajZ6aQW4
+	8g/Q2zbQ==;
+Received: from [219.240.46.135] (helo=localhost.localdomain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1rvB6Y-003oWA-EP; Fri, 12 Apr 2024 09:13:47 +0200
+From: Hyunjun Ko <zzoon@igalia.com>
+To: quic_dikshita@quicinc.com
+Cc: agross@kernel.org,
+	andersson@kernel.org,
+	bryan.odonoghue@linaro.org,
+	konrad.dybcio@linaro.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	quic_abhinavk@quicinc.com,
+	quic_vgarodia@quicinc.com,
+	stanimir.k.varbanov@gmail.com
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
+Date: Fri, 12 Apr 2024 16:13:25 +0900
+Message-ID: <20240412071325.810465-1-zzoon@igalia.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="haervp5rsxmwwzfe"
-Content-Disposition: inline
-In-Reply-To: <SH0PR01MB066755DE4798EB2BD5EE04A9F204A@SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+I'm trying this series of patches for enabling /dev/video0 on sm8650 hdk but failed.
+After modprobing, lsmod says just like the follwoing:
+
+root@hdk8650:/lib/modules/6.7.0-rc3+# lsmod
+Module                  Size  Used by
+iris                  110592  -2
+v4l2_mem2mem           20480  -2
+videobuf2_memops       12288  -2
+videobuf2_v4l2         20480  -2
+videobuf2_common       45056  -2
+videodev              176128  -2
 
 
---haervp5rsxmwwzfe
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series looks for sm8550 device though, my question is that this series have been tested on the device (sm8650 hdk)? or do you expect this should work on it?
 
-Hello,
-
-On Fri, Apr 12, 2024 at 07:00:22AM +0000, Changhuang Liang wrote:
-> > media: staging: media: starfive: camss: Convert to platform
-> > remove callback returning void
-> >=20
-> > The .remove() callback for a platform driver returns an int which makes=
- many
-> > driver authors wrongly assume it's possible to do error handling by ret=
-urning
-> > an error code. However the value returned is ignored (apart from emitti=
-ng a
-> > warning) and this typically results in resource leaks.
-> >=20
-> > To improve here there is a quest to make the remove callback return voi=
-d. In
-> > the first step of this quest all drivers are converted to .remove_new()=
-, which
-> > already returns void. Eventually after all drivers are converted, .remo=
-ve_new()
-> > will be renamed to .remove().
-> >=20
-> > Trivially convert this driver from always returning zero in the remove =
-callback
-> > to the void returning variant.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->=20
-> But it seems that v1 is already merge.
-
-Hmm, it's not in next though. IMHO it would be a good idea to add the
-tree that has my patch staged to next.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---haervp5rsxmwwzfe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYY3d8ACgkQj4D7WH0S
-/k4PwAf/W7PAMu0Iy0Z9HVJy9V3tNJnkK+aI84vVoqMNsBLj4D7V4nz/GAVWZZnW
-jeGRxG6Opuqahx1CCh2ILM/eoDgOkTKvS5f682NOmiB+JvtbSr4c77yFcOEgJUsZ
-Iyo6d+TG0VgN4YypgWYIKq4uddMgkF28ROcRalunX0C7EA7frsx9riqimETroNn4
-xIlkOOIybb/reIWwU1lUtC1sEqnvVdC6+XfEqpa8Su+BgE7wCNArq97LsEGJt+OS
-hoz4HLWX2CyJddA1Go79oZeX7jYvg0GshiPLt8345Iox3vOOdfWNcCrwncPVGmDN
-cHi0Qtzs/b4INNkgUuEWdsH+BHTAkw==
-=SAif
------END PGP SIGNATURE-----
-
---haervp5rsxmwwzfe--
 
