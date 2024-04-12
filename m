@@ -1,79 +1,75 @@
-Return-Path: <linux-media+bounces-9172-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9173-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691218A2D80
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 13:33:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA6F8A2E1D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 14:19:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C273FB22608
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 11:33:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDF751F23356
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 12:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13BF154F86;
-	Fri, 12 Apr 2024 11:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6AE655E75;
+	Fri, 12 Apr 2024 12:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9IY821r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AL+QbXFT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DFA54BEA;
-	Fri, 12 Apr 2024 11:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5049452F9B
+	for <linux-media@vger.kernel.org>; Fri, 12 Apr 2024 12:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712921625; cv=none; b=uHOr/+NynYJK4zg9EU38Y0K96TbJWgNZVTYcJ/COWAHq0B+/4/VPmpAtmsMdylSjRviFdg9FhD7NjJdBwx8N16cXx1HkKoKaY92EzZRykjYiPlUuQCZmKiysCmHCogAEETBOhIYUuLzJXyETTCDn463wT0V+lVk4VVLcVrkjnaM=
+	t=1712924346; cv=none; b=ZIAid4fBBczrSa1s0EjopUrc6Ee1fV0BBz6qHh0UtdVfJdcVhukScqCpzYOJFYtXK4pz6D+Jz7uzQeDj94X1kvi1syhuK1y3fPZK27Kmuha5Hi/Qdryh/p/leRYGxSyLRdE4p7vetf4CEU1PtIFCOAhE1hY9EZ1so0xrSUhWXBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712921625; c=relaxed/simple;
-	bh=CFU5rcB6sQUJnYY6Sg4/vtN1OXIuBjANzJhtRuiUmz0=;
+	s=arc-20240116; t=1712924346; c=relaxed/simple;
+	bh=ndC3RYO/ekLV/wL+eqGvxWWjsHVe7rOhao1Es5Y5RnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C0Eez7MNF4T9HwI5T6DTftaIStGytrgmhkC4TIMlBVfJnFvJLCBEbzfBYVspviCHOOtHRvxWeGojPeVAABae2Kel6eC3iaffZo1E7G5Hzo9RIQ0bP/Jk5HqLCpn5AGEP5UT6HtlaKCLLros4c2cTXtJHPwfmRu3dM3/fpXwa/68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9IY821r; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=RvteN4mB21kyMbPchZbMsdOcTTOZ57RRpN2lrCnoaFhV5CxM72Sb3V51XBCtwaTnvqvIngJSSWlfbrT93Qh6Uod6HVzQsLb0/zu7b/In63FOxtjKzPRfcQo0e0cs51XIH+Xpg+h/HUdnFMsMnyd1jL5Gt+08PimtY4U4laXQz2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AL+QbXFT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712921622; x=1744457622;
+  t=1712924343; x=1744460343;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CFU5rcB6sQUJnYY6Sg4/vtN1OXIuBjANzJhtRuiUmz0=;
-  b=Q9IY821rodnR2fa6myWpjf7qCi16R6ezTF6EqP9jhwfwxEnawNy3U1Jf
-   hqDs5ctlrxojvoPoQHJMcTonoYmgfWevPPs9EwS3C/tVAa0DfTsGEXeo2
-   emizuWE6k4Yk/RKJNhszQdyMpOQ2tl47eUVFHmD/p7LbLdqV2k30uWY9p
-   QXJ7wx8Yijj60C+nBGTre262HOHlLc7JYBD2n2SYNJqEYfyP3vKjemiyD
-   OYOP2fDh3ho6WkADL++sPLRfUZV6O7rDAu7ucxVC6OlxXcD1bU1d3mccf
-   VseO7crbz7eImm0ZhQ0bv1/tqdgF+B8Ksrh8pEGoAtf73M7G6Zy7CxgOP
-   w==;
-X-CSE-ConnectionGUID: YQrOTUp5Qx+7dGbA8PE2yQ==
-X-CSE-MsgGUID: spzxNu2OQFG6jKKtYwc4Ig==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8245970"
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="8245970"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 04:33:41 -0700
-X-CSE-ConnectionGUID: 27Ke22RfRrWzP9oVRb4+Cg==
-X-CSE-MsgGUID: inlCuea/T6u985W6KBQ4vg==
+  bh=ndC3RYO/ekLV/wL+eqGvxWWjsHVe7rOhao1Es5Y5RnQ=;
+  b=AL+QbXFT6zHEwM7TyeM9Ay9pw2xB5Dej3pmhiHPA1lJojtfp2m873ypo
+   d1rg1AjY7a56QcwSetNGxYK6sFMUlCzkDJg557y/MhCpuetwGngtx1dTq
+   vdoZa2UkRNNZSEndYxW5nBUGKSqM/gCe89f3r0cP11JjRbAvStm18XzM6
+   ZcILZQO5Xln2qA13pBHO8rMWHKgH7sG0HlHYTrUp6ooVNGYAjudxCoIDW
+   fzTHySRj42JwF6RXl8d1JU3gCZOAjT8RQ7m9+B069XnrxFyNBwmhbUztb
+   AcBMwU2HjPz6bO122QzZdeZnBGMOWIukTdSj3bz/hPIBitNbKEjVQWAP+
+   Q==;
+X-CSE-ConnectionGUID: DAcOnrHQRN+ThMZUuVoaEg==
+X-CSE-MsgGUID: cWETjffoSQacuKVhD0nVqQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="12227298"
+X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
+   d="scan'208";a="12227298"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 05:19:03 -0700
+X-CSE-ConnectionGUID: F3SXmWWEQkqbOWC3YO9dXg==
+X-CSE-MsgGUID: lphxF/OpSHW+OUk7S5vA8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="25652776"
+X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
+   d="scan'208";a="25768338"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 04:33:39 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 05:19:00 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id EEF18120359;
-	Fri, 12 Apr 2024 14:33:36 +0300 (EEST)
-Date: Fri, 12 Apr 2024 11:33:36 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1EA93120359;
+	Fri, 12 Apr 2024 15:18:58 +0300 (EEST)
+Date: Fri, 12 Apr 2024 12:18:58 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 3/6] media: imx335: Use V4L2 CCI for accessing sensor
- registers
-Message-ID: <ZhkcEL9A67Erxi3Q@kekkonen.localdomain>
-References: <20240402140924.10009-1-umang.jain@ideasonboard.com>
- <20240402140924.10009-4-umang.jain@ideasonboard.com>
+To: Dongcheng Yan <dongcheng.yan@intel.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
+	hao.yao@intel.com, bingbu.cao@intel.com, meng.j.chen@intel.com
+Subject: Re: [PATCH] media: i2c: Add ar0234 camera sensor driver
+Message-ID: <ZhkmsliCp7WEgS5q@kekkonen.localdomain>
+References: <20240412065545.911237-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,805 +78,1130 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240402140924.10009-4-umang.jain@ideasonboard.com>
+In-Reply-To: <20240412065545.911237-1-dongcheng.yan@intel.com>
 
-Hi Umang,
+Hi Dongchen,
 
-On Tue, Apr 02, 2024 at 07:39:21PM +0530, Umang Jain wrote:
-> Use the new comon CCI register access helpers to replace the private
-> register access helpers in the imx335 driver.
+Thanks for the patch.
+
+A few comments below...
+
+On Fri, Apr 12, 2024 at 02:55:45PM +0800, Dongcheng Yan wrote:
+> The driver is implemented with V4L2 framework,
+> and supports following features:
 > 
-> Select V4L2_CCI_I2C Kconfig option which the imx335 driver now
-> depends on.
+> - manual exposure and analog/digital gain control
+> - vblank/hblank control
+> - runtime PM support
+> - 1280x960 at 30FPS
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
 > ---
->  drivers/media/i2c/Kconfig  |   1 +
->  drivers/media/i2c/imx335.c | 593 ++++++++++++++++---------------------
->  2 files changed, 263 insertions(+), 331 deletions(-)
+>  drivers/media/i2c/Kconfig  |   11 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/ar0234.c | 1036 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1048 insertions(+)
+>  create mode 100644 drivers/media/i2c/ar0234.c
 > 
 > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index e4da68835683..c1f6d882efae 100644
+> index 56f276b920ab..4f50a489cfcc 100644
 > --- a/drivers/media/i2c/Kconfig
 > +++ b/drivers/media/i2c/Kconfig
-> @@ -205,6 +205,7 @@ config VIDEO_IMX334
->  config VIDEO_IMX335
->  	tristate "Sony IMX335 sensor support"
->  	depends on OF_GPIO
+> @@ -51,6 +51,17 @@ config VIDEO_ALVIUM_CSI2
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called alvium-csi2.
+>  
+> +config VIDEO_AR0234
+> +	tristate "ON Semiconductor AR0234 sensor support"
+> +	depends on ACPI || COMPILE_TEST
 > +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a Video4Linux2 sensor driver for the ON Semiconductor
+> +	  AR0234 camera.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called ar0234.
+> +
+>  config VIDEO_AR0521
+>  	tristate "ON Semiconductor AR0521 sensor support"
 >  	help
->  	  This is a Video4Linux2 sensor driver for the Sony
->  	  IMX335 camera.
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index b8cf85984127..ae4341644a84 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -11,62 +11,104 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
->  
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index dfbe6448b549..57b4f62106d9 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -19,6 +19,7 @@ obj-$(CONFIG_VIDEO_AK7375) += ak7375.o
+>  obj-$(CONFIG_VIDEO_AK881X) += ak881x.o
+>  obj-$(CONFIG_VIDEO_ALVIUM_CSI2) += alvium-csi2.o
+>  obj-$(CONFIG_VIDEO_APTINA_PLL) += aptina-pll.o
+> +obj-$(CONFIG_VIDEO_AR0234) += ar0234.o
+>  obj-$(CONFIG_VIDEO_AR0521) += ar0521.o
+>  obj-$(CONFIG_VIDEO_BT819) += bt819.o
+>  obj-$(CONFIG_VIDEO_BT856) += bt856.o
+> diff --git a/drivers/media/i2c/ar0234.c b/drivers/media/i2c/ar0234.c
+> new file mode 100644
+> index 000000000000..a76a06dfa825
+> --- /dev/null
+> +++ b/drivers/media/i2c/ar0234.c
+> @@ -0,0 +1,1036 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (c) 2019 - 2024 Intel Corporation.
+> +
+> +#include <asm/unaligned.h>
+> +#include <linux/acpi.h>
+> +#include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +
 > +#include <media/v4l2-cci.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
->  
->  /* Streaming Mode */
-> -#define IMX335_REG_MODE_SELECT	0x3000
-> -#define IMX335_MODE_STANDBY	0x01
-> -#define IMX335_MODE_STREAMING	0x00
-> +#define IMX335_REG_MODE_SELECT		CCI_REG8(0x3000)
-> +#define IMX335_MODE_STANDBY		0x01
-> +#define IMX335_MODE_STREAMING		0x00
->  
-> -/* Data Lanes */
-> -#define IMX335_LANEMODE		0x3a01
-> -#define IMX335_2LANE		1
-> -#define IMX335_4LANE		3
-> +/* Group hold register */
-> +#define IMX335_REG_HOLD			CCI_REG8(0x3001)
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
 > +
-> +#define IMX335_REG_MASTER_MODE		CCI_REG8(0x3002)
-> +#define IMX335_REG_BCWAIT_TIME		CCI_REG8(0x300c)
-> +#define IMX335_REG_CPWAIT_TIME		CCI_REG8(0x300d)
-> +#define IMX335_REG_WINMODE		CCI_REG8(0x3018)
-> +#define IMX335_REG_HTRIMMING_START	CCI_REG16_LE(0x302c)
-> +#define IMX335_REG_HNUM			CCI_REG8(0x302e)
->  
->  /* Lines per frame */
-> -#define IMX335_REG_LPFR		0x3030
-> +#define IMX335_REG_VMAX			CCI_REG24_LE(0x3030)
->  
-> -/* Chip ID */
-> -#define IMX335_REG_ID		0x3912
-> -#define IMX335_ID		0x00
-> +#define IMX335_REG_OPB_SIZE_V		CCI_REG8(0x304c)
-> +#define IMX335_REG_ADBIT		CCI_REG8(0x3050)
-> +#define IMX335_REG_Y_OUT_SIZE		CCI_REG16_LE(0x3056)
->  
-> -/* Exposure control */
-> -#define IMX335_REG_SHUTTER	0x3058
-> -#define IMX335_EXPOSURE_MIN	1
-> -#define IMX335_EXPOSURE_OFFSET	9
-> -#define IMX335_EXPOSURE_STEP	1
-> -#define IMX335_EXPOSURE_DEFAULT	0x0648
-> +#define IMX335_REG_SHUTTER		CCI_REG24_LE(0x3058)
-> +#define IMX335_EXPOSURE_MIN		1
-> +#define IMX335_EXPOSURE_OFFSET		9
-> +#define IMX335_EXPOSURE_STEP		1
-> +#define IMX335_EXPOSURE_DEFAULT		0x0648
->  
-> -/* Analog gain control */
-> -#define IMX335_REG_AGAIN	0x30e8
-> -#define IMX335_AGAIN_MIN	0
-> -#define IMX335_AGAIN_MAX	240
-> -#define IMX335_AGAIN_STEP	1
-> -#define IMX335_AGAIN_DEFAULT	0
-> +#define IMX335_REG_AREA3_ST_ADR_1	CCI_REG16_LE(0x3074)
-> +#define IMX335_REG_AREA3_WIDTH_1	CCI_REG16_LE(0x3076)
->  
-> -/* Group hold register */
-> -#define IMX335_REG_HOLD		0x3001
-> +/* Analog gain control */
-> +#define IMX335_REG_AGAIN		CCI_REG8(0x30e8)
-> +#define IMX335_AGAIN_MIN		0
-> +#define IMX335_AGAIN_MAX		240
-> +#define IMX335_AGAIN_STEP		1
-> +#define IMX335_AGAIN_DEFAULT		0
-> +
-> +#define IMX335_REG_TPG_TESTCLKEN	CCI_REG8(0x3148)
-> +#define IMX335_REG_INCLKSEL1		CCI_REG16_LE(0x314c)
-> +#define IMX335_REG_INCLKSEL2		CCI_REG8(0x315a)
-> +#define IMX335_REG_INCLKSEL3		CCI_REG8(0x3168)
-> +#define IMX335_REG_INCLKSEL4		CCI_REG8(0x316a)
-> +#define IMX335_REG_MDBIT		CCI_REG8(0x319d)
-> +#define IMX335_REG_SYSMODE		CCI_REG8(0x319e)
-> +
-> +#define IMX335_REG_XVS_XHS_DRV		CCI_REG8(0x31a1)
->  
->  /* Test pattern generator */
-> -#define IMX335_REG_TPG		0x329e
-> -#define IMX335_TPG_ALL_000	0
-> -#define IMX335_TPG_ALL_FFF	1
-> -#define IMX335_TPG_ALL_555	2
-> -#define IMX335_TPG_ALL_AAA	3
-> -#define IMX335_TPG_TOG_555_AAA	4
-> -#define IMX335_TPG_TOG_AAA_555	5
-> -#define IMX335_TPG_TOG_000_555	6
-> -#define IMX335_TPG_TOG_555_000	7
-> -#define IMX335_TPG_TOG_000_FFF	8
-> -#define IMX335_TPG_TOG_FFF_000	9
-> -#define IMX335_TPG_H_COLOR_BARS 10
-> -#define IMX335_TPG_V_COLOR_BARS 11
-> +#define IMX335_REG_TPG_DIG_CLP_MODE	CCI_REG8(0x3280)
-> +#define IMX335_REG_TPG_EN_DUOUT		CCI_REG8(0x329c)
-> +#define IMX335_REG_TPG			CCI_REG8(0x329e)
-> +#define IMX335_REG_TPG_COLORWIDTH	CCI_REG8(0x32a0)
-> +#define IMX335_REG_TPG_BLKLEVEL		CCI_REG16_LE(0x3302)
-> +#define IMX335_REG_TPG_WRJ_OPEN		CCI_REG8(0x336c)
-> +#define IMX335_TPG_ALL_000		0
-> +#define IMX335_TPG_ALL_FFF		1
-> +#define IMX335_TPG_ALL_555		2
-> +#define IMX335_TPG_ALL_AAA		3
-> +#define IMX335_TPG_TOG_555_AAA		4
-> +#define IMX335_TPG_TOG_AAA_555		5
-> +#define IMX335_TPG_TOG_000_555		6
-> +#define IMX335_TPG_TOG_555_000		7
-> +#define IMX335_TPG_TOG_000_FFF		8
-> +#define IMX335_TPG_TOG_FFF_000		9
-> +#define IMX335_TPG_H_COLOR_BARS		10
-> +#define IMX335_TPG_V_COLOR_BARS		11
-> +
-> +#define IMX335_REG_ADBIT1		CCI_REG16_LE(0x341c)
+> +#define PIXEL_RATE			180000000ULL
 > +
 > +/* Chip ID */
-> +#define IMX335_REG_ID			CCI_REG8(0x3912)
-> +#define IMX335_ID			0x00
+> +#define AR0234_REG_CHIP_ID		CCI_REG16(0x3000)
+> +#define AR0234_CHIP_ID			0x0a56
 > +
-> +/* Data Lanes */
-> +#define IMX335_REG_LANEMODE		CCI_REG8(0x3a01)
-> +#define IMX335_2LANE			1
-> +#define IMX335_4LANE			3
+> +#define AR0234_REG_MODE_SELECT		CCI_REG16(0x301a)
+> +#define AR0234_MODE_RESET		0x00d9
+> +#define AR0234_MODE_STANDBY		0x2058
+> +#define AR0234_MODE_STREAMING		0x205c
 > +
-> +#define IMX335_REG_TCLKPOST		CCI_REG16_LE(0x3a18)
-> +#define IMX335_REG_TCLKPREPARE		CCI_REG16_LE(0x3a1a)
-> +#define IMX335_REG_TCLK_TRAIL		CCI_REG16_LE(0x3a1c)
-> +#define IMX335_REG_TCLK_ZERO		CCI_REG16_LE(0x3a1e)
-> +#define IMX335_REG_THS_PREPARE		CCI_REG16_LE(0x3a20)
-> +#define IMX335_REG_THS_ZERO		CCI_REG16_LE(0x3a22)
-> +#define IMX335_REG_THS_TRAIL		CCI_REG16_LE(0x3a24)
-> +#define IMX335_REG_THS_EXIT		CCI_REG16_LE(0x3a26)
-> +#define IMX335_REG_TPLX			CCI_REG16_LE(0x3a28)
->  
->  /* Input clock rate */
-> -#define IMX335_INCLK_RATE	24000000
-> +#define IMX335_INCLK_RATE		24000000
->  
->  /* CSI2 HW configuration */
->  #define IMX335_LINK_FREQ_594MHz		594000000LL
-> @@ -74,9 +116,6 @@
->  
->  #define IMX335_NUM_DATA_LANES	4
->  
-> -#define IMX335_REG_MIN		0x00
-> -#define IMX335_REG_MAX		0xfffff
-> -
->  /* IMX335 native and active pixel array size. */
->  #define IMX335_NATIVE_WIDTH		2616U
->  #define IMX335_NATIVE_HEIGHT		1964U
-> @@ -85,16 +124,6 @@
->  #define IMX335_PIXEL_ARRAY_WIDTH	2592U
->  #define IMX335_PIXEL_ARRAY_HEIGHT	1944U
->  
-> -/**
-> - * struct imx335_reg - imx335 sensor register
-> - * @address: Register address
-> - * @val: Register value
-> - */
-> -struct imx335_reg {
-> -	u16 address;
-> -	u8 val;
-> -};
-> -
->  /**
->   * struct imx335_reg_list - imx335 sensor register list
->   * @num_of_regs: Number of registers in the list
-> @@ -102,7 +131,7 @@ struct imx335_reg {
->   */
->  struct imx335_reg_list {
->  	u32 num_of_regs;
-> -	const struct imx335_reg *regs;
+> +/* V_TIMING internal */
+> +#define AR0234_REG_VTS			CCI_REG16(0x300a)
+> +#define AR0234_VTS_MAX			0xffff
+> +
+> +/* Exposure control */
+> +#define AR0234_REG_EXPOSURE		CCI_REG16(0x3012)
+> +#define AR0234_EXPOSURE_MIN		0
+> +#define AR0234_EXPOSURE_MAX_MARGIN	80
+> +#define AR0234_EXPOSURE_STEP		1
+> +
+> +/* Analog gain control */
+> +#define AR0234_REG_ANALOG_GAIN		CCI_REG16(0x3060)
+> +#define AR0234_ANAL_GAIN_MIN		0
+> +#define AR0234_ANAL_GAIN_MAX		0x7f
+> +#define AR0234_ANAL_GAIN_STEP		1
+> +#define AR0234_ANAL_GAIN_DEFAULT	0xe
+> +
+> +/* Digital gain control */
+> +#define AR0234_REG_GLOBAL_GAIN		CCI_REG16(0x305e)
+> +#define AR0234_DGTL_GAIN_MIN		0
+> +#define AR0234_DGTL_GAIN_MAX		0x7ff
+> +#define AR0234_DGTL_GAIN_STEP		1
+> +#define AR0234_DGTL_GAIN_DEFAULT	0x80
+> +
+> +#define AR0234_NATIVE_WIDTH		1200
+> +#define AR0234_NATIVE_HEIGHT		1920
+> +
+> +#define to_ar0234(_sd)	container_of(_sd, struct ar0234, sd)
+> +
+> +struct ar0234_reg_list {
+> +	u32 num_of_regs;
 > +	const struct cci_reg_sequence *regs;
->  };
->  
->  static const char * const imx335_supply_name[] = {
-> @@ -165,6 +194,7 @@ struct imx335 {
->  	struct media_pad pad;
->  	struct gpio_desc *reset_gpio;
->  	struct regulator_bulk_data supplies[ARRAY_SIZE(imx335_supply_name)];
-> +	struct regmap *cci;
->  
->  	struct clk *inclk;
->  	struct v4l2_ctrl_handler ctrl_handler;
-> @@ -217,140 +247,135 @@ static const int imx335_tpg_val[] = {
->  };
->  
->  /* Sensor mode registers */
-> -static const struct imx335_reg mode_2592x1940_regs[] = {
-> -	{0x3000, 0x01},
-> -	{0x3002, 0x00},
-> -	{0x3018, 0x04},
-> -	{0x302c, 0x3c},
-> -	{0x302e, 0x20},
-> -	{0x3056, 0x94},
-> -	{0x3074, 0xc8},
-> -	{0x3076, 0x28},
-> -	{0x304c, 0x00},
-> -	{0x31a1, 0x00},
-> -	{0x3288, 0x21},
-> -	{0x328a, 0x02},
-> -	{0x3414, 0x05},
-> -	{0x3416, 0x18},
-> -	{0x3648, 0x01},
-> -	{0x364a, 0x04},
-> -	{0x364c, 0x04},
-> -	{0x3678, 0x01},
-> -	{0x367c, 0x31},
-> -	{0x367e, 0x31},
-> -	{0x3706, 0x10},
-> -	{0x3708, 0x03},
-> -	{0x3714, 0x02},
-> -	{0x3715, 0x02},
-> -	{0x3716, 0x01},
-> -	{0x3717, 0x03},
-> -	{0x371c, 0x3d},
-> -	{0x371d, 0x3f},
-> -	{0x372c, 0x00},
-> -	{0x372d, 0x00},
-> -	{0x372e, 0x46},
-> -	{0x372f, 0x00},
-> -	{0x3730, 0x89},
-> -	{0x3731, 0x00},
-> -	{0x3732, 0x08},
-> -	{0x3733, 0x01},
-> -	{0x3734, 0xfe},
-> -	{0x3735, 0x05},
-> -	{0x3740, 0x02},
-> -	{0x375d, 0x00},
-> -	{0x375e, 0x00},
-> -	{0x375f, 0x11},
-> -	{0x3760, 0x01},
-> -	{0x3768, 0x1b},
-> -	{0x3769, 0x1b},
-> -	{0x376a, 0x1b},
-> -	{0x376b, 0x1b},
-> -	{0x376c, 0x1a},
-> -	{0x376d, 0x17},
-> -	{0x376e, 0x0f},
-> -	{0x3776, 0x00},
-> -	{0x3777, 0x00},
-> -	{0x3778, 0x46},
-> -	{0x3779, 0x00},
-> -	{0x377a, 0x89},
-> -	{0x377b, 0x00},
-> -	{0x377c, 0x08},
-> -	{0x377d, 0x01},
-> -	{0x377e, 0x23},
-> -	{0x377f, 0x02},
-> -	{0x3780, 0xd9},
-> -	{0x3781, 0x03},
-> -	{0x3782, 0xf5},
-> -	{0x3783, 0x06},
-> -	{0x3784, 0xa5},
-> -	{0x3788, 0x0f},
-> -	{0x378a, 0xd9},
-> -	{0x378b, 0x03},
-> -	{0x378c, 0xeb},
-> -	{0x378d, 0x05},
-> -	{0x378e, 0x87},
-> -	{0x378f, 0x06},
-> -	{0x3790, 0xf5},
-> -	{0x3792, 0x43},
-> -	{0x3794, 0x7a},
-> -	{0x3796, 0xa1},
-> -	{0x37b0, 0x36},
-> -	{0x3a00, 0x00},
-> +static const struct cci_reg_sequence mode_2592x1940_regs[] = {
-> +	{IMX335_REG_MODE_SELECT, 0x01},
-> +	{IMX335_REG_MASTER_MODE, 0x00},
-> +	{IMX335_REG_WINMODE, 0x04},
-> +	{IMX335_REG_HTRIMMING_START, 0x0180},
-> +	{IMX335_REG_HNUM, 0x0a20},
-> +	{IMX335_REG_Y_OUT_SIZE, 0x0794},
-> +	{IMX335_REG_AREA3_ST_ADR_1, 0x00b0},
-> +	{IMX335_REG_AREA3_WIDTH_1, 0x0f58},
-> +	{IMX335_REG_OPB_SIZE_V, 0x00},
-> +	{IMX335_REG_XVS_XHS_DRV, 0x00},
-> +	{CCI_REG8(0x3288), 0x21}, /* undocumented */
-> +	{CCI_REG8(0x328a), 0x02}, /* undocumented */
-> +	{CCI_REG8(0x3414), 0x05}, /* undocumented */
-> +	{CCI_REG8(0x3416), 0x18}, /* undocumented */
-> +	{CCI_REG8(0x3648), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x364a), 0x04}, /* undocumented */
-> +	{CCI_REG8(0x364c), 0x04}, /* undocumented */
-> +	{CCI_REG8(0x3678), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x367c), 0x31}, /* undocumented */
-> +	{CCI_REG8(0x367e), 0x31}, /* undocumented */
-> +	{CCI_REG8(0x3706), 0x10}, /* undocumented */
-> +	{CCI_REG8(0x3708), 0x03}, /* undocumented */
-> +	{CCI_REG8(0x3714), 0x02}, /* undocumented */
-> +	{CCI_REG8(0x3715), 0x02}, /* undocumented */
-> +	{CCI_REG8(0x3716), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x3717), 0x03}, /* undocumented */
-> +	{CCI_REG8(0x371c), 0x3d}, /* undocumented */
-> +	{CCI_REG8(0x371d), 0x3f}, /* undocumented */
-> +	{CCI_REG8(0x372c), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x372d), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x372e), 0x46}, /* undocumented */
-> +	{CCI_REG8(0x372f), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x3730), 0x89}, /* undocumented */
-> +	{CCI_REG8(0x3731), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x3732), 0x08}, /* undocumented */
-> +	{CCI_REG8(0x3733), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x3734), 0xfe}, /* undocumented */
-> +	{CCI_REG8(0x3735), 0x05}, /* undocumented */
-> +	{CCI_REG8(0x3740), 0x02}, /* undocumented */
-> +	{CCI_REG8(0x375d), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x375e), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x375f), 0x11}, /* undocumented */
-> +	{CCI_REG8(0x3760), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x3768), 0x1b}, /* undocumented */
-> +	{CCI_REG8(0x3769), 0x1b}, /* undocumented */
-> +	{CCI_REG8(0x376a), 0x1b}, /* undocumented */
-> +	{CCI_REG8(0x376b), 0x1b}, /* undocumented */
-> +	{CCI_REG8(0x376c), 0x1a}, /* undocumented */
-> +	{CCI_REG8(0x376d), 0x17}, /* undocumented */
-> +	{CCI_REG8(0x376e), 0x0f}, /* undocumented */
-> +	{CCI_REG8(0x3776), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x3777), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x3778), 0x46}, /* undocumented */
-> +	{CCI_REG8(0x3779), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x377a), 0x89}, /* undocumented */
-> +	{CCI_REG8(0x377b), 0x00}, /* undocumented */
-> +	{CCI_REG8(0x377c), 0x08}, /* undocumented */
-> +	{CCI_REG8(0x377d), 0x01}, /* undocumented */
-> +	{CCI_REG8(0x377e), 0x23}, /* undocumented */
-> +	{CCI_REG8(0x377f), 0x02}, /* undocumented */
-> +	{CCI_REG8(0x3780), 0xd9}, /* undocumented */
-> +	{CCI_REG8(0x3781), 0x03}, /* undocumented */
-> +	{CCI_REG8(0x3782), 0xf5}, /* undocumented */
-> +	{CCI_REG8(0x3783), 0x06}, /* undocumented */
-> +	{CCI_REG8(0x3784), 0xa5}, /* undocumented */
-> +	{CCI_REG8(0x3788), 0x0f}, /* undocumented */
-> +	{CCI_REG8(0x378a), 0xd9}, /* undocumented */
-> +	{CCI_REG8(0x378b), 0x03}, /* undocumented */
-> +	{CCI_REG8(0x378c), 0xeb}, /* undocumented */
-> +	{CCI_REG8(0x378d), 0x05}, /* undocumented */
-> +	{CCI_REG8(0x378e), 0x87}, /* undocumented */
-> +	{CCI_REG8(0x378f), 0x06}, /* undocumented */
-> +	{CCI_REG8(0x3790), 0xf5}, /* undocumented */
-> +	{CCI_REG8(0x3792), 0x43}, /* undocumented */
-> +	{CCI_REG8(0x3794), 0x7a}, /* undocumented */
-> +	{CCI_REG8(0x3796), 0xa1}, /* undocumented */
-> +	{CCI_REG8(0x37b0), 0x36}, /* undocumented */
-> +	{CCI_REG8(0x3a00), 0x00}, /* undocumented */
+> +};
+> +
+> +struct ar0234_link_freq_config {
+> +	const struct ar0234_reg_list reg_list;
+> +};
+> +
+> +struct ar0234_mode {
+> +	u32 width;
+> +	u32 height;
+> +
+> +	u32 vts_def;
+> +	u32 vts_min;
+> +
+> +	u32 link_freq_index;
+> +	u32 code;
+> +
+> +	u32 hblank;
+> +	u32 vblank;
+> +
+> +	/* Sensor register settings for this mode */
+> +	const struct ar0234_reg_list reg_list;
+> +};
+> +
+> +static const struct cci_reg_sequence link_freq_360M_1280x960_10bit_2lane[] = {
+> +	{ CCI_REG16(0x302a), 0x0005 },
+> +	{ CCI_REG16(0x302c), 0x0004 },
+> +	{ CCI_REG16(0x302e), 0x0003 },
+> +	{ CCI_REG16(0x3030), 0x0050 },
+> +	{ CCI_REG16(0x3036), 0x000a },
+> +	{ CCI_REG16(0x3038), 0x0002 },
+> +	{ CCI_REG16(0x31b0), 0x006e },
+> +	{ CCI_REG16(0x31b2), 0x0050 },
+> +	{ CCI_REG16(0x31b4), 0x4207 },
+> +	{ CCI_REG16(0x31b6), 0x2213 },
+> +	{ CCI_REG16(0x31b8), 0x704a },
+> +	{ CCI_REG16(0x31ba), 0x0289 },
+> +	{ CCI_REG16(0x31bc), 0x8c08 },
+> +	{ CCI_REG16(0x31ae), 0x0202 },
+> +	{ CCI_REG16(0x3002), 0x0080 },
+> +	{ CCI_REG16(0x3004), 0x0148 },
+> +	{ CCI_REG16(0x3006), 0x043f },
+> +	{ CCI_REG16(0x3008), 0x0647 },
+> +	{ CCI_REG16(0x300a), 0x05b5 },
+> +	{ CCI_REG16(0x300c), 0x0268 },
+> +	{ CCI_REG16(0x3012), 0x058c },
+> +	{ CCI_REG16(0x31ac), 0x0a0a },
+> +	{ CCI_REG16(0x306e), 0x9010 },
+> +	{ CCI_REG16(0x30a2), 0x0001 },
+> +	{ CCI_REG16(0x30a6), 0x0001 },
+> +	{ CCI_REG16(0x3082), 0x0003 },
+> +	{ CCI_REG16(0x3040), 0x0000 },
+> +	{ CCI_REG16(0x31d0), 0x0000 },
+> +};
+> +
+> +static const struct cci_reg_sequence mode_1280x960_10bit_2lane[] = {
+> +	{ CCI_REG16(0x3f4c), 0x121f },
+> +	{ CCI_REG16(0x3f4e), 0x121f },
+> +	{ CCI_REG16(0x3f50), 0x0b81 },
+> +	{ CCI_REG16(0x31e0), 0x0003 },
+> +	{ CCI_REG16(0x30b0), 0x0028 },
+> +	{ CCI_REG16(0x3088), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0xc1ae },
+> +	{ CCI_REG16(0x3086), 0x327f },
+> +	{ CCI_REG16(0x3086), 0x5780 },
+> +	{ CCI_REG16(0x3086), 0x272f },
+> +	{ CCI_REG16(0x3086), 0x7416 },
+> +	{ CCI_REG16(0x3086), 0x7e13 },
+> +	{ CCI_REG16(0x3086), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0x307e },
+> +	{ CCI_REG16(0x3086), 0xff80 },
+> +	{ CCI_REG16(0x3086), 0x20c3 },
+> +	{ CCI_REG16(0x3086), 0xb00e },
+> +	{ CCI_REG16(0x3086), 0x8190 },
+> +	{ CCI_REG16(0x3086), 0x1643 },
+> +	{ CCI_REG16(0x3086), 0x1651 },
+> +	{ CCI_REG16(0x3086), 0x9d3e },
+> +	{ CCI_REG16(0x3086), 0x9545 },
+> +	{ CCI_REG16(0x3086), 0x2209 },
+> +	{ CCI_REG16(0x3086), 0x3781 },
+> +	{ CCI_REG16(0x3086), 0x9016 },
+> +	{ CCI_REG16(0x3086), 0x4316 },
+> +	{ CCI_REG16(0x3086), 0x7f90 },
+> +	{ CCI_REG16(0x3086), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0x387f },
+> +	{ CCI_REG16(0x3086), 0x1380 },
+> +	{ CCI_REG16(0x3086), 0x233b },
+> +	{ CCI_REG16(0x3086), 0x7f93 },
+> +	{ CCI_REG16(0x3086), 0x4502 },
+> +	{ CCI_REG16(0x3086), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0x7fb0 },
+> +	{ CCI_REG16(0x3086), 0x8d66 },
+> +	{ CCI_REG16(0x3086), 0x7f90 },
+> +	{ CCI_REG16(0x3086), 0x8192 },
+> +	{ CCI_REG16(0x3086), 0x3c16 },
+> +	{ CCI_REG16(0x3086), 0x357f },
+> +	{ CCI_REG16(0x3086), 0x9345 },
+> +	{ CCI_REG16(0x3086), 0x0280 },
+> +	{ CCI_REG16(0x3086), 0x007f },
+> +	{ CCI_REG16(0x3086), 0xb08d },
+> +	{ CCI_REG16(0x3086), 0x667f },
+> +	{ CCI_REG16(0x3086), 0x9081 },
+> +	{ CCI_REG16(0x3086), 0x8237 },
+> +	{ CCI_REG16(0x3086), 0x4502 },
+> +	{ CCI_REG16(0x3086), 0x3681 },
+> +	{ CCI_REG16(0x3086), 0x8044 },
+> +	{ CCI_REG16(0x3086), 0x1631 },
+> +	{ CCI_REG16(0x3086), 0x4374 },
+> +	{ CCI_REG16(0x3086), 0x1678 },
+> +	{ CCI_REG16(0x3086), 0x7b7d },
+> +	{ CCI_REG16(0x3086), 0x4502 },
+> +	{ CCI_REG16(0x3086), 0x450a },
+> +	{ CCI_REG16(0x3086), 0x7e12 },
+> +	{ CCI_REG16(0x3086), 0x8180 },
+> +	{ CCI_REG16(0x3086), 0x377f },
+> +	{ CCI_REG16(0x3086), 0x1045 },
+> +	{ CCI_REG16(0x3086), 0x0a0e },
+> +	{ CCI_REG16(0x3086), 0x7fd4 },
+> +	{ CCI_REG16(0x3086), 0x8024 },
+> +	{ CCI_REG16(0x3086), 0x0e82 },
+> +	{ CCI_REG16(0x3086), 0x9cc2 },
+> +	{ CCI_REG16(0x3086), 0xafa8 },
+> +	{ CCI_REG16(0x3086), 0xaa03 },
+> +	{ CCI_REG16(0x3086), 0x430d },
+> +	{ CCI_REG16(0x3086), 0x2d46 },
+> +	{ CCI_REG16(0x3086), 0x4316 },
+> +	{ CCI_REG16(0x3086), 0x5f16 },
+> +	{ CCI_REG16(0x3086), 0x530d },
+> +	{ CCI_REG16(0x3086), 0x1660 },
+> +	{ CCI_REG16(0x3086), 0x401e },
+> +	{ CCI_REG16(0x3086), 0x2904 },
+> +	{ CCI_REG16(0x3086), 0x2984 },
+> +	{ CCI_REG16(0x3086), 0x81e7 },
+> +	{ CCI_REG16(0x3086), 0x816f },
+> +	{ CCI_REG16(0x3086), 0x1706 },
+> +	{ CCI_REG16(0x3086), 0x81e7 },
+> +	{ CCI_REG16(0x3086), 0x7f81 },
+> +	{ CCI_REG16(0x3086), 0x5c0d },
+> +	{ CCI_REG16(0x3086), 0x5754 },
+> +	{ CCI_REG16(0x3086), 0x495f },
+> +	{ CCI_REG16(0x3086), 0x5305 },
+> +	{ CCI_REG16(0x3086), 0x5307 },
+> +	{ CCI_REG16(0x3086), 0x4d2b },
+> +	{ CCI_REG16(0x3086), 0xf810 },
+> +	{ CCI_REG16(0x3086), 0x164c },
+> +	{ CCI_REG16(0x3086), 0x0755 },
+> +	{ CCI_REG16(0x3086), 0x562b },
+> +	{ CCI_REG16(0x3086), 0xb82b },
+> +	{ CCI_REG16(0x3086), 0x984e },
+> +	{ CCI_REG16(0x3086), 0x1129 },
+> +	{ CCI_REG16(0x3086), 0x9460 },
+> +	{ CCI_REG16(0x3086), 0x5c09 },
+> +	{ CCI_REG16(0x3086), 0x5c1b },
+> +	{ CCI_REG16(0x3086), 0x4002 },
+> +	{ CCI_REG16(0x3086), 0x4500 },
+> +	{ CCI_REG16(0x3086), 0x4580 },
+> +	{ CCI_REG16(0x3086), 0x29b6 },
+> +	{ CCI_REG16(0x3086), 0x7f80 },
+> +	{ CCI_REG16(0x3086), 0x4004 },
+> +	{ CCI_REG16(0x3086), 0x7f88 },
+> +	{ CCI_REG16(0x3086), 0x4109 },
+> +	{ CCI_REG16(0x3086), 0x5c0b },
+> +	{ CCI_REG16(0x3086), 0x29b2 },
+> +	{ CCI_REG16(0x3086), 0x4115 },
+> +	{ CCI_REG16(0x3086), 0x5c03 },
+> +	{ CCI_REG16(0x3086), 0x4105 },
+> +	{ CCI_REG16(0x3086), 0x5f2b },
+> +	{ CCI_REG16(0x3086), 0x902b },
+> +	{ CCI_REG16(0x3086), 0x8081 },
+> +	{ CCI_REG16(0x3086), 0x6f40 },
+> +	{ CCI_REG16(0x3086), 0x1041 },
+> +	{ CCI_REG16(0x3086), 0x0160 },
+> +	{ CCI_REG16(0x3086), 0x29a2 },
+> +	{ CCI_REG16(0x3086), 0x29a3 },
+> +	{ CCI_REG16(0x3086), 0x5f4d },
+> +	{ CCI_REG16(0x3086), 0x1c17 },
+> +	{ CCI_REG16(0x3086), 0x0281 },
+> +	{ CCI_REG16(0x3086), 0xe729 },
+> +	{ CCI_REG16(0x3086), 0x8345 },
+> +	{ CCI_REG16(0x3086), 0x8840 },
+> +	{ CCI_REG16(0x3086), 0x0f7f },
+> +	{ CCI_REG16(0x3086), 0x8a40 },
+> +	{ CCI_REG16(0x3086), 0x2345 },
+> +	{ CCI_REG16(0x3086), 0x8024 },
+> +	{ CCI_REG16(0x3086), 0x4008 },
+> +	{ CCI_REG16(0x3086), 0x7f88 },
+> +	{ CCI_REG16(0x3086), 0x5d29 },
+> +	{ CCI_REG16(0x3086), 0x9288 },
+> +	{ CCI_REG16(0x3086), 0x102b },
+> +	{ CCI_REG16(0x3086), 0x0489 },
+> +	{ CCI_REG16(0x3086), 0x165c },
+> +	{ CCI_REG16(0x3086), 0x4386 },
+> +	{ CCI_REG16(0x3086), 0x170b },
+> +	{ CCI_REG16(0x3086), 0x5c03 },
+> +	{ CCI_REG16(0x3086), 0x8a48 },
+> +	{ CCI_REG16(0x3086), 0x4d4e },
+> +	{ CCI_REG16(0x3086), 0x2b80 },
+> +	{ CCI_REG16(0x3086), 0x4c09 },
+> +	{ CCI_REG16(0x3086), 0x4119 },
+> +	{ CCI_REG16(0x3086), 0x816f },
+> +	{ CCI_REG16(0x3086), 0x4110 },
+> +	{ CCI_REG16(0x3086), 0x4001 },
+> +	{ CCI_REG16(0x3086), 0x6029 },
+> +	{ CCI_REG16(0x3086), 0x8229 },
+> +	{ CCI_REG16(0x3086), 0x8329 },
+> +	{ CCI_REG16(0x3086), 0x435c },
+> +	{ CCI_REG16(0x3086), 0x055f },
+> +	{ CCI_REG16(0x3086), 0x4d1c },
+> +	{ CCI_REG16(0x3086), 0x81e7 },
+> +	{ CCI_REG16(0x3086), 0x4502 },
+> +	{ CCI_REG16(0x3086), 0x8180 },
+> +	{ CCI_REG16(0x3086), 0x7f80 },
+> +	{ CCI_REG16(0x3086), 0x410a },
+> +	{ CCI_REG16(0x3086), 0x9144 },
+> +	{ CCI_REG16(0x3086), 0x1609 },
+> +	{ CCI_REG16(0x3086), 0x2fc3 },
+> +	{ CCI_REG16(0x3086), 0xb130 },
+> +	{ CCI_REG16(0x3086), 0xc3b1 },
+> +	{ CCI_REG16(0x3086), 0x0343 },
+> +	{ CCI_REG16(0x3086), 0x164a },
+> +	{ CCI_REG16(0x3086), 0x0a43 },
+> +	{ CCI_REG16(0x3086), 0x160b },
+> +	{ CCI_REG16(0x3086), 0x4316 },
+> +	{ CCI_REG16(0x3086), 0x8f43 },
+> +	{ CCI_REG16(0x3086), 0x1690 },
+> +	{ CCI_REG16(0x3086), 0x4316 },
+> +	{ CCI_REG16(0x3086), 0x7f81 },
+> +	{ CCI_REG16(0x3086), 0x450a },
+> +	{ CCI_REG16(0x3086), 0x410f },
+> +	{ CCI_REG16(0x3086), 0x7f83 },
+> +	{ CCI_REG16(0x3086), 0x5d29 },
+> +	{ CCI_REG16(0x3086), 0x4488 },
+> +	{ CCI_REG16(0x3086), 0x102b },
+> +	{ CCI_REG16(0x3086), 0x0453 },
+> +	{ CCI_REG16(0x3086), 0x0d40 },
+> +	{ CCI_REG16(0x3086), 0x2345 },
+> +	{ CCI_REG16(0x3086), 0x0240 },
+> +	{ CCI_REG16(0x3086), 0x087f },
+> +	{ CCI_REG16(0x3086), 0x8053 },
+> +	{ CCI_REG16(0x3086), 0x0d89 },
+> +	{ CCI_REG16(0x3086), 0x165c },
+> +	{ CCI_REG16(0x3086), 0x4586 },
+> +	{ CCI_REG16(0x3086), 0x170b },
+> +	{ CCI_REG16(0x3086), 0x5c05 },
+> +	{ CCI_REG16(0x3086), 0x8a60 },
+> +	{ CCI_REG16(0x3086), 0x4b91 },
+> +	{ CCI_REG16(0x3086), 0x4416 },
+> +	{ CCI_REG16(0x3086), 0x09c1 },
+> +	{ CCI_REG16(0x3086), 0x2ca9 },
+> +	{ CCI_REG16(0x3086), 0xab30 },
+> +	{ CCI_REG16(0x3086), 0x51b3 },
+> +	{ CCI_REG16(0x3086), 0x3d5a },
+> +	{ CCI_REG16(0x3086), 0x7e3d },
+> +	{ CCI_REG16(0x3086), 0x7e19 },
+> +	{ CCI_REG16(0x3086), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0x8b1f },
+> +	{ CCI_REG16(0x3086), 0x2a1f },
+> +	{ CCI_REG16(0x3086), 0x83a2 },
+> +	{ CCI_REG16(0x3086), 0x7516 },
+> +	{ CCI_REG16(0x3086), 0xad33 },
+> +	{ CCI_REG16(0x3086), 0x450a },
+> +	{ CCI_REG16(0x3086), 0x7f53 },
+> +	{ CCI_REG16(0x3086), 0x8023 },
+> +	{ CCI_REG16(0x3086), 0x8c66 },
+> +	{ CCI_REG16(0x3086), 0x7f13 },
+> +	{ CCI_REG16(0x3086), 0x8184 },
+> +	{ CCI_REG16(0x3086), 0x1481 },
+> +	{ CCI_REG16(0x3086), 0x8031 },
+> +	{ CCI_REG16(0x3086), 0x3d64 },
+> +	{ CCI_REG16(0x3086), 0x452a },
+> +	{ CCI_REG16(0x3086), 0x9451 },
+> +	{ CCI_REG16(0x3086), 0x9e96 },
+> +	{ CCI_REG16(0x3086), 0x3d2b },
+> +	{ CCI_REG16(0x3086), 0x3d1b },
+> +	{ CCI_REG16(0x3086), 0x529f },
+> +	{ CCI_REG16(0x3086), 0x0e3d },
+> +	{ CCI_REG16(0x3086), 0x083d },
+> +	{ CCI_REG16(0x3086), 0x167e },
+> +	{ CCI_REG16(0x3086), 0x307e },
+> +	{ CCI_REG16(0x3086), 0x1175 },
+> +	{ CCI_REG16(0x3086), 0x163e },
+> +	{ CCI_REG16(0x3086), 0x970e },
+> +	{ CCI_REG16(0x3086), 0x82b2 },
+> +	{ CCI_REG16(0x3086), 0x3d7f },
+> +	{ CCI_REG16(0x3086), 0xac3e },
+> +	{ CCI_REG16(0x3086), 0x4502 },
+> +	{ CCI_REG16(0x3086), 0x7e11 },
+> +	{ CCI_REG16(0x3086), 0x7fd0 },
+> +	{ CCI_REG16(0x3086), 0x8000 },
+> +	{ CCI_REG16(0x3086), 0x8c66 },
+> +	{ CCI_REG16(0x3086), 0x7f90 },
+> +	{ CCI_REG16(0x3086), 0x8194 },
+> +	{ CCI_REG16(0x3086), 0x3f44 },
+> +	{ CCI_REG16(0x3086), 0x1681 },
+> +	{ CCI_REG16(0x3086), 0x8416 },
+> +	{ CCI_REG16(0x3086), 0x2c2c },
+> +	{ CCI_REG16(0x3086), 0x2c2c },
+> +	{ CCI_REG16(0x302a), 0x0005 },
+> +	{ CCI_REG16(0x302c), 0x0001 },
+> +	{ CCI_REG16(0x302e), 0x0003 },
+> +	{ CCI_REG16(0x3030), 0x0032 },
+> +	{ CCI_REG16(0x3036), 0x000a },
+> +	{ CCI_REG16(0x3038), 0x0001 },
+> +	{ CCI_REG16(0x30b0), 0x0028 },
+> +	{ CCI_REG16(0x31b0), 0x0082 },
+> +	{ CCI_REG16(0x31b2), 0x005c },
+> +	{ CCI_REG16(0x31b4), 0x5248 },
+> +	{ CCI_REG16(0x31b6), 0x3257 },
+> +	{ CCI_REG16(0x31b8), 0x904b },
+> +	{ CCI_REG16(0x31ba), 0x030b },
+> +	{ CCI_REG16(0x31bc), 0x8e09 },
+> +	{ CCI_REG16(0x3354), 0x002b },
+> +	{ CCI_REG16(0x31d0), 0x0000 },
+> +	{ CCI_REG16(0x31ae), 0x0204 },
+> +	{ CCI_REG16(0x3002), 0x00d0 },
+> +	{ CCI_REG16(0x3004), 0x0148 },
+> +	{ CCI_REG16(0x3006), 0x048f },
+> +	{ CCI_REG16(0x3008), 0x0647 },
+> +	{ CCI_REG16(0x3064), 0x1802 },
+> +	{ CCI_REG16(0x300a), 0x04c4 },
+> +	{ CCI_REG16(0x300c), 0x04c4 },
+> +	{ CCI_REG16(0x30a2), 0x0001 },
+> +	{ CCI_REG16(0x30a6), 0x0001 },
+> +	{ CCI_REG16(0x3012), 0x010c },
+> +	{ CCI_REG16(0x3786), 0x0006 },
+> +	{ CCI_REG16(0x31ae), 0x0202 },
+> +	{ CCI_REG16(0x3088), 0x8050 },
+> +	{ CCI_REG16(0x3086), 0x9237 },
+> +	{ CCI_REG16(0x3044), 0x0410 },
+> +	{ CCI_REG16(0x3094), 0x03d4 },
+> +	{ CCI_REG16(0x3096), 0x0280 },
+> +	{ CCI_REG16(0x30ba), 0x7606 },
+> +	{ CCI_REG16(0x30b0), 0x0028 },
+> +	{ CCI_REG16(0x30ba), 0x7600 },
+> +	{ CCI_REG16(0x30fe), 0x002a },
+> +	{ CCI_REG16(0x31de), 0x0410 },
+> +	{ CCI_REG16(0x3ed6), 0x1435 },
+> +	{ CCI_REG16(0x3ed8), 0x9865 },
+> +	{ CCI_REG16(0x3eda), 0x7698 },
+> +	{ CCI_REG16(0x3edc), 0x99ff },
+> +	{ CCI_REG16(0x3ee2), 0xbb88 },
+> +	{ CCI_REG16(0x3ee4), 0x8836 },
+> +	{ CCI_REG16(0x3ef0), 0x1cf0 },
+> +	{ CCI_REG16(0x3ef2), 0x0000 },
+> +	{ CCI_REG16(0x3ef8), 0x6166 },
+> +	{ CCI_REG16(0x3efa), 0x3333 },
+> +	{ CCI_REG16(0x3efc), 0x6634 },
+> +	{ CCI_REG16(0x3088), 0x81ba },
+> +	{ CCI_REG16(0x3086), 0x3d02 },
+> +	{ CCI_REG16(0x3276), 0x05dc },
+> +	{ CCI_REG16(0x3f00), 0x9d05 },
+> +	{ CCI_REG16(0x3ed2), 0xfa86 },
+> +	{ CCI_REG16(0x3eee), 0xa4fe },
+> +	{ CCI_REG16(0x3ecc), 0x6e42 },
+> +	{ CCI_REG16(0x3ecc), 0x0e42 },
+> +	{ CCI_REG16(0x3eec), 0x0c0c },
+> +	{ CCI_REG16(0x3ee8), 0xaae4 },
+> +	{ CCI_REG16(0x3ee6), 0x3363 },
+> +	{ CCI_REG16(0x3ee6), 0x3363 },
+> +	{ CCI_REG16(0x3ee8), 0xaae4 },
+> +	{ CCI_REG16(0x3ee8), 0xaae4 },
+> +	{ CCI_REG16(0x3180), 0xc24f },
+> +	{ CCI_REG16(0x3102), 0x5000 },
+> +	{ CCI_REG16(0x3060), 0x000d },
+> +	{ CCI_REG16(0x3ed0), 0xff44 },
+> +	{ CCI_REG16(0x3ed2), 0xaa86 },
+> +	{ CCI_REG16(0x3ed4), 0x031f },
+> +	{ CCI_REG16(0x3eee), 0xa4aa },
+> +};
+> +
+> +#define AR0234_LINK_FREQ_360MHZ		360000000ULL
+> +
+> +static const s64 link_freq_menu_items[] = {
+> +	AR0234_LINK_FREQ_360MHZ
 
-There should be a space inside { }'s on both sides. I wouldn't add these
-comments, they are not useful other than telling how bad is the
-documentation is. :-(
+I think you could just put the value here instead of using a macro.
 
->  };
->  
-> -static const struct imx335_reg raw10_framefmt_regs[] = {
-> -	{0x3050, 0x00},
-> -	{0x319d, 0x00},
-> -	{0x341c, 0xff},
-> -	{0x341d, 0x01},
-> +static const struct cci_reg_sequence raw10_framefmt_regs[] = {
-> +	{IMX335_REG_ADBIT, 0x00},
-> +	{IMX335_REG_MDBIT, 0x00},
-> +	{IMX335_REG_ADBIT1, 0x1ff},
->  };
->  
-> -static const struct imx335_reg raw12_framefmt_regs[] = {
-> -	{0x3050, 0x01},
-> -	{0x319d, 0x01},
-> -	{0x341c, 0x47},
-> -	{0x341d, 0x00},
-> +static const struct cci_reg_sequence raw12_framefmt_regs[] = {
-> +	{IMX335_REG_ADBIT, 0x01},
-> +	{IMX335_REG_MDBIT, 0x01},
-> +	{IMX335_REG_ADBIT1, 0x47},
->  };
->  
-> -static const struct imx335_reg mipi_data_rate_1188Mbps[] = {
-> -	{0x300c, 0x3b},
-> -	{0x300d, 0x2a},
-> -	{0x314c, 0xc6},
-> -	{0x314d, 0x00},
-> -	{0x315a, 0x02},
-> -	{0x3168, 0xa0},
-> -	{0x316a, 0x7e},
-> -	{0x319e, 0x01},
-> -	{0x3a18, 0x8f},
-> -	{0x3a1a, 0x4f},
-> -	{0x3a1c, 0x47},
-> -	{0x3a1e, 0x37},
-> -	{0x3a1f, 0x01},
-> -	{0x3a20, 0x4f},
-> -	{0x3a22, 0x87},
-> -	{0x3a24, 0x4f},
-> -	{0x3a26, 0x7f},
-> -	{0x3a28, 0x3f},
-> +static const struct cci_reg_sequence mipi_data_rate_1188Mbps[] = {
-> +	{IMX335_REG_BCWAIT_TIME, 0x3b},
-> +	{IMX335_REG_CPWAIT_TIME, 0x2a},
-> +	{IMX335_REG_INCLKSEL1, 0x00c6},
-> +	{IMX335_REG_INCLKSEL2, 0x02},
-> +	{IMX335_REG_INCLKSEL3, 0xa0},
-> +	{IMX335_REG_INCLKSEL4, 0x7e},
-> +	{IMX335_REG_SYSMODE, 0x01},
-> +	{IMX335_REG_TCLKPOST, 0x8f},
-> +	{IMX335_REG_TCLKPREPARE, 0x4f},
-> +	{IMX335_REG_TCLK_TRAIL, 0x47},
-> +	{IMX335_REG_TCLK_ZERO, 0x0137},
-> +	{IMX335_REG_THS_PREPARE, 0x4f},
-> +	{IMX335_REG_THS_ZERO,  0x87},
-> +	{IMX335_REG_THS_TRAIL, 0x4f},
-> +	{IMX335_REG_THS_EXIT, 0x7f},
-> +	{IMX335_REG_TPLX, 0x3f},
->  };
->  
-> -static const struct imx335_reg mipi_data_rate_891Mbps[] = {
-> -	{0x300c, 0x3b},
-> -	{0x300d, 0x2a},
-> -	{0x314c, 0x29},
-> -	{0x314d, 0x01},
-> -	{0x315a, 0x06},
-> -	{0x3168, 0xa0},
-> -	{0x316a, 0x7e},
-> -	{0x319e, 0x02},
-> -	{0x3a18, 0x7f},
-> -	{0x3a1a, 0x37},
-> -	{0x3a1c, 0x37},
-> -	{0x3a1e, 0xf7},
-> -	{0x3a20, 0x3f},
-> -	{0x3a22, 0x6f},
-> -	{0x3a24, 0x3f},
-> -	{0x3a26, 0x5f},
-> -	{0x3a28, 0x2f},
-> +static const struct cci_reg_sequence mipi_data_rate_891Mbps[] = {
-> +	{IMX335_REG_BCWAIT_TIME, 0x3b},
-> +	{IMX335_REG_CPWAIT_TIME, 0x2a},
-> +	{IMX335_REG_INCLKSEL1, 0x0129},
-> +	{IMX335_REG_INCLKSEL2, 0x06},
-> +	{IMX335_REG_INCLKSEL3, 0xa0},
-> +	{IMX335_REG_INCLKSEL4, 0x7e},
-> +	{IMX335_REG_SYSMODE, 0x02},
-> +	{IMX335_REG_TCLKPOST, 0x7f},
-> +	{IMX335_REG_TCLKPREPARE, 0x37},
-> +	{IMX335_REG_TCLK_TRAIL, 0x37},
-> +	{IMX335_REG_TCLK_ZERO, 0xf7},
-> +	{IMX335_REG_THS_PREPARE, 0x3f},
-> +	{IMX335_REG_THS_ZERO, 0x6f},
-> +	{IMX335_REG_THS_TRAIL, 0x3f},
-> +	{IMX335_REG_THS_EXIT, 0x5f},
-> +	{IMX335_REG_TPLX, 0x2f},
->  };
->  
->  static const s64 link_freq[] = {
-> @@ -402,101 +427,6 @@ static inline struct imx335 *to_imx335(struct v4l2_subdev *subdev)
->  	return container_of(subdev, struct imx335, sd);
->  }
->  
-> -/**
-> - * imx335_read_reg() - Read registers.
-> - * @imx335: pointer to imx335 device
-> - * @reg: register address
-> - * @len: length of bytes to read. Max supported bytes is 4
-> - * @val: pointer to register value to be filled.
-> - *
-> - * Big endian register addresses with little endian values.
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
-> -static int imx335_read_reg(struct imx335 *imx335, u16 reg, u32 len, u32 *val)
-> -{
-> -	struct i2c_client *client = v4l2_get_subdevdata(&imx335->sd);
-> -	struct i2c_msg msgs[2] = {0};
-> -	u8 addr_buf[2] = {0};
-> -	u8 data_buf[4] = {0};
-> -	int ret;
-> -
-> -	if (WARN_ON(len > 4))
-> -		return -EINVAL;
-> -
-> -	put_unaligned_be16(reg, addr_buf);
-> -
-> -	/* Write register address */
-> -	msgs[0].addr = client->addr;
-> -	msgs[0].flags = 0;
-> -	msgs[0].len = ARRAY_SIZE(addr_buf);
-> -	msgs[0].buf = addr_buf;
-> -
-> -	/* Read data from register */
-> -	msgs[1].addr = client->addr;
-> -	msgs[1].flags = I2C_M_RD;
-> -	msgs[1].len = len;
-> -	msgs[1].buf = data_buf;
-> -
-> -	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> -	if (ret != ARRAY_SIZE(msgs))
-> -		return -EIO;
-> -
-> -	*val = get_unaligned_le32(data_buf);
-> -
-> -	return 0;
-> -}
-> -
-> -/**
-> - * imx335_write_reg() - Write register
-> - * @imx335: pointer to imx335 device
-> - * @reg: register address
-> - * @len: length of bytes. Max supported bytes is 4
-> - * @val: register value
-> - *
-> - * Big endian register addresses with little endian values.
-> - *
-> - * Return: 0 if successful, error code otherwise.
-> - */
-> -static int imx335_write_reg(struct imx335 *imx335, u16 reg, u32 len, u32 val)
-> -{
-> -	struct i2c_client *client = v4l2_get_subdevdata(&imx335->sd);
-> -	u8 buf[6] = {0};
-> -
-> -	if (WARN_ON(len > 4))
-> -		return -EINVAL;
-> -
-> -	put_unaligned_be16(reg, buf);
-> -	put_unaligned_le32(val, buf + 2);
-> -	if (i2c_master_send(client, buf, len + 2) != len + 2)
-> -		return -EIO;
-> -
-> -	return 0;
-> -}
-> -
-> -/**
-> - * imx335_write_regs() - Write a list of registers
-> - * @imx335: pointer to imx335 device
-> - * @regs: list of registers to be written
-> - * @len: length of registers array
-> - *
-> - * Return: 0 if successful. error code otherwise.
-> - */
-> -static int imx335_write_regs(struct imx335 *imx335,
-> -			     const struct imx335_reg *regs, u32 len)
-> -{
-> -	unsigned int i;
-> -	int ret;
-> -
-> -	for (i = 0; i < len; i++) {
-> -		ret = imx335_write_reg(imx335, regs[i].address, 1, regs[i].val);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  /**
->   * imx335_update_controls() - Update control ranges based on streaming mode
->   * @imx335: pointer to imx335 device
-> @@ -533,7 +463,8 @@ static int imx335_update_controls(struct imx335 *imx335,
->  static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
->  {
->  	u32 lpfr, shutter;
-> -	int ret;
-> +	int ret_hold;
-> +	int ret = 0;
->  
->  	lpfr = imx335->vblank + imx335->cur_mode->height;
->  	shutter = lpfr - exposure;
-> @@ -541,64 +472,55 @@ static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
->  	dev_dbg(imx335->dev, "Set exp %u, analog gain %u, shutter %u, lpfr %u\n",
->  		exposure, gain, shutter, lpfr);
->  
-> -	ret = imx335_write_reg(imx335, IMX335_REG_HOLD, 1, 1);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = imx335_write_reg(imx335, IMX335_REG_LPFR, 3, lpfr);
-> -	if (ret)
-> -		goto error_release_group_hold;
-> -
-> -	ret = imx335_write_reg(imx335, IMX335_REG_SHUTTER, 3, shutter);
-> -	if (ret)
-> -		goto error_release_group_hold;
-> -
-> -	ret = imx335_write_reg(imx335, IMX335_REG_AGAIN, 2, gain);
-> -
-> -error_release_group_hold:
-> -	imx335_write_reg(imx335, IMX335_REG_HOLD, 1, 0);
-> +	cci_write(imx335->cci, IMX335_REG_HOLD, 1, &ret);
-> +	cci_write(imx335->cci, IMX335_REG_VMAX, lpfr, &ret);
-> +	cci_write(imx335->cci, IMX335_REG_SHUTTER, shutter, &ret);
-> +	cci_write(imx335->cci, IMX335_REG_AGAIN, gain, &ret);
-> +	/*
-> +	 * Unconditionally attempt to release the hold, but track the
-> +	 * error if the unhold itself fails.
-> +	 */
-> +	ret_hold = cci_write(imx335->cci, IMX335_REG_HOLD, 0, NULL);
-> +	if (ret_hold)
-> +		ret = ret_hold;
->  
->  	return ret;
->  }
->  
->  static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern_index)
->  {
-> -	int ret;
-> +	int ret = 0;
->  
->  	if (pattern_index >= ARRAY_SIZE(imx335_tpg_val))
->  		return -EINVAL;
->  
->  	if (pattern_index) {
-> -		const struct imx335_reg tpg_enable_regs[] = {
-> -			{ 0x3148, 0x10 },
-> -			{ 0x3280, 0x00 },
-> -			{ 0x329c, 0x01 },
-> -			{ 0x32a0, 0x11 },
-> -			{ 0x3302, 0x00 },
-> -			{ 0x3303, 0x00 },
-> -			{ 0x336c, 0x00 },
-> +		const struct cci_reg_sequence tpg_enable_regs[] = {
-> +			{IMX335_REG_TPG_TESTCLKEN, 0x10},
-> +			{IMX335_REG_TPG_DIG_CLP_MODE, 0x00},
-> +			{IMX335_REG_TPG_EN_DUOUT, 0x01},
-> +			{IMX335_REG_TPG_COLORWIDTH, 0x11},
-> +			{IMX335_REG_TPG_BLKLEVEL, 0x00},
-> +			{IMX335_REG_TPG_WRJ_OPEN, 0x00},
->  		};
->  
-> -		ret = imx335_write_reg(imx335, IMX335_REG_TPG, 1,
-> -				       imx335_tpg_val[pattern_index]);
-> -		if (ret)
-> -			return ret;
-> +		cci_write(imx335->cci, IMX335_REG_TPG,
-> +			  imx335_tpg_val[pattern_index], &ret);
->  
-> -		ret = imx335_write_regs(imx335, tpg_enable_regs,
-> -					ARRAY_SIZE(tpg_enable_regs));
-> +		cci_multi_reg_write(imx335->cci, tpg_enable_regs,
-> +				    ARRAY_SIZE(tpg_enable_regs), &ret);
->  	} else {
-> -		const struct imx335_reg tpg_disable_regs[] = {
-> -			{ 0x3148, 0x00 },
-> -			{ 0x3280, 0x01 },
-> -			{ 0x329c, 0x00 },
-> -			{ 0x32a0, 0x10 },
-> -			{ 0x3302, 0x32 },
-> -			{ 0x3303, 0x00 },
-> -			{ 0x336c, 0x01 },
-> +		const struct cci_reg_sequence tpg_disable_regs[] = {
-> +			{IMX335_REG_TPG_TESTCLKEN, 0x00},
-> +			{IMX335_REG_TPG_DIG_CLP_MODE, 0x01},
-> +			{IMX335_REG_TPG_EN_DUOUT, 0x00},
-> +			{IMX335_REG_TPG_COLORWIDTH, 0x10},
-> +			{IMX335_REG_TPG_BLKLEVEL, 0x32},
-> +			{IMX335_REG_TPG_WRJ_OPEN, 0x01},
->  		};
->  
-> -		ret = imx335_write_regs(imx335, tpg_disable_regs,
-> -					ARRAY_SIZE(tpg_disable_regs));
-> +		cci_multi_reg_write(imx335->cci, tpg_disable_regs,
-> +				    ARRAY_SIZE(tpg_disable_regs), &ret);
->  	}
->  
->  	return ret;
-> @@ -897,12 +819,14 @@ static int imx335_set_framefmt(struct imx335 *imx335)
->  {
->  	switch (imx335->cur_mbus_code) {
->  	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> -		return imx335_write_regs(imx335, raw10_framefmt_regs,
-> -					 ARRAY_SIZE(raw10_framefmt_regs));
-> +		return cci_multi_reg_write(imx335->cci, raw10_framefmt_regs,
-> +					   ARRAY_SIZE(raw10_framefmt_regs),
-> +					   NULL);
->  
->  	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> -		return imx335_write_regs(imx335, raw12_framefmt_regs,
-> -					 ARRAY_SIZE(raw12_framefmt_regs));
-> +		return cci_multi_reg_write(imx335->cci, raw12_framefmt_regs,
-> +					   ARRAY_SIZE(raw12_framefmt_regs),
-> +					   NULL);
->  	}
->  
->  	return -EINVAL;
-> @@ -921,7 +845,8 @@ static int imx335_start_streaming(struct imx335 *imx335)
->  
->  	/* Setup PLL */
->  	reg_list = &link_freq_reglist[__ffs(imx335->link_freq_bitmap)];
-> -	ret = imx335_write_regs(imx335, reg_list->regs, reg_list->num_of_regs);
-> +	ret = cci_multi_reg_write(imx335->cci, reg_list->regs,
-> +				  reg_list->num_of_regs, NULL);
->  	if (ret) {
->  		dev_err(imx335->dev, "%s failed to set plls\n", __func__);
->  		return ret;
-> @@ -929,8 +854,8 @@ static int imx335_start_streaming(struct imx335 *imx335)
->  
->  	/* Write sensor mode registers */
->  	reg_list = &imx335->cur_mode->reg_list;
-> -	ret = imx335_write_regs(imx335, reg_list->regs,
-> -				reg_list->num_of_regs);
-> +	ret = cci_multi_reg_write(imx335->cci, reg_list->regs,
-> +				  reg_list->num_of_regs, NULL);
->  	if (ret) {
->  		dev_err(imx335->dev, "fail to write initial registers\n");
->  		return ret;
-> @@ -944,7 +869,8 @@ static int imx335_start_streaming(struct imx335 *imx335)
->  	}
->  
->  	/* Configure lanes */
-> -	ret = imx335_write_reg(imx335, IMX335_LANEMODE, 1, imx335->lane_mode);
-> +	ret = cci_write(imx335->cci, IMX335_REG_LANEMODE,
-> +			imx335->lane_mode, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -956,8 +882,8 @@ static int imx335_start_streaming(struct imx335 *imx335)
->  	}
->  
->  	/* Start streaming */
-> -	ret = imx335_write_reg(imx335, IMX335_REG_MODE_SELECT,
-> -			       1, IMX335_MODE_STREAMING);
-> +	ret = cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-> +			IMX335_MODE_STREAMING, NULL);
->  	if (ret) {
->  		dev_err(imx335->dev, "fail to start streaming\n");
->  		return ret;
-> @@ -977,8 +903,8 @@ static int imx335_start_streaming(struct imx335 *imx335)
->   */
->  static int imx335_stop_streaming(struct imx335 *imx335)
->  {
-> -	return imx335_write_reg(imx335, IMX335_REG_MODE_SELECT,
-> -				1, IMX335_MODE_STANDBY);
-> +	return cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-> +			 IMX335_MODE_STANDBY, NULL);
->  }
->  
->  /**
-> @@ -1029,14 +955,14 @@ static int imx335_set_stream(struct v4l2_subdev *sd, int enable)
->  static int imx335_detect(struct imx335 *imx335)
->  {
->  	int ret;
-> -	u32 val;
-> +	u64 val;
->  
-> -	ret = imx335_read_reg(imx335, IMX335_REG_ID, 2, &val);
-> +	ret = cci_read(imx335->cci, IMX335_REG_ID, &val, NULL);
->  	if (ret)
->  		return ret;
->  
->  	if (val != IMX335_ID) {
-> -		dev_err(imx335->dev, "chip id mismatch: %x!=%x\n",
-> +		dev_err(imx335->dev, "chip id mismatch: %x!=%llx\n",
->  			IMX335_ID, val);
->  		return -ENXIO;
->  	}
-> @@ -1337,6 +1263,11 @@ static int imx335_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	imx335->dev = &client->dev;
-> +	imx335->cci = devm_cci_regmap_init_i2c(client, 16);
-> +	if (IS_ERR(imx335->cci)) {
-> +		dev_err(imx335->dev, "Unable to initialize I2C\n");
-> +		return -ENODEV;
+> +};
+> +
+> +static const struct ar0234_link_freq_config link_freq_configs[] = {
+> +	{
+> +		.reg_list = {
+> +			.num_of_regs =
+> +				ARRAY_SIZE(link_freq_360M_1280x960_10bit_2lane),
+> +			.regs = link_freq_360M_1280x960_10bit_2lane,
+> +		}
+> +	},
+> +};
+> +
+> +static const struct ar0234_mode supported_modes[] = {
+> +	{
+> +		.width = AR0234_NATIVE_WIDTH,
+> +		.height = AR0234_NATIVE_HEIGHT,
+> +		.vts_def = 2435,
+> +		.vts_min = 2435,
+> +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_1280x960_10bit_2lane),
+> +			.regs = mode_1280x960_10bit_2lane,
+> +		},
+> +		.link_freq_index = 0,
+> +		.hblank = 3600,
+> +		.vblank = 1475,
+> +	},
+> +};
+> +
+> +struct ar0234 {
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +
+> +	/* V4L2 Controls */
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *exposure;
+> +	struct v4l2_ctrl *analogue_gain;
+> +	struct v4l2_ctrl *digital_gain;
+> +	struct v4l2_ctrl *pixel_rate;
+> +	struct v4l2_ctrl *hblank;
+> +	struct v4l2_ctrl *vblank;
+> +
+> +	struct regmap *regmap;
+> +	unsigned long link_freq_bitmap;
+> +	const struct ar0234_mode *cur_mode;
+> +};
+> +
+> +static int ar0234_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct ar0234 *ar0234 =
+> +		container_of(ctrl->handler, struct ar0234, ctrl_handler);
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
+> +	s64 exposure_max, exposure_def;
+> +	int ret;
+
+ret would be nice to declare as last.
+
+> +	struct v4l2_subdev_state *state;
+> +	const struct v4l2_mbus_framefmt *format;
+> +
+> +	state = v4l2_subdev_get_locked_active_state(&ar0234->sd);
+> +	format = v4l2_subdev_state_get_format(state, 0);
+> +
+> +	/* Propagate change of current control to all related controls */
+> +	if (ctrl->id == V4L2_CID_VBLANK) {
+> +		/* Update max exposure while meeting expected vblanking */
+> +		exposure_max = format->height + ctrl->val -
+> +			       AR0234_EXPOSURE_MAX_MARGIN;
+> +		exposure_def = format->height - AR0234_EXPOSURE_MAX_MARGIN;
+> +		__v4l2_ctrl_modify_range(ar0234->exposure,
+> +					 ar0234->exposure->minimum,
+> +					 exposure_max,
+> +					 ar0234->exposure->step,
+
+Fits on the previous line.
+
+> +					 exposure_def);
 > +	}
->  
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&imx335->sd, client, &imx335_subdev_ops);
+> +
+> +	/* V4L2 controls values will be applied only when power is already up */
+> +	if (!pm_runtime_get_if_in_use(&client->dev))
+> +		return 0;
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		ret = cci_write(ar0234->regmap, AR0234_REG_ANALOG_GAIN,
+> +				ctrl->val, NULL);
+> +		break;
+> +
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		ret = cci_write(ar0234->regmap, AR0234_REG_GLOBAL_GAIN,
+> +				ctrl->val, NULL);
+> +		break;
+> +
+> +	case V4L2_CID_EXPOSURE:
+> +		ret = cci_write(ar0234->regmap, AR0234_REG_EXPOSURE,
+> +				ctrl->val, NULL);
+> +		break;
+> +
+> +	case V4L2_CID_VBLANK:
+> +		ret = cci_write(ar0234->regmap, AR0234_REG_VTS,
+> +				ar0234->cur_mode->height + ctrl->val, NULL);
+> +		break;
+> +
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops ar0234_ctrl_ops = {
+> +	.s_ctrl = ar0234_set_ctrl,
+> +};
+> +
+> +static int ar0234_init_controls(struct ar0234 *ar0234)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
+> +	struct v4l2_fwnode_device_properties props;
+> +	struct v4l2_ctrl_handler *ctrl_hdlr;
+> +	s64 exposure_max, vblank, hblank;
+> +	u32 link_freq_size;
+> +	int ret;
+> +
+> +	ctrl_hdlr = &ar0234->ctrl_handler;
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> +	if (ret)
+> +		return ret;
+> +
+> +	link_freq_size = ARRAY_SIZE(link_freq_menu_items) - 1;
+> +	ar0234->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+> +						   &ar0234_ctrl_ops,
+> +						   V4L2_CID_LINK_FREQ,
+> +						   link_freq_size, 0,
+> +						   link_freq_menu_items);
+> +	if (ar0234->link_freq)
+> +		ar0234->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> +			  AR0234_ANAL_GAIN_MIN, AR0234_ANAL_GAIN_MAX,
+> +			  AR0234_ANAL_GAIN_STEP, AR0234_ANAL_GAIN_DEFAULT);
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+> +			  AR0234_DGTL_GAIN_MIN, AR0234_DGTL_GAIN_MAX,
+> +			  AR0234_DGTL_GAIN_STEP, AR0234_DGTL_GAIN_DEFAULT);
+> +
+> +	exposure_max = ar0234->cur_mode->vts_def - AR0234_EXPOSURE_MAX_MARGIN;
+> +	ar0234->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops,
+> +					     V4L2_CID_EXPOSURE,
+> +					     AR0234_EXPOSURE_MIN, exposure_max,
+> +					     AR0234_EXPOSURE_STEP,
+> +					     exposure_max);
+> +
+> +	ar0234->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops,
+> +					       V4L2_CID_PIXEL_RATE,
+> +					       PIXEL_RATE,
+> +					       PIXEL_RATE, 1,
+> +					       PIXEL_RATE);
+> +	if (ar0234->pixel_rate)
+> +		ar0234->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	vblank = AR0234_VTS_MAX - ar0234->cur_mode->height;
+> +	ar0234->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops,
+> +					   V4L2_CID_VBLANK, 0, vblank, 1,
+> +					   ar0234->cur_mode->vblank);
+> +	hblank = ar0234->cur_mode->hblank;
+> +	ar0234->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ar0234_ctrl_ops,
+> +					   V4L2_CID_HBLANK, hblank, hblank, 1,
+> +					   hblank);
+> +	if (ar0234->hblank)
+> +		ar0234->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	if (ctrl_hdlr->error)
+> +		return ctrl_hdlr->error;
+> +
+> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ar0234_ctrl_ops,
+> +					      &props);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ar0234->sd.ctrl_handler = ctrl_hdlr;
+> +
+> +	return 0;
+> +}
+> +
+> +static void ar0234_update_pad_format(const struct ar0234_mode *mode,
+> +				     struct v4l2_mbus_framefmt *fmt)
+> +{
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->code = mode->code;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +}
+> +
+> +static int ar0234_start_streaming(struct ar0234 *ar0234)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
+> +	const struct ar0234_reg_list *reg_list;
+> +	int link_freq_index, ret;
+> +
+> +	ret = pm_runtime_resume_and_get(&client->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/*
+> +	 * Setting 0X301A.bit[0] will initiate a reset sequence:
+> +	 * the frame being generated will be truncated.
+> +	 */
+> +	ret = cci_write(ar0234->regmap, AR0234_REG_MODE_SELECT,
+> +			AR0234_MODE_RESET, NULL);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to reset");
+> +		goto err_rpm_put;
+> +	}
+> +
+> +	usleep_range(1000, 1500);
+> +
+> +	reg_list = &ar0234->cur_mode->reg_list;
+> +	ret = cci_multi_reg_write(ar0234->regmap, reg_list->regs,
+> +				  reg_list->num_of_regs, NULL);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to set mode");
+> +		goto err_rpm_put;
+> +	}
+> +
+> +	link_freq_index = ar0234->cur_mode->link_freq_index;
+> +	if (link_freq_index > 0) {
+> +		reg_list = &link_freq_configs[link_freq_index].reg_list;
+> +		ret = cci_multi_reg_write(ar0234->regmap, reg_list->regs,
+> +					  reg_list->num_of_regs, NULL);
+> +		if (ret) {
+> +			dev_err(&client->dev, "failed to set plls");
+> +			goto err_rpm_put;
+> +		}
+> +	}
+> +
+> +	ret = __v4l2_ctrl_handler_setup(ar0234->sd.ctrl_handler);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	ret = cci_write(ar0234->regmap, AR0234_REG_MODE_SELECT,
+> +			AR0234_MODE_STREAMING, NULL);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to start stream");
+> +		goto err_rpm_put;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_rpm_put:
+> +	pm_runtime_put(&client->dev);
+> +	return ret;
+> +}
+> +
+> +static int ar0234_stop_streaming(struct ar0234 *ar0234)
+> +{
+> +	int ret;
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
+> +
+> +	ret = cci_write(ar0234->regmap, AR0234_REG_MODE_SELECT,
+> +			AR0234_MODE_STANDBY, NULL);
+> +	if (ret < 0)
+> +		dev_err(&client->dev, "failed to stop stream");
+> +
+> +	pm_runtime_put(&client->dev);
+> +	return ret;
+> +}
+> +
+> +static int ar0234_set_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct ar0234 *ar0234 = to_ar0234(sd);
+> +	struct v4l2_subdev_state *state;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	if (enable)
+> +		ret = ar0234_start_streaming(ar0234);
+> +	else
+> +		ret = ar0234_stop_streaming(ar0234);
+
+Note that s_stream() is superseded by {enable,disable}_streams() soon. But
+please keep this for now.
+
+> +
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ar0234_set_format(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *sd_state,
+> +			     struct v4l2_subdev_format *fmt)
+> +{
+> +	struct ar0234 *ar0234 = to_ar0234(sd);
+> +	struct v4l2_rect *crop;
+> +	const struct ar0234_mode *mode;
+> +	s64 hblank;
+> +
+> +	mode = v4l2_find_nearest_size(supported_modes,
+> +				      ARRAY_SIZE(supported_modes),
+> +				      width, height,
+> +				      fmt->format.width,
+> +				      fmt->format.height);
+> +
+> +	crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
+> +	crop->width = mode->width;
+> +	crop->height = mode->height;
+> +
+> +	ar0234_update_pad_format(mode, &fmt->format);
+> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return 0;
+> +
+> +	ar0234->cur_mode = mode;
+> +	__v4l2_ctrl_s_ctrl(ar0234->link_freq, mode->link_freq_index);
+> +
+> +	hblank = ar0234->cur_mode->hblank;
+> +	__v4l2_ctrl_modify_range(ar0234->hblank, hblank, hblank,
+> +				 1, hblank);
+> +
+> +	/* Update limits and set FPS to default */
+> +	__v4l2_ctrl_modify_range(ar0234->vblank, 0,
+> +				 AR0234_VTS_MAX - mode->height, 1,
+> +				 ar0234->cur_mode->vblank);
+> +	__v4l2_ctrl_s_ctrl(ar0234->vblank, ar0234->cur_mode->vblank);
+
+All the above four calls can fail, you're missing error handling.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int ar0234_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ar0234_enum_frame_size(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +		return -EINVAL;
+> +
+> +	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = supported_modes[fse->index].width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = supported_modes[fse->index].height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ar0234_get_selection(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_selection *sel)
+> +{
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +	case V4L2_SEL_TGT_CROP:
+> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> +		break;
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r.top = 0;
+> +		sel->r.left = 0;
+> +		sel->r.width = AR0234_NATIVE_WIDTH;
+> +		sel->r.height = AR0234_NATIVE_HEIGHT;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ar0234_init_state(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *sd_state)
+> +{
+> +	struct v4l2_subdev_format fmt = {
+> +		.which = V4L2_SUBDEV_FORMAT_TRY,
+> +		.pad = 0,
+> +		.format = {
+> +			.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			.width = AR0234_NATIVE_WIDTH,
+> +			.height = AR0234_NATIVE_HEIGHT,
+> +		},
+> +	};
+> +
+> +	ar0234_set_format(sd, sd_state, &fmt);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops ar0234_video_ops = {
+> +	.s_stream = ar0234_set_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops ar0234_pad_ops = {
+> +	.set_fmt = ar0234_set_format,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.enum_mbus_code = ar0234_enum_mbus_code,
+> +	.enum_frame_size = ar0234_enum_frame_size,
+> +	.get_selection = ar0234_get_selection,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops ar0234_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops ar0234_subdev_ops = {
+> +	.core = &ar0234_core_ops,
+> +	.video = &ar0234_video_ops,
+> +	.pad = &ar0234_pad_ops,
+> +};
+> +
+> +static const struct media_entity_operations ar0234_subdev_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ar0234_internal_ops = {
+> +	.init_state = ar0234_init_state,
+> +};
+> +
+> +static int ar0234_parse_fwnode(struct ar0234 *ar0234, struct device *dev)
+> +{
+> +	struct fwnode_handle *endpoint;
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	int ret;
+> +
+> +	endpoint =
+> +		fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
+> +						FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!endpoint) {
+> +		dev_err(dev, "endpoint node not found\n");
+> +		return -EPROBE_DEFER;
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
+> +	if (ret) {
+> +		dev_err(dev, "parsing endpoint node failed\n");
+> +		goto out_err;
+> +	}
+> +
+> +	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_freq_menu_items,
+> +				       ARRAY_SIZE(link_freq_menu_items),
+> +				       &ar0234->link_freq_bitmap);
+> +
+> +	return ret;
+
+This seems to be a bug, you'll miss putting the endpoint and releasing the
+memory if you return here.
+
+> +
+> +out_err:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +	fwnode_handle_put(endpoint);
+> +	return ret;
+> +}
+> +
+> +static int ar0234_identify_module(struct ar0234 *ar0234)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ar0234->sd);
+> +	int ret;
+> +	u64 val;
+> +
+> +	ret = cci_read(ar0234->regmap, AR0234_REG_CHIP_ID, &val, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != AR0234_CHIP_ID) {
+> +		dev_err(&client->dev, "chip id mismatch: %x!=%llx",
+> +			AR0234_CHIP_ID, val);
+> +		return -ENXIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void ar0234_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ar0234 *ar0234 = to_ar0234(sd);
+> +
+> +	v4l2_async_unregister_subdev(&ar0234->sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&ar0234->sd.entity);
+> +	v4l2_ctrl_handler_free(&ar0234->ctrl_handler);
+> +	pm_runtime_disable(&client->dev);
+> +	pm_runtime_set_suspended(&client->dev);
+> +}
+> +
+> +static int ar0234_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct ar0234 *ar0234;
+> +	int ret;
+> +
+> +	ar0234 = devm_kzalloc(&client->dev, sizeof(*ar0234), GFP_KERNEL);
+> +	if (!ar0234)
+> +		return -ENOMEM;
+> +
+> +	ret = ar0234_parse_fwnode(ar0234, dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ar0234->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(ar0234->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(ar0234->regmap),
+> +				     "failed to init CCI\n");
+> +
+> +	v4l2_i2c_subdev_init(&ar0234->sd, client, &ar0234_subdev_ops);
+> +
+> +	ret = ar0234_identify_module(ar0234);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Set default mode to max resolution */
+> +	ar0234->cur_mode = &supported_modes[0];
+> +	ret = ar0234_init_controls(ar0234);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to init controls: %d", ret);
+> +		goto probe_error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	ar0234->sd.internal_ops = &ar0234_internal_ops;
+> +	ar0234->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			    V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	ar0234->sd.entity.ops = &ar0234_subdev_entity_ops;
+> +	ar0234->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +	ar0234->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ret = media_entity_pads_init(&ar0234->sd.entity, 1, &ar0234->pad);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to init entity pads: %d", ret);
+> +		goto probe_error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	ar0234->sd.state_lock = ar0234->ctrl_handler.lock;
+> +	ret = v4l2_subdev_init_finalize(&ar0234->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "v4l2 subdev init error: %d\n", ret);
+> +		goto probe_error_media_entity_cleanup;
+> +	}
+> +
+> +	/*
+> +	 * Device is already turned on by i2c-core with ACPI domain PM.
+> +	 * Enable runtime PM and turn off the device.
+> +	 */
+> +	pm_runtime_set_active(&client->dev);
+> +	pm_runtime_enable(&client->dev);
+> +	pm_runtime_idle(&client->dev);
+> +
+> +	ret = v4l2_async_register_subdev_sensor(&ar0234->sd);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
+> +			ret);
+> +		goto probe_error_rpm;
+> +	}
+> +
+> +	return 0;
+> +probe_error_rpm:
+> +	pm_runtime_disable(&client->dev);
+> +	v4l2_subdev_cleanup(&ar0234->sd);
+> +
+> +probe_error_media_entity_cleanup:
+> +	pm_runtime_disable(&client->dev);
+
+This one seems to be extra.
+
+> +	media_entity_cleanup(&ar0234->sd.entity);
+> +
+> +probe_error_v4l2_ctrl_handler_free:
+> +	v4l2_ctrl_handler_free(ar0234->sd.ctrl_handler);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct acpi_device_id ar0234_acpi_ids[] = {
+> +	{ "INTC10C0" },
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(acpi, ar0234_acpi_ids);
+> +
+> +static struct i2c_driver ar0234_i2c_driver = {
+> +	.driver = {
+> +		.name = "ar0234",
+> +		.acpi_match_table = ACPI_PTR(ar0234_acpi_ids),
+> +	},
+> +	.probe = ar0234_probe,
+> +	.remove = ar0234_remove,
+> +};
+> +
+> +module_i2c_driver(ar0234_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("ON Semiconductor ar0234 sensor driver");
+> +MODULE_AUTHOR("Dongcheng Yan <dongcheng.yan@intel.com>");
+> +MODULE_AUTHOR("Hao Yao <hao.yao@intel.com>");
+> +MODULE_LICENSE("GPL");
 
 -- 
 Kind regards,
