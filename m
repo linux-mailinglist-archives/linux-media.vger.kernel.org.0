@@ -1,140 +1,127 @@
-Return-Path: <linux-media+bounces-9183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9184-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20FE8A2F24
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 15:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA718A2FBF
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 15:45:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97B221F22470
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 13:17:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C97D41F22EAF
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 13:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50DD05FBB2;
-	Fri, 12 Apr 2024 13:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE7D8564B;
+	Fri, 12 Apr 2024 13:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t+5MkzCM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUmCERz1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE9C64CD0;
-	Fri, 12 Apr 2024 13:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91A684FAB;
+	Fri, 12 Apr 2024 13:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712927810; cv=none; b=Qvc354iR7pBXvhoplApmlJIZBkkBZWyYB/ve1MunP5LrwH/OebC0iEzWUzi7DUgi/sZGP/sC1vXKWqOJ9yb1RIZU88zxFX/NmomcKm19MQGJGuwLEjV2HGL4y8h8pFMtnRN7MnV+YrK+MjXWJNtTL5xSKcrewgRk04BMngtaRtg=
+	t=1712929463; cv=none; b=B/x+EdVjXoSlCywLqIrhEUZz8XZK+whll6iWpPwnxLd5LIUoreoPfBK9aiNjkdf0++mqCc7SFR+73F6U5cITcE20Rx9KaiA6c6MKaiil2gvv0B19RhlUCoTdYeAWmnl+Ylqq8CxPk4U2GAEEmckE+vGDJSWrMXTI+nb01pluyUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712927810; c=relaxed/simple;
-	bh=MaGSYA2Udrt5OpxI+Noda33oYVm+GYTXXkzp8OxlUIs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bSk2C+H1GaFRUSChJRbg9V7wpOi9Tmi2MjM7NlZswwb/89geS3/YiQEc5tsslyB2SkWWeugO/fmRZMmAO0sm3HsUBR5RILzRvgKRzp+yutUrtRoZJjCrMG63evfRIo5CzPKo1lB/Fa5mcPh3UjVNaSPdroYs2ugo61esMo6kWoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=t+5MkzCM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (unknown [103.251.226.65])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FCA9A12;
-	Fri, 12 Apr 2024 15:16:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712927763;
-	bh=MaGSYA2Udrt5OpxI+Noda33oYVm+GYTXXkzp8OxlUIs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t+5MkzCMs5CrvGPkUIU44pXddxI4oJasu4maLhApJXGy9DfJZx23YjHrj5c6i+7Jd
-	 wQKzb2ad0OH00plsFJGTwsOfdlWaacwk6O0htPjEEZ4uvwBV3HwOxJuw7ErZMxm+zz
-	 Grab0Ztl3KHAKzftajg2UzGKwjm5ACvAVbLxPLx0=
-Message-ID: <3092092b-5989-4a7f-8f3b-4e1bf2aed385@ideasonboard.com>
-Date: Fri, 12 Apr 2024 18:46:39 +0530
+	s=arc-20240116; t=1712929463; c=relaxed/simple;
+	bh=8geQCAid38ejEfA5++6WxsYiP02Q2buqSdVzCqz+9h4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qs2Weeko9C1gm0MR9SyNSJ3O1ZJauVRiGmSaSl02ZuK3QyWJkoZ0AX8pfYC7EuT9hkASQo7BDJB3UQOSlWDWxZQep9wcogmDHbkQuw9xMFeMu699fVrXuCRXPQ0XtXDbteFohCmZosqGI7u4v6FVaeMtEl2vycPqN+A3fdg1X+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUmCERz1; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56e78970853so3070036a12.0;
+        Fri, 12 Apr 2024 06:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712929460; x=1713534260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5HaWhaqdaDfNBrfCl5nObWWrEOo5ajao2bIANOPV6KI=;
+        b=dUmCERz1taGZKLJeoAkVhnuB7GYeaxyeNCbJcCFr7l8pEwbi58ck7mdVcWw6//ubzn
+         /rp8MZiIAFea75+DSatrgb0/UixoRBUDXsR/Xdx3A2W3LUbJWdxllXcord61pCAxgGIV
+         fu/81wvwF2z4n3SPDOZlcp65jRza3bvOhkkKesjEutp/VJJK0sh1AvdPKsdKRzEBO7rh
+         id20Ywfbj1sTptN9DXZ6Xfsohn/6w3s8yaFheI6yFF2JVyKCEDL54RTbV81PYsLO/g7+
+         7RPzymj23BI9nU6X7qf7X5WucvqKiKvxO/RYiQR7kR2KvONe/sQ27d2a2/aN+hA1ThRt
+         aoeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712929460; x=1713534260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5HaWhaqdaDfNBrfCl5nObWWrEOo5ajao2bIANOPV6KI=;
+        b=Vxk8FJARpaizA750UCDABDgomj9EB6JId0NKZB4joxUz1oG35xW04QLNpbmTARNn3P
+         m3ZQGyXLDx8UnBHqvS0xH+7+LFhAlELJTWv9dJuJLMa+Gf92eUk/6NQCOOoWkz718EUJ
+         yLMfqCyuRhZMnPRYVR4+Ms05BxXqObrMTQ0gqO2PJX9RpALqIYxSu1xHYk+7mml+6eX+
+         A3s521vm7GrLB8SG3yFp9CVE9Ullwjha/wWgO1MrDGDPDlfRhSd6w0RUrI/mj9I1dOT0
+         dI01eHtXOJJ5j+4rncYUlVFQoUYdAQSM3cdP2/AVNOUUD7jrI44Wt4K6L7oaUGZO/oRZ
+         3i8w==
+X-Forwarded-Encrypted: i=1; AJvYcCW2/X61F1181GzhA+oYmolxA8JOSypWuw2H3/CAIx1NvHKpLjxDfZ0J6H1XY6xngc4ORVVEsb8VwP1fZG48RcejUsK5D174/UH/g36eWj/B71FtyNOU9gsb1t8+sgpwAM0DwzdMzpPwZ9N74l5fvuIKTxcWqGiVIoDeNaK9Q594TRsKycLe
+X-Gm-Message-State: AOJu0YwdxiATibW//DKA9SN6B4BIoW8fCktlXnwp9IDimRc5DdMPCOBd
+	eANkeYWg5p5ZOfFGMfZXSp9w+HzQ82RFGGtLU6r4OrmGLA/MCnPsZLV9vzqMp3bJudd9K0NVLSB
+	3PlWHnBlzjwxRcRu4V4b4MI5/790=
+X-Google-Smtp-Source: AGHT+IFEC8uEkeMBRcT6w34by85kMHZS8oKJ5rLKlabaLd1wkl5XRtWFVYL35N3RsZ6AdPmJmF+szA/5GkrvS36dQyQ=
+X-Received: by 2002:a17:907:2ce6:b0:a52:a25:2077 with SMTP id
+ hz6-20020a1709072ce600b00a520a252077mr5020537ejc.14.1712929459777; Fri, 12
+ Apr 2024 06:44:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] media: imx335: Parse fwnode properties
-Content-Language: en-US
+References: <20240410104002.1197-1-zhi.mao@mediatek.com> <20240410104002.1197-3-zhi.mao@mediatek.com>
+ <CAHp75VfF0pbrKXjWZg7sTr-T=_CbjP+deFQP-VLCGX8ooahctg@mail.gmail.com> <ZhkBIee2X0UY40yD@kekkonen.localdomain>
+In-Reply-To: <ZhkBIee2X0UY40yD@kekkonen.localdomain>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 12 Apr 2024 16:43:43 +0300
+Message-ID: <CAHp75VcKFCvzcESqsc8OQ5SVuO4gJiE5ZEUwkdoqvLzM=2PejQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add GT97xx VCM driver
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240412122842.193713-1-umang.jain@ideasonboard.com>
- <20240412122842.193713-3-umang.jain@ideasonboard.com>
- <ZhkxJeQSKMxj0O7b@kekkonen.localdomain>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <ZhkxJeQSKMxj0O7b@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: Zhi Mao <zhi.mao@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Paul Elder <paul.elder@ideasonboard.com>, 
+	Mehdi Djait <mehdi.djait@bootlin.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, shengnan.wang@mediatek.com, 
+	yaya.chang@mediatek.com, yunkec@chromium.org, 10572168@qq.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
-
-On 12/04/24 6:33 pm, Sakari Ailus wrote:
-> Hi Umang,
+On Fri, Apr 12, 2024 at 12:39=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Wed, Apr 10, 2024 at 07:00:02PM +0300, Andy Shevchenko wrote:
+> > > +static int gt97xx_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh=
+ *fh)
+> > > +{
+> > > +       return pm_runtime_resume_and_get(sd->dev);
+> > > +}
+> > > +
+> > > +static int gt97xx_close(struct v4l2_subdev *sd, struct v4l2_subdev_f=
+h *fh)
+> > > +{
+> > > +       return pm_runtime_put(sd->dev);
+> > > +}
+> >
+> > Hmm... Shouldn't v4l2 take care about these (PM calls)?
 >
-> On Fri, Apr 12, 2024 at 05:58:38PM +0530, Umang Jain wrote:
->> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
->>
->> Call the V4L2 fwnode device parser to handle controls that are
->> standardised by the framework.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/media/i2c/imx335.c | 16 ++++++++++++----
->>   1 file changed, 12 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
->> index c633ea1380e7..3ea9c0ebe278 100644
->> --- a/drivers/media/i2c/imx335.c
->> +++ b/drivers/media/i2c/imx335.c
->> @@ -1227,10 +1227,12 @@ static int imx335_init_controls(struct imx335 *imx335)
->>   {
->>   	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
->>   	const struct imx335_mode *mode = imx335->cur_mode;
->> +	struct v4l2_fwnode_device_properties props;
->>   	u32 lpfr;
->>   	int ret;
->>   
->> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
->> +	/* v4l2_fwnode_device_properties can add two more controls */
->> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
->>   	if (ret)
->>   		return ret;
->>   
->> @@ -1295,9 +1297,15 @@ static int imx335_init_controls(struct imx335 *imx335)
->>   	if (imx335->hblank_ctrl)
->>   		imx335->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>   
->> -	if (ctrl_hdlr->error) {
->> -		dev_err(imx335->dev, "control init failed: %d\n",
->> -			ctrl_hdlr->error);
->> +	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
->> +	if (!ret) {
->> +		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
->> +		v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx335_ctrl_ops,
->> +						&props);
->> +	}
->> +
->> +	if (ctrl_hdlr->error || ret) {
->> +		dev_err(imx335->dev, "control init failed: %d\n", ctrl_hdlr->error);
-> Too long line.
->
->>   		v4l2_ctrl_handler_free(ctrl_hdlr);
->>   		return ctrl_hdlr->error;
-> The handler may not be in error state if only v4l2_fwnode_device_parse()
-> failed.
+> Ideally yes. We don't have a good mechanism for this at the moment as the
+> lens isn't part of the image pipeline. Non-data links may be used for thi=
+s
+> in the future but that's not implemented yet.
 
-I read some more drivers and it seems v4l2_fwnode_device_parse() can 
-probably be checked at start of init_controls() and return early on 
-non-zero return value.
+Aren't you using devlinks? It was designed exactly to make sure that
+the PM chain of calls goes in the correct order.
 
-Is that something that should be done here as well ?
->
-> Should that be something that should prevent probing a driver though, or
-> could it just be ignored? I.e. in that case I'd only check for handler's
-> error, not ret.
-
-So we should probably check for ret and ctrl_hdlr->error separately ?
->
->>   	}
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
