@@ -1,85 +1,126 @@
-Return-Path: <linux-media+bounces-9163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99128A2B2E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 11:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA6E8A2B5B
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 11:39:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 673C61F23147
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:28:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AE5F1F225C8
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 09:39:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED803502AA;
-	Fri, 12 Apr 2024 09:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08C451C4C;
+	Fri, 12 Apr 2024 09:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cY6JQXeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oyc966U6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2AC5026B
-	for <linux-media@vger.kernel.org>; Fri, 12 Apr 2024 09:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC511446B6;
+	Fri, 12 Apr 2024 09:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712914130; cv=none; b=KrDJDrJvyajEIuK15z8b6p0uVGt8jqfFnJYoKLvm973GWwsBo1+wF/rjABqe1r3P3kEx3b/x65Lzo1eC7HUbB0Tq4uqcy0nmACPtU/5n1vY1yfUxg3HU+rK6wW1bsbqok4bfa2Y17+CIaXuTAwc5ThNV/ioWV9HK3yALeodK8bg=
+	t=1712914742; cv=none; b=TRp4a/8TKGuvU9xljHiVZgHBp6qBBAuhRK2uaU1X31sMqS/okGflYIqmqUi7U0cRzRSJplrSzhQL/ngyBmW8yKpMQrrBI6o3coa3MRPpUiSYE2ryBNp5ISKIFGpZphLDcmX8NEj9yPD+xtqE5MjKOXuvz8is87s6CQSUeTR6LLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712914130; c=relaxed/simple;
-	bh=8Kq+yyWjf6Cjn+0B2wLMeia6Um+S14ALSOleKlO3/JE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NJAo7k4GWqxuQf8zd6arnx6rTOTNOVuhaXQUVwp1uyAU+M3XshzlXHa9UGfbYLrSIW5nTXcToDmIzpaQlBWQDTaEV6zx9zcYn3womL6gWPtgoSUIGv2sDAjIEKgjPjIrbtq+vCAtTFBHACvrFz/PAo5sQeTk0qWOztXPuoMWDeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cY6JQXeD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from fedora.local (unknown [103.251.226.65])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 574D4A68;
-	Fri, 12 Apr 2024 11:28:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712914082;
-	bh=8Kq+yyWjf6Cjn+0B2wLMeia6Um+S14ALSOleKlO3/JE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cY6JQXeD/oBXn6y4ArlMjp9S1wXatmoBAjZws0eZhIr919/+xIkKjH22dG16eN0sZ
-	 X5sbngrlhkFzzK7E8EiZVxtoGr68Gj8d0uLDWisJ1Tc7Ht9SbZrO3QF1kwgXScxVlA
-	 Q/FzKSYr5Qbqj0RsZrlXrDarDN6Qni7FPWISEsRQ=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	s=arc-20240116; t=1712914742; c=relaxed/simple;
+	bh=xhZLSdqjCJGkrq/1WHroNk1xCdiol0gprEN4wXQPrlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8V/RWzuTUETQYMMEc9Ol0Mw1RVF9ThKLyey0PNqEhUr7Zyx9jVPx4cr2x71McZ5qq2VvKFFWoxrXbvAUDnjrONjuaIwsD9NvQTpcTf1Lj44MlEsjzbIPUCAn4HJVNDEJtKNo2u6S+DGkF6RA2/ffHEYu0d5YPaAyKC7qGesP8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oyc966U6; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712914741; x=1744450741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xhZLSdqjCJGkrq/1WHroNk1xCdiol0gprEN4wXQPrlU=;
+  b=Oyc966U6AQSKPXz8WeHsn8245G4djhYxi2VH5JA6pqriz/6kragD1Pul
+   MR8UIRYJKr5WlRtJvH+DCpblOhx8phlltOPOKfyxZ+cs8P+zzLG5Iox2F
+   dVyMibwEeW5bpSUpelx3bVz8IHL9myFJCI1XazHAz2ctrtFaxSNPuntFt
+   YSD0jdA/h1fZ7pjHGR/AbftfKpIdOcUG+ffi+xADANXq0ubkrVnD6pxOQ
+   2Na9B9RFM9/06KfFxX+qp/GHFKliUE9Nx05J4WVKL1i5bpinR9mcGDEid
+   iBQYuzWOcM6jBvDd18boDuaVTmGk7ogHkHsVMfWjZlgACFtsWVqq85PA7
+   A==;
+X-CSE-ConnectionGUID: 1NobwrQ+SCuf3UOQvonNDw==
+X-CSE-MsgGUID: z0g6NxYJQ5ax2PUGnINwIA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="12148183"
+X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
+   d="scan'208";a="12148183"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 02:39:00 -0700
+X-CSE-ConnectionGUID: TEnw0//TQtG62goI0XrVyw==
+X-CSE-MsgGUID: XWlRxbLtQnW4iW48NYWBHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
+   d="scan'208";a="25988920"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 02:38:53 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 304D911FA58;
+	Fri, 12 Apr 2024 12:38:51 +0300 (EEST)
+Date: Fri, 12 Apr 2024 09:38:51 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Zhi Mao <zhi.mao@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH] media: Documentation: dev-subdev: Fix sentence conjunction
-Date: Fri, 12 Apr 2024 14:58:36 +0530
-Message-ID: <20240412092836.69031-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.44.0
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@bootlin.com>,
+	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, shengnan.wang@mediatek.com,
+	yaya.chang@mediatek.com, yunkec@chromium.org, 10572168@qq.com
+Subject: Re: [PATCH 2/2] media: i2c: Add GT97xx VCM driver
+Message-ID: <ZhkBIee2X0UY40yD@kekkonen.localdomain>
+References: <20240410104002.1197-1-zhi.mao@mediatek.com>
+ <20240410104002.1197-3-zhi.mao@mediatek.com>
+ <CAHp75VfF0pbrKXjWZg7sTr-T=_CbjP+deFQP-VLCGX8ooahctg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfF0pbrKXjWZg7sTr-T=_CbjP+deFQP-VLCGX8ooahctg@mail.gmail.com>
 
-Fix sentence conjunction in the streams and routes section.
+Hi Andy, Zhi,
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- Documentation/userspace-api/media/v4l/dev-subdev.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Apr 10, 2024 at 07:00:02PM +0300, Andy Shevchenko wrote:
+> > +static int gt97xx_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > +{
+> > +       return pm_runtime_resume_and_get(sd->dev);
+> > +}
+> > +
+> > +static int gt97xx_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > +{
+> > +       return pm_runtime_put(sd->dev);
+> > +}
+> 
+> Hmm... Shouldn't v4l2 take care about these (PM calls)?
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index 43988516acdd..7f6620cbdf78 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -561,7 +561,7 @@ selections. The order of configuring formats and selections along a stream is
- the same as without streams (see :ref:`format-propagation`).
- 
- Instead of the sub-device wide merging of streams from all sink pads
--towards all source pads, data flows for each route are separate from each
-+towards all source pads, data flows for each route that are separate from each
- other. Any number of routes from streams on sink pads towards streams on
- source pads is allowed, to the extent supported by drivers. For every
- stream on a source pad, however, only a single route is allowed.
+Ideally yes. We don't have a good mechanism for this at the moment as the
+lens isn't part of the image pipeline. Non-data links may be used for this
+in the future but that's not implemented yet.
+
 -- 
-2.44.0
+Regards,
 
+Sakari Ailus
 
