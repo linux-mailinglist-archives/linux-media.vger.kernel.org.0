@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-9216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686A88A3572
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 20:16:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 289568A357F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 20:20:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F55D282809
-	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 18:16:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6D3C285DD0
+	for <lists+linux-media@lfdr.de>; Fri, 12 Apr 2024 18:20:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A95B314EC44;
-	Fri, 12 Apr 2024 18:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09BA14EC5A;
+	Fri, 12 Apr 2024 18:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a4qF07Hq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Advlw1M3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B43C14E2E1;
-	Fri, 12 Apr 2024 18:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBA914D44F;
+	Fri, 12 Apr 2024 18:20:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712945772; cv=none; b=B3fJByjNqXyM9WLFu043dPNsgdlU9HNC6cHAtkU7K15hVU+Txtjc+0s9PH+D+1rVSpg5sLld+uh2VI9eNNxIWwEQHf2PlmjfdnWjT98vsY/gCjxzODw/KiMUYMOkJNTD6hHXuZVKJaMLK2XD1bXKIbwGXvcRS7o0mM9MhyP2alY=
+	t=1712946044; cv=none; b=JFZGpkdO7gdOnAk4lpKkImBIR/sZOJ0zZAbPaiqUtu3pflHZk5MZImzSrh0Wx8hpW4+8be4dODfe8Oo9N65j7w7xP5lTbRH9Q6iJ5GBvRbcHpatbFG0L7yD2zf9gkuBE4IG6jw4kjwQEwT/8VBProDV4JfzF8fO30c3pC8VQR/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712945772; c=relaxed/simple;
-	bh=dZ7DBLOplA06T/PhVO+GGVrNbWcG7Pg5wgdv1SwGr5A=;
+	s=arc-20240116; t=1712946044; c=relaxed/simple;
+	bh=BLnTy3ivk+xXDmUktJ4bE7E0wMv/VeVf/0tsKf09FTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3HeGaH+1BQE3A5CWz22/DbV2GkPTftAOTogZX67XnCUN6wuu3DkN/Mbp2e7cmuZVLxF0tkskzhXzQGkuSGUYWxUk5RNmXndB3Aow1eSfpxg0oGskwM+IYO78RlfxJxsjvffAohegQhfswxt3sQRzrPSTJgCSmsxxogGzXv1MWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a4qF07Hq; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=l3yL+3EqTXXN04KNiiQB3vVH6Ar7GEpL/kx5fSsxdZ7Pv1XKs41jXDRTdHzv7BRyXDvH44WzwYPM5fOE7WcNF2iQbiHU9GGr0JjvO/FTISQXE0RX0hexe8wEVYYwJ46VhOXs9GC6A7atXli72XDkBjkvs0gBveT2NAXAwSmrE50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Advlw1M3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (85-76-65-73-nat.elisa-mobile.fi [85.76.65.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 989029D5;
-	Fri, 12 Apr 2024 20:15:24 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A68479D5;
+	Fri, 12 Apr 2024 20:19:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1712945725;
-	bh=dZ7DBLOplA06T/PhVO+GGVrNbWcG7Pg5wgdv1SwGr5A=;
+	s=mail; t=1712945997;
+	bh=BLnTy3ivk+xXDmUktJ4bE7E0wMv/VeVf/0tsKf09FTw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a4qF07Hqp6QbxF+DdKNbg7E7ucc1k7j8PMU8AdrQ8GEeUczRxaDedLhQMG2y08F50
-	 FWldRDtmW6vvKRgbBXSETpbhvAKPXyH/1WW6fVTfaoC8z2Gn6iAJrjueZ0BJVcmNxY
-	 WUZ6FCLszKLkFKtJrEfOwLzKrieVVIwpV546YvmA=
-Date: Fri, 12 Apr 2024 21:15:58 +0300
+	b=Advlw1M3BukmOQ7nreH/3SpMmc5/XRtzQq/ROLUAfjnAFTvlnRh45X8qv0W8JZIj1
+	 05v43vDot6S3/16S33DHZaSdu6shN0VZ5Of6o65HyJCVtS4LFv/EWr/0No3LKyHAsT
+	 I5wriTZzWQK2W3NLOFClnjVGHiy7Zn8TqMKyHtvE=
+Date: Fri, 12 Apr 2024 21:20:26 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -49,10 +49,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Umang Jain <umang.jain@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 6/9] media: subdev: Add v4l2_subdev_is_streaming()
-Message-ID: <20240412181558.GI31122@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 7/9] media: subdev: Support privacy led in
+ v4l2_subdev_enable/disable_streams()
+Message-ID: <20240412182026.GJ31122@pendragon.ideasonboard.com>
 References: <20240410-enable-streams-impro-v3-0-e5e7a5da7420@ideasonboard.com>
- <20240410-enable-streams-impro-v3-6-e5e7a5da7420@ideasonboard.com>
+ <20240410-enable-streams-impro-v3-7-e5e7a5da7420@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,88 +62,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240410-enable-streams-impro-v3-6-e5e7a5da7420@ideasonboard.com>
+In-Reply-To: <20240410-enable-streams-impro-v3-7-e5e7a5da7420@ideasonboard.com>
 
 Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Apr 10, 2024 at 03:35:53PM +0300, Tomi Valkeinen wrote:
-> Add a helper function which returns whether the subdevice is streaming,
-> i.e. if .s_stream or .enable_streams has been called successfully.
+On Wed, Apr 10, 2024 at 03:35:54PM +0300, Tomi Valkeinen wrote:
+> We support camera privacy leds with the .s_stream, in call_s_stream, but
+
+s/the .s_stream/the .s_stream() operation/
+
+> we don't have that support when the subdevice implements
+> .enable/disable_streams.
 > 
+> Add the support by enabling the led when the first stream for a
+> subdevice is enabled, and disabling the led then the last stream is
+> disabled.
+
+I wonder if that will always be the correct constraint for all devices,
+but I suppose we can worry about it later.
+
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 25 +++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 13 +++++++++++++
->  2 files changed, 38 insertions(+)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 3d2c9c224b8f..20b5a00cbeeb 100644
+> index 20b5a00cbeeb..f44aaa4e1fab 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -2419,6 +2419,31 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->  
-> +bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +
-> +	if (!v4l2_subdev_has_op(sd, pad, enable_streams))
-> +		return sd->streaming_enabled;
-> +
-> +	state = v4l2_subdev_get_locked_active_state(sd);
-> +
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		return !!sd->enabled_pads;
-
-I think this can be moved above the
-v4l2_subdev_get_locked_active_state() call.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Any plan to convert drivers to this ?
-
-> +
-> +	for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
-> +		const struct v4l2_subdev_stream_config *cfg;
-> +
-> +		cfg = &state->stream_configs.configs[i];
-> +
-> +		if (cfg->enabled)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_is_streaming);
-> +
->  int v4l2_subdev_get_privacy_led(struct v4l2_subdev *sd)
+> @@ -2150,6 +2150,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
 >  {
->  #if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index d6867511e9cf..270a4dfa5663 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1914,4 +1914,17 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
->  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  			      const struct v4l2_event *ev);
+>  	struct device *dev = sd->entity.graph_obj.mdev->dev;
+>  	struct v4l2_subdev_state *state;
+> +	bool already_streaming;
+>  	u64 found_streams = 0;
+>  	unsigned int i;
+>  	int ret;
+> @@ -2198,6 +2199,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
 >  
-> +/**
-> + * v4l2_subdev_is_streaming() - Returns if the subdevice is streaming
-> + * @sd: The subdevice
-> + *
-> + * v4l2_subdev_is_streaming() tells if the subdevice is currently streaming.
-> + * "Streaming" here means whether .s_stream() or .enable_streams() has been
-> + * successfully called, and the streaming has not yet been disabled.
-> + *
-> + * If the subdevice implements .enable_streams() this function must be called
-> + * while holding the active state lock.
-> + */
-> +bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd);
+>  	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
+>  
+> +	already_streaming = v4l2_subdev_is_streaming(sd);
 > +
->  #endif /* _V4L2_SUBDEV_H */
+>  	/* Call the .enable_streams() operation. */
+>  	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
+>  			       streams_mask);
+> @@ -2216,6 +2219,9 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+>  			cfg->enabled = true;
+>  	}
+>  
+> +	if (!already_streaming)
+> +		v4l2_subdev_enable_privacy_led(sd);
+> +
+>  done:
+>  	v4l2_subdev_unlock_state(state);
+>  
+> @@ -2340,6 +2346,9 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+>  	}
+>  
+>  done:
+> +	if (!v4l2_subdev_is_streaming(sd))
+
+Wouldn't it be more efficient to check this while looping over the
+stream configs in the loop just above ? Same for
+v4l2_subdev_enable_streams().
+
+> +		v4l2_subdev_disable_privacy_led(sd);
+> +
+>  	v4l2_subdev_unlock_state(state);
+>  
+>  	return ret;
 > 
 
 -- 
