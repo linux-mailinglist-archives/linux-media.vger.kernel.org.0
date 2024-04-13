@@ -1,107 +1,167 @@
-Return-Path: <linux-media+bounces-9233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCFB8A3CFF
-	for <lists+linux-media@lfdr.de>; Sat, 13 Apr 2024 16:40:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2754A8A3D4B
+	for <lists+linux-media@lfdr.de>; Sat, 13 Apr 2024 17:21:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EBD828241D
-	for <lists+linux-media@lfdr.de>; Sat, 13 Apr 2024 14:40:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2D3328243F
+	for <lists+linux-media@lfdr.de>; Sat, 13 Apr 2024 15:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E27D3D544;
-	Sat, 13 Apr 2024 14:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B9234644E;
+	Sat, 13 Apr 2024 15:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JQu8t4a6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E68C3D68
-	for <linux-media@vger.kernel.org>; Sat, 13 Apr 2024 14:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB2345BE1;
+	Sat, 13 Apr 2024 15:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713019229; cv=none; b=AsfnOkJvzU8p89wLNU9QCoYLwwOnWr/tRdLT8ySDAT0gCa8zhYKp8TiExm17X1OmcRk5Q2OjBHLUDMO2btSMjz/oH2wyEljUhKhM710Zxtpgqs2hvoc6XJb1LgxHe9OV09Dto2eZfSpryYlMrfBH1yBZk1W4KjtXTBnTFZdJH28=
+	t=1713021693; cv=none; b=sG8A4C5hQcDy7+I2gFgaZK6+xPJ5D+c7zCoOsqaY39ctXr42Fnj0KNO1q2X7BBnpu7U9ygL42vSwqR6sog8WLvrgYACrwCEwtJSGGOG67+xdzeFaNHTnDm5ZsXONzV2u4w8mussveeKjhS2uT87vsqZYXnmCLTpsf/Ng9r5a6uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713019229; c=relaxed/simple;
-	bh=vbk4Rhnn3ao/4dMYfvwvco8I9PpmQbe9zJvUjEbea7E=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=S2GwQibIW7hmreh7Jguc89PehKbrRhYwWolanJk3Hp1dlPwHmYp8qftl2fW3nvg+HLPkmuGz3PfdenGf5DosTeXg6YAqulPape4RnL4eLic89jBj5N4vjOHdkBh+PzjVO84dcyHnVuzciQknr2JPReYxwibmQCXvjTVqnw/eMXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-36a1c2b7172so14978055ab.1
-        for <linux-media@vger.kernel.org>; Sat, 13 Apr 2024 07:40:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713019227; x=1713624027;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k35GJLyO+qF0Q6nfe6UOQLLAPZY5SGbHLJa33ufBKTk=;
-        b=A9IiapvkYzZ9rg7S+dWoEWzqGYh0qqMx8xpvXsw8qQTN7RrSzZN2+caNNQeOo//7ih
-         BiRP06heDvoLL4P0VN8tCJZwygxphIzEOoCRpLOICnRiZcqs+NtvM1rhTJM7EuPRWAdn
-         P9mXk1iRZ2yHdMh32nWXv6B8VqybcapqGc9XNh/fkcxE/DCT28klXIXEBdVM7ldvDl0f
-         HE25AIhd6j5JQ2UbbW0KB9T146/71V1rV4flWX+hXxnnBj9QXDCpJiUillO/X6l/2aR/
-         U7x4/j9euDxC2JDyT3v1XRIf6q67Iyb+chrI9dmAQklyeQ2hF1A33Z0FpEsMOla4ClZQ
-         HQZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFiDZIRdEqxqlyvJExImEuNffV30O6Nw9zTE+T7oSfbG3uV1zmCOoSukbnUuuferF46Irmu2JG0gJ2HaogyF2L/q7vVhQGPPYw9uc=
-X-Gm-Message-State: AOJu0YwNOgJhNW2JY7Bp+EI3cArRtMUAiGWINrT+tKr7sEJaKX+1nSdA
-	z6vEx+onsIuiAK2BmEPT2b0X2Z8ch02OSgIj+U88UoPdopW5lqrHDVbI1IetMjoRsqsVjewb8qg
-	KM/O/GU/0eUwO0Zu9QMAQIhlgHAClTIylZjj3c5kkhkat7FanoBfZxkw=
-X-Google-Smtp-Source: AGHT+IGQt2aifAlrcC1TTvoHh/jgfQr8s0oQRybE8GJdnG0ldr+uX8w/gOAIaQA62bIBFrCCRyt6X1WrxmhSlBW/D5N6c2Ng34HB
+	s=arc-20240116; t=1713021693; c=relaxed/simple;
+	bh=yEWjbDnznVC6vT4NO/Xj3JDq3tC38KjlGRoMlOKXXps=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z8gHuB+xB9Y67wFlcx7/QBr86ZfHbUCqN7flFo4hjkLQtTQcrE66rVqp7VQJXIBNiw8nBguZBBXyE7bWxlJQK8V5v6af8eXjzvAtw0W8EgaHDrM48LWamX/jjfo/CRW0LRdbLYfWw6SOcrd30vUP+hhFNPTBufxJKc9W6GBPUTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JQu8t4a6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43DF8N9f030225;
+	Sat, 13 Apr 2024 15:21:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=v1nRL8Z
+	DfgPlt89U1eI5XAv4EMOC/gfGb5BYwBW6vPk=; b=JQu8t4a655UPNQQ8dGlTmJP
+	oQ9mY2FKlsgjA8ZrFGG9G9gnU1WOdagMFN1FjvjAdU/MJ38/a6PA3S14I3gWG1Hb
+	C+brhU03ryywUQxJu8DLtVwr/hZ3BVDxkUUcwc/1ILZeppcClqEt6JOg2P5yvsQx
+	fuw1bvSdpRu0KIcgFLJRdT2v6u+m3limXExyI5tanwWfxHjXxCnLVwvT8TGBzSpf
+	Q4XrVcY0uOI9K8QHHem5vdxNtqKUs8W234VL8nLQIvHgNzHyoKcN0ZGgV3xcridd
+	Wyx2HTEamHfdjKf90GR0h9xksqjm7FwrYjmonR9qyQFfER1ZLB+zNjqaDlbmaFQ=
+	=
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xfh2crnw4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 13 Apr 2024 15:21:10 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43DFL8uV007731
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 13 Apr 2024 15:21:08 GMT
+Received: from hu-jkona-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sat, 13 Apr 2024 08:21:00 -0700
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J .
+ Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Andy
+ Gross" <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+        "Satya Priya
+ Kakitapalli" <quic_skakitap@quicinc.com>,
+        Imran Shaik
+	<quic_imrashai@quicinc.com>,
+        Ajit Pandey <quic_ajipan@quicinc.com>,
+        "Jagadeesh Kona" <quic_jkona@quicinc.com>
+Subject: [PATCH V5 RESEND 0/5] PM: domains: Add control for switching back and forth to HW control
+Date: Sat, 13 Apr 2024 20:50:08 +0530
+Message-ID: <20240413152013.22307-1-quic_jkona@quicinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:52c:b0:36a:2130:33a8 with SMTP id
- h12-20020a056e02052c00b0036a213033a8mr168304ils.3.1713019227753; Sat, 13 Apr
- 2024 07:40:27 -0700 (PDT)
-Date: Sat, 13 Apr 2024 07:40:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009062560615fb5e31@google.com>
-Subject: [syzbot] Monthly media report (Apr 2024)
-From: syzbot <syzbot+list9b4228196b8993e50208@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: FAzFLGXG3OsMsDAkOAIwv7xrlrnCVhrp
+X-Proofpoint-GUID: FAzFLGXG3OsMsDAkOAIwv7xrlrnCVhrp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-13_04,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0
+ spamscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404130113
 
-Hello media maintainers/developers,
+This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
+and support in gdsc provider drivers to register respective callbacks and venus consumer
+driver example using above API to switch the power domain(GDSC) to HW/SW modes dynamically
+at runtime.
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+This is resend of V5 series, added R-By tags received in V5 for 1st & 2nd patches.
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 19 issues are still open and 85 have been fixed so far.
+Link to V5: https://lore.kernel.org/all/20240315111046.22136-1-quic_jkona@quicinc.com/
 
-Some of the still happening issues:
+Changes in V5:
+- Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
+  invoking ->get_hwmode_dev()callback in genpd_add_device()
+- With above change, SW cached hwmode will contain correct value initially, and it will be
+  updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
+  to just return SW cached hwmode in 1st patch
+- Updated commit text for 1st, 3rd, 4th and 5th patches
+- Updated 3rd and 5th patches as per review comments received on V4 series
+- Added R-By tags received in older series to 1st and 2nd patches
 
-Ref Crashes Repro Title
-<1> 4656    Yes   possible deadlock in v4l2_ctrl_handler_log_status
-                  https://syzkaller.appspot.com/bug?extid=9948f8e188482c5d1a3e
-<2> 867     Yes   general protection fault in ir_raw_event_store_with_filter
-                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<3> 206     Yes   inconsistent lock state in sync_timeline_debug_remove
-                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
-<4> 57      Yes   KASAN: use-after-free Read in send_packet
-                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
-<5> 6       Yes   INFO: task hung in cec_claim_log_addrs
-                  https://syzkaller.appspot.com/bug?extid=116b65a23bc791ae49a6
-<6> 3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
-<7> 3       No    WARNING in call_s_stream
-                  https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
+Previous series:
+V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
+V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/ 
+V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
+V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Abel Vesa (1):
+  PM: domains: Add the domain HW-managed mode to the summary
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Jagadeesh Kona (3):
+  clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
+  clk: qcom: Use HW_CTRL_TRIGGER flag to switch video GDSC to HW mode
+  venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
+    V6
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+Ulf Hansson (1):
+  PM: domains: Allow devices attached to genpd to be managed by HW
 
-You may send multiple commands in a single email message.
+ drivers/clk/qcom/gdsc.c                       | 37 +++++++++
+ drivers/clk/qcom/gdsc.h                       |  1 +
+ drivers/clk/qcom/videocc-sc7280.c             |  2 +-
+ drivers/clk/qcom/videocc-sm8250.c             |  4 +-
+ .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
+ drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
+ include/linux/pm_domain.h                     | 17 ++++
+ 7 files changed, 157 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
 
