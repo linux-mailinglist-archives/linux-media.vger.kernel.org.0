@@ -1,272 +1,313 @@
-Return-Path: <linux-media+bounces-9243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9244-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFDE8A4052
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 06:26:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F284F8A41CE
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 12:22:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE2041C20F74
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 04:26:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69DE01F2139B
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 10:22:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C2BC18E01;
-	Sun, 14 Apr 2024 04:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8D22E63B;
+	Sun, 14 Apr 2024 10:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vie64pWk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E771B7E9
-	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 04:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7E823775
+	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 10:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713068792; cv=none; b=dmtKyHbiQm8m/cLDgBjMh2Qq2NGY0nLGk+DBJYdig0g02zfF9WsnoatEqjts4jT2ok5LPH61Ypxm/KoiANL/RILq7J8qtOaThXO+b1BcBw3swSB2mAY5Xp9csGA9vKmgaaukG4qOXFgLYQt6sxCT7eunrEsTClNk1NmsMVU3CR0=
+	t=1713090144; cv=none; b=G5Tie/C2Q9BRx5QIjjBWC3/C1cklSZJEM4YxJCVIRBJM1nbUtARmDAIC9ZLE6FjvQoCR66t+Q1Gr/hjBhe+/ATxet3ZqZH8LnXvvP8jceqUkHmyQYdkiJrgeasC6UsXVTD3QMbN1K1DzoCm97sWNjEJUJtesVIr7fGuZJ93Ffgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713068792; c=relaxed/simple;
-	bh=K7+94VZ6flk/XGxyRSZSFG9ojdw4d+3TLngtW5x9tzw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Qu2Wiy2shpTujog2va/oYk+WskOC+b0rbpMohwhmreXBRp/2d13A77f0ifkFpYssI56tjU8zyP2DQ39a9CPlhFLaBEkyyOeV4Stsx14iNZRIKsFZIjASNnnYgOgyNENfLMjfNDHLiyWyt8ku5bOC8yF5fAb4OnMFsQ+YUhc3U50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7d5db4ed86bso286841539f.1
-        for <linux-media@vger.kernel.org>; Sat, 13 Apr 2024 21:26:31 -0700 (PDT)
+	s=arc-20240116; t=1713090144; c=relaxed/simple;
+	bh=d+Uy8iPQnqE2LADkf5oxHA0iCikJqg5sNWF4qykSlG0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T6ge72c7LpRM1nWyx1hJ8oW5QqS3Uj7/Tc4rYJD5temZSHXTLBTACGm2DcFao088iCQ/dR21mqOiFjA3o4eQegfI8cXHNsQLH7/HgPbDcta9RaHA2doEZkSMYLGaSU2qWGc/CgNHJw5/TpU3MUpiF1K3Oce12pB1qZZxTt1iMi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vie64pWk; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34665dd7610so810423f8f.3
+        for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 03:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713090140; x=1713694940; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lvZ6PjWc/Qm/HW2Su6f4lI8v0f5zAQ/AW1yCdaUkeqU=;
+        b=Vie64pWkttf1ocuntIZP9F62EDkrpeyr7HImOffvsfpMjXB7ZKz9qeGje/FCk8anbe
+         E/bp/WAVdsFuhYDUGUPO8yzn3SV5EpaaXxTYL5fPHxhw6JR+jgXKCZQU35NXb0HBsf+z
+         o/vyqInkq5mA8PqRoNvpujSzzkPduwviKR3isGY23erIfWvC3iwkMVLbJd4Xgi0swPT7
+         WoST3ig7AIyqrHk3ijuvWmZ+3sqKi/bhm1vPw+4FTu/TF+gtvIlZ9FT0sUSoQktLfjAf
+         sXvxhNzEuYoxTQtxqSfMPUjq42iBCDQuAp8f2c6ndsOAYFWl7W4JAi2LU+k9iTLS1zRH
+         Y2VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713068790; x=1713673590;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k66LOr5XJ0LWvTSmA1uuMMGCAFm/HsiE6UPg36IHeCE=;
-        b=Dghehw4RoArJrWe5Ja1ZKcVeRyTYsY6jGmFkMQW3jhqHga/fDfIpa0Agh9J7C8PelZ
-         8rtHvPWR0llqPwh5MxDmvEe4YlTmEX0JctZzE4ZZmUteERwqWD8jxkx2+7OHiTd1kF5R
-         QnRRgk1HoFDTwj8KlJZranj7t9Vv/AhZ8F8tmY5k7oDts1ILYDwNsZd8SnfdGc6+4Och
-         WC+y9YEnivfwSOpnXTBH6KMxCD9cMVOqVTz3sBOaOFnF6sg2FHzTnkQQ6rUKPAV2Q7HI
-         22ojGBBecVaZO/abp5QtIxSPFoZVPq4Lc0fhTRPo4j1yrDfyPplK2d3CVQeqyHMHhJIC
-         mj2w==
-X-Forwarded-Encrypted: i=1; AJvYcCX1f9Ivb94DviHzdLcAfMfuvzJF0RhSXy9UgU20mXxRsyfwzy+NL97x52NapK0ua7wZhMA2lomIC/MRv9QNMk0HQDc1yLxn9OoC01c=
-X-Gm-Message-State: AOJu0YyZ8rX6+AXMLOpNobXFE0xBVoh4rb7SVAOPHbrhPMR7u06YgU6X
-	lTYykQi/wFONigQmTlqlg95yZ58auteR7O40ADqdwMDBP8Wcaitf5WXlVRjP8JFu1ZesvxA1mgi
-	LquvwB4PLn4IG5H9ij9gaSMzqURTNQNf9HpEzhWH35PpmCL/zSeUvV2g=
-X-Google-Smtp-Source: AGHT+IFu3pD69TuJiCe/OBoJte4JcjV3aX620fX55FpXDQNuXuLEmIZJsHzBg0mrSIR93xzRI0u60QkxOzgikTWteCjcO/OfLV1d
+        d=1e100.net; s=20230601; t=1713090140; x=1713694940;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lvZ6PjWc/Qm/HW2Su6f4lI8v0f5zAQ/AW1yCdaUkeqU=;
+        b=m4lr/wytaXdX2XFplpalkASGDnLPnsMa/amT1LKfhRNooeGGKdVh7sBqTWjl8bFbXN
+         7pSyctaNjFwb/EN7a1AXPOP/AHXBHYKJ8tKc7vQJfXMrusCfjZD57/cDuFVd3S/evZry
+         Vt06n7/CrNbxgzG6nkFuHX81+ZcOu0Xf9NCt6ouxIu5vu+UbzgNHZah/2VHT4+838UtM
+         PHo+UCHW6DBRT2rxCIDJz0OhV0thyvfUJE0Fijult4RfoAUMquL4v08KIAN78NH5NZ5q
+         nMjXlz/5VZMTwWOdsd5Wva6sMOuQ4WNal7X0AIZOq0MY3FG5HNrDmxCnVNqukVwCoopH
+         6lYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyDf4VvrYzJ/iGgrva89zbjR178b9cc3lKoWqltyyDIusytUWjHUKjHOOyY38VaF1VIdOAAAuXAWxVa1t7PvesSzg9E89yNQP3yxI=
+X-Gm-Message-State: AOJu0YyJWEu5MtQD7tetMNxDe2BYe8GZFe1h3A2s1fptHCk/akglP3pn
+	TdvKw10ZtFJgLMIsai3Xxt/WpEgKCEPJ3CjwXV+rFsCBrAL9LI7J
+X-Google-Smtp-Source: AGHT+IFOrs1IwxMUP5Vf0XILsSrYi91RA/AYCri784CIe1W/IiRN+JiYjMmL5qxuLVMGiCqSYO/Wyg==
+X-Received: by 2002:a5d:6802:0:b0:341:bff9:2e4f with SMTP id w2-20020a5d6802000000b00341bff92e4fmr4698824wru.44.1713090140375;
+        Sun, 14 Apr 2024 03:22:20 -0700 (PDT)
+Received: from jernej-laptop.localnet (APN-123-252-50-gprs.simobil.net. [46.123.252.50])
+        by smtp.gmail.com with ESMTPSA id h5-20020adff4c5000000b003437a76565asm8753517wrp.25.2024.04.14.03.22.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Apr 2024 03:22:19 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Matthijs Kooijman <matthijs@stdin.nl>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ linux-media@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Bob Beckett <bob.beckett@collabora.com>, linux-sunxi@lists.linux.dev
+Subject: Re: media: cedrus: h264: Decoding fails or produces artifacts
+Date: Sun, 14 Apr 2024 12:22:18 +0200
+Message-ID: <3799689.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <ZhZlRpqkjMukosw4@login.tika.stderr.nl>
+References:
+ <ZhMNNazVsu8EXqMU@login.tika.stderr.nl>
+ <20240410095555.std6q4g223fupkju@basti-XPS-13-9310>
+ <ZhZlRpqkjMukosw4@login.tika.stderr.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:1496:b0:47f:1ad4:2c66 with SMTP id
- j22-20020a056638149600b0047f1ad42c66mr286127jak.5.1713068790460; Sat, 13 Apr
- 2024 21:26:30 -0700 (PDT)
-Date: Sat, 13 Apr 2024 21:26:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bb465d061606e827@google.com>
-Subject: [syzbot] [pvrusb2?] [usb?] KASAN: slab-use-after-free Read in
- pvr2_context_set_notify (3)
-From: syzbot <syzbot+d0f14b2d5a3d1587fbe7@syzkaller.appspotmail.com>
-To: isely@pobox.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, pvrusb2@isely.net, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hello,
+Hi!
 
-syzbot found the following issue on:
+Dne sreda, 10. april 2024 ob 12:09:10 CEST je Matthijs Kooijman napisal(a):
+> Hi Sebastian,
+>=20
+> On Wed, Apr 10, 2024 at 11:55:55AM +0200, Sebastian Fricke wrote:
+> > Hey Matthijs,
+> >=20
+> > On 07.04.2024 23:16, Matthijs Kooijman wrote:
+> > > Hi,
+> > >=20
+> > > I've been chasing a decoder bug in the cedrus h264 hardware decoder a=
+nd after a
+> > > few days have been able to work around it by removing the
+> > > DMA_ATTR_NO_KERNEL_MAPPING argument when allocating the neighbour inf=
+o dma
+> > > buffer (full patch at the end of the mail):
+> > >=20
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > @@ -581,7 +581,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        ctx->codec.h264.neighbor_info_buf =3D
+> > >                dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZ=
+E,
+> > >                                &ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                               GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPIN=
+G);
+> > > +                               GFP_KERNEL, 0);
+> > >=20
+> > > This does not seem like a proper fix to me (or maybe it is - I do not=
+ really
+> > > understand the problem yet), but it very effective.
+> >=20
+> > thanks for the patch, I don't think we can take it as due to, as you
+> > highlighted, it relies on unknown side effects. Perhaps if you or
+> > someone else in the community can investigate this further and answer
+> > some more questions we can move it forward.
+> >=20
+> > Some questions to help move the discussions along:
+> >=20
+> > - Does the platform have an IOMMU?
+> > - What does the IOMMU driver do when it sees the
+> >   DMA_ATTR_NO_KERNEL_MAPPING flag?
+> > - On the platform in question do coherent allocations get handled with
+> >   cached snooped mappings or uncached?
+> > - Does changing that flag affect any cacheablility
+> > - Does the codec block expect any particular intialized data in that
+> >   buffer?
 
-HEAD commit:    a788e53c05ae usb: usb-acpi: Fix oops due to freeing uninit..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=157d4305180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dd8c589043bc2b49
-dashboard link: https://syzkaller.appspot.com/bug?extid=d0f14b2d5a3d1587fbe7
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16dd1e13180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=120ca915180000
+H3 doesn't have IOMMU. Removing DMA_ATTR_NO_KERNEL_MAPPING doesn't sound
+like a good issue since 32-bit ARM platform has very small address space
+reserved for virtual memory. While it can be increased, it's not ideal and
+I would rather not allocate any addresses which are not used by driver.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/070d17d2f510/disk-a788e53c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/13f35a4bb3f0/vmlinux-a788e53c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6825f1cdc918/bzImage-a788e53c.xz
+It's interesting to see that this helps. AFAIK, only relevant action done by
+that flag is to sync caches, which makes sure that data is viewed by CPU.
+Maybe driver doesn't wait long enough in some cases? I vaguely remember
+that vendor driver is doing something for this, but I'm not sure. I have to
+check.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d0f14b2d5a3d1587fbe7@syzkaller.appspotmail.com
+Note, I've observed similar issues on H3 when switching between H264 and
+VP8 decoding. They both use same decoding engine. However, I haven't
+observed same issue on H6, even if IOMMU is disabled.
 
-pvrusb2: Device being rendered inoperable
-==================================================================
-BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
-Read of size 4 at addr ffff88811356ced8 by task kworker/0:2/720
+Best regards,
+Jernej
 
-CPU: 0 PID: 720 Comm: kworker/0:2 Not tainted 6.8.0-rc6-syzkaller-00190-ga788e53c05ae #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
-Workqueue: usb_hub_wq hub_event
-
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0xc4/0x620 mm/kasan/report.c:488
- kasan_report+0xda/0x110 mm/kasan/report.c:601
- pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
- pvr2_context_notify drivers/media/usb/pvrusb2/pvrusb2-context.c:95 [inline]
- pvr2_context_disconnect+0x94/0xb0 drivers/media/usb/pvrusb2/pvrusb2-context.c:272
- pvr_disconnect+0x80/0xf0 drivers/media/usb/pvrusb2/pvrusb2-main.c:79
- usb_unbind_interface+0x1e5/0x960 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:569 [inline]
- device_remove+0x11f/0x170 drivers/base/dd.c:561
- __device_release_driver drivers/base/dd.c:1272 [inline]
- device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
- bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
- device_del+0x39a/0xa50 drivers/base/core.c:3828
- usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1418
- usb_disconnect+0x2e1/0x910 drivers/usb/core/hub.c:2296
- hub_port_connect drivers/usb/core/hub.c:5352 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5652 [inline]
- port_event drivers/usb/core/hub.c:5812 [inline]
- hub_event+0x1be0/0x4f40 drivers/usb/core/hub.c:5894
- process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
- process_scheduled_works kernel/workqueue.c:2706 [inline]
- worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
- kthread+0x2c6/0x3a0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:243
- </TASK>
-
-Allocated by task 720:
- kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
- kasan_save_track+0x14/0x30 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:372 [inline]
- __kasan_kmalloc+0x87/0x90 mm/kasan/common.c:389
- kmalloc include/linux/slab.h:590 [inline]
- kzalloc include/linux/slab.h:711 [inline]
- pvr2_context_create+0x53/0x2a0 drivers/media/usb/pvrusb2/pvrusb2-context.c:207
- pvr_probe+0x25/0xe0 drivers/media/usb/pvrusb2/pvrusb2-main.c:54
- usb_probe_interface+0x307/0x9c0 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3639
- usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0xad/0x110 drivers/usb/core/generic.c:254
- usb_probe_device+0xec/0x3e0 drivers/usb/core/driver.c:294
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x234/0xc90 drivers/base/dd.c:658
- __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:958
- bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x117e/0x1aa0 drivers/base/core.c:3639
- usb_new_device+0xd90/0x1a10 drivers/usb/core/hub.c:2643
- hub_port_connect drivers/usb/core/hub.c:5512 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5652 [inline]
- port_event drivers/usb/core/hub.c:5812 [inline]
- hub_event+0x2e62/0x4f40 drivers/usb/core/hub.c:5894
- process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
- process_scheduled_works kernel/workqueue.c:2706 [inline]
- worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
- kthread+0x2c6/0x3a0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:243
-
-Freed by task 904:
- kasan_save_stack+0x33/0x50 mm/kasan/common.c:47
- kasan_save_track+0x14/0x30 mm/kasan/common.c:68
- kasan_save_free_info+0x3f/0x60 mm/kasan/generic.c:643
- poison_slab_object mm/kasan/common.c:241 [inline]
- __kasan_slab_free+0x106/0x1b0 mm/kasan/common.c:257
- kasan_slab_free include/linux/kasan.h:184 [inline]
- slab_free_hook mm/slub.c:2121 [inline]
- slab_free mm/slub.c:4299 [inline]
- kfree+0x105/0x340 mm/slub.c:4409
- pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
- pvr2_context_thread_func+0x69d/0x960 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
- kthread+0x2c6/0x3a0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:243
-
-The buggy address belongs to the object at ffff88811356ce00
- which belongs to the cache kmalloc-256 of size 256
-The buggy address is located 216 bytes inside of
- freed 256-byte region [ffff88811356ce00, ffff88811356cf00)
-
-The buggy address belongs to the physical page:
-page:ffffea00044d5b00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x11356c
-head:ffffea00044d5b00 order:1 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-anon flags: 0x200000000000840(slab|head|node=0|zone=2)
-page_type: 0xffffffff()
-raw: 0200000000000840 ffff888100041b40 ffffea000447f900 0000000000000003
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 11334302324, free_ts 0
- set_page_owner include/linux/page_owner.h:31 [inline]
- post_alloc_hook+0x2d0/0x350 mm/page_alloc.c:1533
- prep_new_page mm/page_alloc.c:1540 [inline]
- get_page_from_freelist+0x139c/0x3470 mm/page_alloc.c:3311
- __alloc_pages+0x228/0x2250 mm/page_alloc.c:4567
- __alloc_pages_node include/linux/gfp.h:238 [inline]
- alloc_pages_node include/linux/gfp.h:261 [inline]
- alloc_slab_page mm/slub.c:2190 [inline]
- allocate_slab mm/slub.c:2354 [inline]
- new_slab+0xcc/0x3a0 mm/slub.c:2407
- ___slab_alloc+0x4b0/0x1860 mm/slub.c:3540
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3625
- __slab_alloc_node mm/slub.c:3678 [inline]
- slab_alloc_node mm/slub.c:3850 [inline]
- __do_kmalloc_node mm/slub.c:3980 [inline]
- __kmalloc_node_track_caller+0x171/0x420 mm/slub.c:4001
- __do_krealloc mm/slab_common.c:1187 [inline]
- krealloc+0x5d/0xf0 mm/slab_common.c:1220
- add_sysfs_param+0xca/0x960 kernel/params.c:654
- kernel_add_sysfs_param kernel/params.c:817 [inline]
- param_sysfs_builtin kernel/params.c:856 [inline]
- param_sysfs_builtin_init+0x2ca/0x450 kernel/params.c:990
- do_one_initcall+0x11c/0x650 init/main.c:1236
- do_initcall_level init/main.c:1298 [inline]
- do_initcalls init/main.c:1314 [inline]
- do_basic_setup init/main.c:1333 [inline]
- kernel_init_freeable+0x682/0xc10 init/main.c:1551
- kernel_init+0x1c/0x2a0 init/main.c:1441
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:243
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff88811356cd80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88811356ce00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88811356ce80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                    ^
- ffff88811356cf00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88811356cf80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
+>=20
+> I have no idea about any of these, but I agree that they are good
+> questions to ask.
+>=20
+> I've CC'd linux-sunxi@lists.linux.dev in this mail, maybe someone there
+> can answer these questions for the Allwinner H3 platform.
+>=20
+>=20
+> > > The actual problem is that sometimes (about 10%-50%) the first frame
+> > > of a h264 stream incorrectly decodes, producing all-zero data in the =
+bottom
+> > > part of the frame. See attached error-green.png for an example. In so=
+me even
+> > > more rare cases, more subtle decoding errors would occur, for example=
+ a lighter
+> > > rectangle in the bottom left dark blue band in error-blue-bar.png, or=
+ some
+> > > misplaced pixels in the bottom right "noise" area (compare error-nois=
+e.png with
+> > > error-blue-bar.png to see).
+> > >=20
+> > > To reproduce:
+> > >=20
+> > > 	# Create a h264-encoded 320x240 single-frame stream
+> > > 	gst-launch-1.0 videotestsrc num-buffers=3D1 ! openh264enc ! filesink=
+ location=3Dtest.h264
+> > > 	# Decode it again using hardware decoding (repeat until seeing a bro=
+ken frame)
+> > > 	gst-launch-1.0 filesrc location=3Dtest.h264 ! v4l2slh264dec ! videoc=
+onvert ! pngenc ! filesink location=3Dtest.png
+> > >=20
+> > > I've been testing on an Orange Pi PC with an allwinner H3 running
+> > > Armbian 22.04 (based on Ubuntu Jammy), a 6.7.12 kernel (mostly with
+> > > Armbian-patched, but also clean mainline) and gstreamer
+> > > 1.20.3. The problem also occurred on older kernel versions (tested cl=
+ean
+> > > mainline down to 6.2 and then a bit earlier, but 6.1 mainline would
+> > > not boot for me). I have also observed the problem (or at least the s=
+ame
+> > > symptom) on the Armbian-patched 6.1 kernel, but there it was extremel=
+y unlikely
+> > > (saw it once in 700 or so playbacks).
+> > >=20
+> > > I've seen three variants of this issue:
+> > >=20
+> > > 1. With the 320x240 test pattern, showing the green area in the frame.
+> > >    In this case, the decoder would actually return an error IRQ status
+> > >    (VE_H264_STATUS register would be 0x10010003 or 0x70010003, instead
+> > >    of the normal 0x60000001, bit 0 is VE_H264_STATUS_SLICE_DECODE_INT,
+> > >    bit 1 is VE_H264_STATUS_DECODE_ERR_INT).
+> > >=20
+> > > 2. With the 320x240 test pattern, showing more subtle decoding errors=
+ (as
+> > >    shown in attachments).  In these cases, the IRQ status would not i=
+ndicate a
+> > >    decoding error.
+> > >=20
+> > > 3. With another test video (1920x1080) that I cannot share, there wou=
+ld
+> > >    be the same green areas (occasionally also green squares splattered
+> > >    around the frame), but *no* decoding error in the IRQ status.
+> > >=20
+> > > None of these three issues occur anymore with the workaround applied =
+(both on
+> > > clean 6.7.12 and on top of the Armbian patches), the gstreamer decodi=
+ng then
+> > > produces bit-for-bit identical results every time (tested hundreds of
+> > > decodings).
+> > >=20
+> > >=20
+> > > I have no clue why removing DMA_ATTR_NO_KERNEL_MAPPING from this
+> > > allocation helps - I just tried it on a whim when I nothing else seem=
+ed
+> > > to help. I suspect that mapping the memory into kernel space might ha=
+ve
+> > > some side effect that helps, but I am not familiar enough with either
+> > > the cedrus hardware or the DMA system to tell.
+> > >=20
+> > > I initially thought there might be an alignment issue and tried
+> > > increasing the allocation sizes of all DMA buffers to 256K (which
+> > > I think enforces a bigger alignment), but that did not help. The reas=
+on
+> > > I was looking at memory allocation (and also timing differences, but =
+no
+> > > luck there) was that bisecting pointed me at commit fec94f8c995 ("med=
+ia:
+> > > cedrus: h264: Optimize mv col buffer allocation") which seemed to make
+> > > the problem 2-4=C3=97 likely to occur (but looking back, I think I mi=
+ght have
+> > > been bisecting noise there).
+> > >=20
+> > >=20
+> > > I hope you folks can make more sense of this to figure out a proper f=
+ix.
+> > > For the short term my problem is solved (I'll just apply this patch a=
+nd ship
+> > > it), so will not be investing more time right now.
+> > >=20
+> > > If there's anything I can contribute, just let me know (I have done s=
+ome tests
+> > > with extra debug output added to the kernel, and a testscript for rep=
+eatedly
+> > > testing the decoding that I could share, and I am happy to test any
+> > > patches/hypothesis that you have).
+> > >=20
+> > > Gr.
+> > >=20
+> > > Matthijs
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drive=
+rs/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > index dfb401df138..7cd3b6a5434 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > @@ -581,7 +581,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        ctx->codec.h264.neighbor_info_buf =3D
+> > >                dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZ=
+E,
+> > >                                &ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                               GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPIN=
+G);
+> > > +                               GFP_KERNEL, 0);
+> > >        if (!ctx->codec.h264.neighbor_info_buf) {
+> > >                ret =3D -ENOMEM;
+> > >                goto err_pic_buf;
+> > > @@ -634,7 +634,7 @@ static int cedrus_h264_start(struct cedrus_ctx *c=
+tx)
+> > >        dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > >                       ctx->codec.h264.neighbor_info_buf,
+> > >                       ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                      DMA_ATTR_NO_KERNEL_MAPPING);
+> > > +                      0);
+> > >=20
+> > > err_pic_buf:
+> > >        dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > > @@ -670,7 +670,7 @@ static void cedrus_h264_stop(struct cedrus_ctx *c=
+tx)
+> > >        dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > >                       ctx->codec.h264.neighbor_info_buf,
+> > >                       ctx->codec.h264.neighbor_info_buf_dma,
+> > > -                      DMA_ATTR_NO_KERNEL_MAPPING);
+> > > +                      0);
+> > >        dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > >                       ctx->codec.h264.pic_info_buf,
+> > >                       ctx->codec.h264.pic_info_buf_dma,
+>=20
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
