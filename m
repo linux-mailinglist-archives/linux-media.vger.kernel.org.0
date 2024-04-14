@@ -1,121 +1,162 @@
-Return-Path: <linux-media+bounces-9257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777E98A443C
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 19:00:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A31908A449B
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 20:37:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 203D42821C7
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 17:00:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09F0CB221B3
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 18:36:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C95B135407;
-	Sun, 14 Apr 2024 17:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3EB8134CFA;
+	Sun, 14 Apr 2024 18:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fk3g36Iv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tdwmPxjh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF761353F2
-	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 17:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13FB29B0;
+	Sun, 14 Apr 2024 18:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713114049; cv=none; b=CKz52T1iLg1LFONFwP0T83dl7TMRl5LVLP7C3D/8tFkFuuPyCm9zuZsMJN9UhbM+q0o5Vuyc7FkZGnypTRatm7ZzxeXkpUXdT6kva0kj1uB+od1d5bzHYEhhQFMnPrSSQcDPTVpF7nV+LixmfRlzeJrnzjm3daqo/JjVjlDqrdI=
+	t=1713119807; cv=none; b=a+D+OnB2kibElUxON87LFtJnwybfizNApxBGTdwrc2y7aSBq2OHTEGccYNsJYWlUPSq/hYOQNAXzhULMIKQrjJWm0NZQh0kqDZw9fXiVg4Z8O9ifosANYT+WNVXXRmXOSouepnzPDMCdOXxmkg2ON2xoV5U0xyVCawdOG1xeuEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713114049; c=relaxed/simple;
-	bh=QTSinBpqwxoKm+WiWRN7rj0y1gqVnCSnuBHvlLmlFqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FnGuFyTxnLAmIq4dw/JZT9HbtplPBHrCQzyGuN7su3zAf2wE3R657vi7QPNV0oSaWQ5ALi7V/zcTasUj314KiVHyZI7+4V+PVs56F4WVi1S8XCk8OBiTrACDsz+unYZuXRT1FGT+GS336I1Vhx8iMZvmCV+8QcR7c8FkQnG779c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fk3g36Iv; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a526d381d2fso210766b.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 10:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713114046; x=1713718846; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w5SwY9B6CMv4h/cquzMMWNtDJKQ4H/7w0L9m7DcDMMw=;
-        b=Fk3g36Ivg11YU4CmLm0Tsnk2/YzepTXzVmRoi/jSfRQ+EOTolwc+rKWrQuEjzgtPzf
-         AxcAcx/c2L7q0paiNOtAY4BKSjkN0ZaiKOl/eRxKYcPJ8Y/Ryo8v76Oave8VhO1LswCW
-         8r79pF0VbxfEjQqCJ0BLYlJ9tQQmilI0vv2fo+Z22LLDyiegcmBcRXrxQehAqFtKSt+m
-         OLKdmzWXhAct+tXtkoXUnAQQjJq/rChdR+Fel1au167PFPWTd8GGhkXcFUo2D3t6ZiJF
-         ZTu1rDwMda+1PYZ4LNZ/zUJncUs0fK2vnAkCeYst3lqOlhwZu+LuXcX0O1ObL/juRb2E
-         LPaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713114046; x=1713718846;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w5SwY9B6CMv4h/cquzMMWNtDJKQ4H/7w0L9m7DcDMMw=;
-        b=UtMjsQAxpW6vQGjoTGkm9Z06SD/77dxb8Ur8NAFqsuuS6EnE1GevKnY24b+zy5F3kp
-         dykFSuTO18nLDVAQQfH/PTxyMxUI9OoADXpq38/fueAuhWnUHtbD/CNjuJ8wWftrBZfo
-         k9YyasyfRUsxZtZSjUUnAA4H5lQf5dWUUbRzukEIaNx+EJvXIJ98o9JNctFqrW389qTF
-         LUoO13m6dhwFR0iLnD2BH2usYJe4S4v/RXvsE/zIsmOj7f1ZnLwCVSIdTCyee7kz0BU/
-         CsfeYaR/Q5EjY7ILfrHrIjt8+0bzMTSPG2XMJePOj++0HYyc1TT0Ye/haNL1bIJj0iSc
-         Irtg==
-X-Gm-Message-State: AOJu0YzMj7MLND71xOx8ISVD5Uk+2Jt4F8xiCrLnz825o8WnR7+IaRvU
-	n8h9Nw4UmHemBHLu2E03eWer+zBvAgDWe5kPhad58Jwod5J58Mzj
-X-Google-Smtp-Source: AGHT+IFAdOWSnhgNekdBi/sm+06NsuZyRm9JTCbi8gQ6oK2ZWhB0TXopEZtTKDP4sZaQwhhdWutj+w==
-X-Received: by 2002:a17:906:c113:b0:a52:1b82:9948 with SMTP id do19-20020a170906c11300b00a521b829948mr9882906ejc.8.1713114046430;
-        Sun, 14 Apr 2024 10:00:46 -0700 (PDT)
-Received: from foxbook (bfi40.neoplus.adsl.tpnet.pl. [83.28.46.40])
-        by smtp.gmail.com with ESMTPSA id va15-20020a17090711cf00b00a4650ec48d0sm4453554ejb.140.2024.04.14.10.00.44
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 14 Apr 2024 10:00:45 -0700 (PDT)
-Date: Sun, 14 Apr 2024 19:00:40 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
- Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: fix the bandwdith quirk on USB 3.x
-Message-ID: <20240414190040.2255a0bc@foxbook>
+	s=arc-20240116; t=1713119807; c=relaxed/simple;
+	bh=rT0Ls6DVFCzzlFPUOlmKHuVQHe6JZ+Laed7jwNJb4no=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=be5YJ4TohO9my088OBLgJg8iZSl4hKt9X8v+KDdUAkbMRzDedZj5vAgfr+YIucP8I0N6dBy9plx1e4YwTShSSXXWLInh2g9eM4ZCU0ubpMt7yY3USWubyQgZwQQBapDO48bQAjYD0GohM1w7Dw42OCysAxUafFoPWbdX5QIlg68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tdwmPxjh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1713119803;
+	bh=rT0Ls6DVFCzzlFPUOlmKHuVQHe6JZ+Laed7jwNJb4no=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tdwmPxjhpI1tcBVd8qCh7/nSyl+LjbG52efcfiCsa05jLLrWb8WDMD0V2h7DHsRIe
+	 pA2cPJr6sITGynILUsqCSlmenANEGPNeEWqRZdLBz7lFk0bhhfdyVLuhlf7yvPktTr
+	 1TJXzw0OK95ShF1u5/EX0/n3NgDt9zbfIwgIe2WQ5X9XsXt/Bl8lLFOfZJG4+dG+CZ
+	 2bsYl+uTLg1fa7Mm8AgERoRgtQ03Ay92Fxxsdbawh829J7IYiJBt2HOkgXmu4L80OJ
+	 WjUkLix9Mn07oSVZBKel2yYT6tFyOkDWrEhee7YhffLKQEB124D6/le17MP/1fi8LN
+	 2B3QSakDPslYA==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B1DE237814A4;
+	Sun, 14 Apr 2024 18:36:43 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 31571106134A; Sun, 14 Apr 2024 20:36:41 +0200 (CEST)
+Date: Sun, 14 Apr 2024 20:36:41 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de, 
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org, sfr@canb.auug.org.au
+Subject: Re: [PATCH v5 1/2] arm64: dts: rockchip: Add Hantro G1 VPU support
+ for RK3588
+Message-ID: <f3s63qq7h7qstu5sbjzcumafpllvineh3tlmbjy7hdj4oickla@gcqixrj623gu>
+References: <20240413064608.788561-1-liujianfeng1994@gmail.com>
+ <20240413064608.788561-2-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cwtj3nebnsz4gzrf"
+Content-Disposition: inline
+In-Reply-To: <20240413064608.788561-2-liujianfeng1994@gmail.com>
 
-The bandwidth fixup quirk doesn't know that SuperSpeed exists and has
-the same 8 service intervals per millisecond as High Speed, hence its
-calculations are wrong.
 
-Assume that all speeds from HS up use 8 intervals per millisecond.
+--cwtj3nebnsz4gzrf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-No further changes are needed, updated code has been confirmed to work
-with all speeds from FS to SS.
+Hi,
 
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
----
- drivers/media/usb/uvc/uvc_video.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Sat, Apr 13, 2024 at 02:46:07PM +0800, Jianfeng Liu wrote:
+> Enable Hantro G1 video decoder in RK3588's devicetree.
+>=20
+> Tested with FFmpeg v4l2_request code taken from [1]
+> with MPEG2, H.264 and VP8 samples.
+>=20
+> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multim=
+edia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+>=20
+> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> ---
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 28dde08ec6c5..4b86bef06a52 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -214,13 +214,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 		 * Compute a bandwidth estimation by multiplying the frame
- 		 * size by the number of video frames per second, divide the
- 		 * result by the number of USB frames (or micro-frames for
--		 * high-speed devices) per second and add the UVC header size
--		 * (assumed to be 12 bytes long).
-+		 * high- and super-speed devices) per second and add the UVC
-+		 * header size (assumed to be 12 bytes long).
- 		 */
- 		bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
- 		bandwidth *= 10000000 / interval + 1;
- 		bandwidth /= 1000;
--		if (stream->dev->udev->speed == USB_SPEED_HIGH)
-+		if (stream->dev->udev->speed >= USB_SPEED_HIGH)
- 			bandwidth /= 8;
- 		bandwidth += 12;
- 
--- 
-2.43.0
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
+-- Sebastian
+
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
+dts/rockchip/rk3588s.dtsi
+> index ac5bd630f..de823f461 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> @@ -1072,6 +1072,27 @@ power-domain@RK3588_PD_SDMMC {
+>  		};
+>  	};
+> =20
+> +	vpu: video-codec@fdb50000 {
+> +		compatible =3D "rockchip,rk3588-vdpu121", "rockchip,rk3568-vpu";
+> +		reg =3D <0x0 0xfdb50000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		interrupt-names =3D "vdpu";
+> +		clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vdpu_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vdpu_mmu: iommu@fdb50800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdb50800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clock-names =3D "aclk", "iface";
+> +		clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+>  	av1d: video-codec@fdc70000 {
+>  		compatible =3D "rockchip,rk3588-av1-vpu";
+>  		reg =3D <0x0 0xfdc70000 0x0 0x800>;
+> --=20
+> 2.34.1
+>=20
+>=20
+
+--cwtj3nebnsz4gzrf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmYcIjQACgkQ2O7X88g7
++pru+g//TSGr8OdwYvLGz5eiAnvv//OdV2zNbWBeVOb5TQnuvB/kxBbwspIJAY44
++Bkgz9AWLjEZuooKaIoQrgCFNJu5o4+rdTiIhKMEo9M6QSjji/jRvB0J4TIUVbUR
+brTZUvJhTQJNNh81CWstGJtiYvPf57IJvojjk7VJRJFg97eTf/kZszfRArbWohhn
+4Ij7oW9bR9e9fX8PIJd5zVgJD/ljHHmKU48ZkI8WMwhplYVJh84+lOaI9KbTjuN1
+fqPjTNJeQm4l9VbQ1nvoe/LC9HErVoPc77obiChmO0FwCD4nAL0xMfC6m9Qweayg
+7e9rG8crDGy2takHP5+vrOjLMdwucwzL2vNV8SuZbiF2NWPLDyD1TZkNKI6Tw4af
+xBu4OSA/de+vulnxpfIFYx3ieasHNfgl8PTwDOtliugOf6i+aiczpblhvLsqNcyK
+WtY4VUiR/B+YVNLOdsDFkDwHJ3r+YHCoke67R9MVYPZdq3JKIwxRaj2xqgHAUzBb
+joaX8pRdYrrxPkIquHKPUteegweV1Fr3FiZPvelNcSB/6l90HMa+XoYM5vR3ARnx
+zHpzLKJygYzlkUi4fR3y1Ad2H0FfV5MHx4TIJ+FlQuUJTuEnp30hWb7Sc/YCC0Ec
+YgZGoH/r8ARl0V+Zmvi/R6bFrZmnBETRnn55EzWnOfDUy3KHcyk=
+=HMGY
+-----END PGP SIGNATURE-----
+
+--cwtj3nebnsz4gzrf--
 
