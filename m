@@ -1,182 +1,121 @@
-Return-Path: <linux-media+bounces-9256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A6D8A433B
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 16:53:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 777E98A443C
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 19:00:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C849E1C20963
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 14:53:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 203D42821C7
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 17:00:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9C4E13473E;
-	Sun, 14 Apr 2024 14:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C95B135407;
+	Sun, 14 Apr 2024 17:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pimdMKwy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fk3g36Iv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99CE364BF;
-	Sun, 14 Apr 2024 14:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF761353F2
+	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 17:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713106382; cv=none; b=jG8BJ4vnBtuyEpslgfwMMOUlOcy++V+i4ZdPL670kXL/fYI12CFSCwJwLBCvN8yn4qAnGkxZFB9YBJ1+XKE9xW3BcF9pyOaQ5svC+VbYsJtOE8H5OHikUUbA3JHTSFLbfpiMamKsGceD6z7Hz/y8ErL5fbFwQlftPD8WPFr78OI=
+	t=1713114049; cv=none; b=CKz52T1iLg1LFONFwP0T83dl7TMRl5LVLP7C3D/8tFkFuuPyCm9zuZsMJN9UhbM+q0o5Vuyc7FkZGnypTRatm7ZzxeXkpUXdT6kva0kj1uB+od1d5bzHYEhhQFMnPrSSQcDPTVpF7nV+LixmfRlzeJrnzjm3daqo/JjVjlDqrdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713106382; c=relaxed/simple;
-	bh=cWAebCGmyhzie5/QiR3suKBycookZfKNe1eWu4+4FQ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TqGiklbUUWtIXHsSBgAfAbP6qUs/LV3hLF0+ErQNG51guu08omUTVRHhYvsWw8rQTUUpoavb3onx0g1fVbYOSbaQVXy0+tqQcUZBbZXOlqd2x+TKJ2lofwub9FBfVCJRefIrk1iFPMBEJHZ59BEnR1KnzaVIMOlcXfdcEZimyWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pimdMKwy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43EEoKQJ013403;
-	Sun, 14 Apr 2024 14:52:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=68mVWSW7A1H1vgKnHISFRNUy/s6fqpVN8Q+NKU/SusA=; b=pi
-	mdMKwySYyUrOWvDP1XRAhpsix3ADWnozSlp23PAM9qy0SYmx9Lsr3B+bkVGSflHk
-	Pj5Nsn6azoSNP5v34rpXLU8UB/M81ZioKq9N6cI6MUMN1ASDg/OhPGBefmcZWjOi
-	YS2r7CQBSXxpP25VCGRFth9uXVaJiKVMjSxk6A7YHkq56fKtC+R1bup+WW7W3MgJ
-	1abpu7pULqP7OZ3ec3EvA1DjvyDtGmpH4f0xmYWQOh8B0oJL09I0gcn1uKM52mYJ
-	TD4pBFJsRijnVOIgNEm1XKq+tjrgWkiKj9rscAWwJWE8CMg+fafZYCaOQUDtpu9T
-	P2SLQsVEU1dMJLvcaDeA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xfkbdhx7b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 14 Apr 2024 14:52:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43EEqlZ3005406
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 14 Apr 2024 14:52:47 GMT
-Received: from [10.216.31.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 14 Apr
- 2024 07:52:37 -0700
-Message-ID: <b96ef82c-4033-43e0-9c1e-347ffb500751@quicinc.com>
-Date: Sun, 14 Apr 2024 20:22:17 +0530
+	s=arc-20240116; t=1713114049; c=relaxed/simple;
+	bh=QTSinBpqwxoKm+WiWRN7rj0y1gqVnCSnuBHvlLmlFqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FnGuFyTxnLAmIq4dw/JZT9HbtplPBHrCQzyGuN7su3zAf2wE3R657vi7QPNV0oSaWQ5ALi7V/zcTasUj314KiVHyZI7+4V+PVs56F4WVi1S8XCk8OBiTrACDsz+unYZuXRT1FGT+GS336I1Vhx8iMZvmCV+8QcR7c8FkQnG779c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fk3g36Iv; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a526d381d2fso210766b.0
+        for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 10:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713114046; x=1713718846; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5SwY9B6CMv4h/cquzMMWNtDJKQ4H/7w0L9m7DcDMMw=;
+        b=Fk3g36Ivg11YU4CmLm0Tsnk2/YzepTXzVmRoi/jSfRQ+EOTolwc+rKWrQuEjzgtPzf
+         AxcAcx/c2L7q0paiNOtAY4BKSjkN0ZaiKOl/eRxKYcPJ8Y/Ryo8v76Oave8VhO1LswCW
+         8r79pF0VbxfEjQqCJ0BLYlJ9tQQmilI0vv2fo+Z22LLDyiegcmBcRXrxQehAqFtKSt+m
+         OLKdmzWXhAct+tXtkoXUnAQQjJq/rChdR+Fel1au167PFPWTd8GGhkXcFUo2D3t6ZiJF
+         ZTu1rDwMda+1PYZ4LNZ/zUJncUs0fK2vnAkCeYst3lqOlhwZu+LuXcX0O1ObL/juRb2E
+         LPaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713114046; x=1713718846;
+        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w5SwY9B6CMv4h/cquzMMWNtDJKQ4H/7w0L9m7DcDMMw=;
+        b=UtMjsQAxpW6vQGjoTGkm9Z06SD/77dxb8Ur8NAFqsuuS6EnE1GevKnY24b+zy5F3kp
+         dykFSuTO18nLDVAQQfH/PTxyMxUI9OoADXpq38/fueAuhWnUHtbD/CNjuJ8wWftrBZfo
+         k9YyasyfRUsxZtZSjUUnAA4H5lQf5dWUUbRzukEIaNx+EJvXIJ98o9JNctFqrW389qTF
+         LUoO13m6dhwFR0iLnD2BH2usYJe4S4v/RXvsE/zIsmOj7f1ZnLwCVSIdTCyee7kz0BU/
+         CsfeYaR/Q5EjY7ILfrHrIjt8+0bzMTSPG2XMJePOj++0HYyc1TT0Ye/haNL1bIJj0iSc
+         Irtg==
+X-Gm-Message-State: AOJu0YzMj7MLND71xOx8ISVD5Uk+2Jt4F8xiCrLnz825o8WnR7+IaRvU
+	n8h9Nw4UmHemBHLu2E03eWer+zBvAgDWe5kPhad58Jwod5J58Mzj
+X-Google-Smtp-Source: AGHT+IFAdOWSnhgNekdBi/sm+06NsuZyRm9JTCbi8gQ6oK2ZWhB0TXopEZtTKDP4sZaQwhhdWutj+w==
+X-Received: by 2002:a17:906:c113:b0:a52:1b82:9948 with SMTP id do19-20020a170906c11300b00a521b829948mr9882906ejc.8.1713114046430;
+        Sun, 14 Apr 2024 10:00:46 -0700 (PDT)
+Received: from foxbook (bfi40.neoplus.adsl.tpnet.pl. [83.28.46.40])
+        by smtp.gmail.com with ESMTPSA id va15-20020a17090711cf00b00a4650ec48d0sm4453554ejb.140.2024.04.14.10.00.44
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 14 Apr 2024 10:00:45 -0700 (PDT)
+Date: Sun, 14 Apr 2024 19:00:40 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [PATCH] media: uvcvideo: fix the bandwdith quirk on USB 3.x
+Message-ID: <20240414190040.2255a0bc@foxbook>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V5 RESEND 5/5] venus: pm_helpers: Use
- dev_pm_genpd_set_hwmode to switch GDSC mode on V6
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Stephen
- Boyd" <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J .
- Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>, Pavel Machek
-	<pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Andy
- Gross" <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
-        "Satya Priya
- Kakitapalli" <quic_skakitap@quicinc.com>,
-        Imran Shaik
-	<quic_imrashai@quicinc.com>,
-        Ajit Pandey <quic_ajipan@quicinc.com>
-References: <20240413152013.22307-1-quic_jkona@quicinc.com>
- <20240413152013.22307-6-quic_jkona@quicinc.com>
- <5c78ad52-524b-4ad7-b149-0e7252abc2ee@linaro.org>
-Content-Language: en-US
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <5c78ad52-524b-4ad7-b149-0e7252abc2ee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: veCuhAHTmxkcbsZpphBoC4DzPmYdR7Dv
-X-Proofpoint-GUID: veCuhAHTmxkcbsZpphBoC4DzPmYdR7Dv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-14_04,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404140107
 
+The bandwidth fixup quirk doesn't know that SuperSpeed exists and has
+the same 8 service intervals per millisecond as High Speed, hence its
+calculations are wrong.
 
+Assume that all speeds from HS up use 8 intervals per millisecond.
 
-On 4/14/2024 6:09 PM, Bryan O'Donoghue wrote:
-> On 13/04/2024 16:20, Jagadeesh Kona wrote:
->> The Venus driver requires vcodec GDSC to be ON in SW mode for clock
->> operations and move it back to HW mode to gain power benefits. Earlier,
->> as there is no interface to switch the GDSC mode from GenPD framework,
->> the GDSC is moved to HW control mode as part of GDSC enable callback and
->> venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
->> from SW whereever required. But the POWER_CONTROL register addresses
->> are not constant and can vary across the variants.
->>
->> Also as per the HW recommendation, the GDSC mode switching needs to be
->> controlled from respective GDSC register and this is a uniform approach
->> across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
->> controls GDSC mode switching using its respective GDSC register.
->>
->> In venus V6 variants, the vcodec gdsc gets enabled in SW mode by default
->> with new HW_CTRL_TRIGGER flag and there is no need to switch it to SW
->> mode again after enable, hence add check to avoid switching gdsc to SW 
->> mode
->> again after gdsc enable. Similarly add check to avoid switching GDSC 
->> to HW
->> mode before disabling the GDSC, so GDSC gets enabled in SW mode in the 
->> next
->> enable.
->>
->> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->> ---
-> 
-> When I tested this out on sm8250 a few months ago it was broken.
-> 
-> I don't quite see in your commit logs, how the breakage was addressed.
-> 
-> Can you provide some details ?
-> 
+No further changes are needed, updated code has been confirmed to work
+with all speeds from FS to SS.
 
-Thanks Bryan for your review!
+Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_video.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-In earlier series, venus driver is switching the vcodec GDSC to HW 
-control mode before disabling the GDSC by invoking 
-vcodec_control_v4(..., false) in poweroff_coreid(). Due to this, the 
-subsequent GDSC enable from venus driver is failing while polling for 
-GDSC power ON status, since GDSC is under HW control mode and HW can 
-keep the GDSC in disabled state.
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 28dde08ec6c5..4b86bef06a52 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -214,13 +214,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 		 * Compute a bandwidth estimation by multiplying the frame
+ 		 * size by the number of video frames per second, divide the
+ 		 * result by the number of USB frames (or micro-frames for
+-		 * high-speed devices) per second and add the UVC header size
+-		 * (assumed to be 12 bytes long).
++		 * high- and super-speed devices) per second and add the UVC
++		 * header size (assumed to be 12 bytes long).
+ 		 */
+ 		bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
+ 		bandwidth *= 10000000 / interval + 1;
+ 		bandwidth /= 1000;
+-		if (stream->dev->udev->speed == USB_SPEED_HIGH)
++		if (stream->dev->udev->speed >= USB_SPEED_HIGH)
+ 			bandwidth /= 8;
+ 		bandwidth += 12;
+ 
+-- 
+2.43.0
 
-Now a check is added in poweroff_coreid() to avoid switching the GDSC to 
-HW control mode before disabling the GDSC for Venus V6 variants that use 
-this new API. Hence during the next GDSC enable, GDSC will be in SW mode 
-and GDSC will powerup properly.
-
-Thanks,
-Jagadeesh
-
-> ---
-> bod
-> 
 
