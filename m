@@ -1,164 +1,142 @@
-Return-Path: <linux-media+bounces-9245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0238A41ED
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 12:49:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DF28A424E
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 14:40:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9EEB1F2125C
-	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 10:49:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5804C1C20A00
+	for <lists+linux-media@lfdr.de>; Sun, 14 Apr 2024 12:40:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B4C2D7B8;
-	Sun, 14 Apr 2024 10:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CADE2D04E;
+	Sun, 14 Apr 2024 12:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIWVCASo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kbKnskrI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCEB37143
-	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 10:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6D41E53A
+	for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 12:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713091737; cv=none; b=Ma5vkL4yCsR98uLVcGc4zQXmRMbahcKuh2n/Z8Kwal4D7L4HUfDzppTczvqSgPfWGwv85fYbzYFxbgPnjv1JFYqjACD+tfyVHA3elorKCOQfzPvu5Rs1P9in7t6lZ7yTXj6GHaX0XljmGc4whobKZ7G3Y8tE3LAa8l2bEWBaRLk=
+	t=1713098404; cv=none; b=NuV4h/FnXHNM4cOl7unfEbeaxaI/6zKg/a0GbseKK7/4mY1ec9VV4dtILX2cM8xi3LgsyOFtnIl0yeKw8ZNjspFgQlJkiTlovPjaNVUvQvTWJdLD/M1wyCAU9HcjA9hED7b3KqP9yPwyQ/niJLRkwxrTYYERNpvKwtX2tSZ9AL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713091737; c=relaxed/simple;
-	bh=4H1COYkI1aKAP2L6EGd9gtGvjqKFKVsROhb/Asj0deg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jhkt47T956TOKtLIr4PAO1ZVRGnsIb1tl0ydDIybFCoyMQE3DK66qVU5plYa9TWk6h+mFsIHMlCzyrpo3SChUsoaORm6edh1qJJvrRexMThPQoDyxDOE7mdjYsfYoNnMeiQiv5iclB3fjukNRywmBzZLajtjovUfVGzSYxFeCak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIWVCASo; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713091735; x=1744627735;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4H1COYkI1aKAP2L6EGd9gtGvjqKFKVsROhb/Asj0deg=;
-  b=ZIWVCASo8oqA2aNcSyh2SJxswpHjR2RRZHzRiC/VWjUBTG4MQ850A2RK
-   HGaiJiLQA48cn3hWwa7xERD1Ywa/Ju8Rs/JEmZjsCPA3/eddIgA+5avZk
-   LGG85cmHQ6xyuJ48xo158nCFni0WsE/ub0jBSn6TQp6YXHMrtHBJa6tMc
-   4+LxT81J0nwRj7GY0G6xJTlC6MuL6B7OC7ux2lQ/tKzlt6rTvDoyPly+K
-   UwOD0Y6YKErSPMTw4jxgI9j7/isiyg/Pg9KAx6xGHY6PhPL1gyetzGjm7
-   pr33BCMBR4V7zl0C8KRGBLmmJL23jjUkSzkesNWvAPkyxUFC9jPrpzaO5
-   A==;
-X-CSE-ConnectionGUID: iWGephp9RBqCKUZTC5CAMQ==
-X-CSE-MsgGUID: +kcDyGyvQ0mMGQHDk4DnKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11043"; a="8348087"
-X-IronPort-AV: E=Sophos;i="6.07,201,1708416000"; 
-   d="scan'208";a="8348087"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 03:48:54 -0700
-X-CSE-ConnectionGUID: 4269XUxnR9+ctHhsiHVtDg==
-X-CSE-MsgGUID: +WiGWeK5Sg6Ib+Fc58OToQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,201,1708416000"; 
-   d="scan'208";a="52836152"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 03:48:52 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9CF77120359;
-	Sun, 14 Apr 2024 13:48:49 +0300 (EEST)
-Date: Sun, 14 Apr 2024 10:48:49 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 23/38] media: uapi: ccs: Add media bus code for MIPI
- CCS embedded data
-Message-ID: <Zhu0ke6RA9PYfYZi@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-24-sakari.ailus@linux.intel.com>
- <20240321164914.GD9582@pendragon.ideasonboard.com>
- <Zhenr8ykPs9vlkh6@kekkonen.localdomain>
- <20240412190746.GO31122@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1713098404; c=relaxed/simple;
+	bh=BPchb6SuF3YffLRf+8/iXRceh/nK/f1NxS1WB7VSjUQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Uh6pH9/5g1YulzrwKFDzck3PIyV2yi7aLZWDWcxiysxGuTMHPyKrL8+O/MyC6r3wIcR0epPZmcB+aO9cCIhznUfbBnLs0WJJgCxHkWKnsKCLUR9XmkihG8d2nzhd3DdWL6kpfMBpTJofldpY2Tx4krSVqZQbN/1w6xnTUiXJ+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kbKnskrI; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4155819f710so15636065e9.2
+        for <linux-media@vger.kernel.org>; Sun, 14 Apr 2024 05:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713098401; x=1713703201; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6caUmj4J65h/YjIX6IywsH74tzjrKOAOHEmC2FZcC/o=;
+        b=kbKnskrIfFSbWafD1c8jnSIXPlRFMr6brtEmO2LQ8WZAtfP8DzIFWMFkptyTpD9556
+         24zLebmBGdamcz6vaJTEgFaqpV94yfb+23GqtrMDdwpy+tR31Ydunwz57uVaFiP+86ew
+         Kxb+7DWP2sW1slwuF0NXq162INu5R0axivxuLvUoVqm/hsg56YaUypc3REyWt2NX7h+9
+         pY7VOx7M9/88aB5oGbqLn5TRpJ65C/cTDAsA1g2tMLGHe0mov7Ah8J2RUTd7x15sQgT0
+         zc+8avD9wwCpD5yDm017fzPGd69b7h7R75iXqRtGt3q7IoNjwLowEt4QaUaQ3oXVKkH5
+         harA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713098401; x=1713703201;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6caUmj4J65h/YjIX6IywsH74tzjrKOAOHEmC2FZcC/o=;
+        b=sVj95XU6Ihery9v2SGJyU/RfFMp69NjFDWvC4TSzZh1oJ8BDf9+uHDqfxmMeNIRUc6
+         6TX+1XrPRbSK9FFant4XVCqJvqoAGU7ilJWSOZ7SqCI9NExYHIZgsmBEB7VRkwkiV2mg
+         2FhODkPzjDMKfUx2oHL4+LIckGuefT+FQT9OaA0skaTisU2fT0UknW1qPV3tqMfta1LZ
+         MqQgixGClksXc5KGBzJsXixGTBW2dPtcR4tC7eKJXyCSygmB8bH3LXwHNnvK3SX7n8cR
+         UHKZjnAGvnFrkQ9QTj6sn6oLuBHk3w2xRmuub5k4kDLC04I7b3pRuO1x3xb+3BFhVZNB
+         3YxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPN7TBpj3FSDEgWm1VLviKhcH7S0Cu+m7cGj2bhnx9PFz3Pdkaq5m0FWBWnvrRqIa8yc0CZn1VHLmKMaZbPlKF7y9lVxWxZf7KcU0=
+X-Gm-Message-State: AOJu0Yzdnu15OlasAdta3ilaiUCAl9vl7PDoD88ExZkKJX5fwOLqUNmo
+	Vd5eTaGMAq3rAHnWhWbgETEG4ZESCyAQqHpVtkxRq8PcCZhBuC6hkW99nEWNLcM=
+X-Google-Smtp-Source: AGHT+IEzKotbasPvGOvaLyaGMQ52XR+G02Abegkqynt4r4bUFHkn5OitwWrQeeo81+f0h4YeQuBFqA==
+X-Received: by 2002:a05:600c:1992:b0:418:273a:7688 with SMTP id t18-20020a05600c199200b00418273a7688mr2224806wmq.32.1713098401592;
+        Sun, 14 Apr 2024 05:40:01 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id q12-20020a05600c46cc00b00417bab31bd2sm12159302wmo.26.2024.04.14.05.40.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Apr 2024 05:40:00 -0700 (PDT)
+Message-ID: <5c78ad52-524b-4ad7-b149-0e7252abc2ee@linaro.org>
+Date: Sun, 14 Apr 2024 13:39:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412190746.GO31122@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V5 RESEND 5/5] venus: pm_helpers: Use
+ dev_pm_genpd_set_hwmode to switch GDSC mode on V6
+To: Jagadeesh Kona <quic_jkona@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>,
+ Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
+ Imran Shaik <quic_imrashai@quicinc.com>,
+ Ajit Pandey <quic_ajipan@quicinc.com>
+References: <20240413152013.22307-1-quic_jkona@quicinc.com>
+ <20240413152013.22307-6-quic_jkona@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240413152013.22307-6-quic_jkona@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-On Fri, Apr 12, 2024 at 10:07:46PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On 13/04/2024 16:20, Jagadeesh Kona wrote:
+> The Venus driver requires vcodec GDSC to be ON in SW mode for clock
+> operations and move it back to HW mode to gain power benefits. Earlier,
+> as there is no interface to switch the GDSC mode from GenPD framework,
+> the GDSC is moved to HW control mode as part of GDSC enable callback and
+> venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
+> from SW whereever required. But the POWER_CONTROL register addresses
+> are not constant and can vary across the variants.
 > 
-> On Thu, Apr 11, 2024 at 09:04:47AM +0000, Sakari Ailus wrote:
-> > On Thu, Mar 21, 2024 at 06:49:14PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Mar 13, 2024 at 09:25:01AM +0200, Sakari Ailus wrote:
-> > > > Add new MIPI CCS embedded data media bus code
-> > > > (MEDIA_BUS_FMT_CCS_EMBEDDED).
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../media/v4l/subdev-formats.rst              | 28 +++++++++++++++++++
-> > > >  include/uapi/linux/media-bus-format.h         |  3 ++
-> > > >  2 files changed, 31 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > index cbd475f7cae9..c8f982411e70 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > @@ -8564,3 +8564,31 @@ and finally the bit number in subscript. "X" indicates a padding bit.
-> > > >        - X
-> > > >        - X
-> > > >        - X
-> > > > +
-> > > > +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
-> > > > +
-> > > > +MIPI CCS Embedded Data Formats
-> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > +
-> > > > +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
-> > > > +metadata format for sensor embedded data, which is used to store the register
-> > > > +configuration used for capturing a given frame. The format is defined in the CCS
-> > > > +specification. The media bus code for this format is
-> > > > +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
-> > > > +
-> > > > +The CCS embedded data format definition includes three levels:
-> > > > +
-> > > > +1. Padding within CSI-2 bus :ref:`Data unit <media-glossary-data-unit>` as
-> > > 
-> > > s/Data unit/Data Unit/
-> > 
-> > Yes.
-> > 
-> > > > +   documented in the MIPI CCS specification.
-> > > > +
-> > > > +2. The tagged data format as documented in the MIPI CCS specification.
-> > > > +
-> > > > +3. Register addresses and register documentation as documented in the MIPI CCS
-> > > > +   specification.
-> > > > +
-> > > > +The format definition shall be used only by devices that fulfill all three
-> > > > +levels above.
-> > > 
-> > > Hmmmm... Do we need to mandate level 3 ? There are lots of sensors that
-> > > comply with the first two levels but have their own register set. Would
-> > > you like a sensor-specific embedded data format for each of them ? If
-> > > so, how would we document it without essentially copying the datasheet ?
-> > 
-> > You could refer to the datasheet if it's publicly available.
+> Also as per the HW recommendation, the GDSC mode switching needs to be
+> controlled from respective GDSC register and this is a uniform approach
+> across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
+> controls GDSC mode switching using its respective GDSC register.
 > 
-> What if it's not ? How would you expect documentation to be organized ?
-> Will we then end up adding one media bus code per sensor ?
+> In venus V6 variants, the vcodec gdsc gets enabled in SW mode by default
+> with new HW_CTRL_TRIGGER flag and there is no need to switch it to SW
+> mode again after enable, hence add check to avoid switching gdsc to SW mode
+> again after gdsc enable. Similarly add check to avoid switching GDSC to HW
+> mode before disabling the GDSC, so GDSC gets enabled in SW mode in the next
+> enable.
+> 
+> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
 
-Probably. The user space needs a way to find out what to expect. If a
-sensor produces its own custom metadata format, it needs to be documented.
+When I tested this out on sm8250 a few months ago it was broken.
 
-There's also documentation for OV2740 embedded data in the set.
+I don't quite see in your commit logs, how the breakage was addressed.
 
--- 
-Sakari Ailus
+Can you provide some details ?
+
+---
+bod
+
 
