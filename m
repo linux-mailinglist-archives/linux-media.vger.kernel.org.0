@@ -1,64 +1,87 @@
-Return-Path: <linux-media+bounces-9406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED96E8A55C8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35958A5629
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 17:18:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DB021F22FA5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:59:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EA821F2308B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 15:18:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673B1757E4;
-	Mon, 15 Apr 2024 14:59:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 106C278C6F;
+	Mon, 15 Apr 2024 15:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KctaoIzR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FF874E37
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 14:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A4F74400;
+	Mon, 15 Apr 2024 15:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713193150; cv=none; b=AKt2PxixeCDiE67TXHqy/IH9yCVdXVBsuTsE7fruLHttB23nFKWRZnqh1YZ+hhQxE7Hq7NWNbqc8y6bqS1ek/nDkLNDPMg6fs2559Rp/kegXE2WIsTGb2h95XaoCXvL0nIfaFJEXffDVAi/0Ec8JxlOfGHHlgKsK4l7UK6hVUuk=
+	t=1713194327; cv=none; b=F+5wEQNPCx/RjnC96eN56XhQXjrUygkC70MGXHDIGnQNHEfD4vsqFq92hWdC5+DA8e82LBbtu0XanxyQAvsB2ujbLCvji4gl9DtUwPN92A/lqXXnJRhOxIc83hDihViNfIlbTU0RFEQqm5+17j41ggn83qpRpUo3rc8iqO20noo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713193150; c=relaxed/simple;
-	bh=9BEfL0/R2EKlaqpP1DN0nA6JucN40DYPWmMjubPPF/s=;
+	s=arc-20240116; t=1713194327; c=relaxed/simple;
+	bh=vYNESEOUgzTI40faatByfpCU1dT6sZuS9cR0oF8rJaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gj5lxYJgzo0AMvUHzWjlotiDsU2YSRQliFHAnuhZ5cwKHcIyin9lbf1g4P3lX3Zcu6OejCp2IzulYxRhNHJe4Vp4+gj1muNc764eJscXTRFGIMUSzYlPAGE7aJGAnNwTbWElgjaH1BJI2lXBCtbkmBOdzw/ReU6r0Tn1DVfrjjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: mslUPdhcSTSl26eBtqV3wg==
-X-CSE-MsgGUID: mWb14wRIQDqlTxl0iWKdWg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="26045006"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26045006"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:58:53 -0700
-X-CSE-ConnectionGUID: lTm7UWagS7+q1masA5MenA==
-X-CSE-MsgGUID: 8PneIB4JRzSwfOCRpssCKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="22035635"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:58:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy@kernel.org>)
-	id 1rwNnD-00000004RHa-3GtP;
-	Mon, 15 Apr 2024 17:58:47 +0300
-Date: Mon, 15 Apr 2024 17:58:47 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 00/23] media: atomisp: Further media-controller related
- fixes + dead code removal
-Message-ID: <Zh1Ap3Zqp2Lj9xww@smile.fi.intel.com>
-References: <20240415120220.219480-1-hdegoede@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=n6OAEI6OfO15f5fghuMMfSTMRKdxkHGOe6MTRcntj8UVekeEVVct6ckl4+W4WLM45tvWnhVFOvGKP4DXxHS2Hz0+rrl01v50+cTe7lPZYhjRSN2qObdwuE8aRUyDkAnjStqSbfIz7bcK1NTUT/feXN2+L3mrIwWHbDxSEGsTR44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KctaoIzR; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-56e2c1650d8so3147237a12.0;
+        Mon, 15 Apr 2024 08:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713194324; x=1713799124; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vpq7QbSflVZxyFAuGvP4r1TwK6fSOB6v15DB0jnFa2U=;
+        b=KctaoIzRBIU0gGFjzSqrA3s/VWwegyJ3mGX9ZxQP1W6UzkKT7JOWT3Q7TGnuZqkMKF
+         TLreJiFF/Inw37caeZ647Gpzcza3xUprKnU0fdijt1dppGY0IWllBYIDc39d5bez3C3B
+         nnEkrq/Y3kCf+7h4W3ouhvMn7/5mLpCh9LmKr0DnlmKWM+tMB5UUcnynWGzx0MPtrsW2
+         yNSbEewKo6ZUuBW6wkq+RALUXpzq2oWNlqhcAQpbX7jAM5o0r9BIhNc0g4IjQnckTf7k
+         ycaxug6fcvM2ePObpXYf+OiLq2O4ftWDBIbymKOWcS2GPRVJUySkX+ug58mzbYokSPYw
+         xwPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713194324; x=1713799124;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vpq7QbSflVZxyFAuGvP4r1TwK6fSOB6v15DB0jnFa2U=;
+        b=suEe2ytKZL9y6YgqzphRA57+rmvQfXWwEtu/qFZCHmvwZfbhDvghU7ADQ0MAhRUl5F
+         o17EIubPNvH4rpgOHTNIZiP9s8eD1gTOq/dw2LU7FnRHD82TDXbXp1UG3ORiCdTrKEZ7
+         mybqFRMztrmKfs7lS1Z7nw7c3FyfMRKg7LoPXsMnyzmdy0+TO+1jIUQtyX7bjxuNtMPX
+         pGp5QYS7k+cX0dF46gO1Fa+Q7LoyXrXtyWYbDTuSbONTR2WptfDsDqVeOas2AssPHSQS
+         dwFihMN0QyRPM3UKz7Dk9ToD6YtgjvjUHFsyVD3o/y1tEW+SHvCYU2kpPGsVlDQIEN7W
+         hTyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWtsu6/NLO4KVvoYbd4TWW0SZEpUDsETIwZ3wr/s2jfPrC8MDECj+dbbBM9pzRf9Lx3Iy8qlfID+Be1gryzuBS1w4p69XpR5qy52Q27oD9cqI6Y52d5u01Q6u/TH09fBNKCsf2ghcYPT24L+g/RaAa3oOITux2/p02DOtnJahI++szHlN3x
+X-Gm-Message-State: AOJu0YykJ3fZSESQVjIx3aulSrqjoUVGZfE+FQG/jNbHGh+E0Aohndqs
+	XG1OWVojL2vfYp0x9zCkx9/FLWOpcAGqu0GYT26iwPYu0qnE3B31
+X-Google-Smtp-Source: AGHT+IEZ37fDv/8PATbDYAXJxrOLvA4hobMxdgnN/ln5UGiqgDS8FX1e15FZfty45LYMSm2C40OJEg==
+X-Received: by 2002:a17:907:7283:b0:a52:320a:632f with SMTP id dt3-20020a170907728300b00a52320a632fmr7624800ejc.27.1713194324054;
+        Mon, 15 Apr 2024 08:18:44 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-57-233.cust.vodafonedsl.it. [188.217.57.233])
+        by smtp.gmail.com with ESMTPSA id bk5-20020a170907360500b00a53f1303771sm739161ejc.151.2024.04.15.08.18.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 08:18:43 -0700 (PDT)
+Date: Mon, 15 Apr 2024 17:18:41 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: git@luigi311.com
+Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, sakari.ailus@linux.intel.com,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	pavel@ucw.cz, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 24/25] media:i2c: imx258: Use v4l2_link_freq_to_bitmap
+ helper
+Message-ID: <Zh1FUQOt9n/tO3er@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240414203503.18402-1-git@luigi311.com>
+ <20240414203503.18402-25-git@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,39 +90,66 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240414203503.18402-25-git@luigi311.com>
 
-On Mon, Apr 15, 2024 at 02:01:57PM +0200, Hans de Goede wrote:
-> Hi all,
+Hi Luis,
+
+On Sun, Apr 14, 2024 at 02:35:02PM -0600, git@luigi311.com wrote:
+> From: Luis Garcia <git@luigi311.com>
 > 
-> This patch-set contains a couple of atomisp driver fixes for issues which
-> I found while working on a libcamera pipeline handler for the atomisp
-> (and thus controlling the atomisp driver in a more media-controller centric
-> fashion).
+> Use the v4l2_link_freq_to_bitmap() helper to figure out which
+> driver-supported link freq can be used on a given system.
 > 
-> Patches 1-8 are more or less prep work for fixing an ABBA deadlock in
-> atomisp_link_setup() in patch 9.
+> Signed-off-by: Luis Garcia <git@luigi311.com>
+> Reviewed-by: Pavel Machek <pavel@ucw.cz>
+> ---
+>  drivers/media/i2c/imx258.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> Diving into the code for this made my hands itch to remove of bunch of
-> atomisp custom internal APIs for things like flash support, so the rest
-> of the series is just removing a whole bunch of dead / unwanted code.
+> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> index 5de71cb7c1ae..65846dff775e 100644
+> --- a/drivers/media/i2c/imx258.c
+> +++ b/drivers/media/i2c/imx258.c
+> @@ -693,6 +693,7 @@ struct imx258 {
+>  	/* Current mode */
+>  	const struct imx258_mode *cur_mode;
+>  
+> +	unsigned long link_freq_bitmap;
+>  	const struct imx258_link_freq_config *link_freq_configs;
+>  	const s64 *link_freq_menu_items;
+>  	unsigned int lane_mode_idx;
+> @@ -1552,6 +1553,17 @@ static int imx258_probe(struct i2c_client *client)
+>  		return ret;
+>  	}
+>  
+> +	ret = v4l2_link_freq_to_bitmap(&client->dev,
+> +				       ep.link_frequencies,
+> +				       ep.nr_of_link_frequencies,
+> +				       imx258->link_freq_menu_items,
+> +				       ARRAY_SIZE(link_freq_menu_items_19_2),
+> +				       &imx258->link_freq_bitmap);
+> +	if (ret) {
+> +		dev_err(&client->dev, "Link frequency not supported\n");
+> +		goto error_endpoint_free;
+> +	}
+> +
+>  	/* Get number of data lanes */
+>  	switch (ep.bus.mipi_csi2.num_data_lanes) {
+>  	case 2:
+
+Looks good to me.
+
+ps:
+Maybe a good plan for the future would be to use: dev_err_probe
+(instead of dev_err into probe function)
+
+But this I think is somenthing for next improvements. :)
+
+Thanks & Regards,
+Tommaso
+
+> -- 
+> 2.44.0
 > 
-> This series is also available here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
 > 
-> I'll do a forced push there addressing any review-comments + adding
-> tags before adding a signed-tag for a pull-request to Mauro for this.
-
-Thank you for doing this nice cleanup!
-
-For non-commented,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-otherwise feel free to add it, if you agree on the suggested improvements.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
 
