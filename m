@@ -1,170 +1,127 @@
-Return-Path: <linux-media+bounces-9399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9400-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A07A8A5497
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:38:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE75B8A550B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:41:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB1BD1F225DF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:38:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68998280C97
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0995985945;
-	Mon, 15 Apr 2024 14:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HLz0qcfd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7CB78C7A;
+	Mon, 15 Apr 2024 14:40:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2073.outbound.protection.outlook.com [40.107.244.73])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F21685266
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 14:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713191716; cv=fail; b=i0Rs/Pu2DtSHxvwt4gYy79xfT72/SFbtNZEuUPeGzm9Uax9G5Ga2C7UzB4zuEqT+haGgAUShuyIpc+g1RTdL+YwUEQWDlrrYRG5vE3Uwt9LRnKe/UJMGwL87Ly3Q0f2jlQEIDg/Jm03Jnju3G9eVnw/ujPNqY6H0H8L7oFAYE80=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713191716; c=relaxed/simple;
-	bh=QtsTMfP7s+fmqU6ClZg8VpTfcmnErrP19EYm1AcuFRo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=msLIMr/3opMhjtZzaSt/Ju4teUT8Gw9yXP4AOokq0H9z961zNTOez4c3pK7rgq1fghaHgrQTeLKVdlW80ITE6iRVMdkTSqndF08dHpnCsncPNMxh8lE2gDefmOXaPUHisrEZNr3dgsM8Qi1DzQ2WfNKHAq3sUzQHMMlxSKcx3XE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HLz0qcfd; arc=fail smtp.client-ip=40.107.244.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fbvB9NtsKJXTTZ2qtRTpU3Eoq0OVqX20IQ4f6kYoOsh5UohbvwV9xlBXq7uMNnEikU4bsZcEQ0jWyvA+5hDGKFVRZEvdam6CRsuhW/0uFzSaWJAkEVL24L0/ij0BYlXN9Ymq5KdE24u8DCqOfc7pLjNFVcbqPuBqEnSr3KQBztpMFth4rXuJ1RlX1Fb0NAx3lgm8d5r+MFQ+WXyK97C7aN3KaGdsMMwuSrdutcIcARZukyye0l/AlhKfY+TmiDmQat3zfPTr1vE/L64T5nuNeQBEKcR3ziVIarWMhhMGcRXR1miDBFyd3BNlzwTpldlz33JutUs5WKhrpYupkjhsQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
- b=CcftXOpqUzuQ8iDZHwEqYtc0Xfb/xFjcFv/ivYOYRz1rghuzZ3p+575YrH4FdfORLGiok+SWfWRVJEHjBFz0YuKBb4I39vbFbk4eqtuAlb00ESgI3Nu5Xw3mWW3ebk5K8rQQCOWnc0xEzjzgKFb+C+EsPRKlM845K9D3ZdAUaKIIxK1p6lwJVbjIBw9HmT2aRC/riEoojT3f3OpPgcTjhFcfR1eVy/bg1Jd+j4VbE1B3ePkInBVywenFeTYIUno0HsbwCvynK1gKR+mMEM/eHpIYRc142mkv0atPURJD+9gxzL17wG7rvj9/S2heOTjEUlC+1FRJT7TqrXM9XcW+sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
- b=HLz0qcfdyqXdimhrDT2wPt1VICn2BYtWuath5mroqnwYuAY/M2cKaQVKjqRbIXa4Dw4uFNx+ungpINZb5ghcvpAylpbE8grvWozWXiQ7Vdblv+fy2ZgQ3XChq/8284W7RMfshEcByZtun12HS99ZahEY/bJzupBHzZwoqFxKqBI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 14:35:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 14:35:12 +0000
-Message-ID: <cba06e6f-06cb-4b0e-88df-d25d278fb4f2@amd.com>
-Date: Mon, 15 Apr 2024 16:35:07 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: dma-buf: fix grammar typo
-To: Baruch Siach <baruch@tkos.co.il>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CD876025
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 14:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713192016; cv=none; b=ks+To94hfFnuFgvgcNCQlN4JymQUnOm0HL1pEdShw6WLrXjdq+cLAExdCSn0/3WZU9N0aIrjCo4lsIjTMArvMqfjO8JeCNqkISblI4+QZ1FxLpk1i3FNW2pvFpd/feaSgg2xaBsbVxDLJaagCe1CX64uKoW6uCDb8NLp7fX027M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713192016; c=relaxed/simple;
+	bh=E13I5opHBC4BhEhgP3nJZYFyjzrOIj4bCPFhACOhxLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G+E/Z6xNDukqdOY5gcm45FbgfVU/9Tx1Vy3iI777FAsuoSdkoItZxjZGK0jU/l9BVEjEdURe9iN3r/BulIAQuyAFRNbRmHg7jVur+tXjPWywQytbsBXmNCF8WFxb3Bspr5djGIRUS8oz3yxx1HpZJ4sG4j4lRD/++rXaT6syEiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: yayGg99SSIqeS13XtMHJdA==
+X-CSE-MsgGUID: uTWXof84T0WmMwid9DX4yQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12364889"
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="12364889"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:40:14 -0700
+X-CSE-ConnectionGUID: aOAdTzyWT2+SGTKj3XFpBA==
+X-CSE-MsgGUID: 3lber1/8S8SOb/ky1XkACA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="26498184"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:40:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rwNVB-00000004R0a-0Q00;
+	Mon, 15 Apr 2024 17:40:09 +0300
+Date: Mon, 15 Apr 2024 17:40:08 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 11/23] media: atomisp: Remove test pattern generator
+ (TPG) support
+Message-ID: <Zh08SP60QytSz3aQ@smile.fi.intel.com>
+References: <20240415120220.219480-1-hdegoede@redhat.com>
+ <20240415120220.219480-12-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8791:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	TmUO5Ui4lSzIZBYVD6TJtL/9E86ARDq+oI7+yMhXjSRi7gHFzYpR4fD9Dq3NebTctyP/4Y0KznhXiJt45mVQtFimM/uh0gVLOknB8SEnE7xFYH+2roI+h1aIDeZNnLJMQiz0omjElImETDr41/Ga8wxnFl6JFE3q4ZMFu330F6XnvbQAWZfapVW5tXK6WJudGGOu5Rjh1/malRav567hgwN5qnB9Ysh8/KQmNtoHWANqKQ1N4ZJ6xKK2z+rywzI1zDJrJ1T+ufipwkmJDovTLw7Cu4lPnVkuWENy2pOc5Y7gCGJoIbITMrsCnpj3YyC8q77hV7ZYZZ7PaSi8P/Mwj25WwD9al608fLPq/v+XC0JCi8xw+hvAcvhlNwC9WzkjwY9eQggoJqtR74+zRJQJdwZI8UljDhxQlE/gapyKx+Hyk/ueOcIgUXg+aXLxyfo7MtrqTGNrz/CpcYuQm7PC1snbi0K0ldnBqVEejb7ea6otZhoZwoxCq5mCUkHHB2k2ppiqmJxK1hbUXX70PwhY4+Q7e1I10/131giNrKmvTBEO1YhrttUzplYiTgoJ9k6RF1gB6bb8qi0tI8DIXOGxG90JPiVSgs5oF6GJS0e1ZDLDz44kQoPgokx78zz11M41ti7Kpkjxh27BdY86uRqvHQVpMoS3JVW1o85clG1Mezg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bm1RcDQ2VTRVLzBrRW0rcyszVXJwcTZvSkhYYjlhWElCSllONXNZcWw3VFh0?=
- =?utf-8?B?cS9BRWNLUTYveVpxUlBZSHlkTUcwNG5CQ3VPWjZDUm5WZC9GNGxVckdBdTlq?=
- =?utf-8?B?U2twZVlENTJncUsyZjdFYVRWVFhLbFlzaDNDdUJYOUxlaHVqcklEREZUbGpZ?=
- =?utf-8?B?a1p4aml2TjExVklNajNEeis2ZWtxYW9xZ1h2b2RQVTFDMnNOODVhKzViNFB2?=
- =?utf-8?B?VzlYNW8zaSttcUU2TmNPNmIrejk5Wmx2RHp5TEI3Z04xNmwwVmtLbVA0bmdl?=
- =?utf-8?B?SnVQMnZmUmVWZnIzZW9JcVNHUEFjbWxiMVNMSE53ZmRnUTRsMHl1STNxOE0w?=
- =?utf-8?B?TlNKN1VSazZtMmNEZndjSDNNRVdJSG9uMHU3VVEvNWYwVUFLa0xwbld6WVNF?=
- =?utf-8?B?eWJSbUY3NlMyMDlRN0FkR0RIY1B0bUtNQ2VxcHF4SFA5RWpLQ1FUUmljblhK?=
- =?utf-8?B?YVRBY0wvWUlHREtNejIxc1BVYXJVclBia3J4Z09ubVdlRk1ndmtKRitNSlZD?=
- =?utf-8?B?RkZVYzNXTjZwb2NGYWsxVGRpZFBXWk5mNjFjNVRlVDZCTk5DUzlaeG56RWw0?=
- =?utf-8?B?Q2NtbWVSSTdLVkVYSlRNbSthbnd6eUlKNmtJazA1MWZBNkdBMEJnZDB1Z2NO?=
- =?utf-8?B?d0ZoVlBxMU5ncEJyRmkwcjBNRmdqa09hRTFFSTVoV2pvYUxXRVZVQ3NNdkFu?=
- =?utf-8?B?QzBySHBVZVdJM3pja2NDcndBMG56TUVLRERiMTNQc0Q1SkxQVGlzVmw2bW5t?=
- =?utf-8?B?UENWMCtSbWhDY0luaUMvQTdaVFY4bmVHSGFDYVJ0VnVqZjB6dE1rLzJiNWFj?=
- =?utf-8?B?V3hQSXJQMlFDUzQ1UW5pMUw5T2JEcDV2MXZsdzEzeFFCcm5acnEyQmVPemkr?=
- =?utf-8?B?ZU1WUXAxTmFYSE43TXpsSVhoZ01OeFFXZzR0bmV2SlRXN0NrRS9KSndIaGVO?=
- =?utf-8?B?NUFvbm5QdUV0bk5pVFlveVhqZFZvK3VIemtVb2FlNVRhOVFWSFlkYU1BL25r?=
- =?utf-8?B?Q1J2ckt0SnZiZEVnRTZERGNCOEJudlNHNXhSbTVMdkRsZ29ET1F0SzJnNzdi?=
- =?utf-8?B?VVFKVmc3dlVTSVphZ1VtS1Ryc0ZvWFdIb0ZmaXRFY25ISUhxL1k0dGhwU093?=
- =?utf-8?B?eWdmVGM5dUMrSjdOVmZ4dHhOS2V4ZHpyN0dmRDdOblFOb2UvVmtqb1lKWnpJ?=
- =?utf-8?B?ZWJJOHJDWW9mZVhTdmZLa2ZjQ2Q2QStxZkZFbkxnVkZ0dEVOOFpFTzExUXJW?=
- =?utf-8?B?Sm1qYlMzdlVnSlZ3WVFuUTZHQUJOZUduNG15K2RaZGk1N0VvNnpqMGlwRmti?=
- =?utf-8?B?OUEzbERpaTQ5eStmUlZFUGE2dUdoNTVUYVpVajVNWW0wYVZWWS9xb1lZVmJt?=
- =?utf-8?B?ZitvMTZVSnVQVlFXSHI3bzZnNDZ2MFVHazVreW1LQWFtSjV6Z0VCN3hkZzhq?=
- =?utf-8?B?OXFGQXRDNFVnWmtTeEllMDF2anB3UlJPZDU3Z3M4cFJBSFRkenN6NUQ4U1pv?=
- =?utf-8?B?bEdOUHRWSSs0OUtUcEY0NVhidUF3ekJxQVAremxkcmJnYURINTBsSjZjVjF6?=
- =?utf-8?B?dXFNa2hNV2Exdi9ieXQ0MVNuNGZHS2pwYWpyRDN4SlorQzFKbnE3VHFTRnNO?=
- =?utf-8?B?Q2puWVRNc3dhN2xLTkVkOVFGb0tiRzltQUlRQjh0Uk1IN1NFSE5YRXREbjVj?=
- =?utf-8?B?engyV0kxNUhaV1hjZWRzR1FZaTlObHV4ODd4T0F2Y0dTWUFQMzlpQ0V0eUFi?=
- =?utf-8?B?MXQ2M3ZMYVJmb28venM0cjhvYjhCdUMrYW1YY1U5a1hFbURsVTRpczZ2Qndl?=
- =?utf-8?B?bHFLY2FtQ29IMWRNZnBady9Kc3dTQmFmeFJjRWRzWURJdzZHNjR6dWxpMkpW?=
- =?utf-8?B?Nzk0VEZUZFpIYXlDVGp4eFdwblJVaEh2dGN3M214by9FWGNEUlRGckZ5dnhD?=
- =?utf-8?B?amQzSS9FVk03emdXS3hzczg5K1UrNGhjZExlZTZ1eXIrMExjNUtkYWZ5d0Fn?=
- =?utf-8?B?RXBKZmVSU0E0WEk1YVNFN3l1U3FRUWNNYlZHYWtYbW5YTHpzVHdwZTJReHJu?=
- =?utf-8?B?WnRzZFY0MHN1Q00wSU93TUp0U0lxRTRXSTV4bXd5K2QrYUxrZXpBczhjQ2x4?=
- =?utf-8?Q?ML3PZq6VLTjBRvWoGlE2rXc5W?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 14:35:12.1859
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eGPRp13+JwLKQxgOwOBigCaNiJ71oMANLWyfA0IZbbbxwnrJi7Rc7iW+ayt3gbpX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415120220.219480-12-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Am 14.04.24 um 15:07 schrieb Baruch Siach:
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
->   Documentation/driver-api/dma-buf.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 0c153d79ccc4..29abf1eebf9f 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -77,7 +77,7 @@ consider though:
->     the usual size discover pattern size = SEEK_END(0); SEEK_SET(0). Every other
->     llseek operation will report -EINVAL.
->   
-> -  If llseek on dma-buf FDs isn't support the kernel will report -ESPIPE for all
-> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPIPE for all
+On Mon, Apr 15, 2024 at 02:02:08PM +0200, Hans de Goede wrote:
+> The TPG support registers a v4l2-subdev for this, but this is not part of
+> the media-controller graph in any way. After manually selecting the TPG
+> as input using the s_input ioctl it does not work.
+> 
+> Several supported sensors have their own working TPG and using the sensor's
+> TPG means that the same data-flow is used as with actual sensors rather
+> then the quite different data-flow from the ISP's builtin TPG.
+> 
+> Remove the broken TPG support, when a test-pattern is needed for testing
+> a sensor's TPG can be used. Using a sensor's TPG is actually better for
+> testing since then the actual normal data-flow is being tested.
 
-Looks valid of hand, but checkpatch.pl complains about 2 errors (missing 
-commit message for example) and a warning.
+...
 
-Please fix and resend.
+> +	if (mipi_info)
+> +		fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(mipi_info->input_format);
+>  
+> +	if (!fc)
+> +		fc = atomisp_find_in_fmt_conv(
+> +			 atomisp_subdev_get_ffmt(&asd->subdev,
+> +						 NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
+> +						 ATOMISP_SUBDEV_PAD_SINK)->code);
 
-Thanks,
-Christian.
+While it was in the original code, this is ugly. Can we split this to two
+assignments?
 
->     cases. Userspace can use this to detect support for discovering the dma-buf
->     size using llseek.
->   
+> +	if (!fc)
+> +		return -EINVAL;
+> +	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
+
+> +	    raw_output_format_match_input(fc->atomisp_in_fmt,
+> +					  pix->pixelformat))
+
+Now a single line?
+
+> +		return -EINVAL;
+
+...
+
+>  		unsigned int hblank_cycles = 100,
+>  		vblank_lines = 6,
+>  		width,
+
+Urgh... These comma operators probably is subject to replace with separate
+definitions or being grouped on a single line (as it suppose to be in this
+case).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
