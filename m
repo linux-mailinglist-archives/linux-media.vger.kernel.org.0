@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-9357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB828A4E5B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:03:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A51C8A4E5C
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:03:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D83E1C21294
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:03:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 188A1B20BBE
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:03:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04166BFC0;
-	Mon, 15 Apr 2024 12:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51CF06BFD5;
+	Mon, 15 Apr 2024 12:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hyhaxuc/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R+t7oSkL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB59D6BFB0
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728B06BB54
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713182573; cv=none; b=O1yuW+5Dq+4kB18GalNvk50ezbFTbDr/9NlHRwCeDeUlAQ0sjuMywmax91cA1WFcHKBAOHkKC0CDswIeB4kuTlbiS9gjJ9fuChHqD6ifDNNasaGA6wjAGTL54kqPuX03d6TXuCvdALEnvt1Hux/ujgdtbFOjGE4u2/QBSG3rbdU=
+	t=1713182574; cv=none; b=VxwdhcWVnxgfW0ms+uDRsj51hyRLvg06Hfo81rOw2JmWylGjKIv4dFpcW5k811qiGrYZMyh+yiDpuc8Z9sMfO4dH2oP9dIUsw7/jn2lultOEIRCHutlFbvo5HCm7Qbajp6KZO6UUtluVKczo+cuI1Uew+mTsRscVXs6I4/4u+tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713182573; c=relaxed/simple;
-	bh=8abwr+b3L1AaVGNNdHGX2GedwzaDTMXGCg2UGiHzzKQ=;
+	s=arc-20240116; t=1713182574; c=relaxed/simple;
+	bh=TyvtyYWLVLteFRLJofQYoGhX4EBIYlVcQvdNAJOt1U8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OviPXeRc4YxDZuaeqyOoO7ijwaOQlfIvRc+Y+NqYex7T5NyFJfr4la+buYaDT2ZMoZftRtk3SQ2Hnr36S2cfo1VzM9W0fB2QFNFCJMubIk+eLKuzDnGuJei21lUtZfAzZdnUaQs+QmW762sS8ieR94Ep+tf8fovQzsrfYY3pgcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hyhaxuc/; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=d7mOt/gBXaxQ3as0p17sG5sFAUeyeyDl35dlD2dm6sTDCaCOtYZNJ2Q8Hfb2j2GmSQCOgJaa0p9i8buPNQZwQKKHsd1w5uzJPDLTSB89/scCBRv+ANphyLwX8v108apO4JCvLetDb1K7sxhrNC6ZH3WbX5Y2zzJA33SX865Hgaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R+t7oSkL; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713182571;
+	s=mimecast20190719; t=1713182572;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yjnGO37/1HmO/T1PUaHWC4oTgJQkZ4oUbzDCgOMCbEE=;
-	b=hyhaxuc/BlmpZA0ZM4Mi6vwQoLMyT1OxZNsPrVfV/JOz3esYlaOtN2WfWcD5gZTih3Ugfw
-	GxpkxNydi69NEPvzNqogkWWP/M42L7CMmgXPmFlXUzzU+Vf5ou+3woIPp4QsccPHRTJzGG
-	Ts80DXft8CGNqyXo6BPNuTxJY6ip3Bw=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-656-yUjjsIzLNn-pcdUxDmFnJA-1; Mon,
- 15 Apr 2024 08:02:47 -0400
-X-MC-Unique: yUjjsIzLNn-pcdUxDmFnJA-1
+	bh=oY80KwTzoqhoG9HboYfuMAuXhGbSeDqny1msoJyxThg=;
+	b=R+t7oSkLO/IAHStuHERZlkioOEceZeOQ9X7XixKwtqZ4QaP7uMmbNW/p2KLHOzvfHflmR+
+	Bc0bWFFBaol4ZqmxBNeEaXwi/cvFGfbSXLe3sMH5QCRgK8c15H3npGeXxGqTtbbTPeYKAc
+	pcA19LcJ4IGC6ICBTrYnmivh+dT5ngk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-331-_6SAe04KNyuULr8ktd3SHQ-1; Mon, 15 Apr 2024 08:02:49 -0400
+X-MC-Unique: _6SAe04KNyuULr8ktd3SHQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E2D928C97C7;
-	Mon, 15 Apr 2024 12:02:47 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9877B802A6F;
+	Mon, 15 Apr 2024 12:02:48 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E5FB6C13FA2;
-	Mon, 15 Apr 2024 12:02:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 601F5C01594;
+	Mon, 15 Apr 2024 12:02:47 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -65,9 +65,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 09/23] media: atomisp: Drop atomisp_pipe_check() from atomisp_link_setup()
-Date: Mon, 15 Apr 2024 14:02:06 +0200
-Message-ID: <20240415120220.219480-10-hdegoede@redhat.com>
+Subject: [PATCH 10/23] media: atomisp: ov2722: Remove power on sensor from set_fmt() callback
+Date: Mon, 15 Apr 2024 14:02:07 +0200
+Message-ID: <20240415120220.219480-11-hdegoede@redhat.com>
 In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -79,46 +79,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-The media-controller core (__media_entity_setup_link()) already checks
-that the pads of the link are not streaming before calling the setup_link()
-pad-op so calling atomisp_pipe_check() is not necessary;
-
-and taking isp->mutex inside the setup_link() pad-op leads to a possible
-ABBA deadlock vs the media-device graph_mutex which in the case of
-the setup_link() pad-op is taken before calling the op, while in other
-scenarios the graph_mutex is taken after the isp->mutex.
+The atomisp driver now properly ensures s_power(1) is called before calling
+the set_fmt() callback, so this workaround is no longer necessary.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 12 ------------
+ drivers/staging/media/atomisp/i2c/ov2722.h         |  1 -
+ 2 files changed, 13 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 53225958c23b..1bb33460210c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -644,7 +644,7 @@ static int atomisp_link_setup(struct media_entity *entity,
- 					      entity);
- 	struct atomisp_sub_device *asd = v4l2_get_subdevdata(sd);
- 	struct atomisp_device *isp = asd->isp;
--	int i, ret;
-+	int i;
- 
- 	/* ISP's source is immutable */
- 	if (local != &asd->pads[ATOMISP_SUBDEV_PAD_SINK]) {
-@@ -663,12 +663,6 @@ static int atomisp_link_setup(struct media_entity *entity,
- 		return -EINVAL;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index 133e346ae51b..d60630ea16df 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -528,9 +528,6 @@ static int power_up(struct v4l2_subdev *sd)
+ 		return -ENODEV;
  	}
  
--	mutex_lock(&isp->mutex);
--	ret = atomisp_pipe_check(&asd->video_out, true);
--	mutex_unlock(&isp->mutex);
--	if (ret)
--		return ret;
+-	if (dev->power_on == 1)
+-		return 0; /* Already on */
 -
- 	/* Turn off the sensor on link disable */
- 	if (!(flags & MEDIA_LNK_FL_ENABLED)) {
- 		atomisp_s_sensor_power(isp, i, 0);
+ 	/* power control */
+ 	ret = power_ctrl(sd, 1);
+ 	if (ret)
+@@ -555,7 +552,6 @@ static int power_up(struct v4l2_subdev *sd)
+ 	/* according to DS, 20ms is needed between PWDN and i2c access */
+ 	msleep(20);
+ 
+-	dev->power_on = 1;
+ 	return 0;
+ 
+ fail_clk:
+@@ -579,9 +575,6 @@ static int power_down(struct v4l2_subdev *sd)
+ 		return -ENODEV;
+ 	}
+ 
+-	if (dev->power_on == 0)
+-		return 0; /* Already off */
+-
+ 	ret = dev->platform_data->flisclk_ctrl(sd, 0);
+ 	if (ret)
+ 		dev_err(&client->dev, "flisclk failed\n");
+@@ -599,7 +592,6 @@ static int power_down(struct v4l2_subdev *sd)
+ 	if (ret)
+ 		dev_err(&client->dev, "vprog failed.\n");
+ 
+-	dev->power_on = 0;
+ 	return ret;
+ }
+ 
+@@ -677,9 +669,6 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	mutex_lock(&dev->input_lock);
+ 
+-	/* s_power has not been called yet for std v4l2 clients (camorama) */
+-	power_up(sd);
+-
+ 	dev->pixels_per_line = dev->res->pixels_per_line;
+ 	dev->lines_per_frame = dev->res->lines_per_frame;
+ 
+@@ -978,7 +967,6 @@ static int ov2722_probe(struct i2c_client *client)
+ 		return -ENOMEM;
+ 
+ 	mutex_init(&dev->input_lock);
+-	dev->power_on = -1;
+ 
+ 	dev->res = &ov2722_res_preview[0];
+ 	v4l2_i2c_subdev_init(&dev->sd, client, &ov2722_ops);
+diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
+index 640d3ffcaa5c..5920a4d45d06 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2722.h
++++ b/drivers/staging/media/atomisp/i2c/ov2722.h
+@@ -198,7 +198,6 @@ struct ov2722_device {
+ 	struct ov2722_resolution *res;
+ 
+ 	struct camera_sensor_platform_data *platform_data;
+-	int power_on;
+ 	u16 pixels_per_line;
+ 	u16 lines_per_frame;
+ 	u8 type;
 -- 
 2.44.0
 
