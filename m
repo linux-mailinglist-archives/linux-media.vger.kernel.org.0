@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-9323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF0E8A4BB3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F988A4BB1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:38:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E5561C224CE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 09:38:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A1F31C2240C
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 09:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B82756B96;
-	Mon, 15 Apr 2024 09:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288B65677D;
+	Mon, 15 Apr 2024 09:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fp58X8+K"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y2Lrmumn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8FE55C2C
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 09:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A46B54BF0
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 09:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713173845; cv=none; b=UU6F+YssGoHo9OzcUC3BWbGyYyoG0bebkA6YRtPChcWi0UkpEsJHk8REjHJqVgiEgJv+5ycpSIW+SNbOmF+KP1F7qrpvdyFFmj4p6P9HRSEhDdBFtdPprQvORWjuk8DYcjLsjkod887XNlZUnRhKFvy00pkdwDPJ9y1MM+29qsM=
+	t=1713173844; cv=none; b=W9pRGm9UaiTh2RztW0v7JIOsoxBybOC2nWCLAjHv8Vw2s9PMkcwUBhQH3xsiggCuK6hRUCtJdItQFhfi9kNc00es5ZnpsNG2mv5BaXBIEMd4Nsr9p36BXb60K6s32De2hqD7pnIVhHs8e8ejPliI1YyXdfHVHrnHI3xWoNQca9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713173845; c=relaxed/simple;
-	bh=Efxx58K/N0orGY0hE2CJwZX/RRmuEEABPA/uA1hluxo=;
+	s=arc-20240116; t=1713173844; c=relaxed/simple;
+	bh=Tdu6OBH5DJtj6de6x7md59ZW+6g0lUQEhSHmlok/Ahs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gkklDXcp7l5nzKFaXQQU2s1kM8mMMQ11IofB0N55OHEuPxOaE1yWZxoXAIvhzvLX7LoxfejJjS8HqPL+gADmRqJvoEiwJ1IigKoHMgvIE9GFASdpQCDNDnmHQa0E5tlKYUlYz82mf4QRYPHYjQunZH/qrXv3zSbmXr4LC0Moemw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fp58X8+K; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=qVmpXjJxtQqqQooMumrz8kaJT1FjXhl1/pXsJAUeKNO/eTcFC9i3s80YjkiDvmUmaA+U1mhtCjb4NY3E8/beYMCFYYH+CdCTe0I44FjFkp6EmLAq1IXf2Ecj1+i+L8J5lQOChvnd6i0ECOKXclfSRTcuTc9nRXuseFhyXWaalX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y2Lrmumn; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713173843;
+	s=mimecast20190719; t=1713173842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rkHdOeBNWHtREjZ+WBbco95yCBYqIHo6d028fUo1cSw=;
-	b=Fp58X8+KEOkXGX2FiTG5ckXxVkIuLn/H3vAgrI58WQt1GVV9hv1f2cutM/S6UQBwm2tcD5
-	ASqHWt68xZVqJHiceG8462ud5VMSZbbzNRhXH54d8R33S9AwnYKC3yg2UHn7hWemPdJIyE
-	jzCfDHKEq5+sjfDWzHcaCs1IoQeNdDw=
+	bh=BeH60ThU8MRnDZbjttDVNCJKnlAoPaM/0kQfoJ+lgec=;
+	b=Y2LrmumnHKSAz+RgPaASSD/Tq5fTXlfYlSDK/DgZon0t7xYS+g9QvES3TBDcGuu9x2AWJg
+	x3U8g+snq7YwhRWV9qMPPrgrPb4hCYTtDTFEMNvVvwDyKmYQmuWgj/Rzh6CEYf/LbfsP5n
+	W21xPRtxgHiQjuAjhScTP5FVav9dgf8=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-460-1rQAPyfiPgmbJU1AjmPvmQ-1; Mon,
- 15 Apr 2024 05:37:17 -0400
-X-MC-Unique: 1rQAPyfiPgmbJU1AjmPvmQ-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-522-PiGAZHtTNVKCAkCD-1hKkw-1; Mon,
+ 15 Apr 2024 05:37:18 -0400
+X-MC-Unique: PiGAZHtTNVKCAkCD-1hKkw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC5963806735;
-	Mon, 15 Apr 2024 09:37:16 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 248681C2CBE7;
+	Mon, 15 Apr 2024 09:37:18 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ECF75C13FA2;
-	Mon, 15 Apr 2024 09:37:15 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 28A95C13FA1;
+	Mon, 15 Apr 2024 09:37:17 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Rui Miguel Silva <rmfrfs@gmail.com>
@@ -63,9 +63,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Kate Hsuan <hpa@redhat.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH resend 1/5] media: ov2680: Stop sending more data then requested
-Date: Mon, 15 Apr 2024 11:37:00 +0200
-Message-ID: <20240415093704.208175-2-hdegoede@redhat.com>
+Subject: [PATCH resend 2/5] media: ov2680: Drop hts, vts ov2680_mode struct members
+Date: Mon, 15 Apr 2024 11:37:01 +0200
+Message-ID: <20240415093704.208175-3-hdegoede@redhat.com>
 In-Reply-To: <20240415093704.208175-1-hdegoede@redhat.com>
 References: <20240415093704.208175-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -77,47 +77,50 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-There is no reason to send OV2680_END_MARGIN extra columns on top of
-the mode width and the same for sending extra lines over the mode height.
-
-This sending of extra lines/columns was inherited from the atomisp
-ov2680 driver, it is unclear why this was done and this complicates
-adding V4L2_CID_VBLANK support, so remove it.
+The hts, vts ov2680_mode struct members always contain
+OV2680_PIXELS_PER_LINE resp. OV2680_LINES_PER_FRAME,
+drop them and simply use these values directly.
 
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ov2680.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index a857763c7984..4429b569ded0 100644
+index 4429b569ded0..6c3d7862b2aa 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -86,9 +86,6 @@
- #define OV2680_PIXELS_PER_LINE			1704
- #define OV2680_LINES_PER_FRAME			1294
+@@ -140,8 +140,6 @@ struct ov2680_mode {
+ 	u16				v_end;
+ 	u16				h_output_size;
+ 	u16				v_output_size;
+-	u16				hts;
+-	u16				vts;
+ };
  
--/* If possible send 16 extra rows / lines to the ISP as padding */
--#define OV2680_END_MARGIN			16
--
- /* Max exposure time is VTS - 8 */
- #define OV2680_INTEGRATION_TIME_MARGIN		8
- 
-@@ -359,11 +356,9 @@ static void ov2680_calc_mode(struct ov2680_dev *sensor)
- 	sensor->mode.v_start = (sensor->mode.crop.top +
- 				(sensor->mode.crop.height - height) / 2) & ~1;
- 	sensor->mode.h_end =
--		min(sensor->mode.h_start + width + OV2680_END_MARGIN - 1,
--		    OV2680_NATIVE_WIDTH - 1);
-+		min(sensor->mode.h_start + width - 1, OV2680_NATIVE_WIDTH - 1);
- 	sensor->mode.v_end =
--		min(sensor->mode.v_start + height + OV2680_END_MARGIN - 1,
--		    OV2680_NATIVE_HEIGHT - 1);
-+		min(sensor->mode.v_start + height - 1, OV2680_NATIVE_HEIGHT - 1);
+ struct ov2680_dev {
+@@ -361,8 +359,6 @@ static void ov2680_calc_mode(struct ov2680_dev *sensor)
+ 		min(sensor->mode.v_start + height - 1, OV2680_NATIVE_HEIGHT - 1);
  	sensor->mode.h_output_size = orig_width;
  	sensor->mode.v_output_size = orig_height;
- 	sensor->mode.hts = OV2680_PIXELS_PER_LINE;
+-	sensor->mode.hts = OV2680_PIXELS_PER_LINE;
+-	sensor->mode.vts = OV2680_LINES_PER_FRAME;
+ }
+ 
+ static int ov2680_set_mode(struct ov2680_dev *sensor)
+@@ -397,9 +393,9 @@ static int ov2680_set_mode(struct ov2680_dev *sensor)
+ 	cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
+ 		  sensor->mode.v_output_size, &ret);
+ 	cci_write(sensor->regmap, OV2680_REG_TIMING_HTS,
+-		  sensor->mode.hts, &ret);
++		  OV2680_PIXELS_PER_LINE, &ret);
+ 	cci_write(sensor->regmap, OV2680_REG_TIMING_VTS,
+-		  sensor->mode.vts, &ret);
++		  OV2680_LINES_PER_FRAME, &ret);
+ 	cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
+ 	cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
+ 	cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
 -- 
 2.44.0
 
