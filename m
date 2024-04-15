@@ -1,287 +1,473 @@
-Return-Path: <linux-media+bounces-9457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9458-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1638A5BE0
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017648A5C23
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 22:20:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E614285D59
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:59:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB08F28425F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 20:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9724615664E;
-	Mon, 15 Apr 2024 19:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A72D9156879;
+	Mon, 15 Apr 2024 20:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mn7r/e9a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHLgdnwp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CBE155A58
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C10371B50;
+	Mon, 15 Apr 2024 20:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713211178; cv=none; b=f1uX2q//QtDY3ek/RiZQDRbdLgzkoNmL1yOmqy2fUFd8E8qWo4jBweY05K8eY2axuFNzvxpmDhpUwyAJ5F3OQR88px+la7BKvUnn9FK6X+cmFQMx8QpEeDzq8+ZQtQrzyymcngYKyOoICyRkzddqlOV7/Yv5r6lI/+JVtUDscIM=
+	t=1713212438; cv=none; b=kmJIYqsUEbhQ2xDE98bFzZVoLuWiyrPzQA6mFQWliWyzh/rHU5BoPEypguWHKxw0tf31Sryb21VJCwzVJrawX7qvV+/WBn/vR0pdO+BQFIS2iTaW+6Iq4tqnEg1uej+IY0J+pma122Q3gXu3yW8cO+VnR7rePImpxKPIfhEo+6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713211178; c=relaxed/simple;
-	bh=3f44RVReelwdCSGbY3G3UnF/F1spdxFNz4KzB0EHUe8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PcFlbs3D6sHOnL5XBayo5ctah7VwWj8NS/GoR69APkyh/jWEr+DSjlawU2Wdh1SSgDJsQsU3GfX061VFYmrNISbNlewJK42F1yScKL4etFynQ+TLXqxjJvGK61f2JnK3NzZGjacekjvlcbCsvKUJfGStUk4t3zemLqQ1wFfLE88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mn7r/e9a; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c70e46f3caso769819b6e.2
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:59:36 -0700 (PDT)
+	s=arc-20240116; t=1713212438; c=relaxed/simple;
+	bh=NhzeK2mKKHvAmPeelTHGEg+UPHg67iKUqkIMgvllB+E=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=NWdbPjQkhZHk4xrK+7Wkrirm/FsY/xkDo7PL6anyiCvdXR6veYsLsDtmzXeTLVe3/xXXemBiUIdc0nkLTLvqUFmjdXXCMuRCx1ryewLoA4EYx2RRP744fhZxPhv6mMOwg3yW+EPln1IUS9GQ0kjZVUt8thGNxvspkV1CLPKEGkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LHLgdnwp; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-516d2600569so4564005e87.0;
+        Mon, 15 Apr 2024 13:20:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713211175; x=1713815975; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=naj/YQ9ncheD39vcOQ7UyQeYC8KWCng+2i7jmecCLPU=;
-        b=mn7r/e9aW6LUCrA6eQKpKHv0wiXrVgFm68PpW8uBvBwQ/96i69YtdItWQ+YCYhNMwf
-         8mzuDiGEuNTPbg+vJv7ixSjRC9mXat4jphY7K8Sa1ZXUpeAYp9wzWTrpkAlVd1Aiu4qT
-         WE/8IsdIEYg62o8P843IlBeTufAk0fUDyqt10=
+        d=gmail.com; s=20230601; t=1713212434; x=1713817234; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=+hMO8/WXYJs4KZvn4zTnLdDZkMCg570qWjmbj7VC9ZM=;
+        b=LHLgdnwpmH2jCVKuzslaicz3W4Ux8RiCIXdo/emnLE0FRLVpjIHAU7J6rzdyTNh/kc
+         JqLVtUta9XbLi9dfDzyIIijVbNRHaTIJOWG9ywXYHTT9hAvkBq+n0+qMnbqjmEyXpBm6
+         SZmHXry+pw94J1SJPjBzVFKO7DYou8ds2fH6KjDp6Im6rsDBN9pDR/ErVnzY2dThbfo2
+         43jlGxS6CpqOAfc/QzBuSE++naknCwliRzsBGCaG6WRT6CeUu684aTnTjZNjm16uzqOA
+         lj92cpVUxONCfoYjOtH5lfvD5LKSGT+KS49wd2B/swDbGGGyY5wPJAUHaY6KOohC7O66
+         zPLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713211175; x=1713815975;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=naj/YQ9ncheD39vcOQ7UyQeYC8KWCng+2i7jmecCLPU=;
-        b=c6zwqenUNNqoohRq+IVEThd/FfYQCJCW4rzS1WdjfCIxKNB6FpwEapASY40JdqhJ9M
-         F19OBs2hARLowxb/5+agaSHHRemP3RkSKlYL8dEb4ouLUGqQmhAojQSRUNjkv2y181bI
-         HKZzh4gIxbR34TeA7DxidwOX+1blGxCVPdMgusr5ZwMPVNWRH/quiERhj0wHYvZ3gbPF
-         CALsGGwJAAZ/181Aa7l68DrG5TDWMmNnXSzf33NKjFBlOt37U3//wX8hv5VJ5HYX7TQf
-         77GamKAmMlxsEU07iOgaDwuZRleVJsvXMMgCk6qCuGn2zTbeiNpKEV/Oi2xTItMmdXH9
-         3atQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXL1a/VQIeH4JAfPZR+LYdYgJnohTMbnIv07bovev6cuClSiQ5aEyMNPj3ECozgbk/X2bQFBp0I53S8I6T23KJri8zPTf5Wyh60J6M=
-X-Gm-Message-State: AOJu0Yz89ZW/398aoIFHeag8oU9qKPtvm1l3WuQxeLYAwskQQ60AHvxp
-	hHpUvE4WJCTjxaY0Pm+lrTV429FYBD1r7Mr6s6DdMtnjODHFLTQyl2/MJ9vRuR6mjLkeF8j+CBn
-	xXw==
-X-Google-Smtp-Source: AGHT+IHYv9xihx0aU9Us0x06GZRzcLWQd/o3lHxzYz85iuchh53bwL6pRFONQw2cs8RJ8yrSVBk1bQ==
-X-Received: by 2002:a05:6808:114d:b0:3c5:fdc0:52e with SMTP id u13-20020a056808114d00b003c5fdc0052emr13967157oiu.42.1713211175171;
-        Mon, 15 Apr 2024 12:59:35 -0700 (PDT)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com. [209.85.161.44])
-        by smtp.gmail.com with ESMTPSA id k11-20020a54440b000000b003c60ef0b865sm1748427oiw.35.2024.04.15.12.59.34
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Apr 2024 12:59:34 -0700 (PDT)
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5ac61cf3fffso2341418eaf.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:59:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVm3SzDzZbQ0Qqblb8m2J30xKDxf8hLNDd0RHshpET1wKLZbJn1lZ7LQRYdxG8wPiGMc5OqgSl/HRT7cCEYbBavnBmOU418ATRQU3A=
-X-Received: by 2002:a25:ab2c:0:b0:db9:794b:5733 with SMTP id
- u41-20020a25ab2c000000b00db9794b5733mr10827321ybi.19.1713211153708; Mon, 15
- Apr 2024 12:59:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713212434; x=1713817234;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+hMO8/WXYJs4KZvn4zTnLdDZkMCg570qWjmbj7VC9ZM=;
+        b=S65GUGP6Mbh5/DWd/ScEhDzjCyNl7RI34Xuyvd2seC2T/ZvpyefTywj0365Ztxms9Y
+         i/FVjIKqIuXQvUnDc0hXiiK5LVcQs/SuESZb+LWb/D8gsHTrRzcE0DPn8Y5hNkVi5qxj
+         i3zparQQgB1c9rJIT/NTFeTt3dfndi5dthtcTZkHRnLsyFnbbtg6itMIageOsZkFRKV4
+         yMb3XkQCXv0gpm3BF7cRGbadFY/ngOMhB3tISLG1aLnwv653hnIoESu+k5K6kncTJU2v
+         hXNjfY3LyR/5OwZiQmVistNY6dSEefcoKiWDduSTPqN1EQH75iN+Auo3yzeps2Qn7BoO
+         JMIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMyxW5xm+CY1+Lj67oe9T2PqUU2lx02i3otCe7wOIFeDBtwqH4/k6PVvZdGD1FN58xmm7SZ21YJWSJjwxUTI8RGRewx+u8m4BMbJkT
+X-Gm-Message-State: AOJu0YwVwKGV3NGyDWKROuC5kdHSHMw28c5vU9FXWdjn43i//cwpB1iH
+	Sym6GHWfS2CkqCBVAWm5mBkGOjKsetWRa2jLeaELwyyCuihHxfKR
+X-Google-Smtp-Source: AGHT+IH+NHHUifyaWcx4i38FWBXRWT1ug8ts6enB6xvpsshk91MjoEip/3tX7N0OfvLuRWCle9xa+A==
+X-Received: by 2002:a19:2d55:0:b0:516:d22c:be2 with SMTP id t21-20020a192d55000000b00516d22c0be2mr7710698lft.61.1713212433668;
+        Mon, 15 Apr 2024 13:20:33 -0700 (PDT)
+Received: from razdolb ([62.176.29.172])
+        by smtp.gmail.com with ESMTPSA id d10-20020ac24c8a000000b00516d2489f16sm1337473lfl.260.2024.04.15.13.20.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 13:20:33 -0700 (PDT)
+References: <20240402164552.19171-1-mike.rudenko@gmail.com>
+ <20240402164552.19171-21-mike.rudenko@gmail.com>
+ <ZhzEJ81BDT_AJp9X@kekkonen.localdomain>
+User-agent: mu4e 1.10.8; emacs 29.2.50
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi
+ <jacopo@jmondi.org>, Tommaso Merciai <tomm.merciai@gmail.com>, Christophe
+ JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: [PATCH v4 20/20] media: i2c: ov4689: Implement 2x2 binning
+Date: Mon, 15 Apr 2024 23:05:47 +0300
+In-reply-to: <ZhzEJ81BDT_AJp9X@kekkonen.localdomain>
+Message-ID: <87y19e74z5.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org> <20240415195348.GD22954@pendragon.ideasonboard.com>
-In-Reply-To: <20240415195348.GD22954@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 21:58:58 +0200
-X-Gmail-Original-Message-ID: <CANiDSCteGngbSS6CCuUxM-PQiBz0W0WfoFr2E2oH2d8qt746_A@mail.gmail.com>
-Message-ID: <CANiDSCteGngbSS6CCuUxM-PQiBz0W0WfoFr2E2oH2d8qt746_A@mail.gmail.com>
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Hugues Fruchet <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Laurent
 
-On Mon, 15 Apr 2024 at 21:54, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+Hi Sakari,
+
+and thanks for your review!
+
+On 2024-04-15 at 06:07 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+
+> Hi Nikhail,
 >
-> Hi Ricardo,
+> On Tue, Apr 02, 2024 at 07:45:51PM +0300, Mikhail Rudenko wrote:
+>> Implement 2x2 binning support. Compute best binning mode (none or 2x2)
+>> from pad crop and pad format in ov4689_set_fmt. Use output frame size
+>> instead of analogue crop to compute control ranges and BLC anchors.
+>>
+>> Also move ov4689_hts_min and ov4689_update_ctrl_ranges, since they are
+>> now also called from ov4689_set_fmt. Update frame timings to
+>> accommodate the requirements of binning mode and avoid visual
+>> artefacts. Additionally, report 2x2 binned mode in addition to
+>> non-binned one in ov4689_enum_frame_sizes.
+>>
+>> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> ---
+>>  drivers/media/i2c/ov4689.c | 192 +++++++++++++++++++++++++------------
+>>  1 file changed, 130 insertions(+), 62 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
+>> index e652d626f32f..83c7d0bae7d1 100644
+>> --- a/drivers/media/i2c/ov4689.c
+>> +++ b/drivers/media/i2c/ov4689.c
+>> @@ -114,7 +114,7 @@
+>>   * Minimum working vertical blanking value. Found experimentally at
+>>   * minimum HTS values.
+>>   */
+>> -#define OV4689_VBLANK_MIN		31
+>> +#define OV4689_VBLANK_MIN		35
+>>
+>>  static const char *const ov4689_supply_names[] = {
+>>  	"avdd", /* Analog power */
+>> @@ -256,6 +256,18 @@ static const struct cci_reg_sequence ov4689_common_regs[] = {
+>>  	{CCI_REG8(0x5503), 0x0f}, /* OTP_DPC_END_L otp_end_address[7:0] = 0x0f */
+>>  };
+>>
+>> +static const struct cci_reg_sequence ov4689_2x2_binning_regs[] = {
+>> +	{CCI_REG8(0x3632), 0x05}, /* ADC */
+>> +	{CCI_REG8(0x376b), 0x40}, /* Sensor control */
+>> +	{CCI_REG8(0x3814), 0x03}, /* H_INC_ODD */
+>> +	{CCI_REG8(0x3821), 0x07}, /* TIMING_FORMAT_2 hor_binning = 1*/
+>> +	{CCI_REG8(0x382a), 0x03}, /* V_INC_ODD */
+>> +	{CCI_REG8(0x3830), 0x08}, /* BLC_NUM_OPTION blc_use_num_2 = 1 */
+>> +	{CCI_REG8(0x3836), 0x02}, /* TIMING_REG_36 r_zline_use_num_2 = 1 */
+>> +	{CCI_REG8(0x4001), 0x50}, /* BLC DEBUG MODE */
+>> +	{CCI_REG8(0x4502), 0x44}, /* ADC synch control*/
 >
-> I'm afraid I won't have time to review any of this for the time being.
-> Unless you would like me to put uvcvideo reviews on hold ;-)
+> Spaces inside { }'s, please.
+
+Do you mean this array only, or ov4689_common_regs too?
+
+>> +};
+>> +
+>>  static const u64 link_freq_menu_items[] = { 504000000 };
+>>
+>>  static const char *const ov4689_test_pattern_menu[] = {
+>> @@ -305,18 +317,96 @@ static const struct ov4689_gain_range ov4689_gain_ranges[] = {
+>>  	},
+>>  };
+>>
+>> +/*
+>> + * For now, only 2x2 binning implemented in this driver.
+>> + */
+>> +static int ov4689_best_binning(struct ov4689 *ov4689,
+>> +			       const struct v4l2_mbus_framefmt *format,
+>> +			       const struct v4l2_rect *crop,
+>> +			       unsigned int *binning)
+>> +{
+>> +	const struct v4l2_area candidates[] = {
+>> +		{ crop->width, crop->height },
+>> +		{ crop->width / 2, crop->height / 2 },
+>> +	};
+>> +
+>> +	const struct v4l2_area *best;
+>> +	int index;
+>> +
+>> +	best = v4l2_find_nearest_size(candidates, ARRAY_SIZE(candidates), width,
+>> +				      height, format->width, format->height);
 >
-> Jokes aside, my first reaction was that this feels like a bit of a waste
-> of maintainer's time :-S
+> You can assume v4l2_find_nearest_size() returns a non-NULL value (see the
+> other patch I cc'd you).
 
-This is part of the media-ci effort.
+Ack, will remove the NULL check.
 
-It is definitely not the most fun patches to do or review, but someone
-has to do it :)
-
-The whole idea is that we want to get as little warnings as possible
-from the static analysers, after this patchset we almost achieve that.
-
-It is only 2 trivial uvc patches, I can ask someone from my team to
-review it if you want and trust them ;)
-
-Regards!
-
+>> +	if (!best) {
+>> +		dev_err(ov4689->dev,
+>> +			"failed to find best binning for requested mode\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	index = best - candidates;
+>> +	*binning = index + 1;
+>> +
+>> +	dev_dbg(ov4689->dev,
+>> +		"best_binning: crop=%dx%d format=%dx%d binning=%d\n",
+>> +		crop->width, crop->height, format->width, format->height,
+>> +		*binning);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/*
+>> + * Minimum working HTS value for given output width (found
+>> + * experimentally).
+>> + */
+>> +static unsigned int ov4689_hts_min(unsigned int width)
+>> +{
+>> +	return max_t(unsigned int, 3156, 224 + width * 19 / 16);
+>> +}
+>> +
+>> +static void ov4689_update_ctrl_ranges(struct ov4689 *ov4689, unsigned int width,
+>> +				      unsigned int height)
+>> +{
+>> +	struct v4l2_ctrl *exposure = ov4689->exposure;
+>> +	struct v4l2_ctrl *vblank = ov4689->vblank;
+>> +	struct v4l2_ctrl *hblank = ov4689->hblank;
+>> +	s64 def_val, min_val, max_val;
+>> +
+>> +	min_val = ov4689_hts_min(width) - width;
+>> +	max_val = OV4689_HTS_MAX - width;
+>> +	def_val = clamp_t(s64, hblank->default_value, min_val, max_val);
+>> +	__v4l2_ctrl_modify_range(hblank, min_val, max_val, hblank->step,
+>> +				 def_val);
 >
-> On Mon, Apr 15, 2024 at 07:34:17PM +0000, Ricardo Ribalda wrote:
-> > After this set is applied, these are the only warnings left:
-> > drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
-> > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
-> > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
-> > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
-> > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
-> > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
-> > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
-> > drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
-> > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
-> > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
-> > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
-> > drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
-> > drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
-> > drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
-> > drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> >
-> > CI tested:
-> > https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Ricardo Ribalda (35):
-> >       media: pci: mgb4: Refactor struct resources
-> >       media: stb0899: Remove unreacheable code
-> >       media: uvcvideo: Refactor iterators
-> >       media: uvcvideo: Use max() macro
-> >       media: go7007: Use min and max macros
-> >       media: stm32-dcmipp: Remove redundant printk
-> >       media: staging: sun6i-isp: Remove redundant printk
-> >       media: dvb-frontends: tda18271c2dd: Remove casting during div
-> >       media: v4l: async: refactor v4l2_async_create_ancillary_links
-> >       staging: media: tegra-video: Use swap macro
-> >       media: s2255: Use refcount_t instead of atomic_t for num_channels
-> >       media: platform: mtk-mdp3: Use refcount_t for job_count
-> >       media: common: saa7146: Use min macro
-> >       media: dvb-frontends: drx39xyj: Use min macro
-> >       media: netup_unidvb: Use min macro
-> >       media: au0828: Use min macro
-> >       media: flexcop-usb: Use min macro
-> >       media: gspca: cpia1: Use min macro
-> >       media: stk1160: Use min macro
-> >       media: tegra-vde: Refactor timeout handling
-> >       media: venus: Use div64_u64
-> >       media: i2c: st-mipid02: Use the correct div function
-> >       media: dvb-frontends: tda10048: Use the right div
-> >       media: tc358746: Use the correct div_ function
-> >       media: venus: Use the correct div_ function
-> >       media: venus: Refator return path
-> >       media: dib0700: Refator return path
-> >       media: usb: cx231xx: Refator return path
-> >       media: i2c: rdacm20: Refator return path
-> >       media: i2c: et8ek8: Refator return path
-> >       media: cx231xx: Refator return path
-> >       media: si4713: Refator return path
-> >       media: ttpci: Refator return path
-> >       media: hdpvr: Refator return path
-> >       media: venus: Refator return path
-> >
-> >  drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
-> >  drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
-> >  drivers/media/dvb-frontends/stb0899_drv.c          |  5 -----
-> >  drivers/media/dvb-frontends/tda10048.c             |  3 +--
-> >  drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
-> >  drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +++-
-> >  drivers/media/i2c/rdacm20.c                        |  5 ++++-
-> >  drivers/media/i2c/st-mipid02.c                     |  2 +-
-> >  drivers/media/i2c/tc358746.c                       |  3 +--
-> >  drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
-> >  drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
-> >  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
-> >  drivers/media/pci/ttpci/budget-core.c              |  5 ++++-
-> >  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
-> >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
-> >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
-> >  .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
-> >  drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
-> >  drivers/media/platform/qcom/venus/vdec.c           | 15 +++++++------
-> >  drivers/media/platform/qcom/venus/venc.c           | 19 +++++++++-------
-> >  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  5 +----
-> >  drivers/media/radio/si4713/radio-usb-si4713.c      |  8 +++++--
-> >  drivers/media/usb/au0828/au0828-video.c            |  5 +----
-> >  drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
-> >  drivers/media/usb/cx231xx/cx231xx-i2c.c            | 16 +++++++++----
-> >  drivers/media/usb/cx231xx/cx231xx-video.c          | 10 +++++++--
-> >  drivers/media/usb/dvb-usb/dib0700_core.c           |  4 +++-
-> >  drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
-> >  drivers/media/usb/gspca/cpia1.c                    |  6 ++---
-> >  drivers/media/usb/hdpvr/hdpvr-control.c            |  4 +++-
-> >  drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
-> >  drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
-> >  drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
-> >  drivers/media/v4l2-core/v4l2-async.c               |  8 +++----
-> >  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  1 -
-> >  drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
-> >  36 files changed, 132 insertions(+), 129 deletions(-)
-> > ---
-> > base-commit: 71b3ed53b08d87212fbbe51bdc3bf44eb8c462f8
-> > change-id: 20240415-fix-cocci-2df3ef22a6f7
-> >
-> > Best regards,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> Note that __v4l2_ctrl_modify_range() may fail. The problem isn't introduced
+> by this patch but it'd be nice to fix it (but maybe in a separate patch).
+
+Okay, will do this in a follow-up patch.
+
+>> +
+>> +	min_val = OV4689_VBLANK_MIN;
+>> +	max_val = OV4689_HTS_MAX - width;
+>> +	def_val = clamp_t(s64, vblank->default_value, min_val, max_val);
+>> +	__v4l2_ctrl_modify_range(vblank, min_val, max_val, vblank->step,
+>> +				 def_val);
+>> +
+>> +	min_val = exposure->minimum;
+>> +	max_val = height + vblank->val - 4;
+>> +	def_val = clamp_t(s64, exposure->default_value, min_val, max_val);
+>> +	__v4l2_ctrl_modify_range(exposure, min_val, max_val, exposure->step,
+>> +				 def_val);
+>> +}
+>> +
+>>  static int ov4689_set_fmt(struct v4l2_subdev *sd,
+>>  			  struct v4l2_subdev_state *sd_state,
+>>  			  struct v4l2_subdev_format *fmt)
+>>  {
+>> +	struct ov4689 *ov4689 = to_ov4689(sd);
+>>  	struct v4l2_mbus_framefmt *format;
+>>  	struct v4l2_rect *crop;
+>> +	unsigned int binning;
+>> +	int ret;
+>>
+>>  	crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
+>>  	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+>>
+>> -	format->width = crop->width;
+>> -	format->height = crop->height;
+>> +	ret = ov4689_best_binning(ov4689, &fmt->format, crop, &binning);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	format->width = crop->width / binning;
+>> +	format->height = crop->height / binning;
+>>
+>>  	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+>>  	format->field = V4L2_FIELD_NONE;
+>> @@ -327,6 +417,9 @@ static int ov4689_set_fmt(struct v4l2_subdev *sd,
+>>
+>>  	fmt->format = *format;
+>>
+>> +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+>> +		ov4689_update_ctrl_ranges(ov4689, format->width, format->height);
+>> +
+>>  	return 0;
+>>  }
+>>
+>> @@ -346,8 +439,9 @@ static int ov4689_enum_frame_sizes(struct v4l2_subdev *sd,
+>>  				   struct v4l2_subdev_frame_size_enum *fse)
+>>  {
+>>  	const struct v4l2_rect *crop;
+>> +	int binning;
+>>
+>> -	if (fse->index >= 1)
+>> +	if (fse->index >= 2)
+>>  		return -EINVAL;
+>>
+>>  	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
+>> @@ -355,10 +449,11 @@ static int ov4689_enum_frame_sizes(struct v4l2_subdev *sd,
+>>
+>>  	crop = v4l2_subdev_state_get_crop(sd_state, 0);
+>>
+>> -	fse->min_width = crop->width;
+>> -	fse->max_width = crop->width;
+>> -	fse->max_height = crop->height;
+>> -	fse->min_height = crop->height;
+>> +	binning = fse->index + 1;
+>> +	fse->min_width = crop->width / binning;
+>> +	fse->max_width = crop->width / binning;
+>> +	fse->max_height = crop->height / binning;
+>> +	fse->min_height = crop->height / binning;
+>>
+>>  	return 0;
+>>  }
+>> @@ -398,42 +493,6 @@ static int ov4689_get_selection(struct v4l2_subdev *sd,
+>>  	return -EINVAL;
+>>  }
+>>
+>> -/*
+>> - * Minimum working HTS value for given output width (found
+>> - * experimentally).
+>> - */
+>> -static unsigned int ov4689_hts_min(unsigned int width)
+>> -{
+>> -	return max_t(unsigned int, 3156, 224 + width * 19 / 16);
+>> -}
+>> -
+>> -static void ov4689_update_ctrl_ranges(struct ov4689 *ov4689,
+>> -				      struct v4l2_rect *crop)
+>> -{
+>> -	struct v4l2_ctrl *exposure = ov4689->exposure;
+>> -	struct v4l2_ctrl *vblank = ov4689->vblank;
+>> -	struct v4l2_ctrl *hblank = ov4689->hblank;
+>> -	s64 def_val, min_val, max_val;
+>> -
+>> -	min_val = ov4689_hts_min(crop->width) - crop->width;
+>> -	max_val = OV4689_HTS_MAX - crop->width;
+>> -	def_val = clamp_t(s64, hblank->default_value, min_val, max_val);
+>> -	__v4l2_ctrl_modify_range(hblank, min_val, max_val, hblank->step,
+>> -				 def_val);
+>> -
+>> -	min_val = OV4689_VBLANK_MIN;
+>> -	max_val = OV4689_HTS_MAX - crop->width;
+>> -	def_val = clamp_t(s64, vblank->default_value, min_val, max_val);
+>> -	__v4l2_ctrl_modify_range(vblank, min_val, max_val, vblank->step,
+>> -				 def_val);
+>> -
+>> -	min_val = exposure->minimum;
+>> -	max_val = crop->height + vblank->val - 4;
+>> -	def_val = clamp_t(s64, exposure->default_value, min_val, max_val);
+>> -	__v4l2_ctrl_modify_range(exposure, min_val, max_val, exposure->step,
+>> -				 def_val);
+>> -}
+>> -
+>>  static int ov4689_set_selection(struct v4l2_subdev *sd,
+>>  				struct v4l2_subdev_state *state,
+>>  				struct v4l2_subdev_selection *sel)
+>> @@ -470,7 +529,8 @@ static int ov4689_set_selection(struct v4l2_subdev *sd,
+>>  		format->height = rect.height;
+>>
+>>  		if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+>> -			ov4689_update_ctrl_ranges(ov4689, &rect);
+>> +			ov4689_update_ctrl_ranges(ov4689, rect.width,
+>> +						  rect.height);
+>>  	}
+>>
+>>  	*crop = rect;
+>> @@ -485,21 +545,27 @@ static int ov4689_setup_timings(struct ov4689 *ov4689,
+>>  	const struct v4l2_mbus_framefmt *format;
+>>  	struct regmap *rm = ov4689->regmap;
+>>  	const struct v4l2_rect *crop;
+>> +	const int v_offset = 2;
+>> +	unsigned int binning;
+>>  	int ret = 0;
+>>
+>>  	format = v4l2_subdev_state_get_format(state, 0);
+>>  	crop = v4l2_subdev_state_get_crop(state, 0);
+>>
+>> +	ret = ov4689_best_binning(ov4689, format, crop, &binning);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>  	cci_write(rm, OV4689_REG_H_CROP_START, crop->left, &ret);
+>> -	cci_write(rm, OV4689_REG_V_CROP_START, crop->top, &ret);
+>> -	cci_write(rm, OV4689_REG_H_CROP_END, crop->left + crop->width + 1, &ret);
+>> -	cci_write(rm, OV4689_REG_V_CROP_END, crop->top + crop->height + 1, &ret);
+>> +	cci_write(rm, OV4689_REG_V_CROP_START, crop->top - v_offset, &ret);
+>> +	cci_write(rm, OV4689_REG_H_CROP_END, crop->left + crop->width + 3, &ret);
+>> +	cci_write(rm, OV4689_REG_V_CROP_END, crop->top + crop->height + 7, &ret);
+>>
+>>  	cci_write(rm, OV4689_REG_H_OUTPUT_SIZE, format->width, &ret);
+>>  	cci_write(rm, OV4689_REG_V_OUTPUT_SIZE, format->height, &ret);
+>>
+>>  	cci_write(rm, OV4689_REG_H_WIN_OFF, 0, &ret);
+>> -	cci_write(rm, OV4689_REG_V_WIN_OFF, 0, &ret);
+>> +	cci_write(rm, OV4689_REG_V_WIN_OFF, v_offset, &ret);
+>>
+>>  	/*
+>>  	 * Maximum working value of vfifo_read_start for given output
+>> @@ -507,6 +573,10 @@ static int ov4689_setup_timings(struct ov4689 *ov4689,
+>>  	 */
+>>  	cci_write(rm, OV4689_REG_VFIFO_CTRL_01, format->width / 16 - 1, &ret);
+>>
+>> +	if (binning == 2)
+>> +		cci_multi_reg_write(ov4689->regmap, ov4689_2x2_binning_regs,
+>> +				    ARRAY_SIZE(ov4689_2x2_binning_regs),
+>> +				    &ret);
+>>  	return ret;
+>>  }
+>>
+>> @@ -519,20 +589,20 @@ static int ov4689_setup_blc_anchors(struct ov4689 *ov4689,
+>>  				    struct v4l2_subdev_state *state)
+>>  {
+>>  	unsigned int width_def = OV4689_H_OUTPUT_SIZE_DEFAULT;
+>> +	const struct v4l2_mbus_framefmt *format;
+>>  	struct regmap *rm = ov4689->regmap;
+>> -	const struct v4l2_rect *crop;
+>>  	int ret = 0;
+>>
+>> -	crop = v4l2_subdev_state_get_crop(state, 0);
+>> +	format = v4l2_subdev_state_get_format(state, 0);
+>>
+>>  	cci_write(rm, OV4689_REG_ANCHOR_LEFT_START,
+>> -		  OV4689_ANCHOR_LEFT_START_DEF * crop->width / width_def, &ret);
+>> +		  OV4689_ANCHOR_LEFT_START_DEF * format->width / width_def, &ret);
+>>  	cci_write(rm, OV4689_REG_ANCHOR_LEFT_END,
+>> -		  OV4689_ANCHOR_LEFT_END_DEF * crop->width / width_def, &ret);
+>> +		  OV4689_ANCHOR_LEFT_END_DEF * format->width / width_def, &ret);
+>>  	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_START,
+>> -		  OV4689_ANCHOR_RIGHT_START_DEF * crop->width / width_def, &ret);
+>> +		  OV4689_ANCHOR_RIGHT_START_DEF * format->width / width_def, &ret);
+>>  	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_END,
+>> -		  OV4689_ANCHOR_RIGHT_END_DEF * crop->width / width_def, &ret);
+>> +		  OV4689_ANCHOR_RIGHT_END_DEF * format->width / width_def, &ret);
+>>
+>>  	return ret;
+>>  }
+>> @@ -749,19 +819,19 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>>  	struct regmap *regmap = ov4689->regmap;
+>>  	struct v4l2_subdev_state *sd_state;
+>>  	struct device *dev = ov4689->dev;
+>> -	struct v4l2_rect *crop;
+>> +	struct v4l2_mbus_framefmt *fmt;
+>>  	s64 max_expo, def_expo;
+>>  	int sensor_gain;
+>>  	int ret = 0;
+>>
+>>  	sd_state = v4l2_subdev_get_locked_active_state(&ov4689->subdev);
+>> -	crop = v4l2_subdev_state_get_crop(sd_state, 0);
+>> +	fmt = v4l2_subdev_state_get_format(sd_state, 0);
+>>
+>>  	/* Propagate change of current control to all related controls */
+>>  	switch (ctrl->id) {
+>>  	case V4L2_CID_VBLANK:
+>>  		/* Update max exposure while meeting expected vblanking */
+>> -		max_expo = crop->height + ctrl->val - 4;
+>> +		max_expo = fmt->height + ctrl->val - 4;
+>>  		def_expo = clamp_t(s64, ov4689->exposure->default_value,
+>>  				   ov4689->exposure->minimum, max_expo);
+>>
+>> @@ -785,16 +855,14 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>>  		cci_write(regmap, OV4689_REG_GAIN, sensor_gain, &ret);
+>>  		break;
+>>  	case V4L2_CID_VBLANK:
+>> -		cci_write(regmap, OV4689_REG_VTS,
+>> -			  ctrl->val + crop->height, &ret);
+>> +		cci_write(regmap, OV4689_REG_VTS, ctrl->val + fmt->height, &ret);
+>>  		break;
+>>  	case V4L2_CID_TEST_PATTERN:
+>>  		ret = ov4689_enable_test_pattern(ov4689, ctrl->val);
+>>  		break;
+>>  	case V4L2_CID_HBLANK:
+>>  		cci_write(regmap, OV4689_REG_HTS,
+>> -			  (ctrl->val + crop->width) /
+>> -			  OV4689_HTS_DIVIDER, &ret);
+>> +			  (ctrl->val + fmt->width) / OV4689_HTS_DIVIDER, &ret);
+>>  		break;
+>>  	case V4L2_CID_VFLIP:
+>>  		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
 
 
-
--- 
-Ricardo Ribalda
+--
+Best regards,
+Mikhail Rudenko
 
