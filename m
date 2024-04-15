@@ -1,165 +1,140 @@
-Return-Path: <linux-media+bounces-9394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FD28A5124
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 15:25:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E141E8A51FF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 15:44:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EB961C21E94
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 13:25:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DDCA1C229C7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 13:44:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597C879DD5;
-	Mon, 15 Apr 2024 13:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QGl9wZs4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0327C5D72B;
+	Mon, 15 Apr 2024 13:41:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6614079B9D
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 13:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17421BF2A
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 13:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713186664; cv=none; b=Fd7mjJ7Mnw85jpzv0Msra4yBj1mfOnBYk/BSqfsxSILllCYUcDk+PCcMRLKUJa9haHW3PVmknhIpke23n/d7yRGdDg/hRG3DsqvzYid23T0DT8KFZkrh0rODTPuV2TPTCRiivJ4mw9VRIhmZgpPk3TnToDMPyOCPhDBLpgZwHkU=
+	t=1713188513; cv=none; b=ORd2IIwEOobDGgW5y1ud6CMl64N02Ejs7NKQHsgaUiBcAoJjyF7IebepOgu1ycP8r1QMz5qGB0XLm0mFjAkr4kwH3sOjSs0AVOOIn4TSnGJF2eU5ON7sQT7C7OEDw84yLDdY+oKcJ0LyeQwJUw9m1pyDERvSEltsxJ3DfY8WmnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713186664; c=relaxed/simple;
-	bh=RTECgF9XpSiuQwltN04/1b8lNhCk38e62ACxs1qXoUE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p2dZzQESoDw14XqZH4TBEewI8bnOmfNrdyAHhwJo88wFWQrQRbEe7/skYObbvD15iLZgOWFkj6DGwtXJe8Kk3AFmDxo/o9C927LjB7vR0WsnOHwmzYPI06Q5/eru4UxWZQKhS9xPr49efrvqt4baPG4gydgt8pr3HkBqboKP+oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QGl9wZs4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713186662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vY0C877oewiCuOz9PRdj8frz1ZNMnNF3Qek4hVl3Z5w=;
-	b=QGl9wZs4tsS2Z9GAxLoNQLOr+TdpUIVTZG/YbLpaBPl5AMfOG2MRfVUircslWlT7S4QXjS
-	A/oo6IrJOwpD9Ulpwh4DACYelzW0aTi2YLqxTHFtjHzkI7UiNMrx8p9qAitOrzrhh8EIA3
-	yA14jccIsThZOD3H+Km+KqyZu8x1Q6g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-83-YzyLoQrWOlODfIYZ2VVzow-1; Mon, 15 Apr 2024 09:10:57 -0400
-X-MC-Unique: YzyLoQrWOlODfIYZ2VVzow-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AD9A104B503;
-	Mon, 15 Apr 2024 13:10:56 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9426523D5D;
-	Mon, 15 Apr 2024 13:10:55 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 4/4] media: hi556: Add support for avdd regulator
-Date: Mon, 15 Apr 2024 15:10:38 +0200
-Message-ID: <20240415131038.236660-5-hdegoede@redhat.com>
-In-Reply-To: <20240415131038.236660-1-hdegoede@redhat.com>
-References: <20240415131038.236660-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1713188513; c=relaxed/simple;
+	bh=QxokqHJk9rsHbdRZ2yxOCecsVzgJF8km2p7xFUNE7DM=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=DttC3+9kK4x7IdzCnU0WcFwr/qqZzmmKN8Ak9aRpelwphaKCSsGyRSlNBzcML8eEZf+Z8qzQ/v7cjrL8sru3pvd5ZrFalfXz7SYQdNpXxb6ZYV91puVrQ5CwS9rpCxsxnmN1XPb+JtBU7RpPdRL1L2WDkeADOeTqLGyNNZjFSsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED509C4AF0A;
+	Mon, 15 Apr 2024 13:41:52 +0000 (UTC)
+Message-ID: <6e1eed19-407f-4625-89e2-ad4192677393@xs4all.nl>
+Date: Mon, 15 Apr 2024 15:41:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+ Stefan Herdler <herdler@nurfuerspam.de>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.10] Various fixes
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On some ACPI platforms, such as Chromebooks the ACPI methods to
-change the power-state (_PS0 and _PS3) fully take care of powering
-on/off the sensor.
+Lots of ttpci checkpatch fixes to clean up the code.
 
-On other ACPI platforms, such as e.g. various HP models with IPU6 +
-hi556 sensor, the sensor driver must control the avdd regulator itself.
+One long standing usb siano fix.
 
-Add support for having the driver control the sensor's avdd regulator.
-Note this relies on the regulator-core providing a dummy regulator
-(which it does by default) on platforms where Linux is not aware of
-the avdd regulator.
+If there are no objections, then I plan to push this tomorrow.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/hi556.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Regards,
 
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index 235caadf02dc..b440f386f062 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -9,6 +9,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -638,6 +639,7 @@ struct hi556 {
- 	/* GPIOs, clocks, etc. */
- 	struct gpio_desc *reset_gpio;
- 	struct clk *clk;
-+	struct regulator *avdd;
- 
- 	/* Current mode */
- 	const struct hi556_mode *cur_mode;
-@@ -1286,8 +1288,17 @@ static int hi556_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct hi556 *hi556 = to_hi556(sd);
-+	int ret;
- 
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 1);
-+
-+	ret = regulator_disable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to disable avdd: %d\n", ret);
-+		gpiod_set_value_cansleep(hi556->reset_gpio, 0);
-+		return ret;
-+	}
-+
- 	clk_disable_unprepare(hi556->clk);
- 	return 0;
- }
-@@ -1302,6 +1313,13 @@ static int hi556_resume(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = regulator_enable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to enable avdd: %d\n", ret);
-+		clk_disable_unprepare(hi556->clk);
-+		return ret;
-+	}
-+
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 0);
- 	usleep_range(5000, 5500);
- 	return 0;
-@@ -1337,6 +1355,12 @@ static int hi556_probe(struct i2c_client *client)
- 		return dev_err_probe(&client->dev, PTR_ERR(hi556->clk),
- 				     "failed to get clock\n");
- 
-+	/* The regulator core will provide a "dummy" regulator if necessary */
-+	hi556->avdd = devm_regulator_get(&client->dev, "avdd");
-+	if (IS_ERR(hi556->avdd))
-+		return dev_err_probe(&client->dev, PTR_ERR(hi556->avdd),
-+				     "failed to get avdd regulator\n");
-+
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
- 		/* Ensure non ACPI managed resources are enabled */
--- 
-2.44.0
+	Hans
 
+The following changes since commit 71b3ed53b08d87212fbbe51bdc3bf44eb8c462f8:
+
+  media: atomisp: Implement link_setup() op for ISP subdev MC entity (2024-04-11 15:40:29 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.10g
+
+for you to fetch changes up to bd78bf57c1aebbc36ae4057424daed778544513a:
+
+  media: usb: siano: Fix allocation of urbs (2024-04-15 14:50:24 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Ricardo Ribalda (1):
+      media: usb: siano: Fix allocation of urbs
+
+Stefan Herdler (10):
+      media: ttpci: coding style fixes: whitespace and newlines
+      media: ttpci: coding style fixes: whitespace
+      media: ttpci: coding style fixes: comments
+      media: ttpci: coding style fixes: braces
+      media: ttpci: coding style fixes: export_symbol
+      media: ttpci: coding style fixes: assign_in_if
+      media: ttpci: coding style fixes: trailing_statements
+      media: ttpci: coding style fixes: constant_comparsation
+      media: ttpci: coding style fixes: miscellaneous
+      media: ttpci: coding style fixes: logging
+
+ drivers/media/pci/ttpci/budget-av.c   | 571 ++++++++++++++++++++++++++++++++++++------------------------------------
+ drivers/media/pci/ttpci/budget-ci.c   | 495 +++++++++++++++++++++++++++++++-------------------------------
+ drivers/media/pci/ttpci/budget-core.c |  38 ++---
+ drivers/media/pci/ttpci/budget.c      | 173 ++++++++++++----------
+ drivers/media/pci/ttpci/budget.h      |  21 ++-
+ drivers/media/usb/siano/smsusb.c      |  20 ++-
+ 6 files changed, 672 insertions(+), 646 deletions(-)
 
