@@ -1,165 +1,167 @@
-Return-Path: <linux-media+bounces-9328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7E88A4BC1
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:42:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDA78A4BF7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:51:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA8A3282E12
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 09:42:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B00971F209E2
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 09:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB194594C;
-	Mon, 15 Apr 2024 09:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C7AN0FrZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D0E34594C;
+	Mon, 15 Apr 2024 09:51:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BE4446AD
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 09:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47AA40868;
+	Mon, 15 Apr 2024 09:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713174115; cv=none; b=oMkW9JeP5LlYnZ0qVeAqw12yOWs0Ae1VpB6cKN9NyhVMtLFiL61Iytx7cMZIqiZNt63zI2X6nboYhT250Npx9ndpsg43NiIAXKilTBsVFZqvVnol1jB4TV02lY7y6UhBn6vwa+2iWEDaFD7jAWh6XzmL0SzP2q7xN+bglz5YM2A=
+	t=1713174693; cv=none; b=VoxzuI8Z5/EghP5H0bIE+DTxK0VmQjXnPd1KurtiKEEJjQQKJI8sKOvTwRnY3LQpmkquESPfPwLNs7ADOz+2lYN9ZVf5wbWmnxFLBnxLUI1F49IgI+Br7UQ1a5ErHAUn0c+XN1lJ3rtQ1oJdCjwM7m+LXiP4dM2ijXuorTzRHRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713174115; c=relaxed/simple;
-	bh=OY+yzan0TGo1zadtOUGnX5magb/OiZZK3zpdjIOxl+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MYUccIALRV5/VVF7KFEomPCDUPwh/N3ABVvbPTzMrD65AY6dEcfwWsNZlNUzlRrDBTeyMX4XLzl1RCrcUXyn8lRZW1U1FA/KEyVAwlCGZ4nuUdT45yU1nPSMSXPqKyLLtAMQIYxMn4KdNMao1mU9ml5oQTMQeaVSgLsHB2iGlc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C7AN0FrZ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713174113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWWWu3C2VFCqfhP7lXz85x6U6MQsclb2hazeAcb5IlQ=;
-	b=C7AN0FrZI6O1f6BnhE1dfKs9TWhbsk6PIfJi+p7TRv/C9FIQRCXRAG2yz4jn8Bmkzjc3DF
-	IB+592d4vPK1ERTNaQnKf9reLh2WzMCEml4WE7NbFqP0GwoaGrcDgt/NM5+bl+EFMQUkSq
-	nLALYK7LmZCrg70KAWwgdUGm+PpB8CQ=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-490-uEyCsP0JPYehpv7Lz-VE-Q-1; Mon,
- 15 Apr 2024 05:41:51 -0400
-X-MC-Unique: uEyCsP0JPYehpv7Lz-VE-Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C32D29AC02F;
-	Mon, 15 Apr 2024 09:41:51 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 44C50492BC8;
-	Mon, 15 Apr 2024 09:41:50 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH resend 4/4] media: hi556: Add support for avdd regulator
-Date: Mon, 15 Apr 2024 11:41:33 +0200
-Message-ID: <20240415094133.210580-5-hdegoede@redhat.com>
-In-Reply-To: <20240415094133.210580-1-hdegoede@redhat.com>
-References: <20240415094133.210580-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1713174693; c=relaxed/simple;
+	bh=8lRDM+nAraAQJSBUKR+WqTVlUNZqbzoULQPWARmPl5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fs4GJII25XsbSCIxrHUy3mLA1DL3av/HVGEGVG7s+gdZT9qxbrvtfRYMRk++hjif17v+UE2jYdyHT6nKqsDHyT1+xT4Hdb4UEO/llPDu6jT8FLu8OYKO4ez1O0qiD6mbc4zwFHv3BdVR2pZHVL9V3lfNRVenwVNxD6PwaSEyIz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7FBC113CC;
+	Mon, 15 Apr 2024 09:51:32 +0000 (UTC)
+Message-ID: <3f8660b0-e29c-47e2-b877-10da058388f9@xs4all.nl>
+Date: Mon, 15 Apr 2024 11:51:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: dvb: Fix dtvs_stats packing.
+Content-Language: en-US, nl
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240410-pack-v1-0-70f287dd8a66@chromium.org>
+ <20240410-pack-v1-2-70f287dd8a66@chromium.org>
+ <f7ca4107-0341-4631-8d8d-b9677782ac2f@xs4all.nl>
+ <CANiDSCvkRWZXuG7dfw0WXvgT+LHQqG3fx9F1M2P0_9dkB9VOKA@mail.gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CANiDSCvkRWZXuG7dfw0WXvgT+LHQqG3fx9F1M2P0_9dkB9VOKA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On some ACPI platforms, such as Chromebooks the ACPI methods to
-change the power-state (_PS0 and _PS3) fully take care of powering
-on/off the sensor.
+Hi Ricardo,
 
-On other ACPI platforms, such as e.g. various HP models with IPU6 +
-hi556 sensor, the sensor driver must control the avdd regulator itself.
+On 12/04/2024 17:00, Ricardo Ribalda wrote:
+> Hi Hans
+> 
+> On Fri, 12 Apr 2024 at 16:21, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 10/04/2024 14:24, Ricardo Ribalda wrote:
+>>> The structure is packed, which requires that all its fields need to be
+>>> also packed.
+>>>
+>>> ./include/uapi/linux/dvb/frontend.h:854:2: warning: field  within 'struct dtv_stats' is less aligned than 'union dtv_stats::(anonymous at ./include/uapi/linux/dvb/frontend.h:854:2)' and is usually due to 'struct dtv_stats' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+>>>
+>>> Explicitly set the inner union as packed.
+>>>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  include/uapi/linux/dvb/frontend.h | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/include/uapi/linux/dvb/frontend.h b/include/uapi/linux/dvb/frontend.h
+>>> index 7e0983b987c2d..8d38c6befda8d 100644
+>>> --- a/include/uapi/linux/dvb/frontend.h
+>>> +++ b/include/uapi/linux/dvb/frontend.h
+>>> @@ -854,7 +854,7 @@ struct dtv_stats {
+>>>       union {
+>>>               __u64 uvalue;   /* for counters and relative scales */
+>>>               __s64 svalue;   /* for 0.001 dB measures */
+>>> -     };
+>>> +     }  __attribute__ ((packed));
+>>>  } __attribute__ ((packed));
+>>
+>> This is used in the public API, and I think this change can cause ABI changes.
+>>
+>> Can you compare the layouts? Also between gcc and llvm since gcc never warned
+>> about this.
+> 
+> The pahole output looks the same in both cases:
+> 
+> https://godbolt.org/z/oK4desv7Y
+> vs
+> https://godbolt.org/z/E36MjPr7v
+> 
+> And it is also the same for all the compiler versions that I tried.
+> 
+> 
+> struct dtv_stats {
+> uint8_t                    scale;                /*     0     1 */
+> union {
+> uint64_t           uvalue;               /*     1     8 */
+> int64_t            svalue;               /*     1     8 */
+> };                                               /*     1     8 */
+> 
+> /* size: 9, cachelines: 1, members: 2 */
+> /* last cacheline: 9 bytes */
+> } __attribute__((__packed__));
+> 
+> 
+> 
+> struct dtv_stats {
+> uint8_t scale; /* 0 1 */
+> union {
+> uint64_t uvalue; /* 1 8 */
+> int64_t svalue; /* 1 8 */
+> }; /* 1 8 */
+> 
+> /* size: 9, cachelines: 1, members: 2 */
+> /* last cacheline: 9 bytes */
+> } __attribute__((__packed__));
+> 
+> 
+>>
+>> I'm not going to accept this unless it is clear that there are no ABI changes.
+> 
+> Is there something else that I can try?
 
-Add support for having the driver control the sensor's avdd regulator.
-Note this relies on the regulator-core providing a dummy regulator
-(which it does by default) on platforms where Linux is not aware of
-the avdd regulator.
+No, that's what I needed. I also found some clang discussions here:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/hi556.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+https://github.com/llvm/llvm-project/issues/55520
 
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index b783e0f56687..5641c249d4b1 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -9,6 +9,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -638,6 +639,7 @@ struct hi556 {
- 	/* GPIOs, clocks, etc. */
- 	struct gpio_desc *reset_gpio;
- 	struct clk *clk;
-+	struct regulator *avdd;
- 
- 	/* Current mode */
- 	const struct hi556_mode *cur_mode;
-@@ -1286,8 +1288,17 @@ static int hi556_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct hi556 *hi556 = to_hi556(sd);
-+	int ret;
- 
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 1);
-+
-+	ret = regulator_disable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to disable avdd: %d\n", ret);
-+		gpiod_set_value_cansleep(hi556->reset_gpio, 0);
-+		return ret;
-+	}
-+
- 	clk_disable_unprepare(hi556->clk);
- 	return 0;
- }
-@@ -1302,6 +1313,13 @@ static int hi556_resume(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = regulator_enable(hi556->avdd);
-+	if (ret) {
-+		dev_err(dev, "failed to enable avdd: %d\n", ret);
-+		clk_disable_unprepare(hi556->clk);
-+		return ret;
-+	}
-+
- 	gpiod_set_value_cansleep(hi556->reset_gpio, 0);
- 	usleep_range(5000, 5500);
- 	return 0;
-@@ -1337,6 +1355,12 @@ static int hi556_probe(struct i2c_client *client)
- 		return dev_err_probe(&client->dev, PTR_ERR(hi556->clk),
- 				     "failed to get clock\n");
- 
-+	/* The regulator core will provide a "dummy" regulator if necessary */
-+	hi556->avdd = devm_regulator_get(&client->dev, "avdd");
-+	if (IS_ERR(hi556->avdd))
-+		return dev_err_probe(&client->dev, PTR_ERR(hi556->avdd),
-+				     "failed to get avdd regulator\n");
-+
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
- 		/* Ensure non ACPI managed resources are enabled */
--- 
-2.44.0
+I propose that I add the following sentence to these three packing patches:
+
+"Marking the inner union as 'packed' does not change the layout, since the
+whole struct is already packed, it just silences the clang warning. See
+also this llvm discussion: https://github.com/llvm/llvm-project/issues/55520"
+
+If you are OK with that, then I can add that to your patches.
+
+Related to this: I added CEC and DVB support to the ABI checks in the build
+scripts. And fixed a bunch of mistakes there (e.g. 'false=true' where I meant
+to write 'fail=true'!) that made the ABI checks useless.
+
+I updated the abi/* files accordingly as well.
+
+Regards,
+
+	Hans
+
+> 
+> Regards!
+> 
+>>
+>> Note that the ABI test in the build scripts only tests V4L2 at the moment,
+>> not the DVB API.
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+> 
+> 
 
 
