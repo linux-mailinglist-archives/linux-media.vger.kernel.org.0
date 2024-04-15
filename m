@@ -1,52 +1,50 @@
-Return-Path: <linux-media+bounces-9289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6A08A46E2
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 04:24:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B4A8A46E9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 04:25:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88E53B21056
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 02:24:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E34311F22362
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 02:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC1818C3D;
-	Mon, 15 Apr 2024 02:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A651DA21;
+	Mon, 15 Apr 2024 02:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="k41ER2Wh"
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="pau35U4z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D84848D
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 02:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B3C134A5
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 02:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713147879; cv=none; b=UZUX/c+Zkfw3eDUFP37nbufFg2BnluS6zJVE/VijcsNZbKu1ti6UjebF3+/dAYBbjDJ5kuBIXR7KlupU4PLrlfM49tByJze7f0+K594N4iLrmsOBB3NWpog9IqPkpiadkuPmbMbZMSzr0uYad0KKHMNBuFBGOK1X0HbRdZ9jLQU=
+	t=1713147881; cv=none; b=GVFEbzeZ3ULG0L62Ry0HGe95dr9+QFG63qtfq+rOntZSmsV6uu4KIEDjy4nitBhEijmoJ4uj00DwzGSOILd1av8gKXH1PPwBTpN+p45qPMQPkFxZanbLA+3BxGgeH0hmE8wBFgF2rcZo49lYKR+A9W17e/kEbmIqlOdWLoaK9hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713147879; c=relaxed/simple;
-	bh=Vtx4SPw+kf4WnbF4QEd91gh5ktah5wK6WAX0utsmhPQ=;
+	s=arc-20240116; t=1713147881; c=relaxed/simple;
+	bh=9m3uGzmTleCBGZVq7aDUQz6mlZJxMtNaEzJLhwNwCQw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tCLHtx8Tean9Ztze5Y0eUIg4K1DZxzpFgrdjgeCYZtTlzni5grH6+yFiiIULEvLeA3IfGw14kiOL1H1jgvt7kf8HQnpPhYT/3h9BuDkUr3T36A/m58hYgPxxjJ5yDT/rF/vAM1TUuq4FbW9OYhJ9mJr/4nIBnHkPwtltOEgIAKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=k41ER2Wh; arc=none smtp.client-ip=212.227.15.18
+	 MIME-Version; b=Gzbc1u1A1npG9qVKEeM9whOhiqZuh6OFAT9x0LuWmAces2otL1Q7/IQ/Sk2fTXKpJY+n/Vf2bDOpUvAYHDXO2TIfElGFD/RoId6WbOP/yGlOMhbl7+k4sL3StzGKnOHdL39aR2uDbIv5f/jcUHBZOG4tDp3cueALKX3UGNLo4+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=pau35U4z; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nurfuerspam.de;
 	s=s31663417; t=1713147872; x=1713752672; i=herdler@nurfuerspam.de;
-	bh=Uc3+xXW8rR96TkY6gqCE9zzIBx9Ap/E1B02SoMaFhO0=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=k41ER2WhzceitdFZOm72GL9AF9EEExTGLFWzNGYDP25icgsQsJLTkYga5a2eWAV4
-	 Ba7fzkYxfaIMOOgYXisCUKWEzGib9zl3kFZRaHpuUrylrr88OFG8gIbpxg0rPKW42
-	 Za6VOoxIdmy2CShyi/pLdA7HUOzxrkbRn4lz8qkRYSfeYD5aL0TqmWHM6D8IZvXBY
-	 AoHqM5RZVQQmtXlYeierugLLAV8evuiMP5LV3/zjE1ZCI3u6Ex9VY3pNU31wsk9NW
-	 +vn4PsRi8dQTfUZod+5fh95gDL6+yeQgTjrTDVll4K5epuO3ApiLxjE+JiL71VOLL
-	 HlDro3fWzHWwRrXmdA==
+	bh=vnYi+mPrMHIEmhhgLd1lu00SS8y2F38qpjkYk/Bz4Bo=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=pau35U4z6PAHQQ/+Tt5RpEKAcn6ZgPKH3oqdHQSOGaXJOhMfwF/6oKOtzqzgfaJ1
+	 rekvbEHGXB3kO+cROk28fPbrdgmV9oPYUQVf80Yg0ETcbANQ4navXrw8XBI3b07MI
+	 IuVahtPI9lLDpMdje5/Q4aWFIG/zfRZaekYf8/Txf1ayoXsoa6LtRSx1JBl4uL4D9
+	 S0BJ/GePgHPZzeBsEhc7eQRf7f0Gw5ZMzMn1MiWVmd3+gsNtxBXVAoATYTyPppkQS
+	 zSR8zVYBl08qPlY/+aIxirpaZQE7Mg2G2U+KBkz3+PH7py5pipKUHAYrCHPusYg7D
+	 b/gytyBOp3WIkGAyJg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([91.132.223.107]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MA7Ka-1s3Mkc1CfK-00BbMq; Mon, 15
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Fs-1sZ9CY24JS-00oERc; Mon, 15
  Apr 2024 04:24:32 +0200
 From: Stefan Herdler <herdler@nurfuerspam.de>
 To: hverkuil-cisco@xs4all.nl
@@ -54,9 +52,9 @@ Cc: linux-media@vger.kernel.org,
 	smoch@web.de,
 	tmn505@gmail.com,
 	vinschen@redhat.com
-Subject: [PATCH v2 03/10] media: ttpci: coding style fixes: comments
-Date: Mon, 15 Apr 2024 04:24:04 +0200
-Message-Id: <20240415022411.234580-4-herdler@nurfuerspam.de>
+Subject: [PATCH v2 04/10] media: ttpci: coding style fixes: braces
+Date: Mon, 15 Apr 2024 04:24:05 +0200
+Message-Id: <20240415022411.234580-5-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20240415022411.234580-1-herdler@nurfuerspam.de>
 References: <20240415022411.234580-1-herdler@nurfuerspam.de>
@@ -67,31 +65,32 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZVCHWH0vi0pnOVyjh1v9Nuva7fwxbNeK4oFa7GQJksqm/H/SwMQ
- 101+Z7T7UcdqvB4oo4OCq/fuNX6P3b57TrLSrTojHUlrg3uM+SNwWyADFOb9xicYEb0G8R4
- NUWrqeiBztk6TKXHZJURzVkeg4hIObvzrDfMYQr2H/Zi6p8BjhRGZxdbAUKDSfYknu7i3kH
- OwvECCec6QMUOk96Yzpgg==
+X-Provags-ID: V03:K1:8YJ+RltTJlRMhZAUg8YX2RNHMKk1p53KHTSs52Vrup1aZCEE5Iz
+ r1iGrEIh9gdFAIBGWASPZKVX7O0g5IXckFrR/URHAVB3B9hnzHXVsXMUKEJVIl1vWR3aBm7
+ GL0w4jVzY44Gu0WYrcwfBhCasXBGT3Lmz0svxirdVJN84ezsyk2pkXrix7ra0nQQiYQ7yVJ
+ 6ZvfWmQ9rRx7RjEWU9SVg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:h2J8Be3V9Mw=;RefS/XqpPHnhwqQu3BmMWZVcg27
- eT4k8u1C+40LIfnG/dWXcB5L19MIUFe0gkGqOGdTTPIEDM2ZfgNbyCkPF4t1X3eUo5K6Mh2/2
- xtNP532fpYC6ZRGYOOShOEBNxM1IdsISr5K03ovsxc8QWUJohiJJj2Z5x/JjkL0DqmzclnuvZ
- IZxtPDzAmpKRVhWZSkfNjyTGTt/ptv9IEB823PeelB5GibF2oA9Rvvrlby+Aq/lGMuPsBMzuE
- c0V0Soptw5udOpzVdLRMG04Wbgv00SosdnIpjJNzVvthcfLxUW9CoSXtJH+xLRB+Z+SZMpX8y
- gFEqO7cZLRFCHvUm0UeFmu3CVdBN/JJEhsRq6CoZcJSC4vwzOAJHDAg7YriwcNCgW0XeP5ihp
- UzY8Y1cvanH4+jfzGL7iMc5zsTIXe3MnNYM9TKY/8nCQJGEzBV3kwffidT2rCOxXRjUy1H3+2
- JKUx/sVd2poMCaCXLAXry6CmlW11xb72xcCHOqa4zsCQYSsNag7a4kcKj0cnJ1VmfpYiwi6q0
- GEy5TEDxXI0GYXDt4RYahMjIw2uAE97+yxEKoZPWhvQQTq0ZRExriy8lyCy36FVbnopbZH9Jb
- F5GZqKyR7Zh9ZydOkSox6k6mYFVq5vH2uvMXO1BbCoSx/bMSAWNXDVD0EE25McpJ2ozAQMdd+
- zQ5GCDkhSL9/gyZj0OA3NH4nVUVoGjToGlYr6uXXfbk3zu2j+bQ/MNvoS2SpxjrYc723UsfMY
- skQDRFZom2U5AKRz+PN1HCPOlRYP/L58asHLAPGYmywOMU6aD1FvggdAV1uWdQuLPcidAhosB
- lvtmCDcyiWjrN2xcdKsNuhrsa/s1lznlbOipdjgZtlJEE=
+UI-OutboundReport: notjunk:1;M01:P0:Jpeu5luHSt8=;BGxtv4MQfyik1BxyiDEP+hL61jn
+ eEREpQxt1V5MmRnyZMg+B7bh5xiyvxrBukrpYxSCysux3CgOhlTHNv40U8d1Eo5fXcKpjthJo
+ 8uYtxFH4QdiGF95/BBCToois4wSN88AjVzRkqQcicqmonajs378oX+6C7u0pfmhPLgOvRu7lK
+ sxSKUvmK6xEIDFtR5THIC5jP7OwRrfrUSpX4PEsE5rCjdlAAw09N4vsc+Z2Tjzqq3w0d/YOyP
+ ZEZFKq9f++EolxjIydnOBuL124E95XReg4l5vTUAtMR5xGK1+4D9o9e8AC7eLY1v3iIhxVan6
+ vrUNQ7gU1DJulXIEzDu9EzJSf8osXURVsZXARH2aQDzjMlDH/FwkTslN3oPycKvXmOLBRif6R
+ KBndOOAhCsiTp1znvJt5nOijRnc0sCHNZfpc6NZ5uRKRPJpGLEpOvthPxg9wtVChPnwECW8yy
+ VNvXxfu8O0mZpGdmo/gUn9ak+NAWSMOWyvSL83TzZKHmKmJ90MH3okivP2yEheQi5CG2CuWu6
+ 7tMkov5/Xav/kp86lgiGch639/2BNaAL3n2YmO1qiDFbQW6ishd8z3+7OCrpMr5yxp5iixaLg
+ CgGVhyaXI3bJI1r61auQfsH0h9UTfXW0/XxzJ4gjiKcGsuWUxvbjIC5BF+M2xRWsqFsTOMU3M
+ IywxmdGuYnowMaLVImZBFmMOnhe19CMPkxfoFRZhCo4jJQo0LAzH5Az56xFADdaPoy28P/0iG
+ eJhOgT0/Rc3rtZaNvJuHFrf1BmHDrOyFPJRIyc/6mQQe8KzWxgU9zSqzhfXecO9hnC6zlDNWw
+ rgPeKPrXp7MNMnZh2kUp59jEZXwdAKFF6jYvlFf+z8J6U=
 
-This patch fixes the following checkpatch warnings:
+This patch fixes the following checkpatch warnings and errors:
 
-WARNING:BLOCK_COMMENT_STYLE: Block comments use * on subsequent lines
-WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separat=
-e line
-WARNING: It's generally not useful to have the filename in the file
+WARNING:BRACES: braces {} are not necessary for any arm of this statement
+WARNING:BRACES: braces {} are not necessary for single statement blocks
+ERROR:OPEN_BRACE: that open brace { should be on the previous line
+CHECK:BRACES: braces {} should be used on all arms of this statement
+CHECK:BRACES: Unbalanced braces around else statement
 
 Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 =2D--
@@ -102,183 +101,258 @@ Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 
 1. Title
 
+2. Remove the offending hunk that erroneous appeared in here.
+
+3. Remove one change, that caused a 'unbalanced braces' warning.
+
+4. Fix the rest of the 'unbalanced braces' warnings too.
+
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D
 
- drivers/media/pci/ttpci/budget-av.c   | 20 ++++++++++++--------
- drivers/media/pci/ttpci/budget-ci.c   |  3 ++-
- drivers/media/pci/ttpci/budget-core.c |  8 +++++---
- drivers/media/pci/ttpci/budget.c      | 27 +++++++++++++++++----------
- 4 files changed, 36 insertions(+), 22 deletions(-)
+ drivers/media/pci/ttpci/budget-av.c | 30 +++++++++++------------------
+ drivers/media/pci/ttpci/budget-ci.c | 21 +++++++++-----------
+ drivers/media/pci/ttpci/budget.c    | 10 ++++------
+ 3 files changed, 24 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/media/pci/ttpci/budget-av.c b/drivers/media/pci/ttpci=
 /budget-av.c
-index b9efcd3cc..dbd4ef40e 100644
+index dbd4ef40e..acac9bae4 100644
 =2D-- a/drivers/media/pci/ttpci/budget-av.c
 +++ b/drivers/media/pci/ttpci/budget-av.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * budget-av.c: driver for the SAA7146 based Budget DVB cards
-- *              with analog video in
-+ * budget-av.ko: driver for the SAA7146 based Budget DVB cards
-+ *               with analog video input (and optionally with CI)
-  *
-  * Compiled from various sources by Michael Hunold <michael@mihu.de>
-  *
-@@ -63,8 +63,8 @@ struct budget_av {
-
- static int ciintf_slot_shutdown(struct dvb_ca_en50221 *ca, int slot);
-
--
--/* GPIO Connections:
-+/*
-+ * GPIO Connections:
-  * 0 - Vcc/Reset (Reset is controlled by capacitor). Resets the frontend =
-*AS WELL*!
-  * 1 - CI memory select 0=3D>IO memory, 1=3D>Attribute Memory
-  * 2 - CI Card Enable (Active Low)
-@@ -267,8 +267,10 @@ static int ciintf_poll_slot_status(struct dvb_ca_en50=
-221 *ca, int slot, int open
- 	if (slot !=3D 0)
- 		return -EINVAL;
-
--	/* test the card detect line - needs to be done carefully
--	 * since it never goes high for some CAMs on this interface (e.g. topupt=
-v) */
-+	/*
-+	 * test the card detect line - needs to be done carefully
-+	 * since it never goes high for some CAMs on this interface (e.g. topupt=
-v)
-+	 */
- 	if (budget_av->slot_status =3D=3D SLOTSTATUS_NONE) {
- 		saa7146_setgpio(saa, 3, SAA7146_GPIO_INPUT);
- 		udelay(1);
-@@ -281,12 +283,14 @@ static int ciintf_poll_slot_status(struct dvb_ca_en5=
+@@ -309,16 +309,14 @@ static int ciintf_poll_slot_status(struct dvb_ca_en5=
 0221 *ca, int slot, int open
- 		saa7146_setgpio(saa, 3, SAA7146_GPIO_OUTLO);
+ 	/* read from attribute memory in reset/ready state to know when the CAM =
+is ready */
+ 	if (budget_av->slot_status =3D=3D SLOTSTATUS_RESET) {
+ 		result =3D ciintf_read_attribute_mem(ca, slot, 0);
+-		if (result =3D=3D 0x1d) {
++		if (result =3D=3D 0x1d)
+ 			budget_av->slot_status =3D SLOTSTATUS_READY;
+-		}
  	}
 
--	/* We also try and read from IO memory to work round the above detection=
- bug. If
-+	/*
-+	 * We also try and read from IO memory to work round the above detection=
- bug. If
- 	 * there is no CAM, we will get a timeout. Only done if there is no cam
- 	 * present, since this test actually breaks some cams :(
- 	 *
- 	 * if the CI interface is not open, we also do the above test since we
--	 * don't care if the cam has problems - we'll be resetting it on open() =
-anyway */
-+	 * don't care if the cam has problems - we'll be resetting it on open() =
-anyway
-+	 */
- 	if ((budget_av->slot_status =3D=3D SLOTSTATUS_NONE) || (!open)) {
- 		saa7146_setgpio(budget_av->budget.dev, 1, SAA7146_GPIO_OUTLO);
- 		result =3D ttpci_budget_debiread(&budget_av->budget, DEBICICAM, 0, 1, 0=
-, 1);
+ 	/* work out correct return code */
+ 	if (budget_av->slot_status !=3D SLOTSTATUS_NONE) {
+-		if (budget_av->slot_status & SLOTSTATUS_READY) {
++		if (budget_av->slot_status & SLOTSTATUS_READY)
+ 			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY=
+;
+-		}
+ 		return DVB_CA_EN50221_POLL_CAM_PRESENT;
+ 	}
+ 	return 0;
+@@ -452,8 +450,9 @@ static int saa7113_setinput(struct budget_av *budget_a=
+v, int input)
+ 	} else if (input =3D=3D 0) {
+ 		i2c_writereg(&budget->i2c_adap, 0x4a, 0x02, 0xc0);
+ 		i2c_writereg(&budget->i2c_adap, 0x4a, 0x09, 0x00);
+-	} else
++	} else {
+ 		return -EINVAL;
++	}
+
+ 	budget_av->cur_input =3D input;
+ 	return 0;
+@@ -1237,15 +1236,13 @@ static void frontend_init(struct budget_av *budget=
+_av)
+ 		if (saa->pci->subsystem_vendor =3D=3D 0x1894) {
+ 			fe =3D dvb_attach(stv0299_attach, &cinergy_1200s_1894_0010_config,
+ 					     &budget_av->budget.i2c_adap);
+-			if (fe) {
++			if (fe)
+ 				dvb_attach(tua6100_attach, fe, 0x60, &budget_av->budget.i2c_adap);
+-			}
+ 		} else {
+ 			fe =3D dvb_attach(stv0299_attach, &typhoon_config,
+ 					     &budget_av->budget.i2c_adap);
+-			if (fe) {
++			if (fe)
+ 				fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_param=
+s;
+-			}
+ 		}
+ 		break;
+
+@@ -1257,19 +1254,17 @@ static void frontend_init(struct budget_av *budget=
+_av)
+ 	case SUBID_DVBS_EASYWATCH_2:
+ 		fe =3D dvb_attach(stv0299_attach, &philips_sd1878_config,
+ 				&budget_av->budget.i2c_adap);
+-		if (fe) {
++		if (fe)
+ 			dvb_attach(dvb_pll_attach, fe, 0x60,
+ 				   &budget_av->budget.i2c_adap,
+ 				   DVB_PLL_PHILIPS_SD1878_TDA8261);
+-		}
+ 		break;
+
+ 	case SUBID_DVBS_TYPHOON:
+ 		fe =3D dvb_attach(stv0299_attach, &typhoon_config,
+ 				    &budget_av->budget.i2c_adap);
+-		if (fe) {
++		if (fe)
+ 			fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_params=
+;
+-		}
+ 		break;
+ 	case SUBID_DVBS2_KNC1:
+ 	case SUBID_DVBS2_KNC1_OEM:
+@@ -1282,9 +1277,8 @@ static void frontend_init(struct budget_av *budget_a=
+v)
+ 	case SUBID_DVBS_CINERGY1200:
+ 		fe =3D dvb_attach(stv0299_attach, &cinergy_1200s_config,
+ 				    &budget_av->budget.i2c_adap);
+-		if (fe) {
++		if (fe)
+ 			fe->ops.tuner_ops.set_params =3D philips_su1278_ty_ci_tuner_set_params=
+;
+-		}
+ 		break;
+
+ 	case SUBID_DVBC_KNC1:
+@@ -1300,9 +1294,8 @@ static void frontend_init(struct budget_av *budget_a=
+v)
+ 			fe =3D dvb_attach(tda10021_attach, &philips_cu1216_config_altaddress,
+ 					     &budget_av->budget.i2c_adap,
+ 					     read_pwm(budget_av));
+-		if (fe) {
++		if (fe)
+ 			fe->ops.tuner_ops.set_params =3D philips_cu1216_tuner_set_params;
+-		}
+ 		break;
+
+ 	case SUBID_DVBC_EASYWATCH_MK3:
+@@ -1316,9 +1309,8 @@ static void frontend_init(struct budget_av *budget_a=
+v)
+ 			&philips_cu1216_tda10023_config,
+ 			&budget_av->budget.i2c_adap,
+ 			read_pwm(budget_av));
+-		if (fe) {
++		if (fe)
+ 			fe->ops.tuner_ops.set_params =3D philips_cu1216_tuner_set_params;
+-		}
+ 		break;
+
+ 	case SUBID_DVBT_EASYWATCH:
 diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci=
 /budget-ci.c
-index 2859b8ab8..ebf340417 100644
+index ebf340417..2a51febdb 100644
 =2D-- a/drivers/media/pci/ttpci/budget-ci.c
 +++ b/drivers/media/pci/ttpci/budget-ci.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * budget-ci.c: driver for the SAA7146 based Budget DVB cards
-+ * budget-ci.ko: driver for the SAA7146 based Budget DVB cards
-+ *               with CI (but without analog video input)
-  *
-  * Compiled from various sources by Michael Hunold <michael@mihu.de>
-  *
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttp=
-ci/budget-core.c
-index ffa659be1..f41f4eea7 100644
-=2D-- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * budget-core.c: driver for the SAA7146 based Budget DVB cards
-+ * budget-core.ko: base-driver for the SAA7146 based Budget DVB cards
-  *
-  * Compiled from various sources by Michael Hunold <michael@mihu.de>
-  *
-@@ -491,8 +491,10 @@ int ttpci_budget_init(struct budget *budget, struct s=
-aa7146_dev *dev,
- 	spin_lock_init(&budget->feedlock);
- 	spin_lock_init(&budget->debilock);
+@@ -412,24 +412,21 @@ static int ciintf_poll_slot_status(struct dvb_ca_en5=
+0221 *ca, int slot, int open
+ 	flags =3D ttpci_budget_debiread(&budget_ci->budget, DEBICICTL, DEBIADDR_=
+CICONTROL, 1, 1, 0);
+ 	if (flags & CICONTROL_CAMDETECT) {
+ 		// mark it as present if it wasn't before
+-		if (budget_ci->slot_status & SLOTSTATUS_NONE) {
++		if (budget_ci->slot_status & SLOTSTATUS_NONE)
+ 			budget_ci->slot_status =3D SLOTSTATUS_PRESENT;
+-		}
 
--	/* the Siemens DVB needs this if you want to have the i2c chips
--	   get recognized before the main driver is loaded */
-+	/*
-+	 * the Siemens DVB needs this if you want to have the i2c chips
-+	 * get recognized before the main driver is loaded
-+	 */
- 	if (bi->type !=3D BUDGET_FS_ACTIVY)
- 		saa7146_write(dev, GPIO_CTRL, 0x500000);	/* GPIO 3 =3D 1 */
+ 		// during a RESET, we check if we can read from IO memory to see when C=
+AM is ready
+ 		if (budget_ci->slot_status & SLOTSTATUS_RESET) {
+-			if (ciintf_read_attribute_mem(ca, slot, 0) =3D=3D 0x1d) {
++			if (ciintf_read_attribute_mem(ca, slot, 0) =3D=3D 0x1d)
+ 				budget_ci->slot_status =3D SLOTSTATUS_READY;
+-			}
+ 		}
+ 	} else {
+ 		budget_ci->slot_status =3D SLOTSTATUS_NONE;
+ 	}
 
+ 	if (budget_ci->slot_status !=3D SLOTSTATUS_NONE) {
+-		if (budget_ci->slot_status & SLOTSTATUS_READY) {
++		if (budget_ci->slot_status & SLOTSTATUS_READY)
+ 			return DVB_CA_EN50221_POLL_CAM_PRESENT | DVB_CA_EN50221_POLL_CAM_READY=
+;
+-		}
+ 		return DVB_CA_EN50221_POLL_CAM_PRESENT;
+ 	}
+
+@@ -494,11 +491,10 @@ static int ciintf_init(struct budget_ci *budget_ci)
+ 	// Setup CI slot IRQ
+ 	if (budget_ci->ci_irq) {
+ 		tasklet_setup(&budget_ci->ciintf_irq_tasklet, ciintf_interrupt);
+-		if (budget_ci->slot_status !=3D SLOTSTATUS_NONE) {
++		if (budget_ci->slot_status !=3D SLOTSTATUS_NONE)
+ 			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQLO);
+-		} else {
++		else
+ 			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQHI);
+-		}
+ 		SAA7146_IER_ENABLE(saa, MASK_03);
+ 	}
+
+@@ -857,9 +853,9 @@ static int dvbc_philips_tdm1316l_tuner_set_params(stru=
+ct dvb_frontend *fe)
+
+ 	// determine charge pump
+ 	tuner_frequency =3D p->frequency + 36125000;
+-	if (tuner_frequency < 87000000)
++	if (tuner_frequency < 87000000) {
+ 		return -EINVAL;
+-	else if (tuner_frequency < 130000000) {
++	} else if (tuner_frequency < 130000000) {
+ 		cp =3D 3;
+ 		band =3D 1;
+ 	} else if (tuner_frequency < 160000000) {
+@@ -886,8 +882,9 @@ static int dvbc_philips_tdm1316l_tuner_set_params(stru=
+ct dvb_frontend *fe)
+ 	} else if (tuner_frequency < 895000000) {
+ 		cp =3D 7;
+ 		band =3D 4;
+-	} else
++	} else {
+ 		return -EINVAL;
++	}
+
+ 	// assume PLL filter should always be 8MHz for the moment.
+ 	filter =3D 1;
 diff --git a/drivers/media/pci/ttpci/budget.c b/drivers/media/pci/ttpci/bu=
 dget.c
-index faa2a3561..9fe087add 100644
+index 9fe087add..44f09b548 100644
 =2D-- a/drivers/media/pci/ttpci/budget.c
 +++ b/drivers/media/pci/ttpci/budget.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * budget.c: driver for the SAA7146 based Budget DVB cards
-+ * budget.ko: driver for the SAA7146 based Budget DVB cards
-+ *            without analog video input or CI
-  *
-  * Compiled from various sources by Michael Hunold <michael@mihu.de>
-  *
-@@ -50,9 +51,11 @@ static void Set22K(struct budget *budget, int state)
- 	saa7146_setgpio(dev, 3, (state ? SAA7146_GPIO_OUTHI : SAA7146_GPIO_OUTLO=
-));
+@@ -100,9 +100,9 @@ static int SendDiSEqCMsg(struct budget *budget, int le=
+n, u8 *msg, unsigned long
+ 	mdelay(16);
+
+ 	if (burst !=3D -1) {
+-		if (burst)
++		if (burst) {
+ 			DiseqcSendByte(budget, 0xff);
+-		else {
++		} else {
+ 			saa7146_setgpio(dev, 3, SAA7146_GPIO_OUTHI);
+ 			mdelay(12);
+ 			udelay(500);
+@@ -229,8 +229,7 @@ static int alps_bsrv2_tuner_set_params(struct dvb_fron=
+tend *fe)
+ 	return 0;
  }
 
--/* Diseqc functions only for TT Budget card */
--/* taken from the Skyvision DVB driver by
--   Ralph Metzler <rjkm@metzlerbros.de> */
-+/*
-+ * Diseqc functions only for TT Budget card
-+ * taken from the Skyvision DVB driver by
-+ * Ralph Metzler <rjkm@metzlerbros.de>
-+ */
+-static struct ves1x93_config alps_bsrv2_config =3D
+-{
++static struct ves1x93_config alps_bsrv2_config =3D {
+ 	.demod_address =3D 0x08,
+ 	.xin =3D 90100000UL,
+ 	.invert_pwm =3D 0,
+@@ -786,9 +785,8 @@ static int budget_attach(struct saa7146_dev *dev, stru=
+ct saa7146_pci_extension_d
+ 	int err;
 
- static void DiseqcSendBit(struct budget *budget, int data)
- {
-@@ -675,9 +678,11 @@ static void frontend_init(struct budget *budget)
- 					tt1600_stv090x_config.tuner_set_refclk	  =3D ctl->tuner_set_refclk;
- 					tt1600_stv090x_config.tuner_get_status	  =3D ctl->tuner_get_status;
+ 	budget =3D kmalloc(sizeof(struct budget), GFP_KERNEL);
+-	if (NULL =3D=3D budget) {
++	if (NULL =3D=3D budget)
+ 		return -ENOMEM;
+-	}
 
--					/* call the init function once to initialize
--					   tuner's clock output divider and demod's
--					   master clock */
-+					/*
-+					 * call the init function once to initialize
-+					 * tuner's clock output divider and demod's
-+					 * master clock
-+					 */
- 					if (budget->dvb_frontend->ops.init)
- 						budget->dvb_frontend->ops.init(budget->dvb_frontend);
-
-@@ -730,9 +735,11 @@ static void frontend_init(struct budget *budget)
- 					tt1600_stv090x_config.tuner_set_refclk	  =3D ctl->tuner_set_refclk;
- 					tt1600_stv090x_config.tuner_get_status	  =3D ctl->tuner_get_status;
-
--					/* call the init function once to initialize
--					   tuner's clock output divider and demod's
--					   master clock */
-+					/*
-+					 * call the init function once to initialize
-+					 * tuner's clock output divider and demod's
-+					 * master clock
-+					 */
- 					if (budget->dvb_frontend->ops.init)
- 						budget->dvb_frontend->ops.init(budget->dvb_frontend);
+ 	dprintk(2, "dev:%p, info:%p, budget:%p\n", dev, info, budget);
 
 =2D-
 2.34.0
