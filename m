@@ -1,170 +1,179 @@
-Return-Path: <linux-media+bounces-9413-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B9C8A57CF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 18:32:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0878A5807
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 18:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1934283D67
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:32:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EB502861CA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A51F82890;
-	Mon, 15 Apr 2024 16:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF3882485;
+	Mon, 15 Apr 2024 16:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TWlKY4BV"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="MJM/iE2b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-108-mta35.mxroute.com (mail-108-mta35.mxroute.com [136.175.108.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A69F81ABB;
-	Mon, 15 Apr 2024 16:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC81C84A3B
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 16:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713198748; cv=none; b=LtujKb9eH/vD4wdhcqpyvSznmdp1gmBAFoVNuUbEsQQ+2pfiLpdgNjHoLot3juIIqQeqIquwESmgohIsVKlRfdpSxt24sMGOwsjNqdYVEs+aT11cbSpMqZoId0xXJ/ug99T+eQ0CBD882k/5vaxoW+N1okog4a5aMMcDL9HxS5E=
+	t=1713199130; cv=none; b=R0dQL0ZOqJ9/PBAR+bZEY24f9iiE9BFJMQ5Vn/gJY9qaNkLpDgfnHB45b/qgxShEi8e8/L+rFNCYFUAOWO9QFjaW2AOmMQXpbQcC4msErQcZp+V8QS0HLKwey3iS8Ia39scvyhrNVFn090GI7hq9hOZ5LB1V8zboX8MxKcP1Y1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713198748; c=relaxed/simple;
-	bh=w+Jli2gXAqNrzzibOM83RHV530usC/LNM9MmjJsycxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lyYECExCsn3gLockILxTxMikSjdplrHSVlCBtVLn41+H8nxb8DdKODwyPUEeEhd4Tx9nBvgy1zZ66IxdPq9SjHcxp1K36xwPkQLDq0+4t+TmL40TOe1M//RuGMi18d87LNFeHm4XaKBufA73GBReuIyidw3uTHuy0PfHzbhJa9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TWlKY4BV; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56e56ee8d5cso4300706a12.2;
-        Mon, 15 Apr 2024 09:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713198744; x=1713803544; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CdPVT4G73fiqd7vz1POECcHJyXspCSMnftfniwcZUds=;
-        b=TWlKY4BV2MYC0QXLd/Yo6fNVYuRRn+fLV1oVy3d4eSgCloj3C1Y9d3YNJfC2KdAtYU
-         Xx/hIUCFWV1zLl2XXE74kCmBxJltxRzLRKOgzTy1PbZaqf1TeV1RkQio+ShpBq/0SzS+
-         TVfEgyy3Uxa9mcKoc3mxvDJBfoqQRSdekMWRMVnzRk/V+94gK7UFLHci6YZz6GxgVZQY
-         VIhi0kOuIsAtm7LfbENbzVOwMVlas36BZ+0iOHm2yeQ/U/KCz0WawN3NUt5QdJB5cCkv
-         oEmEbltkRAmbZadhEdMtxkEN7wDk6Yvp8AJA7czXHCTSz3y3NnaByb+1bN9h6ngTSA1I
-         pJ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713198744; x=1713803544;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CdPVT4G73fiqd7vz1POECcHJyXspCSMnftfniwcZUds=;
-        b=wMgkSxPzAZoDVVN28l2n6n84wznNEfOgXT/B2Hiw9TCj/75CyUrr71sxAkqxkBC+Y7
-         ERyTup5aFtR9YBELo6+NTbHF6stxMrkWqZJBv0iLRjqNBOrBfzI4lzD5zC9tqOPlDQnx
-         JtXmzfz0Ma9jjk1liL4zw1/49KBYnRuPbEofNz17h6bYC5bQ9t2SNPZYy9L4cw5VYuLG
-         VtEzgudbGHgjKBaj7xexscBnfVL7G6EpR+RTE/p89KsLZFKdK8itQ+tNh1eZs25ZmLhb
-         NFdq7bNGJT85IjsWoRGRnIx3h+w2gTaJPD34M9+tt+36oKKdknktC9SHEJ50c22q72/6
-         Vjag==
-X-Forwarded-Encrypted: i=1; AJvYcCV4VUAERRojZgbTUt+J2HJ+4P+E+kxCWZU8TsZuoAkfoJo/5s5Gs7Ky/mTVwdZ6lRF+Dbjd6cRANYQQjBkE0hVUdpiOaS8U+eU+cgUdL2012sKREFj3n2xG4xaIA9x718MlXBygiNopD8tG4s/bYCtRgMVX5fyFxslfALd4r3L3d9w5+1O5
-X-Gm-Message-State: AOJu0Yz+BwYWhvJg4cMut6zUb8fNGJpsaL9a7CnSx/7M+FFL4lsDU+2m
-	C172LmyctRn00sylA3OeyRhXdcMiSbCA7S9s7HKbj9z/ec9Z/o10
-X-Google-Smtp-Source: AGHT+IG5111kErqtJ99UjxO28TBAoZDOYxc/kBLxTnhDOu7fNh4ku3mWNP1JtarGpo0eoVrqG9aHSw==
-X-Received: by 2002:a50:8a88:0:b0:56d:f7ce:e879 with SMTP id j8-20020a508a88000000b0056df7cee879mr7558482edj.37.1713198744290;
-        Mon, 15 Apr 2024 09:32:24 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-57-233.cust.vodafonedsl.it. [188.217.57.233])
-        by smtp.gmail.com with ESMTPSA id y24-20020aa7d518000000b0056e68b14986sm4975937edq.29.2024.04.15.09.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 09:32:23 -0700 (PDT)
-Date: Mon, 15 Apr 2024 18:32:21 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Luis Garcia <git@luigi311.com>
-Cc: linux-media@vger.kernel.org, dave.stevenson@raspberrypi.com,
-	jacopo.mondi@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	pavel@ucw.cz, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v4 24/25] media:i2c: imx258: Use v4l2_link_freq_to_bitmap
- helper
-Message-ID: <Zh1WlamoDoFbvEMv@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240414203503.18402-1-git@luigi311.com>
- <20240414203503.18402-25-git@luigi311.com>
- <Zh1FUQOt9n/tO3er@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <656bf349-38bf-44b7-936c-58f424613a49@luigi311.com>
+	s=arc-20240116; t=1713199130; c=relaxed/simple;
+	bh=EAgrrowhuxfvuA4IEIS00xQ8mSwdDWuzf1QzmetlHQk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=neIiJNLcldnfLG50ylgfieRd7eGqOv1nnNB46g8Z+hX5ochsGkau+BsHhx4rJwHulVMDIjaatklSMqcxLyxQpRanFCosVwO1pWDWBblmsay9n+tbkUWpI7fbe3+cJsDBih9fyFYHtaCvmncq+QGHeyt/qNeVnPYg2JAVzEIdSZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=MJM/iE2b; arc=none smtp.client-ip=136.175.108.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.2] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta35.mxroute.com (ZoneMTA) with ESMTPSA id 18ee2a01b680003bea.012
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Mon, 15 Apr 2024 16:38:47 +0000
+X-Zone-Loop: dceba128ddfbfab76b05427726623611a20425ec5fa9
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=UFJA6wHd6u5mXxnVb4m3GJPfiP5KjVZafLGU70HOark=; b=MJM/iE2blIwK8MorvyDIPebWQp
+	MXLRU6rrAKDgt19O4GS2lsOQPxCc+XvhhRAzSqZlhoU21/sRm2qKmAwNdi+LWsG/JnLt5bjCrK2XC
+	NCiSNpozQsjHtbnhwjhyOvmRr42A9G2ECEw8/sqWIB+oF6MgR/lWehNdK5I8mxpbHBdjmvGQJNBvl
+	d3jiFHZV6LXkAnOosmm+C+vdNOVMY85qRZC/CLP2jb28PFbdC9Q88OfbK8Sg3T02nGQYv4hANbQN4
+	cKCfBnRaBzjDOMQvLM43E3Qw5u/JT8/GenhrM8IxXYq71j9NPNg6nlOqbBxAYH7wuNzDwqRURMWBk
+	KLYFMTkg==;
+Message-ID: <59255bbe-8d26-4fe5-bd17-97dda92e1553@luigi311.com>
+Date: Mon, 15 Apr 2024 10:38:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <656bf349-38bf-44b7-936c-58f424613a49@luigi311.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/25] media: i2c: imx258: Make image geometry meet
+ sensor requirements
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ linux-media@vger.kernel.org
+Cc: dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
+ mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, sakari.ailus@linux.intel.com,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ pavel@ucw.cz, phone-devel@vger.kernel.org
+References: <20240414203503.18402-1-git@luigi311.com>
+ <20240414203503.18402-3-git@luigi311.com> <6041186.lOV4Wx5bFT@steina-w>
+Content-Language: en-US
+From: Luis Garcia <git@luigi311.com>
+In-Reply-To: <6041186.lOV4Wx5bFT@steina-w>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: git@luigi311.com
 
-On Mon, Apr 15, 2024 at 10:27:28AM -0600, Luis Garcia wrote:
-> On 4/15/24 09:18, Tommaso Merciai wrote:
-> > Hi Luis,
-> > 
-> > On Sun, Apr 14, 2024 at 02:35:02PM -0600, git@luigi311.com wrote:
-> >> From: Luis Garcia <git@luigi311.com>
-> >>
-> >> Use the v4l2_link_freq_to_bitmap() helper to figure out which
-> >> driver-supported link freq can be used on a given system.
-> >>
-> >> Signed-off-by: Luis Garcia <git@luigi311.com>
-> >> Reviewed-by: Pavel Machek <pavel@ucw.cz>
-> >> ---
-> >>  drivers/media/i2c/imx258.c | 12 ++++++++++++
-> >>  1 file changed, 12 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> >> index 5de71cb7c1ae..65846dff775e 100644
-> >> --- a/drivers/media/i2c/imx258.c
-> >> +++ b/drivers/media/i2c/imx258.c
-> >> @@ -693,6 +693,7 @@ struct imx258 {
-> >>  	/* Current mode */
-> >>  	const struct imx258_mode *cur_mode;
-> >>  
-> >> +	unsigned long link_freq_bitmap;
-> >>  	const struct imx258_link_freq_config *link_freq_configs;
-> >>  	const s64 *link_freq_menu_items;
-> >>  	unsigned int lane_mode_idx;
-> >> @@ -1552,6 +1553,17 @@ static int imx258_probe(struct i2c_client *client)
-> >>  		return ret;
-> >>  	}
-> >>  
-> >> +	ret = v4l2_link_freq_to_bitmap(&client->dev,
-> >> +				       ep.link_frequencies,
-> >> +				       ep.nr_of_link_frequencies,
-> >> +				       imx258->link_freq_menu_items,
-> >> +				       ARRAY_SIZE(link_freq_menu_items_19_2),
-> >> +				       &imx258->link_freq_bitmap);
-> >> +	if (ret) {
-> >> +		dev_err(&client->dev, "Link frequency not supported\n");
-> >> +		goto error_endpoint_free;
-> >> +	}
-> >> +
-> >>  	/* Get number of data lanes */
-> >>  	switch (ep.bus.mipi_csi2.num_data_lanes) {
-> >>  	case 2:
-> > 
-> > Looks good to me.
-> > 
-> > ps:
-> > Maybe a good plan for the future would be to use: dev_err_probe
-> > (instead of dev_err into probe function)
-> > 
-> > But this I think is somenthing for next improvements. :)
-> > 
-> > Thanks & Regards,
-> > Tommaso
-> > 
+On 4/15/24 00:25, Alexander Stein wrote:
+> Hi,
 > 
-> Perfect, can i go ahead and add in your reviewed by looks like
-> you didnt add it here.
-
-Yep sorry I miss that. :'(
-
-Thanks & Regards,
-Tommaso
-
+> Am Sonntag, 14. April 2024, 22:34:40 CEST schrieb git@luigi311.com:
+>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>
+>> The output image is defined as being 4208x3118 pixels in size.
+>> Y_ADD_STA register was set to 0, and Y_ADD_END to 3118, giving
+>> 3119 lines total.
+>>
+>> The datasheet lists a requirement for Y_ADD_STA to be a multiple
+>> of a power of 2 depending on binning/scaling mode (2 for full pixel,
+>> 4 for x2-bin/scale, 8 for (x2-bin)+(x2-subsample) or x4-bin, or 16
+>> for (x4-bin)+(x2-subsample)).
+>> (Y_ADD_END – Y_ADD_STA + 1) also has to be a similar power of 2.
+>>
+>> The current configuration for the full res modes breaks that second
+>> requirement, and we can't increase Y_ADD_STA to 1 to retain exactly
+>> the same field of view as that then breaks the first requirement.
+>> For the binned modes, they are worse off as 3118 is not a multiple of
+>> 4.
+>>
+>> Increase the main mode to 4208x3120 so that it is the same FOV as the
+>> binned modes, with Y_ADD_STA at 0.
+>> Fix Y_ADD_STA and Y_ADD_END for the binned modes so that they meet the
+>> sensor requirements.
+>>
+>> This does change the Bayer order as the default configuration is for
+>> H&V flips to be enabled, so readout is from Y_STA_END to Y_ADD_STA,
+>> and this patch has changed Y_STA_END.
+>>
+>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Luis Garcia <git@luigi311.com>
+>> Reviewed-by: Pavel Machek <pavel@ucw.cz>
+>> ---
+>>  drivers/media/i2c/imx258.c | 26 +++++++++++++-------------
+>>  1 file changed, 13 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>> index 2dbafd21dd70..4a7048d834c6 100644
+>> --- a/drivers/media/i2c/imx258.c
+>> +++ b/drivers/media/i2c/imx258.c
+>> [snip]
+>> @@ -707,7 +707,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>>  	/* Initialize try_fmt */
+>>  	try_fmt->width = supported_modes[0].width;
+>>  	try_fmt->height = supported_modes[0].height;
+>> -	try_fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+>> +	try_fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
 > 
-> >> -- 
-> >> 2.44.0
-> >>
-> >>
+> Does someone have access to the data sheet? I am wondering how the
+> arrangement of the pixel array is shown. I've the following (identical)
+> array for these sensors:
+> * imx290/imx327
+> * imx219
+> * imx415
 > 
+> G B G B
+> R G R G
+> G B G B
+> R G R G
+>
+
+
+I assume this is what you are looking for
+https://photos.luigi311.com/share/Imk6odsR_44VYsRvfmRwBVoG1TMnXtI61PP4sjssbmKAcNEYuVPRa9W-vIU7rpa-Ask
+
+ 
+> Yet each driver configures a different bus format:
+> 
+> * imx290.c: MEDIA_BUS_FMT_SRGGB10_1X10
+> * imx415.c: MEDIA_BUS_FMT_SGBRG10_1X10
+> * imx219.c: MEDIA_BUS_FMT_SRGGB10_1X10 (no flip)
+> 
+> imx219 actually defines all 4 10 Bit Bayer patterns and the comment
+> indicates this depends on how v or h flip is configured.
+> Reading the commit message apparently the same is true for this driver.
+>> Still this is confusing as I would have expected flipping to be disabled by
+> default, expecting the same Bayer pattern order for all drivers. Can someone
+> shed some light?
+> 
+> Best regards,
+> Alexander
+> 
+
+Flipping defaults are changed around looks like based on use cases. Patch 20
+is what actually brings in flipping and brings in the 4 definitions like you
+are expecting
+
++	/* 10-bit modes. */
++	MEDIA_BUS_FMT_SRGGB10_1X10,
++	MEDIA_BUS_FMT_SGRBG10_1X10,
++	MEDIA_BUS_FMT_SGBRG10_1X10,
++	MEDIA_BUS_FMT_SBGGR10_1X10
+
+
 
