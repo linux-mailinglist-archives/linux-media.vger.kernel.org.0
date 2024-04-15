@@ -1,122 +1,95 @@
-Return-Path: <linux-media+bounces-9303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD78A47CD
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 08:09:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AD38A47D2
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 08:12:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 228581F22727
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 06:09:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04F791F218DB
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 06:12:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4CBCA7D;
-	Mon, 15 Apr 2024 06:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 172D2749A;
+	Mon, 15 Apr 2024 06:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsNOK2YV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AsUijs+F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8531B6112;
-	Mon, 15 Apr 2024 06:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CFE1AACA
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 06:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713161341; cv=none; b=ZZpEIZzZKBD/dbS71V7SGcYJb9F8uMIzEc39VZAUMFMxiGeO4W0qDX1bACTPGB5bGVeebTYJCzBoP9Ak6CpKerbNYmfrnVNGw5OrE9EIrKVPXxOPqJLvZAjnT+MCgCaxUvRZ8mzlfiTIARxIPtUt+8FEsIzYlzSbqjkq8e8Jdd0=
+	t=1713161533; cv=none; b=AfAkdKLfzxCgDR4anvciMrOh1Nt7gD2RbmHlfgoVuq99L/Irr4sGRthnKHQU8P3nPZHgJ+oGT0LPwcWtoM1LmVDJ3TAMYf64RN6zzGyY1xv8mpbVvKUMg/rYVyG6B6Ti6HGZMSbIfaiBnNgbPaIbBAz2YBuLTJmnJUYnKfecWRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713161341; c=relaxed/simple;
-	bh=e9ABONc1WXl3FPnYnjI6Nc2vONxLJsw3QN/efR/K9Z4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1wMSjzZyVLPJrIMn16lwqvWBV55wjhN2dDt/sJoJVhzu/BnEwRksO17IHPN0mVLcMeXI2ZQe35vLRP40alQ07nJB2IeI9H0QI16Uyht8ucGwZ4zpJq3qwaQxTafAOE363uU4yxJMw2Vts2mPg65nWl+QwL5k0pgExQVjwb+2AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsNOK2YV; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713161341; x=1744697341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e9ABONc1WXl3FPnYnjI6Nc2vONxLJsw3QN/efR/K9Z4=;
-  b=lsNOK2YVjAXPYsic1+l74ZwQ81Pqt9AtwhC7p2bt4t+LmDEUuHaEJn11
-   +quwPrGuXlJ8xdK2kcbELpgM/VoW2Wpwlv7vx8BvPHQ07extBL0pabjM4
-   vr+5s0q6bfeY++mpJbPKjKv5Vx1IB87PUiRpg+Q/B1QLzW8XMfQMlaN6B
-   atSMfGmlxCps6ZZ0ycQ6XEdfapQjnV1mLEcaSZUbP2ETok4aYu6dbpKJx
-   Hi/cw/3ILs1nRfY9wMEeWhFxI2KzBXHYD2p39cR0SzVpZyTFywFdLOG23
-   NRHmR+j5TmABhd2HMIfu2P0GNFgjL0Z8lpaOSrQWDLiQda24BgtyywNWd
-   w==;
-X-CSE-ConnectionGUID: FbPC424GQrufTFL9PErpzQ==
-X-CSE-MsgGUID: CODdiGc1QmaYWcEniw/bQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="19956085"
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="19956085"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 23:08:58 -0700
-X-CSE-ConnectionGUID: zsGB3klfRvCpiAEsXsh+HA==
-X-CSE-MsgGUID: JECtCCC/R4KJZDpgsYrYWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="45077498"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 23:08:55 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1109711F8AF;
-	Mon, 15 Apr 2024 09:08:53 +0300 (EEST)
-Date: Mon, 15 Apr 2024 06:08:53 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v4 17/20] media: i2c: ov4689: Configurable analogue crop
-Message-ID: <ZhzEdXz-R2I6nZXf@kekkonen.localdomain>
-References: <20240402164552.19171-1-mike.rudenko@gmail.com>
- <20240402164552.19171-18-mike.rudenko@gmail.com>
+	s=arc-20240116; t=1713161533; c=relaxed/simple;
+	bh=raM3aT4krfnP+7l1/1TUBe83larEYgrxqxrtjr6vNsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lKIFB8blL3XiiL44m9uBqvuOvBWRq0mncTbWq4IUJXlI4vm84kqjoRA2+/IOsqgO3nzDbJ1uQCjR/ie3QSnGXPBFINThq/TrMvy7wYaOPEiQOcJeooTuTkUE4JpjdBghA0Y+16xGK4TYTI1RrDl6KVZX5yMH+XGsjqjT1afMdLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AsUijs+F; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.105] (unknown [103.86.18.210])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A736B5B2;
+	Mon, 15 Apr 2024 08:11:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713161478;
+	bh=raM3aT4krfnP+7l1/1TUBe83larEYgrxqxrtjr6vNsM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AsUijs+F6iInPDQG3k+l91YTUJ7UwDlxlRBm6vfnby28apor8axVuNGgtGkrVpdoc
+	 Ec2DAsycC8WZIfyO46Hom2/6djY9NyKiIrgFtq/GhYpHDau8DLooA5cGT7X7Za+enr
+	 lOEI/mHlzHtDVTHgmSriQ99sk0GqDEL7Nf5QgPYg=
+Message-ID: <7c75f677-c8d3-43c8-8315-482928f2d38f@ideasonboard.com>
+Date: Mon, 15 Apr 2024 11:41:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402164552.19171-18-mike.rudenko@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] media: v4l2-ctrls: Return handler error in creating
+ new fwnode properties
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: hverkuil@xs4all.nl
+References: <20240412130901.849869-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20240412130901.849869-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mikhail,
+Hi Sakari,
 
-On Tue, Apr 02, 2024 at 07:45:48PM +0300, Mikhail Rudenko wrote:
-> Implement configurable analogue crop via .set_selection call.
-> ov4689_init_cfg is modified to initialize default subdev selection.
-> Offsets are aligned to 2 to preserve Bayer order, selection width is
-> aligned to 4 and height to 2 to meet hardware requirements.
-> 
-> Experimentally discovered values of the cropping-related registers and
-> vfifo_read_start for various output sizes are used. Default BLC anchor
-> positions are used for the default analogue crop, scaling down
-> proportionally for the smaller crop sizes.
-> 
-> When analogue crop is adjusted, several consequential actions take
-> place: the output format is reset, exposure/vblank/hblank control
-> ranges and default values are adjusted accordingly. Additionally,
-> ov4689_set_ctrl utilizes pad crop instead of cur_mode width and
-> height for HTS and VTS calculation. Also, ov4689_enum_frame_sizes is
-> modified to report crop size as available frame size.
+On 12/04/24 6:39 pm, Sakari Ailus wrote:
+> If the control handler is in an error state, return that error immediately
+> in v4l2_ctrl_new_fwnode_properties(). Effectively the change here is that
+> the same error code (handler's error) is returned in all cases instead of
+> possibly returning -EINVAL.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-We're amidst of a change to the APIs touching sensors with the the
-introduction of the internal pads.
-<URL:https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.ailus@linux.intel.com/T/#t>.
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
 
-I'd therefore postpone this bit so it would align with the new practices
-(also subject to change in the metadata set).
+> ---
+>   drivers/media/v4l2-core/v4l2-ctrls-core.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index c4d995f32191..670325ca995e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -2564,6 +2564,9 @@ int v4l2_ctrl_new_fwnode_properties(struct v4l2_ctrl_handler *hdl,
+>   				    const struct v4l2_ctrl_ops *ctrl_ops,
+>   				    const struct v4l2_fwnode_device_properties *p)
+>   {
+> +	if (hdl->error)
+> +		return hdl->error;
+> +
+>   	if (p->orientation != V4L2_FWNODE_PROPERTY_UNSET) {
+>   		u32 orientation_ctrl;
+>   
 
-The rest of the patches would seem more or less ready for merging to me.
-
--- 
-Kind regards,
-
-Sakari Ailus
 
