@@ -1,163 +1,170 @@
-Return-Path: <linux-media+bounces-9398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA578A53AD
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:30:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A07A8A5497
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 16:38:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FC7C1F21A9E
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:30:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB1BD1F225DF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28937F476;
-	Mon, 15 Apr 2024 14:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0995985945;
+	Mon, 15 Apr 2024 14:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVw6jYBC"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HLz0qcfd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2073.outbound.protection.outlook.com [40.107.244.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D7A7E785
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 14:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713191279; cv=none; b=URbHLCuX855NAnM9FdztaBMZpjpUqEvg84rDMF4Q0qJluyyOp3aDhKEodNbWuXgqteWpOMBppHBZoGg8QcMgTn2xdRNFAhMCX1FllYK1CvoycwHuROAjqH9BFuAIH1MY2Y4jUa0CwLIrvQEbT3LdOJWcIZD9gn3J5OpG/Ge2lbE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713191279; c=relaxed/simple;
-	bh=2gQC+7lnYuUxaP3r0vC9gr66jI5FvDyaVwkpyj5WfBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FdlHqOmhIsHf2MVcqusq90PyK5iTmRiLBkA1oZFlJOFuHLUy32yHiW8qoA/QdzIGf0KLMhJuanBdyaivcE12gggVL/r+sSCI+TneH7wwj5MerVt6mcBFkd3rs9oDx9nIAc7dMLtdWmXocElt31IbSoDUwRolWIRQnZUnuqk/fbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVw6jYBC; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713191278; x=1744727278;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2gQC+7lnYuUxaP3r0vC9gr66jI5FvDyaVwkpyj5WfBk=;
-  b=EVw6jYBCzw5hGIc3F0CeXzJMHmQOeCy29nY138m9bDQn2dwDynouGfpY
-   Hawd3W/QcZJ6S74XpIV5gADrHsY7/ixrSpgqiVYLYsTODHHc36pyLiN/y
-   sCnVZ/Uw1aBU/4UbgPWfsB9skGA0nJEFJUntHX7/nn/8t36vf1ad0ZnJF
-   H2sbrjqsdluBJ61ILWUbHY5dD4Y4jbTqFkdeV/SOX9CeYMBPodE9Jc9uX
-   QUdTKiNwaCFDhpPZ/5R44dFEpWfsujEQdMdTbgHAGTvJjj3YQLXadWYIi
-   jkX++BU4T7ndTr4TXLNAoyrfrrR/txNzfagiGZpERlYt0pFIGL81Zq4sv
-   Q==;
-X-CSE-ConnectionGUID: RhuUkPggTa6bADO3RF+DCA==
-X-CSE-MsgGUID: n2cPC5f1QQqRxLRZW3vIkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8444621"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8444621"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:27:57 -0700
-X-CSE-ConnectionGUID: E3DNcbK6QD6Lc6uv/URXxw==
-X-CSE-MsgGUID: Pya8uf1LTO6xKDx27qEYFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="52876329"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:27:54 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B357C11FCCF;
-	Mon, 15 Apr 2024 17:27:51 +0300 (EEST)
-Date: Mon, 15 Apr 2024 14:27:51 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 07/38] media: Documentation: Additional streams
- generally don't harm capture
-Message-ID: <Zh05ZyZFxdLy4WG9@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-8-sakari.ailus@linux.intel.com>
- <20240319234831.GL8501@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F21685266
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 14:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713191716; cv=fail; b=i0Rs/Pu2DtSHxvwt4gYy79xfT72/SFbtNZEuUPeGzm9Uax9G5Ga2C7UzB4zuEqT+haGgAUShuyIpc+g1RTdL+YwUEQWDlrrYRG5vE3Uwt9LRnKe/UJMGwL87Ly3Q0f2jlQEIDg/Jm03Jnju3G9eVnw/ujPNqY6H0H8L7oFAYE80=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713191716; c=relaxed/simple;
+	bh=QtsTMfP7s+fmqU6ClZg8VpTfcmnErrP19EYm1AcuFRo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=msLIMr/3opMhjtZzaSt/Ju4teUT8Gw9yXP4AOokq0H9z961zNTOez4c3pK7rgq1fghaHgrQTeLKVdlW80ITE6iRVMdkTSqndF08dHpnCsncPNMxh8lE2gDefmOXaPUHisrEZNr3dgsM8Qi1DzQ2WfNKHAq3sUzQHMMlxSKcx3XE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HLz0qcfd; arc=fail smtp.client-ip=40.107.244.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fbvB9NtsKJXTTZ2qtRTpU3Eoq0OVqX20IQ4f6kYoOsh5UohbvwV9xlBXq7uMNnEikU4bsZcEQ0jWyvA+5hDGKFVRZEvdam6CRsuhW/0uFzSaWJAkEVL24L0/ij0BYlXN9Ymq5KdE24u8DCqOfc7pLjNFVcbqPuBqEnSr3KQBztpMFth4rXuJ1RlX1Fb0NAx3lgm8d5r+MFQ+WXyK97C7aN3KaGdsMMwuSrdutcIcARZukyye0l/AlhKfY+TmiDmQat3zfPTr1vE/L64T5nuNeQBEKcR3ziVIarWMhhMGcRXR1miDBFyd3BNlzwTpldlz33JutUs5WKhrpYupkjhsQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
+ b=CcftXOpqUzuQ8iDZHwEqYtc0Xfb/xFjcFv/ivYOYRz1rghuzZ3p+575YrH4FdfORLGiok+SWfWRVJEHjBFz0YuKBb4I39vbFbk4eqtuAlb00ESgI3Nu5Xw3mWW3ebk5K8rQQCOWnc0xEzjzgKFb+C+EsPRKlM845K9D3ZdAUaKIIxK1p6lwJVbjIBw9HmT2aRC/riEoojT3f3OpPgcTjhFcfR1eVy/bg1Jd+j4VbE1B3ePkInBVywenFeTYIUno0HsbwCvynK1gKR+mMEM/eHpIYRc142mkv0atPURJD+9gxzL17wG7rvj9/S2heOTjEUlC+1FRJT7TqrXM9XcW+sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kjEpVLiwc54Dbn2fC+VAzB4nRZ7BqeAEjSZYK5mG4uI=;
+ b=HLz0qcfdyqXdimhrDT2wPt1VICn2BYtWuath5mroqnwYuAY/M2cKaQVKjqRbIXa4Dw4uFNx+ungpINZb5ghcvpAylpbE8grvWozWXiQ7Vdblv+fy2ZgQ3XChq/8284W7RMfshEcByZtun12HS99ZahEY/bJzupBHzZwoqFxKqBI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
+ 2024 14:35:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
+ 14:35:12 +0000
+Message-ID: <cba06e6f-06cb-4b0e-88df-d25d278fb4f2@amd.com>
+Date: Mon, 15 Apr 2024 16:35:07 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] doc: dma-buf: fix grammar typo
+To: Baruch Siach <baruch@tkos.co.il>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d242a446258e34b2db8990561e51f145df748f83.1713100057.git.baruch@tkos.co.il>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240319234831.GL8501@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8791:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	TmUO5Ui4lSzIZBYVD6TJtL/9E86ARDq+oI7+yMhXjSRi7gHFzYpR4fD9Dq3NebTctyP/4Y0KznhXiJt45mVQtFimM/uh0gVLOknB8SEnE7xFYH+2roI+h1aIDeZNnLJMQiz0omjElImETDr41/Ga8wxnFl6JFE3q4ZMFu330F6XnvbQAWZfapVW5tXK6WJudGGOu5Rjh1/malRav567hgwN5qnB9Ysh8/KQmNtoHWANqKQ1N4ZJ6xKK2z+rywzI1zDJrJ1T+ufipwkmJDovTLw7Cu4lPnVkuWENy2pOc5Y7gCGJoIbITMrsCnpj3YyC8q77hV7ZYZZ7PaSi8P/Mwj25WwD9al608fLPq/v+XC0JCi8xw+hvAcvhlNwC9WzkjwY9eQggoJqtR74+zRJQJdwZI8UljDhxQlE/gapyKx+Hyk/ueOcIgUXg+aXLxyfo7MtrqTGNrz/CpcYuQm7PC1snbi0K0ldnBqVEejb7ea6otZhoZwoxCq5mCUkHHB2k2ppiqmJxK1hbUXX70PwhY4+Q7e1I10/131giNrKmvTBEO1YhrttUzplYiTgoJ9k6RF1gB6bb8qi0tI8DIXOGxG90JPiVSgs5oF6GJS0e1ZDLDz44kQoPgokx78zz11M41ti7Kpkjxh27BdY86uRqvHQVpMoS3JVW1o85clG1Mezg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bm1RcDQ2VTRVLzBrRW0rcyszVXJwcTZvSkhYYjlhWElCSllONXNZcWw3VFh0?=
+ =?utf-8?B?cS9BRWNLUTYveVpxUlBZSHlkTUcwNG5CQ3VPWjZDUm5WZC9GNGxVckdBdTlq?=
+ =?utf-8?B?U2twZVlENTJncUsyZjdFYVRWVFhLbFlzaDNDdUJYOUxlaHVqcklEREZUbGpZ?=
+ =?utf-8?B?a1p4aml2TjExVklNajNEeis2ZWtxYW9xZ1h2b2RQVTFDMnNOODVhKzViNFB2?=
+ =?utf-8?B?VzlYNW8zaSttcUU2TmNPNmIrejk5Wmx2RHp5TEI3Z04xNmwwVmtLbVA0bmdl?=
+ =?utf-8?B?SnVQMnZmUmVWZnIzZW9JcVNHUEFjbWxiMVNMSE53ZmRnUTRsMHl1STNxOE0w?=
+ =?utf-8?B?TlNKN1VSazZtMmNEZndjSDNNRVdJSG9uMHU3VVEvNWYwVUFLa0xwbld6WVNF?=
+ =?utf-8?B?eWJSbUY3NlMyMDlRN0FkR0RIY1B0bUtNQ2VxcHF4SFA5RWpLQ1FUUmljblhK?=
+ =?utf-8?B?YVRBY0wvWUlHREtNejIxc1BVYXJVclBia3J4Z09ubVdlRk1ndmtKRitNSlZD?=
+ =?utf-8?B?RkZVYzNXTjZwb2NGYWsxVGRpZFBXWk5mNjFjNVRlVDZCTk5DUzlaeG56RWw0?=
+ =?utf-8?B?Q2NtbWVSSTdLVkVYSlRNbSthbnd6eUlKNmtJazA1MWZBNkdBMEJnZDB1Z2NO?=
+ =?utf-8?B?d0ZoVlBxMU5ncEJyRmkwcjBNRmdqa09hRTFFSTVoV2pvYUxXRVZVQ3NNdkFu?=
+ =?utf-8?B?QzBySHBVZVdJM3pja2NDcndBMG56TUVLRERiMTNQc0Q1SkxQVGlzVmw2bW5t?=
+ =?utf-8?B?UENWMCtSbWhDY0luaUMvQTdaVFY4bmVHSGFDYVJ0VnVqZjB6dE1rLzJiNWFj?=
+ =?utf-8?B?V3hQSXJQMlFDUzQ1UW5pMUw5T2JEcDV2MXZsdzEzeFFCcm5acnEyQmVPemkr?=
+ =?utf-8?B?ZU1WUXAxTmFYSE43TXpsSVhoZ01OeFFXZzR0bmV2SlRXN0NrRS9KSndIaGVO?=
+ =?utf-8?B?NUFvbm5QdUV0bk5pVFlveVhqZFZvK3VIemtVb2FlNVRhOVFWSFlkYU1BL25r?=
+ =?utf-8?B?Q1J2ckt0SnZiZEVnRTZERGNCOEJudlNHNXhSbTVMdkRsZ29ET1F0SzJnNzdi?=
+ =?utf-8?B?VVFKVmc3dlVTSVphZ1VtS1Ryc0ZvWFdIb0ZmaXRFY25ISUhxL1k0dGhwU093?=
+ =?utf-8?B?eWdmVGM5dUMrSjdOVmZ4dHhOS2V4ZHpyN0dmRDdOblFOb2UvVmtqb1lKWnpJ?=
+ =?utf-8?B?ZWJJOHJDWW9mZVhTdmZLa2ZjQ2Q2QStxZkZFbkxnVkZ0dEVOOFpFTzExUXJW?=
+ =?utf-8?B?Sm1qYlMzdlVnSlZ3WVFuUTZHQUJOZUduNG15K2RaZGk1N0VvNnpqMGlwRmti?=
+ =?utf-8?B?OUEzbERpaTQ5eStmUlZFUGE2dUdoNTVUYVpVajVNWW0wYVZWWS9xb1lZVmJt?=
+ =?utf-8?B?ZitvMTZVSnVQVlFXSHI3bzZnNDZ2MFVHazVreW1LQWFtSjV6Z0VCN3hkZzhq?=
+ =?utf-8?B?OXFGQXRDNFVnWmtTeEllMDF2anB3UlJPZDU3Z3M4cFJBSFRkenN6NUQ4U1pv?=
+ =?utf-8?B?bEdOUHRWSSs0OUtUcEY0NVhidUF3ekJxQVAremxkcmJnYURINTBsSjZjVjF6?=
+ =?utf-8?B?dXFNa2hNV2Exdi9ieXQ0MVNuNGZHS2pwYWpyRDN4SlorQzFKbnE3VHFTRnNO?=
+ =?utf-8?B?Q2puWVRNc3dhN2xLTkVkOVFGb0tiRzltQUlRQjh0Uk1IN1NFSE5YRXREbjVj?=
+ =?utf-8?B?engyV0kxNUhaV1hjZWRzR1FZaTlObHV4ODd4T0F2Y0dTWUFQMzlpQ0V0eUFi?=
+ =?utf-8?B?MXQ2M3ZMYVJmb28venM0cjhvYjhCdUMrYW1YY1U5a1hFbURsVTRpczZ2Qndl?=
+ =?utf-8?B?bHFLY2FtQ29IMWRNZnBady9Kc3dTQmFmeFJjRWRzWURJdzZHNjR6dWxpMkpW?=
+ =?utf-8?B?Nzk0VEZUZFpIYXlDVGp4eFdwblJVaEh2dGN3M214by9FWGNEUlRGckZ5dnhD?=
+ =?utf-8?B?amQzSS9FVk03emdXS3hzczg5K1UrNGhjZExlZTZ1eXIrMExjNUtkYWZ5d0Fn?=
+ =?utf-8?B?RXBKZmVSU0E0WEk1YVNFN3l1U3FRUWNNYlZHYWtYbW5YTHpzVHdwZTJReHJu?=
+ =?utf-8?B?WnRzZFY0MHN1Q00wSU93TUp0U0lxRTRXSTV4bXd5K2QrYUxrZXpBczhjQ2x4?=
+ =?utf-8?Q?ML3PZq6VLTjBRvWoGlE2rXc5W?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6134feb-b3c8-495a-d2d6-08dc5d5941e3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 14:35:12.1859
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eGPRp13+JwLKQxgOwOBigCaNiJ71oMANLWyfA0IZbbbxwnrJi7Rc7iW+ayt3gbpX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
 
-Hi Laurent,
+Am 14.04.24 um 15:07 schrieb Baruch Siach:
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+>   Documentation/driver-api/dma-buf.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 0c153d79ccc4..29abf1eebf9f 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -77,7 +77,7 @@ consider though:
+>     the usual size discover pattern size = SEEK_END(0); SEEK_SET(0). Every other
+>     llseek operation will report -EINVAL.
+>   
+> -  If llseek on dma-buf FDs isn't support the kernel will report -ESPIPE for all
+> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPIPE for all
 
-On Wed, Mar 20, 2024 at 01:48:31AM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Mar 13, 2024 at 09:24:45AM +0200, Sakari Ailus wrote:
-> > Having extra streams on the source end of the link that cannot be captured
-> > by the sink sub-device generally are not an issue, at least not on CSI-2
-> > bus. Still document that there may be hardware specific limitations. For
-> 
-> s/hardware specific/hardware-specific/
+Looks valid of hand, but checkpatch.pl complains about 2 errors (missing 
+commit message for example) and a warning.
 
-Yes.
+Please fix and resend.
 
-> 
-> > example on parallel bus this might not work on all cases.
-> 
-> s/bus/buses/
+Thanks,
+Christian.
 
-Works for me. We should probably consider renaming "the parallel bus" as
-DVP (a spec exists) or something alike, outside this context naturally.
+>     cases. Userspace can use this to detect support for discovering the dma-buf
+>     size using llseek.
+>   
 
-> 
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  Documentation/userspace-api/media/v4l/dev-subdev.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index f375b820ab68..a387e8a15b8d 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -529,9 +529,9 @@ the its sink pad and allows to route them individually to one of its source
-> >  pads.
-> >  
-> >  Subdevice drivers that support multiplexed streams are compatible with
-> > -non-multiplexed subdev drivers, but, of course, require a routing configuration
-> > -where the link between those two types of drivers contains only a single
-> > -stream.
-> > +non-multiplexed subdev drivers. However, if the driver at the sink end of a link
-> > +does not support streams, then only the stream 0 on source end may be
-> 
-> s/the stream 0 on source end/stream 0 of the source/
-> 
-> > +captured. There may be additional hardware specific limitations.
-> 
-> s/hardware specific/hardware-specific/
-> 
-> Or maybe
-> 
-> There may be additional limitations specific to the sink device.
-
-Sounds good.
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Thanks!
-
-> 
-> >  
-> >  Understanding streams
-> >  ^^^^^^^^^^^^^^^^^^^^^
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
 
