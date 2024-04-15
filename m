@@ -1,162 +1,99 @@
-Return-Path: <linux-media+bounces-9461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE208A5C56
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 22:44:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D7F8A5C9D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 23:07:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F317B1F235BB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 20:44:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91F6C1C210A6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636B2156979;
-	Mon, 15 Apr 2024 20:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75D5157474;
+	Mon, 15 Apr 2024 21:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktceOmyU"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rdukYCQh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EDD82D93;
-	Mon, 15 Apr 2024 20:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBB8156C53;
+	Mon, 15 Apr 2024 21:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713213840; cv=none; b=g3VHtTIUoBjmu7HIqlZGVXjz/2F7cGWePxBVMIksiDc8t4+20i0piItS2/Yryk9AV22nA9nBo3IgWahyOcTS1u9jxKMVPaXXxu+b/Ha8C4RTPoYIhNXxrKm+gsDEqxLNy5aEvPEGf8KGq5XSNoFb3PkfuU3X6oryblEDgfy1YSU=
+	t=1713215218; cv=none; b=PfXHU36jjkHUx8fwNd1DsbbPknLMFXNgJf9Kh6sM5IS+tLFxsVYHzl+H8CXUUhgQc0rV3KSmq+aETHIhbpiv+rwSHvaTxbNPOwGa8aopDm/5KYuFYGpy9ZfN8ql+qaJxjVuH4s39MS8jG4zrRJ6lw89cTWwY8Jq7uS5RDHjkPQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713213840; c=relaxed/simple;
-	bh=8dKuQacnGwje5yJMb2wAv3rYTCPMQu0D4XlkBWR3Ilg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N2uZWlMW+Hc0XqZBGgcPY78L6QIVNBnloHNr5AJ6JfUgl9lbbKBUOgSgmzw9/nA+vhCejvV87eQc9+NzJOGcFXVxHOz0P7efM9yuZwiY/DjeBHJbrYvvGiiMCDY1fxlZ+89Tg3Knl7m3bI7Gjcfeq/JKJECen79VQnTdD93xGKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktceOmyU; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d4a8bddc21so43006521fa.0;
-        Mon, 15 Apr 2024 13:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713213837; x=1713818637; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vh4G/AjMszS/t0HRqrjwJOahq/7qZsmwbbcrIjf8WJY=;
-        b=ktceOmyUdoQ121HG73pYew1iOfvSSgjxbGtUazsGdpnWdU4F7FMYr23Uj6JQXdLD3c
-         9Obgi4/KPp3FNGKBRLkWg59WSTKNugonenj06tLEEFg0jZGOrrf5iUmTg4stJwJVBVUS
-         rpTa07C+KHlZe85vQglbhw1eEdwExJQ5rBCvqUNQ3ZTepV6Bjwmx01gAijz+9uDY5wIP
-         HV0tIBDYFwoCP+mRS08bWLSD+GGuQjU+rjCLrkHy3wyxRzS/3TBXMQq4Zc1nAM1jpyq0
-         Xt2Epe04ABP9B7fUKc2EUZFS6cXTwwKi3qQndmK0p/E5FTwZpPTyYvMd8UnQCX7jWB21
-         g7zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713213837; x=1713818637;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vh4G/AjMszS/t0HRqrjwJOahq/7qZsmwbbcrIjf8WJY=;
-        b=sbcf/2gJK7Lpkxn7WU7+qTekqpIZFhpRACtCJhwM1lJYwJrHgXBsW7LLv7c29GUyoR
-         j7K3j2K9aI1kmcu//i0MKZU6eH6Aq/ia+bHVlyedxm35lVVQSY0vOMxSNdJ8Uo/zi68Y
-         tvBh3sQ7IyLP7KaFDsuoc8FQLcPwC3ehvONG05aCrJ00CqiywiVk4zM0AHQJgbyijati
-         8dp/5KG7twXRbVIxy0chrpXwopOEbDDwOraxpYJu/XRWMSyKkb7HWBVRQsDKGU06w80X
-         VXvAvWXQ4c1frR5dgCgn8qykPezxzxCoI4+kFnLQ39Onz20E4aAtMjxP3gf12xkIoDSP
-         Fc2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUAMK3Vgt69K1fStcIPsMZTRghK43Vs2STpOOUTPb4Qx1kaFJKGFz1U47KqqXas9xGYMJX78YXW9y6DKNmbXK35T0PetzdL1Y13YmjcGi+Vb3ngT8+bptWpscNR1NWPGvZsAu/sGU5u0LnzjnWogO+BTpVZcG0WO/rt29UFZlzjZ2nHvFmeic2n
-X-Gm-Message-State: AOJu0YyIcivoJR9rk/x8LwbI8mQ5LT+URkw10qbzRT1OOMpLqBS8nSL8
-	Ty88VPZdyfFIkFKYE+beho4DzyfMD3NH5sdbWtOpoHHWOI3u+2bj
-X-Google-Smtp-Source: AGHT+IHuk+bIjnHF/M32DBBym4XM02bSBQeXa2Xi9niRXZxUmLjNJbCmeAfQcyqxYAWLBytnQmudbw==
-X-Received: by 2002:a2e:bc09:0:b0:2d8:97f:451e with SMTP id b9-20020a2ebc09000000b002d8097f451emr8116687ljf.37.1713213836997;
-        Mon, 15 Apr 2024 13:43:56 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id i11-20020a5d630b000000b0034659d971a6sm12976964wru.26.2024.04.15.13.43.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 13:43:56 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
- Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Niklas =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH 07/35] media: staging: sun6i-isp: Remove redundant printk
-Date: Mon, 15 Apr 2024 22:43:54 +0200
-Message-ID: <4910185.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
-References:
- <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
+	s=arc-20240116; t=1713215218; c=relaxed/simple;
+	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=hzNApZIFHBIzCRrVkeu1qlOh2GfZH1MGwgHOVmXbPfJxbTGYbfUry49ojrewFBsgfTXPRDf76xK7onjQrEAEePBYWoFQZAFzgr3uqDB5Z/xPElJIG+sO1lkwy9/toZ6f1tcDNhK1Tf9CH3BE0l77pJKDqQkGPrecjNZOe1O2qRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rdukYCQh reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F57F497;
+	Mon, 15 Apr 2024 23:06:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713215167;
+	bh=QK/YnNEsRDQzA+VI9ZfCIug3P5VhevsltSl+SmjeDe0=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=rdukYCQh9mMFKAPdTqd4jo4lB4a4B7xptpHd357YCY6nsrtHDE8p4O2e61Yb+mMxi
+	 yKJPDLBT5H6E9wcVtgSM3TW7Vas5B4YrUJkgnLXrP6kJ0tc0rBjudUOeDKylS3L9Le
+	 RHF8woqIolcFMRosZ1uhKhaSSd4+78XmA8SkQZdg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org> <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
+Subject: Re: [PATCH 04/35] media: uvcvideo: Use max() macro
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+To: Abylay Ospan <aospan@netup.ru>, Alain Volmat <alain.volmat@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bjorn Andersson <andersson@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Dmitry Osipenko <digetx@gmail.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Martin Tuma <martin.tuma@digiteqautomotive.com>, Matthi
+ as Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>, Sowjanya Komatineni <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>
+Date: Mon, 15 Apr 2024 22:06:49 +0100
+Message-ID: <171321520986.2333277.5902882675169324919@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Dne ponedeljek, 15. april 2024 ob 21:34:24 GMT +2 je Ricardo Ribalda napisal(a):
-> platform_get_irq() already prints an error for us.
-> 
-> Found by cocci:
-> drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:389:2-9: line 389 is redundant because platform_get_irq() already prints an error
-> 
+Quoting Ricardo Ribalda (2024-04-15 20:34:21)
+> It makes the code slightly more clear and makes cocci incredibly happy:
+>=20
+> drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
+>=20
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
 > ---
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> index 5c0a45394cba..a6424fe7023b 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> @@ -386,7 +386,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
->  
->  	irq = platform_get_irq(platform_dev, 0);
->  	if (irq < 0) {
-> -		dev_err(dev, "failed to get interrupt\n");
->  		ret = -ENXIO;
->  		goto error_clock_rate_exclusive;
->  	}
-> 
-> 
+>  drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
+_ctrl.c
+> index a4a987913430..4b685f883e4d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mappin=
+g *mapping,
+>         while (1) {
+>                 u8 byte =3D *data & mask;
+>                 value |=3D offset > 0 ? (byte >> offset) : (byte << (-off=
+set));
+> -               bits -=3D 8 - (offset > 0 ? offset : 0);
+> +               bits -=3D 8 - max(offset, 0);
+
+This looks semantically the same to me so:
 
 
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-
+>                 if (bits <=3D 0)
+>                         break;
+> =20
+>=20
+> --=20
+> 2.44.0.683.g7961c838ac-goog
+>
 
