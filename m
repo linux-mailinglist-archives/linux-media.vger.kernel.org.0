@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-9452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24F98A5B43
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:46:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B7C8A5B45
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:46:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40AD8B2119C
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:46:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F6262866C4
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:46:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B318C16C6B7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC9B9168AF5;
 	Mon, 15 Apr 2024 19:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AJo8qQjj"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b61fb1rR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FC81635D8
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3594D168AFB
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209710; cv=none; b=d2iXw1Q7nTL2y7/3IFZEaOm9Ltm5LhS8I11T3IEpCRmdI1XpYhU/miFv099wRRkZcZRgJr2wyjZD6diBgn4QDjJleH/rf62nSU6P+QrGFax2T1W3wY1ykGHzaY+8Ez8k476iDI13+7y5XWuu8RtQhc2sjzzJkz0FSA71lQ11jXU=
+	t=1713209710; cv=none; b=Fqu6uk/fUzs6kkFEdo5s41geSIRviqv37drRgn52uLfOOPyNwnZyZ/Ewm31ACw3J1ZWI0p2k7ODfCPHH22kHGkuYdpFrfcTQ1+F8AM5KHw7TilHHfEwSi4r/oQKAjkFoYqd6i5mZNetwW4wXu8RnEV+BuwOtChwlI3xpTJPxnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713209710; c=relaxed/simple;
-	bh=lxhOF+1XoX0GvbMqRieQPI9daN592yHX/FeyNVCIGVo=;
+	bh=h0c4cQBYAKG+eCRXK2bSjQ0k2ogfrTqHDn/vqghdbGk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lD/pC8sTVPZxnZYfIEJHOqzJxWRLPCfuJraI8zMZkNVAvqKdeYTJ6oRe1w0m7FDMmMimaWnl06aewshAN0U5j9e1G0IpQ5Oa4kKD7GYpz0epZDw8zE/P6w6L/OXYeD4+rCh8Sk6C19c4uz2ZLdUB4lFRhRF727RUfmFVd1uYTVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AJo8qQjj; arc=none smtp.client-ip=209.85.128.173
+	 In-Reply-To:To:Cc; b=QdF7qqqKQEtwbDoMynxpzXsG8W8iLs5aWwA8yhL7tLCk+t9k9vPoSr7qWWttfDsEcBDlae3LxxIcFMm1LCkYEgbFclX0CA57H7Q/KATMLLA+Eam3MU1CmyC5C1pRF3u72iRSGScH39aEPz72qYwrZTp0L6tbl72BSn8mR9vGj5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b61fb1rR; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6114c9b4d83so28627167b3.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:35:05 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-78d61a6229bso247239185a.0
+        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209705; x=1713814505; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1713209706; x=1713814506; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6KP0c5kcroy4r+J8V6+b8GPdTtYSSQc0uibLBJF+m54=;
-        b=AJo8qQjjfguUFvvacjBw5Si3hpvd/MAJ0Ykksf4vUYBVCYtWLgTD1xHtE3EQQUxsBi
-         v4N6WkBGrjQaKZ+I/ZWCeBdflJGsxgC5ahcTZCrJdcmKPhTSmlaps+elHMTrZgd5Wvyl
-         zsReaSaLxvkBuG/AxU3fQ2pG9w6FJZ2C0C7rk=
+        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
+        b=b61fb1rROkeF5g8O+2SlUmn4oUiTiBLP5ttokJo4a1dGChp4k4d3tmhkZxYPeyt9V6
+         jzM2EgnhCqsmhWTeb8HFfibflxQeG832NwKH4tX6vBY71u0GNNov1kkG4UGgioqWavzE
+         aonfPldFUzq4+hJu53tjeT1RwuEeWYs77yjXo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209705; x=1713814505;
+        d=1e100.net; s=20230601; t=1713209706; x=1713814506;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6KP0c5kcroy4r+J8V6+b8GPdTtYSSQc0uibLBJF+m54=;
-        b=u3IfIjepanEf47EB6zJxgtL7iMGgZ6f20Cy2PIlIbGNzfFvsbxaCgMotyWsJ6TouYF
-         B50DCEghTGFOICWPZgsp3j1B91nMZAKjo/WIqsYP/rLqae1vEQy6gRZNIWjvM3ZgxsGD
-         7I/rg9iVxRAjKWC01pMvHIeRbTtYZSmM2nGJGbkUF4vAHRkXp/l0Qzn5JS7DftwKQZM4
-         H/Gv/fx9lMB0s7kj3A4XP0oF5P9ivF8Ydp+fp15LhJ3U7mtfbItRsS2denFaXBRI4W3A
-         GubGJT5bdunBuegmr++O50l+4epo+ry3oJXZO9sEHZ47aWZDXYBOy0yhPXwrCN8c+2b5
-         /XFg==
-X-Gm-Message-State: AOJu0YxDrQIgiMFu5JI78c3DAsoqQKje09vBr6d8YgFfXWbts+JeiW3n
-	/8dngK6AsUoaPM2B855fBI91V1DGUZ0lmYyP2gklUmUiNYjmZ/UWeKTwk+sFhQ==
-X-Google-Smtp-Source: AGHT+IFGGKloXi4LQc1kB9HoB/VhdVmfNZmSGv5YL+7VwXl3CHp5amZHgBcaP1BDvt5Qqswtqu1lLA==
-X-Received: by 2002:a0d:cd01:0:b0:618:875e:2bc1 with SMTP id p1-20020a0dcd01000000b00618875e2bc1mr8807707ywd.21.1713209704967;
-        Mon, 15 Apr 2024 12:35:04 -0700 (PDT)
+        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
+        b=m8uWyfaijh2Rs5X0++wcowIY8UfhrjoZPAQioiD/NYfmRNBEicGrzdMogw6LI11wDL
+         orgYR2YTpKfrc9YsLlEPCE2NGB5o75JDruSWNyK68W32LIahT2ej3tEPUpAbryoPdiCs
+         Np/7Mi8fJ5z6HrkmlCGwdXoM5vM7Dgp3l5d/dsHsuh9F5islzbYVdmJEoN2WkRcIskUc
+         8IN5gGjdvHDQcz19VCASayEofCGdkoE/yS/gc1N+Vi169BE2UkSPjVHqQ6SBtoKCBacc
+         MTnTm4RFznf6MoJGVzZQMNghsKXRfvoYqWqHgdoMYOyHT8htHqB9KIFJZsoX/oIiX4ot
+         MpWQ==
+X-Gm-Message-State: AOJu0Yxh7LTFR/yPB4j5l07HT1e3i0cXcwvsxtz1HFZXoTeCpLGUJtOW
+	S2uJNSBz1d2+WB/MgcmDkWp6b2dz/fjtZ6NbTINx8auLK39jzeP8hpd+nwvRZw==
+X-Google-Smtp-Source: AGHT+IER1oNXbfvuBYkiNGhDuuE0aNBQlaGZ+2a+oyzSSefdjaOmTqtivonyQ4TeCmkM1b+mS1nfvQ==
+X-Received: by 2002:a05:620a:29d1:b0:78e:ef0a:387d with SMTP id s17-20020a05620a29d100b0078eef0a387dmr2507242qkp.56.1713209706006;
+        Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.04
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:35:04 -0700 (PDT)
+        Mon, 15 Apr 2024 12:35:05 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:50 +0000
-Subject: [PATCH 33/35] media: ttpci: Refator return path
+Date: Mon, 15 Apr 2024 19:34:51 +0000
+Subject: [PATCH 34/35] media: hdpvr: Refator return path
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-33-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-34-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -123,29 +123,28 @@ X-Mailer: b4 0.12.4
 This is a nop, but let cocci now that this is not a good candidate for
 min()
 
-drivers/media/pci/ttpci/budget-core.c:280:15-16: WARNING opportunity for min()
+drivers/media/usb/hdpvr/hdpvr-control.c:41:12-13: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/ttpci/budget-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/usb/hdpvr/hdpvr-control.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
-index 25f44c3eebf3..2d85ae1ef50b 100644
---- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -277,7 +277,10 @@ static int ttpci_budget_debiwrite_nolock(struct budget *budget, u32 config,
- 	saa7146_write(saa, MC2, (2 << 16) | 2);
+diff --git a/drivers/media/usb/hdpvr/hdpvr-control.c b/drivers/media/usb/hdpvr/hdpvr-control.c
+index 37c53ab85b30..a1bb0231540c 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-control.c
++++ b/drivers/media/usb/hdpvr/hdpvr-control.c
+@@ -38,7 +38,9 @@ int hdpvr_config_call(struct hdpvr_device *dev, uint value, u8 valbuf)
+ 		 "config call request for value 0x%x returned %d\n", value,
+ 		 ret);
  
- 	result = saa7146_wait_for_debi_done(saa, nobusyloop);
--	return result < 0 ? result : 0;
-+
-+	if (result < 0)
-+		return result;
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
 +	return 0;
  }
  
- int ttpci_budget_debiwrite(struct budget *budget, u32 config, int addr,
+ int get_video_info(struct hdpvr_device *dev, struct hdpvr_video_info *vidinf)
 
 -- 
 2.44.0.683.g7961c838ac-goog
