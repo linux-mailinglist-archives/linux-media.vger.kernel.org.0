@@ -1,209 +1,162 @@
-Return-Path: <linux-media+bounces-9380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9381-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573808A4F74
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:48:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA5B8A4FC8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:54:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DB10281766
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:48:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 541671F22795
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27ECB7172B;
-	Mon, 15 Apr 2024 12:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06918839F8;
+	Mon, 15 Apr 2024 12:49:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ba5gLAks"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="yxatIqoK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235EF6FE36
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E4480BFE;
+	Mon, 15 Apr 2024 12:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185297; cv=none; b=HYNZ4nRURxawVjjJteBRRLDiG4/RiV0Ed23gfXNIchmFwmKp/ygm62+wsF+VHZy2qUf+yvEW6fTWCXbbSWWUPURtMG355rT6gvO5Oxu57oOWWMyvWH71q6s5bsMQGdUgTmdQwHpQhapxOYH2zMrtiei1G7GeQjNUiyo8GUvGUgE=
+	t=1713185383; cv=none; b=Yy2vvCrsywViW19JkdtAxt40POW0kEzrIO6jgM5P4sOpEyBAq5wnqZoXwZ5xKcSeFYkaazQTzcQk3E78/hVN4Lly5S3RohRRojgW/h6PFgvVXcjUCRBHbVzGu6ahHZdk/lbTKVU7B1CGVDPeXuDkYbJ/yW7Le3TU8lV2R/ux1Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185297; c=relaxed/simple;
-	bh=GiAL7AQwqxatMiC1wtqf96rwk/+L3Y723maHiKd24mQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IJh5MQV0ojEjoWHSt5EmB/DUkFzWTDSASNB5YYwMI2X9bWGRVnnrFNpseB2se/tBvylHkVvWVdYT6Rsda/3GmxfSNtxcu2EIWwZelRUoH2m4DCw5t7C8Cg9m+tWY3Cug6JYTqoEnK/Vu0dUAsFgt4DrsQYaYltNIbRJrSsK4lfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ba5gLAks; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-78d68c08df7so269963685a.2
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 05:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713185295; x=1713790095; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dve//qsVqFoPISv+fNeUNTT8BnSMNPQ+ikVvv/LniyI=;
-        b=Ba5gLAksCKmOFwSd5OnV1XD7iR8iESQDmFpJ3FzifOo6xZd/8U14sdUrM2GVnMLBDC
-         oS/uH60ybiujgm5ssoa5dxToFP6LZ8VVAaaQgvvPtdveW6vhWia2tcA0TIZlooGoR9xO
-         O/kj1AufiyoYa6fl8mXzLRcJom2CZ48e3ItIY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713185295; x=1713790095;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dve//qsVqFoPISv+fNeUNTT8BnSMNPQ+ikVvv/LniyI=;
-        b=nwogdEeXxrwWXOKQDJy4tBN700B6mR8XLkTLy4ZoFpI3vSqLNgEtoYEcF5YWwOr+Tr
-         9yLzFstluIZy543TM/zVKvxBvL8NqgSFdSQg81adiUT16ShLu769TU0EiZnYVE11JncH
-         l7bWmNltboytLfkxTOEs7vvIIGLiB8W9vrZ3TdaD54r0JL3M3S3OkttyOg/dENWJMnxH
-         bgcg53Bs7puwaRDOLlaas8SqjvL67tSpWi7F3EYFhuDW6fkmDFtvyb2/CSRlJIOHd9kf
-         rLfS6pVt4+gvgkVj8HOjM/Ek6dQwt46/BbOTj+9r2IXzDYw9LeTAOV8H942A7NeBT51s
-         oslw==
-X-Forwarded-Encrypted: i=1; AJvYcCXu1S7NAEw3PtHG3YNniR3zMTRIzVFH9fdXTVN9naJp1dgrGGN2aDXFuT1CJDDCKhZCFwMPpTA48smDxza7jwO7Ggp+fZMji7iVeyI=
-X-Gm-Message-State: AOJu0YwZUwsO2ec+l2BWuU6OOgDD5zJaw2U6RM+mydpGhtmiDIO+nsAl
-	OLw/xIGbTn2JtGIleRAWUeryp7J6JEMPGEyvTpwOgP+MQU9CGPICVeYm/31WJw==
-X-Google-Smtp-Source: AGHT+IGGMVMgU9pcekBy2o8Q4hRzW7aGYI9W6mUPy3Ru/xUnvMaPLLrOjste8+2tlkKDnbLOSF+kuA==
-X-Received: by 2002:a05:620a:31a7:b0:78e:f058:66ef with SMTP id bi39-20020a05620a31a700b0078ef05866efmr642944qkb.77.1713185295008;
-        Mon, 15 Apr 2024 05:48:15 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id ye2-20020a05620a3b8200b0078a54c25ea6sm6243453qkn.56.2024.04.15.05.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 05:48:14 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 12:48:13 +0000
-Subject: [PATCH v4] media: usb: siano: Fix allocation of urbs
+	s=arc-20240116; t=1713185383; c=relaxed/simple;
+	bh=LV17j8lVfsperCS+wGHMXoiZ0shCDUOI6KBK+CN55uU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uv0evNZGVKrE1mUmY/X2cB3+Ev4P1e0pZDXPb5ZLV0wdNCy8SBxv2GVcvTCTCnvEkuYTO6CZzqIj8Ff6SR15gtrRaUXePLR2AQgkcz0YvMr5HxrDgq4OyWGXfD+p1Fh5OKi/j3YIN4i6R2q5i7ZzhA1p/eycqRLZG8Yt6pJi+sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=yxatIqoK; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1713185379;
+	bh=LV17j8lVfsperCS+wGHMXoiZ0shCDUOI6KBK+CN55uU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=yxatIqoKZRdi1AUWhctz9vu5L3Y6vPDYY50NaG0uUrTo+f8BCuQQwHT+cRelofTDq
+	 onXsw2sIpVxm2OS5wbzIoUx0NMDYkUvZu99XSH3zcvIANjBpgmWhgMFfSB++eZVytH
+	 OH7BEd+bB7qeHqG37RQO4gjCYhy7ZydVovmApXI5KM91lRxDEvvTN7WGQnYSCPALXk
+	 U15AlAfk2nrwmWzG49dtvm8wHT+4V9TGza+7UdpjXJ3SkvG5MLQKPH5Wiedd3qy/os
+	 yA1KaSVJeU/SlqZoFCIWeLqqzHJLcPLSW2SCnbVTjiPzVE1csYMZFE+696kQqYUEI3
+	 WBM8S+rukjyqQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 931A33781107;
+	Mon, 15 Apr 2024 12:49:39 +0000 (UTC)
+Date: Mon, 15 Apr 2024 14:49:38 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Ivan Bornyakov <brnkv.i1@gmail.com>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Wave515 decoder IP support
+Message-ID: <20240415124938.o5j5er7osnb5ohdm@basti-XPS-13-9310>
+References: <20240415100726.19911-1-brnkv.i1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-smatch-v4-1-8dce3d80b64a@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAAwiHWYC/22OzQ6CMBAGX4X0bE1/WGg9+R7GA9KF9gA1LTYaw
- rtbOBijHOfLzmRnEjE4jORUzCRgctH5MUN5KEhrm7FH6kxmIpgoWckZjUMztZaqTkgwwGqQhuT
- je8DOPbfQ5ZrZujj58Nq6ia/rXyJxymitwDCmGwXidm5t8IN7DEcferJWkvg24WMKymkFgoOWl
- ZFa7Zhy35TZRCPz9502gPhjLsvyBoFEkfATAQAA
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>, 
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240415100726.19911-1-brnkv.i1@gmail.com>
 
-USB urbs must be allocated with usb_alloc_urb. Quoting the manual
+Hey Ivan,
 
-Only use this function (usb_init_urb) if you _really_ understand what you
-are doing.
+On 15.04.2024 13:07, Ivan Bornyakov wrote:
+>Initial support for Wave515 multi-decoder IP among other refinements.
+>This was tested on FPGA prototype, so wave5_dt_ids[] was not expanded.
+>
+>fluster score for JCT-VC-HEVC_V1 testsuite with
+>GStreamer-H.265-V4L2-Gst1.0 decoder is 132/147
+>
+>The issue with Main10 tests is that fluster expects decoded file to be
+>in yuv420p10le format while this driver decodes HEVC Main10 into 8-bit
+>yuv420p. Though result is looks alright to the naked eye, proper
+>decoding into yuv420p10le is to be added.
+>
+>The rest failed fluster tests are common with Wave521.
+>
+>ChangeLog:
+>  v1:
+>https://lore.kernel.org/linux-media/20240318144225.30835-1-brnkv.i1@gmail.com/
+>  v2:
+>https://lore.kernel.org/linux-media/20240325064102.9278-1-brnkv.i1@gmail.com/
+>    * drop patch "dt-bindings: media: cnm,wave521c: drop resets restriction"
+>      The only user of Wave5 in mainline is TI K3 boards, thus there is
+>      no real need to alter dt-bindings
+>    * in patch "media: chips-media: wave5: support decoding HEVC Main10 profile"
+>      add check for flag "support_hevc10bit_dec"
+>    * in patch "media: chips-media: wave5: support reset lines" move
+>      reset_control_deassert() out of else branch, add
+>      reset_control_assert() to probe error path.
+>    * rework patch "media: chips-media: wave5: drop "sram-size" DT prop"
+>       - don't move alloc/free form device open/close
+>       - intead of exact configuration of reserved SRAM memory in DT and
+>	 allocating all of it, allocate all available SRAM memory up to
+>	 WAVE5_MAX_SRAM_SIZE from whatever pool provided.
+>    * adjust patch "media: chips-media: wave5: support Wave515 decoder"
+>      according to changes in patches
+>      "media: chips-media: wave5: support decoding HEVC Main10 profile" and
+>      "media: chips-media: wave5: drop "sram-size" DT prop"
+>  v3:
+>https://lore.kernel.org/linux-media/20240405164112.24571-1-brnkv.i1@gmail.com/
+>    * reword patch "media: chips-media: wave5: separate irq setup routine"
+>      a bit.
+>    * in patch "media: chips-media: wave5: drop "sram-size" DT prop"
+>       - move MAX_SRAM_SIZE define into match_data->sram_size
+>       - add placeholders for validation that allocated SRAM memory is
+>	 enough to encode/decode bitstream of given resolution before
+>	 setting W5_USE_SEC_AXI and W5_CMD_ENC_PIC_USE_SEC_AXI registers
+>       - reword accordingly
+>    * in patch "media: chips-media: wave5: support Wave515 decoder"
+>       - add comments around SRAM memory allocation/freeing about
+>	 Wave515 specifics
+>       - add comments about BSOPTION_RD_PTR_VALID_FLAG bit in
+>	 W5_BS_OPTION register
+>       - add W[AVE]521_ prefix to defines, for wich there are W[AVE]515_
+>	 alternatieves
+>       - add semi-magic Wave515 specific formulas to estimate SRAM usage
+>  v4:
+>    * rebase onto next-20240415, no functional changes
 
-Fix the following smatch error:
+Sorry for not finding the time for review, I'll work on it asap.
+But please don't send a full new series just for a rebase, as that just
+causes noise, I can very well rebase the series myself before a PR
+and if any hard conflicts appear they can be communicated.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Greetings,
+Sebastian
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Changes in v4:
-- Remove unneeded label free_urbs
-- Link to v3: https://lore.kernel.org/r/20240415-smatch-v3-1-ed3f23f9d5ee@chromium.org
-
-Changes in v3: Thanks Hans
-- Remove unneeded NULL assignment
-- Use the proper variable :)
-- Link to v2: https://lore.kernel.org/r/20240415-smatch-v2-1-65215936d398@chromium.org
-
-Changes in v2: Thanks Hans
-- Only leave 1/6, the other ones are in another PR
-- Fix the return tag and NULLify the urbs on return
-- Link to v1: https://lore.kernel.org/r/20240410-smatch-v1-0-785d009a852b@chromium.org
----
- drivers/media/usb/siano/smsusb.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
-index 723510520d09..2c8179a84991 100644
---- a/drivers/media/usb/siano/smsusb.c
-+++ b/drivers/media/usb/siano/smsusb.c
-@@ -40,7 +40,7 @@ struct smsusb_urb_t {
- 	struct smscore_buffer_t *cb;
- 	struct smsusb_device_t *dev;
- 
--	struct urb urb;
-+	struct urb *urb;
- 
- 	/* For the bottom half */
- 	struct work_struct wq;
-@@ -160,7 +160,7 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
- 	}
- 
- 	usb_fill_bulk_urb(
--		&surb->urb,
-+		surb->urb,
- 		dev->udev,
- 		usb_rcvbulkpipe(dev->udev, dev->in_ep),
- 		surb->cb->p,
-@@ -168,9 +168,9 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
- 		smsusb_onresponse,
- 		surb
- 	);
--	surb->urb.transfer_flags |= URB_FREE_BUFFER;
-+	surb->urb->transfer_flags |= URB_FREE_BUFFER;
- 
--	return usb_submit_urb(&surb->urb, GFP_ATOMIC);
-+	return usb_submit_urb(surb->urb, GFP_ATOMIC);
- }
- 
- static void smsusb_stop_streaming(struct smsusb_device_t *dev)
-@@ -178,7 +178,7 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
- 	int i;
- 
- 	for (i = 0; i < MAX_URBS; i++) {
--		usb_kill_urb(&dev->surbs[i].urb);
-+		usb_kill_urb(dev->surbs[i].urb);
- 		if (dev->surbs[i].wq.func)
- 			cancel_work_sync(&dev->surbs[i].wq);
- 
-@@ -338,6 +338,8 @@ static void smsusb_term_device(struct usb_interface *intf)
- 	struct smsusb_device_t *dev = usb_get_intfdata(intf);
- 
- 	if (dev) {
-+		int i;
-+
- 		dev->state = SMSUSB_DISCONNECTED;
- 
- 		smsusb_stop_streaming(dev);
-@@ -346,6 +348,9 @@ static void smsusb_term_device(struct usb_interface *intf)
- 		if (dev->coredev)
- 			smscore_unregister_device(dev->coredev);
- 
-+		for (i = 0; i < MAX_URBS; i++)
-+			usb_free_urb(dev->surbs[i].urb);
-+
- 		pr_debug("device 0x%p destroyed\n", dev);
- 		kfree(dev);
- 	}
-@@ -463,7 +468,9 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
- 	/* initialize urbs */
- 	for (i = 0; i < MAX_URBS; i++) {
- 		dev->surbs[i].dev = dev;
--		usb_init_urb(&dev->surbs[i].urb);
-+		dev->surbs[i].urb = usb_alloc_urb(0, GFP_KERNEL);
-+		if (!dev->surbs[i].urb)
-+			goto err_unregister_device;
- 	}
- 
- 	pr_debug("smsusb_start_streaming(...).\n");
-@@ -486,6 +493,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
- 	return rc;
- 
- err_unregister_device:
-+	/* smsusb_term_device() frees any allocated urb. */
- 	smsusb_term_device(intf);
- #ifdef CONFIG_MEDIA_CONTROLLER_DVB
- 	media_device_unregister(mdev);
-
----
-base-commit: 34d7bf1c8e59f5fbf438ee32c96389ebe41ca2e8
-change-id: 20240410-smatch-8f235d50753d
-
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
-
+>
+>Ivan Bornyakov (5):
+>  media: chips-media: wave5: support decoding HEVC Main10 profile
+>  media: chips-media: wave5: support reset lines
+>  media: chips-media: wave5: separate irq setup routine
+>  media: chips-media: wave5: drop "sram-size" DT prop
+>  media: chips-media: wave5: support Wave515 decoder
+>
+> .../platform/chips-media/wave5/wave5-helper.c |   8 +-
+> .../platform/chips-media/wave5/wave5-hw.c     | 395 +++++++++++++-----
+> .../chips-media/wave5/wave5-regdefine.h       |   5 +
+> .../platform/chips-media/wave5/wave5-vdi.c    |  27 +-
+> .../chips-media/wave5/wave5-vpu-dec.c         |  51 ++-
+> .../chips-media/wave5/wave5-vpu-enc.c         |   2 +-
+> .../platform/chips-media/wave5/wave5-vpu.c    |  35 +-
+> .../platform/chips-media/wave5/wave5-vpuapi.h |   3 +
+> .../chips-media/wave5/wave5-vpuconfig.h       |  16 +-
+> .../media/platform/chips-media/wave5/wave5.h  |   6 +
+> 10 files changed, 407 insertions(+), 141 deletions(-)
+>
+>-- 
+>2.44.0
+>
 
