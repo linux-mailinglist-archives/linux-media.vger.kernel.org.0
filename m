@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-9422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9423-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D698A5AC3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:36:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9168A5AC5
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:36:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E28FF2842A2
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:36:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5FF2B1C21784
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34C1A158D8E;
-	Mon, 15 Apr 2024 19:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624F815A497;
+	Mon, 15 Apr 2024 19:34:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QYMJSCyQ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lQYAIu7m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422D1156646
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA84156650
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209673; cv=none; b=s8rJsf7RG4b1L66arzggUlSglssK84XlUMwChTvXdhnkof6FlfuEOASrPolkaEVhw0wn/uEQw0yI/VAPKEvz41IaYElqwXJC8XVlHavsWVUS7eI0/tCfZuKCbv6xrqR10kaBMY/8g9LGG9L+XYoOv375NZtbUPCws9leE1mZd24=
+	t=1713209674; cv=none; b=WUljRnLb8ngwxRDUOSdtdRzz2tQarpGnop63ev/1mQz9WdAs3dBbwesNsrdjlyGy0VUQm0RSYPrsjLiTrcBcSIaYAoPbCYqKlDVhVjWiJzRDjQYuOh0mjOn152pLPmIl35Zo5907ZQq0bg2mxH0x4k2QOlBbHjN/GUgYCVgFSHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209673; c=relaxed/simple;
-	bh=pkDHUvzM/3se4qU8yUrUNq79FeC7MKupjn4wDvpoFwE=;
+	s=arc-20240116; t=1713209674; c=relaxed/simple;
+	bh=XObzijZQld/8VXyzVYTREi/3oAcyuDjxYbwKJHTRP9A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Goca4Htpp4HpZR84dTL3/sKRviX4+0SSz8UxmHSh6KNQjGf0tJCg2ruceiBZ/RaVX1p1hhES2RjOMtEaIrO5t5le/Co4mbYtoezXN/7JwBDYSX7N3NlT/+aJ8BrkbM2eSLfWAxy0QSyXacsoE37KNrdqdSg15S8oqwwgorbgim4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QYMJSCyQ; arc=none smtp.client-ip=209.85.160.47
+	 In-Reply-To:To:Cc; b=cUfWVSN8Tp/vnCXe2y1+/d1kKD971ojdK2Gj7dozgMq1JO4SM4UEyPRX7cOxii+Bga5dluNT2rLMzI+j+3aWi1G8ipyJIFx9hRCSOuqmD/6DE8AXKzrDWBFI44LVI1r3y7H1jCC59PdflcHz4veeVDudO7Oxn5Xrk7thnAstdUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lQYAIu7m; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-23335730db1so2150608fac.2
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-78d6021e2e3so286079185a.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209670; x=1713814470; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1713209671; x=1713814471; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vq+7mr1szAOvpscJpegvOEKeeaK/lFJAotzxeoFP90w=;
-        b=QYMJSCyQu2pYKBMrqNgWiQMA1aCst9SYKIqikmRxzmY52VuUPd47LQSHB4A8FAOoNe
-         GoRnjaDRfZtd4YOqjawhovTXVtgjpUb2DcL7wuwLMUKLzVpuak6Macw9bONnoK0mGYFs
-         DHrrqPs4QTJykLWjzpi3FrcxPl4AUXNIhzyr0=
+        bh=0M0QjtxbXw5Jbt1UmA7dF8uJnSqjZdDcQqjFwr3Ktis=;
+        b=lQYAIu7mvieo1iAS+hmdLRHXa5ByO9OEargwxAE/ZwSQnS+6vXNCpkcwULeP6GyRKX
+         kLk0bBUx3SN1+AIb7YNQ+PnLg+GS6FfDIohtLqiPzL7dm3RsivQvZHpPsrE6PAT6heL8
+         KDJpfSv2hzjF7IU19uvU2XM+XjRPF9kOGtGkU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209670; x=1713814470;
+        d=1e100.net; s=20230601; t=1713209671; x=1713814471;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vq+7mr1szAOvpscJpegvOEKeeaK/lFJAotzxeoFP90w=;
-        b=J6dgc/1Kf7Zq5uvP99jjqPA16UlwMRf1qTyjElEhvEXufrfNtdBw0Tg+6PgTdl9H1c
-         +MSdJgBA06/RggUK6nrfmJjA23VDtcczCboGPlycJ7itwCwo4O2OHcWBiVuKWExEpWXt
-         7ti4aJKm4QVQL7PImf5o9VJTtG8HkIbazH6JZmRLNEYTncqafyaSygkeVuGl3umZPT40
-         UoUoNQde7W1gXdrxcWoag8Rpo7HPnimhrSRW+MHP403z5QyI7ZYrm0ejzOy4yTHCvJrS
-         r9uEenw+OMOJRHo6A3iTFz4OtUKl9hr/E4/q+S6+io8RFi46l7dbPuwk7FUloMX3Ytax
-         KG5A==
-X-Gm-Message-State: AOJu0Yx7RN5HXD0GgM2zg/noqZKpM7FBsGEc3CmZTtB0d9YR9k00SfA4
-	AppQMJFvNyd1Z8h0G4B2zl/0Qj/s73PYv7BOdF+GIEIV+y8b+7pkxvZmDU5nqA==
-X-Google-Smtp-Source: AGHT+IFDs72yHh14dMP/v3LcOXYq1AzGZaPkrHXx/btoSixg8uGduMLiI7a2hIPG7rGea4VcIV3D3Q==
-X-Received: by 2002:a05:6870:9a97:b0:22a:2e6:b82e with SMTP id hp23-20020a0568709a9700b0022a02e6b82emr13491647oab.38.1713209670403;
-        Mon, 15 Apr 2024 12:34:30 -0700 (PDT)
+        bh=0M0QjtxbXw5Jbt1UmA7dF8uJnSqjZdDcQqjFwr3Ktis=;
+        b=n3SGB5Jdclqk/Ao37BLrqfeLg7yb/gioH6lAliFNw3QkAJPt+Q/vNBstcYrtSRj8LT
+         sdhYryJwESPsS5ET5mLiNKhEPG7JfwAUNRr/Bx1NM/SLqSXi1rHRWZ42rpa9i6YvB5as
+         fdkqjKL+w9wo98vGH5LIBI/f8Zf0n9D55nXrirC/LA/rG5ApzDq40CtLim/HzGYfuM1x
+         EYTDTt2uOSYHCcglNgOSxDcYy61QRqleiOy3QU02aFU8t2XW1Wu2haPeAun9VnGps80E
+         pk2YnNiw+ebW4Etl8Xc7pEYOX8rli3UxYh6GMfmXMMSt2R5pO4MvuJuespMrwJVlMof1
+         V1ZQ==
+X-Gm-Message-State: AOJu0YxBpJgsl4A2lDvXnSJJM9Q7Rqvp1+T1/5KZj6Kvs2aFu4z57dR7
+	JGG59lup6suo+vEWISf3WiC+3H+ouFG0xYDrLqBhbuheIuDzSggfjJQ/EhaqbQ==
+X-Google-Smtp-Source: AGHT+IEqj59jRDGSbVB+H5v2oX0HE1xlFJSWXdttWaWsHugr/F+aCppE0zEJT1gUi+zgVZvdSbru2w==
+X-Received: by 2002:a05:620a:12e1:b0:78d:4424:b286 with SMTP id f1-20020a05620a12e100b0078d4424b286mr11683901qkl.39.1713209671340;
+        Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.29
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:29 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:20 +0000
-Subject: [PATCH 03/35] media: uvcvideo: Refactor iterators
+Date: Mon, 15 Apr 2024 19:34:21 +0000
+Subject: [PATCH 04/35] media: uvcvideo: Use max() macro
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -120,76 +120,28 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Avoid using the iterators after the list_for_each() constructs.
-This patch should be a NOP, but makes cocci, happier:
+It makes the code slightly more clear and makes cocci incredibly happy:
 
-drivers/media/usb/uvc/uvc_ctrl.c:1861:44-50: ERROR: invalid reference to the index variable of the iterator on line 1850
-drivers/media/usb/uvc/uvc_ctrl.c:2195:17-23: ERROR: invalid reference to the index variable of the iterator on line 2179
+drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index e59a463c2761..a4a987913430 100644
+index a4a987913430..4b685f883e4d 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1850,16 +1850,18 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- 	list_for_each_entry(entity, &chain->entities, chain) {
- 		ret = uvc_ctrl_commit_entity(chain->dev, entity, rollback,
- 					     &err_ctrl);
--		if (ret < 0)
-+		if (ret < 0) {
-+			if (ctrls)
-+				ctrls->error_idx =
-+					uvc_ctrl_find_ctrl_idx(entity, ctrls,
-+							       err_ctrl);
- 			goto done;
-+		}
- 	}
- 
- 	if (!rollback)
- 		uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
- done:
--	if (ret < 0 && ctrls)
--		ctrls->error_idx = uvc_ctrl_find_ctrl_idx(entity, ctrls,
--							  err_ctrl);
- 	mutex_unlock(&chain->ctrl_mutex);
- 	return ret;
- }
-@@ -2165,7 +2167,7 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
- int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 	struct uvc_xu_control_query *xqry)
- {
--	struct uvc_entity *entity;
-+	struct uvc_entity *entity, *iter;
- 	struct uvc_control *ctrl;
- 	unsigned int i;
- 	bool found;
-@@ -2175,16 +2177,16 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 	int ret;
- 
- 	/* Find the extension unit. */
--	found = false;
--	list_for_each_entry(entity, &chain->entities, chain) {
--		if (UVC_ENTITY_TYPE(entity) == UVC_VC_EXTENSION_UNIT &&
--		    entity->id == xqry->unit) {
--			found = true;
-+	entity = NULL;
-+	list_for_each_entry(iter, &chain->entities, chain) {
-+		if (UVC_ENTITY_TYPE(iter) == UVC_VC_EXTENSION_UNIT &&
-+		    iter->id == xqry->unit) {
-+			entity = iter;
+@@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
+ 	while (1) {
+ 		u8 byte = *data & mask;
+ 		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
+-		bits -= 8 - (offset > 0 ? offset : 0);
++		bits -= 8 - max(offset, 0);
+ 		if (bits <= 0)
  			break;
- 		}
- 	}
  
--	if (!found) {
-+	if (!entity) {
- 		uvc_dbg(chain->dev, CONTROL, "Extension unit %u not found\n",
- 			xqry->unit);
- 		return -ENOENT;
 
 -- 
 2.44.0.683.g7961c838ac-goog
