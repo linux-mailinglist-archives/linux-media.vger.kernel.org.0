@@ -1,196 +1,263 @@
-Return-Path: <linux-media+bounces-9346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3068A4DFD
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 13:47:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 594138A4E34
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 13:57:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 153D11F21679
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:47:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 088FA28171A
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 11:57:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D8E64A9F;
-	Mon, 15 Apr 2024 11:47:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B49E67A0C;
+	Mon, 15 Apr 2024 11:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FTq9H99p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4891BF2A;
-	Mon, 15 Apr 2024 11:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713181662; cv=none; b=iiVAj1p4SlWthGE+WnANFjQAbqw74zzNKJDG8Aol/upg2/UIkXfwgTsmM3DUJRy/B/3gemTHk5fa+1SDCkWBXCOx/zXFwlAORYdrIsyZjeeofMe/9Kbq/LW2865lwlOegq6q4MxQebP+PMjdiRvn8sqRXopkOPrPHhbyhYPzL9s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713181662; c=relaxed/simple;
-	bh=ovQ9TbzfTy8873xFwMJVny/8x2JuYH4RmNOL+5/Chi8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OiXx2rNgSFjYryoYCu8t4W7ixwFCzVmKaccUr8ZKxOKt85JeS+317xCSkea+xCVXnQknxBWwZ7wr+kctszibPQzM0cAFf9iIgNYcBZVezXmX052iWeVqSLh6WtsjLsjsydeIR9EIuwc4/OASKIaOmlv21SvX5kWZ+1KB21Mazjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A14DFC113CC;
-	Mon, 15 Apr 2024 11:47:40 +0000 (UTC)
-Message-ID: <bd9b571c-9e0a-4fef-a80e-e2a73673d1f7@xs4all.nl>
-Date: Mon, 15 Apr 2024 13:47:40 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF1067A0E;
+	Mon, 15 Apr 2024 11:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713182253; cv=fail; b=OkJ2NyeSF594tL5iwX5NY8Xv9fCaf0dbUCqVSrpMlECik3jzCREOWA8c9Wl9a0Ta5QrNERlzRMjI7Ea6a87Wn/NkGs9xp2JFZOX83zYb3Zumlp7zRaBZsXr/IL/KsmzLE7lrYGmI65z+Gx5oM8ssFEgdyxhygTxMBa/uW0V/oMQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713182253; c=relaxed/simple;
+	bh=/zdwYg/5s/D8jGiF8hBGmOYM76b31dm1orTzZ7Zr94g=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=lhYaXowBJiCDFPGptAsYHYDglijqPawZXChdE+bnzhum/uKpOblRaxzQt1+oqhODDgsIvgwScMADVKfEVqP+3bvZ8ZQacgLJ7rMro5DytMnjWKg02pci4TBdZkz5eBV81CtqtqNPd7CMEzZC+jt2p944NpzaBZsjPK4w79zKubM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FTq9H99p; arc=fail smtp.client-ip=40.107.223.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MWLce5aaSM6dnN0+VkugxBcmITpCS5+5E21q/njDKWsEOYr3IpBvoqjGiHf9R6B79OUNO7y/QI0sMZcr8ct/zRIvp2tDZ+Wi1fMXdPfF/fhZ63JtJuIu8CfiK5BxJL1xhnjzv4lQNcZNO4ZVke49MvDbgbNG4Gm6de89jCD3eVWpNXX0fjPBRrdj9hEsYRhkjLAm0I1Fc0VC1Ye7VG7hh8lAB/pD9RHoLtTBkEGeGQ5mNDqgzq/vl7ot3VwojXa49zUR6f1PwOuyU+DZ1HTrfM84IMnikTEZzNhF71MbLhOS9W3ycQNdPwz5MN/VObigxeqDppRhnkVrbBWj7eMAHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wCptlZIQCcMDtQueiVhSHWTr0JI0xAPMCUZZHpBZEhY=;
+ b=mVeGT5fwO7ie9L8of9iNghubC4ke+py9K29qL69wDdDNbJ8TxBb8y9MmZQ1Mp+FASCVoE7zdj/eJiAQHNCyFZDLDBouQvztXxRzCvPGIBcXUDu8iV/3bTV6xQNuciWp6jNSeWw5I6/pOie0i9si9oPlka4PXUpb+8YfFYA/JY0kun5FW0yvkEkp9h+ixLuu7gSUEu3Ni1CiG0h4L65wZU4InK5n2IJQcfKG5emkG+fC4jQlJqbehlvnMCaWa0dWtKlmCEveovjulqQoOXpzdb+zh8ViTKe4bk+GnUYXIbolaTpVm3Md1azlufcbrj5n1Pk5c57LNExevIMFh+zag6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wCptlZIQCcMDtQueiVhSHWTr0JI0xAPMCUZZHpBZEhY=;
+ b=FTq9H99p+vwossLsSoaCBoxLZ9AWY7VA/6j3rqPaden0ZnEdnMMLBdONV2f6NOUk2vaNtybKWg+9wWD9tOlJnFDs+sO/EKOfCCpouSZwyBCP5jLmWWAk8k+5CWgSRfzEp7xjyoQXiZC1bEuCezkXmSOGL8ti7rKcyQOFXUUjzmI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6902.namprd12.prod.outlook.com (2603:10b6:a03:484::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
+ 2024 11:57:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
+ 11:57:27 +0000
+Message-ID: <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
+Date: Mon, 15 Apr 2024 13:57:21 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+To: zhiguojiang <justinjiang@vivo.com>, "T.J. Mercier" <tjmercier@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20240327022903.776-1-justinjiang@vivo.com>
+ <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
+ <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
+ <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+ <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
+ <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
+ <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
+ <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0371.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f8::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] media: usb: siano: Fix allocation of urbs
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org
-References: <20240410-smatch-v1-0-785d009a852b@chromium.org>
- <20240410-smatch-v1-1-785d009a852b@chromium.org>
- <38bc9cc4-107b-4915-a5ab-2f305264363a@xs4all.nl>
-In-Reply-To: <38bc9cc4-107b-4915-a5ab-2f305264363a@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6902:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d75ea0c-7748-45e5-6e2b-08dc5d43383d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	F4TrhYJNUUSQGf6JV4ZTBZA7hcNjA+Nd3JQCtL/eEa+Az+2GVHC6RxMGcBp39S7zrcWjuslbQgFxfMcsW3xwt7satv5+VrUfvAH6opK4BuSPBcYbZGuBg8I7XCZNM152YstAVvkY2hdIGm3/vpHSt2c8LQW4JCK7IEOE3ts7pkA/8cbX3YQj7Eyf+nogggC4AmcjmIqePX3guB974hGbwS0Jl1BgPFTb1pNLhuEZxySfSG+wMFmxaScvxL4CJWBVE3TBYL24iHms7KhKo/g10Ag0qM2+tx7oZrW475zDJsnjv7AMe2wKe4n+anJ7nHZ0TQUy/6+FopM6yGuvFAWwdgdrFK+txdGFVcNDdn9mdHvBkQoFexPXFee0lcV90gGm3ab8P8KyzGkdM+qaGXxi//Kp0P7w3ubJ1kYtcHPh2Tp7LP81S9tb6FVWWmDXFL3rnb4P8AWGGFB38k1wQApPvSiIukGnBwpDrugxMpDi8/a2zlz/8TY9Ahycmd/JTN0LL+WrzsmA9rR8JBNXlcoioXwQgq6GB9D4XTf19VeNVaa5G5YngHasEOun0F/5G+nPrtHQKxJl7o1ZUDLRCt/Qsdlo4GjOB3t+3/ximVGigRPNJtitiyzF9wLnDnNswvTlLMpYGjuYRmH92PC+rLa/m2p4SMLmj5uUw0A4IQdS1xY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WWJuNjh3eEpSQk9FSkJPNWVOYjJBL1l0L2lHOGtqa1AzU0NQeFFRRUVMRGdZ?=
+ =?utf-8?B?RTNWK1ZFQUVDMUN5ejZSR2lKTjFuRWtlSUFSalM4dDN3MkFNTkZ1Y094cDJu?=
+ =?utf-8?B?dWxIdXRDWkVxRFBteE80QnUreTIyWTQrc3krSTJJOENVYW9UbWI5TlgrTG9x?=
+ =?utf-8?B?Q2FaQmxRa1ZjQWVIeThTdThjdC9mM2Z0UjJkTGtIU2pubk5oVzIwWWc3N29L?=
+ =?utf-8?B?SE44djMwdFlPWktyVmhpT2g3aFlrUTg2cGtYbzZlbnZqTElsbE1MU1JUQk91?=
+ =?utf-8?B?dFQ4MGQ0aXRIRThoQjRvRGFmQ0wyZzJmRUxOU0RPaTh2dHpIcGpvL2kyUmcw?=
+ =?utf-8?B?TDRuRnVaNStiY2N1TGZZdGpmV1owSlM1eVlpUWcwd2lQbU5GN21weSt1Q3J2?=
+ =?utf-8?B?NXZPRzlZRjlnbGMxc1dyOHhjeFpJUHF4Y3gwa0R4dVJQeHJyZ2doamVvNkNw?=
+ =?utf-8?B?SmNLaU0rOElnTHNCRUNrbXp0Q0ZkZU5sODYzU0dKeWkwZ2FZcDhKNStXNmlV?=
+ =?utf-8?B?Y0VBODBaUGFaUmtQL1RhRmsxaFUwc0FVR2hqcTlyRVhCK0xMNGRpQUxoK0J3?=
+ =?utf-8?B?b091dlRDV2hNN3JvTmFMMTh4ekhEcCszbi8vdEczT29kVFRmQVV3ekFmWC9I?=
+ =?utf-8?B?RTZGUkxsenpMSCs0aTcyekRtR2xNdW8wVCtPdDQraUZNS00rZ29sUHVLR0JW?=
+ =?utf-8?B?QXFrOHRKVy8xVDVwb1VYaDBnUldXVEQ1RG9PZ0ZZS3BTTmt4cGpNQjRMWEVp?=
+ =?utf-8?B?T1EzY2hsYWVuVjNJRE55NG02eEhFMUNxSUNJWmNON1VNQkxqMzlVd2hzTXN0?=
+ =?utf-8?B?NytrdU1DaU5HVW9IUk5XQkl6dHJmZE02MVFCUzdLbUJXdktyRUJFSkRVLzNV?=
+ =?utf-8?B?L0gxZGQ4endQdVR4WVR0NmI4citsUWc1eHZPanNlcG5jWFdsNzY3OEIzTlZa?=
+ =?utf-8?B?WElMYXZQaXBETzJQT0dFWHYvRXRiNXQzUm81V3BFMFFjM3UxU0VEVHk2NGFT?=
+ =?utf-8?B?cGJTSDVFUXpXWlh4cS95MUFnQXptUXl3bGRGVHY4cDVHb0drZWpXa3J4ZEI4?=
+ =?utf-8?B?NXlFSTdKVkVPR0pxcEwydG9ESkV4anBuU2V6aVBoWWNiaHFuTkZLd1B0NGZJ?=
+ =?utf-8?B?Vm5VUGdTc3dLK091UGFMZDBMY0pyMFplaVBCb3B2VnNFNjdvU2Zld0dDbGMw?=
+ =?utf-8?B?OHdiakVRNk5udEJKL3djNmM2Mm91Y0Z1NkhsWkZTenBRaUJseXpwR2tRc2FY?=
+ =?utf-8?B?aWhESVZ3RWtvOFl6WGFMZ2VrcG9OeGxVazlHUzM0TE9CTHlXNmNLaW5sWWhM?=
+ =?utf-8?B?ZFVmVzNOeDJCZm1DNU9GVHlweHlIODF0QXI1d3lzcm5HcTJnVjY4N3dxOEhF?=
+ =?utf-8?B?R1dOUTRiOTFscWFMLzFVRnE5YjhHbEdOV1A0eDkvUEJwWlBSaWYyNEUxMDlh?=
+ =?utf-8?B?WHBMMXVPMHNMdThtMFZ4WWV2UXYySHdmeVJZcnRzL1Rta3JWVG5ZSzQ4WkdG?=
+ =?utf-8?B?ZlZjekhYTzlZQzBuTVVKb0lSNWgzbWFvaW5YZGJZL1BNbXN0YjB4cWZWSy92?=
+ =?utf-8?B?UVFPb2xuNXJMV3dMUGZKTVNRcnM2cFJxYkV5V2hGaW4vL0ZTMnBNejhTaTJk?=
+ =?utf-8?B?alcwc0RjblVZNjl0MDBpSVJ2YnhqdjYvV1g3eVVmRUxhNEJ4bHhtWmd0QWxa?=
+ =?utf-8?B?b0lBRllPTkY1WHFRaXRmNFpYb0VRM0s0QUhQQ25LQ2hQMkhxU0ZMUGFRUktH?=
+ =?utf-8?B?WC9VMWcxeGJZSFNyalAwdzRURFlkSjlqN2owZzBXSHpHQ1NZSUxZWUN6Tkk0?=
+ =?utf-8?B?QVZzYzVveUw4NlZjMmVsT09iOGFFQ0crS3pidzVvNDJxR1prbnVtVmt5bjdQ?=
+ =?utf-8?B?MGFtbysvbmRtdFhUS2tqUnM4MGJCS0twa0htU1lic08zNUZnRktpeHgvblVP?=
+ =?utf-8?B?YzFJNkUwTk93VUkyQmRkMVlwdHZVdDdXQ3djbmJFOFpPQ1RQSHFhSlZpN0Rr?=
+ =?utf-8?B?a3JtSjJKbElneUQ1bnJCLzgxdHFtTHpoYVRqNTA5TDdBTjdGV05iSCtKZjAx?=
+ =?utf-8?B?R3QwRjRpZ0RFWENaM3pUK3RvaHZQWDRjTjdkN0hPc1RnWXBUUnp1Z3Jra0xR?=
+ =?utf-8?Q?DK8w=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d75ea0c-7748-45e5-6e2b-08dc5d43383d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2024 11:57:27.2398
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LUJbTjPRugKdwb6Z+b4bzSqDksVPd3GgZALUnjcTv8MsVagYVu1P1hxQ+xWwKEsG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6902
 
-On 15/04/2024 12:08, Hans Verkuil wrote:
-> On 10/04/2024 23:54, Ricardo Ribalda wrote:
->> USB urbs must be allocated with usb_alloc_urb. Quoting the manual
+Am 15.04.24 um 12:35 schrieb zhiguojiang:
+> 在 2024/4/12 14:39, Christian König 写道:
+>> [Some people who received this message don't often get email from 
+>> christian.koenig@amd.com. Learn why this is important at 
+>> https://aka.ms/LearnAboutSenderIdentification ]
 >>
->> Only use this function (usb_init_urb) if you _really_ understand what you
->> are doing.
+>> Am 12.04.24 um 08:19 schrieb zhiguojiang:
+>>> [SNIP]
+>>> -> Here task 2220 do epoll again where internally it will get/put then
+>>> start to free twice and lead to final crash.
+>>>
+>>> Here is the basic flow:
+>>>
+>>> 1. Thread A install the dma_buf_fd via dma_buf_export, the fd refcount
+>>> is 1
+>>>
+>>> 2. Thread A add the fd to epoll list via epoll_ctl(EPOLL_CTL_ADD)
+>>>
+>>> 3. After use the dma buf, Thread A close the fd, then here fd refcount
+>>> is 0,
+>>>   and it will run __fput finally to release the file
 >>
->> Fix the following smatch error:
+>> Stop, that isn't correct.
 >>
->> drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+>> The fs layer which calls dma_buf_poll() should make sure that the file
+>> can't go away until the function returns.
 >>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/media/usb/siano/smsusb.c | 28 ++++++++++++++++++++--------
->>  1 file changed, 20 insertions(+), 8 deletions(-)
+>> Then inside dma_buf_poll() we add another reference to the file while
+>> installing the callback:
 >>
->> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
->> index 723510520d092..d85308e0785db 100644
->> --- a/drivers/media/usb/siano/smsusb.c
->> +++ b/drivers/media/usb/siano/smsusb.c
->> @@ -40,7 +40,7 @@ struct smsusb_urb_t {
->>  	struct smscore_buffer_t *cb;
->>  	struct smsusb_device_t *dev;
->>  
->> -	struct urb urb;
->> +	struct urb *urb;
->>  
->>  	/* For the bottom half */
->>  	struct work_struct wq;
->> @@ -160,7 +160,7 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
->>  	}
->>  
->>  	usb_fill_bulk_urb(
->> -		&surb->urb,
->> +		surb->urb,
->>  		dev->udev,
->>  		usb_rcvbulkpipe(dev->udev, dev->in_ep),
->>  		surb->cb->p,
->> @@ -168,9 +168,9 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
->>  		smsusb_onresponse,
->>  		surb
->>  	);
->> -	surb->urb.transfer_flags |= URB_FREE_BUFFER;
->> +	surb->urb->transfer_flags |= URB_FREE_BUFFER;
->>  
->> -	return usb_submit_urb(&surb->urb, GFP_ATOMIC);
->> +	return usb_submit_urb(surb->urb, GFP_ATOMIC);
->>  }
->>  
->>  static void smsusb_stop_streaming(struct smsusb_device_t *dev)
->> @@ -178,7 +178,7 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
->>  	int i;
->>  
->>  	for (i = 0; i < MAX_URBS; i++) {
->> -		usb_kill_urb(&dev->surbs[i].urb);
->> +		usb_kill_urb(dev->surbs[i].urb);
->>  		if (dev->surbs[i].wq.func)
->>  			cancel_work_sync(&dev->surbs[i].wq);
->>  
->> @@ -338,6 +338,8 @@ static void smsusb_term_device(struct usb_interface *intf)
->>  	struct smsusb_device_t *dev = usb_get_intfdata(intf);
->>  
->>  	if (dev) {
->> +		int i;
->> +
->>  		dev->state = SMSUSB_DISCONNECTED;
->>  
->>  		smsusb_stop_streaming(dev);
->> @@ -346,6 +348,9 @@ static void smsusb_term_device(struct usb_interface *intf)
->>  		if (dev->coredev)
->>  			smscore_unregister_device(dev->coredev);
->>  
->> +		for (i = 0; i < MAX_URBS; i++)
->> +			usb_free_urb(dev->surbs[i].urb);
->> +
->>  		pr_debug("device 0x%p destroyed\n", dev);
->>  		kfree(dev);
->>  	}
->> @@ -390,6 +395,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
->>  	void *mdev;
->>  	int i, rc;
->>  	int align = 0;
->> +	int n_urb = 0;
->>  
->>  	/* create device object */
->>  	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
->> @@ -461,9 +467,11 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
->>  	dev->coredev->is_usb_device = true;
->>  
->>  	/* initialize urbs */
->> -	for (i = 0; i < MAX_URBS; i++) {
->> -		dev->surbs[i].dev = dev;
->> -		usb_init_urb(&dev->surbs[i].urb);
->> +	for (n_urb = 0; n_urb < MAX_URBS; n_urb++) {
->> +		dev->surbs[n_urb].dev = dev;
->> +		dev->surbs[n_urb].urb = usb_alloc_urb(0, GFP_KERNEL);
->> +		if (!dev->surbs[n_urb].urb)
->> +			goto free_urbs;
->>  	}
-> 
-> After allocating the URBs there are a few more error paths that do
-> 'goto err_unregister_device;' instead of 'goto free_urbs;'. From what
-> I can see, those need to go through 'free_urbs' as well.
-> 
->>  
->>  	pr_debug("smsusb_start_streaming(...).\n");
->> @@ -485,6 +493,10 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
->>  
->>  	return rc;
->>  
->> +free_urbs:
->> +	for (i = 0; i < n_urb; i++)
->> +		usb_free_urb(dev->surbs[n_urb].urb);
-> 
-> Would it be better to also assign NULL to dev->surbs[n_urb].urb?
-> That way there are no invalid pointers that can mess up things.
+>>                         /* Paired with fput in dma_buf_poll_cb */
+>>                         get_file(dmabuf->file);
+> Hi,
+>
+> The problem may just occurred here.
+>
+> Is it possible file reference count already decreased to 0 and fput 
+> already being in progressing just before calling 
+> get_file(dmabuf->file) in dma_buf_poll()?
 
-Ricardo, just post a v2 of this patch. I posted a PR for the other
-patches. Nice work, BTW!
+No, exactly that isn't possible.
+
+If a function gets a dma_buf pointer or even more general any reference 
+counted pointer which has already decreased to 0 then that is a major 
+bug in the caller of that function.
+
+BTW: It's completely illegal to work around such issues by using 
+file_count() or RCU functions. So when you suggest stuff like that it 
+will immediately face rejection.
 
 Regards,
+Christian.
 
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +
->>  err_unregister_device:
->>  	smsusb_term_device(intf);
->>  #ifdef CONFIG_MEDIA_CONTROLLER_DVB
+>
 >>
-> 
-> 
+>> This reference is only dropped after the callback is completed in
+>> dma_buf_poll_cb():
+>>
+>>         /* Paired with get_file in dma_buf_poll */
+>>         fput(dmabuf->file);
+>>
+>> So your explanation for the issue just seems to be incorrect.
+>>
+>>>
+>>> 4. Here Thread A not do epoll_ctl(EPOLL_CTL_DEL) manunally, so it
+>>> still resides in one epoll_list.
+>>>   Although __fput will call eventpoll_release to remove the file from
+>>> binded epoll list,
+>>>   but it has small time window where Thread B jumps in.
+>>
+>> Well if that is really the case then that would then be a bug in
+>> epoll_ctl().
+>>
+>>>
+>>> 5. During the small window, Thread B do the poll action for
+>>> dma_buf_fd, where it will fget/fput for the file,
+>>>   this means the fd refcount will be 0 -> 1 -> 0, and it will call
+>>> __fput again.
+>>>   This will lead to __fput twice for the same file.
+>>>
+>>> 6. So the potenial fix is use get_file_rcu which to check if file
+>>> refcount already zero which means under free.
+>>>   If so, we just return and no need to do the dma_buf_poll.
+>>
+>> Well to say it bluntly as far as I can see this suggestion is completely
+>> nonsense.
+>>
+>> When the reference to the file goes away while dma_buf_poll() is
+>> executed then that's a massive bug in the caller of that function.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Here is the race condition:
+>>>
+>>> Thread A Thread B
+>>> dma_buf_export
+>>> fd_refcount is 1
+>>> epoll_ctl(EPOLL_ADD)
+>>> add dma_buf_fd to epoll list
+>>> close(dma_buf_fd)
+>>> fd_refcount is 0
+>>> __fput
+>>> dma_buf_poll
+>>> fget
+>>> fput
+>>> fd_refcount is zero again
+>>>
+>>> Thanks
+>>>
+>>
+>
 
 
