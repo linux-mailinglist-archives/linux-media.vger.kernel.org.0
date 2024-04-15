@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-9368-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645418A4E66
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:04:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C9A8A4E6A
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 14:04:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 955771C21083
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:04:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C18A7280D7F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 12:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B0636E2A3;
-	Mon, 15 Apr 2024 12:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611B86E5ED;
+	Mon, 15 Apr 2024 12:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iDVk9F6S"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="chRiEa2D"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45276CDD5
-	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396926E612
+	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713182589; cv=none; b=VmL4Wg4XS1j0Id3OEoOC4uTYUhCxg3mXor9L4aU2h1S7DncQbDBj/I8gOLAAO185UuuBAs9lJJG/Na+rXSG9TSC01Z4ryZbvlYLbtPrg8Z4MbKed2lgmXcuKd4vE9VumU9jtmZoMYyIFBg+BsDxyn8pjdBE1eu0yc6eyxtq5nMA=
+	t=1713182593; cv=none; b=uTaLDH/OCtLnybywygUdRRIGg05hCoYc7lpu3Uz9F1cqi7l9ojFsFiTvpirNym7e5VVLiiuhFdP4XROG6S9T24pPYxtaiHizCh+1WMmGFGeSaTPSHSvYbOCo8wHQu0ngiSYd/7H4Nkiug3WUOc6NdIcofmCdcsa+EkfexbBssNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713182589; c=relaxed/simple;
-	bh=5PiI2EAGhlCp5O7Mu/AfGmr2NBv2RumY+w+9GqUDSYg=;
+	s=arc-20240116; t=1713182593; c=relaxed/simple;
+	bh=q6rHdIn6dchLE6k0F2udACPulFYGMVefymCg4z9zpgs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C3I4X+UAE9qEtNPkW2iN6nYFGAfvxOjRUc5nspEub1lR05n8rGS7kEpGN7zWrk1YtS/ioRPaSPLv/9Ai5NvHYCQEhaNEcYclZBF/5qSqoZII21debSu3XsVvG8OJ4CJwFAt9CBn/T2iNpk4sr88YwNk3hpfcO/ksrmr8bMSpnEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iDVk9F6S; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=qelfCFAqlsd/IxEWMB/7r/9vjduXwwtDXM8zvRu5tqXZMDR8LDPEkdxJYlFnXWdSLTqfBe3ZPtUYCbURpzD919kgUbNVFvRssyvSwWJzr/tZMgID1l6eefjYZaczP7daAkQURMUHEadhkTwt8kC0FiksHqBuIwwv0ERkdh+sskg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=chRiEa2D; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713182587;
+	s=mimecast20190719; t=1713182591;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IEtlZak3Z40jh25+hruqW/khfsHk4/m1Rl4X63tPTWk=;
-	b=iDVk9F6SuzcX1mq2TesYe3gsWg/qFip0xbObuXhX+t897rwqsp4t/SNiwITeolp1MubhW3
-	jkbqjkUI+6JCna6yjZtWPha1zb0qzILDsf4iEJjiWaePI6w4SBmKn276fq2J7nsV+mFgne
-	sEI5b7MJvi8Cm8/Yg2eOeWEwiJM6qSE=
+	bh=MrlpKl+CLRTkcOb/fI4iafeGBBfDR+vru+NAApFe2Cg=;
+	b=chRiEa2DhjyOf0IPwk/NV4iCR7xVRkNfQlUb8r+uROSKKLsWJy1UjWbLlAn9L4o/aAu8LR
+	Cpo1z48vaeGoCmffbXmMMvU/MtyAUjDSc+om7ePE/c1xPFE4h/w1wAp3Nfx+WIyJ9bCr9H
+	F0NeU4hRf2Ul5H9ytLm8Ck4oOpCzXXM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-112-Y1TUjfGsNS-jBsi8kihbSQ-1; Mon, 15 Apr 2024 08:03:03 -0400
-X-MC-Unique: Y1TUjfGsNS-jBsi8kihbSQ-1
+ us-mta-96-5Eft6LV5MO-UZKzeKR2EYQ-1; Mon, 15 Apr 2024 08:03:05 -0400
+X-MC-Unique: 5Eft6LV5MO-UZKzeKR2EYQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C265810431;
-	Mon, 15 Apr 2024 12:03:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85D67881E64;
+	Mon, 15 Apr 2024 12:03:04 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DA82FC13FA1;
-	Mon, 15 Apr 2024 12:03:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4DA35C13FA2;
+	Mon, 15 Apr 2024 12:03:03 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -65,9 +65,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 20/23] media: atomisp: Remove empty s_power() op from ISP subdev
-Date: Mon, 15 Apr 2024 14:02:17 +0200
-Message-ID: <20240415120220.219480-21-hdegoede@redhat.com>
+Subject: [PATCH 21/23] media: atomisp: Remove empty s_stream() op from CSI subdev
+Date: Mon, 15 Apr 2024 14:02:18 +0200
+Message-ID: <20240415120220.219480-22-hdegoede@redhat.com>
 In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -79,45 +79,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-Remove the empty isp_subdev_set_power() callback.
+Remove the empty csi2_set_stream() callback and remove the now
+empty csi2_video_ops struct.
+
+While at it also remove the empty csi2_core_ops struct.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_csi2.c  | 23 -------------------
+ 1 file changed, 23 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 1bb33460210c..3a3e84a035e2 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -149,18 +149,6 @@ static long isp_subdev_ioctl(struct v4l2_subdev *sd,
- 	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index e939a09a279b..9288910eeb6c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -141,27 +141,6 @@ static int csi2_set_format(struct v4l2_subdev *sd,
+ 				     &fmt->format);
  }
  
 -/*
-- * isp_subdev_set_power - Power on/off the CCDC module
-- * @sd: ISP V4L2 subdevice
-- * @on: power on/off
+- * csi2_set_stream - Enable/Disable streaming on the CSI2 module
+- * @sd: ISP CSI2 V4L2 subdevice
+- * @enable: Enable/disable stream (1/0)
 - *
 - * Return 0 on success or a negative error code otherwise.
 - */
--static int isp_subdev_set_power(struct v4l2_subdev *sd, int on)
+-static int csi2_set_stream(struct v4l2_subdev *sd, int enable)
 -{
 -	return 0;
 -}
 -
- static int isp_subdev_subscribe_event(struct v4l2_subdev *sd,
- 				      struct v4l2_fh *fh,
- 				      struct v4l2_event_subscription *sub)
-@@ -596,7 +584,7 @@ static int isp_subdev_set_format(struct v4l2_subdev *sd,
+-/* subdev core operations */
+-static const struct v4l2_subdev_core_ops csi2_core_ops = {
+-};
+-
+-/* subdev video operations */
+-static const struct v4l2_subdev_video_ops csi2_video_ops = {
+-	.s_stream = csi2_set_stream,
+-};
+-
+ /* subdev pad operations */
+ static const struct v4l2_subdev_pad_ops csi2_pad_ops = {
+ 	.enum_mbus_code = csi2_enum_mbus_code,
+@@ -172,8 +151,6 @@ static const struct v4l2_subdev_pad_ops csi2_pad_ops = {
  
- /* V4L2 subdev core operations */
- static const struct v4l2_subdev_core_ops isp_subdev_v4l2_core_ops = {
--	.ioctl = isp_subdev_ioctl, .s_power = isp_subdev_set_power,
-+	.ioctl = isp_subdev_ioctl,
- 	.subscribe_event = isp_subdev_subscribe_event,
- 	.unsubscribe_event = isp_subdev_unsubscribe_event,
+ /* subdev operations */
+ static const struct v4l2_subdev_ops csi2_ops = {
+-	.core = &csi2_core_ops,
+-	.video = &csi2_video_ops,
+ 	.pad = &csi2_pad_ops,
  };
+ 
 -- 
 2.44.0
 
