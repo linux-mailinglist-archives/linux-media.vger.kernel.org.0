@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-9453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B7C8A5B45
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:46:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583AA8A5B49
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 21:46:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F6262866C4
-	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:46:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E191286642
+	for <lists+linux-media@lfdr.de>; Mon, 15 Apr 2024 19:46:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC9B9168AF5;
-	Mon, 15 Apr 2024 19:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738EC16C869;
+	Mon, 15 Apr 2024 19:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b61fb1rR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IYQi8Syt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3594D168AFB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F411649C2
 	for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 19:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209710; cv=none; b=Fqu6uk/fUzs6kkFEdo5s41geSIRviqv37drRgn52uLfOOPyNwnZyZ/Ewm31ACw3J1ZWI0p2k7ODfCPHH22kHGkuYdpFrfcTQ1+F8AM5KHw7TilHHfEwSi4r/oQKAjkFoYqd6i5mZNetwW4wXu8RnEV+BuwOtChwlI3xpTJPxnZg=
+	t=1713209711; cv=none; b=aKLWtEumllJyEeG43RckzU+3ZH77IWDNvnxooOQgO0ZyOhYMLmv2bmcAYeOSq98ellkL84ow8fANhU7Tqlfef3MQ9bnzwyB+bXNvkLp5KKhlSRXCExr6mAJop8I+DNfIuH9baKWgrlRgE4hlFo5bzBbvlXTLzIdsYcqRwmrddJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209710; c=relaxed/simple;
-	bh=h0c4cQBYAKG+eCRXK2bSjQ0k2ogfrTqHDn/vqghdbGk=;
+	s=arc-20240116; t=1713209711; c=relaxed/simple;
+	bh=YppEHZnTLQzLGD2f5s7SR2AaXE+KWzBq1dtSVEVCatk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QdF7qqqKQEtwbDoMynxpzXsG8W8iLs5aWwA8yhL7tLCk+t9k9vPoSr7qWWttfDsEcBDlae3LxxIcFMm1LCkYEgbFclX0CA57H7Q/KATMLLA+Eam3MU1CmyC5C1pRF3u72iRSGScH39aEPz72qYwrZTp0L6tbl72BSn8mR9vGj5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b61fb1rR; arc=none smtp.client-ip=209.85.222.171
+	 In-Reply-To:To:Cc; b=OiyN/aNUzVE8twyU9mhaSbKJ9hhWYQq3x3OZUWCJgE5ukqygWCrs3PUJ3lF5jAchaky2DrpqCt1g4Ckqco+wTu0qFaOW0pdtHN9HoSh6pDjgWLWvtTE0EFvhAcqeDJGRPXj8+XG6fLtp4BaqEbLzKJGVmDPK0MDeVIrLVx5IwcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IYQi8Syt; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-78d61a6229bso247239185a.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78d61a6229bso247240885a.0
+        for <linux-media@vger.kernel.org>; Mon, 15 Apr 2024 12:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209706; x=1713814506; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1713209707; x=1713814507; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
-        b=b61fb1rROkeF5g8O+2SlUmn4oUiTiBLP5ttokJo4a1dGChp4k4d3tmhkZxYPeyt9V6
-         jzM2EgnhCqsmhWTeb8HFfibflxQeG832NwKH4tX6vBY71u0GNNov1kkG4UGgioqWavzE
-         aonfPldFUzq4+hJu53tjeT1RwuEeWYs77yjXo=
+        bh=+lJf0+XIBDdSVuJAMeJcbyaAa+r8UncIi6K0ZFQWngw=;
+        b=IYQi8SytxW2a4klOXWOqdV9eUoK+fnBZcgD9f7unUBZ9UoHKuM1/P7QJKHAbu/hNvv
+         shmSqKH7rHmDkRHDobZYKhw9h0+mEpNEK8thHsD50vD+6XrN0IgWTcS3myEza7tWDrYB
+         Uh4wzrnkOHi45phaxT6ahtPdBTIWX+QLtIlkE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209706; x=1713814506;
+        d=1e100.net; s=20230601; t=1713209707; x=1713814507;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
-        b=m8uWyfaijh2Rs5X0++wcowIY8UfhrjoZPAQioiD/NYfmRNBEicGrzdMogw6LI11wDL
-         orgYR2YTpKfrc9YsLlEPCE2NGB5o75JDruSWNyK68W32LIahT2ej3tEPUpAbryoPdiCs
-         Np/7Mi8fJ5z6HrkmlCGwdXoM5vM7Dgp3l5d/dsHsuh9F5islzbYVdmJEoN2WkRcIskUc
-         8IN5gGjdvHDQcz19VCASayEofCGdkoE/yS/gc1N+Vi169BE2UkSPjVHqQ6SBtoKCBacc
-         MTnTm4RFznf6MoJGVzZQMNghsKXRfvoYqWqHgdoMYOyHT8htHqB9KIFJZsoX/oIiX4ot
-         MpWQ==
-X-Gm-Message-State: AOJu0Yxh7LTFR/yPB4j5l07HT1e3i0cXcwvsxtz1HFZXoTeCpLGUJtOW
-	S2uJNSBz1d2+WB/MgcmDkWp6b2dz/fjtZ6NbTINx8auLK39jzeP8hpd+nwvRZw==
-X-Google-Smtp-Source: AGHT+IER1oNXbfvuBYkiNGhDuuE0aNBQlaGZ+2a+oyzSSefdjaOmTqtivonyQ4TeCmkM1b+mS1nfvQ==
-X-Received: by 2002:a05:620a:29d1:b0:78e:ef0a:387d with SMTP id s17-20020a05620a29d100b0078eef0a387dmr2507242qkp.56.1713209706006;
-        Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
+        bh=+lJf0+XIBDdSVuJAMeJcbyaAa+r8UncIi6K0ZFQWngw=;
+        b=NKQANXqpwm60Z2UX5Mm5id0BHkf0zc8keZVks8la+4r2g83wPHOIKmZG13BZsJMbpT
+         pIcb/dbrPbVrEa/aH/8Izgo394O91qCSApdR4u6DpjG2cO7DkAjBtJZpMcHeKsEGi02f
+         6148As1+hci/gvzdxWU75/nlyPEVL+hI7M72rZJRjahMrR0zgCbQXa0ZLapTzgEQMKd6
+         yYjhhUInJUI6o+nhqrvM39tx4kZhsqDKoj/GoFWD1t7A+T3sl3TJGUm/9EdPAboqggxs
+         zUNB0Gtzp9bFPwA/i88vw359/vwxwzo9O43lJfUGfkKK2Q2TwPRJL4w+VP2swuqsqlp4
+         ktig==
+X-Gm-Message-State: AOJu0Yxraego2H1V8qkV/IBBatZMh7esG2NKPPl+msQGICz4phFFM8jG
+	53hff5KDOqg8p7rgwXgRU2ExFLWSkNcLmYe4nWW+FO3GGoU4h9q2eH33AZaU8g==
+X-Google-Smtp-Source: AGHT+IHZ1e+rN5kElZ/+CBGmltPllmsoOBrN7bu5f4/61aiFTpQ8yq022XA0QecM/v+OB1heBU4SXQ==
+X-Received: by 2002:a05:620a:400a:b0:78e:ca18:4093 with SMTP id h10-20020a05620a400a00b0078eca184093mr13235627qko.60.1713209707046;
+        Mon, 15 Apr 2024 12:35:07 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.05
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:35:05 -0700 (PDT)
+        Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:51 +0000
-Subject: [PATCH 34/35] media: hdpvr: Refator return path
+Date: Mon, 15 Apr 2024 19:34:52 +0000
+Subject: [PATCH 35/35] media: venus: Refator return path
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-34-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-35-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -123,20 +123,22 @@ X-Mailer: b4 0.12.4
 This is a nop, but let cocci now that this is not a good candidate for
 min()
 
-drivers/media/usb/hdpvr/hdpvr-control.c:41:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:611:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:651:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:629:12-13: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/hdpvr/hdpvr-control.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/venc.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-control.c b/drivers/media/usb/hdpvr/hdpvr-control.c
-index 37c53ab85b30..a1bb0231540c 100644
---- a/drivers/media/usb/hdpvr/hdpvr-control.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-control.c
-@@ -38,7 +38,9 @@ int hdpvr_config_call(struct hdpvr_device *dev, uint value, u8 valbuf)
- 		 "config call request for value 0x%x returned %d\n", value,
- 		 ret);
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index de06e1712d09..285bc1b4d888 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -608,7 +608,9 @@ static int venc_pm_get(struct venus_inst *inst)
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	mutex_unlock(&core->pm_lock);
  
 -	return ret < 0 ? ret : 0;
 +	if (ret < 0)
@@ -144,7 +146,29 @@ index 37c53ab85b30..a1bb0231540c 100644
 +	return 0;
  }
  
- int get_video_info(struct hdpvr_device *dev, struct hdpvr_video_info *vidinf)
+ static int venc_pm_put(struct venus_inst *inst, bool autosuspend)
+@@ -626,7 +628,9 @@ static int venc_pm_put(struct venus_inst *inst, bool autosuspend)
+ 
+ 	mutex_unlock(&core->pm_lock);
+ 
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
++	return 0;
+ }
+ 
+ static int venc_pm_get_put(struct venus_inst *inst)
+@@ -648,7 +652,9 @@ static int venc_pm_get_put(struct venus_inst *inst)
+ error:
+ 	mutex_unlock(&core->pm_lock);
+ 
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
++	return 0;
+ }
+ 
+ static void venc_pm_touch(struct venus_inst *inst)
 
 -- 
 2.44.0.683.g7961c838ac-goog
