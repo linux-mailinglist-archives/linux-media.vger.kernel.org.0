@@ -1,332 +1,249 @@
-Return-Path: <linux-media+bounces-9618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B538F8A7551
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054918A75A1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:32:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E9DF1F23723
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 20:12:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8490D1F210D0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 20:32:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE70139D01;
-	Tue, 16 Apr 2024 20:11:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDABB39863;
+	Tue, 16 Apr 2024 20:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmThkA3f"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vj4pNM3h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C44139CF1
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 20:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713298317; cv=none; b=qa+Mt7IOgfHkbHJaLKx9r5N21GvX9k6nooncLjyVSQcdLoXkCBpd5n17McVkjjTMu20ZBNDQdGX6rj6pH13W5Ot/A/UQ1rE0gv/l5n7VaYKJRY1RHZICiPS0GhovZwk0bonlE+CrpiCArwb5b7kRyV+LgAr5wDpwJeDEZNGEL/w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713298317; c=relaxed/simple;
-	bh=a8N+9lxo9FCMs+bvtZ0hVRv/BnUmo9ZSI2vk5zS50H0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RcBy9tjl0tmv2vVwrVm95jANcIor48/gs4VGJweAXOVBQCKHR5StCdWrIhw5WBcVinlHKxbwf4h5ivX5qA9on+DMuqJvzLfquIFfmPV28539V2ItcD6nXlynpS8p5LSB08WK66lg+btNuYr9U8dk/6J0FVW31tGuLlS2VpbpYQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmThkA3f; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713298316; x=1744834316;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=a8N+9lxo9FCMs+bvtZ0hVRv/BnUmo9ZSI2vk5zS50H0=;
-  b=SmThkA3fq+D387H2lum0p9y7kmNCTJygtHr25Z8VOtQWm+Y3x4TzU7bo
-   khYSj8f+P0Y2Uv/2dX+JXoVy/80ot3Zuj9flqm0Qqp2Ig29CuGHrn7LEn
-   XjfAZ3jDQrUPwrPtmQET9Lxcb3lLZtQbImMazo9pDDQf6/14paIlyuSfE
-   sboaMdaJJpmDHC4ca+RRSAzt3DArFP+ve9tZgw9NHTZkcG5/Dln1Pr146
-   qxiVplNmMgcpQMbBjKkGmvQem3fRQwArRBhzyp29daEsOJ1Jb/3iOwQOj
-   2Z/Tq0rEjQ9V8VuuzMAJOGIq3kdYaE3NmtbIipiczkLHX/n5eAgICDlRg
-   A==;
-X-CSE-ConnectionGUID: 7gJ4rTfwQPmDZp9IonnL6w==
-X-CSE-MsgGUID: xy/MGBw8TtKB3Bdcj7EmPQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8877629"
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="8877629"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:55 -0700
-X-CSE-ConnectionGUID: nVGqwnDqQgmXJsJRGA0Mmw==
-X-CSE-MsgGUID: ag4KuieCRoO6NL5+5GJIJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22447952"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:51 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 01CEB1204F9;
-	Tue, 16 Apr 2024 23:11:47 +0300 (EEST)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: bingbu.cao@intel.com,
-	laurent.pinchart@ideasonboard.com,
-	andriy.shevchenko@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	claus.stovgaard@gmail.com,
-	tomi.valkeinen@ideasonboard.com,
-	tfiga@chromium.org,
-	senozhatsky@chromium.org,
-	andreaskleist@gmail.com,
-	bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: [PATCH v4 19/19] Documentation: add documentation of Intel IPU6 driver and hardware overview
-Date: Tue, 16 Apr 2024 23:11:05 +0300
-Message-Id: <20240416201105.781496-20-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
-References: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7363A182B9;
+	Tue, 16 Apr 2024 20:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713299517; cv=fail; b=okCHC69+9nTgseeEO4jRdoudTF1aPU0aHIIgWtco3hOW9r7RjMrWCQxLrCN/LQrnYhlMjA9zE30A5Sgh0YYLmEn+8zg6rcL3/QXfQLPPDepv7YC3aNo/U9bpI95oMLJdky+oSzKRJToAwfwi5bFh9uaXV9nWLuDwICc92rL/QPo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713299517; c=relaxed/simple;
+	bh=c/wOBx1vwKGmGm0QQNeznzyEKeTbhgssxtqJvwqviXg=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=tezbl/t89MmlLbXtRZdkqE8BQdqdtCcjYQ4UUpZ6vANfv1cmzqie4lb7Md5YwRjveapOBGZZHjujwIjw0lEMYgXn9TwYS/68yQXSkWcn04edKj5vYfeMAZmzso5sojpYqIJFpDnaUYLFLYLPqsJCW7MDdSl6RVokcqFpvbYwggk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vj4pNM3h; arc=fail smtp.client-ip=40.107.93.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CdkGkRM4B6vGP9kfqi+1VTCAdLOgOGrI3BwCeI8ta8knBBPK6dN8MG/kq17pWLmQztz9ypxizwSwGigMZIvIaYMaNoXgHQrFrVRZK2870p00SSALbVy4ArHAC7xOtsUOtnTDYJaknJbuusQyXCM55Jaqr1toUsAexWMCGbcbNXJvi+vwmPO+E1uaTbZUl5kPd2BfeLAWQxVtiC4GQunq0tZhxFj7TWCpP9uJFVsC6k2SnX8uGJvU05QWDvsC98d9QnfWEekHp2SxL9d2hHBGRgX6xtBwiz9kdX/D0PGcO5F8hjcRzVK9Avb68BDAzcLxfL2S6QZ4/pFgdnR0dwDIcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9vsch8lBPn05eQqKoGjMdg/0WdyN2jO5IGZeTMVGJ7A=;
+ b=KTsyslBlmjc4oZJ1ewsw/JF3qrohu+NORnaPsQuNi3L0xVUdrF5hTFGaspWKJZnO9sSbLwOtXQhUG8ZVig8/q04YKZuukIcgblJOuVW1ffab+KAX4vkduZg2H1JmwzEpM+aXi+FEmkv1q4ZMuPD62mlDZhZtHd/KxT+cdIFgfshGftFUz8GnKhrt5raAb6kJF42pHu4WS83WpmCPbtAVNUpkkulk2v9FFE+Lp9U8p2zIh+6zDxNUe1p1WmyhR2IyYxZscLfikxAl0As5vqrQ4jkrBpl5jeubzI+I12IenJ76HeQ71h6blbozBMrlEYAKxL0SiR4xNMxJuf05RUMljg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9vsch8lBPn05eQqKoGjMdg/0WdyN2jO5IGZeTMVGJ7A=;
+ b=vj4pNM3hIDhX0D+c6NUYGOHRLR+QNTgTUKRjdHK0ffPzkILTHGsG307bkBomZ2DNcNhI8gs7GWqkJPOyJdQKfLh1bfFLuXkHzAiRrJJhbYAB/9meqL9HfOoIj3YwU2vqA2OJi7nxt/Z5IXNOnfmTKY8g/x8FVagF7sRV9ZJmD7c=
+Received: from CH2PR18CA0001.namprd18.prod.outlook.com (2603:10b6:610:4f::11)
+ by SN7PR12MB6929.namprd12.prod.outlook.com (2603:10b6:806:263::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Tue, 16 Apr
+ 2024 20:31:51 +0000
+Received: from CH2PEPF0000009B.namprd02.prod.outlook.com
+ (2603:10b6:610:4f:cafe::87) by CH2PR18CA0001.outlook.office365.com
+ (2603:10b6:610:4f::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.34 via Frontend
+ Transport; Tue, 16 Apr 2024 20:31:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH2PEPF0000009B.mail.protection.outlook.com (10.167.244.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7452.22 via Frontend Transport; Tue, 16 Apr 2024 20:31:51 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 16 Apr
+ 2024 15:31:50 -0500
+Received: from xsjanatoliy50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Tue, 16 Apr 2024 15:31:49 -0500
+From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Subject: [PATCH v4 0/7] Managing live video input format for ZynqMP DPSUB
+Date: Tue, 16 Apr 2024 13:31:35 -0700
+Message-ID: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACjgHmYC/23MSw6DIBSF4a00jEsDFwHpqPtoOkAuVpL6CBrSx
+ rj3ohNr0uE5yffPZPQx+JFcTzOJPoUx9F0exflEXGO7p6cB8ybAoGAAiuJAXyF5WrcTVQWXWot
+ KWlWSLIbo6/DeavdH3k0Ypz5+tnji6/u/kzhltNKlE7UyzmB5sy1eXN+StZJgl4LDUUKW1jgh0
+ UknGR6l+JHAj1JkiZIZhtqoSvtdLsvyBdl6mskYAQAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
+	"Andrzej Hajda" <andrzej.hajda@intel.com>, Neil Armstrong
+	<neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Jonas Karlman
+	<jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, Tomi Valkeinen
+	<tomi.valkeinen@ideasonboard.com>, <devicetree@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+	Tomi Valkeinen <tomi.valkainen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+Received-SPF: None (SATLEXMB04.amd.com: anatoliy.klymenko@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009B:EE_|SN7PR12MB6929:EE_
+X-MS-Office365-Filtering-Correlation-Id: e39d1907-4831-4f87-3000-08dc5e543f4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	/UukadpY3W33qoHHNTe4tRRR/ldZQjRLthR0ihtr7nwEpNv9cE63mtztwOwbKNoBjNXsLQ4u0up63qGpPG5CGe/2pPWbw4OBkG9/hDqtXUbV+PVJbYTU88DXrctYP+q1KqI6pwYhqj8Zloe5xKfiKunDDsnQpTod0E9DQKV7sAg63qO927VqTDaCDVgOBROQKGMN1hWrxOl3ZNucCCy455reNXOHS9997Jd3BCvsBbIMA9qhB2z2Vw5tb6SaQ/ooKZMy1kSWEpSCpN4VPLdaMSBvmiCxsL0wiwOJ8KVpQegha4ca4SSdc3hn+isg+PE/F6iCyM+QW5HCC6lSgiFNslMO1rJX8QLMer43dG/YfLWovuLskN8eBN9Vh5dAZqCwwLEh9qqx2XXMw2DL2DRRWpN9SiLbFy0Xpj6gGF/vlqY31xO/t83R3/zyUIxcUiimZptY1mom4GaWKjC/eim65wKrY3cRfIrq/9DC095fG3boldDKyUPsgXdqBYR3BJKt3i7gvhFk7rs6nBYOuMcYvCIpyMei1fzTOXB+rde5zrzKSF5vGqSb4lmbxXuoKj9mW0PKmSQsPX+mcGb52YvdU/X6rrp+H2BPi4CcsC+07x3tq+OqThsCS5xfapMKgbvMjr0S1HsEBYsTXVrC5e7vGvcz0+qhtWDaVsA+KWc8ze8VSWOkmSPgs5BwMgxkfxWTbPsFCBPwCbQ4T2n3SDkqtrUczMMXc5YVm2aPjiR72Cs69wVr0bh+/mVqGzSXNus69ti704uzWfB2J728yrggNVQQcGSBPQnQSifGPrBf0aY=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(376005)(7416005)(82310400014)(1800799015)(921011);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 20:31:51.1233
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e39d1907-4831-4f87-3000-08dc5e543f4a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF0000009B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6929
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+Implement live video input format setting for ZynqMP DPSUB.
 
-Add a documentation for an overview of IPU6 hardware and describe the main
-the components of IPU6 driver.
+ZynqMP DPSUB can operate in 2 modes: DMA-based and live.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+In the live mode, DPSUB receives a live video signal from FPGA-based CRTC.
+DPSUB acts as a DRM encoder bridge in such a scenario. To properly tune
+into the incoming video signal, DPSUB should be programmed with the proper
+media bus format. This patch series addresses this task.
+
+Patch 1/7: Set the DPSUB layer mode of operation prior to enabling the
+layer. Allows to use layer operational mode before its enablement.
+
+Patch 2/7: Update some IP register defines.
+
+Patch 3/7: Factor out some code into a helper function.
+
+Patch 4/7: Announce supported input media bus formats via
+drm_bridge_funcs.atomic_get_input_bus_fmts callback.
+
+Patch 5/7: Minimize usage of a global flag. Minor improvement.
+
+Patch 6/7: Program DPSUB live video input format based on selected bus
+config in the new atomic bridge state.
+
+Patch 7/7: New optional CRTC atomic helper proposal that will allow to
+negotiate video signal format between CRTC and connected encoder.
+Incorporate this callback into the DRM bridge format negotiation process.
+Save negotiated output format in drm_crtc_state. Reference usage of this
+API is available here:
+https://github.com/onotole/linux/tree/dpsub-live-in
+
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Michal Simek <michal.simek@amd.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Robert Foss <rfoss@kernel.org>
+To: Jonas Karlman <jonas@kwiboo.se>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+
+Changes in v4:
+- Replace controversial reference driver patches with the private
+  repository link.
+- Split display layer format manipulation functions into 2 separate cases
+  for diferet layer modes.
+- Address misc review comments (typos, comments, etc.)
+
+Link to v3: https://lore.kernel.org/r/20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com
+
+Changes in v3:
+- Add connected live layer helper
+- Include reference DRM format in zynqmp_disp_format for live layerss.
+- Add default bus format list for non-live case.
+- Explain removal of redundant checks in the commit message.
+- Minor fixes and improvements from review comments.
+
+Link to v2: https://lore.kernel.org/r/20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com
+
+Changes in v2:
+- Factor out register defines update into separate patch.
+- Add some improvements minimizing ithe usage of a global flag.
+- Reuse existing format setting API instead of introducing new versions.
+- Add warning around NULL check on new bridge state within atomic enable
+  callback.
+- Add drm_helper_crtc_select_output_bus_format() that wraps
+  drm_crtc_helper_funcs.select_output_bus_format().
+- Update API comments per review recommendations.
+- Address some minor review comments.
+- Add reference CRTC driver that demonstrates the usage of the proposed
+  drm_crtc_helper_funcs.select_output_bus_format() API.
+
+- Link to v1: https://lore.kernel.org/r/20240226-dp-live-fmt-v1-0-b78c3f69c9d8@amd.com
+
 ---
- .../driver-api/media/drivers/index.rst        |   1 +
- .../driver-api/media/drivers/ipu6.rst         | 205 ++++++++++++++++++
- 2 files changed, 206 insertions(+)
- create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
+Anatoliy Klymenko (7):
+      drm: xlnx: zynqmp_dpsub: Set layer mode during creation
+      drm: xlnx: zynqmp_dpsub: Update live format defines
+      drm: xlnx: zynqmp_dpsub: Add connected live layer helper
+      drm: xlnx: zynqmp_dpsub: Anounce supported input formats
+      drm: xlnx: zynqmp_dpsub: Minimize usage of global flag
+      drm: xlnx: zynqmp_dpsub: Set input live format
+      drm/atomic-helper: Add select_output_bus_format callback
 
-diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
-index c4123a16b5f9..7f6f3dcd5c90 100644
---- a/Documentation/driver-api/media/drivers/index.rst
-+++ b/Documentation/driver-api/media/drivers/index.rst
-@@ -26,6 +26,7 @@ Video4Linux (V4L) drivers
- 	vimc-devel
- 	zoran
- 	ccs/ccs
-+	ipu6
- 
- 
- Digital TV drivers
-diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
-new file mode 100644
-index 000000000000..6e1dd19b36fb
---- /dev/null
-+++ b/Documentation/driver-api/media/drivers/ipu6.rst
-@@ -0,0 +1,205 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+Intel IPU6 Driver
-+==================
-+
-+Author: Bingbu Cao <bingbu.cao@intel.com>
-+
-+Overview
-+=========
-+
-+Intel IPU6 is the sixth generation of Intel Image Processing Unit used in some
-+Intel Chipsets such as Tiger Lake, Jasper Lake, Alder Lake, Raptor Lake and
-+Meteor Lake. IPU6 consists of two major systems: Input System (ISYS) and
-+Processing System (PSYS). IPU6 are visible on the PCI bus as a single device, it
-+can be found by ``lspci``:
-+
-+``0000:00:05.0 Multimedia controller: Intel Corporation Device xxxx (rev xx)``
-+
-+IPU6 has a 16 MB BAR in PCI configuration Space for MMIO registers which is
-+visible for driver.
-+
-+Buttress
-+=========
-+
-+The IPU6 is connecting to the system fabric with Buttress which is enabling host
-+driver to control the IPU6, it also allows IPU6 access the system memory to
-+store and load frame pixel streams and any other metadata.
-+
-+Buttress mainly manages several system functionalities: power management,
-+interrupt handling, firmware authentication and global timer sync.
-+
-+ISYS and PSYS Power flow
-+------------------------
-+
-+IPU6 driver initialize the ISYS and PSYS power up or down request by setting the
-+Buttress frequency control register for ISYS and PSYS
-+(``IPU6_BUTTRESS_REG_IS_FREQ_CTL`` and ``IPU6_BUTTRESS_REG_PS_FREQ_CTL``) in
-+function:
-+
-+.. c:function:: int ipu6_buttress_power(...)
-+
-+Buttress forwards the request to Punit, after Punit execute the power up flow,
-+Buttress indicates driver that ISYS or PSYS is powered up by updating the power
-+status registers.
-+
-+.. Note:: ISYS power up needs take place prior to PSYS power up, ISYS power down
-+	  needs take place after PSYS power down due to hardware limitation.
-+
-+Interrupt
-+---------
-+
-+IPU6 interrupt can be generated as MSI or INTA, interrupt will be triggered when
-+ISYS, PSYS, Buttress event or error happen, driver can get the interrupt cause
-+by reading the interrupt status register ``BUTTRESS_REG_ISR_STATUS``, driver
-+clears the irq status and then calls specific ISYS or PSYS irq handler.
-+
-+.. c:function:: irqreturn_t ipu6_buttress_isr(int irq, ...)
-+
-+Security and firmware authentication
-+-------------------------------------
-+
-+To address the IPU6 firmware security concerns, the IPU6 firmware needs to
-+undergo an authentication process before it is allowed to executed on the IPU6
-+internal processors. The IPU6 driver will work with Converged Security Engine
-+(CSE) to complete authentication process. The CSE is responsible of
-+authenticating the IPU6 firmware. The authenticated firmware binary is copied
-+into an isolated memory region. Firmware authentication process is implemented
-+by CSE following an IPC handshake with the IPU6 driver. There are some Buttress
-+registers used by the CSE and the IPU6 driver to communicate with each other via
-+IPC.
-+
-+.. c:function:: int ipu6_buttress_authenticate(...)
-+
-+Global timer sync
-+-----------------
-+
-+The IPU6 driver initiates a Hammock Harbor synchronization flow each time it
-+starts camera operation. The IPU6 will synchronizes an internal counter in the
-+Buttress with a copy of the SoC time, this counter maintains the up-to-date time
-+until camera operation is stopped. The IPU6 driver can use this time counter to
-+calibrate the timestamp based on the timestamp in response event from firmware.
-+
-+.. c:function:: int ipu6_buttress_start_tsc_sync(...)
-+
-+DMA and MMU
-+============
-+
-+The IPU6 has its own scalar processor where the firmware run at and an internal
-+32-bit virtual address space. The IPU6 has MMU address translation hardware to
-+allow that scalar processors to access the internal memory and external system
-+memory through IPU6 virtual address. The address translation is based on two
-+levels of page lookup tables stored in system memory which are maintained by the
-+IPU6 driver. The IPU6 driver sets the level-1 page table base address to MMU
-+register and allows MMU to perform page table lookups.
-+
-+The IPU6 driver exports its own DMA operations. The IPU6 driver will update the
-+page table entries for each DMA operation and invalidate the MMU TLB after each
-+unmap and free.
-+
-+.. code-block:: none
-+
-+    const struct dma_map_ops ipu6_dma_ops = {
-+	   .alloc = ipu6_dma_alloc,
-+	   .free = ipu6_dma_free,
-+	   .mmap = ipu6_dma_mmap,
-+	   .map_sg = ipu6_dma_map_sg,
-+	   .unmap_sg = ipu6_dma_unmap_sg,
-+	   ...
-+    };
-+
-+.. Note:: IPU6 MMU works behind IOMMU so for each IPU6 DMA ops, driver will call
-+	  generic PCI DMA ops to ask IOMMU to do the additional mapping if VT-d
-+	  enabled.
-+
-+Firmware file format
-+====================
-+
-+The IPU6 firmware is in Code Partition Directory (CPD) file format. The CPD
-+firmware contains a CPD header, several CPD entries and components. The CPD
-+component includes 3 entries - manifest, metadata and module data. Manifest and
-+metadata are defined by CSE and used by CSE for authentication. Module data is
-+specific to IPU6 which holds the binary data of firmware called package
-+directory. The IPU6 driver (``ipu6-cpd.c`` in particular) parses and validates
-+the CPD firmware file and gets the package directory binary data of the IPU6
-+firmware, copies it to specific DMA buffer and sets its base address to Buttress
-+``FW_SOURCE_BASE`` register. Finally the CSE will do authentication for this
-+firmware binary.
-+
-+
-+Syscom interface
-+================
-+
-+The IPU6 driver communicates with firmware via the Syscom ABI. Syscom is an
-+inter-processor communication mechanism between the IPU scalar processors and
-+the CPU. There are a number of resources shared between firmware and software.
-+A system memory region where the message queues reside, firmware can access the
-+memory region via the IPU MMU. The Syscom queues are FIFO fixed depth queues
-+with a configurable number of tokens (messages). There are also common IPU6 MMIO
-+registers where the queue read and write indices reside. Software and firmware
-+function as producer and consumer of tokens in the queues and update the write
-+and read indices separately when sending or receiving each message.
-+
-+The IPU6 driver must prepare and configure the number of input and output
-+queues, configure the count of tokens per queue and the size of per token before
-+initiating and starting the communication with firmware. Firmware and software
-+must use same configurations. The IPU6 Buttress has a number of firmware boot
-+parameter registers which can be used to store the address of configuration and
-+initialise the Syscom state, then driver can request firmware to start and run via
-+setting the scalar processor control status register.
-+
-+Input System
-+============
-+
-+IPU6 input system consists of MIPI D-PHY and several CSI-2 receivers.  It can
-+capture image pixel data from camera sensors or other MIPI CSI-2 output devices.
-+
-+D-PHYs and CSI-2 ports lane mapping
-+-----------------------------------
-+
-+The IPU6 integrates different D-PHY IPs on different SoCs, on Tiger Lake and
-+Alder Lake, IPU6 integrates MCD10 D-PHY, IPU6SE on Jasper Lake integrates JSL
-+D-PHY and IPU6EP on Meteor Lake integrates a Synopsys DWC D-PHY. There is an
-+adaptional layer between D-PHY and CSI-2 receiver controller which includes port
-+configuration, PHY wrapper or private test interfaces for D-PHY. There are 3
-+D-PHY drivers ``ipu6-isys-mcd-phy.c``, ``ipu6-isys-jsl-phy.c`` and
-+``ipu6-isys-dwc-phy.c`` program the above 3 D-PHYs in IPU6.
-+
-+Different IPU6 versions have different D-PHY lanes mappings, On Tiger Lake,
-+there are 12 data lanes and 8 clock lanes, IPU6 support maximum 8 CSI-2 ports,
-+see the PPI mmapping in ``ipu6-isys-mcd-phy.c`` for more information. On Jasper
-+Lake and Alder Lake, D-PHY has 8 data lanes and 4 clock lanes, the IPU6 supports
-+maximum 4 CSI-2 ports. For Meteor Lake, D-PHY has 12 data lanes and 6 clock
-+lanes so IPU6 support maximum 6 CSI-2 ports.
-+
-+.. Note:: Each pair of CSI-2 two ports is a single unit that can share the data
-+	  lanes. For example, for CSI-2 port 0 and 1, CSI-2 port 0 support
-+	  maximum 4 data lanes, CSI-2 port 1 support maximum 2 data lanes, CSI-2
-+	  port 0 with 2 data lanes can work together with CSI-2 port 1 with 2
-+	  data lanes. If trying to use CSI-2 port 0 with 4 lanes, CSI-2 port 1
-+	  will not be available as the 4 data lanes are shared by CSI-2 port 0
-+	  and 1. The same applies to CSI ports 2/3, 4/5 and 7/8.
-+
-+ISYS firmware ABIs
-+------------------
-+
-+The IPU6 firmware implements a series of ABIs for software access. In general,
-+software firstly prepares the stream configuration ``struct
-+ipu6_fw_isys_stream_cfg_data_abi`` and sends the configuration to firmware via
-+sending ``STREAM_OPEN`` command. Stream configuration includes input pins and
-+output pins, input pin ``struct ipu6_fw_isys_input_pin_info_abi`` defines the
-+resolution and data type of input source, output pin ``struct
-+ipu6_fw_isys_output_pin_info_abi`` defines the output resolution, stride and
-+frame format, etc.
-+
-+Once the driver gets the interrupt from firmware that indicates stream open
-+successfully, the driver will send the ``STREAM_START`` and ``STREAM_CAPTURE``
-+command to request firmware to start capturing image frames. ``STREAM_CAPTURE``
-+command queues the buffers to firmware with ``struct
-+ipu6_fw_isys_frame_buff_set``, software then waits for the interrupt and
-+response from firmware, ``PIN_DATA_READY`` means a buffer is ready on a specific
-+output pin and then software can return the buffer to user.
-+
-+.. Note:: See :ref:`Examples<ipu6_isys_capture_examples>` about how to do
-+	  capture by IPU6 ISYS driver.
+ drivers/gpu/drm/drm_bridge.c             |  14 +-
+ drivers/gpu/drm/drm_crtc_helper.c        |  38 +++++
+ drivers/gpu/drm/xlnx/zynqmp_disp.c       | 231 +++++++++++++++++++++++++++----
+ drivers/gpu/drm/xlnx/zynqmp_disp.h       |  17 +--
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h  |   8 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c         |  81 ++++++++---
+ drivers/gpu/drm/xlnx/zynqmp_kms.c        |   2 +-
+ include/drm/drm_crtc.h                   |  11 ++
+ include/drm/drm_crtc_helper.h            |   5 +
+ include/drm/drm_modeset_helper_vtables.h |  30 ++++
+ 10 files changed, 372 insertions(+), 65 deletions(-)
+---
+base-commit: bfa4437fd3938ae2e186e7664b2db65bb8775670
+change-id: 20240226-dp-live-fmt-6415773b5a68
+
+Best regards,
 -- 
-2.39.2
+Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 
 
