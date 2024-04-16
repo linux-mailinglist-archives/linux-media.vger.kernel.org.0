@@ -1,121 +1,166 @@
-Return-Path: <linux-media+bounces-9516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B853C8A69E8
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:46:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A918A6C45
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 15:29:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9D371C215E5
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 11:46:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5414B221DB
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:29:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62789129E8A;
-	Tue, 16 Apr 2024 11:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B91612C49B;
+	Tue, 16 Apr 2024 13:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TSaeTHjp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0B6129E70;
-	Tue, 16 Apr 2024 11:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F8312AADC;
+	Tue, 16 Apr 2024 13:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267969; cv=none; b=tT4UqIl5ARJ2HBoUe1jyKllRHUAq+e7Irv68408prRCInvvVL4LsvlMx1umHkppPX0PBHhXmZcBV3b5k5Dos5FwDji6iAGdsW6pZubMAi4LwNawWe2evx8CNBBMR7WLM5RN8uF3zNhiRjI0A630n7unaYPhh2Z1qwatWBBx2c7k=
+	t=1713274142; cv=none; b=L3nsMkn6oQ5uvc9aRuZo7/HhoYLekq6nkL2HNuT5v0yGu6dREpybRrwAIumWTXNz7Y4Urqf9kDLE7KDnen4oXJ5xivOv0UxHmnRJ53eRDXQdri7OnKU7Tk4uwz72/jl83wplffiJDBsoG5bMeB49NF9CisAFG1zKANpjyrqfOVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267969; c=relaxed/simple;
-	bh=fC94IxT9CGQfmJ/wnB3SGtLPO//TY690Z2UHNvzkMCk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cRqo6i1rvf6jX36HYAxMU+dd3nrD9AuYiKRWnLFisAaxwtICYBg83ZHbfUqOhRq/HI00JBiG19PP04Dsa/Z6pxgJVmkQiVjKPyeHE48Hd7m/X8efHmzttyAhmyxrCSw2WNxEdqGk5LN1eeM+iHlwHCb7HHx3Cql6fzqAp06dVKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from msk1wst434n.omp.ru (81.22.207.138) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 16 Apr
- 2024 14:45:59 +0300
-From: Roman Smirnov <r.smirnov@omp.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, Jia-Ju Bai <baijiaju1990@gmail.com>
-CC: Roman Smirnov <r.smirnov@omp.ru>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH 3/3] media: tuners: tuner_simple: fix error code handling in simple_tuner_attach()
-Date: Tue, 16 Apr 2024 14:45:09 +0300
-Message-ID: <20240416114509.198069-3-r.smirnov@omp.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240416114509.198069-1-r.smirnov@omp.ru>
-References: <20240416114509.198069-1-r.smirnov@omp.ru>
+	s=arc-20240116; t=1713274142; c=relaxed/simple;
+	bh=n8uAzu0fhjDkoEFhJa32or/1KBqUpuWXqGojl6rSobU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y+gIzNxALy90nCVeFo7MkaM/4JewBaq5Ph2WbXosTrYq4hBYc9t/07WKK6ZZocY1+zfZZ7uUcitkmPdsFTWDNZQwul9u0mvUlKku0diJTu5za3/UxOkhWnkRthtRimPVwyl1lmLjmtA6LlrrwtIXK0vYZ1DazST50z9IYIXpfzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TSaeTHjp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.105] (unknown [103.251.226.7])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45190DFB;
+	Tue, 16 Apr 2024 15:28:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713274092;
+	bh=n8uAzu0fhjDkoEFhJa32or/1KBqUpuWXqGojl6rSobU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TSaeTHjp78FW/oI1sULfK4N2T4YxjndlfP4ZpCABqls7bpYSegOKqEvui7ZgbyQqi
+	 AxLmi6Fby0iSq2SwxqCDe0iwezbAVdB/S9BmuKGTR/Q/LzURQmFQgcRaGx3NCt7jqP
+	 EtfkTi5Ee2n3Ub8npzfE0cMr+cuTQhW1bTtJlYh8=
+Message-ID: <92279ce6-e410-40f2-bc6d-ad842aa9e106@ideasonboard.com>
+Date: Tue, 16 Apr 2024 18:58:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/10] media: subdev: Support non-routing subdevs in
+ v4l2_subdev_s_stream_helper()
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20240416-enable-streams-impro-v4-0-1d370c9c2b6d@ideasonboard.com>
+ <20240416-enable-streams-impro-v4-10-1d370c9c2b6d@ideasonboard.com>
+ <271933b0-7ac1-4fdf-b66a-0ed860a1ec8f@ideasonboard.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <271933b0-7ac1-4fdf-b66a-0ed860a1ec8f@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/16/2024 11:28:46
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 184736 [Apr 16 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: r.smirnov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 17 0.3.17
- f2153f38d75b12894d9cf445f96cd15c9ef63a9d
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 81.22.207.138 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	msk1wst434n.omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1;81.22.207.138:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 81.22.207.138
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/16/2024 11:34:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 4/16/2024 8:38:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-simple_tuner_attach() uses the hybrid_tuner_request_state() macro.
-It may return the error code -ENOMEM, but the function handle
-the value 0 instead.
+Hi Tomi
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+On 16/04/24 4:13 pm, Tomi Valkeinen wrote:
+> Hi,
+>
+> On 16/04/2024 13:40, Tomi Valkeinen wrote:
+>> At the moment v4l2_subdev_s_stream_helper() only works for subdevices
+>> that support routing. As enable/disable_streams now also works for
+>> subdevices without routing, improve v4l2_subdev_s_stream_helper() to do
+>> the same.
+>
+> I forgot to mention, I have not tested this patch as I don't have a HW 
+> setup. And, of course, I now see that it has a bug. The BIT_ULL(1) 
+> should be BIT_ULL(0).
+>
+> Umang, can you try a fixed one on your side? If it works, I'll send a v5.
 
-Fixes: b9302fa7ed97 ("media: tuners: fix error return code of hybrid_tuner_request_state()")
-Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
----
- drivers/media/tuners/tuner-simple.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This doesn't work. Streaming fails as :
 
-diff --git a/drivers/media/tuners/tuner-simple.c b/drivers/media/tuners/tuner-simple.c
-index 8fb186b25d6a..713ce2455910 100644
---- a/drivers/media/tuners/tuner-simple.c
-+++ b/drivers/media/tuners/tuner-simple.c
-@@ -1089,7 +1089,7 @@ struct dvb_frontend *simple_tuner_attach(struct dvb_frontend *fe,
- 					      i2c_adap, i2c_addr,
- 					      "tuner-simple");
- 	switch (instance) {
--	case 0:
-+	case -ENOMEM:
- 		mutex_unlock(&tuner_simple_list_mutex);
- 		return NULL;
- 	case 1:
--- 
-2.34.1
+[  132.108845] rkisp1 32e10000.isp: streams 0xffff8000801fef88 already 
+enabled on imx283 1-001a:0
+[  133.140906] rkisp1 32e10000.isp: streams 0xffff8000801fef88 already 
+enabled on imx283 1-001a:0
+
+With locally applied:
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
+b/drivers/media/v4l2-core/v4l2-subdev.c
+index 04d85b5f23f5..4684e4e1984c 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -2203,7 +2203,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev 
+*sd, u32 pad,
+         }
+
+         if (enabled_streams) {
+-               dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
++               dev_err(dev, "streams 0x%llx already enabled on %s:%u\n",
+                         enabled_streams, sd->entity.name, pad);
+                 ret = -EINVAL;
+                 goto done;
+@@ -2376,7 +2376,7 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev 
+*sd, int enable)
+                  * For non-streams subdevices, there's a single 
+implicit stream
+                  * per pad.
+                  */
+-               source_mask = BIT_ULL(1);
++               source_mask = BIT_ULL(0);
+         }
+
+>
+>  Tomi
+>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 23 ++++++++++++++++-------
+>>   1 file changed, 16 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
+>> b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 1c6b305839a1..83ebcde54a34 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -2360,15 +2360,24 @@ int v4l2_subdev_s_stream_helper(struct 
+>> v4l2_subdev *sd, int enable)
+>>       if (WARN_ON(pad_index == -1))
+>>           return -EINVAL;
+>>   -    /*
+>> -     * As there's a single source pad, just collect all the source 
+>> streams.
+>> -     */
+>> -    state = v4l2_subdev_lock_and_get_active_state(sd);
+>> +    if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
+>> +        /*
+>> +         * As there's a single source pad, just collect all the source
+>> +         * streams.
+>> +         */
+>> +        state = v4l2_subdev_lock_and_get_active_state(sd);
+>>   -    for_each_active_route(&state->routing, route)
+>> -        source_mask |= BIT_ULL(route->source_stream);
+>> +        for_each_active_route(&state->routing, route)
+>> +            source_mask |= BIT_ULL(route->source_stream);
+>>   -    v4l2_subdev_unlock_state(state);
+>> +        v4l2_subdev_unlock_state(state);
+>> +    } else {
+>> +        /*
+>> +         * For non-streams subdevices, there's a single implicit stream
+>> +         * per pad.
+>> +         */
+>> +        source_mask = BIT_ULL(1);
+>> +    }
+>>         if (enable)
+>>           return v4l2_subdev_enable_streams(sd, pad_index, source_mask);
+>>
+>
 
 
