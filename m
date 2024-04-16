@@ -1,146 +1,119 @@
-Return-Path: <linux-media+bounces-9513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C18D8A6999
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:30:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 990A88A69E4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:46:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDDB01F21F6C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 11:30:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 917B81C21625
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 11:46:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D05F01292FF;
-	Tue, 16 Apr 2024 11:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65042129E70;
+	Tue, 16 Apr 2024 11:45:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292D2128377;
-	Tue, 16 Apr 2024 11:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3769E129A73;
+	Tue, 16 Apr 2024 11:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267022; cv=none; b=IuCXSrQUk80KNw43jFOPEeGK0I+rFzCkyopjEuko9j4P9PDoITrcFNa47RZpdta8GJ7ayQvtBggd0Ny3H6lDUMtbaAn2xcXfONG45/IKtjHOXQqUnHm7l2X4/9cbcVFLAqBMf5fepXiDPoZ9h/10hnxRatla9KtVJY4qxbIHsaY=
+	t=1713267956; cv=none; b=RY68/1bhZ4gv76DJubTP+33V/RzQPpCeAwOzRzNCMwl9OCz5bXVm5Fw4wRZaCXtghoyMSOD8991/1WxHw3fbtr4UKUcEbdclTZEoKpwzdL7ecL4JJMalTnuzcPyVHbscprJLnM6YXAHwy7hJJh183dBn76sGBJjpnQnemb/Xg+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267022; c=relaxed/simple;
-	bh=hFklNXAFTh7lsJu6P5YapMDLqrxmPeSouEGbwGP1ixQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m9M+QI56RbQPaxruY5yKh+nz3eHEidniZ49VU2RW6u3PlgPXbg1I1jNI1yCoFh8lUkj8ZnZDj6ZiWK3Fi8EJqrZStkEEqTdBEQ/6l5lnpUpaKi56CZbgl9j8w/JxAJ7HzW2wfyVEZCQg7Q+VdwJ/mLwgTJcVgRkRrmKmF9RdytA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 9583E3B254;
-	Tue, 16 Apr 2024 13:30:06 +0200 (CEST)
-Message-ID: <0bea915c-ddad-44b6-ade1-187307da504b@gpxsee.org>
-Date: Tue, 16 Apr 2024 13:30:02 +0200
+	s=arc-20240116; t=1713267956; c=relaxed/simple;
+	bh=2EiEuGAYLJcLczJGOTsB1MV+9H93nFB6tDeDt5gKoFc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lfiTO4lA+cqxKGzakB4NtpXLwU7gSPJ0UFqSRxfnf/Pfro3+e4LHiGSsfIiqcop6QV8Xh0hKcFJR9V4qH3oKnf/roF5BazgF9kIvSiAp4yJL0sDseiNfzThd1jHP4XyL+jdLNl4DyQhCQzKN85IL77wSBhZIG50/b//iXu6NS3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from msk1wst434n.omp.ru (81.22.207.138) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 16 Apr
+ 2024 14:45:37 +0300
+From: Roman Smirnov <r.smirnov@omp.ru>
+To: Michael Krufky <mkrufky@linuxtv.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Jia-Ju Bai <baijiaju1990@gmail.com>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>
+CC: Roman Smirnov <r.smirnov@omp.ru>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH 1/3] media: tuners: tda18271: fix error code handling in tda18271_attach()
+Date: Tue, 16 Apr 2024 14:45:07 +0300
+Message-ID: <20240416114509.198069-1-r.smirnov@omp.ru>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/35] media: pci: mgb4: Refactor struct resources
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
- Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@ucw.cz>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/16/2024 11:28:46
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 184736 [Apr 16 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: r.smirnov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 17 0.3.17
+ f2153f38d75b12894d9cf445f96cd15c9ef63a9d
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 81.22.207.138 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	msk1wst434n.omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1;81.22.207.138:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 81.22.207.138
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/16/2024 11:34:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 4/16/2024 8:38:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 15. 04. 24 21:34, Ricardo Ribalda wrote:
-> The struct resource end field is inclusive not exclusive, this is, the
-> size is (end - start) +1.
-> 
-> Update the definitions and use the generic resource_size() function.
-> 
-> Fixes cocci check:
-> drivers/media/pci/mgb4/mgb4_regs.c:13:22-25: WARNING: Suspicious code. resource_size is maybe missing with res
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->   drivers/media/pci/mgb4/mgb4_core.c | 4 ++--
->   drivers/media/pci/mgb4/mgb4_regs.c | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-> index 9bcf10a77fd3..60498a5abebf 100644
-> --- a/drivers/media/pci/mgb4/mgb4_core.c
-> +++ b/drivers/media/pci/mgb4/mgb4_core.c
-> @@ -493,13 +493,13 @@ static int mgb4_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	struct mgb4_dev *mgbdev;
->   	struct resource video = {
->   		.start	= 0x0,
-> -		.end	= 0x100,
-> +		.end	= 0xff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-video",
->   	};
->   	struct resource cmt = {
->   		.start	= 0x1000,
-> -		.end	= 0x1800,
-> +		.end	= 0x17ff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-cmt",
->   	};
-> diff --git a/drivers/media/pci/mgb4/mgb4_regs.c b/drivers/media/pci/mgb4/mgb4_regs.c
-> index 53d4e4503a74..31befd722d72 100644
-> --- a/drivers/media/pci/mgb4/mgb4_regs.c
-> +++ b/drivers/media/pci/mgb4/mgb4_regs.c
-> @@ -10,7 +10,7 @@
->   int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs)
->   {
->   	regs->mapbase = res->start;
-> -	regs->mapsize = res->end - res->start;
-> +	regs->mapsize = resource_size(res);
->   
->   	if (!request_mem_region(regs->mapbase, regs->mapsize, res->name))
->   		return -EINVAL;
-> 
+tda18271_attach() uses the hybrid_tuner_request_state() macro.
+It may return the error code -ENOMEM, but the function handle
+the value 0 instead.
 
-Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Found by Linux Verification Center (linuxtesting.org) with Svace.
+
+Fixes: b9302fa7ed97 ("media: tuners: fix error return code of hybrid_tuner_request_state()")
+Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
+---
+ drivers/media/tuners/tda18271-fe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/tuners/tda18271-fe.c b/drivers/media/tuners/tda18271-fe.c
+index a7e721baaa99..23432210f06a 100644
+--- a/drivers/media/tuners/tda18271-fe.c
++++ b/drivers/media/tuners/tda18271-fe.c
+@@ -1255,7 +1255,7 @@ struct dvb_frontend *tda18271_attach(struct dvb_frontend *fe, u8 addr,
+ 					      hybrid_tuner_instance_list,
+ 					      i2c, addr, "tda18271");
+ 	switch (instance) {
+-	case 0:
++	case -ENOMEM:
+ 		goto fail;
+ 	case 1:
+ 		/* new tuner instance */
+-- 
+2.34.1
 
 
