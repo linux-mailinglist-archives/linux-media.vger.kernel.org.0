@@ -1,160 +1,170 @@
-Return-Path: <linux-media+bounces-9491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097028A6663
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 10:47:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCA88A6719
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 11:25:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8CC67B24AB7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 08:47:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DD2A1C20E27
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:25:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17BD583CCD;
-	Tue, 16 Apr 2024 08:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A99A8528F;
+	Tue, 16 Apr 2024 09:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JOG43zU2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ld8anvlL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BE4629
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 08:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFBD8526C
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 09:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713257245; cv=none; b=u6KBU0Sck9GtyEEWIUoJqrnbUef3MK0nme3s1ftC0E0uczeV4K6JOAKoGqd6T2zZAM42Q29URwarQSU+UQTYabXva/PHUY5cz/NCsLwpfiX0e32ADCShak7iNQ+KlUAHEAbEnW5X4w/NlkzZLUgVu5axhU1W0o4osOjyU94iMNo=
+	t=1713259529; cv=none; b=sgxCFzPIzMq3W18BLcF/p6UTc6C1DXE0pF3y3xQpdoNxv33k6ZYx2/yxfwbnm8NdJBxk+WEFwqYzIfZWMiWHi09THLdihvbVXUtg7LlcKkrdm8pGRZYVU7cOA35pznSquEblFcQmvUf4nhRKDI9ZXQxHB236V2KbMeezpYYUhn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713257245; c=relaxed/simple;
-	bh=+YjD1kVczgIpZpwc3pkofZBwOBnPI8au9Bf6byXPai8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8GsZGg/V2eUxjzM6SXQcsUbrIPyDrPRfloqKFtE5GifBsqjFMPV9B04xNnH4tquqxQbgoiBnLMB50D/2p16GrwRsBBwURIMnhs/uWmlfgMD5SDZ858xTnb5sF11m96jLDLSLLedYPQjv4w50FJz0GMdZyUY7udnZNoIiiQRmwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JOG43zU2; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a51ddc783e3so508588566b.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 01:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713257242; x=1713862042; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
-        b=JOG43zU2//QNW7OsVbqlbQRAgppXQV937ebODQQXf/hvIQaq/FD1xndX4vRIHMD4O8
-         neAsbc9lqzrUzn5TUAmotDaV/Ywhqkpe9LBAwQpofA829aPr5oNQflxOfYhHZN8S/Ad1
-         7FYvz0fllkkV4nBN4uCqD+/Tx4GJWAlmHoEQl+66CH61jsBHKj8A7qKsZAsv4Tj0GywP
-         ghCgy3pErd6glqQNIrc4sk9rd6d6w+GirqSWQjzj1i4p9NdNzWkB5fevAQcn5WDSKlxk
-         hKmkGBl9VJ8kCCX5nD85kMex5mJBMDB53NaYS31NrW6sksWmxs3CZFf/L+V0v1FZl6Wn
-         gGVQ==
+	s=arc-20240116; t=1713259529; c=relaxed/simple;
+	bh=VepDZcY2eTQP+WtI7Tu5jIbh15nahrwfxbgZSV0hGY0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mtgcS6mE/HyXNXaJLpVnws5wvGxh0PNJjfYOl88+iIJpbFommXRbW3aFLqqtnoxrwt+pSEVpt39Iz3hdu0BZ3sDV3updglAGPseQW3/cj3o5DDS0S9/bA1qQgqUK7YSgeHkqLpNVTpAwC1+TcGYZzW2ELzSygczvCpn8GL/EWtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ld8anvlL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713259525;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRE7xnN3DPvJ0uPhLpdtosRFGMPJeqCTZUsQYW1ove4=;
+	b=Ld8anvlLpsiT/lV7Untdv8fy86w0wDI1FDTPMLF4M2/B9ij7YiEgj/kPwjl6G20QODSUFI
+	HVPbXgjPoAz/HKn6s23IW9UfhJgrCTl5Jd1Mdma1z2Ez5Y/DFVUQ/DSCODNiGneUUfq10b
+	3CPmvPpO+xoJWcdgYutwXSJRfroaH08=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-445-QjpmvOwSMuGFcDVRsgENVw-1; Tue, 16 Apr 2024 05:25:23 -0400
+X-MC-Unique: QjpmvOwSMuGFcDVRsgENVw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a46852c2239so326436166b.1
+        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 02:25:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713257242; x=1713862042;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
-        b=qE/cJ+Bd0N2h65AaPBol8HDdXofy7T1H7UuYs18UtEJpi3F1KvpeA6fBKUc/UbKlIv
-         /2pCIREjhGBq/Y2OJLd2bZycm5VUCWDDoDlfUEfvWwcz/NeNPlMzWq1KdoOggIobi2Xk
-         yqcdxYvdETUUovNHMU3M5ARBUGhLti5LWeJWDdnvUhnRzs05D/jL2jmoGz3VOH72yniW
-         Iggzv4nrjZ32W4pMcG7SzDz+EqJFWhyX1XaeWx/lz/VetBurWkAxUNaf6+0N0XXj83Va
-         7wc/srnGe8J0MJZBfdcxmRtZC2blKxz/4bztMnYuEJCDpWWwkqnp+1egpxHbre9Eyeo1
-         wYMw==
-X-Forwarded-Encrypted: i=1; AJvYcCUhJFY/npRlbrMRQBkL+iXheo/EerwYIzgC/RrmnV63e1Zv9Nuj8ARaz6wr30DkWWwGLhvB8zNpa1ChvfaBWqV+3NhBQMfMd9CD/TE=
-X-Gm-Message-State: AOJu0Yyen4vbx+rXazTMmmakt/b501wyhNG4t23Cf7hrY7sqtb4SoIhT
-	YKJZNCC98wftX7fdXqfDPKFd2bTIE+vac76ys5pdFczfmdyFQW+hhk7zQPyZm0w=
-X-Google-Smtp-Source: AGHT+IERiWoYGa51YbGEPmkvByvhia/eckpCcRSCGVJVNIFEmOLsj+qs5GtIOBV8MGWtuu2neCmDeg==
-X-Received: by 2002:a17:906:7145:b0:a52:8a8a:59cb with SMTP id z5-20020a170906714500b00a528a8a59cbmr2572423ejj.61.1713257242155;
-        Tue, 16 Apr 2024 01:47:22 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b00a51a7832a7asm6572111ejb.199.2024.04.16.01.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 01:47:21 -0700 (PDT)
-Date: Tue, 16 Apr 2024 11:47:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Oleg Drokin <green@linuxhacker.ru>
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-Message-ID: <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+        d=1e100.net; s=20230601; t=1713259521; x=1713864321;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FRE7xnN3DPvJ0uPhLpdtosRFGMPJeqCTZUsQYW1ove4=;
+        b=dFZ8AU2H334Tqrhjk2X3auCE907FXu//szQirvkHZiNEOpvaBbd/qePC4REgbVMreV
+         lbdAJtWsCwCZsbn6FhglKT803D94OB4IG3p1y1Vdit+pCffCF+6C1pDfGD316EcQeZCI
+         FVE+0j9wtjkgXNXeXgJu2S96CFx1RE+eyQa2EY1vova8vfoG8r5dSuNeVI9bKiXfgaJh
+         4ZB2qIBJgRG2qqRkNz+Xxj51VpYn6BC0EUEoM2j3wpFsVFFb9yHzKQpPypAWQfDM5Bof
+         r8ytDuwRNj6lHyLqrDPPG37A0bHLEnYYpVbJFLJc1WEKp41kM7T55OTZ4wWT9JigYg+D
+         /sTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRzwZHesjlrP7CxdW1OOz49/trbXITyPE2uCnQ5G4nxXD6e9CgVRzJ/H+uj3xjEXlQgD3cylGieniU9BvV2CPzMQVuG5yvs3dF2Cs=
+X-Gm-Message-State: AOJu0YzVs2H2eiYTl1K2NJriXKz9VTnNgFkziLkO+mTRwzSsyxiZuM9j
+	6P0NYng9esivCgFYS4XMlz5V8iCrNxs1z/louEM4PIAMCqjy0OdSza7mIH3hIpIiQcUyYHmmkbZ
+	gY/HDWn9QvdsHWtcHYMv0+z6SdJj/tpTc/Us4TruLBa2En4ZBnSNWTRHa9vCGmi3/TMGY
+X-Received: by 2002:a17:906:2932:b0:a51:b3cb:cdca with SMTP id v18-20020a170906293200b00a51b3cbcdcamr10724470ejd.26.1713259521379;
+        Tue, 16 Apr 2024 02:25:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmtUMeOk0F7211QUFXI0CbDNFq2sZ7MSVeKORfLoc2Cpjr5pGkDak4go1DMOeWzc3J/5PWTg==
+X-Received: by 2002:a17:906:2932:b0:a51:b3cb:cdca with SMTP id v18-20020a170906293200b00a51b3cbcdcamr10724456ejd.26.1713259520996;
+        Tue, 16 Apr 2024 02:25:20 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id bw26-20020a170906c1da00b00a52222f2b21sm6441401ejb.66.2024.04.16.02.25.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Apr 2024 02:25:20 -0700 (PDT)
+Message-ID: <294058a6-72dd-4973-95ee-eaed0c908131@redhat.com>
+Date: Tue, 16 Apr 2024 11:25:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/23] media: atomisp: Remove test pattern generator (TPG)
+ support
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240415120220.219480-1-hdegoede@redhat.com>
+ <20240415120220.219480-12-hdegoede@redhat.com>
+ <Zh08SP60QytSz3aQ@smile.fi.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Zh08SP60QytSz3aQ@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In my opinion, it's better to just ignore old warnings.
+Hi Andy,
 
-When code is new the warnings are going to be mostly correct.  The
-original author is there and knows what the code does.  Someone has
-the hardware ready to test any changes.  High value, low burden.
+Thank you for all the reviews!
 
-When the code is old only the false positives are left.  No one is
-testing the code.  It's low value, high burden.
+On 4/15/24 4:40 PM, Andy Shevchenko wrote:
+> On Mon, Apr 15, 2024 at 02:02:08PM +0200, Hans de Goede wrote:
+>> The TPG support registers a v4l2-subdev for this, but this is not part of
+>> the media-controller graph in any way. After manually selecting the TPG
+>> as input using the s_input ioctl it does not work.
+>>
+>> Several supported sensors have their own working TPG and using the sensor's
+>> TPG means that the same data-flow is used as with actual sensors rather
+>> then the quite different data-flow from the ISP's builtin TPG.
+>>
+>> Remove the broken TPG support, when a test-pattern is needed for testing
+>> a sensor's TPG can be used. Using a sensor's TPG is actually better for
+>> testing since then the actual normal data-flow is being tested.
+> 
+> ...
+> 
+>> +	if (mipi_info)
+>> +		fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(mipi_info->input_format);
+>>  
+>> +	if (!fc)
+>> +		fc = atomisp_find_in_fmt_conv(
+>> +			 atomisp_subdev_get_ffmt(&asd->subdev,
+>> +						 NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
+>> +						 ATOMISP_SUBDEV_PAD_SINK)->code);
+> 
+> While it was in the original code, this is ugly. Can we split this to two
+> assignments?
 
-Plus it puts static checker authors in a difficult place because now
-people have to work around our mistakes.  It creates animosity.
+Ack, fixed.
 
-Now we have to hold ourselves to a much higher standard for false
-positives.  It sounds like I'm complaining and lazy, right?  But Oleg
-Drokin has told me previously that I spend too much time trying to
-silence false positives instead of working on new code.  He's has a
-point which is that actually we have limited amount of time and we have
-to make choices about what's the most useful thing we can do.
+> 
+>> +	if (!fc)
+>> +		return -EINVAL;
+>> +	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
+> 
+>> +	    raw_output_format_match_input(fc->atomisp_in_fmt,
+>> +					  pix->pixelformat))
+> 
+> Now a single line?
 
-So what I do and what the zero day bot does is we look at warnings one
-time and we re-review old warnings whenever a file is changed.
+Ack, fixed.
 
-Kernel developers are very good at addressing static checker warnings
-and fixing the real issues...  People sometimes ask me to create a
-database of warnings which I have reviewed but the answer is that
-anything old can be ignored.  As I write this, I've had a thought that
-instead of a database of false positives maybe we should record a
-database of real bugs to ensure that the fixes for anything real is
-applied.
+> 
+>> +		return -EINVAL;
+> 
+> ...
+> 
+>>  		unsigned int hblank_cycles = 100,
+>>  		vblank_lines = 6,
+>>  		width,
+> 
+> Urgh... These comma operators probably is subject to replace with separate
+> definitions or being grouped on a single line (as it suppose to be in this
+> case).
 
-regards,
-dan carpenter
+That indeed is ugly, but fixing this is out of scope for this patch,
+so I've added an extra patch to the set to address this:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp&id=48d93af9d9b0fd40a21a656cb8cd8e25700bfed5
+
+Regards,
+
+Hans
+
 
 
