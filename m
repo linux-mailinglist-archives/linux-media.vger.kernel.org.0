@@ -1,166 +1,126 @@
-Return-Path: <linux-media+bounces-9517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9518-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A918A6C45
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 15:29:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 688588A6C9C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 15:36:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5414B221DB
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:29:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 229EF284773
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 13:35:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B91612C49B;
-	Tue, 16 Apr 2024 13:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5541912CD81;
+	Tue, 16 Apr 2024 13:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TSaeTHjp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UD3ioQS0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F8312AADC;
-	Tue, 16 Apr 2024 13:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B4012882C
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 13:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713274142; cv=none; b=L3nsMkn6oQ5uvc9aRuZo7/HhoYLekq6nkL2HNuT5v0yGu6dREpybRrwAIumWTXNz7Y4Urqf9kDLE7KDnen4oXJ5xivOv0UxHmnRJ53eRDXQdri7OnKU7Tk4uwz72/jl83wplffiJDBsoG5bMeB49NF9CisAFG1zKANpjyrqfOVk=
+	t=1713274526; cv=none; b=YgewIp0ywlRRLhV7q/nVlaGZzeUJ3Zq/fK0Ebpm8i7j7sNHttuGMlPSr3sJ0L4K6t3aBbROnjsaOOTSIkWkpIy1Di3PxdX+LRSr1hKhA1PlZOaqosX0SGikxp8s+xdukQbLV2cSef6O9zdE44R3zaKK+CRdCwSzsJCOmmljWAsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713274142; c=relaxed/simple;
-	bh=n8uAzu0fhjDkoEFhJa32or/1KBqUpuWXqGojl6rSobU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y+gIzNxALy90nCVeFo7MkaM/4JewBaq5Ph2WbXosTrYq4hBYc9t/07WKK6ZZocY1+zfZZ7uUcitkmPdsFTWDNZQwul9u0mvUlKku0diJTu5za3/UxOkhWnkRthtRimPVwyl1lmLjmtA6LlrrwtIXK0vYZ1DazST50z9IYIXpfzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TSaeTHjp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.105] (unknown [103.251.226.7])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45190DFB;
-	Tue, 16 Apr 2024 15:28:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713274092;
-	bh=n8uAzu0fhjDkoEFhJa32or/1KBqUpuWXqGojl6rSobU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TSaeTHjp78FW/oI1sULfK4N2T4YxjndlfP4ZpCABqls7bpYSegOKqEvui7ZgbyQqi
-	 AxLmi6Fby0iSq2SwxqCDe0iwezbAVdB/S9BmuKGTR/Q/LzURQmFQgcRaGx3NCt7jqP
-	 EtfkTi5Ee2n3Ub8npzfE0cMr+cuTQhW1bTtJlYh8=
-Message-ID: <92279ce6-e410-40f2-bc6d-ad842aa9e106@ideasonboard.com>
-Date: Tue, 16 Apr 2024 18:58:51 +0530
+	s=arc-20240116; t=1713274526; c=relaxed/simple;
+	bh=y+g0z3zxFZxLp0z5QxoMl9zaVkT4hRiFtrf0ogeyKh8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eSVSJ9StpTNxNgeD2AzxZu1vMbYccFmgblxgUPMVFwb1/1NOm3IiSqGTb0W0KEM7zywv8nUn5Wv0XJKMOJ1aAFDh0V2QHqDZxB5clAuZgpYr2LezQ3O7D46/GU/VC59mTovkTVAi3kEfabi3g/AMUCyrRscM7UsYtQbDvQY0NRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UD3ioQS0; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-518a56cdbcfso4948400e87.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 06:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713274522; x=1713879322; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iK/T7s8p/J0tu3z/h2XGg5wnqrBObLuxU45NTGwIAWI=;
+        b=UD3ioQS0+azlOkuJNdQfHbktp9FEZFihlKjyxTM8qHI+cLuuzs5yWdpd5bQZ7827LR
+         +CpHokQdnryynkiggNBimowCTJyaosBoZ2fRY2pGzMjzq08yq6m4yfyp3mDjhnxEEVIb
+         Dbi/rpiZ6S0lc0RhKXIl7XWTm16R6dMS0bCxBBROImv4b3Md184aDWwKgiIGFtOZMnSC
+         WjXhwV7nIbSOvkQQ3oZWdQDbXubZGSOLAOJMdBa5JxRKnN+04Hx2MlVdNyCi1GiN5jBM
+         t/byGsA3/5zT3RWojIMpLE5+py8z/D/xXpif2vKrR6eLZymROR6Pd1oErzknfp5F9X8O
+         mkQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713274522; x=1713879322;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iK/T7s8p/J0tu3z/h2XGg5wnqrBObLuxU45NTGwIAWI=;
+        b=Cu7SR62Ta+e/g4i7weV3arOqlxlpcTpDn+NDvdgDwUmrQoEyxVXifOpjn/VZZEWhVG
+         KYlCq3lZF2nBTx8/DqclYuSsQIxq4cGy+DmB9eVw+dbGUmijlver7c9uSZajkl4VjgFw
+         7N14eg/vRKSrCtm4Z4JfJm/7+J7X7sQK07av09Wad3PNi9MnTs/t42Vaa8Z2uDuFlgGW
+         7ElGR422Zra3ku9Yw7MgAUwaEd9b0wMC3tUWXmzNJbGT5eONnmNAmVpwu54DiDtizmqt
+         wdFuk+DWMdXlHupkv4JFOfkXEai3zIvfIHybSFcz/DFCVQd/tzDVASnyFSbSR4JP1vQO
+         78mw==
+X-Forwarded-Encrypted: i=1; AJvYcCV38Qwo970er7XL8Sq/6QCDwSEh7S6ZBDMkVYeZ3Ed0XKH4Y1IWwmVgYXi5fjDm/AmcXvoxvf78Fd+QcZFeexalC3Je52DWQsv/GXE=
+X-Gm-Message-State: AOJu0Yyxd2vn2Lugyxniq3/KKon4Ycv/arPFi3nUw8OgbW2051bZzbtg
+	l/p2RbMDWLDxV02trGfwBFdfBGDzVAuUyB8gtw5FZ01XyLUyWw431dvyRX6KAAicMe3xnY+o6AT
+	kWT7CMbA7m+7zWd6Swk2Pco5aIXgjVIya+vE=
+X-Google-Smtp-Source: AGHT+IFLiUPfBwTtuyUr7Nvw85J0Jz0AtFa2fGp3hfYUPqnHfo0TiAlwEmXX1j5BN2GT9YFe4fi97wxIyBC9mrq60+8=
+X-Received: by 2002:a05:6512:48c8:b0:515:acda:77f0 with SMTP id
+ er8-20020a05651248c800b00515acda77f0mr10269158lfb.29.1713274522065; Tue, 16
+ Apr 2024 06:35:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/10] media: subdev: Support non-routing subdevs in
- v4l2_subdev_s_stream_helper()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240416-enable-streams-impro-v4-0-1d370c9c2b6d@ideasonboard.com>
- <20240416-enable-streams-impro-v4-10-1d370c9c2b6d@ideasonboard.com>
- <271933b0-7ac1-4fdf-b66a-0ed860a1ec8f@ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <271933b0-7ac1-4fdf-b66a-0ed860a1ec8f@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240415120220.219480-1-hdegoede@redhat.com> <20240415120220.219480-12-hdegoede@redhat.com>
+ <Zh08SP60QytSz3aQ@smile.fi.intel.com> <294058a6-72dd-4973-95ee-eaed0c908131@redhat.com>
+In-Reply-To: <294058a6-72dd-4973-95ee-eaed0c908131@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 16 Apr 2024 16:34:45 +0300
+Message-ID: <CAHp75Ve2tyqYM0ChjW=ETjJ27xNmtJ3dDK-2pneanuQEwyFRxg@mail.gmail.com>
+Subject: Re: [PATCH 11/23] media: atomisp: Remove test pattern generator (TPG) support
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomi
+On Tue, Apr 16, 2024 at 12:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
+> wrote:
+> On 4/15/24 4:40 PM, Andy Shevchenko wrote:
+> > On Mon, Apr 15, 2024 at 02:02:08PM +0200, Hans de Goede wrote:
 
-On 16/04/24 4:13 pm, Tomi Valkeinen wrote:
-> Hi,
+...
+
+> >>              unsigned int hblank_cycles =3D 100,
+> >>              vblank_lines =3D 6,
+> >>              width,
+> >
+> > Urgh... These comma operators probably is subject to replace with separ=
+ate
+> > definitions or being grouped on a single line (as it suppose to be in t=
+his
+> > case).
 >
-> On 16/04/2024 13:40, Tomi Valkeinen wrote:
->> At the moment v4l2_subdev_s_stream_helper() only works for subdevices
->> that support routing. As enable/disable_streams now also works for
->> subdevices without routing, improve v4l2_subdev_s_stream_helper() to do
->> the same.
+> That indeed is ugly, but fixing this is out of scope for this patch,
+> so I've added an extra patch to the set to address this:
 >
-> I forgot to mention, I have not tested this patch as I don't have a HW 
-> setup. And, of course, I now see that it has a bug. The BIT_ULL(1) 
-> should be BIT_ULL(0).
->
-> Umang, can you try a fixed one on your side? If it works, I'll send a v5.
+> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=
+=3Dmedia-atomisp&id=3D48d93af9d9b0fd40a21a656cb8cd8e25700bfed5
 
-This doesn't work. Streaming fails as :
+WFM, thanks!
 
-[  132.108845] rkisp1 32e10000.isp: streams 0xffff8000801fef88 already 
-enabled on imx283 1-001a:0
-[  133.140906] rkisp1 32e10000.isp: streams 0xffff8000801fef88 already 
-enabled on imx283 1-001a:0
+Btw (yes, I see you tagged that already, so just FYI then)
+(1 + (stream->config.pixels_per_clock =3D=3D 2));
+is an interesting way of using
 
-With locally applied:
+ (stream->config.pixels_per_clock =3D=3D 2) ? 2 : 1);
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
-b/drivers/media/v4l2-core/v4l2-subdev.c
-index 04d85b5f23f5..4684e4e1984c 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -2203,7 +2203,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev 
-*sd, u32 pad,
-         }
+which likely can produce slightly better code (due to use of constant
+2 twice), although it is a pure speculation by me.
 
-         if (enabled_streams) {
--               dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
-+               dev_err(dev, "streams 0x%llx already enabled on %s:%u\n",
-                         enabled_streams, sd->entity.name, pad);
-                 ret = -EINVAL;
-                 goto done;
-@@ -2376,7 +2376,7 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev 
-*sd, int enable)
-                  * For non-streams subdevices, there's a single 
-implicit stream
-                  * per pad.
-                  */
--               source_mask = BIT_ULL(1);
-+               source_mask = BIT_ULL(0);
-         }
-
->
->  Tomi
->
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 23 ++++++++++++++++-------
->>   1 file changed, 16 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
->> b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 1c6b305839a1..83ebcde54a34 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -2360,15 +2360,24 @@ int v4l2_subdev_s_stream_helper(struct 
->> v4l2_subdev *sd, int enable)
->>       if (WARN_ON(pad_index == -1))
->>           return -EINVAL;
->>   -    /*
->> -     * As there's a single source pad, just collect all the source 
->> streams.
->> -     */
->> -    state = v4l2_subdev_lock_and_get_active_state(sd);
->> +    if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
->> +        /*
->> +         * As there's a single source pad, just collect all the source
->> +         * streams.
->> +         */
->> +        state = v4l2_subdev_lock_and_get_active_state(sd);
->>   -    for_each_active_route(&state->routing, route)
->> -        source_mask |= BIT_ULL(route->source_stream);
->> +        for_each_active_route(&state->routing, route)
->> +            source_mask |= BIT_ULL(route->source_stream);
->>   -    v4l2_subdev_unlock_state(state);
->> +        v4l2_subdev_unlock_state(state);
->> +    } else {
->> +        /*
->> +         * For non-streams subdevices, there's a single implicit stream
->> +         * per pad.
->> +         */
->> +        source_mask = BIT_ULL(1);
->> +    }
->>         if (enable)
->>           return v4l2_subdev_enable_streams(sd, pad_index, source_mask);
->>
->
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
