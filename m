@@ -1,190 +1,212 @@
-Return-Path: <linux-media+bounces-9497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9498-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5F48A6884
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 12:34:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E48C38A68B1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 12:40:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C1B0B21C3D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 10:34:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C15328760F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 10:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D5E127E11;
-	Tue, 16 Apr 2024 10:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 226B9128379;
+	Tue, 16 Apr 2024 10:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uoKOcfFq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bszwTc6D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C063D38E;
-	Tue, 16 Apr 2024 10:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5C9127E32
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 10:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713263669; cv=none; b=rDCf3Cd6SmD07dDIma0X0n1lT2U8HDkZKYvp9SY4g3rKwyHC5T0PT10AA1+L8zEJmAcbjjWZso8cAy9hI7Hst5q+k4s+Pr+MXZtV4TcBDcbUCsPCWA3Ba9s792e67xg4HeCcaktjBxjg0vEkF4Ud6plhWEt77GFLklMTLANKIn4=
+	t=1713264015; cv=none; b=UVsz9YZP8tCWhwJGdk8upgxC+cZyHtebvVxQXr3F+W+q7q6iwq3OlwHAQqOdaeccYTyg3vZsJCSkHJWIQ9h7hssQaCCSWhysls0VcPyk42VRPGtp7ORZcADkQcOkVYjxojLZ0aPLDhr8ZG/fgXZPQdG+PfsMvyDqecd4hO9Moe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713263669; c=relaxed/simple;
-	bh=8uGYu58HcZWhqbb+Y6RjWhF7XYOqr5cprLJ1FW0/2tQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jKCzcV24nytw+sbR0R3REKyyfivs5dfj0afUrX0OGwMtOw1VykmLIZHpuq6540WCfgTh0Le9H6Fnudjmmq2cm8A6eikqDtgSbOlhHA4jyPsDlZkcRYjv0NEqHo1M/KGhtiviyWX0IgCjLnHExSwd6nQaK5aM8n44EHNCUAS8NLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uoKOcfFq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEAEC480;
-	Tue, 16 Apr 2024 12:33:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713263620;
-	bh=8uGYu58HcZWhqbb+Y6RjWhF7XYOqr5cprLJ1FW0/2tQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uoKOcfFqvk+uXMWqHp8e+qM6L0aevTot7JUBB6vfLys4Bve6d/rT9XeXCs0CT3qff
-	 lPk97JeckDk4tZ0Ie+fmifj59JFc+VAGYZGaPdj5slL1/VZQUNuQHmrPnxi80uSGIW
-	 cZsKi6Y3oM6N94WQnZTKcCSvhDmwRL7z8pAufawk=
-Message-ID: <0894861f-cb52-4c5b-8055-5fa50bea6689@ideasonboard.com>
-Date: Tue, 16 Apr 2024 13:34:22 +0300
+	s=arc-20240116; t=1713264015; c=relaxed/simple;
+	bh=JeEpQglRVkCPotl8Biax9CF54rtqlydCuXYo3Z4B5/Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qFz/1Zd60TEZ+HSBvVMrMjvyqcwTrwRPE8jmh9xqNGcyDSpAaD5lK8U8lyzU4aYZVV46MIWkjtmEe/Fv89vXIMsJ4y2x2NCaokJJaaoYYSoC9TKKwmpDgzykrFg+L1qMFK8HrHeu+1zxe8+qwifjTNXzNPi3dxrziatkhw/4C7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bszwTc6D; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a523524e5baso503353866b.3
+        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 03:40:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713264012; x=1713868812; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eHTLqtmJofb3OW9dwP60b9IkbybIqw6tzFbVJdsjmeU=;
+        b=bszwTc6Dwkmhu5N8+Y+bSR9RqV79yolSHX4piEBvFNNs53Q/4KX7vlgKJswWqomNh7
+         h0dGFClxwmkbVE2CoFcgW5YaW8XpNKhELMYvQPOMxiSI6JWs5TZ9dUWx5VqdEnT52day
+         /kEce4nsL8s7pCN/7VoZSl3CsCg1qYRZR1pWE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713264012; x=1713868812;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eHTLqtmJofb3OW9dwP60b9IkbybIqw6tzFbVJdsjmeU=;
+        b=dAxrbPZRtnDejgouOlGCfwJHW2rXOdybfYBf4lk2QRJtlxUQRRP5Lxc+EKokQBhmMK
+         /OYHuxho8uHHV+mF4sck6YJgxE8b6rBOK8rx9OqZ6QG6fdOquD1dYJZ7k1zl9SccbAWG
+         2tJRaDkTdpQKt3zVXnd4G1IDA1oIagpeMhoSoySmnQpX2U3t9zIkXZRNC6XVPbFlIF4O
+         bzD83h4wxeqyLElfxwg8Q74lC+MwEz7+9CZst1mE4+pCMkBOPjU1fbP9rP2phNLNIgan
+         3T5j+EhXIUkzKzrPI+tMztI3b6PTpKsdjhU/4qBSrkXb2XGhukE9vxG+vIXZxahyVLbM
+         FaFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhihTEsWwElO4Pa6VhyapF0M9Za5Nttx24yEK0GHy/OiJFs5XTE5bTAIVyoCwgidkmeMzZ9Alj1yfI9O3YWawu/AZPAwi2GyPV4AQ=
+X-Gm-Message-State: AOJu0YzQ6kRaEbdg1Q+gt+GU1uh7m8OxXQfCXdZ7VZB/c+IoEsb6s+Kh
+	NzwYYpkbozTlH0TUNjoV2UQGvg7HweWT8c2B5NEPTPiviqc1Dz96UzmoWKSnoIyajezLQj39aqJ
+	qgSro
+X-Google-Smtp-Source: AGHT+IE+nb7ULOWMiL5SimNkWGSaqh4VrOIksD1wNfZDD1qmdDeUmaZwWWsUuX8dFsfGdOZAGAb15g==
+X-Received: by 2002:a17:906:6b8f:b0:a52:5493:a0b9 with SMTP id l15-20020a1709066b8f00b00a525493a0b9mr5777246ejr.39.1713264012037;
+        Tue, 16 Apr 2024 03:40:12 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id ds19-20020a170907725300b00a522911e2aesm6198501ejc.124.2024.04.16.03.40.11
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Apr 2024 03:40:11 -0700 (PDT)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41884e97008so6619355e9.3
+        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 03:40:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX2ZW8gd6xl3IftAVl3m+7rojBk75OsthIvkjhZwfXG1y9dKkQdZWMcDlfDcD4+YBSvLH5BpSq5Z8l+8TRv7zipsBgZkjfeHYZkrJY=
+X-Received: by 2002:a05:6512:114b:b0:518:d5c4:b47f with SMTP id
+ m11-20020a056512114b00b00518d5c4b47fmr7177225lfg.13.1713263990804; Tue, 16
+ Apr 2024 03:39:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/9] media: subdev: Support privacy led in
- v4l2_subdev_enable/disable_streams()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240410-enable-streams-impro-v3-0-e5e7a5da7420@ideasonboard.com>
- <20240410-enable-streams-impro-v3-7-e5e7a5da7420@ideasonboard.com>
- <20240412182026.GJ31122@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240412182026.GJ31122@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-23-477afb23728b@chromium.org> <97f51ae8-6672-4bd4-b55b-f02114e3d8d0@moroto.mountain>
+In-Reply-To: <97f51ae8-6672-4bd4-b55b-f02114e3d8d0@moroto.mountain>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 16 Apr 2024 12:39:33 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvp9gBo6Oh31GghvcHmgBY1cYqq4uM_njFTTvQOcS1mbw@mail.gmail.com>
+Message-ID: <CANiDSCvp9gBo6Oh31GghvcHmgBY1cYqq4uM_njFTTvQOcS1mbw@mail.gmail.com>
+Subject: Re: [PATCH 23/35] media: dvb-frontends: tda10048: Use the right div
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/04/2024 21:20, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Apr 10, 2024 at 03:35:54PM +0300, Tomi Valkeinen wrote:
->> We support camera privacy leds with the .s_stream, in call_s_stream, but
-> 
-> s/the .s_stream/the .s_stream() operation/
-> 
->> we don't have that support when the subdevice implements
->> .enable/disable_streams.
->>
->> Add the support by enabling the led when the first stream for a
->> subdevice is enabled, and disabling the led then the last stream is
->> disabled.
-> 
-> I wonder if that will always be the correct constraint for all devices,
-> but I suppose we can worry about it later.
-> 
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 20b5a00cbeeb..f44aaa4e1fab 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -2150,6 +2150,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   {
->>   	struct device *dev = sd->entity.graph_obj.mdev->dev;
->>   	struct v4l2_subdev_state *state;
->> +	bool already_streaming;
->>   	u64 found_streams = 0;
->>   	unsigned int i;
->>   	int ret;
->> @@ -2198,6 +2199,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   
->>   	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
->>   
->> +	already_streaming = v4l2_subdev_is_streaming(sd);
->> +
->>   	/* Call the .enable_streams() operation. */
->>   	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
->>   			       streams_mask);
->> @@ -2216,6 +2219,9 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   			cfg->enabled = true;
->>   	}
->>   
->> +	if (!already_streaming)
->> +		v4l2_subdev_enable_privacy_led(sd);
->> +
->>   done:
->>   	v4l2_subdev_unlock_state(state);
->>   
->> @@ -2340,6 +2346,9 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>   	}
->>   
->>   done:
->> +	if (!v4l2_subdev_is_streaming(sd))
-> 
-> Wouldn't it be more efficient to check this while looping over the
-> stream configs in the loop just above ? Same for
-> v4l2_subdev_enable_streams().
+Hi Dan
 
-It would, but it would get a lot messier to manage with "media: subdev: 
-Refactor v4l2_subdev_enable/disable_streams()", and we would also need 
-to support the non-routing case.
+What about going the safe way?
 
-This is usually a loop with a couple of iterations, and only called when 
-enabling or enabling a subdevice, so I'm not really worried about the 
-performance. If it's an issue, it would probably be better to also 
-update the sd->enabled_pads when enabling/disabling a stream.
+--- a/drivers/media/dvb-frontends/tda10048.c
++++ b/drivers/media/dvb-frontends/tda10048.c
+@@ -341,7 +341,7 @@ static int tda10048_set_wref(struct dvb_frontend
+*fe, u32 sample_freq_hz,
+        /* t *= 2147483648 on 32bit platforms */
+        t *= (2048 * 1024);
+        t *= 1024;
+-       z = 7 * sample_freq_hz;
++       z = (u64)7 * sample_freq_hz;
+        t = div64_u64(t, z) + 5;
+        do_div(t, 10);
 
-  Tomi
+@@ -409,6 +409,7 @@ static int tda10048_set_if(struct dvb_frontend *fe, u32 bw)
+        struct tda10048_config *config = &state->config;
+        int i;
+        u32 if_freq_khz;
++       u64 sample_freq;
 
+        dprintk(1, "%s(bw = %d)\n", __func__, bw);
+
+@@ -450,9 +451,10 @@ static int tda10048_set_if(struct dvb_frontend *fe, u32 bw)
+        dprintk(1, "- pll_pfactor = %d\n", state->pll_pfactor);
+
+        /* Calculate the sample frequency */
+-       state->sample_freq = state->xtal_hz * (state->pll_mfactor + 45);
+-       state->sample_freq /= (state->pll_nfactor + 1);
+-       state->sample_freq /= (state->pll_pfactor + 4);
++       sample_freq = (u64)state->xtal_hz * (state->pll_mfactor + 45);
++       do_div(sample_freq, state->pll_nfactor + 1);
++       do_div(sample_freq, state->pll_pfactor + 4);
++       state->sample_freq = sample_freq;
+        dprintk(1, "- sample_freq = %d\n", state->sample_freq);
+
+        /* Update the I/F */
+
+I will add a extra patch to fix tda10048_set_if
+
+Thanks
+
+PS: Thanks a lot for your reviews, really appreciate! I have a v2 with
+your changes, I am giving it a couple of days before re-submitting
+
+On Tue, 16 Apr 2024 at 12:10, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> On Mon, Apr 15, 2024 at 07:34:40PM +0000, Ricardo Ribalda wrote:
+> > z does not fit in 32 bits.
+> >
+>
+> z has to fit in 32 bits otherwise there is a different bug.
+>
+> > Found by cocci:
+> > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/dvb-frontends/tda10048.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
+> > index 5d5e4e9e4422..b176e7803e5b 100644
+> > --- a/drivers/media/dvb-frontends/tda10048.c
+> > +++ b/drivers/media/dvb-frontends/tda10048.c
+> > @@ -342,8 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
+> >       t *= (2048 * 1024);
+> >       t *= 1024;
+> >       z = 7 * sample_freq_hz;
+>
+> sample_freq_hz is a u32 so z can't be more than U32_MAX.  Perhaps there
+> is an integer overflow bug on this line.
+>
+> The sample frequency is set in tda10048_set_if().
+>
+>         state->sample_freq = state->xtal_hz * (state->pll_mfactor + 45);
+>
+> ->xtal_hz is set earlier in tda10048_set_if() and it goes up to
+> 16,000,000.  So if ->pll_mfactor is non-zero this line will have an
+> integer overflow.  16million * 46 > U32_MAX.  Maybe when .clk_freq_khz
+> is TDA10048_CLK_16000 then ->pll_mfactor is zero?  Ugh...
+>
+> > -     do_div(t, z);
+> > -     t += 5;
+> > +     t = div64_u64(t, z) + 5;
+> >       do_div(t, 10);
+>
+> regards,
+> dan carpenter
+>
+
+
+-- 
+Ricardo Ribalda
 
