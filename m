@@ -1,142 +1,118 @@
-Return-Path: <linux-media+bounces-9548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171178A721A
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 19:19:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 621478A7344
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 20:32:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C729A28368D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 17:19:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 939241C227D2
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 18:32:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED771327FB;
-	Tue, 16 Apr 2024 17:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TKknnC3Q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC0A137C56;
+	Tue, 16 Apr 2024 18:31:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B66912F5A8
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 17:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18B6137C40;
+	Tue, 16 Apr 2024 18:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713287960; cv=none; b=hr3shFzyE3j9yF0S5CsHf+3+sLxrMCDxTIrs650nZ17RjXFdVYGccnl5R2jvdYhPEk1AoRp8MCsVeATQm0xnkblafVgXeaObtGqumXPWUIkHZMNLe+R+VVIxmf/0HO7q69/5gpE3SfgVMjkkCND+X3YH7qTWnInIdOOSV9EErD4=
+	t=1713292284; cv=none; b=F3/6lF6OsP9Vr8vVM1XXRYPN1KtXIIsdQ8fTDM4d9alu2rykyiC0TrCXkPWM2j7NR4/B/pQ3L+yYPDTQ85oTeJUSvnN9/xYT6ZfWS1i7YyD8RSB2KtJb1sF8PnG/O3oW19MS6GvxJZkvguf2L9h/WNhat0A9QJklUcwbDL06KOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713287960; c=relaxed/simple;
-	bh=rjQMIV0W9BgQ4Y3l4zyBoteIX46oVOvTz03GZ41BZDs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AwZmAnZERuQk2iWatcMIfUwNZ/rfgcA15M0TrkQ7dXZQv0f8ScQ3R5dNLaKXoRPyZE1n62RTxHo/J/pxay5TEDcYq/rCf4nQSe3QIc04CBN8tm5IGoUMfBFKDbULEv3+zYbHs59sfifUR8V/xPDitWpBAJp88hI80H0S7EFWvoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TKknnC3Q; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e3c89f3d32so15945ad.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 10:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713287958; x=1713892758; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMzpM+93sB8KN+aihvsI4sj2s8RINAbT1I+ikFGc/QQ=;
-        b=TKknnC3QzsmbJF3j5kGWCVLvjFEiMifECrwvp5xf5VnKKIIO92ReC8i1YlJEQNaQOt
-         8RfgFkawwrCRzSl0qv/Orla5EjuRSSEo6U6CiN0zX3Q3qqd5Bz604/hHKzfpA8LkyCNw
-         8p6WReKlLHWKMv9qVbq8BQqEw76zQqBXGyFnQnCdfK/VT7jX8X6mwG8YlrQWslBidVXM
-         0g3MmGfDlcXdoTgZ6JWNSqY1Kjse3xQMyppwGp8eVhRds+2/3cYUMvtRR4sQ1jLi8i2U
-         Khn8+d9zR68WU568pbDQqnNQbMKdxPztRiwwVoa5cPr+zTSj9vjtKpNaIQgAgMvPUIfA
-         Z/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713287958; x=1713892758;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pMzpM+93sB8KN+aihvsI4sj2s8RINAbT1I+ikFGc/QQ=;
-        b=bkb3wQtP3Q/oLCWTsVPMzKrqm8zbn21KtdPRSum2ZFna7/9YNzIOz3FzxuLCDKtMj4
-         dErnaaXapOLfcRhpIUQOgdAdgMeL7lwyV8brSP+ktuhEQ+dPbaW6Kk4QWzK2cdPPcA7v
-         +C0PCoZlOLXqTMhBdmasJoiEjoAANlF6WA+2hFWdwemPFICrE3wgeDDwhgAok9e/uZce
-         UdLJ/5ArteBdoRJnk4dz7djnkUnqpetD3Ey5/63dNLpY0xaNX9JjV5DEJb/AcSDowMnd
-         OyGWd5JsasRyfEIsnGeyyq+mU7PjhUqgZ8Zj4I+euN5VksCnvtvVlYTCaqmveMGWKy8i
-         d9yw==
-X-Forwarded-Encrypted: i=1; AJvYcCXM3A5vuCFscE9JClDb3tZtG74xxJhEKwf7ax861xPhNOeLSZDZT4cbMN4Z/YLZupFOVYHCiUP6vSM6RRlj1qajTM8aUDvkntVlkx4=
-X-Gm-Message-State: AOJu0YwEHna+SuZMjVHLqUm8o0XgYmkDEzZQUnRU2Oti0o0yiwSyCnEN
-	lz/3C1hu3Z54uBAAG1WsgNjbD0hES0VdjeyzQ7n0jkAsVo8XckNEGKo/DSQp1Jft4nE0XsJcIyJ
-	CECj50ae5/6D/lc5FVkIud2W3HerSoi1qkOE=
-X-Google-Smtp-Source: AGHT+IE+6v3wDbegK+Ux9rAhzTqqKq8TNFIZbmfaam/cohc7jxMrIVpQZc4dbB+03Ft2nzo9gRjOdyXae1RXd7Onh9g=
-X-Received: by 2002:a17:902:fc8b:b0:1e4:33a6:b0d4 with SMTP id
- mf11-20020a170902fc8b00b001e433a6b0d4mr258654plb.9.1713287958225; Tue, 16 Apr
- 2024 10:19:18 -0700 (PDT)
+	s=arc-20240116; t=1713292284; c=relaxed/simple;
+	bh=/Na9l2ivxSvkNzZUwFSCU/eyawwR+kJMXlCaVep2nwc=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=NJzDnp4FdXYIplmfFhA/Lk11F9TcCxlucJvURpGh1bAs+SY9usxPvgIIhLchR1eOjg1wGQoOcOsTrSKCyHYK8rQuudi4NrzXriKxgukPt+czZL9WcjBn64mUXLYtPQaLhoCiwpgYgi13VVtXWn4zVfMIo7CVlMEmZPDOKgF7wVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.81.200) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 16 Apr
+ 2024 21:31:10 +0300
+Subject: Re: [PATCH 3/3] media: tuners: tuner_simple: fix error code handling
+ in simple_tuner_attach()
+To: Roman Smirnov <r.smirnov@omp.ru>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Jia-Ju Bai
+	<baijiaju1990@gmail.com>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+References: <20240416114509.198069-1-r.smirnov@omp.ru>
+ <20240416114509.198069-3-r.smirnov@omp.ru>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <5b888996-9086-93f6-ec08-1ffbd2a67002@omp.ru>
+Date: Tue, 16 Apr 2024 21:31:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403102701.369-1-shawn.sung@mediatek.com> <20240403102701.369-2-shawn.sung@mediatek.com>
- <70733fe5c919527796bd3d9735ced522bcdd7a25.camel@ndufresne.ca>
-In-Reply-To: <70733fe5c919527796bd3d9735ced522bcdd7a25.camel@ndufresne.ca>
-From: Jeffrey Kardatzke <jkardatzke@google.com>
-Date: Tue, 16 Apr 2024 10:19:02 -0700
-Message-ID: <CA+ddPcMWein69X6U46pZbDy51gFHHxXV5d+6BvFq7ma6n0E22w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_ENCRYPTED
- flag
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Shawn Sung <shawn.sung@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	"Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240416114509.198069-3-r.smirnov@omp.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/16/2024 18:12:36
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 184744 [Apr 16 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 17 0.3.17
+ f2153f38d75b12894d9cf445f96cd15c9ef63a9d
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.200 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.200
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/16/2024 18:16:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 4/16/2024 4:06:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-I would argue 'restricted' is the proper name since that was what was
-settled on for the dma-buf code.  :)  But you are definitely right
-that this memory is not encrypted.
+Hello!
 
+   Should have been "tuner-simple:" in the subject... :-)
 
-On Tue, Apr 16, 2024 at 7:09=E2=80=AFAM Nicolas Dufresne <nicolas@ndufresne=
-.ca> wrote:
->
-> Hi,
->
-> Le mercredi 03 avril 2024 =C3=A0 18:26 +0800, Shawn Sung a =C3=A9crit :
-> > From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-> >
-> > Add DRM_MTK_GEM_CREATE_ENCRYPTED flag to allow user to allocate
->
-> Is "ENCRYPTED" a proper naming ? My expectation is that this would hold d=
-ata in
-> a PROTECTED memory region but that no cryptographic algorithm will be inv=
-olved.
->
-> Nicolas
->
-> > a secure buffer to support secure video path feature.
-> >
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> > ---
-> >  include/uapi/drm/mediatek_drm.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/uapi/drm/mediatek_drm.h b/include/uapi/drm/mediate=
-k_drm.h
-> > index b0dea00bacbc4..e9125de3a24ad 100644
-> > --- a/include/uapi/drm/mediatek_drm.h
-> > +++ b/include/uapi/drm/mediatek_drm.h
-> > @@ -54,6 +54,7 @@ struct drm_mtk_gem_map_off {
-> >
-> >  #define DRM_MTK_GEM_CREATE           0x00
-> >  #define DRM_MTK_GEM_MAP_OFFSET               0x01
-> > +#define DRM_MTK_GEM_CREATE_ENCRYPTED 0x02
-> >
-> >  #define DRM_IOCTL_MTK_GEM_CREATE     DRM_IOWR(DRM_COMMAND_BASE + \
-> >               DRM_MTK_GEM_CREATE, struct drm_mtk_gem_create)
->
->
+On 4/16/24 2:45 PM, Roman Smirnov wrote:
+
+> simple_tuner_attach() uses the hybrid_tuner_request_state() macro.
+> It may return the error code -ENOMEM, but the function handle
+> the value 0 instead.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with Svace.
+> 
+> Fixes: b9302fa7ed97 ("media: tuners: fix error return code of hybrid_tuner_request_state()")
+> Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
