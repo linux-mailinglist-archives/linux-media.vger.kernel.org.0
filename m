@@ -1,135 +1,183 @@
-Return-Path: <linux-media+bounces-9473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360298A644E
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 08:47:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A82278A645D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 08:54:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF8651F217AD
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 06:47:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A4FBB23103
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 06:54:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98456F077;
-	Tue, 16 Apr 2024 06:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1126F06A;
+	Tue, 16 Apr 2024 06:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foDHY4IF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yg1B1Epq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEC56E5FD;
-	Tue, 16 Apr 2024 06:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB183BBF2;
+	Tue, 16 Apr 2024 06:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713250046; cv=none; b=cbTd2BEU2NiQedwViuY2J9Mht4AUHZZaQF4RJu10Em4y+H/T+lys70KOn3cZkzp6oTkScJKV4nbZWG5kcGksiPiKt+WAfQZts2V2PHcJ3Y/eaIKawey8i/NHGYHT7lakoF669lD/bIuMME/u2d8I+FACH5citWx3upnA01rUbOc=
+	t=1713250433; cv=none; b=eWAPLfWktQRl4ZoY8QHEv0KV6mRoaLIICOMS/TwDRY99iM2NWDnbmryA4AjmO+2y3zWUVjwfQfPZd6/iwUS8AnUo/ukJAlZHgdrzKnhaa2+gvd1OM8xL9NYxQypN93Ntz/GKVlVU5dWn5x84Y04LZZqoxZ5YmB8vdZSiNpjYzgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713250046; c=relaxed/simple;
-	bh=qm9HuIqIHiV0TwCjlaPOkidq7z2qTqokgjceTJw5hJI=;
+	s=arc-20240116; t=1713250433; c=relaxed/simple;
+	bh=kH7T2wGgsybXYLFTsuSO4PaGnXj8Vf0QZJ3WR3ajlvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AAAYBiVk3NYX+NTuPodStEIZrkr/r4lehETHZffmNSQqa4dnu2nstIjJydQSuIEg1NK4H5Bq3z7GuGBZJeWhTMBqkkAwLEeVKwmzLI1YZQN67/18dgSHTTCYmSPX+8BbG9e4qVllh1ilCbFtFspSnsgG9gQUFENk2tmEYDdQiUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=foDHY4IF; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713250044; x=1744786044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qm9HuIqIHiV0TwCjlaPOkidq7z2qTqokgjceTJw5hJI=;
-  b=foDHY4IFXTrALYFPiDDSemGUTvs7Ldtv96gZeIRFwYQ4u4I1OzgVaEPP
-   4ApkpGuhrXpmO2447PMtpF8I1JbsNrH+HhWAEGUhbo052R3FD1YtYLm3W
-   u1NwugnSZMKgHFZOX3MJ59G+pBbaBllqJCEyVgk/AOqs0ijww1e8gGkB6
-   OE9sKdMDY6Ueqir9xpNG5+UDXH/Tp6wub5JoacUG4+xwgCtdXOqFzO3mo
-   oFNXyPSJZfeV/13PlgO2bPorX7Woo6bp+4tcijBE4fGbkLuaoDkUs65ai
-   rbM8df8cOdL7rZU4dp8MDtqIerXIQ2YkxxPwo0y94XK37L/ceCHUn0X2k
-   w==;
-X-CSE-ConnectionGUID: 5G7Sa+wdTxmKIz1fqFbu4A==
-X-CSE-MsgGUID: OsEHOtp2TqaRvmQdTli1HQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8779795"
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8779795"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 23:47:24 -0700
-X-CSE-ConnectionGUID: vpnYdRu+TgO5tYhKGtu/qQ==
-X-CSE-MsgGUID: HUe4Q++7TnmFR2np7DFglg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="26939988"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 23:47:21 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 55C0111FAB0;
-	Tue, 16 Apr 2024 09:47:18 +0300 (EEST)
-Date: Tue, 16 Apr 2024 06:47:18 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v4 17/20] media: i2c: ov4689: Configurable analogue crop
-Message-ID: <Zh4e9q_RFIe-JIzz@kekkonen.localdomain>
-References: <20240402164552.19171-1-mike.rudenko@gmail.com>
- <20240402164552.19171-18-mike.rudenko@gmail.com>
- <ZhzEdXz-R2I6nZXf@kekkonen.localdomain>
- <87ttk274e6.fsf@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BVy8c+W5G9fbusm/OgCNyYv2ZH71FGkHvjyvDqtFmkPHNFiyu0VnoEVog+Ducnp+BIglVjnnUAr/uycEGl9OkfCfWnJcd+3ppEaptJueDhmM77i3Un++qM/e8mOPcy42ndYzXZPOocO6yTj8J+7XvTs6pQwCONyACwB3/l/Qf9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yg1B1Epq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50245512;
+	Tue, 16 Apr 2024 08:53:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713250383;
+	bh=kH7T2wGgsybXYLFTsuSO4PaGnXj8Vf0QZJ3WR3ajlvo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yg1B1EpqG9gfbud309bTYjgxZFVJPDZf9zOLJgMP2UvP7MgeUNUxi2kQdpCkuwyfR
+	 hie/u70ajhuHVnHkOhy2ASrmBLiowMOAeqtiXQFnvmG4Cypxr3wa5khZRqs0ZTBpeF
+	 R3HJlBch9lePLS7W4twj2zqoC4db3coj52BT67OU=
+Date: Tue, 16 Apr 2024 09:53:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: syzbot <syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [syzbot] [media?] WARNING in call_s_stream
+Message-ID: <20240416065340.GA31966@pendragon.ideasonboard.com>
+References: <0000000000008cabee0614a97e81@google.com>
+ <CAAFQd5DVR8=_W2Lq4bnCoKTOU+JDoB+49ExcCNmNucZTQsJ4yA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87ttk274e6.fsf@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5DVR8=_W2Lq4bnCoKTOU+JDoB+49ExcCNmNucZTQsJ4yA@mail.gmail.com>
 
-On Mon, Apr 15, 2024 at 11:22:09PM +0300, Mikhail Rudenko wrote:
-> 
-> Hi Sakari,
-> 
-> On 2024-04-15 at 06:08 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> 
-> > Hi Mikhail,
+On Tue, Apr 16, 2024 at 03:00:21PM +0900, Tomasz Figa wrote:
+> On Thu, Mar 28, 2024 at 4:34 AM syzbot wrote:
 > >
-> > On Tue, Apr 02, 2024 at 07:45:48PM +0300, Mikhail Rudenko wrote:
-> >> Implement configurable analogue crop via .set_selection call.
-> >> ov4689_init_cfg is modified to initialize default subdev selection.
-> >> Offsets are aligned to 2 to preserve Bayer order, selection width is
-> >> aligned to 4 and height to 2 to meet hardware requirements.
-> >>
-> >> Experimentally discovered values of the cropping-related registers and
-> >> vfifo_read_start for various output sizes are used. Default BLC anchor
-> >> positions are used for the default analogue crop, scaling down
-> >> proportionally for the smaller crop sizes.
-> >>
-> >> When analogue crop is adjusted, several consequential actions take
-> >> place: the output format is reset, exposure/vblank/hblank control
-> >> ranges and default values are adjusted accordingly. Additionally,
-> >> ov4689_set_ctrl utilizes pad crop instead of cur_mode width and
-> >> height for HTS and VTS calculation. Also, ov4689_enum_frame_sizes is
-> >> modified to report crop size as available frame size.
+> > Hello,
 > >
-> > We're amidst of a change to the APIs touching sensors with the the
-> > introduction of the internal pads.
-> > <URL:https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.ailus@linux.intel.com/T/#t>.
+> > syzbot found the following issue on:
 > >
-> > I'd therefore postpone this bit so it would align with the new practices
-> > (also subject to change in the metadata set).
+> > HEAD commit:    480e035fc4c7 Merge tag 'drm-next-2024-03-13' of https://gi..
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=141370b1180000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=1e5b814e91787669
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
+> > compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 > >
-> > The rest of the patches would seem more or less ready for merging to me.
+> > Unfortunately, I don't have any reproducer for this issue yet.
+> >
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/5f73b6ef963d/disk-480e035f.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/46c949396aad/vmlinux-480e035f.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/e3b4d0f5a5f8/bzImage-480e035f.xz
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com
+> >
+> > vimc vimc.0: subdev_call error Scaler
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 1 PID: 7323 at drivers/media/v4l2-core/v4l2-subdev.c:412 call_s_stream+0x1f5/0x220 drivers/media/v4l2-core/v4l2-subdev.c:412
 > 
-> Okay, so I'll post a v5 of patches 1-16 with whitespace fixes (as you
-> suggested in patch 20) soon, and the remaining patches affected by the
-> metadata-related API changes as a separate series as soon those changes
-> land in media_stage. Do I get you right?
+> Looks like vimc is trying to stop an already stopped subdev and a
+> warning was added by commit 009905ec50433 ("media: v4l2-subdev:
+> Document and enforce .s_stream() requirements") to catch it.
+> Shuah, Kieran, could you help with this?
+> 
+> Also CC Laurent, Sakari and Hans who added the warning.
 
-Yes, please.
+An easy fix would be to skip the .s_stream() call for entities that
+haven't been started, by tracking their streaming state in vimc. A
+better fix may be to propagate the .s_stream() calls from subdev to
+subdev like in the real world, instead of calling it on all subdevs in a
+loop.
+
+Somewhere very deep on my todo list is to rewrite a large part of vimc
+to make it closer to a real sensor + ISP device. I still hope someone
+will beat me to it :-)
+
+> > Modules linked in:
+> > CPU: 1 PID: 7323 Comm: syz-executor.4 Not tainted 6.8.0-syzkaller-08073-g480e035fc4c7 #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
+> > RIP: 0010:call_s_stream+0x1f5/0x220 drivers/media/v4l2-core/v4l2-subdev.c:412
+> > Code: c1 e8 03 80 3c 28 00 74 08 4c 89 ff e8 a4 79 4c fa 49 8b 3f 48 c7 c6 a0 5a 64 8c 89 da e8 03 d0 c7 03 eb 9e e8 6c 2a e9 f9 90 <0f> 0b 90 eb b0 44 89 e1 80 e1 07 80 c1 03 38 c1 0f 8c ca fe ff ff
+> > RSP: 0018:ffffc9000939f880 EFLAGS: 00010293
+> > RAX: ffffffff87abcae4 RBX: 0000000000000000 RCX: ffff88801ee13c00
+> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+> > RBP: 0000000000000001 R08: ffffffff87abc951 R09: 1ffff92001273e78
+> > R10: dffffc0000000000 R11: ffffffff87abc8f0 R12: ffff888024a6c190
+> > R13: 0000000000000000 R14: 1ffff1100494d832 R15: ffff888024a6c020
+> > FS:  00007ff8da9646c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 00007f3e3ed79198 CR3: 0000000049c48000 CR4: 00000000003506f0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  <TASK>
+> >  vimc_streamer_pipeline_terminate+0x219/0x360 drivers/media/test-drivers/vimc/vimc-streamer.c:62
+> >  vimc_streamer_s_stream+0x69f/0x800 drivers/media/test-drivers/vimc/vimc-streamer.c:203
+> >  vimc_capture_start_streaming+0x230/0x440 drivers/media/test-drivers/vimc/vimc-capture.c:255
+> >  vb2_start_streaming+0x12e/0x510 drivers/media/common/videobuf2/videobuf2-core.c:1676
+> >  vb2_core_qbuf+0x87d/0x13b0 drivers/media/common/videobuf2/videobuf2-core.c:1850
+> >  vb2_qbuf+0x31b/0x3b0 drivers/media/common/videobuf2/videobuf2-v4l2.c:827
+> >  __video_do_ioctl+0xc26/0xde0 drivers/media/v4l2-core/v4l2-ioctl.c:3049
+> >  video_usercopy+0x899/0x1180 drivers/media/v4l2-core/v4l2-ioctl.c:3390
+> >  v4l2_ioctl+0x18c/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:364
+> >  vfs_ioctl fs/ioctl.c:51 [inline]
+> >  __do_sys_ioctl fs/ioctl.c:904 [inline]
+> >  __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:890
+> >  do_syscall_64+0xfb/0x240
+> >  entry_SYSCALL_64_after_hwframe+0x6d/0x75
+> > RIP: 0033:0x7ff8d9c7dda9
+> > Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007ff8da9640c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> > RAX: ffffffffffffffda RBX: 00007ff8d9dac050 RCX: 00007ff8d9c7dda9
+> > RDX: 00000000200000c0 RSI: 00000000c058560f RDI: 0000000000000003
+> > RBP: 00007ff8d9cca47a R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> > R13: 000000000000006e R14: 00007ff8d9dac050 R15: 00007ff8d9ecfa48
+> >  </TASK>
+> >
+> >
+> > ---
+> > This report is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >
+> > syzbot will keep track of this issue. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> >
+> > If the report is already addressed, let syzbot know by replying with:
+> > #syz fix: exact-commit-title
+> >
+> > If you want to overwrite report's subsystems, reply with:
+> > #syz set subsystems: new-subsystem
+> > (See the list of subsystem names on the web dashboard)
+> >
+> > If the report is a duplicate of another one, reply with:
+> > #syz dup: exact-subject-of-another-report
+> >
+> > If you want to undo deduplication, reply with:
+> > #syz undup
+> >
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
 
