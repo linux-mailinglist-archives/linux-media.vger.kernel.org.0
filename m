@@ -1,250 +1,146 @@
-Return-Path: <linux-media+bounces-9644-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9645-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE098A7816
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 00:49:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C64F48A7831
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 00:52:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F18A91F21075
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:49:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8238728206D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:52:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A0F13D291;
-	Tue, 16 Apr 2024 22:45:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E6C313A24E;
+	Tue, 16 Apr 2024 22:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJvw7l9U"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BAXy4T2O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E80A13E052;
-	Tue, 16 Apr 2024 22:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2CC78B49;
+	Tue, 16 Apr 2024 22:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713307554; cv=none; b=qA4QdQGppCJgm4qKa53gCWbwQgnbCIJ6ATXI1GbfFNhPFNRY433bG/vPy6ENKzmnGg6ABpGMAHtzqDha/SoXjSaxY04T/EddL7xb1Thrbbn85oOJadC9Piou4vTXWCW/++pRMEhBlLPTR4oeWrqpN+aqQngF5SJSX9wPwSnoO5A=
+	t=1713307954; cv=none; b=mts9MObV/SUiRNiodCG7i2C0F6T2Ad5ACXCbr0ersc31Z0TwC2m4aWRxNrv77Kt4AwrcwmCRRo0Bh+xIYQzJHFCnYaEWGTdlwAyvoTYzRywSZJRN8030TkEZBkUjC14pNvcfLivcdTiEanzbBJ9pL3ix+ezkdlccyg0iUkorbqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713307554; c=relaxed/simple;
-	bh=fpjcBYWKI7/oU2A5MYkdaQS7my7qviwEtb9hhcIwAKc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kxFeOUK0LI2KyhoKG3QJ3v57TWYnt7baleisRQUk2BIBnEO+8YdiTfU5wa2VX1vMnL5/nWmfFcXCMHUzwIZF7fDqBQt8AphX5HoCrQLAsb3KoyZz+kg130CrcUjCGxttzfj8U2aahlpaqRyesXs+DsgbvvNuEPnWCeWee4NReGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJvw7l9U; arc=none smtp.client-ip=209.85.167.43
+	s=arc-20240116; t=1713307954; c=relaxed/simple;
+	bh=8CmaAHJ8fyCKUaR/yDyoxLnNdYL/VOQyhvKaNxuvxrk=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=HpjNRG/y/NHENRuY19+83vogcD+Lz0m0YmxQ7G0j1qdQX3TwDFMuOsF87tFzeD77PL5IG9V8PNoSwGTDnORVaqZb3axh1sadEgrvYlduLjdqAcqd7GWfBF1RtODTXG4VksXjWyIpZ4X+usY1/3bs3sxjXmLztGIT06Y+7tu5jso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BAXy4T2O; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-518c9ff3e29so3592674e87.0;
-        Tue, 16 Apr 2024 15:45:52 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-518d98b9620so3703947e87.3;
+        Tue, 16 Apr 2024 15:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713307550; x=1713912350; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6WTz6RxNbzEeUZHtBYgSuV5IA4nML2YqNqY1OSaSBE4=;
-        b=CJvw7l9U/paOx4tnDJPccXphixbSR6aEJBRAVyGk/1xvedQ8uy3IX5ki1Btr++YISR
-         NR+NeVWdxXxRGlRjAEn99Dwp1kYuR1QDIvzTE7Bq9EI277hn04bmx+gr85LsTB43+BdX
-         LfsuK7ZFnt6UlQ3MO3wTl34CRWzFxISY9tZEojJaGs5oQBK9OTRoR91EsLRBYFIQ9EZ2
-         UqJ82uJr4jQxCeZwcDTaiKKu4G5qo4c8sjJwNq49SkBUhOd2g9ZR5KSPJe5G9Q+B2iuV
-         CWd3qRpXP8xq72Xy6QOVkSD0afvr4I2QVirBadowiCj7gGv9KtmJ0zlw2ypFF8Ct/ZUV
-         eo7Q==
+        d=gmail.com; s=20230601; t=1713307951; x=1713912751; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=8CmaAHJ8fyCKUaR/yDyoxLnNdYL/VOQyhvKaNxuvxrk=;
+        b=BAXy4T2OwC4+BnkXODC3jYUlznCaY3mH0HbLsSwRyf2On1cllRTBy6v1Tk6ZdEvVdC
+         D9mAhqYaLIKv65dNi/tqSnLJFxQt3kGfvKnfCow3yv52MG+byX1uJfaX2uRoio29djiW
+         7/g8jxQLCePyjzH+QL0tyUubEIGO0rmUenIx+RrE3uT2Zw5XmpcjY3RVT7eIIHx/S7ee
+         Wl9RAAZSA5GDbczbtKzKMzkQYiligqPoID+2SGLh1a+GlLRSCMD6YZYHhHtamCB6fg0F
+         F0th1oueHTRbxy8+mfMM0Bghpmq+M1R0YN2pimePW1G53sj/FeaVEIpuXPYZeuedoCca
+         z1xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713307550; x=1713912350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6WTz6RxNbzEeUZHtBYgSuV5IA4nML2YqNqY1OSaSBE4=;
-        b=dfCZGpOzl6aZGQs0eLix1aqyFTuVllRvMJky037WxDZaCU7EUkm8zwsb6M7zyVL3fO
-         XtM9VIsNuf4bOxjJSC4Vyc0GoD4qtvPgk4mDm002bZWB9mbIKTo3W6r544OJOuiYNllu
-         p49L6G36AW0lecfGa1+WMJFLb7HO97S3BDXOOqR7dnP3cxq6Nmoa3Bg3uElL1GU81gNz
-         sX/4FHf1d4bUebuszd9B3jNOIOoTb2Lhn7KdDpAiEL9+cuZSmf07W1QxzftOWxBysOyz
-         jpIxjSTi46/HwOAjR3kH7qWTIKjASkKwjh+aFzA/lSXDl5q2Zu6mbfdSgV5Q1PxtcR+6
-         YX5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVm88chDLDbx4+/mCZbu8Us3l6VA6UkVccWJ8WMqa0mnFQrewDtdMxFdTcXQEWMq80vgmNH8LfJcfwMXCfOH81DpDnH5z2/eWSVa8hl
-X-Gm-Message-State: AOJu0YwANfmJkdjXuUn2+q8eNygeDlQzPyW7ahID2ZppRtgfMsItiGk4
-	1SUh+R8mBohpRgsLcrohvOwvOd13let4qB1NcD54xiShx2i03XE6DQm16BIhK1A=
-X-Google-Smtp-Source: AGHT+IFRQeiSrlNFBGze9bikBICwT+4Be4weNOJX+RPDCnHjz0mCwy8ltjNBBbW+oNSi07Q9ph7pYQ==
-X-Received: by 2002:a05:6512:3b98:b0:518:fb01:448e with SMTP id g24-20020a0565123b9800b00518fb01448emr4984114lfv.57.1713307549892;
-        Tue, 16 Apr 2024 15:45:49 -0700 (PDT)
-Received: from localhost (95-24-153-47.broadband.corbina.ru. [95.24.153.47])
-        by smtp.gmail.com with ESMTPSA id eq9-20020a056512488900b00518c3eb3a9csm981831lfb.309.2024.04.16.15.45.49
+        d=1e100.net; s=20230601; t=1713307951; x=1713912751;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8CmaAHJ8fyCKUaR/yDyoxLnNdYL/VOQyhvKaNxuvxrk=;
+        b=eGWhNqnqj5bHY+/wsVUlM744L9R5HfUdkGX6rnWUu+m+Zb2WG2wdO2CWw2Af3TvDSd
+         MjPPOBvbYnxs1yDvqxOBZxam/VEF614pIza3N/lziEHFfPkkCD2WHkL9iuiGXoUuuU0T
+         hxL5Yav8mdRmzOoD9LW4L0rsnG3cEXSi9a9wvKy+Ds97ETeDa6j02jiITGV2NsGWcplv
+         Lf9fwvACtbDYhlkHKmadOokvmECc7Z/vhGoTOnpU66Y44cpG7sOwzSUBh4ayeX7F+ndl
+         KqMoSn31ubN1Mlj8QkV0HlCc3/TEk1hpGEQXgljLfOXU22DaNbNsCJuV37kPIMZDpge+
+         6wBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXfCA+iiEj+vJcTE7AgX792JjkZZb7qouJwMZUNhZh46lomBOCBLplWL2DYkab0KcJ5k6JFc9Oep/p4B5PHVKYiMRSjOLWrLC92GC/a
+X-Gm-Message-State: AOJu0YxzZk/hXUftdPTnSKp1GJy0aJu5+fJnZiiBQPnOV+SuDbySRmS5
+	2FYJOFJPhEBMpty8fxozq8AMYOcw8hDBaROYuZOhit4DqfciVuNo
+X-Google-Smtp-Source: AGHT+IFA7efeiSxnQliLFhuuFA6SCWoOSUUc8wb3OIDCgyBC1/RUkicksxvs0fIrmKHUgEAtGzX2/g==
+X-Received: by 2002:ac2:4253:0:b0:519:36ba:2229 with SMTP id m19-20020ac24253000000b0051936ba2229mr966616lfl.28.1713307950777;
+        Tue, 16 Apr 2024 15:52:30 -0700 (PDT)
+Received: from razdolb (95-24-153-47.broadband.corbina.ru. [95.24.153.47])
+        by smtp.gmail.com with ESMTPSA id n19-20020a056512311300b005158d77665asm1737965lfb.30.2024.04.16.15.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 15:45:49 -0700 (PDT)
+        Tue, 16 Apr 2024 15:52:30 -0700 (PDT)
+References: <20240402164552.19171-1-mike.rudenko@gmail.com>
+ <20240402164552.19171-18-mike.rudenko@gmail.com>
+ <ZhzEdXz-R2I6nZXf@kekkonen.localdomain> <87ttk274e6.fsf@gmail.com>
+ <Zh4e9q_RFIe-JIzz@kekkonen.localdomain>
+User-agent: mu4e 1.10.8; emacs 29.2.50
 From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH v5 16/16] media: i2c: ov4689: Set timing registers programmatically
-Date: Wed, 17 Apr 2024 01:45:24 +0300
-Message-ID: <20240416224524.1511357-17-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240416224524.1511357-1-mike.rudenko@gmail.com>
-References: <20240416224524.1511357-1-mike.rudenko@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi
+ <jacopo@jmondi.org>, Tommaso Merciai <tomm.merciai@gmail.com>, Christophe
+ JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v4 17/20] media: i2c: ov4689: Configurable analogue crop
+Date: Wed, 17 Apr 2024 01:51:40 +0300
+In-reply-to: <Zh4e9q_RFIe-JIzz@kekkonen.localdomain>
+Message-ID: <87pluo7weq.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Set timing-related and BLC anchor registers via cci calls instead of
-hardcoding them in the register table. This prepares the driver for
-implementation of configurable analogue crop and binning. No
-functional change intended.
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/ov4689.c | 83 +++++++++++++++++++++++++++++++-------
- 1 file changed, 68 insertions(+), 15 deletions(-)
+On 2024-04-16 at 06:47 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 
-diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-index 9da4f84e63b1..0c623d43c0ad 100644
---- a/drivers/media/i2c/ov4689.c
-+++ b/drivers/media/i2c/ov4689.c
-@@ -41,6 +41,13 @@
- #define OV4689_DIG_GAIN_STEP		1
- #define OV4689_DIG_GAIN_DEFAULT		0x800
- 
-+#define OV4689_REG_H_CROP_START		CCI_REG16(0x3800)
-+#define OV4689_REG_V_CROP_START		CCI_REG16(0x3802)
-+#define OV4689_REG_H_CROP_END		CCI_REG16(0x3804)
-+#define OV4689_REG_V_CROP_END		CCI_REG16(0x3806)
-+#define OV4689_REG_H_OUTPUT_SIZE	CCI_REG16(0x3808)
-+#define OV4689_REG_V_OUTPUT_SIZE	CCI_REG16(0x380a)
-+
- #define OV4689_REG_HTS			CCI_REG16(0x380c)
- #define OV4689_HTS_DIVIDER		4
- #define OV4689_HTS_MAX			0x7fff
-@@ -48,6 +55,9 @@
- #define OV4689_REG_VTS			CCI_REG16(0x380e)
- #define OV4689_VTS_MAX			0x7fff
- 
-+#define OV4689_REG_H_WIN_OFF		CCI_REG16(0x3810)
-+#define OV4689_REG_V_WIN_OFF		CCI_REG16(0x3812)
-+
- #define OV4689_REG_TIMING_FORMAT1	CCI_REG8(0x3820) /* Vertical */
- #define OV4689_REG_TIMING_FORMAT2	CCI_REG8(0x3821) /* Horizontal */
- #define OV4689_TIMING_FLIP_MASK		GENMASK(2, 1)
-@@ -56,6 +66,17 @@
- #define OV4689_TIMING_FLIP_BOTH		(OV4689_TIMING_FLIP_ARRAY |\
- 					 OV4689_TIMING_FLIP_DIGITAL)
- 
-+#define OV4689_REG_ANCHOR_LEFT_START	CCI_REG16(0x4020)
-+#define OV4689_ANCHOR_LEFT_START_DEF	576
-+#define OV4689_REG_ANCHOR_LEFT_END	CCI_REG16(0x4022)
-+#define OV4689_ANCHOR_LEFT_END_DEF	831
-+#define OV4689_REG_ANCHOR_RIGHT_START	CCI_REG16(0x4024)
-+#define OV4689_ANCHOR_RIGHT_START_DEF	1984
-+#define OV4689_REG_ANCHOR_RIGHT_END	CCI_REG16(0x4026)
-+#define OV4689_ANCHOR_RIGHT_END_DEF	2239
-+
-+#define OV4689_REG_VFIFO_CTRL_01	CCI_REG8(0x4601)
-+
- #define OV4689_REG_WB_GAIN_RED		CCI_REG16(0x500c)
- #define OV4689_REG_WB_GAIN_BLUE		CCI_REG16(0x5010)
- #define OV4689_WB_GAIN_MIN		1
-@@ -199,10 +220,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
- 	{ CCI_REG8(0x3798), 0x1b },
- 
- 	/* Timing control */
--	{ CCI_REG8(0x3801), 0x08 }, /* H_CROP_START_L h_crop_start[7:0] = 0x08 */
--	{ CCI_REG8(0x3805), 0x97 }, /* H_CROP_END_L h_crop_end[7:0] = 0x97 */
--	{ CCI_REG8(0x3811), 0x08 }, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
--	{ CCI_REG8(0x3813), 0x04 }, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
- 	{ CCI_REG8(0x3819), 0x01 }, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
- 
- 	/* OTP control */
-@@ -218,22 +235,11 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
- 	{ CCI_REG8(0x401b), 0x00 }, /* DEBUG_MODE */
- 	{ CCI_REG8(0x401d), 0x00 }, /* DEBUG_MODE */
- 	{ CCI_REG8(0x401f), 0x00 }, /* DEBUG_MODE */
--	{ CCI_REG8(0x4020), 0x00 }, /* ANCHOR_LEFT_START_H anchor_left_start[11:8] = 0 */
--	{ CCI_REG8(0x4021), 0x10 }, /* ANCHOR_LEFT_START_L anchor_left_start[7:0] = 0x10 */
--	{ CCI_REG8(0x4022), 0x07 }, /* ANCHOR_LEFT_END_H anchor_left_end[11:8] = 0x07 */
--	{ CCI_REG8(0x4023), 0xcf }, /* ANCHOR_LEFT_END_L anchor_left_end[7:0] = 0xcf */
--	{ CCI_REG8(0x4024), 0x09 }, /* ANCHOR_RIGHT_START_H anchor_right_start[11:8] = 0x09 */
--	{ CCI_REG8(0x4025), 0x60 }, /* ANCHOR_RIGHT_START_L anchor_right_start[7:0] = 0x60 */
--	{ CCI_REG8(0x4026), 0x09 }, /* ANCHOR_RIGHT_END_H anchor_right_end[11:8] = 0x09 */
--	{ CCI_REG8(0x4027), 0x6f }, /* ANCHOR_RIGHT_END_L anchor_right_end[7:0] = 0x6f */
- 
- 	/* ADC sync control */
- 	{ CCI_REG8(0x4500), 0x6c }, /* ADC_SYNC_CTRL */
- 	{ CCI_REG8(0x4503), 0x01 }, /* ADC_SYNC_CTRL */
- 
--	/* VFIFO */
--	{ CCI_REG8(0x4601), 0xa7 }, /* VFIFO_CTRL_01 r_vfifo_read_start[7:0] = 0xa7 */
--
- 	/* Temperature monitor */
- 	{ CCI_REG8(0x4d00), 0x04 }, /* TPM_CTRL_00 tmp_slope[15:8] = 0x04 */
- 	{ CCI_REG8(0x4d01), 0x42 }, /* TPM_CTRL_01 tmp_slope[7:0] = 0x42 */
-@@ -406,6 +412,41 @@ static int ov4689_get_selection(struct v4l2_subdev *sd,
- 	return -EINVAL;
- }
- 
-+static int ov4689_setup_timings(struct ov4689 *ov4689)
-+{
-+	const struct ov4689_mode *mode = ov4689->cur_mode;
-+	struct regmap *rm = ov4689->regmap;
-+	int ret = 0;
-+
-+	cci_write(rm, OV4689_REG_H_CROP_START, 8, &ret);
-+	cci_write(rm, OV4689_REG_V_CROP_START, 8, &ret);
-+	cci_write(rm, OV4689_REG_H_CROP_END, 2711, &ret);
-+	cci_write(rm, OV4689_REG_V_CROP_END, 1531, &ret);
-+
-+	cci_write(rm, OV4689_REG_H_OUTPUT_SIZE, mode->width, &ret);
-+	cci_write(rm, OV4689_REG_V_OUTPUT_SIZE, mode->height, &ret);
-+
-+	cci_write(rm, OV4689_REG_H_WIN_OFF, 8, &ret);
-+	cci_write(rm, OV4689_REG_V_WIN_OFF, 4, &ret);
-+
-+	cci_write(rm, OV4689_REG_VFIFO_CTRL_01, 167, &ret);
-+
-+	return ret;
-+}
-+
-+static int ov4689_setup_blc_anchors(struct ov4689 *ov4689)
-+{
-+	struct regmap *rm = ov4689->regmap;
-+	int ret = 0;
-+
-+	cci_write(rm, OV4689_REG_ANCHOR_LEFT_START, 16, &ret);
-+	cci_write(rm, OV4689_REG_ANCHOR_LEFT_END, 1999, &ret);
-+	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_START, 2400, &ret);
-+	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_END, 2415, &ret);
-+
-+	return ret;
-+}
-+
- static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
- {
- 	struct ov4689 *ov4689 = to_ov4689(sd);
-@@ -429,6 +470,18 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
- 			goto unlock_and_return;
- 		}
- 
-+		ret = ov4689_setup_timings(ov4689);
-+		if (ret) {
-+			pm_runtime_put(dev);
-+			goto unlock_and_return;
-+		}
-+
-+		ret = ov4689_setup_blc_anchors(ov4689);
-+		if (ret) {
-+			pm_runtime_put(dev);
-+			goto unlock_and_return;
-+		}
-+
- 		ret = __v4l2_ctrl_handler_setup(&ov4689->ctrl_handler);
- 		if (ret) {
- 			pm_runtime_put(dev);
--- 
-2.44.0
+> On Mon, Apr 15, 2024 at 11:22:09PM +0300, Mikhail Rudenko wrote:
+>>
+>> Hi Sakari,
+>>
+>> On 2024-04-15 at 06:08 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>>
+>> > Hi Mikhail,
+>> >
+>> > On Tue, Apr 02, 2024 at 07:45:48PM +0300, Mikhail Rudenko wrote:
+>> >> Implement configurable analogue crop via .set_selection call.
+>> >> ov4689_init_cfg is modified to initialize default subdev selection.
+>> >> Offsets are aligned to 2 to preserve Bayer order, selection width is
+>> >> aligned to 4 and height to 2 to meet hardware requirements.
+>> >>
+>> >> Experimentally discovered values of the cropping-related registers and
+>> >> vfifo_read_start for various output sizes are used. Default BLC anchor
+>> >> positions are used for the default analogue crop, scaling down
+>> >> proportionally for the smaller crop sizes.
+>> >>
+>> >> When analogue crop is adjusted, several consequential actions take
+>> >> place: the output format is reset, exposure/vblank/hblank control
+>> >> ranges and default values are adjusted accordingly. Additionally,
+>> >> ov4689_set_ctrl utilizes pad crop instead of cur_mode width and
+>> >> height for HTS and VTS calculation. Also, ov4689_enum_frame_sizes is
+>> >> modified to report crop size as available frame size.
+>> >
+>> > We're amidst of a change to the APIs touching sensors with the the
+>> > introduction of the internal pads.
+>> > <URL:https://lore.kernel.org/linux-media/20240313072516.241106-1-sakari.ailus@linux.intel.com/T/#t>.
+>> >
+>> > I'd therefore postpone this bit so it would align with the new practices
+>> > (also subject to change in the metadata set).
+>> >
+>> > The rest of the patches would seem more or less ready for merging to me.
+>>
+>> Okay, so I'll post a v5 of patches 1-16 with whitespace fixes (as you
+>> suggested in patch 20) soon, and the remaining patches affected by the
+>> metadata-related API changes as a separate series as soon those changes
+>> land in media_stage. Do I get you right?
+>
+> Yes, please.
 
+Done, see [1].
+
+[1] https://lore.kernel.org/all/20240416224524.1511357-1-mike.rudenko@gmail.com/
+
+--
+Best regards,
+Mikhail Rudenko
 
