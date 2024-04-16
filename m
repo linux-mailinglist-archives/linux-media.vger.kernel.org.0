@@ -1,81 +1,120 @@
-Return-Path: <linux-media+bounces-9484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31668A653E
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612C28A655C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:44:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2E17B219E5
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 07:38:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51790B2177C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 07:44:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D79078C8E;
-	Tue, 16 Apr 2024 07:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0EC684FBA;
+	Tue, 16 Apr 2024 07:44:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtRxcDYX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="moCOUKVD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5131DFEA
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 07:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B46882864
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 07:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713253085; cv=none; b=m/X9rNaUbJPdC+OI6m2/YPK3YG3JthB4LQDMzujhgPRw5NyRDA6O/AXMQqaUHyBuc0CK6WaZPmzesgaohHV23pXV+9xuwI0iZEb+GyyuSxSbl7jA2NUQfF8XL8K+4E1qaV5TrjDLo2CQjq/a40k5Nl8hNgM9NJ76LQnce9uJCMQ=
+	t=1713253472; cv=none; b=rVcMCkkSNYILYgOAV/aFqrkFtt1XidN9LAKUe36Hn07GILCAg6rMi9Zrd1RdvcK1npRpfuqAEEkYSDzBDLSyuIgC4x1HsNW6uRHng+dSsFN944MDiBUm3VCNr3TLFr/wIUEy9uIgAVwcHvqvumZkAY08/7ruowXsTrrdNpUyD1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713253085; c=relaxed/simple;
-	bh=cEs4j/a+2lNo6eFq4+zuZp7tdhDRsdzWv4sVK+v1VvA=;
+	s=arc-20240116; t=1713253472; c=relaxed/simple;
+	bh=y9gOE2zuKiIA3PVc9oPZQMxUqwvKVk8idGCEvr2B1w0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VnnhYIrVJqOx4S07YBQ4Ql5EOQTLGMCle2cO9Ui1uUp4yGWhWsOO6f47fie+L9OzBvoBBnnNLS1uSqTdaz5jVmE0dJwuKh7qXLpkiFdrns8ZdhQuKktNqGkBm5WocAROeDHXpDFtl0xYrm2rpuQpMC5hVd9H3yZDJ8tELGPKX00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtRxcDYX; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713253084; x=1744789084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cEs4j/a+2lNo6eFq4+zuZp7tdhDRsdzWv4sVK+v1VvA=;
-  b=LtRxcDYXw5rBddEfpTjwluXF3WUR0FJzmR/zL0BegKoBge0EVpQHcbFM
-   pVtBUEIL+rvR08YRIUF2dFwhBoGS07aAh+JOplLUTvNn3JJi2wKe0z06V
-   mj246rHctk/lDrmZ9aBd59rHZESqoswaYHmtsv+zs1qq6O0Y0BWx9+yPk
-   VFR6ghMfCeGEj9xVrgSh2eYfnWJ8JwyZvdITirzQ/eiWa5fHDYTxkCGLZ
-   +IN6NXQ8M/vyKIW/rm5k2blT+PLaqvRi77Ca1TnPBfGDfU0oQnix16ieM
-   mIbFSqY0m0Drycv7LHF/fchSNWeYEwKKu4Ql6jE7jm47daTIMPkl7TovN
-   g==;
-X-CSE-ConnectionGUID: o8HCRfcYTOi4xVn7la2pcw==
-X-CSE-MsgGUID: KKMkKunPT4yWtKEz3FzWKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8536574"
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8536574"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 00:38:03 -0700
-X-CSE-ConnectionGUID: c/Es0H4FQXWULtaptLGSZw==
-X-CSE-MsgGUID: RKY19obWRV60vuqgXpS+4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="26753686"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 00:38:00 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1B55511FAB0;
-	Tue, 16 Apr 2024 10:37:58 +0300 (EEST)
-Date: Tue, 16 Apr 2024 07:37:58 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v8 30/38] media: Documentation: ccs: Document routing
-Message-ID: <Zh4q1gnrnRTj2jkV@kekkonen.localdomain>
-References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
- <20240313072516.241106-31-sakari.ailus@linux.intel.com>
- <20240321174306.GQ9582@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZO7wFxFKbMf5BsbJ+qcxoptl2M2giFV1OEAMugGGSFauibwHXYtlcl+873+abq+TgtLZWG3M0fsHzcxgKNQJOeWPR7P5Ysr+oH5mIj4XvcLR7uipt99I2TYWatMmrvpnDSyQQGsxp2CQFg1UqwgQ01N1U9dFiP53QzXty9O3504=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=moCOUKVD; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5701dec0c0aso2478210a12.3
+        for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 00:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713253468; x=1713858268; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=moCOUKVDYu97XfRqUsugkHszVhb0d68eYpYE6omXdDtRhSbEW22lCX5DpMqezwofMp
+         2d7TCcMZlXgCXVvNI5sdrCpqa6HvLEmHCmafGp/te4M0Pedb2X54eatczGQfxzm5CGXZ
+         29T5jAlCf7yMwKQZ4VgZCiV68rfZXQrOXsXH6SATlsiyZMGMPyqUObW7hBe1wLlLSebs
+         z3gMtmWYP5wvPWfF9WBmUbpEu+iXuKvEYFcHExv/ab4DwrbIpvsRfrOspt4z21sexFIM
+         3pif8yOoraQVAKN1zinw+I+UmvAUUD4VpchoiszVcB3sFIJsdBD7LB8lnyLF/D/RNW5j
+         Bviw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713253468; x=1713858268;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=Gj71SxKjWH5SsCc2pBsn4H7wXJ2OZRjRCiE8lB2V0lrrBrZjCqFL2jyDB7rN5ZF+N5
+         6+rwnPEj2htvCD8EA8Be3qJyItQ3/5ZjtWkbpo642n4+RNrbB5gBHdvXM5I+TM5YoDjl
+         w5dbXS7L+if+vXyQn7Qvz9sNQqdzM3RGBn4C2Myw9VT4CseXAGMac2z4m6cu5gQiYNph
+         XNxywVoK6Td/ts+kcKEbE2XgwbosHWDpbFWYvhPr1VWh37OeVZvGpHbZT5O+0fBrDkZR
+         6FysNQwclke81HTj3h6nbImsYYNw2jdfmq5w76d6bpga9ijuOsqErH6XJqJURU5Xd37L
+         HzJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUVBMV2nCNUYRnSemtDgftWRBRPALglnuVLIFteBk0W2ZaNaTfC9xxDTqvaP5iGygm1d3Pncchlc/BWEORsZPYRtpZ1qmouLz+0768=
+X-Gm-Message-State: AOJu0Yyj2l7ukAC0Kst/cQB3St5x0+ePY5PDnrc2YQSkrivD5jhCkGHH
+	yokCdiWR4RnP6fGefdYvTw0rVgtNmwysmpXADZrxVmMhU4gq8xJAHSIqQpDOheU=
+X-Google-Smtp-Source: AGHT+IHyv6GyLcCM7SuFRY2lQ0w+D3nRQ0Oogv+NgpwSUUhg8+w7A2aBnM/9CzYE2fZ/BNYLgCzdrg==
+X-Received: by 2002:a50:8d0b:0:b0:570:38a:57ea with SMTP id s11-20020a508d0b000000b00570038a57eamr6318788eds.33.1713253468256;
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fk27-20020a056402399b00b0056e78e90a1dsm5799411edb.49.2024.04.16.00.44.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
+Date: Tue, 16 Apr 2024 10:44:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 09/35] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
+Message-ID: <a1917f15-ba04-4d8b-8dd6-0c1bc9a498ca@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,118 +123,59 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240321174306.GQ9582@pendragon.ideasonboard.com>
+In-Reply-To: <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 
-Hi Laurent,
-
-On Thu, Mar 21, 2024 at 07:43:06PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
+On Mon, Apr 15, 2024 at 07:34:26PM +0000, Ricardo Ribalda wrote:
+> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+> is not enabled.
 > 
-> Thank you for the patch.
-
-Thank you for the review!
-
+> This makes cocci happier:
 > 
-> On Wed, Mar 13, 2024 at 09:25:08AM +0200, Sakari Ailus wrote:
-> > Document which routes are available for the CCS driver (source) sub-device
-> > and what configuration are possible.
-> > 
-> > Also update copyright.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/drivers/ccs.rst       | 34 ++++++++++++++++++-
-> >  .../media/v4l/subdev-formats.rst              |  2 ++
-> >  2 files changed, 35 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/drivers/ccs.rst b/Documentation/userspace-api/media/drivers/ccs.rst
-> > index 03015b33d5ab..bc2804ec663b 100644
-> > --- a/Documentation/userspace-api/media/drivers/ccs.rst
-> > +++ b/Documentation/userspace-api/media/drivers/ccs.rst
-> > @@ -111,4 +111,36 @@ than in the centre.
-> >  Shading correction needs to be enabled for luminance correction level to have an
-> >  effect.
-> >  
-> > -**Copyright** |copy| 2020 Intel Corporation
-> > +.. _media-ccs-routes:
-> > +
-> > +Routes
-> > +------
-> > +
-> > +The CCS driver implements one or two :ref:`routes <subdev-routing>` in
-> > +its source sub-device (scaler sub-device if exists for the device, otherwise
-> > +binner) depending on whether the sensor supports embedded data. (All CCS
-> > +compliant sensors do but the CCS driver supports preceding standards that did
-> > +not require embedded data support, too.)
+> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
 > 
-> s/too.)/too).
-
-Hmm. The entire sentence is in parentheses. Why should the period not be?
-
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> > +
-> > +The first route of the CCS source sub-device is for pixel data (internal pad
-> > +1/stream 0 -> pad 0/stream 0) and the second one is for embedded data (internal
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 4bb073587817..e26a011c89c4 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -316,9 +316,8 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+>  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  					     struct v4l2_subdev *sd)
+>  {
+> -	struct media_link *link = NULL;
+> -
+>  #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> +	struct media_link *link;
+>  
+
+I think another way you could write this is to remove the #ifs...
+
+	struct media_link *link;
+
+	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
+		return 0;
+
+	if (sd->entity.function != MEDIA_ENT_F_LENS && ...
+
+regards,
+dan carpenter
+
+>  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+>  	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> @@ -326,9 +325,10 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  
+>  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+>  
+> -#endif
+> -
+>  	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> +#else
+> +	return 0;
+> +#endif
+>  }
 > 
-> I thought the source subdev had one external sink pad for image data,
-> one internal sink pad for embedded data, and one source pad.
-
-Hmm. I guess I was thinking of IMX219 when writing this. ;)
-
-The text should have been:
-
-The first route of the CCS source sub-device is for pixel data (sink pad
-0/stream 0 -> source pad 1/stream 0) and the second one is for embedded data
-(internal sink pad 2/stream 0 -> source pad 1/stream 1).
-
-
-> 
-> > +pad 2/stream 0 -> pad 0/stream 1).
-> > +
-> > +Embedded data
-> > +~~~~~~~~~~~~~
-> > +
-> > +MIPI CCS supports generation of camera sensor embedded data. The media bus code
-> > +used for this format is :ref:`MEDIA_BUS_FMT_CCS_EMBEDDDED
-> > +<MEDIA-BUS-FMT-CCS-EMBEDDED>`.
-> 
-> Maybe state that this is the format on the internal ED sink pad.
-
-Yes.
-
-> 
-> > +
-> > +The bit depth of the CCS pixel data affects how the sensor will output the
-> > +embedded data, adding padding to align with CSI-2 bus :ref:`Data units
-> > +<media-glossary-data-unit>` for that particular bit depth. This is indicated by
-> > +the generic metadata format on the sensor's source sub-device's source pad.
-> > +
-> > +Embedded data for bit depths greater than or equal to 16 may support more dense
-> > +packing or legacy single metadata byte per data unit, or both of these,
-> > +depending on the device. The supported embedded data formats can be enumerated
-> > +and configured on stream 1 of the source pad (1) of the CCS source sub-device.
-> > +
-> > +**Copyright** |copy| 2020, 2023 Intel Corporation
-> 
-> 2024 ?
-
-Indeed.
-
-> 
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > index c8f982411e70..ca4da6a400ff 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > @@ -8592,3 +8592,5 @@ levels above.
-> >  This mbus code are only used for "2-byte simplified tagged data format" (code
-> >  0xa) but their use may be extended further in the future, to cover other CCS
-> >  embedded data format codes.
-> > +
-> > +Also see :ref:`CCS driver documentation <media-ccs-routes>`.
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
 
