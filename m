@@ -1,298 +1,362 @@
-Return-Path: <linux-media+bounces-9476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332A78A6487
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:09:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B78A648A
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:09:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CF1A1F222D9
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 07:09:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9698282953
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 07:09:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1A277F30;
-	Tue, 16 Apr 2024 07:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00AD745FD;
+	Tue, 16 Apr 2024 07:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kGbiBNuR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="liUycBxk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8386EB5C;
-	Tue, 16 Apr 2024 07:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1696138FA1
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 07:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713251336; cv=none; b=WyX/KBovAxPMXjxlrEWssxisIAtJy8ffSzgK8lD63QyFZULvWPCsBnYnLwCMaWrkAqfjlPSKIA4dq30+PiuqNKDLhKpzlrjqxn0QE3+QgP6DNZlhi5LPjQQxA33RYCpLsXrBceTcPz5GnuwVQQT7rGCdlD/V4dNscAOj57i5s6c=
+	t=1713251389; cv=none; b=nRt/afDa/gYIHoqVZXE1YrjM9HwtlAclgMTxHnDJjFgZI0kYUkVfM+hLTJQ1WQIWDcdowBRJkj1Ep74nKm326f1e1E2Ef1EvmEoVzYXb27GOFiMb9C7ut9X7292m4770E9fLhtiEHLv+MTMhojwJU7/jihGBDYh+nGkjU9vfVqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713251336; c=relaxed/simple;
-	bh=2CcYxOIRL6eOfx58CdTFOw7Mk8HCyRwpvGo7/xxdZuY=;
+	s=arc-20240116; t=1713251389; c=relaxed/simple;
+	bh=+7LgJtIPjM8aQ3qviz6OwY3srEWojnnTAXi+J9kzyi8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M9Nfxn3VKY/gdEVDpB0BpKpyHxe2oYQ01HenCrKLKrvoltLW8u9aZ5qlmHVSPbkKvBg5/Vioa+cZ0Ud+sNNzwSSvvV/h/UOrG6DSDCi+Y+i/bhlda+/k4fAOT6G6xkDvb5lwfDnOzZUbrYl/+ql/IGeIL+iImvRU0zcj9MaRSHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kGbiBNuR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 460EB480;
-	Tue, 16 Apr 2024 09:08:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713251285;
-	bh=2CcYxOIRL6eOfx58CdTFOw7Mk8HCyRwpvGo7/xxdZuY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kGbiBNuR4GMpIlwSqFZX6VYlghud3H8hwEn5N0GBscHD46sXAKiXv68UgC3M0SLP1
-	 x1nrXBcddwNgGpau42rr1/ToIuj76V56Bq10+OGBodkgA6QTMia4Z3yikCPzv86Un3
-	 1H7MWdHb6lEdttCk+gIIhCYMDzFuiX8MtlURtEJI=
-Date: Tue, 16 Apr 2024 10:08:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-Message-ID: <20240416070843.GA31419@pendragon.ideasonboard.com>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415195348.GD22954@pendragon.ideasonboard.com>
- <CANiDSCteGngbSS6CCuUxM-PQiBz0W0WfoFr2E2oH2d8qt746_A@mail.gmail.com>
- <20240415203304.GA3460978@ragnatech.se>
- <CANiDSCuR6EeR2MoSH6xtJ0G07QfJsxCb116uL8ocJnwZJSh4Dg@mail.gmail.com>
- <20240415213846.GB3460978@ragnatech.se>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oH1SEZDbDCaFEqgv4v5ThZGZaBGyLZrXRmpmlWYM3gE2knifdKA6+CIcRRI3v0+KoMPsVP6U+bSWe6VhQ7MubimoB72cFruyhG8755MGKhCwlGNjnowSE+kvJTsSZq30RjXsz5hDPC7qr6Aoq82+4/pwPQSnJb4uXk0G+TxLqjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=liUycBxk; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713251387; x=1744787387;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+7LgJtIPjM8aQ3qviz6OwY3srEWojnnTAXi+J9kzyi8=;
+  b=liUycBxk39LBRiEdr11vBGzvpLBSFcp9IssiWP2PUJQhQp+0GSxztURb
+   XMDvStDlkLH8Z460Wjasxn9QgoVGp3W9DdxXCN1YDgblLYSh/Gk3t5K98
+   6OetyNCl5KdCFYhFgYW3OrhPzwNdWvRORzjBnwHIs7PHptQOkR+udfhW6
+   iGdBDC7JGdWPnpz9oikOshy4Hnb2BUP8W6IJqQ/H4iiVeyHPF1EFx0FyB
+   Ke6PdYl43xurzi/keeneRbFo6rd32Macc3Qs8Xuyds2oaYqIUbhEbryr4
+   pCcgVU40bsnmTBsbRGJb9no4DYQrur5MzFpulREnyXYCB+H/fOS3HzdyN
+   A==;
+X-CSE-ConnectionGUID: p5ZsUeqCT2ydkj1DJDTuxg==
+X-CSE-MsgGUID: oLEN+Qj9RHC90/ejTeJLiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="26187078"
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
+   d="scan'208";a="26187078"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 00:09:46 -0700
+X-CSE-ConnectionGUID: 2kOJxoglRMqPmSV1n+iyYw==
+X-CSE-MsgGUID: BLQdjjk7SSKqqbFSZses/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
+   d="scan'208";a="22244509"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 00:09:44 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1CC4211FAB0;
+	Tue, 16 Apr 2024 10:09:41 +0300 (EEST)
+Date: Tue, 16 Apr 2024 07:09:41 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v8 14/38] media: v4l: subdev: Add len_routes field to
+ struct v4l2_subdev_routing
+Message-ID: <Zh4kNRMokwoSG9yd@kekkonen.localdomain>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-15-sakari.ailus@linux.intel.com>
+ <20240320013635.GS8501@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240415213846.GB3460978@ragnatech.se>
+In-Reply-To: <20240320013635.GS8501@pendragon.ideasonboard.com>
 
-On Mon, Apr 15, 2024 at 11:38:46PM +0200, Niklas Söderlund wrote:
-> On 2024-04-15 23:16:55 +0200, Ricardo Ribalda wrote:
-> > On Mon, 15 Apr 2024 at 22:33, Niklas Söderlund wrote:
-> > > On 2024-04-15 21:58:58 +0200, Ricardo Ribalda wrote:
-> > > > On Mon, 15 Apr 2024 at 21:54, Laurent Pinchart wrote:
-> > > > >
-> > > > > Hi Ricardo,
-> > > > >
-> > > > > I'm afraid I won't have time to review any of this for the time being.
-> > > > > Unless you would like me to put uvcvideo reviews on hold ;-)
-> > > > >
-> > > > > Jokes aside, my first reaction was that this feels like a bit of a waste
-> > > > > of maintainer's time :-S
-> > > >
-> > > > This is part of the media-ci effort.
+Hi Laurent,
 
-Ah. Mentioning that in the cover letter would have helped.
-
-> > > > It is definitely not the most fun patches to do or review, but someone
-> > > > has to do it :)
-> > > >
-> > > > The whole idea is that we want to get as little warnings as possible
-> > > > from the static analysers, after this patchset we almost achieve that.
-> > >
-> > > I understand and I think it's a good goal to aim for zero warnings. But
-> > > some of the fixes here are IMHO not helpful, for example I find this
-> > > type of change counter productive.
-> > >
-> > > -       return ret < 0 ? ret : 0;
-> > > +
-> > > +       if (ret < 0)
-> > > +               return ret;
-> > > +       return 0;
-> > 
-> > I was on the edge on those ones as well...
-> > 
-> > Maybe we can try to fix the .cocci file to ignore that pattern?
-> > https://lore.kernel.org/lkml/20240415-minimax-v1-1-5feb20d66a79@chromium.org/T/#u
+On Wed, Mar 20, 2024 at 03:36:35AM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Thanks for looking into it! I think this is a good idea.
+> Thank you for the patch.
+> 
+> On Wed, Mar 13, 2024 at 09:24:52AM +0200, Sakari Ailus wrote:
+> > The len_routes field is used to tell the size of the routes array in
+> > struct v4l2_subdev_routing. This way the number of routes returned from
+> > S_ROUTING IOCTL may be larger than the number of routes provided, in case
+> > there are more routes returned by the driver.
+> > 
+> > Note that this uAPI is still disabled in the code, so this change can
+> > safely be done. Anyone who manually patched the code to enable this uAPI
+> > must update their code.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/v4l/vidioc-subdev-g-routing.rst     | 33 ++++++++++++-------
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |  4 +--
+> >  drivers/media/v4l2-core/v4l2-subdev.c         |  6 +++-
+> >  include/media/v4l2-subdev.h                   |  2 ++
+> >  include/uapi/linux/v4l2-subdev.h              |  9 +++--
+> >  5 files changed, 37 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > index 26b5004bfe6d..8f9aa83275c5 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > @@ -46,20 +46,28 @@ with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
+> >  setting or clearing flags of the  ``flags`` field of a
+> >  struct :c:type:`v4l2_subdev_route`.
+> >  
+> > -All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
+> > -means that the userspace must reconfigure all streams after calling the ioctl
+> > -with e.g. ``VIDIOC_SUBDEV_S_FMT``.
+> > +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is
+> > +called. This means that the userspace must reconfigure all streams after calling
+> > +the ioctl with e.g. ``VIDIOC_SUBDEV_S_FMT``.
+> 
+> Unrelated. If you really want to reflow, the first line is too short,
+> 'called.' should be moved there.
 
-I agree, this is the first type of change I saw in the series, and it
-made me dispair for a moment :-)
+Seems to be, indeed. This would look like a bug in an Emacs major mode. :-I
 
-> > > Maybe it's better to disable this type of checks in the linter?
-> > >
-> > > > It is only 2 trivial uvc patches, I can ask someone from my team to
-> > > > review it if you want and trust them ;)
-> > > >
-> > > > Regards!
-> > > >
-> > > > > On Mon, Apr 15, 2024 at 07:34:17PM +0000, Ricardo Ribalda wrote:
-> > > > > > After this set is applied, these are the only warnings left:
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
-> > > > > > drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
-> > > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
-> > > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
-> > > > > > drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
-> > > > > > drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
-> > > > > > drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
-> > > > > > drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
-> > > > > > drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > > drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > > > >
-> > > > > > CI tested:
-> > > > > > https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
-> > > > > >
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > > Ricardo Ribalda (35):
-> > > > > >       media: pci: mgb4: Refactor struct resources
-> > > > > >       media: stb0899: Remove unreacheable code
-> > > > > >       media: uvcvideo: Refactor iterators
-> > > > > >       media: uvcvideo: Use max() macro
-> > > > > >       media: go7007: Use min and max macros
-> > > > > >       media: stm32-dcmipp: Remove redundant printk
-> > > > > >       media: staging: sun6i-isp: Remove redundant printk
-> > > > > >       media: dvb-frontends: tda18271c2dd: Remove casting during div
-> > > > > >       media: v4l: async: refactor v4l2_async_create_ancillary_links
-> > > > > >       staging: media: tegra-video: Use swap macro
-> > > > > >       media: s2255: Use refcount_t instead of atomic_t for num_channels
-> > > > > >       media: platform: mtk-mdp3: Use refcount_t for job_count
-> > > > > >       media: common: saa7146: Use min macro
-> > > > > >       media: dvb-frontends: drx39xyj: Use min macro
-> > > > > >       media: netup_unidvb: Use min macro
-> > > > > >       media: au0828: Use min macro
-> > > > > >       media: flexcop-usb: Use min macro
-> > > > > >       media: gspca: cpia1: Use min macro
-> > > > > >       media: stk1160: Use min macro
-> > > > > >       media: tegra-vde: Refactor timeout handling
-> > > > > >       media: venus: Use div64_u64
-> > > > > >       media: i2c: st-mipid02: Use the correct div function
-> > > > > >       media: dvb-frontends: tda10048: Use the right div
-> > > > > >       media: tc358746: Use the correct div_ function
-> > > > > >       media: venus: Use the correct div_ function
-> > > > > >       media: venus: Refator return path
-> > > > > >       media: dib0700: Refator return path
-> > > > > >       media: usb: cx231xx: Refator return path
-> > > > > >       media: i2c: rdacm20: Refator return path
-> > > > > >       media: i2c: et8ek8: Refator return path
-> > > > > >       media: cx231xx: Refator return path
-> > > > > >       media: si4713: Refator return path
-> > > > > >       media: ttpci: Refator return path
-> > > > > >       media: hdpvr: Refator return path
-> > > > > >       media: venus: Refator return path
-> > > > > >
-> > > > > >  drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
-> > > > > >  drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
-> > > > > >  drivers/media/dvb-frontends/stb0899_drv.c          |  5 -----
-> > > > > >  drivers/media/dvb-frontends/tda10048.c             |  3 +--
-> > > > > >  drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
-> > > > > >  drivers/media/i2c/et8ek8/et8ek8_driver.c           |  4 +++-
-> > > > > >  drivers/media/i2c/rdacm20.c                        |  5 ++++-
-> > > > > >  drivers/media/i2c/st-mipid02.c                     |  2 +-
-> > > > > >  drivers/media/i2c/tc358746.c                       |  3 +--
-> > > > > >  drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
-> > > > > >  drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
-> > > > > >  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
-> > > > > >  drivers/media/pci/ttpci/budget-core.c              |  5 ++++-
-> > > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
-> > > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
-> > > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
-> > > > > >  .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
-> > > > > >  drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
-> > > > > >  drivers/media/platform/qcom/venus/vdec.c           | 15 +++++++------
-> > > > > >  drivers/media/platform/qcom/venus/venc.c           | 19 +++++++++-------
-> > > > > >  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  5 +----
-> > > > > >  drivers/media/radio/si4713/radio-usb-si4713.c      |  8 +++++--
-> > > > > >  drivers/media/usb/au0828/au0828-video.c            |  5 +----
-> > > > > >  drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
-> > > > > >  drivers/media/usb/cx231xx/cx231xx-i2c.c            | 16 +++++++++----
-> > > > > >  drivers/media/usb/cx231xx/cx231xx-video.c          | 10 +++++++--
-> > > > > >  drivers/media/usb/dvb-usb/dib0700_core.c           |  4 +++-
-> > > > > >  drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
-> > > > > >  drivers/media/usb/gspca/cpia1.c                    |  6 ++---
-> > > > > >  drivers/media/usb/hdpvr/hdpvr-control.c            |  4 +++-
-> > > > > >  drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
-> > > > > >  drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
-> > > > > >  drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
-> > > > > >  drivers/media/v4l2-core/v4l2-async.c               |  8 +++----
-> > > > > >  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  1 -
-> > > > > >  drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
-> > > > > >  36 files changed, 132 insertions(+), 129 deletions(-)
-> > > > > > ---
-> > > > > > base-commit: 71b3ed53b08d87212fbbe51bdc3bf44eb8c462f8
-> > > > > > change-id: 20240415-fix-cocci-2df3ef22a6f7
-> > > > > >
-> > > > > > Best regards,
+> 
+> >  
+> >  Only subdevices which have both sink and source pads can support routing.
+> >  
+> > -When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
+> > -provided ``num_routes`` is not big enough to contain all the available routes
+> > -the subdevice exposes, drivers return the ENOSPC error code and adjust the
+> > -value of the ``num_routes`` field. Application should then reserve enough memory
+> > -for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
+> > +The ``num_routes`` field is used to denote the number of routes set (set by user
+> > +space on ``VIDIOC_SUBDEV_S_ROUTING`` argument) on the routing table as well as
+> > +the number of routes returned back from both IOCTLs. ``len_routes`` signifies
+> > +the number of routes that can fit into the ``routes`` array. The userspace shall
+> > +set ``len_routes`` for both IOCTLs and ``num_routes`` for
+> > +``VIDIOC_SUBDEV_S_ROUTING``.
+> >  
+> > -On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
+> > -``num_routes`` field to reflect the actual number of routes returned.
+> > +On a ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the ``num_routes``
+> > +field to reflect the actual number of routes known by the driver.
+> > +``num_routes`` larger than ``len_routes`` may be returned by both IOCTLs to
+> > +indicate there are more routes than fits to the ``routes`` array. In this
+> > +case first ``len_routes`` were returned back to the userspace in the
+> > +``routes`` array. This is not considered as an error.
+> > +
+> > +Also ``VIDIOC_SUBDEV_S_ROUTING`` may return more route than the user provided in
+> > +``num_routes`` field due to e.g. hardware properties.
+> >  
+> 
+> An attempt at making this clearer (in my opinion, feel free to pick the
+> pieces you like, or reject it outright).
+> 
+> 
+> The ``len_routes`` field indicates the number of routes that can fit in the
+> ``routes`` array allocated by userspace. It is set by applications for both
+> ioctls to indicate how many routes the kernel can return, and is never modified
+> by the kernel.
+> 
+> The ``num_routes`` field indicates the number of routes in the subdevice routing
+> table. For ``VIDIOC_SUBDEV_S_ROUTING``, it is set by userspace to the number of
+
+For S_ROUTING this is the number of routes in the IOCTL argument. The
+routing table may contain more (static routes).
+
+> routes that the application stored in the ``routes`` array. For both ioctls, it
+> is returned by the kernel and indicates how many routes are stored in the
+> subdevice routing table. This may be smaller or larger than the value of
+> ``num_routes`` set by the application for ``VIDIOC_SUBDEV_S_ROUTING``, as
+> drivers may adjust the requested routing table.
+
+How about this (first sentence modified):
+
+The ``num_routes`` field, when returned from the kernel on both IOCTLs,
+indicates the number of routes in the subdevice routing table and when calling
+``VIDIOC_SUBDEV_S_ROUTING``, it is set by userspace to the number of routes that
+the application stored in the ``routes`` array. The value returned by the kernel
+may be smaller or larger than the value of ``num_routes`` set by the application
+for ``VIDIOC_SUBDEV_S_ROUTING``, as drivers may adjust the requested routing
+table.
+
+> 
+> The kernel can return a ``num_routes`` value larger than ``len_routes`` from
+> both ioctls. This indicates thare are more routes in the routing table than fits
+> the ``routes`` array. In this case, the ``routes`` array is filled by the kernel
+> with the first ``len_routes`` entries of the subdevice routing table. This is
+> not considered an array, and the ioctl call succeeds. If the applications wants
+
+Too many arrays? :-)
+
+s/not considered \Kan array/to be an error/
+
+> to retrieve the missing routes, it can issue a new ``VIDIOC_SUBDEV_G_ROUTING``
+> call with a large enough ``routes`` array.
+> 
+> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> >  
+> > @@ -74,6 +82,9 @@ On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
+> >        - ``which``
+> >        - Routing table to be accessed, from enum
+> >          :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+> > +    * - __u32
+> > +      - ``len_routes``
+> > +      - The length of the array (as in memory reserved for the array)
+> >      * - struct :c:type:`v4l2_subdev_route`
+> >        - ``routes[]``
+> >        - Array of struct :c:type:`v4l2_subdev_route` entries
+> > @@ -81,7 +92,7 @@ On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
+> >        - ``num_routes``
+> >        - Number of entries of the routes array
+> >      * - __u32
+> > -      - ``reserved``\ [5]
+> > +      - ``reserved``\ [11]
+> >        - Reserved for future extensions. Applications and drivers must set
+> >  	the array to zero.
+> >  
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index 95bd56145d38..018e7efc21ca 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -3155,13 +3155,13 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+> >  	case VIDIOC_SUBDEV_S_ROUTING: {
+> >  		struct v4l2_subdev_routing *routing = parg;
+> >  
+> > -		if (routing->num_routes > 256)
+> > +		if (routing->len_routes > 256)
+> >  			return -E2BIG;
+> >  
+> >  		*user_ptr = u64_to_user_ptr(routing->routes);
+> >  		*kernel_ptr = (void **)&routing->routes;
+> >  		*array_size = sizeof(struct v4l2_subdev_route)
+> > -			    * routing->num_routes;
+> > +			    * routing->len_routes;
+> >  		ret = 1;
+> >  		break;
+> >  	}
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index ec8de3f872b9..486a5c3016de 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -925,6 +925,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> >  			return -EPERM;
+> >  
+> > +		if (routing->num_routes > routing->len_routes)
+> > +			return -EINVAL;
+> > +
+> >  		memset(routing->reserved, 0, sizeof(routing->reserved));
+> >  
+> >  		for (i = 0; i < routing->num_routes; ++i) {
+> > @@ -951,6 +954,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  		}
+> >  
+> >  		krouting.num_routes = routing->num_routes;
+> > +		krouting.len_routes = routing->len_routes;
+> >  		krouting.routes = routes;
+> >  
+> >  		return v4l2_subdev_call(sd, pad, set_routing, state,
+> > @@ -971,7 +975,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  
+> >  		krouting = &state->routing;
+> >  
+> > -		if (routing->num_routes < krouting->num_routes) {
+> > +		if (routing->len_routes < krouting->num_routes) {
+> >  			routing->num_routes = krouting->num_routes;
+> >  			return -ENOSPC;
+> 
+> Do we still want to return -ENOSPC here ?
+
+Indeed, this part should have been changed, too.
+
+The code in the case would then become:
+
+		struct v4l2_subdev_routing *routing = arg;
+		struct v4l2_subdev_krouting *krouting;
+
+		if (!v4l2_subdev_enable_streams_api)
+			return -ENOIOCTLCMD;
+
+		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+			return -ENOIOCTLCMD;
+
+		memset(routing->reserved, 0, sizeof(routing->reserved));
+
+		krouting = &state->routing;
+
+		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+		       krouting->routes,
+		       min(krouting->num_routes, routing->len_routes) *
+		       sizeof(*krouting->routes));
+		routing->num_routes = krouting->num_routes;
+
+		return 0;
+
+> 
+> >  		}
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 9cce48365975..1df6b963a1c9 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -728,12 +728,14 @@ struct v4l2_subdev_stream_configs {
+> >  /**
+> >   * struct v4l2_subdev_krouting - subdev routing table
+> >   *
+> > + * @len_routes: length of routes array, in routes
+> >   * @num_routes: number of routes
+> >   * @routes: &struct v4l2_subdev_route
+> >   *
+> >   * This structure contains the routing table for a subdev.
+> >   */
+> >  struct v4l2_subdev_krouting {
+> > +	unsigned int len_routes;
+> >  	unsigned int num_routes;
+> >  	struct v4l2_subdev_route *routes;
+> >  };
+> > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> > index 7048c51581c6..ca543982460c 100644
+> > --- a/include/uapi/linux/v4l2-subdev.h
+> > +++ b/include/uapi/linux/v4l2-subdev.h
+> > @@ -224,15 +224,18 @@ struct v4l2_subdev_route {
+> >   * struct v4l2_subdev_routing - Subdev routing information
+> >   *
+> >   * @which: configuration type (from enum v4l2_subdev_format_whence)
+> > - * @num_routes: the total number of routes in the routes array
+> > + * @len_routes: the length of the routes array, in routes
+> >   * @routes: pointer to the routes array
+> > + * @num_routes: the total number of routes, possibly more than fits in the
+> > + *		routes array
+> >   * @reserved: drivers and applications must zero this array
+> >   */
+> >  struct v4l2_subdev_routing {
+> >  	__u32 which;
+> > -	__u32 num_routes;
+> > +	__u32 len_routes;
+> >  	__u64 routes;
+> > -	__u32 reserved[6];
+> > +	__u32 num_routes;
+> > +	__u32 reserved[11];
+> >  };
+> >  
+> >  /*
+> 
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
