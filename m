@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-9587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D068A74F8
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 21:36:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 333AD8A74F9
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 21:36:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2B642840E0
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 19:36:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 937C0B21EB9
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 19:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E66139CF6;
-	Tue, 16 Apr 2024 19:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAC3A13BAC2;
+	Tue, 16 Apr 2024 19:34:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1l8ZGbo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnIn3rxN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A0713B2B9
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 19:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211F8139CF4
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 19:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713296058; cv=none; b=OYi4OBlHPCYp50KryJ2JbdKxMYmG/xnie8d64uvPy+DZLWND84VJuLYDfIIT/41TuVcLgWQEdjd7WwJ5lL0ySK1iTX+moM3HRo62i2mRTYDmcRewAYGmTdqc80RntWHkrXgwVEWTdveTuN6qVlcdmXMlqX7syYz1Q5eyKD4gIwQ=
+	t=1713296059; cv=none; b=nmAeElHfNptBhcUCGyEHTGG0DxVrwDyESrHAd/YR4pXsDhI2YrDXu9vbolVSm8kPwuVrTX+KmDpl+666/riDwRRiw1q7w8hqEIuIH+hXc6FLwnPk77p+78612raFQcQtyV5xEWQEjJMgrYiBgXIrjPh5RUo2BzUXjKYsnPctKVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713296058; c=relaxed/simple;
-	bh=KtWTNYs3S1+1R24cPYsU9UGlREtHrZ7YrJ1oxem5NzI=;
+	s=arc-20240116; t=1713296059; c=relaxed/simple;
+	bh=0El9SnbozgnjdR4/omqd9AoBKLjopdpOuHyz10wpJJc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GLa2igh5M0y9afx1ia5x9sX9SAt3Sh336G44o+FNBWtk+fXyeqxlAnSMz4oLFVplOKnRxJBLgjItwcnbIpvJa4VkCJdRMgTd+ka16MHdltEThRgr2pxMEK8BTargQsf/a6g+tkwqpGJm40pVwh74pz+BMP2U43mYv/QzMmLSHug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1l8ZGbo; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=RKVnC2hpS7XbMSQNc0z6uRPwyyciZrMSY5pBLGxy7pPWrhBAipnOXJjAut5+kIrraQmY3VoX3ynIwKuXEoaJycaFdX7EQS82nqpUeMkjimHKx/akLNYO9WFPhlq9BVOHUKgKfxFIwniIiemF9FJA7H2ZLf4q9kyvN/yBXM/UShQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnIn3rxN; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713296057; x=1744832057;
+  t=1713296058; x=1744832058;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KtWTNYs3S1+1R24cPYsU9UGlREtHrZ7YrJ1oxem5NzI=;
-  b=T1l8ZGboyZr3ElkqGfy6NCBTHmOj+hMx0RgedVEKCg8fxzX7NARN1gFm
-   hFW7bKEM6y+5I7EjqVdRyYZJ1kz0QSI/jk3cb/K0Q1EMyMzhpQeVNiJaW
-   DsnF4JRhyuo8Z1QEYY4NhYC5eekeGWjqSRXTvGX1rYnXSOhpYsVJV+edG
-   5OxOI7Fa+kwSa0K9ykWPWg36nEqvsZtkzM26lD/d6GVrHj0Zdm9/aXPaM
-   r3+MFoWq85MVVuVUqquwsCa95dMkT1AC0vkt9yOmhqCT2nmJtjZPU1fyW
-   8m6Wz32XRbgN3zYzZBMWUFl0p5FtyxJ86wsepyn2wZCFtD4QrUJgSoszP
-   A==;
-X-CSE-ConnectionGUID: CaZvxtqlRuWgOo3NTohwYw==
-X-CSE-MsgGUID: OtKynXl0RCG1sDeuPEhn6A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8929877"
+  bh=0El9SnbozgnjdR4/omqd9AoBKLjopdpOuHyz10wpJJc=;
+  b=FnIn3rxNMpsybY5BkzWMihYkK3DzbYz+ZRqlSQl+e9Th1ljdT9Io4bv7
+   M5knf/qT3cn8vXB8CXPdasPtXS5Q7AmcKY7stFy2LiiWIbSUIf26vu2bR
+   QUG6+L9TEnpIkzpyFvJvNF9DKQSo6ycUon/tVUqkZuEs8oQ++Lz0bPF0W
+   cIWfW01wHH0SRzxaMAuutB1QAVYR78P0U5ci3tY02vj5CN3iSaPUyYArO
+   aDDYMFxmVvTuUs2eLUwWbBrXzbDOmRtEi+ebLK9eSnvuHTdFbdRc8nE/U
+   9JKDL86whaaXOuTBOiARR5NxLvdUtRscegEfinLXInCB5t7GTyf7j3FCm
+   g==;
+X-CSE-ConnectionGUID: 8pgyWGr7Qn2c2nMNJFtFKA==
+X-CSE-MsgGUID: mQwKuccyT5aVQLA/uSdyWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8929882"
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="8929877"
+   d="scan'208";a="8929882"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 12:34:16 -0700
-X-CSE-ConnectionGUID: GV9m8k6vRmCaGP69g7jU5w==
-X-CSE-MsgGUID: UHvOVpTNS/2EJJlHVN6OkA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 12:34:18 -0700
+X-CSE-ConnectionGUID: L9s79xE8SIyRDDThEBqCjA==
+X-CSE-MsgGUID: 7Vr+JP/zTtil41TEvDSOGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="22380255"
+   d="scan'208";a="22380261"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 12:34:13 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 12:34:15 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 535941204F6;
-	Tue, 16 Apr 2024 22:34:10 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 95E5F12053D;
+	Tue, 16 Apr 2024 22:34:11 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -73,9 +73,9 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v9 35/46] media: ccs: Remove which parameter from ccs_propagate
-Date: Tue, 16 Apr 2024 22:33:08 +0300
-Message-Id: <20240416193319.778192-36-sakari.ailus@linux.intel.com>
+Subject: [PATCH v9 36/46] media: uapi: Add media bus code for ov2740 embedded data
+Date: Tue, 16 Apr 2024 22:33:09 +0300
+Message-Id: <20240416193319.778192-37-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
 References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
@@ -87,73 +87,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ccs_propagate() no longer stores information in the driver's context
-struct. The which parameter can thus be removed.
+Add a media bus code for ov2740 camera sensor embedded data and document
+it.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ .../media/v4l/subdev-formats.rst              | 70 +++++++++++++++++++
+ include/uapi/linux/media-bus-format.h         |  3 +-
+ 2 files changed, 72 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 541faa7d84a6..0f68e64a4042 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -2288,8 +2288,7 @@ static int ccs_get_format(struct v4l2_subdev *subdev,
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index a04756092238..c99b58cb8c7b 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -8596,3 +8596,73 @@ This mbus code are only used for "2-byte simplified tagged data format" (code
+ embedded data format codes.
  
- /* Changes require propagation only on sink pad. */
- static void ccs_propagate(struct v4l2_subdev *subdev,
--			  struct v4l2_subdev_state *sd_state, int which,
--			  int target)
-+			  struct v4l2_subdev_state *sd_state, int target)
- {
- 	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
- 	struct v4l2_rect *comp, *crop;
-@@ -2498,7 +2497,7 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	crop->top = 0;
- 	crop->width = fmt->format.width;
- 	crop->height = fmt->format.height;
--	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
-+	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
+ Also see :ref:`CCS driver documentation <media-ccs-routes>`.
++
++Omnivision OV2740 Embedded Data Format
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The Omnivision OV2740 camera sensor produces the following embedded data format,
++indicated by mbus code MEDIA_BUS_FMT_OV2740_EMBEDDED. The format conforms to
++:ref:`CCS embedded data format <MEDIA-BUS-FMT-CCS-EMBEDDED>` up to level 1.
++
++.. flat-table:: Omnivision OV2740 Embedded Data Format. Octets at indices marked
++                reserved or unused have been omitted from the table. The values
++                are big endian byte order.
++    :header-rows: 1
++
++    * - Offset
++      - Size in bits (active bits if not the same as size)
++      - Content description
++    * - 4
++      - 16 (10--0)
++      - Analogue gain
++    * - 6
++      - 16
++      - Coarse integration time
++    * - 10
++      - 8
++      - Dpc correction threshold
++    * - 15
++      - 16
++      - Output image width
++    * - 17
++      - 16
++      - Output image height
++    * - 23
++      - 8
++      - MIPI header revision number (2)
++    * - 31
++      - 8
++      - Vertical (bit 1) and horizontal flip (bit 0)
++    * - 32
++      - 8
++      - Frame duration A
++    * - 33
++      - 8
++      - Frame duration B
++    * - 34
++      - 8
++      - Context count (2)
++    * - 35
++      - 8
++      - Context select
++    * - 54
++      - 8
++      - Data pedestal bits 9--2
++    * - 63
++      - 8
++      - Frame average bits 9--2
++    * - 64
++      - 16
++      - Digital gain red
++    * - 66
++      - 16
++      - Digital gain greenr
++    * - 68
++      - 16
++      - Digital gain blue
++    * - 70
++      - 16
++      - Digital gain greenb
++    * - 89
++      - 8
++      - Frame counter (starts at 1, wraps to 0 after 255)
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 03f7e9ab517b..13e68c2ccb61 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -183,7 +183,8 @@
+ #define MEDIA_BUS_FMT_META_20			0x8006
+ #define MEDIA_BUS_FMT_META_24			0x8007
  
- 	return 0;
- }
-@@ -2706,7 +2705,7 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
- 		ccs_set_compose_scaler(subdev, sd_state, sel, sink_crop);
+-/* Specific metadata formats. Next is 0x9002. */
++/* Specific metadata formats. Next is 0x9003. */
+ #define MEDIA_BUS_FMT_CCS_EMBEDDED		0x9001
++#define MEDIA_BUS_FMT_OV2740_EMBEDDED		0x9002
  
- 	*comp = sel->r;
--	ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_COMPOSE);
-+	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_COMPOSE);
- 
- 	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
- 		return ccs_pll_blanking_update(sensor);
-@@ -2797,7 +2796,7 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
- 	*crop = sel->r;
- 
- 	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
--		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
-+		ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
- 
- 	return 0;
- }
-@@ -3316,7 +3315,6 @@ static int ccs_init_state(struct v4l2_subdev *sd,
- 		v4l2_subdev_state_get_format(sd_state, pad, CCS_STREAM_PIXEL);
- 	struct v4l2_rect *crop =
- 		v4l2_subdev_state_get_crop(sd_state, pad, CCS_STREAM_PIXEL);
--	bool is_active = !sd->active_state || sd->active_state == sd_state;
- 
- 	ccs_get_native_size(ssd, crop);
- 
-@@ -3334,7 +3332,7 @@ static int ccs_init_state(struct v4l2_subdev *sd,
- 		sensor->csi_format->code : sensor->internal_csi_format->code;
- 	fmt->field = V4L2_FIELD_NONE;
- 
--	ccs_propagate(sd, sd_state, is_active, V4L2_SEL_TGT_CROP);
-+	ccs_propagate(sd, sd_state, V4L2_SEL_TGT_CROP);
- 
- 	return 0;
- }
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 -- 
 2.39.2
 
