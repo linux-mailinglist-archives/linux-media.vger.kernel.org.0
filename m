@@ -1,183 +1,160 @@
-Return-Path: <linux-media+bounces-9474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82278A645D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 08:54:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B41348A647F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 09:05:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A4FBB23103
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 06:54:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E67681C21764
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 07:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1126F06A;
-	Tue, 16 Apr 2024 06:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D854984D29;
+	Tue, 16 Apr 2024 07:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yg1B1Epq"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uYYpoJTm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB183BBF2;
-	Tue, 16 Apr 2024 06:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2D07EEFD;
+	Tue, 16 Apr 2024 07:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713250433; cv=none; b=eWAPLfWktQRl4ZoY8QHEv0KV6mRoaLIICOMS/TwDRY99iM2NWDnbmryA4AjmO+2y3zWUVjwfQfPZd6/iwUS8AnUo/ukJAlZHgdrzKnhaa2+gvd1OM8xL9NYxQypN93Ntz/GKVlVU5dWn5x84Y04LZZqoxZ5YmB8vdZSiNpjYzgs=
+	t=1713251132; cv=none; b=Q8sEBSDiF6dCWwnkxz8z6t7SEq9F2oeYmA++DsD9TpbaVCp5qtfq3Cr46FLf9Gk5oj3Okf3rUiG1hIuJMl9SbuwrjwOmBXwcHlvMF4J7uf8awNAdBSuXvCdQHZx3uN6diTpd6QYS8ljuqJEK0qslwgpu/WGTB0fT+90mgua7r8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713250433; c=relaxed/simple;
-	bh=kH7T2wGgsybXYLFTsuSO4PaGnXj8Vf0QZJ3WR3ajlvo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BVy8c+W5G9fbusm/OgCNyYv2ZH71FGkHvjyvDqtFmkPHNFiyu0VnoEVog+Ducnp+BIglVjnnUAr/uycEGl9OkfCfWnJcd+3ppEaptJueDhmM77i3Un++qM/e8mOPcy42ndYzXZPOocO6yTj8J+7XvTs6pQwCONyACwB3/l/Qf9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yg1B1Epq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50245512;
-	Tue, 16 Apr 2024 08:53:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713250383;
-	bh=kH7T2wGgsybXYLFTsuSO4PaGnXj8Vf0QZJ3WR3ajlvo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yg1B1EpqG9gfbud309bTYjgxZFVJPDZf9zOLJgMP2UvP7MgeUNUxi2kQdpCkuwyfR
-	 hie/u70ajhuHVnHkOhy2ASrmBLiowMOAeqtiXQFnvmG4Cypxr3wa5khZRqs0ZTBpeF
-	 R3HJlBch9lePLS7W4twj2zqoC4db3coj52BT67OU=
-Date: Tue, 16 Apr 2024 09:53:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: syzbot <syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [syzbot] [media?] WARNING in call_s_stream
-Message-ID: <20240416065340.GA31966@pendragon.ideasonboard.com>
-References: <0000000000008cabee0614a97e81@google.com>
- <CAAFQd5DVR8=_W2Lq4bnCoKTOU+JDoB+49ExcCNmNucZTQsJ4yA@mail.gmail.com>
+	s=arc-20240116; t=1713251132; c=relaxed/simple;
+	bh=fpIr7vk9ma0F1Ajyvw7T8mvDHmQiafMnVUv8cVES/Q8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=pbkEDZxhkZLvYoVyF910qvs5e34ZpDev5m6tO4WEyRpE99ImAQMo4mt3vfmbrn1oSv4t9QDWcKQApg2pxyn408c1PDGEqzR/zxC5SujK2CGlch7uwhFETBC7RddPugDRdvp3YYRON8Gs7RaYJ1u4SjQgDozAOjoqr02+2SU+p+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uYYpoJTm; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1713251047; x=1713855847; i=markus.elfring@web.de;
+	bh=11Y55v0AlzuRPO7ifOFiCZQ7lrJESQhpZwvX7xtpFpc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=uYYpoJTmRqgk2fHBG3KnNz2CLPavpRrEfJtq6/fkxsSHPHo9hr9qcnbetfR4rbAv
+	 WWYYcMCU5QC3KoHYZsERO/uCRV2oxChX6X+Rafq4yYRbQohsxFKvostPltnlOgZUZ
+	 uF9kX12zxQQdi44vnDxMP2KDpxbIBaLpo5hqzClbmR4INeL93ovd+wCPNkORolTKA
+	 RsWEq1pb7kj6jurgWDs/BjuRAGZTklJtZ686dqKAidxv8QQmS4EmEZg2pw3cisyw+
+	 IuhR26xDJ4uJ6w3UN1gJ6I/LtVomRg8m99Raf/c0Fc4QVAeD0lf4ST2m6UyLR9hF4
+	 nOhZqEsl8lmkPGi/9Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mvspv-1smFwO1js7-010uHt; Tue, 16
+ Apr 2024 09:04:07 +0200
+Message-ID: <e0377059-4073-4779-8385-506b9b39301e@web.de>
+Date: Tue, 16 Apr 2024 09:03:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAFQd5DVR8=_W2Lq4bnCoKTOU+JDoB+49ExcCNmNucZTQsJ4yA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+To: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Abylay Ospan <aospan@netup.ru>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Pavel Machek <pavel@ucw.cz>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Subject: Re: [PATCH 03/35] media: uvcvideo: Refactor iterators
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sHR+TeGSFgoxPZvFUHAPIEuDVzgT2GvvVwRx2R0bQhoUCLrY21q
+ 4aVwGDwLU20D7GafylHrOJidGYSPJoSoIzoqf+nPfG0K+ORf8VF8LHB5EhsUv86XaNhisus
+ 3kmBAPbDemt8Lc42bbQEjY39bQYWH3PtxU6pQC03uggivELLPehSfNoyDhXXBzC0UmXhKFx
+ xJrtOT5azfeT6A+OIpOdg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:03HI85af2Ns=;yQ8sKTONouBI76raH8Z58fLgdPG
+ cDRdjqAFM/3eXwECjUZI9h4p6mlw8k+SOXiyN6GfwXod9KAZJOxaNqbO06huy2pgBzYXWcxaK
+ 1yvcUyUm5nteIAvRh5GEJ6k2V8yU4C8rRXv94JjainnOHsSdDuPbk0aZXSWp65ziquDFaUUDN
+ YJZN7AsXSRRYZMDVispdvHubrvkMarfGAxoCn4+Sw/adTSJ9UOxI6QREc49RSDDGj50+NsVZA
+ I9/YrIlsRw4OeLnNC7dBSfeh2gas2lmTVPAdeZE5dk0sIs7aiTx7Cpr5FEHhCUFXrkReal3EO
+ gELP/4ATALLJIJbZL8oac+FZhSpqW5irTqlO//L3y6eUAaDcuOSIPWLoaYJ2J97IzS1c9eCBT
+ dPZVw6RcJR7I1g+6lDJwbla9AWsE0cHKjE7xI2z8RiMQz8Rg1JfobeDUi4lCAeun4aY23r5ct
+ YWwBdDrs6QXbNlkfk+vAwFpDgJQbH27hI7BnJLDoXByi4vvXAuZw1dpfEkQ80cUKCCCXCdn7X
+ PvxRBpoBI4VG9b+hFjsF5IAAMMrnv9iTADoQIOgnuUIHJ96lnDCSfdzxHRFAWt2M+05cdkCb1
+ Xd22EYiLsJxLnQ9xjjeW2wTuQRB2DVUy1LO2KuI3z2ZDeT+FU9j9vuFhJTTTlhlzwnv9ycOI2
+ FCqhmVe/n6PxH/5bS4hKkm4lYwNU/GheqGDyJrBHSbogo2OEAjGtEGI1SveFeBPQ/PKRQkiQ8
+ msmag1gLjDLzUZ3GnLIpmC2bTBr5sENz7Knm/uddln2TX5kDsFZDCPf9L9KYANSpzIuCxNgkh
+ +sdpCGJrmyr6dMFVvuLSI8fFEJx9x6/qw+iAMnV+HSLrk=
 
-On Tue, Apr 16, 2024 at 03:00:21PM +0900, Tomasz Figa wrote:
-> On Thu, Mar 28, 2024 at 4:34 AM syzbot wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    480e035fc4c7 Merge tag 'drm-next-2024-03-13' of https://gi..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=141370b1180000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=1e5b814e91787669
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
-> > compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-> >
-> > Unfortunately, I don't have any reproducer for this issue yet.
-> >
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/5f73b6ef963d/disk-480e035f.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/46c949396aad/vmlinux-480e035f.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/e3b4d0f5a5f8/bzImage-480e035f.xz
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com
-> >
-> > vimc vimc.0: subdev_call error Scaler
-> > ------------[ cut here ]------------
-> > WARNING: CPU: 1 PID: 7323 at drivers/media/v4l2-core/v4l2-subdev.c:412 call_s_stream+0x1f5/0x220 drivers/media/v4l2-core/v4l2-subdev.c:412
-> 
-> Looks like vimc is trying to stop an already stopped subdev and a
-> warning was added by commit 009905ec50433 ("media: v4l2-subdev:
-> Document and enforce .s_stream() requirements") to catch it.
-> Shuah, Kieran, could you help with this?
-> 
-> Also CC Laurent, Sakari and Hans who added the warning.
+I would find a hint for a variable change more appropriate in the patch su=
+bject
+instead of the word =E2=80=9Citerators=E2=80=9D.
 
-An easy fix would be to skip the .s_stream() call for entities that
-haven't been started, by tracking their streaming state in vimc. A
-better fix may be to propagate the .s_stream() calls from subdev to
-subdev like in the real world, instead of calling it on all subdevs in a
-loop.
 
-Somewhere very deep on my todo list is to rewrite a large part of vimc
-to make it closer to a real sensor + ISP device. I still hope someone
-will beat me to it :-)
+=E2=80=A6
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+=E2=80=A6
+> @@ -2175,16 +2177,16 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *ch=
+ain,
+>  	int ret;
+>
+>  	/* Find the extension unit. */
+=E2=80=A6
+> +	entity =3D NULL;
+> +	list_for_each_entry(iter, &chain->entities, chain) {
+=E2=80=A6
 
-> > Modules linked in:
-> > CPU: 1 PID: 7323 Comm: syz-executor.4 Not tainted 6.8.0-syzkaller-08073-g480e035fc4c7 #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
-> > RIP: 0010:call_s_stream+0x1f5/0x220 drivers/media/v4l2-core/v4l2-subdev.c:412
-> > Code: c1 e8 03 80 3c 28 00 74 08 4c 89 ff e8 a4 79 4c fa 49 8b 3f 48 c7 c6 a0 5a 64 8c 89 da e8 03 d0 c7 03 eb 9e e8 6c 2a e9 f9 90 <0f> 0b 90 eb b0 44 89 e1 80 e1 07 80 c1 03 38 c1 0f 8c ca fe ff ff
-> > RSP: 0018:ffffc9000939f880 EFLAGS: 00010293
-> > RAX: ffffffff87abcae4 RBX: 0000000000000000 RCX: ffff88801ee13c00
-> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> > RBP: 0000000000000001 R08: ffffffff87abc951 R09: 1ffff92001273e78
-> > R10: dffffc0000000000 R11: ffffffff87abc8f0 R12: ffff888024a6c190
-> > R13: 0000000000000000 R14: 1ffff1100494d832 R15: ffff888024a6c020
-> > FS:  00007ff8da9646c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00007f3e3ed79198 CR3: 0000000049c48000 CR4: 00000000003506f0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> > Call Trace:
-> >  <TASK>
-> >  vimc_streamer_pipeline_terminate+0x219/0x360 drivers/media/test-drivers/vimc/vimc-streamer.c:62
-> >  vimc_streamer_s_stream+0x69f/0x800 drivers/media/test-drivers/vimc/vimc-streamer.c:203
-> >  vimc_capture_start_streaming+0x230/0x440 drivers/media/test-drivers/vimc/vimc-capture.c:255
-> >  vb2_start_streaming+0x12e/0x510 drivers/media/common/videobuf2/videobuf2-core.c:1676
-> >  vb2_core_qbuf+0x87d/0x13b0 drivers/media/common/videobuf2/videobuf2-core.c:1850
-> >  vb2_qbuf+0x31b/0x3b0 drivers/media/common/videobuf2/videobuf2-v4l2.c:827
-> >  __video_do_ioctl+0xc26/0xde0 drivers/media/v4l2-core/v4l2-ioctl.c:3049
-> >  video_usercopy+0x899/0x1180 drivers/media/v4l2-core/v4l2-ioctl.c:3390
-> >  v4l2_ioctl+0x18c/0x1e0 drivers/media/v4l2-core/v4l2-dev.c:364
-> >  vfs_ioctl fs/ioctl.c:51 [inline]
-> >  __do_sys_ioctl fs/ioctl.c:904 [inline]
-> >  __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:890
-> >  do_syscall_64+0xfb/0x240
-> >  entry_SYSCALL_64_after_hwframe+0x6d/0x75
-> > RIP: 0033:0x7ff8d9c7dda9
-> > Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-> > RSP: 002b:00007ff8da9640c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > RAX: ffffffffffffffda RBX: 00007ff8d9dac050 RCX: 00007ff8d9c7dda9
-> > RDX: 00000000200000c0 RSI: 00000000c058560f RDI: 0000000000000003
-> > RBP: 00007ff8d9cca47a R08: 0000000000000000 R09: 0000000000000000
-> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> > R13: 000000000000006e R14: 00007ff8d9dac050 R15: 00007ff8d9ecfa48
-> >  </TASK>
-> >
-> >
-> > ---
-> > This report is generated by a bot. It may contain errors.
-> > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> >
-> > syzbot will keep track of this issue. See:
-> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> >
-> > If the report is already addressed, let syzbot know by replying with:
-> > #syz fix: exact-commit-title
-> >
-> > If you want to overwrite report's subsystems, reply with:
-> > #syz set subsystems: new-subsystem
-> > (See the list of subsystem names on the web dashboard)
-> >
-> > If the report is a duplicate of another one, reply with:
-> > #syz dup: exact-subject-of-another-report
-> >
-> > If you want to undo deduplication, reply with:
-> > #syz undup
-> >
+I suggest to move this assignment into the definition for the affected loc=
+al variable.
 
--- 
+
+By the way:
+I see another source code adjustment opportunity in this function implemen=
+tation.
+https://elixir.bootlin.com/linux/v6.9-rc4/source/drivers/media/usb/uvc/uvc=
+_ctrl.c#L2165
+
+Can it be nicer to use labels =E2=80=9Cfree_data=E2=80=9D and =E2=80=9Cunl=
+ock=E2=80=9D (instead of =E2=80=9Cdone=E2=80=9D)?
+How do you think about to increase the application of scope-based resource=
+ management here?
+
 Regards,
-
-Laurent Pinchart
+Markus
 
