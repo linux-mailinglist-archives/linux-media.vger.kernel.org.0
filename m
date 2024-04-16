@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-9614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A881B8A754D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:12:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6DA8A754E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 22:12:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1470AB21C8D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 20:12:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C7191F23563
+	for <lists+linux-media@lfdr.de>; Tue, 16 Apr 2024 20:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188C213A402;
-	Tue, 16 Apr 2024 20:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7344F13AA48;
+	Tue, 16 Apr 2024 20:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4V4wDY5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j39Tb8Bu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5755D13AA44
-	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 20:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A799413AA4C
+	for <linux-media@vger.kernel.org>; Tue, 16 Apr 2024 20:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713298308; cv=none; b=d8JAd0TGVOFtFbJ4D/30Om219RebGunHoyWW6tiFelpaqQ5igsOjRT/O53qyAsNVgAuedVR5oCuhJatxHt8mLwHLcCBwBFLkM5Mg9qxqMlkdVx7f4O/kX8y/I8cWJH611W834DpbEyw8tUqjJ93IoZnvm9M6Intf/wPouXvNjrs=
+	t=1713298309; cv=none; b=kZowzmSy2+gwQAULFiCH/2hSyO9MrzASnjnrMR9iYW/u8xTiGnr3OkzkYh/MrmHajv7x8yMTcCnNc7fiypSmar4TbPOvv5RcqhCeHblhW68l2kZUjGssZ1397zcovG/TJiGEdLl7hUt8y3o0st8Ci6Vee3yOn1JK/E0/W1qyqE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713298308; c=relaxed/simple;
-	bh=8lL/heTScQ+PZB9LFv3yTDtZHYQgDWC6t8obR5RGX9M=;
+	s=arc-20240116; t=1713298309; c=relaxed/simple;
+	bh=Af6E/IZaN14wGRF8Njmnqqpc45WAScqEfj6XoD9e8m0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AO6ZIxWCEc8YXdJpSrdNNes7qc95j2wjEY0D+jEwkvgQ6Z+ZRl3pquDw89fl/19zDYZGpbpD8A28xbDsyozYW+ji4/T1iSSJoQUOBqB6jpKh85ct34rSLC+0EmLovIq2F9Fzf3UgcUiMnVdluGaOdh0GyZEyJzVTzr00dTZNNoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4V4wDY5; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=i7FSr0ioApiN3gQTU1mStcXkSZ5b/agqkiWrJvuFDVP42t5LfDNOlAUEZ4zQvWoogMjMxF7kzH3bcRmgRGc0OGs7+FjXXw0QI8t+89lQMU3D32y8BHL5GTZH2zcOWUOLGVZzZLqJTsAH5FTglOCZDTRRBxxbbHa3jk1gIIzGnAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j39Tb8Bu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713298308; x=1744834308;
+  t=1713298309; x=1744834309;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8lL/heTScQ+PZB9LFv3yTDtZHYQgDWC6t8obR5RGX9M=;
-  b=m4V4wDY57VV/CNYmoLtla2ZrxNxS0pq+NwzbqO8Ga4G06dqFgf8v+y0o
-   a7Z2WzKDjcmt6pID1UeeTJj9t2ofARmatq1x1EuIY5h1YZtK6if3ux9y1
-   lfMZ+YXySXSItGL89YXYEmM74aGBVJ0sakd3zVnrQT3QlguY3rfwxZKcr
-   DQh9JlILLdtb6GHuuOOflxYREX3WXlWBKgdWNr0vcIG7EDP4wmlRv+0cw
-   FoXv6NrmjGEGADzTOlUVZwMjW/uvUWnxFWRLTw1i5qt8VtYRUhgvzD8Ia
-   GM3PDkl+hJORyaBuU8BA8v5oWGgdJ7x+0SMc1hQqZ5LjEYLKW5G7hZQlW
-   w==;
-X-CSE-ConnectionGUID: SINEj8voSF2TXikOaSNJPg==
-X-CSE-MsgGUID: jgNK/sD6TMu9l9etLNUnXA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8877605"
+  bh=Af6E/IZaN14wGRF8Njmnqqpc45WAScqEfj6XoD9e8m0=;
+  b=j39Tb8Bu28HObCS03qPig4tDOb4qKr/6ukxa50BRdg5tvLCXd/3MnTmT
+   hnRhQ9BA7u7gwkvdyweXnfzBvVJtfQcTnRz27mLJq5U5M3VS54Ev0qK9p
+   QqkzIPB2PoEqfA/cR4ZkBpUNHkoxQTYGCtCQtA9mKBqjTvswofHb/5u6Y
+   oy4OryeAFVZn+zxXN/066hrxH9IlOPoXSl2iVO1JZRpT9kne/s1PBTEyd
+   g7DAHIWYrV40I03w0IN0U8VGGToaiVjVLOht0E/9iKMB4/k5sdSaqamlP
+   R5MeQkhBil4KWKvGmUvMU/u1j86HSXLoDp1ImBAT9jGxWwtKJwt+paWw8
+   g==;
+X-CSE-ConnectionGUID: kwyIlX5HSCu7Iw3Ri1Dv9A==
+X-CSE-MsgGUID: HRHV3jLeSsmBB8haTQ6oqA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8877609"
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="8877605"
+   d="scan'208";a="8877609"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:47 -0700
-X-CSE-ConnectionGUID: QzfG9VCmRs6WmQLwxUphwg==
-X-CSE-MsgGUID: Xr7l95rlSz+YMRuIs0b0hQ==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:49 -0700
+X-CSE-ConnectionGUID: dD4pW0ltRBygxIynp12FCQ==
+X-CSE-MsgGUID: UOW2tLi2RKO0qYzWs/JQww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22447921"
+   d="scan'208";a="22447928"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:43 -0700
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 13:11:44 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 371231204F9;
-	Tue, 16 Apr 2024 23:11:39 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1C6B012053D;
+	Tue, 16 Apr 2024 23:11:41 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: bingbu.cao@intel.com,
@@ -76,9 +76,9 @@ Cc: bingbu.cao@intel.com,
 	bingbu.cao@linux.intel.com,
 	tian.shu.qiu@intel.com,
 	hongju.wang@intel.com
-Subject: [PATCH v4 15/19] media: Kconfig: Select MEDIA_CONTROLLER for VIDEO_V4L2_SUBDEV_API
-Date: Tue, 16 Apr 2024 23:11:01 +0300
-Message-Id: <20240416201105.781496-16-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 16/19] MAINTAINERS: add maintainers for Intel IPU6 input system driver
+Date: Tue, 16 Apr 2024 23:11:02 +0300
+Message-Id: <20240416201105.781496-17-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
 References: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
@@ -90,29 +90,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MEDIA_CONTROLLER has no dependencies and VIDEO_V4L2_SUBDEV_API depends on
-it. Select MEDIA_CONTROLLER instead of depending on it. This way Kconfig
-options elsewhere do only need to select VIDEO_V4L2_SUBDEV_API, not both.
+From: Bingbu Cao <bingbu.cao@intel.com>
 
+Update MAINTAINERS file for Intel IPU6 input system driver.
+
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ MAINTAINERS | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index 331b8e535e5b..d55eff3f31b0 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -10,7 +10,8 @@ config VIDEO_V4L2_I2C
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7c121493f43d..f9f6cde4b9f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10998,6 +10998,16 @@ F:	Documentation/admin-guide/media/ipu3_rcb.svg
+ F:	Documentation/userspace-api/media/v4l/metafmt-intel-ipu3.rst
+ F:	drivers/staging/media/ipu3/
  
- config VIDEO_V4L2_SUBDEV_API
- 	bool
--	depends on VIDEO_DEV && MEDIA_CONTROLLER
-+	depends on VIDEO_DEV
-+	select MEDIA_CONTROLLER
- 	help
- 	  Enables the V4L2 sub-device pad-level userspace API used to configure
- 	  video format, size and frame rate between hardware blocks.
++INTEL IPU6 INPUT SYSTEM DRIVER
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++M:	Bingbu Cao <bingbu.cao@intel.com>
++R:	Tianshu Qiu <tian.shu.qiu@intel.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/admin-guide/media/ipu6-isys.rst
++F:	drivers/media/pci/intel/ipu6/
++
+ INTEL ISHTP ECLITE DRIVER
+ M:	Sumesh K Naduvalath <sumesh.k.naduvalath@intel.com>
+ L:	platform-driver-x86@vger.kernel.org
 -- 
 2.39.2
 
