@@ -1,192 +1,186 @@
-Return-Path: <linux-media+bounces-9661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A228A7FB0
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 11:31:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36C18A8018
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 11:49:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 532331F22637
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 09:31:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1813BB21521
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 09:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F00CB12F59F;
-	Wed, 17 Apr 2024 09:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84DE13699F;
+	Wed, 17 Apr 2024 09:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CSuNGWiq"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="lTBCn3u9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF466A8BA
-	for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 09:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713346282; cv=none; b=E9ptoHOVzkqX1giJUA4oarr2X5CjPYFl7Vvax2tcYUbLtdHgGtHc/AXjqek8UoNT/hZnOrQr0WWeoexDxbZrjq3Tta2qV/bSKdLF4jW2sUEsfCoq5/9OcSJ59wAD45A4BMeI8yvtFY4OjXogtFYZy6DJlvVGYWJbPJQKNuEGnbg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713346282; c=relaxed/simple;
-	bh=u0XQj99zkIHtKROfuXX/dRHh9d84VE1IBbIGuaFbA8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cdCVOl/N7WMMnS/Z6IKXueNa44nfvYb3RhX43FNh2q5e5gCb04YUFXSPAsF+62d06TqUBSWSC4QEyQCIBteB6Dqe6AnMmiED76mB0CMgnU/kEtzFdQ+pazjSzhi9aUxLfC9QbM1sR3hFqyM1UAxX4OW1vJuMTIUQNfctcQoCVNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CSuNGWiq; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78ecd752a7cso329760985a.0
-        for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 02:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713346280; x=1713951080; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=puEUjgI6EA8zJrZJiDmfalQPrpdvz5g//cazRcg9wgw=;
-        b=CSuNGWiq5eT6191UvejqretEZpLIHGiBbUJw1Cb7Bvc39uigoclnbM3rsNX+g8PQJX
-         +Q3aFn33fJlar3wi2W+Mn2Xh9CZfza1IbTdLyvQh0qgbu47T8udMZ4sCf1yKSUoyMh9E
-         avykLXeFuKewRk0T0FpjJAqA9HHzp6K3ZDTq0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713346280; x=1713951080;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=puEUjgI6EA8zJrZJiDmfalQPrpdvz5g//cazRcg9wgw=;
-        b=h3jxCJdMRu+tHaaTVBZTTf0E1/8S2gJe2ZRsxSLG1z/XUAjjOuV/NFLO9lpd7qUvzc
-         jAq0ndMaHvjVnmiY1O4mk1OxaBgaBG1nYZvcYjfVpMHVKcWWIXuDRltmbX1lTwCuvVPx
-         j34itZrhvo7D3qfrEHQXsvAYuF8LkqbbUYTi/+3Yo6W7aXzeupmJcgQYJNcUpkpMVSa8
-         UhqOV5/a3olDFrToLn7CusHVs1Je8YR4gUxRoD8/mdrDtJ+3TsEP6qsLlWQeRfqq1sNy
-         AmvirhpDnlDqXmc/+vtqIV510rfagBFyoRM7yP9rd1gs/V4wLpIvyMLCYDDQYoqQuUo4
-         xJ4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXp2S3m9o5OHwAbBbpGLH/bm2YAsUfXLE3sJkuxRKB7+PaA6MMmRMhqwxi/TOOYBpuk1JKxjG99aVtxvSRyUgl8/KEg72oevNvWE1A=
-X-Gm-Message-State: AOJu0YwGkwVKTwSbTPpLfFVk/4YRDlWMsqkhE3W5l2DGUhCsJlIkxhtj
-	RruYcYU3xl0wn17aOfiBfZUHV7uXm12pTFxanJEfBaAADsjiRO2fx0wN3kKaBA==
-X-Google-Smtp-Source: AGHT+IG/HbqcqmDQSuOu8nbhDdLqMtbvRhBr9nyFu6i+3IJ6PaE8XICGEW5mhv1K0HrcB2Qas8CXlA==
-X-Received: by 2002:a05:620a:4710:b0:78e:f263:27c0 with SMTP id bs16-20020a05620a471000b0078ef26327c0mr6872784qkb.25.1713346279633;
-        Wed, 17 Apr 2024 02:31:19 -0700 (PDT)
-Received: from denia.c.googlers.com.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id d15-20020a05620a158f00b0078d54363075sm8253075qkk.40.2024.04.17.02.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 02:31:19 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-media@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH] v4l2-compliance: Make vivid_ro_ctrl tests more reliable
-Date: Wed, 17 Apr 2024 09:30:56 +0000
-Message-ID: <20240417093115.2335113-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.44.0.683.g7961c838ac-goog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A0E6A353
+	for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 09:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713347368; cv=pass; b=pu5BKeVUu33KnovOM563lIFsOdU1ufQnPScZfwCK8RsJfyJ5AsxdV39vJPuP7RqEauuGrhqZ7dquimGfdC/JOZvibMCd/8XLuypehW9WGCgsD9a7DSeCNI/wuTjusuIietPM8jqafWvjvWb5wA/AL+Km/cJNxxSBIdkfzacgcCY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713347368; c=relaxed/simple;
+	bh=hdh6AKRqq87nIj9TMxPjLEahSQr2/yW3FqFURwDN8uU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tf8K5thtRou8SRd5tYGE6GbsLA5sB98bLzo4awydZL6T6VE4UYZnAf1jR9gaFz/uyvkCxnqBfWXXZT0TiBJu0Q6H11/ompKUvOxAzjNE/LQ+yhYmTDCRHXxIz+e+IGgzk0hfDZM4qT22DYxorUPuAgUMbkkP1ZLUH4CIsLKerTs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=lTBCn3u9; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VKGMk2v2wz49Q10;
+	Wed, 17 Apr 2024 12:49:21 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1713347362;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=CQFMETK4Q5Ez5nXlvuhv42UctbMKSfSZd4ue76Z/JXY=;
+	b=lTBCn3u9lQ3koyjoRgwp0Jfx5KzT49nvFdVYCp5YKXu8mHG7yyhHY7VP7WAfzYiGt/4pQ8
+	uz+sEiFt0rIGCrvVWQWxsTL3ThCQsh4xaXUlZi976aLUq2hEHY3lFXNOd235wha7EHwyWL
+	1gkuBoEgAgGTbveH8KEgu1UK2EkA2f37LYP6aN5i/pw3+H+gtviFe1MAN7hbWV4jQhdq1P
+	nrjJt0ng1sdUqXK7It8jHDXDUCZ5z4Hj3P3yQBonA5KBrUvk2CObRaypzV4ZAytvqCYue9
+	p6/G5C7+qNqsSX+R2V4cZrR3fiwlDAOTSMHYMx7g/yE22J3C5qqlbaUGaA4FYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1713347362;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=CQFMETK4Q5Ez5nXlvuhv42UctbMKSfSZd4ue76Z/JXY=;
+	b=vFzxi1UhYNCjtTtYi+uYZanCyBOOpxy3U9ZEFngAlkpbK+rkwhl6BsRiwzpsf+pW6CIw49
+	4kks4OWHucDGC9aiD/dhERhjYPFrgsNE00bl5RcCFhtxoHHVQSgpUVJPgDUzJTKwaNBVMq
+	UtogHls04zndbMUB7Amvf8YC+EVxvmydfQvz1RQkSMf2DW2JlbgcBHvdyUficmKyve7cfC
+	aLZmM9UzBBqYhVi2hgEqCszckyP4hMSkpa/t7SM/XBoOQu/PwJ9NScksmnyG1uvjUbwHoT
+	+ozFz9Z4Qz9EUzq6RPJHyt29biTO0OaFhuW2DocM0wjBlKU68xAbbBjLYq88rw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1713347362; a=rsa-sha256;
+	cv=none;
+	b=CNr3r4eIHF5ZthVUwHzA35f5p2kB//uLCfAFZZV2kYBLs5RB3cXP3vPzEJQL5/I+j9vuz2
+	IdOOszFUyhhnC2aD637NOd+CbAEvF9GWMPsdDsw2lSGEzoAbFnGCSXU0N3RcKVCNYZ13Av
+	hxe0tnGfFP3TXEOcGRyNirjF58s/yOnWoqfzzNxFm3cy8NzCtLkVmkreOHz7RRT2BfNdZH
+	SxcaM1TkeMvwgX+jcgMQyz81OKuPvL/14ssYtpD7N9D1Lu2krAXatmkggDZjo+tW8oXnu8
+	CopIPtffFZ9KuCCwO5h2sJFxup2oAh4l8Sba2yRkr2PHyr8K5TG58bRfM7chng==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A08E2634C96;
+	Wed, 17 Apr 2024 12:49:21 +0300 (EEST)
+Date: Wed, 17 Apr 2024 09:49:21 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR 6.10] Mainly camera sensor patches, but V4L2 and MC
+ too
+Message-ID: <Zh-bIY-er6cH25tI@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The sequence number produced by vivid it is not warrantied to increase
-one by one. It will "skip" frames if they cannot be produced on time.
+Hi Hans, Mauro,
 
-In our tests, we were assuming that there was no frame skipped by vivid,
-and this caused a series of flakes.
+Here's a set of mainly camera sensor related patches for 6.10. In
+particular, there are ov2680 and hi556 fixes form Hans and Fabio, your own
+MC patch, fixes for imx335 from Kieran and Umang, DT fixes from Alexander
+Stein and one Cadence csi2rx fix from Pratyush and finally my random series
+of framework and ipu3-imgu driver fixes.
 
-Fix this, by saving the actual sequence number during captureBufs() and
-using it as reference for vivid_ro_ctrl.
+Please pull.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 26 ++++++++++++++-------
- 1 file changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index 1db6f4e9..58e01266 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -1028,7 +1028,7 @@ static int setupM2M(struct node *node, cv4l_queue &q, bool init = true)
- 
- static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_queue &q,
- 		cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
--		unsigned &capture_count)
-+		unsigned &capture_count, unsigned *sequences)
- {
- 	static constexpr const char *pollmode_str[] = {
- 		"",
-@@ -1185,6 +1185,8 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
- 				       field2s(buf.g_field()).c_str(), buf.g_bytesused(),
- 				       bufferflags2s(buf.g_flags()).c_str(),
- 				       static_cast<__u64>(buf.g_timestamp().tv_sec),  static_cast<__u64>(buf.g_timestamp().tv_usec));
-+			if (sequences)
-+				sequences[frame_count - count] = buf.g_sequence();
- 			for (unsigned p = 0; p < buf.g_num_planes(); p++) {
- 				if (max_bytesused[p] < buf.g_bytesused(p))
- 					max_bytesused[p] = buf.g_bytesused(p);
-@@ -1603,7 +1605,7 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
- 		}
- 
- 		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
--					 pollmode, capture_count));
-+					 pollmode, capture_count, NULL));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		if (node->is_m2m)
-@@ -1914,7 +1916,7 @@ int testUserPtr(struct node *node, struct node *node_m2m_cap, unsigned frame_cou
- 			fail_on_test(setupM2M(node_m2m_cap, m2m_q));
- 		}
- 		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
--					 pollmode, capture_count));
-+					 pollmode, capture_count, NULL));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		if (node->is_m2m) {
-@@ -2127,7 +2129,7 @@ int testDmaBuf(struct node *expbuf_node, struct node *node, struct node *node_m2
- 			fail_on_test(setupM2M(node_m2m_cap, m2m_q));
- 		}
- 		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
--					 pollmode, capture_count));
-+					 pollmode, capture_count, NULL));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		fail_on_test(node->streamoff(q.g_type()));
- 		if (node->supports_orphaned_bufs) {
-@@ -2376,6 +2378,7 @@ int testRequests(struct node *node, bool test_streaming)
- 	unsigned num_bufs = q.g_buffers();
- 	// Create twice as many requests as there are buffers
- 	unsigned num_requests = 2 * num_bufs;
-+	unsigned sequences[num_requests];
- 	last_seq.init();
- 
- 	media_fd = fhs.add(mi_get_media_fd(node->g_fd(), node->bus_info));
-@@ -2664,7 +2667,7 @@ int testRequests(struct node *node, bool test_streaming)
- 		// min_bufs buffers we need to add min_bufs to the frame_count.
- 		fail_on_test(captureBufs(node, node, q, m2m_q,
- 					 num_bufs + (node->is_m2m ? min_bufs : 0),
--					 POLL_MODE_SELECT, capture_count));
-+					 POLL_MODE_SELECT, capture_count, sequences));
- 	}
- 	fail_on_test(node->streamoff(q.g_type()));
- 
-@@ -2692,8 +2695,11 @@ int testRequests(struct node *node, bool test_streaming)
- 			fail_on_test(doioctl(node, VIDIOC_G_EXT_CTRLS, &vivid_ro_ctrls));
- 			if (node->is_video && !node->can_output &&
- 			    vivid_ro_ctrl.value != (int)i)
--				warn_once("vivid_ro_ctrl.value (%d) != i (%u)\n",
--					  vivid_ro_ctrl.value, i);
-+				info("vivid_ro_ctrl.value (%d) != i (%u)\n",
-+				     vivid_ro_ctrl.value, i);
-+
-+			if (node->is_video && !node->can_output)
-+				fail_on_test(sequences[i] != (__u32) vivid_ro_ctrl.value);
- 
- 			// Check that the dynamic control array is set as
- 			// expected and with the correct values.
-@@ -2769,9 +2775,11 @@ int testRequests(struct node *node, bool test_streaming)
- 			vivid_ro_ctrls.which = 0;
- 			fail_on_test(doioctl(node, VIDIOC_G_EXT_CTRLS, &vivid_ro_ctrls));
- 			if (node->is_video && !node->can_output &&
--			    vivid_ro_ctrl.value != (int)(num_bufs - 1))
--				warn("vivid_ro_ctrl.value (%d) != num_bufs - 1 (%d)\n",
-+			    vivid_ro_ctrl.value != (int)(num_bufs - 1)) {
-+				fail_on_test(vivid_ro_ctrl.value < (int)(num_bufs - 1));
-+				info("vivid_ro_ctrl.value (%d) != num_bufs - 1 (%d)\n",
- 				     vivid_ro_ctrl.value, num_bufs - 1);
-+			}
- 
- 			// the final dynamic array value,
- 			v4l2_query_ext_ctrl q_dyn_array = {
+The following changes since commit 836e2548524d2dfcb5acaf3be78f203b6b4bde6f:
+
+  media: usb: siano: Fix allocation of urbs (2024-04-16 00:02:53 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-2-signed
+
+for you to fetch changes up to eba1e47919b66797eb2479b7a7e39df0473003ce:
+
+  media: hi556: Add support for avdd regulator (2024-04-17 10:58:10 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.10
+
+----------------------------------------------------------------
+Alexander Stein (2):
+      media: dt-bindings: sony,imx290: Allow props from video-interface-devices
+      media: dt-bindings: i2c: use absolute path to other schema
+
+Fabio Estevam (1):
+      media: ov2680: Do not fail if data-lanes property is absent
+
+Hans Verkuil (1):
+      media: mc: mark the media devnode as registered from the, start
+
+Hans de Goede (9):
+      media: ov2680: Stop sending more data then requested
+      media: ov2680: Drop hts, vts ov2680_mode struct members
+      media: ov2680: Add vblank control
+      media: ov2680: Add hblank control
+      media: ov2680: Add camera orientation and sensor rotation controls
+      media: hi556: Return -EPROBE_DEFER if no endpoint is found
+      media: hi556: Add support for reset GPIO
+      media: hi556: Add support for external clock
+      media: hi556: Add support for avdd regulator
+
+Jai Luthra (1):
+      media: ti: j721e-csi2rx: Fix races while restarting DMA
+
+Kieran Bingham (2):
+      media: imx335: Support 2 or 4 lane operation modes
+      media: imx335: Parse fwnode properties
+
+Pratyush Yadav (1):
+      media: cadence: csi2rx: configure DPHY before starting source stream
+
+Sakari Ailus (4):
+      media: v4l: Don't turn on privacy LED if streamon fails
+      media: staging: ipu3-imgu: Update firmware path
+      media: v4l2-ctrls: Return handler error in creating new fwnode properties
+      media: v4l: Guarantee non-NULL return from v4l2_find_nearest_size()
+
+Umang Jain (4):
+      media: imx335: Use V4L2 CCI for accessing sensor registers
+      media: imx335: Use integer values for size registers
+      media: imx335: Fix active area height discrepency
+      media: imx335: Limit analogue gain value
+
+ .../bindings/media/i2c/galaxycore,gc0308.yaml      |   2 +-
+ .../bindings/media/i2c/galaxycore,gc2145.yaml      |   2 +-
+ .../devicetree/bindings/media/i2c/sony,imx214.yaml |   2 +-
+ .../devicetree/bindings/media/i2c/sony,imx290.yaml |   5 +-
+ .../devicetree/bindings/media/i2c/sony,imx415.yaml |   2 +-
+ drivers/media/i2c/Kconfig                          |   1 +
+ drivers/media/i2c/hi556.c                          | 105 +++-
+ drivers/media/i2c/imx335.c                         | 636 ++++++++++-----------
+ drivers/media/i2c/ov2680.c                         |  97 +++-
+ drivers/media/mc/mc-devnode.c                      |   5 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c       |  26 +-
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |   5 +-
+ drivers/media/v4l2-core/v4l2-common.c              |   2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c          |   3 +
+ drivers/media/v4l2-core/v4l2-subdev.c              |  22 +-
+ drivers/staging/media/ipu3/ipu3-css-fw.c           |   4 +-
+ drivers/staging/media/ipu3/ipu3-css-fw.h           |   2 +
+ 17 files changed, 515 insertions(+), 406 deletions(-)
+
 -- 
-2.44.0.683.g7961c838ac-goog
+Kind regards,
 
+Sakari Ailus
 
