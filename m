@@ -1,186 +1,183 @@
-Return-Path: <linux-media+bounces-9669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6EF8A8329
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 14:29:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3FE8A8394
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 14:59:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F25771F22423
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 12:29:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 696FAB217F6
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 12:59:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1569913D293;
-	Wed, 17 Apr 2024 12:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C1C13D290;
+	Wed, 17 Apr 2024 12:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="G8xVxPCH"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ortz7J2e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5414D29CEB
-	for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 12:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713356965; cv=pass; b=GXfIKCzWOyo9ZTKSLAoQc3PnH3EO2QjtnydWHJL0CNDxF/jpSM1Wx6FBNYPtipBC/bZ5ZZb+xUm7o4kD2+AFwaqb4jXjWr9+I4f7r6kThMoSqXicfSFpCg2tX6pRapH/RG6f1ZOJDeQGuZ8h+FBCsAM7LkZgu0wcDQirFt5tTRM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713356965; c=relaxed/simple;
-	bh=bM47jp/QwQ/2f/KJal+UVxhrcS7V97V/hYfSpYl+dsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2et5SMXV3/Fsg6ypHT4YoGqakUsELpAO6ubRN0vW9IIr7bolDSXw1L6kBr+qeXGNzqWLhQt6eq8GVKb58N14RrrvkRS2sBnq7rOloUzjqZ0O2f9FqoQUAGZ4Y0e1mUZ9e6I+tVCDJayiqHf3xDMVpoLNNUIJok/kcS433GUOaQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=G8xVxPCH; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4VKKw80nDrzySr;
-	Wed, 17 Apr 2024 15:29:11 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1713356952;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zOVLzt6kggFOQk/uNQaRK9t0ofyO7kDr9wAGsl2gU6M=;
-	b=G8xVxPCHh75ceCljjvc1QK2QHfM5U6uEzPcanGr18WWMvzieII/OrM8WV/SXsx8s0ONmgn
-	tp5IQpN8Ce8KlkFsS3nvp7v3ARDEAvWhM6uz5cavmqLmgCPXcz2Xl8Omc+7TfoK8PDrKwI
-	NwKLav76IeNGGO2gERIiWtUkSbV0MS8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1713356952;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zOVLzt6kggFOQk/uNQaRK9t0ofyO7kDr9wAGsl2gU6M=;
-	b=watg02R86eTC+/NZfGSaXIeDSnEeUQq1mElEnNYJGM3BuA3zVJeTF2TR6pHM2KyIAVA0+N
-	kvdQLjJsXR7XJizXSQ7/XFzab1PFpG1zCz1u7X8opGLMAHsMq4GwqGPHqpR0PtDyctwTq2
-	K2W1LpcVTR/SUkL6aF3Xt33e23PCAJI=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1713356952; a=rsa-sha256; cv=none;
-	b=GS9RtNLmHbp6tbpAfq01t22wCWctAx3qTNpLKIcPOmbECtdTDbjBA8lYw2xPhPxHpuko+n
-	iGypOgjzgCU6gyYuhYqTdgSIZNqx0+Pl0Pq3gWrCvwiiVdlYNBBTbbkqzxsHY8C2wgODO6
-	9aIxkmf0Dc351nE+PPQM6DTCAvoQ2E8=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B1E05634C99;
-	Wed, 17 Apr 2024 15:29:09 +0300 (EEST)
-Date: Wed, 17 Apr 2024 12:29:09 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, bingbu.cao@intel.com,
-	laurent.pinchart@ideasonboard.com,
-	andriy.shevchenko@linux.intel.com, ilpo.jarvinen@linux.intel.com,
-	claus.stovgaard@gmail.com, tomi.valkeinen@ideasonboard.com,
-	tfiga@chromium.org, senozhatsky@chromium.org,
-	andreaskleist@gmail.com, bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH v4 00/19] Intel IPU6 and IPU6 input system drivers
-Message-ID: <Zh_AlVn0IgKtV7GU@valkosipuli.retiisi.eu>
-References: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
- <77c32f87-cdec-4dd0-85b8-c75ca7405438@hansg.org>
- <Zh-Jr2gfdoCeB5-4@valkosipuli.retiisi.eu>
- <0ce5cc60-da32-4e0a-89bb-fa481d4a15b1@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8C984DF6;
+	Wed, 17 Apr 2024 12:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713358735; cv=none; b=C1ePYHnJ/HhR9rAgYBXgC4xwgEJxFUYgu2k1sCTmgoKUwd/rJOJISRrnJxEmipR93QmHxups9+zDHZouUVoPgSkGWhClINqeZErq0qX3y/wnXhjFOvLk8UvEKiq6jU2I33VbpAbH3/agJu5Tghm3Uxp+C6I5/Ecmcod7DDOT+kQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713358735; c=relaxed/simple;
+	bh=mRlRkorupNuv+TJWx/y+uXXu1O9+ZgMbFD+YQNFOBqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=tjb6XkGhsZox86JdBLtyE3D7d2DLcuBYGv+EdyNw5aw3bFmhGsSrV+VvdBIsAtG+PqbpPJWd+R6Q5uNepbYDJZlh0PZvBWN8v9BrapSg7DKGYTSO1dw20m9MyBDDS9wf0TqfcMsCEyyfVCSb4qNnR0zov+6WSBvAVFcls+NoUMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ortz7J2e; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43HClsCK003624;
+	Wed, 17 Apr 2024 14:57:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=Oy6ydHY6pQ8DYm8xK8PeLsM+pd6WltoQh0mGRUSj86E=; b=or
+	tz7J2eIpRjwTS6nxsow94Im5O+PJ8pyQKEzgQC9x+TEQyuiVxirXsxSqUmOFi5z6
+	j9JuaMCVAueB7+ptBoHkZGcb+q5wgjo9DutZh3e/xcZNv9ir2WSLw5Tx3J4ORSCe
+	EA73ib1bb2NSzUytaI+3EJVy3k1Q1gI0fSP3IQEsjwu2YJe3ZCZaDZ9kzaEBLiHp
+	IczYev9vu0LgIHwFgY0toURY1M4EinAS1+idFQEUfhYnNuSSXU5+tp4rEI3eP1EF
+	QiCs84WlUXA+URlFhvVZDuDiVG8dZypP1QlE91pV8tkChGQWA45K8voZ9I1+fYd5
+	RRPfPDBlEjqpZ5kxlIMg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xgecyea3g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Apr 2024 14:57:28 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E01244002D;
+	Wed, 17 Apr 2024 14:57:10 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E51CB214D29;
+	Wed, 17 Apr 2024 14:55:47 +0200 (CEST)
+Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 17 Apr
+ 2024 14:55:46 +0200
+Message-ID: <ea60a9e8-6240-4a0a-a224-e132b67160b1@foss.st.com>
+Date: Wed, 17 Apr 2024 14:55:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0ce5cc60-da32-4e0a-89bb-fa481d4a15b1@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 22/35] media: i2c: st-mipid02: Use the correct div
+ function
+To: Ricardo Ribalda <ribalda@chromium.org>,
+        Martin Tuma
+	<martin.tuma@digiteqautomotive.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues Fruchet
+	<hugues.fruchet@foss.st.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        Paul Kocialkowski
+	<paul.kocialkowski@bootlin.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari
+ Ailus <sakari.ailus@linux.intel.com>,
+        Thierry Reding
+	<thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya
+ Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli
+	<luca.ceresoli@bootlin.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Hans
+ Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+        Abylay Ospan
+	<aospan@netup.ru>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Dmitry
+ Osipenko <digetx@gmail.com>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Sylvain
+ Petinot <sylvain.petinot@foss.st.com>,
+        Jacopo Mondi
+	<jacopo+renesas@jmondi.org>,
+        Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart
+	<laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        Pavel Machek <pavel@ucw.cz>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>, <linux-sunxi@lists.linux.dev>,
+        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-17_10,2024-04-16_01,2023-05-22_02
 
-Hi Hans,
+Hi Ricardo,
 
-On Wed, Apr 17, 2024 at 10:59:37AM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 4/17/24 10:34 AM, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Wed, Apr 17, 2024 at 09:56:40AM +0200, Hans de Goede wrote:
-> >> Hi Sakari,
-> >> On 4/16/24 10:10 PM, Sakari Ailus wrote:
-> >>> Hello everyone,
-> >>>
-> >>> This patch series adds a driver for Intel IPU6 input system.
-> >>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
-> >>> device which can be found in some Intel Client Platforms. User can use
-> >>> IPU6 to capture images from MIPI camera sensors.
-> >>>
-> >>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
-> >>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
-> >>> the driver sets up a page table to allow IPU6 DMA to access the system
-> >>> memory.
-> >>>
-> >>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
-> >>>
-> >>> I can now capture images from ov01a10 and ov2740 sensors (including
-> >>> metadata from the latter).
-> >>>
-> >>> The series applies on top of the metadata patchset
-> >>> <URL:https://lore.kernel.org/linux-media/20240416193319.778192-1-sakari.ailus@linux.intel.com/T/#t>.
-> >>
-> >> Thank you for the new version!
-> >>
-> >> I assume that the posting of this new version means that you have solved
-> >> the stability issues where the laptop would freeze after sttreaming from
-> >> an ov2740 sensor with metadata once ?
-> >>
-> >> What about the unrelated ov2740 driver issue where the sensor would not
-> >> always start streaming for which you temporarily disabled runtime pm
-> >> for the sensor as a workaround any progress on that ?
-> > 
-> > I'm afraid these issues remain.
-> 
-> You mean both issues remain? I'm not that worried about the runtime-pm ov2740
-> issue, but if the lockup after streaming issue also remains that is a lot
-> more worrying.
-> 
-> I've been running an older version of this series without the metadata
-> support and that is pretty rock solid, so this seems to be caused by
-> enabling metadata support.
-> 
-> AFAIK the current out of tree solution with partly closed-source
-> userspace stack does not use metadata right /
-> 
-> Do you know if the Windows stack uses metadata capture from the sensor?
-> 
-> If neither the existing out of tree Linux stack nor the Windows stack
-> is using metadata capture then chances are we are actually hitting
-> hw/firmware bugs here. This would not be the first time that the Linux
+Thanks a lot.
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
-Interestingly, the same sensor works differently on different systems with
-IPU6 and the same sensor.
-
-We'll look into this but I don't know when I have more information.
-
-> community tries to enable a hw-feature not used by the factory installed
-> OS for the hw and ends up failing miserably because the feature was
-> never fully tested and turns out to be full of bugs.
+On 4/15/24 21:34, Ricardo Ribalda wrote:
+> link_freq does not fit in 32 bits.
 > 
-> IMHO if we cannot get the stability issue fixed real soon it would
-> be best to move forward with this patch series without adding
-> the metadata support. So basically drop patch 17/19 .
+> Found by cocci:
+> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
 > 
-> >> Do you have a git branch available with the metadata + this series
-> >> somewhere for easy testing ?  I would like to give this a test run on
-> >> my own IPU6 + ov2740 laptop.
-> > 
-> > Both of the sets can be found here:
-> > 
-> > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=ipu6>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/i2c/st-mipid02.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Thank you.
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index f250640729ca..93a40bfda1af 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
+>  	}
+>  
+>  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+> -	do_div(ui_4, link_freq);
+> +	ui_4 = div64_s64(ui_4, link_freq);
+>  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+>  
+>  	return 0;
+> 
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Benjamin
 
