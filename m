@@ -1,127 +1,131 @@
-Return-Path: <linux-media+bounces-9671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094308A84CC
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 15:35:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3425F8A84CE
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 15:36:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D7611F21478
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 13:35:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF6ED1F21342
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 13:36:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCF513F42D;
-	Wed, 17 Apr 2024 13:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF68613F43A;
+	Wed, 17 Apr 2024 13:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Iut6ZCoQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367CF13E8A5;
-	Wed, 17 Apr 2024 13:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1309013E02E;
+	Wed, 17 Apr 2024 13:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713360903; cv=none; b=gwZPrj2se5DeEqAZqQT3Cl+JphH/ZgZ9Q8D96odT/+ictvsnSq2byLJe/5B2a3x4FiAWQ8CoFxo8F8cN5bYmyubbbHCPGMwVdkg+WYmjEqw9QaxZDzpGbjJ2lh1a2TK+A0Tszcgl5bCSN8FAWxaSqTXshjAUsuzCjCSFStMgcG8=
+	t=1713360964; cv=none; b=CMoBjUoWgvGI9NPtGMcbWyI2S06d6AcAvdrvLaDDoGSThw7TaqFaX04DLea7P6EdkzlP3NzIG7UievkkAkjz+CX61wcgVV6D03Zwc6haPfavDTLI8/m8vaXi6rKOzJykCKFoskMYskpFWm3K2aZ1jA/GmewIUe4SS4uZ6NxhxxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713360903; c=relaxed/simple;
-	bh=/d/vgfY9ZqhlkTu9z/z2w3nshzsdM3jdTkH8ww8CBjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mBPlXs9CrOLFRpOjbvReQorhOnsvBvtCOwhWa4YhBCzFk65vCxRXB8wgIGYN9VbuZJ99qHxTS6DFZHoNVRVdSMPFKkg5ZcMTjwKP2CbUE4wzrnxiK4+247L30ptb7pcxUf5SGTRTFHoJ17+080ynWOnFwcydmDMoBUNcRhr4JUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2db2f6cb312so9581811fa.2;
-        Wed, 17 Apr 2024 06:35:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713360897; x=1713965697;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tYLOtqLakuRU/KOeT+MfgISLGTBZ5ALu0eybD1xQB5U=;
-        b=DbrBjbwS0OL+AZXoYBDGyVuA3Qfa/ZYKpWBCZNo/zF/WTXD1UecfcoX2L9UlWlLnG6
-         1Db6IL/764z2o5huSkSxwZ+YZGDpLcpIBAamLU7mK2cpGxni588XHZknDL0aMc/F5QiL
-         YuOHD8HyXKbjFON5gtSnGAS5qH6jo+zTXjrl42MU/YZe0wQT5ex0qb8YwZzrMKTNBw3Z
-         etElxbPtAIyhcHRYzipXxLcIYWAEewmvvo0J1DYbFxSfnOHraS8Fg+Th21UEvizFbHMw
-         HHnHPA4tmM7fVGXig02FgWa8tRt1FxIN1VKOYYyL/tbslvnA2Kmthyq32dXjil59L+q5
-         jXuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWENOdAqaecSQj/wRY+aKD1VMNY/T2OyIQHvtD9h36ih5zbeGbBtNXTdA9Udc7D9SzrFaE1dil4aVrptNXNOx4VaTKWxsVSZj0/jFtLcOuNB1rPpAAFUqZDHPzy38TpsEUUok9Wa+B6BLV+zUfhJQ==
-X-Gm-Message-State: AOJu0YwVPnwatAepfHfh6wm35KnSMDMIBLv/9IhkeCGcyDi7/3uWxmDh
-	rnRRJZKRSOZ5UTJhlRdGgDirV7uxuX9hf/cpMJrLWYoa6XvqFsh4waa5ih8JTBg=
-X-Google-Smtp-Source: AGHT+IHd2fazgLdqzj7Y+qbuMw7klimxYFtfqtuYU9B6GyVjQfdqOf1xbj6LNGMUvRkID8P3mvTNHg==
-X-Received: by 2002:a2e:9c93:0:b0:2d6:fa7a:a670 with SMTP id x19-20020a2e9c93000000b002d6fa7aa670mr12343496lji.33.1713360897291;
-        Wed, 17 Apr 2024 06:34:57 -0700 (PDT)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
-        by smtp.gmail.com with ESMTPSA id b43-20020a05651c0b2b00b002d82bbf7862sm1881622ljr.25.2024.04.17.06.34.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 06:34:56 -0700 (PDT)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2db13ca0363so14370681fa.3;
-        Wed, 17 Apr 2024 06:34:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUwNpqk6Rs6ILksKGKg/0ourqoKFjCR+9nOJAP7+Q7wR7xLqnND/OVpHzNBig+uMHJr0u7mFFYA2Cq4SaPSC5wLSmHn1ZfnWYE2hnRX3Mf0oFJ7kbjus/a1ILYW2fecqAoMK/v0TM/8PpBePh79VQ==
-X-Received: by 2002:a2e:7310:0:b0:2d3:8c1f:c0ff with SMTP id
- o16-20020a2e7310000000b002d38c1fc0ffmr12644848ljc.16.1713360891351; Wed, 17
- Apr 2024 06:34:51 -0700 (PDT)
+	s=arc-20240116; t=1713360964; c=relaxed/simple;
+	bh=h92k1xHyMgFVok7WfNz9v6tzZtdrwMuIrOivWMDoZ6A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ggusTHpkFHUk9u0Su4+nDXwkzBTQiqImFJcxF1/gaKli/bNW7viNiJoHRdqZW/BNtYcczhW2nLs+Pd7Bb0vRojDt58MdHb7RCv78W4ddCdhEaAHiCvrRGZRyn7mDQqxs2pftEQbMi4hKUFMbkWTiymN8t8xUu1RXYcdx26ir7uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Iut6ZCoQ; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43HD5rGh028141;
+	Wed, 17 Apr 2024 15:35:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:mime-version:content-type; s=
+	selector1; bh=mAzfUH2JQVtTcRFhC4KauimOnBF3lRBNQq0x4HuwCLQ=; b=Iu
+	t6ZCoQZc6gQPnMULIOBnP5aWTQepYWPwpCp/RwkUyfLDNzCYt1/xdxfh14bQFqqU
+	r6kJsWP/8HmwGxSDvEeaSS/xnCJ/vBAP+j8snhIhkktisgYJycRaW8tZ3wC7eEWU
+	HX3Ud3LmIJPQSExUOSgqZhrQt3/R8qsxQz7UuQ8H+annIFEITLSqo5VANYHJVGPD
+	yqLN/ZlSKAxSbN/zkME/IMZ9bgE0kJ7Bl9Z3BGGAHKpxdaYsXowjACKTx7DajWoE
+	/unufIBRGuIwKUO6CWPiMng9RXqaU72c7Nl0rQvPkFR1tPNN1IQjL/ZgkG1tAekd
+	29wsOVIkr+NheCc4jjYQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xff64hxb7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Apr 2024 15:35:52 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 598074002D;
+	Wed, 17 Apr 2024 15:35:49 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 95AFC21682E;
+	Wed, 17 Apr 2024 15:35:21 +0200 (CEST)
+Received: from localhost (10.130.72.242) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 17 Apr
+ 2024 15:35:21 +0200
+From: Sylvain Petinot <sylvain.petinot@foss.st.com>
+To: <benjamin.mugnier@foss.st.com>, <sylvain.petinot@foss.st.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] media: Add driver for ST VD56G3 camera sensor
+Date: Wed, 17 Apr 2024 15:34:51 +0200
+Message-ID: <20240417133453.17406-1-sylvain.petinot@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Apr 2024 15:34:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
-Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
-Subject: Re: [PATCH] media: rcar-vin: Add support for RAW10
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-17_10,2024-04-16_01,2023-05-22_02
 
-Hi Niklas,
+Hello,
 
-On Wed, Apr 17, 2024 at 2:06=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Some R-Car SoCs are capable of capturing RAW10. Add support for it
-> using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
-> format to express RAW10 unpacked to users.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+This serie adds support for STMicroelectronics VD56G3 camera sensor.
+This is a 1.5M pixel global shutter camera available in both Mono
+(VD56G3) and colour (VD66GY) variants.
 
-Thanks for your patch!
+The following features are supported:
+- Auto exposure with expo bias or
+- Manual exposure with analog / digital gain
+- H/V flip
+- vblank/hblank/link freq
+- Test pattern
+- Supported resolutions in both raw8/raw10 :
+   - 1124x1364
+   - 1120x1360
+   - 1024x1280
+   - 1024x768
+   - 768x1024
+   - 720x1280
+   - 640x480
+   - 480x640
+   - 320x240
 
-I am no VIN or V4L2 expert, but the register bits LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
->         case MEDIA_BUS_FMT_Y8_1X8:
->                 vnmc |=3D VNMC_INF_RAW8;
->                 break;
-> +       case MEDIA_BUS_FMT_Y10_1X10:
-> +               vnmc |=3D VNMC_INF_RGB666;
+This driver supports coldstart parameters for internal AE feature.
+To make it work, the driver save gain/expo values in ctrl's cur.val
+during poweroff phase.
+This implementation transgress V4L2 rules... Any advice to make it
+proper would be greatly appreciated.
 
-The actual meaning of this bit is not uniform across all SoCs.
-On R-Car V3U it means (partial) 16 bpp, on R-Car Gen3 it means 18 bpp.
+Driver tested on RB5 and RPI (with and without libcamera).
 
-> +               break;
->         default:
->                 break;
->         }
 
-Gr{oetje,eeting}s,
+Sylvain Petinot (2):
+  media: dt-bindings: Add ST VD56G3 camera sensor binding
+  media: i2c: Add driver for ST VD56G3 camera sensor
 
-                        Geert
+ .../bindings/media/i2c/st,st-vd56g3.yaml      |  143 ++
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/st-vd56g3.c                 | 1619 +++++++++++++++++
+ 5 files changed, 1783 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+ create mode 100644 drivers/media/i2c/st-vd56g3.c
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
