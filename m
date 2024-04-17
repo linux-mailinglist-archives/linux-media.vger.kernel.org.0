@@ -1,102 +1,103 @@
-Return-Path: <linux-media+bounces-9653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355708A7DC3
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 10:08:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF038A7E27
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 10:24:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEA3E1F24BBD
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 08:08:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 510511C21AFD
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 08:24:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52C37D07A;
-	Wed, 17 Apr 2024 08:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB80F7F479;
+	Wed, 17 Apr 2024 08:24:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AP6lFwJb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BahzZkh5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021E76A037;
-	Wed, 17 Apr 2024 08:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E8C7D405;
+	Wed, 17 Apr 2024 08:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713341283; cv=none; b=bWCicc6pDnDF2eFfCyBabFZMGGrMgbjf7QUXayk/jdT1Ugow3d2QjkH8feWdweieZFoGnqnBAumrh4HRwZyZhB2nUvFeEH4fg0X/n89HSTa1R2A7MmUxr0PyGfRhAK8I79/NwYSp4n33n0VPlYnvrisy+1Z1hIOJ91DQYzFHqOY=
+	t=1713342271; cv=none; b=ZMZJ04VAEXujZtPIJv9kwBKsEC7NM05yn620qDlCJNog8zVLGPzC7xjtDg7Ku25YDToyklO6lo6U5hpn1vqyTx6ty/+818CYRcfOoxuEZ6jjFHBnw6EifJUwPY14hewoqs9YHSvLrvbSAYhPhw8GSCiVbVkVpMhV41eplJx2IiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713341283; c=relaxed/simple;
-	bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IInerFekIqBJNUnysbHwV739Bb5YgcrNHEtolPOwAYdaoWW76YpcRiB4jDuqYg5+IEjhAgYGBhzc0YV+OdpLQ6F2j2OYVGu+ggat/ZI8aWzVh33dyJFfzDpZfjS+uaJct4jmouOtv0ew2UVl1UY7Tr2N3cL323kuQrWhJYQ85Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AP6lFwJb; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a55630378b1so6433066b.2;
-        Wed, 17 Apr 2024 01:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713341279; x=1713946079; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-        b=AP6lFwJbxgSFebDZiZ7DDfK0cYIVFTO3B4ja1ITF7GwnOS9Bedy+KbJqKuW2GxQIWt
-         7CXEdA1cmIX5tYlQ0l9Kun6/wQuoBTlSfLq/ZB3ZTD+5OK6DG6cSSlO/gJlrLSfZOYvH
-         XhSMf2wQAmY0LYFCS7gURPjd/KyudHde+fWqrg7ObWIaMSSlZTyuWtCxWx3IPrdbzL5n
-         Q3CWV7SFNk1AeFuasldh7bqBIWxpZmAjGoiZ9MOtGjSMH73XSVnJvFD2kjbXOK9ZNTo3
-         aYk8hIrTZrpWRfGU2PCI1LY3qV9wM7BQNbFuzsffAAomPZc55J+TxvlkZT4DXTeP+u93
-         bK1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713341279; x=1713946079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-        b=VdpwczBjnbCi54F7mnw35iJSX7TIAU5F441PhR68dMeX+Pc0apordeIQrd1cPWE8aB
-         4L29x/iKLmk4JSw37ln7SW6sTfawOzYNC2IjWiVeF2rN7df/4urcgVA3FF0jnbozJvb/
-         RrQYOMPiW8HMNhd6jLE+A35LyCTEnU7xcrSF3RQr+/i1GtrCshvdmAsr1+EFIdvJTBIs
-         6PL0U+LJMpwjMvh3obWT0lL8YU2++zkEqoLoJ3fjEGwrgEIIEFq/pZHtTuBH52XUmWHW
-         06QMWCbp/5nWUPmpcwRaSIdYBX5/EzPRM5o5dsd+4C1+WcrODWwGYVCo8X71uXjZWeGU
-         2k2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUBcuQHCUN6KfFxXXwwAlnh+A1by0bWeNdWUdsQSJ0FYxwMBeWDb5kxxslCC0jf0qnztOiePP5fN4L9Mtx+ocnkccy3bGh1V4jhuLHNdce+rAIeaGH+ZqZ6PnPi/Qb4uZ8KPsdSvnDM7MQ=
-X-Gm-Message-State: AOJu0YwyJElyihXW9MZ0+gQQ1ZUVXeR3yVD2D1aQYVYnkqhnimqHOuJ6
-	U0ug/SjqNqQRvOqaHJJLPBLP5FwPQs/frI6Yx8uHZ4VnRt7bkr61tkhaaVkyCQhN2vajTsM2rNX
-	fA69+r3Kv3XayXAYJzUlnA8Nq26g=
-X-Google-Smtp-Source: AGHT+IEynMUl5J9HloIF7Lmmtb9Np+ui5Xjtf47XvRiYkRJSWfelm64saMncMNCznjQRG+iBvCfWr77dG8JoXMd7AzU=
-X-Received: by 2002:a17:906:b358:b0:a53:4cae:e40 with SMTP id
- cd24-20020a170906b35800b00a534cae0e40mr4590024ejb.25.1713341279014; Wed, 17
- Apr 2024 01:07:59 -0700 (PDT)
+	s=arc-20240116; t=1713342271; c=relaxed/simple;
+	bh=iDH0wPp8RuBNMMZYQphzWYhg0PnpKVzTZbt4Js0BeD4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6BG+oRpOENe7W2IXwCYEZkXk2SGcWPcW4AGWiKbsrZ7xeAwzRFunqUUZGyhd8MSACLfz7V+KiWFgEejLwurCTGHEHbLmew6BG0lxCTt0k9FRDhVPx2t6RjLCMJx6VALvDmP8sfe5QVGs8XbqnthFLiY9IX63t2CHdoqawWOWbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BahzZkh5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (ptr-212-224-238-3.dyn.orange.be [212.224.238.3])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50D71DD9;
+	Wed, 17 Apr 2024 10:23:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713342214;
+	bh=iDH0wPp8RuBNMMZYQphzWYhg0PnpKVzTZbt4Js0BeD4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BahzZkh5qUP9h3c1DOjkObB2oJESB+JviGJflioInWzrWSBVydEBfoFwYG0woifHX
+	 arZ8DMP/k3FKj6bMzgxvEmFDGCvvktQ2Jp+gKBAuhPlLhQziFgXV4xx67RthgwUt+9
+	 +7nVoBqfzp0tcTyftkZU7o1Ogi4aSQ3QfalxkgyM=
+Date: Wed, 17 Apr 2024 11:24:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: linux-media@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 06/10] ARM: dts: bcm2835: Add Unicam CSI nodes
+Message-ID: <20240417082413.GK12561@pendragon.ideasonboard.com>
+References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com>
+ <20240402000424.4650-7-laurent.pinchart@ideasonboard.com>
+ <c3f1773a-b65b-4ccc-a684-e5e57b325777@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240416211941.9369-1-tony.luck@intel.com> <20240416212247.9949-1-tony.luck@intel.com>
-In-Reply-To: <20240416212247.9949-1-tony.luck@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 17 Apr 2024 11:07:23 +0300
-Message-ID: <CAHp75VcQvNqaTj6GTNmhoMbTj-qbn=WX7OSuRwiPaFO5pzPd9g@mail.gmail.com>
-Subject: Re: [PATCH v3 68/74] x86/cpu/vfm: Update drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-To: Tony Luck <tony.luck@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c3f1773a-b65b-4ccc-a684-e5e57b325777@broadcom.com>
 
-On Wed, Apr 17, 2024 at 12:22=E2=80=AFAM Tony Luck <tony.luck@intel.com> wr=
-ote:
->
-> New CPU #defines encode vendor and family as well as model.
+Hi Florian,
 
-Thanks, but I would rather see this using the following
-https://elixir.bootlin.com/linux/v6.9-rc4/source/include/linux/platform_dat=
-a/x86/soc.h
+On Tue, Apr 16, 2024 at 08:18:30PM -0700, Florian Fainelli wrote:
+> On 4/1/2024 5:04 PM, Laurent Pinchart wrote:
+> > From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > 
+> > Add both MIPI CSI-2 nodes in the bcm283x tree and take care of the
+> > Raspberry Pi / BCM2711 specific in the related files.
+> > 
+> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> 
+> Should I be taking this patch for the upcoming merge window as well or 
+> do you anticipate more changes to be needed? AFAICT the binding has been 
+> approved by Rob, so we should be good to go with the basic node proposed 
+> here?
 
+We're trying to land the Unicam driver in the next merge window, but it
+may slip to v6.11. From my point of view the bindings are stable, so
+merging the DT integration is fine with me, as long as the DT
+maintainers are fine if the bindings end up being merged one kernel
+release later.
 
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Regards,
+
+Laurent Pinchart
 
