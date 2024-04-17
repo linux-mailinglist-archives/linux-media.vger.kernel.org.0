@@ -1,183 +1,127 @@
-Return-Path: <linux-media+bounces-9670-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9671-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3FE8A8394
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 14:59:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 094308A84CC
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 15:35:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 696FAB217F6
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 12:59:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D7611F21478
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 13:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C1C13D290;
-	Wed, 17 Apr 2024 12:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ortz7J2e"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCF513F42D;
+	Wed, 17 Apr 2024 13:35:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8C984DF6;
-	Wed, 17 Apr 2024 12:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367CF13E8A5;
+	Wed, 17 Apr 2024 13:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713358735; cv=none; b=C1ePYHnJ/HhR9rAgYBXgC4xwgEJxFUYgu2k1sCTmgoKUwd/rJOJISRrnJxEmipR93QmHxups9+zDHZouUVoPgSkGWhClINqeZErq0qX3y/wnXhjFOvLk8UvEKiq6jU2I33VbpAbH3/agJu5Tghm3Uxp+C6I5/Ecmcod7DDOT+kQ=
+	t=1713360903; cv=none; b=gwZPrj2se5DeEqAZqQT3Cl+JphH/ZgZ9Q8D96odT/+ictvsnSq2byLJe/5B2a3x4FiAWQ8CoFxo8F8cN5bYmyubbbHCPGMwVdkg+WYmjEqw9QaxZDzpGbjJ2lh1a2TK+A0Tszcgl5bCSN8FAWxaSqTXshjAUsuzCjCSFStMgcG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713358735; c=relaxed/simple;
-	bh=mRlRkorupNuv+TJWx/y+uXXu1O9+ZgMbFD+YQNFOBqM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tjb6XkGhsZox86JdBLtyE3D7d2DLcuBYGv+EdyNw5aw3bFmhGsSrV+VvdBIsAtG+PqbpPJWd+R6Q5uNepbYDJZlh0PZvBWN8v9BrapSg7DKGYTSO1dw20m9MyBDDS9wf0TqfcMsCEyyfVCSb4qNnR0zov+6WSBvAVFcls+NoUMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ortz7J2e; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43HClsCK003624;
-	Wed, 17 Apr 2024 14:57:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=Oy6ydHY6pQ8DYm8xK8PeLsM+pd6WltoQh0mGRUSj86E=; b=or
-	tz7J2eIpRjwTS6nxsow94Im5O+PJ8pyQKEzgQC9x+TEQyuiVxirXsxSqUmOFi5z6
-	j9JuaMCVAueB7+ptBoHkZGcb+q5wgjo9DutZh3e/xcZNv9ir2WSLw5Tx3J4ORSCe
-	EA73ib1bb2NSzUytaI+3EJVy3k1Q1gI0fSP3IQEsjwu2YJe3ZCZaDZ9kzaEBLiHp
-	IczYev9vu0LgIHwFgY0toURY1M4EinAS1+idFQEUfhYnNuSSXU5+tp4rEI3eP1EF
-	QiCs84WlUXA+URlFhvVZDuDiVG8dZypP1QlE91pV8tkChGQWA45K8voZ9I1+fYd5
-	RRPfPDBlEjqpZ5kxlIMg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xgecyea3g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Apr 2024 14:57:28 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E01244002D;
-	Wed, 17 Apr 2024 14:57:10 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E51CB214D29;
-	Wed, 17 Apr 2024 14:55:47 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 17 Apr
- 2024 14:55:46 +0200
-Message-ID: <ea60a9e8-6240-4a0a-a224-e132b67160b1@foss.st.com>
-Date: Wed, 17 Apr 2024 14:55:45 +0200
+	s=arc-20240116; t=1713360903; c=relaxed/simple;
+	bh=/d/vgfY9ZqhlkTu9z/z2w3nshzsdM3jdTkH8ww8CBjY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mBPlXs9CrOLFRpOjbvReQorhOnsvBvtCOwhWa4YhBCzFk65vCxRXB8wgIGYN9VbuZJ99qHxTS6DFZHoNVRVdSMPFKkg5ZcMTjwKP2CbUE4wzrnxiK4+247L30ptb7pcxUf5SGTRTFHoJ17+080ynWOnFwcydmDMoBUNcRhr4JUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2db2f6cb312so9581811fa.2;
+        Wed, 17 Apr 2024 06:35:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713360897; x=1713965697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYLOtqLakuRU/KOeT+MfgISLGTBZ5ALu0eybD1xQB5U=;
+        b=DbrBjbwS0OL+AZXoYBDGyVuA3Qfa/ZYKpWBCZNo/zF/WTXD1UecfcoX2L9UlWlLnG6
+         1Db6IL/764z2o5huSkSxwZ+YZGDpLcpIBAamLU7mK2cpGxni588XHZknDL0aMc/F5QiL
+         YuOHD8HyXKbjFON5gtSnGAS5qH6jo+zTXjrl42MU/YZe0wQT5ex0qb8YwZzrMKTNBw3Z
+         etElxbPtAIyhcHRYzipXxLcIYWAEewmvvo0J1DYbFxSfnOHraS8Fg+Th21UEvizFbHMw
+         HHnHPA4tmM7fVGXig02FgWa8tRt1FxIN1VKOYYyL/tbslvnA2Kmthyq32dXjil59L+q5
+         jXuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWENOdAqaecSQj/wRY+aKD1VMNY/T2OyIQHvtD9h36ih5zbeGbBtNXTdA9Udc7D9SzrFaE1dil4aVrptNXNOx4VaTKWxsVSZj0/jFtLcOuNB1rPpAAFUqZDHPzy38TpsEUUok9Wa+B6BLV+zUfhJQ==
+X-Gm-Message-State: AOJu0YwVPnwatAepfHfh6wm35KnSMDMIBLv/9IhkeCGcyDi7/3uWxmDh
+	rnRRJZKRSOZ5UTJhlRdGgDirV7uxuX9hf/cpMJrLWYoa6XvqFsh4waa5ih8JTBg=
+X-Google-Smtp-Source: AGHT+IHd2fazgLdqzj7Y+qbuMw7klimxYFtfqtuYU9B6GyVjQfdqOf1xbj6LNGMUvRkID8P3mvTNHg==
+X-Received: by 2002:a2e:9c93:0:b0:2d6:fa7a:a670 with SMTP id x19-20020a2e9c93000000b002d6fa7aa670mr12343496lji.33.1713360897291;
+        Wed, 17 Apr 2024 06:34:57 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id b43-20020a05651c0b2b00b002d82bbf7862sm1881622ljr.25.2024.04.17.06.34.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 06:34:56 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2db13ca0363so14370681fa.3;
+        Wed, 17 Apr 2024 06:34:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwNpqk6Rs6ILksKGKg/0ourqoKFjCR+9nOJAP7+Q7wR7xLqnND/OVpHzNBig+uMHJr0u7mFFYA2Cq4SaPSC5wLSmHn1ZfnWYE2hnRX3Mf0oFJ7kbjus/a1ILYW2fecqAoMK/v0TM/8PpBePh79VQ==
+X-Received: by 2002:a2e:7310:0:b0:2d3:8c1f:c0ff with SMTP id
+ o16-20020a2e7310000000b002d38c1fc0ffmr12644848ljc.16.1713360891351; Wed, 17
+ Apr 2024 06:34:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 22/35] media: i2c: st-mipid02: Use the correct div
- function
-To: Ricardo Ribalda <ribalda@chromium.org>,
-        Martin Tuma
-	<martin.tuma@digiteqautomotive.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet
-	<hugues.fruchet@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Paul Kocialkowski
-	<paul.kocialkowski@bootlin.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
-	<jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari
- Ailus <sakari.ailus@linux.intel.com>,
-        Thierry Reding
-	<thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya
- Komatineni <skomatineni@nvidia.com>,
-        Luca Ceresoli
-	<luca.ceresoli@bootlin.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Hans
- Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-        Abylay Ospan
-	<aospan@netup.ru>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Dmitry
- Osipenko <digetx@gmail.com>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Sylvain
- Petinot <sylvain.petinot@foss.st.com>,
-        Jacopo Mondi
-	<jacopo+renesas@jmondi.org>,
-        Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Pavel Machek <pavel@ucw.cz>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-staging@lists.linux.dev>, <linux-sunxi@lists.linux.dev>,
-        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+References: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Apr 2024 15:34:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
+Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Add support for RAW10
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-17_10,2024-04-16_01,2023-05-22_02
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+Hi Niklas,
 
-Thanks a lot.
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+On Wed, Apr 17, 2024 at 2:06=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Some R-Car SoCs are capable of capturing RAW10. Add support for it
+> using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
+> format to express RAW10 unpacked to users.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
-On 4/15/24 21:34, Ricardo Ribalda wrote:
-> link_freq does not fit in 32 bits.
-> 
-> Found by cocci:
-> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/i2c/st-mipid02.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index f250640729ca..93a40bfda1af 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
->  	}
->  
->  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
-> -	do_div(ui_4, link_freq);
-> +	ui_4 = div64_s64(ui_4, link_freq);
->  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
->  
->  	return 0;
-> 
+Thanks for your patch!
 
--- 
-Regards,
+I am no VIN or V4L2 expert, but the register bits LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Benjamin
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>         case MEDIA_BUS_FMT_Y8_1X8:
+>                 vnmc |=3D VNMC_INF_RAW8;
+>                 break;
+> +       case MEDIA_BUS_FMT_Y10_1X10:
+> +               vnmc |=3D VNMC_INF_RGB666;
+
+The actual meaning of this bit is not uniform across all SoCs.
+On R-Car V3U it means (partial) 16 bpp, on R-Car Gen3 it means 18 bpp.
+
+> +               break;
+>         default:
+>                 break;
+>         }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
