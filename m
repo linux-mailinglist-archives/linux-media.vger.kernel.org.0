@@ -1,182 +1,152 @@
-Return-Path: <linux-media+bounces-9660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3635C8A7EF6
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 11:00:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DEE8A7FB2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 11:31:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F06BB21A72
-	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 09:00:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCA4C1F21D80
+	for <lists+linux-media@lfdr.de>; Wed, 17 Apr 2024 09:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB06D12C48E;
-	Wed, 17 Apr 2024 08:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ABA31311A1;
+	Wed, 17 Apr 2024 09:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iQ5cV42H"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UWZrSbZ5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B8D6D1CE
-	for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 08:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343807D3F0
+	for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 09:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713344384; cv=none; b=hKDgVF/LGyP8T42Su/3hfRVyWNWiSfXyy/EgLvg2a0RxXNZK6o6ZJMQSp34wa7p3q9uOigS9ZzHKcICmmAuQDUAjr1Dj2TZ3tiCMgHnI0hBoOMcntyUZHPPpouja790QPR0WpoINmIzG31fhccP+ma3jJjbmowlSEbWPrpSfYrw=
+	t=1713346283; cv=none; b=atTtalZpt7G+q576JsoC+Uf1oZQ8knyiQL7NlB+2Y7zIlWgERPRXZCIvSBI/2LucSrz4fkfRIs6p2iSYzdQa+Mc0BYF5rkYIpuddx9MhoQfqu94vZgDmMdnjfP7m4fGxKRe1NbCqlIPaJaflCgjhwAYFkR/i8D2P6WHJ2aiZOYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713344384; c=relaxed/simple;
-	bh=4/ZWPTzjFHv8G3LXkIa0kTeqgpX6szAN6mRYGLOAOOI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GAVfvjTUzaWb0+xajYD4R8FQlDI43+IugZNRzmaJ6947k/QWHTqx+mtAryT09UVXfMWa02/pzq+LaiyC3MO/Ea1/GDoNS93yGE+u4KRyvRZnlT1vG9t+2Wy01LBFlpkqQ4DYjwO5pZLx1PjeAaya+WFK7snkQEBYA9uoTd9k7FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iQ5cV42H; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713344381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6oDlmMQVk0kEMWPw4RdCawfv9w6i0bBnCHbMm1Ll2ow=;
-	b=iQ5cV42HvZ2SP8KFxkZ1DXPtA1Y4JqoTQxW9PLxMiFx5kqB3cmqbHs5a+FFgf4DbsFKzSY
-	BAh0LXgMQ4NBuIb9XqKD0pXryqfCVJD6BjbXDw6/VnoyynRP1wt+MToowNDAYvLlHNiNJD
-	A9DFzaSYFDNugro3zThXqMHIZ64pvhg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-JgyBTrj6MPiijoNeuEdXIA-1; Wed, 17 Apr 2024 04:59:40 -0400
-X-MC-Unique: JgyBTrj6MPiijoNeuEdXIA-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-56c1b105949so4783638a12.3
-        for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 01:59:40 -0700 (PDT)
+	s=arc-20240116; t=1713346283; c=relaxed/simple;
+	bh=T5PMdj1yX+zNxZbjv85K+u85HxfXuO5/2rlbKUV1+1c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IlfLfhb+ueFh5vIj/TwEeKpMOtHi4ga1Vy8CfwSDWwp4WQoHK4YadAu2HFgB99qSq+dIl8vXln7VOyxjWYUtPylTskCkHqoiBkYwBvNfUI7WyG9UVb4zZquGJN1RdlP42KWphxTGW7PZ1m97DUFQcfIY0cHCjHmGlBm6XRK3oow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UWZrSbZ5; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-479c9c2d2b0so1662907137.0
+        for <linux-media@vger.kernel.org>; Wed, 17 Apr 2024 02:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713346281; x=1713951081; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c7CjWqPeCtoYXLSOyHKwESdFH4pcoLP/COUIU8rpmac=;
+        b=UWZrSbZ5SiqVbrDz2AcDuHLqelpi0IVDY7x+4EzMwVaWxrAuCXbN//Jh53Fytuaq/8
+         xfKGSOK6k8YX7Knbb446SPoYUzbA3L66vqoE7azRUgw746lzxk9AdhKzSZRFn31vXgJX
+         rsXeDIRyoUB+zP2qp8mKtb5ZLeMyfm+7ttsaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713344379; x=1713949179;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6oDlmMQVk0kEMWPw4RdCawfv9w6i0bBnCHbMm1Ll2ow=;
-        b=LbffgQ98odXrWGXg9H3DYTyeruV9Z5bGlTdi+ts5LI5Oj/XByyLgBTSA/m7gVyIOYj
-         HN4Lbnq7PT5p9eszmzEHAA6wLOfYsQCsF+ZHsOoAasZYAGSa3OiVR9l2FuiszcC7/eGl
-         oH2xmeu0FcQZVxbrGXtKDgiWdPv9vaaGNAnTY1X6qkztIGKet6BrM6U5oF3ckrlxe8g/
-         odIkFkXQKT+ECf8ZonnK7sVfbton6djxZ62W2nRh1naBDJkgrQbd6yLmJr7XWbkl/0hz
-         e1bsBt1i56gnhtaruClrb73J9dU9TbGyRgWACzX87uSXgORtoIfsTcaD3tq5Y0jN+7WE
-         hmnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXfoio2SzDDs1WINrhd5AKA8qGQ5J7EpCl/zYYgzObL51anSwf1XzznXSUsXfUq/JiEdfo4Sst2nGjZf2azLJl7VOVXP4jweF8nMqg=
-X-Gm-Message-State: AOJu0Ywvb5VF5R96fGmbs2DzKXKtk10suud//gKj4dpU9QmSlTY6tbMw
-	QHhnuiygHPoVNnYMbZ8VFh6HZycW7sdYUQhiSmJXJTCE6yG9Ioy/6kWVOCA8sgJzHE/C/Mldy4i
-	gtDKP7DJ6+c3NhVG5Axq8+h7NLSrsiDo5vYOc+TGwrwJmDM324TANxPvuQk8jMiiQq+44
-X-Received: by 2002:a50:9ee2:0:b0:56e:23e3:bdc3 with SMTP id a89-20020a509ee2000000b0056e23e3bdc3mr9530309edf.16.1713344378882;
-        Wed, 17 Apr 2024 01:59:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOdeZ95ffNTTvc2TG2hcCMIMjV0iLdJ4GGSrCG8Md40TBKXiSlqvBrtwmzXL4omZvGJwQUTA==
-X-Received: by 2002:a50:9ee2:0:b0:56e:23e3:bdc3 with SMTP id a89-20020a509ee2000000b0056e23e3bdc3mr9530293edf.16.1713344378485;
-        Wed, 17 Apr 2024 01:59:38 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id x16-20020a056402415000b005704445851asm1736773eda.44.2024.04.17.01.59.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 01:59:38 -0700 (PDT)
-Message-ID: <0ce5cc60-da32-4e0a-89bb-fa481d4a15b1@redhat.com>
-Date: Wed, 17 Apr 2024 10:59:37 +0200
+        d=1e100.net; s=20230601; t=1713346281; x=1713951081;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c7CjWqPeCtoYXLSOyHKwESdFH4pcoLP/COUIU8rpmac=;
+        b=YeXMpK5PxOlgx/iiyRhP2kMx143USNdo81UggsXypdq8OmEdckt+03+FhjqY/UkwFS
+         JVm0rfeaYNGgoLepmLmx4kIlMzvIW7uQK1J65MxWa44bGFLO6wSkkXB/hCJErVQHzbwG
+         WV9x/ZQobN3PZQuGQCMVsky6zWX0yqKa9+Diqie/PTJN7KtcVppok+g+J+NtImcKEsJV
+         1hYuvXEyLMXKQDEMeCaY+2fOmkuEZu2IZ2rLhC0T49bzioY+1KWZtfazJqQJ4Z8Uz4Yd
+         G6SR2l7cBSj58GCkbG7w3sb1Nvu9gJsLJO4k7PJPpCP/U77BfRfBBHpvTppYuX0t3LW7
+         nksw==
+X-Gm-Message-State: AOJu0YzYnNfuc2P73vfwCnpzQEKuBjSNug3WGRzHbJXsRODG7RdTDc4T
+	Dck4UlDIFuXUtcffGBYJFkJpXXR7yq59v6VvqDQ5o5kz5ZDjoGvqy4739/270g==
+X-Google-Smtp-Source: AGHT+IHt2OKybMIi0lFPRHpTUZ2DZUoX/9eUQlnhGpsvIPR/HnFGcB9zL6JGULz/JGj+zfkwgSPYEQ==
+X-Received: by 2002:a05:6102:151e:b0:47b:995f:5716 with SMTP id f30-20020a056102151e00b0047b995f5716mr4759331vsv.26.1713346280900;
+        Wed, 17 Apr 2024 02:31:20 -0700 (PDT)
+Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
+        by smtp.gmail.com with ESMTPSA id i15-20020a0cd84f000000b006a045780b77sm495444qvj.51.2024.04.17.02.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 02:31:20 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 17 Apr 2024 09:30:44 +0000
+Subject: [PATCH] media: vivid: Enforce a monotonic sequence number
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/19] Intel IPU6 and IPU6 input system drivers
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- bingbu.cao@intel.com, laurent.pinchart@ideasonboard.com,
- andriy.shevchenko@linux.intel.com, ilpo.jarvinen@linux.intel.com,
- claus.stovgaard@gmail.com, tomi.valkeinen@ideasonboard.com,
- tfiga@chromium.org, senozhatsky@chromium.org, andreaskleist@gmail.com,
- bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com, hongju.wang@intel.com
-References: <20240416201105.781496-1-sakari.ailus@linux.intel.com>
- <77c32f87-cdec-4dd0-85b8-c75ca7405438@hansg.org>
- <Zh-Jr2gfdoCeB5-4@valkosipuli.retiisi.eu>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Zh-Jr2gfdoCeB5-4@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240417-vivid-seq-v1-1-0e56ea08b682@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAMOWH2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDE0Nz3bLMsswU3eLUQt0Ug9QkAxOTRAML0zQloPqCotS0zAqwWdGxtbU
+ AzU5fflsAAAA=
+To: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-Hi Sakari,
+Make sure that the sequence number is at least one unit bigger than the
+previous one.
 
-On 4/17/24 10:34 AM, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Wed, Apr 17, 2024 at 09:56:40AM +0200, Hans de Goede wrote:
->> Hi Sakari,
->> On 4/16/24 10:10 PM, Sakari Ailus wrote:
->>> Hello everyone,
->>>
->>> This patch series adds a driver for Intel IPU6 input system.
->>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
->>> device which can be found in some Intel Client Platforms. User can use
->>> IPU6 to capture images from MIPI camera sensors.
->>>
->>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
->>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
->>> the driver sets up a page table to allow IPU6 DMA to access the system
->>> memory.
->>>
->>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
->>>
->>> I can now capture images from ov01a10 and ov2740 sensors (including
->>> metadata from the latter).
->>>
->>> The series applies on top of the metadata patchset
->>> <URL:https://lore.kernel.org/linux-media/20240416193319.778192-1-sakari.ailus@linux.intel.com/T/#t>.
->>
->> Thank you for the new version!
->>
->> I assume that the posting of this new version means that you have solved
->> the stability issues where the laptop would freeze after sttreaming from
->> an ov2740 sensor with metadata once ?
->>
->> What about the unrelated ov2740 driver issue where the sensor would not
->> always start streaming for which you temporarily disabled runtime pm
->> for the sensor as a workaround any progress on that ?
-> 
-> I'm afraid these issues remain.
+This solves situations where the sequence number calculation does not
+have enough accuracy and repeats a sequence number.
 
-You mean both issues remain? I'm not that worried about the runtime-pm ov2740
-issue, but if the lockup after streaming issue also remains that is a lot
-more worrying.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+We have seen some examples where the sequence number has been
+duplicated. This should not happen.
+---
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-I've been running an older version of this series without the metadata
-support and that is pretty rock solid, so this seems to be caused by
-enabling metadata support.
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+index 42048727d7ff..6375e6484a4b 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+@@ -665,7 +665,7 @@ static int vivid_thread_vid_cap(void *data)
+ {
+ 	struct vivid_dev *dev = data;
+ 	u64 numerators_since_start;
+-	u64 buffers_since_start;
++	u64 buffers_since_start = ~0;
+ 	u64 next_jiffies_since_start;
+ 	unsigned long jiffies_since_start;
+ 	unsigned long cur_jiffies;
+@@ -691,6 +691,7 @@ static int vivid_thread_vid_cap(void *data)
+ 	vivid_cap_update_frame_period(dev);
+ 
+ 	for (;;) {
++		u64 tmp;
+ 		try_to_freeze();
+ 		if (kthread_should_stop())
+ 			break;
+@@ -719,9 +720,10 @@ static int vivid_thread_vid_cap(void *data)
+ 		/* Calculate the number of jiffies since we started streaming */
+ 		jiffies_since_start = cur_jiffies - dev->jiffies_vid_cap;
+ 		/* Get the number of buffers streamed since the start */
+-		buffers_since_start = (u64)jiffies_since_start * denominator +
+-				      (HZ * numerator) / 2;
+-		do_div(buffers_since_start, HZ * numerator);
++		tmp = (u64)jiffies_since_start * denominator +
++		      (HZ * numerator) / 2;
++		do_div(tmp, HZ * numerator);
++		buffers_since_start = max(tmp, buffers_since_start + 1);
+ 
+ 		/*
+ 		 * After more than 0xf0000000 (rounded down to a multiple of
+@@ -746,7 +748,7 @@ static int vivid_thread_vid_cap(void *data)
+ 		 * Calculate the number of 'numerators' streamed since we started,
+ 		 * including the current buffer.
+ 		 */
+-		numerators_since_start = ++buffers_since_start * numerator;
++		numerators_since_start = (buffers_since_start + 1) * numerator;
+ 
+ 		/* And the number of jiffies since we started */
+ 		jiffies_since_start = jiffies - dev->jiffies_vid_cap;
 
-AFAIK the current out of tree solution with partly closed-source
-userspace stack does not use metadata right /
+---
+base-commit: 836e2548524d2dfcb5acaf3be78f203b6b4bde6f
+change-id: 20240417-vivid-seq-d0eb044a085f
 
-Do you know if the Windows stack uses metadata capture from the sensor?
-
-If neither the existing out of tree Linux stack nor the Windows stack
-is using metadata capture then chances are we are actually hitting
-hw/firmware bugs here. This would not be the first time that the Linux
-community tries to enable a hw-feature not used by the factory installed
-OS for the hw and ends up failing miserably because the feature was
-never fully tested and turns out to be full of bugs.
-
-IMHO if we cannot get the stability issue fixed real soon it would
-be best to move forward with this patch series without adding
-the metadata support. So basically drop patch 17/19 .
-
->> Do you have a git branch available with the metadata + this series
->> somewhere for easy testing ?  I would like to give this a test run on
->> my own IPU6 + ov2740 laptop.
-> 
-> Both of the sets can be found here:
-> 
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=ipu6>
-
-Thank you.
-
-Regards,
-
-Hans
-
-
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
