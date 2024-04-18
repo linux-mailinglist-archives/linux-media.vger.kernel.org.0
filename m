@@ -1,227 +1,114 @@
-Return-Path: <linux-media+bounces-9720-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9721-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC1C8AA025
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 18:35:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 169C38AA0F0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 19:19:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AFBF1F230F0
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:35:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A89001F22682
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 17:19:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0C117167A;
-	Thu, 18 Apr 2024 16:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE84175552;
+	Thu, 18 Apr 2024 17:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmzhN8RY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NLy+4Lpt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693711494B2;
-	Thu, 18 Apr 2024 16:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F628171E6C
+	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 17:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713458037; cv=none; b=Rrp5ZABkFOwsfUL+57W6fUzxeDb8Y2etzWEBqe7YWh8GNZjpbCRb/tCb4DcCQLhsdpskinmz53okxzu1teVubZWuim7m9G5rA+kr3sb5Y4WfKqu9x6vw8pAGBHgHq7xjgME1+Y6yUUkbEoEiitA7sx4UiJ7CjENbxQthpGBZXbE=
+	t=1713460761; cv=none; b=JLF470Wx4r/8dyLk34V8M50t9tOEOZZzxLoZ4GcSfUoFD3rXMsinbbx4T96YX/WLq/KH1B6s6v0uLLn/oJpamhO+haJ6R3JR3U2z8n4C32L24Lb7HcWcJF9d1AJSbU59VP8Bn6gVMMLZQ9MEz2CDyjKRKGX6gJxiiTs2DMSO1UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713458037; c=relaxed/simple;
-	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
+	s=arc-20240116; t=1713460761; c=relaxed/simple;
+	bh=yROCoENx2b9yAJSMGatAYPh1hwYf8DqL0GPMYtwTMVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxOGdD0Z1OIA4GumObY5RTcEZsnlZ4iQMEl0jKZZkUyCFfe/zAl1BJy6z88J5n1+HUaaFYIJBnwVJchisYK1wvkiE56N5s1OI9bVDzMWn1o28YYGooNDSS3lszzdyppNgTRgODieuvpSRE6uToMNq6SizQAC1yE4Tec+jEeN/Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmzhN8RY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A046BC113CC;
-	Thu, 18 Apr 2024 16:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713458037;
-	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SmzhN8RYacSUvgmQeoSoei5bqe+spnwnlZfh3M/5/2LphAsoTy3X4yDNKUr+kZjOP
-	 nI0GUpxnlrDcVtXz+2C2GDMRMcaYoupRC+vwqbixVNYW4O5NZRoV9ROmQp6WigP2Fl
-	 t9vpZxB85aIoGbE8IH878QDLPSg7WdqjGxSQKAsQmNervesyvQvVJdtcVT92gND8Hp
-	 OrEs566wYq0tBLwzGRcI7M9vwdTElQ+NWCqgQTLv19g7AafiALvoigjgN73I3vj8eC
-	 5h8fooNygIBvJ6jTi9EYpXgRpuQDti2BMJsvmDnne0PGqJSFdCPbNGETCdelbl4o+J
-	 /I4Qof48Leebw==
-Date: Thu, 18 Apr 2024 18:33:54 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
- helper
-Message-ID: <20240418-spiritual-loyal-hornet-2fbbfd@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
- <Zh6Ars8z1ESz-LQO@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eQdHQSQiWXX78ezRy3oFwveSH+AC2a+HUcCsSr7Vwr4LobMD9ZoBhmdhT6QT3W+v7WqH4c6IHVhOB2d2fUQWQ4B4RUbPMJ4c4sWYJBS9RyN8xtMzj3PBvNgLZA9zigR8CMrWH9lkyZ7bs5HNp9c4zRbLQSuL0Ooz8UzIDErbICk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NLy+4Lpt; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a51aac16b6eso47369666b.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 10:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713460758; x=1714065558; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fXGa0pEP8iUBNqIHW4VCl1wGNComHip6UrWPNRc9bPA=;
+        b=NLy+4LptwTJ+sVVrAsl7QDaAMMCIkfZNfPnlZ3AI8aHeahkSb7f2UpAeCkxts8RiK+
+         GxxBNrPYYlGKIBRjnnfJSsRHi7S2ljRDJTFWbl0HawdXLRixFLqKYC5L9yynSsvR26IT
+         yR87XL/niiHEhGGnzj+K0TRT5LrzccSb3JxHZTlMIHu1EQH3jTNe163YJYwXyI9a8kJ9
+         1NqApXiH4doMCSphcDVj+vd8OQkcjz/od/4kgjIzBXNyZe1GoJ4l2j/7MfORvagFaRkg
+         XEUuJVi23TJT0fzp6/f5rXD/RvVZ74DYqTyOWeZCKh3lECgSM8vu4pzV+ZBhpU4W6DDk
+         j7WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713460758; x=1714065558;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fXGa0pEP8iUBNqIHW4VCl1wGNComHip6UrWPNRc9bPA=;
+        b=rWpY24JmGVel4eoPUCjPNBGop+0fCzzcQORoWuvXkzxMRQiVTjI2KDfXkXkf5o+miG
+         yvI0W6p+4YUP5yIeaFPxnaWzQoWY2Jcn7loUiUYquZA7bH4/SQe+ZR5GHIgNf8BfZb1s
+         3X6tE52yJb6EPYsL6C8LSvBEOgonyfLjPdxWZ/rffxikYFO/6u2P5oI4qalOCmA84Lh5
+         MgJ+6FWX/tJZbfae7F+lGBlZYY4gJd0vQNcnEwggYkHoBVQieAYp4I9ANh12J1MV9xT1
+         2VyZGSApjNqPm6A4scO20wqoNVsuBcD/ZvSq500V7S4xn2oi4dKxLe8zlSPD6kPs94ff
+         S+ow==
+X-Forwarded-Encrypted: i=1; AJvYcCW7dIaKnrxxMEgH0NCWR7BgYiS46oBPrj44EFht+QhAv1O3JMOplwFqOshxrW/2CjlExmekQpKQFWkUrsd+bynFZAYnXOVGTL216m0=
+X-Gm-Message-State: AOJu0YzCjHBaBUakQwu3XDPz9RQzMTLybAhKGDEv+Sn8ZTzAsMBRVq6U
+	OXzvP8RGtOi82EIC/PMl8pu9VFoGKGBQzsTZzC5gMjuA50FNoT25NI8jZiWCJJcEvdE0QYIFEOB
+	T
+X-Google-Smtp-Source: AGHT+IEwc41StGMMjA7NT/EcMHzsdl7Ubbyp3HEt0hPwzN/ol9BuHMjJLxAT3hzrUe7Xf/hT6lTnuQ==
+X-Received: by 2002:a50:875d:0:b0:56b:829a:38e3 with SMTP id 29-20020a50875d000000b0056b829a38e3mr2946788edv.16.1713460758239;
+        Thu, 18 Apr 2024 10:19:18 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id e19-20020a056402089300b0057016d010f9sm1101811edy.16.2024.04.18.10.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 10:19:17 -0700 (PDT)
+Date: Thu, 18 Apr 2024 20:19:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbdjFdIHN0YWdpbmc=?= =?utf-8?Q?=3A?= media:
+ starfive: Clean pad selection in isp_try_format()
+Message-ID: <ea244234-38f0-4381-9c9a-b6c6076e7dcb@moroto.mountain>
+References: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+ <SHXPR01MB06710239B9F69E2F0EC0CB01F20EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wahmhb7ukfwggb5k"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zh6Ars8z1ESz-LQO@intel.com>
+In-Reply-To: <SHXPR01MB06710239B9F69E2F0EC0CB01F20EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
 
-
---wahmhb7ukfwggb5k
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 16, 2024 at 04:44:14PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
-> > A lot of HDMI drivers have some variation of the formula to calculate
-> > the TMDS character rate from a mode, but few of them actually take all
-> > parameters into account.
-> >=20
-> > Let's create a helper to provide that rate taking all parameters into
-> > account.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Thu, Apr 18, 2024 at 01:27:04AM +0000, Changhuang Liang wrote:
+> Hi, Hans
+> 
+> > The code to select isp_dev->formats[] is overly complicated.  We can just use
+> > the "pad" as the index.  This will making adding new pads easier in future
+> > patches.  No functional change.
+> > 
+> > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 > > ---
-> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++=
-++++++++
-> >  include/drm/display/drm_hdmi_helper.h     |  4 ++
-> >  2 files changed, 74 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/dr=
-m/display/drm_hdmi_helper.c
-> > index faf5e9efa7d3..2518dd1a07e7 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hd=
-mi_avi_infoframe *frame,
-> >  	}
-> > =20
-> >  	frame->itc =3D conn_state->content_type !=3D DRM_MODE_CONTENT_TYPE_NO=
-_DATA;
-> >  }
-> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
-> > +
-> > +/**
-> > + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
-> > + * @mode: Display mode to compute the clock for
-> > + * @bpc: Bits per character
-> > + * @fmt: Output Pixel Format used
-> > + *
-> > + * Returns the TMDS Character Rate for a given mode, bpc count and out=
-put format.
-> > + *
-> > + * RETURNS:
-> > + * The TMDS Character Rate, in Hertz, or 0 on error.
->=20
-> Everything generally uses kHz. Sticking to common units
-> would be better.
+> 
+> Could you please help to review this patch, thanks for your time.
 
-Not everything, no. The clock framework is using Hz for example, and on
-drm-misc drivers it's usually going to be the consumer of that field.
+Linux-media uses patchwork, so probably it was missed because it didn't
+have a [PATCH] in the subject.  Just resend.
 
-And there's almost 200 hits on mode->clock * 1000 in drivers/gpu/drm as
-of today, including some in i915. This is a bit less than a third of all
-the mode->clock usage, including the one that are unit-neutral (like
-comparisons between two mode->clock fields).
+regards,
+dan carpenter
 
-Given how the rest of the DRM code is structured, yes, there's going to
-be some impedance mismatch, but it's really not as clear cut as you make
-it to be.
-
-> > + */
-> > +unsigned long long
-> > +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> > +			    unsigned int bpc, enum hdmi_colorspace fmt)
-> > +{
-> > +	unsigned long long clock =3D mode->clock * 1000ULL;
-> > +	unsigned int vic =3D drm_match_cea_mode(mode);
-> > +
-> > +	/*
-> > +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
-> > +	 * mandates that VIC 1 always uses 8 bpc.
-> > +	 */
-> > +	if (vic =3D=3D 1 && bpc !=3D 8)
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is only available for those
-> > +	 * VICs.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420 &&
-> > +	    !(vic =3D=3D 96 || vic =3D=3D 97 || vic =3D=3D 101 ||
-> > +	      vic =3D=3D 102 || vic =3D=3D 106 || vic =3D=3D 107))
-> > +		return 0;
->=20
-> I believe that is already outdated. I would just rip this out since the=
-=20
-> sink is anyway required to declare for which timings it will support
-> 4:2:0 via the Y420CMDB/VDB data blocks (see
-> drm_mode_is_420_{only,also}().
-
-Should we use drm_mode_is_420() then or rip it out entirely?
-
-> > +
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV422) {
-> > +		/*
-> > +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
-> > +		 * specifies that YUV422 is 36-bit only.
-> > +		 */
-> > +		if (bpc !=3D 12)
-> > +			return 0;
-> > +
-> > +		/*
-> > +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
-> > +		 * specifies that YUV422 requires two 12-bits components per
-> > +		 * pixel clock, which is equivalent in our calculation to three
-> > +		 * 8-bits components
-> > +		 */
-> > +		bpc =3D 8;
-> > +	}
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
-> > +	 * equal to half the pixel clock rate.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420)
-> > +		clock =3D clock / 2;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> > +		clock =3D clock * 2;
-> > +
-> > +	clock =3D clock * bpc;
-> > +	do_div(clock, 8);
->=20
-> IMO one shouldn't use bare do_div(). There are
-> more sensible wrappers for it.
->=20
-> In this case I would use DIV_ROUND_CLOSEST_ULL().
-
-Ack.
-
-Thanks!
-Maxime
-
-
---wahmhb7ukfwggb5k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiFLagAKCRAnX84Zoj2+
-dlldAX9qCzh/RA7mK7FqSsjMey+9M1jDrHEO4/u17NwCJ+/AYaHi+wppWxmtK+K+
-sLdIITcBgOE4oCoHKzJp+1JalYFdUKenCg0IWTcdxL0i3zyaXi9LePr+JzQS6ptm
-EHgy3onxJA==
-=/Ryj
------END PGP SIGNATURE-----
-
---wahmhb7ukfwggb5k--
 
