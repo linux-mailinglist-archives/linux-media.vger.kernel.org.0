@@ -1,142 +1,265 @@
-Return-Path: <linux-media+bounces-9708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88A38A987E
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 13:26:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A8D8A9ADF
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 15:09:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63D0428418C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 11:26:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3E1C1C20FBD
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 13:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D64EC15E7FE;
-	Thu, 18 Apr 2024 11:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289861494D7;
+	Thu, 18 Apr 2024 13:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="RsOBlq/6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sm4Xj+Gz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F9415AAAD;
-	Thu, 18 Apr 2024 11:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE1313C3FF;
+	Thu, 18 Apr 2024 13:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713439572; cv=none; b=jAERP/6j3641OIhmS1DchRih0H8VsMNluURnslEYQtVe5SdfODpX5vRp+/RZ8OTvWbItFlcnlNO7SRVEOblEjmcf0eG4gQj7mqtj9N/DUBY112+wBgogVmDsA+wRZU05/EglscAbKi5U32RGJLC+hOB7Ke4o8qYzQbJRKxXxW+M=
+	t=1713445759; cv=none; b=P3rosMWwJjVLkZNQySb2BlkNYZxGj0qiZN+2fKBmgCfxJRHfjtein96eh6vZv6YQMMU4U9gW3GSMsvViZ3K2OFlsNicMZZPk4LF2NPsHmdORIqU2afeJgx5G4nxGeuvPhCU6jqfAvPlRBsBWyxx0eohcBE+GjvvfG8xgwYUWVW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713439572; c=relaxed/simple;
-	bh=5N5/GthAZnmatehNZianrScGEQeyQtidTpCwtnZVSTs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RluH3UgB8/d32H+VsOfAPey21L4pfgWrOwtfCkBj3Oz/wUchsy9/zVWlMU0bAFpFI6hmw48fymms8xgY1V74OSNJwPoiTbekJWVPu2733wkxObupnL3TsXXc6MCbZ8LYe7mg2tpR6DrarID7tnRBkG3wYKyVoiR9Df7/pKjypFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=RsOBlq/6; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 43IBPJCZ117586;
-	Thu, 18 Apr 2024 06:25:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1713439519;
-	bh=ILDNju0o0Gp9TIqLKVSPNzABvK9adaPpRims5XNw4t8=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=RsOBlq/6MUG7S3kgqzZ/ioTisRm/WA1en24YrVwJ28xOBxbAtTfRQbHQsU8hGpDzn
-	 Ql1AgPUPlVxvbA4vLMuJdlll423tocugH62VzbPvUVrXpgjNykiWu8WR0wLh4fa3lv
-	 KBWMsmODfzdprNGpLolX7Zhg6vZPia5iH2EEZFcM=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 43IBPJEr017250
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 18 Apr 2024 06:25:19 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
- Apr 2024 06:25:19 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 18 Apr 2024 06:25:19 -0500
-Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 43IBPINQ105647;
-	Thu, 18 Apr 2024 06:25:19 -0500
-Date: Thu, 18 Apr 2024 16:55:18 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Julien Panis <jpanis@baylibre.com>
-CC: Siddharth Vadapalli <s-vadapalli@ti.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Russell King
-	<linux@armlinux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann
-	<daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John
- Fastabend <john.fastabend@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Ratheesh Kannoth
-	<rkannoth@marvell.com>,
-        Naveen Mamindlapalli <naveenm@marvell.com>,
-        Jacob
- Keller <jacob.e.keller@intel.com>, <danishanwar@ti.com>,
-        <yuehaibing@huawei.com>, <rogerq@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
- Ethernet driver
-Message-ID: <1da48c7e-ba87-4f7a-b6d1-d35961005ab0@ti.com>
-References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
- <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
- <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
+	s=arc-20240116; t=1713445759; c=relaxed/simple;
+	bh=hvKGkHxZPIW4Pt6T/rjRhahcUnodHa40YaR7g0BoD4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aPixayGkQRoIXTB0Q8TOu2kIfMRz8wAxAyjTwPCKkKlzKnBPFH+ABeQufnkznYYRHCGdX+esyY37KXqNie4y8S6SNrGH4S/FHRS5hGYURUlhx6frTG1a/qjiOEnrU2cwPehioqlEIjdcw1/FGkUxWR/gvjsgipF5v7ovNPw+Hgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sm4Xj+Gz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02941C2BD11;
+	Thu, 18 Apr 2024 13:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713445759;
+	bh=hvKGkHxZPIW4Pt6T/rjRhahcUnodHa40YaR7g0BoD4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sm4Xj+GzFlBaqZBkolIpZr8PxUyKoQG2PVErnF19y8dLXpdLOPkOtl2FJ37ynV7/X
+	 LxUEh7KqcTARhBsu7h9l2UroGgxcfjcN9gZoNqlk8P+qmD5USeDLUoV89CNBu4KRHn
+	 qaRqDWMEqquDO4KoXwWPhWoxDJ+RH5WIWSTYrA91J2WEUVA9da5ybx8KlDQScMgSHe
+	 udbgm4Ng1TxyQM/pwyPxeRT+zPSDKfNdXj167YzuRYbZJ5ZCyr6L+oTSZy3jgnsuqy
+	 IKj7vH7rbs10Z0aOCXwdCrYR3Ip7RdV2vK2E6EhWp7Qn9uO5g324KBbUGBWeeXHebt
+	 Z581LFFCjFAyw==
+Date: Thu, 18 Apr 2024 08:09:16 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sylvain Petinot <sylvain.petinot@foss.st.com>
+Cc: benjamin.mugnier@foss.st.com, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
+ binding
+Message-ID: <20240418130916.GA1016598-robh@kernel.org>
+References: <20240417133453.17406-1-sylvain.petinot@foss.st.com>
+ <20240417133453.17406-2-sylvain.petinot@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20240417133453.17406-2-sylvain.petinot@foss.st.com>
 
-On Thu, Apr 18, 2024 at 01:17:47PM +0200, Julien Panis wrote:
-> On 4/18/24 13:00, Siddharth Vadapalli wrote:
-> > On 12-04-2024 21:08, Julien Panis wrote:
-> > > This patch adds XDP support to TI AM65 CPSW Ethernet driver.
-> > > 
-> > > The following features are implemented: NETDEV_XDP_ACT_BASIC,
-> > > NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
-> > > 
-> > > Zero-copy and non-linear XDP buffer supports are NOT implemented.
-> > > 
-> > > Besides, the page pool memory model is used to get better performance.
-> > > 
-> > > Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> > Hello Julien,
-> > 
-> > This series crashes Linux on AM62ax SoC which also uses the
-> > AM65-CPSW-NUSS driver:
-> > https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
-> > 
-> > Regards,
-> > Siddharth.
+On Wed, Apr 17, 2024 at 03:34:52PM +0200, Sylvain Petinot wrote:
+> Add devicetree bindings Documentation for ST VD56G3 & ST VD66GY camera
+> sensors. Update MAINTAINERS file.
 > 
-> Hello Siddharth.
+> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
+> ---
+>  .../bindings/media/i2c/st,st-vd56g3.yaml      | 143 ++++++++++++++++++
+>  MAINTAINERS                                   |   9 ++
+>  2 files changed, 152 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
 > 
-> Thanks for the log. I can read:
-> [    1.966094] Missing net_device from driver
-> 
-> Did you check that nodes exist in the device tree for the net devices ?
+> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+> new file mode 100644
+> index 000000000000..6792c02fea5c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+> @@ -0,0 +1,143 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (c) 2024 STMicroelectronics SA.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/st,st-vd56g3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: STMicroelectronics VD56G3 Global Shutter Image Sensor
+> +
+> +maintainers:
+> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
+> +
+> +description: |-
+> +  The STMicroelectronics VD56G3 is a 1.5 M pixel global shutter image sensor
+> +  with an active array size of 1124 x 1364 (portrait orientation).
+> +  It is programmable through I2C, the address is fixed to 0x10.
+> +  The sensor output is available via CSI-2, which is configured as either 1 or
+> +  2 data lanes.
+> +  The sensor provides 8 GPIOS that can be used for either
+> +    - frame synchronization (Master: out-sync or Slave: in-sync)
+> +    - external LED signal (synchronized with sensor integration periods)
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - st,st-vd56g3
+> +      - st,st-vd66gy
+> +    description:
+> +      Two variants are availables; VD56G3 is a monochrome sensor while VD66GY
+> +      is a colour variant.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  VCORE-supply:
 
-Yes it exists. The device-tree used was also built with linux-next
-tagged next-20240417. The node corresponding to eth0 is cpsw_port1 which
-is present and enabled in the device-tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/ti/k3-am62a7-sk.dts?h=next-20240417#n644
+Convention is lowercase.
 
-Regards,
-Siddharth.
+> +    description: Digital core power supply (1.15V)
+> +
+> +  VDDIO-supply:
+> +    description: Digital IO power supply (1.8V)
+> +
+> +  VANA-supply:
+> +    description: Analog power supply (2.8V)
+> +
+> +  reset-gpios:
+> +    description: Sensor reset active low GPIO (XSHUTDOWN)
+> +    maxItems: 1
+> +
+> +  st,leds:
+> +    description:
+> +      Sensor's GPIOs used for external LED control.
+> +      Signal being the enveloppe of the integration time.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      minimum: 0
+> +      maximum: 7
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
+
+If required and only 1 possible value, why does this need to be in DT?
+
+> +
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 2
+> +            items:
+> +              enum: [1, 2]
+> +
+> +          link-frequencies:
+> +            minItems: 1
+> +            maxItems: 1
+> +            items:
+> +              enum: [402000000, 750000000]
+> +
+> +          lane-polarities:
+> +            minItems: 1
+> +            maxItems: 3
+> +            items:
+> +              enum: [0, 1]
+
+video-interfaces.yaml already defines this constraint, so you just need 
+to define how many entries.
+
+> +            description: Any lane can be inverted or not.
+> +
+> +        required:
+> +          - clock-lanes
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - VCORE-supply
+> +  - VDDIO-supply
+> +  - VANA-supply
+> +  - reset-gpios
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        vd56g3: camera-sensor@10 {
+
+Drop unused labels.
+
+> +            compatible = "st,st-vd56g3";
+> +            reg = <0x10>;
+> +
+> +            clocks = <&camera_clk_12M>;
+> +
+> +            VCORE-supply = <&camera_vcore_v1v15>;
+> +            VDDIO-supply = <&camera_vddio_v1v8>;
+> +            VANA-supply = <&camera_vana_v2v8>;
+> +
+> +            reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
+> +            st,leds = <6>;
+> +
+> +            port {
+> +                vd56g3_ep: endpoint {
+> +                    clock-lanes = <0>;
+> +                    data-lanes = <1 2>;
+> +                    link-frequencies =
+> +                      /bits/ 64 <402000000>;
+> +                    remote-endpoint = <&csiphy0_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7c121493f43d..991e65627e18 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20868,6 +20868,15 @@ S:	Maintained
+>  F:	Documentation/hwmon/stpddc60.rst
+>  F:	drivers/hwmon/pmbus/stpddc60.c
+>  
+> +ST VD56G3 DRIVER
+> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+
+This should be covered by the media maintainer entry.
+
+> +F:	Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+> +F:	drivers/media/i2c/st-vd56g3.c
+> +
+>  ST VGXY61 DRIVER
+>  M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+>  M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
+> -- 
+> 2.17.1
+> 
 
