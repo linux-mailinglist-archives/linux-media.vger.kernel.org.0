@@ -1,150 +1,227 @@
-Return-Path: <linux-media+bounces-9719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9720-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB898A9F98
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 18:08:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC1C8AA025
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 18:35:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B275B23811
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:08:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AFBF1F230F0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:35:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E13F616F8ED;
-	Thu, 18 Apr 2024 16:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0C117167A;
+	Thu, 18 Apr 2024 16:33:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TftbM3dO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmzhN8RY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D502168B0D;
-	Thu, 18 Apr 2024 16:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693711494B2;
+	Thu, 18 Apr 2024 16:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713456494; cv=none; b=EeZExZnEcgmrBecOFjm7+PiXz5nma5A9URP2Tyw+xwlHlFl376wsgJ5d11LNUqv7s4Gn6enr/1W88T1pThGkOMgEZY9+7KGu102CIr6icwbzJoemU45m4Rw40pRf+Wt4lSat80olu7dUaeB0SCLtdlF5zu0WB3xIOwMBQI9FoZY=
+	t=1713458037; cv=none; b=Rrp5ZABkFOwsfUL+57W6fUzxeDb8Y2etzWEBqe7YWh8GNZjpbCRb/tCb4DcCQLhsdpskinmz53okxzu1teVubZWuim7m9G5rA+kr3sb5Y4WfKqu9x6vw8pAGBHgHq7xjgME1+Y6yUUkbEoEiitA7sx4UiJ7CjENbxQthpGBZXbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713456494; c=relaxed/simple;
-	bh=rkrTpsLO+50r5ibEQOEvU3vQMmfUVtgFiQ5k83m5StM=;
+	s=arc-20240116; t=1713458037; c=relaxed/simple;
+	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jUPuHCssJyNBmxoAzQ84znEBOrxRUvArwW73t6gj8WZ4f2p4+j5jQJ2YyBZL7fGtFlKNGJigXJutBMbUM/lLkSaA+qsYk9LHpHZuONGQ9/th+Y8AWP9QIyFlMfvHd3Kjf/eGX7OWDcbczQVSMEkwpF46syhC2n45wYV5MUZxFNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TftbM3dO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C54FC113CC;
-	Thu, 18 Apr 2024 16:08:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxOGdD0Z1OIA4GumObY5RTcEZsnlZ4iQMEl0jKZZkUyCFfe/zAl1BJy6z88J5n1+HUaaFYIJBnwVJchisYK1wvkiE56N5s1OI9bVDzMWn1o28YYGooNDSS3lszzdyppNgTRgODieuvpSRE6uToMNq6SizQAC1yE4Tec+jEeN/Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmzhN8RY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A046BC113CC;
+	Thu, 18 Apr 2024 16:33:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713456493;
-	bh=rkrTpsLO+50r5ibEQOEvU3vQMmfUVtgFiQ5k83m5StM=;
+	s=k20201202; t=1713458037;
+	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TftbM3dOE3svEIaqrs8h/enmkXGrctoHLiseUF3xQMbQvYuNBYPYXtIAbtEonZ5b1
-	 41TO3gaVUdFt3J52keySYXF+cB4AfcNmvXY4z2m/R31WbwOFgffs3GuPoagJqG+PWk
-	 1YDt8QAR76YXXN5ZOy6B5Q9TXC3cX+UBFZSHUb2RAVsYzUREmpv3qGMzyCizDLjUi8
-	 F6O9Pyj0boTNTgetVQOl58vEVR/ZoQshLTyHAIbiibz/7uC61KyIy1tfU+Mfe4TcMV
-	 AheGu7QrCaOrVlc+1rBv1za5Y03RUdUGODesrbMktYMEdOOiHdGZzmh+lvBP1YJne2
-	 hgJ2wfppFkKZg==
-Date: Thu, 18 Apr 2024 17:08:08 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Diederik de Haas <didi.debian@cknow.org>
-Cc: liujianfeng1994@gmail.com, krzk@kernel.org,
-	linux-rockchip@lists.infradead.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de, krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, mchehab@kernel.org,
-	p.zabel@pengutronix.de, robh@kernel.org, sfr@canb.auug.org.au,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v5 2/2] dt-bindings: media: rockchip-vpu: Add rk3588
- vdpu121 compatible string
-Message-ID: <20240418-tipoff-neon-8c1fa60385cb@spud>
-References: <2a516484-ea87-444e-a89d-9fe33d08148f@kernel.org>
- <20240413155709.802362-1-liujianfeng1994@gmail.com>
- <1774986.o0yEF5yP89@bagend>
+	b=SmzhN8RYacSUvgmQeoSoei5bqe+spnwnlZfh3M/5/2LphAsoTy3X4yDNKUr+kZjOP
+	 nI0GUpxnlrDcVtXz+2C2GDMRMcaYoupRC+vwqbixVNYW4O5NZRoV9ROmQp6WigP2Fl
+	 t9vpZxB85aIoGbE8IH878QDLPSg7WdqjGxSQKAsQmNervesyvQvVJdtcVT92gND8Hp
+	 OrEs566wYq0tBLwzGRcI7M9vwdTElQ+NWCqgQTLv19g7AafiALvoigjgN73I3vj8eC
+	 5h8fooNygIBvJ6jTi9EYpXgRpuQDti2BMJsvmDnne0PGqJSFdCPbNGETCdelbl4o+J
+	 /I4Qof48Leebw==
+Date: Thu, 18 Apr 2024 18:33:54 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
+ helper
+Message-ID: <20240418-spiritual-loyal-hornet-2fbbfd@houat>
+References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
+ <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
+ <Zh6Ars8z1ESz-LQO@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sKET8aOPU1iKBZV1"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wahmhb7ukfwggb5k"
 Content-Disposition: inline
-In-Reply-To: <1774986.o0yEF5yP89@bagend>
+In-Reply-To: <Zh6Ars8z1ESz-LQO@intel.com>
 
 
---sKET8aOPU1iKBZV1
-Content-Type: text/plain; charset=us-ascii
+--wahmhb7ukfwggb5k
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 18, 2024 at 11:19:56AM +0200, Diederik de Haas wrote:
-> On Saturday, 13 April 2024 17:57:09 CEST Jianfeng Liu wrote:
-> > I'm sorry for my unkonwing about the kernel patching process. And I'm
-> > sorry to let maintainers do extra work. Thank you for teaching me this.
-> > I will do this right in future patches.
+On Tue, Apr 16, 2024 at 04:44:14PM +0300, Ville Syrj=E4l=E4 wrote:
+> On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
+> > A lot of HDMI drivers have some variation of the formula to calculate
+> > the TMDS character rate from a mode, but few of them actually take all
+> > parameters into account.
 > >=20
-> > I did received a Acked-by tag from Conor in v4:
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > Let's create a helper to provide that rate taking all parameters into
+> > account.
 > >=20
-> > I note it here in case someone forgets this tag.
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++=
+++++++++
+> >  include/drm/display/drm_hdmi_helper.h     |  4 ++
+> >  2 files changed, 74 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/dr=
+m/display/drm_hdmi_helper.c
+> > index faf5e9efa7d3..2518dd1a07e7 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hd=
+mi_avi_infoframe *frame,
+> >  	}
+> > =20
+> >  	frame->itc =3D conn_state->content_type !=3D DRM_MODE_CONTENT_TYPE_NO=
+_DATA;
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+> > +
+> > +/**
+> > + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
+> > + * @mode: Display mode to compute the clock for
+> > + * @bpc: Bits per character
+> > + * @fmt: Output Pixel Format used
+> > + *
+> > + * Returns the TMDS Character Rate for a given mode, bpc count and out=
+put format.
+> > + *
+> > + * RETURNS:
+> > + * The TMDS Character Rate, in Hertz, or 0 on error.
 >=20
-> I think it's beneficial to send a v6 with the following changes:
-> 1) Make this dt-bindings patch the first in the series
-> 2) Make sure you've collected all the tags you've received to all the pat=
-ches
-> 3) Specify the base commit
+> Everything generally uses kHz. Sticking to common units
+> would be better.
+
+Not everything, no. The clock framework is using Hz for example, and on
+drm-misc drivers it's usually going to be the consumer of that field.
+
+And there's almost 200 hits on mode->clock * 1000 in drivers/gpu/drm as
+of today, including some in i915. This is a bit less than a third of all
+the mode->clock usage, including the one that are unit-neutral (like
+comparisons between two mode->clock fields).
+
+Given how the rest of the DRM code is structured, yes, there's going to
+be some impedance mismatch, but it's really not as clear cut as you make
+it to be.
+
+> > + */
+> > +unsigned long long
+> > +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> > +			    unsigned int bpc, enum hdmi_colorspace fmt)
+> > +{
+> > +	unsigned long long clock =3D mode->clock * 1000ULL;
+> > +	unsigned int vic =3D drm_match_cea_mode(mode);
+> > +
+> > +	/*
+> > +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
+> > +	 * mandates that VIC 1 always uses 8 bpc.
+> > +	 */
+> > +	if (vic =3D=3D 1 && bpc !=3D 8)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> > +	 * specifies that YUV420 encoding is only available for those
+> > +	 * VICs.
+> > +	 */
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420 &&
+> > +	    !(vic =3D=3D 96 || vic =3D=3D 97 || vic =3D=3D 101 ||
+> > +	      vic =3D=3D 102 || vic =3D=3D 106 || vic =3D=3D 107))
+> > +		return 0;
 >=20
-> ad 1) I don't know if it's a hard rule, but I've seen a consistent patter=
-n=20
-> where the dt-binding changes come before those changes being applied to=
+> I believe that is already outdated. I would just rip this out since the=
 =20
-> DeviceTree files. It also makes sense as when the dt-binding change hasn'=
-t been=20
-> applied, then the DT file is technically invalid.
+> sink is anyway required to declare for which timings it will support
+> 4:2:0 via the Y420CMDB/VDB data blocks (see
+> drm_mode_is_420_{only,also}().
 
-It is definitely preferred, since there is tooling that checks for
-undocumented compatibles etc that would see spurious errors during
-bisection, were that to be done. Generally I wouldn't suggest resending
-for the order though if it were the only thing amiss.
+Should we use drm_mode_is_420() then or rip it out entirely?
 
-> ad 2) You shouldn't make maintainers do extra work to get your patch(es)=
-=20
-> merged; you want to make their work as easy as possible. Thus you do the=
-=20
-> (extra) work and provide a new version of the patch(es).
-> Sending multiple versions in a single day is generally not recommended as=
- you=20
-> should give reviewers some time to do the review. But it should be fine n=
-ow as=20
-> several days have past without new reviews.
-
-I dunno, the best way to save our time is to not omit the tags in the
-first place (or give a reason as to why you did) as we'll likely pull up
-the previous version of the series to see if all comments were
-addressed, if made by another maintainer (at least I do that and Krzysztof
-must have here). In my workflow sending another ack takes much less time
-than looking up previous versions and checking to see if things were
-dealt with - probably that's in-part to me lacking automation for dfn:
-lore search from mutt though..
-
+> > +
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV422) {
+> > +		/*
+> > +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
+> > +		 * specifies that YUV422 is 36-bit only.
+> > +		 */
+> > +		if (bpc !=3D 12)
+> > +			return 0;
+> > +
+> > +		/*
+> > +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
+> > +		 * specifies that YUV422 requires two 12-bits components per
+> > +		 * pixel clock, which is equivalent in our calculation to three
+> > +		 * 8-bits components
+> > +		 */
+> > +		bpc =3D 8;
+> > +	}
+> > +
+> > +	/*
+> > +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> > +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
+> > +	 * equal to half the pixel clock rate.
+> > +	 */
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420)
+> > +		clock =3D clock / 2;
+> > +
+> > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+> > +		clock =3D clock * 2;
+> > +
+> > +	clock =3D clock * bpc;
+> > +	do_div(clock, 8);
 >=20
-> ad 3) The `git format-patch` command has a `--base=3D<commit>` parameter =
-with=20
-> which you can make explicit upon which commit the patch is based.
-> That works a lot better/easier then a textual description.
+> IMO one shouldn't use bare do_div(). There are
+> more sensible wrappers for it.
 >=20
-> HTH
+> In this case I would use DIV_ROUND_CLOSEST_ULL().
+
+Ack.
+
+Thanks!
+Maxime
 
 
-
---sKET8aOPU1iKBZV1
+--wahmhb7ukfwggb5k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiFFaAAKCRB4tDGHoIJi
-0o0pAP9fk55H5h1zSZnxIKk23cdN+HBXKww/TkXCqriIsMnC6gD9F54oAW2uS2/S
-BilcF9zkehoRlEKSh4CiiY5wD9hLGAM=
-=YI8b
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiFLagAKCRAnX84Zoj2+
+dlldAX9qCzh/RA7mK7FqSsjMey+9M1jDrHEO4/u17NwCJ+/AYaHi+wppWxmtK+K+
+sLdIITcBgOE4oCoHKzJp+1JalYFdUKenCg0IWTcdxL0i3zyaXi9LePr+JzQS6ptm
+EHgy3onxJA==
+=/Ryj
 -----END PGP SIGNATURE-----
 
---sKET8aOPU1iKBZV1--
+--wahmhb7ukfwggb5k--
 
