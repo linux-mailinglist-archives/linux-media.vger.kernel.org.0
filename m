@@ -1,151 +1,136 @@
-Return-Path: <linux-media+bounces-9706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0AA8A9855
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 13:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCB58A9869
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 13:18:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24215B21A15
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 11:11:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 468C6B21A5E
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 11:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7664315E81D;
-	Thu, 18 Apr 2024 11:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E8215E7EA;
+	Thu, 18 Apr 2024 11:17:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPxptB+i"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="W99gcOUK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A91B15F326;
-	Thu, 18 Apr 2024 11:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0356415E5B0
+	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 11:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713438668; cv=none; b=ThHP+LMZey+WFLIKkJDjGoaCbmbVCxJlfLYXbkueUMTHENZb5KzT5itEt57v135MO22561X5GljRTWANHSGAER3EPz3w3S3c8eve3SynsyUdoLCmCwU8L/WhSXY2loXkdbFofR/+GO8WAk7UFYbYruwXHIrSMUSCkIXLoIPl8Sw=
+	t=1713439077; cv=none; b=ZAMkWIWrB1ZRk2XSomuQ0hWycWvEEpe+kMGJQhomGu3tDeLTGBd7r4UkIb+Rz6xah9MQdUWRDvP0ys7QUBlw4yXEIoq6ub6+AurCc6FN0OD22Rar5v/ODf3ObNk/efRyUj4//3Nbl6EvIDTU+OxFtWmoYm9JT28hV+bm4xwDvOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713438668; c=relaxed/simple;
-	bh=MkWEyyE0Nhw0JoHKbE3hW1kmGt0W+ifC+nyPrGRuBmc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ov6oL9cJITIvew9ujj+84FCXfFGtdjW+IJoM7Hovb8majR645VBMTw8sjq1HoeM9PJbPsIkXcEsrItimoMJ5EewN5AmpHDWPmkPt2aigQlLPhALHKBkuFWYIGV6L+4/D1ceNC5VNCjIcwiQ5BAP2dJFG5ysK+XXb27s/ir+3q/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPxptB+i; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e86d56b3bcso6764065ad.1;
-        Thu, 18 Apr 2024 04:11:07 -0700 (PDT)
+	s=arc-20240116; t=1713439077; c=relaxed/simple;
+	bh=dadbVw0ZN8KGcZgqWT52RSFUotZfDdsINMbi0GWd0pk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a6rT0KWG4rGakUZ2Fh8QmCclAhjTzPNCr9pSYT8f0/GbDQw+ZYMJmB/5Xo8vLsHT/p1bH5B2/O6wJCo4SqwzUI3/y5VcV3SZ6RqH1ld8Gqsj2r/7VYp/TJ72vIbJLAodHpn4cg0scc9cO9hMK2FVOCr1DKAtziW9W2WE+BWYyOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=W99gcOUK; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-56e48d0a632so1082293a12.2
+        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 04:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713438666; x=1714043466; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lxb2yFQOzOHStfCQA/m2P7fU2z/qbCohGERMxV0x4sk=;
-        b=WPxptB+iur2mi30cg+k4hq/rIlYgk0VW6zdPnDuGYUic/dNo600iD9zcals928OpGz
-         m9gvxnVVrftJaao2EjK8fcPpgsADfHSPHGZP/t/d4RKjVG4+/osOvhr4omrT17uoPaj2
-         1VnNrlPzpcNjEUHujjCzGMGr7054W/FaqIEdAOnmPHDOMUg+YvRgz8utfFA0GwqOH1bo
-         QXQAqrlX5UjoD1bfUEipRkqS4qWxQ/EagYX4jT5kjsCJ5clTUKErlVnzHQVnK/3Z92AI
-         dat7P28rhNqa9maPCEMZx8H+tFhLfPqRvTBrEGGhfTYu5DFhp2fzy43WmFuQojKq9kNW
-         rdQg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713439073; x=1714043873; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dadbVw0ZN8KGcZgqWT52RSFUotZfDdsINMbi0GWd0pk=;
+        b=W99gcOUKyl2+fZdSBGJVqDttq0TutTfo/6hILA47OiK9Q5NGpLWd82kINRtwvJ0lvR
+         kyatA9B4IM0952YAX0i+2pg8VMETeswm4xNnuUz9EWIlyhq9xMakmTSZ5AwqcQ8cjJ+a
+         Jjdy1rSJ+S00Jp4QIy/vkmnAVLvtO4/Y+EsgYF9ZQ6lY/XoE7cnnQXZmm/IqsUdYlKrH
+         zGP72ch7jLJfnopA6zORpfzvDwgsEgWmUCk3W4iqYxYHimEHHsqxyh0+bN1S2ixRP5Hc
+         G7+S1tuV3fZPUQLfZKwtAnv4NswetcDsj+f/aA1Er605BpFnIxdV3Ee8DsemNttK6gi5
+         +pkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713438666; x=1714043466;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lxb2yFQOzOHStfCQA/m2P7fU2z/qbCohGERMxV0x4sk=;
-        b=wdW725d1yAfqNDKpRqPOTTAmUiM6QGbD/sOy+vAYqDa8F7NtHGq9M2H7X+pOO5dUe0
-         qUjRGg7b0c2PYFoqp+eJqW1WOtHiikKKDidNzLTZPIjv7qyDOn8a6pEEFe7Uc4G8kCxL
-         ygjs+FhVDLFEo4xEjcALPJsssvc7iU62VFhj7pfV8v7wfmWB+WLcBqmsCQuU1qEzHH1V
-         rIlUYJEfO3bmVtqJ5jczK6fuWNLE65VJmWf/5Ft4kw7oqgYOZ2br9IQrB9zHCnJ3QnAX
-         6/nAhX5j+r4bqqr1zElhACQ9RIvonEFNkg3ycvh9Al9anl6Lwb71DKamtWyltSVld4do
-         LVtg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCOrjQVx3Y6slaS43v+28ThFNN0ZqZpT1BfcXQJD2/bj5WJrqBKlsQvd9Uj3AkXvNtA097MI5IbTNMzMGd2/BP2Qtje8B5l5KVUILas0GT6fJoEQIaEcvSIvRk6JP7oW4xd+53CIn9+Q==
-X-Gm-Message-State: AOJu0Yz+JUFg5jy2V5CXSl2dSfmAeTYpEm5laSIuT0LsokqCcJcnYoPi
-	kYaDRiSkTQ84Qp5M24Ifcpy692kYRQfgCkc5E3ou9DApX9tm9dbv+0A+FDytnts=
-X-Google-Smtp-Source: AGHT+IFslWsdauAw3+GK4AxaZnWnbDcqaOOWdRddILDSGXxdvFx/EDWKsSl4+dq3Al/RraRAbXnS5Q==
-X-Received: by 2002:a17:902:c185:b0:1e3:e0a2:ccc3 with SMTP id d5-20020a170902c18500b001e3e0a2ccc3mr2740474pld.30.1713438665941;
-        Thu, 18 Apr 2024 04:11:05 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.135.251])
-        by smtp.gmail.com with ESMTPSA id kh5-20020a170903064500b001e4d22f828fsm1051159plb.33.2024.04.18.04.10.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 04:11:05 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	heiko@sntech.de,
-	liujianfeng1994@gmail.com,
-	sfr@canb.auug.org.au,
-	sebastian.reichel@collabora.com,
-	sigmaris@gmail.com,
-	didi.debian@cknow.org
-Subject: [PATCH v6 2/2] arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
-Date: Thu, 18 Apr 2024 19:10:02 +0800
-Message-Id: <20240418111002.83015-3-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240418111002.83015-1-liujianfeng1994@gmail.com>
-References: <20240418111002.83015-1-liujianfeng1994@gmail.com>
+        d=1e100.net; s=20230601; t=1713439073; x=1714043873;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dadbVw0ZN8KGcZgqWT52RSFUotZfDdsINMbi0GWd0pk=;
+        b=dXZPAtTbCWB2MnWzO+u/ogJOmyBdZVFoTS3woGtaECG6fFuK3/3HFo1TSIy4ITkGZW
+         vgsruD8UExZ60DibuEYl2fcTZl4ZFjyJjiAzs3jz+C1gC+pKTNeMsgud0iQU+40FL9r5
+         x/jqDn3uVTMje8NRTyQhe2a2dCX/thv5zvSLFQJ8+352oA7csPMNYfMghkKR25jEvHTh
+         44ZZawzikwhNP8Aoe7jQZnQC3AuUTG6p0ATaGEnwSMzgRvJ82ud+ziZ2mSKCOylCuwMK
+         btitXOMdZsUl+kicXsfXQHy2PxboJnLXA/M3tm7yJ1uRlGHWJ9Du/QZzV9ydhPQz1rnV
+         A8uA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyN1/mwLDJTt4yWIf4X6XD/wcymqorp2ST4LrFioSPOv40RavQrdtZ0Vx+RvIMuX17U34GMJWQ9ZI6GhUgR3cWW7x/cvWLP1ia2uY=
+X-Gm-Message-State: AOJu0YzhDbEy7i6pHpjHn4OyPmCNiUG1fygw6YC2rZqqQplxignMp2cs
+	mDhwnZb1I+qvE6bugnGKh321vgWIs1qou85EIewxcaeXxKxVO6ynSZ/G/3BvPsM=
+X-Google-Smtp-Source: AGHT+IHmqSTkMUPGya8bnbl4tVCYR5pgohc+bRojwZq6H6mlk6lXfXDEJpU5L7fvxPN2Mb70UrGa9g==
+X-Received: by 2002:a17:906:1156:b0:a55:54ec:a2fe with SMTP id i22-20020a170906115600b00a5554eca2femr1963102eja.29.1713439073194;
+        Thu, 18 Apr 2024 04:17:53 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.74])
+        by smtp.gmail.com with ESMTPSA id j21-20020a170906431500b00a521e5856f6sm747685ejm.51.2024.04.18.04.17.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Apr 2024 04:17:52 -0700 (PDT)
+Message-ID: <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
+Date: Thu, 18 Apr 2024 13:17:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+To: Siddharth Vadapalli <s-vadapalli@ti.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, rogerq@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+ <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Enable Hantro G1 video decoder in RK3588's devicetree.
+On 4/18/24 13:00, Siddharth Vadapalli wrote:
+> On 12-04-2024 21:08, Julien Panis wrote:
+>> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+>>
+>> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+>> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+>>
+>> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+>>
+>> Besides, the page pool memory model is used to get better performance.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> Hello Julien,
+>
+> This series crashes Linux on AM62ax SoC which also uses the
+> AM65-CPSW-NUSS driver:
+> https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
+>
+> Regards,
+> Siddharth.
 
-Tested with FFmpeg v4l2_request code taken from [1]
-with MPEG2, H.264 and VP8 samples.
+Hello Siddharth.
 
-[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+Thanks for the log. I can read:
+[    1.966094] Missing net_device from driver
 
-Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Tested-by: Hugh Cole-Baker <sigmaris@gmail.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Did you check that nodes exist in the device tree for the net devices ?
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index b0a59ec51..b0817382f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -1135,6 +1135,27 @@ power-domain@RK3588_PD_SDMMC {
- 		};
- 	};
-
-+	vpu: video-codec@fdb50000 {
-+		compatible = "rockchip,rk3588-vdpu121", "rockchip,rk3568-vpu";
-+		reg = <0x0 0xfdb50000 0x0 0x800>;
-+		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "vdpu";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		clock-names = "aclk", "hclk";
-+		iommus = <&vdpu_mmu>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+	};
-+
-+	vdpu_mmu: iommu@fdb50800 {
-+		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdb50800 0x0 0x40>;
-+		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clock-names = "aclk", "iface";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+		#iommu-cells = <0>;
-+	};
-+
- 	av1d: video-codec@fdc70000 {
- 		compatible = "rockchip,rk3588-av1-vpu";
- 		reg = <0x0 0xfdc70000 0x0 0x800>;
---
-2.34.1
+Julien
 
 
