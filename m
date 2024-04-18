@@ -1,162 +1,204 @@
-Return-Path: <linux-media+bounces-9715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC878A9CFE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0904B8A9D9F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:51:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E1F91F22A51
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 14:26:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 880641F217C5
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 14:51:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC3B16C43B;
-	Thu, 18 Apr 2024 14:24:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07CC168B05;
+	Thu, 18 Apr 2024 14:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oVn8UC/W"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EHkon1YP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A36C16ABC2;
-	Thu, 18 Apr 2024 14:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36B115CD47
+	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 14:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713450274; cv=none; b=QJcgmFhxDK+PDCvAa9XuwY0Ft96l3lkNjx2T5AjElVgBPccITINRJC1m6Nq0ZTPboctj6P7Qm+torpGnMWbeZJRE5SHBzwKHAuReUJJx06/HBe/rxeV/CRSQ5qP6mkrxVGS7qZ7L2EYuejPjBwOax3HdF0YVcvI4RUGBDjn2Skc=
+	t=1713451906; cv=none; b=Tkx352U+beS80UkZLtTgIDLv8DFi15D8fE0Xy8v19jDEgZ5/21x7k4wgnI/htPOkSWXwWKjsYCx04R7V19nkRLwEmtwnalMpuosNEOfjzmQnS6YCPGstZd9ZradozOqR99szhc8dUN7v0IOy1Cno+jkuGgElFOzSFerpRadJC28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713450274; c=relaxed/simple;
-	bh=pH0PBRBEjyEaCCaHbzJ9ynfPi+tXKlFVFiy1Z9RjDgo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rq8/LbVSkpGm8sM4Y5XCyjvRCjcCH30dZGKedua6uQUDI63yAgAvGPL15lHCXrR1pD96ue3lmFGFrjx1DvwpDlJX9mRWxFM972NlTXJXTJyrEkp9AZX8ucwz3t0Wdw+fMjjn8AXljUfVUlYcmMssjLIsFTrJQrtU0wOAvY0qtgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=oVn8UC/W; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 43IENhfk047904;
-	Thu, 18 Apr 2024 09:23:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1713450223;
-	bh=d7W/YpTIZxIdyewzNIraH7hxkKMvrK+9RnPBHoiRgYU=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=oVn8UC/WraJiR9DfhqgRAMmWCKRPIN5gA4g9LgtVfHyr9ZYa0wpT1D1L9eCfM7V0I
-	 1kGeA3ACt202+YA8etLSCi4dNNilaO9oBQFFqcvrsUeQegCCSt1xx61Wj3XLbh5lUN
-	 TOOZmxV7HXQassnk1lpdykUeIfQeyrSrA+F0zYJo=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 43IENhFG118313
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 18 Apr 2024 09:23:43 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
- Apr 2024 09:23:42 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 18 Apr 2024 09:23:42 -0500
-Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 43IENfLj049819;
-	Thu, 18 Apr 2024 09:23:42 -0500
-Date: Thu, 18 Apr 2024 19:53:41 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Julien Panis <jpanis@baylibre.com>
-CC: Siddharth Vadapalli <s-vadapalli@ti.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Russell King
-	<linux@armlinux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann
-	<daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John
- Fastabend <john.fastabend@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Ratheesh Kannoth
-	<rkannoth@marvell.com>,
-        Naveen Mamindlapalli <naveenm@marvell.com>,
-        Jacob
- Keller <jacob.e.keller@intel.com>, <danishanwar@ti.com>,
-        <yuehaibing@huawei.com>, <rogerq@kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
- Ethernet driver
-Message-ID: <b406c8bd-5d25-4516-8553-4041705b2211@ti.com>
-References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
- <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
- <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
- <1da48c7e-ba87-4f7a-b6d1-d35961005ab0@ti.com>
- <7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com>
+	s=arc-20240116; t=1713451906; c=relaxed/simple;
+	bh=CbuQk1PghdDnmrxhojCwmpRorta2iCVuoxXGBVbnZE0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sj6sboMvqvmR1HWP4VCv4wljKkZD82CdwNHhTzHnEQPFgnsoxR3It4XCM0DUz/pgHF8jPCRxoHE2loyr2aIozx/W+QiYKVidUJPyGm7zaupc7Gg0L3l+dfYava3DCze+w5a5S8LJ+QCy4w/jYDrb7Uu9LkGuGW8IoQU4PIArq/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EHkon1YP; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-479d6c6f2c0so1179146137.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 07:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713451903; x=1714056703; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oMqAEiiN7av4J6wM+O4afdcaiaOjYq8V1FKf5PLPclI=;
+        b=EHkon1YPROzvrUzJ8LnjF/QSO2h9kY+lXykvbw3tjLA3xf6EeSjGJZFHVFrDTiBtx2
+         4g3XvgR07ouavMP80obTl+zbG1PxGXjVU4zrYwFtxRfu9yiDOtrkWkINZqq8yllU9n4b
+         6utyVGPLpbKy2+rKi9ZjU80YERjhazt4Fsdf4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713451903; x=1714056703;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oMqAEiiN7av4J6wM+O4afdcaiaOjYq8V1FKf5PLPclI=;
+        b=TVW9NGbSue91sGcdCx4Do/ra7dM8PDzdLYPfpudz/spiJZBBGgVLp3OiGmW6IPOa+Q
+         dlnYBqRxJA1PBOJMeVx2A78fKgfiCB5AyuC34cafh3fj7QPgXCnr4r/0XuA5n8cD4btb
+         wNVVYsuEI1F5AtyB1DoK9DwdInVRCGh17i8b6lDM9UaX4kuSC1se/sKPIY58V7/sxvju
+         IcS7fwWaFJ67jcV6XRnWSZn1eqZn0y11ivhIp0oijWD71mKKPss/gE3WlP8wG5Mmb6Q9
+         encrzu9/e8S8qvz0j6hFspbZ2oRkzTby3NeYIkX8VtbQvOZmyGAkLrHGT4KdiqeQFUXG
+         t4zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKRY2DimYcEwKuDpjyhYHqoUFYWSKbtDmI0TZ0Mau8p4lgmlLQFAdoDsqiVijBLoZGsuv2VI3sROsaJKDbt6lFA4ePFBvxjrhB4NE=
+X-Gm-Message-State: AOJu0YzHepWOtC9Pn7Zl8JTCPT5OQiPMvT9cpdFn1ZXK7+k6XRE3O8qH
+	FDzCZaOSyEYFh/r/XBiBj7tfdly08dwKRuUl5kNJjtGuerJMcMufdWcl+hXbgKEmwSl6wGofSwI
+	=
+X-Google-Smtp-Source: AGHT+IGQZJmjTizEj3eYNUxuS3cYXZ5PaVD5kPVrN1AJ3K2y1iGubXnpJfgUqOqPNvJ9+EZRwY8szQ==
+X-Received: by 2002:a67:f992:0:b0:47b:af16:39bc with SMTP id b18-20020a67f992000000b0047baf1639bcmr3657358vsq.17.1713451903673;
+        Thu, 18 Apr 2024 07:51:43 -0700 (PDT)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id d39-20020a05610214a700b0046d28239032sm226334vsv.5.2024.04.18.07.51.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Apr 2024 07:51:43 -0700 (PDT)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-479dd0261c8so908980137.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 07:51:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW0eCGSPIuFVdpgHN98pwXJ1vTV3ZXnsFkVT39TWwOpP5uBF4oCFcb4Fupva46GDmPn/CWA95VbBfDgTvylk0bwGehberPVVir/Yvo=
+X-Received: by 2002:a05:6214:4a5b:b0:6a0:4571:e0c8 with SMTP id
+ ph27-20020a0562144a5b00b006a04571e0c8mr3999896qvb.18.1713451882078; Thu, 18
+ Apr 2024 07:51:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain> <20240417155112.GQ12561@pendragon.ideasonboard.com>
+ <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com> <20240418105310.GV12561@pendragon.ideasonboard.com>
+In-Reply-To: <20240418105310.GV12561@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 18 Apr 2024 16:51:06 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
+Message-ID: <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, 
+	Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Hugues Fruchet <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	Oleg Drokin <green@linuxhacker.ru>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 18, 2024 at 04:03:15PM +0200, Julien Panis wrote:
-> On 4/18/24 13:25, Siddharth Vadapalli wrote:
-> > On Thu, Apr 18, 2024 at 01:17:47PM +0200, Julien Panis wrote:
-> > > On 4/18/24 13:00, Siddharth Vadapalli wrote:
-> > > > On 12-04-2024 21:08, Julien Panis wrote:
-> > > > > This patch adds XDP support to TI AM65 CPSW Ethernet driver.
-> > > > > 
-> > > > > The following features are implemented: NETDEV_XDP_ACT_BASIC,
-> > > > > NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
-> > > > > 
-> > > > > Zero-copy and non-linear XDP buffer supports are NOT implemented.
-> > > > > 
-> > > > > Besides, the page pool memory model is used to get better performance.
-> > > > > 
-> > > > > Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> > > > Hello Julien,
-> > > > 
-> > > > This series crashes Linux on AM62ax SoC which also uses the
-> > > > AM65-CPSW-NUSS driver:
-> > > > https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
-> > > > 
-> > > > Regards,
-> > > > Siddharth.
-> > > Hello Siddharth.
-> > > 
-> > > Thanks for the log. I can read:
-> > > [    1.966094] Missing net_device from driver
-> > > 
-> > > Did you check that nodes exist in the device tree for the net devices ?
-> > Yes it exists. The device-tree used was also built with linux-next
-> > tagged next-20240417. The node corresponding to eth0 is cpsw_port1 which
-> > is present and enabled in the device-tree:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/ti/k3-am62a7-sk.dts?h=next-20240417#n644
-> > 
-> > Regards,
-> > Siddharth.
-> 
-> I could reproduce the bug by disabling 'cpsw_port2' in my device tree,
-> which is 'k3-am625-sk.dts' for the board I use.
-> 
-> A condition is missing in am65_cpsw_create_xdp_rxqs() and
-> am65_cpsw_destroy_xdp_rxqs() functions.
-> 
-> For these 2 functions, the code which is in the for loop should be
-> run only when port ethX is enabled. That's why it crashes with
-> your device tree (cpsw_port2 is disabled, which is not the case by
-> default for the board I developed with).
-> 
-> I'll send a patch to fix the issue. Thanks for reporting it.
+Hi Laurent
 
-Thank you for root-causing and working on the fix for this issue.
+On Thu, 18 Apr 2024 at 12:53, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Wed, Apr 17, 2024 at 06:19:14PM +0200, Ricardo Ribalda wrote:
+> > On Wed, 17 Apr 2024 at 17:51, Laurent Pinchart wrote:
+> > > On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> > > > In my opinion, it's better to just ignore old warnings.
+> > >
+> > > I agree. Whatever checkers we enable, whatever code we test, there will
+> > > always be false positives. A CI system needs to be able to ignore those
+> > > false positives and only warn about new issues.
+> >
+> > We already have support for that:
+> > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/testdata/static?ref_type=heads
+>
+> Those are manually written filters. Would it be possible to reduce the
+> manual step to flagging something as a false positive, and have a
+> machine build the filters ?
+>
 
-Regards,
-Siddharth.
+Do you expect that the list of exceptions will grow?
+
+I hope that once the CI is in place we will fix the warnings before
+they land in the tree.
+
+
+> > But it would be great if those lists were as small as possible:
+> >
+> > - If we have a lot of warnings, two error messages can be combined and
+> > will scape the filters
+> > eg:
+> > print(AAAA);
+> > print(BBBB);
+> > > AABBBAAB
+> >
+> > - The filters might hide new errors if they are too broad
+> >
+> >
+> > Most of the patches in this series are simple and make a nicer code:
+> > Eg the non return minmax() ,
+> > Other patches show real integer overflows.
+> >
+> > Now that the patches are ready, let's bite the bullet and try to
+> > reduce our technical debt.
+> >
+> > > > When code is new the warnings are going to be mostly correct.  The
+> > > > original author is there and knows what the code does.  Someone has
+> > > > the hardware ready to test any changes.  High value, low burden.
+> > > >
+> > > > When the code is old only the false positives are left.  No one is
+> > > > testing the code.  It's low value, high burden.
+> > > >
+> > > > Plus it puts static checker authors in a difficult place because now
+> > > > people have to work around our mistakes.  It creates animosity.
+> > > >
+> > > > Now we have to hold ourselves to a much higher standard for false
+> > > > positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> > > > Drokin has told me previously that I spend too much time trying to
+> > > > silence false positives instead of working on new code.  He's has a
+> > > > point which is that actually we have limited amount of time and we have
+> > > > to make choices about what's the most useful thing we can do.
+> > > >
+> > > > So what I do and what the zero day bot does is we look at warnings one
+> > > > time and we re-review old warnings whenever a file is changed.
+> > > >
+> > > > Kernel developers are very good at addressing static checker warnings
+> > > > and fixing the real issues...  People sometimes ask me to create a
+> > > > database of warnings which I have reviewed but the answer is that
+> > > > anything old can be ignored.  As I write this, I've had a thought that
+> > > > instead of a database of false positives maybe we should record a
+> > > > database of real bugs to ensure that the fixes for anything real is
+> > > > applied.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
