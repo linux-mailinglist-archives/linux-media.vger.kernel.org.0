@@ -1,126 +1,181 @@
-Return-Path: <linux-media+bounces-9712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6C98A9C65
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:15:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F668A9CFA
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 16:26:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 184632833CB
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 14:15:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74718B22339
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 14:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D389C16ABC3;
-	Thu, 18 Apr 2024 14:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A03B165FDF;
+	Thu, 18 Apr 2024 14:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FD+JlwXv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F368D165FA3;
-	Thu, 18 Apr 2024 14:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713449734; cv=none; b=HcTRHdNkD+YQyqv2LvXm6IryOFnhT7ypu29CyzSMmKZ1CAlChpff77aV3VUVEoy61NWpprRBO/rumC/Fj5YUptpTd+h8O4gcGT+bTXx0RuYkFHWv026KB22OnT7to+XJs3zgiwqk+LMu7pfV2iuIdeJKbe/9DMxVF7MO2dMkcRE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713449734; c=relaxed/simple;
-	bh=y2pVSKogPc8iaWi7QsK7qOvg3yK0ln6WuGNCkruGp3s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qb4IjZaJ8E/2OFcIVFCIeRWY6lyCfZPtUeDkIgVvxoj2Jyc/EOzDEjgcRqyB+dHaPIINW+7SrW3iXKhsNGvd2ydKmWArh6Ys8s6ZBhF0LiqxiyjhFbpD3sJn1C7UeirZAGZ3VRCdos+gD+rVPlNLtotO/4bEB/TUBEtTr8sO4vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id 6A17C10D1B07; Thu, 18 Apr 2024 16:15:14 +0200 (CEST)
-From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-To: linux-kernel@vger.kernel.org
-Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Subject: [PATCH v4 2/2] arm64: dts: rockchip: Add one VEPU121 to rk3588
-Date: Thu, 18 Apr 2024 16:15:06 +0200
-Message-ID: <20240418141509.2485053-3-linkmauve@linkmauve.fr>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240418141509.2485053-1-linkmauve@linkmauve.fr>
-References: <20240418141509.2485053-1-linkmauve@linkmauve.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FA8163A9B
+	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 14:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713450211; cv=fail; b=jrYVZJ2JgNg2cGloMxAK5E4N3Fxygmq7PloCV+/T+ENi1BKBXXgGE1Ds2Zn2I7U88CXSgpJ6tYVn6E1lNgap7RajImZxGi9O1etuI8dsbThkMkhqtqOV4ovBbmd252AUphseaeNHQrHfpAUlnJE/wHJF4yIxb9AOlqvW9RJbc/E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713450211; c=relaxed/simple;
+	bh=EVEdJ5rMFHbo0iT2Ayr9nrPgbCb0kb5HIb3nKW/YH7w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VCJ6tdYkJ0OPZh9qontrEwzNdXzYlUBCBPXT41EmzqBH5lXrX3MjwFx2Pq+4bqkvw02t4RCQRhqcJ3LZoYW0Qpi6jKDCq2jhPTMayfqErv+FACFRdAqdE+4cCa4jmY+rghRYcoeMyFxVkt7ekKSOZtY20TOobNg14BGYYik2g+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FD+JlwXv; arc=fail smtp.client-ip=40.107.243.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A0Ry3IAI17nOVn/0ZUBu3SRM36abshf0+dNLIJibaslonyhD0uJOwy6pfqmXdRJ+uPKWKrYVIHYhHyH9yrbxN6k8IIABRpgtXQWR6ahv7WtuF8S+aeAKbqbRu920GaGd7X4CTidg7vIZAjFWOdW/QskW22SPZ7d+veWUHG0/0X1LZpt3/+QUNCl05SXxJ7r7KA40CZiue9yduiBfkdJOiA+oiOUdG158xT4WoeX9pjXBz924xpppB6GGlHUAviWTZNgkqEHkomX78FtJZ3jojKP0V9qfOBHOUn12r31PO6i61dvQV9jZyxyzNGnHID7jxcfAxgwoxGHCJlXZpHxxxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PiQva18MHvigi1RI1gtKIOyTuAKZeAtuAjFdCoStwaI=;
+ b=fod9HYdpdLALVvGFxiMKixK1afakbPn/2d6Edf1BzuXtms669Lrzsz59wIvYaap8pocLjNoGDPCouPpN9pnAL4lNce3mCEYygKzk+7xS0F4oXykYhX4YpDWOfku7AdJiig2H1DLqVcQapJqYU3v4KtvFH6tyn7tJQEJPrsXrPOES4UX+Jtm3HqiiMZk2GFXD6vyqwoDrQdxjlyu8jvlR+Tdl2tn232oYADoBCwZkdP5UJuHAElBqepmiR4EJK72jPhcafUkzxQoe7Dj7wJetIb79GeQctDXOrF4+3KasA7RZyook6oxslBdr+Ny1l5sjUHiJqmArj0POkHs4NvYdNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PiQva18MHvigi1RI1gtKIOyTuAKZeAtuAjFdCoStwaI=;
+ b=FD+JlwXvE7MpykT25TqRUUGM0aArSk2cMWoCxAYKynEToi3aWx0/IZSzHSb9ScpA1abx3AN0q80DFdOkyb6pk2tf8j8L0JDTKVB/OsFOwekqt8SGm6kgiL2a9HzSMEd3WCr9LnFbT7lY1unsSTeTopuYzZGOUFt9Swn3BIV8Fak=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB6080.namprd12.prod.outlook.com (2603:10b6:208:3c8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.41; Thu, 18 Apr
+ 2024 14:23:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7472.037; Thu, 18 Apr 2024
+ 14:23:26 +0000
+Message-ID: <fd8d8a88-a457-40b1-b8f6-4c91c9d964da@amd.com>
+Date: Thu, 18 Apr 2024 16:23:21 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] doc: dma-buf: fix grammar typo
+To: Baruch Siach <baruch@tkos.co.il>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <505484b83fedebce3c65b10b076b34df075074b6.1713329988.git.baruch@tkos.co.il>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <505484b83fedebce3c65b10b076b34df075074b6.1713329988.git.baruch@tkos.co.il>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0060.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6080:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04f619d4-67a2-4d55-4e37-08dc5fb31cad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	2Z6yCRm18xZ6GDdfGFcujgqnN0LT1u3OZS/4YOY1sf8KHgNXFUup2KfMfQEfNZ7wQnKBNnGEkPKH3GFzB4O7fY/tvhaD5nG7TU1kFGb7iughR/uXHpSeaimV/RYcDMfqfXnWDLrvFo5eHJDdc8yxUgcnDoNOuKeR5z0n0tmrLj+q74XecnkVpMoHF2JHxdRgSx2ubwsOmaAu1f5f/qnStLtzCreyCthMoEgq/4gWDhmM7L+1hu1bQo7D0ZkmJzzqe0s4zjAOTkJtCauHdGwjSp7t7UBVEA5kTgmHCf5P4sIPOpcrSyMi3UWIiu0nhK9pOjzeZ7FyDa8rTaK0L7A9N3j4WlZpfHTnG05UfOT+ieaZYJdxGckcnCc6PJR2B5DwWt3qh6Ipgsa3euAZ6w6tIaeQaUYSENvWbvx+rdYnZ14eGXLpm2g7OYcstT5ImL13jkbNcrhy9z+PdoLqf5wucOQHjKKUXYt4D8NUb9VbWzNkKUkPgi0b/ya/uruYzZ8k+tqG8Hx3cVmK2AWb7hr3KFbXeoBoQYtqy9/QqIydYFgIptkfX6vDGBh4gcO4tDgJLL0V1xBs+tbbPpEi88r7wjXIbf7JzXBpXwMXrlzU9HWeKZBg4MumUtt82uJCN1mE+57dayXAcpCzCw4OPkzVnLmcMgj0vXhNkL1tznPQJE4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aVBvSzZMbXFoU043NlVaK2FDcDVXMWt5anc0TEFFNWJMdVJpbDhwbWNwSlQx?=
+ =?utf-8?B?MnBoeEliZVRGZUZDR2dvMUdlb0tibnNCOE9XZjJETnR2ZFBCUlhBL3pMbjZD?=
+ =?utf-8?B?YkJiTHNlOEVnUXdGN1dDY2pITGVFeHlvZjQwSk1xeUt6SXB6WkV2dnd1Qjlz?=
+ =?utf-8?B?djNkRkZXMjQyUFRDSjY3eVF2VHAwZDAzWXBsNnhSVmhaV2ExNi84UGpqVHc1?=
+ =?utf-8?B?NTFGYytWVkQ5TkRrTzZidWUyNjZHL0hteW03Rm4xWjBLcTBjK2dwVEpqeTB6?=
+ =?utf-8?B?ME9KVC9BTVAyWkFncWNHWmZXT0FydVVoVzAvVDNCSnJIdklzbmtGVnBkNzVh?=
+ =?utf-8?B?dkZNM3RQVi9lNkRkYzNNZWtzRTllUk1jSjZnV0o5RStScWRmS3QrbVJjMkxP?=
+ =?utf-8?B?ZG1iRUk4WW1JSkx2Q3oyK0JzOGtLRmJQaGo1RFB6bk00NmszUE40U3JTMXdw?=
+ =?utf-8?B?NWUzUUppVUpmdmw2bHB1S09TVFBTWFhRSzZtQU15QmZORVcveG9sTzBsbDdY?=
+ =?utf-8?B?VmlpWDI0L0EzclZsRjFYYUphTC90aW9qTFhqOC9oYmdDMXlQUXdDRTFhTWRr?=
+ =?utf-8?B?elB6QW56Z3NVMFUyNjExTzBXUERSQmM1dUNRMzlFSmJRcTlQQXNzU1hNVVhG?=
+ =?utf-8?B?MmhiT2FRU2g2SWV6Sll5RXZWM1p4YUthUDRWOEdyVFJrN3JGR1JhV2k5UVkw?=
+ =?utf-8?B?bHRXT3dSQitGS1hpeStNQXlLeU1wMEdMSnY3WHczNVBXRXRkd29FZ3Z6Z3FY?=
+ =?utf-8?B?WERSaDEyQTFzWUZZWEdJY25YVDl2VVc5bmc0eGRaVUgxRFBnTkFBRFNvRmF2?=
+ =?utf-8?B?ZUZ5elpJWW9hUHlreDYvd0x5NDhMaXVtU1pzejlyai9SYVJIcnN0WGpzWUJv?=
+ =?utf-8?B?WVhvZk5XZk5BN1Boenc5cUM5eUJiaHhWSTlDcmt6ejRrRE4rbllvSmZUc3E1?=
+ =?utf-8?B?ZUlzMDYrdTlWbTI2ekVBRzB5N3hWa2k0ejQrUXllVTRzb2Z3UjJTRWJlcXNV?=
+ =?utf-8?B?MEVIY3RKa21CM21zM0sxRndhT0VxZkNhT0o2QXhBcGFRRW40citkREUyK1RB?=
+ =?utf-8?B?bVhyOGx3b0tSaWhLcXYrb1RmWHI0Um4wWWEweVdiYUZIRktreFRpQmtXaFQ2?=
+ =?utf-8?B?NnQ3bTVYMWswR2FGcmlLalk3aWl3WXlIWG9peDQ2aU9WUUdZSHZrZGhGQW91?=
+ =?utf-8?B?eXErSDZnWXh2NXBHNlgrdFFzdk54cG8rRmxRZWhSMkg1dGJyTzV6a2lyTXJv?=
+ =?utf-8?B?R2prdjUvck0zNHo5cEZId3pQOWsweTltOXFsRm96aVJXT05FOWpINjB3TE9M?=
+ =?utf-8?B?WjhPQ2RKOXVwOXM4NWVadDAxamN1Y0xrZVJ5all4WURQd3dtcURHbVlQRWsw?=
+ =?utf-8?B?MktsK0JKWkhjR3lVa21nK0NYV1VKdUhQcDIrZEVCM3JyclVmOXZ1RWMraHIv?=
+ =?utf-8?B?c1pBSDNnY0VlZ2EvQ0wyTitRWXp1a0F6ZXcyeXd2UStUT3IzVHFyOGxEcVJu?=
+ =?utf-8?B?bG8vdVlxSDVPVk1nc0t2NVFaM1RNcWhUbVQ3a1NiRmp3NTE2QjhlVHRUSE9i?=
+ =?utf-8?B?cGxQM0lGZEFabGtVcmZ1cDBTblg1SnB1UElQVDB5STNVRWhxamx4TGdpcjdI?=
+ =?utf-8?B?Q0RRbUhLcERORmM2aHdNZWpPcytPbWtNQVdHcVRYbGlBR2dtQnhhNXQ2M2RG?=
+ =?utf-8?B?SlJlcEp6OGozU3NSbCt6eHJ2L1FZODRjYy8xdVhDUFp0NlhNbjNLWGFhclU4?=
+ =?utf-8?B?dEdBRWl1ZUZmd2YzaE1pMzNSbVc3czBXZVhTMk93R2VMakt5TTgwUS9zQzZo?=
+ =?utf-8?B?MUFabFBCcmVUNkUxTGhodTJIdGhDRlRaWHZubWg1VWQxR1QzalV5eGpvaFBC?=
+ =?utf-8?B?a2xkYWkvR2RscWJUVmJQM212M0ZJc1dpRGpVQ1J3bXdQZGdNdS85NmwyeC9K?=
+ =?utf-8?B?ZVBkRVNyaS9PZkt0WGk3V20yN3hGMDVrc2p2VDVuWkhyKy9aRmR2VkFuWldn?=
+ =?utf-8?B?RzNzMjFjb1RBUUp2eTBtYVh1bU5EOWhNSTU1TjZadTRVMCtTSWNYcnloM1ln?=
+ =?utf-8?B?ZTRPa3I5b2o4a3VrNGV6MUNHS051cFJZcko0Z3BLMG04dGNaQXVpdVZESEtE?=
+ =?utf-8?Q?IYi0CBO7GxNCWMgXGFuH5ljGB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04f619d4-67a2-4d55-4e37-08dc5fb31cad
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 14:23:26.7601
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t6pruC2BKVHGCeU01O8p03RPUKmNa3w0y2K/dR711D3xwVGta3MIfbShKLOhuP6J
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6080
 
-The TRM (version 1.0 page 385) lists five VEPU121 cores, but only four
-interrupts are listed (on page 24), and the driver would expose them all
-as different video nodes so only one of them is exposed for now.
+Well checkpatch.pl still complained:
 
-Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-Formerly-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 29 +++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ERROR: trailing whitespace
+#157: FILE: Documentation/driver-api/dma-buf.rst:80:
++  If llseek on dma-buf FDs isn't supported the kernel will report 
+-ESPIPE for all^M$
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index 87b83c87bd55..5c6cc4cd81df 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -2488,6 +2488,35 @@ gpio4: gpio@fec50000 {
- 		};
- 	};
- 
-+	/*
-+	 * Currently only one of the four JPEG encoders is exposed, this
-+	 * reduces the optimal throughput by four.
-+	 *
-+	 * Once the driver is made to expose all four devices as a single video
-+	 * node, the rest can be enabled again, see the full patch here:
-+	 * https://lore.kernel.org/linux-media/20240327134115.424846-1-linkmauve@linkmauve.fr/T/#m3a6df0ba15e4af40b998b0ff2a02b0dd0d730c8e
-+	 */
-+
-+	jpeg_enc0: video-codec@fdba0000 {
-+		compatible = "rockchip,rk3588-vepu121", "rockchip,rk3568-vepu";
-+		reg = <0x0 0xfdba0000 0x0 0x800>;
-+		interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
-+		clock-names = "aclk", "hclk";
-+		iommus = <&jpeg_enc0_mmu>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+	};
-+
-+	jpeg_enc0_mmu: iommu@fdba0800 {
-+		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdba0800 0x0 0x40>;
-+		interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
-+		clock-names = "aclk", "iface";
-+		power-domains = <&power RK3588_PD_VDPU>;
-+		#iommu-cells = <0>;
-+	};
-+
- 	av1d: video-codec@fdc70000 {
- 		compatible = "rockchip,rk3588-av1-vpu";
- 		reg = <0x0 0xfdc70000 0x0 0x800>;
--- 
-2.44.0
+That actually looks like you used a Windows line ending.
+
+I fixed it up and pushed the patch, but please take a bit more care next 
+time.
+
+Thanks,
+Christian.
+
+Am 17.04.24 um 06:59 schrieb Baruch Siach:
+> Use 'supported' instead of 'support'. 'support' makes no sense in this
+> context.
+>
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+> v2: Add commit log message (Christian König)
+> ---
+>   Documentation/driver-api/dma-buf.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> index 0c153d79ccc4..29abf1eebf9f 100644
+> --- a/Documentation/driver-api/dma-buf.rst
+> +++ b/Documentation/driver-api/dma-buf.rst
+> @@ -77,7 +77,7 @@ consider though:
+>     the usual size discover pattern size = SEEK_END(0); SEEK_SET(0). Every other
+>     llseek operation will report -EINVAL.
+>   
+> -  If llseek on dma-buf FDs isn't support the kernel will report -ESPIPE for all
+> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPIPE for all
+>     cases. Userspace can use this to detect support for discovering the dma-buf
+>     size using llseek.
+>   
 
 
