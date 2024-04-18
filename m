@@ -1,151 +1,160 @@
-Return-Path: <linux-media+bounces-9874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C87D8AD33F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 19:21:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEE18AD3EE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 20:30:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DBFE1C21533
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 17:21:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41E021C20D96
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 18:29:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69639153BE7;
-	Mon, 22 Apr 2024 17:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B3B154BF4;
+	Mon, 22 Apr 2024 18:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="G0c1q1Mj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KyLetmpf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC82153BC6;
-	Mon, 22 Apr 2024 17:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69C7153BFE;
+	Mon, 22 Apr 2024 18:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713806468; cv=none; b=hoUva+Sfr5lM94BJ4GUuKB2TRteS+v1aEWW9UaVeqNvgmBnSg8j49+X/caJHS01StyfOkW3F/q+2RBTWaMAEdDN+VnK87dHNUV5B7kOyhmlAPZJJKvb5gMXzlNnjJCaCxgtxiwL3X9aKr8stg9+kcpHDwpksb8NpDmRr+eOW3iY=
+	t=1713810573; cv=none; b=R8Zz4dsfotqa1nHvJqitZjuyCnkLikOb1dBrOMo+QdKBsvFu/iffegkMapClw3GsqO2VJDfFco+V8QxSSM9kxka1VbhuHeg4jCM6cIEvdqy5JbNJ8Nozj2FqJ9tZ/Cd++7G/BAqXtjngTfDsaIqTDT88sCBpl3GQ9lplQy6BvNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713806468; c=relaxed/simple;
-	bh=qgqSpsSQ6i9LStU3ApBLA/aCwEQLIznNK7QqnsGhiKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8ZMJXb8JgHfhMwL7m23gDm7qKbtes+/BuaEJenc6yUCBsALiBl2gkTGT05XdlajGTLSZ6T4wT5ks5m+mq2QMTj5ZLZ7P4jVa8IUQI9PfOgUfBNpLsdN+Tvb4d8Dgf5Ile42MJ1VcINGa1qhekOwzG01EnmZb3ZYyIb925u2gok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=G0c1q1Mj; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1713810573; c=relaxed/simple;
+	bh=lFyqqsTbvpBevoPN6/NMC90GOUXMW6KIKKFAoQiAmFs=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=n4SjjcZkcajU7Xtr1Otw5QR8bO8J/iFJHFKQ/e/8CCxsuY0Yhuhc2OnmADBW4TkFRYbhKweYvpXKgfXvBSRR7Kj24zz9Luu1zFEwLaMAZCsgpKLRgLuuY0JCOhoa0atADrNTa0FGCC5JHCu7D6rdtBB3cfiN/GzAz7CpEd+P5r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KyLetmpf; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1713806465;
-	bh=qgqSpsSQ6i9LStU3ApBLA/aCwEQLIznNK7QqnsGhiKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G0c1q1MjVpdxEukvNuXnG2SUWKZtDFdixPSJme1WvAakT5hrd2mzkr5c0JqFEOqaJ
-	 xxESYS9tDy4oKw4pPN5yt/+9VdSAUFBMRniW2LcQrb+I78PkIRdXCBVkRG7X4lV45l
-	 r7roGnwAYzLUDoogyK/XknRWBbFrpmsyImEj+3SO2kKXgEmdRYRTFHBZhgXe/UY1N1
-	 Nv4kDI+M4vNx1VSm8y5n+Iz7p8QnE40++NHuIFg4Q/Xljb0fmvuhUc+KwUGSs072dq
-	 eE6YvX3uOKA4HIXFDPsyn/3M5/jS6IZbcqvdmpbolLMNqRCYjGovhGSTVacxDdxk0B
-	 ouRAPIqgTj1Mw==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	s=mail; t=1713810570;
+	bh=lFyqqsTbvpBevoPN6/NMC90GOUXMW6KIKKFAoQiAmFs=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=KyLetmpfhfD1CxoIRlN05i1koDUuorqGDIwBeQ6ZOKcqCiovB94RRm45TZ9YUy2SD
+	 Bs8DpHi+gVhLVVGm66EZXc49DACSnsYF//3WRj2sSehAdCOP9sZrXjbLTW5C/fQ+ZI
+	 l/+3dgVEJp1YzHGak+pZ1nx6/0WsmiFC2h3vrb3kbkqfRib35sRAiBnRXZ4PgmBMPu
+	 hWrTYCPiDnFfGs8EveixzyGMTRAicRjDbFuI4FAj2jS6x+tMPpRLcxxA/VJLJXCfad
+	 Dr4dXAuSPgo0tihp+8cGPWJu4Svu7pp9Jdnsnl7h536iIPeZQ/8Xlql54Si6J9LXgU
+	 AkDzdSyTckINw==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 808B33782134;
-	Mon, 22 Apr 2024 17:21:02 +0000 (UTC)
-Date: Mon, 22 Apr 2024 13:21:00 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v9 07/10] ARM: dts: bcm2711-rpi: Add pinctrl-based
- multiplexing for I2C0
-Message-ID: <961b3d43-b4c9-4573-82d7-844aa129d994@notapiano>
-References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com>
- <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
- <a21e8f30-f644-4196-a445-f4e2968eac1d@notapiano>
- <20240422160140.GB2438@pendragon.ideasonboard.com>
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EF1D13782139;
+	Mon, 22 Apr 2024 18:29:27 +0000 (UTC)
+Message-ID: <345e7b0ce96b900725e086f550aafd6ecf0dbc7f.camel@collabora.com>
+Subject: Re: [PATCH v2,1/5] media: mediatek: vcodec: fix incorrect MT2T
+ format information
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
+ R . A . Prado" <nfraprado@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
+ <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
+ <stevecho@chromium.org>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+In-Reply-To: <20240409064431.16909-2-yunfei.dong@mediatek.com>
+References: <20240409064431.16909-1-yunfei.dong@mediatek.com>
+	 <20240409064431.16909-2-yunfei.dong@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 18 Apr 2024 16:17:46 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240422160140.GB2438@pendragon.ideasonboard.com>
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 
-On Mon, Apr 22, 2024 at 07:01:40PM +0300, Laurent Pinchart wrote:
-> Hi Nícolas,
-> 
-> On Mon, Apr 22, 2024 at 11:03:27AM -0400, Nícolas F. R. A. Prado wrote:
-> > On Tue, Apr 02, 2024 at 03:04:14AM +0300, Laurent Pinchart wrote:
-> > [..]
-> > > +
-> > > +	i2c0mux: i2c-mux0 {
-> > > +		compatible = "i2c-mux-pinctrl";
-> > > +		#address-cells = <1>;
-> > > +		#size-cells = <0>;
-> > > +
-> > > +		i2c-parent = <&i2c0>;
-> > > +
-> > > +		pinctrl-names = "i2c0", "i2c0-vc";
-> > > +		pinctrl-0 = <&i2c0_gpio0>;
-> > > +		pinctrl-1 = <&i2c0_gpio44>;
-> > > +
-> > > +		i2c0_0: i2c@0 {
-> > > +			reg = <0>;
-> > > +			#address-cells = <1>;
-> > > +			#size-cells = <0>;
-> > > +		};
-> > > +
-> > > +		i2c0_1: i2c@1 {
-> > > +			reg = <1>;
-> > > +			#address-cells = <1>;
-> > > +			#size-cells = <0>;
-> > > +		};
-> > > +	};
-> > 
-> > Hi Laurent,
-> > 
-> > I noticed you added this new DT node that binds to a driver, but didn't enable
-> > the corresponding driver in the arm64 defconfig. We're running the DT kselftest
-> > in KernelCI which reports DT nodes that haven't bound to a driver and this node
-> > now shows up as a failure. Consider enabling the driver in the defconfig so we
-> > can continually validate that the driver correctly probes this device and we'll
-> > be able to report if it breaks in the future :).
-> 
-> Interesting, I wasn't aware of the requirement to enable in the
-> defconfig all drivers that are used by an upstream DT. I'll send a patch
-> to fix that.
+Le mardi 09 avril 2024 =C3=A0 14:44 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
+> Changing the bpp and hdiv values to make sure the bytesperline
+> of plane[0] and plane[1] are the same. The width and height are
+> 64 align.
+>=20
+> Fixes: 6afcc2b0aebf ("media: mediatek: vcodec: Add capture format to supp=
+ort 10bit tile mode")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index d34d210908d9..8587cd14741c 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -265,8 +265,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		{ .format =3D V4L2_PIX_FMT_VYUY,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_Y212,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_YUV48_12, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_MT2110T, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp_div =
+=3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> -		  .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0, 0 }},
+> +		{ .format =3D V4L2_PIX_FMT_MT2110T, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 5, 0, 0 }, .bpp_div =
+=3D { 4, 4, 1, 1 }, .hdiv =3D 1, .vdiv =3D 2,
+> +		  .block_w =3D { 64, 64, 0, 0 }, .block_h =3D { 64, 64, 0, 0 }},
 
-Oh no, this isn't a requirement at all. I'm just pointing out that by doing it
-you enable more testing to get done on the platform automatically, which I
-thought you'd appreciate (and we do too!). So yes, please add it to the
-defconfig if you'd like to have the driver probe tested in KernelCI and thank
-you.
+The code that calculate the info you are fixing:
 
-> 
-> > PS: I've included the full test output for this platform below if you'd like to
-> > check it out. There's one single other device that fails to probe,
-> > /soc/mailbox@7e00b840, though that needs CONFIG_BCM2835_VCHIQ, which is on
-> > staging, so I'm guessing not something we should be enabling in the defconfig.
-> 
-> Probably not. We're working on getting it out of staging, it should be
-> enabled then. I've CC'ed Umang for awareness.
+plane->bytesperline =3D
+	info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
+plane->sizeimage =3D plane->bytesperline * DIV_ROUND_UP(aligned_height, vdi=
+v);
 
-That's good to hear, thank you for the information!
+hdiv is 1 for the first plane, and 2 for second plane. Let say we have 1920=
+x1080
+video, bytesperline for that first planes would be 5 * (1920 / 1) / 4 =3D 2=
+400.
+But for the second plane with your change we have 5 * (1920 / 2) / 4 =3D 12=
+00. For
+me, you failed to achieve your goal, or there is a bug elsewhere.
 
-Thanks,
-Nícolas
+The second change should have its own commit, but I think it should be drop=
+ped.
+The driver is hacked to be compatible with the Mali GPUs (64x64 textures), =
+but
+does not need this alignment. And in any case, the block should represent t=
+he
+pixel format required alignment, so I'd suggest to leave it like this, and
+simply align width/height before calling the function to calculate
+stride/sizeimage. The 64x64 alignment can be applied using
+v4l2_apply_frmsize_constraints() during try fmt (or v4l_bound_align_image()=
+, but
+first is preferred).
+
+Same comments apply to the following patch, which should be squashed.
+
+>  		{ .format =3D V4L2_PIX_FMT_MT2110R, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp_div =
+=3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+>  		  .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0, 0 }},
+> =20
+
 
