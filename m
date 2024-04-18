@@ -1,136 +1,173 @@
-Return-Path: <linux-media+bounces-9699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AF08A95D7
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 11:20:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CD68A97E8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 12:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E9891C20F8E
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 09:20:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 541371C20492
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 10:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0490215AAD7;
-	Thu, 18 Apr 2024 09:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23C315E5CA;
+	Thu, 18 Apr 2024 10:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="ReK9lGQd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="M6E1BxnR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F72158858
-	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 09:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3615DBD8;
+	Thu, 18 Apr 2024 10:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713432015; cv=none; b=uOjUqK7scMFCT9U5MuIm4EQIbwukEwIlCG7BMlssf/uK0dbDt4KOlGP84TjgysozX4Xv6RAk6KR3PQR/A/2lBwu4klbhhi2N28JHXrZIiGGtw+Isdpvlo7F9AMsB2MAJ/6spW2idAgF/g3M4ZwqfM23EY4kzb792zctGGmNwXY8=
+	t=1713437602; cv=none; b=Q/vFqW0iUQ+wCW/qEpvmynOc8+nDRlB9FG999dbtFUdD0E+KGsgENpbFZOkVzJOGM3Js+RiEOdgJUfYSCrL6oH4MvMc4sxen3uD7WrE4ZH98B4Fd122RWkhq0eLU24Xu4dhXrm6cWMYlgyOhTBdyOYREz7BB1LzOGitZ3ehmt+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713432015; c=relaxed/simple;
-	bh=gfpbvJ7La8EXjl6RKoYMPgYZytNXvgyc+bueamjXyCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QD35zFvldoWhkNEbN70vmBvwpPunNnKZJjSa/bRrdGaBQO4bXMH7FehHGkYim4jfB/uImuExe+LnkrASbMSlIKdT20glrTquqmKftSIWcTk6ylw7BOzBn059D4xOQxYN2BXzKscl1lw1mhKUshtxKKVIc2zVCTc+CE8ePLGzLkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=ReK9lGQd; arc=none smtp.client-ip=95.215.58.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1713432010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OgDQ00mUpxy3+2dq2TcrdALIdNhTcXrsqRSYdfRVb6Q=;
-	b=ReK9lGQduw+pn4a4IvkuUbIB2GRIVJ1ww7GWvcLG8CsRLsZajZzxpPHo9bfGYmuNmFR2aS
-	y/sLNTbOo6ijQy4bMGv6X/JmXGbAjULg5GYRDp3HumT5gfiDHgXp3vNWhMTUnuZ1PP0+w9
-	8Pc8VXXHUQanEtLYN0TK16UtWaujF6tssCaFQ1HJl+2a3Ftq4rHLa9aAaW6nacoUiMvS3T
-	XJ3yB06CmbUPnIDf1dmRdEF1WMUGczHML9iH91nYATDBw0gkdtcHmjeWNeu5WJ3xT3MCC8
-	4KteMe8chIxEq8blw8cIImy0cFdSYS6HCiaDDvbn8UHUd017Zg6iGdiNkhWS3g==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: liujianfeng1994@gmail.com
-Cc: krzk@kernel.org, linux-rockchip@lists.infradead.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, ezequiel@vanguardiasur.com.ar, heiko@sntech.de,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, mchehab@kernel.org,
- p.zabel@pengutronix.de, robh@kernel.org, sfr@canb.auug.org.au,
- Conor Dooley <conor.dooley@microchip.com>,
- Jianfeng Liu <liujianfeng1994@gmail.com>
-Subject:
- Re: [PATCH v5 2/2] dt-bindings: media: rockchip-vpu: Add rk3588 vdpu121
- compatible string
-Date: Thu, 18 Apr 2024 11:19:56 +0200
-Message-ID: <1774986.o0yEF5yP89@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20240413155709.802362-1-liujianfeng1994@gmail.com>
-References:
- <2a516484-ea87-444e-a89d-9fe33d08148f@kernel.org>
- <20240413155709.802362-1-liujianfeng1994@gmail.com>
+	s=arc-20240116; t=1713437602; c=relaxed/simple;
+	bh=y44ptJ3mDFUWxmkBcurUdX8DIYAovhjAxSbpW9R/eNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBvX7QokVICKIa9GvRbG85F3P2lclry895nFjdGP8RgYW00b8vFIl8ZqtkVdyVAuEOakeeFfncsJQDPV2SyM1b2Q7QyKCKTCTNqcVfU2Z8e75DehNcEZk+dQ9q3qeA4dkGN2zGAbkUfqoZ1W3IlX0IPUVkHZA5HxoJdYHI2ZfY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M6E1BxnR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9034827;
+	Thu, 18 Apr 2024 12:52:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713437549;
+	bh=y44ptJ3mDFUWxmkBcurUdX8DIYAovhjAxSbpW9R/eNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M6E1BxnRdcjsS4JSj03zg7VJHuDZPXJ+ccXs0PNg0Q6+F9PZypIPKnmHsM7+MY+QG
+	 i4OWslc7wfgQ8vqT7fK1OBDEdeUb+3KXLPbYZy4/Py4vKtQ7bl65D6tTnVXUuYzsgG
+	 Q/FjedEb+g0AcsE72tr78ry7U9NTypqT9lt5kX70=
+Date: Thu, 18 Apr 2024 13:53:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <20240418105310.GV12561@pendragon.ideasonboard.com>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
+ <20240417155112.GQ12561@pendragon.ideasonboard.com>
+ <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart27639082.gtX0PHzvVj";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com>
 
---nextPart27639082.gtX0PHzvVj
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-To: liujianfeng1994@gmail.com
-Date: Thu, 18 Apr 2024 11:19:56 +0200
-Message-ID: <1774986.o0yEF5yP89@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20240413155709.802362-1-liujianfeng1994@gmail.com>
-MIME-Version: 1.0
+Hi Ricardo,
 
-On Saturday, 13 April 2024 17:57:09 CEST Jianfeng Liu wrote:
-> I'm sorry for my unkonwing about the kernel patching process. And I'm
-> sorry to let maintainers do extra work. Thank you for teaching me this.
-> I will do this right in future patches.
+On Wed, Apr 17, 2024 at 06:19:14PM +0200, Ricardo Ribalda wrote:
+> On Wed, 17 Apr 2024 at 17:51, Laurent Pinchart wrote:
+> > On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> > > In my opinion, it's better to just ignore old warnings.
+> >
+> > I agree. Whatever checkers we enable, whatever code we test, there will
+> > always be false positives. A CI system needs to be able to ignore those
+> > false positives and only warn about new issues.
 > 
-> I did received a Acked-by tag from Conor in v4:
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> We already have support for that:
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/testdata/static?ref_type=heads
+
+Those are manually written filters. Would it be possible to reduce the
+manual step to flagging something as a false positive, and have a
+machine build the filters ?
+
+> But it would be great if those lists were as small as possible:
 > 
-> I note it here in case someone forgets this tag.
+> - If we have a lot of warnings, two error messages can be combined and
+> will scape the filters
+> eg:
+> print(AAAA);
+> print(BBBB);
+> > AABBBAAB
+> 
+> - The filters might hide new errors if they are too broad
+> 
+> 
+> Most of the patches in this series are simple and make a nicer code:
+> Eg the non return minmax() ,
+> Other patches show real integer overflows.
+> 
+> Now that the patches are ready, let's bite the bullet and try to
+> reduce our technical debt.
+> 
+> > > When code is new the warnings are going to be mostly correct.  The
+> > > original author is there and knows what the code does.  Someone has
+> > > the hardware ready to test any changes.  High value, low burden.
+> > >
+> > > When the code is old only the false positives are left.  No one is
+> > > testing the code.  It's low value, high burden.
+> > >
+> > > Plus it puts static checker authors in a difficult place because now
+> > > people have to work around our mistakes.  It creates animosity.
+> > >
+> > > Now we have to hold ourselves to a much higher standard for false
+> > > positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> > > Drokin has told me previously that I spend too much time trying to
+> > > silence false positives instead of working on new code.  He's has a
+> > > point which is that actually we have limited amount of time and we have
+> > > to make choices about what's the most useful thing we can do.
+> > >
+> > > So what I do and what the zero day bot does is we look at warnings one
+> > > time and we re-review old warnings whenever a file is changed.
+> > >
+> > > Kernel developers are very good at addressing static checker warnings
+> > > and fixing the real issues...  People sometimes ask me to create a
+> > > database of warnings which I have reviewed but the answer is that
+> > > anything old can be ignored.  As I write this, I've had a thought that
+> > > instead of a database of false positives maybe we should record a
+> > > database of real bugs to ensure that the fixes for anything real is
+> > > applied.
 
-I think it's beneficial to send a v6 with the following changes:
-1) Make this dt-bindings patch the first in the series
-2) Make sure you've collected all the tags you've received to all the patches
-3) Specify the base commit
+-- 
+Regards,
 
-ad 1) I don't know if it's a hard rule, but I've seen a consistent pattern 
-where the dt-binding changes come before those changes being applied to 
-DeviceTree files. It also makes sense as when the dt-binding change hasn't been 
-applied, then the DT file is technically invalid.
-
-ad 2) You shouldn't make maintainers do extra work to get your patch(es) 
-merged; you want to make their work as easy as possible. Thus you do the 
-(extra) work and provide a new version of the patch(es).
-Sending multiple versions in a single day is generally not recommended as you 
-should give reviewers some time to do the review. But it should be fine now as 
-several days have past without new reviews.
-
-ad 3) The `git format-patch` command has a `--base=<commit>` parameter with 
-which you can make explicit upon which commit the patch is based.
-That works a lot better/easier then a textual description.
-
-HTH
---nextPart27639082.gtX0PHzvVj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZiDlvAAKCRDXblvOeH7b
-bmEdAP9OLqzxTgUxfIC4NVwn89ZMipgZ02R2mr8wczdNorVfxgEAwMVlJgDzsjlr
-2lkalQpvcr6qdfULVlBbAY1pfncDyAY=
-=4ic4
------END PGP SIGNATURE-----
-
---nextPart27639082.gtX0PHzvVj--
-
-
-
+Laurent Pinchart
 
