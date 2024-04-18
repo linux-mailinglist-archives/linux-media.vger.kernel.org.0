@@ -1,60 +1,98 @@
-Return-Path: <linux-media+bounces-9717-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9718-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88A98A9EC6
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 17:44:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE858A9EE8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 17:46:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 366ADB21B5C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 15:44:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 401E31F233DA
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 15:46:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEEB216E891;
-	Thu, 18 Apr 2024 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4089A16F29A;
+	Thu, 18 Apr 2024 15:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b="lBOF4Nmx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mNiKJAJD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.tkos.co.il (golan.tkos.co.il [84.110.109.230])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA99716C69C
-	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 15:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.110.109.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41A116E89A;
+	Thu, 18 Apr 2024 15:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713455057; cv=none; b=lNXUVn7g1fxoziLDOooPaCckFnA6b6sjEnqhbAtvxvGbIR14gIOqLW1iNkwMqpKSlC7GB8HXQA9M6dHoWLPOH1KVr6dinRRcFhuhNQ4BqELzXtYLDY5J/YBCWsCGqJ5+6lWcvvs1yZOO4FfB67ydEnwrt25pWn1VEWuAFTn0NyA=
+	t=1713455205; cv=none; b=YR//jvise81xYQ2aQEMmbPtmnrRDx4bZGp6Um27E4jtfc0u6ohLe78f/y0pGsRg17q7oCwr49QPSB9bUi2P2ovbsF/is64C/Cc20yLaeKWJtZBOfYOwLuZmFub/QKrPv3EgnyriyPBeod7z4cxdK6YST2cyBlqwNRh/QPl3nMf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713455057; c=relaxed/simple;
-	bh=iIKKAiCnRrAgDIHZSb5hVhvQsqE83aNLWEDnlLR6DHA=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=jliTNPzr9+KPf/qqx38SB9skduFMruU9bu+XAccoz5AywLor5gBp7U31FLy8BKi7pmmoqBfs/SjQslzg89DJQXisTI9dodg8mnFZQ+pX7o33gvKJATRQwkZ3jFtnSvGpVfBI1gx7aTDQTUnEXo1nISKozcUCR/FAODgzXieUbC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il; spf=pass smtp.mailfrom=tkos.co.il; dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b=lBOF4Nmx; arc=none smtp.client-ip=84.110.109.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tkos.co.il
-Received: from localhost (unknown [10.0.8.4])
-	by mail.tkos.co.il (Postfix) with ESMTP id BED6544060F;
-	Thu, 18 Apr 2024 18:43:58 +0300 (IDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1713455038;
-	bh=iIKKAiCnRrAgDIHZSb5hVhvQsqE83aNLWEDnlLR6DHA=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:From;
-	b=lBOF4Nmxa2i74GupirMIm7BEyf+CY3t4N2S9rrDdHsn+kngATbdgVLjeDCXu7S5Xf
-	 tmYHqi7okN2cfnBzUz0lTOLDTJUtlIcrtU/B0Em24JA30kNQ6ix5blwj3vfVB18nJ6
-	 chYI6pVDffiUEYenwDh4ChfDAgB+FFByfZPpeHV0+Y7Fmmla0893W7DCQK4ZpVpGMQ
-	 TBTC9rUViLMXfKVRQGrfILZNh5zYM81IGn/t2qsdFVhStC2jbaTxJMRdh09VSrdMqD
-	 QTi5MmoLVglFh5yjzYYy02U5g8jUx1C3qswHuLc3CgEagxmIBEjwiJlgswUtiN0ijc
-	 fmILEoXpX2NCA==
-References: <505484b83fedebce3c65b10b076b34df075074b6.1713329988.git.baruch@tkos.co.il>
- <fd8d8a88-a457-40b1-b8f6-4c91c9d964da@amd.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Baruch Siach <baruch@tkos.co.il>
-To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2] doc: dma-buf: fix grammar typo
-Date: Thu, 18 Apr 2024 18:23:42 +0300
-In-reply-to: <fd8d8a88-a457-40b1-b8f6-4c91c9d964da@amd.com>
-Message-ID: <874jbyad6j.fsf@tarshish>
+	s=arc-20240116; t=1713455205; c=relaxed/simple;
+	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VfVRCHVMHNoh9wGLSl4uMOSmJROR8cKJdQYUjvElGmsW/wkiKcZqQx570pEsg6O15wwQ7y12722j5dbSyH0ZIEE2auO+fa1uiNhnzkJqgCa0Lb2JpDB8ZnebOYXznVgx5eOrAws7/H/yqow9cd68DaSZSgyBnyD5QDfhW7jmF8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mNiKJAJD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A03C802;
+	Thu, 18 Apr 2024 17:45:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713455153;
+	bh=K6H40zZOBruNXEKy+mLBxL40J3Voj2XWEqqGuvJ9w94=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mNiKJAJDsTkJYMYK4ZtsZ9zlV7xPYE85xk9V7yAnZZ4lXnvj+UhwJ4fKqYaFra0Xc
+	 2eBi44CBZWoMWyMkwDoCJV3GUcE9zfI7hzMI60oHIg/o5NGSS92iXbFgMGqv+gOkZe
+	 2N/SspWfXOLe5x5IbsUKTfY8A/Ga1vjvyZkxLsrw=
+Date: Thu, 18 Apr 2024 18:46:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <20240418154633.GD31776@pendragon.ideasonboard.com>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
+ <20240417155112.GQ12561@pendragon.ideasonboard.com>
+ <CANiDSCs_qOXkhzuL+cFhpw0hvFMwU0TYyN2B5ZdAStb96TTKFA@mail.gmail.com>
+ <20240418105310.GV12561@pendragon.ideasonboard.com>
+ <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,89 +100,89 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuS3KQK9H37sDZJ+mcqheNSh7NBwchS3dPccVXcPTSNRA@mail.gmail.com>
 
-Hi Christian,
+Hi Ricardo,
 
-On Thu, Apr 18 2024, Christian K=C3=B6nig wrote:
-> Well checkpatch.pl still complained:
->
-> ERROR: trailing whitespace
-> #157: FILE: Documentation/driver-api/dma-buf.rst:80:
-> +=C2=A0 If llseek on dma-buf FDs isn't supported the kernel will report -=
-ESPIPE for
-> all^M$
->
-> That actually looks like you used a Windows line ending.
+On Thu, Apr 18, 2024 at 04:51:06PM +0200, Ricardo Ribalda wrote:
+> On Thu, 18 Apr 2024 at 12:53, Laurent Pinchart wrote:
+> > On Wed, Apr 17, 2024 at 06:19:14PM +0200, Ricardo Ribalda wrote:
+> > > On Wed, 17 Apr 2024 at 17:51, Laurent Pinchart wrote:
+> > > > On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> > > > > In my opinion, it's better to just ignore old warnings.
+> > > >
+> > > > I agree. Whatever checkers we enable, whatever code we test, there will
+> > > > always be false positives. A CI system needs to be able to ignore those
+> > > > false positives and only warn about new issues.
+> > >
+> > > We already have support for that:
+> > > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/testdata/static?ref_type=heads
+> >
+> > Those are manually written filters. Would it be possible to reduce the
+> > manual step to flagging something as a false positive, and have a
+> > machine build the filters ?
+> 
+> Do you expect that the list of exceptions will grow?
+> 
+> I hope that once the CI is in place we will fix the warnings before
+> they land in the tree.
 
-Interesting. I can't reproduce that here:
+Any static checker is bound to produce false positives. Some of them can
+be addressed by improving the checker, others by modifying the source
+code, but in some cases the first option would be too difficult and the
+second would reduce readability of the code. I thus thing the list of
+accepted false positives will grow over time.
 
-$ hexdump -C 0001-doc-dma-buf-fix-grammar-typo.patch
-...
-00000490  6f 72 74 20 2d 45 53 50  49 50 45 20 66 6f 72 20  |ort -ESPIPE fo=
-r |
-000004a0  61 6c 6c 0a 20 20 20 63  61 73 65 73 2e 20 55 73  |all.   cases. =
-Us|
+> > > But it would be great if those lists were as small as possible:
+> > >
+> > > - If we have a lot of warnings, two error messages can be combined and
+> > > will scape the filters
+> > > eg:
+> > > print(AAAA);
+> > > print(BBBB);
+> > > > AABBBAAB
+> > >
+> > > - The filters might hide new errors if they are too broad
+> > >
+> > >
+> > > Most of the patches in this series are simple and make a nicer code:
+> > > Eg the non return minmax() ,
+> > > Other patches show real integer overflows.
+> > >
+> > > Now that the patches are ready, let's bite the bullet and try to
+> > > reduce our technical debt.
+> > >
+> > > > > When code is new the warnings are going to be mostly correct.  The
+> > > > > original author is there and knows what the code does.  Someone has
+> > > > > the hardware ready to test any changes.  High value, low burden.
+> > > > >
+> > > > > When the code is old only the false positives are left.  No one is
+> > > > > testing the code.  It's low value, high burden.
+> > > > >
+> > > > > Plus it puts static checker authors in a difficult place because now
+> > > > > people have to work around our mistakes.  It creates animosity.
+> > > > >
+> > > > > Now we have to hold ourselves to a much higher standard for false
+> > > > > positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> > > > > Drokin has told me previously that I spend too much time trying to
+> > > > > silence false positives instead of working on new code.  He's has a
+> > > > > point which is that actually we have limited amount of time and we have
+> > > > > to make choices about what's the most useful thing we can do.
+> > > > >
+> > > > > So what I do and what the zero day bot does is we look at warnings one
+> > > > > time and we re-review old warnings whenever a file is changed.
+> > > > >
+> > > > > Kernel developers are very good at addressing static checker warnings
+> > > > > and fixing the real issues...  People sometimes ask me to create a
+> > > > > database of warnings which I have reviewed but the answer is that
+> > > > > anything old can be ignored.  As I write this, I've had a thought that
+> > > > > instead of a database of false positives maybe we should record a
+> > > > > database of real bugs to ensure that the fixes for anything real is
+> > > > > applied.
 
-Only a single Unix style EOL character (0x0a) is shown.
+-- 
+Regards,
 
-Same if I dump the email from the archive:
-
-curl https://lore.kernel.org/all/505484b83fedebce3c65b10b076b34df075074b6.1=
-713329988.git.baruch@tkos.co.il/raw |hexdump -C
-...
-00001010  6c 20 72 65 70 6f 72 74  20 2d 45 53 50 49 50 45  |l report -ESPI=
-PE|
-00001020  20 66 6f 72 20 61 6c 6c  0a 20 20 20 63 61 73 65  | for all.   ca=
-se|
-
-Do you get the same blob hash (29abf1eebf9f) when running
-
-  git hash-object -t blob Documentation/driver-api/dma-buf.rst
-
-on the resulting file before you fixed it?
-
-> I fixed it up and pushed the patch, but please take a bit more care next =
-time.
-
-Thanks. I'm curious to know what kind of care I should take.
-
-baruch
-
-> Am 17.04.24 um 06:59 schrieb Baruch Siach:
->> Use 'supported' instead of 'support'. 'support' makes no sense in this
->> context.
->>
->> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
->> ---
->> v2: Add commit log message (Christian K=C3=B6nig)
->> ---
->>   Documentation/driver-api/dma-buf.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver=
--api/dma-buf.rst
->> index 0c153d79ccc4..29abf1eebf9f 100644
->> --- a/Documentation/driver-api/dma-buf.rst
->> +++ b/Documentation/driver-api/dma-buf.rst
->> @@ -77,7 +77,7 @@ consider though:
->>     the usual size discover pattern size =3D SEEK_END(0); SEEK_SET(0). E=
-very other
->>     llseek operation will report -EINVAL.
->>   -  If llseek on dma-buf FDs isn't support the kernel will report -ESPI=
-PE
->> for all
->> +  If llseek on dma-buf FDs isn't supported the kernel will report -ESPI=
-PE for all
->>     cases. Userspace can use this to detect support for discovering the =
-dma-buf
->>     size using llseek.
->>=20=20=20
-
-
---=20
-                                                     ~. .~   Tk Open Systems
-=3D}------------------------------------------------ooO--U--Ooo------------=
-{=3D
-   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
+Laurent Pinchart
 
