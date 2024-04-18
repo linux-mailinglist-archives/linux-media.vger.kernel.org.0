@@ -1,114 +1,228 @@
-Return-Path: <linux-media+bounces-9721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169C38AA0F0
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 19:19:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FB58AA433
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 22:42:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A89001F22682
-	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 17:19:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 389082832B1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Apr 2024 20:42:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE84175552;
-	Thu, 18 Apr 2024 17:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A565190687;
+	Thu, 18 Apr 2024 20:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NLy+4Lpt"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="liG7LA+C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F628171E6C
-	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 17:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0621836EE
+	for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 20:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713460761; cv=none; b=JLF470Wx4r/8dyLk34V8M50t9tOEOZZzxLoZ4GcSfUoFD3rXMsinbbx4T96YX/WLq/KH1B6s6v0uLLn/oJpamhO+haJ6R3JR3U2z8n4C32L24Lb7HcWcJF9d1AJSbU59VP8Bn6gVMMLZQ9MEz2CDyjKRKGX6gJxiiTs2DMSO1UI=
+	t=1713472959; cv=none; b=r6q3qFpwNy9pMh5vQnWypsTP9CuyQ79HovDIoCuU/eXER6Y0j9Usa6IDfPfW2KX7thyvS00c2mSMstMkt44cFUaoP9RYc0QZPptOlOgJDFoPI+WXCIQIY5Fj9Jvow5lXWyuGyB46X4aZdmp/NsxDzVYfwvrN9DA+69EubPzox8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713460761; c=relaxed/simple;
-	bh=yROCoENx2b9yAJSMGatAYPh1hwYf8DqL0GPMYtwTMVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eQdHQSQiWXX78ezRy3oFwveSH+AC2a+HUcCsSr7Vwr4LobMD9ZoBhmdhT6QT3W+v7WqH4c6IHVhOB2d2fUQWQ4B4RUbPMJ4c4sWYJBS9RyN8xtMzj3PBvNgLZA9zigR8CMrWH9lkyZ7bs5HNp9c4zRbLQSuL0Ooz8UzIDErbICk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NLy+4Lpt; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a51aac16b6eso47369666b.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 10:19:19 -0700 (PDT)
+	s=arc-20240116; t=1713472959; c=relaxed/simple;
+	bh=cmUh/RMXY3m7Q7zoie/Ha+d21Jf0n3rJA3Rtai9dZlI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SrysMA8ZXR0nOL2DHqwbnaWrPeOpMjtmzzvCVOyDxmzhzGExsKy20FLvCRvDOusec+NG3cu+QnQySf8NCcegWxwFPm7t6mhZnbXGRVoBURm924eEqF+VvOfubqkDZQRIciOaa16Wjuw1h5XOEWk0Uk6SmmBkMe9veBm6UEelPkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=liG7LA+C; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-78f031a4442so83594285a.2
+        for <linux-media@vger.kernel.org>; Thu, 18 Apr 2024 13:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713460758; x=1714065558; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fXGa0pEP8iUBNqIHW4VCl1wGNComHip6UrWPNRc9bPA=;
-        b=NLy+4LptwTJ+sVVrAsl7QDaAMMCIkfZNfPnlZ3AI8aHeahkSb7f2UpAeCkxts8RiK+
-         GxxBNrPYYlGKIBRjnnfJSsRHi7S2ljRDJTFWbl0HawdXLRixFLqKYC5L9yynSsvR26IT
-         yR87XL/niiHEhGGnzj+K0TRT5LrzccSb3JxHZTlMIHu1EQH3jTNe163YJYwXyI9a8kJ9
-         1NqApXiH4doMCSphcDVj+vd8OQkcjz/od/4kgjIzBXNyZe1GoJ4l2j/7MfORvagFaRkg
-         XEUuJVi23TJT0fzp6/f5rXD/RvVZ74DYqTyOWeZCKh3lECgSM8vu4pzV+ZBhpU4W6DDk
-         j7WA==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1713472957; x=1714077757; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4Zc8fWit1e1eqZNNNWhrr8d7897nANJa2k6qso1lNSs=;
+        b=liG7LA+C/h7EzI3gIYsCiIemLdUe+uqUFSr+lczowvgzfx/AhRY7d168MZzdEvGH44
+         uH4Zeri1thArjU9qQM21KvTb/w0B5FhD4Rmc9pU1CGiuHUCzCj3e4yXT10vKnA74Wotc
+         XkKcjPFzoyWyguV+AadoEpLGw1ThxnpevsXeWSRaURy0BQvGRSp/xkcmnsbWDYK74ZZm
+         diZ/HBDEXfVxqTN2U/G/3Z6Pctk+Ifi4zs1U4gPQcvHAGvNv0CNs1Ixq8Zmk4u9tqIQk
+         Q13BrKDBHAh7Yr/LV5UV4ligqRx6kxZtafl2U7HEJNp6/NbZDGtey7VcOPusSi+AQzS8
+         62PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713460758; x=1714065558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fXGa0pEP8iUBNqIHW4VCl1wGNComHip6UrWPNRc9bPA=;
-        b=rWpY24JmGVel4eoPUCjPNBGop+0fCzzcQORoWuvXkzxMRQiVTjI2KDfXkXkf5o+miG
-         yvI0W6p+4YUP5yIeaFPxnaWzQoWY2Jcn7loUiUYquZA7bH4/SQe+ZR5GHIgNf8BfZb1s
-         3X6tE52yJb6EPYsL6C8LSvBEOgonyfLjPdxWZ/rffxikYFO/6u2P5oI4qalOCmA84Lh5
-         MgJ+6FWX/tJZbfae7F+lGBlZYY4gJd0vQNcnEwggYkHoBVQieAYp4I9ANh12J1MV9xT1
-         2VyZGSApjNqPm6A4scO20wqoNVsuBcD/ZvSq500V7S4xn2oi4dKxLe8zlSPD6kPs94ff
-         S+ow==
-X-Forwarded-Encrypted: i=1; AJvYcCW7dIaKnrxxMEgH0NCWR7BgYiS46oBPrj44EFht+QhAv1O3JMOplwFqOshxrW/2CjlExmekQpKQFWkUrsd+bynFZAYnXOVGTL216m0=
-X-Gm-Message-State: AOJu0YzCjHBaBUakQwu3XDPz9RQzMTLybAhKGDEv+Sn8ZTzAsMBRVq6U
-	OXzvP8RGtOi82EIC/PMl8pu9VFoGKGBQzsTZzC5gMjuA50FNoT25NI8jZiWCJJcEvdE0QYIFEOB
-	T
-X-Google-Smtp-Source: AGHT+IEwc41StGMMjA7NT/EcMHzsdl7Ubbyp3HEt0hPwzN/ol9BuHMjJLxAT3hzrUe7Xf/hT6lTnuQ==
-X-Received: by 2002:a50:875d:0:b0:56b:829a:38e3 with SMTP id 29-20020a50875d000000b0056b829a38e3mr2946788edv.16.1713460758239;
-        Thu, 18 Apr 2024 10:19:18 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id e19-20020a056402089300b0057016d010f9sm1101811edy.16.2024.04.18.10.19.17
+        d=1e100.net; s=20230601; t=1713472957; x=1714077757;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Zc8fWit1e1eqZNNNWhrr8d7897nANJa2k6qso1lNSs=;
+        b=CbzsI54CaJEnGBJVqOuSUJKODZ2fbOpVk6W6IDUM7RAI0FUgYcnjG8lqloES9uSlyV
+         dSIsTR9Ey2zwIoq7MgCwjblc1099svOEf5l8fwsBdtHmsEPmrFUCWz/nj6pW3D5eEeSR
+         JVkeZg1r3IiITGtiTIIT0bajVTRM9bR+Nni1AU6ydO0tM3lKjCXc4dICqPT3MGKuEd47
+         ybp0IiQE39U0gjcBlSzIRskw9z/prqA2VMNwjNzQdDPSIitUWeZooZUKeGk8XarMtD0z
+         LdfE6EaUaYeSdHDhRSR52YIm88Rj+WCc26n0qS4D1L5+FDkXz4pVif7hKYzbqqJP80/D
+         tvjQ==
+X-Gm-Message-State: AOJu0YxLJ302oi4CsMBZy8cEL/uD4TC9ZyJ0P46phw5iNarN3Rxmttav
+	DP5wWPrkWCKPXgx23URZXfMY8QNCQ1u6H/sYT1U4aJcGyC80+vV0oXiXonrNFwA=
+X-Google-Smtp-Source: AGHT+IGdJc3FPJgE45fxf39vCXmz9qTYcy/n4jbgz/ECNg9EIN8d2UprWRdtewBFXKYnM/m0f+Br4g==
+X-Received: by 2002:a05:620a:13e1:b0:78e:dc09:a961 with SMTP id h1-20020a05620a13e100b0078edc09a961mr238199qkl.63.1713472956930;
+        Thu, 18 Apr 2024 13:42:36 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6448::7a9])
+        by smtp.gmail.com with ESMTPSA id o11-20020a05620a2a0b00b0078f03c9eda1sm958366qkp.94.2024.04.18.13.42.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 10:19:17 -0700 (PDT)
-Date: Thu, 18 Apr 2024 20:19:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbdjFdIHN0YWdpbmc=?= =?utf-8?Q?=3A?= media:
- starfive: Clean pad selection in isp_try_format()
-Message-ID: <ea244234-38f0-4381-9c9a-b6c6076e7dcb@moroto.mountain>
-References: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
- <SHXPR01MB06710239B9F69E2F0EC0CB01F20EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+        Thu, 18 Apr 2024 13:42:36 -0700 (PDT)
+Message-ID: <b2bd37736630d339091ff829a8437b1a34eff292.camel@ndufresne.ca>
+Subject: Re: [RESEND PATCH v2 1/4] media: chips-media: wave5: Support
+ SPS/PPS generation for each IDR
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
+	sebastian.fricke@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	hverkuil@xs4all.nl, nas.chung@chipsnmedia.com, lafley.kim@chipsnmedia.com, 
+	b-brnich@ti.com
+Date: Thu, 18 Apr 2024 16:42:35 -0400
+In-Reply-To: <20240311105623.20406-2-jackson.lee@chipsnmedia.com>
+References: <20240311105623.20406-1-jackson.lee@chipsnmedia.com>
+	 <20240311105623.20406-2-jackson.lee@chipsnmedia.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SHXPR01MB06710239B9F69E2F0EC0CB01F20EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
 
-On Thu, Apr 18, 2024 at 01:27:04AM +0000, Changhuang Liang wrote:
-> Hi, Hans
-> 
-> > The code to select isp_dev->formats[] is overly complicated.  We can just use
-> > the "pad" as the index.  This will making adding new pads easier in future
-> > patches.  No functional change.
-> > 
-> > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> > ---
-> 
-> Could you please help to review this patch, thanks for your time.
+Le lundi 11 mars 2024 =C3=A0 19:56 +0900, jackson.lee a =C3=A9crit=C2=A0:
+> From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+>=20
+> Provide a control to toggle (0 =3D off / 1 =3D on), whether the SPS and
+> PPS are generated for every IDR.
+>=20
+> Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> ---
+>  .../platform/chips-media/wave5/wave5-hw.c     | 19 +++++++++++++++----
+>  .../chips-media/wave5/wave5-vpu-enc.c         |  7 +++++++
+>  .../platform/chips-media/wave5/wave5-vpuapi.h |  1 +
+>  3 files changed, 23 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index f1e022fb148e..4a262822bf17 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -23,6 +23,15 @@
+>  #define FEATURE_AVC_ENCODER		BIT(1)
+>  #define FEATURE_HEVC_ENCODER		BIT(0)
+> =20
+> +#define ENC_AVC_INTRA_IDR_PARAM_MASK	0x7ff
+> +#define ENC_AVC_INTRA_PERIOD		6
+> +#define ENC_AVC_IDR_PERIOD		17
+> +#define ENC_AVC_FORCED_IDR_HEADER	28
+> +
+> +#define ENC_HEVC_INTRA_QP		3
+> +#define ENC_HEVC_FORCED_IDR_HEADER	9
+> +#define ENC_HEVC_INTRA_PERIOD		16
+> +
 
-Linux-media uses patchwork, so probably it was missed because it didn't
-have a [PATCH] in the subject.  Just resend.
+Perhaps add the suffix _SHIFT to these macro ? I think it can easily be con=
+fused
+with a default value otherwise.
 
-regards,
-dan carpenter
+nit: can happen later, since this is how things got merged in this driver, =
+but
+typically, registers offsets, shift and masks are usually consolidated in a
+single reg header. It would be nice to consider cleaning this up in future
+patches.
+
+>  /* Decoder support fields */
+>  #define FEATURE_AVC_DECODER		BIT(3)
+>  #define FEATURE_HEVC_DECODER		BIT(2)
+> @@ -1601,12 +1610,14 @@ int wave5_vpu_enc_init_seq(struct vpu_instance *i=
+nst)
+> =20
+>  	if (inst->std =3D=3D W_AVC_ENC)
+>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM, p_param->intra_qp=
+ |
+> -				((p_param->intra_period & 0x7ff) << 6) |
+> -				((p_param->avc_idr_period & 0x7ff) << 17));
+> +				((p_param->intra_period & ENC_AVC_INTRA_IDR_PARAM_MASK) << ENC_AVC_I=
+NTRA_PERIOD) |
+> +				((p_param->avc_idr_period & ENC_AVC_INTRA_IDR_PARAM_MASK) << ENC_AVC=
+_IDR_PERIOD) |
+> +				(p_param->forced_idr_header_enable << ENC_AVC_FORCED_IDR_HEADER));
+>  	else if (inst->std =3D=3D W_HEVC_ENC)
+>  		vpu_write_reg(inst->dev, W5_CMD_ENC_SEQ_INTRA_PARAM,
+> -			      p_param->decoding_refresh_type | (p_param->intra_qp << 3) |
+> -				(p_param->intra_period << 16));
+> +			      p_param->decoding_refresh_type | (p_param->intra_qp << ENC_HEVC=
+_INTRA_QP) |
+> +			      (p_param->forced_idr_header_enable << ENC_HEVC_FORCED_IDR_HEADE=
+R) |
+> +			      (p_param->intra_period << ENC_HEVC_INTRA_PERIOD));
+> =20
+>  	reg_val =3D (p_param->rdo_skip << 2) |
+>  		(p_param->lambda_scaling_enable << 3) |
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index f29cfa3af94a..f04baa93a9b7 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -1061,6 +1061,9 @@ static int wave5_vpu_enc_s_ctrl(struct v4l2_ctrl *c=
+trl)
+>  	case V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE:
+>  		inst->enc_param.entropy_coding_mode =3D ctrl->val;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:
+> +		inst->enc_param.forced_idr_header_enable =3D ctrl->val;
+> +		break;
+>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+>  		break;
+>  	default:
+> @@ -1219,6 +1222,7 @@ static void wave5_set_enc_openparam(struct enc_open=
+_param *open_param,
+>  		else
+>  			open_param->wave_param.intra_refresh_arg =3D num_ctu_row;
+>  	}
+> +	open_param->wave_param.forced_idr_header_enable =3D input.forced_idr_he=
+ader_enable;
+
+in the long term, there is one too many abstraction in this driver, we shou=
+ld
+remove that.
+
+>  }
+> =20
+>  static int initialize_sequence(struct vpu_instance *inst)
+> @@ -1702,6 +1706,9 @@ static int wave5_vpu_open_enc(struct file *filp)
+>  			  0, 1, 1, 0);
+>  	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+>  			  V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 32, 1, 1);
+> +	v4l2_ctrl_new_std(v4l2_ctrl_hdl, &wave5_vpu_enc_ctrl_ops,
+> +			  V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR,
+> +			  0, 1, 1, 0);
+> =20
+>  	if (v4l2_ctrl_hdl->error) {
+>  		ret =3D -ENODEV;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/dr=
+ivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> index 352f6e904e50..3ad6118550ac 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> @@ -566,6 +566,7 @@ struct enc_wave_param {
+>  	u32 lambda_scaling_enable: 1; /* enable lambda scaling using custom GOP=
+ */
+>  	u32 transform8x8_enable: 1; /* enable 8x8 intra prediction and 8x8 tran=
+sform */
+>  	u32 mb_level_rc_enable: 1; /* enable MB-level rate control */
+> +	u32 forced_idr_header_enable: 1; /* enable header encoding before IDR f=
+rame */
+>  };
+> =20
+>  struct enc_open_param {
+
+With the suggested _SHIFT suffix (or equivalent) added.
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 
