@@ -1,108 +1,87 @@
-Return-Path: <linux-media+bounces-9765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3338AADCA
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 13:36:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43558AAED2
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 14:52:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBD1B282F9F
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 11:36:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80F4E282BEC
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 12:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98C51823BC;
-	Fri, 19 Apr 2024 11:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD2AB85643;
+	Fri, 19 Apr 2024 12:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpnoKl85"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MR3Cy1rP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA378004E;
-	Fri, 19 Apr 2024 11:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F12D4D137
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 12:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713526598; cv=none; b=j3vKfxvH9XiXCpLlv9F60bcDSynpn5ChSE7rNNEV607yMYTk3jgU2XHazU92oSrxxJHNABFhDMAoiajNSONVTQTh3UaSgni6RpiqK0tkC89F7xIcJ4OsS9CZK090bAgvhoSTISPyyt1PrUkHCN+xmWo5GaKqvmUumstmwqv9G3M=
+	t=1713531121; cv=none; b=AU7ZTOU88O1jsH5zc1/ibhTeAw64WR7N/g23m8ZhmU1+2rNI0ZTOPfm3Qgd221G7JxbbMT9I9LWLcw++FxkqQnyp0CLFRz5nupGM8YBKo37ci/JK4vZYWU3HmD/X/5lYpOFb/yogZGRNcrWAW2zm0zWsFGctfp/T7XI5hKtOW8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713526598; c=relaxed/simple;
-	bh=RGBSiE3AtLVUYHvusd2OokOMgXmKs1k7wH7HEVhiQfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nHgP9h6N2bRMNI4NISzU/NYCOXWKoUDxLj/iRaS0BNUez5lKs0t7reaofzkewDVbHCJCM59kxrfmbumcc4y7A9vDGaZX4ykoM5bfgQ/lXbkC4/tZDJbxLc5BFxm917ZalmPIkP8fcSubUZ/tOyWpquOPXS+/RNdFtp9kAS1Ua/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SpnoKl85; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67CAC072AA;
-	Fri, 19 Apr 2024 11:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713526597;
-	bh=RGBSiE3AtLVUYHvusd2OokOMgXmKs1k7wH7HEVhiQfg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SpnoKl85z8PRUnvUV94bspdas7JkiksyoW1AUSsd8W5fmoKjOprRdlJzjtY6JkGDo
-	 F0P+F3/zUJxWmjy8oa50ws3MIqDHtYzGjVrG1jzikp5TGwnUoJn1cHGzczVzY7/vLn
-	 a/6Bo33zheUhgEgSIl9SJk7FV/aPdJQByPCu0l97+mJU3etiiUh2gM4qLtPLgq+Hwx
-	 /NVNq7ikFh7ooDTrQjG6s6bh766F3Lxjm8nHQEGC3zZR5LHt+dGGkyO3T7J68mVyU4
-	 hlmj5QeaA/+KjRDCsa3scXjCF6fBijP+eJ79KqrxYBIPcMjklOk3F+BeHm/FiCn7jA
-	 71LTAmbS+VjBQ==
-Date: Fri, 19 Apr 2024 13:36:34 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v11 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240419-intrepid-enthusiastic-spoonbill-3fb9f2@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-17-c5680ffcf261@kernel.org>
- <Zh6EevKDKt60E8e9@intel.com>
+	s=arc-20240116; t=1713531121; c=relaxed/simple;
+	bh=e0vcUAGOL4SZljfC9R4Wo5bCFHAYcJ5icsyMFCyTilg=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bqTp2GOUxNH9CMQxc0Rjz85CDrbOmd6kb9jlgmWetNh2OWh0yKqeNobSMcEw1EP/S9PiTSPYcfRpZJcuxZIKiXdfDOKHmDjOguz3QHE4czm4W4P339Kua967givzheVOzRkbkNWcF+92NDQVdtr9w6wUF/UBIN3LN6DrjE0OMLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MR3Cy1rP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0452A802
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 14:51:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713531069;
+	bh=e0vcUAGOL4SZljfC9R4Wo5bCFHAYcJ5icsyMFCyTilg=;
+	h=Date:From:To:Subject:From;
+	b=MR3Cy1rPMwpjIUzpFPIzvhMtzm1NPChSAj0borJytzs4kWZagW3/+RdR02kUlz05k
+	 gzOziuZRfnreEj+/18odISDRJc8p78rQ1uq4kbLUx61flChlz04rjesD/ObBhuUuoB
+	 +kG25MROxbkaLy9R3+iO1jjIqVhxRxo4QvJlNzkM=
+Date: Fri, 19 Apr 2024 15:51:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
+Subject: [GIT PULL FOR v6.10] uvcvideo fixes
+Message-ID: <20240419125149.GA2125@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="twt2bamgclgwo5q2"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zh6EevKDKt60E8e9@intel.com>
 
+The following changes since commit 836e2548524d2dfcb5acaf3be78f203b6b4bde6f:
 
---twt2bamgclgwo5q2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  media: usb: siano: Fix allocation of urbs (2024-04-16 00:02:53 +0200)
 
-On Tue, Apr 16, 2024 at 05:00:26PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:21PM +0100, Maxime Ripard wrote:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
->=20
-> Is there a i915 patch to switch over to hdmi.broadcast_rgb? Though
-> the "hdmi" name is perhaps not the best idea given this is also a
-> thing for DP.
+are available in the Git repository at:
 
-No, there's none yet. I can try to cook one as a follow-up, but I have
-no way to test it
+  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-next-uvc-20240419
 
-Maxime
+for you to fetch changes up to 3de6df64f92d8633eb51a5e957ffc43ebdb2156e:
 
---twt2bamgclgwo5q2
-Content-Type: application/pgp-signature; name="signature.asc"
+  media: uvcvideo: Disable autosuspend for Insta360 Link (2024-04-19 13:48:38 +0300)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+uvcvideo fixes
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiJXPQAKCRAnX84Zoj2+
-dqW3AX4z9SPfNEYqLIrzCMiper2UznzSiItRQraVPOKwQb/7kJbeWynLWAgun2KI
-ipBCYTIBgNmPOT2WW4J8MjsQTegdqZL5wVAo0erF9fB7LiOU6HNZ9VZCiYz2cjwl
-d06WM355Fw==
-=BZv7
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Ricardo Ribalda (3):
+      media: uvcvideo: Add quirk for Logitech Rally Bar
+      media: uvcvideo: Fix power line control for Shine-Optics Camera
+      media: uvcvideo: Disable autosuspend for Insta360 Link
 
---twt2bamgclgwo5q2--
+ drivers/media/usb/uvc/uvc_driver.c | 54 +++++++++++++++++++++++++++++++++++++-
+ drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
 
