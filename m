@@ -1,59 +1,51 @@
-Return-Path: <linux-media+bounces-9761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9762-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8586A8AACBF
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 12:23:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93E78AACF2
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 12:38:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6A7C1C21513
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 10:23:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6EA761F21D81
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 10:38:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2EAB7E101;
-	Fri, 19 Apr 2024 10:23:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F8A7E776;
+	Fri, 19 Apr 2024 10:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gnj7YRWZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nUM84254"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC82274BEC;
-	Fri, 19 Apr 2024 10:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D6C762E5
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 10:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713522210; cv=none; b=U4k716kqWN+yspTkOM5x1mCe0wXNZH9yioI9RHYnujVAFEYdE1FW6y5pWxP/NESX25HFWvUJd9vtZPV5cC7zwhBlYtWJNXz4tNcUe0cWghbAU1KVFUgKPlI7KUbTzffyzhVmNuzuJ6UzE5RcN6zpaK/l445zdSXj+TG7HmhNMsA=
+	t=1713523113; cv=none; b=b8eJHWLOaj+GhAJ9ybqMN4YUta9xfrQ6hpfwbsrJKxDAXz+A79yCzkK2nMULvPOSQIRJTKuOJSDQ/WFq/uzUJfRr71lE0pQ6HuBa2tK1Y9kq5OJ29pE6JJ0oRA8m7vyZQFKFgZG/EFGMBRgkYGhiz2UqEZeT7Tb4Z5vO9IC0bjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713522210; c=relaxed/simple;
-	bh=5T6/pdA9ZApunyjib21mMpB2vBOnp8LFdesL1yGXMCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNU5LBhWgNRmpOtR45gORGQ4X952m0p3ImvRM0qTI8scH5kzHLgNU4NpzSfpm9ZlsjcVuHeG/DXghy2K8oLJzpeebCWstGmP00FKhWREfOQa/WJrljLoxN50cdikPCPvHS/r3C6aNCtThn1I0NGTMn4TbPNGtYAIsEK9kV3ZfTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gnj7YRWZ; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1713523113; c=relaxed/simple;
+	bh=gcYrw9C9L/wQaU4ImfXXSgWrJXmTHbFFdWyR2helohE=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z3hWfi3l9XaGRe6AaOcMfn/Coep9h0g17r8BHoU26DDevdABVTVti9Rch0OY9CLPU+bfSIBE2InX4B74e2nD+XkG+H8PucvhQ7RQWKOI82hZy3ok1MoNz4Zi78Ccnm8nGrN2xeuoxmxMww374ldySQcIS/rJ2ExydeiatALAFSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nUM84254; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A93263B;
-	Fri, 19 Apr 2024 12:22:39 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0251063B
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 12:37:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713522159;
-	bh=5T6/pdA9ZApunyjib21mMpB2vBOnp8LFdesL1yGXMCI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gnj7YRWZJ/Ti0qr9P15pQfi53U5u560urZeBEppDUzqegYSGLhohQ47cn5vC4ChJl
-	 YYe9ZkE/4uiY0c58zd8tfEOoJNdykaCKmrbO7Y8xIl7vuUgpYFdmuB4IEPuvtwiYR8
-	 AB6JkyvBP0Rp2yxbYjEN/6gVIZpKz8VeAm9q4pK4=
-Date: Fri, 19 Apr 2024 13:23:19 +0300
+	s=mail; t=1713523062;
+	bh=gcYrw9C9L/wQaU4ImfXXSgWrJXmTHbFFdWyR2helohE=;
+	h=Date:From:To:Subject:From;
+	b=nUM84254ff58LOI0eewrGiZih9/TbDQzxki3LlACWBVYVIrNxDlAu+/++64JRj8Jk
+	 8G3JjjYQNizNtX9oz9FqAnALGAjABk6AJzVFA+PmzstOcdqXiK0+rGITpz6NXCGUoc
+	 3Wvt4UycVzpJ3lO7F7saeprM+km91uHEnzioAweY=
+Date: Fri, 19 Apr 2024 13:38:22 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 07/10] media: subdev: Support privacy led in
- v4l2_subdev_enable/disable_streams()
-Message-ID: <20240419102319.GD12651@pendragon.ideasonboard.com>
-References: <20240416-enable-streams-impro-v5-0-bd5fcea49388@ideasonboard.com>
- <20240416-enable-streams-impro-v5-7-bd5fcea49388@ideasonboard.com>
+To: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
+Subject: [GIT PULL FOR v6.10] NXP media drivers enhancements
+Message-ID: <20240419103822.GA6868@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,72 +54,34 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240416-enable-streams-impro-v5-7-bd5fcea49388@ideasonboard.com>
 
-Hi Tomi,
+Hi Mauro, Hans,
 
-Thank you for the patch.
+The following changes since commit 836e2548524d2dfcb5acaf3be78f203b6b4bde6f:
 
-On Tue, Apr 16, 2024 at 04:55:10PM +0300, Tomi Valkeinen wrote:
-> We support camera privacy leds with the .s_stream() operation, in
-> call_s_stream(), but we don't have that support when the subdevice
-> implements .enable/disable_streams() operations.
-> 
-> Add the support by enabling the led when the first stream for a
-> subdevice is enabled, and disabling the led then the last stream is
-> disabled.
-> 
-> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+  media: usb: siano: Fix allocation of urbs (2024-04-16 00:02:53 +0200)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+are available in the Git repository at:
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 06f87b15dadb..38388b223564 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -2150,6 +2150,7 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  {
->  	struct device *dev = sd->entity.graph_obj.mdev->dev;
->  	struct v4l2_subdev_state *state;
-> +	bool already_streaming;
->  	u64 found_streams = 0;
->  	unsigned int i;
->  	int ret;
-> @@ -2198,6 +2199,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  
->  	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
->  
-> +	already_streaming = v4l2_subdev_is_streaming(sd);
-> +
->  	/* Call the .enable_streams() operation. */
->  	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
->  			       streams_mask);
-> @@ -2216,6 +2219,9 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  			cfg->enabled = true;
->  	}
->  
-> +	if (!already_streaming)
-> +		v4l2_subdev_enable_privacy_led(sd);
-> +
->  done:
->  	v4l2_subdev_unlock_state(state);
->  
-> @@ -2340,6 +2346,9 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->  	}
->  
->  done:
-> +	if (!v4l2_subdev_is_streaming(sd))
-> +		v4l2_subdev_disable_privacy_led(sd);
-> +
->  	v4l2_subdev_unlock_state(state);
->  
->  	return ret;
-> 
+  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-next-imx-20240419
+
+for you to fetch changes up to 459a5cb152047448c8b8bdc73dd3e2519e36db0b:
+
+  media: dt-bindings: nxp,imx8-isi: Refuse port@1 for single pipeline models (2024-04-19 13:34:40 +0300)
+
+----------------------------------------------------------------
+NXP media drivers improvements
+
+----------------------------------------------------------------
+Alexander Stein (1):
+      media: dt-bindings: nxp,imx8-isi: Refuse port@1 for single pipeline models
+
+Stefan Klug (1):
+      media: mipi-csis: Emit V4L2_EVENT_FRAME_SYNC events
+
+ .../devicetree/bindings/media/nxp,imx8-isi.yaml    |  1 +
+ drivers/media/platform/nxp/imx-mipi-csis.c         | 34 +++++++++++++++++++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
 -- 
 Regards,
