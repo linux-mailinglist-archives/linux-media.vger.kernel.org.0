@@ -1,195 +1,278 @@
-Return-Path: <linux-media+bounces-9780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E088AB45B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 19:28:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3948AB535
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 20:49:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D055B21F43
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 17:28:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FA6DB2244F
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 18:49:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7088513A88D;
-	Fri, 19 Apr 2024 17:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBDB85920;
+	Fri, 19 Apr 2024 18:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJDvtBOr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WIABZnIs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4742977F13;
-	Fri, 19 Apr 2024 17:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92F8C8DE
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 18:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713547696; cv=none; b=S/bADADt8v69FeNFH1RPrY5TK5ds373q2ZckMbjCp+ESCK+lEvRFZcB6tvgD/9wxuJi+6APJFZ6SyD0dyXpdTmg9TTYv3/EplFUz0DmeRi6lXcafH+aWmHF38kqEHSgRnQKW9A33wUZ6XHTIYgTPJb4kDe6cx6yOCmETl29+0iw=
+	t=1713552579; cv=none; b=ULORYglijuyNc9lCLaW4oMjZEVqB0HHONAKDbz04UE7ZYE5ipgTetvqERboeFH1yg6Fbv1j02TrYs/mtEpoG9VRq0DTH3m1CYg+9gcv3ErwPMZuWpNETYxbVtASVlXuCaeeTnvAbYEuMHAU5UikXKLeV040w+4Ly+JXsPl9/lkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713547696; c=relaxed/simple;
-	bh=CiY8/nAJ94vQ5TldCY4pGhgSrPvSqfEp6YEoeLDubQM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=ZadozfQQuc9pzZ0ZAxlL43zYk3is4ciAt+1uniedKQ5OCyGry4wkUBcwFpPQRAx8Cclm4Q2kVKKmTUw0qX97oyX+86esgAKHJnrfkxqXaU91i6t719FT+jSbw+6RPDN7sZCoL+w9ZEznUJr2ZybjEOzVhB0p6Xze3bya+eu16h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJDvtBOr; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-343cfa6faf0so2106113f8f.0;
-        Fri, 19 Apr 2024 10:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713547693; x=1714152493; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Atbe4MPhJuRT7fbR5tzI2HH3PRwHbiVkk8k6A1FcZ4s=;
-        b=UJDvtBOr7K6tjoIEL0OrynSPH1ca8rHjfuEim2Ok2LHR17MoUSxuptkTm9ie7SOEVA
-         ng5HWcLF8pkS+cQRqmTvtYNcXDnHZ735EE0jholiGgQcxni418Mf+vtSv2RcAbK0l+hw
-         gewu1pizpktt1kmH/Bn+GFFsqpcPiLpNmxOuGMSysh24pJsOPdy7o63MRUUBrxdck2rx
-         FtDJoGKy8J0cMJ0/hHSzaS5tDCuOo2z9fXf3iGPj20XOgT8AFUxbOtN7qTP7zsgB8x3I
-         M1Lw/a8yz03ZWdcG0OI8xl0HtvHUlfkx5MBQVkCYKKzLNrxKO7zCTunFCUs3FuZiuHOw
-         pNsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713547693; x=1714152493;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Atbe4MPhJuRT7fbR5tzI2HH3PRwHbiVkk8k6A1FcZ4s=;
-        b=r7LSTY5KHBbFUaZzDkN22shwemr25EtA1HUGEeGAfUmO5Ecs7vColfI9+Vw+hNy8tF
-         8gaSwiWFKxOAm0eNZW1o44PkKvf5TTwIi+5duavZUnL1S0mAdLR7UPwmL+2ZIxVSljmL
-         XnCNS+A7xYbNxAfeBlN5wcLpZJmT/FQc6Fsv+l9DlK2DUV+jx3z137IOR8kobqWsPR8y
-         NWGMe+nkXF1umhfpwfjB5O+dHs8cAKzzbGc0/rx+upJbBsjdwcBFjOaAXIadaqVfBLRE
-         0afrk9uGqrL428kXzrhZ0U6dp6m3vukP48b1B/RstK8yIxugQJcUwC2WJIYMvAb9prxs
-         YVRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVq/WlrUGo2w9uVFA9vx+CKFAbhm1/XQS2gmyCx/k8OgEBUU8IspJzdVh8NN7lGEMHlepKKDElgZuP6atU/4qsl2m/c24azReqzMSn2Wy/LazGVRGgRkzFvpZN+87Rz9PUwjM5RqexZZw==
-X-Gm-Message-State: AOJu0YwpTGVRhKYXq2uiOZdtR8uyUV/U7ACUlugsGZdI6pHIq95Tp5wa
-	9J3OHFcFEzwPhu4BpOA2qTzyND/XpYVNrqYTKrKGFg0R/l7XJiCH
-X-Google-Smtp-Source: AGHT+IF6A+v0NN01QBnz5fAkXZW88z/35Cm0aPRsMcAa+BCGpAJrxeXuNMaFWA8mTEjVyx/z7j97/Q==
-X-Received: by 2002:a5d:4e0d:0:b0:33e:c91a:127e with SMTP id p13-20020a5d4e0d000000b0033ec91a127emr2289532wrt.63.1713547693290;
-        Fri, 19 Apr 2024 10:28:13 -0700 (PDT)
-Received: from smtpclient.apple ([2a02:8010:6606:0:8130:9b6:fda5:3b16])
-        by smtp.gmail.com with ESMTPSA id fj3-20020a05600c0c8300b00416b2cbad06sm11117515wmb.41.2024.04.19.10.28.12
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Apr 2024 10:28:12 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	s=arc-20240116; t=1713552579; c=relaxed/simple;
+	bh=qtWFN6edxgs2QY/4b2K+0Ai4DiS29I0b8Fa4k8WfQw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUJzRPDv/5KmVrj7jx+SawN3vQRLAHv1tumXp+Djm+cohRNpY6EduHYNQZa7bLH9cmmO4ZeOPrh1t4UUymLV+0f0MP2DkLEBX7uHvoxEdzBAOBufcPt6q9wrksLmMU3mMOrR7yAdRCB0a3WCNlHs+T80nYndzPIa0uNBE6UEUqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WIABZnIs; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA5572E7;
+	Fri, 19 Apr 2024 20:48:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713552526;
+	bh=qtWFN6edxgs2QY/4b2K+0Ai4DiS29I0b8Fa4k8WfQw4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WIABZnIsSNM7poe7HSuw5JfaJZuFcy0RmGpNXr7GvZ0nMuT1ytNuJDG1lWMWeDOFT
+	 tslVCm+LX4lgHJWWCAliQX99aXJoFucfaHUbfXKKzzbldoOIj/4MNQPeN6308txwDY
+	 gCMaIgahBvIJWIqKb7cRhLaL7KU3fGwBAarPWoZk=
+Date: Fri, 19 Apr 2024 21:49:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v9 10/46] media: Documentation: v4l: Document internal
+ sink pads
+Message-ID: <20240419184926.GI6414@pendragon.ideasonboard.com>
+References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
+ <20240416193319.778192-11-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
-Subject: Re: [PATCH v6 2/2] arm64: dts: rockchip: Add Hantro G1 VPU support
- for RK3588
-From: Hugh Cole-Baker <sigmaris@gmail.com>
-In-Reply-To: <20240418111002.83015-3-liujianfeng1994@gmail.com>
-Date: Fri, 19 Apr 2024 18:28:01 +0100
-Cc: linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de,
- mchehab@kernel.org,
- robh@kernel.org,
- krzk+dt@kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- sfr@canb.auug.org.au,
- sebastian.reichel@collabora.com,
- didi.debian@cknow.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
-References: <20240418111002.83015-1-liujianfeng1994@gmail.com>
- <20240418111002.83015-3-liujianfeng1994@gmail.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>
-X-Mailer: Apple Mail (2.3774.500.171.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240416193319.778192-11-sakari.ailus@linux.intel.com>
 
-Hi Jianfeng,
+Hi Sakari,
 
-> On 18 Apr 2024, at 12:10, Jianfeng Liu <liujianfeng1994@gmail.com> =
-wrote:
->=20
-> Enable Hantro G1 video decoder in RK3588's devicetree.
->=20
-> Tested with FFmpeg v4l2_request code taken from [1]
-> with MPEG2, H.264 and VP8 samples.
->=20
-> [1] =
-https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/=
-ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
->=20
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> Tested-by: Hugh Cole-Baker <sigmaris@gmail.com>
-> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Thank you for the patch.
+
+On Tue, Apr 16, 2024 at 10:32:43PM +0300, Sakari Ailus wrote:
+> Document internal sink pads, pads that have both SINK and INTERNAL flags
+> set. Use the IMX219 camera sensor as an example.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by Julien Massot <julien.massot@collabora.com>
 > ---
-> arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
-> 1 file changed, 21 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi =
-b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index b0a59ec51..b0817382f 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -1135,6 +1135,27 @@ power-domain@RK3588_PD_SDMMC {
-> };
-> };
->=20
-> + vpu: video-codec@fdb50000 {
-> + compatible =3D "rockchip,rk3588-vdpu121", "rockchip,rk3568-vpu";
-> + reg =3D <0x0 0xfdb50000 0x0 0x800>;
-
-The register range at 0xfdb50000 length 0x800 includes "VEPU121 core0" =
-encoder
-regs at offset 0 and "VDPU121" decoder regs at offset 0x400 (referring =
-to the
-TRM v1.0 Part 1, section 5.5.1). So I think the =
-"rockchip,rk3588-vdpu121"
-compatible isn't exactly correct to use for this entire device.
-
-IMO "rockchip,rk3588-vpu121" would be more appropriate if including both =
-the
-decoder and encoder. It also raises the question of whether the decoder =
-and
-encoder should be modeled in DT as one device like on RK3399, or =
-separate
-devices. In the vendor DT [0] they are modeled as two devices but they =
-share
-clocks, resets, IOMMU, and a "rockchip,taskqueue-node" value.
-
-I've tested the JPEG encoding functionality of this encoder with [1], =
-and it
-seems to work, gstreamer produces a MJPEG video of the test pattern as
-expected.
-
-> + interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-> + interrupt-names =3D "vdpu";
-> + clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> + clock-names =3D "aclk", "hclk";
-> + iommus =3D <&vdpu_mmu>;
-> + power-domains =3D <&power RK3588_PD_VDPU>;
-> + };
+>  .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
+>  1 file changed, 145 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index b76e02e54512..d30dcb9e2537 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
+>  sub-device and a (pad, stream) pair. For sub-devices that do not support
+>  multiplexed streams the 'stream' field is always 0.
+>  
+> +.. _v4l2-subdev-internal-source-pads:
 > +
-> + vdpu_mmu: iommu@fdb50800 {
-> + compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> + reg =3D <0x0 0xfdb50800 0x0 0x40>;
-> + interrupts =3D <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-> + clock-names =3D "aclk", "iface";
-> + clocks =3D <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> + power-domains =3D <&power RK3588_PD_VDPU>;
-> + #iommu-cells =3D <0>;
-> + };
+> +Internal sink pads and routing
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > +
-> av1d: video-codec@fdc70000 {
-> compatible =3D "rockchip,rk3588-av1-vpu";
-> reg =3D <0x0 0xfdc70000 0x0 0x800>;
-> --
-> 2.34.1
->=20
+> +Cases where a single sub-device source pad is traversed by multiple streams, one
+> +or more of which originate from within the sub-device itself, are special as
+> +there is no external sink pad for such routes. In those cases, the sources of
+> +the internally generated streams are represented by internal sink pads, which
+> +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> +pad flag set.
+> +
+> +Internal pads have all the properties of an external pad, including formats and
+> +selections. The format in this case is the source format of the stream. An
+> +internal pad always has a single stream only (0).
+> +
+> +Routes from an internal sink pad to an external source pad are typically not
+> +modifiable but they can be activated and deactivated using the
+> +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> +on driver capabilities.
+> +
+>  Interaction between routes, streams, formats and selections
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  
+> @@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
+>     the configurations along the stream towards the receiver, using
+>     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+>     stream endpoint in each sub-device.
+> +
+> +Internal pads setup example
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +A simple example of a multiplexed stream setup might be as follows:
+> +
+> +- An IMX219 camera sensor source sub-device, with one source pad (0), one
+> +  internal sink pad (1) as the source of the image data and an internal sink
+> +  pad (2) as the source of the embedded data. There are two routes, one from the
+> +  internal sink pad 1 to the source 0 (image data) and another from the internal
 
-[0]: =
-https://github.com/friendlyarm/kernel-rockchip/blob/18fd1215fee01daef16b6c=
-ed1c0c3c3b83a4d8df/arch/arm64/boot/dts/rockchip/rk3588s.dtsi#L3630-L3683
-[1]: https://github.com/sigmaris/linux/tree/rk3588-hantro-vpus
-     with: gst-launch-1.0 videotestsrc pattern=3Dball flip=3Dtrue ! =
-v4l2jpegenc \
-      ! matroskamux ! filesink location=3Djpegtest.mkv
+s/source 0/source pad 0/
 
+> +  sink pad 2 to the source pad 0 (embedded data). Both streams are always
+> +  active, i.e. there is no need to separately enable the embedded data
+> +  stream. The sensor uses the CSI-2 interface.
+> +
+> +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
+> +  connected to the sensor, and two source pads (pads 1 and 2), to the DMA
+> +  engine. The receiver demultiplexes the incoming streams to the source pads.
+
+s/engine/engines/
+
+maybe better, "to two DMA engines".
+
+> +
+> +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
+> +  single source pad of the receiver.
+> +
+> +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
+> +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
+> +V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> +
+> +To configure this pipeline, the userspace must take the following steps:
+> +
+> +1) Set up media links between entities: enable the links from the sensor to the
+> +   receiver and from the receiver to the DMA engines. This step does not differ
+> +   from normal non-multiplexed media controller setup.
+> +
+> +2) Configure routing
+> +
+> +.. flat-table:: Camera sensor. There are no configurable routes.
+> +    :header-rows: 1
+> +
+> +    * - Sink Pad/Stream
+> +      - Source Pad/Stream
+> +      - Routing Flags
+> +      - Comments
+> +    * - 1/0
+> +      - 0/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Pixel data stream from the sink pad
+
+"from the internal image sink pad"
+
+> +    * - 2/0
+> +      - 0/1
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Metadata stream from the internal sink pad
+
+"internal embedded data sink pad"
+
+> +
+> +.. flat-table:: Receiver routing table. Typically both routes need to be
+> +		explicitly set.
+> +    :header-rows:  1
+> +
+> +    * - Sink Pad/Stream
+> +      - Source Pad/Stream
+> +      - Routing Flags
+> +      - Comments
+> +    * - 0/0
+> +      - 1/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Pixel data stream from camera sensor
+> +    * - 0/1
+> +      - 2/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Metadata stream from camera sensor
+> +
+> +The options available in sensor's routing configuration are dictated by hardware
+
+s/in sensor/in the sensor/
+
+> +capabilities: typically camera sensors always produce an image data stream while
+> +it may be possible to enable and disable the embedded data stream.
+
+Should this go after the first table ?
+
+> +
+> +3) Configure formats and selections
+> +
+> +   This example assumes that the formats are propagated from sink pad to the
+> +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
+> +   and struct v4l2_mbus_framefmt.
+> +
+> +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
+> +                static or propagated. The order is aligned with configured
+> +                routes.
+> +    :header-rows: 1
+> +    :fill-cells:
+> +
+> +    * - Sub-device
+> +      - Pad/Stream
+> +      - Width
+> +      - Height
+> +      - Code
+> +    * - :rspan:`3` IMX219
+> +      - 1/0
+> +      - 3296
+> +      - 2480
+> +      - MEDIA_BUS_FMT_SRGGB10
+> +    * - 0/0
+> +      - **3296**
+> +      - **2480**
+> +      - **MEDIA_BUS_FMT_SRGGB10**
+> +    * - 2/0
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_IMX219_EMBEDDED
+
+We need a patch in this series to define this format.
+
+> +    * - 1/1
+
+I think this should be 0/1.
+
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_META_10
+> +    * - :rspan:`3` CSI-2 receiver
+> +      - 0/0
+> +      - **3296**
+> +      - **2480**
+> +      - **MEDIA_BUS_FMT_SRGGB10**
+> +    * - 1/0
+> +      - 3296
+> +      - 2480
+> +      - MEDIA_BUS_FMT_SRGGB10
+> +    * - 0/1
+> +      - **3296**
+> +      - **2**
+> +      - **MEDIA_BUS_FMT_META_10**
+> +    * - 2/0
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_META_10
+> +
+> +The embedded data format does not need to be configured as the format is
+
+Do you mean the "format on the sensor's pads" ? It's a bit confusing if
+you don't specify it.
+
+> +dictated by the pixel data format in this case.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
