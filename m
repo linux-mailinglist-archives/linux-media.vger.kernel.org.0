@@ -1,71 +1,72 @@
-Return-Path: <linux-media+bounces-9738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9739-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBA98AABF4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 11:51:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E788AABF6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 11:51:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C91491F22151
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 09:51:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD5201F21AFD
+	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 09:51:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF9BE7C6D4;
-	Fri, 19 Apr 2024 09:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE087811FB;
+	Fri, 19 Apr 2024 09:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JRKywdq7"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eIEQmzsB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254A17FBB9
-	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0C68003B
+	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 09:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713520169; cv=none; b=PTHC+dOkYHKiSdoBLJcfWiJg1cXMO/YjYFXRrs5zMvEGNPq5GalKG1i42uKdPM4Xp4G2fgEV8C8t9mqExYEMTH8drKtWz4zUco/QdlSKGn/DNC45Jm06TinklYEo2qSaDw9k7Z5GpJMV00iVpQ2HmeLZPu/Fv7aMulJrQ94zlx0=
+	t=1713520171; cv=none; b=GcH2vKMGqo0ukvlD1lZTcoC76JNMvwCdcprnykqDBQcVTjWPehlrx5k+QWlhYNWYL+WrVAtu9YP1k9mwM4tThOl1wfoVY/GfrrF+skgMwCzVU5OvVj8fU87VlGSmb3T60CIrlz0K1LsjgPYio6nb/YWVGqmlCyoVk1DrW/rXAaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713520169; c=relaxed/simple;
-	bh=RuxkwHpE4T4+RDbLbxVJFmdg2Ym7s4wlcnprbuxc08U=;
+	s=arc-20240116; t=1713520171; c=relaxed/simple;
+	bh=aO+3XsdBSRpzhoc7Fyjg5oVGDMNe8NmC+5ZKhCG0BJQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K+UmffWyb2DOuMQuhGVdorpbw/kmqhqk4fLTXe0ArMqju2nfWrYqDL9Ka24FkxaCOZEHECosj2W6Vzv0WYpKMCyYfARV0Lee0dldtTuaAnw+2KZnA8hDhbnB6PF+W+IIvljCdNUjhjCDSBsje/YEW9orqX1KRxSShs+L1bl6M9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JRKywdq7; arc=none smtp.client-ip=209.85.222.179
+	 In-Reply-To:To:Cc; b=Lhdf/j1NQPvaiUikwVHuF4MLRR+FxZUtKXmwiWZjDx76R/b34PsjED9LpAkgeJKi1hlOUNEUf1hsz1oCTMAF3cLX8Nxrj6aX5yMVMshFauqlXjpjORMuPN/bdMsVXw9b9QkQ7uV3tsfQygW5mwSrL5+UINh2iWUxhb/sbLEMNz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eIEQmzsB; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-78ebc7e1586so279933885a.1
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78edc0f9636so124268385a.2
         for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 02:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713520167; x=1714124967; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1713520168; x=1714124968; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LtYl9w0rOEhkj26cvWhCGa7iaXgSAClc12fCrbixCRY=;
-        b=JRKywdq7DzysSXFI7V2I7JJrLuiZesSiHSA3gjLktvZIiKo42ctcyf4xq+6s7JDwKP
-         buvUd6z7FBGsRGgmIG4h0LJlukks1duyv+EeCZXErvV/ygzkxyznu9edQFMSZpyY5dhz
-         uJmtRb1BQihl89Vct1lKVeoOmnotilqpT9GNI=
+        bh=/qUCWhD1zt8bKcdbs6yESnMSEdigGZ2fB7xO4uH5zQE=;
+        b=eIEQmzsBC+7ua7Vk9VEqXJ/T/EjDN90xI8Nj7tQol8TtiEdulOEtLqGJdCoJV0OYk+
+         VoeFQifbG7wsvbqgxe7c48qYKj3ZKDcmv0MKb4a8Yz2Oe/fdObkQrUKxvaOxfBti+8Uh
+         jymyjj5GRdxxr+eqRO7ErlD/MKKkLzjXpwgb0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713520167; x=1714124967;
+        d=1e100.net; s=20230601; t=1713520168; x=1714124968;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LtYl9w0rOEhkj26cvWhCGa7iaXgSAClc12fCrbixCRY=;
-        b=Qc/uLOCA5IK8S2oprO+in7SUUDLDzq5fDE17LDyG0/fTqcJ8Iias4lLbV3XB7d0SDW
-         aIGh7s6xM0wSDIRwiEreVEKIm8dREAaVJbP9OzB7S/ayvnJsrS60RCIYuQLDM4yU7u7A
-         1LuI8yWU0GCT7LJQSQeFzm4Tss5X+PkhgwydpxVnd4VDRyyaiMVVUE3FiKCC81x7v9uI
-         esu2PYs/NmevgTu3WnxEWWCJUAQVw4CCzBCQh3cbBv06xey7k7BXXxNEBnKahHPMZkBG
-         9sZcTOAYZIzMh1NgsjP/w9J0+UU3Hob5sCCDZJQHtM1gJ2NZzA3Eb2sBhzra/TcU3KVg
-         l7lw==
-X-Gm-Message-State: AOJu0YwokxxqvdJUJ6Vyqcnxmpaxc07/lddTkuNy8G+A3QbjVTK/0Fby
-	nkD98JJvdlrpyxS9vwaxW47tvKmBemGSet5RZOEx6T0WgIS6o50KJXCHXoDOcA==
-X-Google-Smtp-Source: AGHT+IHJxWxlXkvVgayg/8KmEPlEYrjGm6s2oAW8VlNrxH8CHO+X8RZjNxTD6ZWD86mZ22X+MElfTw==
-X-Received: by 2002:a37:de0e:0:b0:78e:eb64:d91 with SMTP id h14-20020a37de0e000000b0078eeb640d91mr2763665qkj.1.1713520167230;
-        Fri, 19 Apr 2024 02:49:27 -0700 (PDT)
+        bh=/qUCWhD1zt8bKcdbs6yESnMSEdigGZ2fB7xO4uH5zQE=;
+        b=tzmpWk34x7xa+GMIuqEjWqYW2/U473cl344Ci+M6aoppYQzIkdjeVuc9DcG+2bBHQx
+         Y2PAPvOHGJUj7ajARZWLOskw76fheIYxW9nyVkgQbzKMmoQJDI+e2uW4kDVtZvZoUpWC
+         u2Dz8d+OMbVy8qnJiHjO3p62dG8UEHYjPLp76By3YLywesclmUnODe9qre8Or7kDRrDw
+         yAy4SyW4wuhnjhesHQ8bmtMNaCBTSBEcJqL5V7QvlnZupFNSyTmqlBdlFHbYc/H/l92i
+         3tnUDMu53Pm+u6Jr1WOax+gi1/nxwwb+txKMYlrqhtfzXpN732IrIEaAzck7+HwfVfNu
+         8BcQ==
+X-Gm-Message-State: AOJu0YyYWCG4HYan2AcNQ+E8IewKmxfhmwzRROF2spFBjm9Q0Ln9n06n
+	+jKw2RSbFk3rU8ApCdoY0HfIAB3ZRDXvR5+uMJCRUuSW2IBxu+VziPkbWwshvQ==
+X-Google-Smtp-Source: AGHT+IGrWT0O4AGlUln/2gm+WlWRdrbCZXYUSj9v1TAvaCupc//lNt4+QKq4Vo16BjNxQ14XM/vY2A==
+X-Received: by 2002:a05:620a:4083:b0:78e:db2f:2726 with SMTP id f3-20020a05620a408300b0078edb2f2726mr1792928qko.51.1713520168153;
+        Fri, 19 Apr 2024 02:49:28 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.26
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 02:49:26 -0700 (PDT)
+        Fri, 19 Apr 2024 02:49:27 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 19 Apr 2024 09:47:52 +0000
-Subject: [PATCH v2 06/26] media: stm32-dcmipp: Remove redundant printk
+Date: Fri, 19 Apr 2024 09:47:53 +0000
+Subject: [PATCH v2 07/26] media: staging: sun6i-isp: Remove redundant
+ printk
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,7 +75,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240419-fix-cocci-v2-6-2119e692309c@chromium.org>
+Message-Id: <20240419-fix-cocci-v2-7-2119e692309c@chromium.org>
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 In-Reply-To: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -114,34 +115,31 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-platform_get_irq() already prints an error message.
+platform_get_irq() already prints an error for us.
 
 Found by cocci:
-drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c:444:3-10: line 444 is redundant because platform_get_irq() already prints an error
+drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:389:2-9: line 389 is redundant because platform_get_irq() already prints an error
 
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-index bce821eb71ce..4acc3b90d03a 100644
---- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-+++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-@@ -439,11 +439,8 @@ static int dcmipp_probe(struct platform_device *pdev)
- 				     "Could not get reset control\n");
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+index 5c0a45394cba..58f8ae92320d 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+@@ -386,8 +386,7 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
  
- 	irq = platform_get_irq(pdev, 0);
--	if (irq <= 0) {
--		if (irq != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Could not get irq\n");
--		return irq ? irq : -ENXIO;
--	}
-+	if (irq < 0)
-+		return irq;
+ 	irq = platform_get_irq(platform_dev, 0);
+ 	if (irq < 0) {
+-		dev_err(dev, "failed to get interrupt\n");
+-		ret = -ENXIO;
++		ret = irq;
+ 		goto error_clock_rate_exclusive;
+ 	}
  
- 	dcmipp->regs = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
- 	if (IS_ERR(dcmipp->regs)) {
 
 -- 
 2.44.0.769.g3c40516874-goog
