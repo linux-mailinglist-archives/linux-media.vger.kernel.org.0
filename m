@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-9797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870AC8ABA39
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 10:11:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53538ABA3A
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 10:12:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43CCE28187F
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:11:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2233E1C20B0B
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9633A14005;
-	Sat, 20 Apr 2024 08:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D5B14005;
+	Sat, 20 Apr 2024 08:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PLHvRV3d"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jkKhZLeH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9685A12E5D
-	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 08:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F417F
+	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 08:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713600662; cv=none; b=I5Sc6q2G9fEXbffOKCtD0zUdc2qmjaYcBCZoxsaq4uOwwQ7uVy7eW2NKy9rPZDPig817dY5OtqXua69eQx2VKA68dRVsA9bWVenvvY8s0BqEvgeESNtat3DOt3hOLz415kE5WGg7PC84PdXi77AVk48ldqgZ8iE0w4RvJpOszH0=
+	t=1713600745; cv=none; b=Gdo1PLG0LA8owXyiqZ79t+aUiWB06rdRjfJliJXrRk5JFj2Zu7Jgmu7NjY6AI/eoH0gTOa1Vaxywmi4nSEBMfad6TTIsEZHHvYu6DbCXzF9P4qcLEDlAEeuxq6dai72Wlnkg96YDs9l3R8YbG4Bme0aTUwrS8m7yexN4XKIw3NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713600662; c=relaxed/simple;
-	bh=Vpmbtk3DCMdrzsTTsm8opY6512SiAu6AyJLdWsZ55/Y=;
+	s=arc-20240116; t=1713600745; c=relaxed/simple;
+	bh=ns36l+oVCr/nemSpBVEZV57AgsFT/yNKKSk8HRL3zHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SJi1rR7IXBuOZ5UCcEd2FBr833uOFoVLUITOulwAm3DOQC9b+yIAiIxXlPPDIeEkuYf7Eq1qbUZSvJWGOVqnljS4QhzMZLfpxr8StkVeB1nDCOHoRo8J3pLZrLNEd2Bx8svQ8S3OJ4E58s9KOzzM4/NaWJusSVeoUbxIQ1onyfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PLHvRV3d; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pAgHYawpcQJSlmRpx3nP63lC7ix6YftXvzsV50k371/YteVv+vSEBUhhTk7PcnNSi7+pbFXr0QEF5+7y1Zjunvjl58wqWRK8hIKiuplL4YlDFILVswM9/bsGTs3ZTvZgIKmWxxhVGko+0PIb19OA5Db36q+Fh6X72WlekfZuQF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jkKhZLeH; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AFF02BC;
-	Sat, 20 Apr 2024 10:10:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 995302BC;
+	Sat, 20 Apr 2024 10:11:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713600609;
-	bh=Vpmbtk3DCMdrzsTTsm8opY6512SiAu6AyJLdWsZ55/Y=;
+	s=mail; t=1713600693;
+	bh=ns36l+oVCr/nemSpBVEZV57AgsFT/yNKKSk8HRL3zHE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PLHvRV3dDLOa9uZVjbp+S+1uz3RzsRlFT2d9g9caZXnkkudJjcgO7BHTvm79Bo4Cb
-	 f1rnsuOUvHdrNJoB4RrdAVS3Zz16ckANv8nOmrAPg4BcCqniLAoRlU3IGJOfCY19RN
-	 2TH/pJuMsZykuSGN4GguK4YSoR91UT2QyWZuEj7U=
-Date: Sat, 20 Apr 2024 11:10:50 +0300
+	b=jkKhZLeH2TS1EhcIiHM4VaFa8TaVPyBwhEN6w3Q0noAS5gDjR32kD5YdKM/VL7XBV
+	 dwaw7wY464A/YfGA9ua+QxoImmm8Kgm+pl+2Yc7q+6MqAiKmHv0IZlRTxvJA/nPmz6
+	 j2TAnyHQHDqPbPhMdYpdDf2ZUyIDO4EsxZkxAhUI=
+Date: Sat, 20 Apr 2024 11:12:14 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -51,11 +51,11 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 27/46] media: uapi: ccs: Add media bus code for MIPI
- CCS embedded data
-Message-ID: <20240420081050.GP6414@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v9 28/46] media: Documentation: Document non-CCS use of
+ CCS embedded data format
+Message-ID: <20240420081214.GQ6414@pendragon.ideasonboard.com>
 References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-28-sakari.ailus@linux.intel.com>
+ <20240416193319.778192-29-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,89 +64,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240416193319.778192-28-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240416193319.778192-29-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
 Thank you for the patch.
 
-On Tue, Apr 16, 2024 at 10:33:00PM +0300, Sakari Ailus wrote:
-> Add new MIPI CCS embedded data media bus code
-> (MEDIA_BUS_FMT_CCS_EMBEDDED).
+On Tue, Apr 16, 2024 at 10:33:01PM +0300, Sakari Ailus wrote:
+> The CCS embedded data format has multiple aspects (packing, encoding and
+> the rest, including register addresses and semantics). Explicitly allow
+> non-compliant embedded data to use the two former to reduce redundant
+> documentation.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Julien Massot <julien.massot@collabora.com>
-
-There's still an open question on how to document embedded data formats
-for sensors compatible with level 2 only. The discussion is ongoing and
-may affect this patch, but the changes can be implemented later, so
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  .../media/v4l/subdev-formats.rst              | 32 +++++++++++++++++++
->  include/uapi/linux/media-bus-format.h         |  3 ++
->  2 files changed, 35 insertions(+)
+>  .../userspace-api/media/drivers/camera-sensor.rst     | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 0547f2733ee3..fa181ce8f48c 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -8316,6 +8316,10 @@ content is more or less device specific but the data is transmitted and received
->  by multiple devices that do not process the data in any way, simply writing
->  it to system memory for processing in software at the end of the pipeline.
->  
-> +The exact format of the data generated by the device is reported on the internal
-> +source pad of the originating sub-device, using one of the more specific
-> +metadata formats such as MEDIA_BUS_FMT_CCS_EMBEDDED.
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index 9f3b0da3ad0d..dc415b8f6c8e 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -123,3 +123,14 @@ In general, changing the embedded data format from the driver-configured values
+>  is not supported. The height of the metadata is device-specific and the width
+>  is that (or less of that) of the image width, as configured on the pixel data
+>  stream.
 > +
->  "b" in an array cell signifies a byte of data, followed by the number of the bit
->  and finally the bit number in subscript. "x" indicates a padding bit.
->  
-> @@ -8562,3 +8566,31 @@ and finally the bit number in subscript. "x" indicates a padding bit.
->        - x
->        - x
->        - x
+> +CCS and non-CCS embedded data
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > +
-> +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
-> +
-> +MIPI CCS Embedded Data Formats
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
-> +metadata format for sensor embedded data, which is used to store the register
-> +configuration used for capturing a given frame. The format is defined in the CCS
-> +specification. The media bus code for this format is
-> +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
-> +
-> +The CCS embedded data format definition includes three levels:
-> +
-> +1. Padding within CSI-2 bus :ref:`Data Unit <media-glossary-data-unit>` as
-> +   documented in the MIPI CCS specification.
-> +
-> +2. The tagged data format as documented in the MIPI CCS specification.
-> +
-> +3. Register addresses and register documentation as documented in the MIPI CCS
-> +   specification.
-> +
-> +The format definition shall be used only by devices that fulfill all three
-> +levels above.
-> +
-> +This mbus code are only used for "2-byte simplified tagged data format" (code
-> +0xa) but their use may be extended further in the future, to cover other CCS
-> +embedded data format codes.
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index d4c1d991014b..03f7e9ab517b 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -183,4 +183,7 @@
->  #define MEDIA_BUS_FMT_META_20			0x8006
->  #define MEDIA_BUS_FMT_META_24			0x8007
->  
-> +/* Specific metadata formats. Next is 0x9002. */
-> +#define MEDIA_BUS_FMT_CCS_EMBEDDED		0x9001
-> +
->  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+> +Embedded data which is fully compliant with CCS definitions uses ``CCS embedded
+> +data format <MEDIA-BUS-FMT-CCS-EMBEDDED>`` media bus code (level
+> +3). Device-specific embedded data compliant with either MIPI CCS embedded data
+> +levels 1 or 2 only shall not use CCS embedded data mbus code, but may refer to
+> +CCS embedded data documentation with the level of conformance specified and omit
+> +documenting these aspects of the format. The rest of the device-specific
+> +embedded data format is documented in the context of the data format itself.
 
 -- 
 Regards,
