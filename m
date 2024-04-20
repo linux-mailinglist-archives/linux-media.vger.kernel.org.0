@@ -1,148 +1,137 @@
-Return-Path: <linux-media+bounces-9790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9791-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6B48AB9C7
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 07:09:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E538ABA01
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:36:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A915F28188A
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 05:09:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D08B281843
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 06:36:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29A6FC1C;
-	Sat, 20 Apr 2024 05:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2EF110799;
+	Sat, 20 Apr 2024 06:36:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lxS7cqu8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0FsGL3L3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4464205E31;
-	Sat, 20 Apr 2024 05:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8320EB;
+	Sat, 20 Apr 2024 06:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713589765; cv=none; b=jgK7MdiVOQ2WgyDkNzdxPcnwm3a248mdgoJItWyvw20j/xdmnRf0KxrXnJftWUD1ptw571Uk9RFj2rGq5Kwu7xUDyrVjCP6ut4gXH1LIkEgAP9cfKAGI3EMzXZ3K0WjT/nDd9bc6+KpRv/113B4uJm1bQwQ0NKbr2rqvu2yfAGQ=
+	t=1713595002; cv=none; b=S+6m17LnGqeXkGnc4QcrJ1Csj09kz7nSSqrJujgPQEzGf0FXcxt1M3UhDzbUOULipH39JnyVxto40AmCU5VSHGgh2PoSbAfk16hv8CPHp35cW9kMD9hYep/5YMmZQOIlPRaLfz6DRwn+XZPx7gZQBztRdd4nuvnd/Kc3CrCBls0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713589765; c=relaxed/simple;
-	bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SDmOxae3EW5wKV7/XzLkFrQiLV2KwWc7pWoL6wNj0rlTr8xr9OrJhpMlnm/7k9EXntjcZRfgFZ/CvEElWspYh9cEngQjl3sp85UCe00Z3p7jtJv2z9ka/XgxHc4HQBf1nw7iSf37wznhOLoxQR94nrOs5D+ywkxizD1w7lZfI+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lxS7cqu8; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3c749aa444fso796435b6e.0;
-        Fri, 19 Apr 2024 22:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713589763; x=1714194563; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
-        b=lxS7cqu8wGuNU/NyjjUHGeTzS12de651NScx8Mwzy7lPg7p9K7LaYEqBsBQKJAqQwZ
-         +SW8Qy3HRpgqXV5ckOn1ZG8XwPxEv3dRvly3XecQnZwsA3evMV/NgTAbrdEWZ5Jb5oau
-         HXLfThsOZ1e4wvue27R5hQ5D3xuO/l3W8kXAkCL+1yAxSEISFCDqfCmbfe28QPCa/yij
-         yGIyh3N/hm8fFbBIZcGPUnOsxwPZoZ9m6boPNlFQEHlt4MZv9JDmLVDqliqNfX0VWNzF
-         N9CLN+FFdAdNKpTSnvGB2czrIbzSRYgXJ+eCkmDk0JpcoKoSZL5D1XiGEU5F0lrgeva1
-         gPXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713589763; x=1714194563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
-        b=ejuT8rphpCjReNo9EMxP09Vqc5CdRm3fQ2K1M08T179yXLLog37Vo1UaeeNs6qAIS1
-         AoJBB37aOsYW2y0/JzYuoZvfWtHpbj9CfSxZ8Q0HFRPMo+dWvKDiwv68Vlv46pyS8zLe
-         kbVhcKJdwdQ9E9IbgUc9Fy+S/mijnK4IgV+8G3H2UpxWirHH9NbXAYyiu3H6j9cDceHV
-         x309gBTzWuhM1/f3LQZxKgq+aGeEwdAVMGrKkRBAyhAQn1B75p9t4dkuzBubGrOFQKJx
-         FHVyAYi6Ktu318Dyb3lFIEx3+bnXYiSmu9FmSQAF7RV+UAKW7TFOVTq9hIS5GP60jbAr
-         mdwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVPkyI7+VeOk0jx9YfC7oL3ZLTXBgKS6fkdxbJxyFoNElrWgf0mRSFcC1mbkSoI3qr6pLjKqRmvCxqUSIJ7yvG8/2oansok1LKTnrlHOWSjhcmAlpdclZ3iKBpLqeagv7IXuJJfB/HtPSqWZHtZ0NiztlJJwFxQs7uS19x5lCQtaLkBp4m
-X-Gm-Message-State: AOJu0YwlHX8+FDVtWPMpTBayqteCXjDknzDd4PUPshrE8LQRcToDMj6R
-	A4b0pRGO8ggszZdlNlyruKJTrm1FfsWp9tT1zSrjsaw0ksnsG+Ar
-X-Google-Smtp-Source: AGHT+IELx6scJmOUwJTe62jFJmVk1DSdsGKXwe8jKcqr9G80zsbl4g4GQihKDnGL7pqimIyBqUykEA==
-X-Received: by 2002:a05:6808:15a:b0:3c6:1500:abef with SMTP id h26-20020a056808015a00b003c61500abefmr4704701oie.55.1713589762720;
-        Fri, 19 Apr 2024 22:09:22 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.135.251])
-        by smtp.gmail.com with ESMTPSA id g25-20020a62e319000000b006ed59172d2fsm4127949pfh.87.2024.04.19.22.09.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 22:09:22 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: sigmaris@gmail.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	didi.debian@cknow.org,
-	ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	robh@kernel.org,
-	sebastian.reichel@collabora.com,
-	sfr@canb.auug.org.au,
-	nicolas@ndufresne.ca,
-	linkmauve@linkmauve.fr
-Subject: Re: Re: [PATCH v6 2/2] arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
-Date: Sat, 20 Apr 2024 13:09:13 +0800
-Message-Id: <20240420050913.182225-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
-References: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
+	s=arc-20240116; t=1713595002; c=relaxed/simple;
+	bh=4ZTtTXI4g9M/agNAvTBYKN6n6HilBTuHVmnqwooqBfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lJxXGn6x4sNhoqQYSqtLMi8LzLmcYg0CG2PKJHy4grP6FsrnLPAXdcQ61kYyVIQYvBq5A6Z7632rGLc9M1xAK4OioWSF7AzmmrZbWLaOrfea7v/ZEqupJuQBDIhqNqkWWR8cjgt+eLwW7dKgtG2E9EbtZhZ+FVjiUlno8rHFDUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0FsGL3L3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFCAC072AA;
+	Sat, 20 Apr 2024 06:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1713595001;
+	bh=4ZTtTXI4g9M/agNAvTBYKN6n6HilBTuHVmnqwooqBfE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0FsGL3L3LeROXc734pyxXG2RCzM8GIMTdZqalBjsuAwWZi6SJsD3JhFih9MygA9bE
+	 D67SPQ3KyoYcSoyKTfpl+yYe+OZe30YTkQTOP91tBSxltbxZq+xB6qjQGkTp4IOQwk
+	 Y7xQ2ue8J76g2LIpRiDBWca/BWuJfFcunV0dCSwo=
+Date: Sat, 20 Apr 2024 08:36:34 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Pascal FONTAIN <Pascal.FONTAIN@bachmann.info>,
+	linux-kernel@vger.kernel.org, Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	afd@ti.com, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3 2/2] misc: sram: Add DMA-BUF Heap exporting of SRAM
+ areas
+Message-ID: <2024042043-joyride-parish-3d3b@gregkh>
+References: <20240409120605.4138472-1-Pascal.FONTAIN@bachmann.info>
+ <20240409120605.4138472-3-Pascal.FONTAIN@bachmann.info>
+ <2024040944-flashcard-tribune-6a8e@gregkh>
+ <CAH9NwWezn1A=n9_NqY_Lp9VzYwzAd0dAjQPD9wBB3_ragddZWg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAH9NwWezn1A=n9_NqY_Lp9VzYwzAd0dAjQPD9wBB3_ragddZWg@mail.gmail.com>
 
-Hi Hugh,
+On Fri, Apr 19, 2024 at 06:57:47PM +0200, Christian Gmeiner wrote:
+> Am Di., 9. Apr. 2024 um 14:14 Uhr schrieb Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org>:
+> >
+> > On Tue, Apr 09, 2024 at 02:06:05PM +0200, Pascal FONTAIN wrote:
+> > > From: Andrew Davis <afd@ti.com>
+> > >
+> > > This new export type exposes to userspace the SRAM area as a DMA-BUF
+> > > Heap,
+> > > this allows for allocations of DMA-BUFs that can be consumed by various
+> > > DMA-BUF supporting devices.
+> > >
+> > > Signed-off-by: Andrew Davis <afd@ti.com>
+> > > Tested-by: Pascal Fontain <pascal.fontain@bachmann.info>
+> >
+> > When sending on a patch from someone else, you too must sign off on it
+> > as per our documenation.  Please read it and understand what you are
+> > agreeing to when you do that for a new version please.
+> >
+> > > ---
+> > >  drivers/misc/Kconfig         |   7 +
+> > >  drivers/misc/Makefile        |   1 +
+> > >  drivers/misc/sram-dma-heap.c | 246 +++++++++++++++++++++++++++++++++++
+> > >  drivers/misc/sram.c          |   6 +
+> > >  drivers/misc/sram.h          |  16 +++
+> > >  5 files changed, 276 insertions(+)
+> > >  create mode 100644 drivers/misc/sram-dma-heap.c
+> > >
+> > > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> > > index 9e4ad4d61f06..e6674e913168 100644
+> > > --- a/drivers/misc/Kconfig
+> > > +++ b/drivers/misc/Kconfig
+> > > @@ -448,6 +448,13 @@ config SRAM
+> > >  config SRAM_EXEC
+> > >       bool
+> > >
+> > > +config SRAM_DMA_HEAP
+> > > +     bool "Export on-chip SRAM pools using DMA-Heaps"
+> > > +     depends on DMABUF_HEAPS && SRAM
+> > > +     help
+> > > +       This driver allows the export of on-chip SRAM marked as both pool
+> > > +       and exportable to userspace using the DMA-Heaps interface.
+> >
+> > What will use this in userspace?
+> >
+> 
+> I could imagine a way it might be used.
 
-Fri, 19 Apr 2024 18:28:01 +0100, Hugh Cole-Baker wrote:
->The register range at 0xfdb50000 length 0x800 includes "VEPU121 core0" encoder
->regs at offset 0 and "VDPU121" decoder regs at offset 0x400 (referring to the
->TRM v1.0 Part 1, section 5.5.1). So I think the "rockchip,rk3588-vdpu121"
->compatible isn't exactly correct to use for this entire device.
+This implies it is not needed because no one actually has actually used
+it for anything, so why make this change?
 
-There are five vepu121 cores for jpeg encoding. And Emmanuel is doing work on
-them[1]. And at the moment the driver doesn’t yet support exposing these cores
-all as a single video node to userspace, so Emmanuel only exposes one single
-core.
+> Imagine a SoC like TI's AM64x series, where some cores (A53) run Linux
+> and others (R5F) are managed by remoteproc to
+> execute a RTOS. When it comes to efficiently exchanging large data
+> sets, the conventional method involves using rpmsg,
+> which has limitations due to message size and could potentially slow
+> down data transfer. However, an alternative
+> approach could be to allocate a sizable chunk of SRAM memory in
+> userspace. By utilizing memcpy() to copy data into
+> this memory, followed by a single rpmsg signal to notify the RTOS that
+> the data is ready, we can leverage the faster access
+> speed of SRAM compared to DDR from the remoteproc.
 
->IMO "rockchip,rk3588-vpu121" would be more appropriate if including both the
->decoder and encoder. It also raises the question of whether the decoder and
->encoder should be modeled in DT as one device like on RK3399, or separate
->devices. In the vendor DT [0] they are modeled as two devices but they share
->clocks, resets, IOMMU, and a "rockchip,taskqueue-node" value.
+Why is virtio not used instead?
 
-Now we have 5 jpeg enc cores, one from 0xfdb50000 and other four from
-0xfdba00000. I tried to add a decoding only core 0xfb50400, but that does not
-work. So the vpu should be defined as one node in devicetree for both encoder
-and decoder like rk3399.
+thanks,
 
-This vpu121 should be exactly the same as the one in rk3399 which supports both
-encoding and decoding. But the current hantro driver has disabled h264 decoding
-since there is anthoer decoder rkvdec on rk3399. This vpu121 is the only
-decoder which supports h254 decoding on rk3588, so we can't just use the
-vpu_variant from rk3399. Maybe we can use rk3399_vpu_variant back when rkvdec2
-on rk3588 is supported by mainline kernel.
-
-At the moment we can keep the compatible string same as the one from rk356x.
-Since there are already jpeg enc cores at 0xfdba0000, we can ignore the one at
-0xfdb50000. When rkvdec2 is supported, I will change "rockchip,rk3588-vpu121"
-same as "rockchip,rk3399-vpu".
-
-And I think changing "rockchip,rk3588-vdpu121" to "rockchip,rk3588-vpu121"
-should match the hardware correctly.
-
-[1] https://lore.kernel.org/all/20240418141509.2485053-1-linkmauve@linkmauve.fr/
-
-Best regards,
-Jianfeng
+greg k-h
 
