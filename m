@@ -1,81 +1,144 @@
-Return-Path: <linux-media+bounces-9814-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9815-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865398ABB99
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 14:53:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B891A8ABC1D
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 17:01:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 708331C20B5A
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 12:53:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1CCACB20FE9
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 15:01:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A688D18E0E;
-	Sat, 20 Apr 2024 12:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA4526291;
+	Sat, 20 Apr 2024 15:01:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jiTvJmkN"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="nuN43EAr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2109.outbound.protection.outlook.com [40.92.22.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D1A12E73;
-	Sat, 20 Apr 2024 12:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713617590; cv=none; b=gw0hwLMQkYsgSRQWuwGxiRoe8Hj29OXR3BCUU/ZmZbou1yYekrIkO6ARZ0A4oqJA6fFTN5+XAFjGm6U/K5QPWXLwX71O5ouP3pgXB1plID9SoPxhzbmThs99L6FEkJcE7/zz5pbuduqxv086dla9sfAemSXn7fPvhvQdue7mC/A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713617590; c=relaxed/simple;
-	bh=Ii39j1e9CG5HbIb6F+SPiZe/5HlLbwinhvOgR6qmVww=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=CmVmsdecljktOTPkB7mRcvB09d3wXaZf9SxbbSF66nrY3Cf1ndJqlPiGv70eo+cx1ycukjmHDEhUbaolVjNDLSv6A+90kawcNfwCexS5shVjpY4anSm/SCGC7RhbdAtidOepKFbrt61qDUN+tnm7ZKeDBYftBIrgQ+j4SreAUOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jiTvJmkN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ACA63ABB;
-	Sat, 20 Apr 2024 14:52:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713617535;
-	bh=Ii39j1e9CG5HbIb6F+SPiZe/5HlLbwinhvOgR6qmVww=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=jiTvJmkNYYq6gv/kT6jD5Mw23YOnJlyQ8PZChjvvyQDNKk/lxi7YlR4hR0gy/0uNL
-	 wjaAOnlyt1t7esvN22C8otstTvVVubj1sSnzj1ZLZDays3vogkfwlH1F5f/SPXNBv/
-	 //T6d3KdNDV1Q8sXEMl0o5snwJZLna3Yk/bbF7Zg=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101121CAA9
+	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 15:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.22.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713625284; cv=fail; b=CGi4sNKmfXL+VCoU2gqE9IKv3pdSUr0cmWn4sFiATvauUI/iD91geCkZLIaOBZ1iKU5gTOQZryIUe61n3sAM4+GR6TtZ9U/CWlCxNzwZBPkBUPIxpLiA1YUs3PTh0j75mRW05XqQYDMjtUpLnZdOwUFmOOiPQMNRnpVTr1zODzw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713625284; c=relaxed/simple;
+	bh=8DFp5XK8JSF7xwUkEq1A4igD6SgHUkKf4erQvmPCsMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=NSapU6gcy8DcvIGZxtr/6c4MLjmVAnn9cvF0WdhzFs1ABCYuAhAq2fnpzyPuWg1WIKiHwukSrtzKgATmv+bG/Jwbqtbrd56iJN1YDhPvwsNMQoEhc0yzOG3AyD+c1vmAILgd1JVG7uaFozy+ZODYvpeLWTZwFlQLjTSt6rCbBrI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=nuN43EAr; arc=fail smtp.client-ip=40.92.22.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iHsJ9fcTwz0WYCnW1el6IbtKWuCILugJRAYGkrn8Bh/Iagh+6g/W1uakaeSMd29q6FGrddh7Y4Wx9+zNWcAWYQe4n7l3Ps1T73xg1os0cjQ2ihyAzOLKSrh3Oh3BqF6v1z7sv4QHEGPKHodNK+Rgp4onBvlz2Ehc3Mf5OH/R8zz82GvsKorfjQRKusCXJiAoFLJFboQqSAZVjTPAJSeL43N8uiSsfK7Jud8gk785vFFJaelvw409500HdX1yuuMjWzRRW3htwyuOJiM9QciJBqyXCglKLYxQ/KD4ckp9pd5oCmyL/4Yd+z+M7V9TyGy7/RtaCTe9EJCk8sJfVb0m5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k9EjrRLez0f2zW0cmEJpG3J6kT9g3n/Mcw1nSR/XSXQ=;
+ b=S1Z4pcNsZfIKoelmkIjgaTmh8NHnmKwIDzDcJ9yI2GvWsT398C7elA4jcd/3nA3y12SDu/IaHM+XhKLbEXqD/SUKRS935QCcBQ897dEjfJOysqQNqGi5DfZBGVqctLanS1TtydGPs69A6RQ2tpBx8TOR5LF7v5mck7jxJzp2Z313SZAlrCEitW4S8bEihoY5o1/tpllE7DaVloWsEfhZaU62CxTQN0ZjNXr6pe/0ubOcknw9qawHsloIYUQtNE3HXBVpRDWwIIoIgyOBVCe+2Cj/IDPYutJRPAjdPGmgpPE/MS3zUIn7LXDWd4yNFHg2xIFMra/qsZXRwDa/fA+zwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k9EjrRLez0f2zW0cmEJpG3J6kT9g3n/Mcw1nSR/XSXQ=;
+ b=nuN43EAr2uMqHHHufWV1IbYjSUhVLs6Ini9PS1VJX6zvZr5HMXrU8oZ9NUa7Q9FGqrGOsa14zwJnkPCIMjrudu/tHoumzWSF7Skbe2fTmWq/eNcZJy4XC+i88Pg9CF9mU1kVCjENjQr8bngwliNWFu5OzboE1peG2zhsPyITEPhRHB1It3+5LBsQxX9Q3hfvN3dYrKwEutX8K3bgkpS+XIqj8S4lZIro2U65M9njg1Q6rMajjyHvyOUfQ9d9ueUtdavfcaG0okLIR4v2aXPJg7cDPugsOM14ekjCP2+F9/NyqFaMOxgnwEi6hkamHNtRvv+ZBF7GW/cM54NMyQvwqw==
+Received: from BL3PR19MB6514.namprd19.prod.outlook.com (2603:10b6:208:3b9::10)
+ by DS7PR19MB5735.namprd19.prod.outlook.com (2603:10b6:8:76::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.52; Sat, 20 Apr
+ 2024 15:01:16 +0000
+Received: from BL3PR19MB6514.namprd19.prod.outlook.com
+ ([fe80::707b:75e3:8c68:45f8]) by BL3PR19MB6514.namprd19.prod.outlook.com
+ ([fe80::707b:75e3:8c68:45f8%6]) with mapi id 15.20.7472.037; Sat, 20 Apr 2024
+ 15:01:16 +0000
+Date: Sat, 20 Apr 2024 17:01:14 +0200
+From: vricosti <vricosti@outlook.com>
+To: linux-media@vger.kernel.org
+Cc: sean@mess.org
+Subject: [PATCH] keytable: fix stdout/stderr inconsistency
+Message-ID:
+ <BL3PR19MB65145B42CD9A31304D6DF5CED30C2@BL3PR19MB6514.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TMN: [UKF/+PHr0QtQRiVeZXgWzud8qUSNT1CkrCCsB+oAlhClTH/tFwYZZwePq9Et8Mwl]
+X-ClientProxiedBy: PR3P251CA0020.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:102:b5::32) To BL3PR19MB6514.namprd19.prod.outlook.com
+ (2603:10b6:208:3b9::10)
+X-Microsoft-Original-Message-ID:
+ <20240420150114.nm64kda74yyzhld7@bifrost-Z490-VISION-D>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <0cb44232-3be3-47cd-9e4c-f01f2839aff3@kernel.org>
-References: <20240420011840.23148-1-zhi.mao@mediatek.com> <20240420011840.23148-2-zhi.mao@mediatek.com> <0cb44232-3be3-47cd-9e4c-f01f2839aff3@kernel.org>
-Subject: Re: [PATCH v1 1/2] media: dt-bindings: i2c: add Giantec GT97xx VCM
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Heiko Stuebner <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, Paul Elder <paul.elder@ideasonboard.com>, Mehdi Djait <mehdi.djait@bootlin.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, shengnan.wang@mediatek.com, yaya.chang@mediatek.com, yunkec@chromium.org, 10572168@qq.com
-To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Zhi Mao <zhi.mao@mediatek.com>
-Date: Sat, 20 Apr 2024 13:53:01 +0100
-Message-ID: <171361758199.1737874.11884706323295617909@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR19MB6514:EE_|DS7PR19MB5735:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba0bb5e5-a985-458c-aaf1-08dc614aba84
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	F5m+u6LAfIn1AxrGswjsOy1Cs6k781dmjQp39HyXo4VBulqZ3cH6JHgjrMF1P2P3Sv73b/qnqXsiBoCrKNhhRGT+2n4TkQ1F3iebm3/bmU8quyx+TkXiuXDHt7ldDzRxLntB6KPo4bGMN6VHDMu3bXiYvmiJ0WcOezjLlw/ChDLKx1oKGDphjepx+LnG35UgR5LgWMva0DQbEYGFW8vSnIC3UDdcJKISD0mGmYr+Vwh2DgA+BpW2ZWTicxDnZVGPmK+a+KnsQ2fBUPCqJ9Gm5RJl0qysU7XYEYHBpz4EZ0PHqxHdzEZDB1pze+ExDZupyP+Z9o7D6pJg5IaE6D2tCYaHoocQa9PoS+kx7P0EXaEY/rR7tq3i8XOo7AXecDdFPR9Xcb7axB1B7p1/mDrNSN0shUwD8E8oXztpI2Ru93yUpcBMFRSmPkXeM1giH9XRhNzI8s/KgWmtLFHAO+MpZWS3iyu1wHs5Emwg8HPOnVLe2g9CxzyhrkBMVZH6vsqwCzcjskH1FlzXB0/ar40rPy0v4Xi6sE/FpDX2rqmuX68nCjDhjEuHZqv+znPpWBHC
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?R4wDZ/km/cJiOG3Td81Tl0L2+LrtRW0DBMkmOMkGd4Jb1VTyFegWW2B+RqAK?=
+ =?us-ascii?Q?jnUMWaW52+6fY77nfp3NEo8vXV33I9crTZLG6yA2VWgdFkzvfi3bSXesy8UN?=
+ =?us-ascii?Q?oal8ulv0gnnrSfSdATaiq1JtoPfjJjk3EkRoFNqiuQhTt9DrKHPPfac+fRXA?=
+ =?us-ascii?Q?BOp45YDVRAWPGy4fK+1oQfzE8ulCgt8Hx0gOjv8Z0es7lKAKj60JGZ6Z1/De?=
+ =?us-ascii?Q?REnBnY+J4rZb5vsLi5HCxqSQK5IIR+xvdSTKWdaGE7Fplv4JwOoRcwUedEXo?=
+ =?us-ascii?Q?T1GRYfbUsKTvXGMtYv3GXBpPz1n0em76mCv02BhoBTat2/YytF7lehiqFCaQ?=
+ =?us-ascii?Q?0iPjATSr7GZ56UeXF7O8iURwWhQHjcCXveT8G0VzIdRcFGB2p80rwfa/wF8i?=
+ =?us-ascii?Q?FhhnCKTI6E+MZdpO6tv1Is/GfZKswyu8cflOqakMTiVtlDG7/LYppuz0ZC+T?=
+ =?us-ascii?Q?li03pRciY/KcJc/ZmeP5LNacBpwgI4qeuHij2Z4RM7qscOjImIDRIGQ1N5E3?=
+ =?us-ascii?Q?B+YVFruXzFL8fm+Y8yBnSvgsoql9UzVavDxKdV5YutzEfb4Yx2g4ym2266zJ?=
+ =?us-ascii?Q?J/DEBKqEGne3mU308aTVCWnZki9U5A5+5hBkNmMSqB5Aexyze6eoOoAVAoEV?=
+ =?us-ascii?Q?yjfs05asIuvM2mx405H9potoKbOMx1bqE0oTgiVcwUDklkhTAjeCaj8ju1Ar?=
+ =?us-ascii?Q?Gp4JeOJKRhPPNvRJ+7JCBIrw8KyzfWVMbkuEY/5wchAfKieP/Qt5qmU4jSp6?=
+ =?us-ascii?Q?vlHEvVBp2t2MuETK2cqOX6aNZ8uSVGfINjXqE2hSey+CtmYOGfIyncTdzhik?=
+ =?us-ascii?Q?6fgrioO7cwLhOazGTsFq7bZ+G8T//K/V9zIt5FzsDR19CbHEs9gBKRPtt6lQ?=
+ =?us-ascii?Q?LdCuDEvAXsbGXsi6sk77712P3ht/jKMaerpoA6uSASNAxyZdpuesE4PPIp6F?=
+ =?us-ascii?Q?JEFYhvVACOMlnaZsZP+9jZ2peEcaU3gtQEUDLl4XSAG0b+Qd7CJG7DHBjpgE?=
+ =?us-ascii?Q?vjmhtRB1Lya+RKcfWNYC0wOszJDWVfr8RFA55DBdyIt4DfysEYyCr49wNpQR?=
+ =?us-ascii?Q?04RzZEi5dlPxFv0aXhaSUFdXP4dplBY6xDiBUdpLXWxbBrOXFNCZ3ohx89gu?=
+ =?us-ascii?Q?5X3GSyBG/EqrgDzjXE7kQ2/YI/Vdwlmgd4ZQdrPfegBk0tkdVXE+XIG2dURe?=
+ =?us-ascii?Q?mV77KojGG/E31wz9P0aQUv2wY6oK7nqvsSF7kWcYihnoWbO5ecxDSsMqoXe0?=
+ =?us-ascii?Q?6q3rkUbkniAczRy7T8Q/J7je/pnLrdey1Zkh1bHnIxI4F7xJdBvxGEPHVzz6?=
+ =?us-ascii?Q?QzU=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba0bb5e5-a985-458c-aaf1-08dc614aba84
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR19MB6514.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2024 15:01:16.6442
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB5735
 
-Quoting Krzysztof Kozlowski (2024-04-20 12:21:46)
-> On 20/04/2024 03:18, Zhi Mao wrote:
-> > Add YAML device tree binding for GT9768 & GT8769 VCM,
-> > and the relevant MAINTAINERS entries.
-> >=20
-> > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> > ---
->=20
-> Sorry, there was v1. Please do not send same versions twice. BTW, use
-> patman or b4 for your submissions if versioning is tricky.
->=20
+This patch fix the keytable inconsistency about stdout/stderr.  
 
-Whats Patman? google returns false positives for me.
---
-Kieran
+Signed-off-by: Vince Ricosti <vricosti@outlook.com>
+---
+ utils/keytable/keytable.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Best regards,
-> Krzysztof
->
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index 9f7575d6..5f5b88dd 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -1728,7 +1728,7 @@ static int get_rate(int fd, unsigned int *delay, unsigned int *period)
+        }
+        *delay = rep[0];
+        *period = rep[1];
+-       printf(_("Repeat delay: %d ms, repeat period: %d ms\n"), *delay, *period);
++       fprintf(stderr,_("Repeat delay: %d ms, repeat period: %d ms\n"), *delay, *period);
+        return 0;
+ }
+ 
+-- 
+2.34.1
 
