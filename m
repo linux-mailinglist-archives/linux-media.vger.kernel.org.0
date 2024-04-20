@@ -1,137 +1,182 @@
-Return-Path: <linux-media+bounces-9791-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9792-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E538ABA01
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:36:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACE78ABA2A
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 09:53:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D08B281843
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 06:36:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 953401C208A0
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 07:53:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2EF110799;
-	Sat, 20 Apr 2024 06:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA0513AC5;
+	Sat, 20 Apr 2024 07:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0FsGL3L3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UXi/TcBr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8320EB;
-	Sat, 20 Apr 2024 06:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EEBF9DF
+	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 07:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713595002; cv=none; b=S+6m17LnGqeXkGnc4QcrJ1Csj09kz7nSSqrJujgPQEzGf0FXcxt1M3UhDzbUOULipH39JnyVxto40AmCU5VSHGgh2PoSbAfk16hv8CPHp35cW9kMD9hYep/5YMmZQOIlPRaLfz6DRwn+XZPx7gZQBztRdd4nuvnd/Kc3CrCBls0=
+	t=1713599612; cv=none; b=IkO38wLrjxDPm5mS+yr/0PTsgukCPXcysXrZArrJHj1DffWrzzj/hrQjmf6zaaM+xM1jrnmXGcvwoSVCu8YXUZXXCiOv/PpK6d81obtG2Dc3vGjoyZk9b2jCG09lDGaoBjhZnVlwF+oXJarQcTWpG4CQ1QJh8Lbg2eswhn6bV5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713595002; c=relaxed/simple;
-	bh=4ZTtTXI4g9M/agNAvTBYKN6n6HilBTuHVmnqwooqBfE=;
+	s=arc-20240116; t=1713599612; c=relaxed/simple;
+	bh=a7qUCKj431NdgOz9nyW0PiuIVQRqmkKVmpZF0TIoSjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJxXGn6x4sNhoqQYSqtLMi8LzLmcYg0CG2PKJHy4grP6FsrnLPAXdcQ61kYyVIQYvBq5A6Z7632rGLc9M1xAK4OioWSF7AzmmrZbWLaOrfea7v/ZEqupJuQBDIhqNqkWWR8cjgt+eLwW7dKgtG2E9EbtZhZ+FVjiUlno8rHFDUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0FsGL3L3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFCAC072AA;
-	Sat, 20 Apr 2024 06:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713595001;
-	bh=4ZTtTXI4g9M/agNAvTBYKN6n6HilBTuHVmnqwooqBfE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLaDO2yXX+ulFahpmRGbm+I/X4slotVM7F3W05d9MHXowcqhcDOkJTYyZ5Gr8ECDqFitw9IgqbPm9K/B/rZqQr3C4Mt+BKmRgk0OeakNwtndUegkSZCTRMZZCbSQCHk5yH+6I0zmJfn7xr67/nuEeHxoT5gPg8tekgSyb9e8Kws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UXi/TcBr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FD722BC;
+	Sat, 20 Apr 2024 09:52:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713599558;
+	bh=a7qUCKj431NdgOz9nyW0PiuIVQRqmkKVmpZF0TIoSjg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0FsGL3L3LeROXc734pyxXG2RCzM8GIMTdZqalBjsuAwWZi6SJsD3JhFih9MygA9bE
-	 D67SPQ3KyoYcSoyKTfpl+yYe+OZe30YTkQTOP91tBSxltbxZq+xB6qjQGkTp4IOQwk
-	 Y7xQ2ue8J76g2LIpRiDBWca/BWuJfFcunV0dCSwo=
-Date: Sat, 20 Apr 2024 08:36:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Pascal FONTAIN <Pascal.FONTAIN@bachmann.info>,
-	linux-kernel@vger.kernel.org, Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	afd@ti.com, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 2/2] misc: sram: Add DMA-BUF Heap exporting of SRAM
- areas
-Message-ID: <2024042043-joyride-parish-3d3b@gregkh>
-References: <20240409120605.4138472-1-Pascal.FONTAIN@bachmann.info>
- <20240409120605.4138472-3-Pascal.FONTAIN@bachmann.info>
- <2024040944-flashcard-tribune-6a8e@gregkh>
- <CAH9NwWezn1A=n9_NqY_Lp9VzYwzAd0dAjQPD9wBB3_ragddZWg@mail.gmail.com>
+	b=UXi/TcBrPQ6rxz/yOfx3a3pAzr3tVCdePzLkNriRwQDhVa2VVK75oZWDA8SWxdTqo
+	 hoBOfQRmpd9woDPdka81OAaUErq6ZAiuXw2i8fLidHxqHJtY8GviZY88rGBa9wrxwL
+	 w1JBun6KS3OitJcqPdLM1No9evgU7WD1mgZZFeno=
+Date: Sat, 20 Apr 2024 10:53:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v9 19/46] media: ccs: Move ccs_pm_get_init function up
+Message-ID: <20240420075319.GL6414@pendragon.ideasonboard.com>
+References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
+ <20240416193319.778192-20-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAH9NwWezn1A=n9_NqY_Lp9VzYwzAd0dAjQPD9wBB3_ragddZWg@mail.gmail.com>
+In-Reply-To: <20240416193319.778192-20-sakari.ailus@linux.intel.com>
 
-On Fri, Apr 19, 2024 at 06:57:47PM +0200, Christian Gmeiner wrote:
-> Am Di., 9. Apr. 2024 um 14:14 Uhr schrieb Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org>:
-> >
-> > On Tue, Apr 09, 2024 at 02:06:05PM +0200, Pascal FONTAIN wrote:
-> > > From: Andrew Davis <afd@ti.com>
-> > >
-> > > This new export type exposes to userspace the SRAM area as a DMA-BUF
-> > > Heap,
-> > > this allows for allocations of DMA-BUFs that can be consumed by various
-> > > DMA-BUF supporting devices.
-> > >
-> > > Signed-off-by: Andrew Davis <afd@ti.com>
-> > > Tested-by: Pascal Fontain <pascal.fontain@bachmann.info>
-> >
-> > When sending on a patch from someone else, you too must sign off on it
-> > as per our documenation.  Please read it and understand what you are
-> > agreeing to when you do that for a new version please.
-> >
-> > > ---
-> > >  drivers/misc/Kconfig         |   7 +
-> > >  drivers/misc/Makefile        |   1 +
-> > >  drivers/misc/sram-dma-heap.c | 246 +++++++++++++++++++++++++++++++++++
-> > >  drivers/misc/sram.c          |   6 +
-> > >  drivers/misc/sram.h          |  16 +++
-> > >  5 files changed, 276 insertions(+)
-> > >  create mode 100644 drivers/misc/sram-dma-heap.c
-> > >
-> > > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> > > index 9e4ad4d61f06..e6674e913168 100644
-> > > --- a/drivers/misc/Kconfig
-> > > +++ b/drivers/misc/Kconfig
-> > > @@ -448,6 +448,13 @@ config SRAM
-> > >  config SRAM_EXEC
-> > >       bool
-> > >
-> > > +config SRAM_DMA_HEAP
-> > > +     bool "Export on-chip SRAM pools using DMA-Heaps"
-> > > +     depends on DMABUF_HEAPS && SRAM
-> > > +     help
-> > > +       This driver allows the export of on-chip SRAM marked as both pool
-> > > +       and exportable to userspace using the DMA-Heaps interface.
-> >
-> > What will use this in userspace?
-> >
+Hi Sakari,
+
+Thank you for the patch.
+
+On Tue, Apr 16, 2024 at 10:32:52PM +0300, Sakari Ailus wrote:
+> Prepare for using ccs_pm_get_init from locations earlier than its the
+> current place.
 > 
-> I could imagine a way it might be used.
+> Also add a missing newline while at it.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-This implies it is not needed because no one actually has actually used
-it for anything, so why make this change?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> Imagine a SoC like TI's AM64x series, where some cores (A53) run Linux
-> and others (R5F) are managed by remoteproc to
-> execute a RTOS. When it comes to efficiently exchanging large data
-> sets, the conventional method involves using rpmsg,
-> which has limitations due to message size and could potentially slow
-> down data transfer. However, an alternative
-> approach could be to allocate a sizable chunk of SRAM memory in
-> userspace. By utilizing memcpy() to copy data into
-> this memory, followed by a single rpmsg signal to notify the RTOS that
-> the data is ready, we can leverage the faster access
-> speed of SRAM compared to DDR from the remoteproc.
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 73 ++++++++++++++++----------------
+>  1 file changed, 37 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 7e5474e38732..d7bc9418eabb 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -1718,6 +1718,43 @@ static int ccs_power_off(struct device *dev)
+>   * Video stream management
+>   */
+>  
+> +static int ccs_pm_get_init(struct ccs_sensor *sensor)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> +	int rval;
+> +
+> +	/*
+> +	 * It can't use pm_runtime_resume_and_get() here, as the driver
+> +	 * relies at the returned value to detect if the device was already
+> +	 * active or not.
+> +	 */
+> +	rval = pm_runtime_get_sync(&client->dev);
+> +	if (rval < 0)
+> +		goto error;
+> +
+> +	/* Device was already active, so don't set controls */
+> +	if (rval == 1 && !sensor->handler_setup_needed)
+> +		return 0;
+> +
+> +	sensor->handler_setup_needed = false;
+> +
+> +	/* Restore V4L2 controls to the previously suspended device */
+> +	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+> +
+> +	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
+> +	if (rval)
+> +		goto error;
+> +
+> +	/* Keep PM runtime usage_count incremented on success */
+> +	return 0;
+> +
+> +error:
+> +	pm_runtime_put(&client->dev);
+> +	return rval;
+> +}
+> +
+>  static int ccs_start_streaming(struct ccs_sensor *sensor)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> @@ -1872,42 +1909,6 @@ static int ccs_stop_streaming(struct ccs_sensor *sensor)
+>   * V4L2 subdev video operations
+>   */
+>  
+> -static int ccs_pm_get_init(struct ccs_sensor *sensor)
+> -{
+> -	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> -	int rval;
+> -
+> -	/*
+> -	 * It can't use pm_runtime_resume_and_get() here, as the driver
+> -	 * relies at the returned value to detect if the device was already
+> -	 * active or not.
+> -	 */
+> -	rval = pm_runtime_get_sync(&client->dev);
+> -	if (rval < 0)
+> -		goto error;
+> -
+> -	/* Device was already active, so don't set controls */
+> -	if (rval == 1 && !sensor->handler_setup_needed)
+> -		return 0;
+> -
+> -	sensor->handler_setup_needed = false;
+> -
+> -	/* Restore V4L2 controls to the previously suspended device */
+> -	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
+> -	if (rval)
+> -		goto error;
+> -
+> -	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
+> -	if (rval)
+> -		goto error;
+> -
+> -	/* Keep PM runtime usage_count incremented on success */
+> -	return 0;
+> -error:
+> -	pm_runtime_put(&client->dev);
+> -	return rval;
+> -}
+> -
+>  static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
+>  {
+>  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
 
-Why is virtio not used instead?
+-- 
+Regards,
 
-thanks,
-
-greg k-h
+Laurent Pinchart
 
