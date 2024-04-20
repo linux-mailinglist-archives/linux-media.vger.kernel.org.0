@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-9795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4DC88ABA36
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 10:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CCA8ABA37
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 10:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5E321C20E02
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:01:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA9551C209B9
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 08:07:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A72B14012;
-	Sat, 20 Apr 2024 08:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03D8413FFC;
+	Sat, 20 Apr 2024 08:07:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ISdIubNO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eqW9X/3J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369DF13AC5
-	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 08:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF92F205E31
+	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 08:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713600079; cv=none; b=eynGaUDy5Tth+gn1S2n5QdfCkVRp0guUoPXvIqLmNl4QrY7FJT8yM6ct5bz/TmHZmjfr6/PZe+Sbl2k337g34wlq7hh9GfHQBoVnH9Ik62z1BSfnO3XOJIIyoRXTazSEZ1kvT1iXm37eUogowtzgjuXeLoiH0Q5VEAGF8Ct/8+Q=
+	t=1713600472; cv=none; b=evBaScBPsPDgxuCy843mn8eUQOL5h4zwD2uKWprvNFkU3Qk8k/NAEweyp3f6tiOr/NPXw3iv9Pw9eGxkz4SHzhO5nYBcysKrGcdQ1tq0563G0cN51jdVpxafp2Fk8L1J+hLsxtly+T30CZaO2rzbm/9exeaU+QKl/iWi4SmMqYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713600079; c=relaxed/simple;
-	bh=d0T/peKDHz7Ds8rngxSo/ICPlIsoMFcOH02yppLP8kw=;
+	s=arc-20240116; t=1713600472; c=relaxed/simple;
+	bh=VowHNFfw9WQNZe09iS2fmPJ58PSsIuNKWKZ3hNv5mTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1435NoEumEXp61XejBkoCZ9Oyzm5ZHCynK8wGOY4JuLsT1XJb8NLEhAKTciPfCevUdvnSRtUhiBQtCSn/FcaMcwc82gq9+/AYwpR54MaaeIQ2C3z9KWPRIjqXBnJHpaWG5uLMG4D+9O9/fkv43V9wp0fgIoSLGlq9cQGzxhRtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ISdIubNO; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pGyHWomkCaa0fX7aaiDuKRTTBrFdjqf+HvWHWSUZgBa2TXWm4tHThYf//nPkWSD+AH2Zc9X0ThUuD+8vvRty7oz/gz8n07jBekNtovcKbIdD3ZZELEK+mE6chPSTTVtCvXsidh6ywdlzD/g19E40InktZ2YaE859bC+RPc3xbRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eqW9X/3J; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3AAE673;
-	Sat, 20 Apr 2024 10:00:27 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F07AE2BC;
+	Sat, 20 Apr 2024 10:06:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713600028;
-	bh=d0T/peKDHz7Ds8rngxSo/ICPlIsoMFcOH02yppLP8kw=;
+	s=mail; t=1713600420;
+	bh=VowHNFfw9WQNZe09iS2fmPJ58PSsIuNKWKZ3hNv5mTw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ISdIubNOn8jlSr5SUtNSG/0UcfvG7CTy5Y62+xSbZ3hrmdUXcjTkb4Jk3vWIE/K6h
-	 tEr3SzT6UoTzi+BrcF9PDVwIU/qVLtpF1VCymYlaqkyl2MXLkCbeIrgz735LZxUtKl
-	 K3d4bZCqxDGy8vxriYDhRoYyqc+PD2ae4iM/cgOo=
-Date: Sat, 20 Apr 2024 11:01:08 +0300
+	b=eqW9X/3J1OpudejOC/4crpcaIdXiYo+RUl7rpiXkLeI/quP89wdSbrh2gr2l8a9Jx
+	 TeMmr9K4XZYyw60ZCjumwHERxlK1PiD3SwvbGHFKxfCRr51ymPp5RMaj4/gQijv88l
+	 TbvSxF6K/TWr3bhOusgFkZoiUyvixpCn7X1XYEtk=
+Date: Sat, 20 Apr 2024 11:07:40 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -51,11 +51,15 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 20/46] media: ccs: Rename out label of
- ccs_start_streaming
-Message-ID: <20240420080108.GO6414@pendragon.ideasonboard.com>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-21-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v8 23/38] media: uapi: ccs: Add media bus code for MIPI
+ CCS embedded data
+Message-ID: <20240420080740.GA15761@pendragon.ideasonboard.com>
+References: <20240313072516.241106-1-sakari.ailus@linux.intel.com>
+ <20240313072516.241106-24-sakari.ailus@linux.intel.com>
+ <20240321164914.GD9582@pendragon.ideasonboard.com>
+ <Zhenr8ykPs9vlkh6@kekkonen.localdomain>
+ <20240412190746.GO31122@pendragon.ideasonboard.com>
+ <Zhu0ke6RA9PYfYZi@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,158 +68,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240416193319.778192-21-sakari.ailus@linux.intel.com>
+In-Reply-To: <Zhu0ke6RA9PYfYZi@kekkonen.localdomain>
 
 Hi Sakari,
 
-Thank you for the patch.
-
-On Tue, Apr 16, 2024 at 10:32:53PM +0300, Sakari Ailus wrote:
-> In preparation for upcoming changes in the function, rename the out label
-> as err_pm_put. The purpose of the label is changed to match its name in
-> the next patch.
+On Sun, Apr 14, 2024 at 10:48:49AM +0000, Sakari Ailus wrote:
+> On Fri, Apr 12, 2024 at 10:07:46PM +0300, Laurent Pinchart wrote:
+> > On Thu, Apr 11, 2024 at 09:04:47AM +0000, Sakari Ailus wrote:
+> > > On Thu, Mar 21, 2024 at 06:49:14PM +0200, Laurent Pinchart wrote:
+> > > > On Wed, Mar 13, 2024 at 09:25:01AM +0200, Sakari Ailus wrote:
+> > > > > Add new MIPI CCS embedded data media bus code
+> > > > > (MEDIA_BUS_FMT_CCS_EMBEDDED).
+> > > > > 
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > >  .../media/v4l/subdev-formats.rst              | 28 +++++++++++++++++++
+> > > > >  include/uapi/linux/media-bus-format.h         |  3 ++
+> > > > >  2 files changed, 31 insertions(+)
+> > > > > 
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > index cbd475f7cae9..c8f982411e70 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > @@ -8564,3 +8564,31 @@ and finally the bit number in subscript. "X" indicates a padding bit.
+> > > > >        - X
+> > > > >        - X
+> > > > >        - X
+> > > > > +
+> > > > > +.. _MEDIA-BUS-FMT-CCS-EMBEDDED:
+> > > > > +
+> > > > > +MIPI CCS Embedded Data Formats
+> > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > +
+> > > > > +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines a
+> > > > > +metadata format for sensor embedded data, which is used to store the register
+> > > > > +configuration used for capturing a given frame. The format is defined in the CCS
+> > > > > +specification. The media bus code for this format is
+> > > > > +``MEDIA_BUS_FMT_CCS_EMBEDDED``.
+> > > > > +
+> > > > > +The CCS embedded data format definition includes three levels:
+> > > > > +
+> > > > > +1. Padding within CSI-2 bus :ref:`Data unit <media-glossary-data-unit>` as
+> > > > 
+> > > > s/Data unit/Data Unit/
+> > > 
+> > > Yes.
+> > > 
+> > > > > +   documented in the MIPI CCS specification.
+> > > > > +
+> > > > > +2. The tagged data format as documented in the MIPI CCS specification.
+> > > > > +
+> > > > > +3. Register addresses and register documentation as documented in the MIPI CCS
+> > > > > +   specification.
+> > > > > +
+> > > > > +The format definition shall be used only by devices that fulfill all three
+> > > > > +levels above.
+> > > > 
+> > > > Hmmmm... Do we need to mandate level 3 ? There are lots of sensors that
+> > > > comply with the first two levels but have their own register set. Would
+> > > > you like a sensor-specific embedded data format for each of them ? If
+> > > > so, how would we document it without essentially copying the datasheet ?
+> > > 
+> > > You could refer to the datasheet if it's publicly available.
+> > 
+> > What if it's not ? How would you expect documentation to be organized ?
+> > Will we then end up adding one media bus code per sensor ?
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 38 ++++++++++++++++----------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
+> Probably. The user space needs a way to find out what to expect. If a
+> sensor produces its own custom metadata format, it needs to be documented.
 > 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index d7bc9418eabb..d14e90f8568a 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -1767,7 +1767,7 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  			 (sensor->csi_format->width << 8) |
->  			 sensor->csi_format->compressed);
->  	if (rval)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	/* Binning configuration */
->  	if (sensor->binning_horizontal == 1 &&
-> @@ -1780,38 +1780,38 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  
->  		rval = ccs_write(sensor, BINNING_TYPE, binning_type);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  
->  		binning_mode = 1;
->  	}
->  	rval = ccs_write(sensor, BINNING_MODE, binning_mode);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	/* Set up PLL */
->  	rval = ccs_pll_configure(sensor);
->  	if (rval)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	/* Analog crop start coordinates */
->  	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	/* Analog crop end coordinates */
->  	rval = ccs_write(sensor, X_ADDR_END,
->  			 sensor->pa_src.left + sensor->pa_src.width - 1);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	rval = ccs_write(sensor, Y_ADDR_END,
->  			 sensor->pa_src.top + sensor->pa_src.height - 1);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	/*
->  	 * Output from pixel array, including blanking, is set using
-> @@ -1824,22 +1824,22 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
->  				 sensor->scaler_sink.left);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  
->  		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
->  				 sensor->scaler_sink.top);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  
->  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
->  				 sensor->scaler_sink.width);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  
->  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
->  				 sensor->scaler_sink.height);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  	}
->  
->  	/* Scaling */
-> @@ -1847,20 +1847,20 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  	    != CCS_SCALING_CAPABILITY_NONE) {
->  		rval = ccs_write(sensor, SCALING_MODE, sensor->scaling_mode);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  
->  		rval = ccs_write(sensor, SCALE_M, sensor->scale_m);
->  		if (rval < 0)
-> -			goto out;
-> +			goto err_pm_put;
->  	}
->  
->  	/* Output size from sensor */
->  	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
->  	if (rval < 0)
-> -		goto out;
-> +		goto err_pm_put;
->  
->  	if (CCS_LIM(sensor, FLASH_MODE_CAPABILITY) &
->  	    (CCS_FLASH_MODE_CAPABILITY_SINGLE_STROBE |
-> @@ -1869,18 +1869,18 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  	    sensor->hwcfg.strobe_setup->trigger != 0) {
->  		rval = ccs_setup_flash_strobe(sensor);
->  		if (rval)
-> -			goto out;
-> +			goto err_pm_put;
->  	}
->  
->  	rval = ccs_call_quirk(sensor, pre_streamon);
->  	if (rval) {
->  		dev_err(&client->dev, "pre_streamon quirks failed\n");
-> -		goto out;
-> +		goto err_pm_put;
->  	}
->  
->  	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_STREAMING);
->  
-> -out:
-> +err_pm_put:
->  	mutex_unlock(&sensor->mutex);
->  
->  	return rval;
+> There's also documentation for OV2740 embedded data in the set.
+
+The OV2740 is a different case than what I had in mind. It uses level 1
+of the CCS embedded data only, without using the CCS tagged format. The
+documentation you've included in this patch series looks good to me.
+
+For sensors that are compatible with CCS embedded data level 2, I'm not
+sure how to proceed. Those sensors send (register, value) pairs in their
+embedded data, but the register set is not CCS-compatible. Even when
+documentation is available, it's hard to verify that the sensor will
+never output the value of undocumented registers, as the registers
+included in the embedded data may vary depending on the sensor
+configuration.
+
+How would you proceed in such cases ? I can try to write a sample
+documentation patch, but I don't know what you expect. I'm thinking
+about the IMX219 sensor for instance, but any sensor compatible with CCS
+embedded data level 2 without a public datasheet is a good example.
 
 -- 
 Regards,
