@@ -1,106 +1,148 @@
-Return-Path: <linux-media+bounces-9789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9790-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE55E8AB888
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 03:51:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6B48AB9C7
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 07:09:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 638931F23951
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 01:51:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A915F28188A
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 05:09:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 965CF205E1A;
-	Sat, 20 Apr 2024 01:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29A6FC1C;
+	Sat, 20 Apr 2024 05:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lxS7cqu8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A9EA40
-	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 01:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4464205E31;
+	Sat, 20 Apr 2024 05:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713577890; cv=none; b=tGlDSaaZIKR/CfivLG4m++ETfSPS2Z1I0KhTvVoU/7O2hTqxCji4byJp4FCISaChte8CIyd9TFcGPQONg2iVR5gX/l1bLkI7hu+NZcKV2/Wf6jDeni5N4bc8hup4TiYq43hveCzxOG4PcwcgF8jP0XXwPfIA2rk+Jq+pnvjx8+Y=
+	t=1713589765; cv=none; b=jgK7MdiVOQ2WgyDkNzdxPcnwm3a248mdgoJItWyvw20j/xdmnRf0KxrXnJftWUD1ptw571Uk9RFj2rGq5Kwu7xUDyrVjCP6ut4gXH1LIkEgAP9cfKAGI3EMzXZ3K0WjT/nDd9bc6+KpRv/113B4uJm1bQwQ0NKbr2rqvu2yfAGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713577890; c=relaxed/simple;
-	bh=cDC9SrqQLrPdnrTxsewKUpAHVQ8VXLe3FsLDiD4g9Pk=;
-	h=Date:From:To:Subject:Message-Id; b=oDFWt2HSU12PX24O36HVVf1DHeLsKpAegFdvhkBYLixF4EjFNHDH0J5BVcqsE/e2J4/2dYBDZMy6vko1IglQuSYm67JANYpapEVTh/irgly7epRWf8HxVikdOAQW5UX+3jBhjWIHdGcMhLzYG0e6BqrbZ82q+kKZBWjt0KHmYlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C65C072AA
-	for <linux-media@vger.kernel.org>; Sat, 20 Apr 2024 01:51:29 +0000 (UTC)
-Date: Sat, 20 Apr 2024 03:51:27 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240420015129.74C65C072AA@smtp.kernel.org>
+	s=arc-20240116; t=1713589765; c=relaxed/simple;
+	bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SDmOxae3EW5wKV7/XzLkFrQiLV2KwWc7pWoL6wNj0rlTr8xr9OrJhpMlnm/7k9EXntjcZRfgFZ/CvEElWspYh9cEngQjl3sp85UCe00Z3p7jtJv2z9ka/XgxHc4HQBf1nw7iSf37wznhOLoxQR94nrOs5D+ywkxizD1w7lZfI+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lxS7cqu8; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3c749aa444fso796435b6e.0;
+        Fri, 19 Apr 2024 22:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713589763; x=1714194563; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
+        b=lxS7cqu8wGuNU/NyjjUHGeTzS12de651NScx8Mwzy7lPg7p9K7LaYEqBsBQKJAqQwZ
+         +SW8Qy3HRpgqXV5ckOn1ZG8XwPxEv3dRvly3XecQnZwsA3evMV/NgTAbrdEWZ5Jb5oau
+         HXLfThsOZ1e4wvue27R5hQ5D3xuO/l3W8kXAkCL+1yAxSEISFCDqfCmbfe28QPCa/yij
+         yGIyh3N/hm8fFbBIZcGPUnOsxwPZoZ9m6boPNlFQEHlt4MZv9JDmLVDqliqNfX0VWNzF
+         N9CLN+FFdAdNKpTSnvGB2czrIbzSRYgXJ+eCkmDk0JpcoKoSZL5D1XiGEU5F0lrgeva1
+         gPXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713589763; x=1714194563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zj2LiikqunHRasRXmuEtpJTW1RcqRjmmWOahD7pquLo=;
+        b=ejuT8rphpCjReNo9EMxP09Vqc5CdRm3fQ2K1M08T179yXLLog37Vo1UaeeNs6qAIS1
+         AoJBB37aOsYW2y0/JzYuoZvfWtHpbj9CfSxZ8Q0HFRPMo+dWvKDiwv68Vlv46pyS8zLe
+         kbVhcKJdwdQ9E9IbgUc9Fy+S/mijnK4IgV+8G3H2UpxWirHH9NbXAYyiu3H6j9cDceHV
+         x309gBTzWuhM1/f3LQZxKgq+aGeEwdAVMGrKkRBAyhAQn1B75p9t4dkuzBubGrOFQKJx
+         FHVyAYi6Ktu318Dyb3lFIEx3+bnXYiSmu9FmSQAF7RV+UAKW7TFOVTq9hIS5GP60jbAr
+         mdwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVPkyI7+VeOk0jx9YfC7oL3ZLTXBgKS6fkdxbJxyFoNElrWgf0mRSFcC1mbkSoI3qr6pLjKqRmvCxqUSIJ7yvG8/2oansok1LKTnrlHOWSjhcmAlpdclZ3iKBpLqeagv7IXuJJfB/HtPSqWZHtZ0NiztlJJwFxQs7uS19x5lCQtaLkBp4m
+X-Gm-Message-State: AOJu0YwlHX8+FDVtWPMpTBayqteCXjDknzDd4PUPshrE8LQRcToDMj6R
+	A4b0pRGO8ggszZdlNlyruKJTrm1FfsWp9tT1zSrjsaw0ksnsG+Ar
+X-Google-Smtp-Source: AGHT+IELx6scJmOUwJTe62jFJmVk1DSdsGKXwe8jKcqr9G80zsbl4g4GQihKDnGL7pqimIyBqUykEA==
+X-Received: by 2002:a05:6808:15a:b0:3c6:1500:abef with SMTP id h26-20020a056808015a00b003c61500abefmr4704701oie.55.1713589762720;
+        Fri, 19 Apr 2024 22:09:22 -0700 (PDT)
+Received: from localhost.localdomain ([221.220.135.251])
+        by smtp.gmail.com with ESMTPSA id g25-20020a62e319000000b006ed59172d2fsm4127949pfh.87.2024.04.19.22.09.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Apr 2024 22:09:22 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: sigmaris@gmail.com
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	didi.debian@cknow.org,
+	ezequiel@vanguardiasur.com.ar,
+	heiko@sntech.de,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	robh@kernel.org,
+	sebastian.reichel@collabora.com,
+	sfr@canb.auug.org.au,
+	nicolas@ndufresne.ca,
+	linkmauve@linkmauve.fr
+Subject: Re: Re: [PATCH v6 2/2] arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
+Date: Sat, 20 Apr 2024 13:09:13 +0800
+Message-Id: <20240420050913.182225-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
+References: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Hugh,
 
-Results of the daily build of media_tree:
+Fri, 19 Apr 2024 18:28:01 +0100, Hugh Cole-Baker wrote:
+>The register range at 0xfdb50000 length 0x800 includes "VEPU121 core0" encoder
+>regs at offset 0 and "VDPU121" decoder regs at offset 0x400 (referring to the
+>TRM v1.0 Part 1, section 5.5.1). So I think the "rockchip,rk3588-vdpu121"
+>compatible isn't exactly correct to use for this entire device.
 
-date:			Sat Apr 20 03:00:14 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	836e2548524d2dfcb5acaf3be78f203b6b4bde6f
-v4l-utils git hash:	0fed77f778b8ae2f3bc5ec264e73b1b7d065b228
-edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8635-g375ffc07
-sparse version:		v0.5.0-8635-g375ffc07
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 17e6ec53dd49dd4f29af7582d1be51dbbf55be1c
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+There are five vepu121 cores for jpeg encoding. And Emmanuel is doing work on
+them[1]. And at the moment the driver doesn’t yet support exposing these cores
+all as a single video node to userspace, so Emmanuel only exposes one single
+core.
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+>IMO "rockchip,rk3588-vpu121" would be more appropriate if including both the
+>decoder and encoder. It also raises the question of whether the decoder and
+>encoder should be modeled in DT as one device like on RK3399, or separate
+>devices. In the vendor DT [0] they are modeled as two devices but they share
+>clocks, resets, IOMMU, and a "rockchip,taskqueue-node" value.
 
-date:			Sat Apr 20 03:13:56 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 2
+Now we have 5 jpeg enc cores, one from 0xfdb50000 and other four from
+0xfdba00000. I tried to add a decoding only core 0xfb50400, but that does not
+work. So the vpu should be defined as one node in devicetree for both encoder
+and decoder like rk3399.
 
-date:			Sat Apr 20 03:50:11 CEST 2024
+This vpu121 should be exactly the same as the one in rk3399 which supports both
+encoding and decoding. But the current hantro driver has disabled h264 decoding
+since there is anthoer decoder rkvdec on rk3399. This vpu121 is the only
+decoder which supports h254 decoding on rk3588, so we can't just use the
+vpu_variant from rk3399. Maybe we can use rk3399_vpu_variant back when rkvdec2
+on rk3588 is supported by mainline kernel.
 
-Detailed results are available here:
+At the moment we can keep the compatible string same as the one from rk356x.
+Since there are already jpeg enc cores at 0xfdba0000, we can ignore the one at
+0xfdb50000. When rkvdec2 is supported, I will change "rockchip,rk3588-vpu121"
+same as "rockchip,rk3399-vpu".
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
+And I think changing "rockchip,rk3588-vdpu121" to "rockchip,rk3588-vpu121"
+should match the hardware correctly.
 
-Detailed regression test results are available here:
+[1] https://lore.kernel.org/all/20240418141509.2485053-1-linkmauve@linkmauve.fr/
 
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Best regards,
+Jianfeng
 
