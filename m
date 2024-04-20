@@ -1,143 +1,138 @@
-Return-Path: <linux-media+bounces-9784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9785-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2CD8AB75E
-	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 00:56:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCBE8AB846
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 03:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA5CB282978
-	for <lists+linux-media@lfdr.de>; Fri, 19 Apr 2024 22:56:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B3D91F21942
+	for <lists+linux-media@lfdr.de>; Sat, 20 Apr 2024 01:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89E6C13D630;
-	Fri, 19 Apr 2024 22:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91590524A;
+	Sat, 20 Apr 2024 01:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MGGT53ep"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="lWNhlTMX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F59374C1
-	for <linux-media@vger.kernel.org>; Fri, 19 Apr 2024 22:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0231F38B;
+	Sat, 20 Apr 2024 01:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713567365; cv=none; b=gTFVl7VEyaA0g/WuSXC6jba8h0gChRtUDgTXcGEM0dBqZCObcVbRtd8UFV8e6zujI3eLD3RcvRIrjnLuyHmV5mxWWvtlt+8KaRaRFGXnzUuybSOe96BYRJvu5Q6qfcNna8EPa+/VPHDkjSNIK157FPyDsHbYyf3fpKJPgmTXOvA=
+	t=1713575947; cv=none; b=UHqdVjEWa7EjywzVFOydcthgLWgkzKJrJXEjHVJjWHtYyY5TzKOk7U5tpwKARO3i9QGpfTPdvPybEufZnr9DQ+SxVlCdyqrJswijac2h5z5iL0G9OvWtIHHVTndRrjsADSozN99BjqK5Z/NJXlCHEAIWofD7yti5k56Dva8CX+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713567365; c=relaxed/simple;
-	bh=m75iyY+rDGcpIr6lxEVs7qf9283bKxkzadgn+0mOm5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnzyaHaDm0yx0PU6HRB7sckZvrP5BNbqdOI/64zn1nyuJ7CKfqXkaKk9gY4ah6rC6Vwp0NtT/AunEqUV6NZZkh1Dvz/nvOX07NVTmuPVpnsaXV/PZIPfh4PMVTzsP2wNlHColh6LbDVYDLJIHZU+UvVuiDYgwaYgs5qZQEPpgQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MGGT53ep; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A473427C;
-	Sat, 20 Apr 2024 00:55:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713567311;
-	bh=m75iyY+rDGcpIr6lxEVs7qf9283bKxkzadgn+0mOm5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MGGT53epWO5Tp1dAC116DiY/wskB24TirVTKo6LXVRTxYpRgHeUig3VPsKRwrnCJM
-	 LTkD0TjK+aT9acLVJ8EBLGCKnYO7p3hLyQ7LrNOfjaJ/eD8oIPxT5Z3gUsbQNO55EH
-	 nlfWmhfwHF2mY9v0W1NSpauB8zm6Ci5+12QFqQG0=
-Date: Sat, 20 Apr 2024 01:55:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 16/46] media: v4l: subdev: Return routes set using
- S_ROUTING
-Message-ID: <20240419225552.GK6414@pendragon.ideasonboard.com>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-17-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1713575947; c=relaxed/simple;
+	bh=OeWw0/sfk0kAqrVMvmM1AIpTMkffaC+LIKXz0yiKHp8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d+W2/fxTnO+VNpfaLjDwBp3tLghNavvM3IhGBzLszSIsw7Y/C/TgwSGnnqizHVtM6l035Ot6Imjjg7iWfIOWDmyrB0KK1pIfaQpWoMA3sIqL2kVDrvGIGqQ6LiM4zypfUDyQEQyQyCH1c/+LBUxJYcmcnbg7AMkv4bD4uHcZaa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=lWNhlTMX; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: f7c963bafeb311eeb8927bc1f75efef4-20240420
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=WPpCiaf+ewsMyYmHzhTXLI1CVcvOmnq22A0ReGIPgsU=;
+	b=lWNhlTMXIs1OefaCQqPSC03Cy8qf/AhppDHLgpjFXmhk/M+/m3m51m63+uVii+0yHFWJdwnY2R1ZelBYcLtofYYmJEa31av4jDL7FVOzMAIK/dbxGdIHX8Fhu4d5BiRSPkKpqV3bqcUQzhdTVI2Tuas8cSt5eSdEBV6lZ2w7M2U=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:5b31edbc-f447-440c-9aa3-0b2e4bbe6cfb,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-55
+X-CID-META: VersionHash:82c5f88,CLOUDID:795d6586-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:2,IP:nil,UR
+	L:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: f7c963bafeb311eeb8927bc1f75efef4-20240420
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
+	(envelope-from <zhi.mao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 874621484; Sat, 20 Apr 2024 09:19:00 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 19 Apr 2024 18:18:59 -0700
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 20 Apr 2024 09:18:57 +0800
+From: Zhi Mao <zhi.mao@mediatek.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Zhi Mao <zhi.mao@mediatek.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart+renesas@ideasonboard.com>, Heiko Stuebner
+	<heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat
+	<alain.volmat@foss.st.com>, Paul Elder <paul.elder@ideasonboard.com>, Mehdi
+ Djait <mehdi.djait@bootlin.com>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Bingbu Cao <bingbu.cao@intel.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<shengnan.wang@mediatek.com>, <yaya.chang@mediatek.com>,
+	<yunkec@chromium.org>, <10572168@qq.com>
+Subject: [PATCH v1 0/2] media: i2c: Add support for GT97xx VCM
+Date: Sat, 20 Apr 2024 09:18:38 +0800
+Message-ID: <20240420011840.23148-1-zhi.mao@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240416193319.778192-17-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-Hi Sakari,
+This series add YAML DT binding and V4L2 sub-device driver for Giantec's GT9768&GT9769.
+GT9768&GT9769 is a 10-bit DAC with 100mA output current sink capability, designed
+for voice coil motor(VCM) with I2C control bus.
 
-Thank you for the patch.
+This driver supports:
+ - support pm runtime function for suspend/resume
+ - support camera lens focus position by V4L2_CID_FOCUS_ABSOLUTE CMD
+ - used in camera features on ChromeOS application
 
-On Tue, Apr 16, 2024 at 10:32:49PM +0300, Sakari Ailus wrote:
-> Return the routes set using S_ROUTING back to the user. Also reflect this
-> in documentation.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../media/v4l/vidioc-subdev-g-routing.rst            |  7 ++-----
->  drivers/media/v4l2-core/v4l2-subdev.c                | 12 +++++++++++-
->  2 files changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> index 27eb4c82a0e1..88df7bf80b00 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> @@ -44,7 +44,8 @@ Drivers report their current routing tables using the
->  ``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
->  with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
->  setting or clearing flags of the ``flags`` field of a struct
-> -:c:type:`v4l2_subdev_route`.
-> +:c:type:`v4l2_subdev_route`. Similarly to ``VIDIOC_SUBDEV_G_ROUTING``, also
-> +``VIDIOC_SUBDEV_S_ROUTING`` returns the routes back to the user.
+Previous versions of this patch-set can be found here:
+v0: https://lore.kernel.org/all/20240410104002.1197-1-zhi.mao@mediatek.com/
 
-:c:type:`v4l2_subdev_route`. Similarly to ``VIDIOC_SUBDEV_G_ROUTING``,
-``VIDIOC_SUBDEV_S_ROUTING`` also returns the routes back to the user.
+This series is based on linux-next, tag: next-20240419
+Changes in v1:
+- dts-binding files:
+-- remove "aac-mode/aac-timing/clock-presc" control information
+-- remove words:"drivers" in commit message, as bindings are for hardware
+-- use compatible filename for YAML
+-- remove some uselss comments, as they are clear from the compatibles
+-- use "camera-lens" as node-name
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+- gt97xx vcm driver：
+-- use BIT(x) method to define some MACROs
+-- remove "aac-mode/aac-timing/clock-presc" control and use the default settings
+-- fix duplicate "return" case in function:power_on()/power_off()
+-- use API:device_get_match_data() and dev_err_probe() in function:probe()
+-- fix some coding style of comments
 
->  
->  All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called.
->  This means that the userspace must reconfigure all stream formats and selections
-> @@ -157,10 +158,6 @@ On success 0 is returned, on error -1 and the ``errno`` variable is set
->  appropriately. The generic error codes are described at the
->  :ref:`Generic Error Codes <gen-errors>` chapter.
->  
-> -ENOSPC
-> -   The application provided ``num_routes`` is not big enough to contain
-> -   all the available routes the subdevice exposes.
-> -
->  EINVAL
->     The sink or source pad identifiers reference a non-existing pad or reference
->     pads of different types (ie. the sink_pad identifiers refers to a source
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 904378007a79..36b2f78cd551 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -959,8 +959,18 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		krouting.len_routes = routing->len_routes;
->  		krouting.routes = routes;
->  
-> -		return v4l2_subdev_call(sd, pad, set_routing, state,
-> +		rval = v4l2_subdev_call(sd, pad, set_routing, state,
->  					routing->which, &krouting);
-> +		if (rval < 0)
-> +			return rval;
-> +
-> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
-> +		       state->routing.routes,
-> +		       min(state->routing.num_routes, routing->len_routes) *
-> +		       sizeof(*state->routing.routes));
-> +		routing->num_routes = state->routing.num_routes;
-> +
-> +		return 0;
->  	}
->  
->  	case VIDIOC_SUBDEV_G_ROUTING: {
+Thanks
+
+Zhi Mao (2):
+  media: dt-bindings: i2c: add Giantec GT97xx VCM driver
+  media: i2c: Add GT97xx VCM driver
+
+ .../bindings/media/i2c/giantec,gt9769.yaml    |  56 +++
+ drivers/media/i2c/Kconfig                     |  13 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/gt97xx.c                    | 436 ++++++++++++++++++
+ 4 files changed, 506 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/giantec,gt9769.yaml
+ create mode 100644 drivers/media/i2c/gt97xx.c
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
+
+
 
