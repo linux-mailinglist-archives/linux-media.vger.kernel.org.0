@@ -1,61 +1,86 @@
-Return-Path: <linux-media+bounces-9826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDC38ABF52
-	for <lists+linux-media@lfdr.de>; Sun, 21 Apr 2024 15:46:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E8B8ABF57
+	for <lists+linux-media@lfdr.de>; Sun, 21 Apr 2024 15:48:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF094281AAC
-	for <lists+linux-media@lfdr.de>; Sun, 21 Apr 2024 13:46:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84BD21C21001
+	for <lists+linux-media@lfdr.de>; Sun, 21 Apr 2024 13:48:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BAF168A8;
-	Sun, 21 Apr 2024 13:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C2F1774E;
+	Sun, 21 Apr 2024 13:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qqL0lMLH"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E2HQZsOp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8560CA64;
-	Sun, 21 Apr 2024 13:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470FE625;
+	Sun, 21 Apr 2024 13:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713707201; cv=none; b=k1cM8wfMdDDw3P071aYZb6vBIP0g5JlqvjEt8yjYVvHrPMzDvQ+f40P8o6vTiNwLeblIaYWGnUb6ZgS39wM1DC5HTKdWI7OAB1FzqmiWDSAfmMcdjHlDBJdaM2hWayJZ3s37Drss0geDfJMCvdvz18+gBUbfhyHuHhi/uwfHcE8=
+	t=1713707301; cv=none; b=b//wm8rHjM/AcJSeoV3M/o23F44GBlbYt5rjyZlFaca+GFejDok+57Ius+zF7cFyYNfHE/UL3d3utJP9VGvtwJT+cInhBv0r6UTgG6dIbBkRznB2x90A5nKgOusMRVULKetDbGJkWb00t9OFBtGH1A4NnUyQ+vozETwBkElnK3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713707201; c=relaxed/simple;
-	bh=ElWicUkggdeUnrR8dCJlVFr39q2mm/1nM4trwaLFtLo=;
+	s=arc-20240116; t=1713707301; c=relaxed/simple;
+	bh=LlUgqYs3MCsI8tfMXyODmqS8Vxzo+bhP7dqc9s6OIOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/XtKHHwqPlVOTN0D0QCRTk7CSOW7RViJtI/u8sZfi2yK15fxwE2b/2Qh/SgNYhUTrIhfdkFt/7OICT3wsRuBUnrHGCSgqOr8DmmMdNFXXZOhSjSC/x5Q9Vfd+EYW/nv2Jklz4oHPZVIBF4zmDbsawJzuvkSArvemhVzul0YBbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qqL0lMLH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 095CF674;
-	Sun, 21 Apr 2024 15:45:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713707148;
-	bh=ElWicUkggdeUnrR8dCJlVFr39q2mm/1nM4trwaLFtLo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhoKJOAHNS55Huy4qMlLadai1Pj8Q9MhGJYVUcav1+3Umlp3ubglNpIu3pljNwItCAl/tQS8rcAaucJEsWjYBxJUapIaeVP4k2wuQUME+8ux+CeNIEcMSR6+E60wREFLHnie32XlEbSJ/9AoFILqYZ3+PLCrI74FwZCI9ChsmjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E2HQZsOp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D77EC113CE;
+	Sun, 21 Apr 2024 13:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1713707300;
+	bh=LlUgqYs3MCsI8tfMXyODmqS8Vxzo+bhP7dqc9s6OIOs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qqL0lMLHL0EoK0mWdAnpPCZOdZz3Lh3z30+iT4SUYE+GI0L7BDfxmpT3IypXL7mDQ
-	 13xbc0H1PEUubTHmPeLl3lpDmll8ksti4Wbttbyo2DMFbb0FN1XugTwFfi5LWavry+
-	 0l1m5SIEi04r/3m0xAyV4Fw7og5u+UD2VMLyc8hY=
-Date: Sun, 21 Apr 2024 16:46:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	b=E2HQZsOpXkpKHudpdluczuDQnp4aiFdqJ82dLDH1II7kBwQkMvcWNiCIkeSoP5rWm
+	 m9nZ2jQglkE44ukF7sxlCBCK/PQXihvUDzufJomZBn2n9OqRQMJ6Ud/dSxNSDJpwTv
+	 Lg9wQiO5BEJ/8jDnKp9G7q+/3ehh9dAKnAX9ycsg=
+Date: Sun, 21 Apr 2024 15:48:17 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, Abylay Ospan <aospan@netup.ru>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>, Dmitry Osipenko <digetx@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-video: Move
- request_irq() to rzg2l_cru_video_register()
-Message-ID: <20240421134630.GA29222@pendragon.ideasonboard.com>
-References: <20240219180544.526537-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdWO7n4oBr=U-DK2aa+S68kLX=VuzpuYDeA8KymzdnggNg@mail.gmail.com>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sergey Kozlov <serjk@netup.ru>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 24/26] media: venus: venc: Make explicit the range of
+ us_per_frame
+Message-ID: <2024042112-deferred-fantastic-5b4b@gregkh>
+References: <20240419-fix-cocci-v2-24-2119e692309c@chromium.org>
+ <0ab13de0-0fde-40e2-958f-6a0818911009@web.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,90 +90,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWO7n4oBr=U-DK2aa+S68kLX=VuzpuYDeA8KymzdnggNg@mail.gmail.com>
+In-Reply-To: <0ab13de0-0fde-40e2-958f-6a0818911009@web.de>
 
-On Thu, Apr 18, 2024 at 11:06:27AM +0200, Geert Uytterhoeven wrote:
-> Hi Biju,
+On Sun, Apr 21, 2024 at 03:25:31PM +0200, Markus Elfring wrote:
+> > Unless the fps is smaller than 0.000232829 fps, this fits in a 32 bit number.
+> > Make that explicit.
 > 
-> On Mon, Feb 19, 2024 at 7:05 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Move request_irq() to rzg2l_cru_video_register(), in order to avoid
-> > requesting IRQ during device start which happens frequently.
-> >
-> > Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Would it be more appropriate to move the word “explicit” to the end
+> of the summary phrase?
 > 
-> Thanks for your patch!
+> Regards,
+> Markus
 > 
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> 
-> > @@ -1011,6 +1000,7 @@ void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru)
-> >  {
-> >         media_device_unregister(&cru->mdev);
-> >         video_unregister_device(&cru->vdev);
-> > +       free_irq(cru->image_conv_irq, cru);
-> >  }
-> >
-> >  int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> > @@ -1018,6 +1008,13 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> >         struct video_device *vdev = &cru->vdev;
-> >         int ret;
-> >
-> > +       ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
-> > +                         IRQF_SHARED, KBUILD_MODNAME, cru);
-> > +       if (ret) {
-> > +               dev_err(cru->dev, "failed to request irq\n");
-> > +               return ret;
-> > +       }
-> > +
-> >         if (video_is_registered(&cru->vdev)) {
-> 
-> How can this happen? Perhaps rzg2l_cru_video_register() can be called
-> multiple times through the rzg2l_cru_group_notify_complete() notifier?
 
-The notifier completion handler shouldn't be called multiple times, no.
-There's however a possibility (I think) that a subdev could disappear of
-the device is unbound from its driver. If the device is later rebound,
-the notifier completion handler could be called again.
+Hi,
 
-The issue is that rzg2l_cru_video_unregister() is called from .remove().
-I think a better fix would be to request the IRQ at probe time (or did
-we discuss that previously and concluded it could cause issues ?). I
-would also argue that the video devices should be registered at probe
-time, not in the notifier completion handler.
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-> If that is true, the request_irq() should be moved after this block,
-> just before the call to video_register_device() below.
-> 
-> >                 struct media_entity *entity;
-> >
-> > @@ -1032,14 +1029,18 @@ int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru)
-> >         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> >         if (ret) {
-> >                 dev_err(cru->dev, "Failed to register video device\n");
-> > -               return ret;
-> > +               goto err_request_irq;
-> >         }
-> >
-> >         ret = media_device_register(&cru->mdev);
-> > -       if (ret) {
-> > -               video_unregister_device(&cru->vdev);
-> > -               return ret;
-> > -       }
-> > +       if (ret)
-> > +               goto err_video_unregister;
-> >
-> >         return 0;
-> > +
-> > +err_video_unregister:
-> > +       video_unregister_device(&cru->vdev);
-> > +err_request_irq:
-> > +       free_irq(cru->image_conv_irq, cru);
-> > +       return ret;
-> >  }
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
 
--- 
-Regards,
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
 
-Laurent Pinchart
+thanks,
+
+greg k-h's patch email bot
 
