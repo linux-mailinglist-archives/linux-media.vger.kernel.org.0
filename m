@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-9837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0911D8AC2F0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 05:18:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 339068AC2F5
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 05:26:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6ACC21F21040
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 03:18:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50F911C208B8
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 03:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E43E4DF51;
-	Mon, 22 Apr 2024 03:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9B2E554;
+	Mon, 22 Apr 2024 03:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUk+9c0j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4abCtbD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CA32579;
-	Mon, 22 Apr 2024 03:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85161078B;
+	Mon, 22 Apr 2024 03:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713755893; cv=none; b=m+TfSgikfiYVSHXl0m6FLr9hvV9OuD14gIIxYjBebqqOwUQlsYzX+e0iq2TtA1dss1PirJUm7rhiguT0hvNvZWV7OYrrRJ+BWFvQAgVt28kmPDSj40Xb4CCoK7UjuSOd+9gIVbNdfc/3Jqj3ROvgQmwoIcVUvG71bp3kobGtwds=
+	t=1713756371; cv=none; b=OQNuGdnl0IY6Od2EvL8K7L0rXLTT8+dPVmY/Tu/ATw/dGWQhUtAz10pSSQOej2KdqpG9OBnuhzAB8YysjmZzz03662JdfYDwLU4wdL3drcgdh3sVDf90sql/v/1Ce+4ec2DVeNAtRTf50TPo4ugN+X3VzdvCmKflIr23NlbU4FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713755893; c=relaxed/simple;
-	bh=8vfSUMCwgIZ7AXuM2m1WbAxqjE6fhQis+GulCpzgPUM=;
+	s=arc-20240116; t=1713756371; c=relaxed/simple;
+	bh=n8OeoVzXBkCF7d/h9/+hrU0DlS4s1TrGHvMrJDN7uxk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JMVcYSg+mcLyfnyZOnUH1OGowtvtnh99xSdVKW+VDCMSl5URwmb/C4ADL633EuVyMxtYqo175Xxd8ULgbye0YiXGadXtDqjOOeGaoB2v+joamZSIcOz7UAdvr695AKHNrhP5KxVMLhdzTWO27356/oRAQui4ngtYiUq/mMqW9d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUk+9c0j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE25EC113CE;
-	Mon, 22 Apr 2024 03:18:04 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ac3v/3q/kmZwDNZq7kKR+cIEHVlEFUxqdeXCR6J++6Y0Bbia/mQasyoyE57wrgfR0sVs8Kp2BUTolxiTfO/nMFpnFp0FwJZnwLUFLkNOH/6+mfrtEHnpYANQU6DV2zzPQhX/xf2nU7T2DHNrGeGWtVH0Yt9mrE0W7ehGORWjMwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4abCtbD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84757C3277B;
+	Mon, 22 Apr 2024 03:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713755892;
-	bh=8vfSUMCwgIZ7AXuM2m1WbAxqjE6fhQis+GulCpzgPUM=;
+	s=k20201202; t=1713756371;
+	bh=n8OeoVzXBkCF7d/h9/+hrU0DlS4s1TrGHvMrJDN7uxk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BUk+9c0jy0KFAbUL3gyJBjToOjdBZUI7ZcvPQVIzvwtttLGzC7btpZr/AJzjXBydO
-	 21b9hRe8bCEnrHbdoJ10mhBFFNqepJlfCGq2w3yT53HO+SIW4RxOVtwWrpF8uDavt6
-	 EnOdf2F6wDO2hcnoa9LB2s/vF19SbykKRHBq7Fis0bSqPPvRzm5plor14hQyAqTDuY
-	 /3JTYbVyDbbj4WpqtlKDaDYGgO9xmgoTHHn7BevOIH8DmNo7T0JIxC7Zluhfx6SF5N
-	 NkZz5P6FqHEWtrs233iRYep0UVAfnuSYHwxd7YklloWHD0fy9AWH5vXD2rpUCzVJM6
-	 wvy5+Nmiq0zGA==
-Message-ID: <c5cbe620-fecb-4570-a369-60e15a1eec59@kernel.org>
-Date: Mon, 22 Apr 2024 05:18:01 +0200
+	b=q4abCtbDz68wMU7XVvgNs7tYVtJdvzJLNQBrqKlNyAgncuvftXKBj+EN5U4Nyakhh
+	 2ypUgtZUTJJQ3AaOP66h5QXQLrFYNtT1KbwJaCez/tCrh41kF0ruKkBOPz7igZmnzN
+	 G00/nOm1uW59OMYelc5B/ZvzTv+eMX7C4HqY6dMysRwH7/qMnlY1p3ULg+8G5ZWjJ5
+	 ogOpMSMYG8yQsl0mdMg/8a5wqVbc6v/OBIdyttEoL/5gGhuEGc0xEZ6nq/nchaLT2a
+	 xGIZTgjMdDtbXgUxdIDlqcSh5lRCwLF0YVjfdUWvo3521bPqorv40hIxeZADmHfZ54
+	 DzlSC3b/sYUmg==
+Message-ID: <ce03bc0c-b113-44c3-8243-0fa22b8a95bf@kernel.org>
+Date: Mon, 22 Apr 2024 05:26:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,41 +51,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 1/2] media: dt-bindings: i2c: add Giantec GT97xx VCM
-To: =?UTF-8?B?WmhpIE1hbyAo5q+b5pm6KQ==?= <zhi.mao@mediatek.com>,
- "robh@kernel.org" <robh@kernel.org>, "mchehab@kernel.org"
- <mchehab@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>
-Cc: "heiko@sntech.de" <heiko@sntech.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "laurent.pinchart+renesas@ideasonboard.com"
- <laurent.pinchart+renesas@ideasonboard.com>,
- "yunkec@chromium.org" <yunkec@chromium.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "bingbu.cao@intel.com" <bingbu.cao@intel.com>,
- "paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
- =?UTF-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?= <Yaya.Chang@mediatek.com>,
- =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?=
- <shengnan.wang@mediatek.com>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, "alain.volmat@foss.st.com"
- <alain.volmat@foss.st.com>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
- "10572168@qq.com" <10572168@qq.com>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "mehdi.djait@bootlin.com" <mehdi.djait@bootlin.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+To: Zhi Mao <zhi.mao@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Heiko Stuebner <heiko@sntech.de>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Mehdi Djait <mehdi.djait@bootlin.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ shengnan.wang@mediatek.com, yaya.chang@mediatek.com, yunkec@chromium.org,
+ 10572168@qq.com
 References: <20240420011840.23148-1-zhi.mao@mediatek.com>
  <20240420011840.23148-2-zhi.mao@mediatek.com>
- <0cb44232-3be3-47cd-9e4c-f01f2839aff3@kernel.org>
- <937260ad2046efd3d6ce2b3f0242fdff8ebfbd74.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -131,49 +118,69 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <937260ad2046efd3d6ce2b3f0242fdff8ebfbd74.camel@mediatek.com>
+In-Reply-To: <20240420011840.23148-2-zhi.mao@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 22/04/2024 03:49, Zhi Mao (毛智) wrote:
-> Hi, Krzysztof
+On 20/04/2024 03:18, Zhi Mao wrote:
+> Add YAML device tree binding for GT9768 & GT8769 VCM,
+> and the relevant MAINTAINERS entries.
 > 
-> Thanks for your feedback.
-> 
-> On Sat, 2024-04-20 at 13:21 +0200, Krzysztof Kozlowski wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  On 20/04/2024 03:18, Zhi Mao wrote:
->>> Add YAML device tree binding for GT9768 & GT8769 VCM,
->>> and the relevant MAINTAINERS entries.
->>>
->>> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
->>> ---
->>
->> Sorry, there was v1. Please do not send same versions twice. BTW, use
->> patman or b4 for your submissions if versioning is tricky.
->>
-> Sorry, it make you confused.
-> As we create the version number from "0" base, they are supposed as
+> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
+> ---
 
-No, we don't. Use the tools if you cannot get it right.
 
-> v0/v1/...
-> So, the previouse version is:
-> v0: 
-> https://lore.kernel.org/all/20240410104002.1197-1-zhi.mao@mediatek.com/
-> 
-> If necessary, I can send a new v2 patch.
-> Do we need do it?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-When you look through the window outside and you see cars passing by, do
-you count them from 0? Car drivers, I see 0 car. Next car drivers, I see
-1 (first) car?
+If there is going to be any new version, then:
 
-Please use b4 to version this properly.
+>  .../bindings/media/i2c/giantec,gt9769.yaml    | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
 
-No need for v2. I will get to review this.
+> +title: Giantec Semiconductor, Crop. GT9768 & GT9769 Voice Coil Motor (VCM)
+> +
+> +maintainers:
+> +  - Zhi Mao <zhi.mao@mediatek.com>
+> +
+> +description: |-
+
+Drop |-
+
+> +  The Giantec GT9768 & GT9768 is a 10-bit DAC with current sink capability.
+> +  The DAC is controlled via I2C bus that operates at clock rates up to 1MHz.
+> +  This chip integrates Advanced Actuator Control (AAC) technology
+> +  and is intended for driving voice coil lens in camera modules.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - giantec,gt9768
+> +      - giantec,gt9769
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vin-supply: true
+> +
+> +  vdd-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vin-supply
+> +  - vdd-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +
+
+Drop blank line
+
+> +    i2c {
+
+
 
 Best regards,
 Krzysztof
