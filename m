@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-9850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0248AC904
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 11:36:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 524578AC92B
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 11:43:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FF1C1C20E55
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 09:36:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 094E02831B0
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 09:43:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A2B564CF2;
-	Mon, 22 Apr 2024 09:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB7382488;
+	Mon, 22 Apr 2024 09:43:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B3D56B68
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 09:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C649D64A98
+	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 09:43:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713778589; cv=none; b=egXPI4FZ87JvNUATj/tOqsaPAy5M6HisTfL3ZbUSJot6k1ZAE6HzIlmEdg9m76r138iCIkgOTwBiFEUBwyflOCQ+r5+XBCjDHnnA2kQxxK6eKYmceaf7GJLY8ABpdSBNCkfcVgAoaVugDzkmww8xX6RFBvwFlIImdxT/e9/drb4=
+	t=1713778997; cv=none; b=u5phAJvDWahtFFaigo6leaEah8/YlNvrSxT/ah6P6ywQq2OWoKABpMWVvky+g2q8IHy4JHqX3qRT6nK+MaqDMM51VyqfUUPLiXMrniaXcgiHpt9y2DkyNjrj9d17Bwu9zReebcwozfJ/leay9Mmu86/NP2IEKNYqpWRTaQlsHrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713778589; c=relaxed/simple;
-	bh=xe1kNYITLYdX/51UNiKgp9kO2+dIcvdDzIA+P4G3ZjQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mgz/Dc46R8k/Ob2VAn6rqzKaDMwaZ4giPUrcLpEoS+4TEqsNbMysc4JTwjo0edNbPuDx1ZUaPLnot2q8zI/DXSQuSev9XbjLMH/90cVTLJSYs43QRdERBYAfwLLs2SnIu91BV7zIe0YzynAFOxtdO9BZxOHJPTOcHZ3A5ROLepA=
+	s=arc-20240116; t=1713778997; c=relaxed/simple;
+	bh=DXZRaLlAzfrijYezR3V05u5u7I3eAwZbYZVaS/OtKig=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=hDyaD2Gb6EOd2x2nCnvcUfYggmOucWk/Qa69SpDl8sacmL9ibtxaBxoNWFGBuK3b3AV7Edb6ErEHyYb3SClVpwoy1eNZd/i45iwuj1S3jbF9DaDVkiubEEzuWWUdvwdsmkzS7WVfMTaub7Na26i+cZlE1myAjvECRaNFDkAW7IE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48AD4C113CC;
-	Mon, 22 Apr 2024 09:36:28 +0000 (UTC)
-Message-ID: <6b90ca11-9de6-4eab-84e8-f9bf85968108@xs4all.nl>
-Date: Mon, 22 Apr 2024 11:36:26 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3663C113CC;
+	Mon, 22 Apr 2024 09:43:16 +0000 (UTC)
+Message-ID: <ea476466-6b73-49f1-ac9b-82b297cc5698@xs4all.nl>
+Date: Mon, 22 Apr 2024 11:43:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +38,11 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] media: v4l: Guarantee non-NULL return from
- v4l2_find_nearest_size()
+Subject: Re: [GIT FIXES v2 FOR 6.10] Mainly camera sensor patches, but V4L2
+ and MC too
 Content-Language: en-US, nl
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Mikhail Rudenko <mike.rudenko@gmail.com>
-References: <20240415060403.853515-1-sakari.ailus@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+References: <ZiYqhcm_iFVRc5dS@valkosipuli.retiisi.eu>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -88,45 +87,110 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240415060403.853515-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <ZiYqhcm_iFVRc5dS@valkosipuli.retiisi.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/04/2024 08:04, Sakari Ailus wrote:
-> Guarantee that v4l2_find_nearest_size() returns a non-NULL value when the
-> mode array passed to it has non-zero number of entries.
+On 22/04/2024 11:14, Sakari Ailus wrote:
+> Hi Hans, Mauro,
 > 
-> Fixes: 95ce9c28601a ("media: v4l: common: Add a function to obtain best size from a list")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Here's a set of mainly camera sensor related patches for 6.10. In
+> particular, there are ov2680 and hi556 fixes form Hans and Fabio, your own
+> MC patch, fixes for imx335 from Kieran and Umang, DT fixes from Alexander
+> Stein and one Cadence csi2rx fix from Pratyush and finally my random series
+> of framework and ipu3-imgu driver fixes.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index d34d210908d9..12e8cbe92d7c 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -159,7 +159,7 @@ __v4l2_find_nearest_size(const void *array, size_t array_size,
->  			 size_t height_offset, s32 width, s32 height)
->  {
->  	u32 error, min_error = U32_MAX;
-> -	const void *best = NULL;
-> +	const void *best = array;
->  	unsigned int i;
->  
->  	if (!array)
+> since v1:
+> 
+> - Squash Umang's fixes for imx335 kerneldoc
+> 
 
-Has this actually been observed? I don't think it is possible for this
-to happen. In fact, I think this actually introduces a new bug: if
-array != NULL and array_size == 0, then this would return NULL (correct),
-but with this patch it returns 'array' (wrong).
-
-I will drop this patch from the PR until this is clarified.
-
-If this issue was observed, then I can't help thinking that this patch
-just addresses the symptom and not the underlying cause.
+Marking this as obsoleted: I added Umang's fixes to the first PR myself :-)
 
 Regards,
 
 	Hans
+
+> Please pull.
+> 
+> 
+> The following changes since commit 836e2548524d2dfcb5acaf3be78f203b6b4bde6f:
+> 
+>   media: usb: siano: Fix allocation of urbs (2024-04-16 00:02:53 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/sailus/media_tree.git tags/for-6.10-2.1-signed
+> 
+> for you to fetch changes up to af24845bf3881bb471580558ca811e0f6a44ecda:
+> 
+>   media: hi556: Add support for avdd regulator (2024-04-22 12:11:04 +0300)
+> 
+> ----------------------------------------------------------------
+> V4L2 fixes for 6.10
+> 
+> ----------------------------------------------------------------
+> Alexander Stein (2):
+>       media: dt-bindings: sony,imx290: Allow props from video-interface-devices
+>       media: dt-bindings: i2c: use absolute path to other schema
+> 
+> Fabio Estevam (1):
+>       media: ov2680: Do not fail if data-lanes property is absent
+> 
+> Hans Verkuil (1):
+>       media: mc: mark the media devnode as registered from the, start
+> 
+> Hans de Goede (9):
+>       media: ov2680: Stop sending more data then requested
+>       media: ov2680: Drop hts, vts ov2680_mode struct members
+>       media: ov2680: Add vblank control
+>       media: ov2680: Add hblank control
+>       media: ov2680: Add camera orientation and sensor rotation controls
+>       media: hi556: Return -EPROBE_DEFER if no endpoint is found
+>       media: hi556: Add support for reset GPIO
+>       media: hi556: Add support for external clock
+>       media: hi556: Add support for avdd regulator
+> 
+> Jai Luthra (1):
+>       media: ti: j721e-csi2rx: Fix races while restarting DMA
+> 
+> Kieran Bingham (2):
+>       media: imx335: Support 2 or 4 lane operation modes
+>       media: imx335: Parse fwnode properties
+> 
+> Pratyush Yadav (1):
+>       media: cadence: csi2rx: configure DPHY before starting source stream
+> 
+> Sakari Ailus (4):
+>       media: v4l: Don't turn on privacy LED if streamon fails
+>       media: staging: ipu3-imgu: Update firmware path
+>       media: v4l2-ctrls: Return handler error in creating new fwnode properties
+>       media: v4l: Guarantee non-NULL return from v4l2_find_nearest_size()
+> 
+> Umang Jain (4):
+>       media: imx335: Use V4L2 CCI for accessing sensor registers
+>       media: imx335: Use integer values for size registers
+>       media: imx335: Fix active area height discrepency
+>       media: imx335: Limit analogue gain value
+> 
+>  .../bindings/media/i2c/galaxycore,gc0308.yaml      |   2 +-
+>  .../bindings/media/i2c/galaxycore,gc2145.yaml      |   2 +-
+>  .../devicetree/bindings/media/i2c/sony,imx214.yaml |   2 +-
+>  .../devicetree/bindings/media/i2c/sony,imx290.yaml |   5 +-
+>  .../devicetree/bindings/media/i2c/sony,imx415.yaml |   2 +-
+>  drivers/media/i2c/Kconfig                          |   1 +
+>  drivers/media/i2c/hi556.c                          | 105 +++-
+>  drivers/media/i2c/imx335.c                         | 637 ++++++++++-----------
+>  drivers/media/i2c/ov2680.c                         |  97 +++-
+>  drivers/media/mc/mc-devnode.c                      |   5 +-
+>  drivers/media/platform/cadence/cdns-csi2rx.c       |  26 +-
+>  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |   5 +-
+>  drivers/media/v4l2-core/v4l2-common.c              |   2 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c          |   3 +
+>  drivers/media/v4l2-core/v4l2-subdev.c              |  22 +-
+>  drivers/staging/media/ipu3/ipu3-css-fw.c           |   4 +-
+>  drivers/staging/media/ipu3/ipu3-css-fw.h           |   2 +
+>  17 files changed, 516 insertions(+), 406 deletions(-)
+> 
+
 
