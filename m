@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-9864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9865-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11FC8ACC76
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 14:07:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 347E68ACC81
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 14:09:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 729671F21D34
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 12:07:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE0F1C20D3E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 12:09:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE1E8146D61;
-	Mon, 22 Apr 2024 12:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ABCA1474D3;
+	Mon, 22 Apr 2024 12:09:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981FC524A0
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 12:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5397524A0
+	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 12:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713787650; cv=none; b=TzqwBglDVpDeBWRLQEdZpwyQ8tj17G/EpL8t+FlEjyg6xyQwxaeUIgxD6XKWPaxlpPNiwp6CNEkeS9LjNhUeCyZ/hSTFgoNuFN6tnJMrmcJ9eP0lqOjgoFiOH5Jy4sAroS7NTlMsFgklUzZekKzK5wqJ4d1qLyO4STdj8T01kiQ=
+	t=1713787774; cv=none; b=tHunI4ezoSWwJCkHNc1M6NE/Tap9VWsQnfD93AwsI20/eOfz8oPo9Xz0KE65drl1mKEoDBb4Bir/9owvndwb0i1POJtaW6eWNZdRdnkjoRM2pDNy1diskiYMa2ZXAS20wILliR7T4c2Q1+JWlO5rC4GJD97vNTHhvrH123Nl5D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713787650; c=relaxed/simple;
-	bh=IsLjm7uO4QcS+vf1iocY8ycrCoKW77RQKdVbbkguaLk=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=T2HBGifJ1OaEkpgEMv2Htnkng1kJV643epjkhjW/qNLOOm/vEsQlbIF4BVthLlpcJNrLawkXN6bajq9cI/qnuyCvf+nNLPqOA+msIi5GcRwOxA8+eExcOT0NKVRQShlGpsgsVnhwCL3Sb2TystrtCm9WN6hUpTegQq9z4BH6bFA=
+	s=arc-20240116; t=1713787774; c=relaxed/simple;
+	bh=M/36uhyu71hpOOIPCvItUTxayP+eez0UcgR5yZ21FX0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=TJKMegulvmEYgx5Hk0/yMK58fzlJSxeihRJ9qs7/X4bLe6c/CKMJaJgocsFGvS7Yhmsq4KO+YQU8yIG3sioGsdVOt7BFug623XK9U9u1isMrrQaWl76GmBqC5aMbAcq9pFs1R5fuh5fN2IXzQaxVaC5x4SBE2kx4EUFZXalH/hE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC387C113CC;
-	Mon, 22 Apr 2024 12:07:29 +0000 (UTC)
-Message-ID: <2b043325-14c0-4e63-ae9c-0d685d96fd98@xs4all.nl>
-Date: Mon, 22 Apr 2024 14:07:27 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15644C3277B;
+	Mon, 22 Apr 2024 12:09:33 +0000 (UTC)
+Message-ID: <f17f961b-3a19-48da-941a-c8970d9e1786@xs4all.nl>
+Date: Mon, 22 Apr 2024 14:09:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,9 +39,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: "Yang, Chenyuan" <cy54@illinois.edu>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: cec: cec-adap: always cancel work in
- cec_transmit_msg_fh
+Subject: [PATCH] media: cec: cec-api: add locking in cec_release()
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -85,34 +85,40 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-Cc: "Yang, Chenyuan" <cy54@illinois.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Do not check for !data->completed, just always call
-cancel_delayed_work_sync(). This fixes a small race condition.
+When cec_release() uses fh->msgs it has to take fh->lock,
+otherwise the list can get corrupted.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 490d84f6d73c ("media: cec: forgot to cancel delayed work")
+Fixes: ca684386e6e2 ("[media] cec: add HDMI CEC framework (api)")
 Reported-by: Yang, Chenyuan <cy54@illinois.edu>
 ---
- drivers/media/cec/core/cec-adap.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/cec/core/cec-api.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 559a172ebc6cb..6fc7de744ee9a 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
- 	 */
+diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+index 67dc79ef17050..d64bb716f9c68 100644
+--- a/drivers/media/cec/core/cec-api.c
++++ b/drivers/media/cec/core/cec-api.c
+@@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 		list_del_init(&data->xfer_list);
+ 	}
  	mutex_unlock(&adap->lock);
- 	wait_for_completion_killable(&data->c);
--	if (!data->completed)
--		cancel_delayed_work_sync(&data->work);
-+	cancel_delayed_work_sync(&data->work);
- 	mutex_lock(&adap->lock);
++
++	mutex_lock(&fh->lock);
+ 	while (!list_empty(&fh->msgs)) {
+ 		struct cec_msg_entry *entry =
+ 			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
+@@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
+ 			kfree(entry);
+ 		}
+ 	}
++	mutex_unlock(&fh->lock);
+ 	kfree(fh);
 
- 	/* Cancel the transmit if it was interrupted */
+ 	cec_put_device(devnode);
 -- 
 2.43.0
 
