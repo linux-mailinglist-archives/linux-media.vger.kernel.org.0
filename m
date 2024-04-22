@@ -1,196 +1,204 @@
-Return-Path: <linux-media+bounces-9851-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9852-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524578AC92B
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 11:43:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9DE8AC92D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 11:44:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 094E02831B0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 09:43:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F4881C21305
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 09:44:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB7382488;
-	Mon, 22 Apr 2024 09:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8CE984A49;
+	Mon, 22 Apr 2024 09:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DpfVDwzM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C649D64A98
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 09:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8BC5579A
+	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 09:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713778997; cv=none; b=u5phAJvDWahtFFaigo6leaEah8/YlNvrSxT/ah6P6ywQq2OWoKABpMWVvky+g2q8IHy4JHqX3qRT6nK+MaqDMM51VyqfUUPLiXMrniaXcgiHpt9y2DkyNjrj9d17Bwu9zReebcwozfJ/leay9Mmu86/NP2IEKNYqpWRTaQlsHrc=
+	t=1713779042; cv=none; b=AibkuCpHgUAh0NYZrmvDsVTpGUtvb8lah2aK10AQIYuT+X+j9ow0Jab47TFTf669KwpbgRsS860cI1X3/VVjPyM6OL20Ws0VhZV5UjsGv0N+WxMmidviYXW57bRTVOUXxkJ9LtU4Ysfip3DqtiExNctDL8TWP4gdmLSdP5bw8g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713778997; c=relaxed/simple;
-	bh=DXZRaLlAzfrijYezR3V05u5u7I3eAwZbYZVaS/OtKig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hDyaD2Gb6EOd2x2nCnvcUfYggmOucWk/Qa69SpDl8sacmL9ibtxaBxoNWFGBuK3b3AV7Edb6ErEHyYb3SClVpwoy1eNZd/i45iwuj1S3jbF9DaDVkiubEEzuWWUdvwdsmkzS7WVfMTaub7Na26i+cZlE1myAjvECRaNFDkAW7IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3663C113CC;
-	Mon, 22 Apr 2024 09:43:16 +0000 (UTC)
-Message-ID: <ea476466-6b73-49f1-ac9b-82b297cc5698@xs4all.nl>
-Date: Mon, 22 Apr 2024 11:43:15 +0200
+	s=arc-20240116; t=1713779042; c=relaxed/simple;
+	bh=qU7j2eKzRzGdXHdu+v41VpmFqjyLjtsDGOhen0o7tWc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nrogxqd1h3tFlDo4+71l4gi5undLoiQpt4H8M7Vl5rxg24G/b+/vFmZXyc6jg4E6AihFbsIaRAs7hV8dy2PyYTKN/isTwDwiS33ksbKZzRzeNAz1iqTYljDRPeM8Uh1fUZGALLW0AfXoe4YYvycbPGlH9ecVXCnQ5DDpSTIkG1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DpfVDwzM; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-69b4043b7b3so25731186d6.1
+        for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 02:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713779039; x=1714383839; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9VxCHy7J40of+JwGi5IlPyBYxiLpWTy7yUQsIy5MFME=;
+        b=DpfVDwzMCRs96pKN/ZLYJz3tnxkVXAjGlxlPbL7i+c3cuKO/VvW5j4+tuKCRzi7qoQ
+         xokFm8H/oGXJNmYdPh37bLtDFPUMuQAKicPQWtIFXEFqk1uxkU4Wj+POBiH9nYfvR2jE
+         SwD6Qq6By/xCMY1u8DZJ4SI53DnEz6Ts5DatE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713779039; x=1714383839;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9VxCHy7J40of+JwGi5IlPyBYxiLpWTy7yUQsIy5MFME=;
+        b=qqMgJnQYqwv1utuOxBHRI0sG83J/Dm+WG/oqM4CALGuR2h8H1La/d9aLfhDHrLgf0e
+         lZDWqEd0FcO9b1+uj3xc1FimYTEf9E1/nMiMbBVydKaSwcvrbyxS9gOzh69+HbDxFW6y
+         q+rFT4qjfsoiFy9I6C6B7efx+qWqUulDYieb9FG+zcK/fDteyMzcgEbAW0Qfw6ySRr5b
+         6MKYfaCVGZXfRA5qgHfE1CgqUVx1RIYb1fIeHHascGilYCNz5lV8/HcfoAgfapw80NqR
+         wxn6ts8SQPzRWPkfvhiDOd7ZiGEEaS4DpjGg9zu6oy9nwCC8Q4PLQZhqoljJUFCnV8hR
+         5RPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2jWjcAzM6MDeJR9Mh/Y8bEU+9z0vc476zZmbtQF/UNDKSvzL432M+AeAwuh/MHo4pbm8B6sPJkH6h+uM/zkufayXhTgJxDz/glss=
+X-Gm-Message-State: AOJu0YyrmsfdkUGOmiR9mAcMlLvUpIvEcnq+v9SZiF+HXDZu0cCmFD/x
+	i9brGHX4yu0WD1FrP2xCH4qDsawqRq9VozaRCoWn9AjrDD5tFfB8dKj2HU8aeGl0DBhMbYrLJeX
+	h0Q==
+X-Google-Smtp-Source: AGHT+IERMYVCq+KJRUpMBPtd+duEO0sczf0xRhgsV6FoqUnuI+W/0uEheOnbxKptnRC9E7kdhOCOIA==
+X-Received: by 2002:a05:6214:226:b0:69b:2446:2f14 with SMTP id j6-20020a056214022600b0069b24462f14mr9588784qvt.26.1713779039551;
+        Mon, 22 Apr 2024 02:43:59 -0700 (PDT)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
+        by smtp.gmail.com with ESMTPSA id l26-20020a0c979a000000b0069b21f13c52sm4142669qvd.113.2024.04.22.02.43.58
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 02:43:58 -0700 (PDT)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-69b4043b7b3so25731036d6.1
+        for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 02:43:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVAkF4dLdRbcsfcphX+2GzJlKB8731mMw8VHuYQmz9Orcba5SEM7hrLC96xva9+HwtllC7xkvue7Yywmsr2ySjv3nkR8UtgCMjPCUo=
+X-Received: by 2002:a0c:fe0d:0:b0:6a0:826b:cdea with SMTP id
+ x13-20020a0cfe0d000000b006a0826bcdeamr1640823qvr.47.1713779037993; Mon, 22
+ Apr 2024 02:43:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT FIXES v2 FOR 6.10] Mainly camera sensor patches, but V4L2
- and MC too
-Content-Language: en-US, nl
-To: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-References: <ZiYqhcm_iFVRc5dS@valkosipuli.retiisi.eu>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ZiYqhcm_iFVRc5dS@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <ab56c444-418a-423d-8528-cf04d5d458ef@moroto.mountain>
+ <CANiDSCvGc2hv-6+THH28vE6uaTL+go7144hSYafkhp21uaM1Cg@mail.gmail.com> <f17042fd-890a-4a1e-b51e-6aead9986128@moroto.mountain>
+In-Reply-To: <f17042fd-890a-4a1e-b51e-6aead9986128@moroto.mountain>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 22 Apr 2024 17:43:44 +0800
+X-Gmail-Original-Message-ID: <CANiDSCvmWnYVib4OqqE+tZuBmGVTOo0ULo57VXwY1ekzT3T2NQ@mail.gmail.com>
+Message-ID: <CANiDSCvmWnYVib4OqqE+tZuBmGVTOo0ULo57VXwY1ekzT3T2NQ@mail.gmail.com>
+Subject: Re: [PATCH] media: stk1160: fix some bounds checking in stk1160_copy_video()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: =?UTF-8?Q?Ezequiel_Garc=C3=ADa?= <elezegarcia@gmail.com>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 22/04/2024 11:14, Sakari Ailus wrote:
-> Hi Hans, Mauro,
-> 
-> Here's a set of mainly camera sensor related patches for 6.10. In
-> particular, there are ov2680 and hi556 fixes form Hans and Fabio, your own
-> MC patch, fixes for imx335 from Kieran and Umang, DT fixes from Alexander
-> Stein and one Cadence csi2rx fix from Pratyush and finally my random series
-> of framework and ipu3-imgu driver fixes.
-> 
-> since v1:
-> 
-> - Squash Umang's fixes for imx335 kerneldoc
-> 
+Hi Dan
 
-Marking this as obsoleted: I added Umang's fixes to the first PR myself :-)
+On Mon, 22 Apr 2024 at 17:30, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> On Wed, Apr 17, 2024 at 08:48:23PM +0200, Ricardo Ribalda wrote:
+> > Hi Dan
+> >
+> > On Wed, 17 Apr 2024 at 19:51, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > >
+> > > The subtract in this condition is reversed.  The ->length is the length
+> > > of the buffer.  The ->bytesused is how many bytes we have copied thus
+> > > far.  When the condition is reversed that means the result of the
+> > > subtraction is always negative but since it's unsigned then the result
+> > > is a very high positive value.  That means the overflow check is never
+> > > true.
+> > >
+> > > Fixes: 9cb2173e6ea8 ("[media] media: Add stk1160 new driver (easycap replacement)")
+> > > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > ---
+> > > This patch is untested, I just spotted it in review.
+> > >
+> > > When this bug is fixed, the two checks for negative values of "lencopy"
+> > > could be removed.  I wrote a version of this patch which removed the
+> > > checks, but in the end I decided to leave the checks.  They're harmless.
+> > >
+> > >  drivers/media/usb/stk1160/stk1160-video.c | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+> > > index 366f0e4a5dc0..bfb97ea352e7 100644
+> > > --- a/drivers/media/usb/stk1160/stk1160-video.c
+> > > +++ b/drivers/media/usb/stk1160/stk1160-video.c
+> > > @@ -139,8 +139,8 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+> > >          * Check if we have enough space left in the buffer.
+> > >          * In that case, we force loop exit after copy.
+> > >          */
+> > > -       if (lencopy > buf->bytesused - buf->length) {
+> > > -               lencopy = buf->bytesused - buf->length;
+> > > +       if (lencopy > buf->length - buf->bytesused) {
+> > > +               lencopy = buf->length - buf->bytesused;
+> > >                 remain = lencopy;
+> > >         }
+> >
+> > I think it is a bit more complicated than bytesused.
+> >
+> > bytesused does not take into consideration the actual position where
+> > it is going to write.
+> >
+> > What we really want to check is if
+> >
+> > offset = dst - buf->mem;
+> > if (offset + lencopy > buf->length) {
+> >   lencopy = buf->length - offset;
+> >   remain = lencopy;
+> > }
+> >
+>
+> You're right...  There is a comment explaining why we multiply the
+> number of lines written by two, but it doesn't really clarify anything
+> for me:
+>
+>         /* Multiply linesdone by two, to take account of the other field */
+>
+> What's the "other field"?
 
-Regards,
+I guess it p[0].
 
-	Hans
 
-> Please pull.
-> 
-> 
-> The following changes since commit 836e2548524d2dfcb5acaf3be78f203b6b4bde6f:
-> 
->   media: usb: siano: Fix allocation of urbs (2024-04-16 00:02:53 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/sailus/media_tree.git tags/for-6.10-2.1-signed
-> 
-> for you to fetch changes up to af24845bf3881bb471580558ca811e0f6a44ecda:
-> 
->   media: hi556: Add support for avdd regulator (2024-04-22 12:11:04 +0300)
-> 
-> ----------------------------------------------------------------
-> V4L2 fixes for 6.10
-> 
-> ----------------------------------------------------------------
-> Alexander Stein (2):
->       media: dt-bindings: sony,imx290: Allow props from video-interface-devices
->       media: dt-bindings: i2c: use absolute path to other schema
-> 
-> Fabio Estevam (1):
->       media: ov2680: Do not fail if data-lanes property is absent
-> 
-> Hans Verkuil (1):
->       media: mc: mark the media devnode as registered from the, start
-> 
-> Hans de Goede (9):
->       media: ov2680: Stop sending more data then requested
->       media: ov2680: Drop hts, vts ov2680_mode struct members
->       media: ov2680: Add vblank control
->       media: ov2680: Add hblank control
->       media: ov2680: Add camera orientation and sensor rotation controls
->       media: hi556: Return -EPROBE_DEFER if no endpoint is found
->       media: hi556: Add support for reset GPIO
->       media: hi556: Add support for external clock
->       media: hi556: Add support for avdd regulator
-> 
-> Jai Luthra (1):
->       media: ti: j721e-csi2rx: Fix races while restarting DMA
-> 
-> Kieran Bingham (2):
->       media: imx335: Support 2 or 4 lane operation modes
->       media: imx335: Parse fwnode properties
-> 
-> Pratyush Yadav (1):
->       media: cadence: csi2rx: configure DPHY before starting source stream
-> 
-> Sakari Ailus (4):
->       media: v4l: Don't turn on privacy LED if streamon fails
->       media: staging: ipu3-imgu: Update firmware path
->       media: v4l2-ctrls: Return handler error in creating new fwnode properties
->       media: v4l: Guarantee non-NULL return from v4l2_find_nearest_size()
-> 
-> Umang Jain (4):
->       media: imx335: Use V4L2 CCI for accessing sensor registers
->       media: imx335: Use integer values for size registers
->       media: imx335: Fix active area height discrepency
->       media: imx335: Limit analogue gain value
-> 
->  .../bindings/media/i2c/galaxycore,gc0308.yaml      |   2 +-
->  .../bindings/media/i2c/galaxycore,gc2145.yaml      |   2 +-
->  .../devicetree/bindings/media/i2c/sony,imx214.yaml |   2 +-
->  .../devicetree/bindings/media/i2c/sony,imx290.yaml |   5 +-
->  .../devicetree/bindings/media/i2c/sony,imx415.yaml |   2 +-
->  drivers/media/i2c/Kconfig                          |   1 +
->  drivers/media/i2c/hi556.c                          | 105 +++-
->  drivers/media/i2c/imx335.c                         | 637 ++++++++++-----------
->  drivers/media/i2c/ov2680.c                         |  97 +++-
->  drivers/media/mc/mc-devnode.c                      |   5 +-
->  drivers/media/platform/cadence/cdns-csi2rx.c       |  26 +-
->  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |   5 +-
->  drivers/media/v4l2-core/v4l2-common.c              |   2 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c          |   3 +
->  drivers/media/v4l2-core/v4l2-subdev.c              |  22 +-
->  drivers/staging/media/ipu3/ipu3-css-fw.c           |   4 +-
->  drivers/staging/media/ipu3/ipu3-css-fw.h           |   2 +
->  17 files changed, 516 insertions(+), 406 deletions(-)
-> 
+Looks like the device sends first the data for the even lines, and
+then the data for the odd lines (or the other way around).
+And we are descrambling the data in the kernel
 
+The code uses p[0] to figure out if it is the beginning of a block of
+odds/evens, and if it is odd or even
+
+if (p[0] == 0xc0 || p[0] == 0x80) {
+/* We set next packet parity and
+* continue to get next one
+*/
+dev->isoc_ctl.buf->odd = *p & 0x40;
+dev->isoc_ctl.buf->pos = 0;
+continue;
+}
+
+
+
+>
+> I kind of suspect that the stk1160_buffer_done() might be wrong as well.
+>
+>         vb2_set_plane_payload(&buf->vb.vb2_buf, 0, buf->bytesused);
+>                                                    ^^^^^^^^^^^^^^
+>
+> We're calculating the space left based on ->pos which can be reset to
+> zero in stk1160_process_isoc().  But ->bytesused isn't reset, so
+> potentially we could end up in a situation where ->bytesused is greater
+> than the ->length of the buffer.  Should stk1160_process_isoc() set
+> ->bytesused to zero as well?
+
+I do not think so. bytes->used is len(odd) + len(even). If you reset
+bytesused then you are only returning 1/2 the size
+
+
+>
+> regards,
+> dan carpenter
+>
+
+
+-- 
+Ricardo Ribalda
 
