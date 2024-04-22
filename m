@@ -1,130 +1,151 @@
-Return-Path: <linux-media+bounces-9873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9874-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39378AD30A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 19:05:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C87D8AD33F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 19:21:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6EB881F221D6
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 17:05:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DBFE1C21533
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 17:21:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40AE15383D;
-	Mon, 22 Apr 2024 17:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69639153BE7;
+	Mon, 22 Apr 2024 17:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PevJ4Nul"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="G0c1q1Mj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0010B1514E2
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 17:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC82153BC6;
+	Mon, 22 Apr 2024 17:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713805516; cv=none; b=RVhHgYO28zPq2Nc99k3jAdArfwUjbheopq7F0YZ4wJOr44fGHkhuTjOLoJ4xmIwz5XkOxjnImM99E3uuL8mWXrTUNgXnwuwa0ngIfpMlsZRDFhc/BWvorrreDzvefyK9WgzZMkHZCQTuuS+PdWD7qHztjo1dvL7lHg2cc9KaQpQ=
+	t=1713806468; cv=none; b=hoUva+Sfr5lM94BJ4GUuKB2TRteS+v1aEWW9UaVeqNvgmBnSg8j49+X/caJHS01StyfOkW3F/q+2RBTWaMAEdDN+VnK87dHNUV5B7kOyhmlAPZJJKvb5gMXzlNnjJCaCxgtxiwL3X9aKr8stg9+kcpHDwpksb8NpDmRr+eOW3iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713805516; c=relaxed/simple;
-	bh=AHu9d6uPryR7QNpvwYORlSRuVIiALc6iKXvSYf0HmQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pilQEK84CxX+yPrNq/Y686/ukPgBzDTHfSBNiKMJp3sC22nWr3oWQ8NPv2PYQTqQwyMeuiJmMXhoJpULEWLR6OgyBzYFV99bM4dzteXkzpLk8de3ZFrBb7lOqp/u5yKyCR3aL+/wG0NhMFOCVB3MLmXIkGsOA1JXHe4TXtFkVgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PevJ4Nul; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6f30f69a958so644904b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 10:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713805514; x=1714410314; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tSkyOzxUcdbMqzp03KnrhjrfOdlW3TL2PUxe3CYy+uU=;
-        b=PevJ4NulAiOYVbA8mciWxEHev11PduHd/oYest7x9tK2CVHr6/B7olAHtulLtr8epI
-         04OFtpL3lbl3Fh7ZoIN4grRWoFEAVj05sXGWIapK5oFVTAZjhx4V4QJG44ThmLGpg5sm
-         4mCQbmQ6Ra1wVfu4OaUA4puUk0w13NswduPik=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713805514; x=1714410314;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tSkyOzxUcdbMqzp03KnrhjrfOdlW3TL2PUxe3CYy+uU=;
-        b=TW8vJyI0erFOCqUWwOJTqh4OFS79xCQQBe2hZ/z+NxCOQVVTwW++iB/0YUKX39Vr7v
-         m0sWUeDdI54gArVehZQt9W3M+j3gjS08mSOY8dKfgzxeZCZdg57Q6OD9vKQKrWWQNXDp
-         CSvT9s9Rf9SCuXtxfiYCzeZhbDbT3vl2r/xWyaOIGhoyxUaAGlJA7vXzcxi/sm1TWllf
-         pjgH2vAWrmEKc232e90dMHOjut6cln0+hMyxMTgfKy7BfxrwOMaxCiFrPrWjLluGFGOx
-         qC56Ma6kxNS7xt9YuzIW6A2B7DM1QTno+KBGlabs2ug40WUL8aMt27nsA/UwOEzaCzzy
-         BPrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSAE+1jKXK/t6OQw6d8vFWHgM/4jQ6f/rxCfm1wRNFUV/a8fFXiUCDZYa9lmeZmZbvZkdt1jXulWuyHdrE1MuuHc9KdykznEWN9XE=
-X-Gm-Message-State: AOJu0Yym4SzfJ9Z4HBiSLzVpjtukz4hWlKztCG1jdiL2actfNaS5oJKH
-	aAl3YXd/pLA5dmaSQuqmlLtZiQuUburQjTcnOcOAkE3KwIMlApSb6Is9jTXdmQ==
-X-Google-Smtp-Source: AGHT+IFxJFeMPcL8ytCxc2u5zPDcX0TiDfN/BOFVsXaXujFuR9MAhpYnZXK32l63JffeuOssUsOYXw==
-X-Received: by 2002:a05:6a00:1407:b0:6ed:2f2:a8e with SMTP id l7-20020a056a00140700b006ed02f20a8emr11839710pfu.30.1713805514163;
-        Mon, 22 Apr 2024 10:05:14 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:843d:b423:30f9:2b2])
-        by smtp.gmail.com with ESMTPSA id fa34-20020a056a002d2200b006e5571be110sm7997617pfb.214.2024.04.22.10.05.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 10:05:13 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Wei-Shun Chang <weishunc@google.com>,
-	Douglas Anderson <dianders@chromium.org>,
+	s=arc-20240116; t=1713806468; c=relaxed/simple;
+	bh=qgqSpsSQ6i9LStU3ApBLA/aCwEQLIznNK7QqnsGhiKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8ZMJXb8JgHfhMwL7m23gDm7qKbtes+/BuaEJenc6yUCBsALiBl2gkTGT05XdlajGTLSZ6T4wT5ks5m+mq2QMTj5ZLZ7P4jVa8IUQI9PfOgUfBNpLsdN+Tvb4d8Dgf5Ile42MJ1VcINGa1qhekOwzG01EnmZb3ZYyIb925u2gok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=G0c1q1Mj; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1713806465;
+	bh=qgqSpsSQ6i9LStU3ApBLA/aCwEQLIznNK7QqnsGhiKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G0c1q1MjVpdxEukvNuXnG2SUWKZtDFdixPSJme1WvAakT5hrd2mzkr5c0JqFEOqaJ
+	 xxESYS9tDy4oKw4pPN5yt/+9VdSAUFBMRniW2LcQrb+I78PkIRdXCBVkRG7X4lV45l
+	 r7roGnwAYzLUDoogyK/XknRWBbFrpmsyImEj+3SO2kKXgEmdRYRTFHBZhgXe/UY1N1
+	 Nv4kDI+M4vNx1VSm8y5n+Iz7p8QnE40++NHuIFg4Q/Xljb0fmvuhUc+KwUGSs072dq
+	 eE6YvX3uOKA4HIXFDPsyn/3M5/jS6IZbcqvdmpbolLMNqRCYjGovhGSTVacxDdxk0B
+	 ouRAPIqgTj1Mw==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 808B33782134;
+	Mon, 22 Apr 2024 17:21:02 +0000 (UTC)
+Date: Mon, 22 Apr 2024 13:21:00 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] media: mediatek: vcodec: Alloc DMA memory with DMA_ATTR_ALLOC_SINGLE_PAGES
-Date: Mon, 22 Apr 2024 10:03:59 -0700
-Message-ID: <20240422100354.1.I58b4456c014a4d678455a4ec09b908b1c71c3017@changeid>
-X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v9 07/10] ARM: dts: bcm2711-rpi: Add pinctrl-based
+ multiplexing for I2C0
+Message-ID: <961b3d43-b4c9-4573-82d7-844aa129d994@notapiano>
+References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com>
+ <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
+ <a21e8f30-f644-4196-a445-f4e2968eac1d@notapiano>
+ <20240422160140.GB2438@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240422160140.GB2438@pendragon.ideasonboard.com>
 
-As talked about in commit 14d3ae2efeed ("ARM: 8507/1: dma-mapping: Use
-DMA_ATTR_ALLOC_SINGLE_PAGES hint to optimize alloc"), it doesn't
-really make sense to try to allocate contiguous chunks of memory for
-video encoding/decoding. Let's switch the Mediatek vcodec driver to
-pass DMA_ATTR_ALLOC_SINGLE_PAGES and take some of the stress off the
-memory subsystem.
+On Mon, Apr 22, 2024 at 07:01:40PM +0300, Laurent Pinchart wrote:
+> Hi Nícolas,
+> 
+> On Mon, Apr 22, 2024 at 11:03:27AM -0400, Nícolas F. R. A. Prado wrote:
+> > On Tue, Apr 02, 2024 at 03:04:14AM +0300, Laurent Pinchart wrote:
+> > [..]
+> > > +
+> > > +	i2c0mux: i2c-mux0 {
+> > > +		compatible = "i2c-mux-pinctrl";
+> > > +		#address-cells = <1>;
+> > > +		#size-cells = <0>;
+> > > +
+> > > +		i2c-parent = <&i2c0>;
+> > > +
+> > > +		pinctrl-names = "i2c0", "i2c0-vc";
+> > > +		pinctrl-0 = <&i2c0_gpio0>;
+> > > +		pinctrl-1 = <&i2c0_gpio44>;
+> > > +
+> > > +		i2c0_0: i2c@0 {
+> > > +			reg = <0>;
+> > > +			#address-cells = <1>;
+> > > +			#size-cells = <0>;
+> > > +		};
+> > > +
+> > > +		i2c0_1: i2c@1 {
+> > > +			reg = <1>;
+> > > +			#address-cells = <1>;
+> > > +			#size-cells = <0>;
+> > > +		};
+> > > +	};
+> > 
+> > Hi Laurent,
+> > 
+> > I noticed you added this new DT node that binds to a driver, but didn't enable
+> > the corresponding driver in the arm64 defconfig. We're running the DT kselftest
+> > in KernelCI which reports DT nodes that haven't bound to a driver and this node
+> > now shows up as a failure. Consider enabling the driver in the defconfig so we
+> > can continually validate that the driver correctly probes this device and we'll
+> > be able to report if it breaks in the future :).
+> 
+> Interesting, I wasn't aware of the requirement to enable in the
+> defconfig all drivers that are used by an upstream DT. I'll send a patch
+> to fix that.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-NOTE: I haven't personally done massive amounts of testing with this
-change, but I originally added the DMA_ATTR_ALLOC_SINGLE_PAGES flag
-specifically for the video encoding / decoding cases and I know it
-helped avoid memory problems in the past on other systems. Colleagues
-of mine have told me that with this change memory problems are harder
-to reproduce, so it seems like we should consider doing it.
+Oh no, this isn't a requirement at all. I'm just pointing out that by doing it
+you enable more testing to get done on the platform automatically, which I
+thought you'd appreciate (and we do too!). So yes, please add it to the
+defconfig if you'd like to have the driver probe tested in KernelCI and thank
+you.
 
- .../media/platform/mediatek/vcodec/common/mtk_vcodec_util.c    | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> > PS: I've included the full test output for this platform below if you'd like to
+> > check it out. There's one single other device that fails to probe,
+> > /soc/mailbox@7e00b840, though that needs CONFIG_BCM2835_VCHIQ, which is on
+> > staging, so I'm guessing not something we should be enabling in the defconfig.
+> 
+> Probably not. We're working on getting it out of staging, it should be
+> enabled then. I've CC'ed Umang for awareness.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
-index 9ce34a3b5ee6..3fb1d48c3e15 100644
---- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
-+++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.c
-@@ -64,7 +64,8 @@ int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem)
- 		id = dec_ctx->id;
- 	}
- 
--	mem->va = dma_alloc_coherent(&plat_dev->dev, size, &mem->dma_addr, GFP_KERNEL);
-+	mem->va = dma_alloc_attrs(&plat_dev->dev, size, &mem->dma_addr,
-+				  GFP_KERNEL, DMA_ATTR_ALLOC_SINGLE_PAGES);
- 	if (!mem->va) {
- 		mtk_v4l2_err(plat_dev, "%s dma_alloc size=%ld failed!",
- 			     dev_name(&plat_dev->dev), size);
--- 
-2.44.0.769.g3c40516874-goog
+That's good to hear, thank you for the information!
 
+Thanks,
+Nícolas
 
