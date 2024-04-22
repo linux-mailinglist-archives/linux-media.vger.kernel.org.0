@@ -1,248 +1,225 @@
-Return-Path: <linux-media+bounces-9884-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9885-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755B78AD635
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 22:58:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B118AD6C6
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 23:58:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEBD61F21AB5
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 20:58:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F602284681
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 21:58:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F66A1C68D;
-	Mon, 22 Apr 2024 20:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624581CF96;
+	Mon, 22 Apr 2024 21:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+7E0+BG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0221CABB;
-	Mon, 22 Apr 2024 20:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220E31CD2E
+	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 21:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713819472; cv=none; b=TIwGLWzzm2uGPCRfCmWHBuAPrVZkjoVDlfOWUr0DikS7lZtl7cMlAF9j5Df5ZAAWUApaQOY9PNZTcZLNS/gF663TxFD344ZG1XRlmKO0ULPbNAiB3IbNdSjLCfotK+0flc7ASBypfrCtdZyBouWiKFd605XvPoa3qn4sZCj7k0A=
+	t=1713823125; cv=none; b=DhYVHls8f5C/8/TvC+hjyNC+4dRHV3pXD7qcTU0GAUqNieYB7DnLMvJKhBKAcT76Zasej5fvW36NwUSsnDACfgoUorShrlUCQXzY2Q89S12tHwxOhzUSQMpovDTsZh/lT0JZHC//idy/d0/cZOzPauhi/vKlQJdQVw1OQzSuFwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713819472; c=relaxed/simple;
-	bh=JZkkbWavLnoJRxVojqyfMx8Q4tIhl0ig8oK0YrTVm/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nPHRMjkBpuUZb1dDNbPktfQPBk+/4CESq+PDWP34Ffi9k1xc71dqrBzjvUPFRpcS4+6UACGNPcmLabSLFgnXcGilR5iYRTiGZQLI3pTWsUFoz5Kid1fVN2eGQJAV2U1GONbdJr+2nrS8X2iQhhFkQb04aX3SbVrIMHd0oSW2Duo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CF4C113CC;
-	Mon, 22 Apr 2024 20:57:50 +0000 (UTC)
-Message-ID: <9e76f971-b2d7-424a-bf21-c6cf5cd4a3f3@xs4all.nl>
-Date: Mon, 22 Apr 2024 22:57:48 +0200
+	s=arc-20240116; t=1713823125; c=relaxed/simple;
+	bh=Uwfe3D7YngPsSB0qXL4rEzg2B6ndb8XKgo3gQRnDK9U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KIE8aQlhXR0WFWCGqgjuzk8HaAth8NJaEEU8BjY4hFffWGTr4+EGO9nF1cybphw7bTVhZRTySwTx+Rm+wLUCxLvrJwf8pUBFpZVx2FQ09erusfZQ/qd5XNQwyYiq3IymMFRRvpQ8/KKs4UWADrsUP/qH8Bq1I2+zzGHv0nec9+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+7E0+BG; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713823124; x=1745359124;
+  h=date:from:to:cc:subject:message-id;
+  bh=Uwfe3D7YngPsSB0qXL4rEzg2B6ndb8XKgo3gQRnDK9U=;
+  b=T+7E0+BGUrHMJP4AM0NlGLwLMZGZ9eaBmKnHxuwLJMFgDy5OVT59eFAg
+   81kQsZ52IikFFp2IH+uwmg+APrxJ0UDTHj2+5+4tNp5oB596X4e/Uv8ho
+   5OQ8CtPQ3x7mTltPCTVftLNM6L3kT3ZfG8t6j9i7EXlbX/skpCG+9bNKe
+   HwActPy6khOk2EZ8iAnfb91qdLwDdJOUHpa/cEQgGb+1nrvBsEK8roy1d
+   9vQdLKV6t64nwR6USYDj05GgNP1jxTnxf7IxTu0HaE887hW8OJvYhBWM+
+   /ZcXAqwQP6nxuPoPAm9+5uAGb1OZcslQDmlNPwi/njzcwvKWHbNUOTrVb
+   w==;
+X-CSE-ConnectionGUID: 1E9IDbeVTVmGzAdn1pQ+Gg==
+X-CSE-MsgGUID: uAR174l4Rh+1y8eL0hQAWw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="26900980"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="26900980"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 14:58:43 -0700
+X-CSE-ConnectionGUID: CZVdFOyHQxiRHk5ScVvhxQ==
+X-CSE-MsgGUID: 5TD6FY2xQyOzRAOHZ5mVVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="24769213"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 22 Apr 2024 14:58:42 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rz1gN-0000Gq-1z;
+	Mon, 22 Apr 2024 21:58:39 +0000
+Date: Tue, 23 Apr 2024 05:58:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ af24845bf3881bb471580558ca811e0f6a44ecda
+Message-ID: <202404230510.Hu9cawoJ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
- cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
-Content-Language: en-US, nl
-To: "Yang, Chenyuan" <cy54@illinois.edu>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
- "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
- <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
-References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
- <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
- <526380BE-57AC-493D-A7B0-B8F0ECC0FE0A@illinois.edu>
- <f1855145-9562-4bef-800f-43bcacff6fc8@xs4all.nl>
- <2e5f1e92-7fad-4a74-b375-1e194ff08ce6@xs4all.nl>
- <F8D4A291-8CFB-4A25-B296-3CA07B56F459@illinois.edu>
- <49a68c10-9549-4fd8-b929-d4c7a9c8debf@xs4all.nl>
- <PH7PR11MB5768B0BC3C042A6EA4EC1EF0A0542@PH7PR11MB5768.namprd11.prod.outlook.com>
- <7E36CBBD-F2AD-4D98-8D4E-F52E62C3E812@illinois.edu>
- <f196c736-dbfe-4ca0-995b-1720bf530edf@xs4all.nl>
- <C84ADEF3-5553-41AF-B127-85D5630CC8A1@illinois.edu>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <C84ADEF3-5553-41AF-B127-85D5630CC8A1@illinois.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 22/04/2024 20:54, Yang, Chenyuan wrote:
-> Hi Hans,
-> 
-> Such timeout logs happen all the time when I execute the C program attached.
-> 
-> ```
-> gcc -pthread repro.c -o exe
-> ./exe
-> ```
-> 
-> The logs are from QEMU:
-> 
-> ```
-> Debian GNU/Linux 11 syzkaller ttyS0
-> 
-> syzkaller login: [  326.705401][   T51] Bluetooth: hci0: sending frame failed (-49)
-> [  326.707063][ T4466] Bluetooth: hci0: Opcode 0x1003 failed: -49
-> [  335.945400][ T4466] Bluetooth: hci0: Opcode 0x1003 failed: -110
-> [  335.945417][   T51] Bluetooth: hci0: command 0x1003 tx timeout
-> [  390.885042][ T2019] cec-vivid-000-vid-out0: transmit timed out
-> [  390.894890][ T2050] cec-vivid-002-vid-cap0: transmit timed out
-> [  390.895540][ T2034] cec-vivid-001-vid-cap0: transmit timed out
-> [  390.905041][ T2067] cec-vivid-003-vid-out0: transmit timed out
-> [  392.985033][ T2018] cec-vivid-000-vid-cap0: transmit timed out
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: af24845bf3881bb471580558ca811e0f6a44ecda  media: hi556: Add support for avdd regulator
 
-Hmm, I don't see this. With how many CPU cores is the qemu instance configured?
-And with what module options is the vivid module loaded?
+elapsed time: 731m
 
-Regards,
+configs tested: 132
+configs skipped: 3
 
-	Hans
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> ...
-> ```
-> 
-> Best,
-> Chenyuan
-> 
-> ﻿On 4/22/24, 10:04 AM, "Hans Verkuil" <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> wrote:
-> 
-> 
-> Hi Chenyuan,
-> 
-> 
-> My apologies for the delay, I missed your email.
-> 
-> 
-> On 26/02/2024 13:27, Yang, Chenyuan wrote:
->> Hi Hans,
->>
->> Thank you for your continued efforts in investigating this bug and implementing the new patch!
->>
->> Regarding the two warnings, they have been addressed by this new patch and are no longer reproducible. Additionally, I conducted a 48-hour fuzzing test on the CEC driver, which has successfully eliminated the previous hanging issue.
->>
->> One thing to note that the system will now log timeout events:
->> ```
->> [ 2281.265385][ T2034] cec-vivid-001-vid-out0: transmit timed out
->> [ 2282.994510][ T2017] cec-vivid-000-vid-cap0: transmit timed out
->> [ 2283.063484][ T2050] cec-vivid-002-vid-out0: transmit timed out
->> [ 2283.073468][ T2065] cec-vivid-003-vid-cap0: transmit timed out
->> [ 2283.373518][ T2033] cec-vivid-001-vid-cap0: transmit timed out
->> [ 2285.113544][ T2018] cec-vivid-000-vid-out0: transmit timed out
->> [ 2285.193502][ T2050] cec-vivid-002-vid-out0: transmit timed out
->> [ 2285.193570][ T2065] cec-vivid-003-vid-cap0: transmit timed out
->> [ 2285.513570][ T2033] cec-vivid-001-vid-cap0: transmit timed out
->> ```
-> 
-> 
-> Is this happening all the time, or just once in a (long?) while?
-> 
-> 
-> Regards,
-> 
-> 
-> Hans
-> 
-> 
->>
->> Best,
->> Chenyuan
->>
->> From: Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>>
->> Date: Friday, February 23, 2024 at 8:44 AM
->> To: Yang, Chenyuan <cy54@illinois.edu <mailto:cy54@illinois.edu>>, linux-media@vger.kernel.org <mailto:linux-media@vger.kernel.org> <linux-media@vger.kernel.org <mailto:linux-media@vger.kernel.org>>, linux-kernel@vger.kernel.org <mailto:linux-kernel@vger.kernel.org> <linux-kernel@vger.kernel.org <mailto:linux-kernel@vger.kernel.org>>
->> Cc: jani.nikula@intel.com <mailto:jani.nikula@intel.com> <jani.nikula@intel.com <mailto:jani.nikula@intel.com>>, syzkaller@googlegroups.com <mailto:syzkaller@googlegroups.com> <syzkaller@googlegroups.com <mailto:syzkaller@googlegroups.com>>, mchehab@kernel.org <mailto:mchehab@kernel.org> <mchehab@kernel.org <mailto:mchehab@kernel.org>>, Zhao, Zijie <zijie4@illinois.edu <mailto:zijie4@illinois.edu>>, Zhang, Lingming <lingming@illinois.edu <mailto:lingming@illinois.edu>>
->> Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
->> Hi Chenyuan,
->>
->> Here is another patch for you to try. I think it is good for blocking CEC_ADAP_S_LOG_ADDRS
->> ioctl calls, but if the filehandle is in non-blocking mode, I'm still not certain it
->> is correct. But one issue at a time :-)
->>
->> Regards,
->>
->> Hans
->>
->> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
->> index 559a172ebc6c..a493cbce2456 100644
->> --- a/drivers/media/cec/core/cec-adap.c
->> +++ b/drivers/media/cec/core/cec-adap.c
->> @@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
->> */
->> mutex_unlock(&adap->lock);
->> wait_for_completion_killable(&data->c);
->> - if (!data->completed)
->> - cancel_delayed_work_sync(&data->work);
->> + cancel_delayed_work_sync(&data->work);
->> mutex_lock(&adap->lock);
->>
->> /* Cancel the transmit if it was interrupted */
->> @@ -1575,9 +1574,12 @@ static int cec_config_thread_func(void *arg)
->> */
->> static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
->> {
->> - if (WARN_ON(adap->is_configuring || adap->is_configured))
->> + if (WARN_ON(adap->is_claiming_log_addrs ||
->> + adap->is_configuring || adap->is_configured))
->> return;
->>
->> + adap->is_claiming_log_addrs = true;
->> +
->> init_completion(&adap->config_completion);
->>
->> /* Ready to kick off the thread */
->> @@ -1592,6 +1594,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
->> wait_for_completion(&adap->config_completion);
->> mutex_lock(&adap->lock);
->> }
->> + adap->is_claiming_log_addrs = false;
->> }
->>
->> /*
->> diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
->> index 67dc79ef1705..3ef915344304 100644
->> --- a/drivers/media/cec/core/cec-api.c
->> +++ b/drivers/media/cec/core/cec-api.c
->> @@ -178,7 +178,7 @@ static long cec_adap_s_log_addrs(struct cec_adapter *adap, struct cec_fh *fh,
->> CEC_LOG_ADDRS_FL_ALLOW_RC_PASSTHRU |
->> CEC_LOG_ADDRS_FL_CDC_ONLY;
->> mutex_lock(&adap->lock);
->> - if (!adap->is_configuring &&
->> + if (!adap->is_claiming_log_addrs && !adap->is_configuring &&
->> (!log_addrs.num_log_addrs || !adap->is_configured) &&
->> !cec_is_busy(adap, fh)) {
->> err = __cec_s_log_addrs(adap, &log_addrs, block);
->> @@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
->> list_del_init(&data->xfer_list);
->> }
->> mutex_unlock(&adap->lock);
->> +
->> + mutex_lock(&fh->lock);
->> while (!list_empty(&fh->msgs)) {
->> struct cec_msg_entry *entry =
->> list_first_entry(&fh->msgs, struct cec_msg_entry, list);
->> @@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
->> kfree(entry);
->> }
->> }
->> + mutex_unlock(&fh->lock);
->> kfree(fh);
->>
->> cec_put_device(devnode);
->> diff --git a/include/media/cec.h b/include/media/cec.h
->> index 10c9cf6058b7..cc3fcd0496c3 100644
->> --- a/include/media/cec.h
->> +++ b/include/media/cec.h
->> @@ -258,6 +258,7 @@ struct cec_adapter {
->> u16 phys_addr;
->> bool needs_hpd;
->> bool is_enabled;
->> + bool is_claiming_log_addrs;
->> bool is_configuring;
->> bool must_reconfigure;
->> bool is_configured;
->>
-> 
-> 
-> 
-> 
-> 
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240423   gcc  
+arc                   randconfig-002-20240423   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240423   clang
+arm                   randconfig-002-20240423   clang
+arm                   randconfig-003-20240423   clang
+arm                   randconfig-004-20240423   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-002-20240423   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240422   clang
+i386         buildonly-randconfig-002-20240422   gcc  
+i386         buildonly-randconfig-003-20240422   clang
+i386         buildonly-randconfig-004-20240422   gcc  
+i386         buildonly-randconfig-005-20240422   gcc  
+i386         buildonly-randconfig-006-20240422   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240422   clang
+i386                  randconfig-002-20240422   clang
+i386                  randconfig-003-20240422   gcc  
+i386                  randconfig-004-20240422   clang
+i386                  randconfig-005-20240422   gcc  
+i386                  randconfig-006-20240422   gcc  
+i386                  randconfig-011-20240422   clang
+i386                  randconfig-012-20240422   clang
+i386                  randconfig-013-20240422   clang
+i386                  randconfig-014-20240422   clang
+i386                  randconfig-015-20240422   clang
+i386                  randconfig-016-20240422   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240422   clang
+x86_64       buildonly-randconfig-002-20240422   gcc  
+x86_64       buildonly-randconfig-003-20240422   gcc  
+x86_64       buildonly-randconfig-004-20240422   clang
+x86_64       buildonly-randconfig-005-20240422   gcc  
+x86_64       buildonly-randconfig-006-20240422   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240422   clang
+x86_64                randconfig-002-20240422   gcc  
+x86_64                randconfig-003-20240422   clang
+x86_64                randconfig-004-20240422   gcc  
+x86_64                randconfig-005-20240422   gcc  
+x86_64                randconfig-006-20240422   clang
+x86_64                randconfig-011-20240422   gcc  
+x86_64                randconfig-012-20240422   clang
+x86_64                randconfig-013-20240422   gcc  
+x86_64                randconfig-014-20240422   clang
+x86_64                randconfig-015-20240422   gcc  
+x86_64                randconfig-016-20240422   gcc  
+x86_64                randconfig-071-20240422   clang
+x86_64                randconfig-072-20240422   gcc  
+x86_64                randconfig-073-20240422   gcc  
+x86_64                randconfig-074-20240422   gcc  
+x86_64                randconfig-075-20240422   gcc  
+x86_64                randconfig-076-20240422   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
