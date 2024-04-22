@@ -1,224 +1,213 @@
-Return-Path: <linux-media+bounces-9871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9938AD13E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 17:49:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729408AD16C
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 18:02:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 504011C212A1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 15:49:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26BA82866CF
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 16:02:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EAB615351B;
-	Mon, 22 Apr 2024 15:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D65F6153588;
+	Mon, 22 Apr 2024 16:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="meKbb9Mz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PI9qaAIT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6721534E7
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 15:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D885915350A;
+	Mon, 22 Apr 2024 16:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713800953; cv=none; b=BNqM8or2z8/aS5h0/WJ8YNYsgX2thcNcAMGZBW1z6mXbWgjoiiyec9VojDcDquzT2a++TOKP+lnIMubXTAlE01xG185kdB9Fq2EFGOU/kMqhqSxEbF5jp+9E7T4jpayYE+0z/XTntmQKnlybYJBk0UlmK9oo6RLEAwQi0E9YSjE=
+	t=1713801722; cv=none; b=UGN9u4eXbDJtKxOegvq+GzLHgvm09XDb4HwDXhpHQ+b7LYM5HtuVkqqheC7kHvp9gf1iEUKEWb/F5jLJyaWlkNGvRFjobhCBJEUj0j6SJRxTMpb0wCf7qHBpBqNeBA28DUYKkr3UW54/IpiW+uMjyz90c8PX8/AnX0OQQ5C1NQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713800953; c=relaxed/simple;
-	bh=8+kJGqKc4FvegZyfV/dJDORM3KjEZ2wD83pdhlBjSSY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GLTjvQ5g7MRoA5btf4K+VlfSEZequJwJxRvPoEtgmHlf26jkUuqQDsxheDWU3VI3WB6PeVPFtA2laI0ZTvMYCaEJxFYlUkNDsGeD0+D0CUxGKhIQ/hOwXg1ft4OBt9GlhIpKjepBqBpZfRklyCjGmw5gk/YfXB7pw5eNsOeYJ+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=meKbb9Mz; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-69b40061bbeso23930736d6.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 08:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1713800951; x=1714405751; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zOvrIiNG0aaKsjuJ5ZDvsbyhs27QkgdQ17ctSNHHXUs=;
-        b=meKbb9MzZ5q1UMLUAeD4ym+XJYETMKYiZzwu7YQZgiv/10kFPxaJuEup/eYIcCm2eN
-         84MmD6n1WjLN6P1kysyapieA6EkkoYGLMsIZlIGDR4YBiwy8JeDgsHSfO3p5lq5+dZr/
-         VEuz2TiU3RGdQgdHeYQH74ENseS7+yhOmQfNJN4ueNRekdBIBxE3SCHIB0xqpuolOb23
-         S+NTyiyMgltvJNlf9Qk+3pLlEfm8PDDpzAiiZ3X4w9D4MnxfD1CnLoVvV8heum/u8u2c
-         ClL41kPMIa9IdSC6H0kCy+i2GAxs4NkqT1BpuR3/QsYwF10fmAW0WT3o/B+zwlDUb45S
-         9fZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713800951; x=1714405751;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zOvrIiNG0aaKsjuJ5ZDvsbyhs27QkgdQ17ctSNHHXUs=;
-        b=RcY3Z+RzWDq4xTdA7Gusho/Z2/Ukx5igZ+Sw5TbgNoj+kksfy9gFoyf24wbXs6Wlxd
-         txh6immhU9STEllMcLT/uBrvVHlsfPHs4Nmv7xTBuiUfJWl2IAidZzwVWWCd6dHB2l/s
-         szO9EQbn2euAT8iNKc8e/3hbzMQ5MB4GXEglZ9vQgeWGjFOaJPtwwleJFaZwI/Orb5By
-         lW7WPhVeXEnMse7tx/CKYGC8QuMUCvAG03H6BP/6utW7SSlWbnTnzHtaDJXxhDaYDgDR
-         6VL6oGC0ZwHH9oPQxcbZ13FkU0Xom3Fe2PeZsOpD912EcDnT2SXPJ0nAW3hP/W0HTiXO
-         UUrg==
-X-Gm-Message-State: AOJu0YwM4nAy+x3D57am++73QFMmieoqk7/Ga7PRvVHQ+v2AYCfOPQuU
-	2e4/s5SYaylvzy/WnsKzME9aGv1BpUo0Mz2j0y6B981ETTn8KFgMl6SaavFOeHc=
-X-Google-Smtp-Source: AGHT+IE3Bq8tLbi/XvedFxKP/vXgB2Slr/fd2putnR6Hk36vUZQFDg9vrhAsJgkdeDpTvevbTxVe3w==
-X-Received: by 2002:a05:6214:c45:b0:6a0:5c0c:c857 with SMTP id r5-20020a0562140c4500b006a05c0cc857mr14050963qvj.18.1713800950977;
-        Mon, 22 Apr 2024 08:49:10 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6448::7a9])
-        by smtp.gmail.com with ESMTPSA id b4-20020a0cf044000000b0069b1e2f3074sm4365358qvl.98.2024.04.22.08.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 08:49:10 -0700 (PDT)
-Message-ID: <3cc5a7dbd5c0f03d6137e0795fae69f5533a8f9f.camel@ndufresne.ca>
-Subject: Re: [RESEND PATCH v2 4/4] media: chips-media: wave5: Support YUV422
- raw pixel-formats on the encoder.
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"
-	 <mchehab@kernel.org>, "sebastian.fricke@collabora.com"
-	 <sebastian.fricke@collabora.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,  Nas Chung
- <nas.chung@chipsnmedia.com>, "lafley.kim" <lafley.kim@chipsnmedia.com>,
- "b-brnich@ti.com" <b-brnich@ti.com>
-Date: Mon, 22 Apr 2024 11:49:09 -0400
-In-Reply-To: <SE1P216MB1303F475980132394E5E79DAED122@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240311105623.20406-1-jackson.lee@chipsnmedia.com>
-	 <20240311105623.20406-5-jackson.lee@chipsnmedia.com>
-	 <3ba3445e820e14730794e85fb4322e5aa57e1119.camel@ndufresne.ca>
-	 <SE1P216MB1303F475980132394E5E79DAED122@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1713801722; c=relaxed/simple;
+	bh=91FicvYIrR1RsHJ614+Z8VedJiHK4XaLu6ElyB0aTc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VpVubA/2/P7y1k/LA8hHeafGsso6ElUWtLm1HY7Taqj0JjuKSmGnLqCvAficqJAtFj51PQPI3wgVGKVoE9g34mxeSIouRitLII0p5lQnqWKsIs4gL46yODMdJeVjs3pLu7KK0sF94Wee+EgZ3KG91wP+ScvCDD79E29wq0jPxeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PI9qaAIT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19040741;
+	Mon, 22 Apr 2024 18:00:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713801658;
+	bh=91FicvYIrR1RsHJ614+Z8VedJiHK4XaLu6ElyB0aTc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PI9qaAIT9XQDBcHXt3flL3c5pTnsCv1Gc9FbAJCc6hR2hT4qi45+oEmKJzthd5AWJ
+	 BDEgwVoMUqUnboGncLNCxUr+cpqpyKAJ8Ap9KbObMmpWw7JMOA0sU3WjKyuIKavcw4
+	 GVQyoZN2tCqnieg792WLoW8+wmCESmPtiTzhpNmU=
+Date: Mon, 22 Apr 2024 19:01:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+Cc: linux-media@vger.kernel.org,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v9 07/10] ARM: dts: bcm2711-rpi: Add pinctrl-based
+ multiplexing for I2C0
+Message-ID: <20240422160140.GB2438@pendragon.ideasonboard.com>
+References: <20240402000424.4650-1-laurent.pinchart@ideasonboard.com>
+ <20240402000424.4650-8-laurent.pinchart@ideasonboard.com>
+ <a21e8f30-f644-4196-a445-f4e2968eac1d@notapiano>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a21e8f30-f644-4196-a445-f4e2968eac1d@notapiano>
 
-Hi Jackson,
+Hi Nícolas,
 
-Le lundi 22 avril 2024 =C3=A0 04:30 +0000, jackson.lee a =C3=A9crit=C2=A0:
-> Hi Nicolas
->=20
->=20
-> > -----Original Message-----
-> > From: Nicolas Dufresne <nicolas@ndufresne.ca>
-> > Sent: Friday, April 19, 2024 6:06 AM
-> > To: jackson.lee <jackson.lee@chipsnmedia.com>; mchehab@kernel.org;
-> > sebastian.fricke@collabora.com
-> > Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
-> > <lafley.kim@chipsnmedia.com>; b-brnich@ti.com
-> > Subject: Re: [RESEND PATCH v2 4/4] media: chips-media: wave5: Support Y=
-UV422
-> > raw pixel-formats on the encoder.
-> >=20
-> > Le lundi 11 mars 2024 =C3=A0 19:56 +0900, jackson.lee a =C3=A9crit=C2=
-=A0:
-> > > From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
-> > >=20
-> > > Add support for the YUV422P, NV16, NV61, YUV422M, NV16M, NV61M raw pi=
-xel-
-> > formats to the Wave5 encoder.
-> > > All these formats have a chroma subsampling ratio of 4:2:2 and theref=
-ore
-> > require a new image size calculation as the driver previously only hand=
-led a
-> > ratio of 4:2:0.
-> > >=20
-> > > Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
-> > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> > > ---
-> > >  .../chips-media/wave5/wave5-vpu-enc.c         | 59 +++++++++++++++++=
---
-> > >  1 file changed, 54 insertions(+), 5 deletions(-)
-> > >=20
-> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > index 5a32bb138158..77657f63a169 100644
-> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > @@ -39,6 +39,24 @@ static const struct vpu_format
-> > enc_fmt_list[FMT_TYPES][MAX_FMTS] =3D {
-> > >  		{
-> > >  			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV21M,
-> > >  		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUV422P,
-> > > +		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16,
-> > > +		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61,
-> > > +		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUV422M,
-> > > +		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16M,
-> > > +		},
-> > > +		{
-> > > +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61M,
-> > > +		},
-> > >  	}
-> > >  };
-> > >=20
-> > > @@ -101,13 +119,30 @@ static int start_encode(struct vpu_instance *in=
-st,
-> > u32 *fail_res)
-> > >  	struct vb2_v4l2_buffer *dst_buf;
-> > >  	struct frame_buffer frame_buf;
-> > >  	struct enc_param pic_param;
-> > > -	u32 stride =3D ALIGN(inst->dst_fmt.width, 32);
-> > > -	u32 luma_size =3D (stride * inst->dst_fmt.height);
-> > > -	u32 chroma_size =3D ((stride / 2) * (inst->dst_fmt.height / 2));
-> > > +	u32 stride =3D inst->src_fmt.plane_fmt[0].bytesperline;
-> > > +	u32 luma_size =3D (stride * inst->src_fmt.height);
-> > > +	u32 chroma_size =3D 0;
-> >=20
-> > The helper introduced in previous patch also calculate sizeimage for ea=
-ch
-> > planes, so no need for this code anymore.
->=20
-> Your comment means the below code?=20
->=20
-> 	u32 luma_size =3D inst->src_fmt.plane_fmt[0].sizeimage
-> 	u32 chroma_size =3D inst->src_fmt.plane_fmt[1].sizeimage
->=20
-> =09
-> >=20
-> > >=20
-> > >  	memset(&pic_param, 0, sizeof(struct enc_param));
-> > >  	memset(&frame_buf, 0, sizeof(struct frame_buffer));
-> > >=20
->=20
-> The below code could be removed.
->=20
-> > > +	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420 ||
-> > > +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420M)
-> > > +		chroma_size =3D luma_size / 4;
-> > > +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12 ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21 ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M)
-> > > +		chroma_size =3D luma_size / 2;
-> > > +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422P ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422M)
-> > > +		chroma_size =3D luma_size / 2;
-> > > +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M ||
-> > > +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M)
-> > > +		chroma_size =3D luma_size;
-> > > +
->=20
-> Is That right?
+On Mon, Apr 22, 2024 at 11:03:27AM -0400, Nícolas F. R. A. Prado wrote:
+> On Tue, Apr 02, 2024 at 03:04:14AM +0300, Laurent Pinchart wrote:
+> [..]
+> > +
+> > +	i2c0mux: i2c-mux0 {
+> > +		compatible = "i2c-mux-pinctrl";
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +
+> > +		i2c-parent = <&i2c0>;
+> > +
+> > +		pinctrl-names = "i2c0", "i2c0-vc";
+> > +		pinctrl-0 = <&i2c0_gpio0>;
+> > +		pinctrl-1 = <&i2c0_gpio44>;
+> > +
+> > +		i2c0_0: i2c@0 {
+> > +			reg = <0>;
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +		};
+> > +
+> > +		i2c0_1: i2c@1 {
+> > +			reg = <1>;
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +		};
+> > +	};
+> 
+> Hi Laurent,
+> 
+> I noticed you added this new DT node that binds to a driver, but didn't enable
+> the corresponding driver in the arm64 defconfig. We're running the DT kselftest
+> in KernelCI which reports DT nodes that haven't bound to a driver and this node
+> now shows up as a failure. Consider enabling the driver in the defconfig so we
+> can continually validate that the driver correctly probes this device and we'll
+> be able to report if it breaks in the future :).
 
-Yes, using the src_fmt seems accurate for the encoder.
+Interesting, I wasn't aware of the requirement to enable in the
+defconfig all drivers that are used by an upstream DT. I'll send a patch
+to fix that.
 
-cheers,
-Nicolas
+> PS: I've included the full test output for this platform below if you'd like to
+> check it out. There's one single other device that fails to probe,
+> /soc/mailbox@7e00b840, though that needs CONFIG_BCM2835_VCHIQ, which is on
+> staging, so I'm guessing not something we should be enabling in the defconfig.
+
+Probably not. We're working on getting it out of staging, it should be
+enabled then. I've CC'ed Umang for awareness.
+
+> TAP version 13
+> 1..1
+> # timeout set to 45
+> # selftests: dt: test_unprobed_devices.sh
+> # TAP version 13
+> # 1..69
+> # ok 1 / # SKIP
+> # ok 2 /arm-pmu
+> # ok 3 /clk-108M # SKIP
+> # ok 4 /clk-27M # SKIP
+> # ok 5 /clocks/clk-osc # SKIP
+> # ok 6 /clocks/clk-usb # SKIP
+> # ok 7 /cpus/cpu@0 # SKIP
+> # ok 8 /cpus/cpu@1 # SKIP
+> # ok 9 /cpus/cpu@2 # SKIP
+> # ok 10 /cpus/cpu@3 # SKIP
+> # ok 11 /cpus/l2-cache0 # SKIP
+> # ok 12 /emmc2bus
+> # ok 13 /emmc2bus/mmc@7e340000
+> # ok 14 /gpu
+> # not ok 15 /i2c-mux0
+> # ok 16 /leds
+> # ok 17 /phy
+> # ok 18 /regulator-cam1
+> # ok 19 /regulator-sd-io-1v8
+> # ok 20 /regulator-sd-vcc
+> # ok 21 /reserved-memory/linux,cma # SKIP
+> # ok 22 /reserved-memory/nvram@0
+> # ok 23 /scb
+> # ok 24 /scb/ethernet@7d580000
+> # ok 25 /scb/ethernet@7d580000/mdio@e14
+> # ok 26 /scb/gpu@7ec00000
+> # ok 27 /scb/pcie@7d500000
+> # ok 28 /soc
+> # ok 29 /soc/aux@7e215000
+> # ok 30 /soc/avs-monitor@7d5d2000 # SKIP
+> # ok 31 /soc/avs-monitor@7d5d2000/thermal
+> # ok 32 /soc/clock@7ef00000
+> # ok 33 /soc/cprman@7e101000
+> # ok 34 /soc/dma-controller@7e007000
+> # ok 35 /soc/firmware
+> # ok 36 /soc/firmware/clocks
+> # ok 37 /soc/firmware/gpio
+> # ok 38 /soc/firmware/reset
+> # ok 39 /soc/gpio@7e200000
+> # ok 40 /soc/hdmi@7ef00700
+> # ok 41 /soc/hdmi@7ef05700
+> # ok 42 /soc/hvs@7e400000
+> # ok 43 /soc/i2c@7e205000
+> # ok 44 /soc/i2c@7e804000
+> # ok 45 /soc/i2c@7ef04500
+> # ok 46 /soc/i2c@7ef09500
+> # ok 47 /soc/interrupt-controller@40000000 # SKIP
+> # ok 48 /soc/interrupt-controller@40041000 # SKIP
+> # ok 49 /soc/interrupt-controller@7ef00100
+> # not ok 50 /soc/mailbox@7e00b840
+> # ok 51 /soc/mailbox@7e00b880
+> # ok 52 /soc/mmc@7e300000
+> # ok 53 /soc/mmc@7e300000/wifi@1 # SKIP
+> # ok 54 /soc/pixelvalve@7e206000
+> # ok 55 /soc/pixelvalve@7e207000
+> # ok 56 /soc/pixelvalve@7e20a000
+> # ok 57 /soc/pixelvalve@7e216000
+> # ok 58 /soc/power
+> # ok 59 /soc/pwm@7e20c800
+> # ok 60 /soc/rng@7e104000
+> # ok 61 /soc/serial@7e201000
+> # ok 62 /soc/serial@7e201000/bluetooth
+> # ok 63 /soc/serial@7e215040
+> # ok 64 /soc/timer@7e003000 # SKIP
+> # ok 65 /soc/txp@7e004000
+> # ok 66 /soc/usb@7e980000
+> # ok 67 /soc/watchdog@7e100000
+> # ok 68 /timer # SKIP
+> # ok 69 /wifi-pwrseq
+> # # Totals: pass:50 fail:2 xfail:0 xpass:0 skip:17 error:0
+> not ok 1 selftests: dt: test_unprobed_devices.sh # exit=1
+
+-- 
+Regards,
+
+Laurent Pinchart
 
