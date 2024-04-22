@@ -1,35 +1,36 @@
-Return-Path: <linux-media+bounces-9865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9866-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347E68ACC81
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 14:09:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4508ACCA4
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 14:14:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BE0F1C20D3E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 12:09:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5B24281C4D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Apr 2024 12:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ABCA1474D3;
-	Mon, 22 Apr 2024 12:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F3C1474A7;
+	Mon, 22 Apr 2024 12:14:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5397524A0
-	for <linux-media@vger.kernel.org>; Mon, 22 Apr 2024 12:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D748146D61;
+	Mon, 22 Apr 2024 12:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713787774; cv=none; b=tHunI4ezoSWwJCkHNc1M6NE/Tap9VWsQnfD93AwsI20/eOfz8oPo9Xz0KE65drl1mKEoDBb4Bir/9owvndwb0i1POJtaW6eWNZdRdnkjoRM2pDNy1diskiYMa2ZXAS20wILliR7T4c2Q1+JWlO5rC4GJD97vNTHhvrH123Nl5D8=
+	t=1713788061; cv=none; b=S5gn3+6HNmkyimG7S4VLZ6VdO/FGioAr8Ar3u7bvm7CtuX78HAWrPGE47TMXu/CZp8cIVq4RxZGkUVIueyGmaEgb5gVDzl50FPVl1jshULQS+Ryu5NqK1bjctuUdxXHGxSGlOALW4CM/iP/4wha71ysrso1DedBJV4IHnOVwZSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713787774; c=relaxed/simple;
-	bh=M/36uhyu71hpOOIPCvItUTxayP+eez0UcgR5yZ21FX0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=TJKMegulvmEYgx5Hk0/yMK58fzlJSxeihRJ9qs7/X4bLe6c/CKMJaJgocsFGvS7Yhmsq4KO+YQU8yIG3sioGsdVOt7BFug623XK9U9u1isMrrQaWl76GmBqC5aMbAcq9pFs1R5fuh5fN2IXzQaxVaC5x4SBE2kx4EUFZXalH/hE=
+	s=arc-20240116; t=1713788061; c=relaxed/simple;
+	bh=X1T3/xYzPELvu5Xll7A3YXl6h754gstCmtUvhhI86ko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DoAabeYB7df4RBq9A7pZzgH5X6GRW+pZXvpFx8juUpBRZWkqjln0GqQ6P/cFKdik9A0ic5bpKkyjHdCog21MnLbTtEpdOyfSWEYXXMbsU6sjHVYQc1l/v7XWH/EZq07cepf20+95EYq3ue24cxjjAjpzf2QjxmzukVSOqJoWSHA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15644C3277B;
-	Mon, 22 Apr 2024 12:09:33 +0000 (UTC)
-Message-ID: <f17f961b-3a19-48da-941a-c8970d9e1786@xs4all.nl>
-Date: Mon, 22 Apr 2024 14:09:32 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE78C32782;
+	Mon, 22 Apr 2024 12:14:19 +0000 (UTC)
+Message-ID: <966f5847-d007-4425-a902-1e1c05a820ae@xs4all.nl>
+Date: Mon, 22 Apr 2024 14:14:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -37,89 +38,180 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in
+ cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
 Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: "Yang, Chenyuan" <cy54@illinois.edu>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: cec: cec-api: add locking in cec_release()
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
+To: Takashi Iwai <tiwai@suse.de>
+Cc: "Yang, Chenyuan" <cy54@illinois.edu>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>, "Zhao, Zijie"
+ <zijie4@illinois.edu>, "Zhang, Lingming" <lingming@illinois.edu>
+References: <PH7PR11MB57688E64ADE4FE82E658D86DA09EA@PH7PR11MB5768.namprd11.prod.outlook.com>
+ <f985d664-d907-48ed-9b3d-dc956c178b88@xs4all.nl>
+ <526380BE-57AC-493D-A7B0-B8F0ECC0FE0A@illinois.edu>
+ <f1855145-9562-4bef-800f-43bcacff6fc8@xs4all.nl>
+ <2e5f1e92-7fad-4a74-b375-1e194ff08ce6@xs4all.nl>
+ <F8D4A291-8CFB-4A25-B296-3CA07B56F459@illinois.edu>
+ <49a68c10-9549-4fd8-b929-d4c7a9c8debf@xs4all.nl>
+ <PH7PR11MB5768B0BC3C042A6EA4EC1EF0A0542@PH7PR11MB5768.namprd11.prod.outlook.com>
+ <7E36CBBD-F2AD-4D98-8D4E-F52E62C3E812@illinois.edu>
+ <87le59s8wi.wl-tiwai@suse.de>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <87le59s8wi.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-When cec_release() uses fh->msgs it has to take fh->lock,
-otherwise the list can get corrupted.
+Hi Takashi,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: ca684386e6e2 ("[media] cec: add HDMI CEC framework (api)")
-Reported-by: Yang, Chenyuan <cy54@illinois.edu>
----
- drivers/media/cec/core/cec-api.c | 3 +++
- 1 file changed, 3 insertions(+)
+On 19/04/2024 16:51, Takashi Iwai wrote:
+> On Mon, 26 Feb 2024 13:27:16 +0100,
+> Yang, Chenyuan wrote:
+>>
+>> Hi Hans,
+>>
+>> Thank you for your continued efforts in investigating this bug and implementing the new patch!
+>>
+>> Regarding the two warnings, they have been addressed by this new patch and are no longer reproducible. Additionally, I conducted a 48-hour fuzzing test on the CEC driver, which has successfully eliminated the previous hanging issue.
+>>
+>> One thing to note that the system will now log timeout events:
+>> ```
+>> [ 2281.265385][ T2034] cec-vivid-001-vid-out0: transmit timed out
+>> [ 2282.994510][ T2017] cec-vivid-000-vid-cap0: transmit timed out
+>> [ 2283.063484][ T2050] cec-vivid-002-vid-out0: transmit timed out
+>> [ 2283.073468][ T2065] cec-vivid-003-vid-cap0: transmit timed out
+>> [ 2283.373518][ T2033] cec-vivid-001-vid-cap0: transmit timed out
+>> [ 2285.113544][ T2018] cec-vivid-000-vid-out0: transmit timed out
+>> [ 2285.193502][ T2050] cec-vivid-002-vid-out0: transmit timed out
+>> [ 2285.193570][ T2065] cec-vivid-003-vid-cap0: transmit timed out
+>> [ 2285.513570][ T2033] cec-vivid-001-vid-cap0: transmit timed out
 
-diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
-index 67dc79ef17050..d64bb716f9c68 100644
---- a/drivers/media/cec/core/cec-api.c
-+++ b/drivers/media/cec/core/cec-api.c
-@@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
- 		list_del_init(&data->xfer_list);
- 	}
- 	mutex_unlock(&adap->lock);
-+
-+	mutex_lock(&fh->lock);
- 	while (!list_empty(&fh->msgs)) {
- 		struct cec_msg_entry *entry =
- 			list_first_entry(&fh->msgs, struct cec_msg_entry, list);
-@@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
- 			kfree(entry);
- 		}
- 	}
-+	mutex_unlock(&fh->lock);
- 	kfree(fh);
+>> ```
+>>
+>> Best,
+>> Chenyuan
+> 
+> Hi Hans,
+> 
+> how is the current status of this bug fix?  It seems that the thread
+> stalled, and I wonder how we can go further.
+> 
+> I'm asking it because CVE-2024-23848 was assigned and we've been asked
+> about the bug fix.
 
- 	cec_put_device(devnode);
--- 
-2.43.0
+I missed this reply, so I will take another look at the patch. Too many emails :-(
+
+Two other patches relating to this I have just posted:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/2b043325-14c0-4e63-ae9c-0d685d96fd98@xs4all.nl/
+https://patchwork.linuxtv.org/project/linux-media/patch/f17f961b-3a19-48da-941a-c8970d9e1786@xs4all.nl/
+
+Regards,
+
+	Hans
+
+> 
+> 
+> Thanks!
+> 
+> Takashi
+> 
+>>
+>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Date: Friday, February 23, 2024 at 8:44 AM
+>> To: Yang, Chenyuan <cy54@illinois.edu>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+>> Cc: jani.nikula@intel.com <jani.nikula@intel.com>, syzkaller@googlegroups.com <syzkaller@googlegroups.com>, mchehab@kernel.org <mchehab@kernel.org>, Zhao, Zijie <zijie4@illinois.edu>, Zhang, Lingming <lingming@illinois.edu>
+>> Subject: Re: [Linux Kernel Bugs] KASAN: slab-use-after-free Read in cec_queue_msg_fh and 4 other crashes in the cec device (`cec_ioctl`)
+>> Hi Chenyuan,
+>>
+>> Here is another patch for you to try. I think it is good for blocking CEC_ADAP_S_LOG_ADDRS
+>> ioctl calls, but if the filehandle is in non-blocking mode, I'm still not certain it
+>> is correct. But one issue at a time :-)
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+>> index 559a172ebc6c..a493cbce2456 100644
+>> --- a/drivers/media/cec/core/cec-adap.c
+>> +++ b/drivers/media/cec/core/cec-adap.c
+>> @@ -936,8 +936,7 @@ int cec_transmit_msg_fh(struct cec_adapter *adap, struct cec_msg *msg,
+>>           */
+>>          mutex_unlock(&adap->lock);
+>>          wait_for_completion_killable(&data->c);
+>> -       if (!data->completed)
+>> -               cancel_delayed_work_sync(&data->work);
+>> +       cancel_delayed_work_sync(&data->work);
+>>          mutex_lock(&adap->lock);
+>>
+>>          /* Cancel the transmit if it was interrupted */
+>> @@ -1575,9 +1574,12 @@ static int cec_config_thread_func(void *arg)
+>>   */
+>>  static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+>>  {
+>> -       if (WARN_ON(adap->is_configuring || adap->is_configured))
+>> +       if (WARN_ON(adap->is_claiming_log_addrs ||
+>> +                   adap->is_configuring || adap->is_configured))
+>>                  return;
+>>
+>> +       adap->is_claiming_log_addrs = true;
+>> +
+>>          init_completion(&adap->config_completion);
+>>
+>>          /* Ready to kick off the thread */
+>> @@ -1592,6 +1594,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+>>                  wait_for_completion(&adap->config_completion);
+>>                  mutex_lock(&adap->lock);
+>>          }
+>> +       adap->is_claiming_log_addrs = false;
+>>  }
+>>
+>>  /*
+>> diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+>> index 67dc79ef1705..3ef915344304 100644
+>> --- a/drivers/media/cec/core/cec-api.c
+>> +++ b/drivers/media/cec/core/cec-api.c
+>> @@ -178,7 +178,7 @@ static long cec_adap_s_log_addrs(struct cec_adapter *adap, struct cec_fh *fh,
+>>                             CEC_LOG_ADDRS_FL_ALLOW_RC_PASSTHRU |
+>>                             CEC_LOG_ADDRS_FL_CDC_ONLY;
+>>          mutex_lock(&adap->lock);
+>> -       if (!adap->is_configuring &&
+>> +       if (!adap->is_claiming_log_addrs && !adap->is_configuring &&
+>>              (!log_addrs.num_log_addrs || !adap->is_configured) &&
+>>              !cec_is_busy(adap, fh)) {
+>>                  err = __cec_s_log_addrs(adap, &log_addrs, block);
+>> @@ -664,6 +664,8 @@ static int cec_release(struct inode *inode, struct file *filp)
+>>                  list_del_init(&data->xfer_list);
+>>          }
+>>          mutex_unlock(&adap->lock);
+>> +
+>> +       mutex_lock(&fh->lock);
+>>          while (!list_empty(&fh->msgs)) {
+>>                  struct cec_msg_entry *entry =
+>>                          list_first_entry(&fh->msgs, struct cec_msg_entry, list);
+>> @@ -681,6 +683,7 @@ static int cec_release(struct inode *inode, struct file *filp)
+>>                          kfree(entry);
+>>                  }
+>>          }
+>> +       mutex_unlock(&fh->lock);
+>>          kfree(fh);
+>>
+>>          cec_put_device(devnode);
+>> diff --git a/include/media/cec.h b/include/media/cec.h
+>> index 10c9cf6058b7..cc3fcd0496c3 100644
+>> --- a/include/media/cec.h
+>> +++ b/include/media/cec.h
+>> @@ -258,6 +258,7 @@ struct cec_adapter {
+>>          u16 phys_addr;
+>>          bool needs_hpd;
+>>          bool is_enabled;
+>> +       bool is_claiming_log_addrs;
+>>          bool is_configuring;
+>>          bool must_reconfigure;
+>>          bool is_configured;
+>>
 
 
