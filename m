@@ -1,329 +1,339 @@
-Return-Path: <linux-media+bounces-9897-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9898-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07738AE221
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:27:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5A88AE290
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:45:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60B302832CC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 10:27:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F8721C218F9
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 10:45:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CBFF626DD;
-	Tue, 23 Apr 2024 10:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB43365191;
+	Tue, 23 Apr 2024 10:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOjILEbm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYrMYQyH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1632F60267
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 10:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2F2208D7;
+	Tue, 23 Apr 2024 10:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713868040; cv=none; b=HgpHupMdrRpOmGtNVXVa00oeG7HDyP6FYhNmXXB98hcI+65ivniO+riCDu0R7GYkT3nfXJQVXfD/eHpijiaWMqbZO3uHNGymFZB2LgLN8RA0FsxByVrf5zF4Lpdf579ZGQgLre9W6BxetfQXCUb3YbmgF1gwnq3gn3CvdwtX0os=
+	t=1713869147; cv=none; b=GF1SuUZynJUsoX+ouAqPvgmES41rjPnzFbUCwSpwq5YYc+en6B9kMFv9x226vA/8fmok3Q1dGTV6zTkYWgceATwVGpvnPjVhgVg2+bDkItMc5m1ItqA6vXLwzVcFUU51Ex25/egjKiHmSTLiLy5Sj7bJ8HdQa7c8v9izgX7fcV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713868040; c=relaxed/simple;
-	bh=u8rQjOv+9VXx5fMsSzKBcfdMk7M9kgw1aoL/hXBovzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cUM1y3tFZdzMbl/UJCbYelI9cN7ZjPPMqy5LMisfA6f50I21MI88bO2vtyhXOnvKPipZhCg59SlK/NPcDZw6pjvm21LAJiO7I+WuqeMGFEio1ePafGyfVYeCykxznLTqNEC9U4vMyXhkj237UqcGidVFQ2IFamWCJxpkQ+1cHOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOjILEbm; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713868038; x=1745404038;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u8rQjOv+9VXx5fMsSzKBcfdMk7M9kgw1aoL/hXBovzo=;
-  b=KOjILEbmO8kCTFv2QMkEFMSHUopT9S03FE6L8KS11bvN5vnXbr4nIoM3
-   qncCsoXm1ZoNXncYnxXV2rLcKGfnYP+6moe6GG612RZm2nlvPfk2/7MBW
-   Dr9G3xKpp8t9jdp67I+HEwqN6jgzhFjsHPlC51W9Umsb30R1jkKEEPSeV
-   5HrkoEPYEcm/RiYPR6tD5xSghQR/knm6nlTdshg7F0Mu6uyp4bDBF4hIJ
-   9OCVkZ1q3XCLKLGszx4VLi65HhovrgDr6TYJMLaM7xlZbIdVVpdrzV3VZ
-   oBp8nXHeo/TBEQbgk1T6nOcW+kU/nXK+XeeL3QiC8nes6J9TdySHPOECw
-   Q==;
-X-CSE-ConnectionGUID: 7nPu8mgQS6eezj4KIq0lNg==
-X-CSE-MsgGUID: 1QMoqWSKS1S8xRzE/uY7ng==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13229493"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="13229493"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 03:27:17 -0700
-X-CSE-ConnectionGUID: LaXJlFYMR+OVevC9KqQA0A==
-X-CSE-MsgGUID: YhvXM9fsSSGeNdH8JGUQcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="55278809"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 03:27:14 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C99DE11FCCF;
-	Tue, 23 Apr 2024 13:27:11 +0300 (EEST)
-Date: Tue, 23 Apr 2024 10:27:11 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 10/46] media: Documentation: v4l: Document internal
- sink pads
-Message-ID: <ZieM_xjmWxdcBx5r@kekkonen.localdomain>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-11-sakari.ailus@linux.intel.com>
- <20240419184926.GI6414@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1713869147; c=relaxed/simple;
+	bh=GNJt1x707bQQyMarMBdIDQU/LMffOY0NsouaChV/ZWc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KvTRS9Rib8vwKE+vc7jBr5SrKKyFmzJEO4vgPsATL0WjXEWCZ23GvkuEKONXYJ2Mbj910bB+ojEKZuMFDSQiriYLi9wWYRVVPB5kbEp0Ia2WQrQflUYMQyqhHRhDUqYZgmwfhYowXIuC6V/BpbNiGPeipmWrRPgwdAuiKqSdszQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYrMYQyH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FA1C116B1;
+	Tue, 23 Apr 2024 10:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713869146;
+	bh=GNJt1x707bQQyMarMBdIDQU/LMffOY0NsouaChV/ZWc=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SYrMYQyHyryNLyJB9SDNUFIpzJLDspEPpcmd7yw7isJbB1k1uwJ3iZSkEn15wXcRv
+	 /yEuQ6k5tGnK2jDf0fLB2voizdtS46iqABdbNFkM9PX0Go47qP6g9Y9/CRjP9x8EEh
+	 saYt7V1CtfUFiktym0SA++8NZR3vuMn9nkMaVX4jHjfAKFFRWJ0kzLSYP7B/5RkSHE
+	 SFHL+0LJJrXQvUUzZjSHqTdrh23X7Vg4p1ovLfTUF/HaX6T7QUS/059TMXgo5FnEFl
+	 PchMEevZjp/DrwdFLDDhoOiQMd1QKCEmdE9+5CSFDj3vhlv7x4dlNcl/F1QFBEPYUn
+	 lNQ9Ay4hJpwDg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v12 00/28] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 23 Apr 2024 12:45:29 +0200
+Message-Id: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240419184926.GI6414@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAEmRJ2YC/43SzWrDMAwA4FcpOc/DkmxZ3mnvMXZI/dOGrgkkJ
+ TBK333uYEuHwewkLOHPEta1W9I8pKV72V27Oa3DMkxjOQA+7bpw7MdDUkMsiQ41khYw6nRe1DG
+ eBxWmcUzhMs1qufSXpBjYiUvsPLquXD8OSyl+ftMrlPD2D2QFpZU2oq2Jmdia11Oax/TxPM2H7
+ r2oK26SR92QsEjgPGHsY4wuVhL9SqAJGhIViVD2OvfJUO8qyWwSoDQkU6TgWCNYIc2pkuwmoXY
+ NyRaJLUkCH5lMPR3/SKa8hg2Ji5TNPsTgnU+cK8k9SNiSXJEkmz5bZ3NIWEmySdScToqUMvecC
+ TybfSX5Bwlaf+eLFI0VrwmJTL1PoB8obFGg711xACfEIF5qCx4tbln3PQ+WReccMjL8sW632xd
+ MchV2mgMAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11506; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=GNJt1x707bQQyMarMBdIDQU/LMffOY0NsouaChV/ZWc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGnqE72eX9CbasZo+tC/jemc0NVoq4bzT5+ZLNNa07Uh+
+ Oh/meLMjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCROFbGhn96977EJVxNuB/A
+ 6R266MvH80dOfTir5mbAL9qzukBSrt39YFvmuw3e8d/npq5r5V7IwFgrG7xhw4bLMU7dqz92hYm
+ JHpy43SaRIe2A7ba5R+x+iRW6vtXbx2Xx7pnZ1hnPJ3Vn/zEEAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Hi Laurent,
+Hi,
 
-Thanks for the review!
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-On Fri, Apr 19, 2024 at 09:49:26PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Apr 16, 2024 at 10:32:43PM +0300, Sakari Ailus wrote:
-> > Document internal sink pads, pads that have both SINK and INTERNAL flags
-> > set. Use the IMX219 camera sensor as an example.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by Julien Massot <julien.massot@collabora.com>
-> > ---
-> >  .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
-> >  1 file changed, 145 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index b76e02e54512..d30dcb9e2537 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
-> >  sub-device and a (pad, stream) pair. For sub-devices that do not support
-> >  multiplexed streams the 'stream' field is always 0.
-> >  
-> > +.. _v4l2-subdev-internal-source-pads:
-> > +
-> > +Internal sink pads and routing
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Cases where a single sub-device source pad is traversed by multiple streams, one
-> > +or more of which originate from within the sub-device itself, are special as
-> > +there is no external sink pad for such routes. In those cases, the sources of
-> > +the internally generated streams are represented by internal sink pads, which
-> > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-> > +pad flag set.
-> > +
-> > +Internal pads have all the properties of an external pad, including formats and
-> > +selections. The format in this case is the source format of the stream. An
-> > +internal pad always has a single stream only (0).
-> > +
-> > +Routes from an internal sink pad to an external source pad are typically not
-> > +modifiable but they can be activated and deactivated using the
-> > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
-> > +on driver capabilities.
-> > +
-> >  Interaction between routes, streams, formats and selections
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >  
-> > @@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
-> >     the configurations along the stream towards the receiver, using
-> >     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
-> >     stream endpoint in each sub-device.
-> > +
-> > +Internal pads setup example
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +A simple example of a multiplexed stream setup might be as follows:
-> > +
-> > +- An IMX219 camera sensor source sub-device, with one source pad (0), one
-> > +  internal sink pad (1) as the source of the image data and an internal sink
-> > +  pad (2) as the source of the embedded data. There are two routes, one from the
-> > +  internal sink pad 1 to the source 0 (image data) and another from the internal
-> 
-> s/source 0/source pad 0/
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-Yes.
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-> 
-> > +  sink pad 2 to the source pad 0 (embedded data). Both streams are always
-> > +  active, i.e. there is no need to separately enable the embedded data
-> > +  stream. The sensor uses the CSI-2 interface.
-> > +
-> > +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
-> > +  connected to the sensor, and two source pads (pads 1 and 2), to the DMA
-> > +  engine. The receiver demultiplexes the incoming streams to the source pads.
-> 
-> s/engine/engines/
-> 
-> maybe better, "to two DMA engines".
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
-"to the two DMA engines".
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
-> 
-> > +
-> > +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
-> > +  single source pad of the receiver.
-> > +
-> > +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
-> > +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
-> > +V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> > +
-> > +To configure this pipeline, the userspace must take the following steps:
-> > +
-> > +1) Set up media links between entities: enable the links from the sensor to the
-> > +   receiver and from the receiver to the DMA engines. This step does not differ
-> > +   from normal non-multiplexed media controller setup.
-> > +
-> > +2) Configure routing
-> > +
-> > +.. flat-table:: Camera sensor. There are no configurable routes.
-> > +    :header-rows: 1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 1/0
-> > +      - 0/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from the sink pad
-> 
-> "from the internal image sink pad"
-> 
-> > +    * - 2/0
-> > +      - 0/1
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Metadata stream from the internal sink pad
-> 
-> "internal embedded data sink pad"
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
-Yes...
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
 
-> 
-> > +
-> > +.. flat-table:: Receiver routing table. Typically both routes need to be
-> > +		explicitly set.
-> > +    :header-rows:  1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 0/0
-> > +      - 1/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from camera sensor
-> > +    * - 0/1
-> > +      - 2/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Metadata stream from camera sensor
-> > +
-> > +The options available in sensor's routing configuration are dictated by hardware
-> 
-> s/in sensor/in the sensor/
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
 
-Agreed.
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
 
-> 
-> > +capabilities: typically camera sensors always produce an image data stream while
-> > +it may be possible to enable and disable the embedded data stream.
-> 
-> Should this go after the first table ?
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
 
-I'll move it there.
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
 
-> 
-> > +
-> > +3) Configure formats and selections
-> > +
-> > +   This example assumes that the formats are propagated from sink pad to the
-> > +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
-> > +   and struct v4l2_mbus_framefmt.
-> > +
-> > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-> > +                static or propagated. The order is aligned with configured
-> > +                routes.
-> > +    :header-rows: 1
-> > +    :fill-cells:
-> > +
-> > +    * - Sub-device
-> > +      - Pad/Stream
-> > +      - Width
-> > +      - Height
-> > +      - Code
-> > +    * - :rspan:`3` IMX219
-> > +      - 1/0
-> > +      - 3296
-> > +      - 2480
-> > +      - MEDIA_BUS_FMT_SRGGB10
-> > +    * - 0/0
-> > +      - **3296**
-> > +      - **2480**
-> > +      - **MEDIA_BUS_FMT_SRGGB10**
-> > +    * - 2/0
-> > +      - 3296
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_IMX219_EMBEDDED
-> 
-> We need a patch in this series to define this format.
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
 
-I'm waiting for your imx290 patches. :-)
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
 
-> 
-> > +    * - 1/1
-> 
-> I think this should be 0/1.
+Let me know what you think,
+Maxime
 
-Good catch.
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Sandy Huang <hjc@rock-chips.com>
+To: Heiko Stübner <heiko@sntech.de>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-> 
-> > +      - 3296
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_META_10
-> > +    * - :rspan:`3` CSI-2 receiver
-> > +      - 0/0
-> > +      - **3296**
-> > +      - **2480**
-> > +      - **MEDIA_BUS_FMT_SRGGB10**
-> > +    * - 1/0
-> > +      - 3296
-> > +      - 2480
-> > +      - MEDIA_BUS_FMT_SRGGB10
-> > +    * - 0/1
-> > +      - **3296**
-> > +      - **2**
-> > +      - **MEDIA_BUS_FMT_META_10**
-> > +    * - 2/0
-> > +      - 3296
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_META_10
-> > +
-> > +The embedded data format does not need to be configured as the format is
-> 
-> Do you mean the "format on the sensor's pads" ? It's a bit confusing if
-> you don't specify it.
+Changes in v12:
+- Rebase on current drm-misc-next
+- Remove VIC check in clock rate computation function
+- Invert RGB range logic to signal limited range instead of full like
+  before
+- Link to v11: https://lore.kernel.org/r/20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org
 
-That's what was meant, I'll add that.
+Changes in v11:
+- Turn the HDMI state helpers into a separate C file under
+  drivers/gpu/drm/display
+- Rework the Kconfig options too to prevent configuration breakages.
+- Link to v10: https://lore.kernel.org/r/20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org
 
-> 
-> > +dictated by the pixel data format in this case.
-> 
+Changes in v10:
+- Drop the YUV422 fallback, and adjust the tests accordingly
+- Fix HDMI infoframe handling
+- Remove the infoframe copy in drm_connector
+- Add a TODO that drm_hdmi_avi_infoframe_quant_range() only works for
+  RGB
+- Add a TODO for the YUV420 selection
+- Fix a few bugs in vc4
+- Change the logging from driver to KMS for the helpers
+- Drop UPDATE_INFOFRAME macro
+- Add infoframe code logging
+- Document the selection of 8bpc for VIC1
+- Rename state to conn_state where relevant
+- Link to v9: https://lore.kernel.org/r/20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org
 
+Changes in v9:
+- Generate every infoframe but the HDMI vendor one if has_hdmi_infoframe
+  isn't set
+- Fix typos in the doc
+- Removed undef for inexisting macro
+- Improve the Broadcast RGB sanitation test
+- Make EDID bytes array const
+- Link to v8: https://lore.kernel.org/r/20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org
+
+Changes in v8:
+- Drop applied patches
+- Drop the YUV limited range mention in the Broadcast RGB documentation
+- Rephrase the vc4_dummy_plane removal commit log
+- Move infroframe mutex initialisation to the main drm_connector_init
+  function to make sure it's always initialised
+- Link to v7: https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+Changes in v7:
+- Rebased on top of current next
+- Only consider the Broadcast RGB property if the output format is RGB,
+  and use a limited range otherwise
+- Document the fact that Broadcast RGB only applies if the output format
+  is RGB
+- Add some test to make sure we always get a limited range if we have a
+  YCbCr output format.
+- Link to v6: https://lore.kernel.org/r/20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org
+
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (28):
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/mode_object: Export drm_mode_obj_find_prop_id for tests
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/display: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/display/Kconfig                    |    8 +
+ drivers/gpu/drm/display/Makefile                   |    2 +
+ drivers/gpu/drm/display/drm_hdmi_helper.c          |   57 +
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  696 ++++++++
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  194 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  152 ++
+ drivers/gpu/drm/drm_mode_object.c                  |    1 +
+ drivers/gpu/drm/rockchip/Kconfig                   |    1 +
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  143 +-
+ drivers/gpu/drm/sun4i/Kconfig                      |    1 +
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   80 +-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1032 +++++++++++-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 1743 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/vc4/Kconfig                        |    1 +
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  644 +-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/display/drm_hdmi_helper.h              |    4 +
+ include/drm/display/drm_hdmi_state_helper.h        |   23 +
+ include/drm/drm_connector.h                        |  229 +++
+ 29 files changed, 4851 insertions(+), 769 deletions(-)
+---
+base-commit: 069a6c0e94f99437652dbb7229a56233c7d39968
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
 -- 
-Regards,
+Maxime Ripard <mripard@kernel.org>
 
-Sakari Ailus
 
