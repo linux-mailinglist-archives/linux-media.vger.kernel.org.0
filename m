@@ -1,84 +1,121 @@
-Return-Path: <linux-media+bounces-9894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FD18AE16B
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 11:54:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9554F8AE172
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 11:55:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9657F1C21A84
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 09:54:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D467282469
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 09:55:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 163E25CDF2;
-	Tue, 23 Apr 2024 09:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 641885FB95;
+	Tue, 23 Apr 2024 09:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FuMa7rIl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EU0IyxtI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBBC56772
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 09:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93055CDE6
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 09:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713866080; cv=none; b=mjMhTLeRFvl+1Y5xjPqhf9956dOZcNc3hYJPveHdQwkatRfzEGRVw1wMkbz3/Gs8F93VtLzKksDP82ypVVHtxfd3FUY845QyS6IXdGjQF6jfRIaOa2DgObVWEdUyCl4LL9ju18qFamhETTPLmYytsD/I568MvMNfIwa5lY3zfDo=
+	t=1713866133; cv=none; b=Hrp2FnjjtYHXQU1QM2kXzEpgU6ktPHe3qdOthNuYL5pbDk7vSC3sGiDgbBgW3ikCbPwoAIMjjRpTcjOg1ZOc7RBRjPzh2TVBXk6wY2DlqWDuH1Ohye0+a7xTXOUNcAjJJ/u9wgLLDTexv0IuRJSVyLaNXMu82H+jWQHvm2STMC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713866080; c=relaxed/simple;
-	bh=80EKvG5BsQfj1mawr3AIGKPayBIvkGU/HMs1QFhPJ18=;
+	s=arc-20240116; t=1713866133; c=relaxed/simple;
+	bh=vO2U7XlqO7Gm+bvUty2YvXkuYegSrXjqBIpxt5idPTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCdOTKJ4abpE1TlqF7ezDM5l8YLg+k8Y+vTLwJ14cn5tn9SYIy7UB3trQGIptIMCu1QeQKWeoVIJMPF15XBozFTNYqheph9FR/UUIoRc3qfn80lZ2INuXSfwIB9a0gjvK+9txLe9I+aDjJsHR9HLz6XJScepJHcin5m8onzGq60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FuMa7rIl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713866078; x=1745402078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=80EKvG5BsQfj1mawr3AIGKPayBIvkGU/HMs1QFhPJ18=;
-  b=FuMa7rIl/VmjFrK7L9EektPtPx/kzzPEIdlnnT8QGUSVO0HZppA91usB
-   p1mVvAxfeLT8MnxFNAa1fWZ4PDd9uhS2gPlao5bapKCKbOaCLoLBkrDxD
-   RunbD2uVtZZ+jvj+YdPHtwoD8JEqDLjoZTmPqrbMAjusXY20e+sJNejSy
-   5OSnbkUy1udaoOgf4A+olZ5wjPea4SjKulolNJWeDXEIMZxdeDZxbenGe
-   AuhR7QZ261OOa2pMLTqqvheNpYgH3z1hDxc1mrH1KXf0xH6hrSjtUR1vv
-   xg7c743U8KWumXrS62zVJXIKMqCwsYK3+Xv5GWybUlluAwDZQSgYgja+a
-   w==;
-X-CSE-ConnectionGUID: EdV6Mzn0SOuAzt+QzdVAXw==
-X-CSE-MsgGUID: iaJYEbYqRvKIzxvD3ixJ1A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="31931603"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="31931603"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 02:54:38 -0700
-X-CSE-ConnectionGUID: yN4yXl/RT4KHPTEvovzrcg==
-X-CSE-MsgGUID: oHmCNSzHS/CJ06CWOYd0ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24378504"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 02:54:35 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3217B11FCCF;
-	Tue, 23 Apr 2024 12:54:32 +0300 (EEST)
-Date: Tue, 23 Apr 2024 09:54:32 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 06/46] media: uapi: v4l: Add generic 8-bit metadata
- format definitions
-Message-ID: <ZieFWDIcHoayN2tB@kekkonen.localdomain>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-7-sakari.ailus@linux.intel.com>
- <20240419162619.GF6414@pendragon.ideasonboard.com>
- <Ziddmv3dSvEr0SDp@kekkonen.localdomain>
- <20240423072515.GA2134@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkXMa/2iHiaTpnTzBwCOuZoakgqJLxGf0YocEpgy8hLRKyRMSynIMTnZ0wVd95vJ5WPd6orQKMCi6ooqjPmXDGKqw0avEVaG7N7n2ON380ekviVw8XOYCJPwXHTJnAXk+0TwePkLwppVmBFQ+f7lemXkIcYtQJNB8EJoJBnJ7ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EU0IyxtI; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-516d2b9cd69so6619506e87.2
+        for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713866130; x=1714470930; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PoZeq6WcMiA51J+rv15DHhi85i73xIx4cQAhZD3lUPo=;
+        b=EU0IyxtI26jWGtU0qnkFsrZOsCrj4f9Y5Ussn2dZGhPxaAy6GxlODQORX2eLOhECA9
+         rEFdsEm+aGwarxqG09WeAA9Je0Gi0ZOvbt4NTEhm7s0NgFVjyzmT1WQzutzJYS8FaWLa
+         m/5r5ImlbtkP+5FjZmjZb/CK8ZQqRmExHr0DgaVgKfmPrXKskl15Er/NynaeTQ2r0O71
+         qLm9yHIjJNB3j7gO3HclyI4YqKX/KBEvM7nrmKB7+zjLcDnlvVI+L4vuM8tNiI0NQu1Y
+         PueUGlfy9GYKpCQtYRcTA2HR/mziC8C9n0R2aa1TfW8bRlat1WxIMGk6i9Fp0OI+6Sn0
+         wfHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713866130; x=1714470930;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PoZeq6WcMiA51J+rv15DHhi85i73xIx4cQAhZD3lUPo=;
+        b=JINnx99vCNYstE7WYLhUXTTj0u9apjdDy1mK9MnhzE3FAr4mLGGECwwr2x3R1sSKJR
+         mUUR6fUZvpVt30XEwqHqx+8k5L4QYqSSPHyrbuNNSzEMjp7ptvxXCs5JOtpCU08ZjOfY
+         p/Y+D2oCacBejNzlOjk9EGmFkp18ETQ4OR4du8gEM8IyN5ACjR1V59hTcrWr6aRdLfzJ
+         rlUEDJ0gI6vm4yH2u2aVZ3n79hEFwXTFjfp1ulo5+U0WKW3WnOEpTZQE1eRYw0WBVBXC
+         4mumq6jSRmkQnmrrUqy0jGofJyh383P5sa2zbGyqbRGm38UWb+1uuTueeROO04FiWxJE
+         zupg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZrE46KmkYUBUgVadddVTpKPxcrEkhy4mZs42nLa/nGNQlyb/OsWhHvQfyXrEHiP3ozsmwtQ4A9cW8gd3CTjSjWJ9hhL7d4RA/eok=
+X-Gm-Message-State: AOJu0Yz/hs6zqeXMRC5NRhWH/RW2Wg7XnmB5uwR0QyOAVw0sLtrIaaIf
+	NSXrZdsghIFF8jqEU+CrD1etXBi/WE5+5u3l5erkwwh6WFYHxTI3wqDoDnTrgX0=
+X-Google-Smtp-Source: AGHT+IE2be/A2B9Zfosf92aNBL2ISTmwauZ9dpIkfUZzfkmeDva07wFk+gPwquGCL+lgiJ80Cvxjig==
+X-Received: by 2002:ac2:5e75:0:b0:519:5df9:d945 with SMTP id a21-20020ac25e75000000b005195df9d945mr7080951lfr.4.1713866129675;
+        Tue, 23 Apr 2024 02:55:29 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id i9-20020a170906090900b00a55b05c4598sm2829865ejd.133.2024.04.23.02.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Apr 2024 02:55:28 -0700 (PDT)
+Date: Tue, 23 Apr 2024 12:55:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 23/35] media: dvb-frontends: tda10048: Use the right div
+Message-ID: <9ba7f4e6-2b8b-44a3-9cac-9ed6e50f1700@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-23-477afb23728b@chromium.org>
+ <97f51ae8-6672-4bd4-b55b-f02114e3d8d0@moroto.mountain>
+ <7a8d403b-8baf-4eff-8f9c-69cdcb8b2180@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,497 +124,153 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423072515.GA2134@pendragon.ideasonboard.com>
+In-Reply-To: <7a8d403b-8baf-4eff-8f9c-69cdcb8b2180@moroto.mountain>
 
-Hi Laurent,
+Btw, here is the output from my check (based on linux next from a few
+days ago).  There are some false positives because Smatch parses
+__pow10() incorrectly etc but it's mostly correct.
 
-On Tue, Apr 23, 2024 at 10:32:37AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Tue, Apr 23, 2024 at 07:04:58AM +0000, Sakari Ailus wrote:
-> > On Fri, Apr 19, 2024 at 07:26:19PM +0300, Laurent Pinchart wrote:
-> > > On Tue, Apr 16, 2024 at 10:32:39PM +0300, Sakari Ailus wrote:
-> > > > Generic 8-bit metadata formats define the in-memory data layout but not
-> > > > the format of the data itself. The reasoning for having such formats is to
-> > > > allow CSI-2 receiver drivers to receive and DMA drivers to write the data
-> > > > to memory without knowing a large number of device-specific formats.
-> > > > 
-> > > > These formats may be used only in conjunction with a Media controller
-> > > 
-> > > "Media Controller" or "media controller"
-> > 
-> > Yes.
-> > 
-> > > > pipeline where the internal pad of the source sub-device defines the
-> > > > specific format of the data (using an mbus code).
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
-> > > >  .../userspace-api/media/v4l/meta-formats.rst  |   3 +-
-> > > >  .../media/v4l/metafmt-generic.rst             | 328 ++++++++++++++++++
-> > > >  drivers/media/v4l2-core/v4l2-ioctl.c          |   7 +
-> > > >  include/uapi/linux/videodev2.h                |   8 +
-> > > >  5 files changed, 347 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > index 43988516acdd..f375b820ab68 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > @@ -506,6 +506,8 @@ source pads.
-> > > >  
-> > > >      subdev-formats
-> > > >  
-> > > > +.. _subdev-routing:
-> > > > +
-> > > >  Streams, multiplexed media pads and internal routing
-> > > >  ----------------------------------------------------
-> > > >  
-> > > > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > index 0bb61fc5bc00..c23aac823d2c 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > @@ -13,9 +13,10 @@ These formats are used for the :ref:`metadata` interface only.
-> > > >      :maxdepth: 1
-> > > >  
-> > > >      metafmt-d4xx
-> > > > +    metafmt-generic
-> > > >      metafmt-intel-ipu3
-> > > >      metafmt-rkisp1
-> > > >      metafmt-uvc
-> > > > +    metafmt-vivid
-> > > >      metafmt-vsp1-hgo
-> > > >      metafmt-vsp1-hgt
-> > > > -    metafmt-vivid
-> > > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > new file mode 100644
-> > > > index 000000000000..cba34be64dfe
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > @@ -0,0 +1,328 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > > > +
-> > > > +********************************************************************************************************************************************************************************************************************************************************************************
-> > > > +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O')
-> > > > +********************************************************************************************************************************************************************************************************************************************************************************
-> > > > +
-> > > > +
-> > > > +Generic line-based metadata formats
-> > > > +
-> > > > +
-> > > > +Description
-> > > > +===========
-> > > > +
-> > > > +These generic line-based metadata formats define the memory layout of the data
-> > > > +without defining the format or meaning of the metadata itself. These formats may
-> > > > +only be used with a Media Controller pipeline where the more specific format is
-> > > > +reported by an :ref:`internal sink pad <MEDIA-PAD-FL-INTERNAL>` of the source
-> > > > +sub-device. See also :ref:`source routes <subdev-routing>`.
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-8:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_8
-> > > > +-----------------------
-> > > > +
-> > > > +The V4L2_META_FMT_GENERIC_8 format is a plain 8-bit metadata format.
-> > > > +
-> > > > +This format is also used on CSI-2 for both 8 bits per ``Data Unit
-> > > > +<media-glossary-data-unit>`` as well as for 16 bits per Data Unit when two bytes
-> > > > +of metadata are packed into one 16-bit Data Unit.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_8.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - M\ :sub:`10`
-> > > > +      - M\ :sub:`20`
-> > > > +      - M\ :sub:`30`
-> > > > +    * - start + 4:
-> > > > +      - M\ :sub:`01`
-> > > > +      - M\ :sub:`11`
-> > > > +      - M\ :sub:`21`
-> > > > +      - M\ :sub:`31`
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-10:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_10
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_10 contains 8-bit generic metadata packed in 10-bit
-> > > > +Data Units, with one padding byte after every four bytes of metadata. This
-> > > > +format is typically used by CSI-2 receivers with a source that transmits
-> > > > +MEDIA_BUS_FMT_META_10 and the CSI-2 receiver writes the received data to memory
-> > > > +as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > > +
-> > > > +This format is also used in conjunction with 20 bits per ``Data Unit
-> > > 
-> > > s/in conjunction with/for/
-> > > 
-> > > Same below.
-> > 
-> > That is shorter but is it better?
-> 
-> I think it's simpler and thus clearer. Up to you.
+regards,
+dan carpenter
 
-The relation is indirect so I prefer the original text.
-
-> 
-> > > > +<media-glossary-data-unit>`` formats that pack two bytes of metadata into one
-> > > > +Data Unit.
-> > > 
-> > > How about adding a mention of MEDIA_BUS_FMT_META_20 here ? The CCS
-> > > specification calls this "RAW20 (with more optimal RAW10 packing)",
-> > > using the same vocabulary could help. Same for
-> > > V4L2_META_FMT_GENERIC_CSI2_12, and actually V4L2_META_FMT_GENERIC_8 too.
-> > 
-> > Is it useful? It's the same as 10-bit packing after all.
-> 
-> I think cross-referencing the two entries that can be used to transmit
-> metadata for the same image format is useful. 
-> 
-> > RAW20 in CCS refers to image data.
-> 
-> The wording I quoted comes from the CCS specification :-) Using the same
-> terms as in the spec would help in my opinion.
-
-RAW20 still refers to image data and we don't use that term in V4L2
-documentation elsewhere. In the CCS spec the connection between the two is
-stronger than in V4L2 as we support a number of different formats.
-
-But I can mention the other format.
-
-> 
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_10.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - M\ :sub:`10`
-> > > > +      - M\ :sub:`20`
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +    * - start + 5:
-> > > > +      - M\ :sub:`01`
-> > > > +      - M\ :sub:`11`
-> > > > +      - M\ :sub:`21`
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-12:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_12
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_12 contains 8-bit generic metadata packed in 12-bit
-> > > > +Data Units, with two padding bytes after every four bytes of metadata. This
-> > > 
-> > > Isn't it one padding byte every two bytes of metadata ?
-> > 
-> > Uh, yes. This was mistakenly copied from text for a different bpp.
-> > 
-> > > > +format is typically used by CSI-2 receivers with a source that transmits
-> > > > +MEDIA_BUS_FMT_META_12 and the CSI-2 receiver writes the received data to memory
-> > > > +as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > > +
-> > > > +This format is also used in conjunction with 24 bits per ``Data Unit
-> > > > +<media-glossary-data-unit>`` formats that pack two bytes of metadata into one
-> > > > +Data Unit.
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_12.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - M\ :sub:`10`
-> > > > +      - x
-> > > > +      - M\ :sub:`20`
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +    * - start + 6:
-> > > > +      - M\ :sub:`01`
-> > > > +      - M\ :sub:`11`
-> > > > +      - x
-> > > > +      - M\ :sub:`21`
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-14:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_14
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_14 contains 8-bit generic metadata packed in 14-bit
-> > > > +Data Units, with three padding bytes after every four bytes of metadata. This
-> > > > +format is typically used by CSI-2 receivers with a source that transmits
-> > > > +MEDIA_BUS_FMT_META_14 and the CSI-2 receiver writes the received data to memory
-> > > > +as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_14.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - M\ :sub:`10`
-> > > > +      - M\ :sub:`20`
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - x
-> > > > +    * - start + 7:
-> > > > +      - M\ :sub:`01`
-> > > > +      - M\ :sub:`11`
-> > > > +      - M\ :sub:`21`
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - x
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-16:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_16
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_16 contains 8-bit generic metadata packed in 16-bit
-> > > > +Data Units, with one padding byte after every byte of metadata. This format is
-> > > > +typically used by CSI-2 receivers with a source that transmits
-> > > > +MEDIA_BUS_FMT_META_16 and the CSI-2 receiver writes the received data to memory
-> > > > +as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > 
-> > > Here you could also mention that more optimal packing schemes for
-> > > MEDIA_BUS_FMT_META_16 use V4L2_META_FMT_GENERIC_8. Same below.
-> > 
-> > The "more optimal packing scheme" is really a different format. There's no
-> > other relation between these, really. I wouldn't mention it here. A driver
-> > would enumerate both for metadata when they're supported.
-> 
-> It's a different format, but the two are linked to the same image
-> format. That's why I think it's useful to cross-reference them.
-
-I can add that.
-
-> 
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_16.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - x
-> > > > +      - M\ :sub:`10`
-> > > > +      - x
-> > > > +      - M\ :sub:`20`
-> > > > +      - x
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +    * - start + 8:
-> > > > +      - M\ :sub:`01`
-> > > > +      - x
-> > > > +      - M\ :sub:`11`
-> > > > +      - x
-> > > > +      - M\ :sub:`21`
-> > > > +      - x
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-20:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_20
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_20 contains 8-bit generic metadata packed in 20-bit
-> > > > +Data Units, with alternating one or two padding bytes after every byte of
-> > > > +metadata. This format is typically used by CSI-2 receivers with a source that
-> > > > +transmits MEDIA_BUS_FMT_META_20 and the CSI-2 receiver writes the received data
-> > > > +to memory as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_20.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - x
-> > > > +      - M\ :sub:`10`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`20`
-> > > > +      - x
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +      - x
-> > > > +    * - start + 10:
-> > > > +      - M\ :sub:`01`
-> > > > +      - x
-> > > > +      - M\ :sub:`11`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`21`
-> > > > +      - x
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +      - x
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-24:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_24
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_24 contains 8-bit generic metadata packed in 24-bit
-> > > > +Data Units, with two padding bytes after every byte of metadata. This format is
-> > > > +typically used by CSI-2 receivers with a source that transmits
-> > > > +MEDIA_BUS_FMT_META_24 and the CSI-2 receiver writes the received data to memory
-> > > > +as-is.
-> > > > +
-> > > > +The packing of the data follows the MIPI CSI-2 specification and the padding of
-> > > > +the data is defined in the MIPI CCS specification.
-> > > > +
-> > > > +This format is little endian.
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_24.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-> > > > +
-> > > > +.. flat-table:: Sample 4x2 Metadata Frame
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8 8 8 8 8 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`10`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`20`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`30`
-> > > > +      - x
-> > > > +      - x
-> > > > +    * - start + 12:
-> > > > +      - M\ :sub:`01`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`11`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`21`
-> > > > +      - x
-> > > > +      - x
-> > > > +      - M\ :sub:`31`
-> > > > +      - x
-> > > > +      - x
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > index 5aeff5519407..ae2dca7f2817 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > @@ -1460,6 +1460,13 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> > > >  	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
-> > > >  	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
-> > > >  	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_8:	descr = "8-bit Generic Metadata"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_10:	descr = "8-bit Generic Meta, 10b CSI-2"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_12:	descr = "8-bit Generic Meta, 12b CSI-2"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_14:	descr = "8-bit Generic Meta, 14b CSI-2"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_16:	descr = "8-bit Generic Meta, 16b CSI-2"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_20:	descr = "8-bit Generic Meta, 20b CSI-2"; break;
-> > > > +	case V4L2_META_FMT_GENERIC_CSI2_24:	descr = "8-bit Generic Meta, 24b CSI-2"; break;
-> > > >  
-> > > >  	default:
-> > > >  		/* Compressed formats */
-> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > > > index 2663213b76a4..c7cf20b5da67 100644
-> > > > --- a/include/uapi/linux/videodev2.h
-> > > > +++ b/include/uapi/linux/videodev2.h
-> > > > @@ -839,6 +839,14 @@ struct v4l2_pix_format {
-> > > >  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
-> > > >  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
-> > > >  
-> > > > +#define V4L2_META_FMT_GENERIC_8		v4l2_fourcc('M', 'E', 'T', '8') /* Generic 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'C', '1', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'C', '1', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'C', '1', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_16	v4l2_fourcc('M', 'C', '1', 'G') /* 16-bit CSI-2 packed 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'C', '1', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
-> > > > +#define V4L2_META_FMT_GENERIC_CSI2_24	v4l2_fourcc('M', 'C', '1', 'O') /* 24-bit CSI-2 packed 8-bit metadata */
-> > > > +
-> > > >  /* priv field value to indicates that subsequent fields are valid. */
-> > > >  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
-> > > >  
-
--- 
-Kind regards,
-
-Sakari Ailus
+drivers/mtd/spi-nor/core.c:2896 spi_nor_late_init_params() warn: unnecessary div64_u64(): divisor = '2-255'
+drivers/mtd/spi-nor/core.c:3409 spi_nor_set_mtd_eraseregions() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/hwmon/occ/common.c:467 occ_get_powr_avg() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/hwmon/occ/common.c:702 occ_store_caps_user() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/hwmon/scmi-hwmon.c:67 scmi_hwmon_scale() warn: unnecessary div64_u64(): divisor = '1,10'
+drivers/infiniband/hw/cxgb4/device.c:160 wr_log_show() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/infiniband/hw/cxgb4/device.c:161 wr_log_show() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/clk/clk-versaclock7.c:743 vc7_get_apll_rate() warn: unnecessary div64_u64(): divisor = '2-31'
+drivers/clk/clk-versaclock7.c:794 vc7_calc_fod_1st_stage_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-versaclock7.c:812 vc7_calc_fod_2nd_stage_rate() warn: unnecessary div64_u64(): divisor = '2-u32max'
+drivers/clk/clk-versaclock7.c:973 vc7_iod_recalc_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-versaclock7.c:990 vc7_iod_round_rate() warn: unnecessary div64_u64(): divisor = '14-33554431'
+drivers/clk/clk-versaclock7.c:1016 vc7_iod_set_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-si570.c:263 si570_round_rate() warn: unnecessary div64_u64(): divisor = '2'
+drivers/pci/setup-bus.c:1909 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1910 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1911 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1914 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pci/setup-bus.c:1915 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pci/setup-bus.c:1916 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/tty/serial/serial_core.c:431 uart_update_timeout() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/ptp/ptp_qoriq.c:224 ptp_qoriq_adjfine() warn: unnecessary div64_u64(): divisor = '2'
+drivers/ptp/ptp_dte.c:150 ptp_dte_adjfine() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/ptp/ptp_dte.c:152 ptp_dte_adjfine() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/gpu/drm/radeon/si_dpm.c:2200 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/radeon/si_dpm.c:2202 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1-4294836225'
+drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:356 rcar_mipi_dsi_pll_calc() warn: unnecessary div64_u64(): divisor = '0-255'
+drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:361 rcar_mipi_dsi_pll_calc() warn: unnecessary div64_u64(): divisor = '0-u16max'
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2351 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2353 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1-4294836225'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1673 amdgpu_ras_sysfs_badpages_read() warn: unnecessary div64_u64(): divisor = '28'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1674 amdgpu_ras_sysfs_badpages_read() warn: unnecessary div64_u64(): divisor = '28'
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:592 populate_subvp_cmd_drr_info() warn: unnecessary div64_u64(): divisor = '2'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:807 dce110_edp_power_control() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:812 dce110_edp_power_control() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:935 dce110_edp_wait_for_T12() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_edp_panel_control.c:765 edp_setup_psr() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_edp_panel_control.c:765 edp_setup_psr() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:800 kbps_to_peak_pbn() warn: unnecessary div64_u64(): divisor = '432000'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_psr.c:160 amdgpu_dm_psr_enable() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_psr.c:160 amdgpu_dm_psr_enable() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:106 calc_duration_in_us_from_refresh_in_uhz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:117 calc_duration_in_us_from_v_total() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:132 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:135 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:135 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:169 calc_v_total_from_duration() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:169 calc_v_total_from_duration() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:201 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:200 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000-4467765'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:207 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:214 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '16666'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:245 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:245 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:1004 mod_freesync_build_vrr_params() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1855 cppc_perf_to_khz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1863 cppc_perf_to_khz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1885 cppc_khz_to_perf() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/leds/rgb/leds-qcom-lpg.c:458 lpg_calc_freq() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/leds/rgb/leds-qcom-lpg.c:464 lpg_calc_freq() warn: unnecessary div64_u64(): divisor = '1024'
+drivers/md/dm-cache-policy-smq.c:1750 __smq_create() warn: unnecessary div64_u64(): divisor = '64-2097152'
+drivers/md/dm-verity-fec.c:764 verity_fec_ctr() warn: unnecessary div64_u64(): divisor = '512-130560'
+drivers/pwm/pwm-lpc32xx.c:48 lpc32xx_pwm_config() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/pwm/pwm-bcm-iproc.c:138 iproc_pwmc_apply() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-bcm-iproc.c:140 iproc_pwmc_apply() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-sifive.c:95 pwm_sifive_update_clock() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-spear.c:98 spear_pwm_config() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-spear.c:100 spear_pwm_config() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/st-vgxy61.c:482 get_pixel_rate() warn: unnecessary div64_u64(): divisor = '0-255'
+drivers/media/i2c/st-vgxy61.c:569 vgxy61_check_bw() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/media/i2c/ds90ub913.c:642 ub913_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub913.c:643 ub913_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub953.c:832 ub953_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub953.c:833 ub953_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/platform/ti/vpe/sc.c:202 sc_config_scaler() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/media/dvb-core/dvb_demux.c:425 dvb_dmx_swfilter_packet() warn: unnecessary div64_u64(): divisor = '1024'
+drivers/scsi/sym53c8xx_2/sym_hipd.c:749 sym_prepare_setting() warn: unnecessary div64_u64(): divisor = '40000-2560000'
+drivers/video/fbdev/omap2/omapfb/dss/dsi.c:4773 dsi_vm_calc() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/video/fbdev/omap2/omapfb/dss/dsi.c:4780 dsi_vm_calc() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/cpufreq/cppc_cpufreq.c:124 cppc_scale_freq_workfn() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pinctrl/ti/pinctrl-ti-iodelay.c:192 ti_iodelay_compute_dpe() warn: unnecessary div64_u64(): divisor = '176-34602480'
+drivers/net/wireless/intel/iwlwifi/mvm/ptp.c:55 iwl_mvm_ptp_get_adj_time() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/net/ethernet/xilinx/xilinx_axienet_main.c:240 axienet_usec_to_timer() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:407 bnxt_get_target_cycles() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_b0.c:1262 hw_atl_b0_adj_params_get() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/net/ethernet/engleder/tsnep_selftests.c:164 delay_base_time() warn: unnecessary div64_u64(): divisor = '62500,100000,200000,333333,400000,411854,500000,1000000,1500000,1700000,2000000,6000000'
+drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.c:301 mlxsw_sp1_ptp_clock_init() warn: unnecessary div64_u64(): divisor = '3435819912'
+drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:263 mlx5e_htb_convert_rate() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c:519 find_target_cycles() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c:966 mlx5_init_overflow_period() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/intel/ice/ice_ptp.c:1717 ice_ptp_cfg_clkout() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/base/arch_topology.c:406 topology_init_cpu_capacity_cppc() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iolatency.c:441 check_scale_change() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iolatency.c:266 iolat_update_total_lat_avg() warn: unnecessary div64_u64(): divisor = '250000000'
+block/blk-iolatency.c:236 latency_sum_ok() warn: unnecessary div64_u64(): divisor = '10'
+block/blk-iolatency.c:955 iolatency_pd_stat() warn: unnecessary div64_u64(): divisor = '1000'
+block/blk-iolatency.c:956 iolatency_pd_stat() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:706 abs_cost_to_cost() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:714 cost_to_abs_cost() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:797 ioc_refresh_period_us() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:831 ioc_autop_idx() warn: unnecessary div64_u64(): divisor = '137438'
+block/blk-iocost.c:943 ioc_refresh_params_disk() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:945 ioc_refresh_params_disk() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:1015 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1018 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1030 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1365 iocg_kick_delay() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:1618 ioc_lat_stat() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:1762 hweight_after_donation() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:1990 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-65536'
+block/blk-iocost.c:1999 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:2004 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2009 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2013 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2016 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2020 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2044 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2213 ioc_check_iocgs() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:2823 ioc_rqos_done() warn: unnecessary div64_u64(): divisor = '137'
+block/blk-iocost.c:3047 ioc_pd_stat() warn: unnecessary div64_u64(): divisor = '137438'
+fs/bcachefs/tests.c:788 btree_perf_test_thread() warn: unnecessary div64_u64(): divisor = '0-u32max'
+fs/bcachefs/alloc_background.c:2261 bch2_recalc_capacity() warn: unnecessary div64_u64(): divisor = '100'
+fs/btrfs/block-group.c:2793 calculate_global_root_id() warn: unnecessary div64_u64(): divisor = '134217728,1073741824'
+fs/nilfs2/the_nilfs.c:416 nilfs_max_segment_count() warn: unnecessary div64_u64(): divisor = '16-u32max'
+fs/f2fs/gc.c:568 atgc_lookup_victim() warn: unnecessary div64_u64(): divisor = '0-u32max'
+fs/f2fs/iostat.c:23 iostat_get_avg_bytes() warn: unnecessary div64_u64(): divisor = '0'
+kernel/trace/trace_benchmark.c:107 trace_do_benchmark() warn: unnecessary div64_u64(): divisor = '0,2-u32max'
+kernel/trace/trace_benchmark.c:129 trace_do_benchmark() warn: unnecessary div64_u64(): divisor = '1-u32max'
+kernel/trace/trace_events_hist.c:701 hist_field_get_div_fn() warn: unnecessary div64_u64(): divisor = '1-1048576'
+kernel/trace/trace_events_hist.c:5430 __get_percentage() warn: unnecessary div64_u64(): divisor = '10000'
+kernel/dma/map_benchmark.c:82 map_benchmark_thread() warn: unnecessary div64_u64(): divisor = '100'
+kernel/dma/map_benchmark.c:83 map_benchmark_thread() warn: unnecessary div64_u64(): divisor = '100'
+kernel/fork.c:1011 set_max_threads() warn: unnecessary div64_u64(): divisor = '131072'
+sound/usb/mixer_quirks.c:2353 snd_rme_current_freq_get() warn: unnecessary div64_u64(): divisor = '1-u32max'
+sound/soc/sof/ipc4-mtrace.c:432 ipc4_mtrace_enable() warn: unnecessary div64_u64(): divisor = '1000'
+sound/soc/sti/uniperif_player.c:182 uni_player_clk_set_rate() warn: unnecessary div64_u64(): divisor = '1000000'
+net/netfilter/xt_hashlimit.c:498 user2credits() warn: unnecessary div64_u64(): divisor = '32000'
+net/netfilter/xt_hashlimit.c:498 user2credits() warn: unnecessary div64_u64(): divisor = '31'
+net/netfilter/xt_hashlimit.c:500 user2credits() warn: unnecessary div64_u64(): divisor = '10000,1000000'
+net/ipv4/inetpeer.c:79 inet_initpeers() warn: unnecessary div64_u64(): divisor = '19200'
 
