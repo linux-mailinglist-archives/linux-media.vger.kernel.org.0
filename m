@@ -1,63 +1,89 @@
-Return-Path: <linux-media+bounces-9956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCBA8AF734
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 21:21:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6637F8AF747
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 21:26:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E72EE2823F8
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 19:21:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1929B1F24FFC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 19:26:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3582F140368;
-	Tue, 23 Apr 2024 19:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D25142640;
+	Tue, 23 Apr 2024 19:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="bzDQ0x6Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no3Stq3c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from forward204c.mail.yandex.net (forward204c.mail.yandex.net [178.154.239.217])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE7313FD9E
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 19:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70DA14198A;
+	Tue, 23 Apr 2024 19:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713900093; cv=none; b=nSvWPj5gabUylVNwWmLUSOldIF2X6SLDQGXYstXSryJg/Z0VSCnPYM9Mx0AB62vIq7Or7NIbtFIkjaE7iX30sbBXwrD9jKsBvhdfCPmzXTUc4uurIqV3gqj/hOGGVR1hfCVr5PpTuFvctWRIQ9kOiMOIjNkSotaBn05GA1jLIfw=
+	t=1713900340; cv=none; b=JINXPATEN7n3DtAF1YDXD6xmprWtcBdM23INA7hk416aQEnlaSk9vClhDHki86TGtS6IJb0VbNjBZSPmAaCOKIMzIjfvUV8lF0AwbHoUCI677WKGTbb1mrx7QvH97Vy0FI+TAR8ZJd85mijAqswzFgcXUgCDX1iBanIvdbZuR+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713900093; c=relaxed/simple;
-	bh=kjvhhljX2lPQ078qSyN97XGReivHZEDzVYujybo01GU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uyo4CrzgFPLmW/KeK7G/c9mAQP6H3JTmj1VLRZFVbRMiPQmDQ6g5l7O+BZN+cELJ9TBKs7umZAq8/5qMqLflEaJD4ozCFrw6lU0c/iQMejYz+DeUMQxA0LMHa5rmbp6f/W+Fb6k3ASyDuBLYygczYXN6qBUl/Lz4WXuX2N1Fy/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=bzDQ0x6Z; arc=none smtp.client-ip=178.154.239.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from forward103c.mail.yandex.net (forward103c.mail.yandex.net [IPv6:2a02:6b8:c03:500:1:45:d181:d103])
-	by forward204c.mail.yandex.net (Yandex) with ESMTPS id 05F5561AA8
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 22:13:46 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c08:1699:0:640:fad2:0])
-	by forward103c.mail.yandex.net (Yandex) with ESMTPS id 1AE3C608F2;
-	Tue, 23 Apr 2024 22:13:38 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id aDQ1Y2KV04Y0-2XDCZw09;
-	Tue, 23 Apr 2024 22:13:37 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1713899617; bh=m8rHljVzEMT49ON9+udmCkXCxIYBV78xM53MloEwSVg=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=bzDQ0x6ZF12N0ud7Slsp9GrH9ITSqPAo2r2k+XXWXExf++djG65wpSwIgDjo1w6zy
-	 jACK33lfOLEIeG2SSK7GTiRGaClpZRgLCwNs2KzvmHTobV8vdVmCEtFGdg+rW03be4
-	 /88zq9IR+dyqpHpxNc03SGG6eo+Q5QXcDZFKdOfU=
-Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	lvc-project@linuxtesting.org,
-	Dmitry Antipov <dmantipov@yandex.ru>,
-	syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
-Subject: [PATCH] [RFC] dma-buf: fix race condition between poll and close
-Date: Tue, 23 Apr 2024 22:13:10 +0300
-Message-ID: <20240423191310.19437-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1713900340; c=relaxed/simple;
+	bh=2bbhNMcCCiv6N+ewcEN+Y+F2rWYZystG+A1e4eVfob8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ThtvYUKjdgGumjMCkji0tXYSIhfZ32Jwa7gUXIY5rYukEpWjNg/eR5Jjz4Lllskofp42MjdrX668UN0w+GmhU7zTYC0SunnutWVspN2xdiwqACQnoeB5+a7Qi4uXTxrQ4LBnhmj/iDWahear+YUJwMFAZa48F8wx4OoLRbvs1H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no3Stq3c; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713900338; x=1745436338;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2bbhNMcCCiv6N+ewcEN+Y+F2rWYZystG+A1e4eVfob8=;
+  b=no3Stq3cgeoy81jDitx1CgtlNIGxYgNvlrnTSLVOt9iWRUMGaDkXvklQ
+   sts1qIXE8hW1suH5hmrAx8tsm7eVVdkNFtAQ2KkmPrlx0K5yQouM9VLWx
+   Nj6hbbsE6lIDgoKCJZxKdN3aGn/ong/uTg7nSDcWug0kC8tvI4z45jYP2
+   XmFv+Wka6sRn/rPHLW3DKhFZN3iZOxoHRMvJq4+xePFYmkULIw7e5jN4r
+   m3o8m0llCPQCRiuHczIVH214orIwCo0omXzQRJWOwOSRZwuYdvOfXogep
+   xqseBiC3q9XnSsgTcKrCpoavk/xVs/IZFYBtnJTic6783Pauq1LcVgjlD
+   w==;
+X-CSE-ConnectionGUID: rckfaD9UQiqCju+UW++lAw==
+X-CSE-MsgGUID: 2uoa6gFxRru2hHw8RY7iSg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9613674"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9613674"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 12:25:36 -0700
+X-CSE-ConnectionGUID: W01uJp+jRGiHboM8QSfWyA==
+X-CSE-MsgGUID: +a6k97EoTvq99nzBVT7nig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24440741"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa009.jf.intel.com with ESMTP; 23 Apr 2024 12:25:32 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id B1683192; Tue, 23 Apr 2024 22:25:30 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Cc: Alain Volmat <alain.volmat@foss.st.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Sean Young <sean@mess.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Stefani Seibold <stefani@seibold.net>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2 0/3] kfifo: Clean up kfifo.h
+Date: Tue, 23 Apr 2024 22:23:07 +0300
+Message-ID: <20240423192529.3249134-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,68 +92,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Syzbot has found the race condition where 'fput()' is in progress
-when 'dma_buf_poll()' makes an attempt to hold the 'struct file'
-with zero 'f_count'. So use explicit 'atomic_long_inc_not_zero()'
-to detect such a case and cancel an undergoing poll activity with
-EPOLLERR.
+To reduce a dependency hell degree, clean up kfifo.h
+(mainly getting rid of kernel.h in the global header).
 
-Reported-by: syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5d4cb6b4409edfd18646
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
----
- drivers/dma-buf/dma-buf.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+In v2:
+- rebased on top of v6.9-rc5 (Andrew)
+- retested again with `make allyesconfig` on x86_64,
+  hence first two new patches
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..39eb75d23219 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -266,8 +266,17 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 		spin_unlock_irq(&dmabuf->poll.lock);
- 
- 		if (events & EPOLLOUT) {
--			/* Paired with fput in dma_buf_poll_cb */
--			get_file(dmabuf->file);
-+			/*
-+			 * Catch the case when fput() is in progress
-+			 * (e.g. due to close() from another thread).
-+			 * Otherwise the paired fput() will be issued
-+			 * from dma_buf_poll_cb().
-+			 */
-+			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
-+				events = EPOLLERR;
-+				dcb->active = 0;
-+				goto out;
-+			}
- 
- 			if (!dma_buf_poll_add_cb(resv, true, dcb))
- 				/* No callback queued, wake up any other waiters */
-@@ -289,8 +298,12 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 		spin_unlock_irq(&dmabuf->poll.lock);
- 
- 		if (events & EPOLLIN) {
--			/* Paired with fput in dma_buf_poll_cb */
--			get_file(dmabuf->file);
-+			/* See above */
-+			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
-+				events = EPOLLERR;
-+				dcb->active = 0;
-+				goto out;
-+			}
- 
- 			if (!dma_buf_poll_add_cb(resv, false, dcb))
- 				/* No callback queued, wake up any other waiters */
-@@ -299,7 +312,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 				events &= ~EPOLLIN;
- 		}
- 	}
--
-+out:
- 	dma_resv_unlock(resv);
- 	return events;
- }
+Andy Shevchenko (3):
+  media: rc: Add missing io.h
+  media: stih-cec: Add missing io.h
+  kfifo: Don't use "proxy" headers
+
+ drivers/media/cec/platform/sti/stih-cec.c |  1 +
+ drivers/media/rc/mtk-cir.c                |  1 +
+ drivers/media/rc/serial_ir.c              |  1 +
+ drivers/media/rc/st_rc.c                  |  1 +
+ drivers/media/rc/sunxi-cir.c              |  1 +
+ include/linux/kfifo.h                     |  9 +++++++--
+ lib/kfifo.c                               | 10 +++++-----
+ samples/kfifo/dma-example.c               |  3 ++-
+ 8 files changed, 19 insertions(+), 8 deletions(-)
+
 -- 
-2.44.0
+2.43.0.rc1.1336.g36b5255a03ac
 
 
