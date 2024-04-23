@@ -1,153 +1,147 @@
-Return-Path: <linux-media+bounces-9948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586348AF3BC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 18:17:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14658AF46E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 18:40:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D1761F23848
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 16:17:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3C6FB2473F
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 16:40:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295DF13CABE;
-	Tue, 23 Apr 2024 16:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10DB13D506;
+	Tue, 23 Apr 2024 16:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZIlu5WI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RNSD4r7V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AE25FB9C
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 16:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A217313D635
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 16:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713889050; cv=none; b=b24VrcXBmXWyxrGfzTVEOli95Wei3yUBqICU8Q8vmTZbX+BX+Otndi2r7u9njbf6ksSqF9JkLOfQAGYRRv9zWpqIx5PdzQfYhEPGhBtHGYWpOQRmjh3Z9nKIWqaiN5xgR1CQCfVNg+1dXLyWUWDRJIJyfGjXl5cOt4jjyhonyAs=
+	t=1713890412; cv=none; b=JK9v4vnbVvA4AmBSfMzawPNq69p8u9q456O5kjzZFqdt5bs2Sp5XJ5qsAAhpD4T8kYvFWe2EOJahmjNGxxMsq3DnDwQxXQhlCtvZ/rL6e9RnvT89qjicS8iy83uaNspv4lAWzug5YezPEQqRFiZ0J63J+MRCoiv5svbqbG1Li5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713889050; c=relaxed/simple;
-	bh=76+aLK/M1owTyFcFKUYE/l5x6EgVN1cAKQfdMMxZFvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mr6oNXHC3zlmAX4nNlnEibGnf9bvXjTLjD0iuH1Pu7PiAn0tcMrYjwllQRPgR6TZ1ZitDQeisgt9VgwCROYoM+MfiZWyAISWv/meQ5LeXcvRbwfjlcthvu2p1wGKv4OqEt2owgtk56GubRattgGA0FB0W8BiPgOKP9b+u+MtuL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZIlu5WI; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713889050; x=1745425050;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=76+aLK/M1owTyFcFKUYE/l5x6EgVN1cAKQfdMMxZFvU=;
-  b=BZIlu5WIWcxy9eA6fKEWrhcG+PgXpoa1svntQU5Sgvj4JrPovYriUEMn
-   Bx93UBbWURvUScJS1SvZcwW2IYuTcvOUOJxAsG0onLbszy2hKqhKmYyPo
-   iO+6YXV8dOMC790BCSSihfcEcxRTG4daBBPnNyu/okpQrTiOiItXmIhyC
-   lYJzIeoefOUaXssteZW4uO1j9nfZWcD8Vsr18TB4gXSNSWFVyFx6SF03H
-   kCMmqKgyu1J7jcYukTFLopxmeNSDeJpE3UNoFYNsEPJIQugWM5K0xH8B0
-   ykqY2NcrI2b95cFkdvvrd8QYvDO070a+txyphbB7UInnKDVf3AU/IJXZo
-   Q==;
-X-CSE-ConnectionGUID: /tsm+dXQTheVdSqW8gSbug==
-X-CSE-MsgGUID: XirRNEQzR1S7nEYU4JxAxw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="26942879"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="26942879"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:17:29 -0700
-X-CSE-ConnectionGUID: ueK4sAwmR4yo2xIeTeS8AA==
-X-CSE-MsgGUID: gTpU2SSLTCSPTU8RK0lG1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24935533"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:17:26 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 821521203E8;
-	Tue, 23 Apr 2024 19:17:23 +0300 (EEST)
-Date: Tue, 23 Apr 2024 16:17:23 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 42/46] media: ov2740: Add generic sensor fwnode
- properties as controls
-Message-ID: <ZiffE7gofI5Bncsd@kekkonen.localdomain>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-43-sakari.ailus@linux.intel.com>
- <20240420094016.GZ6414@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1713890412; c=relaxed/simple;
+	bh=BOJw2vRsPZHwOmrOygNkShk96qoSCUb9rWqqoRjUYVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ui01LQ0C+fb5ub39Q81QX/QBIMo4Ro1HKPhNvEKiC06tKBprz3IUOwGAx80/gJjnuuZWTducCEddtx7DIX9C1vUcbnmevw9PVPFbaTw5IKKQXsimfjt0GCzNp5ydzsw1iEP+xvc0tI8fiPsC8yJJUKXY+9kq2L0uF26SDbEdU4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RNSD4r7V; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-34b1e35155aso2500062f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 09:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713890409; x=1714495209; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PnokyArXxcyIbQ437WBi+fXlNam0sB9x6yTE3BbNzdE=;
+        b=RNSD4r7VuLRyOqnAVo8FDasZJdi0r4QbZlOO9ic3gffI0SVua7s+uV6T51O8LLcmJb
+         v5HZU06DqVvaLv5/XWoDMXk+fpgljPkLNa1ugExgEGASSkv7ddvZZpyaMXvlnMGx2g/T
+         Hj3/yYPe4D5y00A9l6RdhAs3l4mipbBEljHEzJRTsGzIeE2tBQuzASV22mjSKvizyZWW
+         xKqiKJWzJkt/7LOIhK8vPpFwmM54yNbk5yIss1M32JS0XDeF3CLZmFoWaqOFD6jZwW/Y
+         y9eQSO9pD5CSlgqn2AhCMBNJqDJDUuV8FHZxw++oZrbEexUW3VUGoAoctZsXuD3dqaqF
+         mKpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713890409; x=1714495209;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PnokyArXxcyIbQ437WBi+fXlNam0sB9x6yTE3BbNzdE=;
+        b=sE75487VpECg6LV3ZMpw5mfhPlJqr3bBXyphOgAMvwmAcx2Bc8Fmp2gJkOXh/WRV2O
+         GnlO11nOqjkLuOSuFXAW9E4o5sOhpILMCSUcIsNyXsnizR9zxykta1ubtlDGYZd1C/nf
+         16TMLWJM77uWOWjPXz6Z0NPtgnRcWyU6ESsFe3jujPPb8874rPPMWV2NWENoXD6OTNwL
+         xpa39PVmu3ebxTHnmm8rxpC0hbm3plJHor6R2e+GTHXJn2TolB6qIqPBDdV24Da22wBp
+         KNGSPCHUC9+Gr5jrQzeCvwwq7xdgsHhr2VPHICNuaGlgAoox7Ew8M42aMtactaw6AHTp
+         sN1A==
+X-Gm-Message-State: AOJu0YzRssrNdtdoVwOk+Vril4ik70GnDZ61YE5ESd6NFvCJThj+lKB1
+	4dj/9R9Gvy9qV2RDkdJIGaVfi+4ouxikt7cyFN9Ir+kAPphM7ODdqFLUJO6tSOk=
+X-Google-Smtp-Source: AGHT+IEt0kyNa/ubkeo1mtCZlcqjs3AUlplSYGY2vYsnPCR+hlV65yLYcKKdjfNDUj8XC7Fvmk6LWw==
+X-Received: by 2002:adf:fa88:0:b0:34a:d130:611b with SMTP id h8-20020adffa88000000b0034ad130611bmr7073198wrr.17.1713890408973;
+        Tue, 23 Apr 2024 09:40:08 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id bb6-20020a1709070a0600b00a55b020a821sm3270479ejc.13.2024.04.23.09.40.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 09:40:08 -0700 (PDT)
+Message-ID: <90569329-62e1-472d-88ab-c93b44abb60c@linaro.org>
+Date: Tue, 23 Apr 2024 17:40:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240420094016.GZ6414@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/35] media: dvb-frontends: drx39xyj: Use min macro
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+ Abylay Ospan <aospan@netup.ru>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-14-477afb23728b@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240415-fix-cocci-v1-14-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-On Sat, Apr 20, 2024 at 12:40:16PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On 15/04/2024 20:34, Ricardo Ribalda wrote:
+> Simplifies the code.
 > 
-> Thank you for the patch.
+> Found by cocci:
 > 
-> On Tue, Apr 16, 2024 at 10:33:15PM +0300, Sakari Ailus wrote:
-> > Add generic sensor property information as controĺs by using
-> > v4l2_fwnode_device_parse() and v4l2_ctrl_new_fwnode_properties().
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ov2740.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> > index dc0931308053..e37d824291fe 100644
-> > --- a/drivers/media/i2c/ov2740.c
-> > +++ b/drivers/media/i2c/ov2740.c
-> > @@ -779,6 +779,8 @@ static const struct v4l2_ctrl_ops ov2740_ctrl_ops = {
-> >  
-> >  static int ov2740_init_controls(struct ov2740 *ov2740)
-> >  {
-> > +	struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
-> > +	struct v4l2_fwnode_device_properties props;
-> >  	struct v4l2_ctrl_handler *ctrl_hdlr;
-> >  	s64 exposure_max, h_blank, pixel_rate;
-> >  	u32 vblank_min, vblank_max, vblank_default;
-> > @@ -789,6 +791,10 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	if (!v4l2_fwnode_device_parse(&client->dev, &props))
+> drivers/media/dvb-frontends/drx39xyj/drxj.c:1447:23-24: WARNING opportunity for min()
+> drivers/media/dvb-frontends/drx39xyj/drxj.c:1662:21-22: WARNING opportunity for min()
+> drivers/media/dvb-frontends/drx39xyj/drxj.c:1685:24-25: WARNING opportunity for min()
 > 
-> If you moved the parsing earlier, you could set the right number of
-> controls when initializing the handler. This being said, maybe we should
-> instead try to get rid of the controls count hint to the handler
-> initialization function.
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-I'm not quite sure how that's related.
+Code is fine but, I think your commit log could use some love.
 
-But I'll update the number.
+"Replace ternary assignments with min() to simplify and make the code 
+more readable."
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Not super-important.
 
-Thanks!
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-> 
-> > +		v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2740_ctrl_ops,
-> > +						&props);
-> > +
-> >  	ov2740->link_freq =
-> >  		v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2740_ctrl_ops,
-> >  				       V4L2_CID_LINK_FREQ,
-> 
-
--- 
-Regards,
-
-Sakari Ailus
 
