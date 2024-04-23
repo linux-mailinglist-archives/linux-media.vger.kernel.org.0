@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-9940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30FA18AE827
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 15:29:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5618AE842
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 15:33:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1D5C2861F5
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 13:29:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35F0E1F244B3
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 13:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70491135A6B;
-	Tue, 23 Apr 2024 13:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FD5136658;
+	Tue, 23 Apr 2024 13:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RS2TWQ1P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUTKenxg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27C96A03F
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 13:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3BC135A7D
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 13:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713878970; cv=none; b=hHmviTWSYPY6Oh7wGqYQ7EktUM90Dwr85k8oPG4ql0WMW/MswqAlM0kalun6O77rhmoQX5pENlg8r0K5RlNLoN3zcDxMObiC6Sr/tCtHyLEr1UEwk5SpTvXhAoxDXD3bY/kInQT+Hu0N2kfREnSO8qE0T2HK/3+YWiHkC2hdea8=
+	t=1713879215; cv=none; b=Nei/81nnrXSu24AivY7+hYJCQMtOJkHXEsWBRL5glsHO0ixCg7akkeu+sLrqCAJiFVRVZAve78d0u6Gcm+mWNv3p58GXNqMdW0NXbZnn7HOJbIoyeQBV+RamE13FhX6pJtff1EOnKUP+O/vB1Q0z/mcW9jbtBtMJetUxPiR5NYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713878970; c=relaxed/simple;
-	bh=i/KCUT/Tnn+e1Ye+MoVic2YJUWeRYCKMWpdPADEuv8I=;
+	s=arc-20240116; t=1713879215; c=relaxed/simple;
+	bh=UnPzgNriKcaSv+1Kq1xP/eMVU/7qT5k0P+RoyztvsGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rsmGSQKbhqkkhWdgJSbDB4H3THbXMszZMlWpKfzyaXKYLHMS/Qd0rJfkTRSwxnJtLp2vswTFLNmyGrXbMcQgFo2EKNEgNaMv7bXFOxz+PyFowGnT3t3dYdnKhAhz96HARtS9lcBZ7qGdPei8pCwFdKXDPtsNnRpIUXrBRa4pj2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RS2TWQ1P; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=eXoEna5qzvNDLby27LcBqhxos72ES9yPv1IUt+toPtOtE//WJXIzCqTT7fvs+HuVzbv1xGvdhcVSDQahPnUoVnH9vm/1vvo+IEul0NFxBObAGQP3f3fkz/pKSjBtOt5b7ct6TuEuNGytNL5Tk1XXCXrU9dRCPiRMTO2LTbsYFXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUTKenxg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713878970; x=1745414970;
+  t=1713879214; x=1745415214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i/KCUT/Tnn+e1Ye+MoVic2YJUWeRYCKMWpdPADEuv8I=;
-  b=RS2TWQ1P170DpDl4d7HZSbkmH3swbQpVzkQxrG32MHGaIoOeIK8KRosd
-   6eAJGdrzAk+yzPY8aL4LZ/EUWjXLSV0hdiXY2z35pZ/x14p4PMGJEsgdL
-   WsHoGPE9Coz4e9kpYxgJuEUg5mbcOV9rsw53c9Mg+DPmLV/9C2TX6iS5o
-   57kwC6je/WUMd5vR43IbgBAiz/XuZme95fZT5LeJNUVDbE+NOlWfIOfu0
-   Y25rHqodgw0QpSj+h4cgznfFp3PifaP5yhvyZ8ZMN2+WhlzDlDxzoRGHf
-   9BNmU500Eg52ak/BQePKFOh1aglMIx3EBddlVStrRwKqGRaewHjKDtnGg
-   A==;
-X-CSE-ConnectionGUID: K+TYl6dVTNuXz7TZMHdlpQ==
-X-CSE-MsgGUID: hAaRc15VSoWZ1Vw+TtU3/g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20879852"
+  bh=UnPzgNriKcaSv+1Kq1xP/eMVU/7qT5k0P+RoyztvsGA=;
+  b=XUTKenxgUICTUuAPCWQ+pN6THluSKwDo2qDXj38X9iOzMA4+G9TrAoDW
+   6qSVqVwPVyybaEUvCuz3yzB2B1iNXNZRwLoP95kqF3rg1APbx4fqnJDdj
+   kBXNEvcZ6+cgMPFjoW0GhDEvjwbjvf5bAYWA7In31Y+l0SbTM2SH9pKXS
+   JFZFB9h3hlJTsuFNsU309U5yKluVGooLCd3M2lj/vTOxflqdoBItPKuEn
+   sbKTlhVV9a/kPwNWqOSWx89WXN2viTMybYCSOrA2YoPzScEcBDB2WthYo
+   6BB+J5Xz6/tjDP9TbEe9KcbuFyqyXtyX3w0a95ESwRVd9T7ldyxdzTdLD
+   Q==;
+X-CSE-ConnectionGUID: 0uJXG6Z+QEi/mLpqrYmh+w==
+X-CSE-MsgGUID: 17q9djv2Tcirkbkf0d0NHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13247455"
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20879852"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:29:29 -0700
-X-CSE-ConnectionGUID: KNmWMW1sRZSZ4hGOIhuS2w==
-X-CSE-MsgGUID: VIp8tf2dT4S6hLGeU/TJpA==
+   d="scan'208";a="13247455"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:33:32 -0700
+X-CSE-ConnectionGUID: EjknLmO/RZ+IK2O2CWrs6A==
+X-CSE-MsgGUID: 9fsFM4GgShSpN3MfmhAtFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="47651193"
+   d="scan'208";a="24408902"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:29:26 -0700
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 06:33:29 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 64B0611FCCF;
-	Tue, 23 Apr 2024 16:29:23 +0300 (EEST)
-Date: Tue, 23 Apr 2024 13:29:23 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A069611FCCF;
+	Tue, 23 Apr 2024 16:33:26 +0300 (EEST)
+Date: Tue, 23 Apr 2024 13:33:26 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -71,13 +71,14 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 30/46] media: ccs: Add support for embedded data stream
-Message-ID: <Zie3sxqZNRvxdPXN@kekkonen.localdomain>
+Subject: Re: [PATCH v9 11/46] media: Documentation: Document S_ROUTING
+ behaviour
+Message-ID: <Zie4pprnvXKmzZR-@kekkonen.localdomain>
 References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-31-sakari.ailus@linux.intel.com>
- <20240420085949.GS6414@pendragon.ideasonboard.com>
- <Zieqk9uwEwDlFQhm@kekkonen.localdomain>
- <20240423125036.GC20623@pendragon.ideasonboard.com>
+ <20240416193319.778192-12-sakari.ailus@linux.intel.com>
+ <20240419171720.GH6414@pendragon.ideasonboard.com>
+ <ZieIhSomt1DcLKnZ@kekkonen.localdomain>
+ <20240423125944.GF20623@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,91 +87,100 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423125036.GC20623@pendragon.ideasonboard.com>
+In-Reply-To: <20240423125944.GF20623@pendragon.ideasonboard.com>
 
 Hi Laurent,
 
-On Tue, Apr 23, 2024 at 03:50:36PM +0300, Laurent Pinchart wrote:
-> > > > +		return ccs_get_format(subdev, sd_state, fmt);
-> > > > +
-> > > >  	mutex_lock(&sensor->mutex);
-> > > 
-> > > Is this needed, shouldn't the state lock be enough ?
-> > 
-> > Not while the access to the device's state is serialised using the driver's
-> > own mutex. This changes two patches later though.
+On Tue, Apr 23, 2024 at 03:59:44PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> I realized that during the review, two patches later :-)
-
-Yes, this was my expectation, too. ;)
-
-> 
+> On Tue, Apr 23, 2024 at 10:08:05AM +0000, Sakari Ailus wrote:
+> > On Fri, Apr 19, 2024 at 08:17:20PM +0300, Laurent Pinchart wrote:
+> > > On Tue, Apr 16, 2024 at 10:32:44PM +0300, Sakari Ailus wrote:
+> > > > Document S_ROUTING behaviour for different devices.
+> > > > 
+> > > > Generally in devices that produce streams the streams are static and some
+> > > > can be enabled and disabled, whereas in devices that just transport them
+> > > > or write them to memory, more configurability is allowed. Document this.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > Reviewed-by: Julien Massot <julien.massot@collabora.com>
+> > > > ---
+> > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 24 +++++++++++++++++++
+> > > >  1 file changed, 24 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > index d30dcb9e2537..de8dfd4f11a5 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > @@ -593,6 +593,30 @@ Any configurations of a stream within a pad, such as format or selections,
+> > > >  are independent of similar configurations on other streams. This is
+> > > >  subject to change in the future.
 > > > >  
-> > > > +	if (subdev == &sensor->src->sd && fmt->stream == CCS_STREAM_META) {
-> > > > +		ccs_set_format_meta(subdev, sd_state, &fmt->format);
+> > > > +Device types and routing setup
+> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > > > > +
-> > > > +		mutex_unlock(&sensor->mutex);
+> > > > +Different kinds of sub-devices have differing behaviour for route activation,
+> > > > +depending on the hardware. In all cases, however, only routes that have the
+> > > > +``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set are active.
 > > > > +
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > >  	if (fmt->pad == ssd->source_pad) {
-> > > >  		int rval;
-> > > >  
-> > > >  		rval = ccs_set_format_source(subdev, sd_state, fmt);
-> > > > +		if (sensor->embedded_start != sensor->embedded_end)
+> > > > +Devices generating the streams may allow enabling and disabling some of the
+> > > > +routes or the configuration is fixed. If the routes can be disabled, not
 > > > 
-> > > A ccs_sensor_has_embedded_data() (name bikeshedding allowed) inline
-> > > helper could be nice to replace this manual check could be nice, as you
-> > > do the same in many locations below.
+> > > "... some of the routes, or have a fixed routing configuration."
 > > 
-> > Sounds good.
+> > Seems fine.
 > > 
-> > > > +			ccs_set_format_meta(subdev, sd_state, NULL);
+> > > > +declaring the routes (or declaring them without
+> > > > +``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
+> > > > +disable the routes while the sub-device driver retains the streams and their
+> > > > +format and selection configuration.
 > > > 
-> > > This doesn't seem correct, you shouldn't set the metadata format on
-> > > subdevs that are not the source subdev.
+> > > I still find the "retains their format and selection configuration"
+> > > quite unclear :-S
 > > 
-> > Good point. I'll add a check.
+> > Alternatively we could say that the routes are simply not active, without
+> > referring to explicitly to formats and selections. I.e.:
 > > 
-> > > A comment to explain how the metadata format is propagated would also be
-> > > useful.
-> > 
-> > I'll add this to the documentation patch which actually could be better
-> > after this patch, not before.
+> > If the routes can be disabled, not declaring the routes (or declaring them
+> > without ``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in
+> > ``VIDIOC_SUBDEV_S_ROUTING`` will disable the routes.
 > 
-> I meant comments in the source code, to make it easier to follow the
-> code flow. Format propagation is error-prone, having comments explaining
-> what the code does next to the code helps during review, and should also
-> help during futher developments.
-
-I'll add some here, too.
-
-...
-
-> > > > @@ -3109,6 +3407,14 @@ static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
-> > > >  	.set_fmt = ccs_set_format,
-> > > >  	.get_selection = ccs_get_selection,
-> > > >  	.set_selection = ccs_set_selection,
-> > > > +};
-> > > > +
-> > > > +static const struct v4l2_subdev_pad_ops ccs_src_pad_ops = {
-> > > > +	.enum_mbus_code = ccs_enum_mbus_code,
-> > > > +	.get_fmt = ccs_get_format,
+> I'm fine with that.
+> 
+> > > > The ``VIDIOC_SUBDEV_S_ROUTING`` will still
 > > > 
-> > > I'm surprised you need to implement .get_fmt(). The
-> > > v4l2_subdev_get_fmt() helper should have been enough.
+> > > s/will still/ioctl will still/
 > > 
-> > It should be possible to get rid of that now, too. I'll add a new patch for
-> > this.
+> > Both seem to exist, more common is without "ioctl":
+> > 
+> > $ git grep '[`<]VIDIOC_SUBDEV' -- Documentation/userspace-api/media/|wc -l
+> > 84
+> > $ git grep -i "VIDIOC_SUBDEV.*ioctl" -- Documentation/userspace-api/media/|wc -l
+> > 34
+> 
+> You'll often find "ioctl" at the beginning of the next line :-) If you
+> would like to avoid it, you should drop "The" at the beginning of the
+> sentence.
 
-Now I remember why it's here. The controls affect the mbus code and
-changing this is outside the scope for now (I'm not sure if someone would
-complain about this changing).
+Sounds good.
 
-Presumably such changes could be merged with the sensor API changes in
-order to avoid several separate changes, so to be determined later on. The
-same goes for this patch (post 6.10).
+> 
+> > > > +return such routes back to the user in the routes array, with the
+> > > > +``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag unset.
+> > > > +
+> > > > +Devices transporting the streams almost always have more configurability with
+> > > > +respect to routing. Typically any route between the sub-device's sink and source
+> > > > +pads is possible, and multiple routes (usually up to certain limited number) may
+> > > > +be active simultaneously. For such devices, no routes are created by the driver
+> > > > +and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
+> > > > +called on the sub-device. Such newly created routes have the device's default
+> > > > +configuration for format and selection rectangles.
+> > > > +
+> > > >  Configuring streams
+> > > >  ^^^^^^^^^^^^^^^^^^^
+> > > >  
+> 
 
 -- 
 Regards,
