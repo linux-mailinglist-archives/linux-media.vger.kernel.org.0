@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-9932-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9933-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E158AE6BD
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 14:47:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BED8AE6DF
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 14:50:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC078B24D31
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:47:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF95A286ECC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1549C13B7A0;
-	Tue, 23 Apr 2024 12:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C823F137760;
+	Tue, 23 Apr 2024 12:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LsDtwhLs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D7agsy/6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4186C1386D3
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 12:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96081369B5
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713876236; cv=none; b=Ohkpj8/M9EupEaa+vYwI1J0Sl0BsvcNq845KSfWlnlf32lR+nFGr8/wo0S3Ah2ESJZpCAb6OfH5yWIob/UAn5kTAFQqMw+ZzVMc55343Rt5Ou5aK6KMBtvbPnG8UESHcc4KFjpgosP+L2wFzgrlJCHZOd7akHOAhepUnQeKzqio=
+	t=1713876399; cv=none; b=a2ZhVgi+lnGXpw6uM9VnSvx/mU2jF8w2OM/dkifRRDdRKYgE8IbCPnPx+nJ9dLZXJjd8kwp1f7yvzqyV/2qlhPU5RQP8TWIKZd8e65fwyDMuZwJ5fNI2s+elhwlq6SEcNVgJYzH8/fwVKbV2yikIkw61FlYnW4SxiDbZV8siD/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713876236; c=relaxed/simple;
-	bh=r0UmnNWiljWy3w/DWQQ7Ic6mYcT+iVhIRMPUeFTh3tM=;
+	s=arc-20240116; t=1713876399; c=relaxed/simple;
+	bh=UXbyOuSKUk6g1FCuzFbmBH4NJztxq0P/VMUY9kPJrvg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bcvSD8eUAXgZScskmb1XsPx/NxaDynXVOXF9Cl5i6Pgzel3hFhmHC3isx+joTrUq241haNzBqP9Ih876JZswzI8355QCKdq+6pHh6wclE18kVXsyE2xJTTHc1I+NBGaR/nMEDiVm1zM2GMUZaA+sr9+czAS0ewaOc1OXAQW0XHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LsDtwhLs; arc=none smtp.client-ip=209.85.221.53
+	 In-Reply-To:Content-Type; b=r3shYfDUgK6yLrwGDUViXTg4xIKnN5qyixMUstrjLxfiDcDPwKH7vzIAazef81v5Pp/CndL9+GRl4Lh7rmjDVi3qAgn9MXmto52xtQxXxbdvOmzZmR4S/Sypyyzs2pVFf4M7HqtgY0jJjOgJO5YFmJoIXa5psMoN+k1lgNifMgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D7agsy/6; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-349c4505058so4379109f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 05:43:53 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34b029296f5so2302364f8f.2
+        for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 05:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713876232; x=1714481032; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1713876396; x=1714481196; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+qnKAwgvBHM35XCDpuBit4GUKItb+LTK0jOfybUvb7k=;
-        b=LsDtwhLsTNd6Xj4IasfsiBLv0XCxeO5W0KCfSdmEBX0mBZZ8Va5xBp6xIET1gjS1n0
-         KIuZyJU23Kpz2iG/R9a8ipbCFFT8k6crZEWKKeawXUwSMADN8d9hSjv6Kn5fuu3ozd9H
-         u3NE13xcerUjPm0X6W03R32V3lvQAuxGzy6MkBMRgDqSAPtLzQfOKB0cx5pfJgA0koBR
-         ZWx4qRcPVut3AZt9pvjdMdetMtCo6sQBBtvWE3yFHcYuouA8OSbf9Xc0jewmJ7gIdNLX
-         8BP5meLrW5GWUf6oH+etu9o9/8XxqoNu3vUFzhjYLxGzxlHGepwTDxp3AQxUZJIyhX4z
-         h6MQ==
+        bh=SnPvo8X71/HjmVfrFSADYDRaBhD7wOKAzatHqFXk968=;
+        b=D7agsy/6VViR4cX0MBsxJWoxCdbK4LkQqyXnPZYAGxzQuEnnK6jwoZLaWs5VYaqEg9
+         +RZC3nhf+xX+MjQS0WRnHh40La+h3VeWrfKLJR6zXjommaHQXEKLjbnL/jygZD95hAOq
+         Fp0dpRZmCwDJQrJZbStccz+FJ2tgODU4uxl20wksz5iZwao2KhJDUy9zUO5WiZRlDC1w
+         U6QQgAURIu6nGztYhguYZ83Fq74JN7cGv1Fv4Eg20rLMsEkchAN4Ec9RcN+f2c6+ayDA
+         wB0Q/DdOjEUewW8k20X1ZLsrjmLJ+Bq0bFO88kXcArBpJ3p8uJMSBUN2F2gxBD+SE9+Y
+         tlEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713876232; x=1714481032;
+        d=1e100.net; s=20230601; t=1713876396; x=1714481196;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+qnKAwgvBHM35XCDpuBit4GUKItb+LTK0jOfybUvb7k=;
-        b=LBixnDQziL3dgm98B+Ib09OegE0d4j4BPbrNbxmPDlP0bB9/zU3z15vjXv97bEWgAo
-         K/kPbBLwts87R7kGs0iOkbgMDQFwECRR6+z/tOYeFLRwcOjrBy6vB5hsFtWm53iYOZ3b
-         1waJod6Ukiwgc97m+fkSVOFw25f8pc3HoszcVgaW9Owd6ksbbPNeCRf+GynBCOao8Oy3
-         5qlyheIaZsOcDfYC94LZv/lhh5kciMIHLLqjmCU7vh91T9bJnp/9DQpsuaFeI3UR+8tS
-         AQPPJxNsKHR76VLJ3TYh92b1sG8pnRr8Oj/lB7cRc3NKoFdKk88zmlnIaBG/8caj5V7S
-         sc9Q==
-X-Gm-Message-State: AOJu0YzcNik/97JizXi+dknRCSP/dupo0izOVtAyyk0yxvFwK5nD4jJJ
-	3/atjQOuAwc5Vl9ll/mbZA5PRRVs3YSp7+x2N2Js2TmrjHgyDDKbi5D1k8r/cX4=
-X-Google-Smtp-Source: AGHT+IHx5NN+z23VludiFeHTrKmrJCe4gLG+r1lTx6C4j7QEMysWQLMdtEpvLnQqAlOL1NQMbBj3Zg==
-X-Received: by 2002:a5d:6a8d:0:b0:34b:5caf:6342 with SMTP id s13-20020a5d6a8d000000b0034b5caf6342mr2073298wru.67.1713876232556;
-        Tue, 23 Apr 2024 05:43:52 -0700 (PDT)
+        bh=SnPvo8X71/HjmVfrFSADYDRaBhD7wOKAzatHqFXk968=;
+        b=g6DNYc/Z9ZQy+fOdHrzXItgK/nZhX0AVCbXb+3TcK7CrJXOI3wdWt0012tUCYNDoMC
+         b8hBWLlriVmzg6dr+dpbgWgfoHLoxTlYxeEvO7ags5I/+7pwXoBBye44WvwNgqP4/CHo
+         Azpskh4D+TlMF7liVd06SmQm/wcnp4H/fRkEkzYeycxf4LosPhDRnMDPcPjeXiESzC47
+         MaGxZAPbjOoA1mpxB4DozTFBHhb7+nBtk78uQRc4YHVrc4mfzzhVrusJnCXVRiKv/jWv
+         7UtSI+KSUZ5SAWYe1wT4NkgK6eHgl9+3Y7D3j2L4pB7LPAXkvzRWRs/Qb41levHYvMDO
+         diUQ==
+X-Gm-Message-State: AOJu0YxMxdzE6Avn2sWuEmIusiErCXjAjzFWR6grTpSfM2jVlWRO4VYE
+	/MkWa97SO7geeatWtF9tD67++Q0es3kgnO0P+n+W7HDgbq/d+omtE41d+6HxR0I=
+X-Google-Smtp-Source: AGHT+IG+1vx5mJkN+16nkw6DrmjKX/bCAbSI7iHWCeWcx9NCAuHfmO/i6PUYzl4PV0Sl6Y/Ow1sbhA==
+X-Received: by 2002:adf:b197:0:b0:349:f83f:9ebf with SMTP id q23-20020adfb197000000b00349f83f9ebfmr11081490wra.5.1713876396189;
+        Tue, 23 Apr 2024 05:46:36 -0700 (PDT)
 Received: from [192.168.0.102] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id r16-20020a5d6950000000b003477d26736dsm14506412wrw.94.2024.04.23.05.43.50
+        by smtp.gmail.com with ESMTPSA id y7-20020a5d6207000000b00346f9071405sm14531796wru.21.2024.04.23.05.46.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 05:43:52 -0700 (PDT)
-Message-ID: <d13fd47e-1ecd-4aa8-844b-cd260e9fa437@linaro.org>
-Date: Tue, 23 Apr 2024 13:43:49 +0100
+        Tue, 23 Apr 2024 05:46:35 -0700 (PDT)
+Message-ID: <44d6ab8c-3810-46ac-8e54-c125b5c29199@linaro.org>
+Date: Tue, 23 Apr 2024 13:46:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/35] media: s2255: Use refcount_t instead of atomic_t
- for num_channels
+Subject: Re: [PATCH 12/35] media: platform: mtk-mdp3: Use refcount_t for
+ job_count
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -119,33 +119,27 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-11-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-12-477afb23728b@chromium.org>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240415-fix-cocci-v1-11-477afb23728b@chromium.org>
+In-Reply-To: <20240415-fix-cocci-v1-12-477afb23728b@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 15/04/2024 20:34, Ricardo Ribalda wrote:
-> Use an API that resembles more the actual use of num_channels.
+> Use an API that resembles more the actual use of job_count.
 > 
 > Found by cocci:
-> drivers/media/usb/s2255/s2255drv.c:2362:5-24: WARNING: atomic_dec_and_test variation before object free at line 2363.
-> drivers/media/usb/s2255/s2255drv.c:1557:5-24: WARNING: atomic_dec_and_test variation before object free at line 1558.
+> drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:527:5-24: WARNING: atomic_dec_and_test variation before object free at line 541.
+> drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:578:6-25: WARNING: atomic_dec_and_test variation before object free at line 581.
 
-Hmm, that commit log needs more detail.
+Same comment here as per the previous patch.
 
-"Convert from atomic_t to refcount_t because refcount_t has memory 
-ordering guarantees which atomic does not, hence the WARNING for the 
-free after the atomic dec."
-
-Something like that.
-
-I'll leave it up to yourself to decide if this warrants a Fixes:
-
-I don't think so myself because the previous code doesn't seem to matter 
-to the decrement and free.
+You should explain in terms of the memory ordering that refcount_t gives 
+so that the intention of the WARNING and the API change is well 
+communicated.
 
 ---
 bod
+
 
