@@ -1,69 +1,72 @@
-Return-Path: <linux-media+bounces-9954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651BD8AF589
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 634C58AF588
 	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 19:32:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAC77B2346F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 17:32:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD0A5284D36
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 17:32:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA38613DDB4;
-	Tue, 23 Apr 2024 17:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B49EC13DDCD;
+	Tue, 23 Apr 2024 17:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="PSHpeoND";
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="CBMg5wQm"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="pqr3qG6K";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="HZ1sPqox"
 X-Original-To: linux-media@vger.kernel.org
 Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A52B13DBBC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FBE13CA85
 	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 17:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713893546; cv=none; b=FtwSVGRy4oKVou4DgcFwXcOOCjx12+xaAGwNCCT14yhwdsWCx03zbN77Bd9cIsLiu9QTsBzerm1oLN5XpB9Nc7KM7VwIRSbR3gCWSb00nzk7ZU3I7A+pxBnikmXajGKUgIj4Gp4lGuFc7WKQBJDMQrBN96L7lN/6uzM2RlqehOE=
+	t=1713893547; cv=none; b=uof6cWT8karo+MraPPFE9JoEv85l99ILkZZz2ObUH+eQhEO3sUmReeOuKaAcTA5QP4tuvDFKM8HtwJke1gEANAt/8nMWiycjQlgvuOwDfHtHZ4XirKhMImGQDtmqzQJI37JQPEe/ptZ/3ig7dJLqdsp6SXzNCu6zFuk6YHkat70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713893546; c=relaxed/simple;
-	bh=4TS7401BzC7HHkLpSyb6sswb1tyKMwwPWPbxPiKPtn0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=AG1wdMXvCK09OCEQwi9Hxl0anj681lc08dZUkVmq3FY3Qb4Dry9z4k3OmCfvMZc2YZDGb1B9xnWLRqsi3i+QVbK7ve8FpgMLd85Nys9SPaEwjeORsM6XOoAt+TeIjpVlGmLjD0rCoaCHrYT8/YiMtegKTUGeoRyvzsq3vci15CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=PSHpeoND; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=CBMg5wQm; arc=none smtp.client-ip=88.97.38.141
+	s=arc-20240116; t=1713893547; c=relaxed/simple;
+	bh=HUFW+8e0MxY3GQ8U7gt9X8+SK3ZLkDG+Cx599bGJGMw=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fMbstcB+Lwx6Lpiuup4X9oJFU6jAf+oeXqMtuIQ3Ez8e21WuYoLQ43HtpYHU2AG7uCj0kqnFWXyD2zyFdg/BG7g5HHNjAQHOjBQAF2ifqvC5bd+7XS3VaTxbORiAqJ6tyX2NmRlOmphEmvVPt4V03pyJtd5s1N/NXDNhsTFdp+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=pqr3qG6K; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=HZ1sPqox; arc=none smtp.client-ip=88.97.38.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1713893536; bh=4TS7401BzC7HHkLpSyb6sswb1tyKMwwPWPbxPiKPtn0=;
-	h=From:To:Subject:Date:From;
-	b=PSHpeoND0bQClzuxVi3BTqwiTG3NzDaGT2yUfCCzzH+pHv1Jy2vS0jorsKpU8OYq0
-	 jKAUcSv5bQYWGGIzJOmHRXZ4PkhaKgOf+hw4riMSnhySWElpzBfX/WqN7hiAKar3MJ
-	 HTOuxueiQXBJO6Zi1oPtj5NiN8t2uSGW3tjcWvokEDCCiOMhrGeALo9jRxi9DcJziO
-	 4Uix6OXba4DwTwjoAYB6q5XGj7NkwB0hj9jGQSJkk/BMkh8aXWjY6pWUm83sgQOZZO
-	 Kxay7bA4In4KSzbz2f2tg2zNhnbjlXc7lciyLLyRi9gkaVEerjhfTOL9JV1ZO8T7WY
-	 Wf1LMnMUIoq7A==
+	t=1713893536; bh=HUFW+8e0MxY3GQ8U7gt9X8+SK3ZLkDG+Cx599bGJGMw=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=pqr3qG6KAlrEDbkRqn7jqDNhqyp+9pwSIFAxOiQ+hqU3pgzMJZtGNzW2UwQwhip2p
+	 wNClQQ1XaxHv5ZkQFPQQyh5xXiBFz+NEVpJ2TJ64PfywfZNJCBjE19Qf7j9y57bLSh
+	 C0i7nXqIlwXPozd9CVfCl9Cx76pBmORhOsSWQG1m0yVQrSzjvYomJ1+ltamoviToya
+	 231KJe2+SKrI2Li6RqCzmduY06XF7ULC5w2d6bu6M2cFFMwC1OVhV6tO+DLzYqVL+i
+	 zoKKPEbXJOmFN8AJrguaKpscRA3kNxNqTUHiYVs/xzQT4A0u3Uy3EoRL89YU22PtAF
+	 2czMMwnWi7ygQ==
 Received: by gofer.mess.org (Postfix, from userid 501)
-	id 78C211009EC; Tue, 23 Apr 2024 18:32:16 +0100 (BST)
+	id AD1BB1009EB; Tue, 23 Apr 2024 18:32:16 +0100 (BST)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1713893535; bh=4TS7401BzC7HHkLpSyb6sswb1tyKMwwPWPbxPiKPtn0=;
-	h=From:To:Subject:Date:From;
-	b=CBMg5wQmyolWz/JCWKrA4yE8ran3NDqJGDMMNnF9wt7f90eQ8AzsO3K9Mm+UkzWrX
-	 RdgiBs08PUa8Z9b/d0xTauqKqvaQKFMBYNLn7ZDvckaVtqvQRou1GvEaGOwmBdARul
-	 El2uIVc2T2ynnxVAzLjYxUT+VogT2eVCNdPXzSX3WPiH+bzbI/CTOHC4rhE+2A0ppv
-	 0GJ+LzrbM5xFF3U/X0rjNl/2k9497NRWmh2iCsRyHibcvQEtw8NJK0RI8N08AhBKy6
-	 kDTJO9wx8kwClYFJca+HjU3QAnz+q41nOWIbpfCqVTEfFsoHC3vvT1Qsv7lOs4Mrnk
-	 1tIw6sS5Wqivw==
+	t=1713893535; bh=HUFW+8e0MxY3GQ8U7gt9X8+SK3ZLkDG+Cx599bGJGMw=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=HZ1sPqoxImv2186B+sD2PBnKQi4DweW2OhZ1kUENQYcElVIK0IhuSuLfNBdUh5y5P
+	 ObbEvTUjW1AgAjAgh34OpBv4a1Jm0QMJ3hb8BCMmirqLFiVRaBZiSPL9tBo6v/5d9b
+	 JoyRR38wd7EDpX50oJGY0NAv4A5v0/YkF9Tah/x4UYQGGhvh03pzVQ/mzyvx6Vy3Fp
+	 4gjQ58L85Y/+cP2xNkJZPAykWq3dgJeZ/w2/wPTPSraLVyWI8e1F98Hft7RR/+sYER
+	 +0uBqCB1fu9kg8vSfMvTlUcVROC9xPS6jYzP5EWcpAEChpZTeScJom2Ra7n9FQ//0u
+	 fWZjCdQ6IkUeg==
 Received: from localhost.localdomain (bigcore.local [IPv6:2a02:8011:d000:212:bc3c:1b4a:a6fa:362f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by gofer.mess.org (Postfix) with ESMTPSA id DF18F1000C2
+	by gofer.mess.org (Postfix) with ESMTPSA id E7DF91000FF
 	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 18:32:15 +0100 (BST)
 From: Sean Young <sean@mess.org>
 To: linux-media@vger.kernel.org
-Subject: [PATCH v4l-utils 1/2] ir-ctl: add optional header to manchester encoding
-Date: Tue, 23 Apr 2024 18:31:54 +0100
-Message-ID: <20240423173155.46009-1-sean@mess.org>
+Subject: [PATCH v4l-utils 2/2] ir-ctl: fix encoding pulse_length bpf encoder
+Date: Tue, 23 Apr 2024 18:31:55 +0100
+Message-ID: <20240423173155.46009-2-sean@mess.org>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240423173155.46009-1-sean@mess.org>
+References: <20240423173155.46009-1-sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,32 +75,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The optional header was not included when transmitting.
+Transmitting pulse_length is broken and never worked. The most common
+user of this protocol is Sony, which already has its own encoder.
 
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- utils/ir-ctl/bpf_encoder.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ utils/ir-ctl/bpf_encoder.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/utils/ir-ctl/bpf_encoder.c b/utils/ir-ctl/bpf_encoder.c
-index 1d075d94..886f046f 100644
+index 886f046f..2bc7b541 100644
 --- a/utils/ir-ctl/bpf_encoder.c
 +++ b/utils/ir-ctl/bpf_encoder.c
-@@ -101,6 +101,14 @@ static void encode_manchester(struct keymap *map, uint32_t scancode, int *buf, i
- {
- 	int len = 0, bits, i;
+@@ -61,24 +61,25 @@ static void encode_pulse_length(struct keymap *map, uint32_t scancode, int *buf,
+ 	if (keymap_param(map, "reverse", 0)) {
+ 		for (i = 0; i < bits; i++) {
+ 			if (scancode & (1 << i))
+-				buf[len++] = keymap_param(map, "bit_1_space", 1625);
++				buf[len++] = keymap_param(map, "bit_1_pulse", 1625);
+ 			else
+-				buf[len++] = keymap_param(map, "bit_0_space", 375);
++				buf[len++] = keymap_param(map, "bit_0_pulse", 375);
  
-+	int header_pulse = keymap_param(map, "header_pulse", 0);
-+	int header_space = keymap_param(map, "header_space", 0);
-+
-+	if (header_pulse > 0) {
-+		manchester_advance_pulse(buf, &len, header_pulse);
-+		manchester_advance_space(buf, &len, header_space);
-+	}
-+
- 	bits = keymap_param(map, "bits", 14);
+-			buf[len++] = keymap_param(map, "bit_pulse", 625);
++			buf[len++] = keymap_param(map, "bit_space", 625);
+ 		}
+ 	} else {
+ 		for (i = bits - 1; i >= 0; i--) {
+ 			if (scancode & (1 << i))
+-				buf[len++] = keymap_param(map, "bit_1_space", 1625);
++				buf[len++] = keymap_param(map, "bit_1_pulse", 1625);
+ 			else
+-				buf[len++] = keymap_param(map, "bit_0_space", 375);
++				buf[len++] = keymap_param(map, "bit_0_pulse", 375);
  
- 	for (i = bits - 1; i >= 0; i--) {
+-			buf[len++] = keymap_param(map, "bit_pulse", 625);
++			buf[len++] = keymap_param(map, "bit_space", 625);
+ 		}
+ 	}
+ 
+-	*length = len;
++	/* drop trailing space */
++	*length = len - 1;
+ }
+ 
+ static void manchester_advance_space(int *buf, int *len, unsigned length)
+@@ -121,8 +122,8 @@ static void encode_manchester(struct keymap *map, uint32_t scancode, int *buf, i
+ 		}
+ 	}
+ 
+-	/* drop any trailing pulse */
+-        *length = (len % 2) ? len : len + 1;
++	/* drop any trailing space */
++	*length = (len % 2) ? len : len + 1;
+ }
+ 
+ bool encode_bpf_protocol(struct keymap *map, uint32_t scancode, int *buf, int *length)
 -- 
 2.44.0
 
