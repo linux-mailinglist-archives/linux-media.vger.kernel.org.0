@@ -1,106 +1,238 @@
-Return-Path: <linux-media+bounces-9887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208EE8ADBB2
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 03:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D258ADBFA
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 04:31:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4A25B23115
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 01:51:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B03EB219DE
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 02:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2C0A17C66;
-	Tue, 23 Apr 2024 01:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3E318032;
+	Tue, 23 Apr 2024 02:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvcWtIps"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E66417997
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 01:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92E112E68
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 02:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713837067; cv=none; b=TpVRQn8J1uApM12h8rv83z2IXLidBvhGq9QiS0TxTM8+XAMEUGjjRnomIJcBE/lxGS5Ybp7cqoguGj3FGMEcEWlmwxICI06gBeR4lUnB6kFUVuBgtj0bRBudM/+dH6zwcPtl6SQQxZpaPuh677Q16ZAZb/oZ1E0nbpxRerJCosg=
+	t=1713839455; cv=none; b=EXQnGwYLmcFpDChPrk7fGjRPwVRVqAZqPz4Wpm5bvECD8ygnFyvmHG6HbpGfybxMvklRHGW/aIQrHws5qVmtYsH1r3FQfxQ4kxCcs08c47X8vkCcQ+q2KvNlSbhkwrCNGk70HumvKSiiT8RSRmcoMj3YS8MvwEV1HjhN7fCALl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713837067; c=relaxed/simple;
-	bh=MSPbbhh11KCXMkc33ONDjeM5eil6GLaJPphWVwr8Hf4=;
-	h=Date:From:To:Subject:Message-Id; b=SK73/8xyAYAEWUsiAr69GIvats/pngyq7AZhsXSyrxWQsnkzp/z24d+WyUNhJWSVIWfINJw8No9csR8KntIcTsXQogzkSvXdCK8T7K753pxamKABksvvE9msw3DWoR6VRkMj4HX9OfhTBA9wmfonpP6vo04u2zZ3Ll95sAdAfBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBABC32786
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 01:51:06 +0000 (UTC)
-Date: Tue, 23 Apr 2024 03:51:04 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240423015106.8DBABC32786@smtp.kernel.org>
+	s=arc-20240116; t=1713839455; c=relaxed/simple;
+	bh=zJmOX/SK6gQxha00EyAHaEcYV8g+M3uwLnwco8+MIiw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=vF+nEZcAs5GGK9KvCgs+LlPkdPLrvq352RsHWKUZRqpg/8Q0FX2HaSVYNIaz1HsQT8YRcZQQ6bgLhwhOHVE1qT2wFahbVKxChOtOGWl/LniDKBoNZy1pTWjQjsm3ez5Gfs/CbO0ac0IUYjd1j1YpI5ui5skg/5JlXwK4vyLKYNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MvcWtIps; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713839454; x=1745375454;
+  h=date:from:to:cc:subject:message-id;
+  bh=zJmOX/SK6gQxha00EyAHaEcYV8g+M3uwLnwco8+MIiw=;
+  b=MvcWtIpsl336bFUI9wplAwUs8C8uI81RcCquuS7b/sTTNSe1lGFE15Gi
+   TVFPHVCr57wyDNwAawc3OvWt3vIuPlub4nvgp8axLIXXPPxEldQW3sAJs
+   VrRxiNoeOPtUekV3XLnpyGOYVtmysPoTUXU4MQbHCPfpCrImJUQclg3iO
+   nW8kdd1FWL2MC/2nhiJLBwwOCL2mZfGyTrnwqbCFKAbMxB1cFk4kgj0/P
+   k2CoZOWAdq2Hir3qADpA4twDdNV+3LPPnHLtJKLeh/TzLE0O5ovUx5QtB
+   1N7ajnsS0f8gV6X881blFcg36yyN2sDYTWIN3sesVEv19QzFTBy2mjMAi
+   A==;
+X-CSE-ConnectionGUID: 3L2fQFNvRdS4ZSHuTJrXdw==
+X-CSE-MsgGUID: jPYeQI45THmR1zELlQPo8Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="20102400"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="20102400"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:30:53 -0700
+X-CSE-ConnectionGUID: cAi2HAvXSJGdEI9Pmm9mfA==
+X-CSE-MsgGUID: +TpkEpzDQTaF5GNdfx3xpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="28662619"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 22 Apr 2024 19:30:51 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rz5vl-0000PU-29;
+	Tue, 23 Apr 2024 02:30:49 +0000
+Date: Tue, 23 Apr 2024 10:29:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ e42a204f0519a2540f1507ac2798be2aeaa76bee
+Message-ID: <202404231047.lTUgAk4A-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: e42a204f0519a2540f1507ac2798be2aeaa76bee  Merge tag 'tags/media-next-uvc-20240419' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git into media_stage
 
-Results of the daily build of media_tree:
+elapsed time: 826m
 
-date:			Tue Apr 23 03:00:17 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	e42a204f0519a2540f1507ac2798be2aeaa76bee
-v4l-utils git hash:	27d7df2461b7efe8251e3e828b9910fea1c48cc8
-edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8635-g375ffc07
-sparse version:		v0.5.0-8635-g375ffc07
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 17e6ec53dd49dd4f29af7582d1be51dbbf55be1c
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+configs tested: 145
+configs skipped: 3
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-no-pm-sleep.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-date:			Tue Apr 23 03:13:57 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240423   gcc  
+arc                   randconfig-002-20240423   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240423   clang
+arm                   randconfig-002-20240423   clang
+arm                   randconfig-003-20240423   clang
+arm                   randconfig-004-20240423   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240423   clang
+arm64                 randconfig-002-20240423   gcc  
+arm64                 randconfig-003-20240423   clang
+arm64                 randconfig-004-20240423   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240423   gcc  
+csky                  randconfig-002-20240423   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240423   clang
+hexagon               randconfig-002-20240423   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240422   clang
+i386         buildonly-randconfig-002-20240422   gcc  
+i386         buildonly-randconfig-003-20240422   clang
+i386         buildonly-randconfig-004-20240422   gcc  
+i386         buildonly-randconfig-005-20240422   gcc  
+i386         buildonly-randconfig-006-20240422   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240422   clang
+i386                  randconfig-002-20240422   clang
+i386                  randconfig-003-20240422   gcc  
+i386                  randconfig-004-20240422   clang
+i386                  randconfig-005-20240422   gcc  
+i386                  randconfig-006-20240422   gcc  
+i386                  randconfig-011-20240422   clang
+i386                  randconfig-012-20240422   clang
+i386                  randconfig-013-20240422   clang
+i386                  randconfig-014-20240422   clang
+i386                  randconfig-015-20240422   clang
+i386                  randconfig-016-20240422   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240423   gcc  
+loongarch             randconfig-002-20240423   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240423   gcc  
+nios2                 randconfig-002-20240423   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240423   gcc  
+parisc                randconfig-002-20240423   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240423   clang
+x86_64       buildonly-randconfig-002-20240423   clang
+x86_64       buildonly-randconfig-003-20240423   gcc  
+x86_64       buildonly-randconfig-004-20240423   gcc  
+x86_64       buildonly-randconfig-005-20240423   clang
+x86_64       buildonly-randconfig-006-20240423   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240423   clang
+x86_64                randconfig-002-20240423   gcc  
+x86_64                randconfig-003-20240423   gcc  
+x86_64                randconfig-004-20240423   gcc  
+x86_64                randconfig-005-20240423   gcc  
+x86_64                randconfig-006-20240423   gcc  
+x86_64                randconfig-011-20240423   gcc  
+x86_64                randconfig-012-20240423   gcc  
+x86_64                randconfig-013-20240423   clang
+x86_64                randconfig-014-20240423   clang
+x86_64                randconfig-015-20240423   clang
+x86_64                randconfig-016-20240423   gcc  
+x86_64                randconfig-071-20240423   clang
+x86_64                randconfig-072-20240423   clang
+x86_64                randconfig-073-20240423   clang
+x86_64                randconfig-074-20240423   gcc  
+x86_64                randconfig-075-20240423   gcc  
+x86_64                randconfig-076-20240423   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
-date:			Tue Apr 23 03:50:05 CEST 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
