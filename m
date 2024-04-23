@@ -1,238 +1,222 @@
-Return-Path: <linux-media+bounces-9888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D258ADBFA
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 04:31:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FDD8ADCC5
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 06:22:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B03EB219DE
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 02:31:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F35391F22959
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 04:22:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3E318032;
-	Tue, 23 Apr 2024 02:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B211CFB2;
+	Tue, 23 Apr 2024 04:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvcWtIps"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnESWfqq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92E112E68
-	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 02:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDFA18AED;
+	Tue, 23 Apr 2024 04:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713839455; cv=none; b=EXQnGwYLmcFpDChPrk7fGjRPwVRVqAZqPz4Wpm5bvECD8ygnFyvmHG6HbpGfybxMvklRHGW/aIQrHws5qVmtYsH1r3FQfxQ4kxCcs08c47X8vkCcQ+q2KvNlSbhkwrCNGk70HumvKSiiT8RSRmcoMj3YS8MvwEV1HjhN7fCALl0=
+	t=1713846161; cv=none; b=fQh8wcO2Ds2vj0iu8Bon/ZXaJqmaDL2duPwzbuPswLhAMimrc1Ue/vTtZQ7oJ13WDz/R984mamzqPcdsuom9eB8NxMqqbt8wTMv/KN7kX+Vjj18UFY8/1ojs+ryzH56RB+RynpPQR0ZyQ6Bm3OZSpdh+IB7XXFtaD/bHR4+U4+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713839455; c=relaxed/simple;
-	bh=zJmOX/SK6gQxha00EyAHaEcYV8g+M3uwLnwco8+MIiw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=vF+nEZcAs5GGK9KvCgs+LlPkdPLrvq352RsHWKUZRqpg/8Q0FX2HaSVYNIaz1HsQT8YRcZQQ6bgLhwhOHVE1qT2wFahbVKxChOtOGWl/LniDKBoNZy1pTWjQjsm3ez5Gfs/CbO0ac0IUYjd1j1YpI5ui5skg/5JlXwK4vyLKYNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MvcWtIps; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713839454; x=1745375454;
-  h=date:from:to:cc:subject:message-id;
-  bh=zJmOX/SK6gQxha00EyAHaEcYV8g+M3uwLnwco8+MIiw=;
-  b=MvcWtIpsl336bFUI9wplAwUs8C8uI81RcCquuS7b/sTTNSe1lGFE15Gi
-   TVFPHVCr57wyDNwAawc3OvWt3vIuPlub4nvgp8axLIXXPPxEldQW3sAJs
-   VrRxiNoeOPtUekV3XLnpyGOYVtmysPoTUXU4MQbHCPfpCrImJUQclg3iO
-   nW8kdd1FWL2MC/2nhiJLBwwOCL2mZfGyTrnwqbCFKAbMxB1cFk4kgj0/P
-   k2CoZOWAdq2Hir3qADpA4twDdNV+3LPPnHLtJKLeh/TzLE0O5ovUx5QtB
-   1N7ajnsS0f8gV6X881blFcg36yyN2sDYTWIN3sesVEv19QzFTBy2mjMAi
-   A==;
-X-CSE-ConnectionGUID: 3L2fQFNvRdS4ZSHuTJrXdw==
-X-CSE-MsgGUID: jPYeQI45THmR1zELlQPo8Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="20102400"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="20102400"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:30:53 -0700
-X-CSE-ConnectionGUID: cAi2HAvXSJGdEI9Pmm9mfA==
-X-CSE-MsgGUID: +TpkEpzDQTaF5GNdfx3xpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="28662619"
-Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Apr 2024 19:30:51 -0700
-Received: from kbuild by 01437695816f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rz5vl-0000PU-29;
-	Tue, 23 Apr 2024 02:30:49 +0000
-Date: Tue, 23 Apr 2024 10:29:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- e42a204f0519a2540f1507ac2798be2aeaa76bee
-Message-ID: <202404231047.lTUgAk4A-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1713846161; c=relaxed/simple;
+	bh=5nWlXKGNzpbPvMYgzwa7Agut73MM3uPw54rc22XINyM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gm1Jh6ICuj0J8uANgviRnlgyvb2thorUcCs+kSSZhvFwgb9ff+HG46gVGnlOd1TtRAiNOf+pzR8dSe3ymaKC1YNFsKP5evX3En8xd9zQvpgcfrqCGOZNf/ix8i3fkXknwXrxaUMVRXnrwcI3tVIhAfviJkzud3eN4J//JHVkPak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnESWfqq; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a557044f2ddso566397866b.2;
+        Mon, 22 Apr 2024 21:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713846158; x=1714450958; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mUs2RUZvYrbt0djestVEkcsXv+XeS/wmMn/FMr80SwM=;
+        b=PnESWfqqXvBOoTvVXyFSsl9cQHSgD7N4ckW/WGfm8ZORq6+9jahTlHVEpXaaFshiSB
+         eiYwITfrYdLDiFRyYsCXlbz5ecfA1658CRg9IewxZ6DF2F70+Kjrdn+unPn6D14NrUXj
+         uJBYHHuFKJJmNT5PHvcN8Lfba5pBrE6ogO0F/yhtbJC8Et0KizP6+cI0mYg3Y/1RRInd
+         CNXzag3rr8hKQX9jegn4cnXODNwWSVaycvMTQVAyWLjQw2JszF2s6J8gbEM91rUWHpQ4
+         81chkubWAiY1N5fPc1cdBlYObu76EktOOpxSoL3Ei0XBXPZeT2kNZ40tLgBNgBFJlUWg
+         uDaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713846158; x=1714450958;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mUs2RUZvYrbt0djestVEkcsXv+XeS/wmMn/FMr80SwM=;
+        b=MQZyKbb1UrpyUTGy4qbxmEpqYydcbSG278mtItqQrw7EjxQJobMIt/K9EBKWtQJOS8
+         dlCCsGXH+qLdpEMrOJi9Ui2w6H14Bxfjciiur/Q8+dmEq9CN8aSLq6/zAve2UOdtA2Mi
+         HBtVqft9Z4lNG5xZ9MC+yEV3HW49+/zxAjBot/5gYGqVubOgurtq3Pr38J6lZp3fj51D
+         Rc5bXo7LwmYYPAXStlB/lzqGn6sb89+OxtywKzFSgdGrrumH+Sd/FCsur5eSDsH+VFV1
+         RFmOc8TfOb9R0ha13AMa72yQsiNZFLKBxOmM0HJgbfqMF23hnJJj9BSBjMJBgGmc2njC
+         anXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlF3meYXu4wAoPiPzbtp/4jMB36MA9J0fAud0oVyq20uqvPFhWv3w/aiCkt0lYUH0V9yDO0FnJ6rqAbum5LTkCZoK+biwvFGut6KEgjkv6+E4iNdjgrQBR/cV37tuzi1IBsAOjV50rpsFRIgFsVrBIIwvn7/4SZuxpH2IX1eIAVxTViLdL
+X-Gm-Message-State: AOJu0YwPif0YHJ86cUYoK70R8tJmeqpohIB4JQ11WcZBgwrGHdv1HH7N
+	XYV+GdMfz66ROi7JywEZDVej8KllBxpJBsCxofEZj0cv9BbWUJyA
+X-Google-Smtp-Source: AGHT+IHNB26jxIYXuLgkHDTr7cigbRb6NRaEhxNW9klXv6JV7oErenfbZDVtvg93kbkJoHjeXqljJQ==
+X-Received: by 2002:a17:906:3502:b0:a52:277d:c1c9 with SMTP id r2-20020a170906350200b00a52277dc1c9mr8047023eja.50.1713846157921;
+        Mon, 22 Apr 2024 21:22:37 -0700 (PDT)
+Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.googlemail.com with ESMTPSA id 17-20020a170906311100b00a5599f3a057sm3847028ejx.107.2024.04.22.21.22.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 21:22:37 -0700 (PDT)
+Message-ID: <c6a8fdc1-0230-4438-8b80-c07daf80f1ce@gmail.com>
+Date: Tue, 23 Apr 2024 06:22:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] dt-bindings: media: convert Mediatek consumer IR to
+ the json-schema
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sean Wang <sean.wang@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20240209085616.1062-1-zajec5@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <20240209085616.1062-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: e42a204f0519a2540f1507ac2798be2aeaa76bee  Merge tag 'tags/media-next-uvc-20240419' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git into media_stage
+Hi Mauro,
 
-elapsed time: 826m
+On 9.02.2024 09:56, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
+> 
+> This helps validating DTS files. Introduced changes:
+> 1. Reworded title
+> 2. Made "bus" clock required on MT7623 as well
+> 3. Added required #include-s and adjusted "reg" & clocks in example
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 
-configs tested: 145
-configs skipped: 3
+could you take my patch throught your tree?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240423   gcc  
-arc                   randconfig-002-20240423   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240423   clang
-arm                   randconfig-002-20240423   clang
-arm                   randconfig-003-20240423   clang
-arm                   randconfig-004-20240423   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240423   clang
-arm64                 randconfig-002-20240423   gcc  
-arm64                 randconfig-003-20240423   clang
-arm64                 randconfig-004-20240423   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240423   gcc  
-csky                  randconfig-002-20240423   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240423   clang
-hexagon               randconfig-002-20240423   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240422   clang
-i386         buildonly-randconfig-002-20240422   gcc  
-i386         buildonly-randconfig-003-20240422   clang
-i386         buildonly-randconfig-004-20240422   gcc  
-i386         buildonly-randconfig-005-20240422   gcc  
-i386         buildonly-randconfig-006-20240422   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240422   clang
-i386                  randconfig-002-20240422   clang
-i386                  randconfig-003-20240422   gcc  
-i386                  randconfig-004-20240422   clang
-i386                  randconfig-005-20240422   gcc  
-i386                  randconfig-006-20240422   gcc  
-i386                  randconfig-011-20240422   clang
-i386                  randconfig-012-20240422   clang
-i386                  randconfig-013-20240422   clang
-i386                  randconfig-014-20240422   clang
-i386                  randconfig-015-20240422   clang
-i386                  randconfig-016-20240422   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240423   gcc  
-loongarch             randconfig-002-20240423   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240423   gcc  
-nios2                 randconfig-002-20240423   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240423   gcc  
-parisc                randconfig-002-20240423   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240423   clang
-x86_64       buildonly-randconfig-002-20240423   clang
-x86_64       buildonly-randconfig-003-20240423   gcc  
-x86_64       buildonly-randconfig-004-20240423   gcc  
-x86_64       buildonly-randconfig-005-20240423   clang
-x86_64       buildonly-randconfig-006-20240423   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240423   clang
-x86_64                randconfig-002-20240423   gcc  
-x86_64                randconfig-003-20240423   gcc  
-x86_64                randconfig-004-20240423   gcc  
-x86_64                randconfig-005-20240423   gcc  
-x86_64                randconfig-006-20240423   gcc  
-x86_64                randconfig-011-20240423   gcc  
-x86_64                randconfig-012-20240423   gcc  
-x86_64                randconfig-013-20240423   clang
-x86_64                randconfig-014-20240423   clang
-x86_64                randconfig-015-20240423   clang
-x86_64                randconfig-016-20240423   gcc  
-x86_64                randconfig-071-20240423   clang
-x86_64                randconfig-072-20240423   clang
-x86_64                randconfig-073-20240423   clang
-x86_64                randconfig-074-20240423   gcc  
-x86_64                randconfig-075-20240423   gcc  
-x86_64                randconfig-076-20240423   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+> ---
+> V2: Extended "IR" in title
+>      Made "bus" required at MT7623 needs it as well
+>      Updated example
+> 
+> Thanks AngeloGioacchino!
+> 
+>   .../bindings/media/mediatek,mt7622-cir.yaml   | 55 +++++++++++++++++++
+>   .../devicetree/bindings/media/mtk-cir.txt     | 28 ----------
+>   2 files changed, 55 insertions(+), 28 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+>   delete mode 100644 Documentation/devicetree/bindings/media/mtk-cir.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+> new file mode 100644
+> index 000000000000..c01210e053f9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Consumer Infrared Receiver on-SoC Controller
+> +
+> +maintainers:
+> +  - Sean Wang <sean.wang@mediatek.com>
+> +
+> +allOf:
+> +  - $ref: rc.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt7622-cir
+> +      - mediatek,mt7623-cir
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: clk
+> +      - const: bus
+> +
+> +required:
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt2701-clk.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    ir@10013000 {
+> +        compatible = "mediatek,mt7623-cir";
+> +        reg = <0x10013000 0x1000>;
+> +        interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+> +        clocks = <&infracfg CLK_INFRA_IRRX>, <&topckgen CLK_TOP_AXI_SEL>;
+> +        clock-names = "clk", "bus";
+> +        linux,rc-map-name = "rc-rc6-mce";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mtk-cir.txt b/Documentation/devicetree/bindings/media/mtk-cir.txt
+> deleted file mode 100644
+> index 5e18087ce11f..000000000000
+> --- a/Documentation/devicetree/bindings/media/mtk-cir.txt
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -Device-Tree bindings for Mediatek consumer IR controller
+> -found in Mediatek SoC family
+> -
+> -Required properties:
+> -- compatible	    : Should be
+> -			"mediatek,mt7623-cir": for MT7623 SoC
+> -			"mediatek,mt7622-cir": for MT7622 SoC
+> -- clocks	    : list of clock specifiers, corresponding to
+> -		      entries in clock-names property;
+> -- clock-names	    : should contain
+> -			- "clk" entries: for MT7623 SoC
+> -			- "clk", "bus" entries: for MT7622 SoC
+> -- interrupts	    : should contain IR IRQ number;
+> -- reg		    : should contain IO map address for IR.
+> -
+> -Optional properties:
+> -- linux,rc-map-name : see rc.txt file in the same directory.
+> -
+> -Example:
+> -
+> -cir: cir@10013000 {
+> -	compatible = "mediatek,mt7623-cir";
+> -	reg = <0 0x10013000 0 0x1000>;
+> -	interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+> -	clocks = <&infracfg CLK_INFRA_IRRX>;
+> -	clock-names = "clk";
+> -	linux,rc-map-name = "rc-rc6-mce";
+> -};
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
