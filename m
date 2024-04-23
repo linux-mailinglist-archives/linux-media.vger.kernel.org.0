@@ -1,301 +1,176 @@
-Return-Path: <linux-media+bounces-9927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9928-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AAC8AE30B
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:53:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008C28AE30E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 12:54:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51E29B23E2C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 10:53:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2468C1C219A2
+	for <lists+linux-media@lfdr.de>; Tue, 23 Apr 2024 10:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C467513C800;
-	Tue, 23 Apr 2024 10:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773197CF25;
+	Tue, 23 Apr 2024 10:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApKlkHo5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJisf4nK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ED013C3FA;
-	Tue, 23 Apr 2024 10:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604785FEE6
+	for <linux-media@vger.kernel.org>; Tue, 23 Apr 2024 10:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713869224; cv=none; b=Qe3as4SIBnbTb31H2SFjHfPihU7utzY9muSr886n5eNYNSYpXL3JwFTvHCmF5HK36oQy11vQqUZyFFDozIpFqS5NXhxjXKmWUP2NFvJ6WbkQTDh0nnTzRXviPESojTi9g44jpV1GAnWPHeWlvVL7popS2LiH5FQ3krgoqu5H/X8=
+	t=1713869358; cv=none; b=Zanx7qDuBTl0WE0XnAlD9tFPfFyDrz/5yy3PJnbrAV5LruS1xBH0yTdcPFHV5i8W1XlQYi/JZhXyFUDvXI2XJNeFiqvDhFqH/iR9Fdn2u0FXYn9otibj8Reikl3XnenBrap3C7tIZNCE560nxbM/qvq2N4Asq5ilNGxhkKUPNqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713869224; c=relaxed/simple;
-	bh=bkgprf7G/ZyltcQ/YTR7N+inx1TvrCZQCes5r1cwoyg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s21nxk8C7/bqEidqe6QNc5vC5GtMpJw8GTEmch++wUtB7gJ8h1XlnRhXVD5mp7nGh97DLwWPb8ICj24lMYu7OHkCqblcsK/deWZZeyRsLYFUVUtSqRttgZuXW9yIyW+5bp1aeoMQz4M2SM2kZouXdhrlK2Ad+vM8VFgc2hpWDgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApKlkHo5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A703DC116B1;
-	Tue, 23 Apr 2024 10:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713869224;
-	bh=bkgprf7G/ZyltcQ/YTR7N+inx1TvrCZQCes5r1cwoyg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ApKlkHo5Y0RvH09/TYnpMO5TAPwchEKruVah1UWv8a7TjZ4UkO6iXpS0t+vQSYBbo
-	 z6lEoK/78d6PAf+wZqb+UOVG24baB8Pz7NRQGEazFL5b2UrmQKAGeLhbpr4qxc/xVE
-	 eQGj41qeCzaz4oFM61unJkR7m9MZDeP7WL1LtlAqJCh9hqvawCPEEC/OWUCmamvFN4
-	 OrfGfMsmIszcbnpuM5TEOsljvPhynMahZ0+otffIyzHmgaX75h7i2fs0S8Xq4+6yXx
-	 3LGKnPjjCY5TJS83pBJSj3QY/yPsFY3ybbUF3K4iz1PP5DPViWv8yfOdcOPKCQZcwJ
-	 yDLHlXsry7KgQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 23 Apr 2024 12:45:57 +0200
-Subject: [PATCH v12 28/28] drm/sun4i: hdmi: Switch to HDMI connector
+	s=arc-20240116; t=1713869358; c=relaxed/simple;
+	bh=x8evBfA7uZdtCo1gFrfv26ViFN87/sekKQkYN2k934Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d9a/xGqqS3H0dn4o+6v6kI1DzcyHUs4wvZoenAWEE76CFCILcYl4/3MmTlFRbltoUgowc2KsxlVlFBulzWIIlUYD3tt/4n/OHqCA+Z7kskh4eJJ8Raju7+HyHQkHB0p3er22a2CKV1gBDZZc6M1GCgTwA90k7TWItZBGqzqnHWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJisf4nK; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713869357; x=1745405357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x8evBfA7uZdtCo1gFrfv26ViFN87/sekKQkYN2k934Y=;
+  b=jJisf4nK7zDLjxZ+8mWU8soEM+Yx2JRXjQNyCkagj+WFN1XyXp1FpLhX
+   O7FtOjclqxqJg4Z1BlUKXvnOrrHtypwHidnfegoxaavRhF1u/dRpzN+Mz
+   hzqpzzCK5NUKor87L9fXyx/gTWy+ZpdNZMK7zhJNMUAJdyupDAygILObN
+   O5v1P6xcJi0izGYRQMsBG5IMzWyEbResPUWDF23eoErm5wsckEr2ExWYs
+   NqtMJO/buJgiz6Br+a5ae6AdUamF4IzXAY8px6OtNy1mIdmtbc+DyeEfW
+   SWBnYLJ6ST7DlQ/eP6GL0OXPsm6I11yTZd8PkVJogN5MQx6+mkyvvB7Ch
+   w==;
+X-CSE-ConnectionGUID: EMG9D9qOR4WmtBzeMMCG2Q==
+X-CSE-MsgGUID: 3T2zqd9MSjKUFC3wQWr+vg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9984887"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9984887"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 03:49:16 -0700
+X-CSE-ConnectionGUID: WGT+bphxQPq6k4KfoF7U0A==
+X-CSE-MsgGUID: 6KB24VHUQBWVScFkNPwg6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24379840"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 03:49:14 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4B6FB11FCCF;
+	Tue, 23 Apr 2024 13:49:11 +0300 (EEST)
+Date: Tue, 23 Apr 2024 10:49:11 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v9 16/46] media: v4l: subdev: Return routes set using
+ S_ROUTING
+Message-ID: <ZieSJ_UEUL3tOzzB@kekkonen.localdomain>
+References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
+ <20240416193319.778192-17-sakari.ailus@linux.intel.com>
+ <20240419225552.GK6414@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240423-kms-hdmi-connector-state-v12-28-3338e4c0b189@kernel.org>
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
-In-Reply-To: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7646; i=mripard@kernel.org;
- h=from:subject:message-id; bh=bkgprf7G/ZyltcQ/YTR7N+inx1TvrCZQCes5r1cwoyg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGnqE8OvvU2f/KT1e89OXQ+lW3/unGA9yVKn33NVtOKUx
- c3mxoyzHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiej6M9aHdsU46i1T+1aiE
- hitPec54d83lCSpbVXWTZ+9j3u12YtYnVev6t4qLnlTVhvjcu9PQztiwTfaos6OLg3Jq1YE7Cx4
- 3LeJSmlzwQyDqpsLCbUIPUrfUSZ5yZmgT8Of4uHNCkGdiSxkA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240419225552.GK6414@pendragon.ideasonboard.com>
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+Hi Laurent,
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/Kconfig          |  1 +
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 2 files changed, 52 insertions(+), 29 deletions(-)
+On Sat, Apr 20, 2024 at 01:55:52AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Apr 16, 2024 at 10:32:49PM +0300, Sakari Ailus wrote:
+> > Return the routes set using S_ROUTING back to the user. Also reflect this
+> > in documentation.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/v4l/vidioc-subdev-g-routing.rst            |  7 ++-----
+> >  drivers/media/v4l2-core/v4l2-subdev.c                | 12 +++++++++++-
+> >  2 files changed, 13 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > index 27eb4c82a0e1..88df7bf80b00 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > @@ -44,7 +44,8 @@ Drivers report their current routing tables using the
+> >  ``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
+> >  with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
+> >  setting or clearing flags of the ``flags`` field of a struct
+> > -:c:type:`v4l2_subdev_route`.
+> > +:c:type:`v4l2_subdev_route`. Similarly to ``VIDIOC_SUBDEV_G_ROUTING``, also
+> > +``VIDIOC_SUBDEV_S_ROUTING`` returns the routes back to the user.
+> 
+> :c:type:`v4l2_subdev_route`. Similarly to ``VIDIOC_SUBDEV_G_ROUTING``,
+> ``VIDIOC_SUBDEV_S_ROUTING`` also returns the routes back to the user.
 
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 5b19c7cb7b7e..80b607903331 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -16,10 +16,11 @@ config DRM_SUN4I
- if DRM_SUN4I
- 
- config DRM_SUN4I_HDMI
- 	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
- 	depends on ARM || COMPILE_TEST
-+	depends on DRM_HDMI_STATE_HELPER
- 	default DRM_SUN4I
- 	help
- 	  Choose this option if you have an Allwinner A10/A10s/A20/A31
- 	  SoC with an HDMI controller.
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2d1880c61b50..7ac085aa0a35 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -35,34 +35,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -81,18 +75,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -141,11 +139,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -194,23 +193,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -252,10 +254,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -273,15 +280,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -636,14 +649,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+The intention here is to say that S_ROUTING returns the routes back to the
+user, just as G_ROUTING does. Moving "also" after S_ROUTING makes the
+meaning of the sentence unclear.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> >  
+> >  All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called.
+> >  This means that the userspace must reconfigure all stream formats and selections
+> > @@ -157,10 +158,6 @@ On success 0 is returned, on error -1 and the ``errno`` variable is set
+> >  appropriately. The generic error codes are described at the
+> >  :ref:`Generic Error Codes <gen-errors>` chapter.
+> >  
+> > -ENOSPC
+> > -   The application provided ``num_routes`` is not big enough to contain
+> > -   all the available routes the subdevice exposes.
+> > -
+> >  EINVAL
+> >     The sink or source pad identifiers reference a non-existing pad or reference
+> >     pads of different types (ie. the sink_pad identifiers refers to a source
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 904378007a79..36b2f78cd551 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -959,8 +959,18 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  		krouting.len_routes = routing->len_routes;
+> >  		krouting.routes = routes;
+> >  
+> > -		return v4l2_subdev_call(sd, pad, set_routing, state,
+> > +		rval = v4l2_subdev_call(sd, pad, set_routing, state,
+> >  					routing->which, &krouting);
+> > +		if (rval < 0)
+> > +			return rval;
+> > +
+> > +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> > +		       state->routing.routes,
+> > +		       min(state->routing.num_routes, routing->len_routes) *
+> > +		       sizeof(*state->routing.routes));
+> > +		routing->num_routes = state->routing.num_routes;
+> > +
+> > +		return 0;
+> >  	}
+> >  
+> >  	case VIDIOC_SUBDEV_G_ROUTING: {
+> 
 
 -- 
-2.44.0
+Regards,
 
+Sakari Ailus
 
