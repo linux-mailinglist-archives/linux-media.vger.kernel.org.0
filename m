@@ -1,113 +1,181 @@
-Return-Path: <linux-media+bounces-10074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AA28B11B3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:07:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E1C8B11BA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED501B27BCE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:07:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D56B28244B
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8059516D9B9;
-	Wed, 24 Apr 2024 18:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6882D16DED4;
+	Wed, 24 Apr 2024 18:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="NP7S3Ph6"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="bAZ3Gy+e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5858516C6A5;
-	Wed, 24 Apr 2024 18:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713982026; cv=none; b=YDEV3Y0EzE77WJC5bUCDFh+zf2cgiTKSODmD8jXyqyNoCbAzD94rKLjHyGiG/pidTu0Kpsb3rMh5XnzRCnRMi10SM+bmANdmwgePBBYjq0MiMDqslki9000QSt4wMJn5Z1w3SSl3Tlb/BjYYywYrtUWjhFrjWz/en29TsllQOKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713982026; c=relaxed/simple;
-	bh=aAXKUwAx4OeGu7HuWw77OwGHHF+wHScj0s8yaIYfPC8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338C016DECE;
+	Wed, 24 Apr 2024 18:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713982216; cv=pass; b=GGiY/r6j5qtTWzrlasfMsIzatNLMU25wcOHoQ4coOKOZonlVf19QwgQNQvpka+QOyHxYHLJQSgJvVthWG7TI5shS71fB9anOsp6VyYnmKxaA4FMPY/Cxgs/wLRQTXwT0567d/4t6hRjJIslSHg9V3AV93QHjVsOcz2GyEjMxie4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713982216; c=relaxed/simple;
+	bh=skA7ahdKPFOTdweUO69mRPcseGb5VBfvaOW2mWZiiTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g/hj80A2YNuq5zlYWTxuJhNTw8i4DBGSM+qF+tsGXR/phpbEWXr+BeuKgTvcV3vhJe3us3eMKhalGG/cjWMEo5UJ6eNsv6Gl6kQqxnxWvwiQEKD/UafGpaCs2FmguN5CVx4a8Tpt6+0mtCwgR13Im7koyJ1L2TGntrDlxq3h99s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=NP7S3Ph6; arc=none smtp.client-ip=83.149.199.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
-Received: from fpc (unknown [5.228.116.47])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 9BFC64076723;
-	Wed, 24 Apr 2024 18:06:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 9BFC64076723
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1713982014;
-	bh=PTDsiKi+3vxRG67GT75ud/6SfAqbbzKbDZvPVeKIgWY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NP7S3Ph6CoCwfcfc7c557yKOlv45Fe9EpZZ6QdSyQMqdRmXK1pEKZgVpwTMe9Bi57
-	 SyMZdApnnUtHA3mZhjY2BDp161/bdSNrc5y6C1SyNhukT24RPONUTWYBGU/OF8/7QI
-	 wwmj4voGCXKUHsDBbVjvHboJY0NKGn3weEIzTjEU=
-Date: Wed, 24 Apr 2024 21:06:50 +0300
-From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: Roman Smirnov <r.smirnov@omp.ru>
-Cc: Michael Krufky <mkrufky@linuxtv.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=BBHG6q50BUn4LGQmwLVRpkTHx+NoLWWDtHGEJFmhUkLmOO12ORocMOBm4AU78ku4BfTfiuzYoxJlBRsjTC2AM9htWEduDSUsC0LyacHgUElKEBypZ1wm917nRK6kDk080apd2Rad9ZWgBUBKDuTpMMWaLmk+wJKItOHXIPN55dM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=bAZ3Gy+e; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VPn8J2Qz8zyS9;
+	Wed, 24 Apr 2024 21:10:08 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1713982210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kQ6EHsDoPYaKM1giwGjW2IWsbINRSBqdgRKvtgvBX3I=;
+	b=bAZ3Gy+efc5xeMEL9Rui0cCc9gM4xKOKEF/gnwgSkxIGCNaIhSLuy5tMzOHYmKpKmoI6Fm
+	DLxBdUBr5l4dh4ZamPtJfL4JhlSij9ddEaMGTPBA8mpZXfEOBSwdBMlqjNBb5O/2dQdwzL
+	zHauxGhAhzneQJ1Icv4iCjWf/t9l2Zg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1713982210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kQ6EHsDoPYaKM1giwGjW2IWsbINRSBqdgRKvtgvBX3I=;
+	b=SLqU3XavR6hWucY82Yi3Sjr9Klzvj+0VwMiaV9m/qwsDbpaWrQqatRVdylD5aO2Ye69/lF
+	OtpZ7+zBbVM7znOuR2By9nHNfTPCtZSRMJXYNRZdLyRf0oElIDHEWGdAXwcnPncuv9Ujuo
+	aubhGADNzIFk2OJIOZGhj0rNnNaHIwk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1713982210; a=rsa-sha256; cv=none;
+	b=SxWm+GEjjq50eUdh//FIwFIZryizApuy+3G785s7hE06BcJroc8SQayis32c8Ggh21Xpz7
+	qvYISE6HES673eh69POJxQViUw6TP/xmIUaOQwhSnN4jKksIG1R4NvPgrgEdd+sl2X4ryL
+	8aaUCIKTZVdip11LgpbJC2LMDPMN/Dg=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C47B2634C96;
+	Wed, 24 Apr 2024 21:10:05 +0300 (EEST)
+Date: Wed, 24 Apr 2024 18:10:05 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jia-Ju Bai <baijiaju1990@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	lvc-project@linuxtesting.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [lvc-project] [PATCH 1/3] media: tuners: tda18271: fix error
- code handling in tda18271_attach()
-Message-ID: <20240424180650.tpemkolglnkb2pyn@fpc>
-References: <20240416114509.198069-1-r.smirnov@omp.ru>
+Subject: Re: [PATCH 1/5] media: i2c: alvium: fix alvium_get_fw_version()
+Message-ID: <ZilK_XO4C1k7uD_D@valkosipuli.retiisi.eu>
+References: <20240416141905.454253-1-tomm.merciai@gmail.com>
+ <20240416141905.454253-2-tomm.merciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240416114509.198069-1-r.smirnov@omp.ru>
+In-Reply-To: <20240416141905.454253-2-tomm.merciai@gmail.com>
 
-Hello Roman,
+Hi Tommaso,
 
-On Tue, 16. Apr 14:45, Roman Smirnov wrote:
-> tda18271_attach() uses the hybrid_tuner_request_state() macro.
-> It may return the error code -ENOMEM, but the function handle
-> the value 0 instead.
-
-Maybe hybrid_tuner_request_state macro declaration should be fixed to
-generate zero in case of a memory allocation failure?
-
-At least it has a comment stating the following
- * 0 - no instances, indicates an error - kzalloc must have failed
-
-And supposedly a number of drivers implemented the error handling based on
-this assumption.
-
-The drivers mentioned in this series are not the only ones susceptible to
-the problem. Grepping through "hybrid_tuner_request_state" calls also gives
-out tda9887, xc2028, r820t and others.
-
+On Tue, Apr 16, 2024 at 04:19:01PM +0200, Tommaso Merciai wrote:
+> Instead of reading device_fw reg as multiple regs let's read the entire
+> 64bit reg using one i2c read and store this info into alvium_fw_version
+> union fixing the dev_info formatting output.
 > 
-> Found by Linux Verification Center (linuxtesting.org) with Svace.
-> 
-> Fixes: b9302fa7ed97 ("media: tuners: fix error return code of hybrid_tuner_request_state()")
-> Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 > ---
->  drivers/media/tuners/tda18271-fe.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/i2c/alvium-csi2.c | 20 ++++++++------------
+>  drivers/media/i2c/alvium-csi2.h | 15 +++++++++++----
+>  2 files changed, 19 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/media/tuners/tda18271-fe.c b/drivers/media/tuners/tda18271-fe.c
-> index a7e721baaa99..23432210f06a 100644
-> --- a/drivers/media/tuners/tda18271-fe.c
-> +++ b/drivers/media/tuners/tda18271-fe.c
-> @@ -1255,7 +1255,7 @@ struct dvb_frontend *tda18271_attach(struct dvb_frontend *fe, u8 addr,
->  					      hybrid_tuner_instance_list,
->  					      i2c, addr, "tda18271");
->  	switch (instance) {
-> -	case 0:
-> +	case -ENOMEM:
->  		goto fail;
->  	case 1:
->  		/* new tuner instance */
-> -- 
-> 2.34.1
-> 
+> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> index e65702e3f73e..991b3bcc8b80 100644
+> --- a/drivers/media/i2c/alvium-csi2.c
+> +++ b/drivers/media/i2c/alvium-csi2.c
+> @@ -403,21 +403,17 @@ static int alvium_get_bcrm_vers(struct alvium_dev *alvium)
+>  static int alvium_get_fw_version(struct alvium_dev *alvium)
+>  {
+>  	struct device *dev = &alvium->i2c_client->dev;
+> -	u64 spec, maj, min, pat;
+> +	union alvium_fw_version v;
+>  	int ret = 0;
+>  
+> -	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R,
+> -			  &spec, &ret);
+> -	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R,
+> -			  &maj, &ret);
+> -	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R,
+> -			  &min, &ret);
+> -	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R,
+> -			  &pat, &ret);
+> -	if (ret)
+> -		return ret;
+> +	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW,
+> +			  &v.value, &ret);
+
+Doesn't this have the same endianness issues that earlier were resolved by
+doing the reads separately?
+
+>  
+> -	dev_info(dev, "fw version: %llu.%llu.%llu.%llu\n", spec, maj, min, pat);
+> +	dev_info(dev, "fw version: %u.%u.%08x special: %u\n",
+> +		 (u32)v.alvium_fw_ver.major,
+> +		 (u32)v.alvium_fw_ver.minor,
+> +		 v.alvium_fw_ver.patch,
+> +		 (u32)v.alvium_fw_ver.special);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
+> index 9463f8604fbc..9c4cfb35de8e 100644
+> --- a/drivers/media/i2c/alvium-csi2.h
+> +++ b/drivers/media/i2c/alvium-csi2.h
+> @@ -31,10 +31,7 @@
+>  #define REG_BCRM_REG_ADDR_R				CCI_REG16(0x0014)
+>  
+>  #define REG_BCRM_FEATURE_INQUIRY_R			REG_BCRM_V4L2_64BIT(0x0008)
+> -#define REG_BCRM_DEVICE_FW_SPEC_VERSION_R		REG_BCRM_V4L2_8BIT(0x0010)
+> -#define REG_BCRM_DEVICE_FW_MAJOR_VERSION_R		REG_BCRM_V4L2_8BIT(0x0011)
+> -#define REG_BCRM_DEVICE_FW_MINOR_VERSION_R		REG_BCRM_V4L2_16BIT(0x0012)
+> -#define REG_BCRM_DEVICE_FW_PATCH_VERSION_R		REG_BCRM_V4L2_32BIT(0x0014)
+> +#define REG_BCRM_DEVICE_FW				REG_BCRM_V4L2_64BIT(0x0010)
+>  #define REG_BCRM_WRITE_HANDSHAKE_RW			REG_BCRM_V4L2_8BIT(0x0018)
+>  
+>  /* Streaming Control Registers */
+> @@ -276,6 +273,16 @@ enum alvium_av_mipi_bit {
+>  	ALVIUM_NUM_SUPP_MIPI_DATA_BIT
+>  };
+>  
+> +union alvium_fw_version {
+> +	struct {
+> +		u8 special;
+> +		u8 major;
+> +		u16 minor;
+> +		u32 patch;
+> +	} alvium_fw_ver;
+> +	u64 value;
+> +};
+> +
+>  struct alvium_avail_feat {
+>  	u64 rev_x:1;
+>  	u64 rev_y:1;
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
