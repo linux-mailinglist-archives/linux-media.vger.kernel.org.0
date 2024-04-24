@@ -1,71 +1,70 @@
-Return-Path: <linux-media+bounces-10078-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10079-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD66A8B1279
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:37:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E7C8B127C
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:38:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68D0EB2D641
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:30:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B111B20CD1
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC6116DEC7;
-	Wed, 24 Apr 2024 18:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7EE316F839;
+	Wed, 24 Apr 2024 18:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ib1fefbo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fo3++ylS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5FF16D9D6;
-	Wed, 24 Apr 2024 18:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C928016EBFF;
+	Wed, 24 Apr 2024 18:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713982665; cv=none; b=uE9ZmPTqPXGTTJcFTffrm0IIjCz9+Crrlh7AaljJHpEdQLNRzZEEBwV7PpB6Lp2mm9WUa6CKtbrBIOUfS42Bdk+qchh0SvB0C4M6h6oXHYQEEeU3txDekJuwB2c+VWQowYxf6/y9wBy+gt4mQHHGpU9nFzn+ZelF2HuyAFu709o=
+	t=1713982946; cv=none; b=UMQ4Nj1SvoR89q3Xbs0d2rQTkD3Sh/NBbRYhljt1oFX2JjaEIUbQNU5Mb7BllfBB337Je+OL5ok8p7vEtze118D7yITg2l2KdgN3dsu6eyN09lhArL9Vcxbess1/YoY/rT47v87R7Z08lA4EiuYVaBWOzWRI/H685Lv102dQD58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713982665; c=relaxed/simple;
-	bh=7xkLBBaXS/ts3U0e/eGzzgm9XxfKNOK2obmaTlvSKJQ=;
+	s=arc-20240116; t=1713982946; c=relaxed/simple;
+	bh=9dqTFNekjq83nuq4A5WxGVHQROMd+6+bp42VQddKZ4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3B2dZ/axpBUDas3i50+aMtqeWrbZVwDnaGqLwTR6DBaskcZiuAZ8RloErP1OGfZ01srxeEO+cDca0xl3V78JrxcAYiNxm8XPCrSzz/v9VkgabXwAA7nEvZtV7VOKAJtP22zn+mGneq29PLG34BTe3ZIqLhHMZx6Xf0SRlcGryM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ib1fefbo; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=GTmLZSy/OgNLOj1Nd0O2qlsJTezDRuxAlyil+W7UrKpNRXAjdEry1dTaRG6BGtRBGNk/o8Bg6SPGT3svwAxCcOvTyiClfk711PG+4wnI3wdNmrdSCLH9Oz6bZBmDXG+wJQbRQp31G46vhGYsfrOlee4fBXDyzR8LN46pNMC6rHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fo3++ylS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713982662; x=1745518662;
+  t=1713982945; x=1745518945;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7xkLBBaXS/ts3U0e/eGzzgm9XxfKNOK2obmaTlvSKJQ=;
-  b=ib1fefboxOUDctCIpib9X8Z415agBUtMpBakRAWHeejxqL6RA4/sr6va
-   H0FldPjtVQm/jvxL0cpTJrt2l/uP6kuD0QghxLYMiLfngh5UlG0ocDejz
-   h11MInOfUAlsutuSid97fMgRBJpmQET2HPkTjDLqnpw0Sg75rh/YyVRl8
-   ajlNBWcHjqvlHRsON88WmlG/j/jwE0TaRp1GmzLiroRTKlm5tK+G/K1EE
-   5gwfBtJmy3CuehTl7l66/KEEwRZ+VWzCqLy9n82ZN2Xg9e6ilz6RINA/4
-   Xolu8sZNEhFookdW/JF+o2oAMcTpWe2Rl876sGblACFn3LPfobV+GFO3c
+  bh=9dqTFNekjq83nuq4A5WxGVHQROMd+6+bp42VQddKZ4k=;
+  b=fo3++ylSefi/dy2kpifjOlO5XrbHsGCKJHdWBES9BcVHq1mNwgCy8ajL
+   2mIX5jm0OyI/VVunl5LsqQ0hUKO0EfIzvlx5iir4ArjiLcA3hg7djk2T8
+   jvm36yGEB/XqK++KKzrL/fSeWYqll2kiruNpYD5uw8ZWVkZUmJ3Rh52dB
+   YhCDFwm1BRs/WTLOims2Da1CrzLymko0RGxXLMXAt0y4EQkUy/lJAx7dN
+   8fP6vbBfxTa6CDtxueNVG1NaybGWyuvj60jeBMCIkg+n9/W4smAjWl4h+
+   Ocz0xAruRSUY9oUXegrUYngeWl8dR2bg82Lk8B7TI1j4mdAcbFyVxcZ7c
    g==;
-X-CSE-ConnectionGUID: DUkMIiiwR2GJvRV1vlUZAA==
-X-CSE-MsgGUID: 0fHHtLllQTOv0rkFFurkBw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="10169224"
+X-CSE-ConnectionGUID: SCrhgoVTSJmtVRvF6asnew==
+X-CSE-MsgGUID: ZoaNxE8yTWSRp3nTTxKXhQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9756854"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="10169224"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:17:41 -0700
-X-CSE-ConnectionGUID: kTFwy/phR+KWMlgyOhnMww==
-X-CSE-MsgGUID: 8tONyMQGRoWni1myd2XIFg==
+   d="scan'208";a="9756854"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:22:24 -0700
+X-CSE-ConnectionGUID: nPsWMScFSZuFDn8N5RVk9Q==
+X-CSE-MsgGUID: xyDd/+6JTdurYNniUF5Glg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="24864024"
+   d="scan'208";a="24751858"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:17:33 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:22:16 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7403011F855;
-	Wed, 24 Apr 2024 21:17:31 +0300 (EEST)
-Date: Wed, 24 Apr 2024 18:17:31 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2C82E11F855;
+	Wed, 24 Apr 2024 21:22:13 +0300 (EEST)
+Date: Wed, 24 Apr 2024 18:22:13 +0000
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Hugues Fruchet <hugues.fruchet@foss.st.com>,
@@ -83,7 +82,8 @@ Cc: Ricardo Ribalda <ribalda@chromium.org>,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
 	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Dmitry Osipenko <digetx@gmail.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
@@ -98,12 +98,11 @@ Cc: Ricardo Ribalda <ribalda@chromium.org>,
 	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
- v4l2_async_create_ancillary_links
-Message-ID: <ZilMu614pUAzEGTa@kekkonen.localdomain>
+Subject: Re: [PATCH v2 21/26] media: i2c: st-mipid02: Use the correct div
+ function
+Message-ID: <ZilN1VBduFcqNBbr@kekkonen.localdomain>
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
- <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
+ <20240419-fix-cocci-v2-21-2119e692309c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -112,68 +111,42 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
+In-Reply-To: <20240419-fix-cocci-v2-21-2119e692309c@chromium.org>
 
-Hi Hans,
+Hi Ricardo,
 
-On Wed, Apr 24, 2024 at 12:55:20PM +0200, Hans Verkuil wrote:
-> On 19/04/2024 11:47, Ricardo Ribalda wrote:
-> > Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
-> > is not enabled.
-> > 
-> > This makes cocci happier:
-> > 
-> > drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
-> > 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 7 +++----
-> >  1 file changed, 3 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index 4bb073587817..915a9f3ea93c 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
-> >  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
-> >  					     struct v4l2_subdev *sd)
-> >  {
-> > -	struct media_link *link = NULL;
-> > +	struct media_link *link;
-> >  
-> > -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-> > +	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
-> > +		return 0;
-> >  
-> >  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
-> >  	    sd->entity.function != MEDIA_ENT_F_FLASH)
-> > @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
-> >  
-> >  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
-> >  
-> > -#endif
-> > -
-> >  	return IS_ERR(link) ? PTR_ERR(link) : 0;
-> >  }
+On Fri, Apr 19, 2024 at 09:48:07AM +0000, Ricardo Ribalda wrote:
+> link_freq does not fit in 32 bits.
 > 
-> I think I would prefer:
+> Found by cocci:
+> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
 > 
-> static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
-> 					     struct v4l2_subdev *sd)
-> {
-> #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-> 	struct media_link *link;
+> Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/i2c/st-mipid02.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 	...
-> 
-> 	return IS_ERR(link) ? PTR_ERR(link) : 0;
-> #else
-> 	return 0;
-> #endif
-> }
-> 
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index f250640729ca..93a40bfda1af 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
+>  	}
+>  
+>  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+> -	do_div(ui_4, link_freq);
+> +	ui_4 = div64_s64(ui_4, link_freq);
 
-Me, too.
+These are positive numbers and ui_4 is unsigned. I'd use div64_u64()
+instead. With that,
+
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+>  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+>  
+>  	return 0;
+> 
 
 -- 
 Regards,
