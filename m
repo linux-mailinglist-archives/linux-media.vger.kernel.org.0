@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-9974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954658B004C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 06:04:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA63D8B006F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 06:17:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C793A1C22840
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 04:04:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A79D9284A8E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 04:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF98513D8AA;
-	Wed, 24 Apr 2024 04:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BEF513E8B5;
+	Wed, 24 Apr 2024 04:17:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1800.securemx.jp [210.130.202.159])
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1802.securemx.jp [210.130.202.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A007B2E62F;
-	Wed, 24 Apr 2024 04:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5291613AA2B;
+	Wed, 24 Apr 2024 04:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713931433; cv=none; b=hqz7o4KBHAzD4dsoj1XvYt5i/9aVZxSCy8ke12LBBaggseOFVHsGJ2K7kDUM9BwrcNWnPnwD8jXGsZKds9zvy/CN28DLMqd6KljFMAm69PdqSlyskKNKyE1/Xkp0tg4GmNoPLFhnZllGCO7870pTzXNoH4+lbztDYNOCrx/8Etg=
+	t=1713932254; cv=none; b=FDZx3iujNEjhaR2lG1s2E9MLDyJWYmy11OaLPEL0kx7Gpm/I0CiSL4+Bk5H3zkx1JdTKI+Mb9rSppftoxadaTsL9qJSGPQju89wXamHJoB8jctADZVCQPIdJOHQRQNi29bfkTnUtWZzmAsGVEoaZu1gdQC2ZaZ/HM2Cfptq47ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713931433; c=relaxed/simple;
-	bh=B+h7Jp/6EvvI1Jk4SY22xj4TXHpSNWzg+I/jNd1g5rA=;
+	s=arc-20240116; t=1713932254; c=relaxed/simple;
+	bh=tmZivAPoRtjSnEGiLMrWJXye+3/kG+MWQ2bcPivPywA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qy/IFTZN6OhYVPOKQZ6qWtA28vTKyUYCZmYypRsqF+R+yWCB2F9iOGvREqhT1tEvpeS8WfeC07lqawSo5vDPyhok9Wodi/JS71+KFlHPnGvhJuKj2eem++sEqrC/vN00HXdJA9NO4kxmfxmDXTz9sPdmDaaKfk/xddmKnAgVpOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; arc=none smtp.client-ip=210.130.202.159
+	 MIME-Version; b=kXGE4ED0b/Pqv76Jv6vhsMbBm5AYoU2kek7THYtit7taRspXQcFnAG7dVqJl3CbBy9XXoTxBcnyi9jeZNH+rwuUBPyEnUVFFtmkObrV3QbNCrge0xK9eW/4AMXLphsdN5Wcea3eVu1YeOGYCdNuMFvB7umQ7yy/f3dmPIKGuynU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; arc=none smtp.client-ip=210.130.202.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1800) id 43O2mE6n1268714; Wed, 24 Apr 2024 11:48:14 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1800) id 43O2lj242370929; Wed, 24 Apr 2024 11:47:45 +0900
-X-Iguazu-Qid: 2yAbrn6vF8CAnmg93Q
-X-Iguazu-QSIG: v=2; s=0; t=1713926864; q=2yAbrn6vF8CAnmg93Q; m=iex2HuYsQnWVyYTk4Z4OYAj4t75rip2eB59cUQhQG/g=
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1802) id 43O2mFon1222808; Wed, 24 Apr 2024 11:48:15 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1802) id 43O2lZUw3514010; Wed, 24 Apr 2024 11:47:35 +0900
+X-Iguazu-Qid: 2yAbdMiuYNn0EEa8l0
+X-Iguazu-QSIG: v=2; s=0; t=1713926855; q=2yAbdMiuYNn0EEa8l0; m=ryJhWAlzIXynJusIuDL36Fxw7+i1HfiH1CQUOwHDqDY=
 Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
-	by relay.securemx.jp (mx-mr1803) id 43O2lgGh1789569
+	by relay.securemx.jp (mx-mr1800) id 43O2lW2s2335784
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 24 Apr 2024 11:47:42 +0900
-X-SA-MID: 21956149
+	Wed, 24 Apr 2024 11:47:33 +0900
+X-SA-MID: 21956136
 From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 To: Hans Verkuil <hverkuil@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -50,10 +50,10 @@ To: Hans Verkuil <hverkuil@xs4all.nl>,
         Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 6/6] MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-Date: Wed, 24 Apr 2024 11:42:15 +0900
+Subject: [PATCH v10 2/6] media: videodev2.h: add visconti viif meta buffer format
+Date: Wed, 24 Apr 2024 11:42:11 +0900
 X-TSB-HOP2: ON
-Message-Id: <20240424024215.1624299-7-yuji2.ishikawa@toshiba.co.jp>
+Message-Id: <20240424024215.1624299-3-yuji2.ishikawa@toshiba.co.jp>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240424024215.1624299-1-yuji2.ishikawa@toshiba.co.jp>
 References: <20240424024215.1624299-1-yuji2.ishikawa@toshiba.co.jp>
@@ -65,66 +65,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added entries for visconti Video Input Interface driver, including;
-* device tree bindings
-* source files
-* documentation files
+Adds the Toshiba Visconti VIIF specific metadata format
+
+- V4L2_META_FMT_VISCONTI_VIIF_PARAMS for ISP parameters
+- V4L2_META_FMT_VISCONTI_VIIF_STATS for ISP statistics
 
 Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 ---
-Changelog v2:
-- no change
-
-Changelog v3:
-- added entry for driver API documentation
-
-Changelog v4:
-- added entry for header file
-
-Changelog v5:
-- no change
-
-Changelog v6:
-- update path to VIIF driver source files
-
-Changelog v7:
-- no change
-
-Changelog v8:
-- rename bindings description file
-
-Changelog v9:
-- no change
-
 Changelog v10:
-- add a separate entry of VIIF driver
+- add entry for V4L2_META_FMT_VISCONTI_VIIF_PARAMS
+- add entry for V4L2_META_FMT_VISCONTI_VIIF_STATS
 
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/uapi/linux/videodev2.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c23fda1aa1..411e708d06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22408,6 +22408,17 @@ F:	Documentation/devicetree/bindings/media/i2c/tc358743.txt
- F:	drivers/media/i2c/tc358743*
- F:	include/media/i2c/tc358743.h
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index a8015e5e7f..686657e022 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -839,6 +839,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+ #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
  
-+TOSHIBA VISCONTI VIIF DRIVER
-+M:	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-+M:	Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/media/visconti-viif.*
-+F:	Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
-+F:	Documentation/userspace-api/media/v4l/metafmt-visconti-viif.rst
-+F:	drivers/media/platform/toshiba/visconti/
-+F:	include/uapi/linux/visconti_viif.h
++/* Vendor specific - used for Visconti VIIF sub-system */
++#define V4L2_META_FMT_VISCONTI_VIIF_PARAMS	v4l2_fourcc('V', 'I', 'F', 'P') /* ISP Params */
++#define V4L2_META_FMT_VISCONTI_VIIF_STATS	v4l2_fourcc('V', 'I', 'F', 'S') /* ISP Stats */
 +
- TOSHIBA WMI HOTKEYS DRIVER
- M:	Azael Avalos <coproscefalo@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
+ /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+ 
 -- 
 2.25.1
 
