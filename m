@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-10093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10094-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6B18B1784
-	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 01:58:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C2A8B1785
+	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 01:58:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5AA57B218E4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 23:58:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02A511C21F14
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 23:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348621E86F;
-	Wed, 24 Apr 2024 23:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBD616F835;
+	Wed, 24 Apr 2024 23:57:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MxeTB9J1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cJiZCebQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A1141C68
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 23:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF74816F292
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 23:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714003074; cv=none; b=gpomBJ2FkK8g9U8v6BnYEKK3XpGxJEosreWOBp6qGkNCAL+GoJ4pG6l4IsDWuqC1TaycKQt22EmEbjBVLsgKWmTgtxEKLQzhuP/ma5z/v685Kd7ShsUA+W41L4IegdY3fRHtvUYioJR0QgomsKfdqKJqHS2J8Q29qw9Wciovjv0=
+	t=1714003077; cv=none; b=Z/gZMC7KGhitA2f+6aJ7aQDQsTXnw/7I6PbjblfBgkV6FGuVcaVLI1uyZyw6pekjcQOVYYjefTNDbfof94GOKg3vMHnMw8jXjKeHrB2A2wdEg4IGRq1o8nCv7RLjaiIpu9QV4tv0Yhztw4+LN4l9iluoKb6D9ts5EHt5JsseAYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714003074; c=relaxed/simple;
-	bh=DParDiem+PolXFYuzkrMLrrTqcArw7q95yhZvUHEkt8=;
+	s=arc-20240116; t=1714003077; c=relaxed/simple;
+	bh=fVMTT10sqrBGCEoEQ8HFX71p/79ckrEQukn6p4V2Eo0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PslaqE3lcKFO1YGIAquomOvwGHLZpZQrquyW1rmE9xAj0b/GDIERsT41uYuMaYNvw0beYBnHSuc0nfJUQPqxvtAd0K/z2jv0vuG1VBeWFqcoS8JJHPO4XC5AB8bknNM/JdpG39cL3tYXLkUcy4ES9neTxQnSRiq8EJ+y2Ytk79o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MxeTB9J1; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=QCe1t4hhLe2neMfUGOnzCk55x4abU7QyjQGHk4lUAB439ZDmSNybcFt51Y3VmaM3XDfiuxJ97PERx31HE6xIQ2gqsvxrYCqWDODwR/WICebeto96kvbQpmwAUNwp5uaObdF9zM5rWyqCtA3UTZosDMIW+DXWPFrmvEroJYFbX/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cJiZCebQ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 545174D0;
-	Thu, 25 Apr 2024 01:56:59 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3194966B;
+	Thu, 25 Apr 2024 01:57:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714003019;
-	bh=DParDiem+PolXFYuzkrMLrrTqcArw7q95yhZvUHEkt8=;
+	s=mail; t=1714003020;
+	bh=fVMTT10sqrBGCEoEQ8HFX71p/79ckrEQukn6p4V2Eo0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MxeTB9J1yHNDC01oD0EiglUvNZWmBex58U6pxVY92scUWreBpi+PKpSozelCIwXli
-	 tLxp1ZILFvB1i1VnIH73zvqZCU+TEASKz0KgGL5Feajqeoz/TGsvHH/Fwp1s8cK70T
-	 QobJFjfC81ScyVX9LMmBE0zddCLlxuVcU7o7fcNs=
+	b=cJiZCebQUW6xzw3n/yWwEF+r+s17rGfAVI5v91gAUHSHlUxzUne7dgsJet7P73AJd
+	 GknSafh3xIJa1swenivOAk5vT+YWj+D9Ujhz1n50egJe76qH3Z2bDc7EkCbtw8rR3V
+	 n0R97WTIgP/QKuIGCgejNgOwXk9Zsi9cjPmP3QuQ=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v1 1/9] media: vimc: Don't iterate over single pad
-Date: Thu, 25 Apr 2024 02:57:33 +0300
-Message-ID: <20240424235741.17093-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 2/9] media: vimc: Constify vimc_ent_type structures
+Date: Thu, 25 Apr 2024 02:57:34 +0300
+Message-ID: <20240424235741.17093-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
 References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
@@ -59,62 +59,116 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The .init_state() operations of the debayer and sensor entities iterate
-over the entity's pads. In practice, the iteration covers a single pad
-only. Access the pad directly and remove the loops.
+The vimc_ent_type structure contains static pointers to functions, and
+no other information that need to be modified after initialization. Make
+them const to avoid the risk of arbitrary code execution following an
+overflow that would overwrite the structure's contents.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/test-drivers/vimc/vimc-debayer.c |  9 +++------
- drivers/media/test-drivers/vimc/vimc-sensor.c  | 10 +++-------
- 2 files changed, 6 insertions(+), 13 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-capture.c |  2 +-
+ drivers/media/test-drivers/vimc/vimc-common.h  | 12 ++++++------
+ drivers/media/test-drivers/vimc/vimc-debayer.c |  2 +-
+ drivers/media/test-drivers/vimc/vimc-lens.c    |  2 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c  |  2 +-
+ drivers/media/test-drivers/vimc/vimc-sensor.c  |  2 +-
+ 6 files changed, 11 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index ba7550b8ba7e..89506ae00901 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -494,7 +494,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
+ 	return ERR_PTR(ret);
+ }
+ 
+-struct vimc_ent_type vimc_capture_type = {
++const struct vimc_ent_type vimc_capture_type = {
+ 	.add = vimc_capture_add,
+ 	.unregister = vimc_capture_unregister,
+ 	.release = vimc_capture_release
+diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+index 7641a101a728..6a76717e0384 100644
+--- a/drivers/media/test-drivers/vimc/vimc-common.h
++++ b/drivers/media/test-drivers/vimc/vimc-common.h
+@@ -156,7 +156,7 @@ struct vimc_ent_type {
+  */
+ struct vimc_ent_config {
+ 	const char *name;
+-	struct vimc_ent_type *type;
++	const struct vimc_ent_type *type;
+ };
+ 
+ /**
+@@ -167,11 +167,11 @@ struct vimc_ent_config {
+  */
+ bool vimc_is_source(struct media_entity *ent);
+ 
+-extern struct vimc_ent_type vimc_sensor_type;
+-extern struct vimc_ent_type vimc_debayer_type;
+-extern struct vimc_ent_type vimc_scaler_type;
+-extern struct vimc_ent_type vimc_capture_type;
+-extern struct vimc_ent_type vimc_lens_type;
++extern const struct vimc_ent_type vimc_sensor_type;
++extern const struct vimc_ent_type vimc_debayer_type;
++extern const struct vimc_ent_type vimc_scaler_type;
++extern const struct vimc_ent_type vimc_capture_type;
++extern const struct vimc_ent_type vimc_lens_type;
+ 
+ /**
+  * vimc_pix_map_by_index - get vimc_pix_map struct by its index
 diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-index d72ed086e00b..e1bf6db73050 100644
+index e1bf6db73050..e2f12a7fb58f 100644
 --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
 +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-@@ -155,16 +155,13 @@ static int vimc_debayer_init_state(struct v4l2_subdev *sd,
- {
- 	struct vimc_debayer_device *vdebayer = v4l2_get_subdevdata(sd);
- 	struct v4l2_mbus_framefmt *mf;
--	unsigned int i;
- 
- 	mf = v4l2_subdev_state_get_format(sd_state, 0);
- 	*mf = sink_fmt_default;
- 
--	for (i = 1; i < sd->entity.num_pads; i++) {
--		mf = v4l2_subdev_state_get_format(sd_state, i);
--		*mf = sink_fmt_default;
--		mf->code = vdebayer->src_code;
--	}
-+	mf = v4l2_subdev_state_get_format(sd_state, 1);
-+	*mf = sink_fmt_default;
-+	mf->code = vdebayer->src_code;
- 
- 	return 0;
+@@ -622,7 +622,7 @@ static struct vimc_ent_device *vimc_debayer_add(struct vimc_device *vimc,
+ 	return ERR_PTR(ret);
  }
+ 
+-struct vimc_ent_type vimc_debayer_type = {
++const struct vimc_ent_type vimc_debayer_type = {
+ 	.add = vimc_debayer_add,
+ 	.release = vimc_debayer_release
+ };
+diff --git a/drivers/media/test-drivers/vimc/vimc-lens.c b/drivers/media/test-drivers/vimc/vimc-lens.c
+index 3ce7f4b4d2cc..e7d78fa8ccdb 100644
+--- a/drivers/media/test-drivers/vimc/vimc-lens.c
++++ b/drivers/media/test-drivers/vimc/vimc-lens.c
+@@ -96,7 +96,7 @@ static void vimc_lens_release(struct vimc_ent_device *ved)
+ 	kfree(vlens);
+ }
+ 
+-struct vimc_ent_type vimc_lens_type = {
++const struct vimc_ent_type vimc_lens_type = {
+ 	.add = vimc_lens_add,
+ 	.release = vimc_lens_release
+ };
+diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
+index afe13d6af321..3e32cfb79c64 100644
+--- a/drivers/media/test-drivers/vimc/vimc-scaler.c
++++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
+@@ -442,7 +442,7 @@ static struct vimc_ent_device *vimc_scaler_add(struct vimc_device *vimc,
+ 	return &vscaler->ved;
+ }
+ 
+-struct vimc_ent_type vimc_scaler_type = {
++const struct vimc_ent_type vimc_scaler_type = {
+ 	.add = vimc_scaler_add,
+ 	.release = vimc_scaler_release
+ };
 diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-index 5e34b1aed95e..b535b3ffecff 100644
+index b535b3ffecff..11df18332865 100644
 --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
 +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-@@ -44,14 +44,10 @@ static const struct v4l2_mbus_framefmt fmt_default = {
- static int vimc_sensor_init_state(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state)
- {
--	unsigned int i;
-+	struct v4l2_mbus_framefmt *mf;
- 
--	for (i = 0; i < sd->entity.num_pads; i++) {
--		struct v4l2_mbus_framefmt *mf;
--
--		mf = v4l2_subdev_state_get_format(sd_state, i);
--		*mf = fmt_default;
--	}
-+	mf = v4l2_subdev_state_get_format(sd_state, 0);
-+	*mf = fmt_default;
- 
- 	return 0;
+@@ -448,7 +448,7 @@ static struct vimc_ent_device *vimc_sensor_add(struct vimc_device *vimc,
+ 	return ERR_PTR(ret);
  }
+ 
+-struct vimc_ent_type vimc_sensor_type = {
++const struct vimc_ent_type vimc_sensor_type = {
+ 	.add = vimc_sensor_add,
+ 	.release = vimc_sensor_release
+ };
 -- 
 Regards,
 
