@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-10043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F908B0E17
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:25:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B9C8B0E18
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:26:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 149A1281B6F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:25:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F0AA1C24FAD
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9E1715ECFA;
-	Wed, 24 Apr 2024 15:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AA9C15F41B;
+	Wed, 24 Apr 2024 15:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d1Xb6xx1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ALHsVN/r"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F011815F3E5
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 15:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA71E15ECFA
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 15:26:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713972348; cv=none; b=maqIMflmJEoVnqbaPLDR35+i1sH3UCfdIp6G949yqH7J0atEDTUFOdhLtvTq/RyVwh19gQ5H8C22ZyXtblZkQUhNmuI97TSIAIUCJ2Z1ne0PA/84L6kOtFq+KyiRS0c7jKRulLN491CP/Uxkg2Irg3kNEnSonBYXme2t24z+Xvo=
+	t=1713972393; cv=none; b=CSHElzHUeEKDb7niLBXRt9YxRCR8jcB+W0a90G1YFdbPbvcMn42qohkVBlQ1spAeLTHc8TE4HGX9Gmcomzn8sIcdctjhXb6sHG4qvBqKOTwfWXMURoA1k03/hugVetqB1A5bbapqWcpJeughRmCfnT+6Op1OTc6H00sBDViAwJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713972348; c=relaxed/simple;
-	bh=04u0AHeFFom4NKvFfmW4pPpdU/kqL3VLt5K4aCoW5sA=;
+	s=arc-20240116; t=1713972393; c=relaxed/simple;
+	bh=htAsa3HZL9qjRq9FAR1cLwdPyaFm2n3DFyPr3dNkKuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BfTx+mpFTGUmDtHXm3l8fKlbGbJqQjkFq4POoIb+ROlDPnDUWtUXg40uW/MnQItGyNw0IQBfkgJwvq03RMDlcB5cOqfYhbVaX7ervzvtQ99dOLyhMMx+FFK/SzGSNdX+3qjnTbpOtNz4mk2sse6lJT4ij4/ByIFXziC1rOjKYcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d1Xb6xx1; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=FT6V38OXqVCM5Wyz2VUpt41e1XyPt1sUY3R9fQvo5TlVHRao5wRYP2MLihQo+qHL6ZKS9X0TJYlt0iKoQemJaEaeAEpmNtn4KSHe0VbNZj6Ax1QhrjujddOq3y0KUpvb0eaRL29hDNwjVkdn6KnrGn7ofPgGlml5GGvpi9jzJbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ALHsVN/r; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3807674;
-	Wed, 24 Apr 2024 17:24:52 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 844ED674;
+	Wed, 24 Apr 2024 17:25:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713972293;
-	bh=04u0AHeFFom4NKvFfmW4pPpdU/kqL3VLt5K4aCoW5sA=;
+	s=mail; t=1713972338;
+	bh=htAsa3HZL9qjRq9FAR1cLwdPyaFm2n3DFyPr3dNkKuw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d1Xb6xx1SPbav+w3C15P32P2sKAfXWCkdCXCoC2rXaT7Rgy1WObRRSoOyNprumb05
-	 iR55j5dy2YZu+mIG1sSE3/TiRsKAq7ulZDmGZHhfOHst4wysGn1kCvmn1dlxjbpCJe
-	 FpZSUia6GCnbMXZB+x4YEEI03UrQuSSwaA1reDm0=
-Date: Wed, 24 Apr 2024 18:25:37 +0300
+	b=ALHsVN/r8txPlO/dcvZMY1opg3vmUqtqn0WV09CioTb7YMfydCAo0F7V/a5eC/uSq
+	 orpzYYosrxxE2rL8m3YavLsCmvkzSM83u+s0mnyEKyHpysiems2LJ9hksSwy10ORGg
+	 k6w49raBUF/QNFJqdf5hsWIvBiKnllbf1/vW22lA=
+Date: Wed, 24 Apr 2024 18:26:23 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
@@ -51,10 +51,11 @@ Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH 09/14] media: Documentation: Document S_ROUTING behaviour
-Message-ID: <20240424152537.GA18246@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 07/14] media: v4l: Set line based metadata flag in V4L2
+ core
+Message-ID: <20240424152623.GA32190@pendragon.ideasonboard.com>
 References: <20240424122237.875000-1-sakari.ailus@linux.intel.com>
- <20240424122237.875000-10-sakari.ailus@linux.intel.com>
+ <20240424122237.875000-8-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,62 +64,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240424122237.875000-10-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240424122237.875000-8-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Apr 24, 2024 at 03:22:32PM +0300, Sakari Ailus wrote:
-> Document S_ROUTING behaviour for different devices.
-> 
-> Generally in devices that produce streams the streams are static and some
-> can be enabled and disabled, whereas in devices that just transport them
-> or write them to memory, more configurability is allowed. Document this.
+On Wed, Apr 24, 2024 at 03:22:30PM +0300, Sakari Ailus wrote:
+> Set (and unset) the V4L2_FMT_FLAG_META_LINE_BASED flag in struct
+> v4l2_fmtdesc based on the format after returning the driver callback for
+> enumerating formats. This way the drivers don't need to care about the
+> flag.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Julien Massot <julien.massot@collabora.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  .../userspace-api/media/v4l/dev-subdev.rst    | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 16 ++++++++++++++++
+>  include/uapi/linux/videodev2.h       |  4 ++++
+>  2 files changed, 20 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index b76e02e54512..0f9eda3187f3 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -572,6 +572,29 @@ Any configurations of a stream within a pad, such as format or selections,
->  are independent of similar configurations on other streams. This is
->  subject to change in the future.
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 2cfc9106857a..5e928e2a2beb 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1538,6 +1538,22 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  		}
+>  	}
 >  
-> +Device types and routing setup
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +	if (fmt->type == V4L2_BUF_TYPE_META_CAPTURE) {
+> +		switch (fmt->pixelformat) {
+> +		case V4L2_META_FMT_GENERIC_8:
+> +		case V4L2_META_FMT_GENERIC_CSI2_10:
+> +		case V4L2_META_FMT_GENERIC_CSI2_12:
+> +		case V4L2_META_FMT_GENERIC_CSI2_14:
+> +		case V4L2_META_FMT_GENERIC_CSI2_16:
+> +		case V4L2_META_FMT_GENERIC_CSI2_20:
+> +		case V4L2_META_FMT_GENERIC_CSI2_24:
+> +			fmt->flags |= V4L2_FMT_FLAG_META_LINE_BASED;
+> +			break;
+> +		default:
+> +			fmt->flags &= ~V4L2_FMT_FLAG_META_LINE_BASED;
+> +		}
+> +	}
 > +
-> +Different kinds of sub-devices have differing behaviour for route activation,
-> +depending on the hardware. In all cases, however, only routes that have the
-> +``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set are active.
-> +
-> +Devices generating the streams may allow enabling and disabling some of the
-> +routes or have a fixed routing configuration. If the routes can be disabled, not
-> +declaring the routes (or declaring them without
-> +``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
-> +disable the routes. ``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes
-> +back to the user in the routes array, with the ``V4L2_SUBDEV_STREAM_FL_ACTIVE``
-> +flag unset.
-> +
-> +Devices transporting the streams almost always have more configurability with
-> +respect to routing. Typically any route between the sub-device's sink and source
-> +pads is possible, and multiple routes (usually up to certain limited number) may
-> +be active simultaneously. For such devices, no routes are created by the driver
-> +and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
-> +called on the sub-device. Such newly created routes have the device's default
-> +configuration for format and selection rectangles.
-> +
->  Configuring streams
->  ^^^^^^^^^^^^^^^^^^^
+>  	if (descr)
+>  		WARN_ON(strscpy(fmt->description, descr, sz) < 0);
+>  	fmt->flags |= flags;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 647ce3419bd8..d944db7ae1ed 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -839,6 +839,10 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+>  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
 >  
+> +/*
+> + * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
+> + * adding new ones!
+> + */
+>  #define V4L2_META_FMT_GENERIC_8		v4l2_fourcc('M', 'E', 'T', '8') /* Generic 8-bit metadata */
+>  #define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'C', '1', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
+>  #define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'C', '1', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
 
 -- 
 Regards,
