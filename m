@@ -1,267 +1,213 @@
-Return-Path: <linux-media+bounces-10003-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10004-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F69A8B081C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 13:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771A08B084A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 13:28:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4844A2836FC
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 11:12:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07F082884AF
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 11:28:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FAE15A48C;
-	Wed, 24 Apr 2024 11:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3926415A48D;
+	Wed, 24 Apr 2024 11:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="aUraB8ye"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8601D1598E7;
-	Wed, 24 Apr 2024 11:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713957123; cv=none; b=fBs6nP95GvETS/0bAapa1B2JXcpv/1kzzeqV1+k0ozU/i2Zs7Z7FZjgyem/EncCiXhFZIkbDOot4aTDGR6ht6klVTW/MxGHjlgrOEIH3HxzlD7KXamlAOHA6YSUUUOABPik5z+bPXPCl55X7uZscFIMJUq/CsrMDK8QJWmx9vyM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713957123; c=relaxed/simple;
-	bh=7j+bqzwwRnpE1+l6HyrvmBZeRb2GhcdwQavkB7KSqDU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uAcZKL04eO5e/ciftRbb5Xbqs8+j5Xm2Rsk/giTMzLu0gHyoagnwB0wp6HfjYwFIHtWT3y4he2P9QflNq+NOILRrTPsJs+qMtav+JAAMD+SK3nPQE/u9KguzVDPvkSSXWfTqzOjY0cprrcnlnFHSmthBGn2arbZ7nhcbx8ft4sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2480C113CE;
-	Wed, 24 Apr 2024 11:11:53 +0000 (UTC)
-Message-ID: <3f834858-628b-4f21-bd85-1833cd8ccc98@xs4all.nl>
-Date: Wed, 24 Apr 2024 13:11:51 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0647D13DDD9
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 11:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713958098; cv=fail; b=t6A+F3fdJKnkeFDOeet8uncF4HRo7D4okUteFlCDyJD9bnzss+y/SOgyQZ2MlayrpyoUUta5Dwr7GzVioQHuC2e0GtCotyEg6BT2C5VQ5VpvQCjCQW0OTMMdr5i6RgPSMlFZI718lo4Tpb/WRCOzI4Tnx0+xb7yK8k2m1ofikys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713958098; c=relaxed/simple;
+	bh=0caiZIJf9Ahtw9j6vx8m5jZwHHWNz6+4qOgYr63r5mo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Cx0iSXZ5U2HArFuWQOAhbQPbmM+BI2k48NkTlIwVD+m08axnuiSQyfvpv3RXsbvwOD5McKyaIKGNInCYRfpXHy8NMX9I2HZWPkj7CLWHYhVGzeDzFXKFzA4LZy/Nj60zVS/GTEsOqCg6WcaEl9YniZUJlAIEV5v4uREBrldOwvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=aUraB8ye; arc=fail smtp.client-ip=40.107.223.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E06A7sk+kQUN2tTDq5cUVaicMbJldeYTUs7WTLiksc3rdEmKp0M2URGwzXLE93n6gQx64JHhsn7uKDhxYPRj+NtlcygekCb2Rkrd9q3jcQFEodEiSnJbu7UgipRAse1KQI1Skh1cjIUP1rBwuAX4nDQmLbvuUf1ZZd77C61JZSeQzhPamch+1tTzxl3vP7I2mnPtUOCe+1swm4ojL4ehYXmLOHz+vTL4JtT+5GLCIFrQTr4w5VRjzZvYpV1PwFybeV1T/kBNVwQDonEfyEFcbOPYO0aroPEGL5LStIx/Vm/dfM8Jo+qNwnLf+1RJmTm7k/VOkAZwz8fUKaUCTW1l+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mBw6+ntN2rfz+x2uKkQOE8Te2XoN/bfylndvQCt4NLE=;
+ b=JiWLztsadzw8MberbNb/QI3TCp1Aundn8Ph2DkW2hSg3u/jgtgIPTmndMb5RQcuRR5yuEqD2J02Wh0/C9MCtWOsUMHGEugg0x8kjoYQSln3BKGuB9oYrkb7e/gSOhFWNEvTXe5QgupCwF7/Ck7gCSncExZXZhzc8MoyPWRCuEIgS3E22r4iHrTs0/rbKcdkgCV+1uHyvf8jXE10x8yI4dOZHigDiXSgcizUGPbdZRQUkaPSe1UmFmQDBeQtAl1ykv1W4g+dwCZ1XB0mcVZg1jJhX3OsGVqL4nUU4/G4Cd8K2m1CGzOcGb3q9JrO3GuHhjsskX9nAywCt0Cs5wu95xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mBw6+ntN2rfz+x2uKkQOE8Te2XoN/bfylndvQCt4NLE=;
+ b=aUraB8yeB1ksxtildMH5iy6nAJoyIJJyrc2AveMK5Crg7dL1Yn0lerICfS4sfvb247VWfx9TWYPNolfJS0ALb54wPhnN0RG2yYLa3VN2FxF3fkAd6H5nNRadxIYg/8doAWCeyyFcjhh1++ciVtnoTgtr8oUT9xP7UC650GHYt2g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB6667.namprd12.prod.outlook.com (2603:10b6:510:1a9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
+ 2024 11:28:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
+ 11:28:12 +0000
+Message-ID: <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+Date: Wed, 24 Apr 2024 13:28:05 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+To: Dmitry Antipov <dmantipov@yandex.ru>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+ <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VE1PR03CA0011.eurprd03.prod.outlook.com
+ (2603:10a6:802:a0::23) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/26] media: Fix coccinelle warning/errors
-Content-Language: en-US, nl
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6667:EE_
+X-MS-Office365-Filtering-Correlation-Id: f69a25cd-36a3-4e1b-bec5-08dc64519fe5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SzN6cUx6TjBpSW1FbTlyTGlHREdLelNacGpLVDN6a2pKbm9YSWNZcTVKT0Vk?=
+ =?utf-8?B?TFFjQ3prcXJvSHhJdWs2SGRYN0xxQ0JuazlqY1IrQlN1R3JVbXEzMzJxc05x?=
+ =?utf-8?B?VlRqazJQL2kvSUdCNU4rb0NnUnlWQVFwOUp2VjdQWmpBcHcxakFnM3NlejZT?=
+ =?utf-8?B?MHYycGcxS2w0Nk1oMG5ZYURCZEFQK0s4K3ZTMjdHend3eGdjS2V5SGxPYlpu?=
+ =?utf-8?B?NHZPK0p3ODBzdlhvQkkvaHF5UUNpWm1YUGdhbjF6NUdnSlZJZnRQeU9wR2RH?=
+ =?utf-8?B?SGczUlhHUGRQTHk5RVV6OXlLeW02TTlRYldEUUZERXRmVG5WTHl5d3Zsd1hN?=
+ =?utf-8?B?OWZXT0dHZVVGY3RRT2lvdURHT0RIdW9mdG1aOFByTldCQUdIWWZtN3p4OFVK?=
+ =?utf-8?B?L0NyalhPWjFlT0JjeExhanBXWlJnN01QSlI3RWJvK0pYdzF1alJPYUN3UDVO?=
+ =?utf-8?B?TkdJbU9MU2cxYjBBVEpQb1NtQ3V6anFKa3RrQ2tlUDRpUjZwSzNydlRpOHFa?=
+ =?utf-8?B?ekF3KzlvU2VxOXBBVnhZdmlqdEd6djhEZUtOajVOOGE1aFhaaTluQndKQzBU?=
+ =?utf-8?B?bExmYWxBemRqbndiSkowdkZkT1I5VjJzMVoyY0VpRmwrcFJVN09CUFNzQzFy?=
+ =?utf-8?B?RGVPcCt4UDNMNFVaMzlUdmRVeUl1WGd1OXk5c0FOQktZNWt6eWZQazFZQU5C?=
+ =?utf-8?B?VEd6R0NQVC9jS2kzMkp6ek9CNnNTU0V3Zm9GMUVmN0Q5ajN2MVQvMCtuaU1q?=
+ =?utf-8?B?RkFIc1Y0NU1SaDM3NjdyMVkzanY0cVpBeDFMVjdGN2x1VHdYdlQ1UjZrazdl?=
+ =?utf-8?B?cVRLdzhMVjI5V1BXcExUSHlvcVM3eVdZWklDcm4zMlZPZXFyVFdlYUt3c2JU?=
+ =?utf-8?B?TW1qeWM1c014dUMwOSs5OFVDZWtxNnNyNGhxMXFpaFg5QjlxYmEvNkNJZ0k4?=
+ =?utf-8?B?YkNEcmZTV2RLa0VTRk42cTNEZXlYMFhXeEtsQU45Vm5sY1Z2ZXFFRXI4SnEz?=
+ =?utf-8?B?dnQ0M1pYeHhCMi8wTGI3ZzRBQVAzbnpaMnUxRkVXc2dvQmNDbEZ2WWNzTjZ5?=
+ =?utf-8?B?R1VSbmlvQlpkU2J4SGxMUUUwMWNHd2JXWHU5VEN1Yy8ybURkSDVhUGVpeFlP?=
+ =?utf-8?B?cXhrK1Jmb2xabUp4WnpnWmxQWHVNS0thTG1qVGdudy92THNJRitOeFZHVmlq?=
+ =?utf-8?B?bEFDWHFsakwyNkhmR0FjNGtEZmNrTEFZb2VJMk9kU0o1cmJjdTg3QmNGcTU4?=
+ =?utf-8?B?eEZmUTJOWFJZQU5JbGE5a2JTaXlTRnp0eFFIdlRqdGllTnp4bjI4NWNRRktD?=
+ =?utf-8?B?WklLOXlNb3NrcUdSb2R2b3Jic2hwYUR2ek9KRk8zbUFHcTFLaTd0bTlEVklP?=
+ =?utf-8?B?L2gyVlJOSHBMTGMzeGdYenFHaVN0QkdMaEdsUG1CWnA3a21wWUk4ZEE4Znc1?=
+ =?utf-8?B?RWJSb3J6cHR3NWNXVE45dmViZU1zbXJYcFJaRHVwTlRmcnVFdExHbEVabFUw?=
+ =?utf-8?B?d2pmMlpnU0hpUHNZbmFobVFiUWU2aDFKRWt5NjVodjkxMVQ2NnF0dGJyOG9G?=
+ =?utf-8?B?bm5OVmdxYlNNNkVKZUZkNzMyOFRBYWVncnRXendmVFVoODQvWVFmc2JFVlla?=
+ =?utf-8?B?R09iOXhTOWNwYlZoRUd2VURUL2lVT3lIU3RPam0wcG9NV0RHeGtiTkRaRWJh?=
+ =?utf-8?B?ZXVBd1dRamhPTTJFVGFrVUhLU0llRlNvcTdqdk1LaTJQd21nMGNUcStnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RHF2QWNMZDRNSjBkdGpFSzd6NXIwQ3Q5V01qLzJXZGJXdDVlNzk2MGRGUWZT?=
+ =?utf-8?B?WUwrT0YrY01UVkxrcWtYRFFRYXArVWRZL0lJZEFzMWNVZzM4SUtTazJXNEw1?=
+ =?utf-8?B?Q010ZkFRMlJOVy9ubW9xT1I4ZmFZRGdGRmkybnJSc3VaUmZhVitMdWlBZEto?=
+ =?utf-8?B?NEIvS2ltZm5oZmxvNHN6L1BTN2JDNFVoaExrenZ3WUFXUFZ1emNFaXFTVmI2?=
+ =?utf-8?B?SmFiem1JWXBrRkMrbkJlZjBaMVBDY1VFQmx4UW85bDAzV3BtSTJGVzR4Rit3?=
+ =?utf-8?B?cmVLU1ByamdacGR5ODFwVHduai9Ra0J6UTNWSlZTMGlmYnBwOWNUbG4rVDgr?=
+ =?utf-8?B?bksrNWw3Y2twa2hNcXBSZGhPeFdRNzJRZk9zWnhRQmZUbnIxZllUbXB5aUZK?=
+ =?utf-8?B?L0F6N0hLeG9SMHFhRC9HdWZCOUV4c0ZNemRaNjhLbjZzSEV4NFF3aS96bUI5?=
+ =?utf-8?B?WVJGZ1k1SHp2d29HT3hPVEVjVFBBc1JhdDY0MXRNem1vMUVnU0NlYzlNT1ZU?=
+ =?utf-8?B?SXhpMjhORGYwT29ka0FneW93dHMxWG1DWTUzZ21GRXc5bGFSRWR1Q3hSakpL?=
+ =?utf-8?B?TG9uWEN6MW5pdjY5NnYvbE9kVW5IblVyV0lidDZvWndrektWQzc1MG5NcEZ6?=
+ =?utf-8?B?UkZ3eHMvbE9jUVF6S3hMUm1na0RzZ0t3TlM1U2tseHh1YngxTEJ5eE1YZzNO?=
+ =?utf-8?B?OXBsdFhkcDhkWUNPUUI4Y0lGVjhxVVZ4cEZKV1VhZGMweFNnZDdXc0oyOTBM?=
+ =?utf-8?B?bURuNndiWXovSVJ6bXUvVmlYdm1tVEpJbmhZOE5ham1PM2kxYWJYMERaNEE4?=
+ =?utf-8?B?Mkxpa3RDSEZVS2ZCVXVNbWVMUnY0TUV3L1pJUTBxOG5vRVRDL0NmRkUxNFBU?=
+ =?utf-8?B?RHhwNGxSTkt5WlNkNTI3emRPRlh0WmV4TmE3ZXFLVHYvVzk4K0lDV1pyOHpx?=
+ =?utf-8?B?QlN6K2gwRnlQY2paUHhZMlN3VElHSllIMC9EOHBEL2dWTlRxNGhqTXkvSEgv?=
+ =?utf-8?B?ckVPaHNsWFNiNU5VeFlDanFpMmk2cWhxMFNBNjJkb1dZN1diY1VvblliU2dx?=
+ =?utf-8?B?WDFmWFFnNTV2T01oY2Fvb2xFNXl1TXRWUEtKZUtLYzlaRm1XVlloVEQ2c3pW?=
+ =?utf-8?B?Y0lsREc1QVVhM1FGT0x2ZkJraGdvWEY2ZDVsSVlSaWNxU0hxM2xnUnJKSGNy?=
+ =?utf-8?B?d2VBdnpaNkRSaTYrUFVnN2hwM2g4emdyVDJiRkM1VnltVjhDbEY2VGtYalhh?=
+ =?utf-8?B?M0VHNlhMUXhiMVVRd21zS28wUDRORWZkaHpBNWN5emc4Wk01Z1VUM1FJZkY2?=
+ =?utf-8?B?aUVGYWFuVmFNN0UyTElWMlFEUHFXWGx0MDlmVlhQY2pIVExXaklwSS8vTlhh?=
+ =?utf-8?B?U1dHU3ZEUnZsYk9PZUVmMVRicEtmQ1dHcGFNeDlhQTYxc0tlZ1lWMzNIalhr?=
+ =?utf-8?B?NzNjaCtEakljVWpEbU5qd1U3elhKNGd5UXUzd056SjB2Rk9NOFhtZU82Q3gy?=
+ =?utf-8?B?L0h2WE5ZejFCTnpISTVQWEwxTTlqS0xmR21ZR1FTdG5IcktIMy96MG9LbTVN?=
+ =?utf-8?B?TXhVK0Vjb1d3RHErMm5hVXduZit4MGVmelRrbFJNeE5keWFQQ0lvMC9icUcy?=
+ =?utf-8?B?aUxkVkFFZzBTMkZjUzI3T3BxazR1QWxoVi9sN3ZrUFgrZGduNmwybzJxaExV?=
+ =?utf-8?B?ZzhGUVVvWDZxN3F3SFN2T1F0NlRCTGRGNWU0U1JVTEJPWEt4cWJjZWl2QU9V?=
+ =?utf-8?B?SkJpUUVxc2tVejJzRWJhTGhobnpzcVRNWXEwTzNyZnYrV1BIelRSY3YySFZl?=
+ =?utf-8?B?ckxoR2M1S1R1Ujl5eHZ1dUlBZ01GRjRhLytrV29MTUJ3NVlNUUYyb3U2cTlW?=
+ =?utf-8?B?OENXaGFhekFhZDRKQkJCMVlCTEJXRmV2SjJoSE1WUXdQUEx5U0JTZlpwZ001?=
+ =?utf-8?B?eFFUMHR6c200YVQ3Sy95TUdqdWVTaTNJQ0FRZXhLVHVWdjFwbkwrZE44cHZE?=
+ =?utf-8?B?NzZacnV6ME1yVXErZDFxUGlSVjFjalVKZDZHVC9wZU43RTMwV0FRQUtobzR5?=
+ =?utf-8?B?U0IwVFJweG9ZSWxPWklGdng5Y2NKOTNud1BseWZSREM2Z1ZPa3BGZVQxSUxQ?=
+ =?utf-8?Q?SNHNkfcHrPoPbkM1RccYHOYBj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f69a25cd-36a3-4e1b-bec5-08dc64519fe5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 11:28:12.0509
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mlwlhtv/Od8B7TIGRe00BKc/gdhw1tHMAVsvOAfZoqV5AFe/VniaiSueHwjgXrN5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6667
 
-On 19/04/2024 11:47, Ricardo Ribalda wrote:
-> After this set is applied, these are the only warnings left:
-> drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
-> drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
-> drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
-> drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
-> drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
-> drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
-> drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
-> drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
-> drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
-> drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
-> drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
-> drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> 
-> CI tested:
-> https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
+Am 24.04.24 um 12:19 schrieb Dmitry Antipov:
+> On 4/24/24 10:09, Christian König wrote:
+>
+>> To repeat what I already said on the other thread: Calling 
+>> dma_buf_poll() while fput() is in progress is illegal in the first 
+>> place.
+>>
+>> So there is nothing to fix in dma_buf_poll(), but rather to figure 
+>> out who is incorrectly calling fput().
+>
+> Hm. OTOH it's legal if userspace app calls close([fd]) in one thread 
+> when another
+> thread sleeps in (e)poll({..., [fd], ...}) (IIUC this is close to what 
+> the syzbot
+> reproducer actually does). What behavior should be considered as valid 
+> in this
+> (yes, really weird) scenario?
 
-Other than what others already reported, plus my own two comments, this series
-looks good. So likely I can pick up v3 once it is posted.
+That scenario is actually not weird at all, but just perfectly normal.
+
+As far as I read up on it the EPOLL_FD implementation grabs a reference 
+to the underlying file of added file descriptors.
+
+So you can actually close the added file descriptor directly after the 
+operation completes, that is perfectly valid behavior.
+
+It's just that somehow the reference which is necessary to call 
+dma_buf_poll() is dropped to early.
+
+I don't fully understand how that happens either, it could be that there 
+is some bug in the EPOLL_FD code. Maybe it's a race when the EPOLL file 
+descriptor is closed or something like that.
 
 Regards,
+Christian.
 
-	Hans
-
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v2:
-> - Remove all the min() retval, and send a patch for cocci:  https://lore.kernel.org/lkml/20240415-minimax-v1-1-5feb20d66a79@chromium.org/T/#u
-> - platform_get_irq() cannot return 0, fix that (Thanks Dan).
-> - Fix stb0800 patch. chip_id can be 0 (Thanks Dan).
-> - Use runtime (IS_ENABLED), code looks nicer. (Thanks Dan).
-> - Do not replace do_div for venus (Thanks Dan).
-> - Do not replace do_div for tda10048 (Thanks Dan).
-> - Link to v1: https://lore.kernel.org/r/20240415-fix-cocci-v1-0-477afb23728b@chromium.org
-> 
-> ---
-> Ricardo Ribalda (26):
->       media: pci: mgb4: Refactor struct resources
->       media: stb0899: Simplify check
->       media: uvcvideo: Refactor iterators
->       media: uvcvideo: Use max() macro
->       media: go7007: Use min and max macros
->       media: stm32-dcmipp: Remove redundant printk
->       media: staging: sun6i-isp: Remove redundant printk
->       media: dvb-frontends: tda18271c2dd: Remove casting during div
->       media: v4l: async: refactor v4l2_async_create_ancillary_links
->       staging: media: tegra-video: Use swap macro
->       media: s2255: Use refcount_t instead of atomic_t for num_channels
->       media: platform: mtk-mdp3: Use refcount_t for job_count
->       media: common: saa7146: Use min macro
->       media: dvb-frontends: drx39xyj: Use min macro
->       media: netup_unidvb: Use min macro
->       media: au0828: Use min macro
->       media: flexcop-usb: Use min macro
->       media: gspca: cpia1: Use min macro
->       media: stk1160: Use min macro
->       media: tegra-vde: Refactor timeout handling
->       media: i2c: st-mipid02: Use the correct div function
->       media: tc358746: Use the correct div_ function
->       media: venus: vdec: Make explicit the range of us_per_frame
->       media: venus: venc: Make explicit the range of us_per_frame
->       media: dvb-frontends: tda10048: Fix integer overflow
->       media: dvb-frontends: tda10048: Make explicit the range of z.
-> 
->  drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
->  drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
->  drivers/media/dvb-frontends/stb0899_drv.c          |  2 +-
->  drivers/media/dvb-frontends/tda10048.c             | 13 +++++++----
->  drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
->  drivers/media/i2c/st-mipid02.c                     |  2 +-
->  drivers/media/i2c/tc358746.c                       |  3 +--
->  drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
->  drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
->  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
->  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
->  .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
->  .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
->  .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
->  drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
->  drivers/media/platform/qcom/venus/vdec.c           |  7 ++----
->  drivers/media/platform/qcom/venus/venc.c           |  7 ++----
->  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  7 ++----
->  drivers/media/usb/au0828/au0828-video.c            |  5 +----
->  drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
->  drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
->  drivers/media/usb/gspca/cpia1.c                    |  6 ++---
->  drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
->  drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
->  drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
->  drivers/media/v4l2-core/v4l2-async.c               |  7 +++---
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  3 +--
->  drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
->  28 files changed, 84 insertions(+), 111 deletions(-)
-> ---
-> base-commit: 836e2548524d2dfcb5acaf3be78f203b6b4bde6f
-> change-id: 20240415-fix-cocci-2df3ef22a6f7
-> 
-> Best regards,
+>
+> Dmitry
+>
 
 
