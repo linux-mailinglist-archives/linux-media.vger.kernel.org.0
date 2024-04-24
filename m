@@ -1,36 +1,51 @@
-Return-Path: <linux-media+bounces-9996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9997-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5073E8B06F0
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:07:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353FB8B071E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:19:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07EC5283223
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:07:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 66B261C218B3
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:19:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D1C4159219;
-	Wed, 24 Apr 2024 10:07:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92098159564;
+	Wed, 24 Apr 2024 10:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="qw/aJUOt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from forward502c.mail.yandex.net (forward502c.mail.yandex.net [178.154.239.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13261E898;
-	Wed, 24 Apr 2024 10:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3411591F0
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 10:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713953237; cv=none; b=CM8LlWTJcB5g1/BXcp8YgIBtE+QyMgGLoFEQ6MuA9XM8QqMOOqawd+EbS0mzCU43vuMVFHYCUj8QrbrMMZ1TilqtSs8XkjOl9nU6jMCvWuEOCx4rVxJH4wpjO4hTQOk6dcbNfHDfJPd1u8tcF/tupMh1LlPL2UZEsP1AjywrqkU=
+	t=1713953951; cv=none; b=G+3CucASIYfCp4ZZ298wJ2TqmhOv1jrHFSAzkuz7hn9xv0KoJX+jwSmnRflyFjDwaaREGGUDvu3RVwr5+ShSHxjVQ9KWMTttnPwgWl00Lly8AMLnbB1h6Snsp5qReoDv/fNIPhVPX49hRmZWHJEw0wzI1N3V0MduDN/RETGhCjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713953237; c=relaxed/simple;
-	bh=8lcnCIurDEsAwt5dZGIgZqL4JM8FXi3W5HBrOI9pPPw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JUUPEvKTzKycGO1XogTX67788Lbs29cGRp9fm9U9XkjT9frWwTajE44vrWUfHRDT46sDbeGdDj32XoQKyEusF1JioTtJvVvtDPTcNbdvHY7Pi32fsB8cAAnjRRDm+JUy6I5gnyu/PLGBqUeK3tktx3pZo8F9OLoc6lmM1g/9xnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D99A4C32782;
-	Wed, 24 Apr 2024 10:07:13 +0000 (UTC)
-Message-ID: <054e6a95-796a-4bff-b629-96928eeb1685@xs4all.nl>
-Date: Wed, 24 Apr 2024 12:07:12 +0200
+	s=arc-20240116; t=1713953951; c=relaxed/simple;
+	bh=zLFpsCwnZXQSkbUXCqTPTA2rkuxnsQGtlUuFIpIo6PY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=V2YCzcYC39f++Bh3Up1j9C74+8nBk9jAJUD9fKIu8aD5WREBCYopLePlvjme5dhoBEtq6TOsuNjrNPZs4XlkCsNpOE1MXpOgIY1ozioa9z/TYCanIhWZ8VCq6hjaSo0nBPvcFT163VY/NNwtPrAu1egiJcuyks72uQuqFjx1MAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=qw/aJUOt; arc=none smtp.client-ip=178.154.239.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c1c:2a8f:0:640:9ed8:0])
+	by forward502c.mail.yandex.net (Yandex) with ESMTPS id 4B9D6616DA;
+	Wed, 24 Apr 2024 13:19:04 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 2JI0u8XSt0U0-GRyBOpDb;
+	Wed, 24 Apr 2024 13:19:03 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1713953943; bh=zLFpsCwnZXQSkbUXCqTPTA2rkuxnsQGtlUuFIpIo6PY=;
+	h=In-Reply-To:Subject:To:From:Cc:Date:References:Message-ID;
+	b=qw/aJUOtB/njXotw7x8ACJAe69nby1E/Tq9M/nLlTZh3k8c8gKEEUjGcIzZYfUBS2
+	 6wSwQ8T5DF/htDU9zeKT/5xThQ42FvpBKQqt7YweCf+5tFKlmlpqs3tV+xKLElvo/e
+	 8oM1Xh6qvSmTwNnb50ljggQGoIPEQfdLXUeiy5XI=
+Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+Date: Wed, 24 Apr 2024 13:19:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,174 +53,63 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: amphion: Report the average qp of current
- encoded frame
-Content-Language: en-US, nl
-To: Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
- ming.qian@oss.nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20240329092352.2648837-1-ming.qian@nxp.com>
- <20240329092352.2648837-2-ming.qian@nxp.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240329092352.2648837-2-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+Content-Language: en-US
+From: Dmitry Antipov <dmantipov@yandex.ru>
+Autocrypt: addr=dmantipov@yandex.ru; keydata=
+ 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
+ A/UwwXBRuvydGV0=
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+In-Reply-To: <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 29/03/2024 10:23, Ming Qian wrote:
-> Report the average qp value of current encoded frame via the control
-> V4L2_CID_MPEG_VIDEO_AVERAGE_QP
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  drivers/media/platform/amphion/venc.c        | 4 ++++
->  drivers/media/platform/amphion/vpu.h         | 2 ++
->  drivers/media/platform/amphion/vpu_defs.h    | 1 +
->  drivers/media/platform/amphion/vpu_helpers.c | 3 +++
->  drivers/media/platform/amphion/vpu_v4l2.c    | 9 +++++++++
->  drivers/media/platform/amphion/vpu_v4l2.h    | 1 +
->  drivers/media/platform/amphion/vpu_windsor.c | 2 ++
->  7 files changed, 22 insertions(+)
-> 
-> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-> index 4eb57d793a9c..12cebafeaf3b 100644
-> --- a/drivers/media/platform/amphion/venc.c
-> +++ b/drivers/media/platform/amphion/venc.c
-> @@ -680,6 +680,9 @@ static int venc_ctrl_init(struct vpu_inst *inst)
->  			       ~(1 << V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME),
->  			       V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME);
->  
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			  V4L2_CID_MPEG_VIDEO_AVERAGE_QP, 0, 51, 1, 0);
-> +
->  	if (inst->ctrl_handler.error) {
->  		ret = inst->ctrl_handler.error;
->  		v4l2_ctrl_handler_free(&inst->ctrl_handler);
-> @@ -819,6 +822,7 @@ static int venc_get_one_encoded_frame(struct vpu_inst *inst,
->  	vbuf->field = inst->cap_format.field;
->  	vbuf->flags |= frame->info.pic_type;
->  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
-> +	vpu_set_buffer_average_qp(vbuf, frame->info.average_qp);
->  	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
->  	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
->  	venc->ready_count++;
-> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
-> index 0246cf0ac3a8..d21ca6bf2459 100644
-> --- a/drivers/media/platform/amphion/vpu.h
-> +++ b/drivers/media/platform/amphion/vpu.h
-> @@ -270,6 +270,7 @@ struct vpu_inst {
->  	u8 xfer_func;
->  	u32 sequence;
->  	u32 extra_size;
-> +	u32 current_average_qp;
->  
->  	u32 flows[16];
->  	u32 flow_idx;
-> @@ -306,6 +307,7 @@ struct vpu_vb2_buffer {
->  	dma_addr_t chroma_v;
->  	unsigned int state;
->  	u32 tag;
-> +	u32 average_qp;
->  };
->  
->  void vpu_writel(struct vpu_dev *vpu, u32 reg, u32 val);
-> diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/amphion/vpu_defs.h
-> index 7320852668d6..428d988cf2f7 100644
-> --- a/drivers/media/platform/amphion/vpu_defs.h
-> +++ b/drivers/media/platform/amphion/vpu_defs.h
-> @@ -114,6 +114,7 @@ struct vpu_enc_pic_info {
->  	u32 wptr;
->  	u32 crc;
->  	s64 timestamp;
-> +	u32 average_qp;
->  };
->  
->  struct vpu_dec_codec_info {
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
-> index d12310af9ebc..59139302cb1d 100644
-> --- a/drivers/media/platform/amphion/vpu_helpers.c
-> +++ b/drivers/media/platform/amphion/vpu_helpers.c
-> @@ -378,6 +378,9 @@ int vpu_helper_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
->  		ctrl->val = inst->min_buffer_out;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
-> +		ctrl->val = inst->current_average_qp;
-> +		break;
-
-This is not a volatile control. Instead, the control should be updated
-with the new average_qp in the vpu_vb2_buf_finish function.
-
-Regards,
-
-	Hans
-
->  	default:
->  		return -EINVAL;
->  	}
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-> index c88738e8fff7..893f494ffb0b 100644
-> --- a/drivers/media/platform/amphion/vpu_v4l2.c
-> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
-> @@ -63,6 +63,13 @@ unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf)
->  	return vpu_buf->state;
->  }
->  
-> +void vpu_set_buffer_average_qp(struct vb2_v4l2_buffer *vbuf, u32 qp)
-> +{
-> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
-> +
-> +	vpu_buf->average_qp = qp;
-> +}
-> +
->  void vpu_v4l2_set_error(struct vpu_inst *inst)
->  {
->  	vpu_inst_lock(inst);
-> @@ -536,9 +543,11 @@ static int vpu_vb2_buf_prepare(struct vb2_buffer *vb)
->  static void vpu_vb2_buf_finish(struct vb2_buffer *vb)
->  {
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
->  	struct vpu_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vb2_queue *q = vb->vb2_queue;
->  
-> +	inst->current_average_qp = vpu_buf->average_qp;
->  	if (vbuf->flags & V4L2_BUF_FLAG_LAST)
->  		vpu_notify_eos(inst);
->  
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
-> index 60f43056a7a2..56f2939fa84d 100644
-> --- a/drivers/media/platform/amphion/vpu_v4l2.h
-> +++ b/drivers/media/platform/amphion/vpu_v4l2.h
-> @@ -12,6 +12,7 @@ void vpu_inst_lock(struct vpu_inst *inst);
->  void vpu_inst_unlock(struct vpu_inst *inst);
->  void vpu_set_buffer_state(struct vb2_v4l2_buffer *vbuf, unsigned int state);
->  unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf);
-> +void vpu_set_buffer_average_qp(struct vb2_v4l2_buffer *vbuf, u32 qp);
->  
->  int vpu_v4l2_open(struct file *file, struct vpu_inst *inst);
->  int vpu_v4l2_close(struct file *file);
-> diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/amphion/vpu_windsor.c
-> index 5f1101d7cf9e..e7d37aa4b826 100644
-> --- a/drivers/media/platform/amphion/vpu_windsor.c
-> +++ b/drivers/media/platform/amphion/vpu_windsor.c
-> @@ -499,6 +499,7 @@ struct windsor_pic_info {
->  	u32 proc_dacc_rng_wr_cnt;
->  	s32 tv_s;
->  	u32 tv_ns;
-> +	u32 average_qp;
->  };
->  
->  u32 vpu_windsor_get_data_size(void)
-> @@ -734,6 +735,7 @@ static void vpu_windsor_unpack_pic_info(struct vpu_rpc_event *pkt, void *data)
->  	info->wptr = get_ptr(windsor->str_buff_wptr);
->  	info->crc = windsor->frame_crc;
->  	info->timestamp = timespec64_to_ns(&ts);
-> +	info->average_qp = windsor->average_qp;
->  }
->  
->  static void vpu_windsor_unpack_mem_req(struct vpu_rpc_event *pkt, void *data)
-
+T24gNC8yNC8yNCAxMDowOSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToNCg0KPiBUbyByZXBl
+YXQgd2hhdCBJIGFscmVhZHkgc2FpZCBvbiB0aGUgb3RoZXIgdGhyZWFkOiBDYWxsaW5nIGRt
+YV9idWZfcG9sbCgpIHdoaWxlIGZwdXQoKSBpcyBpbiBwcm9ncmVzcyBpcyBpbGxlZ2FsIGlu
+IHRoZSBmaXJzdCBwbGFjZS4NCj4gDQo+IFNvIHRoZXJlIGlzIG5vdGhpbmcgdG8gZml4IGlu
+IGRtYV9idWZfcG9sbCgpLCBidXQgcmF0aGVyIHRvIGZpZ3VyZSBvdXQgd2hvIGlzIGluY29y
+cmVjdGx5IGNhbGxpbmcgZnB1dCgpLg0KDQpIbS4gT1RPSCBpdCdzIGxlZ2FsIGlmIHVzZXJz
+cGFjZSBhcHAgY2FsbHMgY2xvc2UoW2ZkXSkgaW4gb25lIHRocmVhZCB3aGVuIGFub3RoZXIN
+CnRocmVhZCBzbGVlcHMgaW4gKGUpcG9sbCh7Li4uLCBbZmRdLCAuLi59KSAoSUlVQyB0aGlz
+IGlzIGNsb3NlIHRvIHdoYXQgdGhlIHN5emJvdA0KcmVwcm9kdWNlciBhY3R1YWxseSBkb2Vz
+KS4gV2hhdCBiZWhhdmlvciBzaG91bGQgYmUgY29uc2lkZXJlZCBhcyB2YWxpZCBpbiB0aGlz
+DQooeWVzLCByZWFsbHkgd2VpcmQpIHNjZW5hcmlvPw0KDQpEbWl0cnkNCg0K
 
