@@ -1,150 +1,106 @@
-Return-Path: <linux-media+bounces-10091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04958B15E2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 00:11:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A048B1782
+	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 01:58:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47B4F1F2205F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 22:11:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B18921F2425F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 23:58:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7CB15ECC7;
-	Wed, 24 Apr 2024 22:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B4C16F27A;
+	Wed, 24 Apr 2024 23:57:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bgLn94E/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O3ToapZz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F8615EFB8
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 22:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E708C1E86F
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 23:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713996680; cv=none; b=aT65GKMLK7WL7hlgJKrLyC6VfYg2PVfgooJUvP6JAX9LDTQEmdibu2JBVFWNbGqGC51e9z/RGV0PP0GkdAL14NC3aU1On0rpwZYmjQU8nSlQcpv2sqmUxfimDP131UB6hHe3b5a/EfgFLIVXJfb06LNz/zDGPB5JD2UaH5knDqk=
+	t=1714003074; cv=none; b=joiRtJzS+uNsU8NJwMHIUrSncxmJIvmK8e0d2lWuyhELtnuI9553JP5xv/vjoL/rE0rDYyS1S+W7ZgOJulMXhIM8TOLGF7dhAHP/nNOXkBTHOVpHgxz4CwIrAhXkKu/fVD7gbAsnFOogxVfa3HGdsn3Xg9KLGcQyXHpwq3Rh/d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713996680; c=relaxed/simple;
-	bh=pxhvcjOGdzqPJKU0g6cyW3p8OljKVeVIwlTbmM5Usw4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sYOVlDDXSrd7fvsP0NhHEYf7M8LpZto2mZ0ffFxQ7AkAOovB6JNfCLhlj5VzM9ADxEr8m2lPcqm8pwqvtYwNSoUPYbRgpjtY81ogXa/F6uJmv2nprgqYLfI/PlZl3oPTEcEZk7LymSKHkwSzh1nhyMkp4ydaaWlZB1nk2Nojlpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bgLn94E/; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51b09c3a111so458351e87.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 15:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713996677; x=1714601477; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nrt9xX8+bezTu6PJtCUFo83NI4xccREO2afrxNR68uc=;
-        b=bgLn94E/CBQ884LE+ijvvnf0wc5fCnOBsuVQwf0kdx5Tvu1MsMwCy/ZgLXEf+zLMzy
-         Y507Bu7nMKmO0V1fYKsC7auy9IwFF0mRCuD0CtU2NdBuVX/7ke4VZCpXuPnu2jcqigmW
-         1lNkpky8mr6qNJ76t2uOjHa+MK9zHbnfuXkn63hLgVaEqnd5IDrHwq7hgNSRMWrf9Dr3
-         /ZBYM0OTowmJzbPzN0r9KMiLLRL06LRVo9PhZ47ZWi0o1ozpbHsShOnIxucAQ2z4p4wp
-         GjMIJC99e7lgk0nAB7lCGi6BfmMDlIC9A+L8KwGYMM6cZT8U6+3B5TAvSabm+oC/eT+s
-         Yf8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713996677; x=1714601477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nrt9xX8+bezTu6PJtCUFo83NI4xccREO2afrxNR68uc=;
-        b=Zc53YM4BZ5s1rrbvWvZ/HKe+lhO1HRAoTRmPujV1/CQ39Gjibw19oQwfsj+8NDzPtv
-         p6bJqPAqfK3xR1MzcZpyIy7iSWM1qYUuOVMOPFyYc9HBDMmsHF+DsHv3s6GO9fZKydvu
-         ue1Ska+fskIbqGArGS830F2zOX2UIvB1bsXhH1BuSfGPHTwSLK8IhMGLydR11hsHWNYc
-         +3RuIhUrZjt3nvqV2EpJ/8vwmGtd4lZLG/4sQgHGiYEWq7GyUOtV8nJSSEVKckOEyMVn
-         1MBXcTRMLM9kYa+HpzGyfv9L1ik7Fvbb7/8B3ScoD1TIbaGVjfEjpqeg9iaxNOZZN7LF
-         GbAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZbY15Crm03DJretCROZpJBaQ8fx/lvKCly7IEwIFFul5zrxzE4W4nquId7avXP6fssu3VAXE3+RL9rhBzN9A4y85p5CRWf614rYA=
-X-Gm-Message-State: AOJu0YxNephjevS0SyBmd4ttXGX59ZAi4E51IcjXNpwnrbPBgCxca82E
-	+AH7VxyT9J2+PE29ekWz0qPY00/lLpGZoPZMG26jlnb5zlw9YWamq3P6CdxECGelSSU2S82gRf2
-	lL+GNn47t7ALTYfsekizamWBDQxbAHOWywySw
-X-Google-Smtp-Source: AGHT+IED2HbFEA0ewLNL7QH6VWfyVpE66498USZfd4zxtqZP/+CZ2KiwNYrpEZU2PM0GAlsCBDXy7oQT2HUG8Bnws0w=
-X-Received: by 2002:a05:6512:1315:b0:51c:15fa:985 with SMTP id
- x21-20020a056512131500b0051c15fa0985mr1591764lfu.15.1713996676557; Wed, 24
- Apr 2024 15:11:16 -0700 (PDT)
+	s=arc-20240116; t=1714003074; c=relaxed/simple;
+	bh=Z4mtQWcwYgXxjrDSdYqdBOo/2SR7cQ0ZfuXlmTpsI/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gnLLzOYdO3Z2hGo68t5bRAdQbxrj0NoOTR7no4/bsri/r1PzZylmIRw3adm5nvZFN4DyNYEShz6TigtSpDUmrssJ9WCT1YejXNulzCCpHgELN/u9A/kf6ybeJIOBrRWf+93aQFGjzvt9vbf+mpNLDo+9BJMhZIZQc8kUu0E6h5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O3ToapZz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86E02B1;
+	Thu, 25 Apr 2024 01:56:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714003017;
+	bh=Z4mtQWcwYgXxjrDSdYqdBOo/2SR7cQ0ZfuXlmTpsI/Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O3ToapZzUEvffisijJzZmfYmAni8yVCj8jKsfo/R0Jmeyi0yYHRaGbrWjInLCwMxu
+	 rDnfxRNiG/ylnOH4ylZU6XanAem30zdCZO2xK/+9vfknTKDC0NY+z0TXRaFvqhWSPV
+	 mJPDypRn0ZL/HUjTCTesUqdDxdFW6euI0CN3l+L4=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v1 0/9] media: vimc improvements
+Date: Thu, 25 Apr 2024 02:57:32 +0300
+Message-ID: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-5-almasrymina@google.com> <b30cb265-26ee-40f9-a25b-6c909e63fc79@davidwei.uk>
-In-Reply-To: <b30cb265-26ee-40f9-a25b-6c909e63fc79@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 24 Apr 2024 15:11:04 -0700
-Message-ID: <CAHS8izPf5ZnpUw9o6Oo-iTdoKkOEzerobP0Vkq7KZQOab2+_LQ@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v8 04/14] netdev: support binding dma-buf to netdevice
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Amritha Nambiar <amritha.nambiar@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
-	Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>, 
-	Arseniy Krasnov <avkrasnov@salutedevices.com>, 
-	Aleksander Lobakin <aleksander.lobakin@intel.com>, Michael Lass <bevan@bi-co.net>, 
-	Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Richard Gobert <richardbgobert@gmail.com>, 
-	Sridhar Samudrala <sridhar.samudrala@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>, 
-	Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 24, 2024 at 10:36=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-04-02 5:20 pm, Mina Almasry wrote:
-> > +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we c=
-an't
-> > +      * race with another thread that is also modifying this value. Ho=
-wever,
-> > +      * the driver may read this config while it's creating its * rx-q=
-ueues.
-> > +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
-> > +      */
-> > +     WRITE_ONCE(rxq->mp_params.mp_priv, binding);
->
-> Is the mp_ops update missing here?
->
+Hello,
 
-I  do it in this patch, because it's the one that introduces mp_ops:
-https://patchwork.kernel.org/project/netdevbpf/patch/20240403002053.2376017=
--9-almasrymina@google.com/
+This patch series cleans up and improves the vimc driver, with the end
+goal of converting it to the V4L2 subdev active state API. The goal of
+this exercise is to make the API used by a virtual test driver, to
+increase test coverage.
+
+The series starts with 4 random cleanups, to avoid unnecessary
+iterations (1/9), constify structures (2/9 and 3/9) and rename a
+weirdly-named enum (4/9). Patch 5/9 then centralizes the subdev
+internal_ops initialization to prepare for the switch to the active
+state API. The remaining patches (6/9 to 9/9) convert the vimc entities
+to the new API one by one.
+
+The result has been tested using the libcamera unit tests, which make
+extensive use of the vimc driver, as well as with v4l2-compliance. The
+latter reports 4 errors, but they occur already with the latest stage
+master branch.
+
+Laurent Pinchart (9):
+  media: vimc: Don't iterate over single pad
+  media: vimc: Constify vimc_ent_type structures
+  media: vimc: Constify the ent_config array
+  media: vimc: scaler: Rename vic_sca_pad enum to vimc_scaler_pad
+  media: vimc: Centralize subdev internal_ops initialization
+  media: vimc: Initialize subdev active state
+  media: vimc: sensor: Use subdev active state
+  media: vimc: debayer: Use subdev active state
+  media: vimc: scaler: Use subdev active state
+
+ .../media/test-drivers/vimc/vimc-capture.c    |   2 +-
+ drivers/media/test-drivers/vimc/vimc-common.c |  25 ++-
+ drivers/media/test-drivers/vimc/vimc-common.h |  14 +-
+ drivers/media/test-drivers/vimc/vimc-core.c   |   2 +-
+ .../media/test-drivers/vimc/vimc-debayer.c    | 197 ++++++++----------
+ drivers/media/test-drivers/vimc/vimc-lens.c   |   5 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c | 134 +++++-------
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 125 +++++------
+ 8 files changed, 236 insertions(+), 268 deletions(-)
 
 
---=20
-Thanks,
-Mina
+base-commit: e42a204f0519a2540f1507ac2798be2aeaa76bee
+-- 
+Regards,
+
+Laurent Pinchart
+
 
