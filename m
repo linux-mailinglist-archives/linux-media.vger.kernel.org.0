@@ -1,174 +1,169 @@
-Return-Path: <linux-media+bounces-10051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997818B0E8B
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:37:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FC48B0EEE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:47:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3854F1F2AB96
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:37:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5BFEB2C664
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A37E16D301;
-	Wed, 24 Apr 2024 15:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E366415FA93;
+	Wed, 24 Apr 2024 15:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CAtg5duC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="irVVORht"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C331635C0;
-	Wed, 24 Apr 2024 15:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF23111AD;
+	Wed, 24 Apr 2024 15:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713972959; cv=none; b=mkycMsVpJnm5r/XrhoHZB2/hfuBmqYLHF8dLOeK+7P6NhYcJBpLQwyhGjv860ako9/9/M3UqBt+0CApvKqxJcUNY0X5Gy0zANggd1kTljuYFAUj1dpcHFaFk1amPjUC364aT0gcAqcEpvrzrTA+nqmZIO/Jgr6Uq+9XO8j6SafU=
+	t=1713973183; cv=none; b=mwMpTS1kO7lNqSAW8oQxrwBwc9sFqpllCEAEy8IKn5owAwpSv5JOk8jyp9limJnf4pgVCtP9kKztBgKW/gH8fNopgxhv/gSOmWwlQgMKKzsjyP2Q10HbQ6aKijcqS4XiW2twwWK1NZqJCiaZYNBT37OatgFCyfB1KNPgjtlkJ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713972959; c=relaxed/simple;
-	bh=Xy6PMb0DzidrhaAriE7z1I98IIIOfbHE55qePyomcZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UqNmEYMUMKHSbefHmwcUhsXaE0fcSLVxBdY4ASOq3iYymXn19TmMaiFmcqOE9R0lupOGH6S9Mlej6odtH3LxBxXNujNnSs4omNGDjYwb6oH4GXr+A83t7El/OwsztxVxxPt6WyTKcR7fq/MOS8KT1US+m5iB+7871KVclUSqcn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CAtg5duC; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1713973183; c=relaxed/simple;
+	bh=m0YZ72ZLPdLubYXTMMAHiaCA6BZPp53Y50ofn9e1YhQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mDUvxxvFnm6oumrmdf2xQcLH5Nw24PUqnjYiDzSiiKOFL4oi6IzgbS1xtIpovflgsnO7SMjmYSKA9RDxvGPBvAIhK80qkxeIb/UhlR1TQ+fhm/LClP2EGUPu+i6MjdfBcPSx91vQMJyfywHEE4/hadJa0atnw8GAXxCgBuHJ9Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=irVVORht; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5532A11D6;
-	Wed, 24 Apr 2024 17:35:01 +0200 (CEST)
+Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2ACA4674;
+	Wed, 24 Apr 2024 17:38:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713972901;
-	bh=Xy6PMb0DzidrhaAriE7z1I98IIIOfbHE55qePyomcZg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CAtg5duCGId3uVnkjibgs1npdxGSFhrMACoFLdG7uzjg7Zxc9MgXL71hVIwMQs01b
-	 rA1ucfuyCx2axD8VPT5yLRaV8C6RtyD+eoGZxaYyR+80Xhy+pcw0jRRJiGA8z4c8nk
-	 G2gM353Mlqhhn4k2T41ZyJEwr1zL6ntGQW36ut2s=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	kernel-list@raspberrypi.com,
-	linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v11 5/5] ARM: dts: bcm2835: Add Unicam CSI nodes
-Date: Wed, 24 Apr 2024 18:35:41 +0300
-Message-ID: <20240424153542.32503-6-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240424153542.32503-1-laurent.pinchart@ideasonboard.com>
-References: <20240424153542.32503-1-laurent.pinchart@ideasonboard.com>
+	s=mail; t=1713973128;
+	bh=m0YZ72ZLPdLubYXTMMAHiaCA6BZPp53Y50ofn9e1YhQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=irVVORhtnl4hjHQavMChGZ//Qrg13pphNsnNjHmQJJqcJ+GvfhHwPQ1JKiq1MAYia
+	 OFyO6eDm2IgB1FJ6yCVidBPdvpCObUZ7DqCyxnztYNeumyM/j5iANe/Q2FCye6JX5o
+	 ccIaWA7RW4VZd2j9WfkRJr94WBiQhfIgtUUAWi1E=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 00/11] media: subdev: Improve stream enable/disable
+ machinery
+Date: Wed, 24 Apr 2024 18:39:03 +0300
+Message-Id: <20240424-enable-streams-impro-v6-0-5fb14c20147d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJcnKWYC/43PzU7DMAwH8FeZciYo30k58R6IgxN7LBJtpmSqQ
+ FPfnXSnHohAPv0t+Wf7zhrVTI29nO6s0ppbLksP7unE0gWWD+IZe2ZKKCN6cVogfhJvt0owN57
+ nay0cY4gJwxSMl6yPXiud89eDfXvv+ZLbrdTvx5ZV7t0/wFVywaWQHrSNkYR/zUjQyhILVHxOZ
+ Wa7u6qjZQeW6pZSMcHkvHMWB5Y+WFIMLN0tsuTBInijxMAyR8sNLLP/iNqLNCUV3egu+x/Ldiu
+ iPScCM+kQfrG2bfsBJvSg6u8BAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3931;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=m0YZ72ZLPdLubYXTMMAHiaCA6BZPp53Y50ofn9e1YhQ=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmKSey6qYaIGkw1A76uBzdkVcnfitPjU/V7+yLQ
+ qcs30vpyLeJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZiknsgAKCRD6PaqMvJYe
+ 9WsID/0UIaYpv7AJ5S8oYDuaGQKmcZOj407+XaHUjkyvw/nB74S6o3wkDiZR4tnx94pvz7E+zMH
+ TzVxBnVGfYtRVhFDohA7JXbshwLrIjCPNRyC47iyHxaBUZyZozeRQwo03mFnixtqJbx+1rKxtXL
+ mLeyun7Pqs452LY7TpGIbuukzaBxv1qJi6jThriX4qsf3YY4C99h5qahuMz6w6/r3/qrA9ZuwS6
+ xNdDxhHzNW/Wjsk4YwTtJ6YVLX5x3hUijC4IuKXE9XMndW6YeTY0TiBQmDSXHnlBdkOml1FgtOn
+ pesQ8WHbkVITd85bVGzwkCBhVUd91/gXabANlr64lL8jadVtJ7rzmhKP3nbTQU5lXeXl4rVj4PQ
+ Zvxvs7RHeKCA4FyS/7YKFSjtVjNrxBMcEGOxFCiusXT8e2eJraNx1oszAISX7EL9U6GV8SSpRTx
+ R1NJKx9vkIXzuHXjbci+If6UUNS1yms4hFWSJYLTHEk2d2h9vyJ7Ax+CE+iZb+UxEriBz2c1iwy
+ 1QZv+kdYzn0rI/ct/wkzGsQhKqkc+jGQ+IQkztq2MFqJRaLfBdlSzhxr2bCVLjxel9TVpuWLM4D
+ WLi3IOwrPH6fT9fNDDxWLoH3bXvmsx7aQ+PQ2VUJLl7ALTpCUcPd2a8cQ1wpK893SeSKFzZecm4
+ oCvx83A4bHO9LaA==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+This series works on the .s_stream, .enable_streams, .disable_streams
+related code. The main feature introduced here, in the last two patchs,
+is adding support for .enable/disable_streams() for subdevs that do not
+implement full streams support.
 
-Add both MIPI CSI-2 nodes in the bcm283x tree and take care of the
-Raspberry Pi / BCM2711 specific in the related files.
+Additionally we add support for the privacy led when
+v4l2_subdev_enable/disable_streams() is used.
 
-Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+I have tested this on RPi5.
+
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- arch/arm/boot/dts/broadcom/bcm2711.dtsi     |  8 +++++++
- arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi | 14 ++++++++++++
- arch/arm/boot/dts/broadcom/bcm283x.dtsi     | 24 +++++++++++++++++++++
- 3 files changed, 46 insertions(+)
+Changes in v6:
+- v4l2_subdev_enable_streams() and v4l2_subdev_disable_streams()
+  accidentally returned -EINVAL when a stream was already
+  enabled/disabled. Change it back to -EALREADY.
+- Add TODO note about privacy leds to "media: subdev: Support
+  single-stream case in v4l2_subdev_enable/disable_streams()"
+- New commit "media: subdev: Improve s_stream documentation"
+- Link to v5: https://lore.kernel.org/r/20240416-enable-streams-impro-v5-0-bd5fcea49388@ideasonboard.com
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-index 22c7f1561344..1d8f9f80f935 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-@@ -1114,6 +1114,14 @@ &rmem {
- 	#address-cells = <2>;
- };
- 
-+&csi0 {
-+	interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-+};
-+
-+&csi1 {
-+	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+};
-+
- &cma {
- 	/*
- 	 * arm64 reserves the CMA by default somewhere in ZONE_DMA32,
-diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi b/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
-index f0acc9390f31..9972782429b1 100644
---- a/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi
-@@ -25,6 +25,20 @@ vchiq: mailbox@7e00b840 {
- 	};
- };
- 
-+&csi0 {
-+	clocks = <&clocks BCM2835_CLOCK_CAM0>,
-+		 <&firmware_clocks 4>;
-+	clock-names = "lp", "vpu";
-+	power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
-+};
-+
-+&csi1 {
-+	clocks = <&clocks BCM2835_CLOCK_CAM1>,
-+		 <&firmware_clocks 4>;
-+	clock-names = "lp", "vpu";
-+	power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
-+};
-+
- &gpio {
- 	gpioout: gpioout {
- 		brcm,pins = <6>;
-diff --git a/arch/arm/boot/dts/broadcom/bcm283x.dtsi b/arch/arm/boot/dts/broadcom/bcm283x.dtsi
-index 2ca8a2505a4d..69b0919f1324 100644
---- a/arch/arm/boot/dts/broadcom/bcm283x.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm283x.dtsi
-@@ -454,6 +454,30 @@ dsi1: dsi@7e700000 {
- 			status = "disabled";
- 		};
- 
-+		csi0: csi@7e800000 {
-+			compatible = "brcm,bcm2835-unicam";
-+			reg = <0x7e800000 0x800>,
-+			      <0x7e802000 0x4>;
-+			reg-names = "unicam", "cmi";
-+			interrupts = <2 6>;
-+			brcm,num-data-lanes = <2>;
-+			status = "disabled";
-+			port {
-+			};
-+		};
-+
-+		csi1: csi@7e801000 {
-+			compatible = "brcm,bcm2835-unicam";
-+			reg = <0x7e801000 0x800>,
-+			      <0x7e802004 0x4>;
-+			reg-names = "unicam", "cmi";
-+			interrupts = <2 7>;
-+			brcm,num-data-lanes = <4>;
-+			status = "disabled";
-+			port {
-+			};
-+		};
-+
- 		i2c1: i2c@7e804000 {
- 			compatible = "brcm,bcm2835-i2c";
- 			reg = <0x7e804000 0x1000>;
+Changes in v5:
+- Fix issues with non-routing case:
+  - Always set 'found_streams' variable instead of leaving it
+    uninitialized in "Support single-stream case in
+    v4l2_subdev_enable/disable_streams()"
+  - Fix the "implicit" stream from bit 1 to bit 0 in "Support
+    non-routing subdevs in v4l2_subdev_s_stream_helper()"
+- Link to v4: https://lore.kernel.org/r/20240416-enable-streams-impro-v4-0-1d370c9c2b6d@ideasonboard.com
+
+Changes in v4:
+- Added Rb tags
+- Rename 'streaming_enabled' to 's_stream_enabled'
+- Cosmetic changes (comments / patch descs)
+- Added new patch "media: subdev: Support non-routing subdevs in  v4l2_subdev_s_stream_helper()".
+- Link to v3: https://lore.kernel.org/r/20240410-enable-streams-impro-v3-0-e5e7a5da7420@ideasonboard.com
+
+Changes in v3:
+- Rebased on top of "[PATCH v2 1/1] media: v4l: Don't turn on privacy LED if streamon fails"
+- Drop extra "!!" in "media: subdev: Fix use of sd->enabled_streams in  call_s_stream()"
+- Enable privacy LED after a succesfull stream enable in  "media: subdev: Support privacy led in v4l2_subdev_enable/disable_streams()"
+- Init 'cfg' variable when declaring in "media: subdev: Refactor v4l2_subdev_enable/disable_streams()"
+- Link to v2: https://lore.kernel.org/r/20240405-enable-streams-impro-v2-0-22bca967665d@ideasonboard.com
+
+Changes in v2:
+- New patches for privacy led
+- Use v4l2_subdev_has_op()
+- Use BITS_PER_BYTE instead of 8
+- Fix 80+ line issues
+- Fix typos
+- Check for pad < 64 also in the non-routing .enable/disable_streams code path
+- Dropped "media: subdev: Support enable/disable_streams for non-streams
+  subdevs", which is implemented in a different way in new patches in this series
+- Link to v1: https://lore.kernel.org/r/20240404-enable-streams-impro-v1-0-1017a35bbe07@ideasonboard.com
+
+---
+Tomi Valkeinen (11):
+      media: subdev: Add privacy led helpers
+      media: subdev: Use v4l2_subdev_has_op() in v4l2_subdev_enable/disable_streams()
+      media: subdev: Add checks for subdev features
+      media: subdev: Fix use of sd->enabled_streams in call_s_stream()
+      media: subdev: Improve v4l2_subdev_enable/disable_streams_fallback
+      media: subdev: Add v4l2_subdev_is_streaming()
+      media: subdev: Support privacy led in v4l2_subdev_enable/disable_streams()
+      media: subdev: Refactor v4l2_subdev_enable/disable_streams()
+      media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams()
+      media: subdev: Support non-routing subdevs in v4l2_subdev_s_stream_helper()
+      media: subdev: Improve s_stream documentation
+
+ drivers/media/v4l2-core/v4l2-subdev.c | 385 ++++++++++++++++++++--------------
+ include/media/v4l2-subdev.h           |  34 ++-
+ 2 files changed, 261 insertions(+), 158 deletions(-)
+---
+base-commit: e42a204f0519a2540f1507ac2798be2aeaa76bee
+change-id: 20240404-enable-streams-impro-db8bcd898471
+
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
