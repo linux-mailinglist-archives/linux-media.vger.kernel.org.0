@@ -1,176 +1,246 @@
-Return-Path: <linux-media+bounces-9978-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51448B02D7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 09:04:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D4C8B02E4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 09:10:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A1D51F23719
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 07:04:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC8BD283AC2
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 07:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A950B157A58;
-	Wed, 24 Apr 2024 07:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F968157A48;
+	Wed, 24 Apr 2024 07:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JDXd0AkD"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Pv/6W9fP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83AE157478;
-	Wed, 24 Apr 2024 07:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713942279; cv=none; b=RdjdzEOgXIz1hBa+WQbTauIVlXsk2Df8UqMkzz8xMoG6nZ/ZPxEodJDJQd+87JfdN0vGxNus3kpHHKNrzHCmluqisDR3GHREB0E+b6HOKLv+/c8SSPjN44mYf+1MjuyfAt4bPn2vuW5CeQfDU0jdg4bnAFGaWPtqwBLkbjgfy9E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713942279; c=relaxed/simple;
-	bh=nJVKTHFvXTmcgK94/e0JrZRbtF6RLuWFoyU5TaTbIOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fz5ZI6rUvivF7ixkH0PPgv776fbifyb7vEFBV2V7tdZe4/ZcUoFL4PyOIzhoIsPVt1iNMhq9dinNJ3Xu+LAyxLtfj86LK1d82U/nRZ5z+X1tHmWSamcNISgMC9ndb1Edt+WM5+z7Tj9r+6aRtOZxhLnfj3Q6bkxMBjsHJDta7rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JDXd0AkD; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1713942272;
-	bh=nJVKTHFvXTmcgK94/e0JrZRbtF6RLuWFoyU5TaTbIOw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JDXd0AkDQ8uya67kE3ZEEZf2wWXQRYf3Hz75PsC7+NlvLgkn1NHD+ydLruToXEkSZ
-	 0ETIuuGd33BQ3FKDRAmYj30rOV6Zzsm9LiPqTLaJppVDkYkKiv1d1T5cYrHytjamZM
-	 eOKf8WpDo+YbKUcQzl+GLdftGAklXTvsk9D9Sp5xqQ5QrYyhupoISuBbBY05J9YR8M
-	 nQROEkUSxZvYCEvQxIIEQ0il0EY8Ga6rU9Mt0VbIOv6pZ+pVOszvqTYzatt7fMGo3S
-	 RXHeif6d9ORwnABYkV+QzXebbfQubxOeZYNWQiz7TXTKrIUABcDvQfoOOsCkC8XlI4
-	 dy6KOnttCY2ZQ==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 64FA63781182;
-	Wed, 24 Apr 2024 07:04:31 +0000 (UTC)
-Date: Wed, 24 Apr 2024 09:04:29 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Qiang Yu <yuq825@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2] drm/panfrost: Fix dma_resv deadlock at drm object
- pin time
-Message-ID: <20240424090429.57de7d1c@collabora.com>
-In-Reply-To: <20240423224651.138163-1-adrian.larumbe@collabora.com>
-References: <20240423224651.138163-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59121426F
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 07:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713942609; cv=fail; b=V7L2eP0Nr4BeowFnyjmam9XgNiRnJjME5q5nMQCYZXpc0jbtRId7FU8+TLOgR9ePUVBBcyROkAaUWI8Srxp8IaJlvxrgyW41A2WUbY//Z+08Z4LFODKvJwB0626qdH30pF7aYoL13HxuZwTS/AFf7pUtx9aPt9zGOG6ZJdG7llc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713942609; c=relaxed/simple;
+	bh=fIgjCqeVyYzKA35iucimB40zlm/Y1nkeHXLD95B4cuQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=luJwPlT+bafi6dQV+HfOOHE1eSUsnBZ8Tbamu6+uWlSTOo9Holr7qnYifiTUjZMCFHXSJ/M5tTpoy72hBGF1WL3HoZ8Ns7ZdfVWJ3OMsEPnfnUmPZvU03FbLL4OKfhu0HpvJzY9aq14cGKfuHqK1h2orDPM8+tnEv8quDnro840=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Pv/6W9fP; arc=fail smtp.client-ip=40.107.243.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WWdsWf0A/BxyNhmRmJC218Rd449lKF3f+pB3S27+n8hT1h2mOyepjG6XTUApHE6jdVCXrEBPa9XmVizM07E+fd2fOCDTMpFyjP4zfuyDHkam14N0+wFSa7S04ic4cpwIyNW4LOZTK+RNnwty1NTyBHPkUAbCQinx9aWlmc7iVmBKO8iuNAjfOdfqr/n5IxvvDK9a/UOoiXxZfOvmZCHToYS/Sft+bycevd1kT0f/UW3nw8v2GfH+Bo1JA/Zg35A/qQTR6+NV/8ucVJynsp6mYzRxKwcIILHQICs37CNgJeycQWuzlwL40m1gANTPSgYom6BHpQMyx9ok4SF0en0/ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l2c48z4XS4Qjc8+pI7MgasVpd38QNrcrvN5F4SWY/dw=;
+ b=njaRnJPhASoUBmlbRZdeTmjGe4ww4o8YFrr9H0vGjxkyj+i/m/QaG7cqVwPs9QaN8kvHBLqBfx25uhzxhz0uQAkSi5DRrLWxlkCssuWtsd4BrLQyGZa6krlfQT3/Dubc38ULCdt254CuNV6rqauU8r6+Q24w84dmsOaggTbx1/sldRpyTej2OHW371kNgyj599p2rBAuHF8kihBJTf/zbVXR26TzVAMAuwS8lKwT7U8BK8WCguZvKNNi+qFjkNkBT/fHVUW0rQ0UKVcitzw0iSfdIjQfqkQFIkiy4AHOTIdWZQ9eiT5ahGrgglJhyudZlnvrCrmSKTc4a3Ntg4+tIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l2c48z4XS4Qjc8+pI7MgasVpd38QNrcrvN5F4SWY/dw=;
+ b=Pv/6W9fPcBIitN+O3aBOBDKQIAq47NTNa2gLTKVu87mh4MuVE9SuDcgtBJlofKCN/SEUbElaQr1TfAvdAR6fS+FOWWAO4Gw+mhv9Gj2nIpcZ4eiuERWX7nbqwlVjjvCeX5+QgO3GjdN1GLgDWIeOFwpTWgzSXz8ndkvK3WDO5kw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB5835.namprd12.prod.outlook.com (2603:10b6:208:37a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
+ 2024 07:10:03 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
+ 07:10:03 +0000
+Message-ID: <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+Date: Wed, 24 Apr 2024 09:09:57 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+To: Dmitry Antipov <dmantipov@yandex.ru>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240423191310.19437-1-dmantipov@yandex.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5835:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30ab3a07-f817-42fc-038c-08dc642d9032
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZFRyRUZ5T2hZT05rdWZYRXBYZDhMaTJBdUFENURqaTdlKzJBbjBLcDVFYklD?=
+ =?utf-8?B?eGdMMjJYeHN6RVpiS2htcytDamJ2engwNmlPSDNxTS8vaDY2dXArT2llSWRC?=
+ =?utf-8?B?YWcwUDB2VHFSajRmbUZQTnUvdEFnTEJtOGFDclVVcCtzRk1sS1BZdzRlbEdP?=
+ =?utf-8?B?WjczZ0tLL3I5dWtDcWY3NmV3K2FZSVB2UmkvSzZEZ2RWei96bUVoMmhra0Nn?=
+ =?utf-8?B?a2VCMnZPb05FeGF1ZDZ6Vkw3aU9XTDVqRGRrL1lsWlJiMnhUY3c4OWNwRVB1?=
+ =?utf-8?B?RGdPNnYzU3pmUW5RTEx4cjdDNXdWSllJZGlta2xqWHpZQW04bVdnWlBIaUlX?=
+ =?utf-8?B?bDZnY1dqeHFvWTlOTHNCaVZkbjJHSTFEN0ZLVzRPUGJuQUlocWhJaHUwUDdJ?=
+ =?utf-8?B?azJvUW1yb1QzRm9hcUhGdkEyOGxCYjhnQVByTDVrMVY2STRzWlJaMDZ3bVhQ?=
+ =?utf-8?B?WHVUaHRaWHRIL2todTZjaWViVkFiTkxwMllIb05XL3JqdWxVbDR3elY0bk1u?=
+ =?utf-8?B?U21OU29pSGxUSTNpWW9sZnBOZEEyaWIydFZXd2ZMV1dEeXYrZDhZOE0waWx3?=
+ =?utf-8?B?Q254KzNJR1FaVXBhS05KaGFZaml1OEhRakNHMFJncWl0cktlRzhqcWNuZTZV?=
+ =?utf-8?B?bi9OelZ1aWxyWStYaUh4ZkROMlgzUGJZRFBYVjE1TlIxcElnaENZYllKbmkr?=
+ =?utf-8?B?ZXNoMGdYNnY3alhlK3RiRFF0WSt6NUhsdFNMa1hPZXo2VzhQMzV4dTBvWFh5?=
+ =?utf-8?B?enkxRVppSXd0ckU4QTdjQ2ZWQ2xKWklaT1Y2Sm95ajNad1RPZzRabnVIZTRW?=
+ =?utf-8?B?ekd5NUdCejRtcmdZV0xGTnlFcVZ4NDRqSGY0a0tJWmlnOVZ2ZFRnNWFlN20v?=
+ =?utf-8?B?UWhqSWcyWXBVVWpoNk9HdzdoYnpyNFRTTnpHVmdhYTdiY21zTjh5ZjRYY0Rk?=
+ =?utf-8?B?TDljc0ZyQXRwUmlWTFd0VTIvYldjanc3NXQwVEpyOUFXdDJzWmlGMnY5VHJl?=
+ =?utf-8?B?dm9oSHlYaHR3OWVwY3lCVXRGcDFtdHBFci9ZQWo3ckhIUUJtbWpNaytWRDlP?=
+ =?utf-8?B?bGtrWTRPOXNSRThHbEVMWDJLaC9sOUREdmVrcVVNS3VjYk9hYUxFNEJYcGlX?=
+ =?utf-8?B?UmQxZDFKWUVHQkVQVm1DSWdRaHRYeEE2K1FBSXE0RFByeGFxWVNPNzZkUmV0?=
+ =?utf-8?B?WG1IbFRzZTRYQ3FHQUFFTDlsc2t3K0pTdmc3UkZzZk1FNXQwaDdISVEvRFEx?=
+ =?utf-8?B?R1VWbE9RYU5rN2g0SC9uNjhOaEFla2FhTnM5a2I2NWtCZVc2YStmd2cvMFZS?=
+ =?utf-8?B?YURtclJCZDlSRlduQ2ZieEI0M3ZJT3JzNDIvUkEyR0VhUFRBdiswWEpoNGk2?=
+ =?utf-8?B?UUw0WS92R0NDZEczSG43TUV0cnF6Tkl5RGVOTzkrK1RxTFg3M0VMR0t5d3p1?=
+ =?utf-8?B?eVEzSmdTOVY3SUI3bmxQU3JGNGdlZ0FsaDJqamU0MFpLSld6WlE5d0RvVjdU?=
+ =?utf-8?B?Q2FySjhhSjlIV3p1MW0yZ1lLa0dMMTQ1NTBHRk5Fa2RJQ3RqUlNtZTliWFBk?=
+ =?utf-8?B?QVo2bUIyd3hzYnBzZXFLdGdTMm41blVRbUlqZW56U2xGUW9JbHR4YWlqU2NN?=
+ =?utf-8?Q?CjILkegeth0b6RRcbZdc/uJytBlsMNeE23O5AnFucZDg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WTFtdXU4K3RNUktYSDRDcGs1NXdvTlZKUTFTSTA1d1ErWDFPdmdRMFZkTGFP?=
+ =?utf-8?B?eCtXOTIzR1loTGpnMEhtOCtEOTB5M2Q4NG42ckc3Y093NndEUUR5cE0rcFNt?=
+ =?utf-8?B?TXlNYXN1MUIvSURNTDRCNVZRK3dqUkhuZmlpV2syRUovMlNrZnM5YUxPb2Nj?=
+ =?utf-8?B?Mm9LVm1MWXlPdHJNUGJIQm1NY1dnT2ZXdW0yamFKck9Wd3hwb0xOV3NkcElJ?=
+ =?utf-8?B?enU2dU1ZVWFwRHE0OUpHbWlRcjdOdmFiRDF4a20vbFZuUWtWaTZ1b2tTMGdj?=
+ =?utf-8?B?L3pMeFNBNGY1MGZ6M2tMOHRpSVVnY2VqaGR2cjE1MERaaUhoOU5ZMTlVZzJ1?=
+ =?utf-8?B?Y2FqWjEvN1pKRXZIN2R4SmQ0YmpNbjNIVGZMZ3Z5bldYU1VGdWdJdWNzS3V2?=
+ =?utf-8?B?cWtMMTRiR2JBVzlnaXplWHVjM2ZrNG1lVkMvdW9ycHRZUyt6K2pPTmFTZDlk?=
+ =?utf-8?B?SU9Pclc1M2RPMStWaWdMcmhGckFsbDJOM3dXa2JlU3pLK1JudG8wTTgwdnZ5?=
+ =?utf-8?B?bG0wSGhWV1lIcnIyZzdrdnJyMkZwbHVWbE5zdGFOMlB0c1NVcDdrZHRkQzND?=
+ =?utf-8?B?SnBROGJ6NHY2enBsRnpjMGZnVUFyRERYb2lBOUFzYzZWQ3ZySSsyRHpTcGM2?=
+ =?utf-8?B?VXdVM2ZlZ25JcFJrbk96Q0JiaDRBU2ZzTHc4dEFSSGpRMElnYnpycUNUa25l?=
+ =?utf-8?B?ZTROcktZK2hiZVpNa0hVUnR1WkM3T2lIcW9wTnpRbVVydzg4UVpVbDA5OU5y?=
+ =?utf-8?B?azliTWJOVkcvYTFyL1hLQkVvK0RRSkRHWm1HZWpGOUI1c0gxRGFWSldsZGs4?=
+ =?utf-8?B?NDZEL3VtbjJITnBZLzg5YlhNZHZBUjlySER3bDRCNm1tV1JlY3B4dm11cHZE?=
+ =?utf-8?B?WUNTcitZKzI4ei9vNzdOeWc5VmtIN0ZWS0gxODZITjNUcVVqZVpMS0tJSnZF?=
+ =?utf-8?B?eVFLQTY0MWI2VVRSN0dyOVBaTmhnOGhLc0hrNnpMUVByQU0ybWpGNmxLNG13?=
+ =?utf-8?B?VVVoZytJY21JKzZFdzQvYUgvZzh4RS9Xb0Y4Z3dhOUVNMmF6bEt6Z2E0ZDFk?=
+ =?utf-8?B?bytjRjNTZGRuNHBaWnhNTHdxTXRqNTB0eS93VXNiK2JFcVpqVnh3Q3NtWFB1?=
+ =?utf-8?B?V2FyVkpNVVRyUE9UNDZGTkJ0Qm4wZG5qbjNHTFRBNVhDYWc0RlVuUlM5VC95?=
+ =?utf-8?B?UDR3ODBHSm5oWXR3WG8zNmU2RklScm5rcVhoUFlkaVY0ZEZLQ2ZlOGpTRG1r?=
+ =?utf-8?B?dlZjWkZ6MjBlRlk3K1MxUWZIOGZ5cTcvbTlpS2JISGlVWHdPd0ZVdWFNcDFN?=
+ =?utf-8?B?ZUxYWGRsVC9JYVlkcmRFTU1HZ3A4RXJnbjNSQU9nNjhoeGt6UlZwU0lWaXBE?=
+ =?utf-8?B?MUptYkFaNW5QMm1QbWY2bEE5THZybUJ2a05sNTIvMCtDV0kycm1PdHRDUVhH?=
+ =?utf-8?B?YmxQUm5JaWdpckFpQTNjY1ROZjMwWjF3czdDN3RHOWIrckdnWWJ4bG1OUG0x?=
+ =?utf-8?B?SjdMWlBqcndaUUVBWjNCbE9UWHJZOEZtZWZFRDlWWmQ1V0FiTjI3Nm8wSHhZ?=
+ =?utf-8?B?Zk54cGJpUEcybTFzWUVFNVA2TkdoYU5JRlpNcXJReWZLYXpJVVdNa0xFcGNw?=
+ =?utf-8?B?SElzdUJKKzRKRVV5bEJRT01FTWtWT3lnbW5JTUI3c0JUZnh5bXNTSXhQTnFk?=
+ =?utf-8?B?akZRWnFHWmdHSksvUklHN2pNR1lvZURGcjBSeVBoZjRqZ3dQU2NwUEh3VHho?=
+ =?utf-8?B?WmN4MGtaQUpiVnNIM0FYL05CTStIcWROQnFKS2I4VFhSc01VRmN2NDZVcklI?=
+ =?utf-8?B?SVlFdkljaE9wOHkzeFNvWThNQzY1V21RZ1YwaEZ1SFhGRG1iN2t2T2xnV2Nl?=
+ =?utf-8?B?ZFkwcE8vbkFrcy8vSjdhOUJJYStHSFdwZkJXd3Ywa1I2OTJGSys1anZndjY3?=
+ =?utf-8?B?aXBDbytVVGd4dWJmZGhlMUxMQUNIZUJWeitKbDlIRnlxMGRPUE10NThaU0ll?=
+ =?utf-8?B?OXRRZGtCbnp0bGsrTHdyNCtGS3NlVWJkS3RLU1hLNnlEY3FqNmhYK1hHTits?=
+ =?utf-8?B?eEpDYnVjSHhBWERmdllmb1dQbkI0R1J4blZVRm1iV3pBYkgzS0JhMFgydW0z?=
+ =?utf-8?Q?KG/Q3dPIT3f1B0jb03dLtDZkF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30ab3a07-f817-42fc-038c-08dc642d9032
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 07:10:03.6531
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MtVarH1uZiCyksxgJKkJm3YVP/bFuWf57yq+SxCY5wgMZvsU3My3RbhjCMqijSz+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5835
 
-On Tue, 23 Apr 2024 23:46:23 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Am 23.04.24 um 21:13 schrieb Dmitry Antipov:
+> Syzbot has found the race condition where 'fput()' is in progress
+> when 'dma_buf_poll()' makes an attempt to hold the 'struct file'
+> with zero 'f_count'. So use explicit 'atomic_long_inc_not_zero()'
+> to detect such a case and cancel an undergoing poll activity with
+> EPOLLERR.
 
-> When Panfrost must pin an object that is being prepared a dma-buf
-> attachment for on behalf of another driver, the core drm gem object pinni=
-ng
-> code already takes a lock on the object's dma reservation.
->=20
-> However, Panfrost GEM object's pinning callback would eventually try taki=
-ng
-> the lock on the same dma reservation when delegating pinning of the object
-> onto the shmem subsystem, which led to a deadlock.
->=20
-> This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
-> the following recursive locking situation:
->=20
-> weston/3440 is trying to acquire lock:
-> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_sh=
-mem_pin+0x34/0xb8 [drm_shmem_helper]
-> but task is already holding lock:
-> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pi=
-n+0x2c/0x80 [drm]
->=20
-> Fix it by assuming the object's reservation had already been locked by the
-> time we reach panfrost_gem_pin.
->=20
-> Do the same thing for the Lima driver, as it most likely suffers from the
-> same issue.
->=20
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/u=
-npin}()")
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+Well this is really interesting, you are the second person which comes 
+up with this nonsense.
+
+To repeat what I already said on the other thread: Calling 
+dma_buf_poll() while fput() is in progress is illegal in the first place.
+
+So there is nothing to fix in dma_buf_poll(), but rather to figure out 
+who is incorrectly calling fput().
+
+Regards,
+Christian.
+
+>
+> Reported-by: syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5d4cb6b4409edfd18646
+> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
 > ---
->  drivers/gpu/drm/lima/lima_gem.c         | 9 +++++++--
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 8 +++++++-
->  2 files changed, 14 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_=
-gem.c
-> index 7ea244d876ca..8a5bcf498ef6 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -184,8 +184,13 @@ static int lima_gem_pin(struct drm_gem_object *obj)
-> =20
->  	if (bo->heap_size)
->  		return -EINVAL;
+>   drivers/dma-buf/dma-buf.c | 23 ++++++++++++++++++-----
+>   1 file changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 8fe5aa67b167..39eb75d23219 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -266,8 +266,17 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>   		spin_unlock_irq(&dmabuf->poll.lock);
+>   
+>   		if (events & EPOLLOUT) {
+> -			/* Paired with fput in dma_buf_poll_cb */
+> -			get_file(dmabuf->file);
+> +			/*
+> +			 * Catch the case when fput() is in progress
+> +			 * (e.g. due to close() from another thread).
+> +			 * Otherwise the paired fput() will be issued
+> +			 * from dma_buf_poll_cb().
+> +			 */
+> +			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
+> +				events = EPOLLERR;
+> +				dcb->active = 0;
+> +				goto out;
+> +			}
+>   
+>   			if (!dma_buf_poll_add_cb(resv, true, dcb))
+>   				/* No callback queued, wake up any other waiters */
+> @@ -289,8 +298,12 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>   		spin_unlock_irq(&dmabuf->poll.lock);
+>   
+>   		if (events & EPOLLIN) {
+> -			/* Paired with fput in dma_buf_poll_cb */
+> -			get_file(dmabuf->file);
+> +			/* See above */
+> +			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
+> +				events = EPOLLERR;
+> +				dcb->active = 0;
+> +				goto out;
+> +			}
+>   
+>   			if (!dma_buf_poll_add_cb(resv, false, dcb))
+>   				/* No callback queued, wake up any other waiters */
+> @@ -299,7 +312,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>   				events &= ~EPOLLIN;
+>   		}
+>   	}
 > -
-> -	return drm_gem_shmem_pin(&bo->base);
-> +	/*
-> +	 * Pinning can only happen in response to a prime attachment request
-> +	 * from another driver, but dma reservation locking is already being
-> +	 * handled by drm_gem_pin
-
-This comment looks a bit weird now that you call a function that
-doesn't have the _locked suffix. I'd be tempted to drop it, or clarify
-the fact drm_gem_shmem_object_pin() expects the resv lock to be held.
-
-> +	 */
-> +	drm_WARN_ON(obj->dev, obj->import_attach);
-
-Should this be moved to drm_gem_shmem_[un]pin_locked() instead of being
-duplicated in all overloads of ->[un]pin()?
-
-> +	return drm_gem_shmem_object_pin(obj);
->  }
-> =20
->  static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *m=
-ap)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index d47b40b82b0b..e3fbcb020617 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -192,7 +192,13 @@ static int panfrost_gem_pin(struct drm_gem_object *o=
-bj)
->  	if (bo->is_heap)
->  		return -EINVAL;
-> =20
-> -	return drm_gem_shmem_pin(&bo->base);
-> +	/*
-> +	 * Pinning can only happen in response to a prime attachment request
-> +	 * from another driver, but dma reservation locking is already being
-> +	 * handled by drm_gem_pin
-> +	 */
-> +	drm_WARN_ON(obj->dev, obj->import_attach);
-> +	return drm_gem_shmem_object_pin(obj);
->  }
-> =20
->  static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_obj=
-ect *obj)
+> +out:
+>   	dma_resv_unlock(resv);
+>   	return events;
+>   }
 
 
