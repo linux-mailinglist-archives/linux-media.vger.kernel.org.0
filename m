@@ -1,246 +1,124 @@
-Return-Path: <linux-media+bounces-9979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D4C8B02E4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 09:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C89A8B02FB
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 09:19:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC8BD283AC2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 07:10:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D9C2285AF4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 07:19:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F968157A48;
-	Wed, 24 Apr 2024 07:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD11D158867;
+	Wed, 24 Apr 2024 07:18:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Pv/6W9fP"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XJna2nkf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59121426F
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 07:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713942609; cv=fail; b=V7L2eP0Nr4BeowFnyjmam9XgNiRnJjME5q5nMQCYZXpc0jbtRId7FU8+TLOgR9ePUVBBcyROkAaUWI8Srxp8IaJlvxrgyW41A2WUbY//Z+08Z4LFODKvJwB0626qdH30pF7aYoL13HxuZwTS/AFf7pUtx9aPt9zGOG6ZJdG7llc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713942609; c=relaxed/simple;
-	bh=fIgjCqeVyYzKA35iucimB40zlm/Y1nkeHXLD95B4cuQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=luJwPlT+bafi6dQV+HfOOHE1eSUsnBZ8Tbamu6+uWlSTOo9Holr7qnYifiTUjZMCFHXSJ/M5tTpoy72hBGF1WL3HoZ8Ns7ZdfVWJ3OMsEPnfnUmPZvU03FbLL4OKfhu0HpvJzY9aq14cGKfuHqK1h2orDPM8+tnEv8quDnro840=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Pv/6W9fP; arc=fail smtp.client-ip=40.107.243.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WWdsWf0A/BxyNhmRmJC218Rd449lKF3f+pB3S27+n8hT1h2mOyepjG6XTUApHE6jdVCXrEBPa9XmVizM07E+fd2fOCDTMpFyjP4zfuyDHkam14N0+wFSa7S04ic4cpwIyNW4LOZTK+RNnwty1NTyBHPkUAbCQinx9aWlmc7iVmBKO8iuNAjfOdfqr/n5IxvvDK9a/UOoiXxZfOvmZCHToYS/Sft+bycevd1kT0f/UW3nw8v2GfH+Bo1JA/Zg35A/qQTR6+NV/8ucVJynsp6mYzRxKwcIILHQICs37CNgJeycQWuzlwL40m1gANTPSgYom6BHpQMyx9ok4SF0en0/ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l2c48z4XS4Qjc8+pI7MgasVpd38QNrcrvN5F4SWY/dw=;
- b=njaRnJPhASoUBmlbRZdeTmjGe4ww4o8YFrr9H0vGjxkyj+i/m/QaG7cqVwPs9QaN8kvHBLqBfx25uhzxhz0uQAkSi5DRrLWxlkCssuWtsd4BrLQyGZa6krlfQT3/Dubc38ULCdt254CuNV6rqauU8r6+Q24w84dmsOaggTbx1/sldRpyTej2OHW371kNgyj599p2rBAuHF8kihBJTf/zbVXR26TzVAMAuwS8lKwT7U8BK8WCguZvKNNi+qFjkNkBT/fHVUW0rQ0UKVcitzw0iSfdIjQfqkQFIkiy4AHOTIdWZQ9eiT5ahGrgglJhyudZlnvrCrmSKTc4a3Ntg4+tIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l2c48z4XS4Qjc8+pI7MgasVpd38QNrcrvN5F4SWY/dw=;
- b=Pv/6W9fPcBIitN+O3aBOBDKQIAq47NTNa2gLTKVu87mh4MuVE9SuDcgtBJlofKCN/SEUbElaQr1TfAvdAR6fS+FOWWAO4Gw+mhv9Gj2nIpcZ4eiuERWX7nbqwlVjjvCeX5+QgO3GjdN1GLgDWIeOFwpTWgzSXz8ndkvK3WDO5kw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB5835.namprd12.prod.outlook.com (2603:10b6:208:37a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
- 2024 07:10:03 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
- 07:10:03 +0000
-Message-ID: <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
-Date: Wed, 24 Apr 2024 09:09:57 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
-To: Dmitry Antipov <dmantipov@yandex.ru>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lvc-project@linuxtesting.org,
- syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
-References: <20240423191310.19437-1-dmantipov@yandex.ru>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240423191310.19437-1-dmantipov@yandex.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA94D1586D2;
+	Wed, 24 Apr 2024 07:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713943099; cv=none; b=mrqmtB8t+kwdppbhBwJYdkVw2u5cuNi/Ung2V/HJgRFIBrb/mlxH88Lei2t5C3j3wB8TIGeTeq7WHgPN/KiO9Nm/kZiqBTWB3nLJOwlIb9OKlGpD9gF8fAA+q5ofeH0Cae3A38d25Tm4l9d7VK67kIDYc/9ias3zqCO2nV0/Jxs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713943099; c=relaxed/simple;
+	bh=fv+GIGOvqiVeo78BkG+zPn+Of31/+ZsuY6byizPk83M=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=D0EbTIJpWzkK+UecZ/nB81tC1dLZukuykj7JWf3m/jI0YYnmVfZIzVzEiWmyLMStd6JIlag33Kb5J867bAc8N2a1+7zEpX4PJcS3nWJxqc0wocPtrw67IJ8Fk9fJb6s4t+rQ/rD60kQtoYrH+79KFEdPH3jr8lu/8O7FBmXY+j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XJna2nkf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43O6YeiK026977;
+	Wed, 24 Apr 2024 07:18:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=SIiiTzshdZnb
+	bu1Kn6CE4UY2GKQW75/stSab/emf5JE=; b=XJna2nkfoXTIZgOdFk70qFdqXN3y
+	BArphEIY96aRK9BDdQJxD5LhHX0zGXA9GJxV/wh4O7Vgae1QFtuHUz+A/GJD3LRD
+	BkybJ2MkuPgnvT4cJCgDMzJBx8c3ABzgJ7b20aUSLrkn1JPJysVtJfFMTnqAhgfc
+	d1+bkyaRXpQIaf6COKZPh4BZd8SPHGO2ZJBl6Sd/tzRMRROVJUNuO7hf/L57/IuU
+	oxD/+KjJJdqz5DYFJrx6R+0ORKvcuy2a6L/+WH5a+aGUzOePiqLlrHRiQvlTTq6S
+	flVZIAidFLR14msxNavzx7GJ4aX8qlj8TtvrbXEoCFEUMmI3PyaDtyQ3xg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpv9e05nx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Apr 2024 07:18:11 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43O7I7AK006061;
+	Wed, 24 Apr 2024 07:18:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3xm6sm3w5m-1;
+	Wed, 24 Apr 2024 07:18:07 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43O7I7vw006055;
+	Wed, 24 Apr 2024 07:18:07 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 43O7I6k9006053;
+	Wed, 24 Apr 2024 07:18:07 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+	id 463843030; Wed, 24 Apr 2024 12:48:06 +0530 (+0530)
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH] media: venus: fix use after free in vdec_close
+Date: Wed, 24 Apr 2024 12:47:50 +0530
+Message-Id: <1713943070-24085-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Yzx1oSc-SW4RbTjoohJQ-sn1EZR-AmMi
+X-Proofpoint-ORIG-GUID: Yzx1oSc-SW4RbTjoohJQ-sn1EZR-AmMi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-24_04,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 impostorscore=0
+ phishscore=0 mlxscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404240031
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5835:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30ab3a07-f817-42fc-038c-08dc642d9032
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZFRyRUZ5T2hZT05rdWZYRXBYZDhMaTJBdUFENURqaTdlKzJBbjBLcDVFYklD?=
- =?utf-8?B?eGdMMjJYeHN6RVpiS2htcytDamJ2engwNmlPSDNxTS8vaDY2dXArT2llSWRC?=
- =?utf-8?B?YWcwUDB2VHFSajRmbUZQTnUvdEFnTEJtOGFDclVVcCtzRk1sS1BZdzRlbEdP?=
- =?utf-8?B?WjczZ0tLL3I5dWtDcWY3NmV3K2FZSVB2UmkvSzZEZ2RWei96bUVoMmhra0Nn?=
- =?utf-8?B?a2VCMnZPb05FeGF1ZDZ6Vkw3aU9XTDVqRGRrL1lsWlJiMnhUY3c4OWNwRVB1?=
- =?utf-8?B?RGdPNnYzU3pmUW5RTEx4cjdDNXdWSllJZGlta2xqWHpZQW04bVdnWlBIaUlX?=
- =?utf-8?B?bDZnY1dqeHFvWTlOTHNCaVZkbjJHSTFEN0ZLVzRPUGJuQUlocWhJaHUwUDdJ?=
- =?utf-8?B?azJvUW1yb1QzRm9hcUhGdkEyOGxCYjhnQVByTDVrMVY2STRzWlJaMDZ3bVhQ?=
- =?utf-8?B?WHVUaHRaWHRIL2todTZjaWViVkFiTkxwMllIb05XL3JqdWxVbDR3elY0bk1u?=
- =?utf-8?B?U21OU29pSGxUSTNpWW9sZnBOZEEyaWIydFZXd2ZMV1dEeXYrZDhZOE0waWx3?=
- =?utf-8?B?Q254KzNJR1FaVXBhS05KaGFZaml1OEhRakNHMFJncWl0cktlRzhqcWNuZTZV?=
- =?utf-8?B?bi9OelZ1aWxyWStYaUh4ZkROMlgzUGJZRFBYVjE1TlIxcElnaENZYllKbmkr?=
- =?utf-8?B?ZXNoMGdYNnY3alhlK3RiRFF0WSt6NUhsdFNMa1hPZXo2VzhQMzV4dTBvWFh5?=
- =?utf-8?B?enkxRVppSXd0ckU4QTdjQ2ZWQ2xKWklaT1Y2Sm95ajNad1RPZzRabnVIZTRW?=
- =?utf-8?B?ekd5NUdCejRtcmdZV0xGTnlFcVZ4NDRqSGY0a0tJWmlnOVZ2ZFRnNWFlN20v?=
- =?utf-8?B?UWhqSWcyWXBVVWpoNk9HdzdoYnpyNFRTTnpHVmdhYTdiY21zTjh5ZjRYY0Rk?=
- =?utf-8?B?TDljc0ZyQXRwUmlWTFd0VTIvYldjanc3NXQwVEpyOUFXdDJzWmlGMnY5VHJl?=
- =?utf-8?B?dm9oSHlYaHR3OWVwY3lCVXRGcDFtdHBFci9ZQWo3ckhIUUJtbWpNaytWRDlP?=
- =?utf-8?B?bGtrWTRPOXNSRThHbEVMWDJLaC9sOUREdmVrcVVNS3VjYk9hYUxFNEJYcGlX?=
- =?utf-8?B?UmQxZDFKWUVHQkVQVm1DSWdRaHRYeEE2K1FBSXE0RFByeGFxWVNPNzZkUmV0?=
- =?utf-8?B?WG1IbFRzZTRYQ3FHQUFFTDlsc2t3K0pTdmc3UkZzZk1FNXQwaDdISVEvRFEx?=
- =?utf-8?B?R1VWbE9RYU5rN2g0SC9uNjhOaEFla2FhTnM5a2I2NWtCZVc2YStmd2cvMFZS?=
- =?utf-8?B?YURtclJCZDlSRlduQ2ZieEI0M3ZJT3JzNDIvUkEyR0VhUFRBdiswWEpoNGk2?=
- =?utf-8?B?UUw0WS92R0NDZEczSG43TUV0cnF6Tkl5RGVOTzkrK1RxTFg3M0VMR0t5d3p1?=
- =?utf-8?B?eVEzSmdTOVY3SUI3bmxQU3JGNGdlZ0FsaDJqamU0MFpLSld6WlE5d0RvVjdU?=
- =?utf-8?B?Q2FySjhhSjlIV3p1MW0yZ1lLa0dMMTQ1NTBHRk5Fa2RJQ3RqUlNtZTliWFBk?=
- =?utf-8?B?QVo2bUIyd3hzYnBzZXFLdGdTMm41blVRbUlqZW56U2xGUW9JbHR4YWlqU2NN?=
- =?utf-8?Q?CjILkegeth0b6RRcbZdc/uJytBlsMNeE23O5AnFucZDg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WTFtdXU4K3RNUktYSDRDcGs1NXdvTlZKUTFTSTA1d1ErWDFPdmdRMFZkTGFP?=
- =?utf-8?B?eCtXOTIzR1loTGpnMEhtOCtEOTB5M2Q4NG42ckc3Y093NndEUUR5cE0rcFNt?=
- =?utf-8?B?TXlNYXN1MUIvSURNTDRCNVZRK3dqUkhuZmlpV2syRUovMlNrZnM5YUxPb2Nj?=
- =?utf-8?B?Mm9LVm1MWXlPdHJNUGJIQm1NY1dnT2ZXdW0yamFKck9Wd3hwb0xOV3NkcElJ?=
- =?utf-8?B?enU2dU1ZVWFwRHE0OUpHbWlRcjdOdmFiRDF4a20vbFZuUWtWaTZ1b2tTMGdj?=
- =?utf-8?B?L3pMeFNBNGY1MGZ6M2tMOHRpSVVnY2VqaGR2cjE1MERaaUhoOU5ZMTlVZzJ1?=
- =?utf-8?B?Y2FqWjEvN1pKRXZIN2R4SmQ0YmpNbjNIVGZMZ3Z5bldYU1VGdWdJdWNzS3V2?=
- =?utf-8?B?cWtMMTRiR2JBVzlnaXplWHVjM2ZrNG1lVkMvdW9ycHRZUyt6K2pPTmFTZDlk?=
- =?utf-8?B?SU9Pclc1M2RPMStWaWdMcmhGckFsbDJOM3dXa2JlU3pLK1JudG8wTTgwdnZ5?=
- =?utf-8?B?bG0wSGhWV1lIcnIyZzdrdnJyMkZwbHVWbE5zdGFOMlB0c1NVcDdrZHRkQzND?=
- =?utf-8?B?SnBROGJ6NHY2enBsRnpjMGZnVUFyRERYb2lBOUFzYzZWQ3ZySSsyRHpTcGM2?=
- =?utf-8?B?VXdVM2ZlZ25JcFJrbk96Q0JiaDRBU2ZzTHc4dEFSSGpRMElnYnpycUNUa25l?=
- =?utf-8?B?ZTROcktZK2hiZVpNa0hVUnR1WkM3T2lIcW9wTnpRbVVydzg4UVpVbDA5OU5y?=
- =?utf-8?B?azliTWJOVkcvYTFyL1hLQkVvK0RRSkRHWm1HZWpGOUI1c0gxRGFWSldsZGs4?=
- =?utf-8?B?NDZEL3VtbjJITnBZLzg5YlhNZHZBUjlySER3bDRCNm1tV1JlY3B4dm11cHZE?=
- =?utf-8?B?WUNTcitZKzI4ei9vNzdOeWc5VmtIN0ZWS0gxODZITjNUcVVqZVpMS0tJSnZF?=
- =?utf-8?B?eVFLQTY0MWI2VVRSN0dyOVBaTmhnOGhLc0hrNnpMUVByQU0ybWpGNmxLNG13?=
- =?utf-8?B?VVVoZytJY21JKzZFdzQvYUgvZzh4RS9Xb0Y4Z3dhOUVNMmF6bEt6Z2E0ZDFk?=
- =?utf-8?B?bytjRjNTZGRuNHBaWnhNTHdxTXRqNTB0eS93VXNiK2JFcVpqVnh3Q3NtWFB1?=
- =?utf-8?B?V2FyVkpNVVRyUE9UNDZGTkJ0Qm4wZG5qbjNHTFRBNVhDYWc0RlVuUlM5VC95?=
- =?utf-8?B?UDR3ODBHSm5oWXR3WG8zNmU2RklScm5rcVhoUFlkaVY0ZEZLQ2ZlOGpTRG1r?=
- =?utf-8?B?dlZjWkZ6MjBlRlk3K1MxUWZIOGZ5cTcvbTlpS2JISGlVWHdPd0ZVdWFNcDFN?=
- =?utf-8?B?ZUxYWGRsVC9JYVlkcmRFTU1HZ3A4RXJnbjNSQU9nNjhoeGt6UlZwU0lWaXBE?=
- =?utf-8?B?MUptYkFaNW5QMm1QbWY2bEE5THZybUJ2a05sNTIvMCtDV0kycm1PdHRDUVhH?=
- =?utf-8?B?YmxQUm5JaWdpckFpQTNjY1ROZjMwWjF3czdDN3RHOWIrckdnWWJ4bG1OUG0x?=
- =?utf-8?B?SjdMWlBqcndaUUVBWjNCbE9UWHJZOEZtZWZFRDlWWmQ1V0FiTjI3Nm8wSHhZ?=
- =?utf-8?B?Zk54cGJpUEcybTFzWUVFNVA2TkdoYU5JRlpNcXJReWZLYXpJVVdNa0xFcGNw?=
- =?utf-8?B?SElzdUJKKzRKRVV5bEJRT01FTWtWT3lnbW5JTUI3c0JUZnh5bXNTSXhQTnFk?=
- =?utf-8?B?akZRWnFHWmdHSksvUklHN2pNR1lvZURGcjBSeVBoZjRqZ3dQU2NwUEh3VHho?=
- =?utf-8?B?WmN4MGtaQUpiVnNIM0FYL05CTStIcWROQnFKS2I4VFhSc01VRmN2NDZVcklI?=
- =?utf-8?B?SVlFdkljaE9wOHkzeFNvWThNQzY1V21RZ1YwaEZ1SFhGRG1iN2t2T2xnV2Nl?=
- =?utf-8?B?ZFkwcE8vbkFrcy8vSjdhOUJJYStHSFdwZkJXd3Ywa1I2OTJGSys1anZndjY3?=
- =?utf-8?B?aXBDbytVVGd4dWJmZGhlMUxMQUNIZUJWeitKbDlIRnlxMGRPUE10NThaU0ll?=
- =?utf-8?B?OXRRZGtCbnp0bGsrTHdyNCtGS3NlVWJkS3RLU1hLNnlEY3FqNmhYK1hHTits?=
- =?utf-8?B?eEpDYnVjSHhBWERmdllmb1dQbkI0R1J4blZVRm1iV3pBYkgzS0JhMFgydW0z?=
- =?utf-8?Q?KG/Q3dPIT3f1B0jb03dLtDZkF?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30ab3a07-f817-42fc-038c-08dc642d9032
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 07:10:03.6531
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MtVarH1uZiCyksxgJKkJm3YVP/bFuWf57yq+SxCY5wgMZvsU3My3RbhjCMqijSz+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5835
 
-Am 23.04.24 um 21:13 schrieb Dmitry Antipov:
-> Syzbot has found the race condition where 'fput()' is in progress
-> when 'dma_buf_poll()' makes an attempt to hold the 'struct file'
-> with zero 'f_count'. So use explicit 'atomic_long_inc_not_zero()'
-> to detect such a case and cancel an undergoing poll activity with
-> EPOLLERR.
+There appears to be a possible use after free with vdec_close().
+The firmware will add buffer release work to the work queue through
+HFI callbacks as a normal part of decoding. Randomly closing the
+decoder device from userspace during normal decoding can incur
+a read after free for inst.
 
-Well this is really interesting, you are the second person which comes 
-up with this nonsense.
+Fix it by cancelling the work in vdec_close.
 
-To repeat what I already said on the other thread: Calling 
-dma_buf_poll() while fput() is in progress is illegal in the first place.
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+ drivers/media/platform/qcom/venus/vdec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-So there is nothing to fix in dma_buf_poll(), but rather to figure out 
-who is incorrectly calling fput().
-
-Regards,
-Christian.
-
->
-> Reported-by: syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=5d4cb6b4409edfd18646
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-> ---
->   drivers/dma-buf/dma-buf.c | 23 ++++++++++++++++++-----
->   1 file changed, 18 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 8fe5aa67b167..39eb75d23219 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -266,8 +266,17 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
->   		if (events & EPOLLOUT) {
-> -			/* Paired with fput in dma_buf_poll_cb */
-> -			get_file(dmabuf->file);
-> +			/*
-> +			 * Catch the case when fput() is in progress
-> +			 * (e.g. due to close() from another thread).
-> +			 * Otherwise the paired fput() will be issued
-> +			 * from dma_buf_poll_cb().
-> +			 */
-> +			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
-> +				events = EPOLLERR;
-> +				dcb->active = 0;
-> +				goto out;
-> +			}
->   
->   			if (!dma_buf_poll_add_cb(resv, true, dcb))
->   				/* No callback queued, wake up any other waiters */
-> @@ -289,8 +298,12 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
->   		if (events & EPOLLIN) {
-> -			/* Paired with fput in dma_buf_poll_cb */
-> -			get_file(dmabuf->file);
-> +			/* See above */
-> +			if (unlikely(!atomic_long_inc_not_zero(&file->f_count))) {
-> +				events = EPOLLERR;
-> +				dcb->active = 0;
-> +				goto out;
-> +			}
->   
->   			if (!dma_buf_poll_add_cb(resv, false, dcb))
->   				/* No callback queued, wake up any other waiters */
-> @@ -299,7 +312,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   				events &= ~EPOLLIN;
->   		}
->   	}
-> -
-> +out:
->   	dma_resv_unlock(resv);
->   	return events;
->   }
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 29130a9..56f8a25 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1747,6 +1747,7 @@ static int vdec_close(struct file *file)
+ 
+ 	vdec_pm_get(inst);
+ 
++	cancel_work_sync(&inst->delayed_process_work);
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	vdec_ctrl_deinit(inst);
+-- 
+2.7.4
 
 
