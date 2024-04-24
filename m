@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-10016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211068B0946
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 14:23:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EFE8B0947
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 14:23:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39C82B25C17
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:23:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 808D21F23D09
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:23:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2742915ADB9;
-	Wed, 24 Apr 2024 12:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0540915CD4A;
+	Wed, 24 Apr 2024 12:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGNKTT9q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLcq35nz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D34115B123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA78F15B158
 	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 12:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713961386; cv=none; b=OrUmYZKfj7x23n6eAxgl/bnQtlvFabdHP7+LM9goowHnNEtHKawcs9F3RXLjqqHyM4/6QkGjcPUlfm3B7TWi++be4KdKflgBqXtMEUv9ptx6tj/5GqVaJlTmsHDXOfmxsIQKp/m4aN3hhcSYrIux8NdOz4WwzaMNl/nmpWLVd74=
+	t=1713961387; cv=none; b=txeuSyZ1nBFCWRuMx0C6eBNamlXLcepICgpGehNRKf1/LUl/xjZhLppAIGAuu4mAYSCwHDKoffgjdZ0XhPr8x2A9aVDl2IIt8aPtmYPNGavwL9uFvESz5HtM+Qa/o5z9WnIjM5wvukfUP7KV8kguaVmWzAOEVSmBkxjz7TJQ9ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713961386; c=relaxed/simple;
-	bh=pRwJscMya3JPhxp+8sB/bjfUVAHf9JO4ZKhVJdYI7Co=;
+	s=arc-20240116; t=1713961387; c=relaxed/simple;
+	bh=iKlKjLWVWWEm2fX8ZeF4D+tdTozJyFKOhdNYkVekWfg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KDO3UZtwHts6GUw4rzSmluTGcOafjodBJB5HvPm+sCwFFz7WnO2AghOLF0nC/6HxS1oQFKuLMpvQlXdwp5Ra/7tu8hhOBtGl4MEt/oW4wMcV0G6TJYkO1p2zmeLAhqX6c7P03uj7GGf+YCvioEUGQxtM5BB9qmwuQZEuqW9hV2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGNKTT9q; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=NIWpEtRBrWgaKjfj0KZ64FE35pzTzhVDUhjFrlkrWJVjoJd7PaMxp/ZlyrydR1Dqx1n7pSVWDR70873Yq/NUsoMQ232Nkj5z1Ljjolax8HScvb7ZeuBButI3ZOYYREFXL4zewTI8/Otp0NP5Sc0k5fqCHRqTjaqMb8ftZl40Z4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLcq35nz; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713961385; x=1745497385;
+  t=1713961386; x=1745497386;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=pRwJscMya3JPhxp+8sB/bjfUVAHf9JO4ZKhVJdYI7Co=;
-  b=MGNKTT9q2du7Q1f5ocw5t7lJXohbhnvwyijS4uN6Q0WYIWLnW8NvpVUL
-   QxH0gwTULJIUaKVIR2186htmf51EVjkiocF/SrLVs5YKsf4n+oTOVZ1v6
-   7FMiRo6IIqFKcJGkc7F6JxB1N5z/qAnctJj0IaLfxgxMzLa1o5nJtOG/J
-   S+F85brYHvvjs46Pr7fMM2Jo+Ojw1u6HjrOboIpzgE8omT21OwlSKHw3+
-   eruY3AnL7lwxaJGqWKd/RaYKUOGPyOvl90teumk5w0OCDBT+8eqj9GIp5
-   10tU4dnKaMnL/6c2SkVwXFnllEbi0zntwwyM4H0CAlCdjDqYtL98q0gCM
+  bh=iKlKjLWVWWEm2fX8ZeF4D+tdTozJyFKOhdNYkVekWfg=;
+  b=eLcq35nzDrKHVu4P+f6xs97U5ZH6PGbJeaUcdCbLGhheCm8mVkAV4rs/
+   zrUU72QiP71bzSw4RsK+avjRTSxc+W7aVUzvRzMOi4yodymP4twivMoXR
+   yozFZUaaEbvoD5xnFp5xl/F3OfJ8EIb2NgPw7bO4aHlJjdoiCthfzqB4s
+   RXMIha0TWEVYy1ybASoWo3tbL8f57u+Tz+qltrsQUKevpWmW4uLEvRSo4
+   HdX9Wq3+hwif25lVUFwtPG6P55pyLI68+mY/HXaWAmitF1sp6kTrwvHdr
+   ATCoYBliYjccmsZRRtqUr3yjmMI6ca5PPKkeG/xphXi+m6NkBm6hD+13Z
    A==;
-X-CSE-ConnectionGUID: UV1nQl4jQRWEx29eZPk96A==
-X-CSE-MsgGUID: 24ky8SFEQyOyUToQXfDPRQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9809665"
+X-CSE-ConnectionGUID: /uwXuPa1QEO4fcgMJetXBQ==
+X-CSE-MsgGUID: C4hFoHtSRreJi2rQi4Sfng==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9809682"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9809665"
+   d="scan'208";a="9809682"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:22:59 -0700
-X-CSE-ConnectionGUID: oHgF5nSKRGytMroEyH1+vw==
-X-CSE-MsgGUID: 3DC0xuCPT9CsdCbBcrcX2A==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:23:01 -0700
+X-CSE-ConnectionGUID: 8M3Ts2rXSo6xA4Ypf2H7zA==
+X-CSE-MsgGUID: S/CefH9fRkStQIbARmp0FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29512838"
+   d="scan'208";a="29512857"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:22:57 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 05:22:59 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A648311FA8A;
-	Wed, 24 Apr 2024 15:22:53 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0CE3F1201C3;
+	Wed, 24 Apr 2024 15:22:54 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -73,9 +73,9 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH 09/14] media: Documentation: Document S_ROUTING behaviour
-Date: Wed, 24 Apr 2024 15:22:32 +0300
-Message-Id: <20240424122237.875000-10-sakari.ailus@linux.intel.com>
+Subject: [PATCH 10/14] media: v4l: subdev: Add a function to lock two sub-device states, use it
+Date: Wed, 24 Apr 2024 15:22:33 +0300
+Message-Id: <20240424122237.875000-11-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240424122237.875000-1-sakari.ailus@linux.intel.com>
 References: <20240424122237.875000-1-sakari.ailus@linux.intel.com>
@@ -87,52 +87,99 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document S_ROUTING behaviour for different devices.
+Add two new functions, v4l2_subdev_lock_states() and
+v4l2_subdev_unclock_states(), to acquire and release the state of two
+sub-devices. They differ from calling v4l2_subdev_{un,}lock_state() so
+that if the two states share the same lock, the lock is acquired only
+once.
 
-Generally in devices that produce streams the streams are static and some
-can be enabled and disabled, whereas in devices that just transport them
-or write them to memory, more configurability is allowed. Document this.
+Also use the new functions in v4l2_subdev_link_validate().
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Julien Massot <julien.massot@collabora.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/dev-subdev.rst    | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 12 +++-----
+ include/media/v4l2-subdev.h           | 40 +++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index b76e02e54512..0f9eda3187f3 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -572,6 +572,29 @@ Any configurations of a stream within a pad, such as format or selections,
- are independent of similar configurations on other streams. This is
- subject to change in the future.
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 2d67ec54569a..779583447eac 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1437,17 +1437,13 @@ int v4l2_subdev_link_validate(struct media_link *link)
  
-+Device types and routing setup
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Different kinds of sub-devices have differing behaviour for route activation,
-+depending on the hardware. In all cases, however, only routes that have the
-+``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set are active.
-+
-+Devices generating the streams may allow enabling and disabling some of the
-+routes or have a fixed routing configuration. If the routes can be disabled, not
-+declaring the routes (or declaring them without
-+``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
-+disable the routes. ``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes
-+back to the user in the routes array, with the ``V4L2_SUBDEV_STREAM_FL_ACTIVE``
-+flag unset.
-+
-+Devices transporting the streams almost always have more configurability with
-+respect to routing. Typically any route between the sub-device's sink and source
-+pads is possible, and multiple routes (usually up to certain limited number) may
-+be active simultaneously. For such devices, no routes are created by the driver
-+and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
-+called on the sub-device. Such newly created routes have the device's default
-+configuration for format and selection rectangles.
-+
- Configuring streams
- ^^^^^^^^^^^^^^^^^^^
+ 	states_locked = sink_state && source_state;
  
+-	if (states_locked) {
+-		v4l2_subdev_lock_state(sink_state);
+-		v4l2_subdev_lock_state(source_state);
+-	}
++	if (states_locked)
++		v4l2_subdev_lock_states(sink_state, source_state);
+ 
+ 	ret = v4l2_subdev_link_validate_locked(link, states_locked);
+ 
+-	if (states_locked) {
+-		v4l2_subdev_unlock_state(sink_state);
+-		v4l2_subdev_unlock_state(source_state);
+-	}
++	if (states_locked)
++		v4l2_subdev_unlock_states(sink_state, source_state);
+ 
+ 	return ret;
+ }
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 1af16b16f0bf..e22c50ce7e05 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1724,6 +1724,46 @@ static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+ 	mutex_unlock(state->lock);
+ }
+ 
++/**
++ * v4l2_subdev_lock_states - Lock two sub-device states
++ * @state1: One subdevice state
++ * @state2: The other subdevice state
++ *
++ * Locks the state of two sub-devices.
++ *
++ * The states must be unlocked with v4l2_subdev_unlock_states() after use.
++ *
++ * This differs from calling v4l2_subdev_lock_state() on both states so that if
++ * the states share the same lock, the lock is acquired only once (so no
++ * deadlock occurs). The caller is responsible for ensuring the locks will
++ * always be acquired in the same order.
++ */
++static inline void v4l2_subdev_lock_states(struct v4l2_subdev_state *state1,
++					   struct v4l2_subdev_state *state2)
++{
++	mutex_lock(state1->lock);
++	if (state1->lock != state2->lock)
++		mutex_lock(state2->lock);
++}
++
++/**
++ * v4l2_subdev_unlock_states() - Unlock two sub-device states
++ * @state1: One subdevice state
++ * @state2: The other subdevice state
++ *
++ * Unlocks the state of two sub-devices.
++ *
++ * This differs from calling v4l2_subdev_unlock_state() on both states so that
++ * if the states share the same lock, the lock is released only once.
++ */
++static inline void v4l2_subdev_unlock_states(struct v4l2_subdev_state *state1,
++					     struct v4l2_subdev_state *state2)
++{
++	mutex_unlock(state1->lock);
++	if (state1->lock != state2->lock)
++		mutex_unlock(state2->lock);
++}
++
+ /**
+  * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
+  *					     is unlocked and returns it
 -- 
 2.39.2
 
