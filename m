@@ -1,51 +1,36 @@
-Return-Path: <linux-media+bounces-9997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353FB8B071E
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:19:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B233E8B073C
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:24:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 66B261C218B3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:19:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67EE11F22984
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:24:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92098159564;
-	Wed, 24 Apr 2024 10:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="qw/aJUOt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6329C15921D;
+	Wed, 24 Apr 2024 10:24:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from forward502c.mail.yandex.net (forward502c.mail.yandex.net [178.154.239.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3411591F0
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 10:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5E0158211
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 10:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713953951; cv=none; b=G+3CucASIYfCp4ZZ298wJ2TqmhOv1jrHFSAzkuz7hn9xv0KoJX+jwSmnRflyFjDwaaREGGUDvu3RVwr5+ShSHxjVQ9KWMTttnPwgWl00Lly8AMLnbB1h6Snsp5qReoDv/fNIPhVPX49hRmZWHJEw0wzI1N3V0MduDN/RETGhCjc=
+	t=1713954268; cv=none; b=i/QTFYxhYTP1ndnfgOzR7TTOlvArsTo+Y/SwsKZ7iP5H6x0ZR3Gv8OmhvHMr6W7X6Y9wyYsO6VcbIJrgTCjJCQZA9QK+s9jHrfh0mdRN185BMelIpx/6ZUFfiM0VHqQNEQ6NPIxNqdNuOX19S0JEqveoqZjGGz7zZzENl0qnz7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713953951; c=relaxed/simple;
-	bh=zLFpsCwnZXQSkbUXCqTPTA2rkuxnsQGtlUuFIpIo6PY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
-	 In-Reply-To:Content-Type; b=V2YCzcYC39f++Bh3Up1j9C74+8nBk9jAJUD9fKIu8aD5WREBCYopLePlvjme5dhoBEtq6TOsuNjrNPZs4XlkCsNpOE1MXpOgIY1ozioa9z/TYCanIhWZ8VCq6hjaSo0nBPvcFT163VY/NNwtPrAu1egiJcuyks72uQuqFjx1MAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=qw/aJUOt; arc=none smtp.client-ip=178.154.239.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c1c:2a8f:0:640:9ed8:0])
-	by forward502c.mail.yandex.net (Yandex) with ESMTPS id 4B9D6616DA;
-	Wed, 24 Apr 2024 13:19:04 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 2JI0u8XSt0U0-GRyBOpDb;
-	Wed, 24 Apr 2024 13:19:03 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1713953943; bh=zLFpsCwnZXQSkbUXCqTPTA2rkuxnsQGtlUuFIpIo6PY=;
-	h=In-Reply-To:Subject:To:From:Cc:Date:References:Message-ID;
-	b=qw/aJUOtB/njXotw7x8ACJAe69nby1E/Tq9M/nLlTZh3k8c8gKEEUjGcIzZYfUBS2
-	 6wSwQ8T5DF/htDU9zeKT/5xThQ42FvpBKQqt7YweCf+5tFKlmlpqs3tV+xKLElvo/e
-	 8oM1Xh6qvSmTwNnb50ljggQGoIPEQfdLXUeiy5XI=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
-Date: Wed, 24 Apr 2024 13:19:02 +0300
+	s=arc-20240116; t=1713954268; c=relaxed/simple;
+	bh=rgjcjWI3tzK88pxQZU9pVuzADki/OodArwW7mQUGemQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WryGjVsmsnbAXaFlWVXlz3vKqRrAnU35AA7CvJYgtKEXJxrpQvwmy6Qz8xQeLvZ6NaLi65LTzrMyFF4SPUoMclVWTxCpv+5berLlds4oNBXV85n6Cw8Z05ywwbuce9oesbU5GplZN8DbWKBUUV3OQNnHc7SytFoBDcdhGDrrTB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAF7C113CE;
+	Wed, 24 Apr 2024 10:24:26 +0000 (UTC)
+Message-ID: <9431abcf-15d8-4a86-b824-1243114055a7@xs4all.nl>
+Date: Wed, 24 Apr 2024 12:24:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,63 +38,98 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lvc-project@linuxtesting.org,
- syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
-References: <20240423191310.19437-1-dmantipov@yandex.ru>
- <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
-Content-Language: en-US
-From: Dmitry Antipov <dmantipov@yandex.ru>
-Autocrypt: addr=dmantipov@yandex.ru; keydata=
- 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
- A/UwwXBRuvydGV0=
-Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
-In-Reply-To: <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Subject: Re: [PATCH v2 2/3] media: videobuf2-core: reverse the iteration order
+ in __vb2_buf_dmabuf_put
+Content-Language: en-US, nl
+To: Yunke Cao <yunkec@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+References: <20240403091306.1308878-1-yunkec@chromium.org>
+ <20240403091306.1308878-3-yunkec@chromium.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240403091306.1308878-3-yunkec@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-T24gNC8yNC8yNCAxMDowOSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToNCg0KPiBUbyByZXBl
-YXQgd2hhdCBJIGFscmVhZHkgc2FpZCBvbiB0aGUgb3RoZXIgdGhyZWFkOiBDYWxsaW5nIGRt
-YV9idWZfcG9sbCgpIHdoaWxlIGZwdXQoKSBpcyBpbiBwcm9ncmVzcyBpcyBpbGxlZ2FsIGlu
-IHRoZSBmaXJzdCBwbGFjZS4NCj4gDQo+IFNvIHRoZXJlIGlzIG5vdGhpbmcgdG8gZml4IGlu
-IGRtYV9idWZfcG9sbCgpLCBidXQgcmF0aGVyIHRvIGZpZ3VyZSBvdXQgd2hvIGlzIGluY29y
-cmVjdGx5IGNhbGxpbmcgZnB1dCgpLg0KDQpIbS4gT1RPSCBpdCdzIGxlZ2FsIGlmIHVzZXJz
-cGFjZSBhcHAgY2FsbHMgY2xvc2UoW2ZkXSkgaW4gb25lIHRocmVhZCB3aGVuIGFub3RoZXIN
-CnRocmVhZCBzbGVlcHMgaW4gKGUpcG9sbCh7Li4uLCBbZmRdLCAuLi59KSAoSUlVQyB0aGlz
-IGlzIGNsb3NlIHRvIHdoYXQgdGhlIHN5emJvdA0KcmVwcm9kdWNlciBhY3R1YWxseSBkb2Vz
-KS4gV2hhdCBiZWhhdmlvciBzaG91bGQgYmUgY29uc2lkZXJlZCBhcyB2YWxpZCBpbiB0aGlz
-DQooeWVzLCByZWFsbHkgd2VpcmQpIHNjZW5hcmlvPw0KDQpEbWl0cnkNCg0K
+On 03/04/2024 11:13, Yunke Cao wrote:
+> Release the planes from num_planes - 1 to 0.
+> 
+> Signed-off-by: Yunke Cao <yunkec@chromium.org>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 702f7b6f783a..a5368cef73bb 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -320,10 +320,10 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
+>   */
+>  static void __vb2_buf_dmabuf_put(struct vb2_buffer *vb)
+>  {
+> -	unsigned int plane;
+> +	unsigned int i;
+>  
+> -	for (plane = 0; plane < vb->num_planes; ++plane)
+> -		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
+> +	for (i = 0; i < vb->num_planes; ++i)
+> +		__vb2_plane_dmabuf_put(vb, &vb->planes[vb->num_planes - 1 - i]);
+
+This is a bit ugly. Why not just do:
+
+	for (plane = vb->num_planes; plane; plane--)
+		__vb2_plane_dmabuf_put(vb, &vb->planes[plane - 1]);
+
+Regards,
+
+	Hans
+
+>  }
+>  
+>  /*
+
 
