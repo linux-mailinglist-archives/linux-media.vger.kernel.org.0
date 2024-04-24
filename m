@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-9995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8A78B06D8
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:03:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5073E8B06F0
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:07:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12CAC1C20CE1
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:03:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07EC5283223
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3C4159216;
-	Wed, 24 Apr 2024 10:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D1C4159219;
+	Wed, 24 Apr 2024 10:07:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C38157498;
-	Wed, 24 Apr 2024 10:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13261E898;
+	Wed, 24 Apr 2024 10:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713953030; cv=none; b=IonG3TSPk7tUnda3Xysq8P6+siOkNsHxb8YC7sEB11vpA5aIh3uSZfNgEL0CEoJtAg1tm/9MTxDCQh8uQ1m3a7eG6lDab/8iPxyUHtgwO0GMPeZVcQs24pVlaI/NS3l3oIxnEOpfrYH6cY2SeReJRNI0KHTFfKR13RCB7nhRwgU=
+	t=1713953237; cv=none; b=CM8LlWTJcB5g1/BXcp8YgIBtE+QyMgGLoFEQ6MuA9XM8QqMOOqawd+EbS0mzCU43vuMVFHYCUj8QrbrMMZ1TilqtSs8XkjOl9nU6jMCvWuEOCx4rVxJH4wpjO4hTQOk6dcbNfHDfJPd1u8tcF/tupMh1LlPL2UZEsP1AjywrqkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713953030; c=relaxed/simple;
-	bh=of8KehQGF7cDuMBIGs5ksgB82Umnq66JY9p3LR+p260=;
+	s=arc-20240116; t=1713953237; c=relaxed/simple;
+	bh=8lcnCIurDEsAwt5dZGIgZqL4JM8FXi3W5HBrOI9pPPw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cTPoLRBc5EsRfJWj8AOooj46iYjyyqQ6iK04aZY9d+DCWxFwpV7qfoxqg6siWaOzXONEHxq+YZg4odQYky14EjkRD6+pT+0CiXAhhPa6apaVcHrJbd+Y6FhfwYhsWGf+xyFv5oWDMnXXhgDsdnGxW5iFw631n613Yiyx0KFGPX4=
+	 In-Reply-To:Content-Type; b=JUUPEvKTzKycGO1XogTX67788Lbs29cGRp9fm9U9XkjT9frWwTajE44vrWUfHRDT46sDbeGdDj32XoQKyEusF1JioTtJvVvtDPTcNbdvHY7Pi32fsB8cAAnjRRDm+JUy6I5gnyu/PLGBqUeK3tktx3pZo8F9OLoc6lmM1g/9xnU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26846C113CE;
-	Wed, 24 Apr 2024 10:03:45 +0000 (UTC)
-Message-ID: <25a33db9-3bc1-4d90-83d4-0bdbea9bc5d8@xs4all.nl>
-Date: Wed, 24 Apr 2024 12:03:44 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D99A4C32782;
+	Wed, 24 Apr 2024 10:07:13 +0000 (UTC)
+Message-ID: <054e6a95-796a-4bff-b629-96928eeb1685@xs4all.nl>
+Date: Wed, 24 Apr 2024 12:07:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,7 +38,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: v4l2-ctrls: Add average qp control
+Subject: Re: [PATCH 2/2] media: amphion: Report the average qp of current
+ encoded frame
 Content-Language: en-US, nl
 To: Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
 Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
@@ -47,92 +48,164 @@ Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
  ming.qian@oss.nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20240329092352.2648837-1-ming.qian@nxp.com>
+ <20240329092352.2648837-2-ming.qian@nxp.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240329092352.2648837-1-ming.qian@nxp.com>
+In-Reply-To: <20240329092352.2648837-2-ming.qian@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/03/2024 10:23, Ming Qian wrote:
-> Add a control V4L2_CID_MPEG_VIDEO_AVERAGE_QP to report the average qp
-> value of current encoded frame.
+> Report the average qp value of current encoded frame via the control
+> V4L2_CID_MPEG_VIDEO_AVERAGE_QP
 > 
 > Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 5 +++++
->  include/uapi/linux/v4l2-controls.h                        | 2 ++
->  3 files changed, 11 insertions(+)
+>  drivers/media/platform/amphion/venc.c        | 4 ++++
+>  drivers/media/platform/amphion/vpu.h         | 2 ++
+>  drivers/media/platform/amphion/vpu_defs.h    | 1 +
+>  drivers/media/platform/amphion/vpu_helpers.c | 3 +++
+>  drivers/media/platform/amphion/vpu_v4l2.c    | 9 +++++++++
+>  drivers/media/platform/amphion/vpu_v4l2.h    | 1 +
+>  drivers/media/platform/amphion/vpu_windsor.c | 2 ++
+>  7 files changed, 22 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 2a165ae063fb..cef20b3f54ca 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1653,6 +1653,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      Quantization parameter for a P frame for FWHT. Valid range: from 1
->      to 31.
+> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
+> index 4eb57d793a9c..12cebafeaf3b 100644
+> --- a/drivers/media/platform/amphion/venc.c
+> +++ b/drivers/media/platform/amphion/venc.c
+> @@ -680,6 +680,9 @@ static int venc_ctrl_init(struct vpu_inst *inst)
+>  			       ~(1 << V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME),
+>  			       V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME);
 >  
-> +``V4L2_CID_MPEG_VIDEO_AVERAGE_QP (integer)``
-> +    This read-only control returns the average qp value of the currently
-> +    encoded frame. Applicable to the H264 and HEVC encoders.
-
-qp -> QP
-
-Why is this applicable to H264/HEVC only? I think it is fine for any codec.
-
-This needs to document that the value applies to the last dequeued buffer
-(VIDIOC_DQBUF).
-
+> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
+> +			  V4L2_CID_MPEG_VIDEO_AVERAGE_QP, 0, 51, 1, 0);
 > +
->  .. raw:: latex
+>  	if (inst->ctrl_handler.error) {
+>  		ret = inst->ctrl_handler.error;
+>  		v4l2_ctrl_handler_free(&inst->ctrl_handler);
+> @@ -819,6 +822,7 @@ static int venc_get_one_encoded_frame(struct vpu_inst *inst,
+>  	vbuf->field = inst->cap_format.field;
+>  	vbuf->flags |= frame->info.pic_type;
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
+> +	vpu_set_buffer_average_qp(vbuf, frame->info.average_qp);
+>  	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
+>  	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+>  	venc->ready_count++;
+> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+> index 0246cf0ac3a8..d21ca6bf2459 100644
+> --- a/drivers/media/platform/amphion/vpu.h
+> +++ b/drivers/media/platform/amphion/vpu.h
+> @@ -270,6 +270,7 @@ struct vpu_inst {
+>  	u8 xfer_func;
+>  	u32 sequence;
+>  	u32 extra_size;
+> +	u32 current_average_qp;
 >  
->      \normalsize
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 8696eb1cdd61..88e86e4e539d 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -972,6 +972,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
->  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
->  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:			return "Average QP value";
-
-value -> Value
-
-Also move it up two lines so that it follows V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES
-rather than FWHT controls.
-
->  
->  	/* VPX controls */
->  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
-> @@ -1507,6 +1508,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		*max = 0xffffffffffffLL;
->  		*step = 1;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
-> +		*type = V4L2_CTRL_TYPE_INTEGER;
-> +		*flags |= V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY;
-
-Drop the volatile flag, this isn't a volatile value.
-
-> +		break;
->  	case V4L2_CID_PIXEL_RATE:
->  		*type = V4L2_CTRL_TYPE_INTEGER64;
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 99c3f5e99da7..974fd254e573 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -898,6 +898,8 @@ enum v4l2_mpeg_video_av1_level {
->  	V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 = 23
+>  	u32 flows[16];
+>  	u32 flow_idx;
+> @@ -306,6 +307,7 @@ struct vpu_vb2_buffer {
+>  	dma_addr_t chroma_v;
+>  	unsigned int state;
+>  	u32 tag;
+> +	u32 average_qp;
 >  };
 >  
-> +#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
-> +
->  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
->  #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000)
->  #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_CODEC_CX2341X_BASE+0)
+>  void vpu_writel(struct vpu_dev *vpu, u32 reg, u32 val);
+> diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/amphion/vpu_defs.h
+> index 7320852668d6..428d988cf2f7 100644
+> --- a/drivers/media/platform/amphion/vpu_defs.h
+> +++ b/drivers/media/platform/amphion/vpu_defs.h
+> @@ -114,6 +114,7 @@ struct vpu_enc_pic_info {
+>  	u32 wptr;
+>  	u32 crc;
+>  	s64 timestamp;
+> +	u32 average_qp;
+>  };
+>  
+>  struct vpu_dec_codec_info {
+> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
+> index d12310af9ebc..59139302cb1d 100644
+> --- a/drivers/media/platform/amphion/vpu_helpers.c
+> +++ b/drivers/media/platform/amphion/vpu_helpers.c
+> @@ -378,6 +378,9 @@ int vpu_helper_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+>  		ctrl->val = inst->min_buffer_out;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
+> +		ctrl->val = inst->current_average_qp;
+> +		break;
+
+This is not a volatile control. Instead, the control should be updated
+with the new average_qp in the vpu_vb2_buf_finish function.
 
 Regards,
 
 	Hans
+
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+> index c88738e8fff7..893f494ffb0b 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -63,6 +63,13 @@ unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf)
+>  	return vpu_buf->state;
+>  }
+>  
+> +void vpu_set_buffer_average_qp(struct vb2_v4l2_buffer *vbuf, u32 qp)
+> +{
+> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
+> +
+> +	vpu_buf->average_qp = qp;
+> +}
+> +
+>  void vpu_v4l2_set_error(struct vpu_inst *inst)
+>  {
+>  	vpu_inst_lock(inst);
+> @@ -536,9 +543,11 @@ static int vpu_vb2_buf_prepare(struct vb2_buffer *vb)
+>  static void vpu_vb2_buf_finish(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
+>  	struct vpu_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+>  	struct vb2_queue *q = vb->vb2_queue;
+>  
+> +	inst->current_average_qp = vpu_buf->average_qp;
+>  	if (vbuf->flags & V4L2_BUF_FLAG_LAST)
+>  		vpu_notify_eos(inst);
+>  
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
+> index 60f43056a7a2..56f2939fa84d 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.h
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.h
+> @@ -12,6 +12,7 @@ void vpu_inst_lock(struct vpu_inst *inst);
+>  void vpu_inst_unlock(struct vpu_inst *inst);
+>  void vpu_set_buffer_state(struct vb2_v4l2_buffer *vbuf, unsigned int state);
+>  unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf);
+> +void vpu_set_buffer_average_qp(struct vb2_v4l2_buffer *vbuf, u32 qp);
+>  
+>  int vpu_v4l2_open(struct file *file, struct vpu_inst *inst);
+>  int vpu_v4l2_close(struct file *file);
+> diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/amphion/vpu_windsor.c
+> index 5f1101d7cf9e..e7d37aa4b826 100644
+> --- a/drivers/media/platform/amphion/vpu_windsor.c
+> +++ b/drivers/media/platform/amphion/vpu_windsor.c
+> @@ -499,6 +499,7 @@ struct windsor_pic_info {
+>  	u32 proc_dacc_rng_wr_cnt;
+>  	s32 tv_s;
+>  	u32 tv_ns;
+> +	u32 average_qp;
+>  };
+>  
+>  u32 vpu_windsor_get_data_size(void)
+> @@ -734,6 +735,7 @@ static void vpu_windsor_unpack_pic_info(struct vpu_rpc_event *pkt, void *data)
+>  	info->wptr = get_ptr(windsor->str_buff_wptr);
+>  	info->crc = windsor->frame_crc;
+>  	info->timestamp = timespec64_to_ns(&ts);
+> +	info->average_qp = windsor->average_qp;
+>  }
+>  
+>  static void vpu_windsor_unpack_mem_req(struct vpu_rpc_event *pkt, void *data)
+
 
