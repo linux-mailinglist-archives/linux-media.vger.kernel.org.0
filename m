@@ -1,124 +1,228 @@
-Return-Path: <linux-media+bounces-9980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C89A8B02FB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 09:19:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF3F8B0455
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:30:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D9C2285AF4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 07:19:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB6171C22514
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 08:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD11D158867;
-	Wed, 24 Apr 2024 07:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 947421422C3;
+	Wed, 24 Apr 2024 08:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XJna2nkf"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="n3HRYxEM";
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="ohi95WNK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA94D1586D2;
-	Wed, 24 Apr 2024 07:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713943099; cv=none; b=mrqmtB8t+kwdppbhBwJYdkVw2u5cuNi/Ung2V/HJgRFIBrb/mlxH88Lei2t5C3j3wB8TIGeTeq7WHgPN/KiO9Nm/kZiqBTWB3nLJOwlIb9OKlGpD9gF8fAA+q5ofeH0Cae3A38d25Tm4l9d7VK67kIDYc/9ias3zqCO2nV0/Jxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713943099; c=relaxed/simple;
-	bh=fv+GIGOvqiVeo78BkG+zPn+Of31/+ZsuY6byizPk83M=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=D0EbTIJpWzkK+UecZ/nB81tC1dLZukuykj7JWf3m/jI0YYnmVfZIzVzEiWmyLMStd6JIlag33Kb5J867bAc8N2a1+7zEpX4PJcS3nWJxqc0wocPtrw67IJ8Fk9fJb6s4t+rQ/rD60kQtoYrH+79KFEdPH3jr8lu/8O7FBmXY+j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XJna2nkf; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43O6YeiK026977;
-	Wed, 24 Apr 2024 07:18:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=SIiiTzshdZnb
-	bu1Kn6CE4UY2GKQW75/stSab/emf5JE=; b=XJna2nkfoXTIZgOdFk70qFdqXN3y
-	BArphEIY96aRK9BDdQJxD5LhHX0zGXA9GJxV/wh4O7Vgae1QFtuHUz+A/GJD3LRD
-	BkybJ2MkuPgnvT4cJCgDMzJBx8c3ABzgJ7b20aUSLrkn1JPJysVtJfFMTnqAhgfc
-	d1+bkyaRXpQIaf6COKZPh4BZd8SPHGO2ZJBl6Sd/tzRMRROVJUNuO7hf/L57/IuU
-	oxD/+KjJJdqz5DYFJrx6R+0ORKvcuy2a6L/+WH5a+aGUzOePiqLlrHRiQvlTTq6S
-	flVZIAidFLR14msxNavzx7GJ4aX8qlj8TtvrbXEoCFEUMmI3PyaDtyQ3xg==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpv9e05nx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Apr 2024 07:18:11 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43O7I7AK006061;
-	Wed, 24 Apr 2024 07:18:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3xm6sm3w5m-1;
-	Wed, 24 Apr 2024 07:18:07 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43O7I7vw006055;
-	Wed, 24 Apr 2024 07:18:07 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 43O7I6k9006053;
-	Wed, 24 Apr 2024 07:18:07 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-	id 463843030; Wed, 24 Apr 2024 12:48:06 +0530 (+0530)
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH] media: venus: fix use after free in vdec_close
-Date: Wed, 24 Apr 2024 12:47:50 +0530
-Message-Id: <1713943070-24085-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Yzx1oSc-SW4RbTjoohJQ-sn1EZR-AmMi
-X-Proofpoint-ORIG-GUID: Yzx1oSc-SW4RbTjoohJQ-sn1EZR-AmMi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-24_04,2024-04-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 impostorscore=0
- phishscore=0 mlxscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404240031
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8701CFB2;
+	Wed, 24 Apr 2024 08:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713947440; cv=pass; b=eL1yMNaZLD6/B1nwivlYkY4LjEU8y/wyFVSLAT66E70xH4iTbWfZZ4W77qmLucOWQpHz+SOs+feBSWjKPGyUYnhNjuhHjcj8YTZuJufkUe01vtt+ojvMmW3Ytcav+vdSjaCnF0MYBqr2UXKVQcr9NOx/AE7xxNAisEc3EkM0Yg4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713947440; c=relaxed/simple;
+	bh=HZRd5Sji4u0FknZd+UNKw8clHjJbnVk/ortExV5eoLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQEXRfy6Bl2ojJN3+kDbhNdKiKaL+8k4dGzFN2IgkNMBfSJdmyYXdADi/f+EriKOs+xqMYNGx7QeldPaGyXSwhVz2Kq7R6TtCxqUuQj9bZMOJ/7+EZI+Qtan5EcsXwYgqhrXO64nJrredyiZ1k+Gwbb0+xNj6C/Kcik7mexGb1A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=n3HRYxEM; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=ohi95WNK; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4VPXHY4LXXz49PwQ;
+	Wed, 24 Apr 2024 11:30:33 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1713947433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f2uP0HlkkcYb29qNNXKq5zn2KaY6EI9tc7pBq2JvLWs=;
+	b=n3HRYxEMr5gsA6Jse99M59u4CbpdUrsjtCYaDZD1FFPU97S80E1oSXQxrf+rHTnJ3gkTlk
+	+luLdjyOMvdc9A9SOS+0YZ6udW1XcuFY7lgWTtra6BYbl+LcYxLAhchjpdoLcLbWnW9Gvy
+	HT3sfaxKKL629Sl012EDwOplI1rvtTuyEBzJbwyr7DPE62uwrsqACXbHTjM3ZAmM8YgEDx
+	+jMQn5yXxIRdKxZS5tO8+wb/pCAhBWyrEJ42nt3ULilVEC54H9ca4L98PHa9Jast9ezLRf
+	sd8GzWWbBDoEkomG6d/pCTaKOnbasbxgcIJD9jWcV6e9NMXeXBzj3Eim0CWOiQ==
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VPXHM3jJwzyRf;
+	Wed, 24 Apr 2024 11:30:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1713947425;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f2uP0HlkkcYb29qNNXKq5zn2KaY6EI9tc7pBq2JvLWs=;
+	b=ohi95WNKy80W5wW9eqwfUNGyGFYZcnzuILf9KpCGEk3qN0qVzAr7r3csb6+3Upn2gFMg+0
+	J6r+iSFiERY+ZT6sQJrg8qnFFQTMz2YqggZoHxWH8GJmRtqhV2SVutKBXkKh/LrLFypPHH
+	u4/iO7KC+8y5sTd1/dfYBWM+8VnLEH0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1713947425;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f2uP0HlkkcYb29qNNXKq5zn2KaY6EI9tc7pBq2JvLWs=;
+	b=rW+mDMGuAXr3HfmYkMR+bJcZRdrA6MbFzuxTFcgAfgeG1PjYc9EGw0fIzRhmKKUzpbgRU3
+	4H0vBIx3MRWZ5dSR04VYbT7qfi7RuucF1gaJQ0omUfqd/jKn9j/g4acv1TGaFPrdU+0wBt
+	N78oyrRZ72L1ZuII97xBLTzuer55k1Y=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1713947425; a=rsa-sha256; cv=none;
+	b=AO0Q8clkqabsZbtUXpjAC4q8pFkI66Ilwf64XSo/EoSMnV9QfTmDdEvy2WVHH5b+nm32AP
+	GAVY14YgKqvsFnNOWgz1hSWyyIMnKcOldhh7Q6gMKOoyfLlS384VAdZOP3L7J5Gcsd8I35
+	K0h7wFDLUgtEZG618mSN74HNqMnELH8=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C006F634C96;
+	Wed, 24 Apr 2024 11:30:22 +0300 (EEST)
+Date: Wed, 24 Apr 2024 08:30:22 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	kernel@collabora.com, linux-kernel@vger.kernel.org,
+	mchehab@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Subject: Re: [PATCH v6 4/4] media: i2c: add MAX96714 driver
+Message-ID: <ZijDHtSa2vACgBjl@valkosipuli.retiisi.eu>
+References: <20240325131634.165361-1-julien.massot@collabora.com>
+ <20240325131634.165361-5-julien.massot@collabora.com>
+ <ZhkaR-83uciNFi2b@valkosipuli.retiisi.eu>
+ <a70e3792-b938-4c20-840d-5dfa9bdc4b9c@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a70e3792-b938-4c20-840d-5dfa9bdc4b9c@collabora.com>
 
-There appears to be a possible use after free with vdec_close().
-The firmware will add buffer release work to the work queue through
-HFI callbacks as a normal part of decoding. Randomly closing the
-decoder device from userspace during normal decoding can incur
-a read after free for inst.
+Hi Julien,
 
-Fix it by cancelling the work in vdec_close.
+On Tue, Apr 23, 2024 at 04:01:16PM +0200, Julien Massot wrote:
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
- drivers/media/platform/qcom/venus/vdec.c | 1 +
- 1 file changed, 1 insertion(+)
+...
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 29130a9..56f8a25 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1747,6 +1747,7 @@ static int vdec_close(struct file *file)
- 
- 	vdec_pm_get(inst);
- 
-+	cancel_work_sync(&inst->delayed_process_work);
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
- 	vdec_ctrl_deinit(inst);
+> > > +static int max96714_enable_streams(struct v4l2_subdev *sd,
+> > > +				   struct v4l2_subdev_state *state,
+> > > +				   u32 source_pad, u64 streams_mask)
+> > > +{
+> > > +	struct max96714_priv *priv = sd_to_max96714(sd);
+> > > +	u64 sink_streams;
+> > > +	int ret;
+> > > +
+> > > +	if (!priv->enabled_source_streams)
+> > > +		max96714_enable_tx_port(priv);
+> > > +
+> > > +	ret = max96714_apply_patgen(priv, state);
+> > > +	if (ret)
+> > > +		goto err;
+> > > +
+> > > +	if (!priv->pattern) {
+> > > +		if (!priv->rxport.source.sd) {
+> > > +			ret = -ENODEV;
+> > > +			goto err;
+> > > +		}
+> > > +
+> > > +		sink_streams =
+> > > +			v4l2_subdev_state_xlate_streams(state,
+> > > +							MAX96714_PAD_SOURCE,
+> > > +							MAX96714_PAD_SINK,
+> > > +							&streams_mask);
+> > > +
+> > > +		ret = v4l2_subdev_enable_streams(priv->rxport.source.sd,
+> > > +						 priv->rxport.source.pad,
+> > > +						 sink_streams);
+> > > +		if (ret)
+> > > +			goto err;
+> > > +	}
+> > > +
+> > > +	priv->enabled_source_streams |= streams_mask;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +err:
+> > > +	if (!priv->enabled_source_streams)
+> > > +		max96714_disable_tx_port(priv);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int max96714_disable_streams(struct v4l2_subdev *sd,
+> > > +				    struct v4l2_subdev_state *state,
+> > > +				    u32 source_pad, u64 streams_mask)
+> > > +{
+> > > +	struct max96714_priv *priv = sd_to_max96714(sd);
+> > > +	u64 sink_streams;
+> > > +	int ret;
+> > > +
+> > > +	if (!priv->pattern && priv->rxport.source.sd) {
+> > 
+> > When will priv->rxport.source.sd be NULL here?
+> 
+> Indeed it should not, the priv->rxport.source.sd can only be null if:
+> - There is no serializer
+> - The stream has been started with pattern generator and the pattern
+> generator
+> has been disabled while streaming.
+
+It seems priv->rxport.source.sd is also accessed in
+max96714_enable_streams() without such a check.
+
+> 
+> In V7 I will drop this check and add another one to prevent disabling the
+> pattern
+> generator while streaming.
+
+Sounds good.
+
+> > > +static void max96714_v4l2_notifier_unregister(struct max96714_priv *priv)
+> > > +{
+> > > +	v4l2_async_nf_unregister(&priv->notifier);
+> > > +	v4l2_async_nf_cleanup(&priv->notifier);
+> > 
+> > It'd be nicer to call these directly IMO. Maybe we could introduce
+> > v4l2_async_nf_unregister_cleanup()? Feel free to post a patch. :-)
+> Ok, I will call these directly, and I will do the same for the MAX96717
+> serializer.
+> 
+> I will post a patchset later introducing the
+> `v4l2_async_nf_unregister_cleanup`
+> and converting all the drivers calling these two functions.
+
+That would be nice. :-) It should be easy to do that with Coccinelle.
+
+...
+
+> > > +	ret = max96714_enable_core_hw(priv);
+> > 
+> > Please switch to runtime PM.
+> 
+> Ok, the v7 will use runtime PM and I will use the powerdown gpio
+> to poweroff the device. However it implies to move some functions arround
+> e.g initialize the tx or the pattern generator ..
+> So it it will be done as separate patches.
+> 
+> Playing with the pm_runtime operation also showed up that the connection
+> doesn't always resume properly, I will extra patches to fix that.
+
+Ack.
+
 -- 
-2.7.4
+Kind regards,
 
+Sakari Ailus
 
