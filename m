@@ -1,114 +1,112 @@
-Return-Path: <linux-media+bounces-10081-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10082-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF018B127F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:39:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2C38B12C1
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:46:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A02851C22D74
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:39:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07778281F83
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 18:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89936199B0;
-	Wed, 24 Apr 2024 18:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449F61BF37;
+	Wed, 24 Apr 2024 18:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHsWIUwT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfL5gwbR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8531864C;
-	Wed, 24 Apr 2024 18:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AF81DA21;
+	Wed, 24 Apr 2024 18:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713983945; cv=none; b=C8Fru+umejYcTDnlroHi4HTAOcOnuLXBnKmYp4kIGH1LwUh7vjhFg0HXOacDAYW8yyk8HanWwwYA3/kRkgHdgUgSavSpY5XCgS7ESQvDrMCwjjyxRsLOwReMxHu/+CzyqC43WMUtXmH/xB21BWEuD+gPOE0ZzvD+DVSFzjpD/s4=
+	t=1713984290; cv=none; b=oF161vBppNRFysh0HwPmTFCrC0Xf3VRddjOZakaXmHujvOHqlaloMwqJoApzOcmAn9gL2vtFM/gtGQT64K8sWV21yEISRjtF7AUjmMNWAKr6oQriM8Ms4Fz5vDnKuvEG0in+OYXdGKA7dO5vgfaChpefcG8B+F8y7Jlia1+kQcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713983945; c=relaxed/simple;
-	bh=a9wBfXuY8NXHfFKMORli8gTx88NGRNhhxzH6iYF3T/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tH9tC8zqTUIBBqrgww5QFkfCNv3zhKwPV3bMPSPqfVJxfQ49bHGBzHvUs2Npm7luo00byZPCW7hN57xbXnnu+3ljo03EaAnTdvmZ2KV8VCMB3NJio+IDG3inLV+3+3m+wJ1TmFgYHPE9h2tR8vvjzthNz0+P0XHzmaD9gNVrbAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHsWIUwT; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1713984290; c=relaxed/simple;
+	bh=8gIaXDNEUwMuLPcADBfY8qmuXHqxs1fdQRxqtQL+O0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BGtw4hcgi7JOGBMlTtjvbI3hQpsr4itxZiGD78DpIx0mDrAq9RjDDt/15pKNHt//iNRkJngpxkYJkpJKXhOfoiVZZ7JHlhHlXHA0Fvi95ka+7oo0uRa2TIjTU2dNvFPZGXpeoB5bmW6bizmhDEEfjqeoN0v6woIjEiG/1DwC+iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfL5gwbR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713983943; x=1745519943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a9wBfXuY8NXHfFKMORli8gTx88NGRNhhxzH6iYF3T/g=;
-  b=XHsWIUwTOIavQb8U6xLKdqYiPTUQG5nsdsE/t9VczMeveI1/ncBTfhK3
-   3PG/g5oAXqPtcdnoFbOW61mHp7vieVnNlGNljn6G5jePhlyUHXIKep5hN
-   5D3iv/sw9NBz6VJy4AOMg5Crwolpnc//f7SvkPd5tTQplYqaydAbnPw1+
-   uzoMQEC3EJXeXUTNK6lX63lyqvFyG5//IKgiIum/VV5yNLalZXPRaugNA
-   JzYrUBYmKhmW8xhd45uQt75EMMiLsAX2jtSEJJND18wrck4a8w05K5R2Z
-   bOuk+++uJnbq2b7DdHFqkRnFNTH41TYm8+wmK9EKg9So0qXG9p4qYn7+G
-   w==;
-X-CSE-ConnectionGUID: P1gJhiGDQdWQT4gA7e4XEg==
-X-CSE-MsgGUID: 3023iQB5R6qf12vbq8S7CQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="20187299"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="20187299"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:39:02 -0700
-X-CSE-ConnectionGUID: cWD2CDTURMS0NJ+KZ6o2rw==
-X-CSE-MsgGUID: ZWTci24IQLuoS+yiyi0gTw==
+  t=1713984289; x=1745520289;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8gIaXDNEUwMuLPcADBfY8qmuXHqxs1fdQRxqtQL+O0M=;
+  b=PfL5gwbRpk96X4AEstwoTTXWnZJmKombWZWPf3As99HVIStjpw23tgCg
+   Pr8h/VI6oMjVigUFCjH5VzwxyvcCzPcSczYRIkgD7QHXioqoU0tbNUw/6
+   eAJHDSUQdDLeSkdNRYE9spgCBj++VS8vcnoSs1VbNu1DB38phGO132FR0
+   5E4hpjxfS2+zfCdjoQGRiDCeVRI4e8kRVpbEPEsWV1OuR8DA1CfiPZiX0
+   8uACph7VSZaL5S9PSA5fL0bP/EIifMv8NwELviWWXES2la0/IwmzbYzhk
+   ftJM5yLyM7HTREXf55lCdcuZx0RIRMnAwlAVm2OV+RVQvy4Sj79pxLKzl
+   g==;
+X-CSE-ConnectionGUID: 6lVlB1OfQUKuMCSD6maUvg==
+X-CSE-MsgGUID: dqo8O3ZRQAWxmqREYsVIUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9507785"
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="9507785"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:44:48 -0700
+X-CSE-ConnectionGUID: LqwW6PaoTPSookDLHZVo0A==
+X-CSE-MsgGUID: IgqSBZl9QByRq1tC0XUyMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="62268401"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:38:59 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 073FE11F855;
-	Wed, 24 Apr 2024 21:38:56 +0300 (EEST)
-Date: Wed, 24 Apr 2024 18:38:55 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="24810440"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Apr 2024 11:44:24 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id B8A1FA5; Wed, 24 Apr 2024 21:44:22 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Naushir Patuck <naush@raspberrypi.com>, kernel-list@raspberrypi.com,
-	linux-rpi-kernel@lists.infradead.org, Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v11 0/5] media: Add driver for the Raspberry Pi <5 CSI-2
- receiver
-Message-ID: <ZilRv_SoN5C825kv@kekkonen.localdomain>
-References: <20240424153542.32503-1-laurent.pinchart@ideasonboard.com>
- <396eaa7c-4e7b-43cf-aec4-c1611a405ef7@broadcom.com>
- <20240424163338.GE32190@pendragon.ideasonboard.com>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 0/2] media: atomisp: A couple of cleanups
+Date: Wed, 24 Apr 2024 21:43:30 +0300
+Message-ID: <20240424184421.1737776-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240424163338.GE32190@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent, Florian,
+1/ Drop a lot of unused math related macros.
+2/ Replace homegrown static_assert()
 
-On Wed, Apr 24, 2024 at 07:33:38PM +0300, Laurent Pinchart wrote:
-> > > Sakari, please feel free to apply this on top of your generic metadata
-> > > branch and include it in your pull request for v6.10.
-> > 
-> > To miminize conflicts, I believe I should be taking patch #5 via the ARM 
-> > SoC pull request since I already have merged patches there that are 
-> > pre-requisites for patch #5 to apply. Let me know if that does not work.
-> 
-> That works for me. Sakari, please don't take patch 5/5 in your branch.
+Andy Shevchenko (2):
+  media: atomisp: Clean up unused macros from math_support.h
+  media: atomisp: Replace COMPILATION_ERROR_IF() by static_assert()
 
-Ack. Thanks for confirming this.
+ .../circbuf/interface/ia_css_circbuf_comm.h   |   6 +
+ .../pci/camera/util/interface/ia_css_util.h   |  11 --
+ .../media/atomisp/pci/camera/util/src/util.c  |  25 ++--
+ .../pci/hive_isp_css_include/assert_support.h |  23 ----
+ .../pci/hive_isp_css_include/math_support.h   | 110 +-----------------
+ .../pci/hive_isp_css_include/type_support.h   |   5 +-
+ drivers/staging/media/atomisp/pci/ia_css_3a.h |   5 +
+ .../staging/media/atomisp/pci/ia_css_dvs.h    |   4 +
+ .../media/atomisp/pci/ia_css_metadata.h       |   4 +
+ .../staging/media/atomisp/pci/ia_css_types.h  |   2 +
+ .../kernels/xnr/xnr_3.0/ia_css_xnr3.host.c    |   6 +-
+ .../atomisp/pci/runtime/binary/src/binary.c   |   2 -
+ .../spctrl/interface/ia_css_spctrl_comm.h     |   4 +
+ drivers/staging/media/atomisp/pci/sh_css.c    |  38 ------
+ .../staging/media/atomisp/pci/sh_css_frac.h   |   4 +-
+ .../media/atomisp/pci/sh_css_internal.h       |  15 ++-
+ 16 files changed, 60 insertions(+), 204 deletions(-)
 
 -- 
-Regards,
+2.43.0.rc1.1336.g36b5255a03ac
 
-Sakari Ailus
 
