@@ -1,98 +1,127 @@
-Return-Path: <linux-media+bounces-10034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0305B8B0D87
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:05:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 424FF8B0E09
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 17:22:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FCF7B2513D
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:05:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8587CB2490D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 15:22:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D84915EFD5;
-	Wed, 24 Apr 2024 15:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A8B15FA93;
+	Wed, 24 Apr 2024 15:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8ey+9hu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oXBUAQMs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0696515E5D3
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 15:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D5715F411
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 15:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713971104; cv=none; b=R16YqJ6/+N77dixRRyVStf/QviYls02018dLzudzMyeLDGD8BVqYYsfuDOV+1eogszPGJ2W4VIheIEzMZnNe8zWMNMmju/vTV38Blkp6iXU7/eBBZatn7Y1pxPUmz61L5KqZ+MRK+CbzJbARopkF3e9cufJKaqq2D2w9XQ46iY0=
+	t=1713972161; cv=none; b=D80342qcVqUhIFDhinVCh5boJcGkPWr3ZQ3CcPQzYY8MZjmVv3WvoBcFK251TD4mjgRcopZ8SipsJ8ogEUvwDFfmGf69ZWVHCcXzy+u6CGXRUOtKNiiorWJM98GHFf1fXZSc4yWN4mA0BI7dMdBiWgDBREMWX2ZWgaidBdrUurU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713971104; c=relaxed/simple;
-	bh=Cy+azT5rBaXXu4bV59nhAkztBhHnCZ72LPD9yd+NMo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jc0cIbnmGTGqYXn3h51Zr931UdZvdbjZijrnIBD/RUEuc5BlHof/hlQhGdmTO1ujwPJED3iIxQOgdCIIqQj1qkWY8H0R12S+BmO2c/OITT4C2y4TBo+eLeeFIhAnAw1Tjp3yZEM4lvyi3oRz+7+st/BA3hc9GmYZC3R6XjXMQl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8ey+9hu; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713971100; x=1745507100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cy+azT5rBaXXu4bV59nhAkztBhHnCZ72LPD9yd+NMo4=;
-  b=N8ey+9huinn3fRDfJiDO35ebLX6Wnwl8CmcBiHZ6c2jXmeSaC78Op5DT
-   ffhFmrI1a6a0AOnFDfy36XLpkcTeIDyfArZc1Z4gADREFrwRVAs2lLq3p
-   XycjScd4VwoxjrsoMn2XrVImvR7CMerd4K71PiqPsgVGIT/33CU8NX9Ta
-   6VzS1Qpd6UBy9zoP/N6gRaoc3nMmQgpH1/XMcZbHlPaUki0rBtwypoRf9
-   2WBq3ohVwqD+fDyUJnf2mhpqN5uYjk+r63qyI+qUDwjSWbZwHIWyS3Xh+
-   aq3fOb/sfsF6n3BFr9aW+Npco7MTMjK6Kx7PQCMCRKzrLu9fr9jyQKa0q
-   g==;
-X-CSE-ConnectionGUID: byvHQ1D4Tv6eqeFANwmmAQ==
-X-CSE-MsgGUID: fTJXkj3iSPGaIiNYNqSwwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="20755705"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="20755705"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 08:04:59 -0700
-X-CSE-ConnectionGUID: OOqaMZFJTpiPl+CoGiaiDQ==
-X-CSE-MsgGUID: BD82SLdBS+WNP58H9zSnlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="29393921"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 08:04:58 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rzeB5-00000000gSK-2chP;
-	Wed, 24 Apr 2024 18:04:55 +0300
-Date: Wed, 24 Apr 2024 18:04:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wens@csie.org>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Fabio Estevam <festevam@gmail.com>
-Subject: Re: [GIT PULL FOR v6.10] media: various fixes
-Message-ID: <Zikfl71LbB4HQLO3@smile.fi.intel.com>
-References: <eafd2ebe-ed0b-43f4-b067-2ea5a26e4585@xs4all.nl>
+	s=arc-20240116; t=1713972161; c=relaxed/simple;
+	bh=wdISsSfV0sjzdixWu5MN7+M4hfoDvP7mi1NogrtY0JQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vb1JbTgaa3Rv2ln8qJOqxX2H3E9yvvugEO7KF8Lg0QMih51lCwx3cu7uGNhVOszoN/wVQRe/Ysj6g3D1zQatPDHI4UIqVcxurlrpYOa10UA7+6G0XbrQRirNofT0mo4rZSNJ98UOI2C1yYnUEfjv2TazcekYoY5QcvNhYmIWiaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oXBUAQMs; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CDB0674;
+	Wed, 24 Apr 2024 17:21:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713972105;
+	bh=wdISsSfV0sjzdixWu5MN7+M4hfoDvP7mi1NogrtY0JQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oXBUAQMsjp9N5MO0z2u9K5FiMknCn7F3PQuVZXUsaPOgbDHL2fDCu7FWL9/XfdRf1
+	 Ij1v4RltRfVn52KLVy83kYVB4MQzip+aMZUkykiXZTCpYH84fsYZ5bRZbuId1ZpYh/
+	 gY9FpyflqPtBfRHGLhervz+lbk9LV6+NL97anRCo=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Gregor Jasny <gjasny@googlemail.com>
+Subject: [v4l-utils] [PATCH v2 0/7] Support for the generic line-based metadata support
+Date: Wed, 24 Apr 2024 18:22:23 +0300
+Message-ID: <20240424152230.31923-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eafd2ebe-ed0b-43f4-b067-2ea5a26e4585@xs4all.nl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 24, 2024 at 01:48:04PM +0200, Hans Verkuil wrote:
-> If there are no objections, then I plan to push this tomorrow.
+Hello,
 
-No, only one thing is if it's possible to have
-this one Message-ID: <20240423192529.3249134-2-andriy.shevchenko@linux.intel.com>
-to be reviewed and included?
+This patch series adds support for the generic line-based metadata
+support API. The API is currently under development, with the latest
+version posted to the linux-media mailing list in [1].
 
+The series by pulling in the kernel header changes for the generic
+line-based metadata support (1/7). This patch is not meant to be merged
+as-is, but should be replaced with a kernel header sync with the stage
+tree once the kernel side gets merged.
+
+The next three patches (2/7 to 4/7) update media-ctl and v4l2-compliance
+to use the changed routing API, and test the
+V4L2_FMT_FLAG_META_LINE_BASED flag.
+
+The remaining patches then extend support in media-ctl and
+v4l2-compliance for the MEDIA_PAD_FL_INTERNAL and
+V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flags. They depend on further API
+extensions that are not ready yet, and are thus not meant to be merged
+at this point. They are needed to support further development related to
+sensor embedded data, used with Unicam and the IMX219 sensor driver.
+
+This has been tested on a Raspberry Pi 4 with an IMX219 sensor, and the
+in-progress work to upstream the Raspberry Pi Unicam driver. The kernel
+code can be found in [2].
+
+[1] https://lore.kernel.org/linux-media/20240424122237.875000-1-sakari.ailus@linux.intel.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=rpi/v6.9/merge
+
+Laurent Pinchart (5):
+  v4l-utils: sync-with-kernel
+  v4l2-compliance: Support the changed routing API
+  v4l2-compliance: Add tests for V4L2_FMT_FLAG_META_LINE_BASED flag
+  v4l-utils: sync-with-kernel
+  v4l2-compliance: Test IMMUTABLE route flag
+
+Sakari Ailus (2):
+  utils: media-ctl: Support changed routing API
+  utils: media-ctl: Print the INTERNAL pad flag
+
+ contrib/freebsd/include/linux/videodev2.h   | 26 ++++++++++++++++++++-
+ contrib/test/ioctl_32.h                     |  4 ++--
+ contrib/test/ioctl_64.h                     |  4 ++--
+ include/linux/dvb/frontend.h                |  2 +-
+ include/linux/media-bus-format.h            |  9 +++++++
+ include/linux/media.h                       |  1 +
+ include/linux/v4l2-mediabus.h               | 18 +++++++++-----
+ include/linux/v4l2-subdev.h                 | 18 +++++++++++---
+ include/linux/videodev2.h                   | 26 ++++++++++++++++++++-
+ lib/include/libdvbv5/dvb-frontend.h         |  2 +-
+ utils/common/v4l2-pix-formats.h             |  9 +++++++
+ utils/media-ctl/libv4l2subdev.c             |  4 +++-
+ utils/media-ctl/media-ctl.c                 |  1 +
+ utils/v4l2-compliance/v4l2-compliance.cpp   | 12 ++++++----
+ utils/v4l2-compliance/v4l2-test-formats.cpp | 17 +++++++++++++-
+ utils/v4l2-compliance/v4l2-test-subdevs.cpp | 24 ++++++++++++-------
+ utils/v4l2-tracer/retrace-gen.cpp           | 14 ++++++++++-
+ utils/v4l2-tracer/trace-gen.cpp             |  5 +++-
+ utils/v4l2-tracer/v4l2-tracer-info-gen.h    |  4 ++++
+ 19 files changed, 165 insertions(+), 35 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
 
