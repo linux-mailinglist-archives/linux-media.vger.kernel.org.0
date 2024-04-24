@@ -1,110 +1,124 @@
-Return-Path: <linux-media+bounces-10086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F488B1391
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 21:32:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A62658B1475
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 22:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EA391F23AAD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 19:32:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6340328267D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 20:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BC1E78B4E;
-	Wed, 24 Apr 2024 19:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9669614291E;
+	Wed, 24 Apr 2024 20:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6XF4RBW"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="TD6Za+4H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850CB7580C;
-	Wed, 24 Apr 2024 19:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5315113D25E;
+	Wed, 24 Apr 2024 20:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713987117; cv=none; b=t4Yzp4RTKMSvD94r48kAiQKm63qCsHayG1SwLsX4/DVcPkK7Tp2rgLsu/ztptm14c7U8OXg6n6/7qduV3xEpwnPfz+RVXdp94m2jRsvk37T9cdm0KmmYjg1KmzbA/lW10kEahlKltdGqY516xNJLwZNEURPxlhfrYhNjboTFm6c=
+	t=1713990041; cv=none; b=rfz/WycC1D9cB22jnQe94f1CBq/7HXJew3RR1mQFsNUmgUwbZrqVIgHkr4jpt56jNnu8hg/SFsFN7xzT1/jIhTry0X4aahpkchIfAx27gdnKS+py8DTunqcIjyhJKtVUXypbgyIbrVL6a3d5TKgFqirPn63iTkiV7wLf7Mmvbu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713987117; c=relaxed/simple;
-	bh=mQ/+d3gWAOcD9KnX2wfP3u+ftFZAlpcW1F7JU92hcsc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cUOG5mzQWvAMAM7MAYHVc+YCm5r8UXoJ+Sd5IcD1oQgLS8I0vaqgcfEMCJVgM2qEyQiQZNSz2HJKUeUDB/fawl4bX0pdJ9pn4P1xHmn+BKlGbi1D6e4q/1uWd5aRoLNQKDgDfI/u++dJ6M1gRPz6wL4th1kA3PkwYG2wJaI79U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6XF4RBW; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-518b9527c60so223846e87.0;
-        Wed, 24 Apr 2024 12:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713987114; x=1714591914; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZ0TpkzmYZr6hTX7MZ3GhreDMH2peuAcdL3k38EcDhs=;
-        b=m6XF4RBWTs7iiwyd43H4qp5IrUv/S6g4+y0S500fZwxTCHoItfeifE6u8rqU9GpvVm
-         AnGTsrPirENBeZbbH9HQvB6WrQNO4139ZmWKPkrrZ3IARxZb6aTiqORGQAjbL9V8K2L7
-         jKI3vO4jFxWC74BypOOCxiM1t+ZYGzi0HrdTOL7MZW5UmSrY6a8Kf8kMliBQuFM5RfmV
-         KKA2hgind7wDHrgDBzM/6EbdhSqgJzXOF85Wwp93eU/qt4u6pqRvLUpmJ+ztr9Y9xiYK
-         2pgTxok5NbNKPHf+lrkIM3Bdz6iRN9YIFRRd/g6F38TIFG+VI7LHUDpB2xmML0IkEZQF
-         Cp+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713987114; x=1714591914;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IZ0TpkzmYZr6hTX7MZ3GhreDMH2peuAcdL3k38EcDhs=;
-        b=oY3R4nproGZjJm+fuUpHPHLIFJBNwg9/uvpwSKAbp+87nSBGf9w2fDdnO/nZpZFt9p
-         qwQacs4/El661scUNVQrA9l+QdFH1XZymPsvTj9CUOQoVXbEB7HHU1ZD6PT7HrwFhfW6
-         YKjnNX8npJqSW5wya8NqwyGeZVccU7lWINcndqqx9NpKseV0S9yDFvu2mH1QlbixxKqc
-         QER+6cvTJZ3rBNdFereqnn1MnVFsnOKx6VyYPjmfOeSQsWDZjz/w0exCvnWv7dsIEQWG
-         cadCVQN4mDQCg80o8fQ2MoazMfF17wskLvNMSHhd8xmqOs4zmh/3sfIp/TdAch2y6qV6
-         POMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCd1OkpA+IPv5vf2WQHTr7V8PJDrP4mlpssmFXMAT+cdBh1kYCJkIs8K7g+mkqvbPgUQwfE75IiOs/F/xQJUvXEIVv97YstfU7LC3TzYq1K5/hPJUk1zExU4pVTi7Q+9vWmOa0pcfKmT8=
-X-Gm-Message-State: AOJu0YzvwTfHluxfAHS2lPZjAzjhD4ZUI/CngqZsnAukKunM7Z2CNaEq
-	2DxOXur9G+7jnSQYfn0bG+GMrSux5BxiOwidk7y7bY7hfT2EWq13qKGQmNAfwxcJ2p+ufvr0hro
-	0d/dHOAktdwpeV2gfUGGKnKbhE1o8jXPB
-X-Google-Smtp-Source: AGHT+IHIaGYAxKkGvJ35yj7ZqMlmMinua0HY7IEEpin7dNCuHY4Mh1cMERg/mBPHCSACXd8sTXQWUXRgQWVjYKKxamo=
-X-Received: by 2002:a05:6512:39ca:b0:51c:9d2:f440 with SMTP id
- k10-20020a05651239ca00b0051c09d2f440mr2034502lfu.38.1713987113376; Wed, 24
- Apr 2024 12:31:53 -0700 (PDT)
+	s=arc-20240116; t=1713990041; c=relaxed/simple;
+	bh=evUdA1G7V4lnHAGAdqIToss3C/AnK3uw31x0ZW7Z8tQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W719qLb1/GbS88PoAMyNLOUtiVP1iFYa9LWH4wx2JUDGLUxXL7koyLrEXS4neiwA4cGgZkMWwwO8P1z4ZXtc6+hwxH0koTPXcYMQbhjnZ9A0Zr9I7yo8D9jknGbTzFlPijhUMjjOvQuH9+3cc4Kp5DG5GZxzISSC8aHrDridIFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=TD6Za+4H; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from fpc (unknown [5.228.116.47])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 9038740769D4;
+	Wed, 24 Apr 2024 20:20:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 9038740769D4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1713990035;
+	bh=vrqHWArLY1GC2CmlIt6zLL/Sipn9wJVlFUF93H85+Sg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TD6Za+4HRVSrI+DWDliN8vmK05UQx4SECDU7t4Z5HhE+/Oy1gwQ6SMCwewXeyHFja
+	 Gx8OAByxcD1tYvzgP7O3WFE1giLdjyt/8bQrPcM8OQWM9cit2C87yVHIFR5JocaAf/
+	 D3XIpdZETrxrveUXHppQ0Q7sxzLBVQqYuwp+h+BI=
+Date: Wed, 24 Apr 2024 23:20:31 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Roman Smirnov <r.smirnov@omp.ru>
+Cc: Michael Krufky <mkrufky@linuxtv.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jia-Ju Bai <baijiaju1990@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	lvc-project@linuxtesting.org, Sergey Shtylyov <s.shtylyov@omp.ru>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [lvc-project] [PATCH 1/3] media: tuners: tda18271: fix error
+ code handling in tda18271_attach()
+Message-ID: <20240424202031.syigrtrtipbq5f2l@fpc>
+References: <20240416114509.198069-1-r.smirnov@omp.ru>
+ <20240424180650.tpemkolglnkb2pyn@fpc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240424181245.41141-1-tony.luck@intel.com> <20240424181546.42446-1-tony.luck@intel.com>
-In-Reply-To: <20240424181546.42446-1-tony.luck@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 24 Apr 2024 22:31:17 +0300
-Message-ID: <CAHp75Ve_vX=J9wKd5iEP4m7foGpjCQGWepMaSfwhewbPJA=1XA@mail.gmail.com>
-Subject: Re: [PATCH v4 67/71] media: atomisp: Switch to new Intel CPU model defines
-To: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240424180650.tpemkolglnkb2pyn@fpc>
 
-On Wed, Apr 24, 2024 at 9:15=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
-te:
->
-> New CPU #defines encode vendor and family as well as model.
+On Wed, 24. Apr 21:06, Fedor Pchelkin wrote:
+> Hello Roman,
+> 
+> On Tue, 16. Apr 14:45, Roman Smirnov wrote:
+> > tda18271_attach() uses the hybrid_tuner_request_state() macro.
+> > It may return the error code -ENOMEM, but the function handle
+> > the value 0 instead.
+> 
+> Maybe hybrid_tuner_request_state macro declaration should be fixed to
+> generate zero in case of a memory allocation failure?
+> 
+> At least it has a comment stating the following
+>  * 0 - no instances, indicates an error - kzalloc must have failed
+> 
+> And supposedly a number of drivers implemented the error handling based on
+> this assumption.
+> 
+> The drivers mentioned in this series are not the only ones susceptible to
+> the problem. Grepping through "hybrid_tuner_request_state" calls also gives
+> out tda9887, xc2028, r820t and others.
+> 
+> > 
+> > Found by Linux Verification Center (linuxtesting.org) with Svace.
+> > 
+> > Fixes: b9302fa7ed97 ("media: tuners: fix error return code of hybrid_tuner_request_state()")
 
-Got less LoCs, so good change,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-See also one nit-pick below.
+Looking more thoroughly, I think commit b9302fa7ed97 ("media: tuners: fix
+error return code of hybrid_tuner_request_state()") should be reverted
+because it just contradicts with the return values contract which is stated
+in the comment for the macro and which is followed by all the existing
+drivers.
 
-...
+__ret should be assigned 0 in error case as was before the commit.
 
->  /* Both CHT and MOFD come with ISP2401 */
-
-> +#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
-> +                            INTEL_ATOM_AIRMONT_MID)
-
-I would make it one line.
-
---=20
-With Best Regards,
-Andy Shevchenko
+> > Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
+> > ---
+> >  drivers/media/tuners/tda18271-fe.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/tuners/tda18271-fe.c b/drivers/media/tuners/tda18271-fe.c
+> > index a7e721baaa99..23432210f06a 100644
+> > --- a/drivers/media/tuners/tda18271-fe.c
+> > +++ b/drivers/media/tuners/tda18271-fe.c
+> > @@ -1255,7 +1255,7 @@ struct dvb_frontend *tda18271_attach(struct dvb_frontend *fe, u8 addr,
+> >  					      hybrid_tuner_instance_list,
+> >  					      i2c, addr, "tda18271");
+> >  	switch (instance) {
+> > -	case 0:
+> > +	case -ENOMEM:
+> >  		goto fail;
+> >  	case 1:
+> >  		/* new tuner instance */
+> > -- 
+> > 2.34.1
+> > 
 
