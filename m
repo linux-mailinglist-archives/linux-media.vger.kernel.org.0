@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-10001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC258B07C2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:55:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AC08B07FC
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 13:04:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71C08286AC5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:55:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75BD9B22A40
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 11:04:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9353159908;
-	Wed, 24 Apr 2024 10:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1603C15A481;
+	Wed, 24 Apr 2024 11:03:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D630152E0B;
-	Wed, 24 Apr 2024 10:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E72B13DDD9;
+	Wed, 24 Apr 2024 11:03:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713956130; cv=none; b=qeFji48EQTRsBc95GUdyVQPch+p01osSMFqSw1HZ50OQCWBQnUgOUMvPkXixOhRHduc0QD6hlzdwmW48cuChZOfrqvrk8GSFu6sRw75zGJeUrbtcNMM4l4JtLzZPYapbKL+1mx5W23I/CUgHh528xfDWh0sSI/NlzgV62HBeVYg=
+	t=1713956630; cv=none; b=IXacaWpaWGVn5Ild+hgMAXdYcptpyYxf0wOeFQhAna1U2Ve7OYcCT1+p/QdTFIngE5KtCQif1nSSbo24ZtzHp+rPBA5h6kBSuccjEcg0nSWbRDahxkW6RuOGnYiPNlrw/YpOQHgv4avHxQt5bVOZtU7TlhFcIiEzVPLu9SjkNOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713956130; c=relaxed/simple;
-	bh=8EIqdkMcJTVXvZ2JCnilmnaezsigKpxKdXWJDJFRgUE=;
+	s=arc-20240116; t=1713956630; c=relaxed/simple;
+	bh=ZewZQj8SyBk4zmFnulpPapr44UY0UKJuMvtL1fwo35o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R6FwFVeuWMABo2iS25Fro4TmVTt95Ox6HE6jOaYJARFkgH23e1YQ7vGIXBHcRsRyn2dQd0nuh8rzUUmBspz0vQJ8DQqw037XgBeFP3uhSUwHgCItbjAGKapHNZSuYNy2ZU+HHGZkNkRRUAsXo8+dXhiAZ9TnQf1gaq40H82U8VE=
+	 In-Reply-To:Content-Type; b=hQp46GGMk38Sdp5He/80px2SjCtjuN34/ANd+TziTcgm1uwhsmBMHVimDQUCRGFrIftDZcIUTDn9jkpoAf6UN6c0JHNyt1VyFJ97bYAUJVwxjdkAZUCbPjMZ1TRFJT2pLu018XEyUp6yrXUuFdPY2LSXilDA7jK/dcBxp1iLX5o=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F6C1C113CE;
-	Wed, 24 Apr 2024 10:55:22 +0000 (UTC)
-Message-ID: <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
-Date: Wed, 24 Apr 2024 12:55:20 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA36C113CE;
+	Wed, 24 Apr 2024 11:03:41 +0000 (UTC)
+Message-ID: <8ce6b014-331a-4e22-be45-763f9a12fc33@xs4all.nl>
+Date: Wed, 24 Apr 2024 13:03:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,8 +38,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
- v4l2_async_create_ancillary_links
+Subject: Re: [PATCH v2 16/26] media: au0828: Use min macro
 Content-Language: en-US, nl
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
@@ -76,7 +75,7 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-16-2119e692309c@chromium.org>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -121,66 +120,41 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
+In-Reply-To: <20240419-fix-cocci-v2-16-2119e692309c@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 19/04/2024 11:47, Ricardo Ribalda wrote:
-> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
-> is not enabled.
+nitpick: subject should say "Use umin macro".
+
+	Hans
+
+On 19/04/2024 11:48, Ricardo Ribalda wrote:
+> Simplifies the code.
 > 
-> This makes cocci happier:
-> 
-> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
+> Found by cocci:
+> drivers/media/usb/au0828/au0828-video.c:605:11-12: WARNING opportunity for min()
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/v4l2-core/v4l2-async.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/media/usb/au0828/au0828-video.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 4bb073587817..915a9f3ea93c 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
->  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->  					     struct v4l2_subdev *sd)
->  {
-> -	struct media_link *link = NULL;
-> +	struct media_link *link;
+> diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
+> index fd9fc43d47e0..2ec49ea479d5 100644
+> --- a/drivers/media/usb/au0828/au0828-video.c
+> +++ b/drivers/media/usb/au0828/au0828-video.c
+> @@ -602,10 +602,7 @@ static inline int au0828_isoc_copy(struct au0828_dev *dev, struct urb *urb)
+>  		vbi_field_size = dev->vbi_width * dev->vbi_height * 2;
+>  		if (dev->vbi_read < vbi_field_size) {
+>  			remain  = vbi_field_size - dev->vbi_read;
+> -			if (len < remain)
+> -				lencopy = len;
+> -			else
+> -				lencopy = remain;
+> +			lencopy = umin(len, remain);
 >  
-> -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-> +	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
-> +		return 0;
->  
->  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
->  	    sd->entity.function != MEDIA_ENT_F_FLASH)
-> @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->  
->  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->  
-> -#endif
-> -
->  	return IS_ERR(link) ? PTR_ERR(link) : 0;
->  }
+>  			if (vbi_buf != NULL)
+>  				au0828_copy_vbi(dev, vbi_dma_q, vbi_buf, p,
+> 
 
-I think I would prefer:
-
-static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
-					     struct v4l2_subdev *sd)
-{
-#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-	struct media_link *link;
-
-	...
-
-	return IS_ERR(link) ? PTR_ERR(link) : 0;
-#else
-	return 0;
-#endif
-}
-
-Regards,
-
-	Hans
 
