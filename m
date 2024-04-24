@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-9998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B233E8B073C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:24:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FD08B073E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 12:25:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67EE11F22984
-	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:24:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81F18282EDE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Apr 2024 10:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6329C15921D;
-	Wed, 24 Apr 2024 10:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF9415921D;
+	Wed, 24 Apr 2024 10:25:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5E0158211
-	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 10:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069111591EE
+	for <linux-media@vger.kernel.org>; Wed, 24 Apr 2024 10:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713954268; cv=none; b=i/QTFYxhYTP1ndnfgOzR7TTOlvArsTo+Y/SwsKZ7iP5H6x0ZR3Gv8OmhvHMr6W7X6Y9wyYsO6VcbIJrgTCjJCQZA9QK+s9jHrfh0mdRN185BMelIpx/6ZUFfiM0VHqQNEQ6NPIxNqdNuOX19S0JEqveoqZjGGz7zZzENl0qnz7E=
+	t=1713954340; cv=none; b=mRfGWN8YMy3toKda783DOgXEnZAtLzONVfeZbYcvH+J++vlwuMLWayV820wwYB8FUHWSzQhW9rXs4dfEcBjueEGWKC/wFeVLk62uCIMP6w7g2l+NeaTQcB80yfblaf2iPaqLKiigiIhRO5RBnG+ipS503fb7j361Q7JubCVQbUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713954268; c=relaxed/simple;
-	bh=rgjcjWI3tzK88pxQZU9pVuzADki/OodArwW7mQUGemQ=;
+	s=arc-20240116; t=1713954340; c=relaxed/simple;
+	bh=TH3J5TTPaJsZS0D18Gfa3fGvvF8yY9svEbSAdj5M7dI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WryGjVsmsnbAXaFlWVXlz3vKqRrAnU35AA7CvJYgtKEXJxrpQvwmy6Qz8xQeLvZ6NaLi65LTzrMyFF4SPUoMclVWTxCpv+5berLlds4oNBXV85n6Cw8Z05ywwbuce9oesbU5GplZN8DbWKBUUV3OQNnHc7SytFoBDcdhGDrrTB4=
+	 In-Reply-To:Content-Type; b=oEJmUipVAoEiOoE7Pbcd8vJOrsHy1rQVwvF3dmjjBTZT7POBLsdO/cvTAsiU1JNH9AcgOHNc1YoITXiG9q1RXhoi67vyGLdbwL+eJXVPfq+XiOWqgCMLCOAK7ea7Mm1WtdTSfVh+tSNxG3nQ0l3nMC1oBnjjyM+JVuBBBNOytQU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAF7C113CE;
-	Wed, 24 Apr 2024 10:24:26 +0000 (UTC)
-Message-ID: <9431abcf-15d8-4a86-b824-1243114055a7@xs4all.nl>
-Date: Wed, 24 Apr 2024 12:24:24 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5954DC113CE;
+	Wed, 24 Apr 2024 10:25:38 +0000 (UTC)
+Message-ID: <863b76d9-a463-4bdb-a808-77d7b77c1722@xs4all.nl>
+Date: Wed, 24 Apr 2024 12:25:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,15 +38,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] media: videobuf2-core: reverse the iteration order
- in __vb2_buf_dmabuf_put
+Subject: Re: [PATCH v2 0/3] media: videobuf2-core: attach once if multiple
+ planes share the same dbuf
 Content-Language: en-US, nl
 To: Yunke Cao <yunkec@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org
 References: <20240403091306.1308878-1-yunkec@chromium.org>
- <20240403091306.1308878-3-yunkec@chromium.org>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -91,45 +90,44 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240403091306.1308878-3-yunkec@chromium.org>
+In-Reply-To: <20240403091306.1308878-1-yunkec@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2024 11:13, Yunke Cao wrote:
-> Release the planes from num_planes - 1 to 0.
-> 
-> Signed-off-by: Yunke Cao <yunkec@chromium.org>
-> ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 702f7b6f783a..a5368cef73bb 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -320,10 +320,10 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
->   */
->  static void __vb2_buf_dmabuf_put(struct vb2_buffer *vb)
->  {
-> -	unsigned int plane;
-> +	unsigned int i;
->  
-> -	for (plane = 0; plane < vb->num_planes; ++plane)
-> -		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
-> +	for (i = 0; i < vb->num_planes; ++i)
-> +		__vb2_plane_dmabuf_put(vb, &vb->planes[vb->num_planes - 1 - i]);
+Tomasz,
 
-This is a bit ugly. Why not just do:
-
-	for (plane = vb->num_planes; plane; plane--)
-		__vb2_plane_dmabuf_put(vb, &vb->planes[plane - 1]);
+I would appreciate it if you can review this series.
 
 Regards,
 
 	Hans
 
->  }
->  
->  /*
+On 03/04/2024 11:13, Yunke Cao wrote:
+> Hi,
+> 
+> This patch set avoids attaching and mapping a dma_buf multiple times when
+> several planes in one vb2 buffer share the same dma_buf.
+> 
+> 1/3 and 2/3 refactors __prepare_dmabuf()
+> 3/3 adds a flag to avoid duplicated attaching
+> 
+> Changelog since v1:
+> - Add patch 1/3 to refactor __prepare_dmabuf()
+> - Add patch 2/3 to resolve Tomasz's comment on __vb2_buf_dmabuf_put()'s
+> iteration order
+> - Fix mem_priv in patch 3/3
+> - Rename duplicated_dbuf to dbuf_duplicated
+> 
+> Yunke Cao (3):
+>   media: videobuf2-core: release all planes first in __prepare_dmabuf()
+>   media: videobuf2-core: reverse the iteration order in
+>     __vb2_buf_dmabuf_put
+>   media: videobuf2-core: attach once if multiple planes share the same
+>     dbuf
+> 
+>  .../media/common/videobuf2/videobuf2-core.c   | 97 +++++++++++--------
+>  include/media/videobuf2-core.h                |  3 +
+>  2 files changed, 62 insertions(+), 38 deletions(-)
+> 
 
 
