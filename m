@@ -1,129 +1,221 @@
-Return-Path: <linux-media+bounces-10117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF25A8B22A1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 15:27:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6418B265B
+	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 18:25:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CFE11C2105B
-	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 13:27:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 204C51F21CB9
+	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 16:25:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03BAC149C5E;
-	Thu, 25 Apr 2024 13:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6A614D2A5;
+	Thu, 25 Apr 2024 16:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iprldJVc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9aAI/ZK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86BE1494BC
-	for <linux-media@vger.kernel.org>; Thu, 25 Apr 2024 13:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176AF4500E
+	for <linux-media@vger.kernel.org>; Thu, 25 Apr 2024 16:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714051638; cv=none; b=AiObav965RTeZcomjvt1Qzi0zw5c5ji6RLgRe+5wDi9sUYiId/FwCg3s5JuwiMoR4kGALrqNAk85ZMX/TyRCs7w+onkFvahr0gmeXbk7nZBOqDOf9stYRG90PlLe6LZb7jMT9OcpQCoTwnV+qWVPhVyBp4uC5OkG9FrmvgisjKc=
+	t=1714062309; cv=none; b=iWTuCQFYaakVHFGCnvGXzbV2RmYkTo055Q/h2k0YLSZuZBadC2hopVF+ouSkjE5PstGv6lEKylm1T9VxQFj59ytEXkBoeh5gV9kzfwACy3lBVyimhRXCRTtL+bpMz5BHnw6bwy8wy7nCMRPtx0WSCNLCATt6H9UESAqogqhWUfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714051638; c=relaxed/simple;
-	bh=/N2IazfM9XbasLYktR2Zurx8zmy+ly3wLUCERcohGhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mUoSHJI7RAZqtU4EjP3pK2RdcNqyMBRm2FMevQ6/4UwrU+D+3RoMbY+nb51l3Bhclv39n8xpTsUuVRr+6QNWiKy5PaoMPlHmdV7qqWK71aEpdfmAsRSaHSZ5ADPGMXNfZ7WN4Mbb3xnjYlWihsNClPg6dumkq81x9xRdhxLooys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iprldJVc; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5723edf0ae5so852712a12.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Apr 2024 06:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714051635; x=1714656435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJsyCc6S0yIZyvOGVbCtUUVVfWrjq/y7T7qoMVFfbPs=;
-        b=iprldJVc7IVY6wstXjzHcdwqiqExwJ4vJzfFnV9aKym8ptEJyA+P/AMK1AKz47cO7C
-         U1oXhu7gaYhEAk14eWl8ShxIX1QSpJ9nEzqbuT0kYJbKRMVsknFMnx8HCaVUPUcVT2Jo
-         j2YioRGsy5dpPEiGQVxPuBjmniF0HZmHxsn01XZeyAyeaue4wTlaDmX3oBidba+vD3ki
-         6M9kyBzmKXadcfksDrCYGA/lJ5mMr1SvkQRPIF07ACrQYXOg44T8uaj8JYJRWIh3JKQM
-         +CujVB7nahj63VlPKzIXZLB1K+kkqBV16Ql+7rd4JXMqwlNsZGjmFMl1/32dXOGd5w7x
-         8/gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714051635; x=1714656435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pJsyCc6S0yIZyvOGVbCtUUVVfWrjq/y7T7qoMVFfbPs=;
-        b=OilWo2RduRjtKNUspjdsSBiVbxFq/TD8tTKtYSxn2Ts+4eSAsLaZV+uxr/mOYCuszf
-         Qya8hp/z7f7Ee5qQKmDWNotr70di0iy00jJwm5uPQCZnSx6mMmuTJDTzEUxtgPsnlfb9
-         bwPriBc+uaApWr9hz2xVyRp2nVNUpdPR5iDy6vJxl3u8GolILl3gvjWB+VRrLGtypJGi
-         Zg8o3yJpGvYBQu5lMLT3JMTQjYnk0l3NkCDM+3ulckQTzI6mBInLfsQQZcuF3ACuSyVu
-         1e8edpMlMsmGjXjyOp3gNal31oc9RrbdsiCoVa4aI1w/BNR+8pRt4KWP0qshaLUwN1D5
-         3Otw==
-X-Gm-Message-State: AOJu0Yzc9IOo9UlZfoxyCygJoUTEXTrbPtQdkP2bYA5EKkSClK5p6Gff
-	AWnqQ91RztOKExxdeZiV1RkxFRwhcCa0eLDgNJgr8d12aLhJD8YgNTmDsdjairoMkw==
-X-Google-Smtp-Source: AGHT+IGnKXk4RfMQsVE1LIJze+SuAD22R2IOrCa7Kfe9xEEtDMkz5mjSsYJHvDPo16GdvAdr/Mkcgg==
-X-Received: by 2002:a50:cc92:0:b0:572:1625:ae99 with SMTP id q18-20020a50cc92000000b005721625ae99mr4070554edi.31.1714051634792;
-        Thu, 25 Apr 2024 06:27:14 -0700 (PDT)
-Received: from localhost.localdomain ([46.161.125.46])
-        by smtp.googlemail.com with ESMTPSA id es16-20020a056402381000b00572253b8d8dsm2650343edb.71.2024.04.25.06.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 06:27:14 -0700 (PDT)
-From: Ilyas Erezhepov <localevil3@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: Ilyas Erezhepov <localevil3@gmail.com>,
-	laurent.pinchart@ideasonboard.com
-Subject: [PATCH] Add "Quanta ACER HD User Facing" devices.
-Date: Thu, 25 Apr 2024 15:23:06 +0200
-Message-ID: <20240425132334.18546-2-localevil3@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1714062309; c=relaxed/simple;
+	bh=+xZrk+RlqTFxcTxaegNQ2ux1g2Iaok/sz8qii4dQg2A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sSGuJEWKWd9G041D5M0JhmnDJtLPhQ1LkRpEh5oOYZ9QMGq5W+yMJOwvWYodLsrAQX6oXebrqkn1aO75CfRMqgSGBa85Y0TIaRR04ccD+D6gU2xvjoc6LYMLb06Sy/E+dq3WqKVCukdIqtYeoPshXlFLvZ6MKrTBl0XCXTQ91r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9aAI/ZK; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714062308; x=1745598308;
+  h=date:from:to:cc:subject:message-id;
+  bh=+xZrk+RlqTFxcTxaegNQ2ux1g2Iaok/sz8qii4dQg2A=;
+  b=k9aAI/ZKxCzEAPwawxyMzQPdf3OoSBs4ejJpI+t9iO90S4lXZmfD8/HB
+   oxvP96SaVTM3VmVXFG2kcVs3zXiVApZdcvXosxlBeaVPHbsgXrCw0X7aC
+   ulL//9cKuuYlPO22QbnIp+a1np1q0vi/JPSJhhG4FGmAuEj3GLJlVb7yd
+   pzFO273y3E/p4thT3r2bNmLbBpE835St19j5dhTl6yBqJUKDMR35oRN+p
+   GmEknoXrjAloP/g1Gxjm0PQ/wyezHrS/tKHXLP//2rsROPWpeQ+5OdtBt
+   3bozR3NMqSDDAPlULmYi8u3rx2mF5pfjF+K5+pkjG5qJQNu2J0k33l2Uu
+   A==;
+X-CSE-ConnectionGUID: oKNKaB26QJmyrvSFYh5j5w==
+X-CSE-MsgGUID: qG2Cyg0NR0qgemeum1ucYw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20313267"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="20313267"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 09:25:07 -0700
+X-CSE-ConnectionGUID: 3jrBpdlcSeOZTIhl7Tbeuw==
+X-CSE-MsgGUID: qihSOqFEQG6Pw1iIb5kWSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="25152173"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 25 Apr 2024 09:25:05 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s01uB-0002Zz-16;
+	Thu, 25 Apr 2024 16:25:03 +0000
+Date: Fri, 26 Apr 2024 00:24:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ 7913a93d80e5489dc7e13e72dbd2644018adfbdf
+Message-ID: <202404260038.TQpl4mQm-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-This patch adds two built-in video cameras for Acer laptops.
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 7913a93d80e5489dc7e13e72dbd2644018adfbdf  media: ov2740: Add IMMUTABLE route flag
 
-Signed-off-by: Ilyas Erezhepov <localevil3@gmail.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+elapsed time: 1465m
 
----
- drivers/media/usb/uvc/uvc_driver.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+configs tested: 128
+configs skipped: 3
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 08fcd2ffa727..502c03b6dabe 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2454,6 +2454,29 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
- 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-+	/* Quanta ACER HD User Facing  0x4035 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor 		= 0x0408,
-+	  .idProduct 		= 0x4035,
-+	  .bInterfaceClass 	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass 	= 1,
-+	  .bInterfaceProtocol 	= UVC_PC_PROTOCOL_15,
-+	  .driver_info 		= (kernel_ulong_t) &(const struct uvc_device_info ) {
-+		.uvc_version = 0x010a, 
-+	  } 
-+	},									
-+	/* Quanta ACER HD User Facing 4033 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor 		= 0x0408,
-+	  .idProduct 		= 0x4033,
-+	  .bInterfaceClass 	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass 	= 1,
-+	  .bInterfaceProtocol 	= UVC_PC_PROTOCOL_15,
-+	  .driver_info 		= (kernel_ulong_t) &(const struct uvc_device_info ) {
-+		.uvc_version = 0x010a, } 
-+	},
- 	/* LogiLink Wireless Webcam */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arm                               allnoconfig   clang
+arm                          collie_defconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240425   clang
+arm                   randconfig-002-20240425   clang
+arm                   randconfig-003-20240425   clang
+arm                   randconfig-004-20240425   clang
+arm                         s3c6400_defconfig   gcc  
+arm                          sp7021_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240425   clang
+hexagon               randconfig-002-20240425   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240425   gcc  
+i386         buildonly-randconfig-002-20240425   clang
+i386         buildonly-randconfig-003-20240425   gcc  
+i386         buildonly-randconfig-004-20240425   clang
+i386         buildonly-randconfig-005-20240425   clang
+i386         buildonly-randconfig-006-20240425   gcc  
+i386                  randconfig-001-20240425   clang
+i386                  randconfig-002-20240425   clang
+i386                  randconfig-003-20240425   clang
+i386                  randconfig-004-20240425   gcc  
+i386                  randconfig-005-20240425   clang
+i386                  randconfig-006-20240425   clang
+i386                  randconfig-011-20240425   clang
+i386                  randconfig-012-20240425   clang
+i386                  randconfig-013-20240425   gcc  
+i386                  randconfig-014-20240425   gcc  
+i386                  randconfig-015-20240425   gcc  
+i386                  randconfig-016-20240425   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                       lemote2f_defconfig   gcc  
+mips                     loongson1c_defconfig   gcc  
+mips                    maltaup_xpa_defconfig   gcc  
+mips                      pic32mzda_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-003-20240425   clang
+powerpc                    sam440ep_defconfig   gcc  
+powerpc                     tqm8540_defconfig   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                 kfr2r09-romimage_defconfig   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-002-20240425   clang
+um                           x86_64_defconfig   clang
+x86_64       buildonly-randconfig-002-20240425   gcc  
+x86_64       buildonly-randconfig-006-20240425   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-004-20240425   gcc  
+x86_64                randconfig-005-20240425   gcc  
+x86_64                randconfig-011-20240425   gcc  
+x86_64                randconfig-014-20240425   gcc  
+x86_64                randconfig-072-20240425   gcc  
+x86_64                randconfig-073-20240425   gcc  
+x86_64                randconfig-076-20240425   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                         virt_defconfig   gcc  
+
 -- 
-2.44.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
