@@ -1,332 +1,281 @@
-Return-Path: <linux-media+bounces-10213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887108B34BE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 11:59:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAB68B34BA
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 11:59:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D8E9DB22042
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 09:59:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B8901F22148
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 09:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56014142E64;
-	Fri, 26 Apr 2024 09:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 572D0143894;
+	Fri, 26 Apr 2024 09:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOyyu47x"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="nw24DZyn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6C51422B9
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 09:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714125552; cv=none; b=KFJ2gzJODpEf2LcgiBEUmdzGjkzOkorNjmBQMKIO3P3YqMuupHSC3kEOJGnRnFGbZszTQ310St12EcDjUIlKUUww6/sl8ozF4tnLveqI/CzqqvH7HkAsG6vF/dwxtSsoJ38uZHe+dAOP6LrLZJSDYolue3YTXitucyIeWUY6BgY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714125552; c=relaxed/simple;
-	bh=a8N+9lxo9FCMs+bvtZ0hVRv/BnUmo9ZSI2vk5zS50H0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YeX9X3YKyOjsa2hZ/Yj1sdpB02/ILfjoVeu7Hf4WN95mUyvCs7XYZxzJezu3h+2N6t9ucvQ0STr2APgVJb6FAPBUBepLRnYgT65LR/mLih3d+SpGIX+BtrGFs6nZMA+CRXvcswPSS9E/jDHWDVqdM0IjahWqEzbQxbK8BdUUGww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOyyu47x; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714125550; x=1745661550;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=a8N+9lxo9FCMs+bvtZ0hVRv/BnUmo9ZSI2vk5zS50H0=;
-  b=OOyyu47xz+t4ClhDAeKUg0tIsqMhyqndVd/fecqgsdkCs2xA4eF/O62f
-   mIhfKtsaM9gmEey0So9MR7BN6/5yBd4gc3efMiyh+eWZk4hVgOhiJY57B
-   P/CsP6BfY+q75J0BSGinyWFVvdCxEDSJVuXh5f9jCrEPFh2NjGSa9ocAF
-   +zRa/HhsCr907DFHQznXXet1h6425f/27G5D/R2rUUDutV5x1wDHJIZ7J
-   /ZH/ZFlspFRkPRaa+99IjrG6Y0q/aTL75gqRJdRpE3/vv9i6ULUanKWry
-   uHnzdbigQiCmkcsR/S60SjeROhZsb5Mh+vHi0ju3YHWHZVSFG4nYxyS59
-   A==;
-X-CSE-ConnectionGUID: Jm2AhZs4T+2V9O1iT8TKMg==
-X-CSE-MsgGUID: L7YmFDIrQbOnxfDvXxBv/Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20409473"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="20409473"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 02:59:10 -0700
-X-CSE-ConnectionGUID: X/pv8C2eSlmmAfSWZvyGZQ==
-X-CSE-MsgGUID: 9pKBraUXTfOQ0aJWlhAPXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="30173060"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 02:59:06 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 626F711F855;
-	Fri, 26 Apr 2024 12:59:02 +0300 (EEST)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D440142E6D
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 09:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714125546; cv=pass; b=AHjesMCZLCebCMbTj9Uv0hOjM9xDjIkMhC9VHk8glv1FaLtKKaXZvxt2jgeBf+K1vDJuS3aYwS2NqDyplVEqxWmD5+bFxPw8dD6bp3dqWCgSGGAaJHdygdvmwYy6AyCuLrmKtfEm2Qhvt85U9nblxSiRplqzvfD/jzmdpW7Cxf4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714125546; c=relaxed/simple;
+	bh=i0ctf9otudGNrIaIENuHiJVbqvxd9ZjnpoASO4zAL24=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Me4AFvP1/8VWJG1JbuRBnRCqsGrwS4/KELvycp4hDqUdsPbkWHhKzniKWNVygkFP8LbA2fO4fgkUl1MrLnqul/eQbyFQY1EtN654wLWjcPKu7M0Klh+sFfKV0f0tjhiPUZAtCcEdXE5bXkg7Gsz+wdBtWCthhIliLryyohZG+bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=nw24DZyn; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VQp8Z3lBlzySG;
+	Fri, 26 Apr 2024 12:58:53 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1714125534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=08/geiHFbbUljjIH8PupQQXJ0PB40xYg5BEIl3+Wm7o=;
+	b=nw24DZynwJT0Ql08/1H0BAfRJks+N4y5tDvgtSrJ3BSB4ASFKObDMKhDIcC/6YWeI8JhBA
+	sZeJxp6tOcux8be8exaoI5/bXF56dlkTe/MwbC6gRNE021jq9AyyydjYnYOUqiSmTYPYqE
+	vJxK7TmuKognHHcafdtWe8sFcoMZSEU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1714125534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=08/geiHFbbUljjIH8PupQQXJ0PB40xYg5BEIl3+Wm7o=;
+	b=IclzefmdPYYYarcZmeWizUcbYvRXgDVe4ukYIBClYnMri3sFOgeIm2MFUWtKSyis6kWrFb
+	2tim9oV1hnNFfoIZJIT9ts1gviOrg5pGsh9NRkYzmykpQKpBN5v/StuZNma8TL9tm5yDpj
+	eHUM5ky/uLyjSzZzJoL/LFgJkQ+QSlc=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1714125534; a=rsa-sha256; cv=none;
+	b=b95exqNuI+S72Fxep3AYr0F7sZ4ByrSz3KwLroJllh2RPtZ5X/EoBytnIgAHLQrNIF3eZ5
+	kAd63QDOOiOM3fzZmEQdsjnGhuooe7nIgCObBmP8XA/bRgyFBz6nryiehNskL7Kx0oLJWA
+	jnclkqU0PFW+mX5aDgO/XRD0XfwBARA=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 06205634C99;
+	Fri, 26 Apr 2024 12:58:53 +0300 (EEST)
+Date: Fri, 26 Apr 2024 09:58:52 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
 To: linux-media@vger.kernel.org
-Cc: bingbu.cao@intel.com,
-	laurent.pinchart@ideasonboard.com,
-	andriy.shevchenko@linux.intel.com,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	claus.stovgaard@gmail.com,
-	tomi.valkeinen@ideasonboard.com,
-	tfiga@chromium.org,
-	senozhatsky@chromium.org,
-	andreaskleist@gmail.com,
-	bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com,
-	hongju.wang@intel.com
-Subject: [PATCH v6 18/18] media: Documentation: add documentation of Intel IPU6 driver and hardware overview
-Date: Fri, 26 Apr 2024 12:58:22 +0300
-Message-Id: <20240426095822.946453-19-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240426095822.946453-1-sakari.ailus@linux.intel.com>
-References: <20240426095822.946453-1-sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL v2 FOR 6.10] Unicam and IPU6 ISYS drivers
+Message-ID: <Zit63ICsky0u94lr@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+Hi Hans, Mauro,
 
-Add a documentation for an overview of IPU6 hardware and describe the main
-the components of IPU6 driver.
+Here are drivers for Unicam and IPU6 ISYS, prepended by the first part of
+the metadata series. Both drivers can be used without the ROUTING IOCTL
+with partial functionality. The ROUTING IOCTL enablement patch will enable
+the rest of the functionality when it is merged later on.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../driver-api/media/drivers/index.rst        |   1 +
- .../driver-api/media/drivers/ipu6.rst         | 205 ++++++++++++++++++
- 2 files changed, 206 insertions(+)
+since v1:
+
+- Fix a compile issue in an intermediate patch. The result is unaffected by
+  this (no diff).
+
+Please pull.
+
+
+The following changes since commit faa4364bef2ec0060de381ff028d1d836600a381:
+
+  media: stk1160: fix bounds checking in stk1160_copy_video() (2024-04-24 13:49:56 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-metadata-3-signed
+
+for you to fetch changes up to 3d0b6baa9b3d0a46dcee5b6a2e2db28f7081d20e:
+
+  media: Documentation: add documentation of Intel IPU6 driver and hardware overview (2024-04-26 12:53:46 +0300)
+
+----------------------------------------------------------------
+Unicam and IPU6 ISYS drivers, prepended with metadata patches, for 6.10
+
+----------------------------------------------------------------
+Bingbu Cao (16):
+      media: intel/ipu6: add Intel IPU6 PCI device driver
+      media: intel/ipu6: add IPU auxiliary devices
+      media: intel/ipu6: add IPU6 buttress interface driver
+      media: intel/ipu6: CPD parsing for get firmware components
+      media: intel/ipu6: add IPU6 DMA mapping API and MMU table
+      media: intel/ipu6: add syscom interfaces between firmware and driver
+      media: intel/ipu6: input system ABI between firmware and driver
+      media: intel/ipu6: add IPU6 CSI2 receiver v4l2 sub-device
+      media: intel/ipu6: add the CSI2 DPHY implementation
+      media: intel/ipu6: input system video nodes and buffer queues
+      media: intel/ipu6: add the main input system driver
+      media: intel/ipu6: add Kconfig and Makefile
+      media: MAINTAINERS: add maintainers for Intel IPU6 input system driver
+      media: intel/ipu6: support line-based metadata capture support
+      media: Documentation: add Intel IPU6 ISYS driver admin-guide doc
+      media: Documentation: add documentation of Intel IPU6 driver and hardware overview
+
+Dave Stevenson (2):
+      dt-bindings: media: Add bindings for bcm2835-unicam
+      media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
+
+Jean-Michel Hautbois (2):
+      media: v4l: Add V4L2-PIX-FMT-Y12P format
+      media: v4l: Add V4L2-PIX-FMT-Y14P format
+
+Laurent Pinchart (1):
+      media: v4l2-subdev: Clearly document that the crop API won't be extended
+
+Sakari Ailus (15):
+      media: Documentation: Add "stream" into glossary
+      media: uapi: Add generic serial metadata mbus formats
+      media: uapi: Document which mbus format fields are valid for metadata
+      media: uapi: v4l: Add generic 8-bit metadata format definitions
+      media: v4l: Support line-based metadata capture
+      media: v4l: Set line based metadata flag in V4L2 core
+      media: Documentation: Additional streams generally don't harm capture
+      media: Documentation: Document S_ROUTING behaviour
+      media: v4l: subdev: Add a function to lock two sub-device states, use it
+      media: v4l: subdev: Copy argument back to user also for S_ROUTING
+      media: v4l: subdev: Add len_routes field to struct v4l2_subdev_routing
+      media: v4l: subdev: Return routes set using S_ROUTING
+      media: v4l: subdev: Add trivial set_routing support
+      media: ipu6: Add PCI device table header
+      media: ivsc: csi: Use IPU bridge
+
+ Documentation/admin-guide/media/ipu6-isys.rst      |  161 ++
+ .../admin-guide/media/ipu6_isys_graph.svg          |  548 ++++
+ Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+ .../bindings/media/brcm,bcm2835-unicam.yaml        |  127 +
+ Documentation/driver-api/media/drivers/index.rst   |    1 +
+ Documentation/driver-api/media/drivers/ipu6.rst    |  205 ++
+ Documentation/userspace-api/media/glossary.rst     |   12 +
+ Documentation/userspace-api/media/v4l/dev-meta.rst |   21 +
+ .../userspace-api/media/v4l/dev-subdev.rst         |   31 +-
+ .../userspace-api/media/v4l/meta-formats.rst       |    3 +-
+ .../userspace-api/media/v4l/metafmt-generic.rst    |  340 +++
+ .../userspace-api/media/v4l/pixfmt-yuv-luma.rst    |   48 +
+ .../userspace-api/media/v4l/subdev-formats.rst     |  269 +-
+ .../userspace-api/media/v4l/vidioc-enum-fmt.rst    |    7 +
+ .../media/v4l/vidioc-subdev-g-crop.rst             |    6 +-
+ .../media/v4l/vidioc-subdev-g-routing.rst          |   51 +-
+ .../userspace-api/media/videodev2.h.rst.exceptions |    1 +
+ MAINTAINERS                                        |   17 +
+ drivers/media/pci/intel/Kconfig                    |    1 +
+ drivers/media/pci/intel/Makefile                   |    1 +
+ drivers/media/pci/intel/ipu6/Kconfig               |   18 +
+ drivers/media/pci/intel/ipu6/Makefile              |   23 +
+ drivers/media/pci/intel/ipu6/ipu6-bus.c            |  165 ++
+ drivers/media/pci/intel/ipu6/ipu6-bus.h            |   58 +
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c       |  912 +++++++
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h       |   92 +
+ drivers/media/pci/intel/ipu6/ipu6-cpd.c            |  362 +++
+ drivers/media/pci/intel/ipu6/ipu6-cpd.h            |  105 +
+ drivers/media/pci/intel/ipu6/ipu6-dma.c            |  502 ++++
+ drivers/media/pci/intel/ipu6/ipu6-dma.h            |   19 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.c         |  413 +++
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.h         |   47 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c        |  487 ++++
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.h        |  568 ++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |  663 +++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h      |   82 +
+ drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c   |  536 ++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-jsl-phy.c   |  242 ++
+ drivers/media/pci/intel/ipu6/ipu6-isys-mcd-phy.c   |  720 +++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |  811 ++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.h     |   78 +
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c    |  403 +++
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h    |   59 +
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     | 1399 ++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.h     |  141 +
+ drivers/media/pci/intel/ipu6/ipu6-isys.c           | 1367 ++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys.h           |  206 ++
+ drivers/media/pci/intel/ipu6/ipu6-mmu.c            |  845 ++++++
+ drivers/media/pci/intel/ipu6/ipu6-mmu.h            |   73 +
+ .../pci/intel/ipu6/ipu6-platform-buttress-regs.h   |  226 ++
+ .../pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h   |  172 ++
+ drivers/media/pci/intel/ipu6/ipu6-platform-regs.h  |  179 ++
+ drivers/media/pci/intel/ipu6/ipu6.c                |  895 +++++++
+ drivers/media/pci/intel/ipu6/ipu6.h                |  342 +++
+ drivers/media/pci/intel/ivsc/mei_csi.c             |   20 +-
+ drivers/media/platform/Kconfig                     |    1 +
+ drivers/media/platform/Makefile                    |    1 +
+ drivers/media/platform/broadcom/Kconfig            |   23 +
+ drivers/media/platform/broadcom/Makefile           |    3 +
+ .../media/platform/broadcom/bcm2835-unicam-regs.h  |  246 ++
+ drivers/media/platform/broadcom/bcm2835-unicam.c   | 2741 ++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   43 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |   50 +-
+ include/media/ipu6-pci-table.h                     |   28 +
+ include/media/v4l2-subdev.h                        |   42 +
+ include/uapi/linux/media-bus-format.h              |    9 +
+ include/uapi/linux/v4l2-mediabus.h                 |   18 +-
+ include/uapi/linux/v4l2-subdev.h                   |   14 +-
+ include/uapi/linux/videodev2.h                     |   24 +
+ 69 files changed, 18259 insertions(+), 65 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
+ create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
+ create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
  create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+ create mode 100644 drivers/media/pci/intel/ipu6/Kconfig
+ create mode 100644 drivers/media/pci/intel/ipu6/Makefile
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-jsl-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-mcd-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6.h
+ create mode 100644 drivers/media/platform/broadcom/Kconfig
+ create mode 100644 drivers/media/platform/broadcom/Makefile
+ create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam-regs.h
+ create mode 100644 drivers/media/platform/broadcom/bcm2835-unicam.c
+ create mode 100644 include/media/ipu6-pci-table.h
 
-diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
-index c4123a16b5f9..7f6f3dcd5c90 100644
---- a/Documentation/driver-api/media/drivers/index.rst
-+++ b/Documentation/driver-api/media/drivers/index.rst
-@@ -26,6 +26,7 @@ Video4Linux (V4L) drivers
- 	vimc-devel
- 	zoran
- 	ccs/ccs
-+	ipu6
- 
- 
- Digital TV drivers
-diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
-new file mode 100644
-index 000000000000..6e1dd19b36fb
---- /dev/null
-+++ b/Documentation/driver-api/media/drivers/ipu6.rst
-@@ -0,0 +1,205 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+Intel IPU6 Driver
-+==================
-+
-+Author: Bingbu Cao <bingbu.cao@intel.com>
-+
-+Overview
-+=========
-+
-+Intel IPU6 is the sixth generation of Intel Image Processing Unit used in some
-+Intel Chipsets such as Tiger Lake, Jasper Lake, Alder Lake, Raptor Lake and
-+Meteor Lake. IPU6 consists of two major systems: Input System (ISYS) and
-+Processing System (PSYS). IPU6 are visible on the PCI bus as a single device, it
-+can be found by ``lspci``:
-+
-+``0000:00:05.0 Multimedia controller: Intel Corporation Device xxxx (rev xx)``
-+
-+IPU6 has a 16 MB BAR in PCI configuration Space for MMIO registers which is
-+visible for driver.
-+
-+Buttress
-+=========
-+
-+The IPU6 is connecting to the system fabric with Buttress which is enabling host
-+driver to control the IPU6, it also allows IPU6 access the system memory to
-+store and load frame pixel streams and any other metadata.
-+
-+Buttress mainly manages several system functionalities: power management,
-+interrupt handling, firmware authentication and global timer sync.
-+
-+ISYS and PSYS Power flow
-+------------------------
-+
-+IPU6 driver initialize the ISYS and PSYS power up or down request by setting the
-+Buttress frequency control register for ISYS and PSYS
-+(``IPU6_BUTTRESS_REG_IS_FREQ_CTL`` and ``IPU6_BUTTRESS_REG_PS_FREQ_CTL``) in
-+function:
-+
-+.. c:function:: int ipu6_buttress_power(...)
-+
-+Buttress forwards the request to Punit, after Punit execute the power up flow,
-+Buttress indicates driver that ISYS or PSYS is powered up by updating the power
-+status registers.
-+
-+.. Note:: ISYS power up needs take place prior to PSYS power up, ISYS power down
-+	  needs take place after PSYS power down due to hardware limitation.
-+
-+Interrupt
-+---------
-+
-+IPU6 interrupt can be generated as MSI or INTA, interrupt will be triggered when
-+ISYS, PSYS, Buttress event or error happen, driver can get the interrupt cause
-+by reading the interrupt status register ``BUTTRESS_REG_ISR_STATUS``, driver
-+clears the irq status and then calls specific ISYS or PSYS irq handler.
-+
-+.. c:function:: irqreturn_t ipu6_buttress_isr(int irq, ...)
-+
-+Security and firmware authentication
-+-------------------------------------
-+
-+To address the IPU6 firmware security concerns, the IPU6 firmware needs to
-+undergo an authentication process before it is allowed to executed on the IPU6
-+internal processors. The IPU6 driver will work with Converged Security Engine
-+(CSE) to complete authentication process. The CSE is responsible of
-+authenticating the IPU6 firmware. The authenticated firmware binary is copied
-+into an isolated memory region. Firmware authentication process is implemented
-+by CSE following an IPC handshake with the IPU6 driver. There are some Buttress
-+registers used by the CSE and the IPU6 driver to communicate with each other via
-+IPC.
-+
-+.. c:function:: int ipu6_buttress_authenticate(...)
-+
-+Global timer sync
-+-----------------
-+
-+The IPU6 driver initiates a Hammock Harbor synchronization flow each time it
-+starts camera operation. The IPU6 will synchronizes an internal counter in the
-+Buttress with a copy of the SoC time, this counter maintains the up-to-date time
-+until camera operation is stopped. The IPU6 driver can use this time counter to
-+calibrate the timestamp based on the timestamp in response event from firmware.
-+
-+.. c:function:: int ipu6_buttress_start_tsc_sync(...)
-+
-+DMA and MMU
-+============
-+
-+The IPU6 has its own scalar processor where the firmware run at and an internal
-+32-bit virtual address space. The IPU6 has MMU address translation hardware to
-+allow that scalar processors to access the internal memory and external system
-+memory through IPU6 virtual address. The address translation is based on two
-+levels of page lookup tables stored in system memory which are maintained by the
-+IPU6 driver. The IPU6 driver sets the level-1 page table base address to MMU
-+register and allows MMU to perform page table lookups.
-+
-+The IPU6 driver exports its own DMA operations. The IPU6 driver will update the
-+page table entries for each DMA operation and invalidate the MMU TLB after each
-+unmap and free.
-+
-+.. code-block:: none
-+
-+    const struct dma_map_ops ipu6_dma_ops = {
-+	   .alloc = ipu6_dma_alloc,
-+	   .free = ipu6_dma_free,
-+	   .mmap = ipu6_dma_mmap,
-+	   .map_sg = ipu6_dma_map_sg,
-+	   .unmap_sg = ipu6_dma_unmap_sg,
-+	   ...
-+    };
-+
-+.. Note:: IPU6 MMU works behind IOMMU so for each IPU6 DMA ops, driver will call
-+	  generic PCI DMA ops to ask IOMMU to do the additional mapping if VT-d
-+	  enabled.
-+
-+Firmware file format
-+====================
-+
-+The IPU6 firmware is in Code Partition Directory (CPD) file format. The CPD
-+firmware contains a CPD header, several CPD entries and components. The CPD
-+component includes 3 entries - manifest, metadata and module data. Manifest and
-+metadata are defined by CSE and used by CSE for authentication. Module data is
-+specific to IPU6 which holds the binary data of firmware called package
-+directory. The IPU6 driver (``ipu6-cpd.c`` in particular) parses and validates
-+the CPD firmware file and gets the package directory binary data of the IPU6
-+firmware, copies it to specific DMA buffer and sets its base address to Buttress
-+``FW_SOURCE_BASE`` register. Finally the CSE will do authentication for this
-+firmware binary.
-+
-+
-+Syscom interface
-+================
-+
-+The IPU6 driver communicates with firmware via the Syscom ABI. Syscom is an
-+inter-processor communication mechanism between the IPU scalar processors and
-+the CPU. There are a number of resources shared between firmware and software.
-+A system memory region where the message queues reside, firmware can access the
-+memory region via the IPU MMU. The Syscom queues are FIFO fixed depth queues
-+with a configurable number of tokens (messages). There are also common IPU6 MMIO
-+registers where the queue read and write indices reside. Software and firmware
-+function as producer and consumer of tokens in the queues and update the write
-+and read indices separately when sending or receiving each message.
-+
-+The IPU6 driver must prepare and configure the number of input and output
-+queues, configure the count of tokens per queue and the size of per token before
-+initiating and starting the communication with firmware. Firmware and software
-+must use same configurations. The IPU6 Buttress has a number of firmware boot
-+parameter registers which can be used to store the address of configuration and
-+initialise the Syscom state, then driver can request firmware to start and run via
-+setting the scalar processor control status register.
-+
-+Input System
-+============
-+
-+IPU6 input system consists of MIPI D-PHY and several CSI-2 receivers.  It can
-+capture image pixel data from camera sensors or other MIPI CSI-2 output devices.
-+
-+D-PHYs and CSI-2 ports lane mapping
-+-----------------------------------
-+
-+The IPU6 integrates different D-PHY IPs on different SoCs, on Tiger Lake and
-+Alder Lake, IPU6 integrates MCD10 D-PHY, IPU6SE on Jasper Lake integrates JSL
-+D-PHY and IPU6EP on Meteor Lake integrates a Synopsys DWC D-PHY. There is an
-+adaptional layer between D-PHY and CSI-2 receiver controller which includes port
-+configuration, PHY wrapper or private test interfaces for D-PHY. There are 3
-+D-PHY drivers ``ipu6-isys-mcd-phy.c``, ``ipu6-isys-jsl-phy.c`` and
-+``ipu6-isys-dwc-phy.c`` program the above 3 D-PHYs in IPU6.
-+
-+Different IPU6 versions have different D-PHY lanes mappings, On Tiger Lake,
-+there are 12 data lanes and 8 clock lanes, IPU6 support maximum 8 CSI-2 ports,
-+see the PPI mmapping in ``ipu6-isys-mcd-phy.c`` for more information. On Jasper
-+Lake and Alder Lake, D-PHY has 8 data lanes and 4 clock lanes, the IPU6 supports
-+maximum 4 CSI-2 ports. For Meteor Lake, D-PHY has 12 data lanes and 6 clock
-+lanes so IPU6 support maximum 6 CSI-2 ports.
-+
-+.. Note:: Each pair of CSI-2 two ports is a single unit that can share the data
-+	  lanes. For example, for CSI-2 port 0 and 1, CSI-2 port 0 support
-+	  maximum 4 data lanes, CSI-2 port 1 support maximum 2 data lanes, CSI-2
-+	  port 0 with 2 data lanes can work together with CSI-2 port 1 with 2
-+	  data lanes. If trying to use CSI-2 port 0 with 4 lanes, CSI-2 port 1
-+	  will not be available as the 4 data lanes are shared by CSI-2 port 0
-+	  and 1. The same applies to CSI ports 2/3, 4/5 and 7/8.
-+
-+ISYS firmware ABIs
-+------------------
-+
-+The IPU6 firmware implements a series of ABIs for software access. In general,
-+software firstly prepares the stream configuration ``struct
-+ipu6_fw_isys_stream_cfg_data_abi`` and sends the configuration to firmware via
-+sending ``STREAM_OPEN`` command. Stream configuration includes input pins and
-+output pins, input pin ``struct ipu6_fw_isys_input_pin_info_abi`` defines the
-+resolution and data type of input source, output pin ``struct
-+ipu6_fw_isys_output_pin_info_abi`` defines the output resolution, stride and
-+frame format, etc.
-+
-+Once the driver gets the interrupt from firmware that indicates stream open
-+successfully, the driver will send the ``STREAM_START`` and ``STREAM_CAPTURE``
-+command to request firmware to start capturing image frames. ``STREAM_CAPTURE``
-+command queues the buffers to firmware with ``struct
-+ipu6_fw_isys_frame_buff_set``, software then waits for the interrupt and
-+response from firmware, ``PIN_DATA_READY`` means a buffer is ready on a specific
-+output pin and then software can return the buffer to user.
-+
-+.. Note:: See :ref:`Examples<ipu6_isys_capture_examples>` about how to do
-+	  capture by IPU6 ISYS driver.
 -- 
-2.39.2
+Kind regards,
 
+Sakari Ailus
 
