@@ -1,85 +1,81 @@
-Return-Path: <linux-media+bounces-10173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10174-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816278B3321
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:41:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA748B3327
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:43:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EBD31C2133A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:41:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D82CC28924C
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:43:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AF8824BF;
-	Fri, 26 Apr 2024 08:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68464824B0;
+	Fri, 26 Apr 2024 08:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GpOjRpag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4HdXmk+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C76441C62;
-	Fri, 26 Apr 2024 08:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647FE5B5BE
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714120902; cv=none; b=Ism8sonwcNzJYoCUu0XKrmLNfQyZk6Rpzgz0rPofX99ONPdeAec6z2r0c6pxULIYsLhjLT6TufWEeyoiHk2Hnf7xIfIIqy79dY7LyWHEA7Rzukcbz4eVuDxeRrfW8fdU1ws+Qgs72UIQORWmevNdaujgENDGzUmotYClewEsDc0=
+	t=1714120987; cv=none; b=BeANMY/j/MVSzzfHG6fW376TANnlcx802nk5iqOLbbdAIdaZQh6Emk2XiCIfA6jd2n9Imv91Ha3uTaX3FLvXFIx1Wceni/ODslayR2my0tiprpIgdPtBcTpf2vu+QQWqsnrUX7OD73bqw1WORCegn7iyOGDRE9lLjDkScFlu/XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714120902; c=relaxed/simple;
-	bh=gmfMHQVu+QXaMmTfQbZlMyBhmPZ6SDodHpc9j3YOVH0=;
+	s=arc-20240116; t=1714120987; c=relaxed/simple;
+	bh=THe1LwhkrglqXIEq91YlUhtMtCji9bAzsyPdchPG++8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RDvdXe/zRyPGpGY4NFN28LZ/1rPl22sFPRmLpCUVpvfy0nfQmLKvsblSdImrx771810/oexoK12273feU3rsLFhcfq5F+8tPRE+In35gUgNe/fdWsIH3tx3D4foeBmxdV+YByXuZT0vHRR2N+T1uFDcrU5yYvGoBtVFnpL+JKXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GpOjRpag; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-56c5d05128dso1910080a12.0;
-        Fri, 26 Apr 2024 01:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714120899; x=1714725699; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1GlQQDniUNI7oXCoE7vPyzC6a7LaN00a8acVhUbsE/g=;
-        b=GpOjRpagKU9jNZ9b9Jn9Zv2elFhOllVwRknvQMuQUrms9lgBDXyGzV6YtrWjjlE6hO
-         DqZqLkuOKKZw/gBjg6Y94KRhJEwSEc7fFTUvocSYCBeUwlqlGayop7PpRdb2vm7GpFwx
-         hDrT9bVC5PGUSdm2kTsu+eF+TshTCiOxMifLHCzZZX2FE9ighr16w1xuGFW28NTpZzzF
-         jpMU43e1mvZV/Ihklf52XIQXHjn41HaPHIgYn4Q5s/5oNVsAQx3q8AvhbKWLvxaIKUU7
-         rVNw/y/IngSgZti/Fz16jdTdeK9/ZsHbo3SfYf+Pu93hN5ALNfODMge26/8NWq/jYesK
-         1Ucg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714120899; x=1714725699;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1GlQQDniUNI7oXCoE7vPyzC6a7LaN00a8acVhUbsE/g=;
-        b=fmY3KsfQfZ6yH9lis8K7zrqO1vR1RZkeRJnnz3dRYTaJpqb/UzdTaMmXqNhtFgRQHV
-         ykZJl2DMVGP8KUW8dg+miCCM78ytH+MS9GHLmf9OQY8l4DTMWw3HeStNIUgiHh4hak28
-         ckdZTA/j3kqQBvJ5HntcF9++vEh2hCAiLqXb3u+gaYAvnv06nbNXRUw/HNyiVKpHPSWk
-         J82TzJHmw7fT0h4fBMR/Mm5SLzU/Wu4L3LE9RBclfxMlwMnTf/TLopznDkMWn/caeZz6
-         JwZbzImg3n2oVYpm2KhOH7iQjChwahJkVH8iNJTESQ77iOLQhRY5Lo3BrBy3uizYBcH4
-         W88w==
-X-Forwarded-Encrypted: i=1; AJvYcCXlJWVwHaRROD4psSPQszl7KvnsFUdJf0xB9ZUeVuxyfNxlZJKUjOtD7+2fgUa/OKAjFhyrF0pJ8gmBaVkiGwq+A1gWi/DoTOsqf3q/PqJj2hTwERoyAZ3xlWkbdfxdzLnbvc8LhXTeN8I=
-X-Gm-Message-State: AOJu0YyjNs18Qd8QiBItNJbjqPUEjNxIyCm+nq4z+G08YC3kWKiGRsuL
-	joY8gFk5GTgR79Dogk+KbbJlhZtKKjzLHdgLcCOv0FEqkNBhdWF2cgI19Q==
-X-Google-Smtp-Source: AGHT+IEMOOI+Q6Q3cvl121aRVnp266Xak0a3L9GqUl7Yf1+4PeJnE+BW8IE0JQtN/jgwN7AfhEFxJg==
-X-Received: by 2002:a50:cd15:0:b0:56e:64a:2a47 with SMTP id z21-20020a50cd15000000b0056e064a2a47mr1261278edi.42.1714120898379;
-        Fri, 26 Apr 2024 01:41:38 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-143-74.cust.vodafonedsl.it. [2.39.143.74])
-        by smtp.gmail.com with ESMTPSA id u15-20020aa7d0cf000000b005704b18ed2fsm9770546edo.83.2024.04.26.01.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 01:41:38 -0700 (PDT)
-Date: Fri, 26 Apr 2024 10:41:36 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] media: i2c: alvium: Move V4L2_CID_GAIN to
- V4L2_CID_ANALOG_GAIN
-Message-ID: <ZitowFM86EE52IZB@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240416141905.454253-1-tomm.merciai@gmail.com>
- <20240416141905.454253-6-tomm.merciai@gmail.com>
- <ZilLThyqHC2xi6tS@valkosipuli.retiisi.eu>
- <ZitTL/IhmuvwF2Qu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZitUAsBgoxLG_vEx@valkosipuli.retiisi.eu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Km8UXkgyDGzsgefUs4Gp9prPEww3fyvoI1zvp9Q5093BJ0y0IBO1lt8c35Y+aI3VI5tT9y7K8Gv6G6rMKP+JAKN3TEy4CLBNmWlLbHojwt4hmRWZ6bgmQhOj3GxsUCVPLC7N6Vq0rOddhwvFusioEMBcV3ULcAeZN5xnzGR84v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4HdXmk+; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714120986; x=1745656986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=THe1LwhkrglqXIEq91YlUhtMtCji9bAzsyPdchPG++8=;
+  b=C4HdXmk+u07LoIopAl/X+7jcW5JCt6PrOri3ZUKur18pu0aKxi/m2OoL
+   TSx8cWHpjeoD+Hdc4blMSoNFx2hQoWI+Cd61oNnjGLEm/LoQfYd67DCvr
+   RzS66/XOaj1C4fJmN2nMojJTw4N/kxSEKODctyxzgr7ZZo6N4gCfSeeAG
+   UKkgNxjS4e4kYW+kWNkEKG+dY/u8u0kCvJloh5yXXHQMOPh2h/I07ONrL
+   tYKho6877lCXa0i0Uefxzrb8T8UDsYRp1wTfYIh7Syp7TjwOC6aVUnqa9
+   OvOK7KU3c15NE9GxRFvuAJcczdjEMVF3qHNE2uBf8ieZfoLkUiaWZQ1kT
+   Q==;
+X-CSE-ConnectionGUID: E0c/QAN2SUOayxkDb9DM7w==
+X-CSE-MsgGUID: i2UA1BQ9Q9euF7YB4c4Vpg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20463076"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="20463076"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:43:05 -0700
+X-CSE-ConnectionGUID: qUnhaa80S+i4Hd4arsWBTQ==
+X-CSE-MsgGUID: ab5Ub4HkQCSs7nhaA0VXuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="62829120"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:43:04 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0E35411F855;
+	Fri, 26 Apr 2024 11:43:01 +0300 (EEST)
+Date: Fri, 26 Apr 2024 08:43:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH 2/3] media: Documentation: v4l: LINK_FREQ can be an
+ INTEGER64 control
+Message-ID: <ZitpFeiNt5FL3c0f@kekkonen.localdomain>
+References: <20240220130339.543749-1-sakari.ailus@linux.intel.com>
+ <20240220130339.543749-3-sakari.ailus@linux.intel.com>
+ <87dbeab5-4c61-403e-9805-da3bac673ffd@xs4all.nl>
+ <ZitaOthZ9dnG5-1B@kekkonen.localdomain>
+ <ba71685d-5eb8-414e-9893-1e72b1107dfd@xs4all.nl>
+ <ZitlggwtyOwaMdw9@kekkonen.localdomain>
+ <8446b3a3-c94e-4be5-ac2f-31d333830a56@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,82 +84,106 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZitUAsBgoxLG_vEx@valkosipuli.retiisi.eu>
+In-Reply-To: <8446b3a3-c94e-4be5-ac2f-31d333830a56@xs4all.nl>
 
-Hi Sakari,
+Hi Hans,
 
-On Fri, Apr 26, 2024 at 07:13:06AM +0000, Sakari Ailus wrote:
-> Hi Tommaso,
-> 
-> On Fri, Apr 26, 2024 at 09:09:35AM +0200, Tommaso Merciai wrote:
-> > Hi Sakari,
-> > Thanks for your review.
+On Fri, Apr 26, 2024 at 10:38:26AM +0200, Hans Verkuil wrote:
+> On 4/26/24 10:27, Sakari Ailus wrote:
+> > Hi Hans,
 > > 
-> > On Wed, Apr 24, 2024 at 06:11:26PM +0000, Sakari Ailus wrote:
-> > > Hi Tommaso,
-> > > 
-> > > On Tue, Apr 16, 2024 at 04:19:05PM +0200, Tommaso Merciai wrote:
-> > > > Into alvium cameras REG_BCRM_GAIN_RW control the analog gain.
-> > > > Let's use the right V4L2_CID_ANALOGUE_GAIN ctrl.
-> > > > 
-> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > ---
-> > > >  drivers/media/i2c/alvium-csi2.c | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> > > > index 30ef9b905211..56d64f27df72 100644
-> > > > --- a/drivers/media/i2c/alvium-csi2.c
-> > > > +++ b/drivers/media/i2c/alvium-csi2.c
-> > > > @@ -1993,7 +1993,7 @@ static int alvium_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  	int val;
-> > > >  
-> > > >  	switch (ctrl->id) {
-> > > > -	case V4L2_CID_GAIN:
-> > > > +	case V4L2_CID_ANALOGUE_GAIN:
-> > > >  		val = alvium_get_gain(alvium);
-> > > >  		if (val < 0)
-> > > >  			return val;
-> > > > @@ -2025,7 +2025,7 @@ static int alvium_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  		return 0;
-> > > >  
-> > > >  	switch (ctrl->id) {
-> > > > -	case V4L2_CID_GAIN:
-> > > > +	case V4L2_CID_ANALOGUE_GAIN:
-> > > >  		ret = alvium_set_ctrl_gain(alvium, ctrl->val);
-> > > >  		break;
-> > > >  	case V4L2_CID_AUTOGAIN:
-> > > > @@ -2154,7 +2154,7 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
-> > > >  
-> > > >  	if (alvium->avail_ft.gain) {
-> > > >  		ctrls->gain = v4l2_ctrl_new_std(hdl, ops,
-> > > > -						V4L2_CID_GAIN,
-> > > > +						V4L2_CID_ANALOGUE_GAIN,
-> > > >  						alvium->min_gain,
-> > > >  						alvium->max_gain,
-> > > >  						alvium->inc_gain,
-> > > 
-> > > This looks like a bugfix. Shouldn't it be cc'd to stable as well? A Fixes:
-> > > tag would be nice, too.
+> > On Fri, Apr 26, 2024 at 10:12:37AM +0200, Hans Verkuil wrote:
+> >> On 4/26/24 09:39, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Fri, Apr 26, 2024 at 09:22:40AM +0200, Hans Verkuil wrote:
+> >>>> On 20/02/2024 14:03, Sakari Ailus wrote:
+> >>>>> When a device passes through the video data while still having its own
+> >>>>> receiver and transmitter, it can use the same frequency as the upstream
+> >>>>> link does. The Intel MEI CSI device is an example of this. An integer menu
+> >>>>> control isn't useful in conveying the actual frequency to the receiver in
+> >>>>> this case.
+> >>>>>
+> >>>>> Document that the LINK_FREQ control may also be a 64-bit integer control.
+> >>>>>
+> >>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>>>> ---
+> >>>>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst         | 2 +-
+> >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>>>> index b1c2ab2854af..7a3ccb100e1d 100644
+> >>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>>>> @@ -22,7 +22,7 @@ Image Process Control IDs
+> >>>>>  
+> >>>>>  .. _v4l2-cid-link-freq:
+> >>>>>  
+> >>>>> -``V4L2_CID_LINK_FREQ (integer menu)``
+> >>>>> +``V4L2_CID_LINK_FREQ (integer menu or 64-bit integer)``
+> >>>>>      The frequency of the data bus (e.g. parallel or CSI-2).
+> >>>>
+> >>>> I really think a new control should be created for this.
+> >>>>
+> >>>> As I understand it, V4L2_CID_LINK_FREQ gives a set of supported frequencies,
+> >>>> and the application has to pick one (I think?). Is it supposed to be a
+> >>>> read-only control? Some driver seem to set the READ_ONLY flag, and some do not.
+> >>>> The documentation isn't helpful in that respect.
+> >>>
+> >>> This is read-only effectively in current IVSC implementation.
+> >>>
+> >>>>
+> >>>> In the case of the Intel MEI CSI and similar devices a new control would be
+> >>>> better, I think. Do I understand it correctly that for these devices it would
+> >>>> always be a read-only control? I.e. it just reports the frequency, but applications
+> >>>> cannot change it?
+> >>>
+> >>> How would you call the new control?
+> >>>
+> >>> V4L2_CID_LINK_FREQ_READ_ONLY?
+> >>>
+> >>> Originally the reason for changing LINK_FREQ for sensors was be part of
+> >>> changing sensor's configuration to achieve a given frame interval.
+> >>
+> >> Will this new variant always be read-only?
 > > 
-> > Fully agree.
-> > Plan is to add in v2 Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
-> > like you suggest and stable@vger.kernel.org in CC.
+> > At least for this purpose I think so. Apart from the sensor configuration,
+> > I'm not aware of another use case for the user to change it.
+> > 
+> >>
+> >> How about V4L2_CID_CUR_LINK_FREQ?
+> >>
+> >> I.e., it returns the current link frequency. That way it can also be
+> >> used by drivers that implement V4L2_CID_LINK_FREQ.
+> > 
+> > It could, but the drivers already report this using V4L2_CID_LINK_FREQ.
+> > It'd be extra driver code for little if any gain.
 > 
-> Just make sure git send-email won't actually cc the patch to the stable
-> e-mail address. Cc: tag is enough. The git config option is
-> sendemail.suppresscc.
+> It's mainly for if we ever want to have consistent support for this
+> control for all drivers to make life easier for applications.
+> 
+> In other words, supporting both controls (if we'd ever want to) wouldn't
+> cause problems API-wise.
 
-Sorry, just to clarify.
-You are suggesting just to add sendemail.suppresscc. option right?
-No cc stable@vger.kernel.org
-
-Thanks & Regards,
-Tommaso
+Apart from the sensor frame interval control, the users generally don't
+care. It's for the CSI-2 receiver drivers which use a framework function to
+obtain the value (it was amended in one of the three patches).
 
 > 
-> -- 
-> Regards,
+> > 
+> >>
+> >> Better ideas are welcome :-)
+> > 
+> > V4L2_CID_LINK_FREQ_VALUE? V4L2_CID_LINK_FREQ2?? :-)
+> > 
 > 
-> Sakari Ailus
+> Hmm, I prefer CUR_LINK_FREQ, since that implies that it is a read-only
+> control.
+
+I'd be fine with that.
+
+-- 
+Regards,
+
+Sakari Ailus
 
