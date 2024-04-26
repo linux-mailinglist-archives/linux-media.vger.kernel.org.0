@@ -1,186 +1,113 @@
-Return-Path: <linux-media+bounces-10219-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C816E8B3775
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 14:50:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5902C8B388A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 15:35:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F19D2837E9
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 12:50:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9A66B23B2D
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 13:35:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673E4146A98;
-	Fri, 26 Apr 2024 12:49:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B90E147C91;
+	Fri, 26 Apr 2024 13:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="2UJtP4Ks"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J8zugdgu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1C113E88A
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 12:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9482B147C61;
+	Fri, 26 Apr 2024 13:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714135797; cv=none; b=AiplJcJ4TCvBMteR/S0JDXqltKFR1EAqz5J2k6Zj9I5EEOHa3TfGzXctQuAcXpR7d5jF0nVFW8Lc+OuIXJPJm4DXsb4CSaHN5+sPUd3AbPdN1amFABBIJOiPOWVotdfTDplvSCizyla7+/8UBzKx5ROTYx8hSWIVevlsEhiafAg=
+	t=1714138489; cv=none; b=fzu3Z/odg6hlKZvhkjuPbDLpEmrTK6XofgIEfX9DkORAjP9zVqlWFSse+cccwJs5gjQtg/KWAyNA8g+nxoeq5N1cmC1ZvGp/oBcgvt1jRH8c4Yl4q4ZxiwYnJYs8qZN4AsNnpW8fAMZhfo+erLym62C8+v1k6YFE94l59wtiq2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714135797; c=relaxed/simple;
-	bh=/jIk24UTvp2YUpiHzdbLKk/FlYgOG8sPlEgyK+NwXnc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FsV9UBmZjZ5ulsWNEBDtG7oPXsgCm4yNOQjsN/E4jZCHJO59qsFnYqe7G7CPXbR4GZ6rpumSyUOQAIde7veaI3m8qi5PtzHcMoAaLHxT2G9Bm5bVQGp82tGy9s+T1Hphuxu+Bq0ISdOIduKoUHFUTSEwZ2260foexg/+dSCh1jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=2UJtP4Ks; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4365c1451d4so13739681cf.2
-        for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 05:49:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1714135795; x=1714740595; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/jIk24UTvp2YUpiHzdbLKk/FlYgOG8sPlEgyK+NwXnc=;
-        b=2UJtP4KsfvVD+25hq0L4p/d5xDopSWXxvvU8AzT7XCkmvC4wV29plp11C9FT/MZIra
-         vNn1z6/tkfQDMUD4P5MG1cAtOmHCTBDA6/7tjctBz9ZjE4uPQPLZRm+9GH2RgUTGxvV/
-         zBuPLo0TKYCfZLJdQPG4IID1srIg/xfR6Nc+ZsIVrIRqTBGAJ4CqNZT8PQxPdg2X7+0/
-         MY6nX8VN1giQdXhPGkIrf94D5Ych8B25Fv3j1O5vnOEVLwfk9dbHNSvyuWutv707zf4O
-         RV/JIENLwRvsvdVBk8gxkbakLasASElyYyxUrfn8oRKr9ce2fi6nc/y2lQ4sN82vyx0X
-         JSuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714135795; x=1714740595;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/jIk24UTvp2YUpiHzdbLKk/FlYgOG8sPlEgyK+NwXnc=;
-        b=h4um41SCtMUED9ctVPeuDW4nA5GUPfqH9o/KYhQhGmMmsxa4XRH4iU5rw2ks96mOGM
-         TLPlgI0eXyxvtox3yrITrH5IVB4LumOK0qLEfkyiHbpeYorN0wWHzajGNIkPeucBOHbh
-         1KeS2cHr3AvWNziAbqIjBt6M+xTpsxpm9kcTLPHq4f+H6kDhlzwudY1inTA97HPaZgJj
-         bHxPbV7CUFTOPGPv0YJu2vWYFYUs/jaYfEKUUxJER0LfMTkFzobtCSnS+lL6Vs9b1PaI
-         j9VHcsnGFFvShHGfs7OCRWFvota9Zu6/Xx72ObpILlSB3RaGcY9By01DEMJKpiENs9Z+
-         AyNA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUy6ovPM336j/CLuXa6N5axuwKLwwfHaKZDUYNXzsuJz4Nr7jQLK80ldHAp+WnoFuEwUNHozZvbnuFtXRn6jqmfQZNHK5W6V/I/0I=
-X-Gm-Message-State: AOJu0YzMPjgawRqeK7KJJne3DuLmueRbzrn7nf+u5JlQ+PQUB/vAS62x
-	PorMM7QA4KOH5dcUBc0A/QH52ctsBpI8Yvpn/X5D0v49NsmCIpq0K9UbjByhoBg=
-X-Google-Smtp-Source: AGHT+IF3o9M5pM6FFfsh7nJLZ72rsCnOVet38b7n9U0dFsxRLAADFOG1ZYyP9LGChYQIw3BAigPKMw==
-X-Received: by 2002:a05:622a:5e87:b0:439:a519:7ceb with SMTP id er7-20020a05622a5e8700b00439a5197cebmr2681743qtb.25.1714135795330;
-        Fri, 26 Apr 2024 05:49:55 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6448::580])
-        by smtp.gmail.com with ESMTPSA id c3-20020ac85183000000b00436e193f408sm7853597qtn.28.2024.04.26.05.49.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 05:49:55 -0700 (PDT)
-Message-ID: <bb59b9582e100420ef5ab9fc9a089f91a3d49883.camel@ndufresne.ca>
-Subject: Re: Re: [PATCH v6 2/2] arm64: dts: rockchip: Add Hantro G1 VPU
- support for RK3588
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>, sigmaris@gmail.com
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, didi.debian@cknow.org, 
- ezequiel@vanguardiasur.com.ar, heiko@sntech.de, krzk+dt@kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- mchehab@kernel.org, p.zabel@pengutronix.de, robh@kernel.org, 
- sebastian.reichel@collabora.com, sfr@canb.auug.org.au,
- linkmauve@linkmauve.fr
-Date: Fri, 26 Apr 2024 08:49:53 -0400
-In-Reply-To: <20240420050913.182225-1-liujianfeng1994@gmail.com>
-References: <B9F108CF-4BC5-41A0-A28A-1CA1F4D2CD3C@gmail.com>
-	 <20240420050913.182225-1-liujianfeng1994@gmail.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1714138489; c=relaxed/simple;
+	bh=JzDiz1wz5pOiVASJ7ZgXZfkdAo2gKWQG4JoogGb+QgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=R6GN4DcC5X7BxxxF/WJfEscY0rqN+oVcIV9tryyxwpoChv5hcrdxK0nRMy0MvEmIxRLIhfCKfjFHO5dPTD+j6pBSM6hQ/y6BDRWxYOxrW9bI7yf3B3Wjs0ejrGkiYwGTytwosrXeuFiSsH0onORaQAhW4+dPBl1/vZc0elwadZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J8zugdgu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EB66CC8;
+	Fri, 26 Apr 2024 15:33:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714138426;
+	bh=JzDiz1wz5pOiVASJ7ZgXZfkdAo2gKWQG4JoogGb+QgI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=J8zugdgu622Co+nJAhrQQOA7WRmoxeHelyT+TRwoJ66igvRIyRdjHORQWWM35h6el
+	 tCRXe//8Ye2IzLTsXu06HUtKBl1V4O1MNjLHS4wVQ7W9AnuPChIUd+kD1GjHEG2fAx
+	 07ex5ey4tM/6QGEuY3mPQOVIAj0BiEqEpPiGxzqM=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	kernel-list@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v11 6/5] media: bcm2835-unicam: Return error code when DT parsing fails
+Date: Fri, 26 Apr 2024 16:34:32 +0300
+Message-ID: <20240426133432.13266-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240424153542.32503-1-laurent.pinchart@ideasonboard.com>
+References: <20240424153542.32503-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le samedi 20 avril 2024 =C3=A0 13:09 +0800, Jianfeng Liu a =C3=A9crit=C2=A0=
-:
-> Hi Hugh,
->=20
-> Fri, 19 Apr 2024 18:28:01 +0100, Hugh Cole-Baker wrote:
-> > The register range at 0xfdb50000 length 0x800 includes "VEPU121 core0" =
-encoder
-> > regs at offset 0 and "VDPU121" decoder regs at offset 0x400 (referring =
-to the
-> > TRM v1.0 Part 1, section 5.5.1). So I think the "rockchip,rk3588-vdpu12=
-1"
-> > compatible isn't exactly correct to use for this entire device.
->=20
-> There are five vepu121 cores for jpeg encoding. And Emmanuel is doing wor=
-k on
-> them[1]. And at the moment the driver doesn=E2=80=99t yet support exposin=
-g these cores
-> all as a single video node to userspace, so Emmanuel only exposes one sin=
-gle
-> core.
->=20
-> > IMO "rockchip,rk3588-vpu121" would be more appropriate if including bot=
-h the
-> > decoder and encoder. It also raises the question of whether the decoder=
- and
-> > encoder should be modeled in DT as one device like on RK3399, or separa=
-te
-> > devices. In the vendor DT [0] they are modeled as two devices but they =
-share
-> > clocks, resets, IOMMU, and a "rockchip,taskqueue-node" value.
->=20
-> Now we have 5 jpeg enc cores, one from 0xfdb50000 and other four from
-> 0xfdba00000. I tried to add a decoding only core 0xfb50400, but that does=
- not
-> work. So the vpu should be defined as one node in devicetree for both enc=
-oder
-> and decoder like rk3399.
->=20
-> This vpu121 should be exactly the same as the one in rk3399 which support=
-s both
-> encoding and decoding. But the current hantro driver has disabled h264 de=
-coding
+Two of the error paths in unicam_async_nf_init() when DT parsing fails
+are not setting the ret variable, resulting in the function returning 0
+on error. Fix it.
 
-If its exactly the same combo as on rk3399, it have to be combined as they =
-share
-the same internal memory. You'll notice this strange thing about both being
-60fps FHD seperately and 30fps FHD concurrently, this is why.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+This patch should be squashed with "[PATCH v11 4/5] media:
+bcm2835-unicam: Add support for CCP2/CSI2 camera interface".
+---
+ drivers/media/platform/broadcom/bcm2835-unicam.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This leaves me with a feeling our understanding the of HW is far from perfe=
-ct,
-we should be extra careful and circle back to Rockchip (ping Kever, he'll
-translate and CC the right person I suppose). Though, just exposing the dec=
-oder,
-and ignoring the encoder seems fine in the short term. Userspace will miss-
-behave though when we introduce the rkvdec2 decoder.
+diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+index e91d02a64770..6ac4ea8efb1a 100644
+--- a/drivers/media/platform/broadcom/bcm2835-unicam.c
++++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+@@ -2519,6 +2519,7 @@ static int unicam_async_nf_init(struct unicam_device *unicam)
+ 		    num_data_lanes != 4) {
+ 			dev_err(unicam->dev, "%u data lanes not supported\n",
+ 				num_data_lanes);
++			ret = -EINVAL;
+ 			goto error;
+ 		}
+ 
+@@ -2526,6 +2527,7 @@ static int unicam_async_nf_init(struct unicam_device *unicam)
+ 			dev_err(unicam->dev,
+ 				"Endpoint uses %u data lanes when %u are supported\n",
+ 				num_data_lanes, unicam->max_data_lanes);
++			ret = -EINVAL;
+ 			goto error;
+ 		}
+ 
+-- 
+Regards,
 
-As we'd like to change from trivial time multiplexing to proper core schedu=
-ling
-in the long term (for identical cores only), we have to keep in mind of the
-possible grouping, which will need to be something deducible from DT. Pleas=
-e
-keep that in mind when designing DT for this chip.
-
-> since there is anthoer decoder rkvdec on rk3399. This vpu121 is the only
-> decoder which supports h254 decoding on rk3588, so we can't just use the
-> vpu_variant from rk3399. Maybe we can use rk3399_vpu_variant back when rk=
-vdec2
-> on rk3588 is supported by mainline kernel.
->=20
-> At the moment we can keep the compatible string same as the one from rk35=
-6x.
-> Since there are already jpeg enc cores at 0xfdba0000, we can ignore the o=
-ne at
-> 0xfdb50000. When rkvdec2 is supported, I will change "rockchip,rk3588-vpu=
-121"
-> same as "rockchip,rk3399-vpu".
->=20
-> And I think changing "rockchip,rk3588-vdpu121" to "rockchip,rk3588-vpu121=
-"
-> should match the hardware correctly.
->=20
-> [1] https://lore.kernel.org/all/20240418141509.2485053-1-linkmauve@linkma=
-uve.fr/
->=20
-> Best regards,
-> Jianfeng
+Laurent Pinchart
 
 
