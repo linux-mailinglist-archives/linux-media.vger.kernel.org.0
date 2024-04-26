@@ -1,192 +1,174 @@
-Return-Path: <linux-media+bounces-10216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9FE8B3535
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 12:21:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9D08B3601
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 12:51:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBBCA1F22728
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:21:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B399B21B58
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:51:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09D46143C4E;
-	Fri, 26 Apr 2024 10:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3875414601D;
+	Fri, 26 Apr 2024 10:50:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A8/o7vi+"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="FpdTpkqu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D032142621
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 10:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714126859; cv=none; b=MaZL/iuMyl8X0pq5s11/rBKG6C3DDe1RfqUQleIJnAO0Uxa3lcTVkzfV1U72xXhe7I035n3N6MgSdCvQQkQzOMQG3Ij54boCJkBfH1ZfMRpW7jc7S3H5GYJoaduKrPwzh7AMwGY+SaK1/3ceR8CN5+2aZe4ri75O/2x682U9RzU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714126859; c=relaxed/simple;
-	bh=IjXJYA5Q88JBRncKCAE8ZYdsQF4jhAftI0NHQOw9IJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OFUHr96RIh2kFcOckeVDabTXY0i4CyrpGMQ7ll/2az7kVPqgRYHmEBq9jrwKTKONB0yceKPQ41g42Aurvtz1uyzq6TjV6FW/5DMCurh6VicDlk7dSgE1DTWzOcEKItA19PDffvaiVNTieor0FgGypqF2d2KOXH2sYD1QOiQ7NIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A8/o7vi+; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcc71031680so2016301276.2
-        for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 03:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714126856; x=1714731656; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IjXJYA5Q88JBRncKCAE8ZYdsQF4jhAftI0NHQOw9IJE=;
-        b=A8/o7vi+E4VKhGkL92v2BIyXvDJ/ltKG+TZGs0bVVt4iLMyP5wXH+jyt8N2HMF+Fps
-         9x2kxAiaayPyyQ2dj/18JYq/besN2QlFMz7hz+lxAmhLjKeOW9Zi/0Vudqs7gTV2P5Mo
-         GT560I9/cSyv6z5pNyeDbESEz3otbXSbvA4Ao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714126856; x=1714731656;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IjXJYA5Q88JBRncKCAE8ZYdsQF4jhAftI0NHQOw9IJE=;
-        b=HbjUtbrgBdMQBnmJS81vrl5gB6XfnUZxLKoKx35EAoHn8oBrh5R0GLNcEePIyO3z1K
-         4CMjFmYO72Gt6KFZ1cJwKrXvLygshSdbySokH+7VA4c2xcYMB5eotIpbtYmOFkveDGAq
-         SqX0sLaKEebgf1P62fXU79G/2CGS23kuC6Q4sO0qggG+IlZp+XV5GW6xiu7ptdQXSwrb
-         OMbvSl99ypwKK51bmrUv3aaxZ+GG5Cey+S4HPyjIqK1aGgb6HsoKDNJprozC6N1UOFvW
-         3rC3YVjWOZg7mpXIiRPkQVjeaGq08rSVA443BY81WStcxpqD6p+u0FcBSYGqNI1dKWQw
-         /Q1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUbVqaBhZKVDa5gM9AE9Cm/3zdi/UVaHT2poJfRA9brfGKz1qXJ0hgVedLaWO4Tm8zTgCxkt/dI0jE7zhO5yqlxqsaGN2ByPFck8mw=
-X-Gm-Message-State: AOJu0YxDAUq5q6b6xvwXefF32zZDwqFu2a1GOJa1A9flTeCzSpt1cbcd
-	ssDS5hZcwbPqYBxsYgSEyMOTyDlStvcyvk9I76Eha4RereZOQ0FBS3upE+MUUNGw8sMLILFwJ5w
-	bBvW+wctIIv3PC5/2OmP8xIWjTKDYs2LY7wbp
-X-Google-Smtp-Source: AGHT+IHWnmyJ6qY0q7iyDyA3XOCFfbMc89g4bmjlOa0MiZ8jfng1uljxIs6yB4rlgqQh0CKOxXSCfqT44NRv/pXIOtM=
-X-Received: by 2002:a25:800f:0:b0:dcb:e0dc:67ee with SMTP id
- m15-20020a25800f000000b00dcbe0dc67eemr2211823ybk.45.1714126856342; Fri, 26
- Apr 2024 03:20:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F40B145348;
+	Fri, 26 Apr 2024 10:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714128606; cv=pass; b=gNG/iiaZTThfurUEHbNgrsS6SxSWuyq1kxZwmefsy53DLurYeQZezJZlxtXCnH9B7WE3eP/Pqmym/5L+6kj/rwAvIM42yzG5cs5zpg02WCP3A32qqXP3YizNv2SDftDzDU5oH/UpKyNapAbMi4kSDgADUel7wxjcu8sgdL7eBbE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714128606; c=relaxed/simple;
+	bh=GWaq2g/xBydbPN9q+8h8xFfRgOf8B9sswxl0BgJjkVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qdvZjfwYCbE46gV43Catk0f0tUoM0R1fp3TEbuORUIyJI6iLV1aC/paJUm3bJIWxqThIu6P3+YM2w5JL3wmlDGtPFsTS0XTRURw8X/FmLHTiegnYzZjJfg78Fh5fqNSS6Vabsh11VVMb9MsYY1aXmveVFPMUHscN6xmA1fMr61U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=FpdTpkqu; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VQqHY5VpTzyRw;
+	Fri, 26 Apr 2024 13:50:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1714128601;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XFC6uXO7DD8kpivh7H6J7YSnZ1VOLVEISlEahgPLNVE=;
+	b=FpdTpkquJWDKmrBJHeWlhFbZQptxWPo7F55rM/TgBwxSulmgDsCzUUd1HNDTjQoLK64tmx
+	9VnhJLsD4TqG9E/NY9ATV8f97RBgpIAPKVbG/NIf+CgFLUb6lVpLG2pAOIJbmrGceF4ApL
+	TsItngSB3uipVZCUwD7DPk+m88OxOfE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1714128601;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XFC6uXO7DD8kpivh7H6J7YSnZ1VOLVEISlEahgPLNVE=;
+	b=O9Z6E+oh13HuxWGXsVkR/V/t35lJE2aTF1Y/numuJ/KtRVxS/pykhOlJaXkkfach+Jk4xx
+	OljS2azg8MR+1vgCYu1GQQs2gRtLGxq6Mj8N6UAXdWpLHYQSAdQs5wgI9S8hpKVR/LtQSt
+	fPe3BOyGIqePdulXkHX6MrgnWbhGRmA=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1714128601; a=rsa-sha256; cv=none;
+	b=ak4v3CveP1m9N8Wgn5kFDnv5j5LNtUQiaA1SSpg36eJplljQ55ZwA1kY+xQuenydNKY8kO
+	NHCdaZ0Fwd9ynE/cOwi5cr14CCHHOchckltEHI6wAW6ltsZXPnv0+95Cym9CUFOHYX2QKA
+	6oLSirzrr/DYDxb2nVF+y6S34G+r/aQ=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 08CF2634C96;
+	Fri, 26 Apr 2024 13:49:59 +0300 (EEST)
+Date: Fri, 26 Apr 2024 10:49:59 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] media: i2c: alvium: Move V4L2_CID_GAIN to
+ V4L2_CID_ANALOG_GAIN
+Message-ID: <ZiuG1xS5umlNl7vq@valkosipuli.retiisi.eu>
+References: <20240416141905.454253-1-tomm.merciai@gmail.com>
+ <20240416141905.454253-6-tomm.merciai@gmail.com>
+ <ZilLThyqHC2xi6tS@valkosipuli.retiisi.eu>
+ <ZitTL/IhmuvwF2Qu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZitUAsBgoxLG_vEx@valkosipuli.retiisi.eu>
+ <ZitowFM86EE52IZB@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422100354.1.I58b4456c014a4d678455a4ec09b908b1c71c3017@changeid>
- <022936a6704d08fbed22e7f241810d857eecaeda.camel@collabora.com> <CAD=FV=XSyLJiTCHYF7UaLersix0zP-q-MybW+nOR3A2WfccQcg@mail.gmail.com>
-In-Reply-To: <CAD=FV=XSyLJiTCHYF7UaLersix0zP-q-MybW+nOR3A2WfccQcg@mail.gmail.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Fri, 26 Apr 2024 18:20:20 +0800
-Message-ID: <CAJ66y9FrpyzEwa1J=5L1OwRkrSBm308g8OZKnasYQcJYJpRbRA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Alloc DMA memory with DMA_ATTR_ALLOC_SINGLE_PAGES
-To: Doug Anderson <dianders@chromium.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wei-Shun Chang <weishunc@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Rob Herring <robh@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZitowFM86EE52IZB@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 
-Hi Nicolas,
+Hi Tommaso,
 
-On Tue, Apr 23, 2024 at 2:52=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Mon, Apr 22, 2024 at 11:27=E2=80=AFAM Nicolas Dufresne
-> <nicolas.dufresne@collabora.com> wrote:
-> >
-> > Hi,
-> >
-> > Le lundi 22 avril 2024 =C3=A0 10:03 -0700, Douglas Anderson a =C3=A9cri=
-t :
-> > > As talked about in commit 14d3ae2efeed ("ARM: 8507/1: dma-mapping: Us=
-e
-> > > DMA_ATTR_ALLOC_SINGLE_PAGES hint to optimize alloc"), it doesn't
-> > > really make sense to try to allocate contiguous chunks of memory for
-> > > video encoding/decoding. Let's switch the Mediatek vcodec driver to
-> > > pass DMA_ATTR_ALLOC_SINGLE_PAGES and take some of the stress off the
-> > > memory subsystem.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > > NOTE: I haven't personally done massive amounts of testing with this
-> > > change, but I originally added the DMA_ATTR_ALLOC_SINGLE_PAGES flag
-> > > specifically for the video encoding / decoding cases and I know it
-> > > helped avoid memory problems in the past on other systems. Colleagues
-> > > of mine have told me that with this change memory problems are harder
-> > > to reproduce, so it seems like we should consider doing it.
-> >
-> > One thing to improve in your patch submission is to avoid abstracting t=
-he
-> > problems. Patch review and pulling is based on a technical rational and=
- very
-> > rarely on the trust that it helps someone somewhere in some unknown con=
-text.
-> > What kind of memory issues are you facing ? What is the technical advan=
-tage of
-> > using DMA_ATTR_ALLOC_SINGLE_PAGES over the current approach that helps =
-fixing
-> > the issue? I do expect this to be documented in the commit message itse=
-lf=C3=A9.
->
-> Right. The problem here is that I'm not _directly_ facing any problems
-> here and I also haven't done massive amounts of analysis of the
-> Mediatek video codec. I know that some of my colleagues have run into
-> issues on Mediatek devices where the system starts getting
-> unresponsive when lots of videos are decoded in parallel. That
-> reminded me of the old problem I debugged in 2015 on Rockchip
-> platforms and is talked about a bunch in the referenced commit
-> 14d3ae2efeed ("ARM: 8507/1: dma-mapping: Use
-> DMA_ATTR_ALLOC_SINGLE_PAGES hint to optimize alloc") so I wrote up
-> this patch. The referenced commit contains quite a bit of details
-> about the problems faced back in 2015.
->
-> When I asked, my colleagues said that my patch seemed to help, though
-> it was more of a qualitative statement than a quantitative one.
+On Fri, Apr 26, 2024 at 10:41:36AM +0200, Tommaso Merciai wrote:
+> Hi Sakari,
+> 
+> On Fri, Apr 26, 2024 at 07:13:06AM +0000, Sakari Ailus wrote:
+> > Hi Tommaso,
+> > 
+> > On Fri, Apr 26, 2024 at 09:09:35AM +0200, Tommaso Merciai wrote:
+> > > Hi Sakari,
+> > > Thanks for your review.
+> > > 
+> > > On Wed, Apr 24, 2024 at 06:11:26PM +0000, Sakari Ailus wrote:
+> > > > Hi Tommaso,
+> > > > 
+> > > > On Tue, Apr 16, 2024 at 04:19:05PM +0200, Tommaso Merciai wrote:
+> > > > > Into alvium cameras REG_BCRM_GAIN_RW control the analog gain.
+> > > > > Let's use the right V4L2_CID_ANALOGUE_GAIN ctrl.
+> > > > > 
+> > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > > ---
+> > > > >  drivers/media/i2c/alvium-csi2.c | 6 +++---
+> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > > index 30ef9b905211..56d64f27df72 100644
+> > > > > --- a/drivers/media/i2c/alvium-csi2.c
+> > > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > > @@ -1993,7 +1993,7 @@ static int alvium_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> > > > >  	int val;
+> > > > >  
+> > > > >  	switch (ctrl->id) {
+> > > > > -	case V4L2_CID_GAIN:
+> > > > > +	case V4L2_CID_ANALOGUE_GAIN:
+> > > > >  		val = alvium_get_gain(alvium);
+> > > > >  		if (val < 0)
+> > > > >  			return val;
+> > > > > @@ -2025,7 +2025,7 @@ static int alvium_s_ctrl(struct v4l2_ctrl *ctrl)
+> > > > >  		return 0;
+> > > > >  
+> > > > >  	switch (ctrl->id) {
+> > > > > -	case V4L2_CID_GAIN:
+> > > > > +	case V4L2_CID_ANALOGUE_GAIN:
+> > > > >  		ret = alvium_set_ctrl_gain(alvium, ctrl->val);
+> > > > >  		break;
+> > > > >  	case V4L2_CID_AUTOGAIN:
+> > > > > @@ -2154,7 +2154,7 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+> > > > >  
+> > > > >  	if (alvium->avail_ft.gain) {
+> > > > >  		ctrls->gain = v4l2_ctrl_new_std(hdl, ops,
+> > > > > -						V4L2_CID_GAIN,
+> > > > > +						V4L2_CID_ANALOGUE_GAIN,
+> > > > >  						alvium->min_gain,
+> > > > >  						alvium->max_gain,
+> > > > >  						alvium->inc_gain,
+> > > > 
+> > > > This looks like a bugfix. Shouldn't it be cc'd to stable as well? A Fixes:
+> > > > tag would be nice, too.
+> > > 
+> > > Fully agree.
+> > > Plan is to add in v2 Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
+> > > like you suggest and stable@vger.kernel.org in CC.
+> > 
+> > Just make sure git send-email won't actually cc the patch to the stable
+> > e-mail address. Cc: tag is enough. The git config option is
+> > sendemail.suppresscc.
+> 
+> Sorry, just to clarify.
+> You are suggesting just to add sendemail.suppresscc. option right?
+> No cc stable@vger.kernel.org
 
-The story behind this is that I'm looking into an issue on the MediaTek
-MT8188 Chromebook, where in some scenarios the system may emit 30+
-video decoders concurrently (e.g. generating thumbnails for excess
-amount of video files etc.), and such behavior can easily hang the
-system if it has a smaller amount of memory (<4GB).
+Yes, and adding a Cc: stable@vger.kernel.org tag.
 
-In addition to seeking mitigation in the user space software side,
-we're also looking for ways to optimize how the video decoders use
-memory, so Doug suggested this improvement.
-My preliminary experiment showed that it has some positive impact -
-the system doesn't freeze up completely with it and is still
-responsive in the UART serial console. However, just like mentioned, I
-didn=E2=80=99t have any rigorous numbers to support it.
-
-To test the patch better, today I set up a local WebRTC demo to
-simulate a video conference with 49 people where the mocked input
-stream is captured from the device's own front camera.
-With that, the original system easily hung in less than one minute
-with less than 40MB available memory at the time; but with the change,
-the system ran for several minutes and had an average of over 100MB
-memory. It's not a huge improvement, but it's something.
-
-I know this isn't the most scientific experiment, but I hope it=E2=80=99s a
-good enough representation of one of the multi video decoder use
-cases, and gives you some confidence that the patch is worth merging.
-
-With the test above I think I can give this:
-Tested-by: Fei Shao <fshao@chromium.org>
-
-And, since this patch LGTM and I support it, here's my humble
-Reviewed-by: Fei Shao <fshao@chromium.org>
-
+-- 
 Regards,
-Fei
 
->
-> I wasn't 100% sure if it was worth sending the patch up at this point,
-> but logically, I think it makes sense. There aren't great reasons to
-> hog all the large chunks of memory for video decoding.
->
-> -Doug
+Sakari Ailus
 
