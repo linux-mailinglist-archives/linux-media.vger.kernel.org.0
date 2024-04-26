@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-10229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F109A8B3A6E
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 16:56:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD268B3A70
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 16:56:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DE021C233DE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 14:56:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 559FB28C43E
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 14:56:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEDFF148846;
-	Fri, 26 Apr 2024 14:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 851B6148FE8;
+	Fri, 26 Apr 2024 14:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfYJczSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQXbFf7o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F3D1487C3
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 14:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F976148836
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 14:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714143356; cv=none; b=LjIeV1TJR3i8A8HKjulmZt70ONnkhk7+id9dsl7HrPz1dp+CFEfIDuXIHJW7qIp9VHpz2LzSQboeqnE5j4xhIsAmkYwrIntpFDRccp7g4mnfWNCTSjQoSbZ4aMLlxvYIP4BybipZBrdzQTaH8ZWqWmgwPBG9S7R+qEGIVELjyXY=
+	t=1714143358; cv=none; b=MNb+TfswlWt7qRKdxe5kjIo2Ra5FvoRoENmoo8uq5pJSA93oVHVEAX0dOkIRCaqszrImCzu3JArbdE/FB8qivycuf4Ua/PDV0j+mGyP/nwWmz9KAALygJj/c9qXihdTyLuHrrxq1yyrf3katv/J1/Sefc7KybWuxkVk5q6nw9kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714143356; c=relaxed/simple;
-	bh=KCU1k9cjxUtzLj6jkWOczakDjmB8QgGPifWZJuswmfI=;
+	s=arc-20240116; t=1714143358; c=relaxed/simple;
+	bh=nIgOxxJ7GEApbaALBIkmKlN+UJUxUMGnaqgFIo1Am/c=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UUtcZDU8BtFoDrn++DmXg1bBmL88imRF3KmbqD9iYKX5FB7N05kQ7CHz4olH9EkPqZpdylzyu0gUqab/xwphJwdbQFEQ9mAaHLwRqXyEFrnywSw14t9SSO5oc171Ixy9cXLhDPudXws2qOvhxCmXzxy+YSEq76u1jEDauNHnXkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EfYJczSa; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=o/USdSv4qQQBKYk7bMig0jeXk+07sOfKSMm3sAmQZqSh8khLCFnFgvBZv1o0sYz+AiCxTWmHU3NDymrYb4SvYvV3y8syQuvVQoP82+eYABqY9n3VI7hTpDrGP2oA7Xd4mBFWRNFTxbu+rTvmDapF6XlMcJ71IhS27tKMnj+Vy8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQXbFf7o; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714143355; x=1745679355;
+  t=1714143356; x=1745679356;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KCU1k9cjxUtzLj6jkWOczakDjmB8QgGPifWZJuswmfI=;
-  b=EfYJczSa5K2zNO3ThrF1xSTlsYSzrh1p7bh/+wNB9set2vanW6JEUugy
-   AqHOoHhlYL1WBEHCiyHOsfJnlIuBz1Yp24OXb1JTrw0hh38YGRP+WYl9v
-   rgRKnjAY1vtTLR7HZheh93DOCngFPw+NvhaOIQspY4vCScIFsnXYwOcjd
-   mu7K/tuip/CPcw1j+SsEF5+WmiggM18G7WXYG2z9VjorwA2vRzaBkmtjP
-   7FAhU6qFHPpDNP/bwDCgRsEGYXpIIA5/IZzR7q/lU18g/TBvMQMu+E5Kd
-   wIiftEOgqFelsUHwtlqM3gIhzJg2v1Du5QqvnbPQrAPL+iIV+uS70rvq2
+  bh=nIgOxxJ7GEApbaALBIkmKlN+UJUxUMGnaqgFIo1Am/c=;
+  b=YQXbFf7oRCTHAN8VEGeGkXJrV3iwXfg205xDIG2pvCjm0Nfd+FbUjQXV
+   aNxZSCAOiMiknmTwRKBnOzYbJA3U1F2NSB2hdA2xTan0YtxJzhcAy78pe
+   cThPieV2ZlY7Wu7uS8KN0J9Nz7RzR6k5GHzeDfHsUSZsiZJTJ2Um36aUe
+   +PUJrnvhITbvDlG+yorfargN2d81aHrupGrqhKF4TFcbRmV0U4w0BBexD
+   IAgB9ZMBJeSYY/ZxfSTjh0tO6/l8CYpdpxt2xnvvZ+PlBVShNYHlCCPd+
+   B5589EHqTrPIsGF+KharJnpMWpdzyYTJQpKCdEnXv/rP/XKBnj/CgC8Uo
    g==;
-X-CSE-ConnectionGUID: O7GehDoXTlm3kMVFJmnA3Q==
-X-CSE-MsgGUID: mGHgBps5Szme1wfAv1Akhg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10095280"
+X-CSE-ConnectionGUID: K/fPZXh4SZ6041UnH6WNzQ==
+X-CSE-MsgGUID: VUN8Ao20Tu2MMMHR3fm0CQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="10095285"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="10095280"
+   d="scan'208";a="10095285"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 07:55:52 -0700
-X-CSE-ConnectionGUID: 8NKK24Z4SuClW31demMGIw==
-X-CSE-MsgGUID: q/AM8OEySs+3bBaV4IJoJw==
+X-CSE-ConnectionGUID: GjY+2fjaSYuDBTSmwunvLw==
+X-CSE-MsgGUID: OoG1Pa4AQIOWa0qdTAYUvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="25514718"
+   d="scan'208";a="25514722"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 07:55:51 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B066311FC19;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B3106120358;
 	Fri, 26 Apr 2024 17:55:48 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1s0MzM-002kC9-2C;
+	id 1s0MzM-002kCD-2G;
 	Fri, 26 Apr 2024 17:55:48 +0300
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: hverkuil@xs4all.nl,
 	laurent.pinchart@ideasonboard.com,
 	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v2 1/3] media: Documentation: v4l: Add CUR_LINK_FREQ control
-Date: Fri, 26 Apr 2024 17:55:36 +0300
-Message-Id: <20240426145538.654212-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 2/3] media: v4l: Support obtaining link frequency from CUR_LINK_FREQ control
+Date: Fri, 26 Apr 2024 17:55:37 +0300
+Message-Id: <20240426145538.654212-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240426145538.654212-1-sakari.ailus@linux.intel.com>
 References: <20240426145538.654212-1-sakari.ailus@linux.intel.com>
@@ -84,64 +84,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a 64-bit integer control for devices that are passing through CSI-2
-(or other) data, to signal the link frequency used by also the upstream
-sub-device. The control is volatile and read-only.
+Support V4L2_CID_CUR_LINK_FREQ INTEGER64 control in v4l2_get_link_freq().
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
- include/uapi/linux/v4l2-controls.h                           | 1 +
- 3 files changed, 10 insertions(+)
+ drivers/media/v4l2-core/v4l2-common.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-index b1c2ab2854af..31d5045f32e7 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-@@ -55,3 +55,7 @@ Image Process Control IDs
-     control value divided by e.g. 0x100, meaning that to get no
-     digital gain the control value needs to be 0x100. The no-gain
-     configuration is also typically the default.
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 4165c815faef..bf1923314d15 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -483,6 +483,10 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 
+ 		freq = qm.value;
+ 	} else {
++		ctrl = v4l2_ctrl_find(handler, V4L2_CID_CUR_LINK_FREQ);
++		if (ctrl)
++			return v4l2_ctrl_g_ctrl_int64(ctrl);
 +
-+``V4L2_CID_CUR_LINK_FREQ (64-bit integer)``
-+    The current link frequency on a data interface (e.g. parallel or
-+    CSI-2). This control is read-only.
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 8696eb1cdd61..1e8e02818f9f 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1163,6 +1163,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
- 	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
- 	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
-+	case V4L2_CID_CUR_LINK_FREQ:		return "Link Frequency";
+ 		if (!mul || !div)
+ 			return -ENOENT;
  
- 	/* DV controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1425,6 +1426,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_LINK_FREQ:
- 		*type = V4L2_CTRL_TYPE_INTEGER_MENU;
- 		break;
-+	case V4L2_CID_CUR_LINK_FREQ:
-+		*flags |= V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY;
-+		*type = V4L2_CTRL_TYPE_INTEGER64;
-+		break;
- 	case V4L2_CID_RDS_TX_PS_NAME:
- 	case V4L2_CID_RDS_TX_RADIO_TEXT:
- 	case V4L2_CID_RDS_RX_PS_NAME:
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 99c3f5e99da7..1c63d2e51e8d 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1223,6 +1223,7 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
- #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
- #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
-+#define V4L2_CID_CUR_LINK_FREQ			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
+@@ -494,7 +498,7 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
  
- /*  DV-class control IDs defined by V4L2 */
- #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
+ 		pr_warn("%s: Link frequency estimated using pixel rate: result might be inaccurate\n",
+ 			__func__);
+-		pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver\n",
++		pr_warn("%s: Consider implementing support for V4L2_CID_LINK_FREQ or V4L2_CID_CUR_LINK_FREQ in the transmitter driver\n",
+ 			__func__);
+ 	}
+ 
 -- 
 2.39.2
 
