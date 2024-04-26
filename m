@@ -1,162 +1,98 @@
-Return-Path: <linux-media+bounces-10190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEFE8B3378
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:59:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3698B337A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:59:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD1B9281F61
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:59:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC98D1C20F56
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:59:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB8B13D265;
-	Fri, 26 Apr 2024 08:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A192913CF99;
+	Fri, 26 Apr 2024 08:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="OjDBZBfE"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eq6xB70t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D4D512
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714121965; cv=pass; b=FGHc9cnbx8IfD4fnHuXaXQfOXLRy1WwG8PAKknhh+7YB1Cjww1WlYMzrzNZj4YeQVec9dRvwut46UbMf77EjIUBob9t5/rDMInk5tfCnK3Qkn2FPexCsM9Dp3MorYrzsnPmmuWYzux17xj8C0gCIUr3b+R9vEx3sF4wjxPb6vu8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714121965; c=relaxed/simple;
-	bh=xJKBcLSagnVDZrcZptu2neFLOJ/LfJ1VBS5tZQqNVyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ee7DcRNO2rYJ1Y2/Jl5xqu6iEZOF2SvSb/fZjsZfRtyKu1zYzX4wGwNnpNAnd4Ngs9vZ9AASE9KwNp8Jjcl680pIu89m3mPu17fq8tusMT4vBmvl6u22R3zLIPvXhymVqKPqS5WLcyurBZzcxRURsWlcx663/jTEXci+IL0+KU0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=OjDBZBfE; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VQmqq2FKkz49Pyk;
-	Fri, 26 Apr 2024 11:59:19 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1714121959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=FAZNEY3uYMLqeIrqKof5WqlpGNGwQyt83GILNJqM4YQ=;
-	b=OjDBZBfEkkS50xROAZGFhCodpq6Zv6k21/5Q+AohGuUD6ibsIjXHopizgjKuGHsb1UGGDG
-	fEUcfxd1AErMR5yZAchzrvYX4Nnjd8TO+3R48DkYGenHVrVdZxQ6iim+rI9xu4LC9dij08
-	bxzo3x4g07f+x1ruyxIsqog+EKoNfuB0IPsJyb5ksa96E1neUPD6lpFaNIPAjSZ+4xtNtF
-	Oy64ig3hYtrWpK6dWFwDyPzm70D0l1H9ZK60sPkYUqevj9bvfIsXE6PxjrVCUDxi8I/dFB
-	z6t2LaJfkwC3D75yrsKlp3RmJC9jC2oL9Y4UbB7d9NhgGKa+nOl2Y2VbH0L/ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1714121959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=FAZNEY3uYMLqeIrqKof5WqlpGNGwQyt83GILNJqM4YQ=;
-	b=QDALVX1Aft6tOU0eN9S2C9Cdwinau+l1+I7CyrW6xrGVlojaC+9Zivf0riS3FnVcl2c5+Z
-	9dXO/i1r1cHkT9CEol9Lw3c/BCiCIr4Tc4uGKSo91YJwP38ppnSCXkUHQ9Ge2dq1q4QvcI
-	DWVIB7NreQXekbAE5rdKRmMp5r39VLo5elYh6LqKTNxW9RtvFVusn3fB0W8D8V6XZ3cNBW
-	JV74rYK0QHDD94/zi2ps7hU52hBPSGw2Uctkz0zybKSSALYCoqoDKVgKJvqQGXybF2N5ul
-	X4De92PezligaV1DflKWVs1q/NDGR5UULmon+Gk0YKlg8tv82hYm+ANLFwy/3g==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1714121959; a=rsa-sha256;
-	cv=none;
-	b=e4q7ehucXAgRQfkHDzG1/RCbktUmScKE8NyV5FpvG0ky9Mqnwd3fEJkz5WeBhw2JWRtWcN
-	MlvzzkhghHWsD2S3sZ/bmqhygrzXVzRYSR7Pf6hguF6y3EimwLMvsFJozvBCeqXOwoaakf
-	GcsAXQmsw8PwRgg7u0tDvQYpfezC4tdVEBdKfH/4nzgU+8OQolTuHynDdq0BQq0j4uQHHY
-	ZGBVBxWAHGvfWPnBXBv1QnB2ZnHWlW60rKfX0G3ia8pJ+kBGQ3Ds2wefSQe5B5lyI9xYwf
-	6+J34X7Gc01S255iAAgJG5KJnbjWzvjtZQTOYEP39MTyrGBChzoQAA0dTMHknw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908DED512
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714121985; cv=none; b=pfHqjY9LEs7Z1Etm7XMuf/aJY2yl53zqjdWEDv1AiGTYupA8XbAXpsZj/JfKMcQj4fimb9Ssfut9XEY/nLHsmMiGSDHn+b0cDHoVpxx2WIE0Tp4LmiQ+vZ4y1I24AMQcc4pWxlDY6xUqI4q8z50U6tcOV3Jz2HMZXGFZ4lEMJHY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714121985; c=relaxed/simple;
+	bh=LYgJ7z+i6OQ6UxwNfLCjlxiiFUYwDP8IOqG4aMNBLTU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ieXqewqtHzJ6VJXihCoMEnaUp2SjMjqFadoD9hA1hrUSsu1OUHLRa111nOnxV3zokBm/aDr4Tqlr37TMGcMMAPejyDY6jQpqC97xW5XMZWmnVqkfNJmbytOxj1JrYq45zPMnr0+w+z/CVSZ91YZjlds5Y96rY2E4xsQ9xsjRvFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eq6xB70t; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714121980;
+	bh=LYgJ7z+i6OQ6UxwNfLCjlxiiFUYwDP8IOqG4aMNBLTU=;
+	h=Date:From:To:Subject:From;
+	b=eq6xB70tYkNO4IX94C/F7QR57MQGwFSJD3rYqYZ+dr8jc0TJeKtUXxJMjAWxDDL3o
+	 lXcDQ5to7yHGL4pihNsWwQYlICMUgFQSczSIWw3PCkT2tJYRUpSHwYOahwHR5j5vqY
+	 S6YFfopabk+snbPaiM3Bw0rvpkMaR6o7QpcqenGt4GvMh2CnskMjwNYDeRX8CQILPk
+	 m2aK3gX8veD3qgwU7jHM4vma2ajRgK6hy1SOwA8FgVzRLqAozj7lSu1mJQgrrix8vQ
+	 B+vmmsd+pL6uYU4CtnhxsjmyIvv59FxkNQxZZ3c/lLsXZcVrmwDlhzB/ngftsUTdfx
+	 COdnIgWQ4emNQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DE60F634C97;
-	Fri, 26 Apr 2024 11:59:18 +0300 (EEST)
-Date: Fri, 26 Apr 2024 08:59:18 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 80CBF37809D1
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:59:40 +0000 (UTC)
+Date: Fri, 26 Apr 2024 10:59:39 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL v2 FOR 6.10] Ov4689 sensor patches, IVSC fixes and V4L2
- async improvements
-Message-ID: <Zits5p3ADjyC8g3l@valkosipuli.retiisi.eu>
+Subject: [GIT PULL FOR 6.10] MediaTek Vcodec mem free improvements
+Message-ID: <20240426085939.cb5e4pcp5qoax67b@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 
-Hi Hans, Mauro,
+Hey Hans & Mauro,
 
-Here are a bunch of patches for the ov4689 and imx219 sensor drivers, as
-well as link frequency control improvements for the IVSC driver as well as
-moving some of the work from drivers to v4l2-async.
-
-since v1:
-
-- Fixed sensor_gain uninitialised value compiler warning.
-
-- Left out IVSC and LINK_FREQ patches for now.
+here is an older set from december 2023 that does a couple of
+improvements on freeing buffers in the Vcodec driver.
 
 Please pull.
 
-
 The following changes since commit faa4364bef2ec0060de381ff028d1d836600a381:
 
-  media: stk1160: fix bounds checking in stk1160_copy_video() (2024-04-24 13:49:56 +0200)
+   media: stk1160: fix bounds checking in stk1160_copy_video() (2024-04-24 13:49:56 +0200)
 
 are available in the Git repository at:
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-3.1-signed
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.10-vcodec-mem-free
 
-for you to fetch changes up to 6612d1ae37b52d37d1d515d7c5110b9f3afe94d2:
+for you to fetch changes up to c8c81cce52b50328840c2bb240bfc8fc811a8006:
 
-  media: v4l: async: Set owner for async sub-devices (2024-04-26 11:56:26 +0300)
-
-----------------------------------------------------------------
-V4L2 patches for 6.10
+   media: mediatek: vcodec: Only free buffer VA that is not NULL (2024-04-26 10:48:27 +0200)
 
 ----------------------------------------------------------------
-Mikhail Rudenko (16):
-      media: i2c: ov4689: Clean up and annotate the register table
-      media: i2c: ov4689: Sort register definitions by address
-      media: i2c: ov4689: Fix typo in a comment
-      media: i2c: ov4689: CCI conversion
-      media: i2c: ov4689: Remove i2c_client from ov4689 struct
-      media: i2c: ov4689: Refactor ov4689_set_ctrl
-      media: i2c: ov4689: Use sub-device active state
-      media: i2c: ov4689: Enable runtime PM before registering sub-device
-      media: i2c: ov4689: Use runtime PM autosuspend
-      media: i2c: ov4689: Remove max_fps field from struct ov4689_mode
-      media: i2c: ov4689: Make horizontal blanking configurable
-      media: i2c: ov4689: Implement vflip/hflip controls
-      media: i2c: ov4689: Implement digital gain control
-      media: i2c: ov4689: Implement manual color balance controls
-      media: i2c: ov4689: Move pixel array size out of struct ov4689_mode
-      media: i2c: ov4689: Set timing registers programmatically
+A couple of improvements to mem free for the VCodec
 
-Sakari Ailus (2):
-      media: v4l: Set sub-device's owner field to the caller's module
-      media: v4l: async: Set owner for async sub-devices
+----------------------------------------------------------------
+Fei Shao (4):
+       media: mediatek: vcodec: Replace dev_name in error string
+       media: mediatek: vcodec: Drop unnecessary variable
+       media: mediatek: vcodec: Update mtk_vcodec_mem_free() error messages
+       media: mediatek: vcodec: Only free buffer VA that is not NULL
 
-Umang Jain (1):
-      media: i2c: imx219: Use dev_err_probe on probe
-
- drivers/media/i2c/Kconfig             |   1 +
- drivers/media/i2c/imx219.c            |  77 ++--
- drivers/media/i2c/ov4689.c            | 673 ++++++++++++++++++----------------
- drivers/media/v4l2-core/v4l2-async.c  |  10 +-
- drivers/media/v4l2-core/v4l2-device.c |  12 +-
- drivers/media/v4l2-core/v4l2-i2c.c    |   2 +-
- drivers/media/v4l2-core/v4l2-spi.c    |   2 +-
- include/media/v4l2-async.h            |   4 +-
- include/media/v4l2-device.h           |   7 +-
- 9 files changed, 419 insertions(+), 369 deletions(-)
-
--- 
-Sakari Ailus
+  .../mediatek/vcodec/common/mtk_vcodec_util.c       | 23 +++++++++++-----------
+  .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c      | 22 ++++++++++++++-------
+  .../mediatek/vcodec/encoder/venc/venc_h264_if.c    |  5 +++--
+  3 files changed, 29 insertions(+), 21 deletions(-)
 
