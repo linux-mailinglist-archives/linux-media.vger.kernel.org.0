@@ -1,120 +1,280 @@
-Return-Path: <linux-media+bounces-10169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0248B3215
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:12:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2398B322A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:19:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75DD3B225E7
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:12:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B6CF281A7A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:19:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0021113C9A3;
-	Fri, 26 Apr 2024 08:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6270213C9AC;
+	Fri, 26 Apr 2024 08:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxW+tMZi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA52210FF
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987BE14293
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714119160; cv=none; b=BbduTHGKieCQgGehNwr3+CCJ/31fUAUTOuZSnGG7+m6aUoWAcwiakQ5CmXZRF4xGt3YB4O13gf9LHG2xHo2jhH3RNXYtBSYthsonI44OEPNPh5ekQEaVNif/fsBLAQFHDNQmd/e0kaJLGqX1AiykZt2JyPv1Dgg8LBLbXU0988Y=
+	t=1714119584; cv=none; b=Q04mY3O01D309v+/9TEzDa+E5cg/ZE7nGoZInLAiBDLzP3RNOj2JXOmePVB2Vo/r/t0I4zIUwn59LOFFGlGCqC0ogGZvkpBvx78HgBa6dmQNCOSrnJJO97edCuW0CL7NQmf/nARbdnC6f/B1n91XrSAvWGVzFpFs81FgPXPzodg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714119160; c=relaxed/simple;
-	bh=7Q+0jlYmZX1LqdSyDEtX4KtcnyXbJrlKgET2uoIf4dU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gwz4t+kgT7xP3Wgo/SUOqaH3IJ1oZv5UxsyNq1jtYHfNqR/fU8u1IwGz53WF98p0dVw5MzI4E4fNUrKtlbutDj0bY5cCR721/5fqN1zy9wKePh/FC7g5ONvfy9qTrtc4SZFvneLnPdWpb+tFZeeJ4zSzWuLlRpJhRUUcjYtMZRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58239C113CD;
-	Fri, 26 Apr 2024 08:12:39 +0000 (UTC)
-Message-ID: <ba71685d-5eb8-414e-9893-1e72b1107dfd@xs4all.nl>
-Date: Fri, 26 Apr 2024 10:12:37 +0200
+	s=arc-20240116; t=1714119584; c=relaxed/simple;
+	bh=ed6AA4UzDuDdI8r0JVn0q2nxYtpdmNgpScQg8Dl0ZJs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tYgeHZPRnm65xQ5UJfvdrOvnyjGxJG0VVlmRFkOleWMMR6wQLenOetBV6hMjx0h8wcApsutaNA/RQsfZ0Gau9ZsYcGn0umL3zLSmNfD2CeCPahGWGvLsjVS8Q5sNoyl2InPwaG7VMgv471+uTUjs3KTZK0BGJP6HEo7Q1MrFTsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxW+tMZi; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714119582; x=1745655582;
+  h=date:from:to:cc:subject:message-id;
+  bh=ed6AA4UzDuDdI8r0JVn0q2nxYtpdmNgpScQg8Dl0ZJs=;
+  b=cxW+tMZiLfFE8M9xGYCt+wDcc0ODV65YtuYBAOF1wOcG2sUQac2CAHxR
+   DNAA96WhquBiYLePikmNLqTFDIVhYL8RtzX5IcNoCalb+GDMUggKOTgnP
+   u/JNWbfAVDn/okDFv09Hw9px5p+FUUN7Hs71MnUTVIFcuE9+DPwDrHFD/
+   tegEXsTPfwz1G5BZavdWgzGj85dj7ImnpQYa3/fNCNKE7gwNgcTqkc0yA
+   nO2Y08K4jzF5FeuAnC5bYuCUeg4eAIGhSC1zz6p1xB4QsQnKfbqJOvwzW
+   jOyzfBaONt0dh3tv6s9jfTQOFyvf94EtTOY9g0P+CoWKyRSKE0cgRFV1o
+   w==;
+X-CSE-ConnectionGUID: McKxCYhlR7mCByUGF4KeAw==
+X-CSE-MsgGUID: RwS3Q6GMTdSIoSCnLrEcWg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="35235267"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="35235267"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:19:41 -0700
+X-CSE-ConnectionGUID: IUY6gGL5T8GKa7CLDHwYww==
+X-CSE-MsgGUID: FF+8rpL2SouLs85ogyhSuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="48594100"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Apr 2024 01:19:39 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s0Gnx-0003Si-1a;
+	Fri, 26 Apr 2024 08:19:37 +0000
+Date: Fri, 26 Apr 2024 16:19:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ faa4364bef2ec0060de381ff028d1d836600a381
+Message-ID: <202404261658.VWA1fC08-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: Documentation: v4l: LINK_FREQ can be an
- INTEGER64 control
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- Wentong Wu <wentong.wu@intel.com>
-References: <20240220130339.543749-1-sakari.ailus@linux.intel.com>
- <20240220130339.543749-3-sakari.ailus@linux.intel.com>
- <87dbeab5-4c61-403e-9805-da3bac673ffd@xs4all.nl>
- <ZitaOthZ9dnG5-1B@kekkonen.localdomain>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ZitaOthZ9dnG5-1B@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 4/26/24 09:39, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Fri, Apr 26, 2024 at 09:22:40AM +0200, Hans Verkuil wrote:
->> On 20/02/2024 14:03, Sakari Ailus wrote:
->>> When a device passes through the video data while still having its own
->>> receiver and transmitter, it can use the same frequency as the upstream
->>> link does. The Intel MEI CSI device is an example of this. An integer menu
->>> control isn't useful in conveying the actual frequency to the receiver in
->>> this case.
->>>
->>> Document that the LINK_FREQ control may also be a 64-bit integer control.
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst         | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
->>> index b1c2ab2854af..7a3ccb100e1d 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
->>> @@ -22,7 +22,7 @@ Image Process Control IDs
->>>  
->>>  .. _v4l2-cid-link-freq:
->>>  
->>> -``V4L2_CID_LINK_FREQ (integer menu)``
->>> +``V4L2_CID_LINK_FREQ (integer menu or 64-bit integer)``
->>>      The frequency of the data bus (e.g. parallel or CSI-2).
->>
->> I really think a new control should be created for this.
->>
->> As I understand it, V4L2_CID_LINK_FREQ gives a set of supported frequencies,
->> and the application has to pick one (I think?). Is it supposed to be a
->> read-only control? Some driver seem to set the READ_ONLY flag, and some do not.
->> The documentation isn't helpful in that respect.
-> 
-> This is read-only effectively in current IVSC implementation.
-> 
->>
->> In the case of the Intel MEI CSI and similar devices a new control would be
->> better, I think. Do I understand it correctly that for these devices it would
->> always be a read-only control? I.e. it just reports the frequency, but applications
->> cannot change it?
-> 
-> How would you call the new control?
-> 
-> V4L2_CID_LINK_FREQ_READ_ONLY?
-> 
-> Originally the reason for changing LINK_FREQ for sensors was be part of
-> changing sensor's configuration to achieve a given frame interval.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: faa4364bef2ec0060de381ff028d1d836600a381  media: stk1160: fix bounds checking in stk1160_copy_video()
 
-Will this new variant always be read-only?
+elapsed time: 1470m
 
-How about V4L2_CID_CUR_LINK_FREQ?
+configs tested: 187
+configs skipped: 3
 
-I.e., it returns the current link frequency. That way it can also be
-used by drivers that implement V4L2_CID_LINK_FREQ.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Better ideas are welcome :-)
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20240426   gcc  
+arc                   randconfig-002-20240426   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          moxart_defconfig   gcc  
+arm                   randconfig-001-20240426   clang
+arm                   randconfig-002-20240426   gcc  
+arm                   randconfig-003-20240426   gcc  
+arm                   randconfig-004-20240426   gcc  
+arm                        shmobile_defconfig   gcc  
+arm                        vexpress_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   clang
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240426   gcc  
+arm64                 randconfig-002-20240426   gcc  
+arm64                 randconfig-003-20240426   clang
+arm64                 randconfig-004-20240426   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240426   gcc  
+csky                  randconfig-002-20240426   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240426   clang
+hexagon               randconfig-002-20240426   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240425   gcc  
+i386         buildonly-randconfig-002-20240425   clang
+i386         buildonly-randconfig-002-20240426   clang
+i386         buildonly-randconfig-003-20240425   gcc  
+i386         buildonly-randconfig-004-20240425   clang
+i386         buildonly-randconfig-005-20240425   clang
+i386         buildonly-randconfig-005-20240426   clang
+i386         buildonly-randconfig-006-20240425   gcc  
+i386         buildonly-randconfig-006-20240426   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240425   clang
+i386                  randconfig-002-20240425   clang
+i386                  randconfig-002-20240426   clang
+i386                  randconfig-003-20240425   clang
+i386                  randconfig-004-20240425   gcc  
+i386                  randconfig-005-20240425   clang
+i386                  randconfig-006-20240425   clang
+i386                  randconfig-006-20240426   clang
+i386                  randconfig-011-20240425   clang
+i386                  randconfig-012-20240425   clang
+i386                  randconfig-012-20240426   clang
+i386                  randconfig-013-20240425   gcc  
+i386                  randconfig-013-20240426   clang
+i386                  randconfig-014-20240425   gcc  
+i386                  randconfig-014-20240426   clang
+i386                  randconfig-015-20240425   gcc  
+i386                  randconfig-015-20240426   clang
+i386                  randconfig-016-20240425   gcc  
+i386                  randconfig-016-20240426   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240426   gcc  
+loongarch             randconfig-002-20240426   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          hp300_defconfig   gcc  
+m68k                       m5249evb_defconfig   gcc  
+m68k                            q40_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ip27_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240426   gcc  
+nios2                 randconfig-002-20240426   gcc  
+openrisc                         alldefconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240426   gcc  
+parisc                randconfig-002-20240426   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240426   clang
+powerpc               randconfig-002-20240426   gcc  
+powerpc               randconfig-003-20240426   clang
+powerpc                      walnut_defconfig   gcc  
+powerpc64             randconfig-001-20240426   gcc  
+powerpc64             randconfig-002-20240426   gcc  
+powerpc64             randconfig-003-20240426   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240426   clang
+riscv                 randconfig-002-20240426   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240426   clang
+s390                  randconfig-002-20240426   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240426   gcc  
+sh                    randconfig-002-20240426   gcc  
+sh                          rsk7269_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240426   gcc  
+sparc64               randconfig-002-20240426   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240426   gcc  
+um                    randconfig-002-20240426   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240426   clang
+x86_64       buildonly-randconfig-002-20240426   gcc  
+x86_64       buildonly-randconfig-003-20240426   clang
+x86_64       buildonly-randconfig-004-20240426   clang
+x86_64       buildonly-randconfig-005-20240426   gcc  
+x86_64       buildonly-randconfig-006-20240426   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240426   gcc  
+x86_64                randconfig-002-20240426   gcc  
+x86_64                randconfig-003-20240426   gcc  
+x86_64                randconfig-004-20240426   clang
+x86_64                randconfig-005-20240426   clang
+x86_64                randconfig-006-20240426   clang
+x86_64                randconfig-011-20240426   clang
+x86_64                randconfig-012-20240426   gcc  
+x86_64                randconfig-013-20240426   gcc  
+x86_64                randconfig-014-20240426   gcc  
+x86_64                randconfig-015-20240426   gcc  
+x86_64                randconfig-016-20240426   clang
+x86_64                randconfig-071-20240426   clang
+x86_64                randconfig-072-20240426   clang
+x86_64                randconfig-073-20240426   clang
+x86_64                randconfig-074-20240426   gcc  
+x86_64                randconfig-075-20240426   gcc  
+x86_64                randconfig-076-20240426   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240426   gcc  
+xtensa                randconfig-002-20240426   gcc  
 
-Regards,
-
-	Hans
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
