@@ -1,104 +1,109 @@
-Return-Path: <linux-media+bounces-10158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1519C8B2D2C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 00:37:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC08B2E79
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 03:51:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B00228343D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Apr 2024 22:37:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B774B1F23B74
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 01:51:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F993EA9B;
-	Thu, 25 Apr 2024 22:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MBX6/cO3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C891852;
+	Fri, 26 Apr 2024 01:51:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB272599
-	for <linux-media@vger.kernel.org>; Thu, 25 Apr 2024 22:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E80C15CE
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 01:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714084623; cv=none; b=kjdt2b3c3oPeKJw796BPdbksCy04aPxtZ+eqLIUUUMln0g6Z3cCga3qzTXQ6vsLVkVjL8VmKYJAFoGwMtSJzH20hsVNVWLpDtXhz78x3+Csmc+Mpe9olM2c6zX6cv/qo+y5kZ24bVcizll42UXRjJYX15FeQiqxvgiaBUuFJ4xE=
+	t=1714096287; cv=none; b=EwydyCDUxynIUuHoyKbLS9XPv4amjDf3HPHVafmIWiCZw3eZFHFN2hApVs70mCzcYVE2zrWbOnnd6Aft2899fmC1mGtSgSBVrkQXimeHdfwTVv2d3tb7Xwf/hqdC14HCS5cpvao7GNtSTZiFCBVlfT08V4OsHR+g49FdevPsBEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714084623; c=relaxed/simple;
-	bh=fgYCqBDdsgL3TUYMV6KL67WzWgZ9C9IO/XvDEZ8F4x8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cehiuGbXteyIaOYBqIgWt1sKxek2lCSG3ywhmq1bzOr1chLBUyzHE7iChSCXn8sV8ZiD3wS/pZXkNI2U/JNOhiix6aLU3vFOG8Du+yf9qLk+9TTZ1rEcihSAhvY8VxGVZfyo9mQdOzjlRGzkO+6htMcH+CXfJv/d9mtBh0Ea9q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MBX6/cO3; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-346b146199eso1127651f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Apr 2024 15:37:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714084620; x=1714689420; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4CBqUoCuF4O5Eh6sI6A8BEF5uavxSU2H/HBETvhMl/s=;
-        b=MBX6/cO3xdQHUDBzwq/3SvLSmxgOrZlmTdyZ2M46fGc/eV8mSZ8601UcQQ4kLriPZt
-         +v9DDdIaSlyEPRUxq/MhbO8ztb79Y4mO7HA8jNTOZx/qF4AE8UHTOKMSm2MxhtPEHZwe
-         sAle7eXKi954HwFpsyXE7DNPwzqaTkmAQQi7G5utvalQiRN4VGHnDkp74mFDnTQAjCpJ
-         Xr3o3kYhq5unTJK5mjxqVjFrIgdnVBI/WnEX4HBixS6NkwioqFzuTjlc8otU5hreyPQD
-         pcGRfzTc5HFB4s1DLUZah6oyrx7Yl05w61POmRvg7MF+DUicCM39Jl5osO8Pr9d+ldUj
-         4ggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714084620; x=1714689420;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4CBqUoCuF4O5Eh6sI6A8BEF5uavxSU2H/HBETvhMl/s=;
-        b=DdnhTarJ9ZZuCdCjeXwI7hkjKYQx/y+KK4w9aAK8JJKFHsIT+ICNbJvASVKaoplR8J
-         +zYxFG4gEMwMKXbg8LfH1hWDZs5OqpHBS9cDqCOwoEqw7FP8jyutlb91+LjpFXO6hlzy
-         RdULw4wybQASNjdFXoofO03Blj55mVnWRXqiNZtGT3u6knMyjCO4OM4a/HChuXpDkVLu
-         bGQX5FLXLE8/FziW8KIqRkO0eHZwBqZqqp6/UCIeIwVscb0MoXHVX8saEHiDnXLXeCJI
-         QMG+vWn1zYTnCNhKALZywzQqNwaNkzw6j4bvQWI+Nwv0rS3xCjiCrHXRiCcRr7ROTX27
-         fF2g==
-X-Forwarded-Encrypted: i=1; AJvYcCX4h99OaS5mJXEx2MIB832OJA2Uizo4+PtfiqUPDjLzs1SayN/oQ4OUGJh/Ik6NyytOsKEuiEkeWNZM8OJICW1yMA3p25RrnelwT1E=
-X-Gm-Message-State: AOJu0Yw6hS7MAfNyhsYtDwJ0NhkHsFD3XPaKCeC7cIrFb93mjafWFPBN
-	pvjGoKEgumM2wDWJSrzIhlQwqECtYsbllkln+cCkRU8qImf7Qbz9XO9yLLMcfhE=
-X-Google-Smtp-Source: AGHT+IEj1KqhGA6FhnDPwscUjPiLe0XOqsAkCC9t+dPUSczfdPKmS5JH70aBVwFx8ei4v/vRmHcubA==
-X-Received: by 2002:a5d:584a:0:b0:34b:58a2:dea3 with SMTP id i10-20020a5d584a000000b0034b58a2dea3mr644562wrf.64.1714084619779;
-        Thu, 25 Apr 2024 15:36:59 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id n12-20020a5d67cc000000b0034a51283404sm18438538wrw.72.2024.04.25.15.36.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Apr 2024 15:36:59 -0700 (PDT)
-Message-ID: <a510d3c5-039c-45c3-b134-84da8a37dc6e@linaro.org>
-Date: Thu, 25 Apr 2024 23:36:58 +0100
+	s=arc-20240116; t=1714096287; c=relaxed/simple;
+	bh=5SiJ29KoqS7HtHxKtDDMLlR4f4bTRQPBJpu6lZBrOOU=;
+	h=Date:From:To:Subject:Message-Id; b=MLpLaQguwuTMBA17bi5e1jbfD9qEO1a1t3snfCRTtbSC+lvmfDs0potxWa2nZHIWnPvCvWivqXFmRjQ7Ei8fBTTQAUbKjPqoagXJdOn7i3UfbbLQW0v9xW3qax8x2ym2+765uUh2bGwVyEsCg4vdVDBNNH5Evav7woO9QDk0enc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5217FC2BBFC
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 01:51:26 +0000 (UTC)
+Date: Fri, 26 Apr 2024 03:51:24 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240426015126.5217FC2BBFC@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1] media: venus: add msm8998 support
-To: Marc Gonzalez <mgonzalez@freebox.fr>,
- Bjorn Andersson <andersson@kernel.org>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
-References: <df6859ec-9fe1-4768-987e-cdb14a887b9c@freebox.fr>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <df6859ec-9fe1-4768-987e-cdb14a887b9c@freebox.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 25/04/2024 17:53, Marc Gonzalez wrote:
-> Based on similar msm8996 code.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Looks like something that should be turned into a proper submission.
+Results of the daily build of media_tree:
 
----
-bod
+date:			Fri Apr 26 03:00:20 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	faa4364bef2ec0060de381ff028d1d836600a381
+v4l-utils git hash:	27d7df2461b7efe8251e3e828b9910fea1c48cc8
+edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8635-g375ffc07
+sparse version:		v0.5.0-8635-g375ffc07
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 17e6ec53dd49dd4f29af7582d1be51dbbf55be1c
+host hardware:		x86_64
+host os:		6.5.0-26-generic
 
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-debug-fs.config: OK
+no-pm-sleep.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: WARNINGS:
+
+warning: source '/home/hansverk/work/build/v4l-utils/build/utils/v4l2-compliance/v4l2-compliance-32.p/v4l2-test-colors.cpp.o.d' is not a readable file or directory... skipping.
+
+spec-git: OK
+kerneldoc: OK
+
+date:			Fri Apr 26 03:14:05 CEST 2024
+virtme-64: WARNINGS: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 2
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+
+date:			Fri Apr 26 03:50:18 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
