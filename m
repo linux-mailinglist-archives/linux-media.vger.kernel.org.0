@@ -1,189 +1,170 @@
-Return-Path: <linux-media+bounces-10174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA748B3327
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:43:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCB08B3344
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 10:50:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D82CC28924C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:43:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0A291C20A09
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68464824B0;
-	Fri, 26 Apr 2024 08:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B18613C9D1;
+	Fri, 26 Apr 2024 08:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4HdXmk+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kY+U1lfS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647FE5B5BE
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3846314293
+	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 08:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714120987; cv=none; b=BeANMY/j/MVSzzfHG6fW376TANnlcx802nk5iqOLbbdAIdaZQh6Emk2XiCIfA6jd2n9Imv91Ha3uTaX3FLvXFIx1Wceni/ODslayR2my0tiprpIgdPtBcTpf2vu+QQWqsnrUX7OD73bqw1WORCegn7iyOGDRE9lLjDkScFlu/XA=
+	t=1714121446; cv=none; b=s+rLEvuTBJNk3zCwEYAJigFg5Dxb/+BCOMYb4o3WVmGy/jB3pbINE1q0R17+iLrGnmn9uaODJtk/KYzZ5FC5kVd4pOc8HF51Er69EEvWkXyD5RYCYJ3oa7u/T3SBqXKvNma794wWNUUum5kbF/uA8S55JeMvTbP7C1mrksD/yKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714120987; c=relaxed/simple;
-	bh=THe1LwhkrglqXIEq91YlUhtMtCji9bAzsyPdchPG++8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Km8UXkgyDGzsgefUs4Gp9prPEww3fyvoI1zvp9Q5093BJ0y0IBO1lt8c35Y+aI3VI5tT9y7K8Gv6G6rMKP+JAKN3TEy4CLBNmWlLbHojwt4hmRWZ6bgmQhOj3GxsUCVPLC7N6Vq0rOddhwvFusioEMBcV3ULcAeZN5xnzGR84v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4HdXmk+; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1714121446; c=relaxed/simple;
+	bh=bIjiFiqfKbG5y7oGSDemwr8QeYbNzi6a9Ek/hWaD7dQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j4UYP6lRFfQ6TDvKGPCgZiHliwanNABe2DeaVepM8RmKeNf/dWpl6EnDyD0MDnceL70eHD76yxizmeSdPdgeRNh3moDRSwjZqPmRKN2x9wUqKWfoC7B/KOkn/zwJ7y1lsBGgZBDbngDhv3CY80FZQMjYqIzd4wO2V4l4nTb3l7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kY+U1lfS; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714120986; x=1745656986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=THe1LwhkrglqXIEq91YlUhtMtCji9bAzsyPdchPG++8=;
-  b=C4HdXmk+u07LoIopAl/X+7jcW5JCt6PrOri3ZUKur18pu0aKxi/m2OoL
-   TSx8cWHpjeoD+Hdc4blMSoNFx2hQoWI+Cd61oNnjGLEm/LoQfYd67DCvr
-   RzS66/XOaj1C4fJmN2nMojJTw4N/kxSEKODctyxzgr7ZZo6N4gCfSeeAG
-   UKkgNxjS4e4kYW+kWNkEKG+dY/u8u0kCvJloh5yXXHQMOPh2h/I07ONrL
-   tYKho6877lCXa0i0Uefxzrb8T8UDsYRp1wTfYIh7Syp7TjwOC6aVUnqa9
-   OvOK7KU3c15NE9GxRFvuAJcczdjEMVF3qHNE2uBf8ieZfoLkUiaWZQ1kT
+  t=1714121445; x=1745657445;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bIjiFiqfKbG5y7oGSDemwr8QeYbNzi6a9Ek/hWaD7dQ=;
+  b=kY+U1lfSQfEze5ALlGQ1qmLOXhDQWWPj76A++9MpWfqcU7wuwM55KFmd
+   2OzolPI+nn88uXm1fCSmbkJM1CuV0ekmB9tZCpbT74wiK7ZRhldwrzG9g
+   /xU5p+whhpx3nRW0Ix5oimGtt8RZzJpM56SjMs1sHjFvlpo39R4wqfwFJ
+   7InLkbDqZMkYN6MShOEcpWA7s//AKImQ4QiFMpZ0SwLxKsDOdk6K8IYlh
+   yCJZBsMSRg14OePF2rgZevtzrb4ULGoYEfsvRLMfo62d8LE6GLIGh3wDz
+   ie29heK0/5oU0bmn3KI2H7x41wSHFKxEDnTSolWFPbAXE7gAo/2EPPs3e
    Q==;
-X-CSE-ConnectionGUID: E0c/QAN2SUOayxkDb9DM7w==
-X-CSE-MsgGUID: i2UA1BQ9Q9euF7YB4c4Vpg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20463076"
+X-CSE-ConnectionGUID: SJ2hbYJLS2yN44g5Ia9zYw==
+X-CSE-MsgGUID: lNN7T/yyRCWIh+P/UZ1/0w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9683778"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="20463076"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:43:05 -0700
-X-CSE-ConnectionGUID: qUnhaa80S+i4Hd4arsWBTQ==
-X-CSE-MsgGUID: ab5Ub4HkQCSs7nhaA0VXuw==
+   d="scan'208";a="9683778"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:50:45 -0700
+X-CSE-ConnectionGUID: 8FgUnotcSxq9hO80Ms/bSQ==
+X-CSE-MsgGUID: JqDOhoZCT8qQG3dCes7ntA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="62829120"
+   d="scan'208";a="48598495"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:43:04 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0E35411F855;
-	Fri, 26 Apr 2024 11:43:01 +0300 (EEST)
-Date: Fri, 26 Apr 2024 08:43:01 +0000
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 01:50:42 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D493D11F855;
+	Fri, 26 Apr 2024 11:50:38 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH 2/3] media: Documentation: v4l: LINK_FREQ can be an
- INTEGER64 control
-Message-ID: <ZitpFeiNt5FL3c0f@kekkonen.localdomain>
-References: <20240220130339.543749-1-sakari.ailus@linux.intel.com>
- <20240220130339.543749-3-sakari.ailus@linux.intel.com>
- <87dbeab5-4c61-403e-9805-da3bac673ffd@xs4all.nl>
- <ZitaOthZ9dnG5-1B@kekkonen.localdomain>
- <ba71685d-5eb8-414e-9893-1e72b1107dfd@xs4all.nl>
- <ZitlggwtyOwaMdw9@kekkonen.localdomain>
- <8446b3a3-c94e-4be5-ac2f-31d333830a56@xs4all.nl>
+To: linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	tomi.valkeinen@ideasonboard.com,
+	bingbu.cao@intel.com,
+	hongju.wang@intel.com,
+	hverkuil@xs4all.nl,
+	Andrey Konovalov <andrey.konovalov@linaro.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH v3 00/14] Generic line based metadata, without sensor API changes
+Date: Fri, 26 Apr 2024 11:50:24 +0300
+Message-Id: <20240426085038.943733-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8446b3a3-c94e-4be5-ac2f-31d333830a56@xs4all.nl>
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Hello everyone,
 
-On Fri, Apr 26, 2024 at 10:38:26AM +0200, Hans Verkuil wrote:
-> On 4/26/24 10:27, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, Apr 26, 2024 at 10:12:37AM +0200, Hans Verkuil wrote:
-> >> On 4/26/24 09:39, Sakari Ailus wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On Fri, Apr 26, 2024 at 09:22:40AM +0200, Hans Verkuil wrote:
-> >>>> On 20/02/2024 14:03, Sakari Ailus wrote:
-> >>>>> When a device passes through the video data while still having its own
-> >>>>> receiver and transmitter, it can use the same frequency as the upstream
-> >>>>> link does. The Intel MEI CSI device is an example of this. An integer menu
-> >>>>> control isn't useful in conveying the actual frequency to the receiver in
-> >>>>> this case.
-> >>>>>
-> >>>>> Document that the LINK_FREQ control may also be a 64-bit integer control.
-> >>>>>
-> >>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>>>> ---
-> >>>>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst         | 2 +-
-> >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>>>> index b1c2ab2854af..7a3ccb100e1d 100644
-> >>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>>>> @@ -22,7 +22,7 @@ Image Process Control IDs
-> >>>>>  
-> >>>>>  .. _v4l2-cid-link-freq:
-> >>>>>  
-> >>>>> -``V4L2_CID_LINK_FREQ (integer menu)``
-> >>>>> +``V4L2_CID_LINK_FREQ (integer menu or 64-bit integer)``
-> >>>>>      The frequency of the data bus (e.g. parallel or CSI-2).
-> >>>>
-> >>>> I really think a new control should be created for this.
-> >>>>
-> >>>> As I understand it, V4L2_CID_LINK_FREQ gives a set of supported frequencies,
-> >>>> and the application has to pick one (I think?). Is it supposed to be a
-> >>>> read-only control? Some driver seem to set the READ_ONLY flag, and some do not.
-> >>>> The documentation isn't helpful in that respect.
-> >>>
-> >>> This is read-only effectively in current IVSC implementation.
-> >>>
-> >>>>
-> >>>> In the case of the Intel MEI CSI and similar devices a new control would be
-> >>>> better, I think. Do I understand it correctly that for these devices it would
-> >>>> always be a read-only control? I.e. it just reports the frequency, but applications
-> >>>> cannot change it?
-> >>>
-> >>> How would you call the new control?
-> >>>
-> >>> V4L2_CID_LINK_FREQ_READ_ONLY?
-> >>>
-> >>> Originally the reason for changing LINK_FREQ for sensors was be part of
-> >>> changing sensor's configuration to achieve a given frame interval.
-> >>
-> >> Will this new variant always be read-only?
-> > 
-> > At least for this purpose I think so. Apart from the sensor configuration,
-> > I'm not aware of another use case for the user to change it.
-> > 
-> >>
-> >> How about V4L2_CID_CUR_LINK_FREQ?
-> >>
-> >> I.e., it returns the current link frequency. That way it can also be
-> >> used by drivers that implement V4L2_CID_LINK_FREQ.
-> > 
-> > It could, but the drivers already report this using V4L2_CID_LINK_FREQ.
-> > It'd be extra driver code for little if any gain.
-> 
-> It's mainly for if we ever want to have consistent support for this
-> control for all drivers to make life easier for applications.
-> 
-> In other words, supporting both controls (if we'd ever want to) wouldn't
-> cause problems API-wise.
+I've split these patches off the metadata set [1], it'll still take more
+time to merge the internal pad support as it is evident we need to
+properly define the recommended sensor APIs to merge the drivers that are
+using them.
 
-Apart from the sensor frame interval control, the users generally don't
-care. It's for the CSI-2 receiver drivers which use a framework function to
-obtain the value (it was amended in one of the three patches).
+In the meantime, these patches are seen as what can be merged for 6.10.
 
-> 
-> > 
-> >>
-> >> Better ideas are welcome :-)
-> > 
-> > V4L2_CID_LINK_FREQ_VALUE? V4L2_CID_LINK_FREQ2?? :-)
-> > 
-> 
-> Hmm, I prefer CUR_LINK_FREQ, since that implies that it is a read-only
-> control.
+The patches include changes to the routing API before the internal pads.
 
-I'd be fine with that.
+[1] <URL:https://lore.kernel.org/linux-media/20240420100518.GA5618@pendragon.ideasonboard.com/T/#t>
 
+changes since v2:
+
+- Fix glossary term referencing (thanks to Hans!).
+
+changes since v1:
+
+- Improve len_routes field documentation in struct v4l2_subdev_routing.
+
+changes since v9 metadata set:
+
+- Fix metadata format documentation.
+
+- Improve language of struct v4l2_subdev_format field documentation when
+  it comes to metadata.
+
+- Improved documentation for routing API.
+
+- Set (and unset) the V4L2_FMT_FLAG_META_LINE_BASED flag in the framework
+  based on the format, don't rely on the driver to do it. Added a comment
+  to the format list to remind developers to update v4l_fill_fmtdesc when
+  adding new metadata formats.
+
+- Drop the patch that moved G_ROUTING below S_ROUTING handling in
+  v4l2-subdev.c. It's no longer needed.
+
+Laurent Pinchart (1):
+  media: v4l2-subdev: Clearly document that the crop API won't be
+    extended
+
+Sakari Ailus (13):
+  media: Documentation: Add "stream" into glossary
+  media: uapi: Add generic serial metadata mbus formats
+  media: uapi: Document which mbus format fields are valid for metadata
+  media: uapi: v4l: Add generic 8-bit metadata format definitions
+  media: v4l: Support line-based metadata capture
+  media: v4l: Set line based metadata flag in V4L2 core
+  media: Documentation: Additional streams generally don't harm capture
+  media: Documentation: Document S_ROUTING behaviour
+  media: v4l: subdev: Add a function to lock two sub-device states, use
+    it
+  media: v4l: subdev: Copy argument back to user also for S_ROUTING
+  media: v4l: subdev: Add len_routes field to struct v4l2_subdev_routing
+  media: v4l: subdev: Return routes set using S_ROUTING
+  media: v4l: subdev: Add trivial set_routing support
+
+ .../userspace-api/media/glossary.rst          |  12 +
+ .../userspace-api/media/v4l/dev-meta.rst      |  21 ++
+ .../userspace-api/media/v4l/dev-subdev.rst    |  31 +-
+ .../userspace-api/media/v4l/meta-formats.rst  |   3 +-
+ .../media/v4l/metafmt-generic.rst             | 340 ++++++++++++++++++
+ .../media/v4l/subdev-formats.rst              | 269 +++++++++++++-
+ .../media/v4l/vidioc-enum-fmt.rst             |   7 +
+ .../media/v4l/vidioc-subdev-g-crop.rst        |   6 +-
+ .../media/v4l/vidioc-subdev-g-routing.rst     |  51 ++-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  41 ++-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  50 ++-
+ include/media/v4l2-subdev.h                   |  42 +++
+ include/uapi/linux/media-bus-format.h         |   9 +
+ include/uapi/linux/v4l2-mediabus.h            |  18 +-
+ include/uapi/linux/v4l2-subdev.h              |  14 +-
+ include/uapi/linux/videodev2.h                |  22 ++
+ 17 files changed, 874 insertions(+), 63 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+
+
+base-commit: faa4364bef2ec0060de381ff028d1d836600a381
 -- 
-Regards,
+2.39.2
 
-Sakari Ailus
 
