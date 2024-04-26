@@ -1,86 +1,83 @@
-Return-Path: <linux-media+bounces-10160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10161-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4088B30B2
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 08:45:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D97E8B3111
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 09:09:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8226C283A40
-	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 06:45:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08A58281B83
+	for <lists+linux-media@lfdr.de>; Fri, 26 Apr 2024 07:09:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BC913A884;
-	Fri, 26 Apr 2024 06:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 004D713B591;
+	Fri, 26 Apr 2024 07:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Nr2RcEmA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ACnLLeMy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E957A17721
-	for <linux-media@vger.kernel.org>; Fri, 26 Apr 2024 06:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714113944; cv=pass; b=W1t3snIQe1KYYlYXSxsovoT+UMoAIWTM7B3ODv0GLuvzRhD+aaaToFQ9svPpxOVN6HQ+sWAAreUv1jo4zxMHLnXwWvP1wgLfD+Dm45tGGgfWVmue5eW9bFIRDNAYM2J3220UcfCRZsAjYqhJYrzvASKnLqdFUtqjKDupIBx1rJc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714113944; c=relaxed/simple;
-	bh=np1J7tJZZNb2Lbbd9nPRKYmyvMn6YX2GU2/Sys5BjHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iYiX2hAcwKGBGAq2sYe5PP+yUQP8ET2psyEDkI5tG25Cj5U6A73vHJ4gG3SOScsuCQMd/rkcRpjAsSarTh6z06SdNZDHhT1DkLb7bmTNKLmQ3rqxRLVudkSPN+aHgI4QHM48d68l6GmdLLDaUcXWpC8GOumr94Q3UaNk1STUu4k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Nr2RcEmA; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VQjsQ3qHgz49Pyk;
-	Fri, 26 Apr 2024 09:45:30 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1714113930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=JAUDijxcqaqUJCcTZtbAuLKU4lG0h6KFgEpbajtqf2Y=;
-	b=Nr2RcEmAS/IT3AyoHToyl3HZDr2V4J+mGehA/kEUrEXdAheRS/lJJD6weFXl/MaHe+1PuS
-	aRAYjS0/4qD7nfwsdU18dV3YSNLdmZmOWGzIGWI9PyfCP+d71rBcnUPxcqo5titd/vlI1y
-	TvCEycC9uhfd5ORo5yjEnwXiheU3hLj2Aat1TVtvFkuuUw26wzcjzPh1KXP8O7bQsy8JbS
-	hXELLFtC0gLZwl1sUUp+a9lrN4YS2boND6CNPX7aoOnWVAV1H5fDIdajyKZgvcCBhurFIt
-	+fVQf0Z9NKclySrjMoKRwxvQZ4idxwjbGctZJfR4Qr9rh++EAweYH6hOlaC67w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1714113930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=JAUDijxcqaqUJCcTZtbAuLKU4lG0h6KFgEpbajtqf2Y=;
-	b=DEufAODp55f9qc0SHAGxk53fw3mAMAGCOLsQuRE8TdEiZ2dAyTTHLlkq3Vf2BdzlC2knWs
-	CPGDfYjTSrSC9qiuilK2HDooSmn1hLlG7krXMf1Rp0zPucEKPfLdG48eU23qboakeB9IO5
-	kBmmAarxkofmyuWZQMzI1KH3H7qHRqrfumLdB6Ba4v1XUGWqRyyLtpLQeQcDF/3thLiBja
-	3JZ7mShktrf7op+TGeQTF7Ix3rjrP0R4oDjMIT4qHMWcV3pNFiqqcg9La64J6QyYHcm10+
-	zrIvEoCyyJ3c1LoC8wBXgO9G9tVUIsa2MnRedGmuYzjDPjxA1/bY507kOS9D0g==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1714113930; a=rsa-sha256;
-	cv=none;
-	b=AKhRtTtHtDjHi4O9Y38Vahm/N7zllbxhfi0Xh7STZShPBmHEC+C8rZJ6wVU+vwX42qKT0F
-	xcJ9KbBrjM9H6nLxizfgMI6cZKxCStPmb/dh6njfxIcjMVhl56HBsY/re4UplhXR+meBsS
-	5wME89rhHrF8R6Vnqht92kNqf4KCEjxVYFT9jBTUYhQvTqaJn7FK0duaZZeRsE36vmk2Lt
-	rDlivb2vHOTkDWm1/H4mizx2/L2rDOmALYYvUAdZoxcdP1H+aBq6GLBU22XxeKtO8LTRG9
-	GaCETaVu3NHTcY8PqTHXbtnFnyrVWOx7Eyjw4fcET6KHebbxYApM+DPQCdytaw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B01FD634C96;
-	Fri, 26 Apr 2024 09:45:28 +0300 (EEST)
-Date: Fri, 26 Apr 2024 06:45:28 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR 6.10] Ov4689 sensor patches, IVSC fixes and V4L2 async
- improvements
-Message-ID: <ZitNiLquDWkye4Qg@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2244EACD;
+	Fri, 26 Apr 2024 07:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714115381; cv=none; b=I7oBv1N7OcR3NFQk9nM8BhcLYcWC26lVbl4tNvIJR8KsHhLmFO67jRSESpl0kVoDHrExt5McpQerPrOHen/9Ak8ECgiVKSh+D9MCyHp1zCJg+2UoFF/ruHr0lVOsJAMIDH4hnKywxhGgQmDe7MsZ9QvM5ryD6GOLXdpl13LO4BM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714115381; c=relaxed/simple;
+	bh=Ycd2cCLgPz1pH9qCQxn4ztVUA8S4xuxAJxFsTwrlXoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPct0BzNLDMw9jCP1/4BMJWNMNAHkWFMjNG2SwGR83rKCJmeGBN5VPXOe38leWE86ORXlKf5jrGlmyRakzCuIWEwXXvYINvyuXGC+92WnRZw2/ttl7E5T8sCiyBzSKF8za8WmGSX2FKJwGdwF7vAFh2i3BihC8SJnguuOKaFBBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ACnLLeMy; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2db2f6cb312so27447181fa.2;
+        Fri, 26 Apr 2024 00:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714115378; x=1714720178; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0F+t/Bluy971mogDLeY9/r7RK+Wj9dTJdXW7NW3kLfE=;
+        b=ACnLLeMyWmiNoG2+e+7CwPrMeXL7akkXXKMFq1ewWhLDX4KN69h24W9Z773pNAY1f1
+         ltJfCTGOSe3pKjqAahx/QuDSCKS2ZoMjVCKU2cCRe7a8c6wRspysTxMCBxRAgAXPSTyq
+         ICFP7faQJgTKU9Ci149QmmVfTPleJo3E56eLbETj5N+U1Fxj9DQqOglzaNdDDUZsw6RV
+         NjQz51LoQYAaK7uLBUwOLYaLckKP45EfID6n7z97cG72mQekT6EsriiVnVKhdKU+oxIj
+         hRa4cvfB2nt2d3GEX+1fDV+DX86ll52mUPIxLyvl2G+IFBWBUt2kUYca1V7BkVDuTkxV
+         Tsjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714115378; x=1714720178;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0F+t/Bluy971mogDLeY9/r7RK+Wj9dTJdXW7NW3kLfE=;
+        b=cFDCKRsbAoJI2uLpSZ+6BC/pJpwuBhuXgnVD8/VV1XVTsMOUXVqCAjJlPP1ls2iJLC
+         UfzvUIPCqNhniWppZl79Zs5znUj4I5OxwF6+Z84ohY4h1MzFFQa4W2+qduQaedg7CDb+
+         dp8ylkE5Yc8KBLUaE8TjLVvmIVb5PX7IdmJ0WYxKe1gPBh6cdn2FMlK1+BuwsZNgJ1dy
+         HV27gBNwzw9wM0dQbyPmgj7LHe95+j/KwsqXRJmdUrzYiSxLHnrUIcr2TxETKTjf2UEQ
+         6WbjgYsf4CYb8x9RnXSOw/G1Ni9vMrxcfW8U5Do4zXezr6J1Qb7Qdxe0PgFp80SFq0+0
+         Httg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUhPwHI9DNbpfeQ8T08dEM64hw4qNYFGaypdvvXOeywLyQycJLVsUJ8LCfeiQX4goxrfNLEYejyMO2V17jKZ37CW9GTjjkTq4JX1dzA+sv8o+q8rT3NiZKbrVV5xkIdn4sngr4mxPzQm8=
+X-Gm-Message-State: AOJu0YwMTn34P1G+hUk3atUiK3eyOsqZN19zcs/C3lwgHZboLHtRtJvs
+	QLLJIFKsAglcDzCkbJOhP9bd4hy1+ig/PJeSoafHs4xACMEbRXIVph7tVg==
+X-Google-Smtp-Source: AGHT+IG++BZdkPuuy++Kj9NrA45PS/qD3oTdm9J2bGG08eURhC4RNuB4qkXhRCpTfvxUuOO7e86FRw==
+X-Received: by 2002:a05:651c:b0b:b0:2d4:6893:24e1 with SMTP id b11-20020a05651c0b0b00b002d4689324e1mr1292135ljr.50.1714115377629;
+        Fri, 26 Apr 2024 00:09:37 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-143-74.cust.vodafonedsl.it. [2.39.143.74])
+        by smtp.gmail.com with ESMTPSA id ld11-20020a170906f94b00b00a55adcf48a2sm6435403ejb.50.2024.04.26.00.09.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 00:09:37 -0700 (PDT)
+Date: Fri, 26 Apr 2024 09:09:35 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] media: i2c: alvium: Move V4L2_CID_GAIN to
+ V4L2_CID_ANALOG_GAIN
+Message-ID: <ZitTL/IhmuvwF2Qu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20240416141905.454253-1-tomm.merciai@gmail.com>
+ <20240416141905.454253-6-tomm.merciai@gmail.com>
+ <ZilLThyqHC2xi6tS@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,74 +86,68 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZilLThyqHC2xi6tS@valkosipuli.retiisi.eu>
 
-Hi Hans, Mauro,
+Hi Sakari,
+Thanks for your review.
 
-Here are a bunch of patches for the ov4689 and imx219 sensor drivers, as
-well as link frequency control improvements for the IVSC driver as well as
-moving some of the work from drivers to v4l2-async.
+On Wed, Apr 24, 2024 at 06:11:26PM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
+> 
+> On Tue, Apr 16, 2024 at 04:19:05PM +0200, Tommaso Merciai wrote:
+> > Into alvium cameras REG_BCRM_GAIN_RW control the analog gain.
+> > Let's use the right V4L2_CID_ANALOGUE_GAIN ctrl.
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  drivers/media/i2c/alvium-csi2.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > index 30ef9b905211..56d64f27df72 100644
+> > --- a/drivers/media/i2c/alvium-csi2.c
+> > +++ b/drivers/media/i2c/alvium-csi2.c
+> > @@ -1993,7 +1993,7 @@ static int alvium_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> >  	int val;
+> >  
+> >  	switch (ctrl->id) {
+> > -	case V4L2_CID_GAIN:
+> > +	case V4L2_CID_ANALOGUE_GAIN:
+> >  		val = alvium_get_gain(alvium);
+> >  		if (val < 0)
+> >  			return val;
+> > @@ -2025,7 +2025,7 @@ static int alvium_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  		return 0;
+> >  
+> >  	switch (ctrl->id) {
+> > -	case V4L2_CID_GAIN:
+> > +	case V4L2_CID_ANALOGUE_GAIN:
+> >  		ret = alvium_set_ctrl_gain(alvium, ctrl->val);
+> >  		break;
+> >  	case V4L2_CID_AUTOGAIN:
+> > @@ -2154,7 +2154,7 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
+> >  
+> >  	if (alvium->avail_ft.gain) {
+> >  		ctrls->gain = v4l2_ctrl_new_std(hdl, ops,
+> > -						V4L2_CID_GAIN,
+> > +						V4L2_CID_ANALOGUE_GAIN,
+> >  						alvium->min_gain,
+> >  						alvium->max_gain,
+> >  						alvium->inc_gain,
+> 
+> This looks like a bugfix. Shouldn't it be cc'd to stable as well? A Fixes:
+> tag would be nice, too.
 
-Please pull.
+Fully agree.
+Plan is to add in v2 Fixes: 0a7af872915e ("media: i2c: Add support for alvium camera")
+like you suggest and stable@vger.kernel.org in CC.
 
+Thanks & Regards,
+Tommaso
 
-The following changes since commit faa4364bef2ec0060de381ff028d1d836600a381:
-
-  media: stk1160: fix bounds checking in stk1160_copy_video() (2024-04-24 13:49:56 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.10-3-signed
-
-for you to fetch changes up to 17da36cbdb10ee1f66761948314f664ca4aa4201:
-
-  media: v4l: async: Set owner for async sub-devices (2024-04-26 08:43:20 +0300)
-
-----------------------------------------------------------------
-V4L2 patches for 6.10
-
-----------------------------------------------------------------
-Mikhail Rudenko (16):
-      media: i2c: ov4689: Clean up and annotate the register table
-      media: i2c: ov4689: Sort register definitions by address
-      media: i2c: ov4689: Fix typo in a comment
-      media: i2c: ov4689: CCI conversion
-      media: i2c: ov4689: Remove i2c_client from ov4689 struct
-      media: i2c: ov4689: Refactor ov4689_set_ctrl
-      media: i2c: ov4689: Use sub-device active state
-      media: i2c: ov4689: Enable runtime PM before registering sub-device
-      media: i2c: ov4689: Use runtime PM autosuspend
-      media: i2c: ov4689: Remove max_fps field from struct ov4689_mode
-      media: i2c: ov4689: Make horizontal blanking configurable
-      media: i2c: ov4689: Implement vflip/hflip controls
-      media: i2c: ov4689: Implement digital gain control
-      media: i2c: ov4689: Implement manual color balance controls
-      media: i2c: ov4689: Move pixel array size out of struct ov4689_mode
-      media: i2c: ov4689: Set timing registers programmatically
-
-Sakari Ailus (5):
-      media: v4l: Support obtaining link frequency from INTEGER64 controls
-      media: Documentation: v4l: LINK_FREQ can be an INTEGER64 control
-      media: ivsc: csi: Fix link frequency control behaviour
-      media: v4l: Set sub-device's owner field to the caller's module
-      media: v4l: async: Set owner for async sub-devices
-
-Umang Jain (1):
-      media: i2c: imx219: Use dev_err_probe on probe
-
- .../media/v4l/ext-ctrls-image-process.rst          |   2 +-
- drivers/media/i2c/Kconfig                          |   1 +
- drivers/media/i2c/imx219.c                         |  77 ++-
- drivers/media/i2c/ov4689.c                         | 671 +++++++++++----------
- drivers/media/pci/intel/ivsc/mei_csi.c             |  30 +-
- drivers/media/v4l2-core/v4l2-async.c               |  10 +-
- drivers/media/v4l2-core/v4l2-common.c              |   3 +
- drivers/media/v4l2-core/v4l2-device.c              |  12 +-
- drivers/media/v4l2-core/v4l2-i2c.c                 |   2 +-
- drivers/media/v4l2-core/v4l2-spi.c                 |   2 +-
- include/media/v4l2-async.h                         |   4 +-
- include/media/v4l2-device.h                        |   7 +-
- 12 files changed, 436 insertions(+), 385 deletions(-)
-
--- 
-Sakari Ailus
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
