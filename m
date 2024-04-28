@@ -1,138 +1,182 @@
-Return-Path: <linux-media+bounces-10281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9A58B4D39
-	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 19:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE95E8B4D68
+	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 20:27:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEE5B1F2133E
-	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 17:30:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 382091F213B6
+	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 18:27:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 101E873518;
-	Sun, 28 Apr 2024 17:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931D77440B;
+	Sun, 28 Apr 2024 18:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqIaZeoJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SvJBhrkH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E26D6F086;
-	Sun, 28 Apr 2024 17:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A09973534
+	for <linux-media@vger.kernel.org>; Sun, 28 Apr 2024 18:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714325444; cv=none; b=QmM+czafCyJd1exJcOrTkzlM3gJK9AyL1iADqRdreTv6kBLvWr7/HMYp94bz+jK9izF/7q4Qvq6LmGiXwk2qFhEeuSTFioMl+TSPywfN6YUeA6BbNcLy7MRILdMbcEYLjPv2IXx4u+2ws/gLW5TdluE1inbDKHO0KZIUcE1HC1A=
+	t=1714328819; cv=none; b=aaUIF4brmZtl122TrjbuzY0vDsBBMBO/+djgs/iHuCTAEX54EOI7nNf0564mp1FjStDhu4tiv4E6QwrLx1hwDbAQ2GbUWk41Fb0nYC09eU1VSWx2xjPk9VxKvQLVdZqx3q/mZo8AT05rC/TwoMLbXWg1GpTrvUoeKkPn+McRf+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714325444; c=relaxed/simple;
-	bh=6C4iC5ro3NJyO5M+1IwRkJQ4c+Kk2vhMSEHiWNEkb7A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A4nOh5mZawDvb0BJJBdnRYuO7GYZI6ZBYkZH3nc74/+GIO25kjZn7C/oLIeSd2TCvHmXa5aFp08DiUQ/vF8/T5MCpTIMXjVVKxjKeWkkde+dL3pdELUvJlj2mQFJk2/QjImsJJngTe/43F8pcMqJCjepCjoEJJNhc1QutBaFWIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqIaZeoJ; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-6123726725eso513360a12.3;
-        Sun, 28 Apr 2024 10:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714325442; x=1714930242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6C4iC5ro3NJyO5M+1IwRkJQ4c+Kk2vhMSEHiWNEkb7A=;
-        b=GqIaZeoJ+L8WmspzlZM74m4dgxAoGtOv8UixRLJMpGSVfokGjl+CdZmQCjYEOlZuBl
-         8TDltN0shuZcTg3/eerCnthk3gWhCfw+Q69UIn0eI5MKm44Ix4kAisY54BE3HvgWX2oN
-         hNtOwboaXUufqIr9h67xhI1UFQ33NuB70CT+dCJCATz9ukVH5dcU7PjFv9Zqlyg1xDg3
-         S0jQgvWTO+OaoXu3Jy9U3BvYW5Rpw9DohV04+K/vu6r31yUxns+Cai9xC93CriULY6Ua
-         FwdS0nFZJIUOZi9SXTt+hl4f1rgRMuKeF4RWK4KRF1wahtPX6WBvLfciN3N/M99f+ypZ
-         ROxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714325442; x=1714930242;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6C4iC5ro3NJyO5M+1IwRkJQ4c+Kk2vhMSEHiWNEkb7A=;
-        b=OJOqfDHMDg5KYRbnnfS23HNWmFWQZ8W3UKvcmHAXZ13QKdy94/Z58n3ytDGnGdZ96T
-         BDAq1spy/nD3oyPVzGg4MNVWd/3R68eNvYsbOFiaht8nfamXRV9ywC706XVQ33gtmQVu
-         rQRfsv6hBAQEEXWKWZmTnt2YA1lkictkYUe3GDDNtyEw0ewjkr583nifZ+g2OFEGaVYS
-         UNChN/28t1EBJE9zNUooaJnYEixIdy5Ntbpy5Pl0tfIQnpQsVp07i6WBohbhAekHjhYm
-         MfkH7VF/Ayn+CHwTVk/RamH0azsJ0C/duKr0lXWBDP0f/7JrhM0aOYNa8nCoRMdMTL7t
-         cCUg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1QXELZQiMHOfnkZRPHT+oHxraKNIRhGgDG9CI+/RvHG3ENxc5/J+IrmgVWCgfu/NwG5gN1P65POJIZWogj8dwd4QS6Kok3nqUdgpWxleql5DFE8XXFVdywGRkVZHuDb0DUiaNUgAGxya4LbMhax3eHLI/nbbp2PX9iyZztI2OenHqOFCb
-X-Gm-Message-State: AOJu0Yy348kyN5QkgXszbp3nNkqlRqYC1R1FmvFNjq8Fk7yRz+jxtUTN
-	mT9pEj1EtPsxGNRUImykmzTWeUrw4JrVefG2z6ezxV4MxFj7d+MyCyLuUCGYWkaDJA==
-X-Google-Smtp-Source: AGHT+IEAHcZT2hqdPXrUrD9utnViKm/pFwS+gPtcpridRGIUu3is+jGvfjVMNz/1yOUWrCv/AUnT2A==
-X-Received: by 2002:a05:6a20:430c:b0:1a7:73ed:7f8d with SMTP id h12-20020a056a20430c00b001a773ed7f8dmr6549978pzk.38.1714325442453;
-        Sun, 28 Apr 2024 10:30:42 -0700 (PDT)
-Received: from toyko-2.5 ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id b186-20020a62cfc3000000b006ecf56cb55fsm19089266pfg.96.2024.04.28.10.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Apr 2024 10:30:42 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: heiko@sntech.de
-Cc: andy.yan@rock-chips.com,
-	conor+dt@kernel.org,
-	cristian.ciocaltea@collabora.com,
-	devicetree@vger.kernel.org,
-	dsimic@manjaro.org,
-	ezequiel@vanguardiasur.com.ar,
-	frattaroli.nicolas@gmail.com,
-	iommu@lists.linux.dev,
-	joro@8bytes.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linkmauve@linkmauve.fr,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	macromorgan@hotmail.com,
-	mchehab@kernel.org,
-	nicolas@ndufresne.ca,
-	p.zabel@pengutronix.de,
-	robh@kernel.org,
-	robin.murphy@arm.com,
-	sebastian.reichel@collabora.com,
-	shreeya.patel@collabora.com,
-	sigmaris@gmail.com,
-	will@kernel.org
-Subject: Re: [PATCH v4 0/2] Enable JPEG encoding on rk3588
-Date: Mon, 29 Apr 2024 01:29:19 +0800
-Message-Id: <20240428172919.691602-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <3784322.QJadu78ljV@diego>
-References: <3784322.QJadu78ljV@diego>
+	s=arc-20240116; t=1714328819; c=relaxed/simple;
+	bh=kei5YX+f+OSil/nD2cY8heTI4YkEV6nKcynKuRa2x9U=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=r/hewibsqsEJsras9YOcjJ5Xd7yUAZndqMpkWYUrDqAV7ssq7niY5qtlBw07rPqEEMY+XGiNFIJVgd9tN9IRDaOiPf5E6rmNLPNNaY4zEbxKJOYhWlb61CkkFxtKi9otxp/zSFpYIRx3fvo71hA+ccekDMi6tCUHb698HWtXBgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SvJBhrkH; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714328809;
+	bh=kei5YX+f+OSil/nD2cY8heTI4YkEV6nKcynKuRa2x9U=;
+	h=From:Subject:Date:Cc:To:From;
+	b=SvJBhrkH3tiEoi87a/9P2ni4rd2V1SGKMkUHAJX4fK66q9FEKMU9HM7pcdzhtzEvI
+	 B7U0quMQxicBUvvMTnbTKmuPd5UBXh8hvyueK4IlcbhIlydArr8QFyYMXfrJbcgMFq
+	 WtpI4f+d4SqR8dl7IP0bWITua5VSKVHhh10IYbTQvmwNBvvrrkAHQZMnZNzxTZiivH
+	 r2CA/LHl4m5O3l8R+P5iaZvedWoZOH6WwMdjoNkdjNtOR1x/FBA1fFSKL05cPt0H7P
+	 GnhiOgq1c/VJUnyxlxUIxD1eXf4NEJCxLbVfMvmlwSEnyqm+6nR6eX2YkM00zNKIT6
+	 1iEFjNH872+JQ==
+Received: from smtpclient.apple (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: dwlsalmeida)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B8EC37813E4;
+	Sun, 28 Apr 2024 18:26:47 +0000 (UTC)
+From: Daniel Almeida <daniel.almeida@collabora.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
+Subject: Discuss the multi-core media scheduler
+Message-Id: <3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com>
+Date: Sun, 28 Apr 2024 15:26:35 -0300
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+X-Mailer: Apple Mail (2.3774.500.171.1.1)
 
-Hi Heiko,
+Hi everyone,
 
-On Sun, 28 Apr 2024 19:01:38 +0200, Heiko Stübner wrote:
->the basic problem is that exposing multiple jpeg encoders would require
->userspace to do the scheduling. Which is bad.
->I.e. all userspace programms would need to know the existence of
->all jpeg encoders and then somehow negotiate how to use all of them
->most efficiently.
->
->Think multiple different programs that would need to negotiate to
->spread across all of them in the best way.
->
->Doing this in the kernel, we just expose one encoder (and queue) all
->programs would just pile onto that one encoder and the kernel then
->would be on the hook to do the scheduling - which the kernel can do
->better (with relevant code implemented)
+There seems to be a few unsolved problems in the mem2mem framework, one =
+of
+which is the lack of support for architectures with multiple =
+heterogeneous
+cores. For example, it is currently impossible to describe Mediatek's =
+LAT and
+CORE cores to the framework as two independent units to be scheduled. =
+This means
+that, at all times, one unit is idle while the other one is working.
 
-Yeah let kernel do the scheduling is indeed better. And I'm happy to
-hear this method.
+I know that this is not the only problem with m2m, but it is where I'd =
+like to
+start the discussion. Feel free to add your own requirements to the =
+thread.
 
-So I will keep the vpu at feb50000 with jpeg endoder disabled until
-multi encoder scheduling is implemented.
+My proposed solution is to add a new iteration of mem2mem, which I have =
+named
+the Multi-core Media Scheduler for the lack of a better term.
 
-Best regards,
-Jianfeng
+Please note that I will use the terms input/output queues in place of
+output/capture for the sake of readability.
+
+=
+--------------------------------------------------------------------------=
+-----
+
+The basic idea is to have a core as the basic entity to be scheduled, =
+with its
+own input and output VB2 queues. This default will be identical to what =
+we have
+today in m2m.
+
+ input        output
+<----- core ----->
+
+In all cases, this will be the only interface that the framework will =
+expose to
+the outside world. The complexity to handle multiple cores will be =
+hidden from
+callers. This will also allow us to keep the implementation compatible =
+with
+the current mem2mem interfaces, which expose only two queues.
+
+To support multiple cores, each core can connect to another core to =
+establish a
+data dependency, in which case, they will communicate through a new type =
+of
+queue, here described as "shared".
+
+ input           shared         output
+<----- core0 -------> core1 ------>
+
+This arrangement is basically an extension of the mem2mem idea, like so:
+
+mem2mem2mem2mem
+
+...with as many links as there are cores.
+
+The key idea is that now, cores can be scheduled independently through a =
+call
+to schedule(core_number, work) to indicate that they should start =
+processing
+the work. They can also be marked as idle independently through a
+job_done(core_number) call.
+
+It will be the driver's responsibility to describe the pipeline to the
+framework, indicating how cores are connected. The driver will also have =
+to
+implement the logic for schedule() and job_done() for a given core.
+
+Queuing buffers into the framework's input queue will push the work into =
+the
+pipeline. Whenever a job is done, the framework will push the job into =
+the
+queue that is shared with the downstream core and attempt to schedule =
+it. It
+will also attempt to pull a workitem from the upstream queue.
+
+When the job is processed by the last core in the pipeline, it will be =
+marked
+as done and pushed into the framework's output queue.
+
+At all times, a buffer should have an owner, and the framework will =
+ensure that
+cores cannot touch buffers belonging to other cores.
+
+This workflow can be expanded to account for a group of identical cores, =
+here
+denoted as "clusters". In such a case, each core will have its own input =
+and
+output queues:
+
+ input      output           input      output      output=20
+<---- core0 ----->          <---- core1 ---->     ------->
+                                    <---- core2 ---->
+                                    input      output
+
+Ideally, the framework will dispatch work from the output queue with the =
+most
+amount of items to the input queue with the least amount of items to =
+balance
+the load. This way, clusters and cores can compose to describe complex
+architectures.
+
+Of course, this is a rough sketch, and there are lots of unexplained =
+minutiae to
+sort out, but I hope that the general idea is enough to get a discussion =
+going.
+
+-- Daniel
+
 
