@@ -1,182 +1,137 @@
-Return-Path: <linux-media+bounces-10282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE95E8B4D68
-	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 20:27:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F718B4DD5
+	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 23:06:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 382091F213B6
-	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 18:27:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D960281390
+	for <lists+linux-media@lfdr.de>; Sun, 28 Apr 2024 21:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 931D77440B;
-	Sun, 28 Apr 2024 18:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA30E9476;
+	Sun, 28 Apr 2024 21:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SvJBhrkH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8td3mJZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A09973534
-	for <linux-media@vger.kernel.org>; Sun, 28 Apr 2024 18:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFF64A2C
+	for <linux-media@vger.kernel.org>; Sun, 28 Apr 2024 21:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714328819; cv=none; b=aaUIF4brmZtl122TrjbuzY0vDsBBMBO/+djgs/iHuCTAEX54EOI7nNf0564mp1FjStDhu4tiv4E6QwrLx1hwDbAQ2GbUWk41Fb0nYC09eU1VSWx2xjPk9VxKvQLVdZqx3q/mZo8AT05rC/TwoMLbXWg1GpTrvUoeKkPn+McRf+M=
+	t=1714338405; cv=none; b=BSKmnSH9iivBGAFzJoPB+T/mxHXZbzw40JUoobiZdmYetd9iVyCXIhCTh72jPkIo/OVNKWeDCWkJgFmnUaAbqxcFYuNd0KjPxYY/D8nin9Eoud3iLKu31hUAirqHbliheffkIdNRRQNzI5raurA6FWXSQsn0Ga8AWiyXN19ypUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714328819; c=relaxed/simple;
-	bh=kei5YX+f+OSil/nD2cY8heTI4YkEV6nKcynKuRa2x9U=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=r/hewibsqsEJsras9YOcjJ5Xd7yUAZndqMpkWYUrDqAV7ssq7niY5qtlBw07rPqEEMY+XGiNFIJVgd9tN9IRDaOiPf5E6rmNLPNNaY4zEbxKJOYhWlb61CkkFxtKi9otxp/zSFpYIRx3fvo71hA+ccekDMi6tCUHb698HWtXBgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SvJBhrkH; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1714328809;
-	bh=kei5YX+f+OSil/nD2cY8heTI4YkEV6nKcynKuRa2x9U=;
-	h=From:Subject:Date:Cc:To:From;
-	b=SvJBhrkH3tiEoi87a/9P2ni4rd2V1SGKMkUHAJX4fK66q9FEKMU9HM7pcdzhtzEvI
-	 B7U0quMQxicBUvvMTnbTKmuPd5UBXh8hvyueK4IlcbhIlydArr8QFyYMXfrJbcgMFq
-	 WtpI4f+d4SqR8dl7IP0bWITua5VSKVHhh10IYbTQvmwNBvvrrkAHQZMnZNzxTZiivH
-	 r2CA/LHl4m5O3l8R+P5iaZvedWoZOH6WwMdjoNkdjNtOR1x/FBA1fFSKL05cPt0H7P
-	 GnhiOgq1c/VJUnyxlxUIxD1eXf4NEJCxLbVfMvmlwSEnyqm+6nR6eX2YkM00zNKIT6
-	 1iEFjNH872+JQ==
-Received: from smtpclient.apple (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: dwlsalmeida)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B8EC37813E4;
-	Sun, 28 Apr 2024 18:26:47 +0000 (UTC)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1714338405; c=relaxed/simple;
+	bh=I0N77ggOC5K3RpmQzb4MXd8xfFTi7+OjQwbV0wTg0s8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FKVWAAVfwuUQ7UcKHG6LN6WZIdWwj1BS9U0+l1ybX5sF0nSXkuAepm9x/QpIDtXrNkKC+0LN3N1e99gqkmDGjnJTGw/a0qPDbrsVKOxwXaxIT6gWRl22BPxrJtC+MaI07mb1+nIt1KdDnG+ZKatTwm9NGOdH1YbUxJ0dtrdW+e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8td3mJZ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714338404; x=1745874404;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I0N77ggOC5K3RpmQzb4MXd8xfFTi7+OjQwbV0wTg0s8=;
+  b=G8td3mJZ0fX5wHOvrhEvQfx7Hs4vCC/hPbwB/siMOiC7rs5h19x5jo3P
+   2S5weInkK1H0LU3r6ptWzC8KgNVwOK5bDwxKEGC7mmz/ALjquCz5mSshB
+   oPhMYon4tH6ftwnRFXjfgecr9A1n5Vof+z9G0SsTb58llL6q768NDJVYV
+   VEUxvDZwkFY9ydmSSu+9Dj1HRJfW4isvMZECcJYxZPByBDDCSaRMn3Gr8
+   RKkU14Cu4tjOhq57GkJCxsTkviw5x1v0B3lXNY1onAkhbtojkXJ+4srjJ
+   weFz1jCs3CSp9jTjDjJkHaWFw8iLXvvIX4yDnW9l5Vq3vmZjhNWVKu/ln
+   A==;
+X-CSE-ConnectionGUID: JQYqV+SbQsejd8RAJCLKcw==
+X-CSE-MsgGUID: H+kljK+CQ8OU/afq9Xeybg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10106622"
+X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
+   d="scan'208";a="10106622"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 14:06:43 -0700
+X-CSE-ConnectionGUID: BKLETI2JQzmEaKTyo0Kx/Q==
+X-CSE-MsgGUID: IrxB+RiTTBafEtzmpyMsbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
+   d="scan'208";a="30721647"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 14:06:39 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4688311F832;
+	Mon, 29 Apr 2024 00:06:36 +0300 (EEST)
+Date: Sun, 28 Apr 2024 21:06:36 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, bingbu.cao@intel.com,
+	laurent.pinchart@ideasonboard.com,
+	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+	tomi.valkeinen@ideasonboard.com, tfiga@chromium.org,
+	senozhatsky@chromium.org, andreaskleist@gmail.com,
+	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+	hongju.wang@intel.com
+Subject: Re: [PATCH v6 16/18] media: intel/ipu6: support line-based metadata
+ capture support
+Message-ID: <Zi66XKzGqcxOedlr@kekkonen.localdomain>
+References: <20240426095822.946453-1-sakari.ailus@linux.intel.com>
+ <20240426095822.946453-17-sakari.ailus@linux.intel.com>
+ <0da0d721-1e8f-4979-bc5a-43695c8ebf30@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.500.171.1.1\))
-Subject: Discuss the multi-core media scheduler
-Message-Id: <3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com>
-Date: Sun, 28 Apr 2024 15:26:35 -0300
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-X-Mailer: Apple Mail (2.3774.500.171.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0da0d721-1e8f-4979-bc5a-43695c8ebf30@xs4all.nl>
 
-Hi everyone,
+Hi Hans,
 
-There seems to be a few unsolved problems in the mem2mem framework, one =
-of
-which is the lack of support for architectures with multiple =
-heterogeneous
-cores. For example, it is currently impossible to describe Mediatek's =
-LAT and
-CORE cores to the framework as two independent units to be scheduled. =
-This means
-that, at all times, one unit is idle while the other one is working.
+Thank you for the review.
 
-I know that this is not the only problem with m2m, but it is where I'd =
-like to
-start the discussion. Feel free to add your own requirements to the =
-thread.
+On Sat, Apr 27, 2024 at 06:00:13PM +0200, Hans Verkuil wrote:
+> > -static int vidioc_try_fmt_vid_cap(struct file *file, void *fh,
+> > -				  struct v4l2_format *f)
+> > +static int ipu6_isys_vidioc_s_fmt_meta_cap(struct file *file, void *fh,
+> > +					   struct v4l2_format *f)
+> >  {
+> >  	struct ipu6_isys_video *av = video_drvdata(file);
+> >  
+> > -	ipu6_isys_video_try_fmt_vid(av, &f->fmt.pix);
+> 
+> This is missing a vb2_is_busy() check.
 
-My proposed solution is to add a new iteration of mem2mem, which I have =
-named
-the Multi-core Media Scheduler for the lack of a better term.
+To be added in v7.
 
-Please note that I will use the terms input/output queues in place of
-output/capture for the sake of readability.
+...
 
-=
---------------------------------------------------------------------------=
------
+> > @@ -1214,8 +1309,10 @@ int ipu6_isys_video_init(struct ipu6_isys_video *av)
+> >  	av->vdev.queue = &av->aq.vbq;
+> >  	av->vdev.lock = &av->mutex;
+> >  
+> > -	ipu6_isys_video_try_fmt_vid(av, &format.fmt.pix);
+> > +	__ipu6_isys_vidioc_try_fmt_vid_cap(av, &format);
+> >  	av->pix_fmt = format.fmt.pix;
+> > +	__ipu6_isys_vidioc_try_fmt_meta_cap(av, &format_meta);
+> 
+> Here is the cause of the v4l2-compliance failure (I think): this will
+> set the format_meta pixelformat to ipu6_isys_pfmts[0], which is BG12.
+> 
+> It doesn't check the is_meta flag there.
+> 
+> So it is not a v4l2-compliance bug, but a driver bug AFAICT.
 
-The basic idea is to have a core as the basic entity to be scheduled, =
-with its
-own input and output VB2 queues. This default will be identical to what =
-we have
-today in m2m.
+Looks like you were right. I was quite confused of what actually was the
+problem for v4l2-compliance. Additionally the driver didn't also correctly
+enumerate the formats for both of the buffer types.
 
- input        output
-<----- core ----->
+I've fixed both and v4l2-compliance passes now.
 
-In all cases, this will be the only interface that the framework will =
-expose to
-the outside world. The complexity to handle multiple cores will be =
-hidden from
-callers. This will also allow us to keep the implementation compatible =
-with
-the current mem2mem interfaces, which expose only two queues.
+-- 
+Kind regards,
 
-To support multiple cores, each core can connect to another core to =
-establish a
-data dependency, in which case, they will communicate through a new type =
-of
-queue, here described as "shared".
-
- input           shared         output
-<----- core0 -------> core1 ------>
-
-This arrangement is basically an extension of the mem2mem idea, like so:
-
-mem2mem2mem2mem
-
-...with as many links as there are cores.
-
-The key idea is that now, cores can be scheduled independently through a =
-call
-to schedule(core_number, work) to indicate that they should start =
-processing
-the work. They can also be marked as idle independently through a
-job_done(core_number) call.
-
-It will be the driver's responsibility to describe the pipeline to the
-framework, indicating how cores are connected. The driver will also have =
-to
-implement the logic for schedule() and job_done() for a given core.
-
-Queuing buffers into the framework's input queue will push the work into =
-the
-pipeline. Whenever a job is done, the framework will push the job into =
-the
-queue that is shared with the downstream core and attempt to schedule =
-it. It
-will also attempt to pull a workitem from the upstream queue.
-
-When the job is processed by the last core in the pipeline, it will be =
-marked
-as done and pushed into the framework's output queue.
-
-At all times, a buffer should have an owner, and the framework will =
-ensure that
-cores cannot touch buffers belonging to other cores.
-
-This workflow can be expanded to account for a group of identical cores, =
-here
-denoted as "clusters". In such a case, each core will have its own input =
-and
-output queues:
-
- input      output           input      output      output=20
-<---- core0 ----->          <---- core1 ---->     ------->
-                                    <---- core2 ---->
-                                    input      output
-
-Ideally, the framework will dispatch work from the output queue with the =
-most
-amount of items to the input queue with the least amount of items to =
-balance
-the load. This way, clusters and cores can compose to describe complex
-architectures.
-
-Of course, this is a rough sketch, and there are lots of unexplained =
-minutiae to
-sort out, but I hope that the general idea is enough to get a discussion =
-going.
-
--- Daniel
-
+Sakari Ailus
 
