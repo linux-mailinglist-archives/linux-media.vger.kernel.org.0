@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-10288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10289-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C4B8B50E8
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 08:00:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCFD8B50F1
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 08:03:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C66F21C215F3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 06:00:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E16EAB2203B
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 06:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABB771079D;
-	Mon, 29 Apr 2024 06:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D06FC08;
+	Mon, 29 Apr 2024 06:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THpp7M7K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJbPcGfa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40FCF9CD;
-	Mon, 29 Apr 2024 06:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6147610A17;
+	Mon, 29 Apr 2024 06:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714370404; cv=none; b=bzYxOZQ7Ud7g8Xe7R3UsH+ghGzRnmsDpwcw8/pD4CEhLSFulseWSgLv+k3MQDOkQrG4nIb7EtRK0cOzVJ3wqA9AU26ek3lxFyl+1BMw+EtNPz9R7wqfrnk5LUt06RqnGy9ISHEHOOhb/8xn3/S7i8dwyDtd6Q5ORs4BatwyUu48=
+	t=1714370614; cv=none; b=qVfuiSDx5gWpxbw7Y9KiWfxTVPSRsn9VpUDif0wmCVinwZgvX4Nwd3bc1WtzyulgOAX7GFPSB49UqDvXmXoRhODnfdEzb0OfPbPnWHuWnTJAkGVSHzNJa5M68KiQP0Y7+xO+hVzA82qmt91vdxwcbPvt493MrM8nMKu0I/IwbAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714370404; c=relaxed/simple;
-	bh=ugJQOPZ1kMTBi0aTLYRs6bL+WgoMwb9S2BmIZzdBd3U=;
+	s=arc-20240116; t=1714370614; c=relaxed/simple;
+	bh=CCQ14BOX8lYmY87/Bd32IyYzzmdAz5MRlMjIkZTvFTo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T50u1Dow0HbCR74XHpo4C+LuXS2sy+Simx8+cxnvmgWuV5kuMy5tPM8mH7qp9eflWyrtb0IQUT22305beA1hpV202B1MQvYaNwq6XhlwoISMnfzsVZXNZBvWivTlBxKPQilADRTzu4KJ6hocIhF68EfCbtGcGNLU5bNxoanUSi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THpp7M7K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F18DC113CD;
-	Mon, 29 Apr 2024 05:59:56 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=s7u9j1AkundPzvoSdwNcueB+ItqVxOPOk+N4/i0BX9AhLOQJDZszobnyIut1cjigfJ0P36uHTwj92piTxoKDj2Rvh8GjleZO2oxoESyZ1CCZEEXQWx/zVfIyujmyqZEgWNw3r+QQft7xWd7wjnZHotXqP8ouQKKzJ5W+IgS5Q1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJbPcGfa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 997D1C113CD;
+	Mon, 29 Apr 2024 06:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714370403;
-	bh=ugJQOPZ1kMTBi0aTLYRs6bL+WgoMwb9S2BmIZzdBd3U=;
+	s=k20201202; t=1714370613;
+	bh=CCQ14BOX8lYmY87/Bd32IyYzzmdAz5MRlMjIkZTvFTo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=THpp7M7K8ImMQ2I9BGn7B4zp2wz/mnx7nV3T/CdrrQqxANpdGLK+gv7nPwf7H67QO
-	 lbzuJIOSFYmvERFTZo+5g48O+qg12IYtFAAabXqSM1yv4vG4RWtaTCVWPQlpF2g/0d
-	 kEsU0pkSdfRx4YKWFE/kmqWMXS072qxuU7x2+9fyFiWIJDiMv0bQ9SdHWMU082PBQX
-	 hJ8zq4cn6yoU+7qwl+WPNDPu+fjNUIJV/hIzbqGhoBcvtI3IYmLfpAqXMG8ztjBtd0
-	 ODj9S7KH/c5TCb1eFb78EuBRDPq4LnJ49z5QBjRpxfoSMGzbvoXCIEqLAfssEUdQRi
-	 2UgKpWhDer6nA==
-Message-ID: <dc18a843-c83b-4d83-a9b9-236fcd57abb2@kernel.org>
-Date: Mon, 29 Apr 2024 07:59:54 +0200
+	b=dJbPcGfaHhewkFjJoQ5Ul9JRgfxN9LXdJ1NiOvUSJzPnKCC1or24GesGYhyr05UlF
+	 u1z7Xwg4bJb21HgoUZLn0ta9tBDdBD/mhmioyGyUe7rvratwNqsRn+23VT6Ru0+FIf
+	 io9OF2vvuNEurSPjJeSyBHMPGyaLDpmU2he7hjMapejxHCKftk4kM6zOzXdSwsv6s/
+	 iqR1kfdA1sCIGHN2JAyxhQMNatrvx3Zk2iRalgNHNOD7VlU1XeIIo+VFeB7JGcum4U
+	 zoQVzurzSz3D9S3JfiJ4aALm32nR+N9CajQevnmvmPqQN3P+Z6FX/n3Ct2SU6BvfRo
+	 Cyyrr6ut4zT5g==
+Message-ID: <6d21da37-8be7-467c-8878-d57af0b0201b@kernel.org>
+Date: Mon, 29 Apr 2024 08:03:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
+Subject: Re: [PATCH v4 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -70,7 +70,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-2-082b22186d4c@baylibre.com>
+ <20240226-audio-i350-v4-3-082b22186d4c@baylibre.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -116,29 +116,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240226-audio-i350-v4-2-082b22186d4c@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v4-3-082b22186d4c@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 26/04/2024 19:22, Alexandre Mergnat wrote:
-> +      link-name:
-> +        description: Indicates dai-link name and PCM stream name
-> +        enum:
-> +          - I2S_IN_BE
-> +          - I2S_OUT_BE
-> +          - PCM1_BE
-> +          - PDM1_BE
-> +          - PDM2_BE
-> +          - PDM3_BE
-> +          - PDM4_BE
-> +          - SPDIF_IN_BE
-> +          - SPDIF_OUT_BE
-> +          - TDM_IN_BE
-> +          - TDM_OUT_BE
+>    regulators:
+>      type: object
+>      $ref: /schemas/regulator/mediatek,mt6357-regulator.yaml
+> @@ -83,6 +111,12 @@ examples:
+>              interrupt-controller;
+>              #interrupt-cells = <2>;
+>  
+> +            audio-codec {
+> +                mediatek,micbias0-microvolt = <1700000>;
+> +                mediatek,micbias1-microvolt = <1700000>;
+> +                vaud28-supply = <&mt6357_vaud28_reg>;
 
-Feels like BE is redundant.
+And now you should see how odd it looks. Supplies are part of entire
+chip, not subblock, even if they supply dedicated domain within that chip.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+That's why I asked to put it in the parent node.
 
 Best regards,
 Krzysztof
