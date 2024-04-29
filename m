@@ -1,259 +1,206 @@
-Return-Path: <linux-media+bounces-10363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25188B5DE4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 17:40:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D508B5E81
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 18:02:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24B57B240BD
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 15:37:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18F511C21D65
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 16:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F5B582D7C;
-	Mon, 29 Apr 2024 15:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618F983CB1;
+	Mon, 29 Apr 2024 16:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtoJdaPR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lM2Okhzo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B368287C
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 15:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700818289E;
+	Mon, 29 Apr 2024 16:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714405035; cv=none; b=T5o18cVs7cvAhCDDj3BgcMI02pWhLJdw9vKqYREhykX+vB4iSeaYdAP5jROgDbBbGJdjffoeZEDwkdd70TWxDCJ7ELdLy5w7r7xq+8e2D4HXwtK6phW5c1eUGuDz1i9tukWgotOwZwlqLwPP93jWG7B0Co6k6cc5F9Txws2401c=
+	t=1714406562; cv=none; b=q26WlqhHjjOeUWpOhUHMGZvNFWnZIMHv8LDTunWmDXxI45/JR4XZapuQnCbTNU6Vah4KtetD6B2yIAV0sJYkqDC/tkTmv1Zp+D8gut/dhngJmQk9QT6vwSqnj05EChA1g8solqq9/8Q08s42eOo6iWZnwlHD+H8pz6UyXeYiR28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714405035; c=relaxed/simple;
-	bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EuEd6ExDEhCprUJpicI/mB3WpP1s7Bix43lck2X+EqIz1mqkyjztz2WHekbsBSS9GTi5ysJkyruZYi1MTJtzgfg8MUJu25RR+77/b3P/ipdD0RstjOZCobq90+2DVsrXPSEZgNh8ezcfqGgZNfGIgOovbP0BHNZ3xaEUt/TyCws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtoJdaPR; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714405034; x=1745941034;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
-  b=LtoJdaPRvAghYE5E1NmMPKu6Gi5rKPGWeys73ZDJ9KLuxjD2ZPxTCwfk
-   lZzqJtn54oFVpyFwBeyQBjjhGtiqGG9msld2V5/I60tE6Pxql+RUjdbJk
-   CJdY04BhXr+81H6ub4uPm9QuO2jdNr7j00O6LCds/GnQg5422FSoJddI2
-   BpdpFXGvALz1DWTpOKV3D75Yclnp4m7apPlNiznc8U5Qvlu7cUvM5HIW9
-   8HmmAC47+eN0j+/KLhJSs7nh/dUdkWZ/+opgtobuDJmN5qJKSOLt8lULa
-   BVnXVCYxYUyq4lDCRxCP82NR/QNJxJ6oICqA+oAjrdLVXs45H1vM7eGRD
-   g==;
-X-CSE-ConnectionGUID: WT28cO5vTGKkAVg+bjwlJQ==
-X-CSE-MsgGUID: /u1fO/mcS92uS0p7cu3ibw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9951183"
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="9951183"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 08:37:12 -0700
-X-CSE-ConnectionGUID: natBoxHpQjWIj+vlMfpoig==
-X-CSE-MsgGUID: /hF24SmRR46zHRfItMw6Pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="30972917"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 08:37:10 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id CEB0D120624;
-	Mon, 29 Apr 2024 18:37:07 +0300 (EEST)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v3 4/4] media: ivsc: csi: Obtain link frequency from the media pad
-Date: Mon, 29 Apr 2024 18:37:04 +0300
-Message-Id: <20240429153704.1005192-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240429153704.1005192-1-sakari.ailus@linux.intel.com>
-References: <20240429153704.1005192-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1714406562; c=relaxed/simple;
+	bh=20Ns4wgNAJKSSn/3JhX/2hs3/vVgUpIKj/FYouQuJuY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlFWechYao+j8ZDTKMEkx3rFGNbl1Yjt+CpAx4JgehjScfchHfB7qffWY/65WeaSpIqprV4xFVwt1KwBueqA5uIxpCsYTb1SbXdfZx9AbJK5Gq3pBAmydsH6Hdku4NgbcYYv7UXEPKOLj+XW/xqRG9ah7vpu8NK4v6uiiJUNoKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lM2Okhzo; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e4266673bbso41378305ad.2;
+        Mon, 29 Apr 2024 09:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714406561; x=1715011361; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XElcZBZlENfzNj4boLjR3y7e5I4/X7cqaLkM/HBBcyc=;
+        b=lM2OkhzoI1GKtUlcv2n7hVl4sCilpAE8P2J9xbsvzKGzuIKulVGJVHJUv7TIO78twW
+         aiOdVVt6QNcEWpxF8BcxCVzI57dfQ2FeCe0mfWnmJlo0SxwFBYQ8KsQmclcy87ICEHrM
+         7JwV+AWe0RlCUPKvX0W4vyaz9Gx2C/cTyKwDBJhr19yz3jHi91T2nUsLD7BtbTIy02+M
+         EdPc0pgkzBXaqzxeRC68ECHfKRF47VVEZhVMIaNqjcLoonyiIRLU2VGmvktEguyZbmMN
+         okkOEIAcntzKtI4Rtp9sA9kk2lZu2TKO20KzqqcLhwgLOIb3fO3NyctLgrjW6fgjiAFa
+         02Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714406561; x=1715011361;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XElcZBZlENfzNj4boLjR3y7e5I4/X7cqaLkM/HBBcyc=;
+        b=arUY89YDRQBfOQnkISpm1/z9ZBhzRX5HeosZh6zf2iUh6sOVta6DVtKxOITGDX/myr
+         hQIXQQQFsIr8Dhve/ny7h8XR9x/lOAALqShxJtuaq5yfdJZxa3xkuXl/ein9+YK7P+TB
+         WszerkE9NNlAMuqpaAMMmHraeosaI6Qd7d8koSAEbpFLG9hZx/dgLqFCNLz1Jrr7bu1i
+         43ub/rCmHSpeJcXfgG1d96Di1iSmMehHtEFozyMwAGQCbgctZXIV+cDc4OrvDDVF8UCv
+         1pctfFasiXOV1C6G1DuHCxX+I1/wSr42g8xHCw/6Om1EK8tw5PGhH2mySLpXEJ7YUkWz
+         WXag==
+X-Forwarded-Encrypted: i=1; AJvYcCXMyaNLmgsGVHgBHwHO/w325YTS7QmdVgd5vAOAOdHi81tnzj09aLkfN7ro8d81UkFMi1JvInl2WQUVre9wTIzL1+Ety/fZ8UdtNs3N
+X-Gm-Message-State: AOJu0YxDM1UQlkLu+CyMyXNMF11K/0O1oVGCaMDXCPBrB/Fyag0+eE8X
+	X8nepKDItBcjC07X/7YXWPEuTvlTrN9wkUNqK99a0Yimwcp2hDLg
+X-Google-Smtp-Source: AGHT+IEmTiLTD64Ac2EM7arnV5w9aPxywPkYhj2PhF+2vVvr6wC++LqVM+oVSCMVMxR+T9W/EHlOrA==
+X-Received: by 2002:a17:903:11c5:b0:1e4:362b:17d5 with SMTP id q5-20020a17090311c500b001e4362b17d5mr12287816plh.4.1714406560634;
+        Mon, 29 Apr 2024 09:02:40 -0700 (PDT)
+Received: from ?IPV6:2402:e280:214c:86:9744:8dfe:8ee3:9c0a? ([2402:e280:214c:86:9744:8dfe:8ee3:9c0a])
+        by smtp.gmail.com with ESMTPSA id x7-20020a1709027c0700b001e2c8bc6bebsm20598614pll.81.2024.04.29.09.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Apr 2024 09:02:40 -0700 (PDT)
+Message-ID: <92648cb3-5b7c-47a8-ab0e-a7a4fe5f7c27@gmail.com>
+Date: Mon, 29 Apr 2024 21:32:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next] media: i2c: st-mipid02: replace of_node_put()
+ with __free
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ sylvain.petinot@foss.st.com, mchehab@kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
+ Julia Lawall <julia.lawall@inria.fr>
+References: <20240427095643.11486-1-prosunofficial@gmail.com>
+ <d2432381-827f-4825-a450-9954f8291576@foss.st.com>
+Content-Language: en-US
+From: R Sundar <prosunofficial@gmail.com>
+In-Reply-To: <d2432381-827f-4825-a450-9954f8291576@foss.st.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Support the use of the media pad for obtaining the link frequency.
-Similarly, call the v4l2_get_link_freq() on the media pad, not on the
-remote's control handler.
+On 29/04/24 14:22, Benjamin Mugnier wrote:
+> Hi,
+> 
+> Thank you for your patch.
+> 
+> On 4/27/24 11:56, R Sundar wrote:
+>> Use the new cleanup magic to replace of_node_put() with
+>> __free(device_node) marking to auto release and to simplify the error
+>> paths.
+>>
+>> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+>> Signed-off-by: R Sundar <prosunofficial@gmail.com>
+> 
+> I was not aware of this kind of auto release mechanism. Thanks for
+> bringing that to my eyes.
+> 
+> Now I looked in /drivers/media and couldn't find such structure. All
+> drivers seem to follow the goto error_of_node_put style.
+> As I'm unsure if we want to introduce such magic, could either Laurent
+> or Sakari comment on this ?
+> 
+>> ---
+>>   drivers/media/i2c/st-mipid02.c | 37 +++++++++-------------------------
+>>   1 file changed, 9 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+>> index f250640729ca..d42a306530f3 100644
+>> --- a/drivers/media/i2c/st-mipid02.c
+>> +++ b/drivers/media/i2c/st-mipid02.c
+>> @@ -715,31 +715,28 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
+>>   	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
+>>   	struct i2c_client *client = bridge->i2c_client;
+>>   	struct v4l2_async_connection *asd;
+>> -	struct device_node *ep_node;
+>>   	int ret;
+>>   
+>>   	/* parse rx (endpoint 0) */
+>> -	ep_node = of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node,
+>> -						0, 0);
+>> +	struct device_node *ep_node __free(device_node) =
+>> +		of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node, 0, 0);
+>>   	if (!ep_node) {
+>>   		dev_err(&client->dev, "unable to find port0 ep");
+>> -		ret = -EINVAL;
+>> -		goto error;
+>> +		return -EINVAL;
+>>   	}
+>>   
+>>   	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), &ep);
+>>   	if (ret) {
+>>   		dev_err(&client->dev, "Could not parse v4l2 endpoint %d\n",
+>>   			ret);
+>> -		goto error_of_node_put;
+>> +		return ret;
+>>   	}
+>>   
+>>   	/* do some sanity checks */
+>>   	if (ep.bus.mipi_csi2.num_data_lanes > 2) {
+>>   		dev_err(&client->dev, "max supported data lanes is 2 / got %d",
+>>   			ep.bus.mipi_csi2.num_data_lanes);
+>> -		ret = -EINVAL;
+>> -		goto error_of_node_put;
+>> +		return -EINVAL;
+>>   	}
+>>   
+>>   	/* register it for later use */
+>> @@ -750,7 +747,6 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
+>>   	asd = v4l2_async_nf_add_fwnode_remote(&bridge->notifier,
+>>   					      of_fwnode_handle(ep_node),
+>>   					      struct v4l2_async_connection);
+>> -	of_node_put(ep_node);
+>>   
+>>   	if (IS_ERR(asd)) {
+>>   		dev_err(&client->dev, "fail to register asd to notifier %ld",
+>> @@ -764,46 +760,31 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
+>>   		v4l2_async_nf_cleanup(&bridge->notifier);
+>>   
+>>   	return ret;
+>> -
+>> -error_of_node_put:
+>> -	of_node_put(ep_node);
+>> -error:
+>> -
+>> -	return ret;
+>>   }
+>>   
+>>   static int mipid02_parse_tx_ep(struct mipid02_dev *bridge)
+>>   {
+>>   	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_PARALLEL };
+>>   	struct i2c_client *client = bridge->i2c_client;
+>> -	struct device_node *ep_node;
+>>   	int ret;
+>>   
+>>   	/* parse tx (endpoint 2) */
+>> -	ep_node = of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node,
+>> -						2, 0);
+>> +	struct device_node *ep_node =
+>> +		of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node, 2, 0);
+> 
+> Shouldn't there be a '__free' here too ?
+> 
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ivsc/mei_csi.c | 72 +++++++++-----------------
- 1 file changed, 25 insertions(+), 47 deletions(-)
+my Bad.
+Yes, It should come here also. Thanks!!
+Will update the patch.
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-index 89b582a221ab..621a6ee32e01 100644
---- a/drivers/media/pci/intel/ivsc/mei_csi.c
-+++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-@@ -35,8 +35,6 @@
- 
- #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
- 
--#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
--
- /* the 5s used here is based on experiment */
- #define CSI_CMD_TIMEOUT (5 * HZ)
- /* to setup CSI-2 link an extra delay needed and determined experimentally */
-@@ -121,12 +119,11 @@ struct mei_csi {
- 	struct mutex lock;
- 
- 	struct v4l2_subdev subdev;
--	struct v4l2_subdev *remote;
-+	struct media_pad *remote;
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *freq_ctrl;
- 	struct v4l2_ctrl *privacy_ctrl;
--	unsigned int remote_pad;
- 	/* start streaming or not */
- 	int streaming;
- 
-@@ -148,10 +145,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
- 	.field = V4L2_FIELD_NONE,
- };
- 
--static s64 link_freq_menu_items[] = {
--	MEI_CSI_LINK_FREQ_400MHZ
--};
--
- static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
- {
- 	return container_of(n, struct mei_csi, notifier);
-@@ -284,11 +277,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
- static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct mei_csi *csi = sd_to_csi(sd);
-+	struct v4l2_subdev *remote_sd =
-+		media_entity_to_v4l2_subdev(csi->remote->entity);
- 	s64 freq;
- 	int ret;
- 
- 	if (enable && csi->streaming == 0) {
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
-+		freq = v4l2_get_link_freq(csi->remote, 0, 0);
- 		if (freq < 0) {
- 			dev_err(&csi->cldev->dev,
- 				"error %lld, invalid link_freq\n", freq);
-@@ -307,11 +302,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
- 		if (ret < 0)
- 			goto err_switch;
- 
--		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
-+		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
- 		if (ret)
- 			goto err_switch;
- 	} else if (!enable && csi->streaming == 1) {
--		v4l2_subdev_call(csi->remote, video, s_stream, 0);
-+		v4l2_subdev_call(remote_sd, video, s_stream, 0);
- 
- 		/* switch CSI-2 link to IVSC */
- 		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
-@@ -468,34 +463,29 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-+static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-+				   struct v4l2_mbus_config *mbus_config)
- {
--	struct mei_csi *csi = ctrl_to_csi(ctrl);
-+	struct mei_csi *csi = sd_to_csi(sd);
-+	unsigned int i;
- 	s64 freq;
- 
--	if (ctrl->id == V4L2_CID_LINK_FREQ) {
--		if (!csi->remote)
--			return -EINVAL;
--
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
--		if (freq < 0) {
--			dev_err(&csi->cldev->dev,
--				"error %lld, invalid link_freq\n", freq);
--			return -EINVAL;
--		}
--
--		link_freq_menu_items[0] = freq;
--		ctrl->val = 0;
-+	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
-+	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
-+		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
-+	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
- 
--		return 0;
-+	freq = v4l2_get_link_freq(csi->remote, 0, 0);
-+	if (freq < 0) {
-+		dev_err(&csi->cldev->dev,
-+			"error %lld, invalid link_freq\n", freq);
-+		return -EINVAL;
- 	}
- 
--	return -EINVAL;
--}
-+	mbus_config->link_freq = csi->link_freq = freq;
- 
--static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
--	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
--};
-+	return 0;
-+}
- 
- static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- 	.s_stream = mei_csi_set_stream,
-@@ -504,6 +494,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = mei_csi_set_fmt,
-+	.get_mbus_config = mei_csi_get_mbus_config,
- };
- 
- static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
-@@ -531,8 +522,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
- 	if (pad < 0)
- 		return pad;
- 
--	csi->remote = subdev;
--	csi->remote_pad = pad;
-+	csi->remote = &subdev->entity.pads[pad];
- 
- 	return media_create_pad_link(&subdev->entity, pad,
- 				     &csi->subdev.entity, CSI_PAD_SINK,
-@@ -556,26 +546,14 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
- 
- static int mei_csi_init_controls(struct mei_csi *csi)
- {
--	u32 max;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
-+	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
- 	if (ret)
- 		return ret;
- 
- 	csi->ctrl_handler.lock = &csi->lock;
- 
--	max = ARRAY_SIZE(link_freq_menu_items) - 1;
--	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
--						&mei_csi_ctrl_ops,
--						V4L2_CID_LINK_FREQ,
--						max,
--						0,
--						link_freq_menu_items);
--	if (csi->freq_ctrl)
--		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
--					 V4L2_CTRL_FLAG_VOLATILE;
--
- 	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
- 					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
- 	if (csi->privacy_ctrl)
--- 
-2.39.2
+Thanks,
+Sundar
+
 
 
