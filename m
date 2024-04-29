@@ -1,322 +1,134 @@
-Return-Path: <linux-media+bounces-10385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE53C8B65C4
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 00:33:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 645128B6602
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 01:06:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D26BD1C20FE3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 22:33:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CEC91C21B30
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 23:06:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA46101E3;
-	Mon, 29 Apr 2024 22:33:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A10129E74;
+	Mon, 29 Apr 2024 23:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TajirBVc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zWWhImlz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7B25A4FF
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 22:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C1377F10
+	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 23:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714429985; cv=none; b=Rwz138gsvxiuFz9vHNfcc9zbIRYLFzzFUiDwELlsXjhwBo0Sg2/ztar3WEfH3fwUZdyUWzrdOwRMd1W4o6guxGexLdCuF7j8KPOjv4uhuWqlPZdzm9M8eYoAKtaYdBrg0ICw2lqZ9gWZPBU/Oxabo1DHaBT1xzM0alllJUwrXAI=
+	t=1714431997; cv=none; b=jijH6+tU7203P3wKgjZfCutHfL7THinGa+rW2gJfat08CwtD4ex8WQnJsJt/9rO72zEUox5PWYdfJrGx9f9MXy6Vwz1cU45MuCFORWxC0sdyefnesIKG1dHWjBbv6nd95uWB9how4YRsSHQ5bUIL/gz2RfV7OrT/8zKKo8VGho4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714429985; c=relaxed/simple;
-	bh=RtmiXlewQOCoTlRc83K170GUZTEprQmHQShyfutdg/M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WrwBc8EOYtk4/U5TDUvjqF7F0QWOqJ5ExD7sxATTntLta4fleT7jZlrYyg9uRTtZaBDtVe7uX9LfYIC9ORx1Ws2yCr1SMg5cojs60xvCD8zimggpZUvqk3Vzh5ZWeplWAF6vg7lRjFbNnLtnuGn9W64zWUtNXJbCR0WHqPvWKO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TajirBVc; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714429983; x=1745965983;
-  h=date:from:to:cc:subject:message-id;
-  bh=RtmiXlewQOCoTlRc83K170GUZTEprQmHQShyfutdg/M=;
-  b=TajirBVc8lSUxqD0U7BTpAMXpYOBERx6BG1o3X6wG9ehfRQU2qeUNCHJ
-   ZE/rF3n2MCcce5zAgOxwsMCGzWYsMqTzKyrrC47tVkNoJ5SCsBQm7QVlo
-   dKouzccCXpnMEor54yvHlSng6s62QvIZKYHKa9AkuSD0tWYoGH/JnGuoT
-   SBLVVjIyCS97NkiWauhXMHIVh/mDB0AKQCtdF+3F1F7WeikwZMqxsGFxT
-   j7NwbyR8a4bY5ckE4xHlT008eeGrcHAHrJliMLMBkdTmJjS0HPpR+NAoS
-   QLE7HzBidIJgtnZ5EaKpCUrEcDMuLoHH4odgYnc5qFFKijOROdFGJVeM0
-   Q==;
-X-CSE-ConnectionGUID: IbuBiF1bTWi2iAwUqj+TSw==
-X-CSE-MsgGUID: XRDCm9sgSb+Iz4/bOjUB8Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="9974841"
-X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="9974841"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 15:33:02 -0700
-X-CSE-ConnectionGUID: UsBXjgwfSQaNjODt5WgNkg==
-X-CSE-MsgGUID: UUECYfynSN2J00uyKxOQJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,240,1708416000"; 
-   d="scan'208";a="31050586"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Apr 2024 15:33:02 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1ZYR-0007U6-0P;
-	Mon, 29 Apr 2024 22:32:59 +0000
-Date: Tue, 30 Apr 2024 06:32:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:ipu6] BUILD REGRESSION
- 308898eb3af1c6530b122a01a5c4b38931717e70
-Message-ID: <202404300601.tHRGrTCm-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1714431997; c=relaxed/simple;
+	bh=oCpzsnULxIgSn6f6NyIWzCzj4/D2x7S7p/X3jeHAGOo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e2VdQW1DgqAfd9sENOsZNrQOYK5jP8xRTWVWQA2417bSZH9MrZdAJvqAm2H/QksuOc/vHS1rxatGOv84zdjpChMt9ugiT2RAzc9Kyr2McNXjtQJLwTpsPO15FxZMg144iyMlO7mC1xN4QxPN0xBUthSWOtbKmbrI3AdFDK8QG0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zWWhImlz; arc=none smtp.client-ip=209.85.221.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-343d2b20c4bso3442040f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 16:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714431994; x=1715036794; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y9Wc1VRWdSj/kw6OxjVRGGw4/2n20BQdC0iB/qkj8dg=;
+        b=zWWhImlzXZjQmWla9wIXBCooFCJDbmLFMy7op2Wc8hoDsHj3i/qCfnrfvvOx8MM14Y
+         6ayFOyZAWWEYM8FlRLy4gbVhQJGibdwPo5lINr88DZg4s+QcYX7NhBl91RZlq3VI1cu7
+         8PIAf6mwVKzi7/AcUcUlXxqqRC9dKI7Lm4HKKWuLgnKC4tsobq8YsYYf4KUw6rv70Ebf
+         ORhItLOh8nwLOLr/ZzkQGQAwqEw3tTUkwtrmeUWLEKHQJfEzMNO6rteu+b6lqsP5kvz8
+         i0oS/VGko/IwLY2DsifvcqicxcZ4nw3OolLb7SVKzRaNoaM1aMGkMI81PqpHNyQoWB39
+         miNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714431994; x=1715036794;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y9Wc1VRWdSj/kw6OxjVRGGw4/2n20BQdC0iB/qkj8dg=;
+        b=XODin3oqdM3e1BA0uHLRfnlgHiLDTYY26iM2s2CVxDyjXemb9m0+FlckP0KUgokXOg
+         x0IzLAyda8ded+85roiHjjv+s/fsPxeJpGbj86WaAINWBnZdwI6t5+g/9xps0EocpEsk
+         NVwPPaOhPycyex4g/XpIO+/brwBRPLDrb3Wo7+Fi0dFbUnpdDRO9DmqEmHSFfOFSL1uI
+         VT5OwoJgwdkFcQezOoqTvHBxCTOU1UGQ3+RnPfxGZ6sjEi9ueZ4owu9yyQJKH7cM0TfR
+         hz1MxRjpzp1ZdywAQZWyzQxFz1WKV/EuxjvhiOHWC/N6aZt4Li0TBhoIkFvB0XwDtXPg
+         tDMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXIyoG0kMgPiwdovs/WhvXIaRMq5rb10LDwRFpsUfJMW6ctQFt4Ol8zW2I9AiK+lUUWSw2xNZ74AMq/XMMrBAHm5xpLxfFZSDvLhRY=
+X-Gm-Message-State: AOJu0YyXB8ruAJmr6IVKSDO4AJuHO28uBbPzcIeOlPreAmuXz13H05dG
+	wyM2pY/94LnvoBaiFCfiIjzo8+mHYgB7u26eQC77qSUurm92RTx7NSrEikYeZ4w=
+X-Google-Smtp-Source: AGHT+IHCWKrgaTKGrhkqF26FTfzxhgQB+moXIvDSb8J8J/IOshycaSS5Xrsj1BsiFf+7Gnj7wtoHtg==
+X-Received: by 2002:adf:ee0c:0:b0:34a:2a90:c45 with SMTP id y12-20020adfee0c000000b0034a2a900c45mr8641646wrn.31.1714431993724;
+        Mon, 29 Apr 2024 16:06:33 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id r30-20020adfb1de000000b00343e392829dsm30873168wra.97.2024.04.29.16.06.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Apr 2024 16:06:33 -0700 (PDT)
+Message-ID: <32b3c158-8709-42c0-9e6e-81ccdd0e7ab5@linaro.org>
+Date: Tue, 30 Apr 2024 00:06:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] dt-bindings: media: add qcom,msm8998-venus
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+ Bjorn Andersson <andersson@kernel.org>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: MSM <linux-arm-msm@vger.kernel.org>,
+ linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <2b21b160-a530-486a-9404-c5bf8863ffed@freebox.fr>
+ <4ea494cf-134e-4380-aea1-4c166a626561@freebox.fr>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <4ea494cf-134e-4380-aea1-4c166a626561@freebox.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6
-branch HEAD: 308898eb3af1c6530b122a01a5c4b38931717e70  media: Kconfig: Select MEDIA_CONTROLLER for VIDEO_V4L2_SUBDEV_API
+On 29/04/2024 17:15, Marc Gonzalez wrote:
+> Add YAML binding for Qualcomm MSM8998 Venus HW video encode and decode.
+> (Based on qcom,msm8996-venus.yaml)
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>   Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml | 155 ++++++++++++++++++++++++++++
+>   1 file changed, 155 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml
+> new file mode 100644
+> index 0000000000000..86a20954cb354
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml
+> @@ -0,0 +1,155 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,msm8998-venus.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MSM8998 Venus video encode and decode accelerators
+> +
+> +maintainers:
+> +  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-Error/Warning reports:
+You should list yourself as maintaining a file you add upstream, plus 
+I'm pretty sure that's not Stan's current email address.
 
-https://lore.kernel.org/oe-kbuild-all/202404292239.nNxjfKs4-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202404292348.ODBLhjxb-lkp@intel.com
+However, looking at this I think you should just add a new compat to 
+Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml since 
+the rest of the file is 1:1
 
-Error/Warning: (recently discovered and may have been fixed)
-
-drivers/media/i2c/st-mipid02.c:321:33: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/i2c/tc358746.c:914:40: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/pci/intel/ipu3/ipu3-cio2.c:317:44: error: passing argument 1 of '__v4l2_get_link_freq' from incompatible pointer type [-Werror=incompatible-pointer-types]
-drivers/media/pci/intel/ivsc/mei_csi.c:291:54: error: passing argument 1 of '__v4l2_get_link_freq' from incompatible pointer type [-Werror=incompatible-pointer-types]
-drivers/media/platform/cadence/cdns-csi2rx.c:184:33: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/platform/nxp/imx-mipi-csis.c:600:33: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/platform/nxp/imx8mq-mipi-csi2.c:302:33: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/platform/qcom/camss/camss.c:1339:28: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/platform/ti/cal/cal-camerarx.c:68:28: error: incompatible pointer types passing 'struct v4l2_ctrl_handler *' to parameter of type 'struct v4l2_subdev *' [-Werror,-Wincompatible-pointer-types]
-drivers/media/v4l2-core/v4l2-common.c:512:9: error: implicit declaration of function 'v4l2_subdev_call_op' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-`-- i386-allmodconfig
-    |-- drivers-media-pci-intel-ipu3-ipu3-cio2.c:error:passing-argument-of-__v4l2_get_link_freq-from-incompatible-pointer-type
-    `-- drivers-media-pci-intel-ivsc-mei_csi.c:error:passing-argument-of-__v4l2_get_link_freq-from-incompatible-pointer-type
-clang_recent_errors
-|-- arm-defconfig
-|   `-- drivers-media-v4l2-core-v4l2-common.c:error:implicit-declaration-of-function-v4l2_subdev_call_op-is-invalid-in-C99-Werror-Wimplicit-function-declaration
-|-- arm64-allmodconfig
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- arm64-randconfig-003-20240429
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- hexagon-allmodconfig
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- hexagon-randconfig-001-20240429
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-v4l2-core-v4l2-common.c:error:implicit-declaration-of-function-v4l2_subdev_call_op-is-invalid-in-C99-Werror-Wimplicit-function-declaration
-|-- i386-buildonly-randconfig-002-20240429
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- i386-buildonly-randconfig-004-20240429
-|   |-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- i386-buildonly-randconfig-006-20240429
-|   `-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- i386-randconfig-003-20240429
-|   `-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- i386-randconfig-015-20240429
-|   `-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- powerpc-allyesconfig
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- powerpc64-randconfig-001-20240429
-|   `-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- riscv-allmodconfig
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-i2c-tc358746.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|-- riscv-allyesconfig
-|   |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-|   `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-`-- s390-allmodconfig
-    |-- drivers-media-i2c-st-mipid02.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-    |-- drivers-media-platform-cadence-cdns-csi2rx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-    |-- drivers-media-platform-nxp-imx-mipi-csis.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-    |-- drivers-media-platform-nxp-imx8mq-mipi-csi2.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-    |-- drivers-media-platform-qcom-camss-camss.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-    `-- drivers-media-platform-ti-cal-cal-camerarx.c:error:incompatible-pointer-types-passing-struct-v4l2_ctrl_handler-to-parameter-of-type-struct-v4l2_subdev-Werror-Wincompatible-pointer-types
-
-elapsed time: 729m
-
-configs tested: 139
-configs skipped: 3
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240429   gcc  
-arc                   randconfig-002-20240429   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240429   clang
-arm                   randconfig-002-20240429   clang
-arm                   randconfig-003-20240429   clang
-arm                   randconfig-004-20240429   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240429   clang
-arm64                 randconfig-002-20240429   gcc  
-arm64                 randconfig-003-20240429   clang
-arm64                 randconfig-004-20240429   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240429   gcc  
-csky                  randconfig-002-20240429   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240429   clang
-hexagon               randconfig-002-20240429   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240429   clang
-i386         buildonly-randconfig-002-20240429   clang
-i386         buildonly-randconfig-003-20240429   gcc  
-i386         buildonly-randconfig-004-20240429   clang
-i386         buildonly-randconfig-005-20240429   gcc  
-i386         buildonly-randconfig-006-20240429   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240429   clang
-i386                  randconfig-002-20240429   clang
-i386                  randconfig-003-20240429   clang
-i386                  randconfig-004-20240429   clang
-i386                  randconfig-005-20240429   gcc  
-i386                  randconfig-006-20240429   clang
-i386                  randconfig-011-20240429   gcc  
-i386                  randconfig-012-20240429   gcc  
-i386                  randconfig-013-20240429   clang
-i386                  randconfig-014-20240429   gcc  
-i386                  randconfig-015-20240429   clang
-i386                  randconfig-016-20240429   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240429   gcc  
-loongarch             randconfig-002-20240429   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240429   gcc  
-nios2                 randconfig-002-20240429   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240429   gcc  
-parisc                randconfig-002-20240429   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240429   gcc  
-powerpc               randconfig-002-20240429   gcc  
-powerpc               randconfig-003-20240429   gcc  
-powerpc64             randconfig-001-20240429   clang
-powerpc64             randconfig-002-20240429   clang
-powerpc64             randconfig-003-20240429   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240429   gcc  
-riscv                 randconfig-002-20240429   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240429   gcc  
-s390                  randconfig-002-20240429   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240429   gcc  
-sh                    randconfig-002-20240429   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240429   gcc  
-sparc64               randconfig-002-20240429   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240429   gcc  
-um                    randconfig-002-20240429   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240429   gcc  
-xtensa                randconfig-002-20240429   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+bod
 
