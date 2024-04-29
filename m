@@ -1,136 +1,156 @@
-Return-Path: <linux-media+bounces-10310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B708B5256
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 09:28:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E6B8B525C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 09:30:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 893B81F21CA3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 07:28:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A22D1F21D51
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 07:30:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0456A14005;
-	Mon, 29 Apr 2024 07:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZQSdoL3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5449914003;
+	Mon, 29 Apr 2024 07:30:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2F6EED4
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 07:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DD5168B9
+	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 07:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714375731; cv=none; b=HER4rKWhapDFA6XTievxIJVw18Sv4pnH172Fcf4IkT+XiWZ61OlOGwFAehxcvDNfd3A+fmgcYJrocbHDeFv9dQBH6L0mLm2L95dR1GXxlWFQxvKEKYr7qF7mVuP8GtZcRz79YhjS/mc8W/qiJyzfpkmSVXgHCNuBauTVXKm0yQs=
+	t=1714375841; cv=none; b=VwNJ8N8yIoEFLeYF6zCnwBfaVhbnEcmwY22AkNWBIjOVwWWYiwal2KTDg6HfNN5lPWCKxJgc1gOUXL7X5T+46pAL3NelP2tygC5sOYgYvglfQSxZMwkwt5qMBEiC6Bxx4LPl8qGacTEjbHa1Y/jbHNrbwG6dAKpzWfNEQ00yfwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714375731; c=relaxed/simple;
-	bh=rcvuF7DK6wxhdEmazgsDVlzVrqEUnsApqRXXydRbGIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d7FzrGR9N2WKhhLw4YhNTSQmeJE1CpnyU23laGV+xSEmaQis5PQT3oFnVwgedo7cKOyvkWxjgRYrE/8i/QTQoseKt83ptU31hnYEcfa+/XKRWEQirm3SylOMgY1PJx8l+PkF2h9NkMQ0Os6paxjIHbnPR9Ru+TEpuLoVNAOdje0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZQSdoL3; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714375729; x=1745911729;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rcvuF7DK6wxhdEmazgsDVlzVrqEUnsApqRXXydRbGIc=;
-  b=XZQSdoL3KLbAlztqtyMtLA/vxJgJHI22FiiuSZgw/xAMOxM1w6+oM8cT
-   FnCELNkjJCcXElQaj32ffsVuy/gBIymildS1OSaLbZi+roJfLU8AUFyGY
-   SSvafSqkPeJlXxhUpmrY0jTUUE4wjhPvc42cmR34xuySHcY6iR/KK0Uzu
-   7ZSI4KC2emEiWrYGs6DapV38i8wDaDUttUIdtDmye1u/E66GuKjHRtHHg
-   bKdociIPP7p9MSJHpk/148uCjJnsIOy5hs/fbSjJrhaaKIjWtWiebtmLI
-   OreoxolCrAwrXO9kRhsG6fvM3CT72yIAxyazoRbPje/IdO/wQyg6koM3N
-   w==;
-X-CSE-ConnectionGUID: 6px1KhbkR5eGFwBE0DU2IA==
-X-CSE-MsgGUID: +e6pSGaATeq9j0CxI6cdjw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10243324"
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="10243324"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 00:28:49 -0700
-X-CSE-ConnectionGUID: M4sc2W79QPS4ehY0K766HA==
-X-CSE-MsgGUID: HSMixKrWTnKIACXVQaF0ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="26099548"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 00:28:47 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 380DD11F830;
-	Mon, 29 Apr 2024 10:28:45 +0300 (EEST)
-Date: Mon, 29 Apr 2024 07:28:45 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v2 0/3] Use INTEGER64 type for MEI CSI LINK_FREQ control
-Message-ID: <Zi9MLcZzS4xW1tyU@kekkonen.localdomain>
-References: <20240426145538.654212-1-sakari.ailus@linux.intel.com>
- <20240428232028.GD4950@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1714375841; c=relaxed/simple;
+	bh=nJO8eKqfJSbPFqhIl9qhWyatgahcTdUUBuEv+n3oA2w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OoElbZbgclUG1ebl04MvmJ1qmU+UhugRJGZhgwHvOv+bdob17I10SkkUAVECYR5fwAoYMrUrdgVkwObPTns56zIzLzaK4Sn7djThh5TVQ5W2KX7Y3LO7o53CdG7kRTS9obt0bdbX8mEwfMoiel+QtwKyaW8xRnTU+nHR0dqQTTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8662FC113CD;
+	Mon, 29 Apr 2024 07:30:39 +0000 (UTC)
+Message-ID: <c0ae16a7-a817-4c43-bfb8-f71da01e0713@xs4all.nl>
+Date: Mon, 29 Apr 2024 09:30:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240428232028.GD4950@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Use INTEGER64 type for MEI CSI LINK_FREQ control
+Content-Language: en-US, nl
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>
+References: <20240426145538.654212-1-sakari.ailus@linux.intel.com>
+ <20240428232028.GD4950@pendragon.ideasonboard.com>
+ <Zi9MLcZzS4xW1tyU@kekkonen.localdomain>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <Zi9MLcZzS4xW1tyU@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+On 29/04/2024 09:28, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> On Mon, Apr 29, 2024 at 02:20:28AM +0300, Laurent Pinchart wrote:
+>> Hi Sakari,
+>>
+>> Thank you for the patches.
+>>
+>> On Fri, Apr 26, 2024 at 05:55:35PM +0300, Sakari Ailus wrote:
+>>> Hi folks,
+>>>
+>>> An integer menu isn't a useful control type for conveying the frequency
+>>> depending on an external device to the receiver. Instead, in the MEI CSI
+>>> driver, just obtain the link frequency from the upsteam sub-device and
+>>> pass it on to the receiver.
+>>>
+>>> The v4l2_get_link_freq() is changed to add support for this and it's
+>>> documented as well.
+>>
+>> Using a control for this seems to be a bit of a hack :-S Wouldn't it fit
+>> more nicely in the .get_mbus_config() operation ? That would avoid
+>> exposing this to userspace, and would also have the nice advantage that
+>> the value could be queried per pad.
+> 
+> Works for me. I also think it's better than using a new control for this
+> actually.
 
-On Mon, Apr 29, 2024 at 02:20:28AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patches.
-> 
-> On Fri, Apr 26, 2024 at 05:55:35PM +0300, Sakari Ailus wrote:
-> > Hi folks,
-> > 
-> > An integer menu isn't a useful control type for conveying the frequency
-> > depending on an external device to the receiver. Instead, in the MEI CSI
-> > driver, just obtain the link frequency from the upsteam sub-device and
-> > pass it on to the receiver.
-> > 
-> > The v4l2_get_link_freq() is changed to add support for this and it's
-> > documented as well.
-> 
-> Using a control for this seems to be a bit of a hack :-S Wouldn't it fit
-> more nicely in the .get_mbus_config() operation ? That would avoid
-> exposing this to userspace, and would also have the nice advantage that
-> the value could be queried per pad.
+Same for me. As you gathered, I was not very enthusiastic about using a
+control for this either.
 
-Works for me. I also think it's better than using a new control for this
-actually.
-
-> 
-> > since v1:
-> > 
-> > - Add a new 64-bit integer control V4L2_CID_CUR_LINK_FREQ instead of
-> >   re-using V4L2_CID_LINK_FREQ.
-> > 
-> > Sakari Ailus (3):
-> >   media: Documentation: v4l: Add CUR_LINK_FREQ control
-> >   media: v4l: Support obtaining link frequency from CUR_LINK_FREQ
-> >     control
-> >   media: ivsc: csi: Fix link frequency control behaviour
-> > 
-> >  .../media/v4l/ext-ctrls-image-process.rst     |  4 ++++
-> >  drivers/media/pci/intel/ivsc/mei_csi.c        | 24 ++++++-------------
-> >  drivers/media/v4l2-core/v4l2-common.c         |  6 ++++-
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  5 ++++
-> >  include/uapi/linux/v4l2-controls.h            |  1 +
-> >  5 files changed, 22 insertions(+), 18 deletions(-)
-> > 
-> > 
-> > base-commit: 6612d1ae37b52d37d1d515d7c5110b9f3afe94d2
-> 
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+>>
+>>> since v1:
+>>>
+>>> - Add a new 64-bit integer control V4L2_CID_CUR_LINK_FREQ instead of
+>>>   re-using V4L2_CID_LINK_FREQ.
+>>>
+>>> Sakari Ailus (3):
+>>>   media: Documentation: v4l: Add CUR_LINK_FREQ control
+>>>   media: v4l: Support obtaining link frequency from CUR_LINK_FREQ
+>>>     control
+>>>   media: ivsc: csi: Fix link frequency control behaviour
+>>>
+>>>  .../media/v4l/ext-ctrls-image-process.rst     |  4 ++++
+>>>  drivers/media/pci/intel/ivsc/mei_csi.c        | 24 ++++++-------------
+>>>  drivers/media/v4l2-core/v4l2-common.c         |  6 ++++-
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  5 ++++
+>>>  include/uapi/linux/v4l2-controls.h            |  1 +
+>>>  5 files changed, 22 insertions(+), 18 deletions(-)
+>>>
+>>>
+>>> base-commit: 6612d1ae37b52d37d1d515d7c5110b9f3afe94d2
+>>
+> 
+
 
