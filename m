@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-10295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B18B8B5132
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 08:19:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 501488B5133
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 08:19:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5FAE281D59
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 06:19:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45822B22118
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 06:19:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24F7F9DF;
-	Mon, 29 Apr 2024 06:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D5E21119B;
+	Mon, 29 Apr 2024 06:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKhvxk4g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKfdmPrK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7177611C94
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 06:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A5011C85
+	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 06:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714371555; cv=none; b=b6VB3nXEbXzyaesNaw0+z84nmVOW3uGEK2K0oNn+s1dGrvVepXMH6HUz6snKXHvkqaoLOxdbNbQIdP4cqH+aA3sQptwrQhg9Q/jSS326PIxbYf9v3huLS2gH5qyBJoemo3htT0Byz+VkTXUsufDQZSiIna6On/2gpFZ6tju2CGg=
+	t=1714371555; cv=none; b=DnHwi52oSVLs588oWaqd0NdNaehrfCyDnfH1h5ynLoB20MP7hF6eAivD/H3QTfLEV3nJtJqzFSikNwB7pLDQ4eisQQooMh/ybO3IrK3o5SJq5w5BrkvNFi7MCYa91tSP0/Fljw/4IJ8GmKRj/3OYQl89IulAMV4wJj12XtIFxpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714371555; c=relaxed/simple;
-	bh=YNDBI0WqZCgLQDUT0wVvirmhC3TyzJ4cltDYNLegVi0=;
+	bh=KDhXotckrfr/AcQIGLRSRzyb4mSjPdZ00+05PBFAw+0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EOFK9IVmCh4wBrl3Fh4fLq9DgZRBC4exp9y/bM/xIL+NWE+nLg8dcBB12QCqKHBKqUIxr7ppvrRPwz702fyFf7XFua4OAPRg18E9FRmuHvGOyQdItV5/S6D0/XdZwecVi20yF7tIKpFnPri/Kl+BULX8k3ooxp3CqwoKoQ2A8to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKhvxk4g; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=LGDahybYlkEk1f+KqO2RBUdYGfIRhL+zsrsDh0JJnnoNI4sm9frQRKCqNFTGRmO5IqUuZXIuYvDxg+vS/Do6Jm5idwD7GDWr02BZebC2sI/YbIVYqWk3fmOpFmcPBrXZbw4LrY5rbYMWADvQg20o1ZhRGec4QSnWoxwJwssvotQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKfdmPrK; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714371553; x=1745907553;
+  t=1714371555; x=1745907555;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YNDBI0WqZCgLQDUT0wVvirmhC3TyzJ4cltDYNLegVi0=;
-  b=JKhvxk4gKYBlAQwsk50DwM9iF3Cif5afclkqYowztrcGmO1TYpDG7i/Y
-   bbYEixvLTglSHo2yjKPwvU15pb6MYID8D1TkkOeb9CfAA7IBSRsOHPoYI
-   GXQSZMP/k/FJxvbPeAM7nzpJcZWOkyGAhKY5EftBnqvqhO033/0BxwpM/
-   PzlhdZsvezwwUHEGnOvsdbiH+iclkOYY4F70199AV6HcQPsa4+m19QcR7
-   WJ0QDTn5utJihkpmx4hHEzMmTm1akKFk+6Vug8yu9MPQoot+EoS/6SJsJ
-   t70XX7Va0pnF02MmEZmvg0gYkZrdUVInXvBE5JYYbFla3V5vbKYWh294U
-   g==;
-X-CSE-ConnectionGUID: 3+QdsIUrScu9Za5/7ape/Q==
-X-CSE-MsgGUID: zaMQFFATRZ+A34IV8DoDlA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="9851150"
+  bh=KDhXotckrfr/AcQIGLRSRzyb4mSjPdZ00+05PBFAw+0=;
+  b=YKfdmPrK6bbm0tGrIQ2AMQdSc7ejqAJyGJ2ZgCfeURGLLEPVHk/zMpx6
+   gQWmfBBzfFyouW0LobhpmrBmgm+c9jvON3wnYdfqhL5ykR3q5mtVJTLqt
+   eSzMIl89pqJVetpzNylXbeBcx60+fZTgqIH0IvkqJgwLts84wqkQk9t3D
+   nHQZre0FRTvM9oupAenF6iDtlV4a2+d5Z9V/OCqIgmm+eszSja1xhPgDf
+   fdKl5u2Lc1+6dl4+OmrK1d2oJChjIlqxhpPre8MUPNoiuvVTkJGyFVTBW
+   RyNwH3M94KjmFIgcLOY8bk7B9et0g+ptOWwiY4DDRyU8iwIOj+PEPkKPI
+   Q==;
+X-CSE-ConnectionGUID: qH9Wa/qnRA6Chqh+hIY6hQ==
+X-CSE-MsgGUID: cxWQoPtESJOVo8VJhVanVg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="9851154"
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="9851150"
+   d="scan'208";a="9851154"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 23:19:13 -0700
-X-CSE-ConnectionGUID: wR9gcSAeRROQZ3E4nMqlag==
-X-CSE-MsgGUID: QcTI9trURwGecs0SUM2Upw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 23:19:14 -0700
+X-CSE-ConnectionGUID: /Fes32KrQQOfizT0v3bEqA==
+X-CSE-MsgGUID: layhS214T32gVxp4+B4Sew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,238,1708416000"; 
-   d="scan'208";a="30811410"
+   d="scan'208";a="30811431"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 23:19:08 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2024 23:19:10 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7F0D911FC19;
-	Mon, 29 Apr 2024 09:19:03 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id DF026120234;
+	Mon, 29 Apr 2024 09:19:05 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: bingbu.cao@intel.com,
@@ -76,9 +76,9 @@ Cc: bingbu.cao@intel.com,
 	bingbu.cao@linux.intel.com,
 	tian.shu.qiu@intel.com,
 	hongju.wang@intel.com
-Subject: [PATCH v7 05/18] media: intel/ipu6: add IPU6 buttress interface driver
-Date: Mon, 29 Apr 2024 09:18:40 +0300
-Message-Id: <20240429061853.983538-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH v7 06/18] media: intel/ipu6: CPD parsing for get firmware components
+Date: Mon, 29 Apr 2024 09:18:41 +0300
+Message-Id: <20240429061853.983538-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240429061853.983538-1-sakari.ailus@linux.intel.com>
 References: <20240429061853.983538-1-sakari.ailus@linux.intel.com>
@@ -92,29 +92,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-The IPU6 buttress is the interface between IPU device (input system and
-processing system) with rest of the SoC. It contains overall IPU hardware
-control registers, these control registers are used as the interfaces with
-the Intel Converged Security Engine and Punit to do firmware
-authentication and power management.
+For IPU6, firmware is generated and released as signed Code Partition
+Directory (CPD) format file which is aligned with the SPI flash code
+partition definition. The CPD format includes CPD header, manifest,
+metadata and module data. The driver parses them according to the CPD
+layout to acquire each component.
 
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-buttress.c  | 912 ++++++++++++++++++
- drivers/media/pci/intel/ipu6/ipu6-buttress.h  |  92 ++
- .../intel/ipu6/ipu6-platform-buttress-regs.h  | 226 +++++
- 3 files changed, 1230 insertions(+)
- create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.c
- create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.h
- create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
+ drivers/media/pci/intel/ipu6/ipu6-cpd.c | 362 ++++++++++++++++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-cpd.h | 105 +++++++
+ 2 files changed, 467 insertions(+)
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.h
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-cpd.c b/drivers/media/pci/intel/ipu6/ipu6-cpd.c
 new file mode 100644
-index 000000000000..dbcf1aa87872
+index 000000000000..715b21ab4b8e
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -0,0 +1,912 @@
++++ b/drivers/media/pci/intel/ipu6/ipu6-cpd.c
+@@ -0,0 +1,362 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2013--2024 Intel Corporation
@@ -122,1241 +120,472 @@ index 000000000000..dbcf1aa87872
 +
 +#include <linux/bitfield.h>
 +#include <linux/bits.h>
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
++#include <linux/err.h>
 +#include <linux/dma-mapping.h>
-+#include <linux/firmware.h>
-+#include <linux/interrupt.h>
-+#include <linux/iopoll.h>
++#include <linux/gfp_types.h>
 +#include <linux/math64.h>
-+#include <linux/mm.h>
-+#include <linux/mutex.h>
-+#include <linux/pci.h>
-+#include <linux/pfn.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/time64.h>
++#include <linux/sizes.h>
++#include <linux/types.h>
 +
 +#include "ipu6.h"
 +#include "ipu6-bus.h"
-+#include "ipu6-buttress.h"
-+#include "ipu6-platform-buttress-regs.h"
++#include "ipu6-cpd.h"
 +
-+#define BOOTLOADER_STATUS_OFFSET       0x15c
++/* 15 entries + header*/
++#define MAX_PKG_DIR_ENT_CNT		16
++/* 2 qword per entry/header */
++#define PKG_DIR_ENT_LEN			2
++/* PKG_DIR size in bytes */
++#define PKG_DIR_SIZE			((MAX_PKG_DIR_ENT_CNT) *	\
++					 (PKG_DIR_ENT_LEN) * sizeof(u64))
++/* _IUPKDR_ */
++#define PKG_DIR_HDR_MARK		0x5f4955504b44525fULL
 +
-+#define BOOTLOADER_MAGIC_KEY		0xb00710ad
++/* $CPD */
++#define CPD_HDR_MARK			0x44504324
 +
-+#define ENTRY	BUTTRESS_IU2CSECSR_IPC_PEER_COMP_ACTIONS_RST_PHASE1
-+#define EXIT	BUTTRESS_IU2CSECSR_IPC_PEER_COMP_ACTIONS_RST_PHASE2
-+#define QUERY	BUTTRESS_IU2CSECSR_IPC_PEER_QUERIED_IP_COMP_ACTIONS_RST_PHASE
++#define MAX_MANIFEST_SIZE		(SZ_2K * sizeof(u32))
++#define MAX_METADATA_SIZE		SZ_64K
 +
-+#define BUTTRESS_TSC_SYNC_RESET_TRIAL_MAX	10
++#define MAX_COMPONENT_ID		127
++#define MAX_COMPONENT_VERSION		0xffff
 +
-+#define BUTTRESS_POWER_TIMEOUT_US		(200 * USEC_PER_MSEC)
++#define MANIFEST_IDX	0
++#define METADATA_IDX	1
++#define MODULEDATA_IDX	2
++/*
++ * PKG_DIR Entry (type == id)
++ * 63:56        55      54:48   47:32   31:24   23:0
++ * Rsvd         Rsvd    Type    Version Rsvd    Size
++ */
++#define PKG_DIR_SIZE_MASK	GENMASK(23, 0)
++#define PKG_DIR_VERSION_MASK	GENMASK(47, 32)
++#define PKG_DIR_TYPE_MASK	GENMASK(54, 48)
 +
-+#define BUTTRESS_CSE_BOOTLOAD_TIMEOUT_US	(5 * USEC_PER_SEC)
-+#define BUTTRESS_CSE_AUTHENTICATE_TIMEOUT_US	(10 * USEC_PER_SEC)
-+#define BUTTRESS_CSE_FWRESET_TIMEOUT_US		(100 * USEC_PER_MSEC)
-+
-+#define BUTTRESS_IPC_TX_TIMEOUT_MS		MSEC_PER_SEC
-+#define BUTTRESS_IPC_RX_TIMEOUT_MS		MSEC_PER_SEC
-+#define BUTTRESS_IPC_VALIDITY_TIMEOUT_US	(1 * USEC_PER_SEC)
-+#define BUTTRESS_TSC_SYNC_TIMEOUT_US		(5 * USEC_PER_MSEC)
-+
-+#define BUTTRESS_IPC_RESET_RETRY		2000
-+#define BUTTRESS_CSE_IPC_RESET_RETRY	4
-+#define BUTTRESS_IPC_CMD_SEND_RETRY	1
-+
-+#define BUTTRESS_MAX_CONSECUTIVE_IRQS	100
-+
-+static const u32 ipu6_adev_irq_mask[2] = {
-+	BUTTRESS_ISR_IS_IRQ,
-+	BUTTRESS_ISR_PS_IRQ
-+};
-+
-+int ipu6_buttress_ipc_reset(struct ipu6_device *isp,
-+			    struct ipu6_buttress_ipc *ipc)
++static inline const struct ipu6_cpd_ent *ipu6_cpd_get_entry(const void *cpd,
++							    u8 idx)
 +{
-+	unsigned int retries = BUTTRESS_IPC_RESET_RETRY;
-+	struct ipu6_buttress *b = &isp->buttress;
-+	u32 val = 0, csr_in_clr;
++	const struct ipu6_cpd_hdr *cpd_hdr = cpd;
++	const struct ipu6_cpd_ent *ent;
 +
-+	if (!isp->secure_mode) {
-+		dev_dbg(&isp->pdev->dev, "Skip IPC reset for non-secure mode");
-+		return 0;
++	ent = (const struct ipu6_cpd_ent *)((const u8 *)cpd + cpd_hdr->hdr_len);
++	return ent + idx;
++}
++
++#define ipu6_cpd_get_manifest(cpd) ipu6_cpd_get_entry(cpd, MANIFEST_IDX)
++#define ipu6_cpd_get_metadata(cpd) ipu6_cpd_get_entry(cpd, METADATA_IDX)
++#define ipu6_cpd_get_moduledata(cpd) ipu6_cpd_get_entry(cpd, MODULEDATA_IDX)
++
++static const struct ipu6_cpd_metadata_cmpnt_hdr *
++ipu6_cpd_metadata_get_cmpnt(struct ipu6_device *isp, const void *metadata,
++			    unsigned int metadata_size, u8 idx)
++{
++	size_t extn_size = sizeof(struct ipu6_cpd_metadata_extn);
++	size_t cmpnt_count = metadata_size - extn_size;
++
++	cmpnt_count = div_u64(cmpnt_count, isp->cpd_metadata_cmpnt_size);
++
++	if (idx > MAX_COMPONENT_ID || idx >= cmpnt_count) {
++		dev_err(&isp->pdev->dev, "Component index out of range (%d)\n",
++			idx);
++		return ERR_PTR(-EINVAL);
 +	}
 +
-+	mutex_lock(&b->ipc_mutex);
-+
-+	/* Clear-by-1 CSR (all bits), corresponding internal states. */
-+	val = readl(isp->base + ipc->csr_in);
-+	writel(val, isp->base + ipc->csr_in);
-+
-+	/* Set peer CSR bit IPC_PEER_COMP_ACTIONS_RST_PHASE1 */
-+	writel(ENTRY, isp->base + ipc->csr_out);
-+	/*
-+	 * Clear-by-1 all CSR bits EXCEPT following
-+	 * bits:
-+	 * A. IPC_PEER_COMP_ACTIONS_RST_PHASE1.
-+	 * B. IPC_PEER_COMP_ACTIONS_RST_PHASE2.
-+	 * C. Possibly custom bits, depending on
-+	 * their role.
-+	 */
-+	csr_in_clr = BUTTRESS_IU2CSECSR_IPC_PEER_DEASSERTED_REG_VALID_REQ |
-+		BUTTRESS_IU2CSECSR_IPC_PEER_ACKED_REG_VALID |
-+		BUTTRESS_IU2CSECSR_IPC_PEER_ASSERTED_REG_VALID_REQ | QUERY;
-+
-+	do {
-+		usleep_range(400, 500);
-+		val = readl(isp->base + ipc->csr_in);
-+		switch (val) {
-+		case ENTRY | EXIT:
-+		case ENTRY | EXIT | QUERY:
-+			/*
-+			 * 1) Clear-by-1 CSR bits
-+			 * (IPC_PEER_COMP_ACTIONS_RST_PHASE1,
-+			 * IPC_PEER_COMP_ACTIONS_RST_PHASE2).
-+			 * 2) Set peer CSR bit
-+			 * IPC_PEER_QUERIED_IP_COMP_ACTIONS_RST_PHASE.
-+			 */
-+			writel(ENTRY | EXIT, isp->base + ipc->csr_in);
-+			writel(QUERY, isp->base + ipc->csr_out);
-+			break;
-+		case ENTRY:
-+		case ENTRY | QUERY:
-+			/*
-+			 * 1) Clear-by-1 CSR bits
-+			 * (IPC_PEER_COMP_ACTIONS_RST_PHASE1,
-+			 * IPC_PEER_QUERIED_IP_COMP_ACTIONS_RST_PHASE).
-+			 * 2) Set peer CSR bit
-+			 * IPC_PEER_COMP_ACTIONS_RST_PHASE1.
-+			 */
-+			writel(ENTRY | QUERY, isp->base + ipc->csr_in);
-+			writel(ENTRY, isp->base + ipc->csr_out);
-+			break;
-+		case EXIT:
-+		case EXIT | QUERY:
-+			/*
-+			 * Clear-by-1 CSR bit
-+			 * IPC_PEER_COMP_ACTIONS_RST_PHASE2.
-+			 * 1) Clear incoming doorbell.
-+			 * 2) Clear-by-1 all CSR bits EXCEPT following
-+			 * bits:
-+			 * A. IPC_PEER_COMP_ACTIONS_RST_PHASE1.
-+			 * B. IPC_PEER_COMP_ACTIONS_RST_PHASE2.
-+			 * C. Possibly custom bits, depending on
-+			 * their role.
-+			 * 3) Set peer CSR bit
-+			 * IPC_PEER_COMP_ACTIONS_RST_PHASE2.
-+			 */
-+			writel(EXIT, isp->base + ipc->csr_in);
-+			writel(0, isp->base + ipc->db0_in);
-+			writel(csr_in_clr, isp->base + ipc->csr_in);
-+			writel(EXIT, isp->base + ipc->csr_out);
-+
-+			/*
-+			 * Read csr_in again to make sure if RST_PHASE2 is done.
-+			 * If csr_in is QUERY, it should be handled again.
-+			 */
-+			usleep_range(200, 300);
-+			val = readl(isp->base + ipc->csr_in);
-+			if (val & QUERY) {
-+				dev_dbg(&isp->pdev->dev,
-+					"RST_PHASE2 retry csr_in = %x\n", val);
-+				break;
-+			}
-+			mutex_unlock(&b->ipc_mutex);
-+			return 0;
-+		case QUERY:
-+			/*
-+			 * 1) Clear-by-1 CSR bit
-+			 * IPC_PEER_QUERIED_IP_COMP_ACTIONS_RST_PHASE.
-+			 * 2) Set peer CSR bit
-+			 * IPC_PEER_COMP_ACTIONS_RST_PHASE1
-+			 */
-+			writel(QUERY, isp->base + ipc->csr_in);
-+			writel(ENTRY, isp->base + ipc->csr_out);
-+			break;
-+		default:
-+			dev_warn_ratelimited(&isp->pdev->dev,
-+					     "Unexpected CSR 0x%x\n", val);
-+			break;
-+		}
-+	} while (retries--);
-+
-+	mutex_unlock(&b->ipc_mutex);
-+	dev_err(&isp->pdev->dev, "Timed out while waiting for CSE\n");
-+
-+	return -ETIMEDOUT;
++	return metadata + extn_size + idx * isp->cpd_metadata_cmpnt_size;
 +}
 +
-+static void ipu6_buttress_ipc_validity_close(struct ipu6_device *isp,
-+					     struct ipu6_buttress_ipc *ipc)
++static u32 ipu6_cpd_metadata_cmpnt_version(struct ipu6_device *isp,
++					   const void *metadata,
++					   unsigned int metadata_size, u8 idx)
 +{
-+	writel(BUTTRESS_IU2CSECSR_IPC_PEER_DEASSERTED_REG_VALID_REQ,
-+	       isp->base + ipc->csr_out);
++	const struct ipu6_cpd_metadata_cmpnt_hdr *cmpnt;
++
++	cmpnt = ipu6_cpd_metadata_get_cmpnt(isp, metadata, metadata_size, idx);
++	if (IS_ERR(cmpnt))
++		return PTR_ERR(cmpnt);
++
++	return cmpnt->ver;
 +}
 +
-+static int
-+ipu6_buttress_ipc_validity_open(struct ipu6_device *isp,
-+				struct ipu6_buttress_ipc *ipc)
++static int ipu6_cpd_metadata_get_cmpnt_id(struct ipu6_device *isp,
++					  const void *metadata,
++					  unsigned int metadata_size, u8 idx)
 +{
-+	unsigned int mask = BUTTRESS_IU2CSECSR_IPC_PEER_ACKED_REG_VALID;
-+	void __iomem *addr;
-+	int ret;
-+	u32 val;
++	const struct ipu6_cpd_metadata_cmpnt_hdr *cmpnt;
 +
-+	writel(BUTTRESS_IU2CSECSR_IPC_PEER_ASSERTED_REG_VALID_REQ,
-+	       isp->base + ipc->csr_out);
++	cmpnt = ipu6_cpd_metadata_get_cmpnt(isp, metadata, metadata_size, idx);
++	if (IS_ERR(cmpnt))
++		return PTR_ERR(cmpnt);
 +
-+	addr = isp->base + ipc->csr_in;
-+	ret = readl_poll_timeout(addr, val, val & mask, 200,
-+				 BUTTRESS_IPC_VALIDITY_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "CSE validity timeout 0x%x\n", val);
-+		ipu6_buttress_ipc_validity_close(isp, ipc);
-+	}
-+
-+	return ret;
++	return cmpnt->id;
 +}
 +
-+static void ipu6_buttress_ipc_recv(struct ipu6_device *isp,
-+				   struct ipu6_buttress_ipc *ipc, u32 *ipc_msg)
++static int ipu6_cpd_parse_module_data(struct ipu6_device *isp,
++				      const void *module_data,
++				      unsigned int module_data_size,
++				      dma_addr_t dma_addr_module_data,
++				      u64 *pkg_dir, const void *metadata,
++				      unsigned int metadata_size)
 +{
-+	if (ipc_msg)
-+		*ipc_msg = readl(isp->base + ipc->data0_in);
-+	writel(0, isp->base + ipc->db0_in);
-+}
-+
-+static int ipu6_buttress_ipc_send_bulk(struct ipu6_device *isp,
-+				       enum ipu6_buttress_ipc_domain ipc_domain,
-+				       struct ipu6_ipc_buttress_bulk_msg *msgs,
-+				       u32 size)
-+{
-+	unsigned long tx_timeout_jiffies, rx_timeout_jiffies;
-+	unsigned int i, retry = BUTTRESS_IPC_CMD_SEND_RETRY;
-+	struct ipu6_buttress *b = &isp->buttress;
-+	struct ipu6_buttress_ipc *ipc;
-+	u32 val;
-+	int ret;
-+	int tout;
-+
-+	ipc = ipc_domain == IPU6_BUTTRESS_IPC_CSE ? &b->cse : &b->ish;
-+
-+	mutex_lock(&b->ipc_mutex);
-+
-+	ret = ipu6_buttress_ipc_validity_open(isp, ipc);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "IPC validity open failed\n");
-+		goto out;
-+	}
-+
-+	tx_timeout_jiffies = msecs_to_jiffies(BUTTRESS_IPC_TX_TIMEOUT_MS);
-+	rx_timeout_jiffies = msecs_to_jiffies(BUTTRESS_IPC_RX_TIMEOUT_MS);
-+
-+	for (i = 0; i < size; i++) {
-+		reinit_completion(&ipc->send_complete);
-+		if (msgs[i].require_resp)
-+			reinit_completion(&ipc->recv_complete);
-+
-+		dev_dbg(&isp->pdev->dev, "bulk IPC command: 0x%x\n",
-+			msgs[i].cmd);
-+		writel(msgs[i].cmd, isp->base + ipc->data0_out);
-+		val = BUTTRESS_IU2CSEDB0_BUSY | msgs[i].cmd_size;
-+		writel(val, isp->base + ipc->db0_out);
-+
-+		tout = wait_for_completion_timeout(&ipc->send_complete,
-+						   tx_timeout_jiffies);
-+		if (!tout) {
-+			dev_err(&isp->pdev->dev, "send IPC response timeout\n");
-+			if (!retry--) {
-+				ret = -ETIMEDOUT;
-+				goto out;
-+			}
-+
-+			/* Try again if CSE is not responding on first try */
-+			writel(0, isp->base + ipc->db0_out);
-+			i--;
-+			continue;
-+		}
-+
-+		retry = BUTTRESS_IPC_CMD_SEND_RETRY;
-+
-+		if (!msgs[i].require_resp)
-+			continue;
-+
-+		tout = wait_for_completion_timeout(&ipc->recv_complete,
-+						   rx_timeout_jiffies);
-+		if (!tout) {
-+			dev_err(&isp->pdev->dev, "recv IPC response timeout\n");
-+			ret = -ETIMEDOUT;
-+			goto out;
-+		}
-+
-+		if (ipc->nack_mask &&
-+		    (ipc->recv_data & ipc->nack_mask) == ipc->nack) {
-+			dev_err(&isp->pdev->dev,
-+				"IPC NACK for cmd 0x%x\n", msgs[i].cmd);
-+			ret = -EIO;
-+			goto out;
-+		}
-+
-+		if (ipc->recv_data != msgs[i].expected_resp) {
-+			dev_err(&isp->pdev->dev,
-+				"expected resp: 0x%x, IPC response: 0x%x ",
-+				msgs[i].expected_resp, ipc->recv_data);
-+			ret = -EIO;
-+			goto out;
-+		}
-+	}
-+
-+	dev_dbg(&isp->pdev->dev, "bulk IPC commands done\n");
-+
-+out:
-+	ipu6_buttress_ipc_validity_close(isp, ipc);
-+	mutex_unlock(&b->ipc_mutex);
-+	return ret;
-+}
-+
-+static int
-+ipu6_buttress_ipc_send(struct ipu6_device *isp,
-+		       enum ipu6_buttress_ipc_domain ipc_domain,
-+		       u32 ipc_msg, u32 size, bool require_resp,
-+		       u32 expected_resp)
-+{
-+	struct ipu6_ipc_buttress_bulk_msg msg = {
-+		.cmd = ipc_msg,
-+		.cmd_size = size,
-+		.require_resp = require_resp,
-+		.expected_resp = expected_resp,
-+	};
-+
-+	return ipu6_buttress_ipc_send_bulk(isp, ipc_domain, &msg, 1);
-+}
-+
-+static irqreturn_t ipu6_buttress_call_isr(struct ipu6_bus_device *adev)
-+{
-+	irqreturn_t ret = IRQ_WAKE_THREAD;
-+
-+	if (!adev || !adev->auxdrv || !adev->auxdrv_data)
-+		return IRQ_NONE;
-+
-+	if (adev->auxdrv_data->isr)
-+		ret = adev->auxdrv_data->isr(adev);
-+
-+	if (ret == IRQ_WAKE_THREAD && !adev->auxdrv_data->isr_threaded)
-+		ret = IRQ_NONE;
-+
-+	return ret;
-+}
-+
-+irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr)
-+{
-+	struct ipu6_device *isp = isp_ptr;
-+	struct ipu6_bus_device *adev[] = { isp->isys, isp->psys };
-+	struct ipu6_buttress *b = &isp->buttress;
-+	u32 reg_irq_sts = BUTTRESS_REG_ISR_STATUS;
-+	irqreturn_t ret = IRQ_NONE;
-+	u32 disable_irqs = 0;
-+	u32 irq_status;
-+	u32 i, count = 0;
-+
-+	pm_runtime_get_noresume(&isp->pdev->dev);
-+
-+	irq_status = readl(isp->base + reg_irq_sts);
-+	if (!irq_status) {
-+		pm_runtime_put_noidle(&isp->pdev->dev);
-+		return IRQ_NONE;
-+	}
-+
-+	do {
-+		writel(irq_status, isp->base + BUTTRESS_REG_ISR_CLEAR);
-+
-+		for (i = 0; i < ARRAY_SIZE(ipu6_adev_irq_mask); i++) {
-+			irqreturn_t r = ipu6_buttress_call_isr(adev[i]);
-+
-+			if (!(irq_status & ipu6_adev_irq_mask[i]))
-+				continue;
-+
-+			if (r == IRQ_WAKE_THREAD) {
-+				ret = IRQ_WAKE_THREAD;
-+				disable_irqs |= ipu6_adev_irq_mask[i];
-+			} else if (ret == IRQ_NONE && r == IRQ_HANDLED) {
-+				ret = IRQ_HANDLED;
-+			}
-+		}
-+
-+		if ((irq_status & BUTTRESS_EVENT) && ret == IRQ_NONE)
-+			ret = IRQ_HANDLED;
-+
-+		if (irq_status & BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING) {
-+			dev_dbg(&isp->pdev->dev,
-+				"BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING\n");
-+			ipu6_buttress_ipc_recv(isp, &b->cse, &b->cse.recv_data);
-+			complete(&b->cse.recv_complete);
-+		}
-+
-+		if (irq_status & BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING) {
-+			dev_dbg(&isp->pdev->dev,
-+				"BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING\n");
-+			ipu6_buttress_ipc_recv(isp, &b->ish, &b->ish.recv_data);
-+			complete(&b->ish.recv_complete);
-+		}
-+
-+		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE) {
-+			dev_dbg(&isp->pdev->dev,
-+				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-+			complete(&b->cse.send_complete);
-+		}
-+
-+		if (irq_status & BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH) {
-+			dev_dbg(&isp->pdev->dev,
-+				"BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE\n");
-+			complete(&b->ish.send_complete);
-+		}
-+
-+		if (irq_status & BUTTRESS_ISR_SAI_VIOLATION &&
-+		    ipu6_buttress_get_secure_mode(isp))
-+			dev_err(&isp->pdev->dev,
-+				"BUTTRESS_ISR_SAI_VIOLATION\n");
-+
-+		if (irq_status & (BUTTRESS_ISR_IS_FATAL_MEM_ERR |
-+				  BUTTRESS_ISR_PS_FATAL_MEM_ERR))
-+			dev_err(&isp->pdev->dev,
-+				"BUTTRESS_ISR_FATAL_MEM_ERR\n");
-+
-+		if (irq_status & BUTTRESS_ISR_UFI_ERROR)
-+			dev_err(&isp->pdev->dev, "BUTTRESS_ISR_UFI_ERROR\n");
-+
-+		if (++count == BUTTRESS_MAX_CONSECUTIVE_IRQS) {
-+			dev_err(&isp->pdev->dev, "too many consecutive IRQs\n");
-+			ret = IRQ_NONE;
-+			break;
-+		}
-+
-+		irq_status = readl(isp->base + reg_irq_sts);
-+	} while (irq_status);
-+
-+	if (disable_irqs)
-+		writel(BUTTRESS_IRQS & ~disable_irqs,
-+		       isp->base + BUTTRESS_REG_ISR_ENABLE);
-+
-+	pm_runtime_put(&isp->pdev->dev);
-+
-+	return ret;
-+}
-+
-+irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
-+{
-+	struct ipu6_device *isp = isp_ptr;
-+	struct ipu6_bus_device *adev[] = { isp->isys, isp->psys };
-+	const struct ipu6_auxdrv_data *drv_data = NULL;
-+	irqreturn_t ret = IRQ_NONE;
++	const struct ipu6_cpd_module_data_hdr *module_data_hdr;
++	const struct ipu6_cpd_hdr *dir_hdr;
++	const struct ipu6_cpd_ent *dir_ent;
 +	unsigned int i;
++	u8 len;
 +
-+	for (i = 0; i < ARRAY_SIZE(ipu6_adev_irq_mask) && adev[i]; i++) {
-+		drv_data = adev[i]->auxdrv_data;
-+		if (!drv_data)
-+			continue;
++	if (!module_data)
++		return -EINVAL;
 +
-+		if (drv_data->wake_isr_thread &&
-+		    drv_data->isr_threaded(adev[i]) == IRQ_HANDLED)
-+			ret = IRQ_HANDLED;
++	module_data_hdr = module_data;
++	dir_hdr = module_data + module_data_hdr->hdr_len;
++	len = dir_hdr->hdr_len;
++	dir_ent = (const struct ipu6_cpd_ent *)(((u8 *)dir_hdr) + len);
++
++	pkg_dir[0] = PKG_DIR_HDR_MARK;
++	/* pkg_dir entry count = component count + pkg_dir header */
++	pkg_dir[1] = dir_hdr->ent_cnt + 1;
++
++	for (i = 0; i < dir_hdr->ent_cnt; i++, dir_ent++) {
++		u64 *p = &pkg_dir[PKG_DIR_ENT_LEN *  (1 + i)];
++		int ver, id;
++
++		*p++ = dma_addr_module_data + dir_ent->offset;
++		id = ipu6_cpd_metadata_get_cmpnt_id(isp, metadata,
++						    metadata_size, i);
++		if (id < 0 || id > MAX_COMPONENT_ID) {
++			dev_err(&isp->pdev->dev, "Invalid CPD component id\n");
++			return -EINVAL;
++		}
++
++		ver = ipu6_cpd_metadata_cmpnt_version(isp, metadata,
++						      metadata_size, i);
++		if (ver < 0 || ver > MAX_COMPONENT_VERSION) {
++			dev_err(&isp->pdev->dev,
++				"Invalid CPD component version\n");
++			return -EINVAL;
++		}
++
++		*p = FIELD_PREP(PKG_DIR_SIZE_MASK, dir_ent->len) |
++			FIELD_PREP(PKG_DIR_TYPE_MASK, id) |
++			FIELD_PREP(PKG_DIR_VERSION_MASK, ver);
 +	}
-+
-+	writel(BUTTRESS_IRQS, isp->base + BUTTRESS_REG_ISR_ENABLE);
-+
-+	return ret;
-+}
-+
-+int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-+			bool on)
-+{
-+	struct ipu6_device *isp = to_ipu6_bus_device(dev)->isp;
-+	u32 pwr_sts, val;
-+	int ret;
-+
-+	if (!ctrl)
-+		return 0;
-+
-+	mutex_lock(&isp->buttress.power_mutex);
-+
-+	if (!on) {
-+		val = 0;
-+		pwr_sts = ctrl->pwr_sts_off << ctrl->pwr_sts_shift;
-+	} else {
-+		val = BUTTRESS_FREQ_CTL_START |
-+			FIELD_PREP(BUTTRESS_FREQ_CTL_RATIO_MASK,
-+				   ctrl->ratio) |
-+			FIELD_PREP(BUTTRESS_FREQ_CTL_QOS_FLOOR_MASK,
-+				   ctrl->qos_floor) |
-+			BUTTRESS_FREQ_CTL_ICCMAX_LEVEL;
-+
-+		pwr_sts = ctrl->pwr_sts_on << ctrl->pwr_sts_shift;
-+	}
-+
-+	writel(val, isp->base + ctrl->freq_ctl);
-+
-+	ret = readl_poll_timeout(isp->base + BUTTRESS_REG_PWR_STATE,
-+				 val, (val & ctrl->pwr_sts_mask) == pwr_sts,
-+				 100, BUTTRESS_POWER_TIMEOUT_US);
-+	if (ret)
-+		dev_err(&isp->pdev->dev,
-+			"Change power status timeout with 0x%x\n", val);
-+
-+	ctrl->started = !ret && on;
-+
-+	mutex_unlock(&isp->buttress.power_mutex);
-+
-+	return ret;
-+}
-+
-+bool ipu6_buttress_get_secure_mode(struct ipu6_device *isp)
-+{
-+	u32 val;
-+
-+	val = readl(isp->base + BUTTRESS_REG_SECURITY_CTL);
-+
-+	return val & BUTTRESS_SECURITY_CTL_FW_SECURE_MODE;
-+}
-+
-+bool ipu6_buttress_auth_done(struct ipu6_device *isp)
-+{
-+	u32 val;
-+
-+	if (!isp->secure_mode)
-+		return true;
-+
-+	val = readl(isp->base + BUTTRESS_REG_SECURITY_CTL);
-+	val = FIELD_GET(BUTTRESS_SECURITY_CTL_FW_SETUP_MASK, val);
-+
-+	return val == BUTTRESS_SECURITY_CTL_AUTH_DONE;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_auth_done, INTEL_IPU6);
-+
-+int ipu6_buttress_reset_authentication(struct ipu6_device *isp)
-+{
-+	int ret;
-+	u32 val;
-+
-+	if (!isp->secure_mode) {
-+		dev_dbg(&isp->pdev->dev, "Skip auth for non-secure mode\n");
-+		return 0;
-+	}
-+
-+	writel(BUTTRESS_FW_RESET_CTL_START, isp->base +
-+	       BUTTRESS_REG_FW_RESET_CTL);
-+
-+	ret = readl_poll_timeout(isp->base + BUTTRESS_REG_FW_RESET_CTL, val,
-+				 val & BUTTRESS_FW_RESET_CTL_DONE, 500,
-+				 BUTTRESS_CSE_FWRESET_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev,
-+			"Time out while resetting authentication state\n");
-+		return ret;
-+	}
-+
-+	dev_dbg(&isp->pdev->dev, "FW reset for authentication done\n");
-+	writel(0, isp->base + BUTTRESS_REG_FW_RESET_CTL);
-+	/* leave some time for HW restore */
-+	usleep_range(800, 1000);
 +
 +	return 0;
 +}
 +
-+int ipu6_buttress_map_fw_image(struct ipu6_bus_device *sys,
-+			       const struct firmware *fw, struct sg_table *sgt)
++int ipu6_cpd_create_pkg_dir(struct ipu6_bus_device *adev, const void *src)
 +{
-+	struct page **pages;
-+	const void *addr;
-+	unsigned long n_pages;
-+	unsigned int i;
++	dma_addr_t dma_addr_src = sg_dma_address(adev->fw_sgt.sgl);
++	const struct ipu6_cpd_ent *ent, *man_ent, *met_ent;
++	struct device *dev = &adev->auxdev.dev;
++	struct ipu6_device *isp = adev->isp;
++	unsigned int man_sz, met_sz;
++	void *pkg_dir_pos;
 +	int ret;
 +
-+	n_pages = PHYS_PFN(PAGE_ALIGN(fw->size));
++	man_ent = ipu6_cpd_get_manifest(src);
++	man_sz = man_ent->len;
 +
-+	pages = kmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
-+	if (!pages)
++	met_ent = ipu6_cpd_get_metadata(src);
++	met_sz = met_ent->len;
++
++	adev->pkg_dir_size = PKG_DIR_SIZE + man_sz + met_sz;
++	adev->pkg_dir = dma_alloc_attrs(dev, adev->pkg_dir_size,
++					&adev->pkg_dir_dma_addr, GFP_KERNEL, 0);
++	if (!adev->pkg_dir)
 +		return -ENOMEM;
 +
-+	addr = fw->data;
-+	for (i = 0; i < n_pages; i++) {
-+		struct page *p = vmalloc_to_page(addr);
-+
-+		if (!p) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
-+		pages[i] = p;
-+		addr += PAGE_SIZE;
-+	}
-+
-+	ret = sg_alloc_table_from_pages(sgt, pages, n_pages, 0, fw->size,
-+					GFP_KERNEL);
-+	if (ret) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	ret = dma_map_sgtable(&sys->auxdev.dev, sgt, DMA_TO_DEVICE, 0);
-+	if (ret < 0) {
-+		ret = -ENOMEM;
-+		sg_free_table(sgt);
-+		goto out;
-+	}
-+
-+	dma_sync_sgtable_for_device(&sys->auxdev.dev, sgt, DMA_TO_DEVICE);
-+
-+out:
-+	kfree(pages);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_map_fw_image, INTEL_IPU6);
-+
-+void ipu6_buttress_unmap_fw_image(struct ipu6_bus_device *sys,
-+				  struct sg_table *sgt)
-+{
-+	dma_unmap_sgtable(&sys->auxdev.dev, sgt, DMA_TO_DEVICE, 0);
-+	sg_free_table(sgt);
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_unmap_fw_image, INTEL_IPU6);
-+
-+int ipu6_buttress_authenticate(struct ipu6_device *isp)
-+{
-+	struct ipu6_buttress *b = &isp->buttress;
-+	struct ipu6_psys_pdata *psys_pdata;
-+	u32 data, mask, done, fail;
-+	int ret;
-+
-+	if (!isp->secure_mode) {
-+		dev_dbg(&isp->pdev->dev, "Skip auth for non-secure mode\n");
-+		return 0;
-+	}
-+
-+	psys_pdata = isp->psys->pdata;
-+
-+	mutex_lock(&b->auth_mutex);
-+
-+	if (ipu6_buttress_auth_done(isp)) {
-+		ret = 0;
-+		goto out_unlock;
-+	}
-+
 +	/*
-+	 * Write address of FIT table to FW_SOURCE register
-+	 * Let's use fw address. I.e. not using FIT table yet
++	 * pkg_dir entry/header:
++	 * qword | 63:56 | 55   | 54:48 | 47:32 | 31:24 | 23:0
++	 * N         Address/Offset/"_IUPKDR_"
++	 * N + 1 | rsvd  | rsvd | type  | ver   | rsvd  | size
++	 *
++	 * We can ignore other fields that size in N + 1 qword as they
++	 * are 0 anyway. Just setting size for now.
 +	 */
-+	data = lower_32_bits(isp->psys->pkg_dir_dma_addr);
-+	writel(data, isp->base + BUTTRESS_REG_FW_SOURCE_BASE_LO);
 +
-+	data = upper_32_bits(isp->psys->pkg_dir_dma_addr);
-+	writel(data, isp->base + BUTTRESS_REG_FW_SOURCE_BASE_HI);
++	ent = ipu6_cpd_get_moduledata(src);
 +
-+	/*
-+	 * Write boot_load into IU2CSEDATA0
-+	 * Write sizeof(boot_load) | 0x2 << CLIENT_ID to
-+	 * IU2CSEDB.IU2CSECMD and set IU2CSEDB.IU2CSEBUSY as
-+	 */
-+	dev_info(&isp->pdev->dev, "Sending BOOT_LOAD to CSE\n");
-+
-+	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
-+				     BUTTRESS_IU2CSEDATA0_IPC_BOOT_LOAD,
-+				     1, true,
-+				     BUTTRESS_CSE2IUDATA0_IPC_BOOT_LOAD_DONE);
++	ret = ipu6_cpd_parse_module_data(isp, src + ent->offset,
++					 ent->len, dma_addr_src + ent->offset,
++					 adev->pkg_dir, src + met_ent->offset,
++					 met_ent->len);
 +	if (ret) {
-+		dev_err(&isp->pdev->dev, "CSE boot_load failed\n");
-+		goto out_unlock;
++		dev_err(&isp->pdev->dev, "Failed to parse module data\n");
++		dma_free_attrs(dev, adev->pkg_dir_size,
++			       adev->pkg_dir, adev->pkg_dir_dma_addr, 0);
++		return ret;
 +	}
 +
-+	mask = BUTTRESS_SECURITY_CTL_FW_SETUP_MASK;
-+	done = BUTTRESS_SECURITY_CTL_FW_SETUP_DONE;
-+	fail = BUTTRESS_SECURITY_CTL_AUTH_FAILED;
-+	ret = readl_poll_timeout(isp->base + BUTTRESS_REG_SECURITY_CTL, data,
-+				 ((data & mask) == done ||
-+				  (data & mask) == fail), 500,
-+				 BUTTRESS_CSE_BOOTLOAD_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "CSE boot_load timeout\n");
-+		goto out_unlock;
-+	}
++	/* Copy manifest after pkg_dir */
++	pkg_dir_pos = adev->pkg_dir + PKG_DIR_ENT_LEN * MAX_PKG_DIR_ENT_CNT;
++	memcpy(pkg_dir_pos, src + man_ent->offset, man_sz);
 +
-+	if ((data & mask) == fail) {
-+		dev_err(&isp->pdev->dev, "CSE auth failed\n");
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
++	/* Copy metadata after manifest */
++	pkg_dir_pos += man_sz;
++	memcpy(pkg_dir_pos, src + met_ent->offset, met_sz);
 +
-+	ret = readl_poll_timeout(psys_pdata->base + BOOTLOADER_STATUS_OFFSET,
-+				 data, data == BOOTLOADER_MAGIC_KEY, 500,
-+				 BUTTRESS_CSE_BOOTLOAD_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "Unexpected magic number 0x%x\n",
-+			data);
-+		goto out_unlock;
-+	}
++	dma_sync_single_range_for_device(dev, adev->pkg_dir_dma_addr,
++					 0, adev->pkg_dir_size, DMA_TO_DEVICE);
 +
-+	/*
-+	 * Write authenticate_run into IU2CSEDATA0
-+	 * Write sizeof(boot_load) | 0x2 << CLIENT_ID to
-+	 * IU2CSEDB.IU2CSECMD and set IU2CSEDB.IU2CSEBUSY as
-+	 */
-+	dev_info(&isp->pdev->dev, "Sending AUTHENTICATE_RUN to CSE\n");
-+	ret = ipu6_buttress_ipc_send(isp, IPU6_BUTTRESS_IPC_CSE,
-+				     BUTTRESS_IU2CSEDATA0_IPC_AUTH_RUN,
-+				     1, true,
-+				     BUTTRESS_CSE2IUDATA0_IPC_AUTH_RUN_DONE);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "CSE authenticate_run failed\n");
-+		goto out_unlock;
-+	}
-+
-+	done = BUTTRESS_SECURITY_CTL_AUTH_DONE;
-+	ret = readl_poll_timeout(isp->base + BUTTRESS_REG_SECURITY_CTL, data,
-+				 ((data & mask) == done ||
-+				  (data & mask) == fail), 500,
-+				 BUTTRESS_CSE_AUTHENTICATE_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(&isp->pdev->dev, "CSE authenticate timeout\n");
-+		goto out_unlock;
-+	}
-+
-+	if ((data & mask) == fail) {
-+		dev_err(&isp->pdev->dev, "CSE boot_load failed\n");
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	dev_info(&isp->pdev->dev, "CSE authenticate_run done\n");
-+
-+out_unlock:
-+	mutex_unlock(&b->auth_mutex);
-+
-+	return ret;
++	return 0;
 +}
++EXPORT_SYMBOL_NS_GPL(ipu6_cpd_create_pkg_dir, INTEL_IPU6);
 +
-+static int ipu6_buttress_send_tsc_request(struct ipu6_device *isp)
++void ipu6_cpd_free_pkg_dir(struct ipu6_bus_device *adev)
 +{
-+	u32 val, mask, done;
-+	int ret;
++	dma_free_attrs(&adev->auxdev.dev, adev->pkg_dir_size, adev->pkg_dir,
++		       adev->pkg_dir_dma_addr, 0);
++}
++EXPORT_SYMBOL_NS_GPL(ipu6_cpd_free_pkg_dir, INTEL_IPU6);
 +
-+	mask = BUTTRESS_PWR_STATE_HH_STATUS_MASK;
++static int ipu6_cpd_validate_cpd(struct ipu6_device *isp, const void *cpd,
++				 unsigned long cpd_size,
++				 unsigned long data_size)
++{
++	const struct ipu6_cpd_hdr *cpd_hdr = cpd;
++	const struct ipu6_cpd_ent *ent;
++	unsigned int i;
++	u8 len;
 +
-+	writel(BUTTRESS_FABRIC_CMD_START_TSC_SYNC,
-+	       isp->base + BUTTRESS_REG_FABRIC_CMD);
++	len = cpd_hdr->hdr_len;
 +
-+	val = readl(isp->base + BUTTRESS_REG_PWR_STATE);
-+	val = FIELD_GET(mask, val);
-+	if (val == BUTTRESS_PWR_STATE_HH_STATE_ERR) {
-+		dev_err(&isp->pdev->dev, "Start tsc sync failed\n");
++	/* Ensure cpd hdr is within moduledata */
++	if (cpd_size < len) {
++		dev_err(&isp->pdev->dev, "Invalid CPD moduledata size\n");
 +		return -EINVAL;
 +	}
 +
-+	done = BUTTRESS_PWR_STATE_HH_STATE_DONE;
-+	ret = readl_poll_timeout(isp->base + BUTTRESS_REG_PWR_STATE, val,
-+				 FIELD_GET(mask, val) == done, 500,
-+				 BUTTRESS_TSC_SYNC_TIMEOUT_US);
-+	if (ret)
-+		dev_err(&isp->pdev->dev, "Start tsc sync timeout\n");
-+
-+	return ret;
-+}
-+
-+int ipu6_buttress_start_tsc_sync(struct ipu6_device *isp)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < BUTTRESS_TSC_SYNC_RESET_TRIAL_MAX; i++) {
-+		u32 val;
-+		int ret;
-+
-+		ret = ipu6_buttress_send_tsc_request(isp);
-+		if (ret != -ETIMEDOUT)
-+			return ret;
-+
-+		val = readl(isp->base + BUTTRESS_REG_TSW_CTL);
-+		val = val | BUTTRESS_TSW_CTL_SOFT_RESET;
-+		writel(val, isp->base + BUTTRESS_REG_TSW_CTL);
-+		val = val & ~BUTTRESS_TSW_CTL_SOFT_RESET;
-+		writel(val, isp->base + BUTTRESS_REG_TSW_CTL);
++	/* Sanity check for CPD header */
++	if ((cpd_size - len) / sizeof(*ent) < cpd_hdr->ent_cnt) {
++		dev_err(&isp->pdev->dev, "Invalid CPD header\n");
++		return -EINVAL;
 +	}
 +
-+	dev_err(&isp->pdev->dev, "TSC sync failed (timeout)\n");
-+
-+	return -ETIMEDOUT;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_start_tsc_sync, INTEL_IPU6);
-+
-+void ipu6_buttress_tsc_read(struct ipu6_device *isp, u64 *val)
-+{
-+	u32 tsc_hi_1, tsc_hi_2, tsc_lo;
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
-+	tsc_hi_1 = readl(isp->base + BUTTRESS_REG_TSC_HI);
-+	tsc_lo = readl(isp->base + BUTTRESS_REG_TSC_LO);
-+	tsc_hi_2 = readl(isp->base + BUTTRESS_REG_TSC_HI);
-+	if (tsc_hi_1 == tsc_hi_2) {
-+		*val = (u64)tsc_hi_1 << 32 | tsc_lo;
-+	} else {
-+		/* Check if TSC has rolled over */
-+		if (tsc_lo & BIT(31))
-+			*val = (u64)tsc_hi_1 << 32 | tsc_lo;
-+		else
-+			*val = (u64)tsc_hi_2 << 32 | tsc_lo;
-+	}
-+	local_irq_restore(flags);
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_tsc_read, INTEL_IPU6);
-+
-+u64 ipu6_buttress_tsc_ticks_to_ns(u64 ticks, const struct ipu6_device *isp)
-+{
-+	u64 ns = ticks * 10000;
-+
-+	/*
-+	 * converting TSC tick count to ns is calculated by:
-+	 * Example (TSC clock frequency is 19.2MHz):
-+	 * ns = ticks * 1000 000 000 / 19.2Mhz
-+	 *    = ticks * 1000 000 000 / 19200000Hz
-+	 *    = ticks * 10000 / 192 ns
-+	 */
-+	return div_u64(ns, isp->buttress.ref_clk);
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu6_buttress_tsc_ticks_to_ns, INTEL_IPU6);
-+
-+void ipu6_buttress_restore(struct ipu6_device *isp)
-+{
-+	struct ipu6_buttress *b = &isp->buttress;
-+
-+	writel(BUTTRESS_IRQS, isp->base + BUTTRESS_REG_ISR_CLEAR);
-+	writel(BUTTRESS_IRQS, isp->base + BUTTRESS_REG_ISR_ENABLE);
-+	writel(b->wdt_cached_value, isp->base + BUTTRESS_REG_WDT);
-+}
-+
-+int ipu6_buttress_init(struct ipu6_device *isp)
-+{
-+	int ret, ipc_reset_retry = BUTTRESS_CSE_IPC_RESET_RETRY;
-+	struct ipu6_buttress *b = &isp->buttress;
-+	u32 val;
-+
-+	mutex_init(&b->power_mutex);
-+	mutex_init(&b->auth_mutex);
-+	mutex_init(&b->cons_mutex);
-+	mutex_init(&b->ipc_mutex);
-+	init_completion(&b->ish.send_complete);
-+	init_completion(&b->cse.send_complete);
-+	init_completion(&b->ish.recv_complete);
-+	init_completion(&b->cse.recv_complete);
-+
-+	b->cse.nack = BUTTRESS_CSE2IUDATA0_IPC_NACK;
-+	b->cse.nack_mask = BUTTRESS_CSE2IUDATA0_IPC_NACK_MASK;
-+	b->cse.csr_in = BUTTRESS_REG_CSE2IUCSR;
-+	b->cse.csr_out = BUTTRESS_REG_IU2CSECSR;
-+	b->cse.db0_in = BUTTRESS_REG_CSE2IUDB0;
-+	b->cse.db0_out = BUTTRESS_REG_IU2CSEDB0;
-+	b->cse.data0_in = BUTTRESS_REG_CSE2IUDATA0;
-+	b->cse.data0_out = BUTTRESS_REG_IU2CSEDATA0;
-+
-+	/* no ISH on IPU6 */
-+	memset(&b->ish, 0, sizeof(b->ish));
-+	INIT_LIST_HEAD(&b->constraints);
-+
-+	isp->secure_mode = ipu6_buttress_get_secure_mode(isp);
-+	dev_info(&isp->pdev->dev, "IPU6 in %s mode touch 0x%x mask 0x%x\n",
-+		 isp->secure_mode ? "secure" : "non-secure",
-+		 readl(isp->base + BUTTRESS_REG_SECURITY_TOUCH),
-+		 readl(isp->base + BUTTRESS_REG_CAMERA_MASK));
-+
-+	b->wdt_cached_value = readl(isp->base + BUTTRESS_REG_WDT);
-+	writel(BUTTRESS_IRQS, isp->base + BUTTRESS_REG_ISR_CLEAR);
-+	writel(BUTTRESS_IRQS, isp->base + BUTTRESS_REG_ISR_ENABLE);
-+
-+	/* get ref_clk frequency by reading the indication in btrs control */
-+	val = readl(isp->base + BUTTRESS_REG_BTRS_CTRL);
-+	val = FIELD_GET(BUTTRESS_REG_BTRS_CTRL_REF_CLK_IND, val);
-+
-+	switch (val) {
-+	case 0x0:
-+		b->ref_clk = 240;
-+		break;
-+	case 0x1:
-+		b->ref_clk = 192;
-+		break;
-+	case 0x2:
-+		b->ref_clk = 384;
-+		break;
-+	default:
-+		dev_warn(&isp->pdev->dev,
-+			 "Unsupported ref clock, use 19.2Mhz by default.\n");
-+		b->ref_clk = 192;
-+		break;
-+	}
-+
-+	/* Retry couple of times in case of CSE initialization is delayed */
-+	do {
-+		ret = ipu6_buttress_ipc_reset(isp, &b->cse);
-+		if (ret) {
-+			dev_warn(&isp->pdev->dev,
-+				 "IPC reset protocol failed, retrying\n");
-+		} else {
-+			dev_dbg(&isp->pdev->dev, "IPC reset done\n");
-+			return 0;
++	/* Ensure that all entries are within moduledata */
++	ent = (const struct ipu6_cpd_ent *)(((const u8 *)cpd_hdr) + len);
++	for (i = 0; i < cpd_hdr->ent_cnt; i++, ent++) {
++		if (data_size < ent->offset ||
++		    data_size - ent->offset < ent->len) {
++			dev_err(&isp->pdev->dev, "Invalid CPD entry (%d)\n", i);
++			return -EINVAL;
 +		}
-+	} while (ipc_reset_retry--);
++	}
 +
-+	dev_err(&isp->pdev->dev, "IPC reset protocol failed\n");
++	return 0;
++}
 +
-+	mutex_destroy(&b->power_mutex);
-+	mutex_destroy(&b->auth_mutex);
-+	mutex_destroy(&b->cons_mutex);
-+	mutex_destroy(&b->ipc_mutex);
++static int ipu6_cpd_validate_moduledata(struct ipu6_device *isp,
++					const void *moduledata,
++					u32 moduledata_size)
++{
++	const struct ipu6_cpd_module_data_hdr *mod_hdr = moduledata;
++	int ret;
++
++	/* Ensure moduledata hdr is within moduledata */
++	if (moduledata_size < sizeof(*mod_hdr) ||
++	    moduledata_size < mod_hdr->hdr_len) {
++		dev_err(&isp->pdev->dev, "Invalid CPD moduledata size\n");
++		return -EINVAL;
++	}
++
++	dev_info(&isp->pdev->dev, "FW version: %x\n", mod_hdr->fw_pkg_date);
++	ret = ipu6_cpd_validate_cpd(isp, moduledata + mod_hdr->hdr_len,
++				    moduledata_size - mod_hdr->hdr_len,
++				    moduledata_size);
++	if (ret) {
++		dev_err(&isp->pdev->dev, "Invalid CPD in moduledata\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++static int ipu6_cpd_validate_metadata(struct ipu6_device *isp,
++				      const void *metadata, u32 meta_size)
++{
++	const struct ipu6_cpd_metadata_extn *extn = metadata;
++
++	/* Sanity check for metadata size */
++	if (meta_size < sizeof(*extn) || meta_size > MAX_METADATA_SIZE) {
++		dev_err(&isp->pdev->dev, "Invalid CPD metadata\n");
++		return -EINVAL;
++	}
++
++	/* Validate extension and image types */
++	if (extn->extn_type != IPU6_CPD_METADATA_EXTN_TYPE_IUNIT ||
++	    extn->img_type != IPU6_CPD_METADATA_IMAGE_TYPE_MAIN_FIRMWARE) {
++		dev_err(&isp->pdev->dev,
++			"Invalid CPD metadata descriptor img_type (%d)\n",
++			extn->img_type);
++		return -EINVAL;
++	}
++
++	/* Validate metadata size multiple of metadata components */
++	if ((meta_size - sizeof(*extn)) % isp->cpd_metadata_cmpnt_size) {
++		dev_err(&isp->pdev->dev, "Invalid CPD metadata size\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++int ipu6_cpd_validate_cpd_file(struct ipu6_device *isp, const void *cpd_file,
++			       unsigned long cpd_file_size)
++{
++	const struct ipu6_cpd_hdr *hdr = cpd_file;
++	const struct ipu6_cpd_ent *ent;
++	int ret;
++
++	ret = ipu6_cpd_validate_cpd(isp, cpd_file, cpd_file_size,
++				    cpd_file_size);
++	if (ret) {
++		dev_err(&isp->pdev->dev, "Invalid CPD in file\n");
++		return ret;
++	}
++
++	/* Check for CPD file marker */
++	if (hdr->hdr_mark != CPD_HDR_MARK) {
++		dev_err(&isp->pdev->dev, "Invalid CPD header\n");
++		return -EINVAL;
++	}
++
++	/* Sanity check for manifest size */
++	ent = ipu6_cpd_get_manifest(cpd_file);
++	if (ent->len > MAX_MANIFEST_SIZE) {
++		dev_err(&isp->pdev->dev, "Invalid CPD manifest size\n");
++		return -EINVAL;
++	}
++
++	/* Validate metadata */
++	ent = ipu6_cpd_get_metadata(cpd_file);
++	ret = ipu6_cpd_validate_metadata(isp, cpd_file + ent->offset, ent->len);
++	if (ret) {
++		dev_err(&isp->pdev->dev, "Invalid CPD metadata\n");
++		return ret;
++	}
++
++	/* Validate moduledata */
++	ent = ipu6_cpd_get_moduledata(cpd_file);
++	ret = ipu6_cpd_validate_moduledata(isp, cpd_file + ent->offset,
++					   ent->len);
++	if (ret)
++		dev_err(&isp->pdev->dev, "Invalid CPD moduledata\n");
 +
 +	return ret;
 +}
-+
-+void ipu6_buttress_exit(struct ipu6_device *isp)
-+{
-+	struct ipu6_buttress *b = &isp->buttress;
-+
-+	writel(0, isp->base + BUTTRESS_REG_ISR_ENABLE);
-+
-+	mutex_destroy(&b->power_mutex);
-+	mutex_destroy(&b->auth_mutex);
-+	mutex_destroy(&b->cons_mutex);
-+	mutex_destroy(&b->ipc_mutex);
-+}
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-cpd.h b/drivers/media/pci/intel/ipu6/ipu6-cpd.h
 new file mode 100644
-index 000000000000..9b6f56958be7
+index 000000000000..e0e4fdeca902
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-@@ -0,0 +1,92 @@
++++ b/drivers/media/pci/intel/ipu6/ipu6-cpd.h
+@@ -0,0 +1,105 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (C) 2013--2024 Intel Corporation */
++/* Copyright (C) 2015--2024 Intel Corporation */
 +
-+#ifndef IPU6_BUTTRESS_H
-+#define IPU6_BUTTRESS_H
++#ifndef IPU6_CPD_H
++#define IPU6_CPD_H
 +
-+#include <linux/completion.h>
-+#include <linux/irqreturn.h>
-+#include <linux/list.h>
-+#include <linux/mutex.h>
-+
-+struct device;
-+struct firmware;
 +struct ipu6_device;
 +struct ipu6_bus_device;
 +
-+#define BUTTRESS_PS_FREQ_STEP		25U
-+#define BUTTRESS_MIN_FORCE_PS_FREQ	(BUTTRESS_PS_FREQ_STEP * 8)
-+#define BUTTRESS_MAX_FORCE_PS_FREQ	(BUTTRESS_PS_FREQ_STEP * 32)
++#define IPU6_CPD_SIZE_OF_FW_ARCH_VERSION	7
++#define IPU6_CPD_SIZE_OF_SYSTEM_VERSION		11
++#define IPU6_CPD_SIZE_OF_COMPONENT_NAME		12
 +
-+#define BUTTRESS_IS_FREQ_STEP		25U
-+#define BUTTRESS_MIN_FORCE_IS_FREQ	(BUTTRESS_IS_FREQ_STEP * 8)
-+#define BUTTRESS_MAX_FORCE_IS_FREQ	(BUTTRESS_IS_FREQ_STEP * 22)
++#define IPU6_CPD_METADATA_EXTN_TYPE_IUNIT	0x10
 +
-+struct ipu6_buttress_ctrl {
-+	u32 freq_ctl, pwr_sts_shift, pwr_sts_mask, pwr_sts_on, pwr_sts_off;
-+	unsigned int ratio;
-+	unsigned int qos_floor;
-+	bool started;
-+};
++#define IPU6_CPD_METADATA_IMAGE_TYPE_RESERVED		0
++#define IPU6_CPD_METADATA_IMAGE_TYPE_BOOTLOADER		1
++#define IPU6_CPD_METADATA_IMAGE_TYPE_MAIN_FIRMWARE	2
 +
-+struct ipu6_buttress_ipc {
-+	struct completion send_complete;
-+	struct completion recv_complete;
-+	u32 nack;
-+	u32 nack_mask;
-+	u32 recv_data;
-+	u32 csr_out;
-+	u32 csr_in;
-+	u32 db0_in;
-+	u32 db0_out;
-+	u32 data0_out;
-+	u32 data0_in;
-+};
++#define IPU6_CPD_PKG_DIR_PSYS_SERVER_IDX	0
++#define IPU6_CPD_PKG_DIR_ISYS_SERVER_IDX	1
 +
-+struct ipu6_buttress {
-+	struct mutex power_mutex, auth_mutex, cons_mutex, ipc_mutex;
-+	struct ipu6_buttress_ipc cse;
-+	struct ipu6_buttress_ipc ish;
-+	struct list_head constraints;
-+	u32 wdt_cached_value;
-+	bool force_suspend;
-+	u32 ref_clk;
-+};
++#define IPU6_CPD_PKG_DIR_CLIENT_PG_TYPE		3
 +
-+enum ipu6_buttress_ipc_domain {
-+	IPU6_BUTTRESS_IPC_CSE,
-+	IPU6_BUTTRESS_IPC_ISH,
-+};
++#define IPU6_CPD_METADATA_HASH_KEY_SIZE		48
++#define IPU6SE_CPD_METADATA_HASH_KEY_SIZE	32
 +
-+struct ipu6_ipc_buttress_bulk_msg {
-+	u32 cmd;
-+	u32 expected_resp;
-+	bool require_resp;
-+	u8 cmd_size;
-+};
++struct ipu6_cpd_module_data_hdr {
++	u32 hdr_len;
++	u32 endian;
++	u32 fw_pkg_date;
++	u32 hive_sdk_date;
++	u32 compiler_date;
++	u32 target_platform_type;
++	u8 sys_ver[IPU6_CPD_SIZE_OF_SYSTEM_VERSION];
++	u8 fw_arch_ver[IPU6_CPD_SIZE_OF_FW_ARCH_VERSION];
++	u8 rsvd[2];
++} __packed;
 +
-+int ipu6_buttress_ipc_reset(struct ipu6_device *isp,
-+			    struct ipu6_buttress_ipc *ipc);
-+int ipu6_buttress_map_fw_image(struct ipu6_bus_device *sys,
-+			       const struct firmware *fw,
-+			       struct sg_table *sgt);
-+void ipu6_buttress_unmap_fw_image(struct ipu6_bus_device *sys,
-+				  struct sg_table *sgt);
-+int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-+			bool on);
-+bool ipu6_buttress_get_secure_mode(struct ipu6_device *isp);
-+int ipu6_buttress_authenticate(struct ipu6_device *isp);
-+int ipu6_buttress_reset_authentication(struct ipu6_device *isp);
-+bool ipu6_buttress_auth_done(struct ipu6_device *isp);
-+int ipu6_buttress_start_tsc_sync(struct ipu6_device *isp);
-+void ipu6_buttress_tsc_read(struct ipu6_device *isp, u64 *val);
-+u64 ipu6_buttress_tsc_ticks_to_ns(u64 ticks, const struct ipu6_device *isp);
++/*
++ * ipu6_cpd_hdr structure updated as the chksum and
++ * sub_partition_name is unused on host side
++ * CSE layout version 1.6 for IPU6SE (hdr_len = 0x10)
++ * CSE layout version 1.7 for IPU6 (hdr_len = 0x14)
++ */
++struct ipu6_cpd_hdr {
++	u32 hdr_mark;
++	u32 ent_cnt;
++	u8 hdr_ver;
++	u8 ent_ver;
++	u8 hdr_len;
++} __packed;
 +
-+irqreturn_t ipu6_buttress_isr(int irq, void *isp_ptr);
-+irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr);
-+int ipu6_buttress_init(struct ipu6_device *isp);
-+void ipu6_buttress_exit(struct ipu6_device *isp);
-+void ipu6_buttress_csi_port_config(struct ipu6_device *isp,
-+				   u32 legacy, u32 combo);
-+void ipu6_buttress_restore(struct ipu6_device *isp);
-+#endif /* IPU6_BUTTRESS_H */
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h b/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
-new file mode 100644
-index 000000000000..20f27011df43
---- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
-@@ -0,0 +1,226 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (C) 2023--2024 Intel Corporation */
++struct ipu6_cpd_ent {
++	u8 name[IPU6_CPD_SIZE_OF_COMPONENT_NAME];
++	u32 offset;
++	u32 len;
++	u8 rsvd[4];
++} __packed;
 +
-+#ifndef IPU6_PLATFORM_BUTTRESS_REGS_H
-+#define IPU6_PLATFORM_BUTTRESS_REGS_H
++struct ipu6_cpd_metadata_cmpnt_hdr {
++	u32 id;
++	u32 size;
++	u32 ver;
++} __packed;
 +
-+#include <linux/bits.h>
++struct ipu6_cpd_metadata_cmpnt {
++	struct ipu6_cpd_metadata_cmpnt_hdr hdr;
++	u8 sha2_hash[IPU6_CPD_METADATA_HASH_KEY_SIZE];
++	u32 entry_point;
++	u32 icache_base_offs;
++	u8 attrs[16];
++} __packed;
 +
-+/* IS_WORKPOINT_REQ */
-+#define IPU6_BUTTRESS_REG_IS_FREQ_CTL		0x34
-+/* PS_WORKPOINT_REQ */
-+#define IPU6_BUTTRESS_REG_PS_FREQ_CTL		0x38
++struct ipu6se_cpd_metadata_cmpnt {
++	struct ipu6_cpd_metadata_cmpnt_hdr hdr;
++	u8 sha2_hash[IPU6SE_CPD_METADATA_HASH_KEY_SIZE];
++	u32 entry_point;
++	u32 icache_base_offs;
++	u8 attrs[16];
++} __packed;
 +
-+/* should be tuned for real silicon */
-+#define IPU6_IS_FREQ_CTL_DEFAULT_RATIO		0x08
-+#define IPU6SE_IS_FREQ_CTL_DEFAULT_RATIO	0x0a
-+#define IPU6_PS_FREQ_CTL_DEFAULT_RATIO		0x0d
++struct ipu6_cpd_metadata_extn {
++	u32 extn_type;
++	u32 len;
++	u32 img_type;
++	u8 rsvd[16];
++} __packed;
 +
-+#define IPU6_IS_FREQ_CTL_DEFAULT_QOS_FLOOR_RATIO	0x10
-+#define IPU6_PS_FREQ_CTL_DEFAULT_QOS_FLOOR_RATIO	0x0708
++struct ipu6_cpd_client_pkg_hdr {
++	u32 prog_list_offs;
++	u32 prog_list_size;
++	u32 prog_desc_offs;
++	u32 prog_desc_size;
++	u32 pg_manifest_offs;
++	u32 pg_manifest_size;
++	u32 prog_bin_offs;
++	u32 prog_bin_size;
++} __packed;
 +
-+#define IPU6_BUTTRESS_PWR_STATE_IS_PWR_SHIFT	3
-+#define IPU6_BUTTRESS_PWR_STATE_IS_PWR_MASK	GENMASK(4, 3)
-+
-+#define IPU6_BUTTRESS_PWR_STATE_PS_PWR_SHIFT	6
-+#define IPU6_BUTTRESS_PWR_STATE_PS_PWR_MASK	GENMASK(7, 6)
-+
-+#define IPU6_BUTTRESS_PWR_STATE_DN_DONE		0x0
-+#define IPU6_BUTTRESS_PWR_STATE_UP_PROCESS	0x1
-+#define IPU6_BUTTRESS_PWR_STATE_DN_PROCESS	0x2
-+#define IPU6_BUTTRESS_PWR_STATE_UP_DONE		0x3
-+
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_0	0x270
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_1	0x274
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_2	0x278
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_3	0x27c
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_4	0x280
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_5	0x284
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_6	0x288
-+#define IPU6_BUTTRESS_REG_FPGA_SUPPORT_7	0x28c
-+
-+#define BUTTRESS_REG_WDT			0x8
-+#define BUTTRESS_REG_BTRS_CTRL			0xc
-+#define BUTTRESS_REG_BTRS_CTRL_STALL_MODE_VC0	BIT(0)
-+#define BUTTRESS_REG_BTRS_CTRL_STALL_MODE_VC1	BIT(1)
-+#define BUTTRESS_REG_BTRS_CTRL_REF_CLK_IND	GENMASK(9, 8)
-+
-+#define BUTTRESS_REG_FW_RESET_CTL	0x30
-+#define BUTTRESS_FW_RESET_CTL_START	BIT(0)
-+#define BUTTRESS_FW_RESET_CTL_DONE	BIT(1)
-+
-+#define BUTTRESS_REG_IS_FREQ_CTL	0x34
-+#define BUTTRESS_REG_PS_FREQ_CTL	0x38
-+
-+#define BUTTRESS_FREQ_CTL_START		BIT(31)
-+#define BUTTRESS_FREQ_CTL_ICCMAX_LEVEL		GENMASK(19, 16)
-+#define BUTTRESS_FREQ_CTL_QOS_FLOOR_MASK	GENMASK(15, 8)
-+#define BUTTRESS_FREQ_CTL_RATIO_MASK	GENMASK(7, 0)
-+
-+#define BUTTRESS_REG_PWR_STATE	0x5c
-+
-+#define BUTTRESS_PWR_STATE_RESET		0x0
-+#define BUTTRESS_PWR_STATE_PWR_ON_DONE		0x1
-+#define BUTTRESS_PWR_STATE_PWR_RDY		0x3
-+#define BUTTRESS_PWR_STATE_PWR_IDLE		0x4
-+
-+#define BUTTRESS_PWR_STATE_HH_STATUS_MASK	GENMASK(12, 11)
-+
-+enum {
-+	BUTTRESS_PWR_STATE_HH_STATE_IDLE,
-+	BUTTRESS_PWR_STATE_HH_STATE_IN_PRGS,
-+	BUTTRESS_PWR_STATE_HH_STATE_DONE,
-+	BUTTRESS_PWR_STATE_HH_STATE_ERR,
-+};
-+
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_MASK	GENMASK(23, 19)
-+
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_IDLE			0x0
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_PLL_CMP		0x1
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_CLKACK		0x2
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_PG_ACK		0x3
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_RST_ASSRT_CYCLES		0x4
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_STOP_CLK_CYCLES1		0x5
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_STOP_CLK_CYCLES2		0x6
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_RST_DEASSRT_CYCLES	0x7
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_FUSE_WR_CMP	0x8
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_BRK_POINT			0x9
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_IS_RDY			0xa
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_HALT_HALTED		0xb
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_RST_DURATION_CNT3		0xc
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_CLKACK_PD		0xd
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_PD_BRK_POINT		0xe
-+#define BUTTRESS_PWR_STATE_IS_PWR_FSM_WAIT_4_PD_PG_ACK0		0xf
-+
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_MASK	GENMASK(28, 24)
-+
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_IDLE			0x0
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PU_PLL_IP_RDY	0x1
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_RO_PRE_CNT_EXH	0x2
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PU_VGI_PWRGOOD	0x3
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_RO_POST_CNT_EXH	0x4
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WR_PLL_RATIO		0x5
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PU_PLL_CMP		0x6
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PU_CLKACK		0x7
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_RST_ASSRT_CYCLES		0x8
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_STOP_CLK_CYCLES1		0x9
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_STOP_CLK_CYCLES2		0xa
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_RST_DEASSRT_CYCLES	0xb
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_PU_BRK_PNT		0xc
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_FUSE_ACCPT		0xd
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_PS_PWR_UP			0xf
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_4_HALTED		0x10
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_RESET_CNT3		0x11
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PD_CLKACK		0x12
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_PD_OFF_IND		0x13
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_DVFS_PH4		0x14
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_DVFS_PLL_CMP		0x15
-+#define BUTTRESS_PWR_STATE_PS_PWR_FSM_WAIT_DVFS_CLKACK		0x16
-+
-+#define BUTTRESS_REG_SECURITY_CTL	0x300
-+#define BUTTRESS_REG_SKU		0x314
-+#define BUTTRESS_REG_SECURITY_TOUCH	0x318
-+#define BUTTRESS_REG_CAMERA_MASK	0x84
-+
-+#define BUTTRESS_SECURITY_CTL_FW_SECURE_MODE	BIT(16)
-+#define BUTTRESS_SECURITY_CTL_FW_SETUP_MASK	GENMASK(4, 0)
-+
-+#define BUTTRESS_SECURITY_CTL_FW_SETUP_DONE		BIT(0)
-+#define BUTTRESS_SECURITY_CTL_AUTH_DONE			BIT(1)
-+#define BUTTRESS_SECURITY_CTL_AUTH_FAILED		BIT(3)
-+
-+#define BUTTRESS_REG_FW_SOURCE_BASE_LO	0x78
-+#define BUTTRESS_REG_FW_SOURCE_BASE_HI	0x7C
-+#define BUTTRESS_REG_FW_SOURCE_SIZE	0x80
-+
-+#define BUTTRESS_REG_ISR_STATUS		0x90
-+#define BUTTRESS_REG_ISR_ENABLED_STATUS	0x94
-+#define BUTTRESS_REG_ISR_ENABLE		0x98
-+#define BUTTRESS_REG_ISR_CLEAR		0x9C
-+
-+#define BUTTRESS_ISR_IS_IRQ			BIT(0)
-+#define BUTTRESS_ISR_PS_IRQ			BIT(1)
-+#define BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE	BIT(2)
-+#define BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH	BIT(3)
-+#define BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING	BIT(4)
-+#define BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING	BIT(5)
-+#define BUTTRESS_ISR_CSE_CSR_SET		BIT(6)
-+#define BUTTRESS_ISR_ISH_CSR_SET		BIT(7)
-+#define BUTTRESS_ISR_SPURIOUS_CMP		BIT(8)
-+#define BUTTRESS_ISR_WATCHDOG_EXPIRED		BIT(9)
-+#define BUTTRESS_ISR_PUNIT_2_IUNIT_IRQ		BIT(10)
-+#define BUTTRESS_ISR_SAI_VIOLATION		BIT(11)
-+#define BUTTRESS_ISR_HW_ASSERTION		BIT(12)
-+#define BUTTRESS_ISR_IS_CORRECTABLE_MEM_ERR	BIT(13)
-+#define BUTTRESS_ISR_IS_FATAL_MEM_ERR		BIT(14)
-+#define BUTTRESS_ISR_IS_NON_FATAL_MEM_ERR	BIT(15)
-+#define BUTTRESS_ISR_PS_CORRECTABLE_MEM_ERR	BIT(16)
-+#define BUTTRESS_ISR_PS_FATAL_MEM_ERR		BIT(17)
-+#define BUTTRESS_ISR_PS_NON_FATAL_MEM_ERR	BIT(18)
-+#define BUTTRESS_ISR_PS_FAST_THROTTLE		BIT(19)
-+#define BUTTRESS_ISR_UFI_ERROR			BIT(20)
-+
-+#define BUTTRESS_REG_IU2CSEDB0	0x100
-+
-+#define BUTTRESS_IU2CSEDB0_BUSY		BIT(31)
-+#define BUTTRESS_IU2CSEDB0_IPC_CLIENT_ID_VAL	2
-+
-+#define BUTTRESS_REG_IU2CSEDATA0	0x104
-+
-+#define BUTTRESS_IU2CSEDATA0_IPC_BOOT_LOAD		1
-+#define BUTTRESS_IU2CSEDATA0_IPC_AUTH_RUN		2
-+#define BUTTRESS_IU2CSEDATA0_IPC_AUTH_REPLACE		3
-+#define BUTTRESS_IU2CSEDATA0_IPC_UPDATE_SECURE_TOUCH	16
-+
-+#define BUTTRESS_CSE2IUDATA0_IPC_BOOT_LOAD_DONE			BIT(0)
-+#define BUTTRESS_CSE2IUDATA0_IPC_AUTH_RUN_DONE			BIT(1)
-+#define BUTTRESS_CSE2IUDATA0_IPC_AUTH_REPLACE_DONE		BIT(2)
-+#define BUTTRESS_CSE2IUDATA0_IPC_UPDATE_SECURE_TOUCH_DONE	BIT(4)
-+
-+#define BUTTRESS_REG_IU2CSECSR		0x108
-+
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_COMP_ACTIONS_RST_PHASE1		BIT(0)
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_COMP_ACTIONS_RST_PHASE2		BIT(1)
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_QUERIED_IP_COMP_ACTIONS_RST_PHASE	BIT(2)
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_ASSERTED_REG_VALID_REQ		BIT(3)
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_ACKED_REG_VALID			BIT(4)
-+#define BUTTRESS_IU2CSECSR_IPC_PEER_DEASSERTED_REG_VALID_REQ		BIT(5)
-+
-+#define BUTTRESS_REG_CSE2IUDB0		0x304
-+#define BUTTRESS_REG_CSE2IUCSR		0x30C
-+#define BUTTRESS_REG_CSE2IUDATA0	0x308
-+
-+/* 0x20 == NACK, 0xf == unknown command */
-+#define BUTTRESS_CSE2IUDATA0_IPC_NACK      0xf20
-+#define BUTTRESS_CSE2IUDATA0_IPC_NACK_MASK GENMASK(15, 0)
-+
-+#define BUTTRESS_REG_ISH2IUCSR		0x50
-+#define BUTTRESS_REG_ISH2IUDB0		0x54
-+#define BUTTRESS_REG_ISH2IUDATA0	0x58
-+
-+#define BUTTRESS_REG_IU2ISHDB0		0x10C
-+#define BUTTRESS_REG_IU2ISHDATA0	0x110
-+#define BUTTRESS_REG_IU2ISHDATA1	0x114
-+#define BUTTRESS_REG_IU2ISHCSR		0x118
-+
-+#define BUTTRESS_REG_FABRIC_CMD		0x88
-+
-+#define BUTTRESS_FABRIC_CMD_START_TSC_SYNC	BIT(0)
-+#define BUTTRESS_FABRIC_CMD_IS_DRAIN		BIT(4)
-+
-+#define BUTTRESS_REG_TSW_CTL		0x120
-+#define BUTTRESS_TSW_CTL_SOFT_RESET	BIT(8)
-+
-+#define BUTTRESS_REG_TSC_LO	0x164
-+#define BUTTRESS_REG_TSC_HI	0x168
-+
-+#define BUTTRESS_IRQS		(BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING | \
-+				 BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE |    \
-+				 BUTTRESS_ISR_IS_IRQ | BUTTRESS_ISR_PS_IRQ)
-+
-+#define BUTTRESS_EVENT		 (BUTTRESS_ISR_IPC_FROM_CSE_IS_WAITING | \
-+				  BUTTRESS_ISR_IPC_FROM_ISH_IS_WAITING | \
-+				  BUTTRESS_ISR_IPC_EXEC_DONE_BY_CSE |    \
-+				  BUTTRESS_ISR_IPC_EXEC_DONE_BY_ISH |    \
-+				  BUTTRESS_ISR_SAI_VIOLATION)
-+#endif /* IPU6_PLATFORM_BUTTRESS_REGS_H */
++int ipu6_cpd_create_pkg_dir(struct ipu6_bus_device *adev, const void *src);
++void ipu6_cpd_free_pkg_dir(struct ipu6_bus_device *adev);
++int ipu6_cpd_validate_cpd_file(struct ipu6_device *isp, const void *cpd_file,
++			       unsigned long cpd_file_size);
++#endif /* IPU6_CPD_H */
 -- 
 2.39.2
 
