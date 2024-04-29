@@ -1,128 +1,114 @@
-Return-Path: <linux-media+bounces-10313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10314-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF4B8B5296
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 09:51:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CF48B529F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 09:52:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B62F01C20B63
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 07:51:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DC58281F90
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 07:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C16BE168B9;
-	Mon, 29 Apr 2024 07:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1320171A2;
+	Mon, 29 Apr 2024 07:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGv/C2if"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYyPrMq8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22630883D
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 07:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA5214A90;
+	Mon, 29 Apr 2024 07:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714377063; cv=none; b=bHRQeRSxiBvpINkvQBTsQIdUnSjNiLQMGbrIk2erwfVfjlsH6aDDknXJkyyNBv+rtksxL0MIYjSdpDsoW/NeUSDnILzkygdsTOgcCSYkxSvt9CMFhGODpbdZ+0Rf/jEzUDgrT0Vc50vW0sadAYUABxiq3rPyqP3mmhWvTu2jRQg=
+	t=1714377111; cv=none; b=pz4iFfAaEnUATbNoxX3jbVA127Eqxetk0hYTsbMms5CIt8e8JEwYOkzFAKZ01XvMMkRitmjj8utNE0z+vRkbkv+Y+71s+ghJpuUuOEpbBpgyrB4icSM4J4uRYjW0LyO224rPRaKzNCYezjiKjSopeY+zbSioLkXXI30jzv4RJ3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714377063; c=relaxed/simple;
-	bh=3Ldl6Ib+yo+4QoBqDxPKJwtr9Pg+b08ZaPn/2+0en4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTEtlNHBQa7teA8M/65TgYjqMkai00favxjBEvpAZHiMX8rGXU6S6c80f2T/fEYY/ioDp9UMCn0euMYt0FO5IZ3V1Ef8D5ZqNlltQvgkpdU7gKQlL8bChFrBVHzYuoY2wwvYVNsx8ORYCgL8CUcCCpmBlDSzpSM21oNlqMazxkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGv/C2if; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714377061; x=1745913061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Ldl6Ib+yo+4QoBqDxPKJwtr9Pg+b08ZaPn/2+0en4M=;
-  b=FGv/C2ifUSS+9/Q05b4g5O+XuY7OC6fVgTXClvHW8s8CewDqq6ZVqvPH
-   PFkbPah3T8xnomwFAlab0vSMYDRqCrgnwW3ie/cgqE9huqP/dSZVcR33h
-   NHagk6PG/ffk/DQRvhElcNVpihwm6hgqOJtR0d32em2ktzv5oIB1fHllU
-   Uy938+gXqGanYXnFOE6yf+gV3WkG1GUyPkE8jl3Wz00ceu3C/Mev0+eUk
-   E8gbSvJ8choAFKpzvJX/MlE6k/lLTf1FbpeevYOvqUt+JRPyCbvRCMqqm
-   uKF4ePE3fnZYgRHUmGFYH6vGUzlZ5hMaZ4hplKaogyoyoiYV1I1bgve15
-   w==;
-X-CSE-ConnectionGUID: 7lkwv6dzT3+CpBaANRb13A==
-X-CSE-MsgGUID: bqKP2GSLS2eIZvvWDNCdJQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="32528033"
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="32528033"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 00:51:00 -0700
-X-CSE-ConnectionGUID: B46y7AvSRIeqiW7V8CCW5g==
-X-CSE-MsgGUID: 3i0Gu56jT06k0XT+ohynKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; 
-   d="scan'208";a="25996298"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 00:50:58 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8E4EC11F830;
-	Mon, 29 Apr 2024 10:50:55 +0300 (EEST)
-Date: Mon, 29 Apr 2024 07:50:55 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v2 0/3] Use INTEGER64 type for MEI CSI LINK_FREQ control
-Message-ID: <Zi9RXzLPCnYNkeh6@kekkonen.localdomain>
-References: <20240426145538.654212-1-sakari.ailus@linux.intel.com>
- <20240428232028.GD4950@pendragon.ideasonboard.com>
- <Zi9MLcZzS4xW1tyU@kekkonen.localdomain>
- <c0ae16a7-a817-4c43-bfb8-f71da01e0713@xs4all.nl>
+	s=arc-20240116; t=1714377111; c=relaxed/simple;
+	bh=eYP/yKhPTk4xcwsUruZPlGdv8rd/wEe9qbaGyUog6rU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Hzp5kR7KcgswYvHqEKaFDmXRr3fGPrf5KWevoPKOVEQRDbnZzZa5ABJg1w3yQ6ZdKPqCrzbYUHr7Rx0lTna9HycCQ/5HxsqHmpOazJ8Bz6iA9rHQt7a85nSQrxKZ7hp77JAqRdIke/7Df4GhoL5h6kC3O/Svw7hQc+Pfv3jKRMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYyPrMq8; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34d05100927so542818f8f.1;
+        Mon, 29 Apr 2024 00:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714377108; x=1714981908; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OV1u7iz1PWDb5GaSZ+THHGsU1iE1fOzj0JoX4zD0XiQ=;
+        b=mYyPrMq8d/d0O0Fy5PjwKUobAjl5NzGFjQksPsfxBuBgrZbEPEzt/Zl/Fd6cimRIKq
+         JVQh8cj1qD0VZ4t38+Z4RHGzmi1viKqQ+9aNiEK43vrSdIrLvMjheIO0FTN7+zkvMLOh
+         Qt/QGbcLlQwXSwpl8Zu1bYhz/4ax6yARxRX2iaz4QE3x3iz1d+qVQnd/SfMXgCses728
+         ol/k9qv6mOmMZY18bYsvlh6t5fJTYgGCxU5pBwpCMy2G2Xz345ELDy1/YtZt+pHRKqyC
+         mZAQJ9OWxrVsaZkkR6Gt7/Bo1liaIAd6fmCKpcOOKlFyP2I+uN5Ty0+IGSIPso9WLPbG
+         wazw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714377108; x=1714981908;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OV1u7iz1PWDb5GaSZ+THHGsU1iE1fOzj0JoX4zD0XiQ=;
+        b=iJXvbaKP7NxNUxjnxdltApI5ea0z1fDmU/f9czyvjyEJoAjAN4Wbi+JMqEIcDyXHU3
+         m7+4nXZDxLetYUv1dnob/DU5awEcLOc5+6Vu+tymf0mLvIkmi2hNWFT5kryS4GrsYfRb
+         9e0GVKrmwCliGTXM+qKNH37RFb8M3FTfdYKDCqLw/QdhTg3bPAJUkN/KPfYtGhxS8f69
+         zXTMnq6QBvDxDnSdA6TjeJDg39Itvp8gDQLWMIq5Zvr5KDLwC/LsfzM6df7Gkgm1G5fH
+         l/ZDohRJ8Z4ynapSZXQfkX39DRPsxnezolAUfOuEsosh03eKV8soJ+6XA4v+V6eII5So
+         7/3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWeN3XxnJT8ObtsPugt84fwQ5dnB+6WIP2Nv+lW3izgj1xjLPfPxgRc2xCEHVXEUCjj4XNdUD7OFZvFOZAwGRI5R5Xoi+MEzDdz5PvSkCalPZ6T7TtqbtMXOHhXppwiqw8D/wfpdMKe7bo=
+X-Gm-Message-State: AOJu0Yzipt6eeOtgWXowvLYfVDeBcBor0dCv3YyktTy+13NFoavq3opo
+	4oBSc/7FOnAB6F3nW2Ai1g+rL7pbxSXnZWfnjPqvKJd0wf7fvJ8w
+X-Google-Smtp-Source: AGHT+IH11dIw7Z/1uzLHUqzGAesECRoyaRjhwayeyJXoR2GMh2LzrblIOO3vP8j/BApimDpMRqJTtA==
+X-Received: by 2002:a05:6000:1ac9:b0:34c:fa08:7917 with SMTP id i9-20020a0560001ac900b0034cfa087917mr2718925wry.49.1714377107990;
+        Mon, 29 Apr 2024 00:51:47 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id d4-20020adfe2c4000000b0034a3a0a753asm27165212wrj.100.2024.04.29.00.51.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 00:51:47 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: atomisp: Fix spelling mistake "pipline" -> "pipeline"
+Date: Mon, 29 Apr 2024 08:51:46 +0100
+Message-Id: <20240429075146.1073869-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c0ae16a7-a817-4c43-bfb8-f71da01e0713@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+There is a spelling mistake in a dev_err message. Fix it.
 
-On Mon, Apr 29, 2024 at 09:30:37AM +0200, Hans Verkuil wrote:
-> On 29/04/2024 09:28, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Mon, Apr 29, 2024 at 02:20:28AM +0300, Laurent Pinchart wrote:
-> >> Hi Sakari,
-> >>
-> >> Thank you for the patches.
-> >>
-> >> On Fri, Apr 26, 2024 at 05:55:35PM +0300, Sakari Ailus wrote:
-> >>> Hi folks,
-> >>>
-> >>> An integer menu isn't a useful control type for conveying the frequency
-> >>> depending on an external device to the receiver. Instead, in the MEI CSI
-> >>> driver, just obtain the link frequency from the upsteam sub-device and
-> >>> pass it on to the receiver.
-> >>>
-> >>> The v4l2_get_link_freq() is changed to add support for this and it's
-> >>> documented as well.
-> >>
-> >> Using a control for this seems to be a bit of a hack :-S Wouldn't it fit
-> >> more nicely in the .get_mbus_config() operation ? That would avoid
-> >> exposing this to userspace, and would also have the nice advantage that
-> >> the value could be queried per pad.
-> > 
-> > Works for me. I also think it's better than using a new control for this
-> > actually.
-> 
-> Same for me. As you gathered, I was not very enthusiastic about using a
-> control for this either.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ack.
-
-I guess these are fine to be merged for 6.11 but still backporting to 6.10
-should be done. Nothing breaks now as there's a single frequency used right
-now and that's 400 MHz.
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index effc71b5a439..d7e8a9871522 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -894,7 +894,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	ret = __media_pipeline_start(&asd->video_out.vdev.entity.pads[0], &asd->video_out.pipe);
+ 	mutex_unlock(&isp->media_dev.graph_mutex);
+ 	if (ret) {
+-		dev_err(isp->dev, "Error starting mc pipline: %d\n", ret);
++		dev_err(isp->dev, "Error starting mc pipeline: %d\n", ret);
+ 		goto out_unlock;
+ 	}
+ 
 -- 
-Regards,
+2.39.2
 
-Sakari Ailus
 
