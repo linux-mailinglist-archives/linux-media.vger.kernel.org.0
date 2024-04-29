@@ -1,131 +1,141 @@
-Return-Path: <linux-media+bounces-10382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10383-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78578B637B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 22:27:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3FC8B63BB
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 22:36:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 828B4283B08
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 20:27:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58028283B71
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2024 20:36:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A627A1419B5;
-	Mon, 29 Apr 2024 20:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0616B177998;
+	Mon, 29 Apr 2024 20:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="hEv4TzUF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074E21411F0
-	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 20:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5701B94D
+	for <linux-media@vger.kernel.org>; Mon, 29 Apr 2024 20:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714422423; cv=none; b=XMINY2vXS97958srZ+RxlASrHkm9FwOVVyAQAYihbgykMv4NTAsg9+0YfNHV2SwrsMGTY1jL3FtqCjln6z+fcA4gzubYvYCKz8zt2rcJcpj0uGeEa69tfeb/bS6Lcc6+Hq8i8zf1bhWnPrlFOtxEUvvZ1/d7t69X51Qxtyx5RMM=
+	t=1714422969; cv=none; b=P0cr8T363qEjj60Xwr6ig40WjSwDBSAof440QEUrwSwIrsrAFzsXG76Zpgmwo9gVM1PZaJTBIcjhIyHMpoH9MrGpUHQs8iFfDpIsRSoJu567mPWaryeFtxvu1rFkYHxITjYXS8GnjzYigKU7KavKmzugorUrsuR6Mn/6+qR3iR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714422423; c=relaxed/simple;
-	bh=T+dTQpO6qcWs+FIYcOcxar1OwjTjraEzbMAu9Rsw0To=;
+	s=arc-20240116; t=1714422969; c=relaxed/simple;
+	bh=oVWDLb9uDw950sCva/o3nQcEDqsSEx9UabG89IuD2fY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l1pfLKY/UlBjgJdZG2ScYEjSGvfHAAHym+N9xGF7f5U7QJrpPYzm/WBw6Hzxr371U1quDPFtbP4WBG7hNBVw0XYnPdaWWOZ0L8Y0xVJF4riBXcsOoMkZ3oPdBzWkaMfDl6M1IQojWp6EVKv3ofvfG7Jxl+OaMoQORgXCWieJUF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s1XaS-0000na-HR; Mon, 29 Apr 2024 22:26:56 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s1XaR-00F2hU-Pr; Mon, 29 Apr 2024 22:26:55 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s1XaR-00Bj8R-2J;
-	Mon, 29 Apr 2024 22:26:55 +0200
-Date: Mon, 29 Apr 2024 22:26:55 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Pavel Machek <pavel@ucw.cz>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: kernel@pengutronix.de, linux-media@vger.kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=m9vbjnJsjY0I7NSBvH0UYEolYXpxDZRqtz+V0iZeN9LS5CHki2g2hKb2mCCMtq9643bhr/jYwUfVDPaOqKqyTmwUyQTK68CpY20AnLPZ8Il8ykwSL2Bm9jPTil96BJhy93Pdm1e+fZ17+11IX/viWOMtGaW/hObWq/B6lrAaNc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=hEv4TzUF; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id ACB771C007F; Mon, 29 Apr 2024 22:35:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1714422957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dQC1+XZW449okadJA7aM5WBcGnb781qBfLtcJOjVtLM=;
+	b=hEv4TzUFwAYcjE+JKBAdeph7GCu7LdAhgBnebL1OodBrvsHIcLP0Ceuyj/voiwD6XCGmvC
+	7i/uK5eLiJmeZB+SSj6j6HTLbvLmyKyfaXrwwO5IdclKnqN4A2zvnOw4XtKpk+FeCBZo+e
+	KIWBGi2hteHj5yCoTUh5rXTLfdSw2yQ=
+Date: Mon, 29 Apr 2024 22:35:57 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	linux-media@vger.kernel.org, kernel@pengutronix.de
 Subject: Re: [PATCH] media: i2c: et8ek8: Don't strip remove function when
  driver is builtin
-Message-ID: <4faume33cuwisfxh7na3iqjzlblnotxcqvaj5ihpqnwdfllvqt@xs6fqd4gmaxp>
+Message-ID: <ZjAEra8oZ9se0V9G@duo.ucw.cz>
 References: <20240324160045.238647-2-u.kleine-koenig@pengutronix.de>
- <diats73r4lt7pjuogurvhsk6s6dx5g3cojtdr5bz6coruni777@4nj47bv63vkd>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="edfundwmq7agwfc6"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dqg8izxWskmCafJc"
 Content-Disposition: inline
-In-Reply-To: <diats73r4lt7pjuogurvhsk6s6dx5g3cojtdr5bz6coruni777@4nj47bv63vkd>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20240324160045.238647-2-u.kleine-koenig@pengutronix.de>
 
 
---edfundwmq7agwfc6
+--dqg8izxWskmCafJc
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 29, 2024 at 10:20:09PM +0200, Uwe Kleine-K=F6nig wrote:
-> Hello,
+On Sun 2024-03-24 17:00:44, Uwe Kleine-K=F6nig wrote:
+> Using __exit for the remove function results in the remove callback
+> being discarded with CONFIG_VIDEO_ET8EK8=3Dy. When such a device gets
+> unbound (e.g. using sysfs or hotplug), the driver is just removed
+> without the cleanup being performed. This results in resource leaks. Fix
+> it by compiling in the remove callback unconditionally.
 >=20
-> On Sun, Mar 24, 2024 at 05:00:44PM +0100, Uwe Kleine-K=F6nig wrote:
-> > Using __exit for the remove function results in the remove callback
-> > being discarded with CONFIG_VIDEO_ET8EK8=3Dy. When such a device gets
-> > unbound (e.g. using sysfs or hotplug), the driver is just removed
-> > without the cleanup being performed. This results in resource leaks. Fix
-> > it by compiling in the remove callback unconditionally.
-> >=20
-> > This also fixes a W=3D1 modpost warning:
-> >=20
-> > 	WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in=
- reference: et8ek8_i2c_driver+0x10 (section: .data) -> et8ek8_remove (secti=
-on: .exit.text)
-> >=20
-> > Fixes: c5254e72b8ed ("[media] media: Driver for Toshiba et8ek8 5MP sens=
-or")
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> This also fixes a W=3D1 modpost warning:
 >=20
-> I wonder if I failed to make the commit log drastic enough as the patch
-> wasn't picked up yet. This is a fix for a resource leak and IMHO should
-> qualify to go in before v6.9 (though I admit it gets late for that).
+> 	WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in r=
+eference: et8ek8_i2c_driver+0x10 (section: .data) -> et8ek8_remove (section=
+: .exit.text)
 >=20
-> Did I address the right people?
+> Fixes: c5254e72b8ed ("[media] media: Driver for Toshiba et8ek8 5MP sensor=
+")
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Oh, I fatfingered my git cmdline and so missed this patch is in next
-already. I still think getting it into v6.9 would have been nice, but I
-won't argue if it goes into v6.10-rc1.
+Reviewed-by: Pavel Machek <pavel@ucw.cz>
 
-Sorry for the noise
-Uwe
+You might want to cc akpm if this does not get picked up.
+
+Best regards,
+									Pavel
+								=09
+> ---
+>  drivers/media/i2c/et8ek8/et8ek8_driver.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c=
+/et8ek8/et8ek8_driver.c
+> index f548b1bb75fb..e932d25ca7b3 100644
+> --- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
+> +++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+> @@ -1475,7 +1475,7 @@ static int et8ek8_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+> =20
+> -static void __exit et8ek8_remove(struct i2c_client *client)
+> +static void et8ek8_remove(struct i2c_client *client)
+>  {
+>  	struct v4l2_subdev *subdev =3D i2c_get_clientdata(client);
+>  	struct et8ek8_sensor *sensor =3D to_et8ek8_sensor(subdev);
+> @@ -1517,7 +1517,7 @@ static struct i2c_driver et8ek8_i2c_driver =3D {
+>  		.of_match_table	=3D et8ek8_of_table,
+>  	},
+>  	.probe		=3D et8ek8_probe,
+> -	.remove		=3D __exit_p(et8ek8_remove),
+> +	.remove		=3D et8ek8_remove,
+>  	.id_table	=3D et8ek8_id_table,
+>  };
+> =20
+>=20
+> base-commit: 70293240c5ce675a67bfc48f419b093023b862b3
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+People of Russia, stop Putin before his war on Ukraine escalates.
 
---edfundwmq7agwfc6
+--dqg8izxWskmCafJc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYwAo4ACgkQj4D7WH0S
-/k5WWQf/Zk+BQvZM1owV2S+VagCZixfg71QkNVHj91+2cDaNig6Uoq/gUdyLsQKj
-2cj/ExsIWgRp0ojPwiIiJKhnY9E57LQi2CGSKwPfrrBdlqkIJ72mRxolv9uXQC9k
-Pr3J6m9KXUYJhiVX88MtDw4DE8O6xKnVYJJCvf+nLBjdcXe1NzCzPMCwOGOdRPQ2
-lPnTW0r4u1zqGM8csSxifQKdbl8xcLtu6/2KVEf6p25C1iIuL43xNk07sZFs7Vgq
-6eP9zoxkhQZEdJkD96rRCaIds0smT+YGR9oADXxeR5zNXNWyph0KklBLEEXC2+2/
-wi0ieS0mXvq2djNNwkV/Itz8KtpxEg==
-=jSfD
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZjAErQAKCRAw5/Bqldv6
+8qqHAKCQDCdXqoAQDAqt+5opOz/4B8FR/gCggYU7y/jdPp6Ajf+cFFVgkUkCgS8=
+=q44G
 -----END PGP SIGNATURE-----
 
---edfundwmq7agwfc6--
+--dqg8izxWskmCafJc--
 
