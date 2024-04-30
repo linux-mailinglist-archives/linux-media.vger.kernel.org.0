@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-10400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990BA8B6AFC
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:01:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E173C8B6B58
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:19:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA6081C21D26
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:01:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2B3C5B21BF9
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:19:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2304E1C291;
-	Tue, 30 Apr 2024 07:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C25B13A1DE;
+	Tue, 30 Apr 2024 07:19:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vgi8Hr1x"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ryud3/wX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A2818EB8
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6957933EC
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714460483; cv=none; b=bsEcTtjSXWKgr8/yxoai8V9pH8fTV0b2BCeXwljRB6wlFSr2C/VtWohehyBnn+waKtt7MJS4JziUt71m/4t9uvHVTdic6LIMnTsq9coU900vAqjTg8OWaVsseR3WJSnljvapFHJPzJ46zKlE7nm6N+nDD2kRJjp42XFbOxB/Uok=
+	t=1714461579; cv=none; b=sxqQknzyVkYiDbz/AU5k5I7lNSaxkV5HaaX53zwG+CjA5VWOd0K4nW5glfaYA6w7SJd2RNgmDTRSgKHQws7AGmRe749lGhUsiHr7FbEMsd0vB2wk42KJGrihOAmEodesHXmR99TtqVHuF9+h+ApFVf5y6g3qb74KkmQRqvcaeY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714460483; c=relaxed/simple;
-	bh=o5ve2abGLYfFjEoLBt+weOEdnPFMDf0Y/6yLGV7H4lE=;
+	s=arc-20240116; t=1714461579; c=relaxed/simple;
+	bh=1ljNqohv6adpnsI2OMiCMmOe5w5X5Mxmyn4nnI6ADgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZkhPjNpm0pnlVLR055sJjl9XPl8/Q7ELvGMX+tH3iekGOlNIsBuE7vv6dgTvHYXm865JjLd1Cociu3V1e2kdPpiMhBDh/J/A7GKaEZNFUpnipOqcKL6CRfW2DtfMODI2qNVLu2oLCOBD/rUBozhPDuhy+4tdBCiN1W4eqE/i2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vgi8Hr1x; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=VlH0swfbr77NYldqkrkzab7mmy/pb7DseAUsL2LU0XeLGRWPU39G5HacF3N5w0oOLph0gQSOUrJX0w7Kj5Cail/7jMeATz0chVM3CRw7jVDt5J9WOiMugsT24nFtXzQ6tVEZDeTnRICm+5Vpy08W3L9ISrqfYIcHhQ7RtB8+A+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ryud3/wX; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BBAE4D4;
-	Tue, 30 Apr 2024 09:00:17 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEB78552;
+	Tue, 30 Apr 2024 09:18:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714460417;
-	bh=o5ve2abGLYfFjEoLBt+weOEdnPFMDf0Y/6yLGV7H4lE=;
+	s=mail; t=1714461519;
+	bh=1ljNqohv6adpnsI2OMiCMmOe5w5X5Mxmyn4nnI6ADgs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vgi8Hr1xI/49l13Eew7VZPskNxSbc/2XMLI91fTxIHT0GbFqbB2vE8CEIm6qK9Toj
-	 EO3ln3sdoBvWndSkACWXGyZKtz5c2xALeL8xpxYnyX+UBvdrIvq3H5478TBaQIzXEk
-	 Wn2a4jp7LQgMhBYBawpz1Wy/ByxDdSFp4cXGhjNM=
-Date: Tue, 30 Apr 2024 09:01:09 +0200
+	b=ryud3/wXI2rG0zACzHSPCO0zSvoWY5+gKofxJKtfIjmjwCxt99f8ytqlf/63W+ez1
+	 u+JzNZs50DfNSi7zBffuSLbWu3PDZBqEuheBV2sYUJws9RL+4Y7C8XKec+0nE6dB9R
+	 jljfHNrINUpLAvaO8+jrWbsDz2HfHAKpe8eI6YHY=
+Date: Tue, 30 Apr 2024 09:19:32 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, 
 	laurent.pinchart@ideasonboard.com, Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v4 1/4] media: v4l: Support passing sub-device argument
- to v4l2_get_link_freq()
-Message-ID: <n5gr2rsxbnot7vittbs4mbhsuzmtwqgwlrbzk4ug6yklqyfit5@ts5oyzcc5qpc>
+Subject: Re: [PATCH v4 2/4] media: v4l: Support obtaining link frequency via
+ get_mbus_config
+Message-ID: <cc5cwbigryoqt6tchpi6g7jhen6mefxnyn5e5dlfomzuh7yha3@du6lkepft6zj>
 References: <20240429190852.1008003-1-sakari.ailus@linux.intel.com>
- <20240429190852.1008003-2-sakari.ailus@linux.intel.com>
+ <20240429190852.1008003-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,101 +59,92 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240429190852.1008003-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240429190852.1008003-3-sakari.ailus@linux.intel.com>
 
 Hi Sakari
 
-On Mon, Apr 29, 2024 at 10:08:49PM +0300, Sakari Ailus wrote:
-> v4l2_get_link_freq() accepts a V4L2 control handler for now, but it needs
-> to take struct v4l2_subdev argument in order to obtain the link frequency
-> using get_mbus_config() pad op. Prepare for this by allowing struct
-> v4l2_subdev as well.
+On Mon, Apr 29, 2024 at 10:08:50PM +0300, Sakari Ailus wrote:
+> Add link_freq field to struct v4l2_mbus_config in order to pass the link
+> frequency to the reciving sub-device.
+
+'receiving'
+
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Nice! I need exactly something like this to avoid pre-computing a lot
-a frequencies in a driver I'm working on.
-
 > ---
->  drivers/media/v4l2-core/v4l2-common.c | 19 ++++++++++++++++---
->  include/media/v4l2-common.h           | 14 +++++++++++---
->  2 files changed, 27 insertions(+), 6 deletions(-)
+>  drivers/media/v4l2-core/v4l2-common.c | 13 +++++++++----
+>  include/media/v4l2-mediabus.h         |  2 ++
+>  2 files changed, 11 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 4165c815faef..7f69b5a025fa 100644
+> index 7f69b5a025fa..09b26ce612e9 100644
 > --- a/drivers/media/v4l2-core/v4l2-common.c
 > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -464,8 +464,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+> @@ -503,15 +503,20 @@ s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+>  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
 >
-> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
-> -		       unsigned int div)
-> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> +			      unsigned int mul, unsigned int div)
+>  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> -			     unsigned int div)
+> +			      unsigned int div)
+
+Goes in the previous patch that introduces the function ?
+
 >  {
->  	struct v4l2_ctrl *ctrl;
->  	s64 freq;
-> @@ -500,7 +500,20 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+> +	struct v4l2_mbus_config mbus_config = {};
+>  	struct v4l2_subdev *sd;
+> +	int ret;
 >
->  	return freq > 0 ? freq : -EINVAL;
+>  	sd = media_entity_to_v4l2_subdev(pad->entity);
+> -	if (!sd)
+> -		return -ENODEV;
+> +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> +			       &mbus_config);
+> +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> +		return ret;
+>
+> -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> +	return mbus_config.link_freq ?:
+> +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
 >  }
-> -EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
-> +
-> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> +			     unsigned int div)
-> +{
-> +	struct v4l2_subdev *sd;
-> +
-> +	sd = media_entity_to_v4l2_subdev(pad->entity);
-> +	if (!sd)
-> +		return -ENODEV;
-> +
-> +	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> +}
-> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+>  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
 >
->  /*
->   * Simplify a fraction using a simple continued fraction decomposition. The
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 63ad36f04f72..d7115cd61a38 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -525,7 +525,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
->  /**
->   * v4l2_get_link_freq - Get link rate from transmitter
->   *
-> - * @handler: The transmitter's control handler
-> + * @pad: The transmitter's media pad (or control handler for compatibility
-> + *	 reasons, don't use in new code)
->   * @mul: The multiplier between pixel rate and link frequency. Bits per pixel on
->   *	 D-PHY, samples per clock on parallel. 0 otherwise.
->   * @div: The divisor between pixel rate and link frequency. Number of data lanes
-> @@ -541,8 +542,15 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
->   * * %-ENOENT: Link frequency or pixel rate control not found
->   * * %-EINVAL: Invalid link frequency value
+> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> index 5bce6e423e94..2f39b52bb4d4 100644
+> --- a/include/media/v4l2-mediabus.h
+> +++ b/include/media/v4l2-mediabus.h
+> @@ -159,6 +159,7 @@ enum v4l2_mbus_type {
+>   * @bus.mipi_csi2: embedded &struct v4l2_mbus_config_mipi_csi2.
+>   *		   Used if the bus is MIPI Alliance's Camera Serial
+>   *		   Interface version 2 (MIPI CSI2).
+> + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
 >   */
-> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
-> -		       unsigned int div);
-> +#define v4l2_get_link_freq(pad, mul, div)				\
-> +	_Generic(pad,							\
-> +		 struct media_pad *: __v4l2_get_link_freq_pad,		\
-> +		 struct v4l2_ctrl_handler *: __v4l2_get_link_freq_ctrl)	\
-> +	(pad, mul, div)
+>  struct v4l2_mbus_config {
+>  	enum v4l2_mbus_type type;
+> @@ -167,6 +168,7 @@ struct v4l2_mbus_config {
+>  		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+>  		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+>  	} bus;
+> +	u64 link_freq;
 
-That's nice and elegant, but given that I count 10 drivers in mainline
-using this function, wouldn't it be better to make them use a pad and
-remove the ctrl_handler version completely to avoid it being used in
-future ?
+Does this apply to all the supported busses ?
 
-> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> +			     unsigned int div);
-> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> +			      unsigned int mul, unsigned int div);
+I count:
+
+        struct v4l2_mbus_config_parallel parallel;
+        struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+        struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+
+not sure about csi1, but I would say "yes" ?
+
+However it would feel more natural to fetch the 'link_freq' from the
+bus-specific structure like in 'bus.mipi_csi2.link_freq' (and 'bus' is
+an union, so we're not consuming any additional space if we move it to
+the per-bus structure).
+
+
+>  };
 >
->  void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
->  		unsigned int n_terms, unsigned int threshold);
+>  /**
 > --
 > 2.39.2
 >
