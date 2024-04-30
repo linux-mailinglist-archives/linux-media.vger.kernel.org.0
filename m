@@ -1,186 +1,185 @@
-Return-Path: <linux-media+bounces-10461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1CA8B7781
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:46:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8468B7797
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:52:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC31D1C224F7
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 13:46:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19644B20D20
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 13:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B08172BD7;
-	Tue, 30 Apr 2024 13:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FF93172780;
+	Tue, 30 Apr 2024 13:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="TrbWzzUJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlcO3h30"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C781E171E62
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 13:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4A417167F;
+	Tue, 30 Apr 2024 13:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714484765; cv=none; b=FFF3Jre5vipOjpATHtcy8ZDg74/RTNUsDCBMoh9kKYjJpR6nBgDYTyemlcyQPEpyp9w76+aWcTAruRj/u2u4Nieui/0wamENV/zgnxdxqoCECdHElcwlp1RkkojPhXyk8Xn+LrmFFgvrdnx36aRxNhJWcHw2vxOENIllJISV+Ws=
+	t=1714485165; cv=none; b=IioaPlUfO/+u2FXenlpyYJxhULNqpBnJuQyVEQgeUA6TrD7k+7VMy1BB+QXeGlXFBQACOUx+ViBW8h2eb23qBO7xebB/2/M5UXBPkDmzmRJVV1yxFg8w0/c8M5Nq3kryR1l6viwc0Vg0PrU84WrRFh+0Yf3+XJDzZSeMMTTtBww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714484765; c=relaxed/simple;
-	bh=T1pCeAqcp0hagoseX+NBrv4VuqjeZqvX4PDGNfjpbho=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MBTPMMrCqWx5jMnvh0PffBuPLFelFS0vVjgLI1S3ekmo/wu3ovcYpzMTj+Z3LUgpzzKjxp9Fs5cZLd/0hWckHrMEHZIM1fEVBxUXUYsx/fjd5xqhqqQ4z/6+0TWskcuI6PK3PqNitCIC7LXcgJX4EBMQLeNTMsTK/dLC8n68gjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=TrbWzzUJ; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2aa0f3625aeso1382174a91.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 06:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714484761; x=1715089561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JjNR4wPlgvb/NrdAvCR/ceifiIGObytGntMYaBKjRCU=;
-        b=TrbWzzUJm4ACtdJyO8oibE6KYZmSqfTX2Jp4Q0yG9JcxctyXvP+CDWGCRkRrVsuMY5
-         iMVNVsN3muXq+fKDdYw5GJRGGzLAyrSmaV0eEKQRnVARtWliWdQoTqQ1FD1RUlHU5m3U
-         gDdLu5C5HjkqWAIpLZ4ayF0asn66ueCZTz0j8eCPMTI0Z8v/bSHAT2v+b0W4MSZMvrlE
-         oROpvzBoqEz7hAfm06s0TLcuLfyELeqxigNRtGhSdBSBaHmYeXwgI8qUnuKDsSwX9Nh2
-         5g8SyL48LiJV6qg+w5MFs+9pri8thZKS40PTXmP8hzxdCZM8eyX9NKg32HgQ9RPA9Rcw
-         IC2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714484761; x=1715089561;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JjNR4wPlgvb/NrdAvCR/ceifiIGObytGntMYaBKjRCU=;
-        b=BJd9GmwoQ+mS7J8qGjnUzetka8JLtZKn7RZZK0iBFHrcyxTPswyfYlIWcnGese7mGQ
-         a6N1Tyz/CO4NdVly2RrZx3KQueVyHP8CTMTilCXznTmXzFfqsFHlPw+E4FsIxvIcQnV/
-         6MMfGhdbnPeJ9nReOHL+8cR/lHUluO5c9bkd9UWsg5aU0BDzPFI2FN2xUkQBWj3Pxehq
-         IiljGQY0a/jPkFe11YsG/Vi6o8a0MLHeZX8XrVABOCCpzwm91TaVkUhQA3WNwJbFFwuU
-         Nd9SaAlv/IoOC4wik9EWWfTX+AEhqarYKRzkdW+GACx2zq2SlUee+Bu8WGD/a06/EQBk
-         1Gdg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFzj56spZEGM03fYBMcXaJiiIe+bugbGK+UQYoOGPmy+ByZeXJ73uIpy+OiLA/Adu7v5XrPp3PuGyuZw0A0MTZCNOWVJu/EPMa7fs=
-X-Gm-Message-State: AOJu0YzJWCMxeqjvvkh6hpIsMaE9qSDlLz+AUzIVvdKOJdWZ4AYWxa6r
-	9PDgY9aDuk+DZh3ky9rU0jLpLDkWYRMhewUfMmFRl0+ofCxGVptIZb0VUn6/hbk=
-X-Google-Smtp-Source: AGHT+IH9R1bNbi/b5An2t0YujuKFT91RDi4jOUG3j3R9m2Jy6nNwhLv9ihFj9tl7tQbksDchw49Kdw==
-X-Received: by 2002:a05:6a00:1d22:b0:6ed:cc50:36cd with SMTP id a34-20020a056a001d2200b006edcc5036cdmr14955130pfx.2.1714484761068;
-        Tue, 30 Apr 2024 06:46:01 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id fe8-20020a056a002f0800b006ed00ea504asm21108186pfb.159.2024.04.30.06.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 06:46:00 -0700 (PDT)
-Message-ID: <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
-Date: Tue, 30 Apr 2024 07:45:52 -0600
+	s=arc-20240116; t=1714485165; c=relaxed/simple;
+	bh=Uko8HS1g2ylxAZcYhzNrJijEd2kEOyt+s0j1KcTMN7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lsYlTAymH57Qe8gUHxcIBif/TICrdMjLHfDaWV7QehbjGaCPM8KkW2Wbw3p0L8GKjgqP0sc3iZwS7W+ob9YsGYn+pJ0/Pj8yd/r0WCa3nCkCJFOWaHZfVSBj/XiJffEon9UGZ1Z0nI8TmVRf26oWkxrB+AE378EKpqNxreiZ12o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlcO3h30; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93A8C2BBFC;
+	Tue, 30 Apr 2024 13:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714485165;
+	bh=Uko8HS1g2ylxAZcYhzNrJijEd2kEOyt+s0j1KcTMN7k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tlcO3h30P7SZ7oSLctRoaEeNW1W7XBgT+wj+zgU83zv/UWcg/7/p2i8L0SUN4QGMA
+	 h06L7zGqa0MtBw4/BxmQiM433Pb/Sg/OY8/hNd4H+Gkjvvk5ZGi2xZtHpiuqf+BuG3
+	 7h3k0+YgBpAiCm+vI7kvSvfUjxLl7o38tWkhbCGoerRwxpSotDKbsGdzhrQ3HFOOTx
+	 nyX5qR2eM3/crVpKtjO74t24Rsd2A4TbYY8fcDObkUOMZ6106Yk7mG5PV9ySvLEjOs
+	 EbHpa2N9KkyXhXAGZGa1GJ5+PPO4GX29Qo3XFEzfkV5dBfjUN/2ArJTtJiav5UrM66
+	 tznsKICFix6nA==
+Date: Tue, 30 Apr 2024 14:52:36 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Shengjiu Wang
+ <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org,
+ m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Message-ID: <20240430145236.36febb03@sal.lan>
+In-Reply-To: <32d0c83c-4d0c-4d22-b2f1-d03d075f4898@xs4all.nl>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+	<20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+	<32d0c83c-4d0c-4d22-b2f1-d03d075f4898@xs4all.nl>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com>
- <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 4/26/24 8:11 PM, Mina Almasry wrote:
-> On Fri, Apr 26, 2024 at 5:18?PM David Wei <dw@davidwei.uk> wrote:
->>
->> On 2024-04-02 5:20 pm, Mina Almasry wrote:
->>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
->>>   */
->>>  typedef unsigned long __bitwise netmem_ref;
->>>
->>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
->>> +{
->>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
->>
->> I am guessing you added this to try and speed up the fast path? It's
->> overly restrictive for us since we do not need dmabuf necessarily. I
->> spent a bit too much time wondering why things aren't working only to
->> find this :(
-> 
-> My apologies, I'll try to put the changelog somewhere prominent, or
-> notify you when I do something that I think breaks you.
-> 
-> Yes, this is a by-product of a discussion with regards to the
-> page_pool benchmark regressions due to adding devmem. There is some
-> background on why this was added and the impact on the
-> bench_page_pool_simple tests in the cover letter.
-> 
-> For you, I imagine you want to change this to something like:
-> 
-> #if defined(CONFIG_PAGE_POOL)
-> #if defined(CONFIG_DMA_SHARED_BUFFER) || defined(CONFIG_IOURING)
-> 
-> or something like that, right? Not sure if this is something I should
-> do here or if something more appropriate to be in the patches you
-> apply on top.
+Em Tue, 30 Apr 2024 10:47:13 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-In general, attempting to hide overhead behind config options is always
-a losing proposition. It merely serves to say "look, if these things
-aren't enabled, the overhead isn't there", while distros blindly enable
-pretty much everything and then you're back where you started.
+> On 30/04/2024 10:21, Sebastian Fricke wrote:
+> > Hey Shengjiu,
+> > 
+> > first of all thanks for all of this work and I am very sorry for only
+> > emerging this late into the series, I sadly didn't notice it earlier.
+> > 
+> > I would like to voice a few concerns about the general idea of adding
+> > Audio support to the Media subsystem.
+> > 
+> > 1. The biggest objection is, that the Linux Kernel has a subsystem
+> > specifically targeted for audio devices, adding support for these
+> > devices in another subsystem are counterproductive as they work around
+> > the shortcomings of the audio subsystem while forcing support for a
+> > device into a subsystem that was never designed for such devices.
+> > Instead, the audio subsystem has to be adjusted to be able to support
+> > all of the required workflows, otherwise, the next audio driver with
+> > similar requirements will have to move to the media subsystem as well,
+> > the audio subsystem would then never experience the required change and
+> > soon we would have two audio subsystems.
+> > 
+> > 2. Closely connected to the previous objection, the media subsystem with
+> > its current staff of maintainers is overworked and barely capable of
+> > handling the workload, which includes an abundance of different devices
+> > from DVB, codecs, cameras, PCI devices, radio tuners, HDMI CEC, IR
+> > receivers, etc. Adding more device types to this matrix will make the
+> > situation worse and should only be done with a plan for how first to
+> > improve the current maintainer situation.
+> > 
+> > 3. By using the same framework and APIs as the video codecs, the audio
+> > codecs are going to cause extra work for the video codec developers and
+> > maintainers simply by occupying the same space that was orginally
+> > designed for the purpose of video only. Even if you try to not cause any
+> > extra stress the simple presence of the audio code in the codebase is
+> > going to cause restrictions.
+> > 
+> > The main issue here is that the audio subsystem doesn't provide a
+> > mem2mem framework and I would say you are in luck because the media
+> > subsystem has gathered a lot of shortcomings with its current
+> > implementation of the mem2mem framework over time, which is why a new
+> > implementation will be necessary anyway.
+> > 
+> > So instead of hammering a driver into the wrong destination, I would
+> > suggest bundling our forces and implementing a general memory-to-memory
+> > framework that both the media and the audio subsystem can use, that
+> > addresses the current shortcomings of the implementation and allows you
+> > to upload the driver where it is supposed to be.
+> > This is going to cause restrictions as well, like mentioned in the
+> > concern number 3, but with the difference that we can make a general
+> > plan for such a framework that accomodates lots of use cases and each
+> > subsystem can add their routines on top of the general framework.
+> > 
+> > Another possible alternative is to try and make the DRM scheduler more
+> > generally available, this scheduler is the most mature and in fact is
+> > very similar to what you and what the media devices need.
+> > Which again just shows how common your usecase actually is and how a
+> > general solution is the best long term solution.
+> > 
+> > Please notice that Daniel Almeida is currently working on something
+> > related to this:
+> > https://lore.kernel.org/linux-media/3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com/T/#u
+> > 
+> > If the toplevel maintainers decide to add the patchset so be it, but I
+> > wanted to voice my concerns and also highlight that this is likely going
+> > to cause extra stress for the video codecs maintainers and the
+> > maintainers in general. We cannot spend a lot of time on audio codecs,
+> > as video codecs already fill up our available time sufficiently,
+> > so the use of the framework needs to be conservative and cause as little
+> > extra work as possible for the original use case of the framework.  
+> 
+> I would really like to get the input of the audio maintainers on this.
+> Sebastian has a good point, especially with us being overworked :-)
+> 
+> Having a shared mem2mem framework would certainly be nice, on the other
+> hand, developing that will most likely take a substantial amount of time.
+> 
+> Perhaps it is possible to copy the current media v4l2-mem2mem.c and turn
+> it into an alsa-mem2mem.c? I really do not know enough about the alsa
+> subsystem to tell if that is possible.
+> 
+> While this driver is a rate converter, not an audio codec, the same
+> principles would apply to off-line audio codecs as well. And it is true
+> that we definitely do not want to support audio codecs in the media
+> subsystem.
+> 
+> Accepting this driver creates a precedent and would open the door for
+> audio codecs.
+> 
+> I may have been too hasty in saying yes to this, I did not consider
+> the wider implications for our workload and what it can lead to. I
+> sincerely apologize to Shengjiu Wang as it is no fun to end up in a
+> situation like this.
 
--- 
-Jens Axboe
+I agree with both Sebastian and Hans here: media devices always had
+audio streams, even on old PCI analog TV devices like bttv. There
+are even some devices like the ones based on usb em28xx that contains
+an AC97 chip on it. The decision was always to have audio supported by
+ALSA APIs/subsystem, as otherwise we'll end duplicating code and 
+reinventing the wheel with new incompatible APIs for audio in and outside
+media, creating unneeded complexity, which will end being reflected on
+userspace as well.
 
+So, IMO it makes a lot more sense to place audio codecs and processor
+blocks inside ALSA, probably as part of ALSA SOF, if possible.
+
+Hans suggestion of forking v4l2-mem2mem.c on ALSA seems a good
+starting point. Also, moving the DRM mem2mem functionality to a 
+core library that could be re-used by the three subsystems sounds
+a good idea, but I suspect that a change like that could be more
+time-consuming.
+
+Regards,
+Mauro
 
