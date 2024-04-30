@@ -1,127 +1,269 @@
-Return-Path: <linux-media+bounces-10409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D0C8B6C30
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:52:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1988B6C40
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:54:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1296FB2136D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:52:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F8D91C22284
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:54:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F4ED823CC;
-	Tue, 30 Apr 2024 07:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 868AF3FE52;
+	Tue, 30 Apr 2024 07:54:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NTk6PAD8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SGCwJS+L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794DA3F9C2
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477193FE3D
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714463496; cv=none; b=kVDkNRUyD+BtoQktmWqVT70ekhcUKWBeTdZdKKzwDIEZitLA68BrML8Aadj4GjaJMEa/JZcrcSAG53KsxRXHYcet6vOIlXzZO77EmQNXOCLhj+MRELYMet11XudJpQKcPzWLvR61W/9pX1O5x3funjuM+BMMUhiHEwiOxWfese4=
+	t=1714463668; cv=none; b=Ttr2U6tBT4iruZs1RZ895jja/dE4J1YcizLEiXmTpe+2A15hkfZSuf2IvuZuCbfH1j4LU7+YzE4JG7pqkF1jMC/doU8jf9iEH803Q9lq1ZaWzs71WeL+SA/XQ8Tiyfg2aZrdZbTt/yquigZFYYn6DIe/dSIoZ9zOlAW4F81sYF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714463496; c=relaxed/simple;
-	bh=tZr2bao3WLdMwTCauupdLvKoK/nOZz2ObARGCJxQaCc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YBeQQWGl+/4dYdebrwkEDCLB569s7zFhAKw7kLICyP/TwtFNrlKFxVsbDMZyVJvX/2TTnNKqzc2zjwNsq/HQezPQQOEkplPUcl6nHC78rJiaTK0rpn9hAVHrLZE9R9krXPD5vWShblsB8nS1Q/se3osjhMoBMfcng5dhARaMpjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NTk6PAD8; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-434b7ab085fso50192481cf.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 00:51:35 -0700 (PDT)
+	s=arc-20240116; t=1714463668; c=relaxed/simple;
+	bh=HJ2VKkzA15lNgZXjsvZCEBHNeCF+C3lGqDW3KlAC1nc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N7O1LUNPd3cDJSsg5yJY4d/GRPQX7pk/0acNhx+3Kg1W9/xqUOXGFbuvCEBrWrsxt/Uf8AZtadEYIqyKR6P/KWenKOXmK/m97gHmwkzDhoNVC+ppwTPlUC+wsj9FEOGoauw/UcUeo9qkrl8HyvWmXb+NXTR4CJpdv8vIRJM1lnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SGCwJS+L; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51abd9fcbf6so8905919e87.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 00:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714463494; x=1715068294; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4cXQjmuyZkvWHadrmTQe5KOC06n35bYtQrARXW4y+Vw=;
-        b=NTk6PAD8bP1NbEspcS8TzdIrpDY5MbqefDtzOarY0OyA/HZR/vBHcqtomVk30wi1mj
-         RHAasUNfPH/wYJOksReH/wO/HDnLei2f5FI6YlPakKhllVHnRtkGWw49GQqgiONVZ53l
-         lYDrXgI6G9VWf7UENAGm29bCDZPcpYOxogMq0=
+        d=linaro.org; s=google; t=1714463664; x=1715068464; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=+COGoHRjrpytxWAGl3DpYEcAeGz8XxUB2Cn5F9RtnwU=;
+        b=SGCwJS+LZJq0p4xczN/v0K5AmsDIn+2YuPSqNiTSZWLd5qBv6zVqvHlWXPq+htT+/L
+         5/WszjfIYd+ueBb8uSMapaiTMqwPkyl6ORNCBB9220wPU4HjSz+BSRd1IanNGGKZMsgw
+         eQqcir7aUtQ538n/fDq7xQT8/UBCHZQTcIWDvfz4bby2sJBZqNRlo96bOGTcS/4FNbop
+         /9xWPaH4Xa0fBe1c6YPoP+efhRETtgjzy/73xXVjJbnhxMSrkIcsM0kUOh9kC6rOPOCH
+         BnjBtGz6n/QqQzNe0QFfk7PYHZy3G/0RB2raKDgk+FOo9oyh+12UEoNexvLYTvdykv63
+         lscA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714463494; x=1715068294;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4cXQjmuyZkvWHadrmTQe5KOC06n35bYtQrARXW4y+Vw=;
-        b=YpmaFxrOgNQSivm9Wd21HqQGsXHEdn9GMVPFUaoCSr2H9Ons3086V6p+ZDCV3NQONF
-         MDi/dDnEt5D+YTn9UMkNs7Jn4ChzhvtRufYH9PuJ0zprZlBcX6rmSJU0z8SDzSUjGb2s
-         AotaiYfHh9e8fP3NS6oXfV9+wf6Qb4BIVO01Ggh3ANPWc7H3o7I3xh3pxwJTllr/DjaC
-         qG4EHB/PIddT4J1jXg3w7yROogoG5EL9L2u9OrhFMB2oWcZsE20Zv9pWWzLZ4UjACB6k
-         VYFqL7g5MbuYbkCTsdQUfdvxIehJ2qBfILpIh7nRqr3s+t27uLlswc1Vum8biNefHPoa
-         QhWg==
-X-Gm-Message-State: AOJu0YwF/aScBsr+ZVjIa1B9Pt71ItcneLWEbpQUEKWhNexJSHcMJ4y4
-	8xBswA6ustmVDe9la7S18NHoJURX44NKBOKhqm1b+f+ZGm39pKoWKUWvrY/N2A==
-X-Google-Smtp-Source: AGHT+IHJbt+AhqT6dvcQLRTeZ4YlJCvCSrE+7BncIk5ueTVJMqXmIFfvv1LVEly8aKIAOwJjytQtBA==
-X-Received: by 2002:a05:622a:1895:b0:43a:c90b:34e5 with SMTP id v21-20020a05622a189500b0043ac90b34e5mr3440108qtc.34.1714463494446;
-        Tue, 30 Apr 2024 00:51:34 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id z11-20020a05622a124b00b00437b4048972sm10634547qtx.18.2024.04.30.00.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 00:51:33 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 30 Apr 2024 07:51:28 +0000
-Subject: [PATCH 3/3] media: bcm2835-unicam: Do not replace IRQ retcode
- during probe
+        d=1e100.net; s=20230601; t=1714463664; x=1715068464;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+COGoHRjrpytxWAGl3DpYEcAeGz8XxUB2Cn5F9RtnwU=;
+        b=QlziRLnm8jlNJRbl3l+Ne3q0YTTVxsUSup3l0eQe3SVDcQjCPLCspK3/6y4GEvXz08
+         QBNZbeBFo/k9WIj28HBy1GI5+09bSjBDAzZxby6Bq3XwWU4rj3X1Ke3Qi4cK829sfqLD
+         WwYkk2R2Qz6Ep9Q7x2pdHv6S28ftC7PGafbdQN5mfnC+je+VoIyhD3Y9T1qiLNEVEg+R
+         m9RCNSuwyhGpGNO5yNahT6b9NRkOW99tSvxmuyFm1WTgF50WMQ8OL5j+s/16QXvnUwYM
+         uSpUs/7ARhObl7VjOUkvxwO6nahalIAY2rmzxdogOxwayQYwQr04Xh3Vn70U3ZOIiM8G
+         d2Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7bgzU2JipKIppWwrRQ8wG9R9slafsK/RwTMt8VxfdwvlhZjZqwUYdSMS3L3DJW9Ux+yFQBfv0It881Ccvqz1PrBqwT+D3g3khhA4=
+X-Gm-Message-State: AOJu0Yxty9hStZ9L7DdGqCeafqk1dugIPVxHstyjxU2GjbHv0piHf4Q3
+	dNXtOueRpkVSpgPMDw74jjay6zvuDpAdwLVeIG6WF8u/8jKLPfo2/7ZVjNefPxQ=
+X-Google-Smtp-Source: AGHT+IGU58GDyAaqJm5SJS5bIUqPkO/WqmbfGbVrIsjqUl9E+BpLW1b8L7SKHGtC8ud2imOGy/bT1A==
+X-Received: by 2002:ac2:5b4c:0:b0:51c:fd0a:7e37 with SMTP id i12-20020ac25b4c000000b0051cfd0a7e37mr7526447lfp.20.1714463664313;
+        Tue, 30 Apr 2024 00:54:24 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id z13-20020a170906434d00b00a51e5813f4fsm14993451ejm.19.2024.04.30.00.54.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Apr 2024 00:54:23 -0700 (PDT)
+Message-ID: <9655f9ca-91e5-42c5-9a08-cb342179dc4c@linaro.org>
+Date: Tue, 30 Apr 2024 09:54:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] dt-bindings: media: add qcom,msm8998-venus
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+ Bjorn Andersson <andersson@kernel.org>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O Donoghue <bryan.odonoghue@linaro.org>
+Cc: MSM <linux-arm-msm@vger.kernel.org>,
+ linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <2b21b160-a530-486a-9404-c5bf8863ffed@freebox.fr>
+ <4ea494cf-134e-4380-aea1-4c166a626561@freebox.fr>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <4ea494cf-134e-4380-aea1-4c166a626561@freebox.fr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240430-fix-broad-v1-3-cf3b81bf97ff@chromium.org>
-References: <20240430-fix-broad-v1-0-cf3b81bf97ff@chromium.org>
-In-Reply-To: <20240430-fix-broad-v1-0-cf3b81bf97ff@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
-Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
 
-Use the error code generated by platform_get_irq() and
-devm_request_irq() as the error code of probe().
+On 29/04/2024 18:15, Marc Gonzalez wrote:
+> Add YAML binding for Qualcomm MSM8998 Venus HW video encode and decode.
+> (Based on qcom,msm8996-venus.yaml)
+> 
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml | 155 ++++++++++++++++++++++++++++
+>  1 file changed, 155 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml
+> new file mode 100644
+> index 0000000000000..86a20954cb354
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml
+> @@ -0,0 +1,155 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,msm8998-venus.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MSM8998 Venus video encode and decode accelerators
+> +
+> +maintainers:
+> +  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> +
+> +description: |
 
-It will give a more accurate reason of why it failed.
+Do not need '|' unless you need to preserve formatting.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/platform/broadcom/bcm2835-unicam.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+> +  The Venus IP is a video encode and decode accelerator present
+> +  on Qualcomm platforms
+> +
+> +allOf:
+> +  - $ref: qcom,venus-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8998-venus
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: iface
+> +      - const: bus
+> +      - const: mbus
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: video-mem
+> +      - const: cpu-cfg
+> +
+> +  iommus:
+> +    maxItems: 20
+> +
+> +  video-decoder:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-decoder
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      clock-names:
+> +        items:
+> +          - const: core
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - clocks
+> +      - clock-names
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +  video-encoder:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-encoder
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      clock-names:
+> +        items:
+> +          - const: core
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - clocks
+> +      - clock-names
+> +      - power-domains
+> +
+> +    additionalProperties: false
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index b2b23d24da19..0b2729bf4a36 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -2660,17 +2660,13 @@ static int unicam_probe(struct platform_device *pdev)
- 	}
- 
- 	ret = platform_get_irq(pdev, 0);
--	if (ret < 0) {
--		if (ret != -EPROBE_DEFER)
--			ret = -EINVAL;
-+	if (ret < 0)
- 		goto err_unicam_put;
--	}
- 
- 	ret = devm_request_irq(&pdev->dev, ret, unicam_isr, 0,
- 			       "unicam_capture0", unicam);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Unable to request interrupt\n");
--		ret = -EINVAL;
- 		goto err_unicam_put;
- 	}
- 
+In nested blocks, put it after the type:object, for readability.
 
--- 
-2.44.0.769.g3c40516874-goog
+> +
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
 
