@@ -1,133 +1,110 @@
-Return-Path: <linux-media+bounces-10405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F30D8B6BCD
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:33:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAE38B6C2C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:51:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0CA91C21F19
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:33:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADCD41C2206D
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6ECE823CC;
-	Tue, 30 Apr 2024 07:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434424502F;
+	Tue, 30 Apr 2024 07:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wa8ibWt9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YnGcqBPQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669538396
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C6514AB7
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462269; cv=none; b=n/0DCbnIlP6QSBZp/CKkWpOuW2vOm2SB8xNVv8nob+52b+f8z9YkP1J3UrIyYCDqKGcBi3YXAMBPvrIct5f4Urd+6pGg5m6rb8twJE3z485pZBMZYvlNLZmBdAyEquTbM0Gcu5psRGwg9Nms8qEYJ5REoM8e4EJbSk1d0ybRGzc=
+	t=1714463494; cv=none; b=ol/Ws+BreMsJP9izNNTBQIML9GGGTbKc0iljU6cBFZyOek0BZGKN8MQdt42HfBpVk4ojyNTXi4NCDXd0zMsOpaZogfSxHTr2wr3HRnQqoSFxwIlP6T7prUuLiozRukmynmTFse1w95qg4dCLObFWdj5DJK5b5JLecAfMyVj+zws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462269; c=relaxed/simple;
-	bh=uh/ztwXauYiWMGDZ5AmgKSI4O/xu0BLVOREQSuEho1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bZS/Tt/6l5KLJvdJSUgj82Qj+0ZaqRNZy+EA1JjmXbO/I/nxqPxesdasilvuxQyIc9luEb5IY5IJkMhrtLJtC+dBKrxmsKGA6nDDQnT1qGm/2Q6eyF4u0kaRe6RjLzboFpG8fxhqrd5ejxelPh5p2nHP5p1S+YR4L1yaJWnZS3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wa8ibWt9; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714462267; x=1745998267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uh/ztwXauYiWMGDZ5AmgKSI4O/xu0BLVOREQSuEho1g=;
-  b=Wa8ibWt93eQiCkjuE84Hi0AX/z3by0ghlpPAmFfsRon/R5aW7dw4VTt7
-   c2ZIEjM2wqpta0FwDP8iLO1K4o0X38z2fCfZGQDUHflXQiL1/r8660Gpa
-   GNQQOq14zzAPv1u9bajhpdQByHukMlrp+3hYzuyVEosb6c5JF3xg+Dx3V
-   RvEMJvpgMeGPMp5v46BquLwEqz0ibX/xbwjVMfdkGmgKNY/C3STa8YoBg
-   OviQ+P3tBrRrt6RcPjLRq6QBli80SHcViwZ1XJZyKgfZu6JQMCYEZz0YF
-   gRz5ipjIC2eyLAUBtsWMVgc5fsoBOhWKPowPVRLYrncc57DeIMz4rgmbd
-   w==;
-X-CSE-ConnectionGUID: OqA3jKkeQAKHy32nQXvSlA==
-X-CSE-MsgGUID: yU15OjSTQJOkyVj2wN9H2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10307821"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10307821"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 00:31:06 -0700
-X-CSE-ConnectionGUID: vbVT3FVBTCuIyjjykSn9oA==
-X-CSE-MsgGUID: djAgA1sxRamsOQFN/gsIxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="31172578"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 00:31:05 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D487311F830;
-	Tue, 30 Apr 2024 10:31:01 +0300 (EEST)
-Date: Tue, 30 Apr 2024 07:31:01 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v4 3/4] media: Documentation: Update link frequency
- driver documentation
-Message-ID: <ZjCeNcF1nkt6WKUS@kekkonen.localdomain>
-References: <20240429190852.1008003-1-sakari.ailus@linux.intel.com>
- <20240429190852.1008003-4-sakari.ailus@linux.intel.com>
- <ojsquq4vgzyxubla4uv6ntgm4p7zoqpn5vqqza5dmevxlosy6l@2icfz6thrffp>
+	s=arc-20240116; t=1714463494; c=relaxed/simple;
+	bh=HZeobOuRJfmb/+xBUYIK1ybuEld0tGBVBD2NIR/ZHq4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rFsUoH1fTIENsWzYWZvAgm6EyntiFBN+cctO4bzyc/+qFvRTQpR6Ja9xEROPENnyb7Fc9Aeyxi9Dl/VucZc4WZEuTprGrTQXrbCIk8wV149uq3oGnCkv/fIBB3CUK6C5MRSHOHzqaxE16iTort4q2pS0cuwtIRRLsA+W9Sb9CgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YnGcqBPQ; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-436ee76c3b8so42463501cf.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 00:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714463491; x=1715068291; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Av9Ebx1j4vPRRB4vZ4jqNgLNeyuiwbH2PH8z4rELaY=;
+        b=YnGcqBPQ7k5RGiu1BWicl3KT7cdmcWTJdDdL7LGBB8FzOZppKLAbZM+hbDvyg8OY9s
+         o1cZgaqC1yWBrhvIVJ2xTzcrWNJg7hQyGjL1i7GBw9iDa3IM9vW0CTd3Sy9muqcj0to5
+         pSlnGqEqR0nlxdhLdpi8ZWE9pY43wNpnImc3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714463491; x=1715068291;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+Av9Ebx1j4vPRRB4vZ4jqNgLNeyuiwbH2PH8z4rELaY=;
+        b=k/tAb7LDPdWFr0t9koBRGs27yBEP21esrDwMQLQJMx76OW05wn+5ICECzldO3PCuQO
+         O892tYFB6YGhiwwxDC62OPD1RjH8c2MSSNm8q4Okj3N+1sYjx86Wfn7vvDOsDPxhVBHG
+         EnIG38wymED9hHxrpqQtX0zX23YJPzQ4d0/rYUX7HLhL5zs2zWrVw7k9s3B5XHVAuy/H
+         S+MNW9Qlh3QDXd8V8oelJu47F70EGhF2AP5aFEdl2OHaUg+v1BXK/SFYTpn4S+Cw5V5U
+         Y2afpNgzmCs0Thy8hGzeleK8gfCsA/HfCj8qCK4Mv/YxexEwIxRmyKMVigPkMXI1gzmO
+         +9Ig==
+X-Gm-Message-State: AOJu0YznY/WloZHluQ3vrlV8SS7Z8PCoY8iCWPCuIu/iLJBs+KfqNy4p
+	wUHCHb6dZ05bMrAyEn6YUm1Rrg2f8zc/0Bb6ev2HOsBTk260Wi+fjiRZru0BHQ==
+X-Google-Smtp-Source: AGHT+IEyG5YcY6j7jfDsETTOEF8AdovY39d93OJj2uCRcI6sLWzCh70qxqFuRIJJQAYauJh1BEq+Lw==
+X-Received: by 2002:a05:622a:20d:b0:43a:ecf9:c179 with SMTP id b13-20020a05622a020d00b0043aecf9c179mr6487425qtx.52.1714463490874;
+        Tue, 30 Apr 2024 00:51:30 -0700 (PDT)
+Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
+        by smtp.gmail.com with ESMTPSA id z11-20020a05622a124b00b00437b4048972sm10634547qtx.18.2024.04.30.00.51.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:51:30 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/3] media: bcm2835-unicam: Improve error handling during
+ probe
+Date: Tue, 30 Apr 2024 07:51:25 +0000
+Message-Id: <20240430-fix-broad-v1-0-cf3b81bf97ff@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ojsquq4vgzyxubla4uv6ntgm4p7zoqpn5vqqza5dmevxlosy6l@2icfz6thrffp>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP2iMGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDE2MD3bTMCt2kovzEFF0TS4PUJMNEY0tzUxMloPqColSgJNis6NjaWgD
+ t7SS2WwAAAA==
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
+Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-Hi Jacopo,
+Improve the error handling of the irq errors. I am not sure why the
+retcode was replaced always with -EINVAL, so I have added that fix as a
+follow-up patch.
 
-On Tue, Apr 30, 2024 at 09:23:52AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Mon, Apr 29, 2024 at 10:08:51PM +0300, Sakari Ailus wrote:
-> > Add the get_mbus_config() as the means for conveying the link frequency
-> > towards the receiver drivers.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  Documentation/driver-api/media/tx-rx.rst | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> > index 29d66a47b56e..2f22a1534da9 100644
-> > --- a/Documentation/driver-api/media/tx-rx.rst
-> > +++ b/Documentation/driver-api/media/tx-rx.rst
-> > @@ -49,6 +49,10 @@ Link frequency
-> >  The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
-> >  receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
-> >
-> > +For devices where the link frequency is read-only, the link_freq field of struct
-> 
-> A control can be 'read-only' as well.
-> 
-> What about something along the lines of:
-> 
-> For devices where the link frequency doesn't need to be exposed to userspace,
-> the link_freq field of struct
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (3):
+      media: bcm2835-unicam: Fix error handling for platform_get_irq
+      media: bcm2835-unicam: Do not print error when irq not found
+      media: bcm2835-unicam: Do not replace IRQ retcode during probe
 
-I think we could use something like that. The LINK_FREQ control indeed
-allows choosing this from the user space but other than that it has little
-use AFAIU.
+ drivers/media/platform/broadcom/bcm2835-unicam.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+---
+base-commit: 1c73d0b29d04bf4082e7beb6a508895e118ee30d
+change-id: 20240430-fix-broad-490eb1a39754
 
-> 
-> > +v4l2_mbus_config is recommended over controls for conveying the link frequency
-> > +to the downstream driver in the pipeline.
-> > +
-> >  ``.s_stream()`` callback
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-
+Best regards,
 -- 
-Kind regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Sakari Ailus
 
