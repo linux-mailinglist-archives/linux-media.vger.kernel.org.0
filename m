@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-10411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E76E8B6C47
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:56:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB308B6C5C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 10:00:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBD931F232BD
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:56:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D59D1C222E4
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 08:00:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 592A54086B;
-	Tue, 30 Apr 2024 07:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D9E341775;
+	Tue, 30 Apr 2024 08:00:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VB2HrYRI"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iL6LMZpP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5823FE37;
-	Tue, 30 Apr 2024 07:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2684085A;
+	Tue, 30 Apr 2024 08:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714463767; cv=none; b=Wv5PA38VtnKNu7nALdb7S87G4+UBisygLrrQImvLGffP+hrqGF9NCXWyuvH9FXiu4kDLGRsf0Wv/K95v7XSg0sMti69rkhxS7tf9DHYOU+MqzioF8rbw/lmWcV+G3sFTuTr5EHNvuHjjQwdVx/fn9GGN1qnuEtIABZSqR+klixY=
+	t=1714464043; cv=none; b=m3ht3kXIiPpFgXrN04DG3G1l0xdtKF95ldjP70HdxOkNGQHP6x/BOKC5PjHYbIYQSh8zY1mphEaLZlOsfgkpLGHhMNPvYqZUltRAb+DjF9b2ZQ8GYSavI4uzIBCbQ+zQQ/WmwoF8CJvwNmptOKbW/wQvRAEbxg4A6HvnCD22fUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714463767; c=relaxed/simple;
-	bh=K0J8xHt/skiy/7vOnAPJgizv8vUGFgcOOConDclFOfE=;
+	s=arc-20240116; t=1714464043; c=relaxed/simple;
+	bh=Sdu/C7hyTUr/WF/VK529ijLrles5NiZWSgYvV8Hn1+s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uFYJ2gfpEhHfDlzjoMhZGmmKrjC045DfOIl4yv0gPxPdLguwKo7SrTVrF+aA8XvlvYRxrk5WeKUQMv9KMFNPRrzdsRmRpwveQ6Dk3MgyiPmY0Ilsc++A8i3863g5k75SJCw3rdO9+O+LIzmsllwemAIXwJw+2JeSqN4IhUgDeEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VB2HrYRI; arc=none smtp.client-ip=46.235.227.194
+	 In-Reply-To:Content-Type; b=mpA6HYxw/e/B1kLy7m0K149SbMzPOE5UDg3NXVU0SvP0Wf0Szi7cYO1UCgUayvVBLMHkSI5Rh1BbLyllmrYtGDCQzELpIYPqkdTuQGSHz1vwVBb7KsAe4jZogQIgyY2SIRjS/UnmvR5uC0NHYNoy61Ktt8T7uLC+hk/CNK5v4Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iL6LMZpP; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1714463764;
-	bh=K0J8xHt/skiy/7vOnAPJgizv8vUGFgcOOConDclFOfE=;
+	s=mail; t=1714464040;
+	bh=Sdu/C7hyTUr/WF/VK529ijLrles5NiZWSgYvV8Hn1+s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VB2HrYRITiQ/6AQ/RLQM/j4mHuvkHmFBIOQDhOjsNrusDRyKCBe9osDTZMguCFYnw
-	 LoYuHgHAkj7gAOFmIze18vQ++Q2afegipv9S/VDN3Qz/nkTFaF45MNfvdwjmtVBXFh
-	 5JHty8IepUIKbzDRuoY4A/cfXb44ZKzgJ8AvIEvKn7eZngveZc/RjxCobTnRJOLFRL
-	 RhlNrp/B9d58x+LhQ5BnDsdIlDI2J6un0fzQ4HJantb/pSisFiZWWKRWznCKoN1zLv
-	 4wDhF5Zvedb98D+FN+BNpx2mZ8U7TXqft75csebeuSV0B8xaVcCcFUdMK6WTLZF32+
-	 mZl/ya4c9rM4Q==
+	b=iL6LMZpPcspw/gXwxn6LU00o6c98eIlLAM6zdawslNrS8719ouaDwu6pj2GI5s0PB
+	 oUD5MLcvN4n5nlhEsc0qfh0t0tdeu8cwc8rQ1dBpmVUxBDBhYP/uuYvxH0GF4P0zLu
+	 I7p03DA/ZSVDtX6UZHKzWVCy9F5rB1iS7+VBbhcOhGzE+vKcNuKG3UojuixEGMJKur
+	 RCS5J7K7BDzbjS8KuGSzpzEM0hv6MshUCWrf100SpMr0kx6EgdDkS4trNBMgllhC+B
+	 lQvrfThjWnUYeH353fcSx2cBjsWobwDZRcCRs8uzvwn666rSpvQU9DbVmFu9861YqG
+	 O4apTxbJX6W6g==
 Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 890FD3781107;
-	Tue, 30 Apr 2024 07:56:03 +0000 (UTC)
-Message-ID: <a839b292-6776-4ecb-8d8a-a25e58816787@collabora.com>
-Date: Tue, 30 Apr 2024 09:56:02 +0200
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CA69D3782039;
+	Tue, 30 Apr 2024 08:00:39 +0000 (UTC)
+Message-ID: <0c0e2d02-b719-4f8b-afca-c839bb77f287@collabora.com>
+Date: Tue, 30 Apr 2024 10:00:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: v4l2-ctrls: Add average qp control
+Subject: Re: [PATCH v2 3/3] media: amphion: Remove lock in s_ctrl callback
 To: ming qian <ming.qian@oss.nxp.com>, Ming Qian <ming.qian@nxp.com>,
  mchehab@kernel.org, hverkuil-cisco@xs4all.nl
 Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
@@ -66,91 +66,68 @@ Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
  imx@lists.linux.dev, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20240425065011.105915-1-ming.qian@nxp.com>
- <c9fdf07d-f434-430e-bb41-8bc8f6bf1bb8@collabora.com>
- <383b6e30-1266-4db1-9c5d-10db7ab17957@oss.nxp.com>
+ <20240425065011.105915-3-ming.qian@nxp.com>
+ <8c39b3c3-8146-4418-8835-6dbfe38a85ec@collabora.com>
+ <be54f273-7bba-4db0-bc52-5ddbb3982d84@oss.nxp.com>
 Content-Language: en-US
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <383b6e30-1266-4db1-9c5d-10db7ab17957@oss.nxp.com>
+In-Reply-To: <be54f273-7bba-4db0-bc52-5ddbb3982d84@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi Ming,
 
-W dniu 30.04.2024 o 04:20, ming qian pisze:
-> 
+W dniu 30.04.2024 o 04:32, ming qian pisze:
 > Hi Andrzej,
 > 
 >> Hi Ming Qian,
 >>
 >> W dniu 25.04.2024 o 08:50, Ming Qian pisze:
->>> Add a control V4L2_CID_MPEG_VIDEO_AVERAGE_QP to report the average qp
->>> value of current encoded frame. the value applies to the last dequeued
->>> capture buffer.
+>>> There is no need to add lock in s_ctrl callback, it has been
+>>> synchronized by the ctrl_handler's lock, otherwise it may led to
+>>> deadlock if driver call v4l2_ctrl_s_ctrl().
 >>>
 >>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 >>> ---
->>> v2
->>>   - improve document description according Hans's comments
->>>   - drop volatile flag
+>>>   drivers/media/platform/amphion/vdec.c | 2 --
+>>>   drivers/media/platform/amphion/venc.c | 2 --
+>>>   2 files changed, 4 deletions(-)
 >>>
->>>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 +++++
->>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 5 +++++
->>>   include/uapi/linux/v4l2-controls.h                        | 2 ++
->>>   3 files changed, 12 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 2a165ae063fb..7d82ab14b8ba 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -1653,6 +1653,11 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->>>       Quantization parameter for a P frame for FWHT. Valid range: from 1
->>>       to 31.
->>> +``V4L2_CID_MPEG_VIDEO_AVERAGE_QP (integer)``
->>> +    This read-only control returns the average QP value of the currently
->>> +    encoded frame. The value applies to the last dequeued capture buffer
->>> +    (VIDIOC_DQBUF). Applicable to encoders.
->>> +
+>>> diff --git a/drivers/media/platform/amphion/vdec.c 
+>>> b/drivers/media/platform/amphion/vdec.c
+>>> index a57f9f4f3b87..6a38a0fa0e2d 100644
+>>> --- a/drivers/media/platform/amphion/vdec.c
+>>> +++ b/drivers/media/platform/amphion/vdec.c
+>>> @@ -195,7 +195,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>       struct vdec_t *vdec = inst->priv;
+>>>       int ret = 0;
+>>> -    vpu_inst_lock(inst);
 >>
->> What is the intended range of the values? And why? Is your intention to make it
->> a hardware-agnostic control or a hardware-specific control?
+>> I assume that PATCH v2 2/3 might cause the said deadlock to happen?
+>> If so, maybe it would make more sense to make the current patch preceed
+>>   PATCH v2 2/3? Otherwise the kernel at PATCH v2 2/3 introduces a potential
+>> deadlock.
 >>
->> Regrds,
+>> Regards,
 >>
 >> Andrzej
 >>
 > 
-> The value range depends on the format,
-> For H264, it's [V4L2_CID_MPEG_VIDEO_H264_MIN_QP, V4L2_CID_MPEG_VIDEO_H264_MIN_QP],
-> usually this is [0, 51].
-> For HEVC, it's [V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP, V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP],
-> usually it's from 0 to 51 for 8 bit and from 0 to 63 for 10 bit.
-> For H263 and MPEG4, it may be from 1 to 31.
-> For VPX, it may be from 1 to 128.
+> I actually discovered this problem when I was preparing the v2 2/3 patch.
 > 
-> I think the driver that supports this ctrl can set an appropriate value
-> range based on the format it supports.
+> But in the v2 2/3 patch, it tried to add a read-only ctrl, then I just
+> unset the s_ctrl callback for the new added ctrl, the potential deadlock
+> is caused by call the s_ctrl back in a locked environment, so after unset
+> the s_ctrl callback, the 2/3 patch won't trigger the deadlock even if
+> this patch is missing.
 > 
-> Users also need to read the value of this ctrl according to the format
-> they set.
+> In order to avoid encountering similar problems in the future, that
+> driver may set or get some ctrl, I added this patch.
 
-What happens if the user does not set the format or until they set it?
-
-This looks like a contextual control, where the context is a cross
-product between setting or not setting the format and which particular
-format is actually set.
-
-I don't want to voice strong opinions about whether this should or
-should not be accepted, but this kind of behavior should definitely
-be documented so that driver writers know how to implement this control.
-Right now reading the documentation in the *.rst file as a driver writer
-I would be puzzled. So, from a driver writer's perspective I'd expect
-these additions to the doc:
-
-- the range of returned values
-- the expected behavior when format has not been set
-- the expected behavior when no frames have been processed yet (so there's no QP
-to be read back from the hardware)
+Do I understand you correctly that patch 2/3 is written in such a way that
+it does not introduce a deadlock, and you add patch 3/3 only to prevent future
+problems? If so, it seems to me that patch 3/3 could/should be separate from
+this series, as it does not quite match "Add average qp control".
 
 Regards,
 
@@ -160,49 +137,35 @@ Andrzej
 > Best regards,
 > Ming
 > 
->>>   .. raw:: latex
->>>       \normalsize
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c 
->>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> index 8696eb1cdd61..1ea52011247a 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> @@ -970,6 +970,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>       case V4L2_CID_MPEG_VIDEO_LTR_COUNT:            return "LTR Count";
->>>       case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:        return "Frame LTR Index";
->>>       case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:        return "Use LTR Frames";
->>> +    case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:            return "Average QP Value";
->>>       case V4L2_CID_FWHT_I_FRAME_QP:                return "FWHT I-Frame QP 
->>> Value";
->>>       case V4L2_CID_FWHT_P_FRAME_QP:                return "FWHT P-Frame QP 
->>> Value";
->>> @@ -1507,6 +1508,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum 
->>> v4l2_ctrl_type *type,
->>>           *max = 0xffffffffffffLL;
->>>           *step = 1;
+>>>       switch (ctrl->id) {
+>>>       case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:
+>>>           vdec->params.display_delay_enable = ctrl->val;
+>>> @@ -207,7 +206,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>           ret = -EINVAL;
 >>>           break;
->>> +    case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
->>> +        *type = V4L2_CTRL_TYPE_INTEGER;
->>> +        *flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> +        break;
->>>       case V4L2_CID_PIXEL_RATE:
->>>           *type = V4L2_CTRL_TYPE_INTEGER64;
->>>           *flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> diff --git a/include/uapi/linux/v4l2-controls.h 
->>> b/include/uapi/linux/v4l2-controls.h
->>> index 99c3f5e99da7..974fd254e573 100644
->>> --- a/include/uapi/linux/v4l2-controls.h
->>> +++ b/include/uapi/linux/v4l2-controls.h
->>> @@ -898,6 +898,8 @@ enum v4l2_mpeg_video_av1_level {
->>>       V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 = 23
->>>   };
->>> +#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
->>> +
->>>   /*  MPEG-class control IDs specific to the CX2341x driver as defined by 
->>> V4L2 */
->>>   #define V4L2_CID_CODEC_CX2341X_BASE (V4L2_CTRL_CLASS_CODEC | 0x1000)
->>>   #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE 
->>> (V4L2_CID_CODEC_CX2341X_BASE+0)
+>>>       }
+>>> -    vpu_inst_unlock(inst);
+>>>       return ret;
+>>>   }
+>>> diff --git a/drivers/media/platform/amphion/venc.c 
+>>> b/drivers/media/platform/amphion/venc.c
+>>> index cdfaba9d107b..351b4edc8742 100644
+>>> --- a/drivers/media/platform/amphion/venc.c
+>>> +++ b/drivers/media/platform/amphion/venc.c
+>>> @@ -518,7 +518,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>       struct venc_t *venc = inst->priv;
+>>>       int ret = 0;
+>>> -    vpu_inst_lock(inst);
+>>>       switch (ctrl->id) {
+>>>       case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
+>>>           venc->params.profile = ctrl->val;
+>>> @@ -579,7 +578,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>           ret = -EINVAL;
+>>>           break;
+>>>       }
+>>> -    vpu_inst_unlock(inst);
+>>>       return ret;
+>>>   }
 >>
 
 
