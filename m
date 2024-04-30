@@ -1,165 +1,192 @@
-Return-Path: <linux-media+bounces-10482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4B98B7E5C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 19:24:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA4C8B7EBE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 19:38:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4334B1F23238
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:24:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCFEA1C22811
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:38:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65494181319;
-	Tue, 30 Apr 2024 17:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CF2180A77;
+	Tue, 30 Apr 2024 17:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="CSoyvMe5"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eFkL2nKO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF1717F385;
-	Tue, 30 Apr 2024 17:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D811802AD;
+	Tue, 30 Apr 2024 17:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714497862; cv=none; b=UqA60kMxGMLZ0IL7v0rtyYjNQHZfgIO5nz14NkXR/fokFUypt7cwSi7Ly8jTAHBJPQrFHGhr5Cs1i0aNOJgauibeuZtSA9qYENZu3eBx8wlk0cGuZa75dBplFDSaPFdLdmiFDwzU4ISUfG8ikefJgM4MS/mM++U5+Ez/eDsEuEo=
+	t=1714498707; cv=none; b=rB7N/cy0mMwQawn1K1YOWYkicoLshZ+5h4KzEQ5wNVr/EC4+ssK+aGjhoi6XzGnyq0JVTRfGpPuOyssvFBRQj/tFJ8HpRrkwbNIMOXcmQUucxfkDdAj1dRB91NGb9Q7PUz/TpsD6PzJOV6fjjC1bqLUEhbn45yj2XqGcwcju8ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714497862; c=relaxed/simple;
-	bh=wyni/P2zqYEIwz4b2jPFOn7K/o20R+rMhqEI4gvwYGQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=d19M+lG+DqN1/Eutlq46JzgRgVPsHuLov1r3uyq/ietPdJW16Rrnlp6bqGD4L9LsUgwQ68U5UWG/O0MEIbs305pwaP1cMsiwFLZXP9DKPrGttK70AOYoEOlIjvFtBdu+KlIkjcBt9hvMUlb90KV9lZb2+9aqLHpkPsAXLIJWTG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=CSoyvMe5; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Z+7S7yss0Z/3HfrJHfsoOEnXPR0d6itI8idhdLjGVt8=;
-  b=CSoyvMe5xwRTMoiNMuI683b7Jk5rHr0SbfmYxPKCgJLai1z/UPqyMfsm
-   kNOpdONPLwTO+QNaP116cerg0SZxKUsJOad+FL87HaJdh8c1GeV1W2fzc
-   o0ZvYDgwl+IsXKIUDWLsjocO/xaqULgHUxKbneo06ZRlnM+DKXdKpUcqB
-   E=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.07,242,1708383600"; 
-   d="scan'208";a="86109162"
-Received: from 12-176-169-194.cust.keyyo.net (HELO hadrien) ([194.169.176.12])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 19:23:08 +0200
-Date: Tue, 30 Apr 2024 19:23:07 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: R Sundar <prosunofficial@gmail.com>
-cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, mripard@kernel.org, 
-    mchehab@kernel.org, linux-media@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-    javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH linux-next] media:cdns-csi2tx: replace of_node_put() with
- __free
-In-Reply-To: <f86b0c15-8fc4-4ed7-984a-3ab90c66a3eb@gmail.com>
-Message-ID: <76b3d25-2ba3-2f9f-3ed6-61a63983a225@inria.fr>
-References: <20240429171543.13032-1-prosunofficial@gmail.com> <6df5d715-3e31-40a5-9db3-2c3b9f12efac@wanadoo.fr> <f86b0c15-8fc4-4ed7-984a-3ab90c66a3eb@gmail.com>
+	s=arc-20240116; t=1714498707; c=relaxed/simple;
+	bh=lkwVzWcvt2XAxfquk5xpiMYtDDP2pHOnzzYykVLyGq4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BvCuNXL8lQ4A527QbPNMQoQjY1oriE6pZSErd6dm5bPBlgy786oHG6cLpw66i7xYDI6c9DM0dN/mAvybQqctFJpi0BxMi83YkzMSE/zIgHJ/SoyOnGmdGjVdQcZUhbhpbHB8ApxTGNj5VUvHqydIKaILXR4oYCrIKG74s4XOqc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=eFkL2nKO; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.174.176])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 95C4D210FBDE;
+	Tue, 30 Apr 2024 10:38:19 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 95C4D210FBDE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714498699;
+	bh=VdncFJmpEms1rtvDJ9LrT1l4xx0UNlVPLoYUQFPr2Tc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eFkL2nKOxng4uC66U6S9GZdhAeGMNUf8d7wKvgzdYF2o6KalwxZzlPEut3PhYm+nh
+	 TU2fPY6ItCwnM5X9u/MOTLfrUDzTHtZ3RShufVYeZyi/1el85rynGYntI6uwA0ormO
+	 aQmDNxy8VqFJeXN/uoELxnKjK6Ktsi69eG8tabmo=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: 
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS),
+	intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS),
+	nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS),
+	linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
+	linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX DRIVER),
+	linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+	Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: [PATCH v1 00/12] Make I2C terminology more inclusive for I2C Algobit and consumers
+Date: Tue, 30 Apr 2024 17:37:59 +0000
+Message-Id: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-728899255-1714497787=:3106"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+with more appropriate terms. Inspired by and following on to Wolfram's
+series to fix drivers/i2c/[1], fix the terminology for users of the
+I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+in the specification.
 
---8323329-728899255-1714497787=:3106
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Compile tested, no functionality changes intended
+
+Please chime in with your opinions and suggestions.
+
+This series is based on v6.9-rc1.
+
+[1]:
+https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+----
+
+changelog:
+v0->v1:
+- Link: https://lore.kernel.org/all/20240329170038.3863998-1-eahariha@linux.microsoft.com/
+- Drop drivers/infiniband patches [Leon, Dennis]
+- Switch to specification verbiage master->controller, slave->target,
+  drop usage of client [Andi, Ville, Jani, Christian]
+- Add I3C specification version in commit messages [Andi]
+- Pick up Reviewed-bys from Martin and Simon [sfc]
+- Drop i2c/treewide patch to make this series independent from Wolfram's
+  ([1]) [Wolfram]
+- Split away drm/nouveau patch to allow expansion into non-I2C
+  non-inclusive terms
+
+----
+
+Easwar Hariharan (12):
+  drm/amdgpu, drm/radeon: Make I2C terminology more inclusive
+  drm/gma500: Make I2C terminology more inclusive
+  drm/i915: Make I2C terminology more inclusive
+  media: au0828: Make I2C terminology more inclusive
+  media: cobalt: Make I2C terminology more inclusive
+  media: cx18: Make I2C terminology more inclusive
+  media: cx25821: Make I2C terminology more inclusive
+  media: ivtv: Make I2C terminology more inclusive
+  media: cx23885: Make I2C terminology more inclusive
+  sfc: falcon: Make I2C terminology more inclusive
+  fbdev/smscufx: Make I2C terminology more inclusive
+  fbdev/viafb: Make I2C terminology more inclusive
+
+ .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 10 +++----
+ drivers/gpu/drm/amd/amdgpu/atombios_i2c.c     |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    | 20 ++++++-------
+ .../gpu/drm/amd/display/dc/bios/bios_parser.c |  2 +-
+ .../drm/amd/display/dc/bios/bios_parser2.c    |  2 +-
+ .../drm/amd/display/dc/core/dc_link_exports.c |  4 +--
+ drivers/gpu/drm/amd/display/dc/dc.h           |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_i2c.c  |  4 +--
+ .../display/include/grph_object_ctrl_defs.h   |  2 +-
+ drivers/gpu/drm/amd/include/atombios.h        |  2 +-
+ drivers/gpu/drm/amd/include/atomfirmware.h    | 26 ++++++++--------
+ .../powerplay/hwmgr/vega20_processpptables.c  |  4 +--
+ .../amd/pm/powerplay/inc/smu11_driver_if.h    |  2 +-
+ .../inc/pmfw_if/smu11_driver_if_arcturus.h    |  2 +-
+ .../inc/pmfw_if/smu11_driver_if_navi10.h      |  2 +-
+ .../pmfw_if/smu11_driver_if_sienna_cichlid.h  |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_aldebaran.h   |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  2 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  2 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  4 +--
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |  8 ++---
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c       |  2 +-
+ drivers/gpu/drm/gma500/intel_bios.c           | 22 +++++++-------
+ drivers/gpu/drm/gma500/intel_bios.h           |  4 +--
+ drivers/gpu/drm/gma500/intel_gmbus.c          |  2 +-
+ drivers/gpu/drm/gma500/psb_drv.h              |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_drv.h        |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_lvds.c       |  4 +--
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c       | 26 ++++++++--------
+ drivers/gpu/drm/i915/display/dvo_ch7017.c     | 14 ++++-----
+ drivers/gpu/drm/i915/display/dvo_ch7xxx.c     | 18 +++++------
+ drivers/gpu/drm/i915/display/dvo_ivch.c       | 16 +++++-----
+ drivers/gpu/drm/i915/display/dvo_ns2501.c     | 18 +++++------
+ drivers/gpu/drm/i915/display/dvo_sil164.c     | 18 +++++------
+ drivers/gpu/drm/i915/display/dvo_tfp410.c     | 18 +++++------
+ drivers/gpu/drm/i915/display/intel_bios.c     | 22 +++++++-------
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +-
+ .../gpu/drm/i915/display/intel_display_core.h |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi.h      |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  | 20 ++++++-------
+ drivers/gpu/drm/i915/display/intel_dvo.c      | 14 ++++-----
+ drivers/gpu/drm/i915/display/intel_dvo_dev.h  |  2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |  4 +--
+ drivers/gpu/drm/i915/display/intel_sdvo.c     | 30 +++++++++----------
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h |  4 +--
+ drivers/gpu/drm/i915/gvt/edid.c               | 28 ++++++++---------
+ drivers/gpu/drm/i915/gvt/edid.h               |  4 +--
+ drivers/gpu/drm/i915/gvt/opregion.c           |  2 +-
+ drivers/gpu/drm/radeon/atombios.h             |  2 +-
+ drivers/gpu/drm/radeon/atombios_i2c.c         |  4 +--
+ drivers/gpu/drm/radeon/radeon_combios.c       | 28 ++++++++---------
+ drivers/gpu/drm/radeon/radeon_i2c.c           | 10 +++----
+ drivers/gpu/drm/radeon/radeon_mode.h          |  6 ++--
+ drivers/media/pci/cobalt/cobalt-i2c.c         |  6 ++--
+ drivers/media/pci/cx18/cx18-av-firmware.c     |  8 ++---
+ drivers/media/pci/cx18/cx18-cards.c           |  6 ++--
+ drivers/media/pci/cx18/cx18-cards.h           |  4 +--
+ drivers/media/pci/cx18/cx18-gpio.c            |  6 ++--
+ drivers/media/pci/cx23885/cx23885-f300.c      |  8 ++---
+ drivers/media/pci/cx23885/cx23885-i2c.c       |  6 ++--
+ drivers/media/pci/cx25821/cx25821-i2c.c       |  6 ++--
+ drivers/media/pci/ivtv/ivtv-i2c.c             | 16 +++++-----
+ drivers/media/usb/au0828/au0828-i2c.c         |  4 +--
+ drivers/media/usb/au0828/au0828-input.c       |  2 +-
+ drivers/net/ethernet/sfc/falcon/falcon.c      |  2 +-
+ drivers/video/fbdev/smscufx.c                 |  4 +--
+ drivers/video/fbdev/via/chip.h                |  8 ++---
+ drivers/video/fbdev/via/dvi.c                 | 24 +++++++--------
+ drivers/video/fbdev/via/lcd.c                 |  6 ++--
+ drivers/video/fbdev/via/via_aux.h             |  2 +-
+ drivers/video/fbdev/via/via_i2c.c             | 12 ++++----
+ drivers/video/fbdev/via/vt1636.c              |  6 ++--
+ 73 files changed, 304 insertions(+), 304 deletions(-)
 
 
+base-commit: 4cece764965020c22cff7665b18a012006359095
+-- 
+2.34.1
 
-On Tue, 30 Apr 2024, R Sundar wrote:
-
-> On 30/04/24 00:10, Christophe JAILLET wrote:
-> > Le 29/04/2024 à 19:15, R Sundar a écrit :
-> > > Use the new cleanup magic to replace of_node_put() with
-> > > __free(device_node) marking to auto release when they get out of scope.
-> > >
-> > > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> > > Signed-off-by: R Sundar <prosunofficial@gmail.com>
-> > > ---
-> > >   drivers/media/platform/cadence/cdns-csi2tx.c | 19 +++++++------------
-> > >   1 file changed, 7 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/cadence/cdns-csi2tx.c
-> > > b/drivers/media/platform/cadence/cdns-csi2tx.c
-> > > index 3d98f91f1bee..88aed2f299fd 100644
-> > > --- a/drivers/media/platform/cadence/cdns-csi2tx.c
-> > > +++ b/drivers/media/platform/cadence/cdns-csi2tx.c
-> > > @@ -496,48 +496,43 @@ static int csi2tx_get_resources(struct csi2tx_priv
-> > > *csi2tx,
-> > >   static int csi2tx_check_lanes(struct csi2tx_priv *csi2tx)
-> > >   {
-> > >       struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
-> > > -    struct device_node *ep;
-> > >       int ret, i;
-> > > -
-> > > -    ep = of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
-> > > +    struct device_node *ep __free(device_node) =
-> > > +        of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
-> > > +
-> > >       if (!ep)
-> > >           return -EINVAL;
-> > >       ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
-> > >       if (ret) {
-> > >           dev_err(csi2tx->dev, "Could not parse v4l2 endpoint\n");
-> > > -        goto out;
-> > > +        return ret;
-> > >       }
-> > >       if (v4l2_ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > >           dev_err(csi2tx->dev, "Unsupported media bus type: 0x%x\n",
-> > >               v4l2_ep.bus_type);
-> > > -        ret = -EINVAL;
-> > > -        goto out;
-> > > +        return -EINVAL;
-> > >       }
-> > >       csi2tx->num_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
-> > >       if (csi2tx->num_lanes > csi2tx->max_lanes) {
-> > >           dev_err(csi2tx->dev,
-> > >               "Current configuration uses more lanes than supported\n");
-> > > -        ret = -EINVAL;
-> > > -        goto out;
-> > > +        return -EINVAL;
-> > >       }
-> > >       for (i = 0; i < csi2tx->num_lanes; i++) {
-> > >           if (v4l2_ep.bus.mipi_csi2.data_lanes[i] < 1) {
-> > >               dev_err(csi2tx->dev, "Invalid lane[%d] number: %u\n",
-> > >                   i, v4l2_ep.bus.mipi_csi2.data_lanes[i]);
-> > > -            ret = -EINVAL;
-> > > -            goto out;
-> > > +            return -EINVAL;
-> > >           }
-> > >       }
-> > >       memcpy(csi2tx->lanes, v4l2_ep.bus.mipi_csi2.data_lanes,
-> > >              sizeof(csi2tx->lanes));
-> > > -out:
-> > > -    of_node_put(ep);
-> > >       return ret;
-> >
-> > Hi,
-> >
-> > Nit: return 0; ?
-> >
-> > CJ
-> >
-> > >   }
-> >
-> Hi,
->
-> In success case, ret variable value also will be zero, else for non-zero ret
-> value it will return from v4l2_fwnode_endpoint_parse()'s error case handling
-> block.
-
-Indeed, but it seems that the return ret at the end of the function always
-returns 0?  If that is the case, return 0 would be better, as one can see
-that that code is only reached in the success case.
-
-julia
---8323329-728899255-1714497787=:3106--
 
