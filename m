@@ -1,217 +1,166 @@
-Return-Path: <linux-media+bounces-10499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8033D8B8070
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 21:19:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8892C8B80FB
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 22:02:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDA831F23A7C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 19:19:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A73671C2434B
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 20:02:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC88A19DF6B;
-	Tue, 30 Apr 2024 19:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78416199E9B;
+	Tue, 30 Apr 2024 20:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yhrCM4Yd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="knhSYUpA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC98194C9F
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 19:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCDA199E9A
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 20:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714504778; cv=none; b=t58dVB8Hz2HSeGU7v/5dm1jxKGcmHn2Nh8gYM/tIOdj5lsAoTPQvJULkaE9wRcsKBVxiNArsqbY/hv4H8xT473NxAVt1z660YHbgaPNvOkkAKr78SzXKK+BAJCfrBAjB/PAvHCZ9i2xDWhdSkBNPXeYhfavNKQsBFymyjNjqbhI=
+	t=1714507323; cv=none; b=K3uyszk4NLoWDoFAB6a86Rvz3dVsClFutPqlSFJq58w/JNSVBy76unxoS7+rQv8IbF7xpae0Zo3xbEYt9zxk/z4efN93lk+Xf3HZjFMWbjo7TPeArnrJue9isTI/jovzeNNSmHkgatKQTVvYsAbZeMq3wDWxbP13Ao4KMH+xPqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714504778; c=relaxed/simple;
-	bh=rXrYXwxz8utS37Zdd/NHXMvvYHT1Pko55fdXpz+a0f8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fV/CZsjZCZO76FHREHOQbJ7XRvESLTO7zqoarWt60DIG8b/NglXkKOzztA6DUdyUMoKbyCQPdiXkF8yZXwu41WW8fm87GFVpH+s0MwsY6kUL+DCj4THVr3ljGe22HmMfXxQM7ifenk94s9Dd/0LICVlBqTzRXfNOQUfGNwISGOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yhrCM4Yd; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51b09c3a111so8632083e87.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 12:19:34 -0700 (PDT)
+	s=arc-20240116; t=1714507323; c=relaxed/simple;
+	bh=FN4XZtRK0P9gi48Gwo7LIStjuliRry5RBF8jsmm8jZI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EjLEbw4xaCb+5sS5mM+qVXc85aIssGIZsHNrrdTEfDA+FoP+7kOSwxg7NhM9VHT2vn4kVVJyuSN4WRCCjqGCZAC4bGYu7+6j7ZXpSU+B+P3PrBUkz3irRtBm87RHsvsAJZFMvzfZ8a4KsaWwldwJ3/nSZvRNAbMUMNN9AvD1PRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=knhSYUpA; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-516ef30b16eso7045251e87.3
+        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 13:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714504773; x=1715109573; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JBbLSd4KX1Ml6Kx/U9tspaOWXAez2c+6/7rMF07WiMA=;
-        b=yhrCM4YdS1mVSkC6dZlf25VsI6foSQBCk1DyesxJ/3Nf9GIMHy2gLaao5m1yno4E4y
-         LtG62zQbF9BTkR0aOMYlQm1EEMYIDUCq9PMx9uJmf3kKE2VKFDXgbV/etlhd83AV68Mw
-         q0LoGQlekuHwfa+7Hc6GI0DZ/Iir29gHWQ93YeFSVeB4ebbTLs1IPAMrizUw1zcYmLPc
-         dGrMy+HB86r/BLLws08RKvC1H2mXBtxc86+vZP7uOFNjHzPyfH/Yc46yDsB17PHHg3/8
-         cmY8hLG3CzLveY5qMgQT1zM60pq2ET0rzg8DrUA3vcerRTlTRWGeqNRVTZKVEPp06M3c
-         o+RQ==
+        d=linaro.org; s=google; t=1714507320; x=1715112120; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=kVY1R1hSDj9BybRi8F7BevcWL48GJ1yftHwTF1g1Te0=;
+        b=knhSYUpAAckd9dqMS3wKtLx75xhiqM2Hebdo2W1obKaveMictqMAA7TilQFAx30IIO
+         a8beY7bQHys9RzTTO5Gxm3zpHWP1UIZFw7IMXds/6soL94Pb6DU9QqFf7p+wqwRD3ryF
+         3qLtc7VnlXRGOvsUzSGoB+35QfQjdz8y8RgG1ISqvsZFDrkiqLoIe4kQPd5+nu9fge67
+         0ECl5pI8mdsLraB5i0QvWAJrjgrZZmd2uWVCO9WeiZ3fQXWjzvK1Wdp9j2LkOEdii+DF
+         HpIEfWjA5b7vLT55Bi86MXsKq+aYiSbKhz5aJxYCuqU+y++kPe5oGKSv9KV6G79U9msy
+         CLwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714504773; x=1715109573;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JBbLSd4KX1Ml6Kx/U9tspaOWXAez2c+6/7rMF07WiMA=;
-        b=I4pvjRjg2adWElsXo87WfmrEsIewcN85CZaKpvejRsISAySc8api4n+cewRR0PLLvN
-         KgchOl7XNoizEVxm/JbenjmrSIY6rsjZH7z6iXmrYcnDGu8TCxYkJbRMwg52s8+Vu0Vy
-         cqOZ3T9etInMbwpSWrH4JO8GngZKESNT41RYHF15hB8r/9ifytoX7VBFC9OAwOBNmES9
-         b3WhQfTygpOV/UAn/jAzetyLTwKY+wAYui2gPzt5Hd9Uw8Sg3YFom+g2GahxvgVRg8ne
-         i8szlyaempGISJ1PweQSRYmn/Jy4A8VD7vnY+VHOgcSkZw0sDcu4L1C6M6QBkOOkc/HO
-         cw6w==
-X-Forwarded-Encrypted: i=1; AJvYcCV6BZD1gyzH36XoTSGnbLTESexlZSTJzyWrw57fisNSW04f5ApzP4kzReQlphO2kbzduZLfHRpEBm7s6MbNVnuu6LX1BdTZWUtWn2I=
-X-Gm-Message-State: AOJu0YyttwGq59XOhNrDGkUJm7qc9PabB8DgJtf5kd4OZaq/ad7oH27F
-	fkK2bojFONtjQqtcXRBgA5OtfW/AjZiRDRbeST3halFCMjxtdZWlVHEnRefEoi0uX7dBj8nMN5R
-	AMayL+lLOh5kvqQUXSXGnW97xanbgT2wFQ2E1
-X-Google-Smtp-Source: AGHT+IEv1vAD5KmPx2DuK83e++oMbqGnWC2h94YZYICJhje+Ouaos+1vgy9d2n+Zn+VtRp04liNfK+AEGoM+Z6BbCWI=
-X-Received: by 2002:a05:6512:3492:b0:517:8ad8:c64 with SMTP id
- v18-20020a056512349200b005178ad80c64mr259130lfr.21.1714504772286; Tue, 30 Apr
- 2024 12:19:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714507320; x=1715112120;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kVY1R1hSDj9BybRi8F7BevcWL48GJ1yftHwTF1g1Te0=;
+        b=AmeoxieQZCvfJoZc2+iJp6VWAiJNciISyt+iS5NHPZebVRKXjdDQUicsZ+rxEtHKEx
+         ZLoq78ezdurQrBo+x+D5Nh2hWwQ/z5rwe6VNQXF2Jz3nhTTfgsi/Syzza1yMauyQj87I
+         Iyp2UqwJXeAE+wsR2n4JWSREa1k8Kvtbbrp0gS+5mQnAxWUR5YVXb0M55FAo9SltbTl0
+         v7rviupd3TfaAL3rbLAwCY0EpFci7MAuPF1d+GnD4aoZUFgfDyaLajHXSCtah03rvpCi
+         O07HYbBx8QCu1U9pbekC/jkLeyE9qJsdD8i8htfnTnFRp8qeas7GhG0iHbktJAi0q2s6
+         RN7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWQd4vtZJS5eFmTnia4bFXspQAaQVPRIvZxEFyKNB2PiJsi/KNOZOAGa5qjr0dQQUpmr/N4qpHkXo5SU11aJE5+1Kb7SkxablONOEY=
+X-Gm-Message-State: AOJu0YxK/eyNsE2wXA2n48I+c+RHil00Y62uIXRm5p2IUEw+4LeR21UH
+	Gb+fdvbIE7ZlwdARsiO+R/QOKugPkBWRcwuu3VVdU9Yc9iVDYC+w+tlvdYPJ+XE=
+X-Google-Smtp-Source: AGHT+IFPkr89m6eEs/CQkai3hgCL6srE2z30lROhrlCeAec8GfnC5xMtf5satxWc2lPGSwEL1Lquxw==
+X-Received: by 2002:ac2:54b3:0:b0:51d:15ef:dc10 with SMTP id w19-20020ac254b3000000b0051d15efdc10mr278416lfk.41.1714507320280;
+        Tue, 30 Apr 2024 13:02:00 -0700 (PDT)
+Received: from [192.168.114.15] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
+        by smtp.gmail.com with ESMTPSA id h20-20020a170906591400b00a51d3785c7bsm15409877ejq.196.2024.04.30.13.01.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Apr 2024 13:01:59 -0700 (PDT)
+Message-ID: <d36c1163-a3f0-4034-a430-91986e5bbce8@linaro.org>
+Date: Tue, 30 Apr 2024 22:01:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com> <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
- <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk> <CAHS8izMKLYATo6g3xkj_thFo3whCfq6LSoex5s0m5XZd-U7SVQ@mail.gmail.com>
- <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
-In-Reply-To: <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 30 Apr 2024 12:19:17 -0700
-Message-ID: <CAHS8izP3KtH_CHyQKE+=vrY-yREq5Bb_Kd+KLyJ4j-_AdjNk-Q@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-To: Jens Axboe <axboe@kernel.dk>
-Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Amritha Nambiar <amritha.nambiar@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
-	Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
-	Arseniy Krasnov <avkrasnov@salutedevices.com>, 
-	Aleksander Lobakin <aleksander.lobakin@intel.com>, Michael Lass <bevan@bi-co.net>, 
-	Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Richard Gobert <richardbgobert@gmail.com>, 
-	Sridhar Samudrala <sridhar.samudrala@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>, 
-	Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
-	Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V5 RESEND 5/5] venus: pm_helpers: Use
+ dev_pm_genpd_set_hwmode to switch GDSC mode on V6
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Jagadeesh Kona <quic_jkona@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Gross <agross@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>,
+ Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
+ Imran Shaik <quic_imrashai@quicinc.com>,
+ Ajit Pandey <quic_ajipan@quicinc.com>
+References: <20240413152013.22307-1-quic_jkona@quicinc.com>
+ <20240413152013.22307-6-quic_jkona@quicinc.com>
+ <5c78ad52-524b-4ad7-b149-0e7252abc2ee@linaro.org>
+ <b96ef82c-4033-43e0-9c1e-347ffb500751@quicinc.com>
+ <a522f25f-bb38-4ae1-8f13-8e56934e5ef5@linaro.org>
+ <dbd1b86c-7b5f-4b92-ab1f-fecfe1486cfc@quicinc.com>
+ <621dbaaa-6b86-45b5-988e-a6d9c39b13d7@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <621dbaaa-6b86-45b5-988e-a6d9c39b13d7@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 30, 2024 at 11:55=E2=80=AFAM Jens Axboe <axboe@kernel.dk> wrote=
-:
->
-> On 4/30/24 12:29 PM, Mina Almasry wrote:
-> > On Tue, Apr 30, 2024 at 6:46?AM Jens Axboe <axboe@kernel.dk> wrote:
-> >>
-> >> On 4/26/24 8:11 PM, Mina Almasry wrote:
-> >>> On Fri, Apr 26, 2024 at 5:18?PM David Wei <dw@davidwei.uk> wrote:
-> >>>>
-> >>>> On 2024-04-02 5:20 pm, Mina Almasry wrote:
-> >>>>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
-> >>>>>   */
-> >>>>>  typedef unsigned long __bitwise netmem_ref;
-> >>>>>
-> >>>>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
-> >>>>> +{
-> >>>>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
-> >>>>
-> >>>> I am guessing you added this to try and speed up the fast path? It's
-> >>>> overly restrictive for us since we do not need dmabuf necessarily. I
-> >>>> spent a bit too much time wondering why things aren't working only t=
-o
-> >>>> find this :(
-> >>>
-> >>> My apologies, I'll try to put the changelog somewhere prominent, or
-> >>> notify you when I do something that I think breaks you.
-> >>>
-> >>> Yes, this is a by-product of a discussion with regards to the
-> >>> page_pool benchmark regressions due to adding devmem. There is some
-> >>> background on why this was added and the impact on the
-> >>> bench_page_pool_simple tests in the cover letter.
-> >>>
-> >>> For you, I imagine you want to change this to something like:
-> >>>
-> >>> #if defined(CONFIG_PAGE_POOL)
-> >>> #if defined(CONFIG_DMA_SHARED_BUFFER) || defined(CONFIG_IOURING)
-> >>>
-> >>> or something like that, right? Not sure if this is something I should
-> >>> do here or if something more appropriate to be in the patches you
-> >>> apply on top.
-> >>
-> >> In general, attempting to hide overhead behind config options is alway=
-s
-> >> a losing proposition. It merely serves to say "look, if these things
-> >> aren't enabled, the overhead isn't there", while distros blindly enabl=
-e
-> >> pretty much everything and then you're back where you started.
-> >>
-> >
-> > The history there is that this check adds 1 cycle regression to the
-> > page_pool fast path benchmark. The regression last I measured is 8->9
-> > cycles, so in % wise it's a quite significant 12.5% (more details in
-> > the cover letter[1]). I doubt I can do much better than that to be
-> > honest.
->
-> I'm all for cycle counting, and do it myself too, but is that even
-> measurable in anything that isn't a super targeted microbenchmark? Or
-> even in that?
->
+On 24.04.2024 11:50 AM, Bryan O'Donoghue wrote:
+> On 24/04/2024 10:45, Jagadeesh Kona wrote:
+>>
+>> Thanks Bryan for testing this series. Can you please confirm if this issue is observed in every run or only seen during the first run? Also please let me know on which platform this issue is observed?
+>>
+>> Thanks,
+>> Jagadeesh
+> 
+> rb5/sm8250
+> 
+> My observation was on a previous _boot_ the stuttering was worse. There is in the video capture three times that I count where the video halts briefly, I guess we need to vote or set an OPP so the firmware knows not to power-collapse quite so aggressively.
 
-Not as far as I can tell, no. This was purely to improve the page_pool
-benchmark.
+We seem to be having some qualcomm-wide variance on perf/pwr usage on some
+odd boots.. Any chance you could try like 5 times and see if it was a fluke?
 
-> > There was a desire not to pay this overhead in setups that will likely
-> > not care about devmem, like embedded devices maybe, or setups without
-> > GPUs. Adding a CONFIG check here seemed like very low hanging fruit,
-> > but yes it just hides the overhead in some configs, not really removes
-> > it.
-> >
-> > There was a discussion about adding this entire netmem/devmem work
-> > under a new CONFIG. There was pushback particularly from Willem that
-> > at the end of the day what is enabled on most distros is what matters
-> > and we added code churn and CONFIG churn for little value.
-> >
-> > If there is significant pushback to the CONFIG check I can remove it.
-> > I don't feel like it's critical, it just mirco-optimizes some setups
-> > that doesn't really care about this work area.
->
-> That is true, but in practice it'll be enabled anyway. Seems like it's
-> not really worth it in this scenario.
->
-
-OK, no pushback from me. I'll remove the CONFIG check in the next iteration=
-.
-
---=20
-Thanks,
-Mina
+Konrad
 
