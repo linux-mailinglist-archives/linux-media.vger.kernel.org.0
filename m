@@ -1,173 +1,146 @@
-Return-Path: <linux-media+bounces-10470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10471-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4C18B7BC5
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:36:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BBB8B7BD3
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:36:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F31131C243CC
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:36:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9A781F217D7
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0AC517333F;
-	Tue, 30 Apr 2024 15:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D10A173334;
+	Tue, 30 Apr 2024 15:36:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="yVChQl8k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q2vKjNTP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B56143759
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 15:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E5143749
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 15:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714491318; cv=none; b=KGJTJ22jlk+6lq2b6+qePZAjSogFfQv7rJ+AEInQTpIBGbfoW0LFtfnk1qYf/dQiHJ1+SCZ2DvAK3tHenrBhiaaWVEjXfehY/S7br3xje4LQSZd8LM7J5tOokCDL+XRxzxZi5kj+z1q1DUWTYDZcTtKYFyB1ZgOFd+ViO5o+dk4=
+	t=1714491394; cv=none; b=tp1o26Bv4ndZI8wyku30ZMP7svpKmbwZSRo1tFbbpgTd8ZfJHRrBTFSe4uPrHeDWoiTuu/P1GYd1GJovhKMoOnpS2GcHeMBAggmAfoBFOwmKzayqvlaQ73FAijAtPwMh730RMvOlZy4geg9ud9JBnkEujsS2GqHeaTDa8EdLDm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714491318; c=relaxed/simple;
-	bh=Oo58CEMdtjetSnRagHS5J1GNGo1JKVIA0feYLcxotvM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iJOEHUalBVGck/WecrMcE1VWnYorpwNlc5d1kfmcfLGMFaeqbM6b3iQkvYQiDYNRGwFY4tYSUUdaEO8OTvny1U1EN4vHIwD/++7uZ8vleXev6HCA6OiilSqvu/sY620QNkgvx5e+QYlb1uGTgKTQf6WL3MSCs/9jHtbzs275q/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=yVChQl8k; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41adf155cffso42603055e9.2
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 08:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1714491314; x=1715096114; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aPqZJAxEGjY0ShetcfKjBOSOoETPGEikwkHIAxvShII=;
-        b=yVChQl8kQX5YhdbCbz58y4fql36/fZIZg3th4jhtmO3hCMW/IPT5qHHa+wyiXonvNT
-         HPYvdK+pR4BhfGeH84iLQ6Yp/QgKJgFZTCHae1An0Bsf99M+LfeWOqv5DEj4s0OFnHWL
-         7X13bj6giaY1E7T/3PN/3egy6ZobpmR7jqyOGGCof25HqumyhaHvwOpq+MHQZcxO9aiE
-         MjEixO/2QrpXracxuSPAdS3WBlp72nrulg2JY1C1dfk/QIels8NV4QhmbVX9d0m08kKJ
-         ufOX1E6F+U31imputM+B7gAfA8cZjeEc4CpevyDEaAjsEOBc7tLfYJHeJMCpMbg5REn4
-         e0Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714491314; x=1715096114;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPqZJAxEGjY0ShetcfKjBOSOoETPGEikwkHIAxvShII=;
-        b=kUO/pDSTrC6vYYU2mDs54r98H6WCUVyRmlMnhfmb5YOJQCv/tJzu1u1qLQexY0g6t6
-         MFJg6LUu4VDO/0PPU4Jslo+5Eh/0bqI7CaxJp5E82zec6Iu0RX+rKh3gOvIaKSrdv9bu
-         BpwDJT03UJ3+bIPnRE6223/EgJnQMmfjkCM37qHTcOCsjFw+C6F8NDjNXbX0cziY4Krz
-         YU9+mlHiEKKXY18KYgH/BJFBDLEDZiW1iOfS7yTaoVarwulqgCJ/eC3kiT4+eO1tfFR/
-         +agk4MFSScb7bS++OTjUL8nILriSe8o6tk66028PN+TvqH+lNXBIAuVvFzJKirx5gp02
-         CQtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpa1jEhS3wrhkg+L1nm4bLcr/k4STzgcYRVz1nSm5om+wQtzFxbvT9KLmwiNCCPVmtZg+yCgk4i7uDCBjOTDag1IxOZTKCy6rLAfQ=
-X-Gm-Message-State: AOJu0YyVwkohfB7wqSuvLK4fbEfTCMGbfMo+/cBeMY4kFkL0hicRV9cE
-	m/DUKOUTkUC9Y5hrZFSLqjjfV8hE2oigq0BD8zsVaESk71QJpIqZYe7NAnN5PMY=
-X-Google-Smtp-Source: AGHT+IEdaQNPB55tn+0T4Z0bhsq7wMMGI/91idvS14Pc55qu5JeJj2jVjNfX8746ehWLCdzdHLUxaQ==
-X-Received: by 2002:a05:600c:35c4:b0:418:f5a9:b91c with SMTP id r4-20020a05600c35c400b00418f5a9b91cmr9667253wmq.33.1714491314716;
-        Tue, 30 Apr 2024 08:35:14 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id h13-20020a05600c314d00b0041ac4aafd3dsm27045674wmo.12.2024.04.30.08.35.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 08:35:14 -0700 (PDT)
-Message-ID: <9844c940-21b1-42af-9448-62a2d5ffadb7@freebox.fr>
-Date: Tue, 30 Apr 2024 17:34:06 +0200
+	s=arc-20240116; t=1714491394; c=relaxed/simple;
+	bh=H3QOzcl2aViQGbhhpJPNDq7Y6KFZz7ZyWlfof3SZR7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fIt4XgIHZeBR+7TSkRpW2uXXbNyhru+5PSXo23YMYqOp32NLtpYI+yc0aODt+IlPZmm2IHdZzAgoIc2MSRnCw6yTss3EnZFtOY4sHEzqvqhimeDAmoharAZhOPp1csmRlFrXvIJ0BCuhLJd4tmUNWU253TunIX71WuKxZoerNSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q2vKjNTP; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714491393; x=1746027393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H3QOzcl2aViQGbhhpJPNDq7Y6KFZz7ZyWlfof3SZR7U=;
+  b=Q2vKjNTPsAe6oDey4yg4+iVG0N+dn+TAaB8OGZqNoGrLhrXfL6tWQT6N
+   vf4oCIKS1q8uDHpuvP70neghKYnBse2wLgwr+6oR1tJT9LG7PJ1AnMXN2
+   TXhrHYK/IM1X2zJPA3G7L9VwxmVACR/XydGe641kLP2yB5uxkFKL+HI3e
+   4iS1OaKX5eAA5WtiPhwKPp/TCUNo7IeHGfJR76SyOAmFup5Yk9TVAVITh
+   qC/8y/Y1SaeSeaYxz0U3HjoxnLTXdXPiCMc959XNhf27p1oKGdehQliTc
+   hs6MzUvaby6l9JwEjzY9iJJcLaQBPKDITAX6DiYj7OQFRYDbYdiB093zs
+   g==;
+X-CSE-ConnectionGUID: RrqxhQsaSVCSGejbA4xScQ==
+X-CSE-MsgGUID: XsWs/9o7RnOWlV7i7h8V8Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10427099"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="10427099"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 08:36:31 -0700
+X-CSE-ConnectionGUID: sYT0PaxOR6uimNwZSMWXCg==
+X-CSE-MsgGUID: bb6mqORsT+2GB6KZY7aXqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="57384785"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 08:36:28 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1pWr-0008Gz-2J;
+	Tue, 30 Apr 2024 15:36:25 +0000
+Date: Tue, 30 Apr 2024 23:36:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [sailus-media-tree:ipu6 14/50]
+ drivers/media/platform/broadcom/bcm2835-unicam.c:2721:34: warning:
+ 'unicam_of_match' defined but not used
+Message-ID: <202404302324.8aTC84kE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2 3/3] media: venus: add msm8998 support
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-To: Bjorn Andersson <andersson@kernel.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
-Content-Language: en-US
-In-Reply-To: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Pierre-Hugues Husson <phhusson@freebox.fr>
+tree:   git://linuxtv.org/sailus/media_tree.git ipu6
+head:   308898eb3af1c6530b122a01a5c4b38931717e70
+commit: e8676f3614bd98086cd71e2d7379291f5329115f [14/50] media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
+config: sh-randconfig-r111-20240430 (https://download.01.org/0day-ci/archive/20240430/202404302324.8aTC84kE-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240430/202404302324.8aTC84kE-lkp@intel.com/reproduce)
 
-Add the missing bits for msm8998 support.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404302324.8aTC84kE-lkp@intel.com/
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
-Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
----
- drivers/media/platform/qcom/venus/core.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index ce206b7097541..42e0c580e093d 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -587,6 +587,47 @@ static const struct venus_resources msm8996_res = {
- 	.fwname = "qcom/venus-4.2/venus.mbn",
- };
- 
-+static const struct freq_tbl msm8998_freq_table[] = {
-+	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
-+	{  972000, 520000000 },	/* 4k UHD @ 30 */
-+	{  489600, 346666667 },	/* 1080p @ 60 */
-+	{  244800, 150000000 },	/* 1080p @ 30 */
-+	{  108000,  75000000 },	/* 720p @ 30 */
-+};
-+
-+/*
-+ * https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
-+ */
-+static const struct reg_val msm8998_reg_preset[] = {
-+	{ 0x80124, 0x00000003 },
-+	{ 0x80550, 0x01111111 },
-+	{ 0x80560, 0x01111111 },
-+	{ 0x80568, 0x01111111 },
-+	{ 0x80570, 0x01111111 },
-+	{ 0x80580, 0x01111111 },
-+	{ 0x80588, 0x01111111 },
-+	{ 0xe2010, 0x00000000 },
-+};
-+
-+static const struct venus_resources msm8998_res = {
-+	.freq_tbl = msm8998_freq_table,
-+	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
-+	.reg_tbl = msm8998_reg_preset,
-+	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
-+	.clks = { "core", "iface", "bus", "mbus" },
-+	.clks_num = 4,
-+	.vcodec0_clks = { "core" },
-+	.vcodec1_clks = { "core" },
-+	.vcodec_clks_num = 1,
-+	.max_load = 2563200,
-+	.hfi_version = HFI_VERSION_3XX,
-+	.vmem_id = VIDC_RESOURCE_NONE,
-+	.vmem_size = 0,
-+	.vmem_addr = 0,
-+	.dma_mask = 0xddc00000 - 1,
-+	.fwname = "qcom/venus-4.4/venus.mbn",
-+};
-+
- static const struct freq_tbl sdm660_freq_table[] = {
- 	{ 979200, 518400000 },
- 	{ 489600, 441600000 },
-@@ -893,6 +934,7 @@ static const struct venus_resources sc7280_res = {
- static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
- 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
-+	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
- 	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
- 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
- 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+   drivers/media/platform/broadcom/bcm2835-unicam.c:309:17: error: 'MEDIA_BUS_FMT_META_8' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+     309 |         .code = MEDIA_BUS_FMT_META_8,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 MEDIA_BUS_FMT_Y8_1X8
+   drivers/media/platform/broadcom/bcm2835-unicam.c:490:35: error: 'V4L2_META_FMT_GENERIC_8' undeclared here (not in a function); did you mean 'V4L2_META_FMT_UVC'?
+     490 |                 .fourcc         = V4L2_META_FMT_GENERIC_8,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                   V4L2_META_FMT_UVC
+   drivers/media/platform/broadcom/bcm2835-unicam.c:494:35: error: 'V4L2_META_FMT_GENERIC_CSI2_10' undeclared here (not in a function)
+     494 |                 .fourcc         = V4L2_META_FMT_GENERIC_CSI2_10,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/broadcom/bcm2835-unicam.c:495:35: error: 'MEDIA_BUS_FMT_META_10' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+     495 |                 .code           = MEDIA_BUS_FMT_META_10,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+         |                                   MEDIA_BUS_FMT_UV8_1X8
+   drivers/media/platform/broadcom/bcm2835-unicam.c:498:35: error: 'V4L2_META_FMT_GENERIC_CSI2_12' undeclared here (not in a function)
+     498 |                 .fourcc         = V4L2_META_FMT_GENERIC_CSI2_12,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/broadcom/bcm2835-unicam.c:499:35: error: 'MEDIA_BUS_FMT_META_12' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+     499 |                 .code           = MEDIA_BUS_FMT_META_12,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+         |                                   MEDIA_BUS_FMT_UV8_1X8
+   drivers/media/platform/broadcom/bcm2835-unicam.c:502:35: error: 'V4L2_META_FMT_GENERIC_CSI2_14' undeclared here (not in a function)
+     502 |                 .fourcc         = V4L2_META_FMT_GENERIC_CSI2_14,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/broadcom/bcm2835-unicam.c:503:35: error: 'MEDIA_BUS_FMT_META_14' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+     503 |                 .code           = MEDIA_BUS_FMT_META_14,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+         |                                   MEDIA_BUS_FMT_UV8_1X8
+>> drivers/media/platform/broadcom/bcm2835-unicam.c:2721:34: warning: 'unicam_of_match' defined but not used [-Wunused-const-variable=]
+    2721 | static const struct of_device_id unicam_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
+
+
+vim +/unicam_of_match +2721 drivers/media/platform/broadcom/bcm2835-unicam.c
+
+  2720	
+> 2721	static const struct of_device_id unicam_of_match[] = {
+  2722		{ .compatible = "brcm,bcm2835-unicam", },
+  2723		{ /* sentinel */ },
+  2724	};
+  2725	MODULE_DEVICE_TABLE(of, unicam_of_match);
+  2726	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
