@@ -1,134 +1,146 @@
-Return-Path: <linux-media+bounces-10419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10420-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C8C8B6E9D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 11:39:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2EA8B6F11
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 12:06:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 398C61C20B94
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:39:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64CF9B20B7C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 10:06:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DFD71A38E1;
-	Tue, 30 Apr 2024 09:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="OiWl84V5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91AF5129E6E;
+	Tue, 30 Apr 2024 10:05:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E624FC02;
-	Tue, 30 Apr 2024 09:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B41292C8;
+	Tue, 30 Apr 2024 10:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714469810; cv=none; b=e5ICjvra3EsI4VfTsMOlibOc4ESV3Ze85FE5u1yPuxMhcwKfqk7Sj+yQoKUXMdjARZniRxMiPHFXmBQ/eM2p46LOvm01WQCCpmtLczbdQ7f8Zgn50IvWkWajT1ILGK+wC7eN/bJrDijRg1ZSN3LTl1iXKhn05WALD0r4IdZB9cU=
+	t=1714471556; cv=none; b=RwMyuSfzAeP4n66gaaBwCFf4Kb4JWQ/LnDWfrlz1aGQBfWTVdU7/FAA6l+mUWBWW3UEE72CkvfWxEYrS88eG1XAHp8Ow7aeUSEpQojW08E4PQhfuvFBvuoWdqMlPHdur3gdOp0uzJptWdt6FYbyILi+AVvPv/TGx/zuzdyiBIK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714469810; c=relaxed/simple;
-	bh=6pVPCtjEhaN9YMepNxoaA6Di8GBA8TQ/2wuNs1NSRqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LhCUEdXc2W+hMeI22QKy9Y6aq9b/Six97S02Me9anGnccfWVsX3so3lWj2EkJcAiS8q2VeCzIUYKOxp8jj0qmcv+Vw2m8y3QkxyshLlR2jQLi3fpTqAVyLRtaaUJ496iw4lS3M8PXXj0Pea1S7I3/onI9VOFS1Q4wpi+Z+58KHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=OiWl84V5; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1714469805; bh=6pVPCtjEhaN9YMepNxoaA6Di8GBA8TQ/2wuNs1NSRqo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OiWl84V5o0akms2gy6ED0kg8NOAMXZMTIwMPrPVDetnJkYqCdm/hSgxuPY0EpApGN
-	 L8mwd/xtvzidpG3XVfvavQZKm0FxLOslKztW8yKO3CxfXSzC0GslVlGFTAHBlS14Vg
-	 c3+kzhvP/2NuDnqs4eb44m0vOO9VolsnreDtyvoP+XvOi1ETUpytlwWO/h2/ILebZI
-	 uf5ioSkWWyR18SzAFy1flo7UMR+DfuRXS/Q6GFU7ECzTVJH+VgapTQVopiQ4V9PeAg
-	 6Oo+HyTNWve3sbgg+NHGev0zBjPoEwzslvkTIjMwdFEtprYlGSN9/LdbS3AG+pPOHt
-	 L8E8Hfw7rwjdg==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id C0BC310005E; Tue, 30 Apr 2024 10:36:45 +0100 (BST)
-Date: Tue, 30 Apr 2024 10:36:45 +0100
-From: Sean Young <sean@mess.org>
-To: Zheng Yejian <zhengyejian1@huawei.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dvb-usb: Fix unexpected infinite loop in
- dvb_usb_read_remote_control()
-Message-ID: <ZjC7rXU7ViaH60_S@gofer.mess.org>
-References: <20240412135256.1546051-1-zhengyejian1@huawei.com>
- <5c0359c7-502f-fe8b-c1ee-3470b36b586c@huawei.com>
- <ZjCl97Ww6NrzJQCB@gofer.mess.org>
- <37581090-ae63-46c4-98c1-76e9138e6b6e@huawei.com>
+	s=arc-20240116; t=1714471556; c=relaxed/simple;
+	bh=dhe9uYcPlH3P2B5i3QKvhg+jgfj9ROJsg9EOJ6MfKYU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GQGbdSCQwm92x01bthju9tGELJzA/mOyp69IVE2bPC+9u7AaNhE6vUmM9oanjOwKg1RzCOhm6fXLY3kmzLy9rUileve4KBVdmgaR4LGSJLj4/V18KIO19F4Vmx0LEfaDAf7C1a6Wm25iOaP/syE1OyhGkX4ClfE8vstGrPNQhd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4VTG3b5NwDz1ymXf;
+	Tue, 30 Apr 2024 18:03:07 +0800 (CST)
+Received: from dggpeml500012.china.huawei.com (unknown [7.185.36.15])
+	by mail.maildlp.com (Postfix) with ESMTPS id 46AF9140109;
+	Tue, 30 Apr 2024 18:05:45 +0800 (CST)
+Received: from [10.67.111.172] (10.67.111.172) by
+ dggpeml500012.china.huawei.com (7.185.36.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 30 Apr 2024 18:05:45 +0800
+Message-ID: <83a05d49-6367-9bdd-0702-940e32b072a4@huawei.com>
+Date: Tue, 30 Apr 2024 18:05:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37581090-ae63-46c4-98c1-76e9138e6b6e@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media: dvb-usb: Fix unexpected infinite loop in
+ dvb_usb_read_remote_control()
+Content-Language: en-US
+To: Sean Young <sean@mess.org>
+CC: <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Zheng Yejian <zhengyejian1@huawei.com>
+References: <20240412135256.1546051-1-zhengyejian1@huawei.com>
+ <5c0359c7-502f-fe8b-c1ee-3470b36b586c@huawei.com>
+ <ZjCl97Ww6NrzJQCB@gofer.mess.org>
+ <37581090-ae63-46c4-98c1-76e9138e6b6e@huawei.com>
+ <ZjC7rXU7ViaH60_S@gofer.mess.org>
+From: Zheng Yejian <zhengyejian1@huawei.com>
+In-Reply-To: <ZjC7rXU7ViaH60_S@gofer.mess.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500012.china.huawei.com (7.185.36.15)
 
-On Tue, Apr 30, 2024 at 05:19:56PM +0800, Zheng Yejian wrote:
-> Thanks for your suggestion!
-> Do you mean the following change? If it is ok, I'll send a v2!
+On 2024/4/30 17:36, Sean Young wrote:
+> On Tue, Apr 30, 2024 at 05:19:56PM +0800, Zheng Yejian wrote:
+>> Thanks for your suggestion!
+>> Do you mean the following change? If it is ok, I'll send a v2!
+>>
+>> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+>> index fbf58012becd..2a8395d6373c 100644
+>> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+>> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+>> @@ -23,6 +23,23 @@ static int dvb_usb_force_pid_filter_usage;
+>>   module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
+>>   MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
+>>
+>> +static int dvb_usb_clear_halt(struct dvb_usb_device *d, u8 endpoint)
 > 
-> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> index fbf58012becd..2a8395d6373c 100644
-> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> @@ -23,6 +23,23 @@ static int dvb_usb_force_pid_filter_usage;
->  module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
->  MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
+> I don't think this is a good function name; we are checking that the
+> endpoint is correct and also clearing halts.
 > 
-> +static int dvb_usb_clear_halt(struct dvb_usb_device *d, u8 endpoint)
+> How about: dvb_usb_check_bulk_endpoint()
 
-I don't think this is a good function name; we are checking that the
-endpoint is correct and also clearing halts.
+Sure, I'll do it in v2!
 
-How about: dvb_usb_check_bulk_endpoint()
+--
+Thank,
+Zheng Yejian
 
-Looks good otherwise
+> 
+> Looks good otherwise
+> 
+> Sean
+> 
+>> +{
+>> +       if (endpoint) {
+>> +               int ret;
+>> +
+>> +               ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+>> +               if (ret)
+>> +                       return ret;
+>> +               ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+>> +               if (ret)
+>> +                       return ret;
+>> +               usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+>> +               usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+>> +       }
+>> +       return 0;
+>> +}
+>> +
+>>   static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>>   {
+>>          struct dvb_usb_adapter *adap;
+>> @@ -103,10 +120,12 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>>           * when reloading the driver w/o replugging the device
+>>           * sometimes a timeout occurs, this helps
+>>           */
+>> -       if (d->props.generic_bulk_ctrl_endpoint != 0) {
+>> -               usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+>> -               usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+>> -       }
+>> +       ret = dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint);
+>> +       if (ret)
+>> +               goto frontend_init_err;
+>> +       ret = dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint_response);
+>> +       if (ret)
+>> +               goto frontend_init_err;
+>>
+>>          return 0;
+>>
+>> --
+>> Thanks,
+>> Zheng Yejian
+>>
+>>> Thanks
+>>>
+>>> Sean
+>>
 
-Sean
-
-> +{
-> +       if (endpoint) {
-> +               int ret;
-> +
-> +               ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
-> +               if (ret)
-> +                       return ret;
-> +               ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
-> +               if (ret)
-> +                       return ret;
-> +               usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
-> +               usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
-> +       }
-> +       return 0;
-> +}
-> +
->  static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
->  {
->         struct dvb_usb_adapter *adap;
-> @@ -103,10 +120,12 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
->          * when reloading the driver w/o replugging the device
->          * sometimes a timeout occurs, this helps
->          */
-> -       if (d->props.generic_bulk_ctrl_endpoint != 0) {
-> -               usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
-> -               usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
-> -       }
-> +       ret = dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint);
-> +       if (ret)
-> +               goto frontend_init_err;
-> +       ret = dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint_response);
-> +       if (ret)
-> +               goto frontend_init_err;
-> 
->         return 0;
-> 
-> --
-> Thanks,
-> Zheng Yejian
-> 
-> > Thanks
-> > 
-> > Sean
-> 
 
