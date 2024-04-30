@@ -1,152 +1,161 @@
-Return-Path: <linux-media+bounces-10399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10400-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271988B6807
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 04:41:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 990BA8B6AFC
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 09:01:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D94341F22F7E
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 02:41:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA6081C21D26
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 07:01:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4EEDDC1;
-	Tue, 30 Apr 2024 02:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2304E1C291;
+	Tue, 30 Apr 2024 07:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJg4OugD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vgi8Hr1x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4D4D529;
-	Tue, 30 Apr 2024 02:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A2818EB8
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 07:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714444871; cv=none; b=j5TqzLrhMc8UOmv8gf1fSM7hgjXvLQKC0mO1t0b+UkcV3OWGUDx1MfCn/D92D/Wo7sXPcgJvdeQe0IYeNC3MVRNq8nYRJOBT91kl17XIKvAn3hjRaN9Dzy5XeOg437RqnldHONttJH+FBs4VxdcobP+71kN5HiXGn4t+biIeOLE=
+	t=1714460483; cv=none; b=bsEcTtjSXWKgr8/yxoai8V9pH8fTV0b2BCeXwljRB6wlFSr2C/VtWohehyBnn+waKtt7MJS4JziUt71m/4t9uvHVTdic6LIMnTsq9coU900vAqjTg8OWaVsseR3WJSnljvapFHJPzJ46zKlE7nm6N+nDD2kRJjp42XFbOxB/Uok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714444871; c=relaxed/simple;
-	bh=xfXA+XYI4fplRPgwcNuRoQF8Y24bz3B6Mi80kAQVs5Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gja77Jd81NLW1rSsab4fNgHGtXEvbOk8FFr/gY/6ay1hXd6HoA/VIIP66jTur7jC7WOSqtrj5ssGrvkpIF2yYjP5xIPECy7INCdP+oEVqUwlmf1Zd1mGNCdvQcAhHhQkv6QD7Jz8hBYDCvlULu3iyqC3sfhUrWCCAxMwRMtKybg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FJg4OugD; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e51398cc4eso46663645ad.2;
-        Mon, 29 Apr 2024 19:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714444869; x=1715049669; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Eso4ARCm72QdAVSfiatUmFnG0dBC92pYQJkl3ko9Fxc=;
-        b=FJg4OugDzxhPLZWJA0ArRqHPpuQg5V4N8B+CZLZdoT0kELWTAwoFllSVxEPbmmEIBK
-         4TbAk9PKi1RCRDHJnJlioKaAWr38QQG1Ede4FGP2yYAkOkqY9PEn9QY9BwCTeEHL7snp
-         6lqOr/basfSKt64qduQTM/3hcda1hBcdtSxPBHtjl7aQp3RrHzfEh92SScQTOBRb03Q3
-         UxHUZDj/b3AfMzzbh5TWZzVRE3RgkQTi26LYyjiiBWcEyseDrBb+YhTJhfL/PUmdaxKl
-         3FgesCT0qpaf9WuzpAXqp09Rnx12lwS1xJUOeEQFapEL0YiPUIVukLerylwskEqr1qUZ
-         Wt7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714444869; x=1715049669;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Eso4ARCm72QdAVSfiatUmFnG0dBC92pYQJkl3ko9Fxc=;
-        b=D0X/WDFBl/y5azONkbIS15cNZ5TKaHUIRSXcBQwaH97WzUdqrHSpJGWGV5gwg0L6qX
-         OPyS39BqbGy92OV6JoMcCQaJnGXU8dsMcPmjPpww1DpAhsxtDM/BtHhB78hWR0ACMrnW
-         xam+rZpRTdiUgfzNXLRkAWCBnu/rJyYQVzrWp03Oq+S8Wbli7iI+NloShCkQhN3vCeGJ
-         asN1B5MD+0fYCX5d/+Pjcmpli5tGnEEXorL4JGIoBn6txGu7Mk2cWXWmYQJXvy3ZvxnO
-         M5Q4aXpDEaeMta/hpSsGbMHdRu/LDYGULz1Pkvotu5/fF7AVl89t07ZSs2O21GjSHKqK
-         OQNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEyvNpvsMfL0K6dPUITG7bNp0EkVZhoAVCGQ7jiuW6dMAGURhbwafOTIehqZf7zbedsKgcpcbZ2B+A5O7XTDEDG2Z9oVBAwMvSdHuh9Fu6nUBM0XyUClbdzNtD0UmdS3GAV3VzDiMiLw==
-X-Gm-Message-State: AOJu0YwLpA0g83rwpbhZ6o6P6CcLbFpJUVWJLdT7WpfdQyAPlAa+Yap1
-	+E4D104pTUEuahWfQwHzCCOKVATIxENV8zLspSV/DQHhOxh5ZzWuw2DrUrNZa6M=
-X-Google-Smtp-Source: AGHT+IFcX43HEpbg0J5y68Nceakg6ZWP+vZGNSqE6JNf4XEeKnHfyk4h8JG/DM/CW+eONVEaJV2mcQ==
-X-Received: by 2002:a17:902:f648:b0:1eb:7ba:a4c3 with SMTP id m8-20020a170902f64800b001eb07baa4c3mr16274996plg.48.1714444868887;
-        Mon, 29 Apr 2024 19:41:08 -0700 (PDT)
-Received: from toyko-2.5 ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id x12-20020a170902ec8c00b001eac94472f6sm8400379plg.93.2024.04.29.19.40.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 19:41:08 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	heiko@sntech.de,
-	sebastian.reichel@collabora.com,
-	liujianfeng1994@gmail.com,
-	sfr@canb.auug.org.au,
-	sigmaris@gmail.com,
-	nicolas@ndufresne.ca,
-	linkmauve@linkmauve.fr
-Subject: [PATCH v7 2/2] arm64: dts: rockchip: Add Hantro G1 VPU support for RK3588
-Date: Tue, 30 Apr 2024 10:40:02 +0800
-Message-Id: <20240430024002.708227-3-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240430024002.708227-1-liujianfeng1994@gmail.com>
-References: <20240430024002.708227-1-liujianfeng1994@gmail.com>
+	s=arc-20240116; t=1714460483; c=relaxed/simple;
+	bh=o5ve2abGLYfFjEoLBt+weOEdnPFMDf0Y/6yLGV7H4lE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AZkhPjNpm0pnlVLR055sJjl9XPl8/Q7ELvGMX+tH3iekGOlNIsBuE7vv6dgTvHYXm865JjLd1Cociu3V1e2kdPpiMhBDh/J/A7GKaEZNFUpnipOqcKL6CRfW2DtfMODI2qNVLu2oLCOBD/rUBozhPDuhy+4tdBCiN1W4eqE/i2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vgi8Hr1x; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BBAE4D4;
+	Tue, 30 Apr 2024 09:00:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714460417;
+	bh=o5ve2abGLYfFjEoLBt+weOEdnPFMDf0Y/6yLGV7H4lE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vgi8Hr1xI/49l13Eew7VZPskNxSbc/2XMLI91fTxIHT0GbFqbB2vE8CEIm6qK9Toj
+	 EO3ln3sdoBvWndSkACWXGyZKtz5c2xALeL8xpxYnyX+UBvdrIvq3H5478TBaQIzXEk
+	 Wn2a4jp7LQgMhBYBawpz1Wy/ByxDdSFp4cXGhjNM=
+Date: Tue, 30 Apr 2024 09:01:09 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, 
+	laurent.pinchart@ideasonboard.com, Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v4 1/4] media: v4l: Support passing sub-device argument
+ to v4l2_get_link_freq()
+Message-ID: <n5gr2rsxbnot7vittbs4mbhsuzmtwqgwlrbzk4ug6yklqyfit5@ts5oyzcc5qpc>
+References: <20240429190852.1008003-1-sakari.ailus@linux.intel.com>
+ <20240429190852.1008003-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240429190852.1008003-2-sakari.ailus@linux.intel.com>
 
-Enable Hantro G1 video decoder in RK3588's devicetree.
+Hi Sakari
 
-Tested with FFmpeg v4l2_request code taken from [1]
-with MPEG2, H.264 and VP8 samples.
+On Mon, Apr 29, 2024 at 10:08:49PM +0300, Sakari Ailus wrote:
+> v4l2_get_link_freq() accepts a V4L2 control handler for now, but it needs
+> to take struct v4l2_subdev argument in order to obtain the link frequency
+> using get_mbus_config() pad op. Prepare for this by allowing struct
+> v4l2_subdev as well.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+Nice! I need exactly something like this to avoid pre-computing a lot
+a frequencies in a driver I'm working on.
 
-Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Tested-by: Hugh Cole-Baker <sigmaris@gmail.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 19 ++++++++++++++++---
+>  include/media/v4l2-common.h           | 14 +++++++++++---
+>  2 files changed, 27 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 4165c815faef..7f69b5a025fa 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -464,8 +464,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+>
+> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+> -		       unsigned int div)
+> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+> +			      unsigned int mul, unsigned int div)
+>  {
+>  	struct v4l2_ctrl *ctrl;
+>  	s64 freq;
+> @@ -500,7 +500,20 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+>
+>  	return freq > 0 ? freq : -EINVAL;
+>  }
+> -EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
+> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> +
+> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> +			     unsigned int div)
+> +{
+> +	struct v4l2_subdev *sd;
+> +
+> +	sd = media_entity_to_v4l2_subdev(pad->entity);
+> +	if (!sd)
+> +		return -ENODEV;
+> +
+> +	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> +}
+> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+>
+>  /*
+>   * Simplify a fraction using a simple continued fraction decomposition. The
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index 63ad36f04f72..d7115cd61a38 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -525,7 +525,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>  /**
+>   * v4l2_get_link_freq - Get link rate from transmitter
+>   *
+> - * @handler: The transmitter's control handler
+> + * @pad: The transmitter's media pad (or control handler for compatibility
+> + *	 reasons, don't use in new code)
+>   * @mul: The multiplier between pixel rate and link frequency. Bits per pixel on
+>   *	 D-PHY, samples per clock on parallel. 0 otherwise.
+>   * @div: The divisor between pixel rate and link frequency. Number of data lanes
+> @@ -541,8 +542,15 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>   * * %-ENOENT: Link frequency or pixel rate control not found
+>   * * %-EINVAL: Invalid link frequency value
+>   */
+> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+> -		       unsigned int div);
+> +#define v4l2_get_link_freq(pad, mul, div)				\
+> +	_Generic(pad,							\
+> +		 struct media_pad *: __v4l2_get_link_freq_pad,		\
+> +		 struct v4l2_ctrl_handler *: __v4l2_get_link_freq_ctrl)	\
+> +	(pad, mul, div)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index b0a59ec51..da10df7d6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -1135,6 +1135,27 @@ power-domain@RK3588_PD_SDMMC {
- 		};
- 	};
+That's nice and elegant, but given that I count 10 drivers in mainline
+using this function, wouldn't it be better to make them use a pad and
+remove the ctrl_handler version completely to avoid it being used in
+future ?
 
-+	vpu: video-codec@fdb50000 {
-+		compatible = "rockchip,rk3588-vpu121", "rockchip,rk3568-vpu";
-+		reg = <0x0 0xfdb50000 0x0 0x800>;
-+		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "vdpu";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		clock-names = "aclk", "hclk";
-+		iommus = <&vpu_mmu>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+	};
-+
-+	vpu_mmu: iommu@fdb50800 {
-+		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdb50800 0x0 0x40>;
-+		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clock-names = "aclk", "iface";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+		#iommu-cells = <0>;
-+	};
-+
- 	av1d: video-codec@fdc70000 {
- 		compatible = "rockchip,rk3588-av1-vpu";
- 		reg = <0x0 0xfdc70000 0x0 0x800>;
---
-2.34.1
-
+> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> +			     unsigned int div);
+> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+> +			      unsigned int mul, unsigned int div);
+>
+>  void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
+>  		unsigned int n_terms, unsigned int threshold);
+> --
+> 2.39.2
+>
+>
 
