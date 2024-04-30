@@ -1,176 +1,149 @@
-Return-Path: <linux-media+bounces-10453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1648B7698
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:07:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 285AA8B76D7
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:21:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2215282F43
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 13:07:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A98451F25D8F
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 13:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974F7171E69;
-	Tue, 30 Apr 2024 13:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84211171E73;
+	Tue, 30 Apr 2024 13:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQ6gN2Um"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="2FRRSI97"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99511171E40;
-	Tue, 30 Apr 2024 13:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59732171E49;
+	Tue, 30 Apr 2024 13:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714482448; cv=none; b=tLrVKpWqjxgyOEIeNawMqDFJfoSSWPCHo+9Br2IVDIRyZFxL337KeaoMBew6vjMRRCi+9Vg0LGbrlnw5Ob3/48FZ6qpsFOdHU+VKcB7yuWblPNSzhaf1fu3ink2A7f/lJqyG7kh+L/yq18vZXL/45jvX8gGvRNb1N14jChHKVr4=
+	t=1714483234; cv=none; b=RZcxYVIgB9LBNVVp/pklICeYTUob943GBaq5marRora/JscYkteSZ5YANRxX8AgUKYllDf1VsveXUuBi8zw0SXyou+w1feTlwoh+CNHQQTi5FTvP1CNym99PhM9oHUExGuH2C9HlsfVAivBhHXCSkO9SU3q8rijNSw18IBKGUEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714482448; c=relaxed/simple;
-	bh=nfbj6lQg4QIj6KrahuDN2fQ6/mkpe1Kohjlw6rM97eQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AyvtCnNUEDs7+zOJDKBM6ZGHa+CLEpZVWgmHHleIHRzH0vm9lCDVG53iDFeCH99aL2vE09LLIzeHBiued7ajBahadpWUzJYznlway94tgHxZuAe4K5DheddeCFmRn+Oif9ODP4NBGXD5DLVzHezP/ra/OHX41uLHmIvpzb2wtNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQ6gN2Um; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ecee1f325bso5015772b3a.2;
-        Tue, 30 Apr 2024 06:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714482446; x=1715087246; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jWMKvvPXKohVNDvWimNhPf5Ya38IldwOhHFHwAj6j0Y=;
-        b=XQ6gN2UmCsFWN1cTb00GmjPbm28pXQDg+92X1rLaTIJXbqEqc60D/MP92xPomuYzaw
-         VDkzm48ViHyy0cJDc613rW+UOGcmfzqrGEePYbFQN145z2QL2Y9E3xJUusLz/XOQ4B/5
-         GiJXSeBi5Ktbz5vCoMsG2bMCdpJ5Rh8r9Mq6g8E2C253Flu029nnJCtpLaskSuD4pu0q
-         NdAqDzyiAll3kvt57kWg5Wy7V8HJGLTBjOU7xWloLDqb3kolUQ3tGsF8UxU4zWC/nCml
-         EDfDKCe3AimbQzaluJ2JyOU6ARVoBVH+uoBEBqe8vplk/T1S+gLUQbO/ezg48eo04lL5
-         MsDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714482446; x=1715087246;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jWMKvvPXKohVNDvWimNhPf5Ya38IldwOhHFHwAj6j0Y=;
-        b=tUml0yRhsrXgDU9ugOgfPcUI7ptLVEnuLQMa0PTq50GMePzKy/mzKGP/JuZqAPlJM0
-         CIu1eWbuKicPxjnG4ZvqGI5A/uU1x+ZqigiLbuXgZHSO1TZLbtP6+NR6HfgWjEvqhtFe
-         Xgnqi4fh+dXDWYpRaDSmrK+CNg2dl1xkNP0hnVvqKQCP34PqWGo25XJgOdw1x4ZFs1Yb
-         RvNMaF4D1nG+IwCEgvPIa4Q4bCyZ6SxcWL9ULgJSw3XhdUEpN3keg6MyFgJzH4g7SB0b
-         fub70DDCZ45MxaatABtyAQPgPaXrZlB3hT+4PyI/+YPu3Nnhq5xekbwjKx88rnn5rqpM
-         QLsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQDT5zl5CvJSoZGlUBsNaIoxrzp4i57EiiFItxGtkryxtp7YR/JcaofBNH++15M4MbJ8eIFk26wSzJi/FZOkfdA+KS0uK7QFR21F3E
-X-Gm-Message-State: AOJu0YyQI2BbAwgyTttW2fLvfR9Uj7lInH/pqCMwjNfx68ZJTj64e+na
-	SrD/USP84t8lIxNZ3TQbwXXbsEakd9FAusptu+JIBEooYelKika6
-X-Google-Smtp-Source: AGHT+IFQW51Ku/ImGoPSs950+adhzT+886b6tUADgTZUL5ML8mna9RSoy4lwYuNJKPGd9ASJAC3mlg==
-X-Received: by 2002:a05:6a20:970f:b0:1a7:99c5:802 with SMTP id hr15-20020a056a20970f00b001a799c50802mr15143359pzc.37.1714482445868;
-        Tue, 30 Apr 2024 06:07:25 -0700 (PDT)
-Received: from ?IPV6:2402:e280:214c:86:ebd1:1da6:4efd:79de? ([2402:e280:214c:86:ebd1:1da6:4efd:79de])
-        by smtp.gmail.com with ESMTPSA id p10-20020a056a000b4a00b006e5597994c8sm21025457pfo.5.2024.04.30.06.07.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 06:07:25 -0700 (PDT)
-Message-ID: <f86b0c15-8fc4-4ed7-984a-3ab90c66a3eb@gmail.com>
-Date: Tue, 30 Apr 2024 18:37:20 +0530
+	s=arc-20240116; t=1714483234; c=relaxed/simple;
+	bh=F7Xc0i5LqTLUVcR9pEW59UMkv6QivjdXaw/5qjYRNRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uQ4s3el1nCDVj91LxWmmD9F0SjpiJcnCm/Ih0RrGL9nngXHnAFFkDBoJsATH071e/fKdln6Vo1aZUkIvDcL1F/NerVNd+vT/JWB29I2k5psbxWht51dzRLjITwAn2M1R5wGD0Xy1qNTCho7xFySm6S9AoJPsrFQtO2AqEc4bUQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=2FRRSI97; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714483231;
+	bh=F7Xc0i5LqTLUVcR9pEW59UMkv6QivjdXaw/5qjYRNRc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=2FRRSI97EyrjLf6V/HzElSGlP6DxmuRR3fimjBPDltPbzbX8opYM9qzG1IvHSf97I
+	 6e1CkM3HS06J4ApHqhNLWBvmFVr8CIHGrYGKNnvR9WwmC48FzmrTGtYrMX/Xw6CEtX
+	 RrFi5ZB2+5LBLljd+KWX71ciC4LYHFm+eRFp8KJveHQ8pISGOjMDTWODCUXnPE0LwP
+	 8Oj5NVFj1KKDOUeRIM5dn6LBLNNaUtRZl5JxfS3AhR4AxpnYoxkj0YqwhYrhWnsDSv
+	 JQ8Bgh+E/d6ArxPuVi20LO3H0cV4t0Z1nB3+ULeZlAi+g4UpWP6l6/pphVffx7B8RE
+	 UEpn2JcpmFQqA==
+Received: from apertis.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BC2F137813E3;
+	Tue, 30 Apr 2024 13:20:30 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+To: linux-media@vger.kernel.org,
+	sakari.ailus@iki.fi
+Cc: devicetree@vger.kernel.org,
+	kernel@collabora.com,
+	linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH v7 0/5] Add support for MAX96714/F and MAX96717/F GMSL2 ser/des
+Date: Tue, 30 Apr 2024 15:19:26 +0200
+Message-ID: <20240430131931.166012-1-julien.massot@collabora.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] media:cdns-csi2tx: replace of_node_put() with
- __free
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, mripard@kernel.org,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
- Julia Lawall <julia.lawall@inria.fr>
-References: <20240429171543.13032-1-prosunofficial@gmail.com>
- <6df5d715-3e31-40a5-9db3-2c3b9f12efac@wanadoo.fr>
-Content-Language: en-US
-From: R Sundar <prosunofficial@gmail.com>
-In-Reply-To: <6df5d715-3e31-40a5-9db3-2c3b9f12efac@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 30/04/24 00:10, Christophe JAILLET wrote:
-> Le 29/04/2024 à 19:15, R Sundar a écrit :
->> Use the new cleanup magic to replace of_node_put() with
->> __free(device_node) marking to auto release when they get out of scope.
->>
->> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
->> Signed-off-by: R Sundar <prosunofficial@gmail.com>
->> ---
->>   drivers/media/platform/cadence/cdns-csi2tx.c | 19 +++++++------------
->>   1 file changed, 7 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/media/platform/cadence/cdns-csi2tx.c 
->> b/drivers/media/platform/cadence/cdns-csi2tx.c
->> index 3d98f91f1bee..88aed2f299fd 100644
->> --- a/drivers/media/platform/cadence/cdns-csi2tx.c
->> +++ b/drivers/media/platform/cadence/cdns-csi2tx.c
->> @@ -496,48 +496,43 @@ static int csi2tx_get_resources(struct 
->> csi2tx_priv *csi2tx,
->>   static int csi2tx_check_lanes(struct csi2tx_priv *csi2tx)
->>   {
->>       struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
->> -    struct device_node *ep;
->>       int ret, i;
->> -
->> -    ep = of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
->> +    struct device_node *ep __free(device_node) =
->> +        of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
->> +
->>       if (!ep)
->>           return -EINVAL;
->>       ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
->>       if (ret) {
->>           dev_err(csi2tx->dev, "Could not parse v4l2 endpoint\n");
->> -        goto out;
->> +        return ret;
->>       }
->>       if (v4l2_ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
->>           dev_err(csi2tx->dev, "Unsupported media bus type: 0x%x\n",
->>               v4l2_ep.bus_type);
->> -        ret = -EINVAL;
->> -        goto out;
->> +        return -EINVAL;
->>       }
->>       csi2tx->num_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
->>       if (csi2tx->num_lanes > csi2tx->max_lanes) {
->>           dev_err(csi2tx->dev,
->>               "Current configuration uses more lanes than supported\n");
->> -        ret = -EINVAL;
->> -        goto out;
->> +        return -EINVAL;
->>       }
->>       for (i = 0; i < csi2tx->num_lanes; i++) {
->>           if (v4l2_ep.bus.mipi_csi2.data_lanes[i] < 1) {
->>               dev_err(csi2tx->dev, "Invalid lane[%d] number: %u\n",
->>                   i, v4l2_ep.bus.mipi_csi2.data_lanes[i]);
->> -            ret = -EINVAL;
->> -            goto out;
->> +            return -EINVAL;
->>           }
->>       }
->>       memcpy(csi2tx->lanes, v4l2_ep.bus.mipi_csi2.data_lanes,
->>              sizeof(csi2tx->lanes));
->> -out:
->> -    of_node_put(ep);
->>       return ret;
-> 
-> Hi,
-> 
-> Nit: return 0; ?
-> 
-> CJ
-> 
->>   }
-> 
-Hi,
+Change since v6:
+  - Remove mention of C-PHY for MAX96717, this serializer is D-PHY only
+  - Remove bus-type requirement for MAX96717
+  - Minor changes requested by Sakari
+  - Workaround a MAX96717 issue, which occurs when stopping
+    the CSI source before stopping the MAX96717 CSI receiver.
 
-In success case, ret variable value also will be zero, else for non-zero 
-ret value it will return from v4l2_fwnode_endpoint_parse()'s error case 
-handling block.
+Power management is not included in this patchset. The GMSL link is
+not always resuming when the deserializer is suspended without
+suspending the serializer.
 
-Thanks,
-Sundar
+Change since v5:
+ - Reverse fallback logic: max9671{4,7} can fallback to max9671{4,7}F
+ - use const instead of enum for max9671{4,7}f compatible as suggested
+
+Change since v4:
+ - Add support for MAX96717 and MAX96714 and use them as a fallback for
+   MAX96717F and MAX96714F respectively
+ - The drivers are now compatible with MAX96717 and MAX96714 since no change in
+   the logic is needed
+ - Reference 'i2c-gate' instead of 'i2c-controller' in the bindings
+
+Change since v3:
+- bindings
+  - Renamed bindings to drop the 'f' suffix
+  - Add bus type to MAX96717 and remove from MAX9674
+  - Add lane-polarities to both bindings
+
+- drivers
+  - Address changes requested by Sakari in v3
+  - use v4l2_subdev_s_stream_helper for MAX96714
+  - do not init regmap twice in the MAX96714 driver
+  - Fix compilations on 32 bits platforms
+
+Change since v2:
+- Convert drivers to use CCI helpers
+- Use generic node name
+- Use 'powerdown' as gpio name instead of 'enable'
+- Add pattern generator support for MAX96714
+
+These patches add support for Maxim MAX96714F deserializer and
+MAX96717F serializer.
+
+MAX96714F has one GMSL2 input port and one CSI2 4 lanes output port,
+MAX96717F has one CSI2 input port and one GMSL2 output port.
+
+The drivers support the tunnel mode where all the
+CSI2 traffic coming from an imager is replicated through the deserializer
+output port.
+
+Both MAX96714F and MAX96717F are limited to a 3Gbps forward link rate
+leaving a maximum of 2.6Gbps for the video payload.
+
+Julien Massot (9):
+  dt-bindings: media: add Maxim MAX96717 GMSL2 Serializer
+  dt-bindings: media: add Maxim MAX96714 GMSL2 Deserializer
+  media: i2c: add MAX96717 driver
+  media: i2c: add MAX96714 driver
+  drivers: media: max96717: stop the csi receiver before the source
+
+ .../bindings/media/i2c/maxim,max96714.yaml    |  174 +++
+ .../bindings/media/i2c/maxim,max96717.yaml    |  157 +++
+ MAINTAINERS                                   |   14 +
+ drivers/media/i2c/Kconfig                     |   34 +
+ drivers/media/i2c/Makefile                    |    2 +
+ drivers/media/i2c/max96714.c                  | 1024 +++++++++++++++++
+ drivers/media/i2c/max96717.c                  |  927 +++++++++++++++
+ 7 files changed, 2332 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+ create mode 100644 drivers/media/i2c/max96714.c
+ create mode 100644 drivers/media/i2c/max96717.c
+
+-- 
+2.44.0
+
 
