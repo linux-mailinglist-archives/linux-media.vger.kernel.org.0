@@ -1,121 +1,128 @@
-Return-Path: <linux-media+bounces-10472-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10473-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6918B7C51
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:56:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CB68B7C68
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 17:58:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4235B285827
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:56:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8E601C209BF
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2024 15:58:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 473601802B2;
-	Tue, 30 Apr 2024 15:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59816173336;
+	Tue, 30 Apr 2024 15:57:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="sqCP3/Zj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2E+8cED"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8143176FBE
-	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 15:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D5416D9B6
+	for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 15:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714492419; cv=none; b=iKhQmockGkRn6qCaaO4M9E/Zgo2+ImKcvuuwX9Dcp3m4IpDKKbVo5Pse6wuELdTDQRvdLlDPra/4r0FYyDsZHymtiLM+/1A57ZbE9csnZFPuKZtr/AX9RP5hjlBEyf/B9KGpq3HOviU/UVb2dR8iRnrSVWjBkaNYmxclD2UMIs8=
+	t=1714492652; cv=none; b=Hs82lfk44rTiSUS7qB7MEG8FVmcq0C6B2dkVjcLYTuE5rgW4wDVFMBXpttS92nAjDLUmH3Qu+u8SSEHdEEYprCZOcqgT9F5A67sS2WeC0eSrGVOuoo8HDGvwx3gswDZVaA5XwP6o917SiSZeLRtdfbExhBSL4+mNXAeup06Xm9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714492419; c=relaxed/simple;
-	bh=g3bfRA7U/QqEPrJEloB7xAetG39gwY6KVV6eep+Zvp8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gTNeKCpG9Uvs/FXj3OLAYFI98KYcb1sdj3kmEqjz/EkNUFLNN/xnW8Ft6I32VDnnSh1yOLKOsrEToWu7fEb/dPaxihkQbsTM1DJStvDM+0ccg65YO3ouVK62+2Pki3tT+VAmuHHAUKtczeOOoCICh80J4nv1M4YwcscKt2sItb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=sqCP3/Zj; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2db101c11beso68223411fa.0
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2024 08:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1714492416; x=1715097216; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qmiHE+A1rYMl/poK6E7NfydT5sKsdtRu2djmiPuGhh0=;
-        b=sqCP3/Zj69GY2AJTJaHJFDyiCwD0vnPPOPi2iqoAJQay/vT8uDV8l+FsaF8OOZUVEb
-         MgAqupOWP5EnQ298puUAEEFyuLNyhY1A5vj8NdF0v0xg6GGivJ7W6zZ/sUDaNbQkxp6/
-         P1zJzKGleSj2377/+Dl7Z440x2QgBbuseoWJvJIc1JmeAeTkgNzn7djUMBoaTcIzu0y+
-         Wpm1+SfWG5cSpcqBbUUCxdvQ6PzaNsnXWXdAPuBlzQmZp6ufqEE/T934ryoByx7JJAC6
-         UGL5yHe/roH+gqtxTXDchVeqy2rRqCBCCrC0xLlL7WqBdtsWDMNqXFpXC7JiShzgb+Hg
-         QwUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714492416; x=1715097216;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qmiHE+A1rYMl/poK6E7NfydT5sKsdtRu2djmiPuGhh0=;
-        b=Y9j1AaZCXvz7vasijiVeNXjZrpCttCm/aSnrH1G4ADDbR1xyFV1/jkKLiNfH01EIH8
-         OQSCrlSBVO4l+WJ4Y2E+hW2dqQ0nbv7bfXRnvV6z9Len40087C4+5E/8hDigfG1CXI5F
-         9WidbiKCmG0wlX4470/93kAJAYLBMzqPbLnjiLVd+VV0Wv3zIRxfwJR3SlXKyC26NeRd
-         OOUwpRur20rLZWwEUaA/zugTtso/pCSQhj8Zu5BSppSH+cKz6LW94LdwhUb6aDBmZKMe
-         ZvRKPte9juhOTd5f0lfzPUT10pstmIAsd5BYS5gjf/Bauj6DzIUfFGVgFODqMQnPDk+m
-         dnng==
-X-Forwarded-Encrypted: i=1; AJvYcCVaQ5FobvZgLBr85j5C7BYyUQ/8gXQM7ZwdAKm7fiGFVPagkFT51mKBLeQs6+9h4ZSvHBDr/6LkiHu2NOnpjAnFr2U58euZt/fa8bE=
-X-Gm-Message-State: AOJu0Yza8bzdVrVu/b106NizN0OOx1aVegTB96RlDN2G2bZ1NeYFtQKA
-	ihWT6mGQznXVZmPmVBs6CrmYHJor/bXtUZt25Npv9tl+io+mnbI+v0WsPxMg2QM=
-X-Google-Smtp-Source: AGHT+IH2DSKry0r2bE7SYkhlatHEsONxFyFzydt6Lgqb9SqPkBKBoVe4wlWqu6s+QWboiocgXA3/YQ==
-X-Received: by 2002:a2e:7c03:0:b0:2d8:3fbb:df69 with SMTP id x3-20020a2e7c03000000b002d83fbbdf69mr74105ljc.11.1714492415792;
-        Tue, 30 Apr 2024 08:53:35 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id fl23-20020a05600c0b9700b0041bc41287cesm14150365wmb.16.2024.04.30.08.53.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 08:53:35 -0700 (PDT)
-Message-ID: <b26195eb-a040-4b8d-a968-4d01b20bd14f@freebox.fr>
-Date: Tue, 30 Apr 2024 17:53:34 +0200
+	s=arc-20240116; t=1714492652; c=relaxed/simple;
+	bh=qPwTiPc7rUTt8AVAcjRiJLZFPNJjjuNQnMHaV7j5wCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GmOkhaTE6o4n3WQfWfPdSYw2/NOGKebLZ/IuR45NWJ4YRFZKAds6zmylvaD1XOK8fIomH7WNYrzCtTyFjLPg635T8ltQNDQJiO4s6HvY7cCveoT1Jp5+llYWICajgVCQ9gTotxtDNVdTuiwvgbfctm/dkZhIYj7Kh8IYiN8b4Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a2E+8cED; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714492651; x=1746028651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qPwTiPc7rUTt8AVAcjRiJLZFPNJjjuNQnMHaV7j5wCo=;
+  b=a2E+8cEDj+gam/HSEqI7q5hjVmN9qfyA1xYSFHFfBOZp8sHtUxcqoBc4
+   PwVRQ+VZifWx5dJLAFJjAYgY8Nso0kF1nVZiL9snJDBLfL5pU+5gWEF+P
+   E/Kq9DSXWEW2gN7rXw2oyEEYWTgzzQZZcpaC0qEthjDuZXLSYvcmaLbkg
+   sGA3ez8GkxEQYr/UleACJI9ybWNL18W34HhoeU32vw30+6qo6qr2QXjyn
+   4QZ8hKmzMjQl0wW/yVctmk1LTFQXtT0Y54Vr0CA6H7qBygSZg76ZMytLl
+   uELd/9fFtvgclOKhF1H6PSA/OgjCL4lPR0aCc6rmP/L9maiVz0kcJCtkG
+   g==;
+X-CSE-ConnectionGUID: XVDcCOVcRa+fSX48FQXHPA==
+X-CSE-MsgGUID: fD+ZYK15RtWI6BVZHyUcNw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20755018"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="20755018"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 08:57:31 -0700
+X-CSE-ConnectionGUID: YZKv/2gjRQGMcxbMntifog==
+X-CSE-MsgGUID: PIOvf8+TRg2mGXLwsnLceg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="26465061"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Apr 2024 08:57:27 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1prC-0008IB-0z;
+	Tue, 30 Apr 2024 15:57:26 +0000
+Date: Tue, 30 Apr 2024 23:57:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dongcheng Yan <dongcheng.yan@intel.com>, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, bingbu.cao@linux.intel.com,
+	daxing.li@intel.com
+Subject: Re: [PATCH v2] media: i2c: Add ar0234 camera sensor driver
+Message-ID: <202404302344.158Y810h-lkp@intel.com>
+References: <20240429051333.1306453-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/3] Add support for qcom msm8998-venus (HW vdec /
- venc)
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-To: Bjorn Andersson <andersson@kernel.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <2b21b160-a530-486a-9404-c5bf8863ffed@freebox.fr>
-Content-Language: en-US
-In-Reply-To: <2b21b160-a530-486a-9404-c5bf8863ffed@freebox.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240429051333.1306453-1-dongcheng.yan@intel.com>
 
-Superseded by
-Message-ID: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
-Subject: [PATCH v2 0/3] Add support for qcom msm8998-venus (HW vdec / venc)
-Date: Tue, 30 Apr 2024 17:28:46 +0200
+Hi Dongcheng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/master linuxtv-media-stage/master linus/master v6.9-rc6 next-20240430]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-Add-ar0234-camera-sensor-driver/20240430-133240
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240429051333.1306453-1-dongcheng.yan%40intel.com
+patch subject: [PATCH v2] media: i2c: Add ar0234 camera sensor driver
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240430/202404302344.158Y810h-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302344.158Y810h-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404302344.158Y810h-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/i2c/ar0234.c:1032:36: warning: 'ar0234_acpi_ids' defined but not used [-Wunused-const-variable=]
+    1032 | static const struct acpi_device_id ar0234_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~
 
 
-On 29/04/2024 18:14, Marc Gonzalez wrote:
+vim +/ar0234_acpi_ids +1032 drivers/media/i2c/ar0234.c
 
-> Nothing to declare.
-> 
-> Marc Gonzalez (3):
->   dt-bindings: media: add qcom,msm8998-venus
->   arm64: dts: qcom: msm8998: add venus node
->   media: venus: add MSM8998 support
-> 
->  Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml | 155 ++++++++++++++++++++++++++++
->  arch/arm64/boot/dts/qcom/msm8998.dtsi                           |  48 +++++++++
->  drivers/media/platform/qcom/venus/core.c                        |  42 ++++++++
->  3 files changed, 245 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8998-venus.yaml
+  1031	
+> 1032	static const struct acpi_device_id ar0234_acpi_ids[] = {
+  1033		{ "INTC10C0" },
+  1034		{}
+  1035	};
+  1036	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
