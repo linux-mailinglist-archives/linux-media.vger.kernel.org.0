@@ -1,145 +1,140 @@
-Return-Path: <linux-media+bounces-10523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F8D8B8762
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 11:15:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2587C8B878E
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 11:21:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BAC21F23846
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 09:15:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 577B91C22432
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 09:21:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73A5A51C34;
-	Wed,  1 May 2024 09:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B9E4537F5;
+	Wed,  1 May 2024 09:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yx+JmjMV"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gmcAosuQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C8751005
-	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 09:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2699351C40
+	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 09:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714554901; cv=none; b=XILhX38vM/tgTCi9ZTojXwJ5SrplpSB6BwxHi5+oICB3XHbE/t762Jg4uL9iNgDo79rsVfCZ0lFLL65WzMwGPi/DZW4xx7z75SpYSSCLUJnIAya56J/ty3vQMD78JvNDqYbr3k8sYxgACpNw5gN80mw/b0m2syxkJEleZrgECR8=
+	t=1714555217; cv=none; b=Nd3017qG0qjEjc/eYOmp8iUIJtbaRKmA5Yw9Xlipqj2Imb1jFeOTeeI05uvUoatwSU4ykEAr0inS0OOOb3y3dJbevMiCcMIb4Q99vADM5Y9AomuH2nCveMOIKKk+p9qRKNusGdSqFOJXqCxcWflq/Fh5UultcOVAHJeJ3VdtrNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714554901; c=relaxed/simple;
-	bh=WnsMRjfBiQvg0HY93oK+wHwfzdyxP7aK1TTwsAckKN8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MkZLa055nup+q1pvzNhabYfWSzh1RxF+SxUvL5JKda/Mvbq5zdeBlwoh0b1ZZsNifIwYZ0jQFr63zg+x83G8CAny1Yd2FM8U3VS/9/MNha1KESJGeZTPK8jWitxbQRkgOXS9/KRcvoaHHTAQNr5o6nMFIoTooKylIkONYhQEq2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yx+JmjMV; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41b794510cdso42370305e9.2
-        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 02:15:00 -0700 (PDT)
+	s=arc-20240116; t=1714555217; c=relaxed/simple;
+	bh=JES2V+o9lOG9nehMlWomz2LhbnbqipCEb9t4IBCDUcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzYCryWyLilp1s0/A8xeCT2Hr1MFEXP8k/JuvypxeTLRPj87JClomxM1thHTrJsvqLtNGvtY1vLYcHtNFnyDRM1yfHDekmzW2LaJ2eZDFlWQV5ncBknsi050Mc0ul1dc9mEUnJMPh4L81OpOI/++MoANh/LPH0RHL6YfB8OaWU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gmcAosuQ; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6001399f22bso4551916a12.0
+        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 02:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714554899; x=1715159699; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P7Oo92HrLNTevL9sgb/rzYO2LYRP7kZeSluQHcb91H0=;
-        b=yx+JmjMVVxkz6d3mjjt85AHKc9BVv3ECeu+GG9QZIfBRTzIaNTcNLFiWHAyJme9+Ee
-         B3za9peFYn9YvtQPLIifPw9YrZhhap3cUvo7JiLDl9gtL3KCZAAiBRQqFdjKwmaC37T0
-         xqZH4U39+ah0/yx19D628zqyA2sjxKKOe5C8vcyNuHG4Go1ACmkOSV/CrZcJwQBI99vy
-         kvN5b+fQ7mIUi5B4YCKbzA8LLeqsTIp6VZ1Fg3rXyDCoPQ6toVdOH8XF68nHiuU+GQUN
-         73Av2Cqk33JjyLgIYInrQRT3884lZ8VLNWnkuswlofdNZD9y0Y6ParEsEoiSzjEAREyj
-         GXgg==
+        d=chromium.org; s=google; t=1714555215; x=1715160015; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hBRFnyQ/MHghSNLsgG37WUgrQtBEqXPI6JDu9bkHFOE=;
+        b=gmcAosuQdfBsx7VSOPrRf23otBiO6z0PPJ1D7lM6rBoMVnmIouZ65UPWQ3KKTX8ycS
+         k0OerwSR35Sp+fBlZzcW8bC/yl67y/JiUhu3mf2EMjI52Mx3Epal9vsxQr78H8O8yFlo
+         Anp07QCbk9L3S7wxAiO4gMj3imNcxYx5u4b1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714554899; x=1715159699;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1714555215; x=1715160015;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P7Oo92HrLNTevL9sgb/rzYO2LYRP7kZeSluQHcb91H0=;
-        b=kuAVGN28XfdKGIVoRr24x+KtfBAXP/GDTJ/6hJPE5VqKK2cnR/8FyRfq4uxLeTi4Jk
-         9IamQ4ZpYmNk8fXUSCPHu1dcB4uBLXOGUgXXOzi+aI03ql36OLG4jVwu41mwQ2cb1GSv
-         iJQqPh7dU9d3husuU6WrK9MLVS9Yl3QSN/S/UydtiLC08IcQNUEsBsx5QQBr/DeOmQ61
-         O3SkudvbnJ4eIlLUNquuS/P7kn7jdnarmR4XF4zQ/1VluM06TnYxkfw+S8wODgQz7tuz
-         Bd12xTzQJfl67t0aYhYeiXV2i8aZoZw5z6vyIdlMufHNyV3uSiZVsqwF4BHb5e9ReTFQ
-         Xizg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAqPNZb1cq1VDf1a1D4yTWrV2u8vFK4tZoGRa0IRIgJLcOPqgvqSj+Fa9j06hYTDk6f5eI7J1Xd3qWsOhhES3RdsF9zpzKYNO0U38=
-X-Gm-Message-State: AOJu0YymXDVSwhO4UPqkzg2rWhNXc42W5sRxqNAGTnh9nE+lGOGQXK5V
-	GfXTdheqZG5dpJXjuHUoL+vAQUyLodpGvQnaIiVz4nxZ1Se9h3j8WtYpXjcJ07Y=
-X-Google-Smtp-Source: AGHT+IGqYngsZENzsz/1pFANnIsWSoQqm6YP469dyVXFTuIpefceJcSqZyRDxsqxoDLcadLnDSNwBA==
-X-Received: by 2002:a05:600c:4708:b0:41b:edf4:4077 with SMTP id v8-20020a05600c470800b0041bedf44077mr1338212wmo.36.1714554898671;
-        Wed, 01 May 2024 02:14:58 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id p5-20020a5d48c5000000b0034afaa9ca47sm25764690wrs.1.2024.05.01.02.14.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 May 2024 02:14:58 -0700 (PDT)
-Message-ID: <ef194e5c-f136-4dba-bfe0-2c6439892e34@linaro.org>
-Date: Wed, 1 May 2024 10:14:56 +0100
+        bh=hBRFnyQ/MHghSNLsgG37WUgrQtBEqXPI6JDu9bkHFOE=;
+        b=k+ZTFK2mM4CcuI4/J13MmOnhSaGMlT8mO/Q7Sqev3PEfFP8gm/CxexxSnnoQwz8P33
+         uxBLL83m/+dTTX/NDF3K1k+jFcxW+MGaqdEndUKe2oWlef9rm5QaLjzcJ6qHCVzWCjFJ
+         YJCp94pfhOorx1jdkEwcdEW3u7nDTbPS0bgC5gIq4Cs8tu9Alq5oE23QwEhWVnDVgNhh
+         CoFE9bFQAfNcUaEU3c5RR57agsUzwFHT1xNmRCijegXiMQgF16cQ1EvkT8NzSVL7phjj
+         vXnVCZEqyRb6Vo8ANwW1mwy1kmD1hz7wJaIwQZ8g90OGTRHy+Npg2dL2n6bWRD6u5Moq
+         ttGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPJ8z+y1UoFAASGNhy+ZxqwbD2nu4bs7UxDNsxKhQA066AVgw9FWxSgxIGX+vrkY0crpKUHpXYZXZ214EPXRNMtsKg3J1Crw9G/eU=
+X-Gm-Message-State: AOJu0YygEX/j6iSG2saKfiViF9fBeB0Suz9KEx44YMaVBpPg4Xf8N8AC
+	/QE2pNvIilRcLN8EQ+9uaKsJtzr+TpLAe4ogb35RIAjPIuyht92QFxWaqyV8Vw==
+X-Google-Smtp-Source: AGHT+IF/08H7VJa9WOtcUnw4KEBJFekRcM3QhNFcB/+I0ZfORL4KH1vD28h3MBmb7I7BgCMTg96dIw==
+X-Received: by 2002:a05:6a21:3994:b0:1af:6697:2512 with SMTP id ad20-20020a056a21399400b001af66972512mr2666075pzc.22.1714555215252;
+        Wed, 01 May 2024 02:20:15 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:eea3:591:a74c:b230])
+        by smtp.gmail.com with ESMTPSA id se6-20020a17090b518600b002b08e6d885asm958562pjb.3.2024.05.01.02.20.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 02:20:14 -0700 (PDT)
+Date: Wed, 1 May 2024 18:20:12 +0900
+From: Hidenori Kobayashi <hidenorik@chromium.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+	linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 2/4] media: intel/ipu6: Switch to RUNTIME_PM_OPS() and
+ SYSTEM_SLEEP_PM_OPS
+Message-ID: <42svo2ykapj3atpds3dedqzybp4vh7vcvje622n4cxz6geaw2w@mfazrgyw6653>
+References: <20240430-fix-ipu6-v1-0-9b31fbbce6e4@chromium.org>
+ <20240430-fix-ipu6-v1-2-9b31fbbce6e4@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V5 RESEND 5/5] venus: pm_helpers: Use
- dev_pm_genpd_set_hwmode to switch GDSC mode on V6
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jagadeesh Kona <quic_jkona@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Gross <agross@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>,
- Satya Priya Kakitapalli <quic_skakitap@quicinc.com>,
- Imran Shaik <quic_imrashai@quicinc.com>,
- Ajit Pandey <quic_ajipan@quicinc.com>
-References: <20240413152013.22307-1-quic_jkona@quicinc.com>
- <20240413152013.22307-6-quic_jkona@quicinc.com>
- <5c78ad52-524b-4ad7-b149-0e7252abc2ee@linaro.org>
- <b96ef82c-4033-43e0-9c1e-347ffb500751@quicinc.com>
- <a522f25f-bb38-4ae1-8f13-8e56934e5ef5@linaro.org>
- <dbd1b86c-7b5f-4b92-ab1f-fecfe1486cfc@quicinc.com>
- <621dbaaa-6b86-45b5-988e-a6d9c39b13d7@linaro.org>
- <d36c1163-a3f0-4034-a430-91986e5bbce8@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <d36c1163-a3f0-4034-a430-91986e5bbce8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240430-fix-ipu6-v1-2-9b31fbbce6e4@chromium.org>
 
-On 30/04/2024 21:01, Konrad Dybcio wrote:
-> On 24.04.2024 11:50 AM, Bryan O'Donoghue wrote:
->> On 24/04/2024 10:45, Jagadeesh Kona wrote:
->>>
->>> Thanks Bryan for testing this series. Can you please confirm if this issue is observed in every run or only seen during the first run? Also please let me know on which platform this issue is observed?
->>>
->>> Thanks,
->>> Jagadeesh
->>
->> rb5/sm8250
->>
->> My observation was on a previous _boot_ the stuttering was worse. There is in the video capture three times that I count where the video halts briefly, I guess we need to vote or set an OPP so the firmware knows not to power-collapse quite so aggressively.
+On Tue, Apr 30, 2024 at 12:55:34PM +0000, Ricardo Ribalda wrote:
+> Replace the old helpers with its modern alternative.
+> Now we do not need to set '__maybe_unused' annotations when we are not
+> enabling the PM configurations.
 > 
-> We seem to be having some qualcomm-wide variance on perf/pwr usage on some
-> odd boots.. Any chance you could try like 5 times and see if it was a fluke?
+> Fixes:
+> drivers/media/pci/intel/ipu6/ipu6.c:841:12: warning: ‘ipu6_runtime_resume’ defined but not used [-Wunused-function]
+> drivers/media/pci/intel/ipu6/ipu6.c:806:12: warning: ‘ipu6_resume’ defined but not used [-Wunused-function]
+> drivers/media/pci/intel/ipu6/ipu6.c:801:12: warning: ‘ipu6_suspend’ defined but not used [-Wunused-function]
 > 
-> Konrad
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/pci/intel/ipu6/ipu6.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> index 4b1f69d14d71..ff5ca0c52781 100644
+> --- a/drivers/media/pci/intel/ipu6/ipu6.c
+> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> @@ -803,7 +803,7 @@ static int ipu6_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int ipu6_resume(struct device *dev)
+> +static int __maybe_unused ipu6_resume(struct device *dev)
 
-Sure.
+Doesn't this contradict your commit message?
 
-The first time I tried it, it was much worse.
-
-The second time, captured in the video is only noticeable because I was 
-*looking* for this specific error i.e. I don't think I would have 
-noticed the error on the second run, had I not seen the first run.
-
-I'll find some time to do 5x with and 5x without.
-
----
-bod
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+>  	struct ipu6_device *isp = pci_get_drvdata(pdev);
+> @@ -860,8 +860,8 @@ static int ipu6_runtime_resume(struct device *dev)
+>  }
+>  
+>  static const struct dev_pm_ops ipu6_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(&ipu6_suspend, &ipu6_resume)
+> -	SET_RUNTIME_PM_OPS(&ipu6_suspend, &ipu6_runtime_resume, NULL)
+> +	SYSTEM_SLEEP_PM_OPS(&ipu6_suspend, &ipu6_resume)
+> +	RUNTIME_PM_OPS(&ipu6_suspend, &ipu6_runtime_resume, NULL)
+>  };
+>  
+>  MODULE_DEVICE_TABLE(pci, ipu6_pci_tbl);
+> 
+> -- 
+> 2.44.0.769.g3c40516874-goog
+> 
+> 
 
