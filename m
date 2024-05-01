@@ -1,84 +1,87 @@
-Return-Path: <linux-media+bounces-10571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250138B902B
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 21:46:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57568B9049
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 21:56:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0092282CD6
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 19:46:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABF07B21249
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 19:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D1B161936;
-	Wed,  1 May 2024 19:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6ACA16191B;
+	Wed,  1 May 2024 19:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="tUcFd6SG"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="G8fB6p3c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9A91607B4
-	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 19:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FDB14A8B
+	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 19:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714592771; cv=none; b=AORk8ixy5Z8SGZkemIOQ78wyFSLbjWCGe6OiKZkspv8On5btdVRK6sKvUMMMcqCgZDD0zyvXwxLJfHwhSb+RNOcAtQhX2tQ1JC701W4woPZLxCwobi72WJbvvaZ0cbTnFIcDCpgrBilyUbWnW14ElaGX7QOoyHW9X98XmAtcQGY=
+	t=1714593351; cv=none; b=hOB19vWm5Is841BOnHOrJkI8UR2PzIKmrvQ/kH5Y1w7+uqHtLXjrFLHrn73Vj3DreUw/gnwtPx8M6QYDPos7PUaXUwrF8CxqWnoezvDcMwkzlSdisvPPp4QBu05+K+fp68JkmzfRKUiy4VxDoO7n2OkidjJaIofgN+G3L8cOzZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714592771; c=relaxed/simple;
-	bh=YRvtPD2w7ksQM6HUcn+zEJI7Zie3ognuLPNAsCXy+pk=;
+	s=arc-20240116; t=1714593351; c=relaxed/simple;
+	bh=f73jSEAMJKBp15N9UkPWYqMCh4YYPf7JXmaAdRz51NM=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=E1wy90DtM4oPuFpYKXG9dTcWohJDivPV3sdETLV0DkDTw6qQJFJXmTOYSLS7gYHRpiXhx7dibP2xwS2x1Or+3ANpRuMeOYL/HpzpUJyxmtDNkkr8bkVnRihCQqBI+8bZg0t1JDyOQ0Vjnyod9aq2J9+5al17SWDGEmrrN3vHYfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=tUcFd6SG; arc=none smtp.client-ip=209.85.222.179
+	 Content-Type:MIME-Version; b=pXHCZd0dtpcEFjFwXLiqys2K4qvsUXdlZsnc0YVQypWj1JmaPu24/8ucZY1zNai9qYekrne1J/n1DgHuxM8S8BWTFe8gkgpMWuQGtTpr5eCJ4qtrDHiQ7RMbufx5Rxt6+qErjSZdi5i9v0r+VanhaPsGbPYyStJWEDrpus6wp8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=G8fB6p3c; arc=none smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7906776e17aso516907185a.2
-        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 12:46:09 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-43b06b803c4so18444781cf.1
+        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 12:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1714592769; x=1715197569; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1714593348; x=1715198148; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=p1OT6UbwxG+GczDDS2np0Qabln0s++2iuGn20geJbX0=;
-        b=tUcFd6SGlt2yOsP5Ok36We9sPZgZplKtjFHwtgkZAYFXCTj2TIZdlGjngmkfQ4vRVO
-         s8Fi6TdwdgIUDTpPoLK5a4YW8sXvNO+CcsR5QlrpgMPY2YsuYItZmz6wIcBt79GDlxJI
-         iRFuB7r4Xn36Fw7mydWnA3S3n+B05ouljgZUQH8s5T5VkJGUwJ4rAw4NFFapQEwyO6iu
-         ah9LGQMNq1X4a8QE8D84GwvfVziPluuixhfwaBlYlsPRSoSMikkEATzCh0LVA52dC/td
-         MgpWU8M1lsXDurQyKvEqHqDBCLo8kCuZ8tVZtBcTsEUjIkJ6upYkLPWJtfbKyrhA84xp
-         0f+g==
+        bh=Rp2Oeq63C4vnEAayPDNotRfG8unurD54mFT8YeJ0RJ8=;
+        b=G8fB6p3cRleezXSUdf75DPwTwg/BGvJI1AQM0CxtcLKHJFBKOWCihsPqx2DlsyXCYf
+         iYZ0adjob8rjmfBeIaXweR59CDEahG7vx/wAtpEA1JNeWr1FhxG45iTgNRK3sY9aF1iD
+         z54Vuz93SzYgYqPW+HT4lXxn0G/1dwzcpwp2Zc3/Kn3CH5+SXrVFqRvmV6/lNxf06Lgl
+         cq4pVws4InG6dwdeOBNVfZTjlvebK4KZKqEweYvg3nNwfEKatbsFLFX3kAahqcu/dUgi
+         oM9lVplSWH2h53aoCMUfFx0kisLM8tOgGILxn3gYGQRHHWutST/pIGJraSQo5/dWZRKi
+         tiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714592769; x=1715197569;
+        d=1e100.net; s=20230601; t=1714593348; x=1715198148;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=p1OT6UbwxG+GczDDS2np0Qabln0s++2iuGn20geJbX0=;
-        b=CUeL/3Je3x+GnyjHLvLMYMOoVp1ApBjjqFcWd5fy9eQnug+6vH+3csI4z7IwWTY8bs
-         d8fwF2SxTOS3jUONLi8MtA1ap4MnlI4VygzzGDQ7g44LB0mk1n+lPja6BMAqovjHUY0i
-         UnxZmbA19KkXrU2vVI0hFZjlre1wyDWa+8Upol1o00qi+NXztF22NR9uhkpiKyhtDsFd
-         t+rxCsItR1UAnZx5F9YTKtvSfXCKJOOJ6K6YFv47+vK9fahxDWAKcdCfUWZekQYEnjZP
-         CytumfZ3CV01qiAmza27B5hQ/DDzSFU2VKmmZmFwB8L+EPijiqpWUsxVo/+IvArkgcHy
-         +lZQ==
-X-Gm-Message-State: AOJu0YyY3zn9OsrxXHGse71FHyumXQF1dkVYGKw6RT1s7Q4OkEQNBb5M
-	6dMpsg2W+O3zXNTlw6onC7A6V+w8wkVytguOmqr6jnzkNo/ue7vVI6wIbEN5TmE=
-X-Google-Smtp-Source: AGHT+IEpeOxZd9v/QGfnwprLZwaaDjr+QYtP+B4WIlSnw5bbzlREEJ4EXbjcmIO+kYiEMKpCyBFPKw==
-X-Received: by 2002:a05:620a:1095:b0:790:d62a:da08 with SMTP id g21-20020a05620a109500b00790d62ada08mr3690364qkk.4.1714592768520;
-        Wed, 01 May 2024 12:46:08 -0700 (PDT)
+        bh=Rp2Oeq63C4vnEAayPDNotRfG8unurD54mFT8YeJ0RJ8=;
+        b=NiOYY0ZVMRYvR0ZHD5ymTtObr4CZmq5h6Eat40uWvwzwpKYP1Qahg5mIqlL7yOWNft
+         VYGbvOq2fXtmI9N8wN1sVgxJ5IjUZ9OErCxESCC9rtdKvIorDo37boCbCRGUzPZOu+Ht
+         I56sVbJ1JdXsl4Z+p3i2vA/NzwG0ceVgSqzYjhT4U9sZJ5JpzLKc3sOC9RD+Ya58CU9W
+         Uv12GCt9+8A2N8O89jV8A7frZ0+QtTYFZBJyxw+dSRcFOE3YNEZd2SZVlhEdDPQxqr/8
+         weihhkw1NHqaqkqzmFD8uhpyg2c9wODH7vDTzlkB8rcwNbUjF22qk5wvBVSsGTbiwk7H
+         Q7zA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5Es1jK5zn2BX99akCv0iMFIQ5jarm242RYWr8q4kqsWYm4w25eeh5ujNQ9t+GM4L81WgATHigS+z0DkcDuN/bAJk5dZZcDWVGOnU=
+X-Gm-Message-State: AOJu0YyZkvTH2fgt4Em7KJqiP9p+oKJhva9GKH58Vfuw+MV+Plmj1qHg
+	c40rudjkJxHkmb/Pug2VUNdy1YkUZCw0Y+/Q/6DzO1HMQ8M+Nn2bcsps2Hdo6YW9/adI+ezDY8g
+	5FWT/HA==
+X-Google-Smtp-Source: AGHT+IE+pwCRMel6AM6QEax/+YdZn8uEc6qt/ryuDm38HckiIWQdWtCTMgcpb+i+ZFA4KAjP/8xZaQ==
+X-Received: by 2002:a05:622a:4b18:b0:43a:ea03:31b6 with SMTP id et24-20020a05622a4b1800b0043aea0331b6mr3444178qtb.31.1714593347744;
+        Wed, 01 May 2024 12:55:47 -0700 (PDT)
 Received: from nicolas-tpx395.lan ([2606:6d00:17:6448::7a9])
-        by smtp.gmail.com with ESMTPSA id s2-20020ae9f702000000b0078efd872d3csm12632740qkg.14.2024.05.01.12.46.07
+        by smtp.gmail.com with ESMTPSA id jv9-20020a05622aa08900b004366d3eef03sm12490361qtb.68.2024.05.01.12.55.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 12:46:08 -0700 (PDT)
-Message-ID: <131cf8a5ac97ac800e19205c5d2b5359ac266de3.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 4/4] media: chips-media: wave5: Support YUV422 raw
- pixel-formats on the encoder.
+        Wed, 01 May 2024 12:55:47 -0700 (PDT)
+Message-ID: <46ea74867fee6f0dbefb4c2d24a682d15beb41e7.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] media: v4l2-ctrls: Add average qp control
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org, 
-	sebastian.fricke@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	hverkuil@xs4all.nl, lafley.kim@chipsnmedia.com, b-brnich@ti.com, 
-	jackson.lee@chipnsmedia.com, "Jackson.lee" <jackson.lee@chipsnmedia.com>
-Date: Wed, 01 May 2024 15:46:07 -0400
-In-Reply-To: <20240430013900.187-5-nas.chung@chipsnmedia.com>
-References: <20240430013900.187-1-nas.chung@chipsnmedia.com>
-	 <20240430013900.187-5-nas.chung@chipsnmedia.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Ming Qian <ming.qian@nxp.com>, 
+	mchehab@kernel.org
+Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ xiahong.bao@nxp.com,  eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+ ming.qian@oss.nxp.com,  imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org
+Date: Wed, 01 May 2024 15:55:46 -0400
+In-Reply-To: <25a33db9-3bc1-4d90-83d4-0bdbea9bc5d8@xs4all.nl>
+References: <20240329092352.2648837-1-ming.qian@nxp.com>
+	 <25a33db9-3bc1-4d90-83d4-0bdbea9bc5d8@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
@@ -89,180 +92,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Nas,
-
-Le mardi 30 avril 2024 =C3=A0 10:39 +0900, Nas Chung a =C3=A9crit=C2=A0:
-> From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+Le mercredi 24 avril 2024 =C3=A0 12:03 +0200, Hans Verkuil a =C3=A9crit=C2=
+=A0:
+> On 29/03/2024 10:23, Ming Qian wrote:
+> > Add a control V4L2_CID_MPEG_VIDEO_AVERAGE_QP to report the average qp
+> > value of current encoded frame.
+> >=20
+> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> > ---
+> >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 5 +++++
+> >  include/uapi/linux/v4l2-controls.h                        | 2 ++
+> >  3 files changed, 11 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 2a165ae063fb..cef20b3f54ca 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -1653,6 +1653,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_ty=
+pe -
+> >      Quantization parameter for a P frame for FWHT. Valid range: from 1
+> >      to 31.
+> > =20
+> > +``V4L2_CID_MPEG_VIDEO_AVERAGE_QP (integer)``
+> > +    This read-only control returns the average qp value of the current=
+ly
+> > +    encoded frame. Applicable to the H264 and HEVC encoders.
 >=20
-> Add support for the YUV422P, NV16, NV61, YUV422M, NV16M, NV61M raw pixel-=
-formats to the Wave5 encoder.
-> All these formats have a chroma subsampling ratio of 4:2:2 and therefore =
-require a new image size calculation as the driver previously only handled =
-a ratio of 4:2:0.
-
-Same here, run check-patch, before sending your next version, it should tel=
-l you
-that this message is not indented properly.
-
+> qp -> QP
 >=20
-> Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> ---
->  .../chips-media/wave5/wave5-vpu-enc.c         | 59 +++++++++++++++++--
->  1 file changed, 54 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
-rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> index 75d230df45f6..0d6bec4e28d1 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> @@ -66,6 +66,24 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES]=
-[MAX_FMTS] =3D {
->  			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV21M,
->  			.v4l2_frmsize =3D &enc_frmsize[VPU_FMT_TYPE_RAW],
->  		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUV422P,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_YUV422M,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV16M,
-> +		},
-> +		{
-> +			.v4l2_pix_fmt =3D V4L2_PIX_FMT_NV61M,
-> +		},
->  	}
->  };
-> =20
-> @@ -109,13 +127,30 @@ static int start_encode(struct vpu_instance *inst, =
-u32 *fail_res)
->  	struct vb2_v4l2_buffer *dst_buf;
->  	struct frame_buffer frame_buf;
->  	struct enc_param pic_param;
-> -	u32 stride =3D ALIGN(inst->dst_fmt.width, 32);
-> -	u32 luma_size =3D (stride * inst->dst_fmt.height);
-> -	u32 chroma_size =3D ((stride / 2) * (inst->dst_fmt.height / 2));
-> +	u32 stride =3D inst->src_fmt.plane_fmt[0].bytesperline;
-> +	u32 luma_size =3D (stride * inst->src_fmt.height);
-> +	u32 chroma_size =3D 0;
-> =20
->  	memset(&pic_param, 0, sizeof(struct enc_param));
->  	memset(&frame_buf, 0, sizeof(struct frame_buffer));
-> =20
-> +	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV420M)
-> +		chroma_size =3D luma_size / 4;
-> +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12 ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21 ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M)
-> +		chroma_size =3D luma_size / 2;
-> +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422P ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422M)
-> +		chroma_size =3D luma_size / 2;
-> +	else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M ||
-> +		 inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M)
-> +		chroma_size =3D luma_size;
-> +
+> Why is this applicable to H264/HEVC only? I think it is fine for any code=
+c.
 
-I'm still unhappy to see all the supported format having to be listed again
-here, this is error prone and a maintenance burden. In general, what I woul=
-d do
-is (and this is simplified to the subset of format we support):
+Same question, though we should document the range, which will differ per-
+codecs. We should also document to always use the specified range, rather t=
+hen a
+HW custom range. This way we don't endup with issues we have hit with other=
+ ill-
+defined controls.
 
-// might want to bug on that the info->pixel_encoding =3D=3D V4L2_PIXEL_ENC=
-_YUV
-// if you believe some RGB or bayer formats could be added in the future an=
-d
-// want the devs to notice. I've ignored fractional bytes-per-pixel values =
-as
-// we don't use that, but another bugon if there is a chance the firmware=
-=C2=A0
-// will=C2=A0support more complex packing.
-
-info =3D v4l2_format_info(inst->src_fmt.pixelformat);
-if (info->mem_planes =3D=3D 1) {
-	luma_size =3D stride * inst->dst_fmt.height;
-	chroma_size =3D luma_size * info->bpp[1] / (info->hdiv * info->vdiv)
-} else {
-	luma_size =3D inst->src_fmt.plane_fmt[0].sizeimage;
-	chroma_size =3D inst->src_fmt.plane_fmt[1].sizeimage;
-}
-
-Or something similar that works ... (untested code above)
-
->  	dst_buf =3D v4l2_m2m_next_dst_buf(m2m_ctx);
->  	if (!dst_buf) {
->  		dev_dbg(inst->dev->dev, "%s: No destination buffer found\n", __func__)=
-;
-> @@ -501,11 +536,15 @@ static int wave5_vpu_enc_s_fmt_out(struct file *fil=
-e, void *fh, struct v4l2_form
->  	}
-> =20
->  	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12 ||
-> -	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M) {
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV12M ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M) {
->  		inst->cbcr_interleave =3D true;
->  		inst->nv21 =3D false;
->  	} else if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21 ||
-> -		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M) {
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV21M ||
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> +		   inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M) {
->  		inst->cbcr_interleave =3D true;
-
-This can be simplified to (avoiding enumerating formats):
-=20
-	inst->cbcr_interleave =3D (info->comp_planes =3D=3D 2) ? true : false;
-
->  		inst->nv21 =3D true;
-
-Could be something to add into the info in the future, but for now this is =
-list
-of formats is needed. Would be a lot more efficient with a switch, but not =
-a hot
-path so not making this mandatory.
-
->  	} else {
-> @@ -1102,6 +1141,16 @@ static void wave5_set_enc_openparam(struct enc_ope=
-n_param *open_param,
->  	u32 num_ctu_row =3D ALIGN(inst->dst_fmt.height, 64) / 64;
->  	u32 num_mb_row =3D ALIGN(inst->dst_fmt.height, 16) / 16;
-> =20
-> +	if (inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422P ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61 ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_YUV422M ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV16M ||
-> +	    inst->src_fmt.pixelformat =3D=3D V4L2_PIX_FMT_NV61M)
-> +		open_param->src_format =3D FORMAT_422;
-> +	else
-> +		open_param->src_format =3D FORMAT_420;
-
-Can be simplified to:
-
-if (info->hdiv =3D=3D 2 && info->vdiv =3D=3D 2)
-	open_param->src_format =3D FORMAT_422;
-else if (info->hdiv =3D=3D 2 && info->vdiv =3D=3D 1)
-	open_param->src_format =3D FORMAT_420;
-
-> +
->  	open_param->wave_param.gop_preset_idx =3D PRESET_IDX_IPP_SINGLE;
->  	open_param->wave_param.hvs_qp_scale =3D 2;
->  	open_param->wave_param.hvs_max_delta_qp =3D 10;
-
-regards,
 Nicolas
+
+>=20
+> This needs to document that the value applies to the last dequeued buffer
+> (VIDIOC_DQBUF).
+>=20
+> > +
+> >  .. raw:: latex
+> > =20
+> >      \normalsize
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/=
+v4l2-core/v4l2-ctrls-defs.c
+> > index 8696eb1cdd61..88e86e4e539d 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -972,6 +972,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+> >  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+> >  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
+> > +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:			return "Average QP value";
+>=20
+> value -> Value
+>=20
+> Also move it up two lines so that it follows V4L2_CID_MPEG_VIDEO_USE_LTR_=
+FRAMES
+> rather than FWHT controls.
+>=20
+> > =20
+> >  	/* VPX controls */
+> >  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of P=
+artitions";
+> > @@ -1507,6 +1508,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, e=
+num v4l2_ctrl_type *type,
+> >  		*max =3D 0xffffffffffffLL;
+> >  		*step =3D 1;
+> >  		break;
+> > +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
+> > +		*type =3D V4L2_CTRL_TYPE_INTEGER;
+> > +		*flags |=3D V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY;
+>=20
+> Drop the volatile flag, this isn't a volatile value.
+>=20
+> > +		break;
+> >  	case V4L2_CID_PIXEL_RATE:
+> >  		*type =3D V4L2_CTRL_TYPE_INTEGER64;
+> >  		*flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
+l2-controls.h
+> > index 99c3f5e99da7..974fd254e573 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -898,6 +898,8 @@ enum v4l2_mpeg_video_av1_level {
+> >  	V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 =3D 23
+> >  };
+> > =20
+> > +#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
+> > +
+> >  /*  MPEG-class control IDs specific to the CX2341x driver as defined b=
+y V4L2 */
+> >  #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000=
+)
+> >  #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_COD=
+EC_CX2341X_BASE+0)
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+
 
