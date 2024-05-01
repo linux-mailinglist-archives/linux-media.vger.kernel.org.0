@@ -1,340 +1,155 @@
-Return-Path: <linux-media+bounces-10536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AE08B8AF1
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 15:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842C68B8B8F
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 15:59:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFEDB2825DB
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 13:09:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39475283796
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 13:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB72712F5BE;
-	Wed,  1 May 2024 13:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B10812F36F;
+	Wed,  1 May 2024 13:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AP+GYNNX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCbrUaES"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B5412F37B
-	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 13:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC09212C490;
+	Wed,  1 May 2024 13:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714568902; cv=none; b=D4CXdacHQ9upLvBiWYJLfbBNKO70MGmBcqfj9JAUfSnJdz1rUTI+anfRdBcUye1RA100SaIvRj2I23gWUIjoAgTa6d4SK7qHLlnfugaZY9bCXUcRB7RWR9Tg2vmmhe8uOehWMcOPRRyKFF2zGafmFZQwCYk7EJGV0t1eZ0/C1MI=
+	t=1714571957; cv=none; b=J3nv4JNhCH3zr/s7JdeCsI2Z5LuWf1arbxDg7Qyw7WRs8NW/s+Ms+ZHv1rgylDWWOPIEg7X1kQ0Ich2HQzQ+nboY35WZXfcQc7sKgsxTfa8x/5sXx2f+pVpQnKr9XRTaacybTZNig9nm+QFiRTEg5LGAeJjQFINFafgtD1bON2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714568902; c=relaxed/simple;
-	bh=yyqc5fgSD9exFQ4GhDz78AnhyoMaV08hu504NdFrDGM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lUFJUCRQ5kH4/Xt3xExc66c1q/OP3D9F+KbGLnrRODP/T4+Jjc7i8ou+ZhkXAvIzLIBQ06kVUUqo9/0vedpwzby+2bMfNy5l1zS7Gfpywg9VPVpTvk1+plAPuytJ6e7gpfr46D2WFe9zuNWug+kZQdPcTPM/HBpn5qdOL+JI9+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AP+GYNNX; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-69b782287f9so32382426d6.0
-        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 06:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714568899; x=1715173699; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fuTS2475wBKHSkCVqPTkc/u+zH5CwzTowAsuQdTWDz8=;
-        b=AP+GYNNXAgZLw9bxXhVAyM5NBVR/a4LCCgFMupqzOOlS3a+tJfzes+J2ZP18kvnHXR
-         mWzt66wHne0vPyaxyU24WDO2vGRhe7S6QKgtMeUTSf4Wp+rJZcg/jWx/4GfDJnmXcJoU
-         gjSQ+VOX6V7Sh5J8vFk/Ni1RcsOtQGyKmPxj8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714568899; x=1715173699;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fuTS2475wBKHSkCVqPTkc/u+zH5CwzTowAsuQdTWDz8=;
-        b=FEvEJVTN5fhzoHrCyRuJWdkUw0dCAlDDoL8bQh1/S+NtbUDCumnvncGAnPfG5ITW70
-         YdpreSsFYN1ZBlkx6rrvGbhVJtk/+Rqki3roN4Ue9dgVqL4nIY7WDKB+TUH0woR9IkPi
-         U63YGIzkeB6I35oLjym2T65cZ18Bftqijc5Zcphw1gAMQgCO/FCGo3aDoLvg7goAlKrJ
-         Rlr2kZCk4pMKZntuH8LeJekBSN8KRMPLADPgaFbzo4A6HVUgbL7bL3FP5+h4FdJ2dEFR
-         w/4Az6Dvrq/E2WhXa+CKOK8PMNeXeGzdrFpHPyOki1oZlAI9y+JJkZKYx1Ofr0bC6ZsU
-         Jkaw==
-X-Gm-Message-State: AOJu0Yz6818ihjwLrD4ATtHWcoQQjRN0X4PCLJlJCuhYElczWd71lDo6
-	GIQQDr2pWGxw8Pg5vJsco2pfjaCClS3WTiY7STY3jlR5O3h7XgbwjbU8Xbmtyg==
-X-Google-Smtp-Source: AGHT+IGxtLuMsV5IT224KA2ifYps0IBof8gR94o8Jv8PY5+SVS3jtjRCG5zyAZxhnmApUmcG9XpHAg==
-X-Received: by 2002:ad4:5cc7:0:b0:6a0:c933:4d7d with SMTP id iu7-20020ad45cc7000000b006a0c9334d7dmr2626974qvb.48.1714568899557;
-        Wed, 01 May 2024 06:08:19 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id l26-20020a0c979a000000b0069b10d78445sm12430971qvd.142.2024.05.01.06.08.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 06:08:18 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 01 May 2024 13:08:13 +0000
-Subject: [PATCH v2 5/5] media: intel/ipu6: Fix build with !ACPI
+	s=arc-20240116; t=1714571957; c=relaxed/simple;
+	bh=Fi4PvMRZrF9DXNpSOwwia/BblzTiRO6iyf1z/eVq1XU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NbchjvG3iRoD7tZsVbSHBC2VDA1pFY2cj3SWAp5gw7+QlIJJAkkhCxOyXperwsUU5+WmLLsJDxONdC8ykFbY6y9qB9qCS+FG6ugqs8QH6pC8ieafJ/cFNzvbEp2j2Hhzi3kO26lzjrgh3dVTN/naxrWwGNw4DCa+GCEq30m/AXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCbrUaES; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B3C7C072AA;
+	Wed,  1 May 2024 13:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714571956;
+	bh=Fi4PvMRZrF9DXNpSOwwia/BblzTiRO6iyf1z/eVq1XU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sCbrUaESax+zNwmTNdY7otL0UFOQLPT1tCLvxhS1E2UCWFKHW4CFOG8eHXGAPEzYV
+	 K59HSeGnESqWuVyypeDsfjxCGIwlrkTiIB8RtlSIeODJISpG+bjrjqgUZTNnVYoXFo
+	 0nAjOD3kay/wsGxmwOPaAc5VD0eUhuiBlauj3Z2WQisvO7reiDxOn7qiXguQyswbXz
+	 eGzZQLUgdh76hRrtTEFJVQdEHnMA2UjgtwHVl2z9L4Tsb3ZTSE/wBE57PdTiTs8Ocp
+	 FhNUI+PSuIOyAwwjpVUsbAi1uNR+QWMI+7HqtFjSwPStPFYwbkZKYGKHcbZk0YZOQW
+	 CZlqUKG4oenXA==
+Message-ID: <779b9542-4170-483a-af54-ca0dd471f774@kernel.org>
+Date: Wed, 1 May 2024 15:58:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240501-fix-ipu6-v2-5-a5629a37a0fb@chromium.org>
-References: <20240501-fix-ipu6-v2-0-a5629a37a0fb@chromium.org>
-In-Reply-To: <20240501-fix-ipu6-v2-0-a5629a37a0fb@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>
-Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
+To: Jens Axboe <axboe@kernel.dk>, Mina Almasry <almasrymina@google.com>
+Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-8-almasrymina@google.com>
+ <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
+ <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
+ <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
+ <CAHS8izMKLYATo6g3xkj_thFo3whCfq6LSoex5s0m5XZd-U7SVQ@mail.gmail.com>
+ <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Modify the code so it can be compiled tested in configurations that do
-not have ACPI enabled.
 
-Fixes:
-drivers/media/pci/intel/ipu-bridge.c:103:30: error: implicit declaration of function ‘acpi_device_handle’; did you mean ‘acpi_fwnode_handle’? [-Werror=implicit-function-declaration]
-drivers/media/pci/intel/ipu-bridge.c:103:30: warning: initialization of ‘acpi_handle’ {aka ‘void *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
-drivers/media/pci/intel/ipu-bridge.c:110:17: error: implicit declaration of function ‘for_each_acpi_dev_match’ [-Werror=implicit-function-declaration]
-drivers/media/pci/intel/ipu-bridge.c:110:74: error: expected ‘;’ before ‘for_each_acpi_consumer_dev’
-drivers/media/pci/intel/ipu-bridge.c:104:29: warning: unused variable ‘consumer’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:103:21: warning: unused variable ‘handle’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:166:38: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:185:43: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:191:30: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:196:30: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:202:30: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:223:31: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:236:18: error: implicit declaration of function ‘acpi_get_physical_device_location’ [-Werror=implicit-function-declaration]
-drivers/media/pci/intel/ipu-bridge.c:236:56: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:238:31: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:256:31: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:275:31: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:280:30: error: invalid use of undefined type ‘struct acpi_device’
-drivers/media/pci/intel/ipu-bridge.c:469:26: error: implicit declaration of function ‘acpi_device_hid’; did you mean ‘dmi_device_id’? [-Werror=implicit-function-declaration]
-drivers/media/pci/intel/ipu-bridge.c:468:74: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]
-drivers/media/pci/intel/ipu-bridge.c:637:58: error: expected ‘;’ before ‘{’ token
-drivers/media/pci/intel/ipu-bridge.c:696:1: warning: label ‘err_put_adev’ defined but not used [-Wunused-label]
-drivers/media/pci/intel/ipu-bridge.c:693:1: warning: label ‘err_put_ivsc’ defined but not used [-Wunused-label]
-drivers/media/pci/intel/ipu-bridge.c:691:1: warning: label ‘err_free_swnodes’ defined but not used [-Wunused-label]
-drivers/media/pci/intel/ipu-bridge.c:632:40: warning: unused variable ‘primary’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:632:31: warning: unused variable ‘fwnode’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:733:73: error: expected ‘;’ before ‘{’ token
-drivers/media/pci/intel/ipu-bridge.c:725:24: warning: unused variable ‘csi_dev’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:724:43: warning: unused variable ‘adev’ [-Wunused-variable]
-drivers/media/pci/intel/ipu-bridge.c:599:12: warning: ‘ipu_bridge_instantiate_ivsc’ defined but not used [-Wunused-function]
-drivers/media/pci/intel/ipu-bridge.c:444:13: warning: ‘ipu_bridge_create_connection_swnodes’ defined but not used [-Wunused-function]
-drivers/media/pci/intel/ipu-bridge.c:297:13: warning: ‘ipu_bridge_create_fwnode_properties’ defined but not used [-Wunused-function]
-drivers/media/pci/intel/ipu-bridge.c:155:12: warning: ‘ipu_bridge_check_ivsc_dev’ defined but not used [-Wunused-function]
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/pci/intel/ipu-bridge.c | 66 +++++++++++++++++++++++++-----------
- 1 file changed, 47 insertions(+), 19 deletions(-)
+On 30/04/2024 20.55, Jens Axboe wrote:
+> On 4/30/24 12:29 PM, Mina Almasry wrote:
+>> On Tue, Apr 30, 2024 at 6:46?AM Jens Axboe<axboe@kernel.dk>  wrote:
+[...]
+>>> In general, attempting to hide overhead behind config options is always
+>>> a losing proposition. It merely serves to say "look, if these things
+>>> aren't enabled, the overhead isn't there", while distros blindly enable
+>>> pretty much everything and then you're back where you started.
+>>>
+>> The history there is that this check adds 1 cycle regression to the
+>> page_pool fast path benchmark. The regression last I measured is 8->9
+>> cycles, so in % wise it's a quite significant 12.5% (more details in
+>> the cover letter[1]). I doubt I can do much better than that to be
+>> honest.
+>
+> I'm all for cycle counting, and do it myself too, but is that even
+> measurable in anything that isn't a super targeted microbenchmark? Or
+> even in that?
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index e994db4f4d91..61750cc98d70 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -15,6 +15,8 @@
- #include <media/ipu-bridge.h>
- #include <media/v4l2-fwnode.h>
- 
-+#define ADEV_DEV(adev) ACPI_PTR(&((adev)->dev))
-+
- /*
-  * 92335fcf-3203-4472-af93-7b4453ac29da
-  *
-@@ -87,6 +89,7 @@ static const char * const ipu_vcm_types[] = {
- 	"lc898212axb",
- };
- 
-+#if IS_ENABLED(CONFIG_ACPI)
- /*
-  * Used to figure out IVSC acpi device by ipu_bridge_get_ivsc_acpi_dev()
-  * instead of device and driver match to probe IVSC device.
-@@ -100,13 +103,13 @@ static const struct acpi_device_id ivsc_acpi_ids[] = {
- 
- static struct acpi_device *ipu_bridge_get_ivsc_acpi_dev(struct acpi_device *adev)
- {
--	acpi_handle handle = acpi_device_handle(adev);
--	struct acpi_device *consumer, *ivsc_adev;
- 	unsigned int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(ivsc_acpi_ids); i++) {
- 		const struct acpi_device_id *acpi_id = &ivsc_acpi_ids[i];
-+		struct acpi_device *consumer, *ivsc_adev;
- 
-+		acpi_handle handle = acpi_device_handle(adev);
- 		for_each_acpi_dev_match(ivsc_adev, acpi_id->id, NULL, -1)
- 			/* camera sensor depends on IVSC in DSDT if exist */
- 			for_each_acpi_consumer_dev(ivsc_adev, consumer)
-@@ -118,6 +121,12 @@ static struct acpi_device *ipu_bridge_get_ivsc_acpi_dev(struct acpi_device *adev
- 
- 	return NULL;
- }
-+#else
-+static struct acpi_device *ipu_bridge_get_ivsc_acpi_dev(struct acpi_device *adev)
-+{
-+	return NULL;
-+}
-+#endif
- 
- static int ipu_bridge_match_ivsc_dev(struct device *dev, const void *adev)
- {
-@@ -163,7 +172,7 @@ static int ipu_bridge_check_ivsc_dev(struct ipu_sensor *sensor,
- 		csi_dev = ipu_bridge_get_ivsc_csi_dev(adev);
- 		if (!csi_dev) {
- 			acpi_dev_put(adev);
--			dev_err(&adev->dev, "Failed to find MEI CSI dev\n");
-+			dev_err(ADEV_DEV(adev), "Failed to find MEI CSI dev\n");
- 			return -ENODEV;
- 		}
- 
-@@ -182,24 +191,25 @@ static int ipu_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
- 	acpi_status status;
- 	int ret = 0;
- 
--	status = acpi_evaluate_object(adev->handle, id, NULL, &buffer);
-+	status = acpi_evaluate_object(ACPI_PTR(adev->handle),
-+				      id, NULL, &buffer);
- 	if (ACPI_FAILURE(status))
- 		return -ENODEV;
- 
- 	obj = buffer.pointer;
- 	if (!obj) {
--		dev_err(&adev->dev, "Couldn't locate ACPI buffer\n");
-+		dev_err(ADEV_DEV(adev), "Couldn't locate ACPI buffer\n");
- 		return -ENODEV;
- 	}
- 
- 	if (obj->type != ACPI_TYPE_BUFFER) {
--		dev_err(&adev->dev, "Not an ACPI buffer\n");
-+		dev_err(ADEV_DEV(adev), "Not an ACPI buffer\n");
- 		ret = -ENODEV;
- 		goto out_free_buff;
- 	}
- 
- 	if (obj->buffer.length > size) {
--		dev_err(&adev->dev, "Given buffer is too small\n");
-+		dev_err(ADEV_DEV(adev), "Given buffer is too small\n");
- 		ret = -EINVAL;
- 		goto out_free_buff;
- 	}
-@@ -220,7 +230,7 @@ static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
- 	case IPU_SENSOR_ROTATION_INVERTED:
- 		return 180;
- 	default:
--		dev_warn(&adev->dev,
-+		dev_warn(ADEV_DEV(adev),
- 			 "Unknown rotation %d. Assume 0 degree rotation\n",
- 			 ssdb->degree);
- 		return 0;
-@@ -230,12 +240,14 @@ static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
- static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_device *adev)
- {
- 	enum v4l2_fwnode_orientation orientation;
--	struct acpi_pld_info *pld;
--	acpi_status status;
-+	struct acpi_pld_info *pld = NULL;
-+	acpi_status status = AE_ERROR;
- 
-+#if IS_ENABLED(CONFIG_ACPI)
- 	status = acpi_get_physical_device_location(adev->handle, &pld);
-+#endif
- 	if (ACPI_FAILURE(status)) {
--		dev_warn(&adev->dev, "_PLD call failed, using default orientation\n");
-+		dev_warn(ADEV_DEV(adev), "_PLD call failed, using default orientation\n");
- 		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
- 	}
- 
-@@ -253,7 +265,8 @@ static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_dev
- 		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
- 		break;
- 	default:
--		dev_warn(&adev->dev, "Unknown _PLD panel val %d\n", pld->panel);
-+		dev_warn(ADEV_DEV(adev), "Unknown _PLD panel val %d\n",
-+			 pld->panel);
- 		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
- 		break;
- 	}
-@@ -272,12 +285,12 @@ int ipu_bridge_parse_ssdb(struct acpi_device *adev, struct ipu_sensor *sensor)
- 		return ret;
- 
- 	if (ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
--		dev_warn(&adev->dev, "Unknown VCM type %d\n", ssdb.vcmtype);
-+		dev_warn(ADEV_DEV(adev), "Unknown VCM type %d\n", ssdb.vcmtype);
- 		ssdb.vcmtype = 0;
- 	}
- 
- 	if (ssdb.lanes > IPU_MAX_LANES) {
--		dev_err(&adev->dev, "Number of lanes in SSDB is invalid\n");
-+		dev_err(ADEV_DEV(adev), "Number of lanes in SSDB is invalid\n");
- 		return -EINVAL;
- 	}
- 
-@@ -465,8 +478,14 @@ static void ipu_bridge_create_connection_swnodes(struct ipu_bridge *bridge,
- 						sensor->ipu_properties);
- 
- 	if (sensor->csi_dev) {
-+		const char *device_hid = "";
-+
-+#if IS_ENABLED(CONFIG_ACPI)
-+		device_hid = acpi_device_hid(sensor->ivsc_adev);
-+#endif
-+
- 		snprintf(sensor->ivsc_name, sizeof(sensor->ivsc_name), "%s-%u",
--			 acpi_device_hid(sensor->ivsc_adev), sensor->link);
-+			 device_hid, sensor->link);
- 
- 		nodes[SWNODE_IVSC_HID] = NODE_SENSOR(sensor->ivsc_name,
- 						     sensor->ivsc_properties);
-@@ -631,11 +650,15 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
- {
- 	struct fwnode_handle *fwnode, *primary;
- 	struct ipu_sensor *sensor;
--	struct acpi_device *adev;
-+	struct acpi_device *adev = NULL;
- 	int ret;
- 
-+#if IS_ENABLED(CONFIG_ACPI)
- 	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
--		if (!adev->status.enabled)
-+#else
-+	while (true) {
-+#endif
-+		if (!ACPI_PTR(adev->status.enabled))
- 			continue;
- 
- 		if (bridge->n_sensors >= IPU_MAX_PORTS) {
-@@ -671,7 +694,7 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
- 			goto err_free_swnodes;
- 		}
- 
--		sensor->adev = acpi_dev_get(adev);
-+		sensor->adev = ACPI_PTR(acpi_dev_get(adev));
- 
- 		primary = acpi_fwnode_handle(adev);
- 		primary->secondary = fwnode;
-@@ -727,11 +750,16 @@ static int ipu_bridge_ivsc_is_ready(void)
- 	unsigned int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(ipu_supported_sensors); i++) {
-+#if IS_ENABLED(CONFIG_ACPI)
- 		const struct ipu_sensor_config *cfg =
- 			&ipu_supported_sensors[i];
- 
- 		for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
--			if (!sensor_adev->status.enabled)
-+#else
-+		while (true) {
-+			sensor_adev = NULL;
-+#endif
-+			if (!ACPI_PTR(sensor_adev->status.enabled))
- 				continue;
- 
- 			adev = ipu_bridge_get_ivsc_acpi_dev(sensor_adev);
+The reason for page_pool fast path being critical is that it is used for 
+the XDP_DROP use-case.
+E.g on Mellanox mlx5 driver we see 24 Mpps XDP_DROP, which is approx 42 
+nanosec per packet. Adding 9 nanosec will reduce this to 19.6 Mpps.
 
--- 
-2.45.0.rc0.197.gbae5840b3b-goog
+   1/(42+9)*10^9 = 19607843
 
+--Jesper
+
+p.s. Upstreaming my PP microbenchmark[1] is still at the bottom of my 
+todo-list.
+  [1] 
+https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/bench_page_pool_simple.c
 
