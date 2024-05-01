@@ -1,197 +1,171 @@
-Return-Path: <linux-media+bounces-10511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290568B847C
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 05:31:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF398B848E
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 06:01:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4CBA28319B
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 03:31:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A30881F23210
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 04:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5EFA28DCB;
-	Wed,  1 May 2024 03:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8182E822;
+	Wed,  1 May 2024 04:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmXIHm9X"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5xEUSZp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF73412B71;
-	Wed,  1 May 2024 03:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE93208B6;
+	Wed,  1 May 2024 04:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714534301; cv=none; b=ZEQ6/lho73hGFOAKGV4cgcQYJSY9cNoqNr3ehtR1eWj/dHuz2AmZS9jh3XHvh5CHLlkHhpq6UiHuERCCy1/kC6u0TrlRDj+NBW4kNpTG2gm0BJMuHq71vwjUGXqp405nCOPWl1DWd69aEfOi7ZriQganxtqXHMa58D/SkTt9pcQ=
+	t=1714536099; cv=none; b=L9bkPg2xudYyR+b6dvxitTXnaVLGO5Ov4embGRmbg4llwqVXB18C5+gm7Wb27aFbmuL5MBMSsTJ+6k6tnWrmCaBaTeL2vXY3UraxZ3CXTiuyiQ6KM550kwhFSLhXnFyjhXLhdEJ776sRrFLvkvhyd90RJVKiroyKqHQDT+8ze2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714534301; c=relaxed/simple;
-	bh=PabL6LOoQHGYM7jhG0HXdV2dhKCQxCq28w8/njzBgBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Imj2ArmwTe12V2/vOcFZV+HM6Jh/K8b56BmNLiPf7CtD2yaPb2ecFGwZwQ15BatOst7vi4vakbTpI2F7KLf9RA69qIoNkCOYnmdhtCSElAE3UXfKZHIOD9bnC5LiL08A2o4LabyjED+lGEfIX4TAytzdH0mtFPbMuiGvV94Y/XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmXIHm9X; arc=none smtp.client-ip=209.85.210.47
+	s=arc-20240116; t=1714536099; c=relaxed/simple;
+	bh=ih19o42vH7cxU/8ZEzXQHexwm9+qaQG7rP27ILLWQ3g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sWHMV0uQ2DF4LDqkw5ofOJG/7BTlKm+N8Slh7HgJ0ultCpvtyFmjX7PD3kmd2G4hlKmflWkAWWf+3Pwc330c0SS9CyqhM1xR+YATqmGhrtBRQuRcYfz/m+BdixJLRmhc/5pXkqwXjzHfbXQ9QDDKcqORErBTyEPev/HfyA7CxZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5xEUSZp; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6ee1c0ecfa5so2048700a34.0;
-        Tue, 30 Apr 2024 20:31:39 -0700 (PDT)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-6123726725eso2435422a12.3;
+        Tue, 30 Apr 2024 21:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714534299; x=1715139099; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/uYAYfME0ywDE8lmQB/ydzgc+UD/wslCeCSNsfYVAd8=;
-        b=QmXIHm9X8hYD7DUAx3onYSCCYkhxxIRB1RZWewTkkoDuJs6c6mGMdasbea3qlok/qy
-         nB1ZXdD7cVO6k6X87+Geeoas1j2htGsQqQub9jXC75QZbKS9tmNdQwHse9tIsKNNoZaP
-         0LsKbmPjbdAJfCp/wRuoeqFj39O4qVgoY/yuUHxzVFecDeI9IcDpQHDPi9ZNXuqjDLcm
-         m0VMFB1Hkkb6GQkZXBuh2ymOG1QVnFrI7vFYiOfEO/L7LG/+wNh5DzVpGpKFgZdNndAU
-         AXn+qKoqO06hMKuqVyUfudH7a/doUMFfKDIG2diX11aa3N/udB40y056GQPXpwWlJxRg
-         VZwg==
+        d=gmail.com; s=20230601; t=1714536097; x=1715140897; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e6GL3tY8SHgju6pwmu6MxL8rTRYhd+zWuYx1Qcr7YGs=;
+        b=l5xEUSZpUFGpfvXig9xxKneDfytPZKMcxXcECM97SR2DWBiAG8e+5bJVej+wPnKZbq
+         XNlwJ11DauuWCGmrQAYIjV9UMamCPvEpKis6rY0COTmxrGrA/UOb491BdUhxxL2w1gFI
+         wWVjSe+SYp2M6Chh2RrsQsOoVn4rRWqjQi2OK+s2WPaxjfRFeAR0Yl6usYZdtjeU4n3U
+         ZQOqR0SVz8WSuO+5tMe+3TxRs7gmlBOOUfXeKeNitS4k1GWfVBEO7ncjydK/x7JHGXsJ
+         Gb7bMWJ2kSzcpAed6ldHMNC58HgPvXFH0/Gwq6s+aMamTmo0d0Ye7MYIikzGdHQEVlOY
+         ME1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714534299; x=1715139099;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/uYAYfME0ywDE8lmQB/ydzgc+UD/wslCeCSNsfYVAd8=;
-        b=N1WVUTimCWIgqNDyPKFPpr6GkZNZBHD89XL4AHBEp+xYfOLa4HS9SZN/TNb1Ru5zlC
-         t5dXaRL7ThMbOu6wXv27jXHYQiFzjt8bGbdAGjpvp5z1ifhxD+rdLlCgZsxOw+o9jf0C
-         +NVVcHT5IS5xDKEq50Qb1x8KuCpm6BJ8BT3HVvHBNJrCCgT5LPkU/AIch+PSkusRjnxv
-         kkm7owAo3mI626Pivi0f4Stb2eEe4+6mffxAlNG0y75zrja0w0rzHfxuBGb19GC477zO
-         Gfg1czDf7IA/aU7f/OOT6/IJSchD4xiJWHysBAUv4sv23l9UoIvkZyH1+skeRl9Sy0CH
-         jQSA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsAIprx3F1QpDiSzCzS70HK47ukV5Wx7iqnbt58KCshW5Egrpw7lzrGE2FOoI5Hs181mxXq4qnQM0ATMKVFBcmdtfz82xpXdCfY7HE/C4lm27tt49m/wmPHhmnXKZCPeiqk/QmSNQHxbQ=
-X-Gm-Message-State: AOJu0YzCX+yBCScM3tx7xqDrQPiXYhrpMT2vUKA/M5W0ckv64sbvOxyB
-	6rXw5JA62oywHCH8h2HHG/XZ58Raz7vxtAuQJiRz6HLSyNAXh/j0
-X-Google-Smtp-Source: AGHT+IHdX4lONgwa5zmyiDhdbfXkaA13S2aH9i8jVM5hrpbuZN7i/5s5y/mO/Gvf7XHt8F2kkRw+EQ==
-X-Received: by 2002:a9d:638b:0:b0:6ee:4713:8e56 with SMTP id w11-20020a9d638b000000b006ee47138e56mr1516313otk.0.1714534298601;
-        Tue, 30 Apr 2024 20:31:38 -0700 (PDT)
-Received: from ?IPV6:2402:e280:214c:86:c5df:1eec:52b9:dcb8? ([2402:e280:214c:86:c5df:1eec:52b9:dcb8])
-        by smtp.gmail.com with ESMTPSA id e131-20020a636989000000b005e43cce33f8sm21690709pgc.88.2024.04.30.20.31.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 20:31:38 -0700 (PDT)
-Message-ID: <80aaad79-9426-4ee4-afe9-a10c089df086@gmail.com>
-Date: Wed, 1 May 2024 09:01:34 +0530
+        d=1e100.net; s=20230601; t=1714536097; x=1715140897;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e6GL3tY8SHgju6pwmu6MxL8rTRYhd+zWuYx1Qcr7YGs=;
+        b=RfTJ9dqDRPknsJ9anun7iXux4XyL1iIAYfh0MnNi3JXVCO/a0fIp+fUmmcYaqWiPWh
+         an3cCHS/TPfqGGjad9w1xy3kr9DvfDMrVUHDK8GTBo/FukFba5erZnBa6Arguoo8qz/s
+         L6yW/pUPL9Z9eg/gMmUjnI2R6XQIvhLK6sAiQwQq84nFyq3wjxc357Qkh6Ox7Fc+qtWZ
+         ghppgOnH8D3v/D9GI6hX2NMGrfSoNj4VZd3tcN4dqsSaPndlMqKBL4oAimRdPtyMszx4
+         IIS4whBsXVccxAw2NMd1iYsIr11S2GOvEaP8F1QOq6t1b+OA3rhTpn5CnEeypEbuVhje
+         7vFA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPKioAgqnJ7FYWRGUIa9wMHV14jQudsnh3o8Bm3O2yvZBfL7J5nYXIrkzGgkH7AnxN4YyjE979gVn9okWaQamqJt/Jd6iLuMJ9SQaZpeawYwNKv0+bAGjbDTR77+WB/D9je9BRmxvU4A4=
+X-Gm-Message-State: AOJu0Yy5ZDvFcMn0DJyK8loJ2bcjUtyjFwnRCab7DIFLz2MVzi7H3vAs
+	chr9UrTF57yJZ+ljdc4cL3FZ3iNN2GlgojB3kfROMhQL0kfghP0b
+X-Google-Smtp-Source: AGHT+IGMnsyNmhIzjz+iU1ST8gumMxKnQrQVJPBn49tTZtWm5bf+twfz/XESdxplA/w0o0LJ4j1cdA==
+X-Received: by 2002:a05:6a20:c21d:b0:1ac:5040:2a69 with SMTP id bt29-20020a056a20c21d00b001ac50402a69mr1699750pzb.45.1714536097127;
+        Tue, 30 Apr 2024 21:01:37 -0700 (PDT)
+Received: from dev.. ([2402:e280:214c:86:c5df:1eec:52b9:dcb8])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902ecc800b001e944fc9248sm19032287plh.194.2024.04.30.21.01.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 21:01:36 -0700 (PDT)
+From: R Sundar <prosunofficial@gmail.com>
+To: mripard@kernel.org,
+	mchehab@kernel.org
+Cc: christophe.jaillet@wanadoo.fr,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com,
+	R Sundar <prosunofficial@gmail.com>,
+	Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH v2 linux-next] media:cdns-csi2tx: replace of_node_put() with __free
+Date: Wed,  1 May 2024 09:31:23 +0530
+Message-Id: <20240501040123.7327-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] media:cdns-csi2tx: replace of_node_put() with
- __free
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, mripard@kernel.org,
- mchehab@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- javier.carrasco.cruz@gmail.com
-References: <20240429171543.13032-1-prosunofficial@gmail.com>
- <6df5d715-3e31-40a5-9db3-2c3b9f12efac@wanadoo.fr>
- <f86b0c15-8fc4-4ed7-984a-3ab90c66a3eb@gmail.com>
- <76b3d25-2ba3-2f9f-3ed6-61a63983a225@inria.fr>
-Content-Language: en-US
-From: R Sundar <prosunofficial@gmail.com>
-In-Reply-To: <76b3d25-2ba3-2f9f-3ed6-61a63983a225@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 30/04/24 22:53, Julia Lawall wrote:
-> 
-> 
-> On Tue, 30 Apr 2024, R Sundar wrote:
-> 
->> On 30/04/24 00:10, Christophe JAILLET wrote:
->>> Le 29/04/2024 à 19:15, R Sundar a écrit :
->>>> Use the new cleanup magic to replace of_node_put() with
->>>> __free(device_node) marking to auto release when they get out of scope.
->>>>
->>>> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
->>>> Signed-off-by: R Sundar <prosunofficial@gmail.com>
->>>> ---
->>>>    drivers/media/platform/cadence/cdns-csi2tx.c | 19 +++++++------------
->>>>    1 file changed, 7 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/cadence/cdns-csi2tx.c
->>>> b/drivers/media/platform/cadence/cdns-csi2tx.c
->>>> index 3d98f91f1bee..88aed2f299fd 100644
->>>> --- a/drivers/media/platform/cadence/cdns-csi2tx.c
->>>> +++ b/drivers/media/platform/cadence/cdns-csi2tx.c
->>>> @@ -496,48 +496,43 @@ static int csi2tx_get_resources(struct csi2tx_priv
->>>> *csi2tx,
->>>>    static int csi2tx_check_lanes(struct csi2tx_priv *csi2tx)
->>>>    {
->>>>        struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
->>>> -    struct device_node *ep;
->>>>        int ret, i;
->>>> -
->>>> -    ep = of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
->>>> +    struct device_node *ep __free(device_node) =
->>>> +        of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
->>>> +
->>>>        if (!ep)
->>>>            return -EINVAL;
->>>>        ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
->>>>        if (ret) {
->>>>            dev_err(csi2tx->dev, "Could not parse v4l2 endpoint\n");
->>>> -        goto out;
->>>> +        return ret;
->>>>        }
->>>>        if (v4l2_ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
->>>>            dev_err(csi2tx->dev, "Unsupported media bus type: 0x%x\n",
->>>>                v4l2_ep.bus_type);
->>>> -        ret = -EINVAL;
->>>> -        goto out;
->>>> +        return -EINVAL;
->>>>        }
->>>>        csi2tx->num_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
->>>>        if (csi2tx->num_lanes > csi2tx->max_lanes) {
->>>>            dev_err(csi2tx->dev,
->>>>                "Current configuration uses more lanes than supported\n");
->>>> -        ret = -EINVAL;
->>>> -        goto out;
->>>> +        return -EINVAL;
->>>>        }
->>>>        for (i = 0; i < csi2tx->num_lanes; i++) {
->>>>            if (v4l2_ep.bus.mipi_csi2.data_lanes[i] < 1) {
->>>>                dev_err(csi2tx->dev, "Invalid lane[%d] number: %u\n",
->>>>                    i, v4l2_ep.bus.mipi_csi2.data_lanes[i]);
->>>> -            ret = -EINVAL;
->>>> -            goto out;
->>>> +            return -EINVAL;
->>>>            }
->>>>        }
->>>>        memcpy(csi2tx->lanes, v4l2_ep.bus.mipi_csi2.data_lanes,
->>>>               sizeof(csi2tx->lanes));
->>>> -out:
->>>> -    of_node_put(ep);
->>>>        return ret;
->>>
->>> Hi,
->>>
->>> Nit: return 0; ?
->>>
->>> CJ
->>>
->>>>    }
->>>
->> Hi,
->>
->> In success case, ret variable value also will be zero, else for non-zero ret
->> value it will return from v4l2_fwnode_endpoint_parse()'s error case handling
->> block.
-> 
-> Indeed, but it seems that the return ret at the end of the function always
-> returns 0?  If that is the case, return 0 would be better, as one can see
-> that that code is only reached in the success case.
-> 
-> julia
+Use the new cleanup magic to replace of_node_put() with
+__free(device_node) marking to auto release when they get out of scope.
 
-Hi Julia,
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: R Sundar <prosunofficial@gmail.com>
+---
 
-Noted.
+Changes since v1 - Nitpick,  If function is successful,  then it will always
+return 0 at the end of function.  so changed to return value as zero as it
+reached  end of function.
 
-@CJ, Thanks for comments.  Understood the point of Nit.
+Link to v1 - https://lore.kernel.org/all/20240429171543.13032-1-prosunofficial@gmail.com/
 
-Will update the changes.
+ drivers/media/platform/cadence/cdns-csi2tx.c | 21 ++++++++------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-Thanks,
-Sundar
+diff --git a/drivers/media/platform/cadence/cdns-csi2tx.c b/drivers/media/platform/cadence/cdns-csi2tx.c
+index 3d98f91f1bee..1a56bbaeaecb 100644
+--- a/drivers/media/platform/cadence/cdns-csi2tx.c
++++ b/drivers/media/platform/cadence/cdns-csi2tx.c
+@@ -496,49 +496,44 @@ static int csi2tx_get_resources(struct csi2tx_priv *csi2tx,
+ static int csi2tx_check_lanes(struct csi2tx_priv *csi2tx)
+ {
+ 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+-	struct device_node *ep;
+ 	int ret, i;
+-
+-	ep = of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
++	struct device_node *ep __free(device_node) =
++		of_graph_get_endpoint_by_regs(csi2tx->dev->of_node, 0, 0);
++
+ 	if (!ep)
+ 		return -EINVAL;
+ 
+ 	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
+ 	if (ret) {
+ 		dev_err(csi2tx->dev, "Could not parse v4l2 endpoint\n");
+-		goto out;
++		return ret;
+ 	}
+ 
+ 	if (v4l2_ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+ 		dev_err(csi2tx->dev, "Unsupported media bus type: 0x%x\n",
+ 			v4l2_ep.bus_type);
+-		ret = -EINVAL;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 
+ 	csi2tx->num_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
+ 	if (csi2tx->num_lanes > csi2tx->max_lanes) {
+ 		dev_err(csi2tx->dev,
+ 			"Current configuration uses more lanes than supported\n");
+-		ret = -EINVAL;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 
+ 	for (i = 0; i < csi2tx->num_lanes; i++) {
+ 		if (v4l2_ep.bus.mipi_csi2.data_lanes[i] < 1) {
+ 			dev_err(csi2tx->dev, "Invalid lane[%d] number: %u\n",
+ 				i, v4l2_ep.bus.mipi_csi2.data_lanes[i]);
+-			ret = -EINVAL;
+-			goto out;
++			return -EINVAL;
+ 		}
+ 	}
+ 
+ 	memcpy(csi2tx->lanes, v4l2_ep.bus.mipi_csi2.data_lanes,
+ 	       sizeof(csi2tx->lanes));
+ 
+-out:
+-	of_node_put(ep);
+-	return ret;
++	return 0;
+ }
+ 
+ static const struct csi2tx_vops csi2tx_vops = {
+-- 
+2.34.1
+
 
