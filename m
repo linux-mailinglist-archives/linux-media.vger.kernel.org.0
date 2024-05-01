@@ -1,123 +1,171 @@
-Return-Path: <linux-media+bounces-10565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB85A8B8E29
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 18:26:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0787E8B8F75
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 20:18:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F802811A5
-	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 16:26:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 861E01F22773
+	for <lists+linux-media@lfdr.de>; Wed,  1 May 2024 18:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D388F13049B;
-	Wed,  1 May 2024 16:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C3D1487F2;
+	Wed,  1 May 2024 18:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U57AvwXS"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="QJ7Agjie"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1C512F5BE;
-	Wed,  1 May 2024 16:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C5F147C93
+	for <linux-media@vger.kernel.org>; Wed,  1 May 2024 18:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714580795; cv=none; b=oNfdhSfCKOhNu0eyjFvDYVxmmOMh5iTatYHzLg1+axR9zRGR2DU1NSPr2lXLUiuqxITXywPyIeYoy0RI1aqRfYUcuOHDn4DAq31Z5077YjLD9sBNP0eajrrEu0LxKkKfMOaVQuwtr24lYr3qwXZb4SeJeZnjzAcDDfXax0CB9bE=
+	t=1714587501; cv=none; b=QrSwFCL5tGhzkgDbQHJYkBxy8EafIOaAyfRpRmWDfpNEAMykoM18F3I8lTjUXYSzCtzq5sGU5N68QWYudOQaeZVw3IKEXd6xD4nDcsdfiQPq+6t8KrCzM0q1hxO66cYLXhQvzF8u1HIgeCeOXeqwpWB2H8xPADNrqy+4rgrgxXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714580795; c=relaxed/simple;
-	bh=F9XWlYsdcvjUY25fJrjVOG6I20rFQt/83OfE3Wn2Lek=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L+WYmCmkxz6kvxICK26D86xwfI5zrkVx40xiy6Q/WN8S0oJLNfoFS11Ossz2gxIKUD6Qf0DWL08gCrcPeEHfvmS7NwuuHFTPQjC0572dF5+rry5VLT7XgRVebtrffTG9pY4jF5PsZElwKYJGGFSdZqwVwqpPa68SOEflwDbNh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U57AvwXS; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f42924ca64so385689b3a.2;
-        Wed, 01 May 2024 09:26:33 -0700 (PDT)
+	s=arc-20240116; t=1714587501; c=relaxed/simple;
+	bh=iHx4pHZora+tx+qHSAKQzX3398H2wOjiMaSj41GtAuA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jcZbJ18UWgKE5C9SBmvN97I+l9X++UjoK5VIP9aP7H8qwQrSdAJQEBVnkG62p83ZvXJvT3FGoQG4fcYCb36EaUce1FCznGUAYdZFOdh5MMUe+TumrIl7AY580sSqIweoNQIoqfNEzdzcUxg+UV2/P1yqLFtIvzaqcoqaT4ZSU+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=QJ7Agjie; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5af88373b2bso1934664eaf.2
+        for <linux-media@vger.kernel.org>; Wed, 01 May 2024 11:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714580793; x=1715185593; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
-        b=U57AvwXSbUtUAHUiFDoon7mUzcdlALguUTyp1OXfY22FkOgiQ7wC4niQ5YELb9wvPo
-         ZbpcOIK0omS2qNYDv6YPtHOli6JtQ70ri1opdyUuhsGrhW3f1cj4G5YpfzNKo9aW85Xn
-         eLxNtzpOzFs/H7IgvD/o1jiE1dplzzf/KVzK99CRGQ5V8C89Wcudna04snAiKfSH/8L2
-         5oQpWWPpvYYM6ZBXP9eN7zz/VyB/SqYIKBafFP3gBcwow9OopnLAUUyj+K7kRVT93uhA
-         P0IaQFdt2MLr+WeZAv4mpRv9H1nzFFajzBOlmlwRam46mJ4jYyTgna/o/UwBRzUpVTLC
-         HhEQ==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1714587499; x=1715192299; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=P+ilE7LHysgerm34X3VBI2LSDwbZAC11W+iUOeY+UZU=;
+        b=QJ7AgjiekJk/SB7nr/rgy6HVqjUEzQpOfbFKqzxnBnQlvBj9gNCmY7hU6MpqpV+Vgq
+         punoInUIe+cAlOXmjsgrcpK7mtRAG52NWmdaGHAq7fTeUWJXQa/kSM6pooAfKku/fI7k
+         fwkUktcmNiJNgAN3qGK9oC2FwA8aOZrHQ3/heaOI8fcbv1S470ztwu9pv9jbajM/vjxA
+         bk6Jh7PlxzBvdjCfpQoS1p15iIQ8mPnP0rZLv+b/lIBQW2xbiPc+9CshY8m2NNzKygI7
+         y3TUgm0N8rtVDezVJOyIlHT5sIK2k6Lks7sW7wwEdcKr2UAGOmljl9j6DFSNSfL16eMF
+         0V/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714580793; x=1715185593;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
-        b=ZRKoWHyUWmC/oU6q0x4tdbnJ+gOnAN806yzVyusaWXjJbPfMWET1jgy5zhBG0VhIZ2
-         cu1DS/fwoZFijIDTVCGLTQM77FtXId9asd9Yn8UrNEYADz/pOY0R1UuVaftAD1kfilqd
-         RAjDpDyR6hakUGCYWEKXoH1r0uSVdCdUWD10gdUvbvU8rxyzX9RDH5sbKjvEBe1+J9ea
-         D1xrBjAOZJSEkf+ftPIsdmEcvq7so5wPDm1O2XDir0gzfPO/I8K11rTZdPZlWCEYJIEB
-         dnpGwbRlx2qkJSlal7Gg5YpZjGSLG1an1nT1pEdEoRs9h44k1I13RE3yq9ekRq5UTtCu
-         Skpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyzeveRMSzJ49OiM59wyWuBuiv+y+V2K81b3f+YvKNCxTUrpPd1eMB2+K5/7hJnJWV0aBAuBZ0s8U2LP0dGZOTuc6CL9dyrDKQ3OkjT811TzpfLV7aDNH2yuqNZji6pH6gMGCHEjXSUnY=
-X-Gm-Message-State: AOJu0YyARM4/d7c508l8eXmsvCG7jgb0JaYiVyoTlQ2g0f4LcUM86/ZB
-	hybRisvDVuz7LZwZsIYlgrqE7BV4292b+DpqggLr2ksT14to2cOe
-X-Google-Smtp-Source: AGHT+IHwKDw622ZbV1L1HorkBmhkCKboNerHmQ/mlSSn9JUfoO5O+Fa9naEaEBEeVTWaH+p4jTI4Wg==
-X-Received: by 2002:a05:6a00:23d5:b0:6ed:4288:650a with SMTP id g21-20020a056a0023d500b006ed4288650amr2783147pfc.19.1714580793180;
-        Wed, 01 May 2024 09:26:33 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id l26-20020a65681a000000b00606506a95bbsm11117806pgt.13.2024.05.01.09.26.30
+        d=1e100.net; s=20230601; t=1714587499; x=1715192299;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P+ilE7LHysgerm34X3VBI2LSDwbZAC11W+iUOeY+UZU=;
+        b=d02vBwW2HTrNuvE2gwP337VNDMrf1XA4cYWYHRLWtYvYQnRA9gIOWqzgHi7oiB01+j
+         c22tupVyIgp1KN7vu5uuihC3bu3SjASPIUlVpdBhrB4SGv11Lr5ISiWIY7HnacdEoYFy
+         wCqzG7gOWPiqyZBJgoND11WATfBV7W9TMr94w0DQd/KgSSeNA5+0zSlBwu2pAjT3Ov+N
+         DtZvkjtizSCD8Y8b66b2BcBt6t44C1BSHIZxw+V4lmdNJJAr3JPp0R01df5L3I2UWTQT
+         r4zMqq2vP+QuntyQ0tPHf1aJNGhMGlTVfo6/1eDfit2a0RXRy0vghMICPX4wwMXjpy7S
+         T4fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXNTkXpWJvf/H0YGjY1QBrXDiLWF5oBO6fI9FrWWOq5GI7vKvkwwRCeVlL6A7H8z+2D6zT5dZ4Ml64LiTH8eWtM0HkDjlIbAeelWPk=
+X-Gm-Message-State: AOJu0Yy5ZAPCnd8scLZP78p115WLNdXT89ADYMMVwxbY5uju8HKK9gYl
+	sLqKVWICjd1CA72LJwGjjjON0VoSDDntoIYbGpyKX2Tct9WR+lRCFVX5yUfnUe+I2wmHyVa0ciI
+	nTsQ=
+X-Google-Smtp-Source: AGHT+IF1HCkCy6svoRSUaJay/ejc/HUt4v4zLG8zTx3Wv9JE9ETe70MGVLv0frMwhmaGkbrliSN91Q==
+X-Received: by 2002:a05:6358:949e:b0:186:11ac:36ff with SMTP id i30-20020a056358949e00b0018611ac36ffmr3382409rwb.9.1714587499343;
+        Wed, 01 May 2024 11:18:19 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:17:6448::7a9])
+        by smtp.gmail.com with ESMTPSA id k8-20020a0cfd68000000b006a0d7565fbdsm2394707qvs.87.2024.05.01.11.18.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 09:26:32 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	hpa@redhat.com
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistake in sh_css_internal.h
-Date: Wed,  1 May 2024 22:11:20 +0545
-Message-Id: <20240501162620.86865-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 01 May 2024 11:18:18 -0700 (PDT)
+Message-ID: <3cda1b1fa2f689cccb8f212b1a9949cc54a51a70.camel@ndufresne.ca>
+Subject: Re: Discuss the multi-core media scheduler
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Linux Media Mailing List
+ <linux-media@vger.kernel.org>
+Date: Wed, 01 May 2024 14:18:17 -0400
+In-Reply-To: <3321FDF4-15F9-45AF-A7BF-36C5CFA863B2@collabora.com>
+References: <3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com>
+	 <77872a349e77e61e69f160629e1b53a97bc472e4.camel@ndufresne.ca>
+	 <3321FDF4-15F9-45AF-A7BF-36C5CFA863B2@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-codespell reported misspelled words still and member.
-This patch fixes misspellings.
+Le mardi 30 avril 2024 =C3=A0 18:39 -0300, Daniel Almeida a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas,
+>=20
+>=20
+> >=20
+> > There is one use case that isn't covered here that we really need to mo=
+ve
+> > forward on RPi4/5 is cores that can execute multiple task at once.
+> >=20
+> > In the case of Argon HEVC decoder on the Pi, the Entropy decoder and th=
+e
+> > Rescontruction is ran in parallel, but the two function are using the s=
+ame
+> > trigger/irq pair.
+> >=20
+> > In short, we need to be able to (if there is enough data in the vb2 que=
+ue) to
+> > schedule two consecutive jobs at once. On a timeline:
+> >=20
+> > ----------------------------------------------------->
+> > [entropy0][no decoder]
+> >                      [entropy1][decode0]
+> >                                         [entropy2][decode1]
+> >=20
+> > Perhaps it already fits in the RFC, but it wasn't expressed clearly as =
+a use
+> > case. For real-time reason, its not really driver responsibility to wai=
+t for
+> > buffers to be queued, and a no-op can happen in any of the two function=
+s. Also,
+> > I believe you can mix entropy decoding from one stream, while decoding =
+a frame
+> > from another stream (another video session / m2m ctx).
+> >=20
+> > Nicolas
+> >=20
+>=20
+> I assume that the cores can be programmed separately, and that you can fi=
+nd which of the two
+> cores is now idle when processing the interrupt? i.e.: this is effectivel=
+y the same scenario we have
+> with Mediatek vcodec?
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_internal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+No, there is only 1 core, that implements two features. The scheduling of o=
+ne
+core in this case is still complex, since if possible it should be fed with
+multiple jobs.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index 2349eb4d3767..5395be1ed26b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -509,7 +509,7 @@ struct sh_css_sp_pipeline {
-  * of the associated pipe. Dynamic means that the data address can
-  * change with every (frame) iteration of the associated pipe
-  *
-- * s3a and dis are now also dynamic but (stil) handled separately
-+ * s3a and dis are now also dynamic but (still) handled separately
-  */
- #define SH_CSS_NUM_DYNAMIC_FRAME_IDS (3)
- 
-@@ -597,7 +597,7 @@ struct sh_css_sp_stage {
- 
- /*
-  * Time: 2012-07-19, 17:40.
-- * Note: Add a new data memeber "debug" in "sh_css_sp_group". This
-+ * Note: Add a new data member "debug" in "sh_css_sp_group". This
-  * data member is used to pass the debugging command from the
-  * Host to the SP.
-  *
--- 
-2.34.1
+>=20
+> If so, this is already covered.
+>=20
+> Basically, whenever a core is done with a job, that will signal the pipel=
+ine to try and make progress. =20
+
+In current model, a job represent the executation of a task on a single cor=
+e.
+And that task is limited to one mem2mem ctx. In MTK, to fill the pipeline, =
+you'd
+need to pick work from possibly multiple mem2mem ctx.
+
+>=20
+> i.e: you push `entropy0` and `entropy1` at the beginning of the pipeline,=
+ that will cause the entropy=20
+> decoder to start running. Whenever the entropy decoder is done, it will t=
+ry to schedule the reconstruction
+> core with `decode0` and start working on `entropy1`.
+>=20
+> When the reconstruction core is done, it will push `decode0` to the pipel=
+ine=E2=80=99s output
+> queue and grab `decode1` (from the queue it shares with the upstream core=
+) to work on.
+>=20
+> That way, all cores run concurrently, so long as there is work to do.
+>=20
+> =E2=80=94 Daniel
 
 
