@@ -1,55 +1,75 @@
-Return-Path: <linux-media+bounces-10629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D718B8B9E3B
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 18:09:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6668B9E7B
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 18:24:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 511391F253E1
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 16:09:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0143AB247B3
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 16:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3F015E5DD;
-	Thu,  2 May 2024 16:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3877215E81F;
+	Thu,  2 May 2024 16:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sp++7kuI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKKa37gI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A25915E1F6;
-	Thu,  2 May 2024 16:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADFC286BD;
+	Thu,  2 May 2024 16:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714666121; cv=none; b=lP+kmycoKhzvVvCDBeu+vu5OEb6Y9h/pi/w8967pg9V3WeJ5XJB/ge+V5rsLKcHbJZiQrDSkUmtPkVBbm9uQCtByEKXiEaPs9uqz/FhE0ZTYxGPBQkusB4sQBiDcq5ee0rrfK8OONzgI8IGLmHiAoWvErTIq/miV8M5DaMkl2NY=
+	t=1714667053; cv=none; b=WM3ZuFArbuJfP5NHdxj80nLWrRUxLFpwr6MktZ2ZCnL/E3JywKPcXMcxZ/RCo/ucXof6KYIZN2Wtyj88l0zO30cXXVCW+5gx8zzKH17oJk8Cq3DEcTPQ9Q2baq2wDFfV2WlH8HxCgtBfSdSB/UzIfIAeaGF7PuYeCoPa19AMr4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714666121; c=relaxed/simple;
-	bh=1zxbeK2Vc5xzfg9ivasxN0Y8bxeQt6RGSMFz/qIJEB0=;
+	s=arc-20240116; t=1714667053; c=relaxed/simple;
+	bh=8bnm0Mp6aA159OPgwtTWCVCezNkfmBxywIMR3Q9y61E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KOZPijtHsdzTU36PQhByTl4BEEvxNIHx/yrAiggI5aYl0tH1XOli+T1USG/52Ah22UvaK9AjiFbgwREImuhYpIeZMeCCsz3HUgEP9WCBLcP2oJESX5hITAJSrWytGL9ul92Hn7YJ37ISLCpZeMNw+eVhxK1tpaQVrsHn20c1d14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Sp++7kuI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50D974D4;
-	Thu,  2 May 2024 18:07:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714666059;
-	bh=1zxbeK2Vc5xzfg9ivasxN0Y8bxeQt6RGSMFz/qIJEB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sp++7kuIo7u0MWn92GCxF9L94GCFpxrJwg8v0jK9FWCLWTQXiLcmGPrhGhzZkfM7E
-	 637vea6WUMWJ4A5o8RWfMKEhzyGsgm4Z3MNtZDwDfy83U9wUHOM0plYnky+y+NlbYU
-	 ozCC8vCzQXC5O9dQNjVpuQnijTzGK8LEvmClhovE=
-Date: Thu, 2 May 2024 19:08:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=TTHwmjXElx7r/GLNaUyH0aye27vmjzKsY31Jo3u6zVfcBsSawHH/HK3k/cr9rdvTU7lL3hxnDkY6Oe342RBzlvxE+g4WaRTWbjUmRvFMTPxu0ix9XugTj1FuKcK8/8wKSP0iygvBiKigdu9W2Up7YQWVxsjLZ1hLtcYtYcZn+Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKKa37gI; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714667051; x=1746203051;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8bnm0Mp6aA159OPgwtTWCVCezNkfmBxywIMR3Q9y61E=;
+  b=GKKa37gIIqWAHAiSatkA6xRV62Z9ho76bEiVxAGHZAx9M2cP69HPjoeu
+   TqqNKxA5F0p6kEk2Ah6Bi9ytVzuUFfL0Js7fqKVjVfmgjG1t40KpZVqot
+   B8+E6XdSOq1m4YO+VraMcbQABr4nKIXSfNDW38DBH6LXo/ru4Kq0vmzlM
+   ISOCeUvH65/fM96jUMNQmIvcnjxXtDpWU1ZtZCuZuLUs3aMijqia6bNMQ
+   4kbfECwvGQOye77QaUMHs0ssHQU0vWq4KO4cwNjIbXZyeX95TPOfQxaAa
+   ru4EO9lxBYAYzhSCLh5qcyXyI3RHZ2OD7lxtZ4i6vVgqC/yFuKqbzZG/T
+   g==;
+X-CSE-ConnectionGUID: CJqBmeXIR+m8P55T7I1EBA==
+X-CSE-MsgGUID: zMIcjpw9Tha5uYbS0pnuHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10378778"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="10378778"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 09:24:11 -0700
+X-CSE-ConnectionGUID: gyKOMwuERVWbe1SWC/Pk/g==
+X-CSE-MsgGUID: 2BvGVijpR2OhXI8q1CaqkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="31662271"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 09:24:07 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8C03A11FA94;
+	Thu,  2 May 2024 19:24:04 +0300 (EEST)
+Date: Thu, 2 May 2024 16:24:04 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Julien Massot <julien.massot@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Jacopo Mondi <jacopo+renesas@jmondi.org>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Sylvain Petinot <sylvain.petinot@foss.st.com>,
 	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
@@ -103,65 +123,78 @@ Cc: Julien Massot <julien.massot@collabora.com>,
 	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
 	linux-tegra@vger.kernel.org
 Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
-Message-ID: <20240502160830.GB11443@pendragon.ideasonboard.com>
+Message-ID: <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
  <20240502155626.GD15807@pendragon.ideasonboard.com>
  <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
+ <20240502160830.GB11443@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
+In-Reply-To: <20240502160830.GB11443@pendragon.ideasonboard.com>
 
-On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
-> On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
-> > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
-> > > Many drivers has
-> > >   v4l2_async_nf_unregister(&notifier);
-> > >   v4l2_async_nf_cleanup(&notifier);
+Hi Laurent,
+
+On Thu, May 02, 2024 at 07:08:30PM +0300, Laurent Pinchart wrote:
+> On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
+> > On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
+> > > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
+> > > > Many drivers has
+> > > >   v4l2_async_nf_unregister(&notifier);
+> > > >   v4l2_async_nf_cleanup(&notifier);
+> > > > 
+> > > > Introduce a helper function to call both functions in one line.
 > > > 
-> > > Introduce a helper function to call both functions in one line.
+> > > Does this really go in the right direction ? For other objects (video
+> > > devices, media devices, ...), the unregistration should be done at
+> > > .remove() time, and the cleanup at .release() time (the operation called
+> > > when the last reference to the object is released). This is needed to
+> > > ensure proper lifetime management of the objects, and avoid a
+> > > use-after-free for objects that can be reached from userspace.
+> > > 
+> > > It could be argued that the notifier isn't exposed to userspace, but can
+> > > we guarantee that no driver will have a need to access the notifier in a
+> > > code path triggered by a userspace operation ? I think it would be safer
+> > > to adopt the same split for the nofifier unregistration and cleanup. In
+> > > my opinion using the same rule across different APIs also make it easier
+> > > for driver authors and for reviewers to get it right.
+> > > 
+> > > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
+> > > and .remove() time instead of .release(). That's because most drivers
+> > > get lifetime management wrong and don't even implement .release().
+> > > That's something Sakari is addressing with ongoing work. This patch
+> > > series seems to go in the opposite direction.
 > > 
-> > Does this really go in the right direction ? For other objects (video
-> > devices, media devices, ...), the unregistration should be done at
-> > .remove() time, and the cleanup at .release() time (the operation called
-> > when the last reference to the object is released). This is needed to
-> > ensure proper lifetime management of the objects, and avoid a
-> > use-after-free for objects that can be reached from userspace.
+> > This still avoids the driver authors feeling they need to implement wrapper
+> > functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
+> > this.
 > > 
-> > It could be argued that the notifier isn't exposed to userspace, but can
-> > we guarantee that no driver will have a need to access the notifier in a
-> > code path triggered by a userspace operation ? I think it would be safer
-> > to adopt the same split for the nofifier unregistration and cleanup. In
-> > my opinion using the same rule across different APIs also make it easier
-> > for driver authors and for reviewers to get it right.
-> > 
-> > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
-> > and .remove() time instead of .release(). That's because most drivers
-> > get lifetime management wrong and don't even implement .release().
-> > That's something Sakari is addressing with ongoing work. This patch
-> > series seems to go in the opposite direction.
+> > I don't see this getting in the way of adding use counts as the code will
+> > need to be changed in any case.
 > 
-> This still avoids the driver authors feeling they need to implement wrapper
-> functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
-> this.
-> 
-> I don't see this getting in the way of adding use counts as the code will
-> need to be changed in any case.
+> Fixing the lifetime issues would essentially revert 2/2 and move the
+> v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
+> helper that forces the cleanup at .remove() time is a good idea, it
+> gives a false sense of doing things right to drivers. This is the same
+> reason why devm_kzalloc() is so harmful, it gave the wrong message, and
+> created (or participated in) all those lifetime issues.
 
-Fixing the lifetime issues would essentially revert 2/2 and move the
-v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
-helper that forces the cleanup at .remove() time is a good idea, it
-gives a false sense of doing things right to drivers. This is the same
-reason why devm_kzalloc() is so harmful, it gave the wrong message, and
-created (or participated in) all those lifetime issues.
+I still prefer having devm_*alloc() functions than having the drivers open
+coding the same -- with the same result. The frameworks won't enable doing
+this right at the moment and I don't think drivers (or us!) should be
+penalised for that. The driver authors will only change what they do, with
+these patches or without, when told so. But we don't really have an
+alternative today.
+
+A similar situation exists with clk_unprepare() and clk_disable().
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
