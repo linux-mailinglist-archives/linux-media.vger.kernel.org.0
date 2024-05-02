@@ -1,167 +1,211 @@
-Return-Path: <linux-media+bounces-10580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16118B9516
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 09:09:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A252E8B9576
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 09:46:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2DC81C20E35
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 07:09:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58AFF2856A7
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 07:46:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCE84224D7;
-	Thu,  2 May 2024 07:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A674922EF2;
+	Thu,  2 May 2024 07:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jaUGu14h"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0kCiASM+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3PxaclT8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0kCiASM+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3PxaclT8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B6C1CA96;
-	Thu,  2 May 2024 07:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EEA1527BD;
+	Thu,  2 May 2024 07:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714633782; cv=none; b=ftSBidOLG8vhi4Vy5uMJG4MjGNIIkuKbnpnNWC5gc5uy6jt+SdNQVugWVGI80YLK1Ut5Lg0DWLsTlzB5Hb/AYpE8gfP1jr6MeNAYUEsZaAXhsBOcOaT068dIDcvFOtyu2813ejlDYRXiqb0n0ydUaZQiIOxFqPcnrrTHkUFBC6Q=
+	t=1714635971; cv=none; b=iqrskZAowPeks46uMCtwI9YfSWHJxgXGrvn03P9Ubgg5Fxpq+kQFxxNuiduPw9Ef6Js1CBEtrhKjOTJNyjbhA3reKbXUDY7+lUymNScwUiG1C8syGZ9QyOXUkfutVnEODAB9ISJ7JSi448FbCxI0qRza5t64KNyMtiwEnDGNTBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714633782; c=relaxed/simple;
-	bh=ADRmS8f5vU4gR759YBeJrW1kSqxBWwnLaBbxtr3BdyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qKESVSHqzfGrDvP1CqluW0d3QTudALD3n+3ICBODuZrbWNzIQ/VayPS1bF7fmr3a7YU2DQOReNL7RXwq2uE80GYs2OzIzMs0wYMwRcHN1dlkdnmFqKMOiMAq/mgeKlfH6Jk/O9AWiZnOzTGybp7YQ9mueJjsYrCGzvmDD1eNubs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jaUGu14h; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1714633778;
-	bh=ADRmS8f5vU4gR759YBeJrW1kSqxBWwnLaBbxtr3BdyI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jaUGu14hawcP302lr4k1pmDYsIMtScgmJrmTM3oV8z5BRSe5xRJX5ocGShY45do0k
-	 gDq9AFrNCJYrXfYKal5XGxtqL0lFFBmgc4pUSoaGA74WFb/XiQRDDAtIgZt1Wqvo6t
-	 Qapry2plpOfsZoof4zhQBV2CUi5Xgz3tJe+eeZeyuxfuMtI/Qeiop+8KmISga7Rij2
-	 X09JNsTZQx1/GCWEmcazxIKbS7+Xt2Vy9IAV+8oZ0qMGR8BV3dYVj4UJUyx+VJAGLh
-	 rWvlWtAV0chkeUQM3MWiMX4nIgTbwMaR9G+TQxLm5iSr9WpszLnEAQXrPHb5Qxz5po
-	 yB9XQVTPTvfKA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	s=arc-20240116; t=1714635971; c=relaxed/simple;
+	bh=G2F+pRuroYRYP/lwNUvpjm4eUMZYODI68gnHdFvmk5A=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EvJZDs3zqja9x4e61PemjArrc0mNS51ENPgVgS0+/V6UilT3ULrX+rrevq/VWKeoqOI0rR4az4nRj0iDuTWIo+KVjnf/7Nz77CNWcqMe+Pe7JDv/oCDgSRJAjCKYnExuxlYUB7HWfE6Gl5gdXOFPQHZ+5wyW6gDj/MY6fOqMaeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0kCiASM+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3PxaclT8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0kCiASM+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3PxaclT8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 67BD3378001E;
-	Thu,  2 May 2024 07:09:37 +0000 (UTC)
-Date: Thu, 2 May 2024 09:09:36 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Qiang Yu <yuq825@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, Steven
- Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig= <christian.koenig@amd.com>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 1/2] drm/panfrost: Fix dma_resv deadlock at drm
- object pin time
-Message-ID: <20240502090936.2156c025@collabora.com>
-In-Reply-To: <20240501065650.2809530-2-adrian.larumbe@collabora.com>
-References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
-	<20240501065650.2809530-2-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B2CD1FBAF;
+	Thu,  2 May 2024 07:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714635962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=grBrX5v5BMK7IiisGU8WUSwT0CHWzdkb4PZ4mBQewnU=;
+	b=0kCiASM+3jGMhAqvGONuClyTbpR7p5db0zoU56cfzvj8ZLM1TibUzz1w1xMxYaPoEj0nk6
+	6zO1slhkluZbunRsjK6LWnAoTDdxAEpLlgdWt82+iXrCk6ut27P3+9mux6/YtGiRHsPce0
+	Q8WT8XRSSoZkls9WDZVKmlEqOdAX5gg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714635962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=grBrX5v5BMK7IiisGU8WUSwT0CHWzdkb4PZ4mBQewnU=;
+	b=3PxaclT8gno2WpuhwwnPIbk2kacgToaytnBHEwFzPUF+xZlvTtA4HU3gxAeJNZNwsBPr8W
+	2eKgWDE02MgRsmCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0kCiASM+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3PxaclT8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714635962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=grBrX5v5BMK7IiisGU8WUSwT0CHWzdkb4PZ4mBQewnU=;
+	b=0kCiASM+3jGMhAqvGONuClyTbpR7p5db0zoU56cfzvj8ZLM1TibUzz1w1xMxYaPoEj0nk6
+	6zO1slhkluZbunRsjK6LWnAoTDdxAEpLlgdWt82+iXrCk6ut27P3+9mux6/YtGiRHsPce0
+	Q8WT8XRSSoZkls9WDZVKmlEqOdAX5gg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714635962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=grBrX5v5BMK7IiisGU8WUSwT0CHWzdkb4PZ4mBQewnU=;
+	b=3PxaclT8gno2WpuhwwnPIbk2kacgToaytnBHEwFzPUF+xZlvTtA4HU3gxAeJNZNwsBPr8W
+	2eKgWDE02MgRsmCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AA6B13957;
+	Thu,  2 May 2024 07:46:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hL2KJLlEM2biUwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 07:46:01 +0000
+Date: Thu, 02 May 2024 09:46:14 +0200
+Message-ID: <87sez0k661.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	hverkuil@xs4all.nl,
+	sakari.ailus@iki.fi,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+In-Reply-To: <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+	<20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+	<ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
+	<20240430172752.20ffcd56@sal.lan>
+	<ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1B2CD1FBAF
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,collabora.com,nxp.com,xs4all.nl,iki.fi,chromium.org,samsung.com,vger.kernel.org,gmail.com,perex.cz,suse.com,alsa-project.org,lists.ozlabs.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-On Wed,  1 May 2024 07:55:59 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On Wed, 01 May 2024 03:56:15 +0200,
+Mark Brown wrote:
+> 
+> On Tue, Apr 30, 2024 at 05:27:52PM +0100, Mauro Carvalho Chehab wrote:
+> > Mark Brown <broonie@kernel.org> escreveu:
+> > > On Tue, Apr 30, 2024 at 10:21:12AM +0200, Sebastian Fricke wrote:
+> 
+> > > The discussion around this originally was that all the audio APIs are
+> > > very much centered around real time operations rather than completely
+> 
+> > The media subsystem is also centered around real time. Without real
+> > time, you can't have a decent video conference system. Having
+> > mem2mem transfers actually help reducing real time delays, as it 
+> > avoids extra latency due to CPU congestion and/or data transfers
+> > from/to userspace.
+> 
+> Real time means strongly tied to wall clock times rather than fast - the
+> issue was that all the ALSA APIs are based around pushing data through
+> the system based on a clock.
+> 
+> > > That doesn't sound like an immediate solution to maintainer overload
+> > > issues...  if something like this is going to happen the DRM solution
+> > > does seem more general but I'm not sure the amount of stop energy is
+> > > proportionate.
+> 
+> > I don't think maintainer overload is the issue here. The main
+> > point is to avoid a fork at the audio uAPI, plus the burden
+> > of re-inventing the wheel with new codes for audio formats,
+> > new documentation for them, etc.
+> 
+> I thought that discussion had been had already at one of the earlier
+> versions?  TBH I've not really been paying attention to this since the
+> very early versions where I raised some similar "why is this in media"
+> points and I thought everyone had decided that this did actually make
+> sense.
 
-> When Panfrost must pin an object that is being prepared a dma-buf
-> attachment for on behalf of another driver, the core drm gem object pinni=
-ng
-> code already takes a lock on the object's dma reservation.
->=20
-> However, Panfrost GEM object's pinning callback would eventually try taki=
-ng
-> the lock on the same dma reservation when delegating pinning of the object
-> onto the shmem subsystem, which led to a deadlock.
->=20
-> This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
-> the following recursive locking situation:
->=20
-> weston/3440 is trying to acquire lock:
-> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_sh=
-mem_pin+0x34/0xb8 [drm_shmem_helper]
-> but task is already holding lock:
-> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pi=
-n+0x2c/0x80 [drm]
->=20
-> Fix it by assuming the object's reservation had already been locked by the
-> time we reach panfrost_gem_pin.
+Yeah, it was discussed in v1 and v2 threads, e.g.
+  https://patchwork.kernel.org/project/linux-media/cover/1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com/#25485573
 
-You should probably mention that drm_gem_shmem_object_pin() assumes the
-lock to be held, thus explaining the drm_gem_shmem_pin() ->
-drm_gem_shmem_object_pin() transition.
+My argument at that time was how the operation would be, and the point
+was that it'd be a "batch-like" operation via M2M without any timing
+control.  It'd be a very special usage for for ALSA, and if any, it'd
+be hwdep -- that is a very hardware-specific API implementation -- or
+try compress-offload API, which looks dubious.
 
-Oh, and the commit message refers explicitly to Panfrost in a few places
-even though you're fixing Lima as well.
+OTOH, the argument was that there is already a framework for M2M in
+media API and that also fits for the batch-like operation, too.  So
+was the thread evolved until now.
 
->=20
-> Do the same thing for the Lima driver, as it most likely suffers from the
-> same issue.
->=20
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/u=
-npin}()")
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-With the commit message adjusted as suggested,
+thanks,
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-> ---
->  drivers/gpu/drm/lima/lima_gem.c         | 2 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_=
-gem.c
-> index 7ea244d876ca..c4e0f9faaa47 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -185,7 +185,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
->  	if (bo->heap_size)
->  		return -EINVAL;
-> =20
-> -	return drm_gem_shmem_pin(&bo->base);
-> +	return drm_gem_shmem_object_pin(obj);
->  }
-> =20
->  static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *m=
-ap)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index d47b40b82b0b..f268bd5c2884 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -192,7 +192,7 @@ static int panfrost_gem_pin(struct drm_gem_object *ob=
-j)
->  	if (bo->is_heap)
->  		return -EINVAL;
-> =20
-> -	return drm_gem_shmem_pin(&bo->base);
-> +	return drm_gem_shmem_object_pin(obj);
->  }
-> =20
->  static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_obj=
-ect *obj)
-
+Takashi
 
