@@ -1,155 +1,235 @@
-Return-Path: <linux-media+bounces-10611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A2C8B9A30
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 13:43:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171A38B9A3D
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 13:51:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A3CAB2274C
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 11:43:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39D9D1C20F95
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 11:51:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1B65664DB;
-	Thu,  2 May 2024 11:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62DE96A03F;
+	Thu,  2 May 2024 11:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwG9cxcY"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xd+HPEDX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lhg5NcZr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xd+HPEDX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lhg5NcZr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1015B60DE9
-	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 11:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E98A524B8;
+	Thu,  2 May 2024 11:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714650177; cv=none; b=hV2RBfpiIm1yUToeHkpepNa5JNHKqgXSDQWYzMtgvz34JCjG5Sb6WmalNl1moR25xrC8ZKdMisemYLfHwbkQMEZLdsjEpAeaGh93Xy4ykkpvj+NtHe9/y5/66hFXm+oZIhrTYnev4SJwxbaLwcIledp5qRUyG88QjQKPaw2rUT8=
+	t=1714650680; cv=none; b=j2a4W10C8dJfjnwOExv3wT1T1yyMWknd2GA51+7Rii8e5dQ54inQzPl+qZm1cbf2Hv7XH+FdbRJPOxFDJjBo20KNF+a2N3jKyRo95nWFq2sfiEmDC7CbfDUEG/ZKPtgG4LZ0RVAU3RNklVJM8KZBXXA72BGo6RW+ZDpOBdW92sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714650177; c=relaxed/simple;
-	bh=sBE3/u8QimjrRY9BrfcvM1t9rfE3khEgWmKYUh/Ghiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C23f8n0dZQm6FtNzoecR9h87w8XOq06vS0Dn+rif+mWh8F78SC04WsnLzjYWM4Re/KEhuI5oHiYkrOqUFxiHA2YWNLcQ+JMEEb3VWhc1RDEw3LRoTq6/g0Egon68RaFM5kfJdrxcjut7O3S8sUEnkTZzFElU1kNMWWYcFrsCVYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwG9cxcY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A89C113CC;
-	Thu,  2 May 2024 11:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714650176;
-	bh=sBE3/u8QimjrRY9BrfcvM1t9rfE3khEgWmKYUh/Ghiw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kwG9cxcYXtBzy8QLdR0ZDN9fdrlS6ZrvsmjfbmboOdrhrIr3AuiDjiQoKm5bNtnnO
-	 T6QfzdB3JmInbLvLyovaxT70FK1YpCBvajk8Kd5bCaDzrshOgt86FR9FNI1Wxg9O9R
-	 kwSOEApcZZuoa/PsVdADhGjQawyS2SVhvkoNdnRg2njQLz9AsyouNmCS/mc1JZE75t
-	 6Imf6NfLknWIRZU3+bG5WWmwt7L+BP5h08aF4evJJ3JZTDYLVjeDSziHWegAUYMHHX
-	 GIe4bf7nsQze7E+qI1XLercvr6K9mP8eldSOZei+NKxm+YSh74hPft3SCyRZLwu2qB
-	 YCP+GFzaL3XQw==
-Date: Thu, 2 May 2024 12:42:51 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, Ricardo
- Ribalda <ribalda@chromium.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: Re: [GIT FIXES FOR 6.10] IPU6 and Unicam fixes
-Message-ID: <20240502124251.0aa5879b@sal.lan>
-In-Reply-To: <ZjNs9k7NH7pubibu@valkosipuli.retiisi.eu>
-References: <ZjNQbS9CF1U6lGWx@valkosipuli.retiisi.eu>
-	<20240502112547.3170d33c@sal.lan>
-	<ZjNs9k7NH7pubibu@valkosipuli.retiisi.eu>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1714650680; c=relaxed/simple;
+	bh=RdFvovwC6J72B9lO/iQNWZ93woVFpoxGo4KbUlr2sv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k227Cky0mqonEiZKM6X6gcH2tT1YZMQJlgJ2Eij55AEgI420egsOf6+v0Kp2IqLa+C1tmnk1mKV7SFqF2ZyoZDlMaDWI1BMJmuW5sk+wBGvXyPLqy93qD2XBn3zfd2tm25kxMhazkbjH1L2+ueMrWnhU/cBlZTtS6RNvqgIg2hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xd+HPEDX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lhg5NcZr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xd+HPEDX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lhg5NcZr; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F07D1352A6;
+	Thu,  2 May 2024 11:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714650677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lPWunjgtsKUH55Qaz+CsOmKx+6A+ecZXDefV0fnDOcU=;
+	b=Xd+HPEDXYWCpl85h0ivgG/ZauB6HNfnICHwZMHiDC3eqKMeOAwYTQqltnt0nVwh5FDOLa/
+	I4nq/QR0BPt2d1tr8uK458zCsqZVlHl8q13iC79Dw0r79LI2WEHLs82FYsoDfDdlWqB9qP
+	g7F9HQvaBHN7D2GEwh+4v7XTvYSSYuM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714650677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lPWunjgtsKUH55Qaz+CsOmKx+6A+ecZXDefV0fnDOcU=;
+	b=Lhg5NcZrDqHHhF8f90P1bD6AV1TyswcbexUnvSdYnGIR8cEOn1prBCtW4Ukk+709lH4PG0
+	LNlcHLpac6ivJqBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xd+HPEDX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lhg5NcZr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714650677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lPWunjgtsKUH55Qaz+CsOmKx+6A+ecZXDefV0fnDOcU=;
+	b=Xd+HPEDXYWCpl85h0ivgG/ZauB6HNfnICHwZMHiDC3eqKMeOAwYTQqltnt0nVwh5FDOLa/
+	I4nq/QR0BPt2d1tr8uK458zCsqZVlHl8q13iC79Dw0r79LI2WEHLs82FYsoDfDdlWqB9qP
+	g7F9HQvaBHN7D2GEwh+4v7XTvYSSYuM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714650677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lPWunjgtsKUH55Qaz+CsOmKx+6A+ecZXDefV0fnDOcU=;
+	b=Lhg5NcZrDqHHhF8f90P1bD6AV1TyswcbexUnvSdYnGIR8cEOn1prBCtW4Ukk+709lH4PG0
+	LNlcHLpac6ivJqBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D3AD13957;
+	Thu,  2 May 2024 11:51:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xsETHTR+M2YdLQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 11:51:16 +0000
+Message-ID: <84a5f7b6-d20a-4c69-83a8-d8394fea2b68@suse.de>
+Date: Thu, 2 May 2024 13:51:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] drm: Fix dma_resv deadlock at drm object pin time
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Zack Rusin <zack.rusin@broadcom.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-6.50 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[collabora.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,arm.com,linaro.org,amd.com,broadcom.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: F07D1352A6
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -6.50
 
-Em Thu, 2 May 2024 10:37:42 +0000
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+Hi,
 
-> Hi Mauro,
-> 
-> On Thu, May 02, 2024 at 11:25:47AM +0100, Mauro Carvalho Chehab wrote:
-> > Em Thu, 2 May 2024 08:35:57 +0000
-> > Sakari Ailus <sakari.ailus@iki.fi> escreveu:
-> >   
-> > > Hi Hans, Mauro,
-> > > 
-> > > Here are a few fixes for the IPU6 and Unicam drivers, for issues found
-> > > since merging them. Most are are due to Kconfig options.
-> > > 
-> > > Please pull.
-> > > 
-> > > 
-> > > The following changes since commit a1c6d22421501fc1016b99ac8570a1030714c70f:
-> > > 
-> > >   media: staging: max96712: fix copy-paste error (2024-04-30 14:33:08 +0100)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   git://linuxtv.org/sailus/media_tree.git tags/fixes-6.10-1.1-signed
-> > > 
-> > > for you to fetch changes up to f28348ebadf7c7127646672f363e055cb19f3b66:
-> > > 
-> > >   media: intel/ipu6: Fix build with !ACPI (2024-05-02 11:34:26 +0300)
-> > > 
-> > > ----------------------------------------------------------------
-> > > IPU6 and Unicam fixes
-> > > 
-> > > ----------------------------------------------------------------
-> > > Laurent Pinchart (1):
-> > >       media: bcm2835-unicam: Include v4l2-subdev.h
-> > > 
-> > > Ricardo Ribalda (4):
-> > >       media: bcm2835-unicam: Fix build with !PM
-> > >       media: intel/ipu6: Switch to RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS
-> > >       media: intel/ipu6: Fix direct dependency Kconfig error
-> > >       media: intel/ipu6: Fix build with !ACPI  
-> > 
-> > The above were applied, thanks!
-> >   
-> > > 
-> > > Sakari Ailus (1):
-> > >       media: intel/ipu6: Fix vmalloc memory allocation  
-> > 
-> > I didn't applied this one, as it sounds to me that the fix is
-> > incomplete. I sent an email with the potential issues I found on it.  
-> 
-> This is a compile issue at the moment.
+ignoring my r-b on patch 1, I'd like to rethink the current patches in 
+general.
 
-On such case, please include the compile error at the commit message.
+I think drm_gem_shmem_pin() should become the locked version of _pin(), 
+so that drm_gem_shmem_object_pin() can call it directly. The existing 
+_pin_unlocked() would not be needed any longer. Same for the _unpin() 
+functions. This change would also fix the consistency with the semantics 
+of the shmem _vmap() functions, which never take reservation locks.
 
-> There may be other bugs (like not
-> releasing the allocated memory) but it's a different problem. That's why
-> I'd merge this one now.
+There are only two external callers of drm_gem_shmem_pin(): the test 
+case and panthor. These assume that drm_gem_shmem_pin() acquires the 
+reservation lock. The test case should likely call drm_gem_pin() 
+instead. That would acquire the reservation lock and the test would 
+validate that shmem's pin helper integrates well into the overall GEM 
+framework. The way panthor uses drm_gem_shmem_pin() looks wrong to me. 
+For now, it could receive a wrapper that takes the lock and that's it.
 
-If I understand well, there are then a couple of issues there:
+Best regards
+Thomas
 
-1. the driver doesn't compile if no vmalloc;
+Am 01.05.24 um 08:55 schrieb Adrián Larumbe:
+> This is v3 of https://lore.kernel.org/dri-devel/20240424090429.57de7d1c@collabora.com/
+>
+> The goal of this patch series is fixing a deadlock upon locking the dma reservation
+> of a DRM gem object when pinning it, at a prime import operation.
+>
+> Changes from v2:
+>   - Removed comment explaining reason why an already-locked
+> pin function replaced the locked variant inside Panfrost's
+> object pin callback.
+>   - Moved already-assigned attachment warning into generic
+> already-locked gem object pin function
+>
+> Adrián Larumbe (2):
+>    drm/panfrost: Fix dma_resv deadlock at drm object pin time
+>    drm/gem-shmem: Add import attachment warning to locked pin function
+>
+>   drivers/gpu/drm/drm_gem_shmem_helper.c  | 2 ++
+>   drivers/gpu/drm/lima/lima_gem.c         | 2 +-
+>   drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+>   3 files changed, 4 insertions(+), 2 deletions(-)
+>
+>
+> base-commit: 75b68f22e39aafb22f3d8e3071e1aba73560788c
 
-2. the driver currently only works with vmalloc, as currently the firmware
-   load logic seems to depend on it:
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-	if (is_vmalloc_addr(fw->data)) {
-		*firmware_p = fw;
-		return 0;
-	}
-
-3. the driver has memory leaks: it doesn't de-allocate what it is
-   stored at *firmware_p pointer (nor the isp structure).
-
-I would expect a patch that would at least fix (1) and (2) altogether.
-
-I mean, if the driver can't work without vmalloc support, it has to
-either one of the possible fixes below:
-
-- depend on some Kconfig symbol that will prevent it to be compiled
-  when vmalloc is disabled/unsupported;
-
-- depend on BROKEN;
-
-- have the is_vmalloc_addr() and vmalloc()/vfree() replaced by
-  kvmalloc()/kvfree() at the same patch.
-
-Regards,
-Mauro
 
