@@ -1,140 +1,156 @@
-Return-Path: <linux-media+bounces-10583-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10584-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844F68B969B
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:42:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F16A8B9704
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 11:00:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 303301F21FB9
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 08:42:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1ECB283540
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 09:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F81846544;
-	Thu,  2 May 2024 08:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B251452F61;
+	Thu,  2 May 2024 09:00:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="s7riFSYF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLBAfjSh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3208D1B299
-	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 08:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714639335; cv=pass; b=L/+s0h4vh2odiX0sV+0wT90veexowoHrjxaEPvPh4BAyEP1DhADrbziqrI/vReDvA1DtkV69dphaIak1e+Sk9k8MNkw0pQXRHbecCZ1s9DAjf1BEkMnCYfQK9CQqRLjNvJ0Z/N74F2C7hErKL2x855sFS2xHubBCMicMjP3TNCE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714639335; c=relaxed/simple;
-	bh=VaPtE38zOZqbq2GhIJKjEPsAFGrE4P0l+gZ+m9j8meI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kLcSLgjCuItJOecEVABRFyqtYyRH26aZekicPZbUBmdfBWIKCcA25WEYw5I3idq6gLO2cA2wwodjIT3dB111XWEJnGeUf45tfBiR76fYJgWnC92gsVKS8GXufYVe9VZGIznOoWpqCa+tibD7skiEkcqNkU2mrlTdaOxdT+ERBhU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=s7riFSYF; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VVS255S8Yz49PvR;
-	Thu,  2 May 2024 11:35:57 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1714638958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=7/r9nRCQgpi3UIxTprtpVvSn42q8ihtAxNm/98plbeg=;
-	b=s7riFSYFV4M8WaBiCqalTRXenCaJYnYR3vtrtwX/QJ0CtBYJirLvdHTrGGek7i13vpbI/5
-	5n++yxVhRkvNHhQrMlxWBljWyvmSK0PhfQdBXfc++DIVwf9YurEKEAz/H3gvaAVaEu4l2t
-	o6mnpuzu/vedBIcGhZtEHkMpuKeBwm+Kgf9AxiTz+hO4sz1rwfbQchMvhyNx2pCYNIkJ1J
-	QrJhTGEv52cxwJyfaZDoyCdZQr+8EtOMGelVW2QNS3g9ZyvWPt+sjO8C7tLdLfsoFK3y4z
-	kbMzuKl804U0SieE0qnipLDwM5aR1hsgqMR1O2x5kauFZpIw1gTWpJ/B/ScXyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1714638958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=7/r9nRCQgpi3UIxTprtpVvSn42q8ihtAxNm/98plbeg=;
-	b=q1hg7YcVbsLJXb/2ZeqNGxgUxYmA9iteO/IwYUQXkz50AKjpammqgHoJGlk1UzRbIoZKKv
-	z+hzyItZRQAsyHe11XbZWH1WuRMkVBgktBxImGzyfbZxqB8vDi722KkpDoNileX1AM+IZt
-	CTJMfUArEm3enduTpu18NhEFpIN9q0Cn+gDXpWonfKEi6c2GNPKbDWKlqCegWvdjPctrO/
-	rnvfSN9nYqLoTdMvMB6V0bE9T3PK3TRNIIKdteSQmscCzUWcXCr5uiKJ3VaC/EtiN5VrqQ
-	ikfUfVDrNsOHyM4WYqxpz6Htb1XdLOienqcA5f7got5hu2Hu2rqpURae83RdMg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1714638958; a=rsa-sha256;
-	cv=none;
-	b=BkrIZZuQIEpOsRQxdyCKBzahf5zSpbOIbUG5L+XaPqt+BbvF7l/9wob2xf0SLAYZDeEEak
-	UngSWUnBMje5Uu+hyZg6tVhjfy14PmpP5XZcl5/z4KOdigxIcd0BbyC3tS2XXYQR+OYPJA
-	507AcxA520tvl5haNBLFswS4itIInKkAkEzkayfH21bUXzAghdakx8EJW4ygCPt/wO6G5z
-	2Z/4b+p/SpCErQ815UWDOAiJgOuQi4/G5VGiQNGe4LRdDn0OAJY2z8BVa7KJQkk3ZbNJaU
-	58hW5RuMDCNXxuUkJTi7f7wG7V8M2MPIsP2ipureWL8FPooTJkTyMoxyt+GLQQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5FFF1634CA5;
-	Thu,  2 May 2024 11:35:57 +0300 (EEST)
-Date: Thu, 2 May 2024 08:35:57 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [GIT FIXES FOR 6.10] IPU6 and Unicam fixes
-Message-ID: <ZjNQbS9CF1U6lGWx@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E55150A65;
+	Thu,  2 May 2024 09:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714640407; cv=none; b=lvkCnJ8evpNqnyTFcl0HFlEPmih8aqUE3695gQVzHq6gC4FxYg4iscslKthZCw936XF51s+GJsODpGfb+MmngkX3t+JbRlcDcXh6GsiXAyvihTpN0+mGQpfHhN4S4Eod1J/8vVymjhycDG8nzXSSNpQ1ykzZ61OD0GRrFeuI0z0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714640407; c=relaxed/simple;
+	bh=F5Z3CegIuDz1KYzRsgzmDjZXhBZBJKlckcG9UPbVRbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JVVItcaR0NwDXXtv+wgMJWRX74cBdfh0e12k/YsbstcnEbRv6RNdBq7/k9pnzeT7UkC32j/M1OSB0qy98UT+JDDq7b+mh6KwQ0W3iWTyVRpTVfFyJmBiZKNPTIq8zu/c2t/cXOxk4K5txX5wSf3Z+OV5EffBnq3UxAGFoIKQ/Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLBAfjSh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645ECC113CC;
+	Thu,  2 May 2024 09:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714640406;
+	bh=F5Z3CegIuDz1KYzRsgzmDjZXhBZBJKlckcG9UPbVRbg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DLBAfjShKr935qgIqx23bWiHXrn7CRnEUkn38ngre0YYP1eJiKj4vTQh/m1B/a8Ms
+	 wbTE3rPt4rsZAk69+U5zgpWlqXdpgnJtWpC3+DUZK5shSYpaFSfrgmGys00QN9axic
+	 jLmhK6fkJbRaU1NnP5sghmMr3paAiADobp1W6l/iCV30A96r94qCfGDUsrIq0b79x6
+	 P7lU4qdM+qiWFUfEeEvlOuwCB4Wb68fO+sXeqiDrp/dcO5nG+mk9fxUG7XjtW1eN2S
+	 OUyKULESIuqRiPvyV8LOA3bqHE4x+BCRfsNgCiJnKRbcnguykfNdTAD44sAJ0chiOa
+	 GeVN/aj3vjbqA==
+Date: Thu, 2 May 2024 09:59:56 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Mark Brown <broonie@kernel.org>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
+ m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Message-ID: <20240502095956.0a8c5b26@sal.lan>
+In-Reply-To: <87sez0k661.wl-tiwai@suse.de>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+	<20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+	<ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
+	<20240430172752.20ffcd56@sal.lan>
+	<ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+	<87sez0k661.wl-tiwai@suse.de>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Hans, Mauro,
+Em Thu, 02 May 2024 09:46:14 +0200
+Takashi Iwai <tiwai@suse.de> escreveu:
 
-Here are a few fixes for the IPU6 and Unicam drivers, for issues found
-since merging them. Most are are due to Kconfig options.
+> On Wed, 01 May 2024 03:56:15 +0200,
+> Mark Brown wrote:
+> > 
+> > On Tue, Apr 30, 2024 at 05:27:52PM +0100, Mauro Carvalho Chehab wrote:  
+> > > Mark Brown <broonie@kernel.org> escreveu:  
+> > > > On Tue, Apr 30, 2024 at 10:21:12AM +0200, Sebastian Fricke wrote:  
+> >   
+> > > > The discussion around this originally was that all the audio APIs are
+> > > > very much centered around real time operations rather than completely  
+> >   
+> > > The media subsystem is also centered around real time. Without real
+> > > time, you can't have a decent video conference system. Having
+> > > mem2mem transfers actually help reducing real time delays, as it 
+> > > avoids extra latency due to CPU congestion and/or data transfers
+> > > from/to userspace.  
+> > 
+> > Real time means strongly tied to wall clock times rather than fast - the
+> > issue was that all the ALSA APIs are based around pushing data through
+> > the system based on a clock.
+> >   
+> > > > That doesn't sound like an immediate solution to maintainer overload
+> > > > issues...  if something like this is going to happen the DRM solution
+> > > > does seem more general but I'm not sure the amount of stop energy is
+> > > > proportionate.  
+> >   
+> > > I don't think maintainer overload is the issue here. The main
+> > > point is to avoid a fork at the audio uAPI, plus the burden
+> > > of re-inventing the wheel with new codes for audio formats,
+> > > new documentation for them, etc.  
+> > 
+> > I thought that discussion had been had already at one of the earlier
+> > versions?  TBH I've not really been paying attention to this since the
+> > very early versions where I raised some similar "why is this in media"
+> > points and I thought everyone had decided that this did actually make
+> > sense.  
+> 
+> Yeah, it was discussed in v1 and v2 threads, e.g.
+>   https://patchwork.kernel.org/project/linux-media/cover/1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com/#25485573
+> 
+> My argument at that time was how the operation would be, and the point
+> was that it'd be a "batch-like" operation via M2M without any timing
+> control.  It'd be a very special usage for for ALSA, and if any, it'd
+> be hwdep -- that is a very hardware-specific API implementation -- or
+> try compress-offload API, which looks dubious.
+> 
+> OTOH, the argument was that there is already a framework for M2M in
+> media API and that also fits for the batch-like operation, too.  So
+> was the thread evolved until now.
 
-Please pull.
+M2M transfers are not a hardware-specific API, and such kind of
+transfers is not new either. Old media devices like bttv have
+internally a way to do PCI2PCI transfers, allowing media streams
+to be transferred directly without utilizing CPU. The media driver
+supports it for video, as this made a huge difference of performance
+back then.
 
+On embedded world, this is a pretty common scenario: different media
+IP blocks can communicate with each other directly via memory. This
+can happen for video capture, video display and audio.
 
-The following changes since commit a1c6d22421501fc1016b99ac8570a1030714c70f:
+With M2M, most of the control is offloaded to the hardware.
 
-  media: staging: max96712: fix copy-paste error (2024-04-30 14:33:08 +0100)
+There are still time control associated with it, as audio and video
+needs to be in sync. This is done by controlling the buffers size 
+and could be fine-tuned by checking when the buffer transfer is done.
 
-are available in the Git repository at:
+On media, M2M buffer transfers are started via VIDIOC_QBUF,
+which is a request to do a frame transfer. A similar ioctl
+(VIDIOC_DQBUF) is used to monitor when the hardware finishes
+transfering the buffer. On other words, the CPU is responsible
+for time control.
 
-  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.10-1.1-signed
+On other words, this is still real time. The main difference
+from a "sync" transfer is that the CPU doesn't need to copy data
+from/to different devices, as such operation is offloaded to the
+hardware.
 
-for you to fetch changes up to f28348ebadf7c7127646672f363e055cb19f3b66:
-
-  media: intel/ipu6: Fix build with !ACPI (2024-05-02 11:34:26 +0300)
-
-----------------------------------------------------------------
-IPU6 and Unicam fixes
-
-----------------------------------------------------------------
-Laurent Pinchart (1):
-      media: bcm2835-unicam: Include v4l2-subdev.h
-
-Ricardo Ribalda (4):
-      media: bcm2835-unicam: Fix build with !PM
-      media: intel/ipu6: Switch to RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS
-      media: intel/ipu6: Fix direct dependency Kconfig error
-      media: intel/ipu6: Fix build with !ACPI
-
-Sakari Ailus (1):
-      media: intel/ipu6: Fix vmalloc memory allocation
-
- drivers/media/pci/intel/Kconfig                  |  3 +-
- drivers/media/pci/intel/ipu-bridge.c             | 66 +++++++++++++++++-------
- drivers/media/pci/intel/ipu6/ipu6.c              |  6 +--
- drivers/media/platform/broadcom/bcm2835-unicam.c |  3 +-
- 4 files changed, 54 insertions(+), 24 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
+Regards,
+Mauro
 
