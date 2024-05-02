@@ -1,252 +1,264 @@
-Return-Path: <linux-media+bounces-10615-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10616-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD74A8B9A9D
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 14:18:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B668B9C37
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 16:23:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFCA71C2187A
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:18:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEE63B21A7D
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 14:23:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7D1BD26A;
-	Thu,  2 May 2024 12:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 910F313C808;
+	Thu,  2 May 2024 14:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D3Y6t+9+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fDPMI9GC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0YK7zLTA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HXDJcb2K"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Dvtqpbbq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UvH6PHiu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAB659B4B;
-	Thu,  2 May 2024 12:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7B1152788;
+	Thu,  2 May 2024 14:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714652303; cv=none; b=XZ1OnEKvTIIIdiu/ElB1+UeEvPORtal7sdXXHouT+tT5ooga6MrnUeO6MJLStW/6t0x7yy0HcriSCXrNdJv46yr8Go8TbFZ7hQehPYCXw2YsLYAfHpu6hAHEtlDFKv4WSHA9/+Qqoy3gGYfir9p+PdSyVhX8H2JSo7BsXjoX41Y=
+	t=1714659805; cv=none; b=POhFEn827/U6p56ZG/ZWm8Z36G1kuMkowOzWSeMJEnYAVNrh6Uj7cHC8hkYGY3wzTn/ZvrAYaEiPFMXM6J0ub+JXjVvrXA7ztGLNbb8jS4FnmrZiujh0ETh8Rb/HZIQnapt17oxXbXQPXvnQxBLj38WxRKvI9i0vOlCUiyj3v7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714652303; c=relaxed/simple;
-	bh=P4JGGIr7TuEdQzF3H361JB9JPnuVF+tZjUULrjnjSxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q/tUL9Iwlb25v+mv3/CUgZl3/YAyAzjRymfVfmfVIPmKoTsz+YE/8aNQPgzLXXnjaAV9019I05lz7xNpQvc+AoV22iphXkckZ795Yp+ny7XcUasvcm3XsOdBoXz540rsKa9O4fX0WmCh5R9DhcxujyRbbECuAxe4eTfkPI08YJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D3Y6t+9+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fDPMI9GC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0YK7zLTA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HXDJcb2K; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 546B81FC06;
-	Thu,  2 May 2024 12:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714652299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pFFJhcTyPcagnclRdFj35f2A5OQ1A/ixbySpoxnlmrg=;
-	b=D3Y6t+9+6T8CM/UkVLmJFo3Fqo6EQZzoDcSThWeovDdGMEyaf2OEB9jiWWcRng1G9sXV4L
-	dP1dsNcLFyLPCsrRi930Mgz8YWBCwe04Ntc7450i/0bDYpv+5gfFgxD4E9fPg8TqA5qVbI
-	brejUzJs8ZZxsPtetwuakwcbo8TF83Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714652299;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pFFJhcTyPcagnclRdFj35f2A5OQ1A/ixbySpoxnlmrg=;
-	b=fDPMI9GC8Szmc72eC2Sa15WFTUYUC861b4lMsxBTBTcNHEr+ujCVsh8DsXI8oEKgCOkMhu
-	FcJWn35HZTORRwDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0YK7zLTA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HXDJcb2K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714652298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pFFJhcTyPcagnclRdFj35f2A5OQ1A/ixbySpoxnlmrg=;
-	b=0YK7zLTAcoz+GDnOXLlfUa/avD0Rb0/lmGO8U/+CV5M0/OGPeKSE6GDqOA0dCp91yOZO7m
-	mhMloiueVmbTf6snuuPq1w1RLRrfY/gjQ3vqYJZHWyIvwXKvwCtR/4ZQ6q3mdyfR2sMQbm
-	n0Z+0uN+RDiwzkN5YCDfxYdJBjWqa3M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714652298;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pFFJhcTyPcagnclRdFj35f2A5OQ1A/ixbySpoxnlmrg=;
-	b=HXDJcb2KXoqx7fUOZ/ASPsjaPHHy4JDxp2ictXesxUBMgcjqEYVjuGQKCE7k5s5fbIMCqw
-	6QezDhPru6ztlhAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC41113957;
-	Thu,  2 May 2024 12:18:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a9S2MImEM2beNgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 12:18:17 +0000
-Message-ID: <d520ea1b-e399-4c3d-8546-87c68e480cbc@suse.de>
-Date: Thu, 2 May 2024 14:18:17 +0200
+	s=arc-20240116; t=1714659805; c=relaxed/simple;
+	bh=GJ3uN5JdspbkXMmokDlcqY/7zUWnAcNI8gGtinNh/RY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXuJAxEaRV+f+tWw84hRoS4wa1PsgOUEvjRtODExmQPLG0FUnTxuTLUSoV9kYaX4XgAEYUIN3APi70/fm97l1L7C81k1FztZqcTYIDficEr2qBGeE5TkIJwUvrsg3OehfX4w4RNRhbySkV+J6h9hYijdU23pP14cW4Wi76CbCnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Dvtqpbbq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UvH6PHiu; arc=none smtp.client-ip=64.147.123.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfout.west.internal (Postfix) with ESMTP id 7420D1C0010C;
+	Thu,  2 May 2024 10:23:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 02 May 2024 10:23:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1714659800;
+	 x=1714746200; bh=46OECL4cVd5CVboF0xSpknDu8QvTJTtAWcYdSMM6aQ4=; b=
+	DvtqpbbqpIDXVtr2djKWefmylidjmu7sfsO3Wybu8R7R3cE1D1hC1g5ckOyWsCf+
+	JUVhgFcYkWl3t9hpqvmAzzdJM8oFxpAD3gJXj65URud3VzQV+rq+cedvZiKq8O0l
+	JuhzMq9CrlNFwXbGi0mzJGPE7F+THxVqiWdle56ntEK3w6NzHO/C3RKc5j+gfn9R
+	3Dpk4ei3pn8BHYWtFuSqZXBPKX1BAjtH9g6KwAC23Qx0bpph7YwQ7mtoloIpmkGT
+	Xmf5Yp5Zq9wa7HH0OgdYajtcHLuVnPFeMbbSZbAj/PX2EkN0Hv+huyYLuD64SJsI
+	ZVKXxk3wfjwqBfhkl3EKNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1714659800; x=
+	1714746200; bh=46OECL4cVd5CVboF0xSpknDu8QvTJTtAWcYdSMM6aQ4=; b=U
+	vH6PHiuY2/c3MNYOktEAbEupcmTmAYONZZl9AvwxILynolf4GRssncKtA5pyjMik
+	qZiLpizeNmyUE4q5d5g8PDQhGIw7DQ/txix7nesQ0a6N/CDgI6yZ2y5E9bgNwjxP
+	3dVCW2OoyBwRH2z8FA3ERXmnounrX6dSJvABZKIOSq35QSJ5mDCHJxNWTyrO1IwQ
+	48ktYQrR3CbrrFZE4RONJinPDWuQq+0Hd+xawClpAsv+eyAHrhS9B6Cxi8+gIkN7
+	ycqChCqk/7umSCBQuIw4M4Zj8YnMvy1d7+2rrlAkkJCXc6zuovbvdGr5m0+mXqAx
+	mAao5fp12ssFsuiSg1REw==
+X-ME-Sender: <xms:16EzZrHvaP6YoPl5Y-3wAAn2btqaCRp8JE0YlVArQ7UsbOVfDacghw>
+    <xme:16EzZoUwKVeWcfQLeXYll55K0AtHYh993lzG1K64F9zgHeVRho8nJ7oTEt83vsY1U
+    b6KhSzQ2Xbtmxy2Mj4>
+X-ME-Received: <xmr:16EzZtJ-HSYUuJ4EAjDS2UsGx0RZb5qq9AS9iW0jko75RM5sJqbWdRHwEMFnem1LHNQk448nDnk8nybpqFBMQ_tfIpNcWlU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddukedgjeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:16EzZpEX-wQO7mUgQxOnsW7v8SrfjOqPQOtVDRVdqK9PyUnHlNrBZw>
+    <xmx:16EzZhUTBWqjjp6hX9WFufS5XaPfzZobvVqJILzI1mmBqQ66HXbB5w>
+    <xmx:16EzZkOakAGL1x7YXiXHB7LhU71aUN2uuK7ICmue--St-8_qfUXxJg>
+    <xmx:16EzZg1yi1cNDiZ_m2XbCZ-u_ypUuFbfxVN9otgQ09swx1r9dBY0FQ>
+    <xmx:2KEzZgHmg0JAgRyTnAvH-dEq6ZTzRoSUS4LO4E8chgZjehqD_ijZbRHR>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 May 2024 10:23:19 -0400 (EDT)
+Date: Thu, 2 May 2024 16:23:16 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 15/19] media: rcar-csi2: Add support for multiplexed
+ streams
+Message-ID: <20240502142316.GA3927860@ragnatech.se>
+References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
+ <20240430103956.60190-16-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] drm: Fix dma_resv deadlock at drm object pin time
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Qiang Yu <yuq825@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Zack Rusin <zack.rusin@broadcom.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
- <84a5f7b6-d20a-4c69-83a8-d8394fea2b68@suse.de>
- <20240502135941.136ad639@collabora.com>
- <20240502140012.68e88831@collabora.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240502140012.68e88831@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.50
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 546B81FC06
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,arm.com,linaro.org,amd.com,broadcom.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240430103956.60190-16-jacopo.mondi@ideasonboard.com>
 
-Hi
+Hi Jacopo,
 
-Am 02.05.24 um 14:00 schrieb Boris Brezillon:
-> On Thu, 2 May 2024 13:59:41 +0200
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
->
->> Hi Thomas,
->>
->> On Thu, 2 May 2024 13:51:16 +0200
->> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->>> Hi,
->>>
->>> ignoring my r-b on patch 1, I'd like to rethink the current patches in
->>> general.
->>>
->>> I think drm_gem_shmem_pin() should become the locked version of _pin(),
->>> so that drm_gem_shmem_object_pin() can call it directly. The existing
->>> _pin_unlocked() would not be needed any longer. Same for the _unpin()
->>> functions. This change would also fix the consistency with the semantics
->>> of the shmem _vmap() functions, which never take reservation locks.
->>>
->>> There are only two external callers of drm_gem_shmem_pin(): the test
->>> case and panthor. These assume that drm_gem_shmem_pin() acquires the
->>> reservation lock. The test case should likely call drm_gem_pin()
->>> instead. That would acquire the reservation lock and the test would
->>> validate that shmem's pin helper integrates well into the overall GEM
->>> framework. The way panthor uses drm_gem_shmem_pin() looks wrong to me.
->>> For now, it could receive a wrapper that takes the lock and that's it.
->> I do agree that the current inconsistencies in the naming is
->> troublesome (sometimes _unlocked, sometimes _locked, with the version
->> without any suffix meaning either _locked or _unlocked depending on
->> what the suffixed version does), and that's the very reason I asked
->> Dmitry to address that in his shrinker series [1]. So, ideally I'd
->> prefer if patches from Dmitry's series were applied instead of
->> trying to fix that here (IIRC, we had an ack from Maxime).
-> With the link this time :-).
->
-> [1]https://lore.kernel.org/lkml/20240105184624.508603-1-dmitry.osipenko@collabora.com/T/
+Thanks for your work.
 
-Thanks. I remember these patches. Somehow I thought they would have been 
-merged already. I wasn't super happy about the naming changes in patch 
-5, because the names of the GEM object callbacks do no longer correspond 
-with their implementations. But anyway.
+On 2024-04-30 12:39:51 +0200, Jacopo Mondi wrote:
+> Create and initialize the v4l2_subdev_state for the R-Car CSI-2 receiver
+> in order to prepare to support multiplexed transmitters.
+> 
+> Create the subdevice state with v4l2_subdev_init_finalize() and
+> implement the init_state() operation to guarantee the state is initialized.
+> 
+> The routing table within the R-Car CSI-2 receiver is fixed, streams
+> received on source_stream X will be directed to pad (X + 1) by default.
+> Initialize a static routing table with such routes set as active.
+> 
+> While at it, disable runtime_pm() in the probe() function error path.
 
-If we go that direction, we should here simply push drm_gem_shmem_pin() 
-and drm_gem_shmem_unpin() into panthor and update the shmem tests with 
-drm_gem_pin(). Panfrost and lima would call drm_gem_shmem_pin_locked(). 
-IMHO we should not promote the use of drm_gem_shmem_object_*() 
-functions, as they are meant to be callbacks for struct 
-drm_gem_object_funcs. (Auto-generating them would be nice.)
+Can we break this out in a separate patch? As the multiplexed stream 
+work will not be ready for v6.10 if I understood the tendencies 
+correctly (?), we can at least fix this issue before that.
 
-Best regards
-Thomas
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 74 +++++++++++++++++++++-
+>  1 file changed, 72 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index 582d5e35db0e..82dc0b92b8d3 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -1226,6 +1226,65 @@ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+>  	.pad	= &rcar_csi2_pad_ops,
+>  };
+>  
+> +static int rcsi2_init_state(struct v4l2_subdev *sd,
+> +			    struct v4l2_subdev_state *state)
+> +{
+> +	/*
+> +	 * Routing is fixed for this device: streams sent on sink_stream X
+> +	 * are directed to pad (X + 1). Which streams goes to the next
+> +	 * processing block (VIN) is controlled by link enablement between the
+> +	 * CSI-2 and the VIN itself and not by the CSI-2 routing table.
+> +	 *
+> +	 * The routing table is then fixed, as stream X will be directed to
+> +	 * csi:(X + 1)/0 and will be transmitted to VINs the on media link
+> +	 * csi2:(x + 1)->vin:0.
+> +	 *
+> +	 * For example, to route stream #3 to VIN #1 : "csi2:4/0 -> vin1:0" and
+> +	 * to route stream #2 to VIN #4 : "csi2:3/0 -> vin4:0".
+> +	 */
+> +	struct v4l2_subdev_route routes[] = {
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 0,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC0,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 1,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC1,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 2,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC2,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+> +			.sink_pad = RCAR_CSI2_SINK,
+> +			.sink_stream = 3,
+> +			.source_pad = RCAR_CSI2_SOURCE_VC3,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +	};
+> +
+> +	struct v4l2_subdev_krouting routing = {
+> +		.num_routes = ARRAY_SIZE(routes),
+> +		.routes = routes,
+> +	};
 
+Should not the two structs above be static const as you return a pointer 
+to them?
 
->
->> Regards,
->>
->> Boris
+> +
+> +	return v4l2_subdev_set_routing(sd, state, &routing);
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops rcar_csi2_internal_ops = {
+> +	.init_state = rcsi2_init_state,
+> +};
+> +
+>  static irqreturn_t rcsi2_irq(int irq, void *data)
+>  {
+>  	struct rcar_csi2 *priv = data;
+> @@ -1887,11 +1946,13 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  
+>  	priv->subdev.owner = THIS_MODULE;
+>  	priv->subdev.dev = &pdev->dev;
+> +	priv->subdev.internal_ops = &rcar_csi2_internal_ops;
+>  	v4l2_subdev_init(&priv->subdev, &rcar_csi2_subdev_ops);
+>  	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
+>  	snprintf(priv->subdev.name, sizeof(priv->subdev.name), "%s %s",
+>  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> -	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			     V4L2_SUBDEV_FL_STREAMS;
+>  
+>  	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+>  	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+> @@ -1912,14 +1973,22 @@ static int rcsi2_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	ret = v4l2_subdev_init_finalize(&priv->subdev);
+> +	if (ret)
+> +		goto error_pm_runtime;
+> +
+>  	ret = v4l2_async_register_subdev(&priv->subdev);
+>  	if (ret < 0)
+> -		goto error_async;
+> +		goto error_subdev;
+>  
+>  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+>  
+>  	return 0;
+>  
+> +error_subdev:
+> +	v4l2_subdev_cleanup(&priv->subdev);
+> +error_pm_runtime:
+> +	pm_runtime_disable(&pdev->dev);
+>  error_async:
+>  	v4l2_async_nf_unregister(&priv->notifier);
+>  	v4l2_async_nf_cleanup(&priv->notifier);
+> @@ -1936,6 +2005,7 @@ static void rcsi2_remove(struct platform_device *pdev)
+>  	v4l2_async_nf_unregister(&priv->notifier);
+>  	v4l2_async_nf_cleanup(&priv->notifier);
+>  	v4l2_async_unregister_subdev(&priv->subdev);
+> +	v4l2_subdev_cleanup(&priv->subdev);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> -- 
+> 2.44.0
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Kind Regards,
+Niklas Söderlund
 
