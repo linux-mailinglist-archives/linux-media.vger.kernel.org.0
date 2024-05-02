@@ -1,487 +1,222 @@
-Return-Path: <linux-media+bounces-10594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D888B9969
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:47:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE718B9970
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:50:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B60C1F24BE3
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:47:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 770C4B23215
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9E35FBAA;
-	Thu,  2 May 2024 10:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3FCE5D903;
+	Thu,  2 May 2024 10:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EcpiCXhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5G7GFDoC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EcpiCXhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5G7GFDoC"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="LuoIxQGZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2047.outbound.protection.outlook.com [40.107.113.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FB35D903;
-	Thu,  2 May 2024 10:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714646770; cv=none; b=O+bPw5tmmK47WwxE0r3H5qhbevqgQLbg1TtFOGJMpislnfnCb8UNV/+zhWGLGULJUFWWhsRLShrS3pGWLvlCv3rkjxuY2T+KHIavo9eii4BsnGlCjduvrP9dt+w3LWCMkgW7mkAQUOo6LnrpszWm+C8tSGS/soXmkJMEqb2e1bE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714646770; c=relaxed/simple;
-	bh=u3YBowyQIANHMcTK7kxk0HNHLL5iznKNxq9nzrT0K48=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sInHys0uH/CDhkBzl8i1eD6iSkAwrqXZUyhnNjRaMZgY2ksDevvtHSt3m6OIOuzNKX3/Me9q1gFsGTwTQKQ0gcA2ondYlMduAgTOzHfODLwmJkyK1CEWTZCkqOTbUtUBBJXjXQyrvxTng8QfuYTxLpzVYVSlmKRDKHTAudOTdQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EcpiCXhP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5G7GFDoC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EcpiCXhP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5G7GFDoC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 080261FBF9;
-	Thu,  2 May 2024 10:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714646766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
-	b=EcpiCXhPUIhb0RMHJ4fGpeieAw2MIHoEgzD+S6scRJ8JnFf+qjmqDV7vnUZV430ZxbgnAU
-	9ykV8DOJl9wwBV4BC1+MQrE96FtFArDpm+l67OiYAK6dkb5y60K1lT5DxHS5qMMHdvyNcA
-	5Mb/GKZQAJW8oZWunuK6IIEQOsm6ccI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714646766;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
-	b=5G7GFDoCXtGPCKcTVXHf4u4b11gWpVq9y7l1On/+0MNaHZHn6/8d/TWtssHqI6x9PxuRPk
-	+8qoNrIAQn6cQIBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EcpiCXhP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5G7GFDoC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714646766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
-	b=EcpiCXhPUIhb0RMHJ4fGpeieAw2MIHoEgzD+S6scRJ8JnFf+qjmqDV7vnUZV430ZxbgnAU
-	9ykV8DOJl9wwBV4BC1+MQrE96FtFArDpm+l67OiYAK6dkb5y60K1lT5DxHS5qMMHdvyNcA
-	5Mb/GKZQAJW8oZWunuK6IIEQOsm6ccI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714646766;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
-	b=5G7GFDoCXtGPCKcTVXHf4u4b11gWpVq9y7l1On/+0MNaHZHn6/8d/TWtssHqI6x9PxuRPk
-	+8qoNrIAQn6cQIBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 976F81386E;
-	Thu,  2 May 2024 10:46:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MAAXI+1uM2aNFgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 10:46:05 +0000
-Message-ID: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Date: Thu, 2 May 2024 12:46:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B5517984;
+	Thu,  2 May 2024 10:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714646996; cv=fail; b=S9YArLSZ26Fs6D9BcgCONSS/YuE2bqBtDtUzqPERWVxZsv+c0Rq3Gg06O94gqF1+8owFcYuuqsZ0nLCRn2G2jMbPqcNh3xyjk2tmSwgserlYExRlULa2XG7QOxG2uu+4HdrlHJX+qeaSGYOALotrXCmnQR1Cj4ZRRiuJ8+pp2xs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714646996; c=relaxed/simple;
+	bh=keZFVWBlYxoxh64eqliFm4Xz2p9py2wPMu8Cj5bCs5I=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LmW5wmpGQm8n73sriup5UqnyiwxdtGhh3NA5KeJDA6V0u9OnX7ppSF1F/dKYY1tTzt42YBwz0vPNMTFpcMLMR2PBNuwVFSxVHGBeg+8466JYLX3+pO/TXvG5a1ykh1QGmIq6tWnTxy4Fw+bV6+75BWuCWZ2LYdby60ciuAU4rfo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=LuoIxQGZ; arc=fail smtp.client-ip=40.107.113.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YPrydpgHNJneUxqMy0C1DH7JZ5PX3SyAdChADfF1DgxICqxmMzkL/z5LkAPtsDy/xuHQxnTp1bLt5sa3vmn5nEG3ORJPbBYFc6QtoH3cKZZBny5mi/VXKIyr38QUBJ2IkgfF8vuXSomETNnqSMnqBSGvTSJy+0apQ7+TOR3VrT16aLqkF0wTp423OWxCfLxEKy0Br2WW+MiGNQ3JrZVX4eqxJcAeXeKo3KkcgFhWTajLieAMwLSoutBOuAih4nRXPXegfCxBPR7fEdFt3+RE+28eVTPpWwp9d0xcD3BsLhYemkFtTgJdAPuBpwt3vmz5iyBmwPs66M0lT+DZcyw19A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ow9yx27epie+4IUP4QYfXlV2EwWyNwakcOHNNXBmLJ0=;
+ b=PJHG1qbuR1fBkzoAKThelMYbdP28JUji70t/FaA95i0hiHTN34ndTDoaQHwLQplzsOoD0whfMVR8Tg+aB7IIZFCr6/Yk9fj9AQl7AC7jYVvg2Sa1p3EL5Dey+t0bRcJI3gAnpuBt8me77gOGuwR64teNpTABwWwXrVJPhb90CRreLeJiL1ELk3YgD9EW0WXKDi+y5vH/XO3sVeLwfrUuF1r7H0e3kOrHdgC/OnlSrsh67620XxgIcVvkkZoMJdHA4OuRvE9YHukTiFyifF1hsEzVooYMJ7CCOz7q489ugoo/Q9vZRK6AXiA0EzfjrjFiUJ7DUeloJhCZKFMgvPWV7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ow9yx27epie+4IUP4QYfXlV2EwWyNwakcOHNNXBmLJ0=;
+ b=LuoIxQGZVlisA2cs5mVgmcYLmwFP5pMKG6Y8OXxJ4WYfTsif1DSOhOUKF35dI3qrTeUEXNPNTNx1H5FTrPNhHZfhrhXnK4yIa1ButmWTp8omfkhURmhPzRgd7Gz6iqBekDTXHGQH/Cq+L+rN4l7y5n5XPI3uwplP/cpOS9t2psQ=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYCPR01MB6430.jpnprd01.prod.outlook.com (2603:1096:400:99::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.30; Thu, 2 May
+ 2024 10:49:47 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479%5]) with mapi id 15.20.7544.029; Thu, 2 May 2024
+ 10:49:47 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm
+	<magnus.damm@gmail.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, biju.das.au <biju.das.au@gmail.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: RE: [PATCH v3 1/2] media: dt-bindings: renesas,rzg2l-csi2: Document
+ Renesas RZ/G2UL CSI-2 block
+Thread-Topic: [PATCH v3 1/2] media: dt-bindings: renesas,rzg2l-csi2: Document
+ Renesas RZ/G2UL CSI-2 block
+Thread-Index: AQHaXokbVPxFqmIFPk+fhu0S7UxUIrGEP5JQ
+Date: Thu, 2 May 2024 10:49:47 +0000
+Message-ID:
+ <TYCPR01MB1133274126C782BFECF1F145A86182@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20240213142941.161217-1-biju.das.jz@bp.renesas.com>
+ <20240213142941.161217-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240213142941.161217-2-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYCPR01MB6430:EE_
+x-ms-office365-filtering-correlation-id: f9f8c646-1a9c-4ee9-4376-08dc6a9595e8
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230031|366007|7416005|376005|1800799015|38070700009;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?4IJNAVehamfwCvGkv/0ozGPNGNLsbnWN6KdMvtr79c4DmC+eFzjPICcFswyx?=
+ =?us-ascii?Q?UImNHt9KiqOCp/TlmBeNHx6bukLyiIp3qgS77YgGuiA0kv2Lk1LCZjNr2mDj?=
+ =?us-ascii?Q?MaEwSrF1Sj+hXhN+8Q+swk8tlp1gct99Cm37dHeLovqvNMh+uU1kET1Q2F2y?=
+ =?us-ascii?Q?iiY+yvaxHrdK5Arw5m+6RiergGQWDrxL3POn7o0vxR+ROKX3bX9YKcLfEAoX?=
+ =?us-ascii?Q?6qjtNQhSKSCZgGyg4I3XUi5wh2SH9H3MaUOneDDIdt9oqz4LP9ieHOJiHVuq?=
+ =?us-ascii?Q?kUi98lz1w6Kc/+a9XC+angszE5ujT2bQPmlWXuKKGovHfWGR8Gkvc14AmQpu?=
+ =?us-ascii?Q?frEpGlMG1lYMVp2yI8v7+tbyrP6SR7z574cxrcJrZRlyiUgv75xjMAbwJ6EW?=
+ =?us-ascii?Q?ARBLnfItK/wRJ9hQCDjPYlTPa+gsyHoJlCslbs7CGO8C0OtfMQP0lzlzK/AW?=
+ =?us-ascii?Q?xfVnpX0DiOlamfjbgsIDRtlcqRAO0F6+aU3SsecRK33OAs/8OswQ5xKW54vJ?=
+ =?us-ascii?Q?pIa6/lOfcdL6x00lJPqerfdEO6j2X6C8zrUzaFeyJzHV9WTj10Hh/96filZA?=
+ =?us-ascii?Q?DZMYiSrYnUYNnrl1l145KVt0q5gT5ML8N1AZtyM62I3eGVq3ZWmtRhdRndEn?=
+ =?us-ascii?Q?mkVSlxPgf+tpuCyftbbeGh5wDzSQWyP1CjkCKShe7ahabdaZljb4tf5ZTSjP?=
+ =?us-ascii?Q?Rki0rWS9ThLPesJl4UYQyz0YtSpBgHBV4rP4l3nGZjHWJsRMLdJIhGL+I/ZT?=
+ =?us-ascii?Q?Umhfgq01ip48YrwDNXH+StA8YUBeWioHO7EN/wbDwlqST2MP5iei7KPFgr1X?=
+ =?us-ascii?Q?ehy6AxPnsEHtimNP4VmyXYn2ydsU4OJceVmmn0O+MN+6oQHtc/8o1D2yxlqy?=
+ =?us-ascii?Q?k4jqz8tvihl9P/eQpSE5OCj0VHynBMC+aEaD9Lnt1+MF13b5KrIyHVffBVRa?=
+ =?us-ascii?Q?WHOV3WVw+vzX0okWHRLrtTDOYLfDlfqYIOF+scGbBnGnFWOsKonKUwbqLGjO?=
+ =?us-ascii?Q?XFKsaII6wEks+hnRu4t5ON+NNMTUd5JGvuGyg8AKAQFRUKhXovLrfaKVz2sv?=
+ =?us-ascii?Q?wnjHMWsT6fNc4XwaZ6zOQmvls1LQD+EHPdwyyokTE53q5Ogz2NYiZYBBerDF?=
+ =?us-ascii?Q?XJzcNlnpBpJbMZVC7+hJcNvgmHUOvb7AvJFhzHqdHDgSNZEFLkP/6tN46Vm+?=
+ =?us-ascii?Q?EAvitsk0/hlYwyXeL4gTwAy60YnGbLlotj3C9anlX86iG0pp3Hr1mT188DP9?=
+ =?us-ascii?Q?TxvKURwgqqwB8zOf28+aL0uu5YSaZb84K1CYguD54hAsbmIuUYLluWyU9Ymg?=
+ =?us-ascii?Q?wsEnyWAcsnqme0D0SvcEjrqRqVW+kx7d9GMQ5/EICGH4Lw=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?GPQJN1wQLLh9ul8bazJTEEyD9gvRtXswQ5FOoQ5tOWuADt1EDxRV7qYAjOt/?=
+ =?us-ascii?Q?IAvGA/xt8teJLMzKtK+MK0XqaWFMqlyo+x1hFMMVYkGl5u+HlN6Z8Y3jYDkx?=
+ =?us-ascii?Q?7iAzBUnCtyo8BMrL1BbXHJZH1pSmejBQbrDPGNkRbUYyO1CN3lxbHqCnfd1N?=
+ =?us-ascii?Q?VAOzDKOOsw+RcRj6NMGtzNMZYIkeyeMmWMB/JVbA3K2kbEU1L9/Mm9+bD1IO?=
+ =?us-ascii?Q?ErUJrOP3Cyws82zbR3dQRx21EN3FELFCwUM+wp6xmF1bDI2hcqFxo/biOAno?=
+ =?us-ascii?Q?aapKsVqSrcYwWVXXdfTw2Krm3I56sQbYN8u9HhpSySu98hD1oOr89ZXSqk2z?=
+ =?us-ascii?Q?1V8GE3O9h75EzRCkWfPAfWAFxebQ6A9AX1ecaDEa8a02bgutnsr4ibsiW4mQ?=
+ =?us-ascii?Q?UNJg919y8LAHtfHyid55v1LZlx58Ks5zpxIkrGLwJ+3fNe78ZBw+OEXW8Q8m?=
+ =?us-ascii?Q?zLSPdzImuD5VlS8/4dLoDxIxZcWmwxOZF05PJeKP6OD5+whBxMJj1+CJqLBK?=
+ =?us-ascii?Q?Z0fz9vzA1Wiw5MxXMisxhjdovOXw3r5ZirEbj4NCLtPn/SHEn3/Z56dd2L3b?=
+ =?us-ascii?Q?RC7LPajZz5hOm/Dk84AT4zjjUW3nNphjUBXWmI/ptxmCBQ1BZGDfjM7O5zz1?=
+ =?us-ascii?Q?70TbhKKMc1caIAvqhzuNI+0+8XwBB13RKhijnxlwT1bRbgWOBfdaU5aHSExn?=
+ =?us-ascii?Q?888xOTMVfTSwjiuisldDCHt9ujO6vrMKHzXo5+cgqwjE9uv1fYt9RI+ln9/n?=
+ =?us-ascii?Q?JiTC0rT8bAaQ/oyMCN2Hevq75tnjLfJdeMpJO4xBsEwyeC2WjDdwWap03zaE?=
+ =?us-ascii?Q?vaSOGivbbqyhhPVCk8Wf4D4PMiaPaqRbcV1kTvhskswpAmIQ/mi6BI9tbnLV?=
+ =?us-ascii?Q?GVuDAkklzvKmo3i/oEGmEYklUbV7mMFXHchtEAfTe4XcrAf4iWhRjCwss+q+?=
+ =?us-ascii?Q?t6Gl7sgjDag3FnWUV9vA/3cRd/7Pr+NoNF12o2ZqxQSX/4CUYxylpleJ/fgA?=
+ =?us-ascii?Q?p4y2sUdO5G4yzm/9ChdsmVfjwXxiP6gBiv2Hxys2KzGw+hbKAIy4uQKK3nRd?=
+ =?us-ascii?Q?S2NpumYJHsriNblb6ZzJcXTz6Qcc/Kr5W7f1DPRJTXzWf8txftZs7436J+6P?=
+ =?us-ascii?Q?fPRReckIjQMhY8VoGhKK+o8Z8ZOxxyiiXoqsHG7mM1Dju8+mpGiY0qp0zoPo?=
+ =?us-ascii?Q?lAYs5GEPnxrPMuYfLSSJYO7UCukIPaar4NptRoFZnDLu/aoSLlpWoW1sv3zt?=
+ =?us-ascii?Q?eSLPAnzQ12IDOEH6DcIG9jzPW/P/l5Us/RW+RWCnpL3gOCCfqoFWqb2vvobi?=
+ =?us-ascii?Q?xBWrum7ixd6Jdg8s9GjtLWsLXTCWPIyaSDDBjDX/xl/n188lx344ESLzx89v?=
+ =?us-ascii?Q?YqlhD4P2Y4kx+Wk05UMReQPGhY0wXeMPifR2tLdhw6pnwew4jjHFK7QSC0NC?=
+ =?us-ascii?Q?NdAs5h5VwXqNn9qByfbRmJDcZsI2qq9wgkcvAueEZV8eHTrtyUZLNW8U/Qv1?=
+ =?us-ascii?Q?LG+YDMVHS+pofw37WG+x1RhRycLOrzy7glAahm4LmALUUwNYOlO/zui6F3kI?=
+ =?us-ascii?Q?BcQ53ODSvT3+JN1aiw3IMsjNyXSlo9pb7iWSSgvv0TxL+4ifZZ4ret0To6Ow?=
+ =?us-ascii?Q?Kg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240430173812.1423757-13-eahariha@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -5.00
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 080261FBF9
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[linux.microsoft.com,gmx.de,vger.kernel.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmx.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9f8c646-1a9c-4ee9-4376-08dc6a9595e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2024 10:49:47.7081
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: O2frLjdEM0L6iGI3xnvPe4IKPpI4RG2PoOIWhY4AuWM/a0QD+jffqqHhxS2v6HBZoD6EZq8hgmsBJmcjZWR2zZn6zdswQQWy40OhD0F8WjA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6430
 
+Hi All,
 
+Gentle ping. Looks like it missed out in previous kernel cycle.
 
-Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
-> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
->
-> Compile tested, no functionality changes intended
->
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Are we happy with this patch?
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cheers,
+Biju
 
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Tuesday, February 13, 2024 2:30 PM
+> Subject: [PATCH v3 1/2] media: dt-bindings: renesas,rzg2l-csi2: Document =
+Renesas RZ/G2UL CSI-2
+> block
+>=20
+> Document the CSI-2 block which is part of CRU found in Renesas RZ/G2UL So=
+C.
+>=20
+> The CSI-2 block on the RZ/G2UL SoC is identical to one found on the RZ/G2=
+L SoC.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->   drivers/video/fbdev/via/chip.h    |  8 ++++----
->   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
->   drivers/video/fbdev/via/lcd.c     |  6 +++---
->   drivers/video/fbdev/via/via_aux.h |  2 +-
->   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
->   drivers/video/fbdev/via/vt1636.c  |  6 +++---
->   6 files changed, 29 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/video/fbdev/via/chip.h b/drivers/video/fbdev/via/chip.h
-> index f0a19cbcb9e5..1ea6d4ce79e7 100644
-> --- a/drivers/video/fbdev/via/chip.h
-> +++ b/drivers/video/fbdev/via/chip.h
-> @@ -69,7 +69,7 @@
->   #define     VT1632_TMDS             0x01
->   #define     INTEGRATED_TMDS         0x42
->   
-> -/* Definition TMDS Trasmitter I2C Slave Address */
-> +/* Definition TMDS Trasmitter I2C Client Address */
->   #define     VT1632_TMDS_I2C_ADDR    0x10
->   
->   /**************************************************/
-> @@ -88,21 +88,21 @@
->   #define     TX_DATA_DDR_MODE        0x04
->   #define     TX_DATA_SDR_MODE        0x08
->   
-> -/* Definition LVDS Trasmitter I2C Slave Address */
-> +/* Definition LVDS Trasmitter I2C Client Address */
->   #define     VT1631_LVDS_I2C_ADDR    0x70
->   #define     VT3271_LVDS_I2C_ADDR    0x80
->   #define     VT1636_LVDS_I2C_ADDR    0x80
->   
->   struct tmds_chip_information {
->   	int tmds_chip_name;
-> -	int tmds_chip_slave_addr;
-> +	int tmds_chip_client_addr;
->   	int output_interface;
->   	int i2c_port;
->   };
->   
->   struct lvds_chip_information {
->   	int lvds_chip_name;
-> -	int lvds_chip_slave_addr;
-> +	int lvds_chip_client_addr;
->   	int output_interface;
->   	int i2c_port;
->   };
-> diff --git a/drivers/video/fbdev/via/dvi.c b/drivers/video/fbdev/via/dvi.c
-> index 13147e3066eb..db7db26416c3 100644
-> --- a/drivers/video/fbdev/via/dvi.c
-> +++ b/drivers/video/fbdev/via/dvi.c
-> @@ -70,7 +70,7 @@ bool viafb_tmds_trasmitter_identify(void)
->   	/* Check for VT1632: */
->   	viaparinfo->chip_info->tmds_chip_info.tmds_chip_name = VT1632_TMDS;
->   	viaparinfo->chip_info->
-> -		tmds_chip_info.tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-> +		tmds_chip_info.tmds_chip_client_addr = VT1632_TMDS_I2C_ADDR;
->   	viaparinfo->chip_info->tmds_chip_info.i2c_port = VIA_PORT_31;
->   	if (check_tmds_chip(VT1632_DEVICE_ID_REG, VT1632_DEVICE_ID)) {
->   		/*
-> @@ -128,14 +128,14 @@ bool viafb_tmds_trasmitter_identify(void)
->   	viaparinfo->chip_info->
->   		tmds_chip_info.tmds_chip_name = NON_TMDS_TRANSMITTER;
->   	viaparinfo->chip_info->tmds_chip_info.
-> -		tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-> +		tmds_chip_client_addr = VT1632_TMDS_I2C_ADDR;
->   	return false;
->   }
->   
->   static void tmds_register_write(int index, u8 data)
->   {
->   	viafb_i2c_writebyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			    index, data);
->   }
->   
-> @@ -144,7 +144,7 @@ static int tmds_register_read(int index)
->   	u8 data;
->   
->   	viafb_i2c_readbyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			   (u8) index, &data);
->   	return data;
->   }
-> @@ -152,7 +152,7 @@ static int tmds_register_read(int index)
->   static int tmds_register_read_bytes(int index, u8 *buff, int buff_len)
->   {
->   	viafb_i2c_readbytes(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			    (u8) index, buff, buff_len);
->   	return 0;
->   }
-> @@ -256,14 +256,14 @@ static int viafb_dvi_query_EDID(void)
->   
->   	DEBUG_MSG(KERN_INFO "viafb_dvi_query_EDID!!\n");
->   
-> -	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr;
-> -	viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr = 0xA0;
-> +	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr;
-> +	viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr = 0xA0;
->   
->   	data0 = (u8) tmds_register_read(0x00);
->   	data1 = (u8) tmds_register_read(0x01);
->   	if ((data0 == 0) && (data1 == 0xFF)) {
->   		viaparinfo->chip_info->
-> -			tmds_chip_info.tmds_chip_slave_addr = restore;
-> +			tmds_chip_info.tmds_chip_client_addr = restore;
->   		return EDID_VERSION_1;	/* Found EDID1 Table */
->   	}
->   
-> @@ -280,8 +280,8 @@ static void dvi_get_panel_size_from_DDCv1(
->   
->   	DEBUG_MSG(KERN_INFO "\n dvi_get_panel_size_from_DDCv1 \n");
->   
-> -	restore = tmds_chip->tmds_chip_slave_addr;
-> -	tmds_chip->tmds_chip_slave_addr = 0xA0;
-> +	restore = tmds_chip->tmds_chip_client_addr;
-> +	tmds_chip->tmds_chip_client_addr = 0xA0;
->   	for (i = 0x25; i < 0x6D; i++) {
->   		switch (i) {
->   		case 0x36:
-> @@ -306,7 +306,7 @@ static void dvi_get_panel_size_from_DDCv1(
->   
->   	DEBUG_MSG(KERN_INFO "DVI max pixelclock = %d\n",
->   		tmds_setting->max_pixel_clock);
-> -	tmds_chip->tmds_chip_slave_addr = restore;
-> +	tmds_chip->tmds_chip_client_addr = restore;
->   }
->   
->   /* If Disable DVI, turn off pad */
-> @@ -427,7 +427,7 @@ void viafb_dvi_enable(void)
->   				viafb_i2c_writebyte(viaparinfo->chip_info->
->   					tmds_chip_info.i2c_port,
->   					viaparinfo->chip_info->
-> -					tmds_chip_info.tmds_chip_slave_addr,
-> +					tmds_chip_info.tmds_chip_client_addr,
->   					0x08, data);
->   			}
->   		}
-> diff --git a/drivers/video/fbdev/via/lcd.c b/drivers/video/fbdev/via/lcd.c
-> index beec5c8d4d08..9a6e4ac9e551 100644
-> --- a/drivers/video/fbdev/via/lcd.c
-> +++ b/drivers/video/fbdev/via/lcd.c
-> @@ -147,7 +147,7 @@ bool viafb_lvds_trasmitter_identify(void)
->   		return true;
->   	/* Check for VT1631: */
->   	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name = VT1631_LVDS;
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1631_LVDS_I2C_ADDR;
->   
->   	if (check_lvds_chip(VT1631_DEVICE_ID_REG, VT1631_DEVICE_ID)) {
-> @@ -161,7 +161,7 @@ bool viafb_lvds_trasmitter_identify(void)
->   
->   	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name =
->   		NON_LVDS_TRANSMITTER;
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1631_LVDS_I2C_ADDR;
->   	return false;
->   }
-> @@ -327,7 +327,7 @@ static int lvds_register_read(int index)
->   	u8 data;
->   
->   	viafb_i2c_readbyte(VIA_PORT_2C,
-> -			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr,
-> +			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr,
->   			(u8) index, &data);
->   	return data;
->   }
-> diff --git a/drivers/video/fbdev/via/via_aux.h b/drivers/video/fbdev/via/via_aux.h
-> index 0933bbf20e58..e2b617b1e6fd 100644
-> --- a/drivers/video/fbdev/via/via_aux.h
-> +++ b/drivers/video/fbdev/via/via_aux.h
-> @@ -24,7 +24,7 @@ struct via_aux_drv {
->   	struct list_head chain;		/* chain to support multiple drivers */
->   
->   	struct via_aux_bus *bus;	/* the I2C bus used */
-> -	u8 addr;			/* the I2C slave address */
-> +	u8 addr;			/* the I2C client address */
->   
->   	const char *name;	/* human readable name of the driver */
->   	void *data;		/* private data of this driver */
-> diff --git a/drivers/video/fbdev/via/via_i2c.c b/drivers/video/fbdev/via/via_i2c.c
-> index 582502810575..907c739475d0 100644
-> --- a/drivers/video/fbdev/via/via_i2c.c
-> +++ b/drivers/video/fbdev/via/via_i2c.c
-> @@ -104,7 +104,7 @@ static void via_i2c_setsda(void *data, int state)
->   	spin_unlock_irqrestore(&i2c_vdev->reg_lock, flags);
->   }
->   
-> -int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
-> +int viafb_i2c_readbyte(u8 adap, u8 client_addr, u8 index, u8 *pdata)
->   {
->   	int ret;
->   	u8 mm1[] = {0x00};
-> @@ -115,7 +115,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
->   	*pdata = 0;
->   	msgs[0].flags = 0;
->   	msgs[1].flags = I2C_M_RD;
-> -	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-> +	msgs[0].addr = msgs[1].addr = client_addr / 2;
->   	mm1[0] = index;
->   	msgs[0].len = 1; msgs[1].len = 1;
->   	msgs[0].buf = mm1; msgs[1].buf = pdata;
-> @@ -128,7 +128,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
->   	return ret;
->   }
->   
-> -int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
-> +int viafb_i2c_writebyte(u8 adap, u8 client_addr, u8 index, u8 data)
->   {
->   	int ret;
->   	u8 msg[2] = { index, data };
-> @@ -137,7 +137,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
->   	if (!via_i2c_par[adap].is_active)
->   		return -ENODEV;
->   	msgs.flags = 0;
-> -	msgs.addr = slave_addr / 2;
-> +	msgs.addr = client_addr / 2;
->   	msgs.len = 2;
->   	msgs.buf = msg;
->   	ret = i2c_transfer(&via_i2c_par[adap].adapter, &msgs, 1);
-> @@ -149,7 +149,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
->   	return ret;
->   }
->   
-> -int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len)
-> +int viafb_i2c_readbytes(u8 adap, u8 client_addr, u8 index, u8 *buff, int buff_len)
->   {
->   	int ret;
->   	u8 mm1[] = {0x00};
-> @@ -159,7 +159,7 @@ int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len
->   		return -ENODEV;
->   	msgs[0].flags = 0;
->   	msgs[1].flags = I2C_M_RD;
-> -	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-> +	msgs[0].addr = msgs[1].addr = client_addr / 2;
->   	mm1[0] = index;
->   	msgs[0].len = 1; msgs[1].len = buff_len;
->   	msgs[0].buf = mm1; msgs[1].buf = buff;
-> diff --git a/drivers/video/fbdev/via/vt1636.c b/drivers/video/fbdev/via/vt1636.c
-> index 8d8cfdb05618..614e5c29a449 100644
-> --- a/drivers/video/fbdev/via/vt1636.c
-> +++ b/drivers/video/fbdev/via/vt1636.c
-> @@ -44,7 +44,7 @@ u8 viafb_gpio_i2c_read_lvds(struct lvds_setting_information
->   	u8 data;
->   
->   	viafb_i2c_readbyte(plvds_chip_info->i2c_port,
-> -			   plvds_chip_info->lvds_chip_slave_addr, index, &data);
-> +			   plvds_chip_info->lvds_chip_client_addr, index, &data);
->   	return data;
->   }
->   
-> @@ -60,7 +60,7 @@ void viafb_gpio_i2c_write_mask_lvds(struct lvds_setting_information
->   	data = (data & (~io_data.Mask)) | io_data.Data;
->   
->   	viafb_i2c_writebyte(plvds_chip_info->i2c_port,
-> -			    plvds_chip_info->lvds_chip_slave_addr, index, data);
-> +			    plvds_chip_info->lvds_chip_client_addr, index, data);
->   }
->   
->   void viafb_init_lvds_vt1636(struct lvds_setting_information
-> @@ -113,7 +113,7 @@ bool viafb_lvds_identify_vt1636(u8 i2c_adapter)
->   	DEBUG_MSG(KERN_INFO "viafb_lvds_identify_vt1636.\n");
->   
->   	/* Sense VT1636 LVDS Transmiter */
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1636_LVDS_I2C_ADDR;
->   
->   	/* Check vendor ID first: */
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> v2->v3:
+>  * Added Rb tag from Geert.
+> v1->v2:
+>  * Added Ack from Conor Dooley.
+>  * Dropped driver reference from commit description.
+> ---
+>  Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.y=
+aml
+> b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> index 67eea2ac1d22..7faa12fecd5b 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -19,6 +19,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043-csi2       # RZ/G2UL
+>            - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+>            - renesas,r9a07g054-csi2       # RZ/V2L
+>        - const: renesas,rzg2l-csi2
+> --
+> 2.25.1
 
 
