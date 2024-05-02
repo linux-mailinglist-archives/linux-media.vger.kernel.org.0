@@ -1,61 +1,56 @@
-Return-Path: <linux-media+bounces-10589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE108B9895
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1358B98BC
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:26:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01A66281816
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:11:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8EBE2845E9
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6E258AA1;
-	Thu,  2 May 2024 10:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8A658229;
+	Thu,  2 May 2024 10:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1r9EM3J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roBfGZ5a"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5951C5731F;
-	Thu,  2 May 2024 10:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F8B5490A
+	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 10:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714644699; cv=none; b=fZotwVxUM14nenC4npaDHbaZpcAfkflRhEMjQBK7IuTzTwkWHEtXckSWNcCRQVtnynpntb/tgnHdVVuvIA9aZjCDObRQe379tWAncBevXuiSnxykrGn5QgxT0B2ifdri3bjfJxxMpzV8SIyN6K2weqneCZ4C3rY6KqbYLT9FWKQ=
+	t=1714645553; cv=none; b=fTFXO6S4IAL5Giwb+/MZDyKVIg2PIJtsnTe89qI8cgi8mrRFcPUVnPb/ixdgLb4C9nKJB3+0SpK+wCUEBprV2MCn1ot2CExogDBbfb6yJ0zIFHtLFX03gBbNeHTZ4sQdSkpaGrG17xbGYyS0cnqJl3C0EfMU8528l3qEOAVtDsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714644699; c=relaxed/simple;
-	bh=dAcIeF1zYIZcs4LzSltVRWcQ+tLrYYFfHlx+Gup6U8k=;
+	s=arc-20240116; t=1714645553; c=relaxed/simple;
+	bh=XS9rlpiw8WzWr2DFe6SvhkENFUk4ExLKW973/hM82sM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OCU+rOKc0kNK8RVP3uVspFiYk6JzWpZMdGkOwr9lllCzE5q4nK+9aESxFtSqguFUsmLsILwFs1vPR/J2+YZMqP0OdVTHvASlydD7dOeLcMdHztbDPHvH16irIoJZFnmguMdKT5NGTj20dYT52UYtVFmU5LF+7fNgI+nXGz2D0LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1r9EM3J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3900C113CC;
-	Thu,  2 May 2024 10:11:34 +0000 (UTC)
+	 MIME-Version:Content-Type; b=gE0sLjhWCzQy/fRzSRzAk9MY98zT1B99cszA6sm3jfHIiEq1fuxbYVR3pAqqvUOKxWbsShNwdN1MoA5D+/R31Efz7LGBMG+a0YVP625zgKH8QEE+gY8RYpwQNoZqutSoli4OBLPaBfB2zyIgdD07aJo6ueDV2CyOwjH0XY9Kk7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roBfGZ5a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6140AC113CC;
+	Thu,  2 May 2024 10:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714644698;
-	bh=dAcIeF1zYIZcs4LzSltVRWcQ+tLrYYFfHlx+Gup6U8k=;
+	s=k20201202; t=1714645552;
+	bh=XS9rlpiw8WzWr2DFe6SvhkENFUk4ExLKW973/hM82sM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=o1r9EM3JPsKjyByhcMt6caBtUltI5yojwaPHE60fGGGJlColapnsDivyytTt578jL
-	 Gbq+hu/T0O3txaCK1yZh0p9YgnsFLnEpdPq9ynYCUGSR6s0n/gn4ah5JWNkiN3CkFl
-	 dFMRrgNkL9IEdBNjLpAW6z17jxi8+Wjl0vk6MU2KySe3Y+s+OIc2MupivjTJ5pSQFG
-	 f452+RlewfVoxXQ2diP3N3c8JeI8n6j4fvWCM7kcM68MwKDANeHg3HJeWv9xkCFKmt
-	 M8cCyhtT9vn1COElNWP9oc85JRhHUK4/DI1NrQbH/tUQvUrXcbDO9iaA03xwLsLpVx
-	 4+6cpzZF3kV8w==
-Date: Thu, 2 May 2024 11:11:30 +0100
+	b=roBfGZ5aipVu00rwn5cbc8MyLKSbnvuqX3DNVxCdphZeQe+taC5XLVgUYSad8NqFV
+	 y7UeRLAfG67fZT0cgvhqiJJ8HrEAp3OWjhCcmhLbP8pV9TuGeZEVB0Yjj+Un12B3or
+	 Fw/HWlIvaRNo/aS1oIMcHJL6DxURJEZf/YlnacBpJfA862+AfEhDfyOf6MzJh+4L6z
+	 gAsHbuVN347AOQlJQLYCrPSb2Uj4EaB4Bw7jH4xNvXKU7ZDO+uJBdpPJz+qAsz5W3Q
+	 jPMloWmsklPBGE978zHJNQ8rZQCmSxTPE5j6jOKF39MBeiG3bFE1t+zuysYUDeoUos
+	 xUDxy0ojOybDQ==
+Date: Thu, 2 May 2024 11:25:47 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v2 1/5] media: bcm2835-unicam: Fix build with !PM
-Message-ID: <20240502111130.769402fa@sal.lan>
-In-Reply-To: <20240501-fix-ipu6-v2-1-a5629a37a0fb@chromium.org>
-References: <20240501-fix-ipu6-v2-0-a5629a37a0fb@chromium.org>
-	<20240501-fix-ipu6-v2-1-a5629a37a0fb@chromium.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, Ricardo
+ Ribalda <ribalda@chromium.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+Subject: Re: [GIT FIXES FOR 6.10] IPU6 and Unicam fixes
+Message-ID: <20240502112547.3170d33c@sal.lan>
+In-Reply-To: <ZjNQbS9CF1U6lGWx@valkosipuli.retiisi.eu>
+References: <ZjNQbS9CF1U6lGWx@valkosipuli.retiisi.eu>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -63,60 +58,59 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Em Wed, 01 May 2024 13:08:09 +0000
-Ricardo Ribalda <ribalda@chromium.org> escreveu:
+Em Thu, 2 May 2024 08:35:57 +0000
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-> The driver can only match the device vide the DT table, so the table
-> should always be used, of_match_ptr does not make sense here.
->=20
-> Fixes:
-> drivers/media/platform/broadcom/bcm2835-unicam.c:2724:34: warning: =E2=80=
-=98unicam_of_match=E2=80=99 defined but not used [-Wunused-const-variable=
-=3D]
+> Hi Hans, Mauro,
+> 
+> Here are a few fixes for the IPU6 and Unicam drivers, for issues found
+> since merging them. Most are are due to Kconfig options.
+> 
+> Please pull.
+> 
+> 
+> The following changes since commit a1c6d22421501fc1016b99ac8570a1030714c70f:
+> 
+>   media: staging: max96712: fix copy-paste error (2024-04-30 14:33:08 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/sailus/media_tree.git tags/fixes-6.10-1.1-signed
+> 
+> for you to fetch changes up to f28348ebadf7c7127646672f363e055cb19f3b66:
+> 
+>   media: intel/ipu6: Fix build with !ACPI (2024-05-02 11:34:26 +0300)
+> 
+> ----------------------------------------------------------------
+> IPU6 and Unicam fixes
+> 
+> ----------------------------------------------------------------
+> Laurent Pinchart (1):
+>       media: bcm2835-unicam: Include v4l2-subdev.h
+> 
+> Ricardo Ribalda (4):
+>       media: bcm2835-unicam: Fix build with !PM
+>       media: intel/ipu6: Switch to RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS
+>       media: intel/ipu6: Fix direct dependency Kconfig error
+>       media: intel/ipu6: Fix build with !ACPI
 
-Be careful here: Fixes: <patch> is a tag used by stable people to
-identify if a patch needs to be backported. Using a Fixes: may cause
-such scripts to break.
+The above were applied, thanks!
 
-(it caused a problem on my apply patch script, as it does reorder
-fixes tag).
+> 
+> Sakari Ailus (1):
+>       media: intel/ipu6: Fix vmalloc memory allocation
 
-No need to resend it, as I can fix it when applying, but next time
-please use something like:
+I didn't applied this one, as it sounds to me that the fix is
+incomplete. I sent an email with the potential issues I found on it.
 
-	It fixes this warning:
-	drivers/media/platform/broadcom/bcm2835-unicam.c:2724:34: warning: =E2=80=
-=98unicam_of_match=E2=80=99 defined but not used [-Wunused-const-variable=
-=3D]
-
-(or some other similar word that won't be using a defined meta tag
-with a different meaning).
-
-Regards,
-Mauro
-
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/platform/broadcom/bcm2835-unicam.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/m=
-edia/platform/broadcom/bcm2835-unicam.c
-> index bd2bbb53070e..c590e26fe2cf 100644
-> --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> @@ -2733,7 +2733,7 @@ static struct platform_driver unicam_driver =3D {
->  	.driver =3D {
->  		.name	=3D UNICAM_MODULE_NAME,
->  		.pm	=3D pm_ptr(&unicam_pm_ops),
-> -		.of_match_table =3D of_match_ptr(unicam_of_match),
-> +		.of_match_table =3D unicam_of_match,
->  	},
->  };
-> =20
->=20
+> 
+>  drivers/media/pci/intel/Kconfig                  |  3 +-
+>  drivers/media/pci/intel/ipu-bridge.c             | 66 +++++++++++++++++-------
+>  drivers/media/pci/intel/ipu6/ipu6.c              |  6 +--
+>  drivers/media/platform/broadcom/bcm2835-unicam.c |  3 +-
+>  4 files changed, 54 insertions(+), 24 deletions(-)
+> 
 
