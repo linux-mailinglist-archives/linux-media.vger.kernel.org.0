@@ -1,241 +1,257 @@
-Return-Path: <linux-media+bounces-10603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10605-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574D08B99AF
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 13:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B578B99D7
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 13:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14E17285490
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 11:05:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8521B286C0B
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 11:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39B2260DE9;
-	Thu,  2 May 2024 11:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ACB260DD3;
+	Thu,  2 May 2024 11:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nooYrldJ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UYqRyDsw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu143nYj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UYqRyDsw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu143nYj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13805FDA6
-	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 11:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C918B1CD39;
+	Thu,  2 May 2024 11:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714647933; cv=none; b=TkM2uQwuRM0mmxBvVdqXX4ANOyTGAy1OBqweKgSgcmem08D8KX4FO/m50qzaydtVqN3yXj8Qt0HxYNEjbFSv9pgjcahvB1+4d0GHP2MC2e9qBJxKi3rWmNJll4q7RGpv8P4PlXYO8lxEkXYsac7Z/lmyNxI4kN9EfX/+HccgDus=
+	t=1714648465; cv=none; b=n+0docJnUIcycA9gm3WRWZ59IADP4P1ynNCFcWxwm7qFJKbkP7j8IRLsUDS7rR+mhqMah1Haa1nOopRZgyPe6NB4y/dAq1r7KJBq44hkh/zKFlauDgt6202lzKD+ges34xH0tmOKcSGzWMfh4jafWK8+hS8GaKE7+FMCDLSYu6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714647933; c=relaxed/simple;
-	bh=4PkqMbV1cQdWA6Ggb6Hcqag5+iChQRXNLIXdSl4r0K4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iwbZFe/pL9X6xFhxvy7rbHnf+xSf0WojjeZkp9jGqR2pLYNUBrkLPsBGw6smduKWpp9FDZur4bncCb0tJJ3nxx+Mc3NnakSZjztfeqAMsKikwm+NZC3lUADGAt2RHjBcNOIQgWsUKKBo8GUwDblAnmNjstG6pqpdz8NzAamN5tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nooYrldJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03D3F4D4;
-	Thu,  2 May 2024 13:04:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714647867;
-	bh=4PkqMbV1cQdWA6Ggb6Hcqag5+iChQRXNLIXdSl4r0K4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nooYrldJAbQhwGHdhErF/VxYxeGxIBZuu0SPzgBgFRrS5y0L8WDfRxvUkiMR4IJcE
-	 PTjmNBqYzpQrRGQLRtjeELu0GXtnqmSqxB7bte5JAAeKSJ73KgCrjnokXKRuOQ8jxD
-	 CQaOHEzhAZumBOO2cksYuClH+SjL9HAYslzrSk8M=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v6 7/7] media: admin-guide: Document the Raspberry Pi PiSP BE
-Date: Thu,  2 May 2024 13:05:02 +0200
-Message-ID: <20240502110503.38412-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240502110503.38412-1-jacopo.mondi@ideasonboard.com>
-References: <20240502110503.38412-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1714648465; c=relaxed/simple;
+	bh=dNO0ufNAtJgMbnCjbuZCiwXtrJxYB0/g8PcyMuquhxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IO1C1VZ+nHJp+Llni73LYbTde33Hqe/9snWOxZj6/Br2v7kPfpj5My0oSZDVp3fvY3DSuBfIivD/NLFdz+HnBEIiDaMUCDL8chAxWgSnIULDhgoUg8c6t0a1mSH+LZ+x4AaAm5NNUdiEg8nfXscPKP0/y/hZrACTtOsmjUumHkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UYqRyDsw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qu143nYj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UYqRyDsw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qu143nYj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BB7721FBA0;
+	Thu,  2 May 2024 11:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714648460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+	b=UYqRyDswRJKSRNZPwV/gp0aTlhMsCEit/RtyFG1lDGsMcIXvCou9oNvgKrAXr0NVxsVGJx
+	TXEIhlUkYRkJ+DCIDLaZVE83aHCdXUd3OhWzykfyxzsAYjIX9FDitxJWUnw6j3vuEWUYo6
+	YB0+7z3KCymBMFq06U9ze3sM8tJ0ASU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714648460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+	b=Qu143nYjL+mHzWZ8nw6tnFahqj3o5XyootwuX+0cy+xiI1BPL68vP8ywBz7foDEgW7awn6
+	gWkszUz9rIpuCKBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714648460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+	b=UYqRyDswRJKSRNZPwV/gp0aTlhMsCEit/RtyFG1lDGsMcIXvCou9oNvgKrAXr0NVxsVGJx
+	TXEIhlUkYRkJ+DCIDLaZVE83aHCdXUd3OhWzykfyxzsAYjIX9FDitxJWUnw6j3vuEWUYo6
+	YB0+7z3KCymBMFq06U9ze3sM8tJ0ASU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714648460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+	b=Qu143nYjL+mHzWZ8nw6tnFahqj3o5XyootwuX+0cy+xiI1BPL68vP8ywBz7foDEgW7awn6
+	gWkszUz9rIpuCKBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DDA41386E;
+	Thu,  2 May 2024 11:14:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kdDnEYx1M2YXIAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 11:14:20 +0000
+Message-ID: <31d22165-f7d7-4aaa-802c-fd8c9d67b287@suse.de>
+Date: Thu, 2 May 2024 13:14:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] drm/panfrost: Fix dma_resv deadlock at drm object
+ pin time
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Zack Rusin <zack.rusin@broadcom.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+ <20240501065650.2809530-2-adrian.larumbe@collabora.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240501065650.2809530-2-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[collabora.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,arm.com,linaro.org,amd.com,broadcom.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 
-Add documentation for the PiSP Back End memory-to-memory ISP.
+Hi
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- .../admin-guide/media/raspberrypi-pisp-be.dot |  20 ++++
- .../admin-guide/media/raspberrypi-pisp-be.rst | 112 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 133 insertions(+)
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+Am 01.05.24 um 08:55 schrieb Adrián Larumbe:
+> When Panfrost must pin an object that is being prepared a dma-buf
+> attachment for on behalf of another driver, the core drm gem object pinning
+> code already takes a lock on the object's dma reservation.
+>
+> However, Panfrost GEM object's pinning callback would eventually try taking
+> the lock on the same dma reservation when delegating pinning of the object
+> onto the shmem subsystem, which led to a deadlock.
+>
+> This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
+> the following recursive locking situation:
+>
+> weston/3440 is trying to acquire lock:
+> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
+> but task is already holding lock:
+> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
+>
+> Fix it by assuming the object's reservation had already been locked by the
+> time we reach panfrost_gem_pin.
 
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.dot b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-new file mode 100644
-index 000000000000..55671dc1d443
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-@@ -0,0 +1,20 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port7> 7} | pispbe\n | {<port3> 3 | <port4> 4 | <port5> 5 | <port6> 6}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n0000001c [style=bold]
-+	n00000001:port4 -> n00000022 [style=bold]
-+	n00000001:port5 -> n00000028 [style=bold]
-+	n00000001:port6 -> n0000002e [style=bold]
-+	n0000000a [label="pispbe-input\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000a -> n00000001:port0 [style=bold]
-+	n00000010 [label="pispbe-tdn_input\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000010 -> n00000001:port1 [style=bold]
-+	n00000016 [label="pispbe-stitch_input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000016 -> n00000001:port2 [style=bold]
-+	n0000001c [label="pispbe-output0\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000022 [label="pispbe-output1\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000028 [label="pispbe-tdn_output\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n0000002e [label="pispbe-stitch_output\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 [label="pispbe-config\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 -> n00000001:port7 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.rst b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-new file mode 100644
-index 000000000000..60fb4a882d31
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-@@ -0,0 +1,112 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Raspberry Pi PiSP Back End Memory-to-Memory ISP (pisp-be)
-+=========================================================
-+
-+The PiSP Back End
-+=================
-+
-+The PiSP Back End is a memory-to-memory Image Signal Processor (ISP) which reads
-+image data from DRAM memory and performs image processing as specified by the
-+application through the parameters in a configuration buffer, before writing
-+pixel data back to memory through two distinct output channels.
-+
-+The ISP registers and programming model are documented in the `Raspberry Pi
-+Image Signal Processor (ISP) Specification document
-+<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>`_
-+
-+The PiSP Back End ISP processes images in tiles to allow concurrent processing
-+of different images. The handling of image tessellation and the computation of
-+low-level configuration parameters is realized by a free software library
-+called `libpisp <https://github.com/raspberrypi/libpisp>`_.
-+
-+The full image processing pipeline, which involves capturing RAW Bayer data from
-+an image sensor through a MIPI CSI-2 compatible capture interface, storing them
-+in DRAM memory and processing them in the PiSP Back End to obtain images usable
-+by an application is implemented in `libcamera <www.libcamera.org>`_ as part of
-+the Raspberry Pi platform support.
-+
-+The pisp-be driver
-+==================
-+
-+The Raspberry Pi PiSP Back End (pisp-be) driver is located under
-+drivers/media/platform/raspberrypi/pisp-be. It uses the `V4L2 API` to register
-+a number of video capture and output devices, the `V4L2 subdev API` to register
-+a subdevice for the ISP that connects the video devices in a single media graph
-+realized using the `Media Controller (MC) API`.
-+
-+As the PiSP Back End device processes images in tiles, it can be multiplexed
-+between several different execution contexts. The driver registers two
-+`contexts` represented as two distinct media graph instances but could
-+potentially register more of them.
-+
-+The media topology registered by the `pisp-be` driver is represented below:
-+
-+.. _pips-be-topology:
-+
-+.. kernel-figure:: raspberrypi-pisp-be.dot
-+    :alt:   Diagram of the default media pipeline topology
-+    :align: center
-+
-+
-+Each media graph instance registers the following video device nodes:
-+
-+- pispbe-input: output device for images to be submitted to the ISP for
-+  processing.
-+- pispbe-tdn_input: output device for temporal denoise.
-+- pispbe-stitch_input: output device for image stitching (HDR).
-+- pispbe-output0: first capture device for processed images.
-+- pispbe-output1: second capture device for processed images.
-+- pispbe-tdn_output: capture device for temporal denoise.
-+- pispbe-stitch_output: capture device for image stitching (HDR).
-+- pispbe-config: output device for ISP configuration parameters.
-+
-+pispbe-input
-+------------
-+
-+Images to be processed by the ISP are queued to the `pispbe-input` output device
-+node. For a list of image formats supported as input to the ISP refer to the
-+PiSP specification document.
-+
-+pispbe-tdn_input, pispbe-tdn_output
-+-----------------------------------
-+
-+The `pispbe-tdn_input` output video device receives images to be processed by
-+the temporal denoise block which are captured from the `pispbe-tdn_output`
-+capture video device. Userspace is responsible for maintaining queues on both
-+devices, and ensuring that buffers completed on the output are queued to the
-+input.
-+
-+pispbe-stitch_input, pispbe-stitch_output
-+-----------------------------------------
-+
-+To realize HDR (high dynamic range) image processing the image stitching and
-+tonemapping blocks are used. The `pispbe-stitch_output` writes images to memory
-+and the `pispbe-stitch_input` receives the previously written frame to process
-+it along with the current input image. Userspace is responsible for maintaining
-+queues on both devices, and ensuring that buffers completed on the output are
-+queued to the input.
-+
-+pispbe-output0, pispbe-output1
-+------------------------------
-+
-+The two capture devices write to memory the pixel data as processed by the ISP.
-+
-+pispbe-config
-+-------------
-+
-+The `pispbe-config` output video devices receives a buffer of configuration
-+parameters that define the desired image processing to be performed by the ISP.
-+
-+The format of the ISP configuration parameter is defined by
-+:c:type:`pisp_be_tiles_config` C structure and the meaning of each parameter is
-+described in the `PiSP specification` document.
-+
-+ISP configuration
-+=================
-+
-+The ISP configuration is described solely by the content of the parameters
-+buffer. The only parameter that userspace needs to configure using the V4L2 API
-+is the image format on the output and capture video devices for validation of
-+the content of the parameters buffer.
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 4120eded9a13..b6af448b9fe9 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -23,6 +23,7 @@ Video4Linux (V4L) driver-specific documentation
- 	omap4_camera
- 	philips
- 	qcom_camss
-+	raspberrypi-pisp-be
- 	rcar-fdp1
- 	rkisp1
- 	saa7134
+Maybe say that the reservation lock has been taken in drm_gem_pin()
+
+>
+> Do the same thing for the Lima driver, as it most likely suffers from the
+> same issue.
+
+Please split this patch into one for panfrost and one for lima. To each 
+patch, you can add
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>   drivers/gpu/drm/lima/lima_gem.c         | 2 +-
+>   drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 7ea244d876ca..c4e0f9faaa47 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -185,7 +185,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
+>   	if (bo->heap_size)
+>   		return -EINVAL;
+>   
+> -	return drm_gem_shmem_pin(&bo->base);
+> +	return drm_gem_shmem_object_pin(obj);
+>   }
+>   
+>   static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index d47b40b82b0b..f268bd5c2884 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -192,7 +192,7 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
+>   	if (bo->is_heap)
+>   		return -EINVAL;
+>   
+> -	return drm_gem_shmem_pin(&bo->base);
+> +	return drm_gem_shmem_object_pin(obj);
+>   }
+>   
+>   static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
+
 -- 
-2.44.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
 
