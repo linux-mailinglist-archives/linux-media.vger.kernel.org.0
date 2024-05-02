@@ -1,58 +1,61 @@
-Return-Path: <linux-media+bounces-10588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A138B986E
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:04:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE108B9895
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 12:11:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B6371F25B49
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:04:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01A66281816
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 10:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51B7B57880;
-	Thu,  2 May 2024 10:03:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6E258AA1;
+	Thu,  2 May 2024 10:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="flyTCNeB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1r9EM3J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E2256B78;
-	Thu,  2 May 2024 10:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5951C5731F;
+	Thu,  2 May 2024 10:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714644222; cv=none; b=aAPllHrfhDNokpL3NgK3RI6/WAKxMyd5L92iIBeDCV0lQXYiUjjUZbYwrcrk0NFOgR4KMkhRPTSsb2y8qlfUdua08Cx7iwzSDtX5THhy8tsTw4XWNtwgreo4gOWW7Pvgz3vsBbJg+a/g1ZmI1bJkvyHCjTix/YlVYZ+D5YqZ0dg=
+	t=1714644699; cv=none; b=fZotwVxUM14nenC4npaDHbaZpcAfkflRhEMjQBK7IuTzTwkWHEtXckSWNcCRQVtnynpntb/tgnHdVVuvIA9aZjCDObRQe379tWAncBevXuiSnxykrGn5QgxT0B2ifdri3bjfJxxMpzV8SIyN6K2weqneCZ4C3rY6KqbYLT9FWKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714644222; c=relaxed/simple;
-	bh=ENkbJLHRwFRQxCc8aY+6hcE4ZTb8Z+QG0pGceE0w8a4=;
+	s=arc-20240116; t=1714644699; c=relaxed/simple;
+	bh=dAcIeF1zYIZcs4LzSltVRWcQ+tLrYYFfHlx+Gup6U8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iw75Qxyn1OAw9suc25335ZmqOwz8Y46kwoSGzwXl3WJFBW4OPuFswerLNtDsz4MS96qz1rBPW24DOy8bj6i5GcnqsHkUJYvm8MGRB/U4FJih5fDEIzziZqiBzHoO9RxPqWp9Ads5enJ4kAEC2o9l9a2in7EA3nYXUVRD9v28DIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=flyTCNeB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08E3C113CC;
-	Thu,  2 May 2024 10:03:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=OCU+rOKc0kNK8RVP3uVspFiYk6JzWpZMdGkOwr9lllCzE5q4nK+9aESxFtSqguFUsmLsILwFs1vPR/J2+YZMqP0OdVTHvASlydD7dOeLcMdHztbDPHvH16irIoJZFnmguMdKT5NGTj20dYT52UYtVFmU5LF+7fNgI+nXGz2D0LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1r9EM3J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3900C113CC;
+	Thu,  2 May 2024 10:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714644222;
-	bh=ENkbJLHRwFRQxCc8aY+6hcE4ZTb8Z+QG0pGceE0w8a4=;
+	s=k20201202; t=1714644698;
+	bh=dAcIeF1zYIZcs4LzSltVRWcQ+tLrYYFfHlx+Gup6U8k=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=flyTCNeBhEr+gQyCTC5kBU39G6/4eT+ECUJ/7HXC4NLgZw/35a629PnuyYdhRRTPH
-	 PWLKBk9Wom5EjiPT9o2eB/jrJNt6RgeS2gOW5oMRG+flFq3ZhmH+BQkso+Q4LbTbmw
-	 uLIPOTNavgz9j2d0k3Te0MsWCCLNUaqJfzBA8ryUVE9mxXquQg+sgfmYLUwhDYk7Vo
-	 sAgGIjNhQWOojbKm04Bo52Uw2nPnrfFUWUh7DDahJ042yrbKNyxKRo+Pe4P5iHicIt
-	 i3OwbFv9AHyqp0yWyHhcD83uXcHL0/Z9UrfZgVzPW7u9u/nQ0wTLwtiVi6tE/nSg1N
-	 EKlp7/2aY1zMA==
-Date: Thu, 2 May 2024 11:03:35 +0100
+	b=o1r9EM3JPsKjyByhcMt6caBtUltI5yojwaPHE60fGGGJlColapnsDivyytTt578jL
+	 Gbq+hu/T0O3txaCK1yZh0p9YgnsFLnEpdPq9ynYCUGSR6s0n/gn4ah5JWNkiN3CkFl
+	 dFMRrgNkL9IEdBNjLpAW6z17jxi8+Wjl0vk6MU2KySe3Y+s+OIc2MupivjTJ5pSQFG
+	 f452+RlewfVoxXQ2diP3N3c8JeI8n6j4fvWCM7kcM68MwKDANeHg3HJeWv9xkCFKmt
+	 M8cCyhtT9vn1COElNWP9oc85JRhHUK4/DI1NrQbH/tUQvUrXcbDO9iaA03xwLsLpVx
+	 4+6cpzZF3kV8w==
+Date: Thu, 2 May 2024 11:11:30 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-media@vger.kernel.org,
- Bingbu Cao <bingbu.cao@intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCH 1/1] media: ipu6: Fix vmalloc memory allocation
-Message-ID: <20240502110335.7b3495ab@sal.lan>
-In-Reply-To: <20240502061525.1004018-1-sakari.ailus@linux.intel.com>
-References: <20240501102236.3b2585d1@canb.auug.org.au>
-	<20240502061525.1004018-1-sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2 1/5] media: bcm2835-unicam: Fix build with !PM
+Message-ID: <20240502111130.769402fa@sal.lan>
+In-Reply-To: <20240501-fix-ipu6-v2-1-a5629a37a0fb@chromium.org>
+References: <20240501-fix-ipu6-v2-0-a5629a37a0fb@chromium.org>
+	<20240501-fix-ipu6-v2-1-a5629a37a0fb@chromium.org>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -60,60 +63,60 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Em Thu,  2 May 2024 09:15:25 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Em Wed, 01 May 2024 13:08:09 +0000
+Ricardo Ribalda <ribalda@chromium.org> escreveu:
 
-> The driver was calling vmalloc() to allocate memory, something which isn't
-> available except when particular Kconfig settings are enabled.
-> 
-> Use kvmalloc() instead.
-> 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> Hi Stephen,
-> 
-> Thanks for reporting this. I'm a bit surprised this wasn't catched
-> earlier. But it seems vmalloc() is defined in some configuration.
-> 
-> - Sakari
-> 
->  drivers/media/pci/intel/ipu6/ipu6.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-> index 4b1f69d14d71..082b1d6196be 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
-> @@ -526,7 +526,7 @@ static int request_cpd_fw(const struct firmware **firmware_p, const char *name,
->  	}
->  
->  	dst->size = fw->size;
-> -	dst->data = vmalloc(fw->size);
-> +	dst->data = kvmalloc(fw->size, GFP_KERNEL);
+> The driver can only match the device vide the DT table, so the table
+> should always be used, of_match_ptr does not make sense here.
+>=20
+> Fixes:
+> drivers/media/platform/broadcom/bcm2835-unicam.c:2724:34: warning: =E2=80=
+=98unicam_of_match=E2=80=99 defined but not used [-Wunused-const-variable=
+=3D]
 
-Where are you freeing it? If I understood the code right, you're storing
-dst at isp->cpd_fw, but I can't see any code freeing it nor cpw_fw->data
-at device removal.
+Be careful here: Fixes: <patch> is a tag used by stable people to
+identify if a patch needs to be backported. Using a Fixes: may cause
+such scripts to break.
 
-Also, there is a logic there at the same function checking for vmalloc:
+(it caused a problem on my apply patch script, as it does reorder
+fixes tag).
 
-	if (is_vmalloc_addr(fw->data)) {
-		*firmware_p = fw;
-		return 0;
-	}
+No need to resend it, as I can fix it when applying, but next time
+please use something like:
 
-As now the memory may not be inside vmalloc space, shouldn't this
-be changed as well?
+	It fixes this warning:
+	drivers/media/platform/broadcom/bcm2835-unicam.c:2724:34: warning: =E2=80=
+=98unicam_of_match=E2=80=99 defined but not used [-Wunused-const-variable=
+=3D]
+
+(or some other similar word that won't be using a defined meta tag
+with a different meaning).
 
 Regards,
 Mauro
 
->  	if (!dst->data) {
->  		kfree(dst);
->  		ret = -ENOMEM;
+>=20
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/broadcom/bcm2835-unicam.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/m=
+edia/platform/broadcom/bcm2835-unicam.c
+> index bd2bbb53070e..c590e26fe2cf 100644
+> --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> @@ -2733,7 +2733,7 @@ static struct platform_driver unicam_driver =3D {
+>  	.driver =3D {
+>  		.name	=3D UNICAM_MODULE_NAME,
+>  		.pm	=3D pm_ptr(&unicam_pm_ops),
+> -		.of_match_table =3D of_match_ptr(unicam_of_match),
+> +		.of_match_table =3D unicam_of_match,
+>  	},
+>  };
+> =20
+>=20
 
