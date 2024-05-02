@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-10631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADB68B9F99
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 19:35:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF8D8B9F9B
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 19:35:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5458E1F24043
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 17:35:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 633561C22511
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 17:35:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289FF171082;
-	Thu,  2 May 2024 17:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8DCE16FF4B;
+	Thu,  2 May 2024 17:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GXSv6XEE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OR4Jc2jZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313192EB11;
-	Thu,  2 May 2024 17:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304DA28FC;
+	Thu,  2 May 2024 17:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714671282; cv=none; b=k3SXHlDmoufcSNDVX6NAKbkGKcDH/XJMgjytlNfAOUEuVbrf5Kq481NoFiUFZN/TrSwvFN+cAsAvs3Y6lg0zdlyjdXmhU9lsSroXlSKzcmQMaCs216OYtIRWBsP0CIMzrZRljbXBpqb7x9OCWv7pEtaWvJ0+qzM/xnO0I82Ih38=
+	t=1714671341; cv=none; b=Lrq0J5WtpLwDcQ5Q0d2YPpsjQiPIX9eGon5vvLx59n3Lp8XxBp6E2xZhH/TgNquV51gNeo62DTuOg1+XQaOjquxrpys4gp91p12UdNX6wpuAKEKaG/J+U8O2LVbyJeZ0h5ygZ4DLsu2qYjFHPk4DvHmquOrmTDLsj1+wfOkGSU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714671282; c=relaxed/simple;
-	bh=L5XbCRqGf2kg74Cc5HWw/gJSLngkaYgH3YD3jIyBfn8=;
+	s=arc-20240116; t=1714671341; c=relaxed/simple;
+	bh=Hr5LMlCMCqxzI5fdUrCvTURdGTfJ1Xg2AdY/lZf1Jq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cawz7P5/v9EaOXVULweS73ovkep2mb2czwmwl2MRlj3l3IKkjKacrlgL0MG/Lwr1ROkknrWHdtOiuhVWtUkgp5vqTSDP7lWhiXaYt5AjhUmZde8V2jwUGvyB+FXyL/GrfyjB7zyVvX0/oK0qmqPIugdqFtYcMLB2XasqTwiqmcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GXSv6XEE; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=byqbgFBr6uDdLPJsGTgsJjErwgw85VIl9y8TmF8N7C59zzZZqnj5B8AhNiELEZaYSk3OxRx0m9eW0BLonk2ZYFlJy0RKfaT0a1dityAQyqAse+hvRGdTaWqS/9cWgrcYUN3WLIfwj2/6AEbDb8nT+XP8aMZrIyEXDQIuyCyqhaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OR4Jc2jZ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A44D552;
-	Thu,  2 May 2024 19:33:39 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE0DB552;
+	Thu,  2 May 2024 19:34:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714671220;
-	bh=L5XbCRqGf2kg74Cc5HWw/gJSLngkaYgH3YD3jIyBfn8=;
+	s=mail; t=1714671280;
+	bh=Hr5LMlCMCqxzI5fdUrCvTURdGTfJ1Xg2AdY/lZf1Jq8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GXSv6XEEZe6teAyk6m0bAD8MZ4EkppXkMIcXdvy0im9RQPpSlcCICptm0urwvRqQC
-	 AGWvLv1U2daL3f+LO+LeY35lQXC/LINyJRw8UdKoFK/aqtuQmmfxCbxhjz+HuVgzdQ
-	 AZI+2p8XXQlIpsik7CM3QXisbpBf96xlstSDDvl8=
-Date: Thu, 2 May 2024 20:34:30 +0300
+	b=OR4Jc2jZNNHJTnbbMzIwsG0QCBvQ3T0qUuyyLSR/3/V0T6SSAmVJMru7b6XvlvSO/
+	 0vXpDHsfzBiUD9ZtKoIsXsXwY4zlKFPj3I629wHJqrzeblftG+rJAX1OslX5sPqfhc
+	 fujJZMzSYBg709brqj1A+u0VnynsPTXjSDAp+Jmk=
+Date: Thu, 2 May 2024 20:35:30 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
@@ -49,10 +49,11 @@ Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 01/19] media: adv748x: Add support for active state
-Message-ID: <20240502173430.GF15807@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 00/19] media: renesas: rcar-csi2: Support multiple streams
+Message-ID: <20240502173530.GG15807@pendragon.ideasonboard.com>
 References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-2-jacopo.mondi@ideasonboard.com>
+ <20240430111718.GC1341585@ragnatech.se>
+ <2spoyuhvmrnkecg6ux43cf4rz6vwaipj4cydairyjeoyut7nus@j7iilnodd2xn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,161 +62,154 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240430103956.60190-2-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2spoyuhvmrnkecg6ux43cf4rz6vwaipj4cydairyjeoyut7nus@j7iilnodd2xn>
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Tue, Apr 30, 2024 at 12:39:37PM +0200, Jacopo Mondi wrote:
-> Initialize and use the subdev active state to store the subdevice
-> format.
+On Tue, Apr 30, 2024 at 01:51:13PM +0200, Jacopo Mondi wrote:
+> Hi Niklas
+>   thanks for the quick reply
 > 
-> This simplifies the implementation of the get_fmt and set_fmt pad
-> operations.
+> On Tue, Apr 30, 2024 at 01:17:18PM +0200, Niklas Söderlund wrote:
+> > Hi Jacopo,
+> >
+> > Thanks for this work! I'm happy that we finally can get this upstream. I
+> > will test and review this in the coming days. As there appears to be a
+> > few dependencies to get this to work do you have a branch covering
+> > everything needed?
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv748x/adv748x-csi2.c | 69 ++++--------------------
->  drivers/media/i2c/adv748x/adv748x.h      |  1 -
->  2 files changed, 11 insertions(+), 59 deletions(-)
+> Sure
+> https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
+> jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 5b265b722394..435b0909bbef 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -139,78 +139,26 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
->   * But we must support setting the pad formats for format propagation.
->   */
->  
-> -static struct v4l2_mbus_framefmt *
-> -adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
-> -			    struct v4l2_subdev_state *sd_state,
-> -			    unsigned int pad, u32 which)
-> -{
-> -	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> -
-> -	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> -		return v4l2_subdev_state_get_format(sd_state, pad);
-> -
-> -	return &tx->format;
-> -}
-> -
-> -static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
-> -				   struct v4l2_subdev_state *sd_state,
-> -				   struct v4l2_subdev_format *sdformat)
-> -{
-> -	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> -	struct adv748x_state *state = tx->state;
-> -	struct v4l2_mbus_framefmt *mbusformat;
-> -
-> -	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
-> -						 sdformat->which);
-> -	if (!mbusformat)
-> -		return -EINVAL;
-> -
-> -	mutex_lock(&state->mutex);
-> -
-> -	sdformat->format = *mbusformat;
-> -
-> -	mutex_unlock(&state->mutex);
-> -
-> -	return 0;
-> -}
-> -
->  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_state *sd_state,
->  				   struct v4l2_subdev_format *sdformat)
->  {
-> -	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> -	struct adv748x_state *state = tx->state;
->  	struct v4l2_mbus_framefmt *mbusformat;
-> -	int ret = 0;
-> -
-> -	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
-> -						 sdformat->which);
-> -	if (!mbusformat)
-> -		return -EINVAL;
->  
-> -	mutex_lock(&state->mutex);
-> +	mbusformat = v4l2_subdev_state_get_format(sd_state, sdformat->pad);
->  
-> +	/* Format on the source pad is always copied from the sink one. */
->  	if (sdformat->pad == ADV748X_CSI2_SOURCE) {
->  		const struct v4l2_mbus_framefmt *sink_fmt;
->  
-> -		sink_fmt = adv748x_csi2_get_pad_format(sd, sd_state,
-> -						       ADV748X_CSI2_SINK,
-> -						       sdformat->which);
-> -
-> -		if (!sink_fmt) {
-> -			ret = -EINVAL;
-> -			goto unlock;
-> -		}
-> -
-> +		sink_fmt = v4l2_subdev_state_get_format(sd_state,
-> +							ADV748X_CSI2_SINK);
->  		sdformat->format = *sink_fmt;
+> I should have added it to the cover letter
+> 
+> > On 2024-04-30 12:39:36 +0200, Jacopo Mondi wrote:
+> > > Hello this series implements multi-stream support for R-Car CSI-2 and the
+> > > two CSI-2 devices that are available on Renesas dev-boards which are mainline
+> > > supported (the ADV748x HDMI decoder and the MAX9286 GMSL deserializer).
+> >
+> > You also need to update the MAX96712 driver in staging else V3U and Gen4
+> > will break.
+> >
+> 
+> Ouch, right. I can do that but won't be able to test. Would you ?
+> 
+> > > The net gain in feature is:
+> > > - ADV748x: Select on which MIPI CSI-2 VC to send the stream on
+> > > - MAX9286: Paves the way for run-time selection of active links
+> > >
+> > > Both features are realized by controlling the devices routing tables.
+> > > The max9286 routing support is not implemented, but these patches are needed
+> > > in order to maintain the current version compatible with R-Car CSI-2.
+> > >
+> > > The R-Car CSI-2 driver needs to be updated in order to support multiplexed
+> > > transmitters, in particular:
+> > >
+> > > - Use LINK_FREQ to compute the lane bandwidth
+> > > - Support subdev_active state
+> > > - Configure DT and VC handling by using the remote's frame_desc
+> > >
+> > > A separate fix for VIN sits at the top of the series to re-enable YUYV capture
+> > > operations.
+> > >
+> > > The series needs to activate streams in v4l2-subdev to work correctly:
+> > >
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -32,7 +32,7 @@
+> > >   * 'v4l2_subdev_enable_streams_api' to 1 below.
+> > >   */
+> > >
+> > > -static bool v4l2_subdev_enable_streams_api;
+> > > +static bool v4l2_subdev_enable_streams_api = 1;
+> > >  #endif
+> >
+> > I'm not up to date with the latest state of the multiple streams API.
+> > Can this be runtime configured or will this break capture if the kernel
+> > is not patched to enable this?
+> 
+> I'm afraid the latter. I really hope in the next kernel release we can
+> get rid of this protection and enable streams by default.
 
-That's not the right way to do it. You should propagate the format from
-sink to source when pad == ADV748X_CSI2_SINK, and return
-adv748x_csi2_get_format() when pad == ADV748X_CSI2_SOURCE. Otherwise
-setting the format on the sink pad will not update the state of the
-source pad, and a get format call on the source pad will return an
-incorrect format.
+I hope it will be done for v6.12 or possibly v6.11.
 
->  	}
->  
->  	*mbusformat = sdformat->format;
->  
-> -unlock:
-> -	mutex_unlock(&state->mutex);
-> -
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-> @@ -228,7 +176,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
->  }
->  
->  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
-> -	.get_fmt = adv748x_csi2_get_format,
-> +	.get_fmt = v4l2_subdev_get_fmt,
->  	.set_fmt = adv748x_csi2_set_format,
->  	.get_mbus_config = adv748x_csi2_get_mbus_config,
->  };
-> @@ -320,6 +268,11 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
->  	if (ret)
->  		goto err_cleanup_subdev;
->  
-> +	tx->sd.state_lock = tx->ctrl_hdl.lock;
-
-Maybe that's addressed in subsequent patches, but do we need a
-device-wide lock ? The code you replace above uses the
-adv748x_state.mutex lock, which covers all subdevs. I don't think this
-patch introduces race conditions, so this could possibly be handled on
-top.
-
-> +	ret = v4l2_subdev_init_finalize(&tx->sd);
-> +	if (ret)
-> +		goto err_free_ctrl;
-> +
->  	ret = v4l2_async_register_subdev(&tx->sd);
->  	if (ret)
->  		goto err_free_ctrl;
-> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> index d2b5e722e997..9bc0121d0eff 100644
-> --- a/drivers/media/i2c/adv748x/adv748x.h
-> +++ b/drivers/media/i2c/adv748x/adv748x.h
-> @@ -75,7 +75,6 @@ enum adv748x_csi2_pads {
->  
->  struct adv748x_csi2 {
->  	struct adv748x_state *state;
-> -	struct v4l2_mbus_framefmt format;
->  	unsigned int page;
->  	unsigned int port;
->  	unsigned int num_lanes;
+> > >
+> > > Test scripts, based on vin-tests are available at:
+> > > https://git.uk.ideasonboard.com/jmondi/vin-tests
+> > >
+> > > A note for Sakari: patch
+> > > "media: max9286: Implement support for LINK_FREQ"
+> > >
+> > > Could actually use your new
+> > > "media: v4l: Support passing sub-device argument to v4l2_get_link_freq()"
+> > >
+> > > I kept it as it is for this version waiting for your patch to get in.
+> >
+> > I like this idea.
+> >
+> > >
+> > > A note for Niklas:
+> > > I think this series paves the way to actually moving the control of which
+> > > VC goes to which VIN using a routing table instead of using link enablement.
+> > >
+> > > Currently the setup is as it follows: routing within R-Car CSI-2 is fixed, sink
+> > > stream 0/X goes to source stream X+1/0 and each source pad represents a VC.
+> > > Which VC gets sent to which VIN is controlled by link enablement.
+> > >
+> > > A more natural way of handling this would be to make the routing table
+> > > within CSI-2 configurable and have media-links immutable between the CSI-2
+> > > source pad. A CSI-2 source pad would then represent a 'channel' between
+> > > CSI-2 and VIN and not the VC which is sent on it.
+> > >
+> > > This setup would better represent the current implementation, with VIN's VCSEL
+> > > fixed channel routing and with the CSI-2 routing table controlling which VC gets
+> > > sent on which channel. What do you think ?
+> >
+> > That could be useful. Maybe we can even switch to use immutable links
+> > and use the routing instead greatly simplifying the VIN driver as this
+> > together with the other VIN series on the list we can drop the ugly
+> > group concept ;-)
+> 
+> I had the same idea, but I'm not yet sure how this would work when a
+> CSI-2 can be routed to multiple VIN groups...
+> 
+> > But this series is already quiet large, I think we can work on this
+> > on-top in a new series.
+> 
+> Exactly, I didn't want to pile too many things. max9286 routing would
+> be next in line, I kept it out to avoid sending 30 patches in one go
+> (and to send this out earlier to get feedbacks)
+> 
+> > > Jacopo Mondi (19):
+> > >   media: adv748x: Add support for active state
+> > >   media: adv748x: Add flags to adv748x_subdev_init()
+> > >   media: adv748x: Use V4L2 streams
+> > >   media: adv748x: Propagate format to opposite stream
+> > >   media: adv748x: Implement set_routing()
+> > >   media: adv748x: Use routes to configure VC
+> > >   media: adv748x: Implement .get_frame_desc()
+> > >   media: max9286: Add support for subdev active state
+> > >   media: max9286: Fix enum_mbus_code
+> > >   media: max9286: Use frame interval from subdev state
+> > >   media: max9286: Use V4L2 Streams
+> > >   media: max9286: Implement .get_frame_desc()
+> > >   media: max9286: Implement support for LINK_FREQ
+> > >   media: max9286: Implement .get_mbus_config()
+> > >   media: rcar-csi2: Add support for multiplexed streams
+> > >   media: rcar-csi2: Support multiplexed transmitters
+> > >   media: rcar-csi2: Store format in the subdev state
+> > >   media: rcar-csi2: Implement set_routing
+> > >   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+> > >
+> > >  drivers/media/i2c/adv748x/adv748x-afe.c       |   2 +-
+> > >  drivers/media/i2c/adv748x/adv748x-core.c      |  12 +-
+> > >  drivers/media/i2c/adv748x/adv748x-csi2.c      | 251 +++++++---
+> > >  drivers/media/i2c/adv748x/adv748x-hdmi.c      |   2 +-
+> > >  drivers/media/i2c/adv748x/adv748x.h           |   4 +-
+> > >  drivers/media/i2c/max9286.c                   | 457 ++++++++++++------
+> > >  drivers/media/platform/renesas/rcar-csi2.c    | 442 ++++++++++++-----
+> > >  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+> > >  8 files changed, 834 insertions(+), 352 deletions(-)
 
 -- 
 Regards,
