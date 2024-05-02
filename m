@@ -1,132 +1,128 @@
-Return-Path: <linux-media+bounces-10651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49588BA308
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 00:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7A78BA323
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 00:26:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 130641C21A2C
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 22:17:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE1021C219BD
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 22:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3742557CA8;
-	Thu,  2 May 2024 22:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36FB4181CF9;
+	Thu,  2 May 2024 22:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZACfO29x"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NhCrLKdI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA8B57CA2;
-	Thu,  2 May 2024 22:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8A357CB9;
+	Thu,  2 May 2024 22:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714688216; cv=none; b=s8NhxhWVWrfInp5BxD0v7GeosphJohB4rzKODDdNbmEVEvwvCbQ1zQexCNJhA+Nnjoumhynsb8RMD30iokevd8PmpETT2OwqDDIe8R24OYBOO23XFbJb8r1tjVC172NL1GIXmUirXU2/q+AdNkSnpAbtlWhgeSCAr/h5/aqdbkg=
+	t=1714688799; cv=none; b=H5rOr9VvlIH0qj8R+JOubV1FpIeriGGTzNSfUeTJkazkTtayuA0DGwBNbTz/O8WXJwGpUO+e8tBQWdV+wXj0SY31WgLjrD7ZEO8EyF5IFNKz6UVzCX0FF+iZadums8CxAYK2CL5oo+RaTUkt3I9LEheAjlDPrMa3WZNR/1HhFjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714688216; c=relaxed/simple;
-	bh=SSft/gL3qokVbBhzqwQmQzTBKPSRsY5sFmSeIM12fnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lyhTY38qzQpnF1C16VEjcjRPJbolh6EiCUurtiPnjZ2D8F4+NScxxhnjhBW0lb2ggkqyK6+dIcugS27QzQ3pUQ+pu7xmbvouK7972seuimC3WbYRZoGjAlcGdTVapBx+z1G06tiT6PSE5n0rJNnFMHlBFxLrzXyrPHx5cJidcrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZACfO29x; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EED064CE;
-	Fri,  3 May 2024 00:15:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714688156;
-	bh=SSft/gL3qokVbBhzqwQmQzTBKPSRsY5sFmSeIM12fnA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZACfO29xyFqx5jgmJ/IKh/ccmfjP8qpoxHWcmYoZYgDByc4Y9P+KSRiZcg7126QyX
-	 1P64cfCRbXOPm1YdmoyuW+QgMYcdh9kAPOCxNweEOpFeDugodS+Y/1Rl9VoFAbxlZY
-	 RWKleOzs+U25wd6zm2McaA27+SC/9tBMw82lVuEs=
-Date: Fri, 3 May 2024 01:16:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 19/19] media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
-Message-ID: <20240502221647.GE4959@pendragon.ideasonboard.com>
-References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-20-jacopo.mondi@ideasonboard.com>
- <20240502143326.GD3927860@ragnatech.se>
+	s=arc-20240116; t=1714688799; c=relaxed/simple;
+	bh=tzRQzMAo0KYbIQARBspopH2O28PH5OzJsS1h1UoNqJY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ap3bR+Dkdqxe3KCEwbaZs0diB3yVgDVwhorh/DhDVGgLLnDmGvAR3ZH+CBUyEkWRkM1e9//NZ6wpQmkbksDYdSFhT5lZ9TUOtL1bJkbvoFz8jccpDA66HuWGb7VuH7Mn3TgER4tgwPe4z3SiK9QwF0m10X0Nsmtws90z3nxXgiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NhCrLKdI; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [100.64.232.195] (unknown [20.29.225.195])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 518C5206B4FD;
+	Thu,  2 May 2024 15:26:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 518C5206B4FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714688797;
+	bh=NzMrFwSnELsNTouka86zwY4xBu0HDKLPheXHNRlf/UY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NhCrLKdI/ZqOMxIi0x/9IcKVE1fu8SJgV6IOu9yOzA4/X9AoPavE5e5S65Ugw3uBC
+	 sulaSRBperkkDcIDt2jCnwInTZEDOTYmaUAyGGeCvlgfS23LBxyBkoeXTUrIdi6qwD
+	 4F+b4DUgYEKEoHW556opdVdEoci1DJoGsON85j90=
+Message-ID: <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
+Date: Thu, 2 May 2024 15:26:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>,
+ "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
+ <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+ <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+Content-Language: en-CA
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502143326.GD3927860@ragnatech.se>
 
-On Thu, May 02, 2024 at 04:33:26PM +0200, Niklas Söderlund wrote:
-> Hi Jacopo,
+On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
 > 
-> Same for this patch, can't we fix this issue independent from the 
-> streams work?
+> 
+> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
+>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
+>>
+>> Compile tested, no functionality changes intended
+>>
+>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
 
-+1
+Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
+I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
+the v0->v1 changelog calls out before posting v1.
 
-> On 2024-04-30 12:39:55 +0200, Jacopo Mondi wrote:
-> > The YUYV8_1X16 and UYVY8_1X16 formats are treated as 'ITU-R
-> > BT.601/BT.1358 16-bit YCbCr-422 input' (YUV16 - 0x5) in the R-Car VIN
-> > driver and are thus disallowed when capturing frames from the R-Car
-> > CSI-2 interface according to the hardware manual.
-> > 
-> > As the 1X16 format variants are meant to be used with serial busses they
-> > have to be treated as 'YCbCr-422 8-bit data input' (0x1) when capturing
-> > from CSI-2, which is a valid setting for CSI-2.
-> > 
-> > Commit 78b3f9d75a62 ("media: rcar-vin: Add check that input interface
-> > and format are valid") disallowed capturing YUV16 when using the CSI-2
-> > interface. Fix this by using YUV8_BT601 for YCbCr422 when CSI-2 is in
-> > use.
-> > 
-> > Fixes: 78b3f9d75a62 ("media: rcar-vin: Add check that input interface and format are valid")
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 +++++++++++++---
-> >  1 file changed, 13 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > index e2c40abc6d3d..21d5b2815e86 100644
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > @@ -742,12 +742,22 @@ static int rvin_setup(struct rvin_dev *vin)
-> >  	 */
-> >  	switch (vin->mbus_code) {
-> >  	case MEDIA_BUS_FMT_YUYV8_1X16:
-> > -		/* BT.601/BT.1358 16bit YCbCr422 */
-> > -		vnmc |= VNMC_INF_YUV16;
-> > +		if (vin->is_csi)
-> > +			/* YCbCr422 8-bit */
-> > +			vnmc |= VNMC_INF_YUV8_BT601;
-> > +		else
-> > +			/* BT.601/BT.1358 16bit YCbCr422 */
-> > +			vnmc |= VNMC_INF_YUV16;
-> >  		input_is_yuv = true;
-> >  		break;
-> >  	case MEDIA_BUS_FMT_UYVY8_1X16:
-> > -		vnmc |= VNMC_INF_YUV16 | VNMC_YCAL;
-> > +		if (vin->is_csi)
-> > +			/* YCbCr422 8-bit */
-> > +			vnmc |= VNMC_INF_YUV8_BT601;
-> > +		else
-> > +			/* BT.601/BT.1358 16bit YCbCr422 */
-> > +			vnmc |= VNMC_INF_YUV16;
-> > +		vnmc |= VNMC_YCAL;
-> >  		input_is_yuv = true;
-> >  		break;
-> >  	case MEDIA_BUS_FMT_UYVY8_2X8:
+For smscufx, I feel phrasing the following line (as an example)
 
--- 
-Regards,
+> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host, 
+> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*, 
 
-Laurent Pinchart
+would actually impact readability negatively, so I propose to leave smscufx as is.
+
+For viafb, I propose making it compliant with the spec using the controller/target terminology and
+posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
+
+What do you think?
+
+Thanks,
+Easwar
+
+>> ---
+>>   drivers/video/fbdev/via/chip.h    |  8 ++++----
+>>   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
+>>   drivers/video/fbdev/via/lcd.c     |  6 +++---
+>>   drivers/video/fbdev/via/via_aux.h |  2 +-
+>>   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
+>>   drivers/video/fbdev/via/vt1636.c  |  6 +++---
+>>   6 files changed, 29 insertions(+), 29 deletions(-)
+>>
+
+<snip>
 
