@@ -1,128 +1,158 @@
-Return-Path: <linux-media+bounces-10652-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10653-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7A78BA323
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 00:26:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77838BA37F
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 00:53:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE1021C219BD
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 22:26:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 839652846B2
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 22:53:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36FB4181CF9;
-	Thu,  2 May 2024 22:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51CB01BC43;
+	Thu,  2 May 2024 22:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NhCrLKdI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ojb7yWEc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8A357CB9;
-	Thu,  2 May 2024 22:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989581CD0C
+	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 22:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714688799; cv=none; b=H5rOr9VvlIH0qj8R+JOubV1FpIeriGGTzNSfUeTJkazkTtayuA0DGwBNbTz/O8WXJwGpUO+e8tBQWdV+wXj0SY31WgLjrD7ZEO8EyF5IFNKz6UVzCX0FF+iZadums8CxAYK2CL5oo+RaTUkt3I9LEheAjlDPrMa3WZNR/1HhFjA=
+	t=1714690408; cv=none; b=QUvJZ+8xev3oAXDqbYn89lwOeZZ3DzYlZ+bceH6W/X6LG85us+6Z+5Pw6EMbdpZWu/G5CRePddhQBboiVrSipwvd8JVWytAM9VdW/vypFBgcBwKY7+FXDjaaTVe7u2MdyvBIUWtxyQwZgrXZD8wFzHsn+BB6Em4CbHu6ZCwSxPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714688799; c=relaxed/simple;
-	bh=tzRQzMAo0KYbIQARBspopH2O28PH5OzJsS1h1UoNqJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ap3bR+Dkdqxe3KCEwbaZs0diB3yVgDVwhorh/DhDVGgLLnDmGvAR3ZH+CBUyEkWRkM1e9//NZ6wpQmkbksDYdSFhT5lZ9TUOtL1bJkbvoFz8jccpDA66HuWGb7VuH7Mn3TgER4tgwPe4z3SiK9QwF0m10X0Nsmtws90z3nxXgiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NhCrLKdI; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.64.232.195] (unknown [20.29.225.195])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 518C5206B4FD;
-	Thu,  2 May 2024 15:26:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 518C5206B4FD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1714688797;
-	bh=NzMrFwSnELsNTouka86zwY4xBu0HDKLPheXHNRlf/UY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NhCrLKdI/ZqOMxIi0x/9IcKVE1fu8SJgV6IOu9yOzA4/X9AoPavE5e5S65Ugw3uBC
-	 sulaSRBperkkDcIDt2jCnwInTZEDOTYmaUAyGGeCvlgfS23LBxyBkoeXTUrIdi6qwD
-	 4F+b4DUgYEKEoHW556opdVdEoci1DJoGsON85j90=
-Message-ID: <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
-Date: Thu, 2 May 2024 15:26:36 -0700
+	s=arc-20240116; t=1714690408; c=relaxed/simple;
+	bh=vQaWdrHoWyRI1hOnC7lHZNit3R4Hi6zoKH3syF9JJJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JT3mrfvL1ncdeWpWebkYBC970itQBjNPSy78hKUdJvF13j8KGA6uAuUJvxnyNK3L/Kv/hd23yE5MRLSyUUt9bHGUOPPTrwhdJsxnr44/JL7cFVlGTtOsXmkwOhG++JcobEEiz4blN/TenGc/S/POyYvKF6NF8E5g8e4utVHPQlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ojb7yWEc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E52784CE;
+	Fri,  3 May 2024 00:52:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714690347;
+	bh=vQaWdrHoWyRI1hOnC7lHZNit3R4Hi6zoKH3syF9JJJQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ojb7yWEchtfbSApDNbGr9GN8mJs/usdPfVBlmi/D7Kj6JNeeCq9krorHS4eaU/mVE
+	 4jweDpahLKZ/Xxvx3XyXNzXTHxPgoC+rqU/9L0KqmQiHPhK6kjfdXriJ/z7vaKbug4
+	 9mRNbqSungKQYNWFUtHUwjQIp6OdLAYenCk2tp6k=
+Date: Fri, 3 May 2024 01:53:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [yavta PATCH 1/1] Print V4L2 fourcc code in format enumeration
+Message-ID: <20240502225318.GF4959@pendragon.ideasonboard.com>
+References: <20240425210815.1820591-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
- <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240425210815.1820591-1-sakari.ailus@linux.intel.com>
 
-On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
+Hi Sakari,
+
+Thank you for the patch.
+
+On Fri, Apr 26, 2024 at 12:08:15AM +0300, Sakari Ailus wrote:
+> Also print the V4L2 fourcc code in format enumeration (--enum-formats).
 > 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  yavta.c | 27 +++++++++++++++++++--------
+>  1 file changed, 19 insertions(+), 8 deletions(-)
+
+This doesn't apply cleanly.
+
 > 
-> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
->> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
->>
->> Compile tested, no functionality changes intended
->>
->> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>
->> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
+> diff --git a/yavta.c b/yavta.c
+> index b2283aed09cb..2153e8b5775f 100644
+> --- a/yavta.c
+> +++ b/yavta.c
+> @@ -370,6 +370,18 @@ static struct v4l2_format_info {
+>  	{ "GENERIC_CSI2_24", V4L2_META_FMT_GENERIC_CSI2_24, 1 },
+>  };
+>  
+> +void v4l2_format_fourcc(__u32 fourcc, char name[5])
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < 4; ++i) {
+> +		name[i] = fourcc & 0xff;
 
-Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
-I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
-the v0->v1 changelog calls out before posting v1.
+While at it, could we handle non-printable characters better ?
 
-For smscufx, I feel phrasing the following line (as an example)
+> +		fourcc >>= 8;
+> +	}
+> +
+> +	name[4] = '\0';
+> +}
+> +
+>  static void list_formats(void)
+>  {
+>  	unsigned int i;
+> @@ -412,18 +424,13 @@ static const char *v4l2_format_name(unsigned int fourcc)
+>  {
+>  	const struct v4l2_format_info *info;
+>  	static char name[5];
+> -	unsigned int i;
+>  
+>  	info = v4l2_format_by_fourcc(fourcc);
+>  	if (info)
+>  		return info->name;
+>  
+> -	for (i = 0; i < 4; ++i) {
+> -		name[i] = fourcc & 0xff;
+> -		fourcc >>= 8;
+> -	}
+> +	v4l2_format_fourcc(fourcc, name);
+>  
+> -	name[4] = '\0';
+>  	return name;
+>  }
+>  
+> @@ -1815,6 +1822,8 @@ static void video_enum_formats(struct device *dev, enum v4l2_buf_type type)
+>  	int ret;
+>  
+>  	for (i = 0; ; ++i) {
+> +		char fourcc[5];
+> +
+>  		memset(&fmt, 0, sizeof fmt);
+>  		fmt.index = i;
+>  		fmt.type = type;
+> @@ -1829,8 +1838,10 @@ static void video_enum_formats(struct device *dev, enum v4l2_buf_type type)
+>  			printf("Warning: driver returned wrong format type "
+>  				"%u.\n", fmt.type);
+>  
+> -		printf("\tFormat %u: %s (%08x)\n", i,
+> -			v4l2_format_name(fmt.pixelformat), fmt.pixelformat);
+> +		v4l2_format_fourcc(fmt.pixelformat, fourcc);
+> +		printf("\tFormat %u: %s (%08x, \"%s\")\n", i,
+> +			v4l2_format_name(fmt.pixelformat), fmt.pixelformat,
+> +			fourcc);
 
-> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host, 
-> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*, 
+One could argue that it would be nice to extend this to all users of
+v4l2_format_fourcc(). I suppose that would be overkill.
 
-would actually impact readability negatively, so I propose to leave smscufx as is.
+If the format is unknown to yavta you'll end up printing the same thing
+twice, but consistency in the format is probably better than avoiding
+the duplication. The patch looks OK to me, I'll apply it if you send me
+a version that applies :-)
 
-For viafb, I propose making it compliant with the spec using the controller/target terminology and
-posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
+>  		printf("\tType: %s (%u)\n", v4l2_buf_type_name(fmt.type),
+>  			fmt.type);
+>  		printf("\tName: %.32s\n", fmt.description);
 
-What do you think?
+-- 
+Regards,
 
-Thanks,
-Easwar
-
->> ---
->>   drivers/video/fbdev/via/chip.h    |  8 ++++----
->>   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
->>   drivers/video/fbdev/via/lcd.c     |  6 +++---
->>   drivers/video/fbdev/via/via_aux.h |  2 +-
->>   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
->>   drivers/video/fbdev/via/vt1636.c  |  6 +++---
->>   6 files changed, 29 insertions(+), 29 deletions(-)
->>
-
-<snip>
+Laurent Pinchart
 
