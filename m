@@ -1,126 +1,232 @@
-Return-Path: <linux-media+bounces-10705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D1B8BB13F
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:49:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4987E8BB14B
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:58:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F1D91C215EC
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:49:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67146B2181D
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3778156C76;
-	Fri,  3 May 2024 16:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488B1157A54;
+	Fri,  3 May 2024 16:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rkGr+1kX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvMkAvqv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102A6156883;
-	Fri,  3 May 2024 16:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4AF155351
+	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 16:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714754936; cv=none; b=f2mrXmtqKGvkwLvg5nxf2daDQVVQEWf2Puuuehw9Frl32b2syOX4vl424PjlK0FBh3ZTu4Pq/JLljKjz2BhAHB3LHksv4sGq3vLFny84w8uMpDiw1RIsZSSZ8dQRS2VUQui/12v9fSW2wrO3bRtl+K2r5NbdRwKivBzUQqxLbEc=
+	t=1714755527; cv=none; b=Toth5rRh/6JN/KOXPam8FfhP+CgLoOnGBqc438ebkYQT2EQ1AB3Oc9VVURKh+N0E55b+oYUAp2Uew+LlNH+objsdRY/H5j+07AtEKI3lItJuYJQaDihjAw0UpbSw6k3P06WZ/LZM8dFik6JkxaXOuUak0nIHwfjWO4k7wy8LtUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714754936; c=relaxed/simple;
-	bh=CspOZzK8dhzgARH67jnkfnWSdxxjtsk7C78dj0N5S78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z2Qx5FXL0MG35FSMYjA1+54oAFZ/pe68crPJiMuY/fZMXwIyQChbQAIt+CdSV9JzL7FSNZzTnwQOr9WfZG52ZgqkR8ZFvMXzcQM8C5cj3KPNGpcXHi/gkEjzvPL4yz8Oq2TyQZwibiQpRTSXPjw+oEpsRBGH4G44vlCIj6z+UoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rkGr+1kX; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.65.224.148] (unknown [20.236.10.206])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ED65B20B2C82;
-	Fri,  3 May 2024 09:48:53 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED65B20B2C82
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1714754934;
-	bh=GAu8Rak4A+pCgzw/uvyDGmtVcqwJgPNajSTWUoSmEQw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rkGr+1kX0SctOUPwkhdrQ4qFQeA027/UkwhMstN1oK11s07V0R7Wi7aRofjAnlC1w
-	 NT0xX9K1RqDBBTorM82GqIiYoTbasEg2t4t6Fe9M8VXV9I+qcP4kpK+ALqrx64mma1
-	 /QTPAvj8aVxAk84+SPJbJzAv82Hdw3+D0Hq7DSGc=
-Message-ID: <6256cc5a-9ff0-4a1f-8eba-f70b7c571631@linux.microsoft.com>
-Date: Fri, 3 May 2024 09:48:53 -0700
+	s=arc-20240116; t=1714755527; c=relaxed/simple;
+	bh=iWA12mjdboxqudMSVC2hhme+YT/dS7Trdr76dYI8e0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mesJhuhDwf/yxyahPorvupv1W6A3F8/yKY5gKY6dvvy1qJBNcmPisRqvYdG+1x8por5NA5z6I/oCnJM2oQFBAakHy7Kph7bkaMuzyfUPJCx5xtygahWWZSZsY/5wsbsGeSdTTMsLi1lgVj92+ZeeNieayPMc4qQLmYMSQa122dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvMkAvqv; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714755526; x=1746291526;
+  h=date:from:to:cc:subject:message-id;
+  bh=iWA12mjdboxqudMSVC2hhme+YT/dS7Trdr76dYI8e0Q=;
+  b=DvMkAvqvIYLDfiCDXuc9RsrcHLEtqQGYX99kvQfp/q5KYXlqPsTPlQML
+   ELl1HuX/PZwm7pnFhzDcv0+1zFpFYQ0vywdyDvnwRTuZY6ebuKoCLPv2w
+   TughguvssuWVjL7UVNCYzU+KTNunkimwBl7rJhqoSPguy+ONo1q2d34b2
+   kZ7gbehP+G4ZIKmHVXyZ12A4545NsxKHKzqmix+UD59jyfg41puDc7ldt
+   YosGTqCUnWGuJNfahjkYo/MJq8+uTmxi2O+zjr51k3svld8PxLtekIovR
+   xAx+SGzXOKMuYkBqTlW44JVr+hS7l5hVFEUUvveYpqrzAK9aivk+fow8K
+   Q==;
+X-CSE-ConnectionGUID: QF9L7XnhTAOxAManPSuCcg==
+X-CSE-MsgGUID: vUjY2OngTUWrmd3AshJACQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10447467"
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="10447467"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 09:58:45 -0700
+X-CSE-ConnectionGUID: 5lJon8CSRgSiA8762Kwe9g==
+X-CSE-MsgGUID: Bw81yU+xRLWLFFI27KsxaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="27563511"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 03 May 2024 09:58:44 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2wF7-000Bv5-0c;
+	Fri, 03 May 2024 16:58:41 +0000
+Date: Sat, 04 May 2024 00:58:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:ipu6-fix] BUILD SUCCESS
+ 40d272ee82fc8ec4d8b88c29d535c8e57c594fc4
+Message-ID: <202405040019.Q4dZio5Q-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
- <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
- <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
- <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 5/3/2024 12:39 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 03.05.24 um 00:26 schrieb Easwar Hariharan:
->> On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
->>>
->>> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
->>>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>> in the specification.
->>>>
->>>> Compile tested, no functionality changes intended
->>>>
->>>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>>>
->>>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->> Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
->> I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
->> the v0->v1 changelog calls out before posting v1.
->>
->> For smscufx, I feel phrasing the following line (as an example)
->>
->>> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host,
->>> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*,
->> would actually impact readability negatively, so I propose to leave smscufx as is.
-> 
-> Why? I don't see much of a difference.
-> 
->>
->> For viafb, I propose making it compliant with the spec using the controller/target terminology and
->> posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
->>
->> What do you think?
-> 
-> I think we should adopt the spec's language everywhere. That makes it possible to grep the spec for terms used in the source code. Using 'host' in smscufx appears to introduce yet another term. If you are worried about using 'I2C controller' and 'controller' in the same sentence, you can replace 'I2C controller' with 'DDC channel'. That's even more precise about the purpose of this code.
+tree/branch: git://linuxtv.org/sailus/media_tree.git ipu6-fix
+branch HEAD: 40d272ee82fc8ec4d8b88c29d535c8e57c594fc4  media: intel/ipu6: Drop custom link validation code
 
-Great, thanks! That was exactly my concern, I will fix up smscufx and send a v2.
+elapsed time: 1440m
 
-Thanks,
-Easwar
+configs tested: 139
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240503   gcc  
+arc                   randconfig-002-20240503   gcc  
+arc                           tb10x_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                        multi_v5_defconfig   gcc  
+arm                   randconfig-004-20240503   gcc  
+arm                         s3c6400_defconfig   gcc  
+arm                           sama5_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-002-20240503   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240503   gcc  
+csky                  randconfig-002-20240503   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240503   clang
+i386         buildonly-randconfig-002-20240503   clang
+i386         buildonly-randconfig-006-20240503   clang
+i386                                defconfig   clang
+i386                  randconfig-002-20240503   clang
+i386                  randconfig-003-20240503   clang
+i386                  randconfig-005-20240503   clang
+i386                  randconfig-006-20240503   clang
+i386                  randconfig-011-20240503   clang
+i386                  randconfig-016-20240503   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240503   gcc  
+loongarch             randconfig-002-20240503   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240503   gcc  
+nios2                 randconfig-002-20240503   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240503   gcc  
+parisc                randconfig-002-20240503   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                    ge_imp3a_defconfig   gcc  
+powerpc                 mpc8313_rdb_defconfig   gcc  
+powerpc               randconfig-003-20240503   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240503   gcc  
+riscv                 randconfig-002-20240503   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240503   gcc  
+s390                  randconfig-002-20240503   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         apsh4a3a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                    randconfig-001-20240503   gcc  
+sh                    randconfig-002-20240503   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240503   gcc  
+sparc64               randconfig-002-20240503   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240503   gcc  
+x86_64       buildonly-randconfig-002-20240503   gcc  
+x86_64       buildonly-randconfig-003-20240503   gcc  
+x86_64       buildonly-randconfig-005-20240503   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-004-20240503   gcc  
+x86_64                randconfig-005-20240503   gcc  
+x86_64                randconfig-076-20240503   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                       common_defconfig   gcc  
+xtensa                randconfig-001-20240503   gcc  
+xtensa                randconfig-002-20240503   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
