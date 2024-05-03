@@ -1,126 +1,112 @@
-Return-Path: <linux-media+bounces-10748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31EB8BB7CE
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 00:52:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DB68BB7DD
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 01:03:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B5471F237EA
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 22:52:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12F61B22224
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 23:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5B982C88;
-	Fri,  3 May 2024 22:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646EF83CA2;
+	Fri,  3 May 2024 23:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="ZKRWD2ib"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A3258AB9;
-	Fri,  3 May 2024 22:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23561EA87;
+	Fri,  3 May 2024 23:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714776741; cv=none; b=VVwPHq3GOujYL/0Cq+lgcFTwHgGNYOc1r9t6N6/EGeIOe8p/kgjiFkTAxvIJMeHm/sLXGiBEAVKVPFh9Sfok+z0y/1JHKXhErMAKZFjD33ny0QuhOtRhQPkcdF0C3832+UdUB5jxZL3PKRmFxrR/wYJnq4Ko3lkWx+GdJUClS5c=
+	t=1714777411; cv=none; b=QhgFCp53+4M4T4pkFQJcgCTi9pVGNtTIfEaKipCUAgW+WGmtM3SMiut3g5L3R8qnulG8jip6tObEVuhdVRDGXX4W6SE3vF5tJ6foofDZR0KVOXWLeWZQFN+VADeIDETa7SDDG+Zr5v/Sk0H57MGg0+q8qbZPsfzsBS87dN3DN9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714776741; c=relaxed/simple;
-	bh=+k7smC01PbURrogCBgEc+38Tqvw0xyJMXL4rJUbsaSA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iP/WLEJSOxgmOLZGTc166ZjVvUoWquatAVDMAvGJC1GeeFcKJprr9IsZrQyuIIZj03DtsfHpjAIvCrGfhDOpc3tf+t7ddP/U2oVnXy8FRS9hiPlarfraLi8xWJCsc28a+aqvaP/DxUalx5SU2IqfHgJUfoo7fe6y465V3iySLcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sat, 4 May
- 2024 01:52:14 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sat, 4 May 2024
- 01:52:13 +0300
-Message-ID: <73c24dd7-3cd8-4875-a33d-b546a346a24d@fintech.ru>
-Date: Fri, 3 May 2024 15:52:10 -0700
+	s=arc-20240116; t=1714777411; c=relaxed/simple;
+	bh=KqEp4cDEXyDj5kpZyY+d8mwhPTn8pcxLOt8m2Wid2/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TTXFetoakoM5sMyLNE0TvCQHUBiHbRz4sY4DTCHHfpaR9WEnJ2M5m0x9VkNLHaOTnAbDLLIJrLu1qQZKlp2rn3X42P5SUjiYgxtaAdOk9SiBXgHcVkDyOTG7b0FiMUNNvz8WoKUwp1E2Ack48BlY46RNEun1QqDV55BwLc41Q94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=ZKRWD2ib; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=cSDdKBLN0a5uI9scqsrmM49KsAV9URcP7+bHrbasnBA=; b=ZKRWD2ibo8voqmliDBcVDvN5cn
+	/J5M/yDDbeZNdFnxzKaOxhsSkppprX3nENPQ0z3ugjwuDMe8tlOqb2H9u0+kPfmRHjzW0fkG5yIqK
+	5oMf9bmXAKEj7jmrC9MBBwV0BQN7ufjs49HUQ5Wy/J9G7EnLMFlsSbDAMOO2TRReS+grtgUOcSqnR
+	M6fY72Cud6MedRUa79lH44WMOzNeJnHRW2gs7c2goZq9n8vvF96i89CfhXI5/xAijTEX7PXVxsOZu
+	mNJv9YI0vA9p2YJOkwZNX3RMTA7af85jNkMRbId/g0Q7XANJDk1Fv/AEo0Bggo7yTWSDvAtdOh+wY
+	kTLCW7YA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1s31vy-00BEDK-1T;
+	Fri, 03 May 2024 23:03:18 +0000
+Date: Sat, 4 May 2024 00:03:18 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Kees Cook <keescook@chromium.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, axboe@kernel.dk,
+	brauner@kernel.org, christian.koenig@amd.com,
+	dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+	jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, minhquangbui99@gmail.com,
+	sumit.semwal@linaro.org,
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Message-ID: <20240503230318.GF2118490@ZenIV>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240503214531.GB2118490@ZenIV>
+ <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
+ <202405031529.2CD1BFED37@keescook>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: usb: siano: fix endpoint checks in
- smsusb_init_device()
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Andrew Morton <akpm@linux-foundation.org>, Alan Stern
-	<stern@rowland.harvard.edu>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
-	<syzbot+12002a39b8c60510f8fb@syzkaller.appspotmail.com>
-References: <20240409143634.33230-1-n.zhandarovich@fintech.ru>
- <20240503165833.4781fb4a@sal.lan>
- <4069e01b-09d1-49e6-b053-3f6b99dd9405@fintech.ru>
- <20240503222054.45ed636f@sal.lan>
-Content-Language: en-US
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-In-Reply-To: <20240503222054.45ed636f@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202405031529.2CD1BFED37@keescook>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi
+On Fri, May 03, 2024 at 03:46:25PM -0700, Kees Cook wrote:
+> On Fri, May 03, 2024 at 02:52:38PM -0700, Linus Torvalds wrote:
+> > That means that the file will be released - and it means that you have
+> > violated all the refcounting rules for poll().
+> 
+> I feel like I've been looking at this too long. I think I see another
+> problem here, but with dmabuf even when epoll is fixed:
+> 
+> dma_buf_poll()
+> 	get_file(dmabuf->file)		/* f_count + 1 */
+> 	dma_buf_poll_add_cb()
+> 		dma_resv_for_each_fence ...
+> 			dma_fence_add_callback(fence, ..., dma_buf_poll_cb)
+> 
+> dma_buf_poll_cb()
+> 	...
+>         fput(dmabuf->file);		/* f_count - 1 ... for each fence */
+> 
+> Isn't it possible to call dma_buf_poll_cb() (and therefore fput())
+> multiple times if there is more than 1 fence? Perhaps I've missed a
+> place where a single struct dma_resv will only ever signal 1 fence? But
+> looking through dma_fence_signal_timestamp_locked(), I don't see
+> anything about resv nor somehow looking into other fence cb_list
+> contents...
 
-On 5/3/24 14:20, Mauro Carvalho Chehab wrote:
-> Em Fri, 3 May 2024 09:14:37 -0700
-> Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
-> 
->>> Did you test it on what devices? I'm not sure if all siano devices
->>> are bulk. Why did you decide to use usb_endpoint_is_bulk_(in|out)
->>> instead of usb_endpoint_dir_(in|out)?  
->>
->> I did not have the hardware required to test it properly, I'm afraid.
->> I made sure to point that out in the patch description.
->>
->> As for siano devices possibly having different endpoints type apart from
->> bulk, I was relying on the rest of the driver code to determine just
->> that (which is maybe somewhat flawed in this case). 
-> 
-> Most digital TV devices also have ISOC endpoints. I'm not sure about
-> Siano.
-After a quick glance at Siano driver I am not sure about that being true
-specifically for Siano devices just yet, but I understand your point
-nonetheless.
-> 
->> Since
->> smsusb_submit_urb() (and some other functions like usb_rcvbulkpipe())
->> works exclusively with bulk types, I did not feel the need to even
->> expect int types, for instance.
-> 
-> The problem is not with int endpoints. Most media devices have isoc
-> endpoints. There are even cases that different device models supported
-> by the same driver have some bulk and some isoc endpoints. See em28xx 
-> driver for instance: most devices are isoc only; some have both isoc
-> and bulk; a few have just bulk.
-> 
-> In the specific case of siano, it supports 3 generations of devices
-> (sms1000, sms11xx, sms22xx), each with several submodels. 
-> Those 3 generations have different specs, and sms1000 even have one
-> "boot" USB ID, and one "warm" USB ID, each one with different endpoints.
-> 
-> That's basically why I'm afraid of a patch like this could cause
-> regressions if not properly tested, as it is changing the logic
-> from just detecting the direction to also validate if the endpoint
-> is not isoc.
+At a guess,
+                r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+		if (!r)
+			return true;
 
-Thank you for being so thorough with your answer. I think I
-overestimated how much I should trust current driver implementation. I
-should be (at least, in this case) looking at what hardware expects of
-the driver.
-
-Let me try to do a little more research into smsxxxx specs and maybe see
-about getting my hands on some actual devices for testing.
-
-> 
-> Regards,
-> Mauro
-
-With regards,
-Nikita
+prevents that - it returns 0 on success and -E... on error;
+insertion into the list happens only when it's returning 0,
+so...
 
