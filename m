@@ -1,270 +1,169 @@
-Return-Path: <linux-media+bounces-10686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10687-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA51D8BADE0
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:40:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E68BAE7F
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:09:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60C22283F3B
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:40:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07A6F1F21792
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 14:09:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9948153BD0;
-	Fri,  3 May 2024 13:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B257154BF8;
+	Fri,  3 May 2024 14:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OkOB9RfS"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="mAarC0LY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F04139CF8;
-	Fri,  3 May 2024 13:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F44152184;
+	Fri,  3 May 2024 14:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714743634; cv=none; b=Bg87d/EMC5PSOibmXEFGWtAeM2OUiDIRSbNhr5C7Cfy1w4cDndJ+HEpVBIlBYDNH/TswO6+hS/6aXzfD7XmTrxmJ6Er6p9uT4gMPJYf3R+N9AhoKAp7b4KZEizHoavE9TjmJtN3nwDT8o6B6RvKBIlOipmrDZrbTFJsOwqfPZYE=
+	t=1714745335; cv=none; b=kwYjWZfsb1Qr8tNkPaLn+5Ce/dVIp0oPZRiaHUtHTkF7lXQJ66oy4jUHJ2bS58FnCtE/uP9ZRImCddpmsViIzlUAmq5qW4NhnaN8fwQpK70ZNkdfrWR4x4Krr8JJEutd/YCTaZ3LsDND6AqupxsYCxbXsNvY3Hl9EdYsJdyC5b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714743634; c=relaxed/simple;
-	bh=izGzRh53kNir17NtrU6uAf2uWt6oz72X9pbN6GcH8g4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=aIfy5dLdwoJXbvtQotpq8UtZ6HhKTmeLW+e4cvmXfRs6M5sbyWONaBTj3p7UghJb0v60dmgRS+shrqjFIiAhehBzQtE8z4/1TV7Nc0dIApMyMod8em7JQ2NNZJYzppnRVQV1EcTZenb8ptBnVzsGhlCOzJ2xp0cvsACyCMWDnHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OkOB9RfS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443CLH05026098;
-	Fri, 3 May 2024 13:40:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=OTB8nHFLPaquXF5F/bBkNoQstl6p52xaF/pLsiIiK+E=; b=Ok
-	OB9RfSaE7dFEwpgN2ng24tTsRGHoRUdPZRLivDNQc4Kt5kpR4600xo8WiRIWzXjJ
-	sZabYLm8mWq8xYidXK8lDUJcMMH1FsPlkh0TngbWtId51nBXMhlkVPvZIU8nbLY3
-	Gi0thrgzD648jWAhKJW7Ke+pEi8oRF3wO9aer31NVSl9HctOKpORMHlLAPRA2gjV
-	UB9tX1NMJxom6EfLvAzi/5wBE8XEVyknmVz4UjXit1TTr0pfZfmGV5hT7jtZ7DXH
-	wvL9+Cqaue8c8sDGaMFH4KFDrL7FebKh4G2nslCXk6TphxdCR2J4/M+FO1dRWt8x
-	Anesn5ZMPjLpX9Xrh4ug==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv7pxk1jy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 May 2024 13:40:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 443DeOCE027742
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 3 May 2024 13:40:24 GMT
-Received: from [10.214.66.164] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 3 May 2024
- 06:40:21 -0700
-Message-ID: <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
-Date: Fri, 3 May 2024 19:10:18 +0530
+	s=arc-20240116; t=1714745335; c=relaxed/simple;
+	bh=+kPnKcYBQEaIz35grdcmnn1EGJxQ/kAtMsbVmsDrItw=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=j04s6tX3jVPT+YUacflG2Z+XvmrazAijJQc+Rgt/wq/YuXrB9sdfyzHgqv1nTYLufHgrkjhOt5imlYzQu/HmHN+QIteEMmPDp9OMcCx4uSxG1XZ3dDtuWLjPcKrhpdq8PQLbzf1Ev+ZEYZdVSvmXeLfMlpFsME5QIsTaNQmDaF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=mAarC0LY; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        zhiguojiang
-	<justinjiang@vivo.com>,
-        "T.J. Mercier" <tjmercier@google.com>
-CC: Sumit Semwal <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <opensource.kernel@vivo.com>
-References: <20240327022903.776-1-justinjiang@vivo.com>
- <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
- <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
- <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
- <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
- <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
- <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
- <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
- <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
- <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
-Content-Language: en-US
-From: Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
-X-Proofpoint-ORIG-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_09,2024-05-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0 mlxscore=0
- bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2405030098
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1714745331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3C+MgtjD5FFzr1H8ErTkKFFC7gX/7QwO2uuYNs38Akc=;
+	b=mAarC0LY0zCqC2ZrO6f/B0kd24XVsuHukHHUkTxv8x6uP89ukwITU0O3Ynvicd1D1E9pAe
+	IO3tmU10O6igCP8QZy19eeUc6Ld3IxJqvuNP1A5HBT6M5ThYS4BpN1w2gd1THv6O1jAK7/
+	ezGJ5lRjzzWduiC7DpEa6et6y5QamPHTjx/cHxFoa92YbVL3l6ufWF1RIr8LLxjgxMNHq8
+	xLmLl+oEm7sIthlsxDBs1Nx//ZO6J02vTNuOw0f8VgzJgXGDL/8MklHPqBILGlrXprDE9w
+	hibkEuHJ/OUQOHG1dbrTz8I/N/GLzP9y5rNue5qKcnd9Fy1V2tSamIAR/DWm+g==
+Date: Fri, 03 May 2024 16:08:48 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hugues Fruchet
+ <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya
+ Komatineni <skomatineni@nvidia.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans
+ Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, Abylay Ospan
+ <aospan@netup.ru>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry
+ Osipenko <digetx@gmail.com>, Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>, Sylvain Petinot
+ <sylvain.petinot@foss.st.com>, Stanimir Varbanov
+ <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson
+ <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
+ of z explicit.
+In-Reply-To: <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
+References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
+ <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
+ <20240503112758.763d8d31@sal.lan>
+ <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain>
+ <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
+Message-ID: <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Thanks Christian/TJ for the inputs!!
+Hello Ricardo,
 
-On 4/18/2024 12:16 PM, Christian König wrote:
-> As far as I can see the EPOLL holds a reference to the files it
-> contains. So it is perfectly valid to add the file descriptor to EPOLL
-> and then close it.
->
-> In this case the file won't be closed, but be kept alive by it's
-> reference in the EPOLL file descriptor.
-
-I am not seeing that adding a 'fd' into the epoll monitoring list will
-increase its refcount.  Confirmed by writing a testcase that just do
-open + EPOLL_CTL_ADD and see the /proc/../fdinfo of epoll fd(Added
-file_count() info to the output)
-# cat /proc/136/fdinfo/3
-pos:    0
-flags:  02
-mnt_id: 14
-ino:    1041
-tfd:        4 events:       19 data:                4  pos:0 ino:81 sdev:5
-refcount: 1<-- The fd added to the epoll monitoring is still 1(same as
-open file refcount)
-
-From the code too, I don't see a file added in the epoll monitoring list
-will have an extra refcount but momentarily (where it increases the
-refcount of target file, add it to the rbtree of the epoll context and
-then decreasing the file refcount):
-do_epoll_ctl():
-	f = fdget(epfd);
-	tf = fdget(fd);
-	epoll_mutex_lock(&ep->mtx)
-	EPOLL_CTL_ADD:
-		ep_insert(ep, epds, tf.file, fd, full_check); // Added to the epoll
-monitoring rb tree list as epitem.
-	mutex_unlock(&ep->mtx);
-	fdput(tf);
-	fdput(f);
-
-
-Not sure If i am completely mistaken what you're saying here.
-
-> The fs layer which calls dma_buf_poll() should make sure that the file
-> can't go away until the function returns.
+On 2024-05-03 13:56, Ricardo Ribalda wrote:
+> I am trying to get the DS, but
+> https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf is a
+> dead links now.
 > 
-> Then inside dma_buf_poll() we add another reference to the file while
-> installing the callback:
-> 
->                         /* Paired with fput in dma_buf_poll_cb */
->                         get_file(dmabuf->file); No, exactly that can't
-> happen either.
-> 
+> Anyone have access to the datasheet?
 
-I am not quite comfortable with epoll internals but I think below race
-is possible where "The 'file' passed to dma_buf_poll() is proper but
-->f_count == 0, which is indicating that a parallel freeing is
-happening". So, we should check the file->f_count value before taking
-the refcount.
+It's kind of available on the link below, but for some strange reason
+the download fails after downloading the first 128 KB or so.
 
-(A 'fd' registered for the epoll monitoring list is maintained as
-'epitem(epi)' in the rbtree of 'eventpoll(ep, called as epoll context).
-
-epoll_wait()				    __fput()(as file->f_count=0)
-------------------------------------------------------------------------
-a) ep_poll_callback():
-     Is the waitqueue function
-   called when signaled on the
-   wait_queue_head_t of the registered
-   poll() function.
-
-   1) It links the 'epi' to the ready list
-      of 'ep':
-       if (!ep_is_linked(epi))
-	 list_add_tail_lockless(&epi->rdllink,
-		&ep->rdllist)
-
-   2) wake_up(&ep->wq);
-	Wake up the process waiting
-	on epoll_wait() that endup
-	in ep_poll.
+https://web.archive.org/web/20080907185532/https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf
 
 
-b) ep_poll():
-    1) while (1) {
-	eavail = ep_events_available(ep);
-	(checks ep->rdlist)
-	ep_send_events(ep);
-	(notify the events to user)
-    }
-    (epoll_wait() calling process gets
-     woken up from a.2 and process the
-     events raised added to rdlist in a.1)
-
-   2) ep_send_events():
-	mutex_lock(&ep->mtx);
-	(** The sync lock is taken **)
-	list_for_each_entry_safe(epi, tmp,
-			&txlist, rdllink) {
-	    list_del_init(&epi->rdllink);
-	    revents = ep_item_poll(epi, &pt, 1)
-	    (vfs_poll()-->...f_op->poll(=dma_buf_poll)
-	}
-	mutex_unlock(&ep->mtx)
-	(**release the lock.**)
-
-	(As part of procession of events,
-	 each epitem is removed from rdlist
-         and call the f_op->poll() of a file
-	 which will endup in dma_buf_poll())
-
-   3) dma_buf_poll():
- 	get_file(dmabuf->file);
-	(** f_count changed from 0->1 **)
-	dma_buf_poll_add_cb(resv, true, dcb):
-	(registers dma_buf_poll_cb() against fence)
-
-
-				c) eventpoll_release_file():
-				   mutex_lock(&ep->mtx);
-				   __ep_remove(ep, epi, true):
-				   mutex_unlock(&ep->mtx);
-				  (__ep_remove() will remove the
-				   'epi' from rbtree and if present
-				   from rdlist as well)
-
-				d) file_free(file), free the 'file'.
-
-e) dma_buf_poll_cb:
- /* Paired with get_file in dma_buf_poll */
- fput(dmabuf->file);
- (f_count changed from 1->0, where
-  we try to free the 'file' again
-  which is UAF/double free).
-
-
-		
-In the above race, If c) gets called first, then the 'epi' is removed
-from both rbtree and 'rdlink' under ep->mtx lock thus b.2 don't end up
-in calling the ->poll() as it don't see this event in the rdlist.
-
-Race only exist If b.2 executes first, where it will call dma_buf_poll
-with __valid 'struct file' under ep->mtx but its refcount is already
-could have been zero__. Later When e) is executed, it turns into double
-free of the 'file' structure.
-
-If you're convinced with the above race, should the fix here will be
-this simple check:
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..e469dd9288cc
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -240,6 +240,10 @@ static __poll_t dma_buf_poll(struct file *file,
-poll_table *poll)
- 	struct dma_resv *resv;
- 	__poll_t events;
-
-+	/* Check parallel freeing of file */
-+	if (!file_count(file))
-+		return 0;
-+
-
-Thanks,
-Charan
+> On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.org> 
+> wrote:
+>> 
+>> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wrote:
+>> > Em Mon, 29 Apr 2024 15:05:05 +0000
+>> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
+>> >
+>> > > We do not expect the sample_freq to be over 613MHz.
+>> > >
+>> > > Found by cocci:
+>> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>> > >
+>> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> > > ---
+>> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
+>> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
+>> > > index 3e725cdcc66b..1886f733dbbf 100644
+>> > > --- a/drivers/media/dvb-frontends/tda10048.c
+>> > > +++ b/drivers/media/dvb-frontends/tda10048.c
+>> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
+>> > >                          u32 bw)
+>> > >  {
+>> > >     struct tda10048_state *state = fe->demodulator_priv;
+>> > > -   u64 t, z;
+>> > > +   u32 z;
+>> > > +   u64 t;
+>> > >
+>> > >     dprintk(1, "%s()\n", __func__);
+>> > >
+>> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
+>> > >     /* t *= 2147483648 on 32bit platforms */
+>> > >     t *= (2048 * 1024);
+>> > >     t *= 1024;
+>> > > +   /* Sample frequency is under 613MHz */
+>> >
+>> > Are you sure about that? Some DVB devices have very high frequency
+>> > clocks, specially if they're also used for satellite, so I can't
+>> > be sure by just looking at the driver's code.
+>> >
+>> > Also, we had already a bunch of regressions with "fixes" like this
+>> > that actually broke frontend drivers.
+>> 
+>> This patch preserves the existing behavior. The sample_freq_hz 
+>> variable
+>> is a u32 so, in the original code, z couldn't have been more than
+>> U32_MAX even though it was declared as a u64.
+>> 
+>> It's possible that the original code was wrong.  We have seen that in
+>> other places in this patchset.  Adding a note about the datasheet is
+>> also a good idea.
+>> 
+>> regards,
+>> dan carpenter
+>> 
 
