@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-10664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31088BA846
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 10:05:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5508B8BA848
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 10:06:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C9891F22428
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 08:05:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD505B212BA
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 08:06:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3C51487FF;
-	Fri,  3 May 2024 08:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FF03148824;
+	Fri,  3 May 2024 08:06:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FqHAYAjp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FhmnQf8A"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82403147C8A;
-	Fri,  3 May 2024 08:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBAE147C8A;
+	Fri,  3 May 2024 08:05:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714723507; cv=none; b=Iw9D2e4a1PNhpqokPzTA1Rq+SJd3Y7VAt5tQk6kuyIgL4zjNn0WHkV68aIQlyFp0gA0L6j4tWa6z9ZNfqWUUhpNbtGDIXbhw+AiEoK0kSHn7jTjKom6tQx8RomsDazQ4xm9eY3xh5RlnWmZE7Z+7+asaCZtiEKfTxKPOhgVHwLg=
+	t=1714723560; cv=none; b=RZqiVzsJ4KgcNPo1Rl4QQorH+09IAPAXDaDYZ31L+61tAPZK408Weli8J107X0KOFt5YK4vhaFBY7NP5EI/cARyte27gac3qQgthUCMTK37YZ53+nNADnrqJ6FVIM9VIhxNXCCOdkhLwGjy+/rKJwgtbn1SM5p1LV+AsgEd0wT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714723507; c=relaxed/simple;
-	bh=B8MSwC120rxKJOoNhxSvLSCTHxCXF3TU1NOdbYQVn8U=;
+	s=arc-20240116; t=1714723560; c=relaxed/simple;
+	bh=nR/tABVCfVWAMX76WsT24io7IcJZlvGGWtvDHafDZHQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjeCysje0wi9tFh5tBcUWsgPLEM2TaXUPI7TSmlsvTNk6M7lAIgoj5yP/x/eREUUzxoSUMP1MixGwI+Ibp4KXNQ1GDmd9cNnanqzarjZKagJxLLNVkzwd4P/omuJZjkXz92nNS7J+sl/rXMllF1l63PrLrCgZbLFhy7wgAYOPAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FqHAYAjp; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScsHpCSWvDl3bg1VTOeDo+fknkele+FvDy6aO/CsDrh4K98yRUxhV+JUpB6eBX1jyNE4mtdLFAJuHDYoEBcRWS9glW0KJGZi/XLZVEsxvVaEgCEYN9sS4E8MRMwonfkPp3zYCiS0yibGa6Kgz0ilVHXqEAGPIE+DiwWt4U3DFYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FhmnQf8A; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A1C8593;
-	Fri,  3 May 2024 10:04:05 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82220593;
+	Fri,  3 May 2024 10:04:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714723445;
-	bh=B8MSwC120rxKJOoNhxSvLSCTHxCXF3TU1NOdbYQVn8U=;
+	s=mail; t=1714723499;
+	bh=nR/tABVCfVWAMX76WsT24io7IcJZlvGGWtvDHafDZHQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FqHAYAjpcv4rRGpJvHDplX7dSayv68a4f+cTICUojBEi9JqzpW1+MJCyDAYAqI2fI
-	 b3P63OefgHQ77fcLFdQ/88Rv949G+X3WsFaoD4RqwMPls0ND4L2fOlVBX3RjlzFqZP
-	 /OsmhOB9NfXlpJy3/AXRwrxyOtYYT7xGAmhxnWho=
-Date: Fri, 3 May 2024 10:05:00 +0200
+	b=FhmnQf8AiaxhnW4CXRYmnxI4JyhKWpVezALCUki/K5PykpdguXadtvegLCRS3VUYA
+	 diRkCycaFQYfFgHj0aUaKUd2isVC+w4/5RvaTLJjhemM4XeyD0WZ6LNekCV0/TA87t
+	 uCUVklcOYcS4rDe7nkF7HsLvXHrhecWqyzloAB0M=
+Date: Fri, 3 May 2024 10:05:54 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 06/19] media: adv748x: Use routes to configure VC
-Message-ID: <xpyhyqnameryrspswmp7tknak5bseba3jlgv7xvoakokjushro@zbks4qdgjjf2>
+Subject: Re: [PATCH 15/19] media: rcar-csi2: Add support for multiplexed
+ streams
+Message-ID: <5x76xuzcig5mffi2hot2q7ztjqycmuhso5f4dz43w6hcs3d7cb@s6c7fqxnlbyl>
 References: <20240430103956.60190-1-jacopo.mondi@ideasonboard.com>
- <20240430103956.60190-7-jacopo.mondi@ideasonboard.com>
- <20240502175115.GL15807@pendragon.ideasonboard.com>
- <20240502175234.GM15807@pendragon.ideasonboard.com>
+ <20240430103956.60190-16-jacopo.mondi@ideasonboard.com>
+ <20240502142316.GA3927860@ragnatech.se>
+ <20240502184124.GV15807@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,132 +63,171 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240502175234.GM15807@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240502184124.GV15807@pendragon.ideasonboard.com>
 
-On Thu, May 02, 2024 at 08:52:34PM GMT, Laurent Pinchart wrote:
-> On Thu, May 02, 2024 at 08:51:16PM +0300, Laurent Pinchart wrote:
+Hi Laurent, Niklas
+
+On Thu, May 02, 2024 at 09:41:24PM GMT, Laurent Pinchart wrote:
+> On Thu, May 02, 2024 at 04:23:16PM +0200, Niklas Söderlund wrote:
 > > Hi Jacopo,
 > >
-> > Thank you for the patch.
+> > Thanks for your work.
 > >
-> > On Tue, Apr 30, 2024 at 12:39:42PM +0200, Jacopo Mondi wrote:
-> > > Use the newly introduced routing table to configure on which MIPI
-> > > CSI-2 Virtual Channel to send the image stream on.
-> >
-> > The stream ID in the routing API isn't meant to be mapped directly to a
-> > virtual channel number.
->
-
-Isn't that up to the device to decide what a stream number represent ?
-
-> Additionally, why do you need to make the virtual channel configurable,
-> instead of allocating them dynamically ?
-
-What do you mean with "allocating them dinamically" ?
-
-Anyway, I guess the main question is:
-
-- How to control VC selection if the stream number is not the right
-  way to do that
-- Has VC selection any value at all
-
->
-> > Sakari, your opinion would be appreciated.
-> >
-> > > Perform Virtual Channel selection at s_stream() time instead of
-> > > forcing it to 0 during the chip reset.
+> > On 2024-04-30 12:39:51 +0200, Jacopo Mondi wrote:
+> > > Create and initialize the v4l2_subdev_state for the R-Car CSI-2 receiver
+> > > in order to prepare to support multiplexed transmitters.
 > > >
+> > > Create the subdevice state with v4l2_subdev_init_finalize() and
+> > > implement the init_state() operation to guarantee the state is initialized.
+> > >
+> > > The routing table within the R-Car CSI-2 receiver is fixed, streams
+> > > received on source_stream X will be directed to pad (X + 1) by default.
+> > > Initialize a static routing table with such routes set as active.
+> > >
+> > > While at it, disable runtime_pm() in the probe() function error path.
+>
+> s/runtime_pm()/runtime PM/
+>
+> > Can we break this out in a separate patch? As the multiplexed stream
+> > work will not be ready for v6.10 if I understood the tendencies
+> > correctly (?), we can at least fix this issue before that.
+>
+> Agreed, the fix should be a separate patch, with a Fixes: tag.
+
+I'll collect this and the two other smaller fixes in a separate series
+
+>
 > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > > > ---
-> > >  drivers/media/i2c/adv748x/adv748x-core.c |  8 ++------
-> > >  drivers/media/i2c/adv748x/adv748x-csi2.c | 22 ++++++++++++++++++++--
-> > >  drivers/media/i2c/adv748x/adv748x.h      |  1 -
-> > >  3 files changed, 22 insertions(+), 9 deletions(-)
+> > >  drivers/media/platform/renesas/rcar-csi2.c | 74 +++++++++++++++++++++-
+> > >  1 file changed, 72 insertions(+), 2 deletions(-)
 > > >
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> > > index 3abc73ea8ccb..c9d917135709 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> > > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> > > @@ -530,14 +530,10 @@ static int adv748x_reset(struct adv748x_state *state)
-> > >  	io_write(state, ADV748X_IO_PD, ADV748X_IO_PD_RX_EN);
+> > > diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> > > index 582d5e35db0e..82dc0b92b8d3 100644
+> > > --- a/drivers/media/platform/renesas/rcar-csi2.c
+> > > +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> > > @@ -1226,6 +1226,65 @@ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+> > >  	.pad	= &rcar_csi2_pad_ops,
+> > >  };
 > > >
-> > >  	/* Conditionally enable TXa and TXb. */
-> > > -	if (is_tx_enabled(&state->txa)) {
-> > > +	if (is_tx_enabled(&state->txa))
-> > >  		regval |= ADV748X_IO_10_CSI4_EN;
-> > > -		adv748x_csi2_set_virtual_channel(&state->txa, 0);
-> > > -	}
-> > > -	if (is_tx_enabled(&state->txb)) {
-> > > +	if (is_tx_enabled(&state->txb))
-> > >  		regval |= ADV748X_IO_10_CSI1_EN;
-> > > -		adv748x_csi2_set_virtual_channel(&state->txb, 0);
-> > > -	}
-> > >  	io_write(state, ADV748X_IO_10, regval);
-> > >
-> > >  	/* Use vid_std and v_freq as freerun resolution for CP */
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > index 7fa72340e66e..a7bfed393ff0 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > @@ -14,7 +14,8 @@
-> > >
-> > >  #include "adv748x.h"
-> > >
-> > > -int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
-> > > +static int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx,
-> > > +					    unsigned int vc)
-> > >  {
-> > >  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
-> > >  }
-> > > @@ -175,13 +176,30 @@ static const struct v4l2_subdev_internal_ops adv748x_csi2_internal_ops = {
-> > >  static int adv748x_csi2_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  {
-> > >  	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> > > +	struct v4l2_subdev_state *state;
-> > >  	struct v4l2_subdev *src;
-> > > +	int ret;
-> > >
-> > >  	src = adv748x_get_remote_sd(&tx->pads[ADV748X_CSI2_SINK]);
-> > >  	if (!src)
-> > >  		return -EPIPE;
-> > >
-> > > -	return v4l2_subdev_call(src, video, s_stream, enable);
-> > > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> > > +static int rcsi2_init_state(struct v4l2_subdev *sd,
+> > > +			    struct v4l2_subdev_state *state)
+> > > +{
+> > > +	/*
+> > > +	 * Routing is fixed for this device: streams sent on sink_stream X
+> > > +	 * are directed to pad (X + 1). Which streams goes to the next
+> > > +	 * processing block (VIN) is controlled by link enablement between the
+> > > +	 * CSI-2 and the VIN itself and not by the CSI-2 routing table.
+> > > +	 *
+> > > +	 * The routing table is then fixed, as stream X will be directed to
+> > > +	 * csi:(X + 1)/0 and will be transmitted to VINs the on media link
+> > > +	 * csi2:(x + 1)->vin:0.
+> > > +	 *
+> > > +	 * For example, to route stream #3 to VIN #1 : "csi2:4/0 -> vin1:0" and
+> > > +	 * to route stream #2 to VIN #4 : "csi2:3/0 -> vin4:0".
+> > > +	 */
+> > > +	struct v4l2_subdev_route routes[] = {
+> > > +		{
+> > > +			.sink_pad = RCAR_CSI2_SINK,
+> > > +			.sink_stream = 0,
+> > > +			.source_pad = RCAR_CSI2_SOURCE_VC0,
+> > > +			.source_stream = 0,
+> > > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > > +		},
+> > > +		{
+> > > +			.sink_pad = RCAR_CSI2_SINK,
+> > > +			.sink_stream = 1,
+> > > +			.source_pad = RCAR_CSI2_SOURCE_VC1,
+> > > +			.source_stream = 0,
+> > > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > > +		},
+> > > +		{
+> > > +			.sink_pad = RCAR_CSI2_SINK,
+> > > +			.sink_stream = 2,
+> > > +			.source_pad = RCAR_CSI2_SOURCE_VC2,
+> > > +			.source_stream = 0,
+> > > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > > +		},
+> > > +		{
+> > > +			.sink_pad = RCAR_CSI2_SINK,
+> > > +			.sink_stream = 3,
+> > > +			.source_pad = RCAR_CSI2_SOURCE_VC3,
+> > > +			.source_stream = 0,
+> > > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > > +		},
+> > > +	};
 > > > +
-> > > +	if (enable) {
-> > > +		/* A single route is available. */
-> > > +		struct v4l2_subdev_route *route = &state->routing.routes[0];
-> > > +
-> > > +		ret = adv748x_csi2_set_virtual_channel(tx, route->source_stream);
-> > > +		if (ret)
-> > > +			goto unlock;
-> > > +	}
-> > > +
-> > > +	ret = v4l2_subdev_call(src, video, s_stream, enable);
-> > > +unlock:
-> > > +	v4l2_subdev_unlock_state(state);
-> > > +
-> > > +	return ret;
-> > >  }
-> > >
-> > >  static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> > > index be24bc57767c..95d04468af9d 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x.h
-> > > +++ b/drivers/media/i2c/adv748x/adv748x.h
-> > > @@ -434,7 +434,6 @@ int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input);
-> > >
-> > >  int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx);
-> > >  void adv748x_csi2_cleanup(struct adv748x_csi2 *tx);
-> > > -int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc);
-> > >  int adv748x_csi2_set_pixelrate(struct v4l2_subdev *sd, s64 rate);
-> > >
-> > >  int adv748x_hdmi_init(struct adv748x_hdmi *hdmi);
+> > > +	struct v4l2_subdev_krouting routing = {
+> > > +		.num_routes = ARRAY_SIZE(routes),
+> > > +		.routes = routes,
+> > > +	};
 > >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+> > Should not the two structs above be static const as you return a pointer
+> > to them?
+>
+> v4l2_subdev_set_routing() takes a non-const v4l2_subdev_krouting
+> argument. Unless I'm missing something, this function doesn't return a
+> pointer to the local structures.
+>
+> > > +
+> > > +	return v4l2_subdev_set_routing(sd, state, &routing);
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_internal_ops rcar_csi2_internal_ops = {
+> > > +	.init_state = rcsi2_init_state,
+> > > +};
+> > > +
+> > >  static irqreturn_t rcsi2_irq(int irq, void *data)
+> > >  {
+> > >  	struct rcar_csi2 *priv = data;
+> > > @@ -1887,11 +1946,13 @@ static int rcsi2_probe(struct platform_device *pdev)
+> > >
+> > >  	priv->subdev.owner = THIS_MODULE;
+> > >  	priv->subdev.dev = &pdev->dev;
+> > > +	priv->subdev.internal_ops = &rcar_csi2_internal_ops;
+> > >  	v4l2_subdev_init(&priv->subdev, &rcar_csi2_subdev_ops);
+> > >  	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
+> > >  	snprintf(priv->subdev.name, sizeof(priv->subdev.name), "%s %s",
+> > >  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> > > -	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > +	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > > +			     V4L2_SUBDEV_FL_STREAMS;
+> > >
+> > >  	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+> > >  	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+> > > @@ -1912,14 +1973,22 @@ static int rcsi2_probe(struct platform_device *pdev)
+> > >
+> > >  	pm_runtime_enable(&pdev->dev);
+> > >
+> > > +	ret = v4l2_subdev_init_finalize(&priv->subdev);
+> > > +	if (ret)
+> > > +		goto error_pm_runtime;
+> > > +
+> > >  	ret = v4l2_async_register_subdev(&priv->subdev);
+> > >  	if (ret < 0)
+> > > -		goto error_async;
+> > > +		goto error_subdev;
+> > >
+> > >  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+> > >
+> > >  	return 0;
+> > >
+> > > +error_subdev:
+> > > +	v4l2_subdev_cleanup(&priv->subdev);
+> > > +error_pm_runtime:
+> > > +	pm_runtime_disable(&pdev->dev);
+> > >  error_async:
+> > >  	v4l2_async_nf_unregister(&priv->notifier);
+> > >  	v4l2_async_nf_cleanup(&priv->notifier);
+> > > @@ -1936,6 +2005,7 @@ static void rcsi2_remove(struct platform_device *pdev)
+> > >  	v4l2_async_nf_unregister(&priv->notifier);
+> > >  	v4l2_async_nf_cleanup(&priv->notifier);
+> > >  	v4l2_async_unregister_subdev(&priv->subdev);
+> > > +	v4l2_subdev_cleanup(&priv->subdev);
+> > >
+> > >  	pm_runtime_disable(&pdev->dev);
+> > >
 >
 > --
 > Regards,
