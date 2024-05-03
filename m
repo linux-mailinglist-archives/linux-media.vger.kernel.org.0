@@ -1,319 +1,175 @@
-Return-Path: <linux-media+bounces-10682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371DF8BABE4
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:54:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA598BABEC
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:55:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 536F01C21BB6
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 11:54:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FF55B20D92
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 11:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B73152DFF;
-	Fri,  3 May 2024 11:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF74514EC5C;
+	Fri,  3 May 2024 11:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SS28pDMD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XHgmvXeX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9404E1509B2;
-	Fri,  3 May 2024 11:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0BB1509B2
+	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 11:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714737273; cv=none; b=NN6T1w/Dh5imjkEw1WtB/T+d+Wkdt9oMF3zKMRuzyXFBDeGgoEX0HeVMeLQmhRKjB+P4SiV8nnu8nsNBtQcCKJD8K4itARNKC5zcDX9hJE33FBWmKXle2Zma+VJjNmrqj8Y2EE3qQqb1vv/EoNdgMG3C8Y6aCmLnjYQRNDbWcug=
+	t=1714737317; cv=none; b=shE8BDF4QUUD6eM5W/z2j23pm3Oevi5wvCVmMhOEcCyC67eCmi9qfr7Olo+Z6MgG4NfXWZYi6za9ImjkeCLp7xRnD+juCub1Sqclx5K5KhJObF9w1xWD5U+vWALMr05f6rgGPLR8E5g+nFZ7g7xqYbap/5dRJaeRimtELDucZIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714737273; c=relaxed/simple;
-	bh=HdzTInuLtk35J+IXUcQQg3TmxG23s4CezEIfU3voowA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=shX/fJ/GPX2JtAbcSOWmc/5Cf2hr4hR40krHmhZmB4WeNG7eiMV6J3XAmSzAO4v+YFX1tUM5b6attkGTS5VFniAy8UBZT1kqHB9wIA7dSlWwGQPorqtBs+TYI5sCt5gU20pT9NzAN0WudaeZVOy8/gQ2LgszPGJIwatAFfp9DS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SS28pDMD; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-23d513ea22eso1722276fac.0;
-        Fri, 03 May 2024 04:54:30 -0700 (PDT)
+	s=arc-20240116; t=1714737317; c=relaxed/simple;
+	bh=3oofEKzoY8Dgctp4SevRDAbz9giFPEyX/mlb/8O3MRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ItH0fGbBBkACO9pZQNYsZb6DICGMqhzGCbCxicpZjQM8qiti8pN29N9wmrbJqQCUvOkgnJ/JnPojejMNDR4YQAS+QR5ABfLqgFiR036DIRcOuR5b0V+4AKxbmW5syCS/Rq9i8dHjSBSyy/DqRRzxJaZDu1Cz4kOmnTcokF0aJEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XHgmvXeX; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41b9dff6be8so49777325e9.3
+        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 04:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714737270; x=1715342070; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v9RNLcQN3p6zT0UsH7fQCtkFK7ZrktPHW9/cBp7YLVw=;
-        b=SS28pDMDW3WG8IRuw1YoZaMLEoOoBIpYMaIAuz2FkP8Iben209Pvf6qFV3tuWdZi4S
-         emMLweedamcsfDqhddFdCtdMgZoex4bRzmC56LhfA+vJJYiVy0BrplyRPpKzyOvLsBJD
-         CnMtFn3YkDJG7qS/4TXf1zfUJMy2WpTA4dAlVwtc8jwcxC7DsT7HscDY2pdT7R68FAXy
-         3SuKIsNM11D/2y7Kxyb2G1SSbvTItL/5lg648vI3JI24I0bbeGXf1vHaXpgSWub88YE9
-         KNsvKLNjnkCMRTLXMOY6uC8uhU/jx55BelpYd/PILCZqi0f+YAONwB/dUqB1zsEGA8Ex
-         51dg==
+        d=linaro.org; s=google; t=1714737313; x=1715342113; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ejcxvyIN9Gt9hs/CP6yU9CZUBAq0kOYwH6s0PyoHfGQ=;
+        b=XHgmvXeXwiSoy6dUrZUbjEdH9lXmk11bwgfnRKpclCzfkWJwsQPhYzf7J2GLJ+ypeS
+         Qv98OY/3JtSFc6jptDLFSMXVLvPf42T1AdIwagSdplf77mauE6r58bWmuV6obHD5ze3i
+         KAvrHChJ9zosVdRPVtEBcrtfRoDnRO42USU7+6BU5LfbX/PQiJ91Hi1Z7puquWKmDFF4
+         IpjX1HhbQHpjXr6p86/C1HK7H329B26YtjgZICMp6MdVjYHGPMyDCFU92R6OeLGPhGzO
+         RaD6FVX3QqVP18BfB92tLuf6oJuHUeuQxFdigzbWdkwQ/scOVAl5UNFZ0TlygC0hA7gB
+         UIeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714737270; x=1715342070;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v9RNLcQN3p6zT0UsH7fQCtkFK7ZrktPHW9/cBp7YLVw=;
-        b=uzh8mtYIJoQWgHCi3VHksVNXILYK0gabG+4S7jTOGPA03sKKzWHtYF4wktNEIP/e/F
-         cdM+8QtTss7w5vEiUX9bcq3lB4cgqVfjxUJuNXEVx7dbNZ4eyL5K3DgB/zX83zt7jjB/
-         y2Q59WDScgsZTMOZiXteY+OrpwUVxhzSlYDZKbUzobiJjVDxWd4jo455WHF2v1oupjGL
-         Qi10OUPdPD9CXWemD2f1d42XX0YOu85w/m1b/gUM9Qxz3Wz776+AtKpEXfr78LLN0d5m
-         yxnC3c4yNCUSBZdfDoCQGXuJu12Nf5RKBq94U/EmCNgOUU4DdZ5M0BX8j4boj+ShEEvV
-         qDjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWn7eFyQ0IwrD+9WBYaa95V4EOQjQ5C3VNsmcmpF2XmIb+nnxuIQwhd1p63wWmWSA8ghf7lUGdSOaF0PQn5epgcfBZ4va4/zROz1RVqA6wQ8K/1MKP8Wa3JmjccCklOEkrrNfz6VnM/0vNsEz55BEiR7qqdb2E9tpTqPIXzJHUdjtSWqWqffJZ79nlOTquRZ3Z3mbuCKUltHElwdLPwUtZfpBw=
-X-Gm-Message-State: AOJu0YylAMX1jfWMZjssfQuaL6CGZylM/Dn+LDkq2odbmb0qIcxrEXSS
-	VDl6II9NuEAj0NPkXqUZusa0SrkT0h7BA4lztckhI0Uuq5T/wH14
-X-Google-Smtp-Source: AGHT+IEUb71YrMo7ELiUmyY02B7z0Sr4II89eurwWz96Ln1/3LjWRswdXxe5x6bFZ4CPTVEtfwhGaw==
-X-Received: by 2002:a05:6870:46a3:b0:22a:4c6a:39ea with SMTP id a35-20020a05687046a300b0022a4c6a39eamr2906165oap.14.1714737269733;
-        Fri, 03 May 2024 04:54:29 -0700 (PDT)
-Received: from ?IPV6:2001:ee0:50f5:a230:db34:1b4d:d1d7:db98? ([2001:ee0:50f5:a230:db34:1b4d:d1d7:db98])
-        by smtp.gmail.com with ESMTPSA id b185-20020a6334c2000000b0061f42afa8d0sm90331pga.6.2024.05.03.04.54.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 04:54:29 -0700 (PDT)
-Message-ID: <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
-Date: Fri, 3 May 2024 18:54:22 +0700
+        d=1e100.net; s=20230601; t=1714737313; x=1715342113;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ejcxvyIN9Gt9hs/CP6yU9CZUBAq0kOYwH6s0PyoHfGQ=;
+        b=PscwFcU5R4Sld/0PYf+FpCa7T5/bzcujkF0S0JPp0CIHg9zQTLv8kTJ6JgZV1nSjME
+         RLM+bOqHaIb+FjljdjgVqcFflCcAhm/GkIAnkBFK/LkNBN8ZQRSzTjqdgHFYyk/cucME
+         QEz7XXTi2dhkJzbltTnkzJG2HjViRHcCTqlHXLfBS17kEBF2MLavBjF9Yp4rzmRoLBGb
+         J5WeZGFu0grbcXXc7akFyi4JlwdG1cEovnHNCXCYU6qzP4jhemwJzLaVUof2ZhjiknZ9
+         krlDpflb2wy05Xz9+JzyYI73gBGw0u747vklfjeatDOVUeCyvL38Bc0hKdhyiSLBo4Wu
+         R9ag==
+X-Forwarded-Encrypted: i=1; AJvYcCVKQi7vdhcmTF9v65k9ASe3Q6IpWX2V68jrv5D9oG1TPHDk+5CWym+CZYULIlppU7Xr96maAW309126sMy9sau7LuQcMhuXojEY8I4=
+X-Gm-Message-State: AOJu0Yx+oHWXYnernQFQKe0mcV1u3S5Ovn8h3buCO37iSqBZsxUMxDpQ
+	6b/fjt9l84BRKaAf7Y11CtR2neRzXb0YSDRhisavXQyw/8TlbWpSdqi+hGPqQ9I=
+X-Google-Smtp-Source: AGHT+IHjyMa7ooctRLN/1tdS/gx79TA23M2UYYTNE+3A8Wfu/afPHupfSN+yShlxrDD3Ur4rmUCBww==
+X-Received: by 2002:a05:600c:5118:b0:41a:34c3:2297 with SMTP id o24-20020a05600c511800b0041a34c32297mr1821832wms.5.1714737313152;
+        Fri, 03 May 2024 04:55:13 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id k8-20020a05600c1c8800b00418a6d62ad0sm9213606wms.34.2024.05.03.04.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 May 2024 04:55:12 -0700 (PDT)
+Date: Fri, 3 May 2024 14:55:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
+ of z explicit.
+Message-ID: <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain>
+References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
+ <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
+ <20240503112758.763d8d31@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [fs?] [io-uring?] general protection fault in
- __ep_remove
-To: syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
- axboe@kernel.dk, brauner@kernel.org, io-uring@vger.kernel.org, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-References: <0000000000002d631f0615918f1e@google.com>
-Content-Language: en-US
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Laura Abbott <laura@labbott.name>, Kees Cook <keescook@chromium.org>
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <0000000000002d631f0615918f1e@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240503112758.763d8d31@sal.lan>
 
-Hi everyone,
+On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 29 Apr 2024 15:05:05 +0000
+> Ricardo Ribalda <ribalda@chromium.org> escreveu:
+> 
+> > We do not expect the sample_freq to be over 613MHz.
+> > 
+> > Found by cocci:
+> > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+> > 
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
+> > index 3e725cdcc66b..1886f733dbbf 100644
+> > --- a/drivers/media/dvb-frontends/tda10048.c
+> > +++ b/drivers/media/dvb-frontends/tda10048.c
+> > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
+> >  			     u32 bw)
+> >  {
+> >  	struct tda10048_state *state = fe->demodulator_priv;
+> > -	u64 t, z;
+> > +	u32 z;
+> > +	u64 t;
+> >  
+> >  	dprintk(1, "%s()\n", __func__);
+> >  
+> > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
+> >  	/* t *= 2147483648 on 32bit platforms */
+> >  	t *= (2048 * 1024);
+> >  	t *= 1024;
+> > +	/* Sample frequency is under 613MHz */
+> 
+> Are you sure about that? Some DVB devices have very high frequency 
+> clocks, specially if they're also used for satellite, so I can't
+> be sure by just looking at the driver's code.
+> 
+> Also, we had already a bunch of regressions with "fixes" like this
+> that actually broke frontend drivers.
 
-I've tried to debug this syzkaller's bug report
+This patch preserves the existing behavior. The sample_freq_hz variable
+is a u32 so, in the original code, z couldn't have been more than
+U32_MAX even though it was declared as a u64.
 
-Here is my minimized proof-of-concept
+It's possible that the original code was wrong.  We have seen that in
+other places in this patchset.  Adding a note about the datasheet is
+also a good idea.
 
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/epoll.h>
-#include <linux/udmabuf.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <pthread.h>
-#include <sys/ioctl.h>
+regards,
+dan carpenter
 
-#define err_msg(msg) do {perror(msg); exit(1);} while(0)
-
-void *close_thread(void *arg)
-{
-     int fd = (int) (long) arg;
-     close(fd);
-}
-
-int main()
-{
-     int fd, dmabuf_fd, memfd, epoll_fd, ret;
-     struct udmabuf_create dmabuf_arg = {};
-     struct epoll_event event = {
-         .events = EPOLLIN | EPOLLOUT,
-     };
-     pthread_t thread;
-
-     memfd = memfd_create("test", MFD_ALLOW_SEALING);
-     if (memfd < 0)
-         err_msg("memfd-create");
-
-     if (ftruncate(memfd, 0x1000) < 0)
-         err_msg("ftruncate");
-
-     ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-     if (ret < 0)
-         err_msg("add-seal");
-
-     fd = open("/dev/udmabuf", O_RDWR);
-     if (fd < 0)
-         err_msg("open");
-
-     dmabuf_arg.memfd = memfd;
-     dmabuf_arg.size = 0x1000;
-     dmabuf_fd = ioctl(fd, UDMABUF_CREATE, &dmabuf_arg);
-     if (dmabuf_fd < 0)
-         err_msg("ioctl-udmabuf");
-
-     epoll_fd = epoll_create(10);
-     if (epoll_fd < 0)
-         err_msg("epoll-create");
-
-     ret = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, dmabuf_fd, &event);
-     if (ret < 0)
-         err_msg("epoll-ctl-add");
-
-     pthread_create(&thread, NULL, close_thread, (void *) (long) dmabuf_fd);
-     epoll_wait(epoll_fd, &event, 1, -1);
-     return 0;
-}
-
-When running the above proof-of-concept on Linux 6.9.0-rc6 with KASAN 
-and the
-following patch for easier reproducible, I got the KASAN bug report
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..de3463e7d47b 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -27,6 +27,7 @@
-  #include <linux/mm.h>
-  #include <linux/mount.h>
-  #include <linux/pseudo_fs.h>
-+#include <linux/delay.h>
-
-  #include <uapi/linux/dma-buf.h>
-  #include <uapi/linux/magic.h>
-@@ -240,6 +241,7 @@ static __poll_t dma_buf_poll(struct file *file, 
-poll_table *poll)
-         struct dma_resv *resv;
-         __poll_t events;
-
-+       mdelay(1000);
-         dmabuf = file->private_data;
-         if (!dmabuf || !dmabuf->resv)
-                 return EPOLLERR;
-
- > while true; do ./mypoc_v2; done
-==================================================================
-BUG: KASAN: slab-use-after-free in __fput+0x164/0x523
-Read of size 8 at addr ffff88800051e830 by task mypoc_v2/402
-
-CPU: 0 PID: 402 Comm: mypoc_v2 Not tainted 6.9.0-rc5+ #11
-Call Trace:
-  <TASK>
-  dump_stack_lvl+0x49/0x65
-  ? __fput+0x164/0x523
-  print_report+0x170/0x4c2
-  ? __virt_addr_valid+0x21b/0x22c
-  ? kmem_cache_debug_flags+0xc/0x1d
-  ? __fput+0x164/0x523
-  kasan_report+0xae/0xd5
-  ? __fput+0x164/0x523
-  __fput+0x164/0x523
-  ? __pfx___schedule+0x10/0x10
-  task_work_run+0x16a/0x1bb
-  ? __pfx_task_work_run+0x10/0x10
-  ? __x64_sys_epoll_wait+0x107/0x143
-  resume_user_mode_work+0x21/0x44
-  syscall_exit_to_user_mode+0x5d/0x76
-  do_syscall_64+0xb5/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-RIP: 0033:0x44d99e
-Code: 10 89 7c 24 0c 89 4c 24 1c e8 2e 8c 02 00 44 8b 54 24 1c 8b 54 24 
-18 41 89 c0 48 8b 74 24 10 8b 7c 24 0c b8 e8 00 00 00 0f 05 <48> 3d 00 
-f0 ff ff 77 32 44 89 c7 89 44 24 0c e8 6e 8c 02 00 8b 44
-RSP: 002b:00007fffaec21770 EFLAGS: 00000293 ORIG_RAX: 00000000000000e8
-RAX: 0000000000000001 RBX: 00007fffaec219e8 RCX: 000000000044d99e
-RDX: 0000000000000001 RSI: 00007fffaec217c4 RDI: 0000000000000006
-RBP: 00007fffaec217f0 R08: 0000000000000000 R09: 00007fffaec2167f
-R10: 00000000ffffffff R11: 0000000000000293 R12: 0000000000000001
-R13: 00007fffaec219d8 R14: 00000000004dc790 R15: 0000000000000001
-  </TASK>
-
-Allocated by task 402:
-  kasan_save_stack+0x24/0x44
-  kasan_save_track+0x14/0x2d
-  __kasan_slab_alloc+0x47/0x55
-  kmem_cache_alloc_lru+0x12a/0x172
-  __d_alloc+0x2d/0x618
-  d_alloc_pseudo+0x14/0x8d
-  alloc_path_pseudo+0xa5/0x165
-  alloc_file_pseudo+0x7f/0x124
-  dma_buf_export+0x37f/0x894
-  udmabuf_create+0x53e/0x68c
-  udmabuf_ioctl+0x133/0x212
-  vfs_ioctl+0x7e/0x95
-  __do_sys_ioctl+0x51/0x78
-  do_syscall_64+0x9b/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-Freed by task 403:
-  kasan_save_stack+0x24/0x44
-  kasan_save_track+0x14/0x2d
-  kasan_save_free_info+0x3f/0x4d
-  poison_slab_object+0xcb/0xd8
-  __kasan_slab_free+0x19/0x38
-  kmem_cache_free+0xd6/0x136
-  __dentry_kill+0x22d/0x321
-  dput+0x3b/0x7f
-  __fput+0x4f1/0x523
-  __do_sys_close+0x59/0x87
-  do_syscall_64+0x9b/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-The buggy address belongs to the object at ffff88800051e800
-  which belongs to the cache dentry of size 192
-The buggy address is located 48 bytes inside of
-  freed 192-byte region [ffff88800051e800, ffff88800051e8c0)
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x51e
-flags: 0x800(slab|zone=0)
-page_type: 0xffffffff()
-raw: 0000000000000800 ffff888000281780 ffffea0000013ec0 0000000000000002
-raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff88800051e700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffff88800051e780: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
- >ffff88800051e800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                      ^
-  ffff88800051e880: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffff88800051e900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-Root cause:
-AFAIK, eventpoll (epoll) does not increase the registered file's reference.
-To ensure the safety, when the registered file is deallocated in __fput,
-eventpoll_release is called to unregister the file from epoll. When calling
-poll on epoll, epoll will loop through registered files and call vfs_poll on
-these files. In the file's poll, file is guaranteed to be alive, however, as
-epoll does not increase the registered file's reference, the file may be 
-dying
-and it's not safe the get the file for later use. And dma_buf_poll violates
-this. In the dma_buf_poll, it tries to get_file to use in the callback. This
-leads to a race where the dmabuf->file can be fput twice.
-
-Here is the race occurs in the above proof-of-concept
-
-close(dmabuf->file)
-__fput_sync (f_count == 1, last ref)
-f_count-- (f_count == 0 now)
-__fput
-                                     epoll_wait
-                                     vfs_poll(dmabuf->file)
-                                     get_file(dmabuf->file)(f_count == 1)
-eventpoll_release
-dmabuf->file deallocation
-                                     fput(dmabuf->file) (f_count == 1)
-                                     f_count--
-                                     dmabuf->file deallocation
-
-I am not familiar with the dma_buf so I don't know the proper fix for the
-issue. About the rule that don't get the file for later use in poll 
-callback of
-file, I wonder if it is there when only select/poll exist or just after 
-epoll
-appears.
-
-I hope the analysis helps us to fix the issue.
-
-Thanks,
-Quang Minh.
 
