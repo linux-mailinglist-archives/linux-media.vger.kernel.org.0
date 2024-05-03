@@ -1,43 +1,47 @@
-Return-Path: <linux-media+bounces-10704-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10705-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04478BB0B2
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:15:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D1B8BB13F
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:49:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D6B01C20985
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:15:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F1D91C215EC
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A7115686B;
-	Fri,  3 May 2024 16:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3778156C76;
+	Fri,  3 May 2024 16:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rkGr+1kX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039D479E3;
-	Fri,  3 May 2024 16:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102A6156883;
+	Fri,  3 May 2024 16:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714752889; cv=none; b=XUHOOyfKfLF1sc+7geB08vCyiWjiFQzlhIXhUa9PKKmtgIOIfJ6sjjbk2PKGZ04Zy4ErKIAgpov3CMcTjBcbssDUJtj1lvZNexDPikeAGrknbvRZJi2w0PknsSjAq51bCXdCN/UmZ/XLRD+STXqWcutqL0GIcdC2h0qN4re32bg=
+	t=1714754936; cv=none; b=f2mrXmtqKGvkwLvg5nxf2daDQVVQEWf2Puuuehw9Frl32b2syOX4vl424PjlK0FBh3ZTu4Pq/JLljKjz2BhAHB3LHksv4sGq3vLFny84w8uMpDiw1RIsZSSZ8dQRS2VUQui/12v9fSW2wrO3bRtl+K2r5NbdRwKivBzUQqxLbEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714752889; c=relaxed/simple;
-	bh=pbxiDzRe5zgBNCC0hVoF8CA3VIA7a25l0e7+srfO3Vs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GkWGU44b8fEGqdl5EnI6/eauSr8mQjzRAVIb13SB6JgDqZN7y3ZNirJ3d/6V0/rwsYKASl3zlMPuu9nf1UPL3W5FeclKi+mDNTTHzyMkFmZ/kpeifL6uZvr5pwiAI0cfBZWP0LhVl4gYnSaeXOsaZj2dKLgBp6+LNdnl7AhGK58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 3 May
- 2024 19:14:41 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 3 May 2024
- 19:14:41 +0300
-Message-ID: <4069e01b-09d1-49e6-b053-3f6b99dd9405@fintech.ru>
-Date: Fri, 3 May 2024 09:14:37 -0700
+	s=arc-20240116; t=1714754936; c=relaxed/simple;
+	bh=CspOZzK8dhzgARH67jnkfnWSdxxjtsk7C78dj0N5S78=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z2Qx5FXL0MG35FSMYjA1+54oAFZ/pe68crPJiMuY/fZMXwIyQChbQAIt+CdSV9JzL7FSNZzTnwQOr9WfZG52ZgqkR8ZFvMXzcQM8C5cj3KPNGpcXHi/gkEjzvPL4yz8Oq2TyQZwibiQpRTSXPjw+oEpsRBGH4G44vlCIj6z+UoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rkGr+1kX; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from [100.65.224.148] (unknown [20.236.10.206])
+	by linux.microsoft.com (Postfix) with ESMTPSA id ED65B20B2C82;
+	Fri,  3 May 2024 09:48:53 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED65B20B2C82
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714754934;
+	bh=GAu8Rak4A+pCgzw/uvyDGmtVcqwJgPNajSTWUoSmEQw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rkGr+1kX0SctOUPwkhdrQ4qFQeA027/UkwhMstN1oK11s07V0R7Wi7aRofjAnlC1w
+	 NT0xX9K1RqDBBTorM82GqIiYoTbasEg2t4t6Fe9M8VXV9I+qcP4kpK+ALqrx64mma1
+	 /QTPAvj8aVxAk84+SPJbJzAv82Hdw3+D0Hq7DSGc=
+Message-ID: <6256cc5a-9ff0-4a1f-8eba-f70b7c571631@linux.microsoft.com>
+Date: Fri, 3 May 2024 09:48:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -45,107 +49,78 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: usb: siano: fix endpoint checks in
- smsusb_init_device()
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Andrew Morton <akpm@linux-foundation.org>, Alan Stern
-	<stern@rowland.harvard.edu>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
-	<syzbot+12002a39b8c60510f8fb@syzkaller.appspotmail.com>
-References: <20240409143634.33230-1-n.zhandarovich@fintech.ru>
- <20240503165833.4781fb4a@sal.lan>
-Content-Language: en-US
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-In-Reply-To: <20240503165833.4781fb4a@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>,
+ "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
+ <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+ <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+ <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
+ <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
+Content-Language: en-CA
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
 
-Hi
-
-On 5/3/24 08:58, Mauro Carvalho Chehab wrote:
-> Em Tue, 9 Apr 2024 07:36:34 -0700
-> Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
+On 5/3/2024 12:39 AM, Thomas Zimmermann wrote:
+> Hi
 > 
->> Syzkaller reported a warning [1] in smsusb_submit_urb() which occurs
->> if an attempt is made to send a bulk URB using the wrong endpoint
->> type. The current approach to perform endpoint checking does not
->> explicitly check if an endpoint in question has its type set to bulk.
+> Am 03.05.24 um 00:26 schrieb Easwar Hariharan:
+>> On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
+>>>
+>>> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
+>>>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+>>>> with more appropriate terms. Inspired by and following on to Wolfram's
+>>>> series to fix drivers/i2c/[1], fix the terminology for users of
+>>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>>>> in the specification.
+>>>>
+>>>> Compile tested, no functionality changes intended
+>>>>
+>>>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>>>
+>>>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>
+>> Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
+>> I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
+>> the v0->v1 changelog calls out before posting v1.
 >>
->> Fix this issue by using functions usb_endpoint_is_bulk_XXX() to
->> enable testing for correct ep types.
+>> For smscufx, I feel phrasing the following line (as an example)
 >>
->> This patch has not been tested on real hardware.
->>
->> [1] Syzkaller report:
->> usb 1-1: string descriptor 0 read error: -71
->> smsusb:smsusb_probe: board id=2, interface number 0
->> smsusb:siano_media_device_register: media controller created
->> ------------[ cut here ]------------
->> usb 1-1: BOGUS urb xfer, pipe 3 != type 1
->> WARNING: CPU: 0 PID: 3147 at drivers/usb/core/urb.c:494 usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
->> ...
->> Call Trace:
->>  smsusb_start_streaming+0x16/0x1d0 drivers/media/usb/siano/smsusb.c:195
->>  smsusb_init_device+0xd85/0x12d0 drivers/media/usb/siano/smsusb.c:475
->>  smsusb_probe+0x496/0xa90 drivers/media/usb/siano/smsusb.c:566
->>  usb_probe_interface+0x633/0xb40 drivers/usb/core/driver.c:396
->>  really_probe+0x3cb/0x1020 drivers/base/dd.c:580
->>  driver_probe_device+0x178/0x350 drivers/base/dd.c:763
->> ...
->>  hub_event+0x48d/0xd90 drivers/usb/core/hub.c:5644
->>  process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
->>  worker_thread+0xac1/0x1300 kernel/workqueue.c:2422
->>  kthread+0x39a/0x3c0 kernel/kthread.c:313
->>  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
->>
->> Reported-and-tested-by: syzbot+12002a39b8c60510f8fb@syzkaller.appspotmail.com
->> Fixes: 31e0456de5be ("media: usb: siano: Fix general protection fault in smsusb")
->> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
->> ---
->>  drivers/media/usb/siano/smsusb.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
->> index 723510520d09..daaac121c670 100644
->> --- a/drivers/media/usb/siano/smsusb.c
->> +++ b/drivers/media/usb/siano/smsusb.c
->> @@ -405,10 +405,10 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
->>  		struct usb_endpoint_descriptor *desc =
->>  				&intf->cur_altsetting->endpoint[i].desc;
->>  
->> -		if (desc->bEndpointAddress & USB_DIR_IN) {
->> +		if (usb_endpoint_is_bulk_in(desc)) {
->>  			dev->in_ep = desc->bEndpointAddress;
->>  			align = usb_endpoint_maxp(desc) - sizeof(struct sms_msg_hdr);
->> -		} else {
->> +		} else if (usb_endpoint_is_bulk_out(desc)) {
+>>> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host,
+>>> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*,
+>> would actually impact readability negatively, so I propose to leave smscufx as is.
 > 
-> Did you test it on what devices? I'm not sure if all siano devices
-> are bulk. Why did you decide to use usb_endpoint_is_bulk_(in|out)
-> instead of usb_endpoint_dir_(in|out)?
-
-I did not have the hardware required to test it properly, I'm afraid.
-I made sure to point that out in the patch description.
-
-As for siano devices possibly having different endpoints type apart from
-bulk, I was relying on the rest of the driver code to determine just
-that (which is maybe somewhat flawed in this case). Since
-smsusb_submit_urb() (and some other functions like usb_rcvbulkpipe())
-works exclusively with bulk types, I did not feel the need to even
-expect int types, for instance.
-
+> Why? I don't see much of a difference.
 > 
-> Regards,
-> Mauro
-> 
->>  			dev->out_ep = desc->bEndpointAddress;
->>  		}
->>  	}
 >>
+>> For viafb, I propose making it compliant with the spec using the controller/target terminology and
+>> posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
+>>
+>> What do you think?
+> 
+> I think we should adopt the spec's language everywhere. That makes it possible to grep the spec for terms used in the source code. Using 'host' in smscufx appears to introduce yet another term. If you are worried about using 'I2C controller' and 'controller' in the same sentence, you can replace 'I2C controller' with 'DDC channel'. That's even more precise about the purpose of this code.
 
-With regards,
-Nikita
+Great, thanks! That was exactly my concern, I will fix up smscufx and send a v2.
+
+Thanks,
+Easwar
+
 
