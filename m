@@ -1,205 +1,135 @@
-Return-Path: <linux-media+bounces-10701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB918BB063
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 17:52:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 940A08BB076
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 17:58:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30B841F20FA9
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:52:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4E3C1C220D5
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75171155340;
-	Fri,  3 May 2024 15:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FB915532A;
+	Fri,  3 May 2024 15:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b1ddWaKD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6uXtanG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCD54D9FD;
-	Fri,  3 May 2024 15:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5047D4AEE5;
+	Fri,  3 May 2024 15:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714751526; cv=none; b=EP/LhrUE/+Mz6JeVdP+upPMdRvn+SIGArGjDIG3QAs0Ji2amMX9ua2qBFufmyqwlIu/y2Ehe3aiOY/h/tqNQYcNF+MPfd/Dq/GQqwqzs/WmDBl32sxBwjp2wEJ0PUqI7MOD9mImQnOsA0/qTKfotXEcnf7mTuKPE0nfjdvjxqxQ=
+	t=1714751922; cv=none; b=b1TW29oVDzQx2tezB93T1kxcn0t3TxkwldYryq4Yh0bOcIVcUuwJscvQBdXTwCcggv7qQGWs/ETP7gKK3J9fynWGGuL0qhJNWG/yWYmZokgxna0x3vPQ3M80ZO+1qMGYdA53GZ/7s5ieqfcgYw+xLzd1K3JWqwjHrqlW5z5zK44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714751526; c=relaxed/simple;
-	bh=rGMCRqjVpNlaqjgJYOGQk8WIu8zYDArXkbEDiYTy0oE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kTpNYkrT8NqnLy23oV8JUc4TKvIBIruY8J1PsieEg5pLBLppE9VfFyJ9c9O+Tzc8ipcqL9OIckcKdIiy8ORKn9dVqiq6e1LiaLumq6TnhpOxLy2A3JFnUFaAX0P0i56yC+kPlku7dOcwVVt4BoDumzhedHEM9P9JWowopFQqJ14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b1ddWaKD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 651F9F8B;
-	Fri,  3 May 2024 17:50:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714751455;
-	bh=rGMCRqjVpNlaqjgJYOGQk8WIu8zYDArXkbEDiYTy0oE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b1ddWaKDMvmnZrS5pbtoCrQwp6eNm2yQ2U4O2s648qOLzVDgb4SWVgThCf2oydiaC
-	 WWb9+ygpHs1jDpWITEx8mYOtJTc8XgK50eljdacBdjpj+KuDI9QVYsUoBvDFFcb68K
-	 7Isx0JUHb2cZo3ZdDC4Wv8YPZoIx6KVssPlC80VY=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 11/11] media: max9286: Use frame interval from subdev state
-Date: Fri,  3 May 2024 17:51:26 +0200
-Message-ID: <20240503155127.105235-12-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
-References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1714751922; c=relaxed/simple;
+	bh=tjcLMcc1pXHKQ8EsF3q4E+jRwwGEPkth6eL7KXSUy1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gHR4Vs5mR5bYJ/JWFiZR9jgyMyBPap2g5x577M5hKiV28NdUUnRVO7iVf1iPLHMAsoCC+G6cmAd7e8Ad0696EAwIbSLY5TxBWrKeoyxAZQmDRx2FSTgHgQJqyd8XvQS6U+4Nu14R+mBMn7kplHkHRH+vboLla2alCNdiYsevlcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6uXtanG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9121CC116B1;
+	Fri,  3 May 2024 15:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714751920;
+	bh=tjcLMcc1pXHKQ8EsF3q4E+jRwwGEPkth6eL7KXSUy1A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=b6uXtanGACF3WNXDK+4E1/y+M0/Z8Dsc9Tdm9b6leLSTuF1wSbst1D3gRebUOY8ge
+	 A8UtzrLJv107KY7Sq5Ctn7SI7rGOIIq/CroQd+1LAATvhbZPmyGV1j6attQddGxeVT
+	 uZ0dj8h82OSjgRJvo+YUmsfGO58KqbbFquTtv38kIuH8oS8WBUTETtGc6+PxVHOtPE
+	 YkNVqem6OsyjftSf+vRG1Hkfvkhi9VCB6Yom6Q0C/fFv7yDoT9lC4tI1tSQhL7neVp
+	 wnaj1MNQ/36F+KwJu9gM6/xA+db9taVZfUWitMtAU+uawAE11N+eumWQDv++RXYPBH
+	 9ZPa1yvgwwVTw==
+Date: Fri, 3 May 2024 16:58:33 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Andrew Morton <akpm@linux-foundation.org>, Alan Stern
+ <stern@rowland.harvard.edu>, <linux-media@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
+ <syzbot+12002a39b8c60510f8fb@syzkaller.appspotmail.com>
+Subject: Re: [PATCH] media: usb: siano: fix endpoint checks in
+ smsusb_init_device()
+Message-ID: <20240503165833.4781fb4a@sal.lan>
+In-Reply-To: <20240409143634.33230-1-n.zhandarovich@fintech.ru>
+References: <20240409143634.33230-1-n.zhandarovich@fintech.ru>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Use the frame interval stored in the subdev state instead of storing
-a copy in the driver private structure.
+Em Tue, 9 Apr 2024 07:36:34 -0700
+Nikita Zhandarovich <n.zhandarovich@fintech.ru> escreveu:
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 52 +++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 28 deletions(-)
+> Syzkaller reported a warning [1] in smsusb_submit_urb() which occurs
+> if an attempt is made to send a bulk URB using the wrong endpoint
+> type. The current approach to perform endpoint checking does not
+> explicitly check if an endpoint in question has its type set to bulk.
+> 
+> Fix this issue by using functions usb_endpoint_is_bulk_XXX() to
+> enable testing for correct ep types.
+> 
+> This patch has not been tested on real hardware.
+> 
+> [1] Syzkaller report:
+> usb 1-1: string descriptor 0 read error: -71
+> smsusb:smsusb_probe: board id=2, interface number 0
+> smsusb:siano_media_device_register: media controller created
+> ------------[ cut here ]------------
+> usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+> WARNING: CPU: 0 PID: 3147 at drivers/usb/core/urb.c:494 usb_submit_urb+0xacd/0x1550 drivers/usb/core/urb.c:493
+> ...
+> Call Trace:
+>  smsusb_start_streaming+0x16/0x1d0 drivers/media/usb/siano/smsusb.c:195
+>  smsusb_init_device+0xd85/0x12d0 drivers/media/usb/siano/smsusb.c:475
+>  smsusb_probe+0x496/0xa90 drivers/media/usb/siano/smsusb.c:566
+>  usb_probe_interface+0x633/0xb40 drivers/usb/core/driver.c:396
+>  really_probe+0x3cb/0x1020 drivers/base/dd.c:580
+>  driver_probe_device+0x178/0x350 drivers/base/dd.c:763
+> ...
+>  hub_event+0x48d/0xd90 drivers/usb/core/hub.c:5644
+>  process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
+>  worker_thread+0xac1/0x1300 kernel/workqueue.c:2422
+>  kthread+0x39a/0x3c0 kernel/kthread.c:313
+>  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+> 
+> Reported-and-tested-by: syzbot+12002a39b8c60510f8fb@syzkaller.appspotmail.com
+> Fixes: 31e0456de5be ("media: usb: siano: Fix general protection fault in smsusb")
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+>  drivers/media/usb/siano/smsusb.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+> index 723510520d09..daaac121c670 100644
+> --- a/drivers/media/usb/siano/smsusb.c
+> +++ b/drivers/media/usb/siano/smsusb.c
+> @@ -405,10 +405,10 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+>  		struct usb_endpoint_descriptor *desc =
+>  				&intf->cur_altsetting->endpoint[i].desc;
+>  
+> -		if (desc->bEndpointAddress & USB_DIR_IN) {
+> +		if (usb_endpoint_is_bulk_in(desc)) {
+>  			dev->in_ep = desc->bEndpointAddress;
+>  			align = usb_endpoint_maxp(desc) - sizeof(struct sms_msg_hdr);
+> -		} else {
+> +		} else if (usb_endpoint_is_bulk_out(desc)) {
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index cc7ee35560fc..4ddbc247395f 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -197,8 +197,6 @@ struct max9286_priv {
- 	struct v4l2_ctrl *pixelrate_ctrl;
- 	unsigned int pixelrate;
- 
--	struct v4l2_fract interval;
--
- 	unsigned int nsources;
- 	unsigned int source_mask;
- 	unsigned int route_mask;
-@@ -571,11 +569,14 @@ static void max9286_set_video_format(struct max9286_priv *priv,
- 		      MAX9286_INVVS | MAX9286_HVSRC_D14);
- }
- 
--static void max9286_set_fsync_period(struct max9286_priv *priv)
-+static void max9286_set_fsync_period(struct max9286_priv *priv,
-+				     struct v4l2_subdev_state *state)
- {
-+	struct v4l2_fract *interval;
- 	u32 fsync;
- 
--	if (!priv->interval.numerator || !priv->interval.denominator) {
-+	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
-+	if (!interval->numerator || !interval->denominator) {
- 		/*
- 		 * Special case, a null interval enables automatic FRAMESYNC
- 		 * mode. FRAMESYNC is taken from the slowest link.
-@@ -591,8 +592,8 @@ static void max9286_set_fsync_period(struct max9286_priv *priv)
- 	 * The FRAMESYNC generator is configured with a period expressed as a
- 	 * number of PCLK periods.
- 	 */
--	fsync = div_u64((u64)priv->pixelrate * priv->interval.numerator,
--			priv->interval.denominator);
-+	fsync = div_u64((u64)priv->pixelrate * interval->numerator,
-+			interval->denominator);
- 
- 	dev_dbg(&priv->client->dev, "fsync period %u (pclk %u)\n", fsync,
- 		priv->pixelrate);
-@@ -801,7 +802,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
- 		format = v4l2_subdev_state_get_format(state, MAX9286_SRC_PAD);
- 
- 		max9286_set_video_format(priv, format);
--		max9286_set_fsync_period(priv);
-+		max9286_set_fsync_period(priv, state);
- 
- 		/*
- 		 * The frame sync between cameras is transmitted across the
-@@ -874,19 +875,11 @@ static int max9286_get_frame_interval(struct v4l2_subdev *sd,
- 				      struct v4l2_subdev_state *sd_state,
- 				      struct v4l2_subdev_frame_interval *interval)
- {
--	struct max9286_priv *priv = sd_to_max9286(sd);
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	if (interval->pad != MAX9286_SRC_PAD)
- 		return -EINVAL;
- 
--	interval->interval = priv->interval;
-+	interval->interval = *v4l2_subdev_state_get_interval(sd_state,
-+							     interval->pad);
- 
- 	return 0;
- }
-@@ -895,19 +888,11 @@ static int max9286_set_frame_interval(struct v4l2_subdev *sd,
- 				      struct v4l2_subdev_state *sd_state,
- 				      struct v4l2_subdev_frame_interval *interval)
- {
--	struct max9286_priv *priv = sd_to_max9286(sd);
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	if (interval->pad != MAX9286_SRC_PAD)
- 		return -EINVAL;
- 
--	priv->interval = interval->interval;
-+	*v4l2_subdev_state_get_interval(sd_state,
-+					interval->pad) = interval->interval;
- 
- 	return 0;
- }
-@@ -993,12 +978,24 @@ static const struct v4l2_mbus_framefmt max9286_default_format = {
- static int max9286_init_state(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_state *state)
- {
-+	struct v4l2_fract *interval;
-+
- 	for (unsigned int i = 0; i < MAX9286_N_SINKS; i++)
- 		*v4l2_subdev_state_get_format(state, i) = max9286_default_format;
- 
- 	*v4l2_subdev_state_get_format(state,
- 				      MAX9286_SRC_PAD) = max9286_default_format;
- 
-+	/*
-+	 * Special case: a null interval enables automatic FRAMESYNC mode.
-+	 *
-+	 * FRAMESYNC is taken from the slowest link. See register 0x01
-+	 * configuration.
-+	 */
-+	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
-+	interval->numerator = 0;
-+	interval->denominator = 0;
-+
- 	return 0;
- }
- 
-@@ -1145,7 +1142,6 @@ static int max9286_setup(struct max9286_priv *priv)
- 	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
- 
- 	max9286_set_video_format(priv, &max9286_default_format);
--	max9286_set_fsync_period(priv);
- 
- 	cfg = max9286_read(priv, 0x1c);
- 	if (cfg < 0)
--- 
-2.44.0
+Did you test it on what devices? I'm not sure if all siano devices
+are bulk. Why did you decide to use usb_endpoint_is_bulk_(in|out)
+instead of usb_endpoint_dir_(in|out)?
 
+Regards,
+Mauro
+
+>  			dev->out_ep = desc->bEndpointAddress;
+>  		}
+>  	}
+> 
 
