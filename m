@@ -1,174 +1,129 @@
-Return-Path: <linux-media+bounces-10656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10657-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B268BA5B8
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 05:25:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968E38BA761
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 09:07:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 380741F24695
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 03:25:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51BE5282F49
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 07:07:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31BB51C6A7;
-	Fri,  3 May 2024 03:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61FDD146A93;
+	Fri,  3 May 2024 07:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LmqM2XZE"
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="WAIf9HaO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from forward502c.mail.yandex.net (forward502c.mail.yandex.net [178.154.239.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B714D29E
-	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 03:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4DF14658F;
+	Fri,  3 May 2024 07:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714706726; cv=none; b=GVGmsrSjMaagmF1wJkUSWRLJUZB/DqipvJUvz9aG2M7u6D8LFCoi7JvBtMepdczDhpBM/ztqj2olOdgHA8Yw/0HqCDhp3SvpvNetSZIwgVBeu0TwamQgpH9T7hjm/taiVm0Fw3Pt2FN5Uiw4WDujCJSDB1qvWlMK82oCijjf4lY=
+	t=1714720044; cv=none; b=UjmAwbi0RvUi8ogSE1RhJeCDk1t27Yt5m11XYKtT+XU8uKsbNqNEdSYqQhDS8cw7OnsNq336RFLigDy9MIL6D6/as4T+RHQKH8VlExAydMLIHnyVl+7HW4xF1TpzNmE9zzYNRjOA6KZiEuTsyYRR7XAshxNqT5RxsFodtyo0RYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714706726; c=relaxed/simple;
-	bh=RwvUTSBoElEeB3YGdvKXaVjd7aHzJgqQGkDcIimjPK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fIX+ACHUiBb+I8w9Avl9xYSYydaMN9swOuKoU/uCVT6y1eR+OlOPrURG41NEGeheGfxLS5K3EvEdgQgM/XEgsPmO9G6TqLc+jHUQt0ie+SvQ2cR7Y1nXrvWfZIV4l7KKxnlHUSALDo7sWWQ5401fOAU2M3fMlFpWh5OLxlwbiFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LmqM2XZE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 468F2593;
-	Fri,  3 May 2024 05:24:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714706663;
-	bh=RwvUTSBoElEeB3YGdvKXaVjd7aHzJgqQGkDcIimjPK8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LmqM2XZEyO1A2jLrQdH+ljVIeA5rkWEwRq2L7mKYfDrczUoKmqpmBVDD+MkC94zQ7
-	 IZoJccWHxhYCNzkRwLawBpM9IbBkEr6ogmAX9sWAtbYDfYrVGT5dnsWOq1hwJEKGhC
-	 nMKsiGVdNHqXfZF1xd/vPV3JOciWPg3FuI0jp354=
-Date: Fri, 3 May 2024 06:25:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: Discuss the multi-core media scheduler
-Message-ID: <20240503032514.GM4959@pendragon.ideasonboard.com>
-References: <3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com>
+	s=arc-20240116; t=1714720044; c=relaxed/simple;
+	bh=O/sHsdCylG2MFy1pSJ1PRazemWy7FKCci38WHBEzE9g=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=tjnRr6Cd9cepS43rS1XDcjSslkRrFyZ8v1uBbJNJjM9EEsVxAfio4cLtzLrnYBSShSmEDBS4+qfCYm4HhDrDFDxhAvEnKqTpOIpLQdXtIe/V3NIRwa14qN9wWV8nJvmMjbGTkLHfi0R4aHmef4K2LUoAH3564aVlabtmtTspF3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=WAIf9HaO; arc=none smtp.client-ip=178.154.239.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:49a3:0:640:a0c5:0])
+	by forward502c.mail.yandex.net (Yandex) with ESMTPS id E94DD6129C;
+	Fri,  3 May 2024 10:07:12 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id B7OTss7uBeA0-71e0e3jK;
+	Fri, 03 May 2024 10:07:12 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1714720032; bh=O/sHsdCylG2MFy1pSJ1PRazemWy7FKCci38WHBEzE9g=;
+	h=In-Reply-To:Subject:To:From:Cc:Date:References:Message-ID;
+	b=WAIf9HaOlTOaIVdooYDyz/agzHBhFaEj5ddWhxaxW6ZMpp9oacohngFBO7K4/LZ2p
+	 wv+RlKiuFQsE0VHQOwQBDIO9KlCvtElS6Tk8/F7YRFRC9DRT6xUjxCMSdek4fr9euj
+	 EbdFUr2M4Elo6XG6efknhRLcXprPdynIeexpg1Co=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <d5866bd9-299c-45be-93ac-98960de1c91e@yandex.ru>
+Date: Fri, 3 May 2024 10:07:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3F80AC0D-DCAA-4EDE-BF58-BB1369C7EDCA@collabora.com>
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+ <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+ <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+Content-Language: en-US
+From: Dmitry Antipov <dmantipov@yandex.ru>
+Autocrypt: addr=dmantipov@yandex.ru; keydata=
+ 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
+ A/UwwXBRuvydGV0=
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+In-Reply-To: <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi Daniel,
-
-On Sun, Apr 28, 2024 at 03:26:35PM -0300, Daniel Almeida wrote:
-> Hi everyone,
-> 
-> There seems to be a few unsolved problems in the mem2mem framework, one of
-> which is the lack of support for architectures with multiple heterogeneous
-> cores. For example, it is currently impossible to describe Mediatek's LAT and
-> CORE cores to the framework as two independent units to be scheduled. This means
-> that, at all times, one unit is idle while the other one is working.
-> 
-> I know that this is not the only problem with m2m, but it is where I'd like to
-> start the discussion. Feel free to add your own requirements to the thread.
-
-I'll add a comment, which doesn't solve your problem, but is possibly
-still relevant.
-
-We have a need to serve multiple clients and schedule them with
-memory-to-memory ISPs. Those devices don't use the M2M framework, as
-they have more than just one input and one output queue, and need to
-handle formats and selection rectangles in addition to controls and
-buffer queues. A few out-of-tree drivers currently create multiple
-"virtual" device instances to address this need. I don't like this
-solution much, as it creates a lot of video devices, and sets an
-arbitrary bound to the number of clients.
-
-We're instead considering solving the issue by exposing the ability to
-submit a job through the media controller device. Similarly to the M2M
-framework, we would use multiple opens with one file handle per client.
-This is similar to the request API, but instead of setting per-request
-parameters through video devices and subdevs, we would pass them all in
-one go through the media controller device.
-
-At this point we don't foresee the need to support multi-core ISPs, but
-there's clearly a need for scheduling multiple clients.
-
-> My proposed solution is to add a new iteration of mem2mem, which I have named
-> the Multi-core Media Scheduler for the lack of a better term.
-> 
-> Please note that I will use the terms input/output queues in place of
-> output/capture for the sake of readability.
-> 
-> -------------------------------------------------------------------------------
-> 
-> The basic idea is to have a core as the basic entity to be scheduled, with its
-> own input and output VB2 queues. This default will be identical to what we have
-> today in m2m.
-> 
->  input        output
-> <----- core ----->
-> 
-> In all cases, this will be the only interface that the framework will expose to
-> the outside world. The complexity to handle multiple cores will be hidden from
-> callers. This will also allow us to keep the implementation compatible with
-> the current mem2mem interfaces, which expose only two queues.
-> 
-> To support multiple cores, each core can connect to another core to establish a
-> data dependency, in which case, they will communicate through a new type of
-> queue, here described as "shared".
-> 
->  input           shared         output
-> <----- core0 -------> core1 ------>
-> 
-> This arrangement is basically an extension of the mem2mem idea, like so:
-> 
-> mem2mem2mem2mem
-> 
-> ...with as many links as there are cores.
-> 
-> The key idea is that now, cores can be scheduled independently through a call
-> to schedule(core_number, work) to indicate that they should start processing
-> the work. They can also be marked as idle independently through a
-> job_done(core_number) call.
-> 
-> It will be the driver's responsibility to describe the pipeline to the
-> framework, indicating how cores are connected. The driver will also have to
-> implement the logic for schedule() and job_done() for a given core.
-> 
-> Queuing buffers into the framework's input queue will push the work into the
-> pipeline. Whenever a job is done, the framework will push the job into the
-> queue that is shared with the downstream core and attempt to schedule it. It
-> will also attempt to pull a workitem from the upstream queue.
-> 
-> When the job is processed by the last core in the pipeline, it will be marked
-> as done and pushed into the framework's output queue.
-> 
-> At all times, a buffer should have an owner, and the framework will ensure that
-> cores cannot touch buffers belonging to other cores.
-> 
-> This workflow can be expanded to account for a group of identical cores, here
-> denoted as "clusters". In such a case, each core will have its own input and
-> output queues:
-> 
->  input      output           input      output      output 
-> <---- core0 ----->          <---- core1 ---->     ------->
->                                     <---- core2 ---->
->                                     input      output
-> 
-> Ideally, the framework will dispatch work from the output queue with the most
-> amount of items to the input queue with the least amount of items to balance
-> the load. This way, clusters and cores can compose to describe complex
-> architectures.
-> 
-> Of course, this is a rough sketch, and there are lots of unexplained minutiae to
-> sort out, but I hope that the general idea is enough to get a discussion going.
-
--- 
-Regards,
-
-Laurent Pinchart
+T24gNC8yNC8yNCAyOjI4IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KDQo+IEkgZG9u
+J3QgZnVsbHkgdW5kZXJzdGFuZCBob3cgdGhhdCBoYXBwZW5zIGVpdGhlciwgaXQgY291bGQg
+YmUgdGhhdCB0aGVyZSBpcyBzb21lIGJ1ZyBpbiB0aGUgRVBPTExfRkQgY29kZS4gTWF5YmUg
+aXQncyBhIHJhY2Ugd2hlbiB0aGUgRVBPTEwgZmlsZSBkZXNjcmlwdG9yIGlzIGNsb3NlZCBv
+ciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KDQpJSVVDIHRoZSByYWNlIGNvbmRpdGlvbiBsb29r
+cyBsaWtlIHRoZSBmb2xsb3dpbmc6DQoNClRocmVhZCAwICAgICAgICAgICAgICAgICAgICAg
+ICAgVGhyZWFkIDENCi0+IGRvX2Vwb2xsX2N0bCgpDQogICAgZl9jb3VudCsrLCBub3cgMg0K
+ICAgIC4uLg0KICAgIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgLT4gdmZzX3BvbGwo
+KSwgZl9jb3VudCA9PSAyDQogICAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAuLi4N
+CjwtIGRvX2Vwb2xsX2N0bCgpICAgICAgICAgICAgICAgLi4uDQogICAgZl9jb3VudC0tLCBu
+b3cgMSAgICAgICAgICAgICAuLi4NCi0+IGZpbHBfY2xvc2UoKSwgZl9jb3VudCA9PSAxICAg
+Li4uDQogICAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0+IGRtYV9idWZfcG9s
+bCgpLCBmX2NvdW50ID09IDENCiAgICAtPiBmcHV0KCkgICAgICAgICAgICAgICAgICAgICAg
+Li4uIFsqKiogcmFjZSB3aW5kb3cgKioqXQ0KICAgICAgIGZfY291bnQtLSwgbm93IDAgICAg
+ICAgICAgICAgIC0+IG1heWJlIGdldF9maWxlKCksIG5vdyA/Pz8NCiAgICAgICAtPiBfX2Zw
+dXQoKSAoZGVsYXllZCkNCg0KRS5nLiBkbWFfYnVmX3BvbGwoKSBtYXkgYmUgZW50ZXJlZCBp
+biB0aHJlYWQgMSB3aXRoIGYtPmNvdW50ID09IDENCmFuZCBjYWxsIHRvIGdldF9maWxlKCkg
+c2hvcnRseSBsYXRlciAoYW5kIG1heSBldmVuIHNraXAgdGhpcyBpZg0KdGhlcmUgaXMgbm90
+aGluZyB0byBFUE9MTElOIG9yIEVQT0xMT1VUKS4gRHVyaW5nIHRoaXMgdGltZSB3aW5kb3cs
+DQp0aHJlYWQgMCBtYXkgY2FsbCBmcHV0KCkgKG9uIGJlaGFsZiBvZiBjbG9zZSgpIGluIHRo
+aXMgZXhhbXBsZSkNCmFuZCAoc2luY2UgaXQgc2VlcyBmLT5jb3VudCA9PSAxKSBmaWxlIGlz
+IHNjaGVkdWxlZCB0byBkZWxheWVkX2ZwdXQoKS4NCg0KRG1pdHJ5DQo=
 
