@@ -1,218 +1,270 @@
-Return-Path: <linux-media+bounces-10685-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6245A8BAD4F
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:14:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA51D8BADE0
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 842D91C21774
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:14:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60C22283F3B
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F33153BEB;
-	Fri,  3 May 2024 13:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9948153BD0;
+	Fri,  3 May 2024 13:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcauIy26"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OkOB9RfS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE8215358B;
-	Fri,  3 May 2024 13:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F04139CF8;
+	Fri,  3 May 2024 13:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714742048; cv=none; b=fiybGIh0WBX0bRyQbxo1cmcVUgNJHxr+k75ANuGHDk7iViQo5jyd9Q6VeK6GWx6FMp/X6iQHEJ29nrS+Rit93+fzbE2maVHDlpq6VCQpn0aRopoj3twk51aNaYw2Ko0a3WblSn8rScpgxO9MGX4pt9OE7oWy+nF+rM0m2zVKjHc=
+	t=1714743634; cv=none; b=Bg87d/EMC5PSOibmXEFGWtAeM2OUiDIRSbNhr5C7Cfy1w4cDndJ+HEpVBIlBYDNH/TswO6+hS/6aXzfD7XmTrxmJ6Er6p9uT4gMPJYf3R+N9AhoKAp7b4KZEizHoavE9TjmJtN3nwDT8o6B6RvKBIlOipmrDZrbTFJsOwqfPZYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714742048; c=relaxed/simple;
-	bh=emDrdx6WOkQnF2Eso3DR0P187wYGRr+WTfcYUP8aUXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uFXxjxIXve9tB75TqzA1vNN7p1ZU5NDyFqcopoA0UUVfvFh1JS/nMk3ot7qef24ngbQ2n4pmTs+DAMMeRmnMpMzJeVPMb6hApDjw+5Kkz/K+wFS/+9iHnupJ9J3qE+gTXxDy7nljRkmNzUGN9Vz3vgKH6DzhoQSrEPGwoTNjwh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcauIy26; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f44ed6e82fso314106b3a.3;
-        Fri, 03 May 2024 06:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714742046; x=1715346846; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6Kz22nN7XZpw5/QYn8eU3Vl5d2ZzmTa9J6l4Ufw1zs=;
-        b=gcauIy26MtzJYA8Gns6kXZilBsGTzVoH5HBE70noznhGOD4euDnekA10A01JhJPaLO
-         3g/gVlbyt0HrO4AS2vlEUGm9fP40LfNNZhe05qHmQQDDTXbdlsjL6mGTAhieH0jEnWuf
-         2UXYKRmnjAejy9goG3wES6Ad1+iG+/facnZgyyouKsCRo2hXWbGOu9VtEEfnnefyPTSW
-         7iMwwes0uuOIIV/vYUUhSG5tqOsagJyJGfgu3ygTA3yLrrmBgMDFctfaUxslbfdu6TXe
-         7IgKNvm5WAWO0WLGUO0ftNS79LC27eJf2MhdRHCgpdbxC0N19AnVU+8e/hJVtiOaJ5Cd
-         29Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714742046; x=1715346846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S6Kz22nN7XZpw5/QYn8eU3Vl5d2ZzmTa9J6l4Ufw1zs=;
-        b=Q5uGiD4D6J/PrQvGzWl+iPWr35x9BFY32I3uffYTmLVU2gJccyoYKYOihx6Fucj+B2
-         gA9t9O9JpEcUdshqKBBY3YCp0zSPaM3r3ggiRYt5d2a9tFWwBJysy/QI1VF2ZIdh/kqB
-         A/9K4Iba1nfp9IQNqChm4DMSW+jJQFBInncsAwtQzpGZfpG4qVrw7aJAnBg9AhKTNzyJ
-         CvJJNDlUZJhFLk8OtF++fxDILWOYY7glkSaunLgvoUQ8H7V/vnzoma6qsa9Oq4WR37v3
-         k1r2JE9Ti1N+wYw4p0cPfi5eCPspBIp8y5CqBJuaZT6vG4MvG9ej9DIo+7PWdwc/GODd
-         6v+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVILL6wtpyjp9AhtO3obmCsPN3ndhJIKkDpP0EPmFncQvyR/Krsp4rbEJ1jlY3jNJys+oXkf0RSHkgUMRCcecEATmVTc8kc/SRJU3HPnjLguE9vdE6uLjh53jSmXZ2MKaq/VnlNFdZ5DIwROEPEe96L/QUYjImbzgkZsUyKoZBxz1NA8JaCYGyjt5tdyIVPi97Oublw5HQ+zpiA9zKv86vL1l68FUcazL/PG2xQp0i4poNkbUioC9mTRE3VcTwJBq9Rl+Vkmzd/fcpEaT8aPn6FSeOm5TShzeECXsf3O3G8vwrzHoicyoBNXwlrmfKz3sWspenNHP1fv5grRcEa7yRbL3HruID7AYjsySZj4ntgyGwixOYBAZQcOjAoqD3lOiCr7HpZSQ3Gsa/+mJjUtR+RiVCqV8kn6cGhYgf9W12xfI0LMH/hkK06p7fNn16Zygg23SlxfvDBE/Qgc1uf1zwru5rc3ua53X6Dyudnn3XWunVjFj1GemFEY89xD+ymFrqlAuUu3w==
-X-Gm-Message-State: AOJu0YxrOPSFGgA0SvXlclJbHO9actMARbcZeqFgnXwjiekXoN7gsQcY
-	eOQa9hGvHl7K5jXKPV9hHKiye5303LSuvCHluvvjR8nW59v/1Zny
-X-Google-Smtp-Source: AGHT+IGAxZcx6M5jku9xJQNGsk1mq4nfDpmBwjTTeZ5TRCe/HqThlL4pFRsVfzRAFzuWYWRs0QPHbQ==
-X-Received: by 2002:a05:6a20:3cac:b0:1ac:c8dc:3e5e with SMTP id b44-20020a056a203cac00b001acc8dc3e5emr3146813pzj.24.1714742046301;
-        Fri, 03 May 2024 06:14:06 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170902da8100b001e509d4d6ddsm3203863plx.1.2024.05.03.06.14.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 06:14:05 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C0EA918462B27; Fri, 03 May 2024 20:14:03 +0700 (WIB)
-Date: Fri, 3 May 2024 20:14:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Florian Westphal <fw@strlen.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Aleksander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
-	Breno Leitao <leitao@debian.org>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v8 13/14] net: add devmem TCP documentation
-Message-ID: <ZjTjG_INUM4G1Pf5@archie.me>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-14-almasrymina@google.com>
+	s=arc-20240116; t=1714743634; c=relaxed/simple;
+	bh=izGzRh53kNir17NtrU6uAf2uWt6oz72X9pbN6GcH8g4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=aIfy5dLdwoJXbvtQotpq8UtZ6HhKTmeLW+e4cvmXfRs6M5sbyWONaBTj3p7UghJb0v60dmgRS+shrqjFIiAhehBzQtE8z4/1TV7Nc0dIApMyMod8em7JQ2NNZJYzppnRVQV1EcTZenb8ptBnVzsGhlCOzJ2xp0cvsACyCMWDnHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OkOB9RfS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443CLH05026098;
+	Fri, 3 May 2024 13:40:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=OTB8nHFLPaquXF5F/bBkNoQstl6p52xaF/pLsiIiK+E=; b=Ok
+	OB9RfSaE7dFEwpgN2ng24tTsRGHoRUdPZRLivDNQc4Kt5kpR4600xo8WiRIWzXjJ
+	sZabYLm8mWq8xYidXK8lDUJcMMH1FsPlkh0TngbWtId51nBXMhlkVPvZIU8nbLY3
+	Gi0thrgzD648jWAhKJW7Ke+pEi8oRF3wO9aer31NVSl9HctOKpORMHlLAPRA2gjV
+	UB9tX1NMJxom6EfLvAzi/5wBE8XEVyknmVz4UjXit1TTr0pfZfmGV5hT7jtZ7DXH
+	wvL9+Cqaue8c8sDGaMFH4KFDrL7FebKh4G2nslCXk6TphxdCR2J4/M+FO1dRWt8x
+	Anesn5ZMPjLpX9Xrh4ug==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv7pxk1jy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 03 May 2024 13:40:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 443DeOCE027742
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 3 May 2024 13:40:24 GMT
+Received: from [10.214.66.164] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 3 May 2024
+ 06:40:21 -0700
+Message-ID: <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
+Date: Fri, 3 May 2024 19:10:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p760D9CQLIFGzr8t"
-Content-Disposition: inline
-In-Reply-To: <20240403002053.2376017-14-almasrymina@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        zhiguojiang
+	<justinjiang@vivo.com>,
+        "T.J. Mercier" <tjmercier@google.com>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <opensource.kernel@vivo.com>
+References: <20240327022903.776-1-justinjiang@vivo.com>
+ <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
+ <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
+ <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+ <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
+ <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
+ <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
+ <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
+ <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
+ <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
+ <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
+Content-Language: en-US
+From: Charan Teja Kalla <quic_charante@quicinc.com>
+In-Reply-To: <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
+X-Proofpoint-ORIG-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-03_09,2024-05-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ suspectscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2405030098
+
+Thanks Christian/TJ for the inputs!!
+
+On 4/18/2024 12:16 PM, Christian König wrote:
+> As far as I can see the EPOLL holds a reference to the files it
+> contains. So it is perfectly valid to add the file descriptor to EPOLL
+> and then close it.
+>
+> In this case the file won't be closed, but be kept alive by it's
+> reference in the EPOLL file descriptor.
+
+I am not seeing that adding a 'fd' into the epoll monitoring list will
+increase its refcount.  Confirmed by writing a testcase that just do
+open + EPOLL_CTL_ADD and see the /proc/../fdinfo of epoll fd(Added
+file_count() info to the output)
+# cat /proc/136/fdinfo/3
+pos:    0
+flags:  02
+mnt_id: 14
+ino:    1041
+tfd:        4 events:       19 data:                4  pos:0 ino:81 sdev:5
+refcount: 1<-- The fd added to the epoll monitoring is still 1(same as
+open file refcount)
+
+From the code too, I don't see a file added in the epoll monitoring list
+will have an extra refcount but momentarily (where it increases the
+refcount of target file, add it to the rbtree of the epoll context and
+then decreasing the file refcount):
+do_epoll_ctl():
+	f = fdget(epfd);
+	tf = fdget(fd);
+	epoll_mutex_lock(&ep->mtx)
+	EPOLL_CTL_ADD:
+		ep_insert(ep, epds, tf.file, fd, full_check); // Added to the epoll
+monitoring rb tree list as epitem.
+	mutex_unlock(&ep->mtx);
+	fdput(tf);
+	fdput(f);
 
 
---p760D9CQLIFGzr8t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not sure If i am completely mistaken what you're saying here.
 
-On Tue, Apr 02, 2024 at 05:20:50PM -0700, Mina Almasry wrote:
-> +ncdevmem has a validation mode as well that expects a repeating pattern =
-of
-> +incoming data and validates it as such::
-> +
-> +	# On server:
-> +	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-> +		 -p 5201 -v 7
-> +
-> +	# On client:
-> +	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-> +		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
+> The fs layer which calls dma_buf_poll() should make sure that the file
+> can't go away until the function returns.
+> 
+> Then inside dma_buf_poll() we add another reference to the file while
+> installing the callback:
+> 
+>                         /* Paired with fput in dma_buf_poll_cb */
+>                         get_file(dmabuf->file); No, exactly that can't
+> happen either.
+> 
 
-What about splitting server and client usage?
+I am not quite comfortable with epoll internals but I think below race
+is possible where "The 'file' passed to dma_buf_poll() is proper but
+->f_count == 0, which is indicating that a parallel freeing is
+happening". So, we should check the file->f_count value before taking
+the refcount.
 
----- >8 ----
-diff --git a/Documentation/networking/devmem.rst b/Documentation/networking=
-/devmem.rst
-index e4e978fbcdbd5f..f32acfd62075d2 100644
---- a/Documentation/networking/devmem.rst
-+++ b/Documentation/networking/devmem.rst
-@@ -245,12 +245,14 @@ To run ncdevmem, you need to run it on a server on th=
-e machine under test, and
- you need to run netcat on a peer to provide the TX data.
-=20
- ncdevmem has a validation mode as well that expects a repeating pattern of
--incoming data and validates it as such::
-+incoming data and validates it as such. For example, you can launch
-+ncdevmem on the server by::
-=20
--	# On server:
- 	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
- 		 -p 5201 -v 7
-=20
--	# On client:
-+On client side, use regular netcat to send TX data to ncdevmem process
-+on the server::
+(A 'fd' registered for the epoll monitoring list is maintained as
+'epitem(epi)' in the rbtree of 'eventpoll(ep, called as epoll context).
+
+epoll_wait()				    __fput()(as file->f_count=0)
+------------------------------------------------------------------------
+a) ep_poll_callback():
+     Is the waitqueue function
+   called when signaled on the
+   wait_queue_head_t of the registered
+   poll() function.
+
+   1) It links the 'epi' to the ready list
+      of 'ep':
+       if (!ep_is_linked(epi))
+	 list_add_tail_lockless(&epi->rdllink,
+		&ep->rdllist)
+
+   2) wake_up(&ep->wq);
+	Wake up the process waiting
+	on epoll_wait() that endup
+	in ep_poll.
+
+
+b) ep_poll():
+    1) while (1) {
+	eavail = ep_events_available(ep);
+	(checks ep->rdlist)
+	ep_send_events(ep);
+	(notify the events to user)
+    }
+    (epoll_wait() calling process gets
+     woken up from a.2 and process the
+     events raised added to rdlist in a.1)
+
+   2) ep_send_events():
+	mutex_lock(&ep->mtx);
+	(** The sync lock is taken **)
+	list_for_each_entry_safe(epi, tmp,
+			&txlist, rdllink) {
+	    list_del_init(&epi->rdllink);
+	    revents = ep_item_poll(epi, &pt, 1)
+	    (vfs_poll()-->...f_op->poll(=dma_buf_poll)
+	}
+	mutex_unlock(&ep->mtx)
+	(**release the lock.**)
+
+	(As part of procession of events,
+	 each epitem is removed from rdlist
+         and call the f_op->poll() of a file
+	 which will endup in dma_buf_poll())
+
+   3) dma_buf_poll():
+ 	get_file(dmabuf->file);
+	(** f_count changed from 0->1 **)
+	dma_buf_poll_add_cb(resv, true, dcb):
+	(registers dma_buf_poll_cb() against fence)
+
+
+				c) eventpoll_release_file():
+				   mutex_lock(&ep->mtx);
+				   __ep_remove(ep, epi, true):
+				   mutex_unlock(&ep->mtx);
+				  (__ep_remove() will remove the
+				   'epi' from rbtree and if present
+				   from rdlist as well)
+
+				d) file_free(file), free the 'file'.
+
+e) dma_buf_poll_cb:
+ /* Paired with get_file in dma_buf_poll */
+ fput(dmabuf->file);
+ (f_count changed from 1->0, where
+  we try to free the 'file' again
+  which is UAF/double free).
+
+
+		
+In the above race, If c) gets called first, then the 'epi' is removed
+from both rbtree and 'rdlink' under ep->mtx lock thus b.2 don't end up
+in calling the ->poll() as it don't see this event in the rdlist.
+
+Race only exist If b.2 executes first, where it will call dma_buf_poll
+with __valid 'struct file' under ep->mtx but its refcount is already
+could have been zero__. Later When e) is executed, it turns into double
+free of the 'file' structure.
+
+If you're convinced with the above race, should the fix here will be
+this simple check:
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 8fe5aa67b167..e469dd9288cc
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -240,6 +240,10 @@ static __poll_t dma_buf_poll(struct file *file,
+poll_table *poll)
+ 	struct dma_resv *resv;
+ 	__poll_t events;
+
++	/* Check parallel freeing of file */
++	if (!file_count(file))
++		return 0;
 +
- 	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
- 		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---p760D9CQLIFGzr8t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjTjFwAKCRD2uYlJVVFO
-o9RPAQCNza/o9eilURPtLMgckHLWGXSLgl+m05JS4n+5eQOBfAEAuaR+vADZuSKC
-PnV18jn47Aqz1SmrD+MDjjeFy4rw0gM=
-=E6BN
------END PGP SIGNATURE-----
-
---p760D9CQLIFGzr8t--
+Thanks,
+Charan
 
