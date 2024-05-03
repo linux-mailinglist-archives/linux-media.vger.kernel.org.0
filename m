@@ -1,332 +1,118 @@
-Return-Path: <linux-media+bounces-10671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F818BA8F6
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 10:42:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D282D8BA914
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 10:43:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 961381C20DB9
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 08:42:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 337FDB23114
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 08:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E9F14F12F;
-	Fri,  3 May 2024 08:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0640114F9CE;
+	Fri,  3 May 2024 08:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="lZSLAXFc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JIt7IELV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9166514F11E;
-	Fri,  3 May 2024 08:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606B214E2CB;
+	Fri,  3 May 2024 08:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714725700; cv=none; b=Ya7bzgNaZ+pv06cVcJ/xfdfkq4+S97B8m1yGXp811pCYDosansodXvIPGHzRsWI0AIhAvLhjlhtdrkoLwNmbeSV+zOzugmHZOWLaxHYgkQP8vwheL5LpsB0wlifvZLPGQMTuuulWgQvklzDIAMPuLa1KkJm2CUlK/C/2/h4tnzA=
+	t=1714725754; cv=none; b=l6kU4aR1HQis4sCaiPdZ1IXK9RVgia0EN2IEwk8hW7SJV5Hv4snq6ZhYlQEJJ0XV8vP7b+GNweDTTmjtZG4Nz+8FH/KVN8cwiRs8RtEw32NHdIDA3VodT1DvHS7vKCo0c4q1nOXbP/k4lWWq2N3ihzdtXSSRdRPj/kY0ZzC31+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714725700; c=relaxed/simple;
-	bh=FGtuc8fN+adV5IdcKxxzcZiz/3q8oYorz13jCNFz09Q=;
-	h=Message-ID:Date:MIME-Version:From:Subject:References:To:CC:
-	 In-Reply-To:Content-Type; b=L5GtqgDlwYEkoTJ+GWqj8IjsDsBw7a1CEtezF7X1lKGJMWZRU7Ob2WIj5XUYrMbYCgpAb4VHvDL8c2foiFJgpvGI9FLi4AovjUCtQ1r/3o3mkaSnxtnf25TgbwRxQC6tvSH+acYfOfexMqtqLLIT0BctUB7nX4A/M9Y51HUPmZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=lZSLAXFc; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4437eMtk025388;
-	Fri, 3 May 2024 10:41:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:from:subject:references:to:cc
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=UqDgrPAApxhY5AFKzDUvYTeIrPyzOChzVfZX2ndZdd8=; b=lZ
-	SLAXFc8ZaPw/F40VwTCkKuILxd7zPuN7TJee3s5P3yMh7bO5k0u5y8Z8gf+d9PvA
-	hT9d5MfjRoHTkRMTFMSCPVqvgf39YdVgtsrysRT/v6WdZ9FSILhiEItpG9ygbG/H
-	i2Ga6HJ38bF9VQeyQO2oRWc9aFllBOXmHEaiOBP70EuPrTvZ9QVZTOXhPqqXbvhh
-	IztHteZUy6in0ccYYfgGR9fGNbmYE0sgTi5/Ve+eWk2C04LILI4u2lLF4tsKoKHt
-	CsxzAiI0H3vkhKCUarKsW6e9A2MNfG9wk2QX5PMjJJONxlTfy4ltvS0TIPTSVosP
-	3LE+Ytk61irPr6DcAEhg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xsax1ek5f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 May 2024 10:41:17 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 2C9154004B;
-	Fri,  3 May 2024 10:41:08 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7B90A211601;
-	Fri,  3 May 2024 10:40:34 +0200 (CEST)
-Received: from [10.252.22.51] (10.252.22.51) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 3 May
- 2024 10:40:33 +0200
-Message-ID: <26520ee7-3c0d-497d-b4d7-6e1300ba07dc@foss.st.com>
-Date: Fri, 3 May 2024 10:40:32 +0200
+	s=arc-20240116; t=1714725754; c=relaxed/simple;
+	bh=MET1Qlb3RINT8Dmpmt3ZV/bGlWPZcEfr50B9DIeHIIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bc0oUQ4VhyHdGFfTPbsfKxmPEOauiYbUCPfLXGeyjpM2E1HKkiGHhkuvttQkGLGbwiCgmJYq8vx0UyWhHazmWZrfYv4DBi7Qp8CpPQ/kbshn5jrNwpYAJwofBeR5fZmPh5FQe3S5LHw6PnPYKutBow5me2wK7I4M6DEONah1FI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JIt7IELV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B42C116B1;
+	Fri,  3 May 2024 08:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714725753;
+	bh=MET1Qlb3RINT8Dmpmt3ZV/bGlWPZcEfr50B9DIeHIIU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JIt7IELVzP41blGAllJ9i8j/HS//Q/20ZO9vPGBh8jb46CD6lFpzHqh6QbE6VgOY2
+	 rJ0dQ5I+IE0MHPV9U+hn8BD4+lTOpcGpli29Gue6Q+GNcsz3a7uW5wTQIFIANNh+Ih
+	 c90B5GxcJU4Cen1jbpOB4Zq19rfVUU6XKR22jYI1ONTpok0fBVYIjBsIR3QRN0ahOE
+	 EVgqqfIW5tpxj3/tw0fzx3mKx7ybFh3xANShJf3fLXLHHirdNjAi6igogfygNFNiq/
+	 SpV2vQXcG/lvkopazpgf9f7UFEovF26N5XMXxRn63f9Z9ZxfaOK5OjI2Mh6NBcdWM8
+	 01uL84MAgn/gw==
+Date: Fri, 3 May 2024 09:42:25 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
+ m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Message-ID: <20240503094225.47fe4836@sal.lan>
+In-Reply-To: <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+	<20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+	<ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
+	<20240430172752.20ffcd56@sal.lan>
+	<ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+	<87sez0k661.wl-tiwai@suse.de>
+	<20240502095956.0a8c5b26@sal.lan>
+	<20240502102643.4ee7f6c2@sal.lan>
+	<ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Sylvain Petinot <sylvain.petinot@foss.st.com>
-Subject: Re: [PATCH 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
- binding
-References: <20240417133453.17406-1-sylvain.petinot@foss.st.com>
- <20240417133453.17406-2-sylvain.petinot@foss.st.com>
- <Zilvm98FNzWoGFL_@valkosipuli.retiisi.eu>
-Content-Language: en-US
-To: Sakari Ailus <sakari.ailus@iki.fi>
-CC: <benjamin.mugnier@foss.st.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-In-Reply-To: <Zilvm98FNzWoGFL_@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_05,2024-05-03_01,2023-05-22_02
 
-Hi Sakari,
+Em Fri, 3 May 2024 10:47:19 +0900
+Mark Brown <broonie@kernel.org> escreveu:
 
-Thanks for the review.
-
-On 4/24/2024 10:46 PM, Sakari Ailus wrote:
-> Hi Sylvain,
+> On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab wrote:
+> > Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:  
 > 
-> Thanks for the patch.
+> > > There are still time control associated with it, as audio and video
+> > > needs to be in sync. This is done by controlling the buffers size 
+> > > and could be fine-tuned by checking when the buffer transfer is done.  
 > 
-> On Wed, Apr 17, 2024 at 03:34:52PM +0200, Sylvain Petinot wrote:
->> Add devicetree bindings Documentation for ST VD56G3 & ST VD66GY camera
->> sensors. Update MAINTAINERS file.
->>
->> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
->> ---
->>  .../bindings/media/i2c/st,st-vd56g3.yaml      | 143 ++++++++++++++++++
->>  MAINTAINERS                                   |   9 ++
->>  2 files changed, 152 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->> new file mode 100644
->> index 000000000000..6792c02fea5c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->> @@ -0,0 +1,143 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +# Copyright (c) 2024 STMicroelectronics SA.
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/st,st-vd56g3.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: STMicroelectronics VD56G3 Global Shutter Image Sensor
->> +
->> +maintainers:
->> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
->> +
->> +description: |-
+> ...
 > 
->> +  The STMicroelectronics VD56G3 is a 1.5 M pixel global shutter image sensor
->> +  with an active array size of 1124 x 1364 (portrait orientation).
->> +  It is programmable through I2C, the address is fixed to 0x10.
->> +  The sensor output is available via CSI-2, which is configured as either 1 or
->> +  2 data lanes.
+> > Just complementing: on media, we do this per video buffer (or
+> > per half video buffer). A typical use case on cameras is to have
+> > buffers transferred 30 times per second, if the video was streamed 
+> > at 30 frames per second.   
 > 
-> The flow of the text could be improved by wrapping the text before 80
-> columns (not earlier). Most editors can do this.
+> IIRC some big use case for this hardware was transcoding so there was a
+> desire to just go at whatever rate the hardware could support as there
+> is no interactive user consuming the output as it is generated.
 
-Sure, will be fixed in V2.
+Indeed, codecs could be used to just do transcoding, but I would
+expect it to be a border use case. See, as the chipsets implementing 
+codecs are typically the ones used on mobiles, I would expect that
+the major use cases to be to watch audio and video and to participate
+on audio/video conferences.
 
+Going further, the codec API may end supporting not only transcoding
+(which is something that CPU can usually handle without too much
+processing) but also audio processing that may require more 
+complex algorithms - even deep learning ones - like background noise
+removal, echo detection/removal, volume auto-gain, audio enhancement
+and such.
+
+On other words, the typical use cases will either have input
+or output being a physical hardware (microphone or speaker).
+
+> > I would assume that, on an audio/video stream, the audio data
+> > transfer will be programmed to also happen on a regular interval.  
 > 
->> +  The sensor provides 8 GPIOS that can be used for either
->> +    - frame synchronization (Master: out-sync or Slave: in-sync)
->> +    - external LED signal (synchronized with sensor integration periods)
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - st,st-vd56g3
->> +      - st,st-vd66gy
->> +    description:
->> +      Two variants are availables; VD56G3 is a monochrome sensor while VD66GY
->> +      is a colour variant.
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  VCORE-supply:
->> +    description: Digital core power supply (1.15V)
->> +
->> +  VDDIO-supply:
->> +    description: Digital IO power supply (1.8V)
->> +
->> +  VANA-supply:
->> +    description: Analog power supply (2.8V)
->> +
->> +  reset-gpios:
->> +    description: Sensor reset active low GPIO (XSHUTDOWN)
->> +    maxItems: 1
->> +
->> +  st,leds:
->> +    description:
->> +      Sensor's GPIOs used for external LED control.
->> +      Signal being the enveloppe of the integration time.
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    minItems: 1
->> +    maxItems: 8
->> +    items:
->> +      minimum: 0
->> +      maximum: 7
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/$defs/port-base
->> +
->> +    properties:
->> +      endpoint:
->> +        $ref: /schemas/media/video-interfaces.yaml#
->> +        unevaluatedProperties: false
->> +
->> +        properties:
->> +          clock-lanes:
->> +            const: 0
-> 
-> If the clock lane is always zero, you can drop the property.
-
-I added it to be consistent with the data-lanes that can be
-reordered/swapped. But yes, it serves nothing.
-
-Does it make sense to keep the corresponding dev_err() message in the
-driver ?
-
-> 
->> +
->> +          data-lanes:
->> +            minItems: 1
->> +            maxItems: 2
->> +            items:
->> +              enum: [1, 2]
->> +
->> +          link-frequencies:
->> +            minItems: 1
->> +            maxItems: 1
->> +            items:
->> +              enum: [402000000, 750000000]
-> 
-> Is this a property of the sensor or the driver? Presumably the driver?
-> 
-> What about the input clock frequency?
-
-Here are the HW constraints :
-
-- Input clock must be in [6Mhz-27Mhz]
-- By design, Pll Clock must target 804Mhz : the driver set some
-prediv/mult to achieve this
-- Then the MIPI frequency can be configured in the range [125Mhz-750Mhz]
-
-That being said, the common usage (and what is implemented in the
-driver) is :
-- 1 data lane -> MIPI freq = 750Mhz
-- 2 data lanes -> MIPI freq = 402Mhz
-
-> 
->> +
->> +          lane-polarities:
->> +            minItems: 1
->> +            maxItems: 3
->> +            items:
->> +              enum: [0, 1]
-> 
-> The items are already in video-interfaces.yaml.
-
-Ok, will be dropped for V2.
-
-> 
->> +            description: Any lane can be inverted or not.
->> +
->> +        required:
->> +          - clock-lanes
->> +          - data-lanes
->> +          - link-frequencies
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - VCORE-supply
->> +  - VDDIO-supply
->> +  - VANA-supply
->> +  - reset-gpios
->> +  - port
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        vd56g3: camera-sensor@10 {
->> +            compatible = "st,st-vd56g3";
->> +            reg = <0x10>;
->> +
->> +            clocks = <&camera_clk_12M>;
->> +
->> +            VCORE-supply = <&camera_vcore_v1v15>;
->> +            VDDIO-supply = <&camera_vddio_v1v8>;
->> +            VANA-supply = <&camera_vana_v2v8>;
->> +
->> +            reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
->> +            st,leds = <6>;
->> +
->> +            port {
->> +                vd56g3_ep: endpoint {
->> +                    clock-lanes = <0>;
->> +                    data-lanes = <1 2>;
->> +                    link-frequencies =
->> +                      /bits/ 64 <402000000>;
-> 
-> No need for a newline after "=".
-
-Thanks.
-
-> 
->> +                    remote-endpoint = <&csiphy0_ep>;
->> +                };
->> +            };
->> +        };
->> +    };
->> +...
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7c121493f43d..991e65627e18 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -20868,6 +20868,15 @@ S:	Maintained
->>  F:	Documentation/hwmon/stpddc60.rst
->>  F:	drivers/hwmon/pmbus/stpddc60.c
->>  
->> +ST VD56G3 DRIVER
->> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
->> +L:	linux-media@vger.kernel.org
->> +S:	Maintained
->> +T:	git git://linuxtv.org/media_tree.git
->> +F:	Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->> +F:	drivers/media/i2c/st-vd56g3.c
->> +
->>  ST VGXY61 DRIVER
->>  M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->>  M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
-> 
-
---
-Sylvain
+> With audio the API is very much "wake userspace every Xms".
 
