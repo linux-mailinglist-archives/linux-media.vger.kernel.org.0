@@ -1,123 +1,109 @@
-Return-Path: <linux-media+bounces-10654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10655-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E2F8BA510
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 03:47:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7FD8BA517
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 03:49:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A9291F2217D
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 01:47:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBFCD282355
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 01:49:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB011CA9;
-	Fri,  3 May 2024 01:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huJ8dvqB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A6E11CA9;
+	Fri,  3 May 2024 01:49:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33095125C9;
-	Fri,  3 May 2024 01:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D12FC11
+	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 01:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714700843; cv=none; b=G4Zn8Vc1dd8dwpZWmnQCfPotUXsOaKeoZTEJtOxrLjLrJkUx9XNILruxFdOXPw6/bBb80PGs3/hAkhaZlIfx+iP4Hc92GizjGdK58MaQzhHZ30MXbHZMuppxSAdIMEftwl74E5+mc4tCSHdIU8VAx/lDftZ/GmDKZWhp6XnWZzE=
+	t=1714700951; cv=none; b=i5BkKmj75k5+bTWi0BcDdwffp7cn4nRr98L8gQvE94SwatiGa0QzXbvXtixxfeXYZeLWENf7i5JFoW5auDxnj2XHN9nj11eygmz57zgqrO65mDxwS7Fjs9l4yZLHYv+wCFqqol09BZx5GKCLQcLvbseD8EW3/dQbu2sZbFt3yE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714700843; c=relaxed/simple;
-	bh=jnztmxuaRUJ/EUjiAcJ6LSXXmWw6auqF5LGM5XsjF8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXodj5zcdND99yW5yNsTCjvpTWtIijJ1o29wDKVDWSCPHZvq5y47zqnuI8PUBeKzZe5YyDhbepO3pYma6FmPTmEbKgQctZVOihdDOUDtaBXTRfkfmTOXBEDm5Z553UA6zRi6UwL6aZILpJycgSXYo4KORvEqReW6LTaIOAG1pKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huJ8dvqB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB22C113CC;
-	Fri,  3 May 2024 01:47:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714700842;
-	bh=jnztmxuaRUJ/EUjiAcJ6LSXXmWw6auqF5LGM5XsjF8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=huJ8dvqB+TN/5IgJ6rtnCXfVgXOlZfAdZYA/7vs7YuLO962TFb+avL/V+5+Rni204
-	 u9/f/fRre6WsTm1XAt3biIJ7MtrAkKMlIcdBiezfCUBrbLhc4GQOvDOFdoMrywy15G
-	 HVDUuTPVvWfCo/LWmMR/YAYd76bJuAAZMqubdIdTqLpUHdoyUTiJr/OhqWHi1DQwX/
-	 TTfuZAYA+OBxUo5XMadmDCz6i1lMZq0CwsUh/khAN9yCvtk9LCjCamRsZktG50n/EX
-	 TDY9n+egIwFoWC/EpRvSADEFoGvRx918hONbY9legxC9/dh+ROPGl1a4VHgQWky9Ab
-	 R0tQiZIJgiz0A==
-Date: Fri, 3 May 2024 10:47:19 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
-	sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
-Message-ID: <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
-References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
- <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
- <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
- <20240430172752.20ffcd56@sal.lan>
- <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
- <87sez0k661.wl-tiwai@suse.de>
- <20240502095956.0a8c5b26@sal.lan>
- <20240502102643.4ee7f6c2@sal.lan>
+	s=arc-20240116; t=1714700951; c=relaxed/simple;
+	bh=zpGyTWTcWmdceru9RMUfLkODEr3usu1mY0PZPOJS1NU=;
+	h=Date:From:To:Subject:Message-Id; b=Aj4gipP1vVYPpXZ9eQ7fvwrsNem3iOOVK5UwS5n38KY7GIqQyexZv3FzN8QKsdAiVsxSIcXZiJkDfw9xe5VKQBioki62MIaRmHLnhC90a1tK3u56Nn9vVE0wPQFpCNX4i+6cMiXfM3LAfAYVqqVqd0ipHlF/MdPs9W+I9Vmb16k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACD5C113CC
+	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 01:49:11 +0000 (UTC)
+Date: Fri, 03 May 2024 03:49:09 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240503014911.5ACD5C113CC@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YhSjxC/xCHptpvaf"
-Content-Disposition: inline
-In-Reply-To: <20240502102643.4ee7f6c2@sal.lan>
-X-Cookie: lisp, v.:
+
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Fri May  3 03:01:49 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	cbe499977bc36fedae89f0a0d7deb4ccde9798fe
+v4l-utils git hash:	dd049328e5282f478ba543a50dcb14618782abbb
+edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8639-gff1cc4d4
+sparse version:		v0.5.0-8639-gff1cc4d4
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1270d27441158dfce6beed9d2609cec2a46b933
+host hardware:		x86_64
+host os:		6.5.0-26-generic
+
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
+
+include/media/cec.h:296: warning: Function parameter or struct member 'is_claiming_log_addrs' not described in 'cec_adapter'
 
 
---YhSjxC/xCHptpvaf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+date:			Fri May  3 03:15:34 CEST 2024
+virtme-64: WARNINGS: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 5
 
-On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab wrote:
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+date:			Fri May  3 03:48:08 CEST 2024
 
-> > There are still time control associated with it, as audio and video
-> > needs to be in sync. This is done by controlling the buffers size=20
-> > and could be fine-tuned by checking when the buffer transfer is done.
+Detailed results are available here:
 
-=2E..
+https://hverkuil.home.xs4all.nl/logs/Friday.log
 
-> Just complementing: on media, we do this per video buffer (or
-> per half video buffer). A typical use case on cameras is to have
-> buffers transferred 30 times per second, if the video was streamed=20
-> at 30 frames per second.=20
+Detailed regression test results are available here:
 
-IIRC some big use case for this hardware was transcoding so there was a
-desire to just go at whatever rate the hardware could support as there
-is no interactive user consuming the output as it is generated.
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
 
-> I would assume that, on an audio/video stream, the audio data
-> transfer will be programmed to also happen on a regular interval.
+Full logs are available here:
 
-With audio the API is very much "wake userspace every Xms".
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
 
---YhSjxC/xCHptpvaf
-Content-Type: application/pgp-signature; name="signature.asc"
+The Media Infrastructure API from this daily build is here:
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY0QicACgkQJNaLcl1U
-h9DEDgf+OxkntU8LcfqnvW2Z51UqNQJ0p62Te/DmJ+wZWQotYcbwAQdb4fMKfeyw
-TU+Kka5bvWBtYfhoCnXFlDqQUh4Ldk7wZEWfHS2KCCM+o3mr/WHvxCRqSvy2geXZ
-+76U6qA5/RPQnAFUlNe9Kp4LK4LpvGg9KONljKpsIdFBEDvJG84wr+zLwDuboy4O
-rVP1hJQmucWST9qsBWFT+7VmJt9tbK2I3iwIB2Z3utiJvBFvyyj8bVMx5I1ssxfj
-Rh5yL+iQ+aEQkTwEBTzuAS055XYNxzl/eBa25iRWCgoYOrMiphGpWBDWp5qUoPiB
-SWVL9dU2q9I5o4Y+GNohSdEw9Rctfw==
-=OLs5
------END PGP SIGNATURE-----
-
---YhSjxC/xCHptpvaf--
+https://hverkuil.home.xs4all.nl/spec/index.html
 
