@@ -1,143 +1,202 @@
-Return-Path: <linux-media+bounces-10680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C078BABCC
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00718BABDC
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 13:51:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 451E92816EA
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 11:42:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28B1A2821BC
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 11:51:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B44152DE0;
-	Fri,  3 May 2024 11:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7126152DEE;
+	Fri,  3 May 2024 11:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jt9Fmets"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="q5X8z44V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3239515219D
-	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 11:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAEB152513;
+	Fri,  3 May 2024 11:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714736572; cv=none; b=PGPaJ7dqQNH9hFa+JC6UqmX+fVBEFMDPanE5mn8z7OUbxRxae/dtwrGyeVYZU8aWksUp2r8alJHEmfrdFxCn56h6Un+rEXdwTUXrr+M3PEngeS4u28ek6N378eGz8gmf1T5+oOXyTQibflMWCCyzGfa6LnlpurN72O0OfqMehiQ=
+	t=1714737076; cv=none; b=C7rn/+eROZaTDHHOZfg+Gx0PCshLdR2JPA1CULwY1oiZ1WK//bqCLWmXIdCdJ4WDwkPtz9bteZ8lE6+bvIgOSpgElyKCwE6d9sHGQwPA+8mCJjDfe+LzyuOuicCphIu17M4rMHxO7EQuwht/BC7bv+Spe4gAJuURjzhDJVxo5lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714736572; c=relaxed/simple;
-	bh=/wlb8TiqJK+x6as5LHo7tXicTp/D7BIbTNgcz0tBL7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jMZmX6hGprKG4Es29AoyvI9R7c+6O0v4me3BpI4eebIDzI6ipe5XGzBTRxSQdSQvoK/mzftPMR+Jwd+Zv5q+5Sw54J28B8Kk9x85sbRVz30Y8QL6KVIJXifDuBu6hRFgiEt0DS0LLy5H1+r7BEpGb3zMYLXEVuJfeomj5+jOLfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jt9Fmets; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6ee4dcc4567so2924209a34.3
-        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 04:42:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714736570; x=1715341370; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cawhOxgt5c+quQfk7K7byhyd32UGGEJDRxeJnf59vWI=;
-        b=jt9Fmets1rtuHIH4gzSQHf6Ly1fmMNS5JVtZupwgFqo4ojc+z2vRV3oWz9ljxDFNvF
-         q6yheu+cHid39MFDIISH34GONZ/wkyGQG6NCYplR8Gm85OtFlxR7QuJNBerzztab2pLZ
-         HE2bwjia7kI0zEwz3wQGFel+LWeJjRaFW1fdk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714736570; x=1715341370;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cawhOxgt5c+quQfk7K7byhyd32UGGEJDRxeJnf59vWI=;
-        b=ouLy8uSsw7p+Sp0Z+YLdnWW2MK5C0rmHKqfS4br5seE5UpDkDiu5dKubGdUTk7sQSR
-         GRQKfqAAw6TXTEycN35V98vAVpetGWqjnhF0VEB+S+PLfMINzmem9tl+RJKJwUM2lSoU
-         ohKEfN+bLyxDDxEVPd2aiQ6dWWSV4lzrBn0jE/kstQIxVohNN33hWzN34cLjXu2m/h5h
-         LM4FQE//jRtXisoeyUAzoYmN7F5et9IrYMiRXdUB1dRO/cD09WGPRABEycQInxxHbo+Y
-         XM0QcDTCLRJvBF02ph9nj8tbHVNSqtcaJTVfzs1QJ/Md6erFxwfhLOr662O20/ccQSYK
-         plNA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2yVW6ZPLOwAYfEGhrFJhfnKbuXbSc9dqwmYJofd7Rv5cc3AwLgKiKyrpaXezIXZ68SU1Sga8Gj5qosWp4yhGPI2E7pFzS+jErgik=
-X-Gm-Message-State: AOJu0YxBZNZCGsBrmlLaSMZfVvsW8zECxJXqujavvaDeKd1HSTzSa3IA
-	ZZmKXTHjc9EXDr7nG/bEvIXZBJxv3m0rnopQzfkPenYkIp+2H9HnaWiQ4YFfM1YgsHyxBk2wcp5
-	6fg==
-X-Google-Smtp-Source: AGHT+IEUfhAIqrvTP64WKq/fTwrrOx8wkFnGWBtipj4fnd1KvyikhOC5bl45VSHctebZPdk7mJZNXA==
-X-Received: by 2002:a9d:6d0b:0:b0:6eb:d847:ff8a with SMTP id o11-20020a9d6d0b000000b006ebd847ff8amr2819294otp.9.1714736570152;
-        Fri, 03 May 2024 04:42:50 -0700 (PDT)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com. [209.85.167.175])
-        by smtp.gmail.com with ESMTPSA id bb9-20020a056830470900b006ee512d78f2sm588306otb.26.2024.05.03.04.42.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 04:42:49 -0700 (PDT)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3c868e82bf8so2749486b6e.0
-        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 04:42:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW7zsE/Pun13oDsQdYAzghABECL/7P4GofWlFl1hQv6I6bRYVQm+ARq6a/GuHDSr7bA/JtpbbXnL72WfjQBUiNdtkbuuL5GxcS8v4k=
-X-Received: by 2002:a05:6808:9aa:b0:3c7:2030:9820 with SMTP id
- e10-20020a05680809aa00b003c720309820mr2335714oig.33.1714736568411; Fri, 03
- May 2024 04:42:48 -0700 (PDT)
+	s=arc-20240116; t=1714737076; c=relaxed/simple;
+	bh=gDDE1kJ1sy/xm240iGbzn9Y0oqO0rWxMrIv6iP84Hrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8gif76WgjnSd2ZPZ1qFEe2uyRGQHRKhIEavxSd9nDwfFQIVPGKhyKBhiXyrgJTMoUjdeb/FnzuG3XAWaVuu9GXW4ic8XJFbFdyPaNhQg9bAHto5UwzzmhBxciNasI4p0Quz8w4gS1EKov8j3IZn/HztZLu3CKp6DkhKXLDj5ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=q5X8z44V; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1714737065; bh=gDDE1kJ1sy/xm240iGbzn9Y0oqO0rWxMrIv6iP84Hrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q5X8z44VkMQw3UcKogA7wv8aZaP9vvuZFbG4woc2eHhzrsYp0MlgTdzNeOKjHv7eC
+	 VbCKVahuu5MJ/TMNGdvGAnS9G0nLI+JEigSauj8lVXcRofEOZ6ziwT16D4UsEHSLeK
+	 BTJ3yXpcEL5d33+F+/sHyBYc98oB+/eTIY0pD4PSa8K15fYnYswAnK5M6x/zF6lcRH
+	 TRX4jCMrOJB5agAGbHUypZ3Ie2qfXZJrrsLTTKFAhtLVYsT8PFJuAbYzKkZTZDSzej
+	 +Y97zeH6rWaU0AUhENG/tPGxsD1ZjHFAvH1LPmRs5zq912CEh5aMjuDD/ziAGhBs6k
+	 0lTMfRfWJCMvw==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id B3DB410005E; Fri,  3 May 2024 12:51:05 +0100 (BST)
+Date: Fri, 3 May 2024 12:51:05 +0100
+From: Sean Young <sean@mess.org>
+To: Zheng Yejian <zhengyejian1@huawei.com>
+Cc: mchehab@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: dvb-usb: Fix unexpected infinite loop in
+ dvb_usb_read_remote_control()
+Message-ID: <ZjTPqR3_EhbNU-fm@gofer.mess.org>
+References: <20240412135256.1546051-1-zhengyejian1@huawei.com>
+ <20240430104137.1014471-1-zhengyejian1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240503-fixdoc-v1-1-44d26e6f9dba@chromium.org> <60c08e6b-4a1b-408b-9317-3abe1346cdc5@xs4all.nl>
-In-Reply-To: <60c08e6b-4a1b-408b-9317-3abe1346cdc5@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 3 May 2024 13:42:34 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsN8yTMBmORrmLvKuMHdJ+Durj8gWV8HK7gGP=x0kqMiw@mail.gmail.com>
-Message-ID: <CANiDSCsN8yTMBmORrmLvKuMHdJ+Durj8gWV8HK7gGP=x0kqMiw@mail.gmail.com>
-Subject: Re: [PATCH] media: cec.h: Fix kerneldoc
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240430104137.1014471-1-zhengyejian1@huawei.com>
 
-On Fri, 3 May 2024 at 13:41, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 03/05/2024 13:33, Ricardo Ribalda wrote:
-> > is_claiming_log_addrs documentation was missing.
-> >
-> > fix this kernel-doc warning:
-> > include/media/cec.h:296: warning: Function parameter or struct member 'is_claiming_log_addrs' not described in 'cec_adapter'
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->
-> Hmm, that happens when you don't run your own patches through the build tests :-(
+On Tue, Apr 30, 2024 at 06:41:37PM +0800, Zheng Yejian wrote:
+> Infinite log printing occurs during fuzz test:
+> 
+>   rc rc1: DViCO FusionHDTV DVB-T USB (LGZ201) as ...
+>   ...
+>   dvb-usb: schedule remote query interval to 100 msecs.
+>   dvb-usb: DViCO FusionHDTV DVB-T USB (LGZ201) successfully initialized ...
+>   dvb-usb: bulk message failed: -22 (1/0)
+>   dvb-usb: bulk message failed: -22 (1/0)
+>   dvb-usb: bulk message failed: -22 (1/0)
+>   ...
+>   dvb-usb: bulk message failed: -22 (1/0)
+> 
+> Looking into the codes, there is a loop in dvb_usb_read_remote_control(),
+> that is in rc_core_dvb_usb_remote_init() create a work that will call
+> dvb_usb_read_remote_control(), and this work will reschedule itself at
+> 'rc_interval' intervals to recursively call dvb_usb_read_remote_control(),
+> see following code snippet:
+> 
+>   rc_core_dvb_usb_remote_init() {
+>     ...
+>     INIT_DELAYED_WORK(&d->rc_query_work, dvb_usb_read_remote_control);
+>     schedule_delayed_work(&d->rc_query_work,
+>                           msecs_to_jiffies(rc_interval));
+>     ...
+>   }
+> 
+>   dvb_usb_read_remote_control() {
+>     ...
+>     err = d->props.rc.core.rc_query(d);
+>     if (err)
+>       err(...)  // Did not return even if query failed
+>     schedule_delayed_work(&d->rc_query_work,
+>                           msecs_to_jiffies(rc_interval));
+>   }
+> 
+> When the infinite log printing occurs, the query callback
+> 'd->props.rc.core.rc_query' is cxusb_rc_query(). And the log is due to
+> the failure of finding a valid 'generic_bulk_ctrl_endpoint'
+> in usb_bulk_msg(), see following code snippet:
+> 
+>   cxusb_rc_query() {
+>     cxusb_ctrl_msg() {
+>       dvb_usb_generic_rw() {
+>         ret = usb_bulk_msg(d->udev, usb_sndbulkpipe(d->udev,
+>                            d->props.generic_bulk_ctrl_endpoint),...);
+>         if (ret)
+>           err("bulk message failed: %d (%d/%d)",ret,wlen,actlen);
+>           ...
+>       }
+>   ...
+>   }
+> 
+> By analyzing the corresponding USB descriptor, it shows that the
+> bNumEndpoints is 0 in its interface descriptor, but
+> the 'generic_bulk_ctrl_endpoint' is 1, that means user don't configure
+> a valid endpoint for 'generic_bulk_ctrl_endpoint', therefore this
+> 'invalid' USB device should be rejected before it calls into
+> dvb_usb_read_remote_control().
+> 
+> To fix it, we need to add endpoint check for 'generic_bulk_ctrl_endpoint'.
+> And as Sean suggested, the same check and clear halts should be done for
+> 'generic_bulk_ctrl_endpoint_response'. So introduce
+> dvb_usb_check_bulk_endpoint() to do it for both of them.
+> 
+> Fixes: 4d43e13f723e ("V4L/DVB (4643): Multi-input patch for DVB-USB device")
+> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
+> ---
+>  drivers/media/usb/dvb-usb/dvb-usb-init.c | 27 ++++++++++++++++++++----
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+> 
+> v2:
+>  - As Sean suggested, check endpoint and clear halt for both
+>    'generic_bulk_ctrl_endpoint' and 'generic_bulk_ctrl_endpoint_response'
+>    with the new introduced dvb_usb_check_bulk_endpoint();
+>    Link: https://lore.kernel.org/all/ZjCl97Ww6NrzJQCB@gofer.mess.org/
+>    Link: https://lore.kernel.org/all/ZjC7rXU7ViaH60_S@gofer.mess.org/
+> 
+>  - Add Fixes tag.
+> 
+> v1:
+>  - Link: https://lore.kernel.org/all/20240412135256.1546051-1-zhengyejian1@huawei.com/
+> 
+> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> index fbf58012becd..7eb321bab84f 100644
+> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> @@ -23,6 +23,23 @@ static int dvb_usb_force_pid_filter_usage;
+>  module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
+>  MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
+>  
+> +static int dvb_usb_check_bulk_endpoint(struct dvb_usb_device *d, u8 endpoint)
+> +{
+> +	if (endpoint) {
+> +		int ret;
+> +
+> +		ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+> +		if (ret)
+> +			return ret;
+> +		ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+> +		if (ret)
+> +			return ret;
+> +		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+> +		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+> +	}
+> +	return 0;
+> +}
+> +
+>  static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>  {
+>  	struct dvb_usb_adapter *adap;
+> @@ -103,10 +120,12 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>  	 * when reloading the driver w/o replugging the device
+>  	 * sometimes a timeout occurs, this helps
+>  	 */
+> -	if (d->props.generic_bulk_ctrl_endpoint != 0) {
+> -		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+> -		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+> -	}
+> +	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint);
+> +	if (ret)
+> +		goto frontend_init_err;
+> +	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint_response);
+> +	if (ret)
+> +		goto frontend_init_err;
+>  
+>  	return 0;
 
-There is an easy way to test your patches with gitlab. No need to
-install anything in your computer :P
+This results in the following warning:
 
->
-> Regards,
->
->         Hans
->
-> > ---
-> > https://gitlab.freedesktop.org/linux-media/media-staging/-/pipelines/1169148/test_report?job_name=doc
-> > ---
-> >  include/media/cec.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/media/cec.h b/include/media/cec.h
-> > index d3abe84c9c9e..d131514032f2 100644
-> > --- a/include/media/cec.h
-> > +++ b/include/media/cec.h
-> > @@ -187,6 +187,7 @@ struct cec_adap_ops {
-> >   *   in order to transmit or receive CEC messages. This is usually a HW
-> >   *   limitation.
-> >   * @is_enabled:              the CEC adapter is enabled
-> > + * @is_claiming_log_addrs:  true if cec_claim_log_addrs() is running
-> >   * @is_configuring:  the CEC adapter is configuring (i.e. claiming LAs)
-> >   * @must_reconfigure:        while configuring, the PA changed, so reclaim LAs
-> >   * @is_configured:   the CEC adapter is configured (i.e. has claimed LAs)
-> >
-> > ---
-> > base-commit: 1aa1329a67cc214c3b7bd2a14d1301a795760b07
-> > change-id: 20240503-fixdoc-d1380eb243cd
-> >
-> > Best regards,
->
+drivers/media/usb/dvb-usb/dvb-usb-init.c:133:9: warning: 'adap' may be used uninitialized [-Wmaybe-uninitialized]
+
+I think these tests should be moved to the top of the function, so no cleanup 
+is required.
 
 
--- 
-Ricardo Ribalda
+Sean
 
