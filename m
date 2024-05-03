@@ -1,214 +1,142 @@
-Return-Path: <linux-media+bounces-10721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F4D8BB308
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 20:26:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 477AA8BB372
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 20:49:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0A7428106E
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:26:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DACEE1F241D6
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 18:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C97D158872;
-	Fri,  3 May 2024 18:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9FC712F5B2;
+	Fri,  3 May 2024 18:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M9aS+qkc"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="Q+sjMUO8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE7B157E9B
-	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 18:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7407212F385
+	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 18:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714760795; cv=none; b=PjS0d2GWLuSXRLfddh8u9uzlWeY4DpLadUb5pMjPcgEy9RkbcVv7ZaQn98h329fD7nSzq9Gb8Mf0HI/Rw32i6soSZQ1OH2ErH8TyPJz0IqQrMbmOTTurUUAiH8sl05Ghk+2vqa0OgcsXVOdoQozk7nPFI22W5EiSkPbN7wgn6/0=
+	t=1714762156; cv=none; b=lXybv+K/J3o9wTnUY1qcH2hpjmpu4Rttv6azQOURFNJMuBk4o4eDr5f6XnHcUjJIE3ZmavdXpob6qAJfqgBUfgk0JzEB9gJo/Wz4O+HSqtTYIEbTGz3HW4fnry39hhKqIX6K+ymncw3oCQ4SwRjKI3y7Xt8/arl/979n6fv/Dzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714760795; c=relaxed/simple;
-	bh=Wuw0XjND+rfJBPzq21zocszfotHkDyVdJzVpWm3AfNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8TNv+04J0ZHoj2vkzl2RHGazEa7qgN5dsXTOhT/dLXsXasHFGfGbGAMtc5uvWmbQ8cyiBtLcBN6UFZ2vgPLj0+/Rlk9TsCugx5crzeDjLPU9UExPGyuSO+Dq382+so3K9Yrg5flZBiFuCHbKunmvenmm5Gt3A71p7yY/y2mfvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=M9aS+qkc; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f44e3fd382so17893b3a.1
-        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 11:26:33 -0700 (PDT)
+	s=arc-20240116; t=1714762156; c=relaxed/simple;
+	bh=lgWvD3PbcoJjHAvCMG758qd7evw4OjG5rRe4FiYHJto=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PPRQ1CF3h+GLfKN3mqSYQ6eNHq3IhGHZaMKDxH2vTrAYy9ypvKiqORgSSdhp6DPZsq1qU8XCKKlNdVSeTipKhYtafzxmgZYrJ0gEH0WkqLP2crfCoTad/fXHbY+Rfi/g5IHGFh+pTmox85sD509OCFQEZSWCkB488BPrPFj7+W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=Q+sjMUO8; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2b42ce569b8so15732a91.0
+        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 11:49:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714760793; x=1715365593; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jqBoL43PMGyCqFXn3ehXdH+uWie7AbSm2FUzxDYORqI=;
-        b=M9aS+qkcreF0Yq+Via4wsh9ECoELo5LsqMdjIkxYRdFFs3834dJmEBcqVBDy3YC9dA
-         9Cl0NMBRX/qO+kAXJw4gI8IGiM20H3aVk7DKvhzAnRHjyEBGDpz5RqbhVzuTUJ3emQAM
-         sTrp36RbAklquQmS/09Glw8lYjzH2a7p3P/Yc=
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714762154; x=1715366954; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R6sVd1TZfxbwE7hyL107cZLQAt+SkbJAdkmwm2tiV/I=;
+        b=Q+sjMUO8PZGIDVJ0sjVlnFmWGpW5R5dlmERHPvlPSEgdnsq3kfGv5jMIh8dKmX0s98
+         55l/T8RNk4BIBcXN1q6pKWw6uuYeXpBNbpujDJo0vAGYt5to/QPaEvJY+Pv7CqXPEvSk
+         H5aAdeV+RLRdkTgbzC/57IY46AMqXAIBqIdiYxjm+wgCAkpkOnbuJKGhbJO7MpX/ZqwA
+         KGET9W94fI79Ft8sVoxncNhFUB9S2Fpd+n9iiwwkviVamygQOE2wH34UjJiR/ffuxdQ7
+         lnxJaxwKdS6TrJYHcUk2OFbYTeSKff9lDRGexXPAofquyNDp/z7CHN3IrRXcTC0ybJC+
+         8jEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714760793; x=1715365593;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqBoL43PMGyCqFXn3ehXdH+uWie7AbSm2FUzxDYORqI=;
-        b=hdykj1mlVfGDlRhE3QISaAmOmtZAYkDS5coxHPZ+OWDVbBsKYJoJv9U7OiqDInPHzb
-         mZhlT0RAPaJ11t9tLBvVlhrGxglvZQYQG2OZ/zNzcw3Ir+ltofSvL0hDvVomVsFrDXpc
-         DPYmuZyGHivuM5qHgZFEtpmrttV22cgG6zw8CF/xE2xe1oCVZlOCg7vdhnxqAhScoBZH
-         iEIt6N6TLV0wfY/PohmdN/VqcSorhT+RRFs9+TOJPQ4CRdzLi/siogeTyc8F5m8KVW3Z
-         MTBI+I+o8/2Xiu96oW9xL6E9jPBPkTFCgQcKEbHJbAwD8BTW7GhxSu+a3oKDFLRvEVqy
-         e5LA==
-X-Forwarded-Encrypted: i=1; AJvYcCUydrSeUwLlvOLRssdr0wMY2HuHdh9uFU9AiWp1XaYwQg9QIikW/zBouZrYFWFnj+utqIZb8D05/Isg1WpZsVP3ETAT3NlUWh4E0sM=
-X-Gm-Message-State: AOJu0Yx7eBn2dJfQ5IXYR+1qT9/SoTT5u1mMUFntYthoRz4nwIkDGBay
-	SvY8W2eC3fuTqyloQuEIFjbOj9KD9OwD18UqCZucyvut4gTQleJxyjC+o4HWuw==
-X-Google-Smtp-Source: AGHT+IGWOc/11Q1zIvnXaqaqAVGNo4zxAI/bv3cFFxYSIO/ngCUn47liMIMHwFEFiX6Gt/zTa/ffcw==
-X-Received: by 2002:a05:6a00:3d06:b0:6e7:20a7:9fc0 with SMTP id lo6-20020a056a003d0600b006e720a79fc0mr3768000pfb.34.1714760793183;
-        Fri, 03 May 2024 11:26:33 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id gp9-20020a056a003b8900b006ea8cc9250bsm3361952pfb.44.2024.05.03.11.26.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 11:26:32 -0700 (PDT)
-Date: Fri, 3 May 2024 11:26:32 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Bui Quang Minh <minhquangbui99@gmail.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	axboe@kernel.dk, brauner@kernel.org, io-uring@vger.kernel.org,
-	jack@suse.cz, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-	viro@zeniv.linux.org.uk, Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
-Subject: get_file() unsafe under epoll (was Re: [syzbot] [fs?] [io-uring?]
- general protection fault in __ep_remove)
-Message-ID: <202405031110.6F47982593@keescook>
-References: <0000000000002d631f0615918f1e@google.com>
- <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+        d=1e100.net; s=20230601; t=1714762154; x=1715366954;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R6sVd1TZfxbwE7hyL107cZLQAt+SkbJAdkmwm2tiV/I=;
+        b=w7dNRs9eeyLSjapkbZcFlkP+SEmA0iV7kveOcMGrPUYHVtqihTzWN9KYMnMTZitp+R
+         v9xK+k1WXFNgewY+WfKZYNjL9LTkFseWxcReKQwSD9gxoyyhMUo05LR0rXq754gmZ7L9
+         OIxflph8ZFDpgatUCG/eJ/U8DVLIwalPsH+EKgq8TCBP4F1WgQxUxXkdvgffXZBlZTsM
+         YXbibwYgH51xXSzfMxSLDtyhON7AItaMY6/PlAQbtbYWpxeR33F/pMsnUYwhsNY452QD
+         T1ZNQasFJgI4DpIAgmPTLaj/hqZE7y7IE9H99rkag4oXW6HmtpWLGXM9yYjo3OsmtnzT
+         xdhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3jDuDlYBmQFYyvrmyaho4PyAM5qmB+awjNAm4MnlUxv6GIc7BmzVqflhNTzTpbllszAuAixUte2VGb5rJVb4NS3YQt/mocehPEEI=
+X-Gm-Message-State: AOJu0Yypemh8wjQEextKf78ZrVgV3l6+hR3Xrm9jfdcmKngkzqLeB+oj
+	rWULFGkUz4kGCsbYoJ2df0Olx2PzEs9zqXjsF8LIgVaBevp/HnwVPbVZ1LJWbkU=
+X-Google-Smtp-Source: AGHT+IG3+qjTWapc+Q+wN/PJnBYud4dggeONIpdmMvZWXIbQyfbY8nF72QViuq38TDN9fCmFOCrwSg==
+X-Received: by 2002:aa7:8617:0:b0:6ea:6f18:887a with SMTP id p23-20020aa78617000000b006ea6f18887amr3538580pfn.1.1714762153806;
+        Fri, 03 May 2024 11:49:13 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id b8-20020a056a000cc800b006f0ba75b6b7sm3374417pfv.208.2024.05.03.11.49.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 May 2024 11:49:13 -0700 (PDT)
+Message-ID: <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
+Date: Fri, 3 May 2024 12:49:11 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?] [io-uring?]
+ general protection fault in __ep_remove)
+To: Kees Cook <keescook@chromium.org>,
+ Bui Quang Minh <minhquangbui99@gmail.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
+Cc: syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+References: <0000000000002d631f0615918f1e@google.com>
+ <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+ <202405031110.6F47982593@keescook>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <202405031110.6F47982593@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 03, 2024 at 06:54:22PM +0700, Bui Quang Minh wrote:
-> [...]
-> Root cause:
-> AFAIK, eventpoll (epoll) does not increase the registered file's reference.
-> To ensure the safety, when the registered file is deallocated in __fput,
-> eventpoll_release is called to unregister the file from epoll. When calling
-> poll on epoll, epoll will loop through registered files and call vfs_poll on
-> these files. In the file's poll, file is guaranteed to be alive, however, as
-> epoll does not increase the registered file's reference, the file may be
-> dying
-> and it's not safe the get the file for later use. And dma_buf_poll violates
-> this. In the dma_buf_poll, it tries to get_file to use in the callback. This
-> leads to a race where the dmabuf->file can be fput twice.
+On 5/3/24 12:26 PM, Kees Cook wrote:
+> Thanks for doing this analysis! I suspect at least a start of a fix
+> would be this:
 > 
-> Here is the race occurs in the above proof-of-concept
-> 
-> close(dmabuf->file)
-> __fput_sync (f_count == 1, last ref)
-> f_count-- (f_count == 0 now)
-> __fput
->                                     epoll_wait
->                                     vfs_poll(dmabuf->file)
->                                     get_file(dmabuf->file)(f_count == 1)
-> eventpoll_release
-> dmabuf->file deallocation
->                                     fput(dmabuf->file) (f_count == 1)
->                                     f_count--
->                                     dmabuf->file deallocation
-> 
-> I am not familiar with the dma_buf so I don't know the proper fix for the
-> issue. About the rule that don't get the file for later use in poll callback
-> of
-> file, I wonder if it is there when only select/poll exist or just after
-> epoll
-> appears.
-> 
-> I hope the analysis helps us to fix the issue.
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 8fe5aa67b167..15e8f74ee0f2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -267,9 +267,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>  
+>  		if (events & EPOLLOUT) {
+>  			/* Paired with fput in dma_buf_poll_cb */
+> -			get_file(dmabuf->file);
+> -
+> -			if (!dma_buf_poll_add_cb(resv, true, dcb))
+> +			if (!atomic_long_inc_not_zero(&dmabuf->file) &&
+> +			    !dma_buf_poll_add_cb(resv, true, dcb))
+>  				/* No callback queued, wake up any other waiters */
 
-Thanks for doing this analysis! I suspect at least a start of a fix
-would be this:
+Don't think this is sane at all. I'm assuming you meant:
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..15e8f74ee0f2 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -267,9 +267,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 
- 		if (events & EPOLLOUT) {
- 			/* Paired with fput in dma_buf_poll_cb */
--			get_file(dmabuf->file);
--
--			if (!dma_buf_poll_add_cb(resv, true, dcb))
-+			if (!atomic_long_inc_not_zero(&dmabuf->file) &&
-+			    !dma_buf_poll_add_cb(resv, true, dcb))
- 				/* No callback queued, wake up any other waiters */
- 				dma_buf_poll_cb(NULL, &dcb->cb);
- 			else
-@@ -290,9 +289,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 
- 		if (events & EPOLLIN) {
- 			/* Paired with fput in dma_buf_poll_cb */
--			get_file(dmabuf->file);
--
--			if (!dma_buf_poll_add_cb(resv, false, dcb))
-+			if (!atomic_long_inc_not_zero(&dmabuf->file) &&
-+			    !dma_buf_poll_add_cb(resv, false, dcb))
- 				/* No callback queued, wake up any other waiters */
- 				dma_buf_poll_cb(NULL, &dcb->cb);
- 			else
+	atomic_long_inc_not_zero(&dmabuf->file->f_count);
 
+but won't fly as you're not under RCU in the first place. And what
+protects it from being long gone before you attempt this anyway? This is
+sane way to attempt to fix it, it's completely opposite of what sane ref
+handling should look like.
 
-But this ends up leaving "active" non-zero, and at close time it runs
-into:
+Not sure what the best fix is here, seems like dma-buf should hold an
+actual reference to the file upfront rather than just stash a pointer
+and then later _hope_ that it can just grab a reference. That seems
+pretty horrible, and the real source of the issue.
 
-        BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+> Due to this issue I've proposed fixing get_file() to detect pathological states:
+> https://lore.kernel.org/lkml/20240502222252.work.690-kees@kernel.org/
 
-But the bottom line is that get_file() is unsafe to use in some places,
-one of which appears to be in the poll handler. There are maybe some
-other fragile places too, like in drivers/gpu/drm/vmwgfx/ttm_object.c:
-
-static bool __must_check get_dma_buf_unless_doomed(struct dma_buf *dmabuf)
-{
-	return atomic_long_inc_not_zero(&dmabuf->file->f_count) != 0L;
-}
-
-Which I also note involves a dmabuf...
-
-Due to this issue I've proposed fixing get_file() to detect pathological states:
-https://lore.kernel.org/lkml/20240502222252.work.690-kees@kernel.org/
-
-But that has run into some push-back. I'm hoping that seeing this epoll
-example will help illustrate what needs fixing a little better.
-
-I think the best current proposal is to just WARN sooner instead of a
-full refcount_t implementation:
-
-
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 8dfd53b52744..e09107d0a3d6 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1040,7 +1040,8 @@ struct file_handle {
- 
- static inline struct file *get_file(struct file *f)
- {
--	atomic_long_inc(&f->f_count);
-+	long prior = atomic_long_fetch_inc_relaxed(&f->f_count);
-+	WARN_ONCE(!prior, "struct file::f_count incremented from zero; use-after-free condition present!\n");
- 	return f;
- }
- 
-
-
-What's the right way to deal with the dmabuf situation? (And I suspect
-it applies to get_dma_buf_unless_doomed() as well...)
-
--Kees
+I don't think this would catch this case, as the memory could just be
+garbage at this point.
 
 -- 
-Kees Cook
+Jens Axboe
+
 
