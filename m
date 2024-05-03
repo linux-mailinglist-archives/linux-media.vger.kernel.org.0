@@ -1,158 +1,123 @@
-Return-Path: <linux-media+bounces-10653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77838BA37F
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 00:53:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E2F8BA510
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 03:47:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 839652846B2
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2024 22:53:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A9291F2217D
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 01:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51CB01BC43;
-	Thu,  2 May 2024 22:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCBB011CA9;
+	Fri,  3 May 2024 01:47:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ojb7yWEc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huJ8dvqB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989581CD0C
-	for <linux-media@vger.kernel.org>; Thu,  2 May 2024 22:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33095125C9;
+	Fri,  3 May 2024 01:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714690408; cv=none; b=QUvJZ+8xev3oAXDqbYn89lwOeZZ3DzYlZ+bceH6W/X6LG85us+6Z+5Pw6EMbdpZWu/G5CRePddhQBboiVrSipwvd8JVWytAM9VdW/vypFBgcBwKY7+FXDjaaTVe7u2MdyvBIUWtxyQwZgrXZD8wFzHsn+BB6Em4CbHu6ZCwSxPY=
+	t=1714700843; cv=none; b=G4Zn8Vc1dd8dwpZWmnQCfPotUXsOaKeoZTEJtOxrLjLrJkUx9XNILruxFdOXPw6/bBb80PGs3/hAkhaZlIfx+iP4Hc92GizjGdK58MaQzhHZ30MXbHZMuppxSAdIMEftwl74E5+mc4tCSHdIU8VAx/lDftZ/GmDKZWhp6XnWZzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714690408; c=relaxed/simple;
-	bh=vQaWdrHoWyRI1hOnC7lHZNit3R4Hi6zoKH3syF9JJJQ=;
+	s=arc-20240116; t=1714700843; c=relaxed/simple;
+	bh=jnztmxuaRUJ/EUjiAcJ6LSXXmWw6auqF5LGM5XsjF8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JT3mrfvL1ncdeWpWebkYBC970itQBjNPSy78hKUdJvF13j8KGA6uAuUJvxnyNK3L/Kv/hd23yE5MRLSyUUt9bHGUOPPTrwhdJsxnr44/JL7cFVlGTtOsXmkwOhG++JcobEEiz4blN/TenGc/S/POyYvKF6NF8E5g8e4utVHPQlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ojb7yWEc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E52784CE;
-	Fri,  3 May 2024 00:52:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714690347;
-	bh=vQaWdrHoWyRI1hOnC7lHZNit3R4Hi6zoKH3syF9JJJQ=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=EXodj5zcdND99yW5yNsTCjvpTWtIijJ1o29wDKVDWSCPHZvq5y47zqnuI8PUBeKzZe5YyDhbepO3pYma6FmPTmEbKgQctZVOihdDOUDtaBXTRfkfmTOXBEDm5Z553UA6zRi6UwL6aZILpJycgSXYo4KORvEqReW6LTaIOAG1pKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huJ8dvqB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB22C113CC;
+	Fri,  3 May 2024 01:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714700842;
+	bh=jnztmxuaRUJ/EUjiAcJ6LSXXmWw6auqF5LGM5XsjF8A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ojb7yWEchtfbSApDNbGr9GN8mJs/usdPfVBlmi/D7Kj6JNeeCq9krorHS4eaU/mVE
-	 4jweDpahLKZ/Xxvx3XyXNzXTHxPgoC+rqU/9L0KqmQiHPhK6kjfdXriJ/z7vaKbug4
-	 9mRNbqSungKQYNWFUtHUwjQIp6OdLAYenCk2tp6k=
-Date: Fri, 3 May 2024 01:53:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [yavta PATCH 1/1] Print V4L2 fourcc code in format enumeration
-Message-ID: <20240502225318.GF4959@pendragon.ideasonboard.com>
-References: <20240425210815.1820591-1-sakari.ailus@linux.intel.com>
+	b=huJ8dvqB+TN/5IgJ6rtnCXfVgXOlZfAdZYA/7vs7YuLO962TFb+avL/V+5+Rni204
+	 u9/f/fRre6WsTm1XAt3biIJ7MtrAkKMlIcdBiezfCUBrbLhc4GQOvDOFdoMrywy15G
+	 HVDUuTPVvWfCo/LWmMR/YAYd76bJuAAZMqubdIdTqLpUHdoyUTiJr/OhqWHi1DQwX/
+	 TTfuZAYA+OBxUo5XMadmDCz6i1lMZq0CwsUh/khAN9yCvtk9LCjCamRsZktG50n/EX
+	 TDY9n+egIwFoWC/EpRvSADEFoGvRx918hONbY9legxC9/dh+ROPGl1a4VHgQWky9Ab
+	 R0tQiZIJgiz0A==
+Date: Fri, 3 May 2024 10:47:19 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
+	sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Message-ID: <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+ <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
+ <20240430172752.20ffcd56@sal.lan>
+ <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+ <87sez0k661.wl-tiwai@suse.de>
+ <20240502095956.0a8c5b26@sal.lan>
+ <20240502102643.4ee7f6c2@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YhSjxC/xCHptpvaf"
 Content-Disposition: inline
-In-Reply-To: <20240425210815.1820591-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240502102643.4ee7f6c2@sal.lan>
+X-Cookie: lisp, v.:
 
-Hi Sakari,
 
-Thank you for the patch.
+--YhSjxC/xCHptpvaf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 26, 2024 at 12:08:15AM +0300, Sakari Ailus wrote:
-> Also print the V4L2 fourcc code in format enumeration (--enum-formats).
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  yavta.c | 27 +++++++++++++++++++--------
->  1 file changed, 19 insertions(+), 8 deletions(-)
+On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab wrote:
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 
-This doesn't apply cleanly.
+> > There are still time control associated with it, as audio and video
+> > needs to be in sync. This is done by controlling the buffers size=20
+> > and could be fine-tuned by checking when the buffer transfer is done.
 
-> 
-> diff --git a/yavta.c b/yavta.c
-> index b2283aed09cb..2153e8b5775f 100644
-> --- a/yavta.c
-> +++ b/yavta.c
-> @@ -370,6 +370,18 @@ static struct v4l2_format_info {
->  	{ "GENERIC_CSI2_24", V4L2_META_FMT_GENERIC_CSI2_24, 1 },
->  };
->  
-> +void v4l2_format_fourcc(__u32 fourcc, char name[5])
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < 4; ++i) {
-> +		name[i] = fourcc & 0xff;
+=2E..
 
-While at it, could we handle non-printable characters better ?
+> Just complementing: on media, we do this per video buffer (or
+> per half video buffer). A typical use case on cameras is to have
+> buffers transferred 30 times per second, if the video was streamed=20
+> at 30 frames per second.=20
 
-> +		fourcc >>= 8;
-> +	}
-> +
-> +	name[4] = '\0';
-> +}
-> +
->  static void list_formats(void)
->  {
->  	unsigned int i;
-> @@ -412,18 +424,13 @@ static const char *v4l2_format_name(unsigned int fourcc)
->  {
->  	const struct v4l2_format_info *info;
->  	static char name[5];
-> -	unsigned int i;
->  
->  	info = v4l2_format_by_fourcc(fourcc);
->  	if (info)
->  		return info->name;
->  
-> -	for (i = 0; i < 4; ++i) {
-> -		name[i] = fourcc & 0xff;
-> -		fourcc >>= 8;
-> -	}
-> +	v4l2_format_fourcc(fourcc, name);
->  
-> -	name[4] = '\0';
->  	return name;
->  }
->  
-> @@ -1815,6 +1822,8 @@ static void video_enum_formats(struct device *dev, enum v4l2_buf_type type)
->  	int ret;
->  
->  	for (i = 0; ; ++i) {
-> +		char fourcc[5];
-> +
->  		memset(&fmt, 0, sizeof fmt);
->  		fmt.index = i;
->  		fmt.type = type;
-> @@ -1829,8 +1838,10 @@ static void video_enum_formats(struct device *dev, enum v4l2_buf_type type)
->  			printf("Warning: driver returned wrong format type "
->  				"%u.\n", fmt.type);
->  
-> -		printf("\tFormat %u: %s (%08x)\n", i,
-> -			v4l2_format_name(fmt.pixelformat), fmt.pixelformat);
-> +		v4l2_format_fourcc(fmt.pixelformat, fourcc);
-> +		printf("\tFormat %u: %s (%08x, \"%s\")\n", i,
-> +			v4l2_format_name(fmt.pixelformat), fmt.pixelformat,
-> +			fourcc);
+IIRC some big use case for this hardware was transcoding so there was a
+desire to just go at whatever rate the hardware could support as there
+is no interactive user consuming the output as it is generated.
 
-One could argue that it would be nice to extend this to all users of
-v4l2_format_fourcc(). I suppose that would be overkill.
+> I would assume that, on an audio/video stream, the audio data
+> transfer will be programmed to also happen on a regular interval.
 
-If the format is unknown to yavta you'll end up printing the same thing
-twice, but consistency in the format is probably better than avoiding
-the duplication. The patch looks OK to me, I'll apply it if you send me
-a version that applies :-)
+With audio the API is very much "wake userspace every Xms".
 
->  		printf("\tType: %s (%u)\n", v4l2_buf_type_name(fmt.type),
->  			fmt.type);
->  		printf("\tName: %.32s\n", fmt.description);
+--YhSjxC/xCHptpvaf
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Laurent Pinchart
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY0QicACgkQJNaLcl1U
+h9DEDgf+OxkntU8LcfqnvW2Z51UqNQJ0p62Te/DmJ+wZWQotYcbwAQdb4fMKfeyw
+TU+Kka5bvWBtYfhoCnXFlDqQUh4Ldk7wZEWfHS2KCCM+o3mr/WHvxCRqSvy2geXZ
++76U6qA5/RPQnAFUlNe9Kp4LK4LpvGg9KONljKpsIdFBEDvJG84wr+zLwDuboy4O
+rVP1hJQmucWST9qsBWFT+7VmJt9tbK2I3iwIB2Z3utiJvBFvyyj8bVMx5I1ssxfj
+Rh5yL+iQ+aEQkTwEBTzuAS055XYNxzl/eBa25iRWCgoYOrMiphGpWBDWp5qUoPiB
+SWVL9dU2q9I5o4Y+GNohSdEw9Rctfw==
+=OLs5
+-----END PGP SIGNATURE-----
+
+--YhSjxC/xCHptpvaf--
 
