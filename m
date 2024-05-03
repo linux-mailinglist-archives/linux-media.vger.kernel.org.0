@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-10690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10691-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEE68BB04E
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 17:52:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D72A8BB04F
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 17:52:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2C8B1F2132D
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:52:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A34B286A18
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFE0155342;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA10015535C;
 	Fri,  3 May 2024 15:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WKuGf5YC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="So8JAQvo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05016154C1D;
-	Fri,  3 May 2024 15:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1142155312;
+	Fri,  3 May 2024 15:51:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714751510; cv=none; b=j/scJF+zMUPDJ7jK/Z7s/lKdcmGeC9PIF4UnOEm0rts/UJVEkjTGHxjX4fmao4KnlcaWj+1fC9+hNVfrg+Oj/00dcn3B8RPxl+q/1wcwmBK6vqPYMhN3+AzByw7bJUbKfijX6z0WGC9/QmgJZ601BqlaoWTEsSC4hQoS3G8L5Dc=
+	t=1714751511; cv=none; b=ai8RQA67SxGZ88bE4EnnuGOPeojgYcM8zN2gnFlWBORxWFVQBmDWJ5rasoR5czKhqwqT0s7efW+3E9fYxKg3AvsWwQnMIileBXtWOqydzA2Vu2oowbUpjYlNYBuaL5hs7fbjDrKhCtZrWksp6Eg1c5j0None2OTdYlIGw/7mMVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714751510; c=relaxed/simple;
-	bh=IowQSQOGvTeSEKWL36pmZcYpbelb1fxaoyIK7e/pjlU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p7YCSNL+pmGMGTRwpu2c64Bsb5GksZCAYSgR/idHB8iEYrFidA6FbFV5kiPvkkSnBLWLncKvRlJS11uU2Ljms8j9AA409IwRGjr8SdCExUzK1qcKH/kX1L5IYbavg5J1H3G5OH2CXX3sXyhcBBI1zO9lUeCkaEKoc3Z+rDTt5Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WKuGf5YC; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1714751511; c=relaxed/simple;
+	bh=Ho878wuw/DukuUkY4lCGGSGjZ7Zs6iFx6Zht8O1shkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LYM25rdRfnXxjwle6MzWFx6UtwOxOf63Hd69t8BWyjJrDWjtBTeaRegzeaOUKUdt/Odkb7RSQEXQqINRGhLGFwcUbTiy7g7EZwTmw3yCeY+2slHuJ18A2e4BCrF1Ac4FkTtD9fOfnwCDRAbBp5eWSkMOEv0k3Oc/lcoc1PMmaiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=So8JAQvo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CB5DE45;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF8F7F8B;
 	Fri,  3 May 2024 17:50:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714751448;
-	bh=IowQSQOGvTeSEKWL36pmZcYpbelb1fxaoyIK7e/pjlU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WKuGf5YChz2/GLH1wFQGdzDo2YEzRfbZ9CnZWdF0C+XBDTaHXz3WS0XtKQ5zKkQAA
-	 XruGzBKBzZTevisuXhkULI3GMEmjagsnJgL8i8F4RFbunPntB23QjstEExwx96iF91
-	 beqiVBJRQlz2vfCDQw3rbLZMTt6PAae8F7XY+4nM=
+	s=mail; t=1714751449;
+	bh=Ho878wuw/DukuUkY4lCGGSGjZ7Zs6iFx6Zht8O1shkM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=So8JAQvovpUF7u6YhhyelYOcBTffXFhR4XGFZExeurErNHapRsPl/jeHOlPKOrfF4
+	 oOJNtSmPA7bPhk6zeHrPJNaSX1I+pJLPdMzXMimcaQ305emARt1+1vuKpsMBFM5XJ1
+	 YUqGzIlA9m2/1yAGcfM9PD2dD75gvPutOLiHpab4=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
@@ -49,10 +50,12 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 00/11] media: renesas: rcar-csi2: Use the subdev active state
-Date: Fri,  3 May 2024 17:51:15 +0200
-Message-ID: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+Subject: [PATCH 01/11] media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+Date: Fri,  3 May 2024 17:51:16 +0200
+Message-ID: <20240503155127.105235-2-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,59 +64,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As a follow-up to the recently sent
-"media: renesas: rcar-csi2: Support multiple streams" series, this smaller
-version collects some fixes and implement usage of the subdev active state
-to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
+The YUYV8_1X16 and UYVY8_1X16 formats are treated as 'ITU-R
+BT.601/BT.1358 16-bit YCbCr-422 input' (YUV16 - 0x5) in the R-Car VIN
+driver and are thus disallowed when capturing frames from the R-Car
+CSI-2 interface according to the hardware manual.
 
-Below the possibly more controversial points:
+As the 1X16 format variants are meant to be used with serial busses they
+have to be treated as 'YCbCr-422 8-bit data input' (0x1) when capturing
+from CSI-2, which is a valid setting for CSI-2.
 
-- R-Car CSI-2
+Commit 78b3f9d75a62 ("media: rcar-vin: Add check that input interface
+and format are valid") disallowed capturing YUV16 when using the CSI-2
+interface. Fix this by using YUV8_BT601 for YCbCr422 when CSI-2 is in
+use.
 
-There's a user-visible change here, as in the past it was possible to set
-format on all pads, and the vin-test scripts do that. In this version I decided
-to make the format configurable on the sink and propagate to sources. I'm not
-sure if this can be considered a user visible change and we need to maintain
-backward compatibility
+Fixes: 78b3f9d75a62 ("media: rcar-vin: Add check that input interface and format are valid")
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ .../media/platform/renesas/rcar-vin/rcar-dma.c   | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-- ADV748x
-
-Add a list of supported formats and validated them in s_fmt. The ADV748x driver
-configures the chip to automatically detect the output format based on what the
-front-end uses, so setting a format doesn't actually modify the output image
-formats. Regardless I presume making sure the format is actually supported is a
-good thing.
-
-- MAX9286
-
-The driver uses frame_interval = 0/0 to detect if automatic frame sync detection
-should be used. For this reason I initialized the frame interval of the active
-state to 0/0 which might sound weird.
-
-Tested with GMSL on Eagle V3M
-Tested with HDMI on Salvator-X
-
-Jacopo Mondi (11):
-  media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
-  media: rcar-csi2: Disable runtime_pm in probe error
-  media: rcar-csi2: Cleanup subdevice in remove()
-  media: rcar-csi2: Use the subdev active state
-  media: adv748x-csi2: Initialize subdev format
-  media: adv748x-csi2: Implement enum_mbus_codes
-  media: adv748x-csi2: Validate the image format
-  media: adv748x-csi2: Use the subdev active state
-  media: max9286: Fix enum_mbus_code
-  media: max9286: Use the subdev active state
-  media: max9286: Use frame interval from subdev state
-
- drivers/media/i2c/adv748x/adv748x-csi2.c      | 141 ++++++++-----
- drivers/media/i2c/adv748x/adv748x.h           |   1 -
- drivers/media/i2c/max9286.c                   | 185 +++++++-----------
- drivers/media/platform/renesas/rcar-csi2.c    | 141 +++++++------
- .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
- 5 files changed, 251 insertions(+), 233 deletions(-)
-
---
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index e2c40abc6d3d..21d5b2815e86 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -742,12 +742,22 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	 */
+ 	switch (vin->mbus_code) {
+ 	case MEDIA_BUS_FMT_YUYV8_1X16:
+-		/* BT.601/BT.1358 16bit YCbCr422 */
+-		vnmc |= VNMC_INF_YUV16;
++		if (vin->is_csi)
++			/* YCbCr422 8-bit */
++			vnmc |= VNMC_INF_YUV8_BT601;
++		else
++			/* BT.601/BT.1358 16bit YCbCr422 */
++			vnmc |= VNMC_INF_YUV16;
+ 		input_is_yuv = true;
+ 		break;
+ 	case MEDIA_BUS_FMT_UYVY8_1X16:
+-		vnmc |= VNMC_INF_YUV16 | VNMC_YCAL;
++		if (vin->is_csi)
++			/* YCbCr422 8-bit */
++			vnmc |= VNMC_INF_YUV8_BT601;
++		else
++			/* BT.601/BT.1358 16bit YCbCr422 */
++			vnmc |= VNMC_INF_YUV16;
++		vnmc |= VNMC_YCAL;
+ 		input_is_yuv = true;
+ 		break;
+ 	case MEDIA_BUS_FMT_UYVY8_2X8:
+-- 
 2.44.0
 
 
