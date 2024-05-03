@@ -1,169 +1,165 @@
-Return-Path: <linux-media+bounces-10687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E68BAE7F
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 16:09:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D458BAF60
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 17:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07A6F1F21792
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 14:09:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D27E284632
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 15:07:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B257154BF8;
-	Fri,  3 May 2024 14:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F3104B5AE;
+	Fri,  3 May 2024 15:07:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="mAarC0LY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="42RFbvBF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F44152184;
-	Fri,  3 May 2024 14:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1991148788;
+	Fri,  3 May 2024 15:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714745335; cv=none; b=kwYjWZfsb1Qr8tNkPaLn+5Ce/dVIp0oPZRiaHUtHTkF7lXQJ66oy4jUHJ2bS58FnCtE/uP9ZRImCddpmsViIzlUAmq5qW4NhnaN8fwQpK70ZNkdfrWR4x4Krr8JJEutd/YCTaZ3LsDND6AqupxsYCxbXsNvY3Hl9EdYsJdyC5b0=
+	t=1714748846; cv=none; b=IiVGU7q/Is1aw5Q/J5Ohhup6jnYtTDwiI+xR0YjdCb27VsDiFv5zIOebaKJ4lQ3hkRB1KmCbPn2oTJAujYCWgK7OhH5qAD1z3S81bQuAY0Zfs/rbWi6D18VHcnOUHZbpZU2D3cRLeaze0o5NXC8Mozh7XxMf8KkpPn+BNrN90BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714745335; c=relaxed/simple;
-	bh=+kPnKcYBQEaIz35grdcmnn1EGJxQ/kAtMsbVmsDrItw=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=j04s6tX3jVPT+YUacflG2Z+XvmrazAijJQc+Rgt/wq/YuXrB9sdfyzHgqv1nTYLufHgrkjhOt5imlYzQu/HmHN+QIteEMmPDp9OMcCx4uSxG1XZ3dDtuWLjPcKrhpdq8PQLbzf1Ev+ZEYZdVSvmXeLfMlpFsME5QIsTaNQmDaF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=mAarC0LY; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1714748846; c=relaxed/simple;
+	bh=n90ymFXYX/mPfwdlXeVC+RLGTkwM83bllw5REKRbAYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h8cb/1r6GDExCqFU6Q0YZdXmN15Mw3iV7+6JTu881Z22NL5TfWTK56CP1P0cq096jKXHSTVCd1KSP+z8FIicNSI8sk3UKmBm04oWwG13jsQcfZBUTAZLynhRh1q2MHHOdEeFJnYcP/jBAXu32s96x58Ne8euNcm0K0nnz+NbXFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=42RFbvBF; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714748843;
+	bh=n90ymFXYX/mPfwdlXeVC+RLGTkwM83bllw5REKRbAYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=42RFbvBFAwhCfVH7YzE1nz8tBDn7sHpGBECnfzeQ00h//pNKDSpkjCY8OX4wPsGsp
+	 bsmONm+55u5/VTgK4SVIThbiTUoRamfbLcEj3Deflm4X3LsQSfRMzaIbWvIMPSCWDi
+	 sflhY36Dgj5pgL+Zfx8CGu0yvHOIJpQiX3I1EDkJx39kYZKVdibuQgngZjV+Nus0YT
+	 vw83sJX3dEz6VLxnD90KDPCm/98TAaxujsxMNISIYSeo6ElykIeEnmqcuI6/CPrOwe
+	 ZUkJzN2TN+0cV9gWZC9sa5ciY6XXpFoBmqB/1t536HRx6GIElGnlmNMe6aITYAFfhw
+	 nKTIeP0Xghnpg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E79473782160;
+	Fri,  3 May 2024 15:07:22 +0000 (UTC)
+Date: Fri, 3 May 2024 17:07:21 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Ivan Bornyakov <brnkv.i1@gmail.com>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Wave515 decoder IP support
+Message-ID: <20240503150721.qd6d7csev5452rss@basti-XPS-13-9310>
+References: <20240415100726.19911-1-brnkv.i1@gmail.com>
+ <mwgydgjstvedkatdvopt3wh4imhnzflr7ut3vejgl6fz3vbgzg@x4spldwklrm3>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1714745331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3C+MgtjD5FFzr1H8ErTkKFFC7gX/7QwO2uuYNs38Akc=;
-	b=mAarC0LY0zCqC2ZrO6f/B0kd24XVsuHukHHUkTxv8x6uP89ukwITU0O3Ynvicd1D1E9pAe
-	IO3tmU10O6igCP8QZy19eeUc6Ld3IxJqvuNP1A5HBT6M5ThYS4BpN1w2gd1THv6O1jAK7/
-	ezGJ5lRjzzWduiC7DpEa6et6y5QamPHTjx/cHxFoa92YbVL3l6ufWF1RIr8LLxjgxMNHq8
-	xLmLl+oEm7sIthlsxDBs1Nx//ZO6J02vTNuOw0f8VgzJgXGDL/8MklHPqBILGlrXprDE9w
-	hibkEuHJ/OUQOHG1dbrTz8I/N/GLzP9y5rNue5qKcnd9Fy1V2tSamIAR/DWm+g==
-Date: Fri, 03 May 2024 16:08:48 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hugues Fruchet
- <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya
- Komatineni <skomatineni@nvidia.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans
- Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, Abylay Ospan
- <aospan@netup.ru>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry
- Osipenko <digetx@gmail.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Stanimir Varbanov
- <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
- of z explicit.
-In-Reply-To: <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
- <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
- <20240503112758.763d8d31@sal.lan>
- <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain>
- <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
-Message-ID: <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <mwgydgjstvedkatdvopt3wh4imhnzflr7ut3vejgl6fz3vbgzg@x4spldwklrm3>
 
-Hello Ricardo,
+Hey Ivan,
 
-On 2024-05-03 13:56, Ricardo Ribalda wrote:
-> I am trying to get the DS, but
-> https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf is a
-> dead links now.
-> 
-> Anyone have access to the datasheet?
+On 02.05.2024 09:40, Ivan Bornyakov wrote:
+>On Mon, Apr 15, 2024 at 01:07:18PM GMT, Ivan Bornyakov wrote:
+>> Initial support for Wave515 multi-decoder IP among other refinements.
+>> This was tested on FPGA prototype, so wave5_dt_ids[] was not expanded.
+>>
+>> fluster score for JCT-VC-HEVC_V1 testsuite with
+>> GStreamer-H.265-V4L2-Gst1.0 decoder is 132/147
+>>
+>> The issue with Main10 tests is that fluster expects decoded file to be
+>> in yuv420p10le format while this driver decodes HEVC Main10 into 8-bit
+>> yuv420p. Though result is looks alright to the naked eye, proper
+>> decoding into yuv420p10le is to be added.
+>>
+>> The rest failed fluster tests are common with Wave521.
+>>
+>> ChangeLog:
+>>   v1:
+>> https://lore.kernel.org/linux-media/20240318144225.30835-1-brnkv.i1@gmail.com/
+>>   v2:
+>> https://lore.kernel.org/linux-media/20240325064102.9278-1-brnkv.i1@gmail.com/
+>>     * drop patch "dt-bindings: media: cnm,wave521c: drop resets restriction"
+>>       The only user of Wave5 in mainline is TI K3 boards, thus there is
+>>       no real need to alter dt-bindings
+>>     * in patch "media: chips-media: wave5: support decoding HEVC Main10 profile"
+>>       add check for flag "support_hevc10bit_dec"
+>>     * in patch "media: chips-media: wave5: support reset lines" move
+>>       reset_control_deassert() out of else branch, add
+>>       reset_control_assert() to probe error path.
+>>     * rework patch "media: chips-media: wave5: drop "sram-size" DT prop"
+>>        - don't move alloc/free form device open/close
+>>        - intead of exact configuration of reserved SRAM memory in DT and
+>> 	 allocating all of it, allocate all available SRAM memory up to
+>> 	 WAVE5_MAX_SRAM_SIZE from whatever pool provided.
+>>     * adjust patch "media: chips-media: wave5: support Wave515 decoder"
+>>       according to changes in patches
+>>       "media: chips-media: wave5: support decoding HEVC Main10 profile" and
+>>       "media: chips-media: wave5: drop "sram-size" DT prop"
+>>   v3:
+>> https://lore.kernel.org/linux-media/20240405164112.24571-1-brnkv.i1@gmail.com/
+>>     * reword patch "media: chips-media: wave5: separate irq setup routine"
+>>       a bit.
+>>     * in patch "media: chips-media: wave5: drop "sram-size" DT prop"
+>>        - move MAX_SRAM_SIZE define into match_data->sram_size
+>>        - add placeholders for validation that allocated SRAM memory is
+>> 	 enough to encode/decode bitstream of given resolution before
+>> 	 setting W5_USE_SEC_AXI and W5_CMD_ENC_PIC_USE_SEC_AXI registers
+>>        - reword accordingly
+>>     * in patch "media: chips-media: wave5: support Wave515 decoder"
+>>        - add comments around SRAM memory allocation/freeing about
+>> 	 Wave515 specifics
+>>        - add comments about BSOPTION_RD_PTR_VALID_FLAG bit in
+>> 	 W5_BS_OPTION register
+>>        - add W[AVE]521_ prefix to defines, for wich there are W[AVE]515_
+>> 	 alternatieves
+>>        - add semi-magic Wave515 specific formulas to estimate SRAM usage
+>>   v4:
+>>     * rebase onto next-20240415, no functional changes
+>>
+>> Ivan Bornyakov (5):
+>>   media: chips-media: wave5: support decoding HEVC Main10 profile
+>>   media: chips-media: wave5: support reset lines
+>>   media: chips-media: wave5: separate irq setup routine
+>>   media: chips-media: wave5: drop "sram-size" DT prop
+>>   media: chips-media: wave5: support Wave515 decoder
+>>
+>>  .../platform/chips-media/wave5/wave5-helper.c |   8 +-
+>>  .../platform/chips-media/wave5/wave5-hw.c     | 395 +++++++++++++-----
+>>  .../chips-media/wave5/wave5-regdefine.h       |   5 +
+>>  .../platform/chips-media/wave5/wave5-vdi.c    |  27 +-
+>>  .../chips-media/wave5/wave5-vpu-dec.c         |  51 ++-
+>>  .../chips-media/wave5/wave5-vpu-enc.c         |   2 +-
+>>  .../platform/chips-media/wave5/wave5-vpu.c    |  35 +-
+>>  .../platform/chips-media/wave5/wave5-vpuapi.h |   3 +
+>>  .../chips-media/wave5/wave5-vpuconfig.h       |  16 +-
+>>  .../media/platform/chips-media/wave5/wave5.h  |   6 +
+>>  10 files changed, 407 insertions(+), 141 deletions(-)
+>>
+>> --
+>> 2.44.0
+>>
+>
+>Friendly ping.
 
-It's kind of available on the link below, but for some strange reason
-the download fails after downloading the first 128 KB or so.
+Sorry again for the delay, I was nearly finished with the patch set last
+week but the time wasn't sufficient. And I sadly have to delay it again
+a bit as I am on vacation until 13.05. I expect finishing it probably
+until 17.05.
 
-https://web.archive.org/web/20080907185532/https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf
-
-
-> On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.org> 
-> wrote:
->> 
->> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wrote:
->> > Em Mon, 29 Apr 2024 15:05:05 +0000
->> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
->> >
->> > > We do not expect the sample_freq to be over 613MHz.
->> > >
->> > > Found by cocci:
->> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
->> > >
->> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> > > ---
->> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
->> > >  1 file changed, 3 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
->> > > index 3e725cdcc66b..1886f733dbbf 100644
->> > > --- a/drivers/media/dvb-frontends/tda10048.c
->> > > +++ b/drivers/media/dvb-frontends/tda10048.c
->> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->> > >                          u32 bw)
->> > >  {
->> > >     struct tda10048_state *state = fe->demodulator_priv;
->> > > -   u64 t, z;
->> > > +   u32 z;
->> > > +   u64 t;
->> > >
->> > >     dprintk(1, "%s()\n", __func__);
->> > >
->> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
->> > >     /* t *= 2147483648 on 32bit platforms */
->> > >     t *= (2048 * 1024);
->> > >     t *= 1024;
->> > > +   /* Sample frequency is under 613MHz */
->> >
->> > Are you sure about that? Some DVB devices have very high frequency
->> > clocks, specially if they're also used for satellite, so I can't
->> > be sure by just looking at the driver's code.
->> >
->> > Also, we had already a bunch of regressions with "fixes" like this
->> > that actually broke frontend drivers.
->> 
->> This patch preserves the existing behavior. The sample_freq_hz 
->> variable
->> is a u32 so, in the original code, z couldn't have been more than
->> U32_MAX even though it was declared as a u64.
->> 
->> It's possible that the original code was wrong.  We have seen that in
->> other places in this patchset.  Adding a note about the datasheet is
->> also a good idea.
->> 
->> regards,
->> dan carpenter
->> 
+Regards,
+Sebastian
 
