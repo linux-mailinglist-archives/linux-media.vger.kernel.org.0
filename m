@@ -1,225 +1,189 @@
-Return-Path: <linux-media+bounces-10764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10765-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD6C8BBB5B
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 14:32:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B19028BBC60
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 16:19:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 419D3282C20
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 12:32:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82B15B21701
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 14:19:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C974F22616;
-	Sat,  4 May 2024 12:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7818E3BBC9;
+	Sat,  4 May 2024 14:18:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLZSvyuT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oc2a49Dv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B074A1C;
-	Sat,  4 May 2024 12:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BAC39FEB;
+	Sat,  4 May 2024 14:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714825875; cv=none; b=XxSEeLK3QtSYjOzFfzntBGc9sARMVFmAbEU1pvYhs2MbcYaVAsA4USZWyn5d3Zqt8ZXI9O0z17DfXx/8XbDe+N8daXcoebgP76WnEYC48L7QyusTWKkH88kFryNEGGTMf6CKNQt1GPNjPVmbnxGvJOms5lQPnYxBtj+iOy2YY2c=
+	t=1714832338; cv=none; b=DwvMrb0lWSJkgOlL1RnhKZF/fdBScvuuh7LxUzcFmfcwnddLZ4XFQ7tN29gR7CzUVxLVtsyFp6M+9DIDpXL20jfMyihHfmOH5T5WEmHbtekS6rtlZleDxOm9fqt2gC5p/hYxo644Sr4a8HPQZpKNvb/+6ykvDQJNaxG5Qpw3xW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714825875; c=relaxed/simple;
-	bh=j2dj0tqPrKQ7ksNOF6ysQOcNavYL4bmMIbXzrQp5+E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t/o9ZPkMTlpuXsASm7f2qxo78WY0JjtRR5LTX9L4yAAVJV2QGTXPMcV9QQPolx7rcnvDXhqeO1QGsi9WM3Hnrm02Tbk1tfxrE1yU302LtU37zaFooSPZgt/y4EXR5ye4VU1DLIqI7uim7er/sg+KRZzhzXnkcbpqJ3DoYy1ThU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLZSvyuT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEED4C072AA;
-	Sat,  4 May 2024 12:31:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714825874;
-	bh=j2dj0tqPrKQ7ksNOF6ysQOcNavYL4bmMIbXzrQp5+E4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cLZSvyuTS2g3ZZE1MYOdlHcrSvetKU821lU5Ni6ZRhLQ/plVXQ9eL0Ob6tVI2CxFF
-	 gnn0vgseE6rdPV4n2RMRDrcDAB8BRvi5qctOoy6AjkGgXW5ydFcdrHEXuvyBR7E44x
-	 n/EtC02ou+8juiruI48ASyh7cJhIhYNDHKHfZWq9XgKW/b1CVi/SjseFRkyF9hYfw+
-	 jauoMPAH/YQKXVQJqZ8J0giXJjx5xgwdzrQwKpNFCbN81L9u/wS56g0UmCG/XPATTD
-	 IoeACA5aKfW37xnvu9nbV5OErArtwFTlQaCrCAeZ3H8WkbeyLaW/6+3IOS4uoKwSkV
-	 VLAfUU6rJ1I/A==
-Date: Sat, 4 May 2024 13:31:09 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 413/437] media/rc: convert to read/write iterators
-Message-ID: <20240504133055.0ca70f7a@sal.lan>
-In-Reply-To: <20240411153126.16201-414-axboe@kernel.dk>
-References: <20240411153126.16201-1-axboe@kernel.dk>
-	<20240411153126.16201-414-axboe@kernel.dk>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1714832338; c=relaxed/simple;
+	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=szivVnzZ6f1pzVAPUv2OItJDKGjGHxGtanoKnuNlV/auFSkWQvJj72/Bg9lif6tJAp/Ll13MWSQaw2MLaZMEdTH6bgWhO+lSBMZpSXB7LHBD5C0Px9vuC/03iI+tjCRkyWgxttUjXdhFrEkGOBv65xNnyFQlxCPd1HFGFZ+uOXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oc2a49Dv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85A2D33D;
+	Sat,  4 May 2024 16:17:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714832273;
+	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oc2a49DvYCMivQW8QKuerCPDE3NB3M4O9gQMO9h7ew1S3EyQGPeuVqDZMxOQ0Rhx8
+	 noPhHVWfaI4WgcUwRiPdTUdxX6QxUwk259ygX79+BNPafprI95tRigE5Hftkcr53OA
+	 fLFvCGMtvo6Bbhyh2FDfgLBjJcV+gwxbyscJXnXg=
+Date: Sat, 4 May 2024 17:18:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Julien Massot <julien.massot@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
+Message-ID: <20240504141845.GC24548@pendragon.ideasonboard.com>
+References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
+ <20240502155626.GD15807@pendragon.ideasonboard.com>
+ <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
+ <20240502160830.GB11443@pendragon.ideasonboard.com>
+ <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
 
-Em Thu, 11 Apr 2024 09:19:13 -0600
-Jens Axboe <axboe@kernel.dk> escreveu:
-
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-
-Please add a patch description to media patches. Also, please
-c/c linux-media@vger.kernel.org, as otherwise patchwork.linuxtv.org
-won't track it, and such patches will be silently ignored[1].
-
-[1] I only got aware of this series due to https://lwn.net/Articles/972081/
-
-Regards,
-Mauro
-
-> ---
->  drivers/media/rc/imon.c     | 26 ++++++++++++--------------
->  drivers/media/rc/lirc_dev.c | 15 ++++++++-------
->  2 files changed, 20 insertions(+), 21 deletions(-)
+On Thu, May 02, 2024 at 04:24:04PM +0000, Sakari Ailus wrote:
+> On Thu, May 02, 2024 at 07:08:30PM +0300, Laurent Pinchart wrote:
+> > On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
+> > > On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
+> > > > > Many drivers has
+> > > > >   v4l2_async_nf_unregister(&notifier);
+> > > > >   v4l2_async_nf_cleanup(&notifier);
+> > > > > 
+> > > > > Introduce a helper function to call both functions in one line.
+> > > > 
+> > > > Does this really go in the right direction ? For other objects (video
+> > > > devices, media devices, ...), the unregistration should be done at
+> > > > .remove() time, and the cleanup at .release() time (the operation called
+> > > > when the last reference to the object is released). This is needed to
+> > > > ensure proper lifetime management of the objects, and avoid a
+> > > > use-after-free for objects that can be reached from userspace.
+> > > > 
+> > > > It could be argued that the notifier isn't exposed to userspace, but can
+> > > > we guarantee that no driver will have a need to access the notifier in a
+> > > > code path triggered by a userspace operation ? I think it would be safer
+> > > > to adopt the same split for the nofifier unregistration and cleanup. In
+> > > > my opinion using the same rule across different APIs also make it easier
+> > > > for driver authors and for reviewers to get it right.
+> > > > 
+> > > > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
+> > > > and .remove() time instead of .release(). That's because most drivers
+> > > > get lifetime management wrong and don't even implement .release().
+> > > > That's something Sakari is addressing with ongoing work. This patch
+> > > > series seems to go in the opposite direction.
+> > > 
+> > > This still avoids the driver authors feeling they need to implement wrapper
+> > > functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
+> > > this.
+> > > 
+> > > I don't see this getting in the way of adding use counts as the code will
+> > > need to be changed in any case.
+> > 
+> > Fixing the lifetime issues would essentially revert 2/2 and move the
+> > v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
+> > helper that forces the cleanup at .remove() time is a good idea, it
+> > gives a false sense of doing things right to drivers. This is the same
+> > reason why devm_kzalloc() is so harmful, it gave the wrong message, and
+> > created (or participated in) all those lifetime issues.
 > 
-> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-> index 5719dda6e0f0..cfcf8101164a 100644
-> --- a/drivers/media/rc/imon.c
-> +++ b/drivers/media/rc/imon.c
-> @@ -65,12 +65,10 @@ static int display_open(struct inode *inode, struct file *file);
->  static int display_close(struct inode *inode, struct file *file);
->  
->  /* VFD write operation */
-> -static ssize_t vfd_write(struct file *file, const char __user *buf,
-> -			 size_t n_bytes, loff_t *pos);
-> +static ssize_t vfd_write(struct kiocb *iocb, struct iov_iter *from);
->  
->  /* LCD file_operations override function prototypes */
-> -static ssize_t lcd_write(struct file *file, const char __user *buf,
-> -			 size_t n_bytes, loff_t *pos);
-> +static ssize_t lcd_write(struct kiocb *iocb, struct iov_iter *from);
->  
->  /*** G L O B A L S ***/
->  
-> @@ -179,7 +177,7 @@ struct imon_context {
->  static const struct file_operations vfd_fops = {
->  	.owner		= THIS_MODULE,
->  	.open		= display_open,
-> -	.write		= vfd_write,
-> +	.write_iter	= vfd_write,
->  	.release	= display_close,
->  	.llseek		= noop_llseek,
->  };
-> @@ -188,7 +186,7 @@ static const struct file_operations vfd_fops = {
->  static const struct file_operations lcd_fops = {
->  	.owner		= THIS_MODULE,
->  	.open		= display_open,
-> -	.write		= lcd_write,
-> +	.write_iter	= lcd_write,
->  	.release	= display_close,
->  	.llseek		= noop_llseek,
->  };
-> @@ -938,16 +936,16 @@ static const struct attribute_group imon_rf_attr_group = {
->   * than 32 bytes are provided spaces will be appended to
->   * generate a full screen.
->   */
-> -static ssize_t vfd_write(struct file *file, const char __user *buf,
-> -			 size_t n_bytes, loff_t *pos)
-> +static ssize_t vfd_write(struct kiocb *iocb, struct iov_iter *from)
->  {
->  	int i;
->  	int offset;
->  	int seq;
->  	int retval = 0;
-> -	struct imon_context *ictx = file->private_data;
-> +	struct imon_context *ictx = iocb->ki_filp->private_data;
->  	static const unsigned char vfd_packet6[] = {
->  		0x01, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF };
-> +	size_t n_bytes = iov_iter_count(from);
->  
->  	if (ictx->disconnected)
->  		return -ENODEV;
-> @@ -967,7 +965,7 @@ static ssize_t vfd_write(struct file *file, const char __user *buf,
->  		goto exit;
->  	}
->  
-> -	if (copy_from_user(ictx->tx.data_buf, buf, n_bytes)) {
-> +	if (!copy_from_iter_full(ictx->tx.data_buf, n_bytes, from)) {
->  		retval = -EFAULT;
->  		goto exit;
->  	}
-> @@ -1023,11 +1021,11 @@ static ssize_t vfd_write(struct file *file, const char __user *buf,
->   * display whatever diacritics you need, and so on), but it's also
->   * a lot more complicated than most LCDs...
->   */
-> -static ssize_t lcd_write(struct file *file, const char __user *buf,
-> -			 size_t n_bytes, loff_t *pos)
-> +static ssize_t lcd_write(struct kiocb *iocb, struct iov_iter *from)
->  {
->  	int retval = 0;
-> -	struct imon_context *ictx = file->private_data;
-> +	struct imon_context *ictx = iocb->ki_filp->private_data;
-> +	size_t n_bytes = iov_iter_count(from);
->  
->  	if (ictx->disconnected)
->  		return -ENODEV;
-> @@ -1047,7 +1045,7 @@ static ssize_t lcd_write(struct file *file, const char __user *buf,
->  		goto exit;
->  	}
->  
-> -	if (copy_from_user(ictx->usb_tx_buf, buf, 8)) {
-> +	if (!copy_from_iter_full(ictx->usb_tx_buf, 8, from)) {
->  		retval = -EFAULT;
->  		goto exit;
->  	}
-> diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-> index caad59f76793..e88ba11192ea 100644
-> --- a/drivers/media/rc/lirc_dev.c
-> +++ b/drivers/media/rc/lirc_dev.c
-> @@ -211,10 +211,10 @@ static int lirc_close(struct inode *inode, struct file *file)
->  	return 0;
->  }
->  
-> -static ssize_t lirc_transmit(struct file *file, const char __user *buf,
-> -			     size_t n, loff_t *ppos)
-> +static ssize_t lirc_transmit(struct kiocb *iocb, struct iov_iter *from)
->  {
-> -	struct lirc_fh *fh = file->private_data;
-> +	struct lirc_fh *fh = iocb->ki_filp->private_data;
-> +	size_t n = iov_iter_count(from);
->  	struct rc_dev *dev = fh->rc;
->  	unsigned int *txbuf;
->  	struct ir_raw_event *raw = NULL;
-> @@ -247,7 +247,7 @@ static ssize_t lirc_transmit(struct file *file, const char __user *buf,
->  			goto out_unlock;
->  		}
->  
-> -		if (copy_from_user(&scan, buf, sizeof(scan))) {
-> +		if (!copy_from_iter_full(&scan, sizeof(scan), from)) {
->  			ret = -EFAULT;
->  			goto out_unlock;
->  		}
-> @@ -309,7 +309,7 @@ static ssize_t lirc_transmit(struct file *file, const char __user *buf,
->  			goto out_unlock;
->  		}
->  
-> -		txbuf = memdup_user(buf, n);
-> +		txbuf = iterdup(from, n);
->  		if (IS_ERR(txbuf)) {
->  			ret = PTR_ERR(txbuf);
->  			goto out_unlock;
-> @@ -694,13 +694,14 @@ static ssize_t lirc_read(struct file *file, char __user *buffer, size_t length,
->  	else /* LIRC_MODE_SCANCODE */
->  		return lirc_read_scancode(file, buffer, length);
->  }
-> +FOPS_READ_ITER_HELPER(lirc_read);
->  
->  static const struct file_operations lirc_fops = {
->  	.owner		= THIS_MODULE,
-> -	.write		= lirc_transmit,
-> +	.write_iter	= lirc_transmit,
->  	.unlocked_ioctl	= lirc_ioctl,
->  	.compat_ioctl	= compat_ptr_ioctl,
-> -	.read		= lirc_read,
-> +	.read_iter	= lirc_read_iter,
->  	.poll		= lirc_poll,
->  	.open		= lirc_open,
->  	.release	= lirc_close,
+> I still prefer having devm_*alloc() functions than having the drivers open
+> coding the same -- with the same result. The frameworks won't enable doing
+> this right at the moment and I don't think drivers (or us!) should be
+> penalised for that.
+
+I don't really see where the penalty is. What's the urgency to switch
+from calling v4l2_async_nf_unregister() and v4l2_async_nf_cleanup() to a
+helper that we know goes in the wrong direction ?
+
+> The driver authors will only change what they do, with
+> these patches or without, when told so. But we don't really have an
+> alternative today.
+
+There's already a .release() callback that can be used, and some drivers
+use it.
+
+> A similar situation exists with clk_unprepare() and clk_disable().
+
+-- 
+Regards,
+
+Laurent Pinchart
 
