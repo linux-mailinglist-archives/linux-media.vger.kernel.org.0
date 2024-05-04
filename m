@@ -1,189 +1,174 @@
-Return-Path: <linux-media+bounces-10765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19028BBC60
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 16:19:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FD38BBCBB
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 17:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82B15B21701
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 14:19:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CDA89B215AE
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 15:32:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7818E3BBC9;
-	Sat,  4 May 2024 14:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A2C4502E;
+	Sat,  4 May 2024 15:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oc2a49Dv"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="f/fJiU4L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BAC39FEB;
-	Sat,  4 May 2024 14:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE523FE2A
+	for <linux-media@vger.kernel.org>; Sat,  4 May 2024 15:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714832338; cv=none; b=DwvMrb0lWSJkgOlL1RnhKZF/fdBScvuuh7LxUzcFmfcwnddLZ4XFQ7tN29gR7CzUVxLVtsyFp6M+9DIDpXL20jfMyihHfmOH5T5WEmHbtekS6rtlZleDxOm9fqt2gC5p/hYxo644Sr4a8HPQZpKNvb/+6ykvDQJNaxG5Qpw3xW8=
+	t=1714836748; cv=none; b=sHtb2MW35WAufaQzb45Rxd8Uo1TI0jYbZ+ettyVyll2VaGvQB3c4OpQmUoRn2ixMa8gUgTR5vmvC+YHFgjCIGjLFAeQs0CxLpx5lYrsAFbknhqWrFJyhvxGVPQDJ8an9671nAAKmruxKDFWGDHo5YjpGMPLIv8ywm4sBJ0PEPcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714832338; c=relaxed/simple;
-	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szivVnzZ6f1pzVAPUv2OItJDKGjGHxGtanoKnuNlV/auFSkWQvJj72/Bg9lif6tJAp/Ll13MWSQaw2MLaZMEdTH6bgWhO+lSBMZpSXB7LHBD5C0Px9vuC/03iI+tjCRkyWgxttUjXdhFrEkGOBv65xNnyFQlxCPd1HFGFZ+uOXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oc2a49Dv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85A2D33D;
-	Sat,  4 May 2024 16:17:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714832273;
-	bh=w6bn/4no8NMVEJqPP561BcxXipVz/9y/dItL/1UBPSY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oc2a49DvYCMivQW8QKuerCPDE3NB3M4O9gQMO9h7ew1S3EyQGPeuVqDZMxOQ0Rhx8
-	 noPhHVWfaI4WgcUwRiPdTUdxX6QxUwk259ygX79+BNPafprI95tRigE5Hftkcr53OA
-	 fLFvCGMtvo6Bbhyh2FDfgLBjJcV+gwxbyscJXnXg=
-Date: Sat, 4 May 2024 17:18:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Julien Massot <julien.massot@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Dan Scally <djrscally@gmail.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
-Message-ID: <20240504141845.GC24548@pendragon.ideasonboard.com>
-References: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
- <20240502155626.GD15807@pendragon.ideasonboard.com>
- <ZjO46Uo_tVcRTdA0@kekkonen.localdomain>
- <20240502160830.GB11443@pendragon.ideasonboard.com>
- <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
+	s=arc-20240116; t=1714836748; c=relaxed/simple;
+	bh=dmLzNSiqTCKSgtEtdi4RT/LW9OkahTnAY3Pn0EDC+4E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Cr/xBdaFU8BMaQjE+88261iRTjUE/vGQpctep7uSWuxkmu1CMSHvjAwQl8v/W/v9+U3Ov4+JnwqNHu6JXtkqmuufa6r/PugUHocBhy2Zx5PdvFrHmnPlljKZ2Qhr21Ch9eYPxZSg6BfXnOxRdp3C6455Ol3Hdyj/AvNFNercBpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=f/fJiU4L; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59b58fe083so31426566b.0
+        for <linux-media@vger.kernel.org>; Sat, 04 May 2024 08:32:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1714836744; x=1715441544; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BF+X0IVed+h7jlJZMJqRgUDnAGAy0IxXXOyqwBdkEc0=;
+        b=f/fJiU4LHyGtFV9UlcTICC2xvhZyDCOnV/Vg/WOk1CZ5uhcQWKlMvgV4f4kTCXyOQf
+         +tEGGQ/zAIjkNPJMJqfOPAjXaJ70kf/vgQ98zRoFH5swOwszOALS2IHCt2lm3wPzC9c2
+         aXvqbmkbnHCwpnjfddbYX5hW4Gz6nlabdy6Uw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714836744; x=1715441544;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BF+X0IVed+h7jlJZMJqRgUDnAGAy0IxXXOyqwBdkEc0=;
+        b=PkjnctNWKarBa9VIFiU6znxXJ+FJOdgnehWSxWe2lXBfuc+VBg3iklqtL+dE8HHAfx
+         muZRN6+MweLDjWk428qsWn3LupIW5z842iVuuFAB9JOaCwPT6sYN4RqUzvGbaQ3IZLaP
+         vO7umJpH7GebZx0lGbGhBJXCtdFmKlBs8DreRGWB37uLvjI9i6TTCvKw3TeG0GKmWFx7
+         zAMNanWhbCrk+XS9kxGqO6016obDe0UMOfcuCbdM+01OuPd3IgTLGsaEvvSWDlurPzQ4
+         9wSELh+Q5AzMKP8cVfEjRCdgZaJEU4T7nTKdOI3HQL20AazHQgQzA1Y2IeMwcJShRDlV
+         6prQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMovOvZUD0e4F+bJAY9J5E12bfcOBYhAOA+BdAWpKsmIZWMzN5Q3ZaMT2e3UODO+5OX+WQMTn7f7VQC1wGYNK3SgY+2CZnRZi9MUY=
+X-Gm-Message-State: AOJu0Yw+xvys5EZO2nk6/pDa++o13wV3i1V/RaU7uKhrNSpB11QJg6p9
+	eAEmrWtfWc0cYYg/ZCTW7G6tWw9+lwM+UG4iwB81fUA2qKL3hUHUnd/3tHiBDymbsv04wUsQ2UA
+	yKUqhiQ==
+X-Google-Smtp-Source: AGHT+IGkPB2c4OZfh3KtxGpWwE7/kQ73dh1Y8dkTMWtHBm1HlpgXQAXYvqSNb0Bfu/JJdXGK7EGyUQ==
+X-Received: by 2002:a17:906:b3a0:b0:a59:9b52:cfc3 with SMTP id uh32-20020a170906b3a000b00a599b52cfc3mr2169765ejc.29.1714836744544;
+        Sat, 04 May 2024 08:32:24 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id sa36-20020a1709076d2400b00a598524f8f8sm2433522ejc.12.2024.05.04.08.32.22
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 May 2024 08:32:23 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a59a8f0d941so104215866b.2
+        for <linux-media@vger.kernel.org>; Sat, 04 May 2024 08:32:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXxgm+rFeqPCwWsYgCFD4UQusvCxSINvy9TOBxvHsJPoOueUrioLQGRAAGlc86kxCi2LtGp2A2cH+Ykqph80Z2iQdaV5Cg/39uBRV4=
+X-Received: by 2002:a17:906:5fd5:b0:a59:9e55:748d with SMTP id
+ k21-20020a1709065fd500b00a599e55748dmr2287623ejv.35.1714836742417; Sat, 04
+ May 2024 08:32:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZjO-JDBdHXVLbz5H@kekkonen.localdomain>
+References: <202405031110.6F47982593@keescook> <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV> <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+In-Reply-To: <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 4 May 2024 08:32:05 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+Message-ID: <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+To: Christian Brauner <brauner@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk, 
+	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 02, 2024 at 04:24:04PM +0000, Sakari Ailus wrote:
-> On Thu, May 02, 2024 at 07:08:30PM +0300, Laurent Pinchart wrote:
-> > On Thu, May 02, 2024 at 04:01:45PM +0000, Sakari Ailus wrote:
-> > > On Thu, May 02, 2024 at 06:56:26PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, May 02, 2024 at 05:22:20PM +0200, Julien Massot wrote:
-> > > > > Many drivers has
-> > > > >   v4l2_async_nf_unregister(&notifier);
-> > > > >   v4l2_async_nf_cleanup(&notifier);
-> > > > > 
-> > > > > Introduce a helper function to call both functions in one line.
-> > > > 
-> > > > Does this really go in the right direction ? For other objects (video
-> > > > devices, media devices, ...), the unregistration should be done at
-> > > > .remove() time, and the cleanup at .release() time (the operation called
-> > > > when the last reference to the object is released). This is needed to
-> > > > ensure proper lifetime management of the objects, and avoid a
-> > > > use-after-free for objects that can be reached from userspace.
-> > > > 
-> > > > It could be argued that the notifier isn't exposed to userspace, but can
-> > > > we guarantee that no driver will have a need to access the notifier in a
-> > > > code path triggered by a userspace operation ? I think it would be safer
-> > > > to adopt the same split for the nofifier unregistration and cleanup. In
-> > > > my opinion using the same rule across different APIs also make it easier
-> > > > for driver authors and for reviewers to get it right.
-> > > > 
-> > > > As shown by your series, lots of drivers call v4l2_async_nf_cleanup()
-> > > > and .remove() time instead of .release(). That's because most drivers
-> > > > get lifetime management wrong and don't even implement .release().
-> > > > That's something Sakari is addressing with ongoing work. This patch
-> > > > series seems to go in the opposite direction.
-> > > 
-> > > This still avoids the driver authors feeling they need to implement wrapper
-> > > functions for v4l2_async_nf_{unregister,cleanup}. I'd be in favour merging
-> > > this.
-> > > 
-> > > I don't see this getting in the way of adding use counts as the code will
-> > > need to be changed in any case.
-> > 
-> > Fixing the lifetime issues would essentially revert 2/2 and move the
-> > v4l2_async_nf_cleanup() call to .remove(). I don't think providing a
-> > helper that forces the cleanup at .remove() time is a good idea, it
-> > gives a false sense of doing things right to drivers. This is the same
-> > reason why devm_kzalloc() is so harmful, it gave the wrong message, and
-> > created (or participated in) all those lifetime issues.
-> 
-> I still prefer having devm_*alloc() functions than having the drivers open
-> coding the same -- with the same result. The frameworks won't enable doing
-> this right at the moment and I don't think drivers (or us!) should be
-> penalised for that.
+On Sat, 4 May 2024 at 02:37, Christian Brauner <brauner@kernel.org> wrote:
+>
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -244,13 +244,18 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>         if (!dmabuf || !dmabuf->resv)
+>                 return EPOLLERR;
+>
+> +       if (!get_file_active(&dmabuf->file))
+> +               return EPOLLERR;
+[...]
 
-I don't really see where the penalty is. What's the urgency to switch
-from calling v4l2_async_nf_unregister() and v4l2_async_nf_cleanup() to a
-helper that we know goes in the wrong direction ?
+I *really* don't think anything that touches dma-buf.c can possibly be right.
 
-> The driver authors will only change what they do, with
-> these patches or without, when told so. But we don't really have an
-> alternative today.
+This is not a dma-buf.c bug.
 
-There's already a .release() callback that can be used, and some drivers
-use it.
+This is purely an epoll bug.
 
-> A similar situation exists with clk_unprepare() and clk_disable().
+Lookie here, the fundamental issue is that epoll can call '->poll()'
+on a file descriptor that is being closed concurrently.
 
--- 
-Regards,
+That means that *ANY* driver that relies on *any* data structure that
+is managed by the lifetime of the 'struct file' will have problems.
 
-Laurent Pinchart
+Look, here's sock_poll():
+
+    static __poll_t sock_poll(struct file *file, poll_table *wait)
+    {
+        struct socket *sock = file->private_data;
+
+and that first line looks about as innocent as it possibly can, right?
+
+Now, imagine that this is called from 'epoll' concurrently with the
+file being closed for the last time (but it just hasn't _quite_
+reached eventpoll_release() yet).
+
+Now, imagine that the kernel is built with preemption, and the epoll
+thread gets preempted _just_ before it loads 'file->private_data'.
+
+Furthermore, the machine is under heavy load, and it just stays off
+its CPU a long time.
+
+Now, during this TOTALLY INNOCENT sock_poll(), in another thread, the
+file closing completes, eventpoll_release() finishes, and the
+preemption of the poll() thing just takes so long that you go through
+an RCU period too, so that the actual file has been released too.
+
+So now that totally innoced file->private_data load in the poll() is
+probably going to get random data.
+
+Yes, the file is allocated as SLAB_TYPESAFE_BY_RCU, so it's probably
+still a file. Not guaranteed, even the slab will get fully free'd in
+some situations. And yes, the above case is impossible to hit in
+practice. You have to hit quite the small race window with an
+operation that practically never happens in the first place.
+
+But my point is that the fact that the problem with file->f_count
+lifetimes happens for that dmabuf driver is not the fault of the
+dmabuf code. Not at all.
+
+It is *ENTIRELY* a bug in epoll, and the dmabuf code is probably just
+easier to hit because it has a poll() function that does things that
+have longer lifetimes than most things, and interacts more directly
+with that f_count.
+
+So I really don't understand why Al thinks this is "dmabuf does bad
+things with f_count". It damn well does not. dma-buf is the GOOD GUY
+here. It's doing things *PROPERLY*. It's taking refcounts like it damn
+well should.
+
+The fact that it takes ref-counts on something that the epoll code has
+messed up is *NOT* its fault.
+
+                Linus
 
