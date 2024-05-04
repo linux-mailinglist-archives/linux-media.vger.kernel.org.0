@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-10770-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10771-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206D98BBD38
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 18:41:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DBA8BBD3B
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 18:42:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3CBC1F21C3F
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 16:41:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 410AC1C203BF
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 16:42:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB8085FB9A;
-	Sat,  4 May 2024 16:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7C45A4C0;
+	Sat,  4 May 2024 16:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WETNYmLI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AVFrVotn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972AB5A117;
-	Sat,  4 May 2024 16:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC27C59167;
+	Sat,  4 May 2024 16:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714840896; cv=none; b=Uk7vXYp/WrNxDh9833C7t7bQ2HJfE4xFxfujKDKMW26iqv0rZbBfvYI/3aXysG9K3uPqQGt87gQERULToIrQnoZFsvLTUeZTEIE4sL4qYvhIrNFIuTsNDgAuLjk6I6VJcluA6A/G9hfnmGup0gIAZknScT7+5FNTDbvJlqd589c=
+	t=1714840912; cv=none; b=jATVVXTPYaTeCoBmMzFYhTnogHyZFqGqK0nbwLLOlAAaOlkZ0g4Kv22OngaakEzId886EjqyMjLVOcU+Fr+a5uEjSTOBCCpPFHQWf0GyxztyS0vRa2dZGn3NswRw5c6aOYvmSrL50NtgzL+W3f1FWgpYoCzIxBSjZwHlZgaZviM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714840896; c=relaxed/simple;
-	bh=Inl5WKHIxnr/agO4EGvltrcdqiZnvrkdHhH77AFSLeE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DdzqETzQ2IQAPvXxqZG0aONWJsZa6vJvyTqYe16FPB1Kl0hkGtcFEREskyeHfJ7AZY1NMcBRifvonu1TIe56RG+85KgnZ+2be6WvuMfqn6ymLdbqogR0TF1lJF7/RSFlEw/HmPpWLmIjXGnONyEakDPxOdD06OLAosjM47nTzm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WETNYmLI; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1714840912; c=relaxed/simple;
+	bh=vIsSLGDNtUSIiU6tl1KOY8sKDArMa+47j5IPg6SrZSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gbl2kbPTjlfV7n+t499j8OZKy2efhp/SFk6mdLM3Unw0ovMPwmB3U/t7QnZ1lekHPoMQq4wRq+3svxbA8/lAuUYA4Yqh6eaRCoKOyyl5vRPDy/SieQMPfI6BqN6gPBmm3fo0/itHLuoH0zwTPjp4Ze83whAiShMSfWjBuYQ1kAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVFrVotn; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51f57713684so685575e87.1;
-        Sat, 04 May 2024 09:41:34 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51f60817e34so672412e87.2;
+        Sat, 04 May 2024 09:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714840893; x=1715445693; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XhON/OZV9ajp6V36scwsgItH6va4hYr4O9dtKBwyvm8=;
-        b=WETNYmLIrLPLF9yM+/vhKyou9LHcF6U1+914fcIeamw2sJr4gY8QDUAHdlMceRldgJ
-         urD3amLZ05m88RrzuR3g8wqPvfgDEnJzgs5jTwNSpZvqN2TqvNrc44ditvd75hf2g5Nk
-         vdLU7RNKrLhzvK3/Gn/YEf2hl8znK5NfsRZwIWcjoTFzD6H8fRQNP/m33Bao4OKOYGHQ
-         o+QqYtaJ9+RNC0C0wrM93zSiOyh+y3wBlTw+CZ5D119hd5N9lM1D5Hol33FvSTGeZPMb
-         6O7juUZU1egID9KuwH8Uc2RLd9/RC/OpyNWuB/gNf5g0V8SAWv6iDs0MVqWxsaAMCP7k
-         94xQ==
+        d=gmail.com; s=20230601; t=1714840909; x=1715445709; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U5JGI2+oNzQGJrEAe98nuh6vyQ6RUCgO7wKW8s1KZo0=;
+        b=AVFrVotnqz+slXnpUbjakJeM9NETfgD5d6sEyplDQlYdAnqKtRxMDaQ1TlTagNroys
+         DiatoRpmftqYCzMsY8leIO7LQPKKKN+nxAHoWh+aG71I2BmyAYRLBygoy1mCk+pGgEth
+         YTXF1wHk4rgWjTGF8707T+S8y89KXzoZNh1KDfka7N7ELp9hUTgRK5qxE3MiCd4obV8f
+         3THL6A/gS+RL2BFOn8R1OSUfhhrzokkQ1jIR7uEnAkvGjmnHnyR6DMQvX3cR+EZP5+Qd
+         qylUr0XP9k9DJAhLNgoQLv4dgs4Xu3FNN3eYUNF6WyY5Y1gy4jf2SC8rUaUsL/igWA/X
+         rA8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714840893; x=1715445693;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XhON/OZV9ajp6V36scwsgItH6va4hYr4O9dtKBwyvm8=;
-        b=OvxtL7zT8uer8ud+B/haeVNe1fv34/t6A95graaXtVCp1xXcfxJBDyiTa5ZL47A4kv
-         l/gfZJ6aRYq0Xk9rghQjAnj4aYyWKDliWV7SboxaUx5NuaKtQfjhHoDBitSmxu5qjq9w
-         43UdIDltMoi7qgORgW+lBTrPkZPQBRMXizpYP8rqsioG5cq7FkEtJw7WxAX/K5djb7pL
-         m9oPQ5N5c8PCfbYjPDNKuFafJl2XIA6AkjKQdhItei3EaBP+asae1o1ZNywuf7hCgurt
-         5jXCxZ+TMPnT/gtKNSETRZjpQjl8casYwXYHniba/7bVv+u4zFMlNZ/F4nYiIJZbfANE
-         Jf9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUZuV0fh83dHq2874cZ5lU4xw988vyotWdgWX9FaFmyvYaWHTL0P7pYvvvrWMUBhySHFRh6aeSlQ035KysB++oAJkjWqSgMyRSt60BdZPTJDnzgQJamW2Wf/+4dc6ho4T/A2PbmgTpCbD1HGKyZaGkD6/VSGtzx9lv1Lo7mqZGH6YBTy0Xa
-X-Gm-Message-State: AOJu0Yxx7rUIwNDhdFEENZ7rvLDActI+S7CyOJtpzoW8rLJ9KORthhTA
-	ba16my5+gXrDmqa6F7zNIj+vWeKNlMbWoxftedQHsZ6jfjHSfaeE
-X-Google-Smtp-Source: AGHT+IGst2dINXiWNLsPfxJ0NHhHC6dXqSLvnIfdVvPw0Xb0Tbzhz5xTUmnWbhenK4y+21Nfa5gMWQ==
-X-Received: by 2002:ac2:5b4d:0:b0:516:c766:5b4f with SMTP id i13-20020ac25b4d000000b00516c7665b4fmr4173223lfp.67.1714840892365;
-        Sat, 04 May 2024 09:41:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714840909; x=1715445709;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U5JGI2+oNzQGJrEAe98nuh6vyQ6RUCgO7wKW8s1KZo0=;
+        b=MEYhL9R+E0hJYozrBpO4fzRYhD34AD+qqebPRu6fZBpTq+RKkd3Uk+8PqjnjrnN1eX
+         /NDzlvX6D2Xzsnb0AVKkAE91ni2GTaVwzflONMj5Mt5aKlEUMOAebWzsgT4vXQViVCwS
+         F1w/JKxl0pKgno3ZcJJVRThud7Uuo2wqojN7qC/XLGK0oyev7zdHONzO85lxx4qbqZXR
+         z9rsAnHEbwFC/gMXq4Q74LgJJoAd3Z1E8FGoGhXqaDVAH5W2PSkonqJ5tiL2RgKpHXaP
+         wlYusfgSxwB2yZc73rSO6YXatI2vl3o2T+HEGjQlY0koHWCttRV3L/CkkwCLvv3AGdOW
+         IoBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUl4YzK+BrealDpDoEps5TkbL3ZHrMEnE8JRcqwHmhra2rxvtxFRS5R79uBPpHnIj7qkE/7+7VIaHa7dy91JihatFONKKLi4fhXlLYCmgaaLhsLX2rnT31/MQ3tgGqGvRJOEk6CLj6C12k9gBXOpQL7/mHUwtQ3RK7MWlHdJQ9kh9R3mk2J
+X-Gm-Message-State: AOJu0YwzfjfifCv8GGNShVhhUoUSgH0maG7iI4IjlU2V5lZPqLThE0D/
+	erMGmnmjXlS26sbEerFW/YF8ROjEWIen+mWHhFb2RQKLYN/3zICd
+X-Google-Smtp-Source: AGHT+IF4NeqLRiV0k4KXttJQyZ/HtosurhH6DC0m96+d6PU9bdkTdnn0Xb56WYP4sEj6kYlQeXCNLg==
+X-Received: by 2002:a05:6512:3146:b0:51d:7d5a:af05 with SMTP id s6-20020a056512314600b0051d7d5aaf05mr3520824lfi.32.1714840909060;
+        Sat, 04 May 2024 09:41:49 -0700 (PDT)
 Received: from localhost.localdomain ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id q14-20020ac246ee000000b0051d2075cacbsm938267lfo.82.2024.05.04.09.41.31
+        by smtp.gmail.com with ESMTPSA id q14-20020ac246ee000000b0051d2075cacbsm938267lfo.82.2024.05.04.09.41.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 09:41:32 -0700 (PDT)
+        Sat, 04 May 2024 09:41:48 -0700 (PDT)
 From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Alain Volmat <alain.volmat@foss.st.com>,
@@ -78,11 +80,14 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Cc: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>,
 	Pavel Machek <pavel@ucw.cz>,
 	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH v3 0/2] media: gc2145: add basic dvp bus support
-Date: Sat,  4 May 2024 19:41:13 +0300
-Message-ID: <20240504164115.64603-1-andrej.skvortzov@gmail.com>
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/2] dt-bindings: media: i2c: add galaxycore,gc2145 DVP bus support
+Date: Sat,  4 May 2024 19:41:14 +0300
+Message-ID: <20240504164115.64603-2-andrej.skvortzov@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240504164115.64603-1-andrej.skvortzov@gmail.com>
+References: <20240504164115.64603-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,33 +96,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tested on PinePhone with libcamera-based application GNOME screenshot (45.2).
+Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/media/i2c/galaxycore,gc2145.yaml | 65 ++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 1 deletion(-)
 
-Andrey Skvortsov (2):
-  dt-bindings: media: i2c: add galaxycore,gc2145 DVP bus support
-  media: gc2145: implement basic dvp bus support
-
-v3:
- - driver:
-  - fixed formatting
-  - added short commit description
-  - removed unused defines, except GC2145_SYNC_MODE_OPCLK_GATE
-
-v2:
- - bindings:
-   - add required bus-type property
-   - conditionally require link-frequency property based on bus-type
-   - add DVP properties with their default values
-
- - driver:
-  - fix fwnode parsing
-  - remove gc2145_is_csi2
-  - fix error message for unsupported bus-type
-
- .../bindings/media/i2c/galaxycore,gc2145.yaml |  65 +++++++++-
- drivers/media/i2c/gc2145.c                    | 112 ++++++++++++++----
- 2 files changed, 150 insertions(+), 27 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+index 1726ecca4c77..3ca5bb94502d 100644
+--- a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+@@ -61,8 +61,38 @@ properties:
+         properties:
+           link-frequencies: true
+ 
++          bus-type:
++            enum:
++              - 4 # CSI-2 D-PHY
++              - 5 # Parallel
++            default: 4
++
++          bus-width:
++            const: 8
++
++          hsync-active:
++            enum: [0, 1]
++            default: 1
++
++          vsync-active:
++            enum: [0, 1]
++            default: 1
++
++          pclk-sample:
++            enum: [0, 1]
++            default: 1
++
+         required:
+-          - link-frequencies
++          - bus-type
++
++        allOf:
++          - if:
++              properties:
++                bus-type:
++                  const: 4
++            then:
++              required:
++                - link-frequencies
+ 
+     required:
+       - endpoint
+@@ -84,6 +114,7 @@ additionalProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/media/video-interfaces.h>
+     #include <dt-bindings/gpio/gpio.h>
+ 
+     i2c {
+@@ -103,6 +134,7 @@ examples:
+             port {
+                 endpoint {
+                     remote-endpoint = <&mipid02_0>;
++                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+                     data-lanes = <1 2>;
+                     link-frequencies = /bits/ 64 <120000000 192000000 240000000>;
+                 };
+@@ -110,4 +142,35 @@ examples:
+         };
+     };
+ 
++  - |
++    #include <dt-bindings/media/video-interfaces.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@3c {
++            compatible = "galaxycore,gc2145";
++            reg = <0x3c>;
++            clocks = <&clk_ext_camera>;
++            iovdd-supply = <&scmi_v3v3_sw>;
++            avdd-supply = <&scmi_v3v3_sw>;
++            dvdd-supply = <&scmi_v3v3_sw>;
++            powerdown-gpios = <&mcp23017 3 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
++            reset-gpios = <&mcp23017 4 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&parallel_from_gc2145>;
++                    bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
++                    bus-width = <8>;
++                    hsync-active = <1>;
++                    vsync-active = <1>;
++                    pclk-sample = <1>;
++                };
++            };
++        };
++    };
++
+ ...
 -- 
 2.43.0
 
