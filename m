@@ -1,140 +1,109 @@
-Return-Path: <linux-media+bounces-10755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E4F8BB88B
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 01:55:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D0C8BB91B
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 03:47:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD980B21908
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2024 23:55:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0A1C1C220F4
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2024 01:47:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B34985267;
-	Fri,  3 May 2024 23:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZGjV9bOJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F5A290F;
+	Sat,  4 May 2024 01:47:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A467A2E65B
-	for <linux-media@vger.kernel.org>; Fri,  3 May 2024 23:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69F817F8
+	for <linux-media@vger.kernel.org>; Sat,  4 May 2024 01:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714780506; cv=none; b=gIKFH2UhYCwUEHFgOB8r/0DwkQ6Cj8DicOniBWFp13wBX9hUUf7x8ZUZVVE2xQnlSd4EawEbUXY+eq/tC9KhjCyQsmzYvn1T1D/4qVr9qOxp32liFT4ZdxOff773tPh4M76RF+uQJZlKWwxKCHf7b0Pvg1bOSTFj98Y2q99+ovg=
+	t=1714787265; cv=none; b=jidF58UJI6sb8TSoAC38Yi69wn69hZt7hKqXu1A79MClgkZc6vLFPQJbcn1HZb07pMKZc8ztnP9weTMqMbcR/trw0P3EVRqMAc3e5pk8LSVFgUdB5ma/jzeWTLGYXZoZTE+6h8R5ojH0/+xoNjLwDFvVoKkRjo8AzRWV1fT7dqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714780506; c=relaxed/simple;
-	bh=tf8gPRKnHuj1S8RN72oCYha0zRiI+Zqb52T37Eym2SU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W0NqODA3tS9RS8eIsy7/vRgcUS3hB6xulrCuduglM+4rOOjdmV0HJZ/LgOZfmMTYcNo0xKfNnNsrIWAZHLef7ljM17VZmmOUjxml7rtmjbozTkzofQGk/+cgAIh7y7W0M8hMDMxyKHKtRuOBXqS6fMAJyUENTmO3y46h3Df5vaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZGjV9bOJ; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a59a387fbc9so29682966b.1
-        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 16:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1714780503; x=1715385303; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxPhlO3npeMKaw71dXY38r1VkXmdKnYRPE7+RntnY6E=;
-        b=ZGjV9bOJtsx4vpIPOC+jl/xOHEhJ7ml4JgIzgS1AsIh9S5KtVKfqLKs5lLGdXsqdqf
-         rWkxV9dUaT0DUgXtI/DlRGk7Nc6D3XFWtZVWDF3oll1MHPi3o8BiJMn9wp/AQUXXjouJ
-         RyC5Ror5S88Byqw9QIUO/60WEA9J8Zz0r3ca4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714780503; x=1715385303;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NxPhlO3npeMKaw71dXY38r1VkXmdKnYRPE7+RntnY6E=;
-        b=Grondmhuz2vjprUaw9B4agDo/FJYnrgpn1AgNicTTq4ww9f4WgP5oZwm7dQa0eLIjc
-         a4O96O9BjQib2/aou2/eFCpU0E3K7YRk6XsPTyptk5OgVw+JlBWh0v2IQvsGEwEei8Tn
-         ZPiIQwra0GDHG8UKieXIDWToc7tUAjDhQRpXOG+oXOrBcmqVOuvKAMaJ35/C3arSrvkc
-         hCPbEVo82Cr2+Jo/StPKc4rs6tx9yRbzXiwHJknfpPnbSNzi1v993Q2CCalRS8QDbLIP
-         iyoatsKTCeh+ufCHy3D14ZujrAkBHc0Qe1iv/y6Q+Df8NhUY6fcb91GaULSoQCx9InaV
-         VonA==
-X-Forwarded-Encrypted: i=1; AJvYcCUtnQIp5n/lOHyg9x5P8QdzU1o3475XURYawtgpRTC8ysxsExD2/wuSNCw0vHkODKOP5sGzw5d4nzTvTcJ3gMcLyv7Njngy2HZYtiY=
-X-Gm-Message-State: AOJu0YxvskybLgLtnQR6YS9zEbgSHnc3DKv171yqpYBhSJHDalEQh82C
-	J1fwE7wGc2K8zsUrp2SU45cAoK3s5HpyI5iT/tXplAG60EHWwA6RWFe16w+WLhalnsBSq6nNanO
-	VYasgmQ==
-X-Google-Smtp-Source: AGHT+IGY2FHQNi3fgewh4xvsjzGp5cHhsixl9G9OQWRaK5eakZ9BGpE28CesBDLFgiEM1JmyfWpQig==
-X-Received: by 2002:a17:907:9511:b0:a59:9bf1:408b with SMTP id ew17-20020a170907951100b00a599bf1408bmr1284727ejc.16.1714780502770;
-        Fri, 03 May 2024 16:55:02 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id q6-20020a1709060e4600b00a5875dd74c2sm2287969eji.131.2024.05.03.16.55.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 16:55:02 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a51addddbd4so30370266b.0
-        for <linux-media@vger.kernel.org>; Fri, 03 May 2024 16:55:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVfHj6aHCQTQPLB1jnbKlXvdM9LXt2vg2a2xpJuGYxgygveGlBe6nE8V4pnj+kGXa99A71XgxhBZUuOD+EvXvPFBOFfMfJGBMWGIdk=
-X-Received: by 2002:a17:906:3e4e:b0:a59:a64c:9a26 with SMTP id
- t14-20020a1709063e4e00b00a59a64c9a26mr202788eji.23.1714780501707; Fri, 03 May
- 2024 16:55:01 -0700 (PDT)
+	s=arc-20240116; t=1714787265; c=relaxed/simple;
+	bh=9FJq3wYfEq4YZETWML5ij3pq/nN9qVBB2VT4v+2wC0g=;
+	h=Date:From:To:Subject:Message-Id; b=eDpHEzv8Gyj54RqNr9xHzyE//oxGjKGzK6Mj1j7v6SGMGpkKvRPuEjUYOksWv8op5qaoSZSSHO9Wiyz/OUJWNxBqPextsGjsx6f7tvHGYRX4OU8nfy9d5sGnr8w37wiNc9isSGF6mJXt2uvHx0qUjZL1BbgZprUDcwr/IpIIksg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBC5C116B1
+	for <linux-media@vger.kernel.org>; Sat,  4 May 2024 01:47:44 +0000 (UTC)
+Date: Sat, 04 May 2024 03:47:40 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240504014745.0DBC5C116B1@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook> <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV> <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240503214531.GB2118490@ZenIV> <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
- <20240503220145.GD2118490@ZenIV> <20240503220744.GE2118490@ZenIV>
- <CAHk-=whULchE1i5LA2Fa=ZndSAzPXGWh_e5+a=YV3qT1BEST7w@mail.gmail.com> <20240503233900.GG2118490@ZenIV>
-In-Reply-To: <20240503233900.GG2118490@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 3 May 2024 16:54:45 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjjjsm=f+ZJRe3dXebBQS8PzpYmHjAJnk-9-2FAj3-QoQ@mail.gmail.com>
-Message-ID: <CAHk-=wjjjsm=f+ZJRe3dXebBQS8PzpYmHjAJnk-9-2FAj3-QoQ@mail.gmail.com>
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: keescook@chromium.org, axboe@kernel.dk, brauner@kernel.org, 
-	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
-	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
-	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 3 May 2024 at 16:39, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> *IF* those files are on purely internal filesystem, that's probably
-> OK; do that with something on something mountable (char device,
-> sysfs file, etc.) and you have a problem with filesystem staying
-> busy.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Yeah, I agree, it's a bit annoying in general. That said, it's easy to
-do: stash a file descriptor in a unix domain socket, and that's
-basically exactly what you have: a random reference to a 'struct file'
-that will stay around for as long as you just keep that socket around,
-long after the "real" file descriptor has been closed, and entirely
-separately from it.
+Results of the daily build of media_tree:
 
-And yes, that's exactly why unix domain socket transfers have caused
-so many problems over the years, with both refcount overflows and
-nasty garbage collection issues.
+date:			Sat May  4 03:00:17 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	8a09bb1be67a54b1ab66272731faa0c04b9b675d
+v4l-utils git hash:	dd049328e5282f478ba543a50dcb14618782abbb
+edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8639-gff1cc4d4
+sparse version:		v0.5.0-8639-gff1cc4d4
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1270d27441158dfce6beed9d2609cec2a46b933
+host hardware:		x86_64
+host os:		6.5.0-26-generic
 
-So randomly taking references to file descriptors certainly isn't new.
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: WARNINGS:
 
-In fact, it's so common that I find the epoll pattern annoying, in
-that it does something special and *not* taking a ref - and it does
-that special thing to *other* ("innocent") file descriptors. Yes,
-dma-buf is a bit like those unix domain sockets in that it can keep
-random references alive for random times, but at least it does it just
-to its own file descriptors, not random other targets.
+include/media/cec.h:296: warning: Function parameter or struct member 'is_claiming_log_addrs' not described in 'cec_adapter'
 
-So the dmabuf thing is very much a "I'm a special file that describes
-a dma buffer", and shouldn't really affect anything outside of active
-dmabuf uses (which admittedly is a large portion of the GPU drivers,
-and has been expanding from there...). I
 
-So the reason I'm annoyed at epoll in this case is that I think epoll
-triggered the bug in some entirely innocent subsystem. dma-buf is
-doing something differently odd, yes, but at least it's odd in a "I'm
-a specialized thing" sense, not in some "I screw over others" sense.
+date:			Sat May  4 03:14:00 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 2
 
-             Linus
+date:			Sat May  4 03:46:41 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
