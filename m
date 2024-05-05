@@ -1,106 +1,113 @@
-Return-Path: <linux-media+bounces-10775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F6A8BBF08
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 03:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56888BBF1F
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 05:29:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1556B21203
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 01:48:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E309CB20B83
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 03:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C224EDB;
-	Sun,  5 May 2024 01:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7911860;
+	Sun,  5 May 2024 03:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nE5Me4Xl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FC117C2
-	for <linux-media@vger.kernel.org>; Sun,  5 May 2024 01:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C5117C2;
+	Sun,  5 May 2024 03:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714873677; cv=none; b=irVM2qWdadTdg1qTImjhEvvxlavsr+sg96YujRKD8FmaTzL6iTVL1C9MX1JggrtfZg8Xu+5OAJC3qXpFK22NSVwS+b8B2EWVNupMRRrK23LpRimnwvk2VXjSTr8kvzmt+nb77MSCQQnWHWOL0IxSR7CHhqBPGElSFAz1/Q27kag=
+	t=1714879782; cv=none; b=H7WIJZxLDN5OVrHJdzDCV0qD9/vl+JdIP3u0qnbnZLlP1E7fjGJbYJvuT+L2mfvUO1AfTYhHP7qbIrT5FpE6+NB41YDC/aUn3EYhiRe8YKD8rkqJJjGE9/f7ExX94CIWpQ0xMw72x5I2NuxrfkcGQiPFL1jAtYO3NgSdD0z9xKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714873677; c=relaxed/simple;
-	bh=/CtXkziblFxaeNVKOLD3aTyFGSoodUKVNi3L2XRfqOw=;
-	h=Date:From:To:Subject:Message-Id; b=gKQkSAMxprhU9P24af7e5mBFHcugZ/qkuzPej86B443ZGZ9JNARTmn/odpFftPi8/fzFPUL5eIIbg+LvC1xxMDyFynkgJgzjGLms2BbRIphpjspLRCyX28XFkEWkfAFXD2ocwl82qUtecw4mVlM5uBL+6dZw11Vy7BXvuws9VX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B965C072AA
-	for <linux-media@vger.kernel.org>; Sun,  5 May 2024 01:47:56 +0000 (UTC)
-Date: Sun, 05 May 2024 03:47:55 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240505014757.0B965C072AA@smtp.kernel.org>
+	s=arc-20240116; t=1714879782; c=relaxed/simple;
+	bh=4i0Oujjns/PW7PTcWJ+RumP3mTxmEGwuf9DHk12FuN0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nv3X2rXoYdofmZIFeR2S+X/JxNwoDmKS3XIms6xm7PH9vF50tWzosX1y+p4Oa2Hz3NrezArPMIMz0/BGGvYRvUHvx5yHaOk2cpS8u8YltansUaG2OWbR3rNbFBtunObpENqNczy3wsNrNWEWcPw570HzODvzQrGRWxPMf2R7pHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nE5Me4Xl; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-23d3d092a1bso340887fac.1;
+        Sat, 04 May 2024 20:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714879780; x=1715484580; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2YoXNPfWEXlDGV6z3+1F8Nm/sflOvF+RNEkcMkhPNqA=;
+        b=nE5Me4XlXJdW7nXSo8Net9fttaP5g3hU1HYSKAGfM0ZmJKfl1LsdY9CNIQwh+S5y5Y
+         6H+UXpn7tmpVokC4kku8YKS61WWVVGtXjQro79nJB22EehnEwaNABtlgIKMRdjAWKuNf
+         tWcXvnl2hFxU3DDhwwtK2L5qZ1dK5JP8IjexwVutjPHDhKKjhiv/JAgoUA2oLEISJR+B
+         gYJpBTW2n6qN4zRxtFpJFTFyYDkm5bRtYbjYEgMzoNWzhUDLTYxaqxmAiLydq1Z1qnFc
+         cw3L7hjFm9GydKZmY1DSZ7jiDzZrUiR0qNjwIKNf3hyUrvpihwJ2ZrnvhUtfC+F+clOG
+         UiEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714879780; x=1715484580;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2YoXNPfWEXlDGV6z3+1F8Nm/sflOvF+RNEkcMkhPNqA=;
+        b=Hu/96pW27FGZCQTMGEe5HJPdNO3XzncWkSLuo0OMJrHwUlGZpzHyOVsijq1Agr8eMG
+         3rxBZhptEkufrYfnhR4+URiHcv7+g+krfy0CoWAIVY/m7lbRfvqAxGPTimmZadAq0/xx
+         X5piDj9atz+Ij13ENOVnpoez1UOkPwQ3eccoEmaNBHzDSX89MG1RySBt5+Jt5D2YkK0R
+         qSEbrXx+v4Hg0Kl7UK09Me7/gZ8AXjljGuEGqKuS+QlqSkBNw6rQvgIWjBsvNhmLPf0L
+         P/a3vMahh8w84zCLYwBD29OSGGZCON4pJ+tzkn5PapZu7Bu7LI1+R/WBm0Mp24rVQghq
+         vOjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFXeOv2J87ypLVY01Dz88678hX3KhQErY+fto4wBjphYgDLRNrUkxPYwz006LDkn8ksIY82O+mjjzGHxhZFDYUxql9JwzCbRRuLmd7Xo1B3rxcnkrNxFRrJaxjap1lr4CX4Gg4L4/j2Ps=
+X-Gm-Message-State: AOJu0YxPvbu/mckpKJDZvFbE0g3R1nmXmglFrRSRe87owCO0SVbUoXw5
+	nAQJFKHzCOc6rk1MVQK0LfI3wRpWL50m4jqR7D9tJvzJomJMP0LF
+X-Google-Smtp-Source: AGHT+IGgYyTHvEoeGNOUKKiSnusw8L7aboGNcu3Rc8CQOJQ5HVKXu1tfogFDqqKmbBC+bzbIrZ1XMg==
+X-Received: by 2002:a05:6870:508:b0:23c:7b6d:38d7 with SMTP id j8-20020a056870050800b0023c7b6d38d7mr8139676oao.36.1714879779645;
+        Sat, 04 May 2024 20:29:39 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id w11-20020aa7858b000000b006eceb4cb828sm5384732pfn.180.2024.05.04.20.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 20:29:39 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistake in ia_css_eed1_8.host.c
+Date: Sun,  5 May 2024 09:14:30 +0545
+Message-Id: <20240505032931.133879-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+codespell reported misspelled calculating in
+ia_css_eed1_8.host.c. This patch fixes the misspellings.
 
-Results of the daily build of media_tree:
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ .../media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-date:			Sun May  5 03:00:19 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	e695668af8523b059127dfa8b261c76e7c9cde10
-v4l-utils git hash:	dd049328e5282f478ba543a50dcb14618782abbb
-edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1270d27441158dfce6beed9d2609cec2a46b933
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+index bfea78171f7c..e4fc90f88e24 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+@@ -161,7 +161,7 @@ ia_css_eed1_8_vmem_encode(
+ 		assert(fcinv_x[j] > fcinv_x[j - 1]);
+ 	}
+ 
+-	/* The implementation of the calulating 1/x is based on the availability
++	/* The implementation of the calculating 1/x is based on the availability
+ 	 * of the OP_vec_shuffle16 operation.
+ 	 * A 64 element vector is split up in 4 blocks of 16 element. Each array is copied to
+ 	 * a vector 4 times, (starting at 0, 16, 32 and 48). All array elements are copied or
+-- 
+2.34.1
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Sun May  5 03:13:59 CEST 2024
-virtme-64: WARNINGS: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 5
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
-
-date:			Sun May  5 03:46:52 CEST 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
