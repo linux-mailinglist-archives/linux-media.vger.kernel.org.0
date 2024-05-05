@@ -1,109 +1,122 @@
-Return-Path: <linux-media+bounces-10787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5388BC07E
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 15:17:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E61C18BC088
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 15:24:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 664E1281C3E
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 13:16:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 235CC1C20F44
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 13:24:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A769A1D556;
-	Sun,  5 May 2024 13:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE9E1D555;
+	Sun,  5 May 2024 13:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="3emlAbN4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjTrFV1z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DDDF9F5
-	for <linux-media@vger.kernel.org>; Sun,  5 May 2024 13:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8521C695;
+	Sun,  5 May 2024 13:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714915010; cv=none; b=YRgxX51yOmLPX4iKCXU+MPVpaGAunjj8SpIW6NPwe98w+dpzIgyPSpPEYpa1opFfuVsy6LWMKCF5E1KELuFEqRh2YGfxJ2agqIhkOeSgEScXQOdckQQby0BOw0hGJTBIv/rnJzH17SenfA7T+C0pBFVQQQ5wKhiQFrtVJGwpAbA=
+	t=1714915435; cv=none; b=uIDVWQu2hGMltC6QwUx3z22ju9hwIpPP1IWjefUTVL9jJIAGCiVtA+0RXPKasR7vSt3hTOElaxuFxRPVMxtk3QXRNvtIcmcz9m/PU77H5iEcXOM6uZh9oYDZ1I3VpSY27lKmRKhb68QTANTy0RdpWSxVEC3eCunWDC2zcqmDMCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714915010; c=relaxed/simple;
-	bh=JUeAkc0VpjizPXONmHIR8AUIb0zyYhhxLFu/R8GLIAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mXXyZNIna8KXbPT6n0/sDDfarkmsdbFEFYNXmnhcCD5o6COKXxloTd7qJUGYs93oKwz0iJp8ORtt5uj43AIpqy3wh+rHzb+mtnQ4RhBo1b0A2Ptn5tce8ryjtdNnr2UVbYz5efmTFNU1Wo98K1Mtx/dqheVlbW6KIkNqPogeyuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=3emlAbN4; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2b432ae7dabso325870a91.0
-        for <linux-media@vger.kernel.org>; Sun, 05 May 2024 06:16:46 -0700 (PDT)
+	s=arc-20240116; t=1714915435; c=relaxed/simple;
+	bh=RZBU9BLwoMqxabCjuE4NgICjeuHsBhDACgoIfR0UVsg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RWPs/qfmzbMjd+zhWSODyLkN2ZlchSGoGzVANRs3QrGKkTMQEPtHwalKtr+3/UQ56h3auQ0Csc5HLyOjUJ7nAIpx58arNIt8gnl19YiHRQnRIyV2V8OXEMkI3FJZm6j8eVvqr21PDXl7RxhKMNNSg1M7cXFl6gRUBln2ALsTdnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bjTrFV1z; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1ec486198b6so7335195ad.1;
+        Sun, 05 May 2024 06:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714915005; x=1715519805; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p9gsKxFa2cb/3Cv8aGgzqyrtC++fhIDtBe2EGByMdvY=;
-        b=3emlAbN4XPRGbQJ6J/axEWYOz7PNGS6F5ZfPzFLH3bl4V64uU4ORXv2tiG1A3MlEal
-         hAp+JZww008FXmF+BC/76OvE8hldCOpDF/wWV4eFGl03wNpXloISgRRe10nQLvKModmp
-         G4oCx6qPKqGWNzICyDgCk7XpeejD59ksjs4vdLci4pWGaU+YWr7N51RMv/g7tQlVxZb4
-         CsKPnoyPksIkYjWog87W2teeQ3s25Tj2JS0XCIX80AmWLiL/bO+nV4eWdj/jRUgav1HP
-         6JTpil/1lzJ3QHhg4d+aIOEENgG1N7dVbf87Y8DEylqrzEKAW72YgGZ22MtqqcHXKWM7
-         pxHw==
+        d=gmail.com; s=20230601; t=1714915433; x=1715520233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mc0FzHEhUeqDsgURvEW8MExped5cfDIKcyo64gW0V3A=;
+        b=bjTrFV1zQ9jGXogYzUooilqMOz2ODpKXt8J38Hxh2xf08fKOcxfyBk6OSIyypzIWTv
+         EVMPzgf91JmKBup+CfG+Lsnkf3e0JRMTCg65fnsloFvC1fHYbvq8/EyWlwG+McYiVrJU
+         YtfYTDy08vwUw8VqmHuOv2yphdOeWrswM9vTWCosfpXwdnY4CTKJsh6E6fKkzA3dXo7n
+         juc/yON8irkbk3yH5Cfed7aHCIUmTmMloRK22yMwFQCEcXO5BCRqPvN/myXQn956/Jt9
+         U6sJOi4btTMOWT9JRAeW75hNUCHGnb5ExwpWk29/wg5HPr3QMRatzr7sGSGZ+EEk4DV4
+         7s4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714915005; x=1715519805;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p9gsKxFa2cb/3Cv8aGgzqyrtC++fhIDtBe2EGByMdvY=;
-        b=fZF8XE3gKHrD9L+hYzUtkMatwFMPwID6g7ssv4DG4yEfnDf8jHXT4rKb/ZSp2PI3ip
-         yRi18SXTrhpa341Jlu5fG5qIPQ8m2z0CoZSC57beVxIrHjO7EMvlqgs7c5kx5rKwlcaF
-         GVmxFIvdX+EyDi0s7GtG2XVDxwlcxdu7yd4NSY4U6luodZjtH64bE8D/2iElURav8lG0
-         b7hLRQEZVZYrkiRImPQQf1QjQuMjJ5Q8n593ebMtRuawPtifrGE3HJaCVRiayJuFkroW
-         pSKn7H3n1X8QcpTe3vBD44Oay1LoUDdg6EugAetmeqSJA0Zph0E3rPgi0YyURZlo3uT+
-         ps6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWdEfS7+4sKE/hCwJV7QwPnbvVgjBQqApkq4aq2/M/o31nsImkm/wltJaLUbrAV/lJM2WPhApvROnHmcV5vd1YIelMjFopopDqtTu0=
-X-Gm-Message-State: AOJu0YzIzaY0bl1iHPd0zVN2CVoHqnfsIOxo/Jek+E3PJHQZj40hDeJt
-	znsHXtjq304XUHnbQMB/FIKlOp01SHssDU2QU4DrDlfiBvrK8p1NsWwcyNJilL6YTWmsIyLCGNw
-	j
-X-Google-Smtp-Source: AGHT+IFVYhWBd6jHteuSZMdw9jRtZj/mjMdyHP4zXZreMovDGI55qccUxGeVr3BmjAf0Bb06UPxb2A==
-X-Received: by 2002:a17:90b:4a0a:b0:2af:d64:4887 with SMTP id kk10-20020a17090b4a0a00b002af0d644887mr7186558pjb.4.1714915005545;
-        Sun, 05 May 2024 06:16:45 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id w3-20020a17090a528300b002b4329ec537sm4711379pjh.53.2024.05.05.06.16.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 May 2024 06:16:44 -0700 (PDT)
-Message-ID: <01a5c073-463b-46e7-beae-c5de4eb0ee11@kernel.dk>
-Date: Sun, 5 May 2024 07:16:43 -0600
+        d=1e100.net; s=20230601; t=1714915433; x=1715520233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mc0FzHEhUeqDsgURvEW8MExped5cfDIKcyo64gW0V3A=;
+        b=VlF/4/uH2rX/ONXBg2Bs13RcHEM6e71J8qjjevH9pzvLjGYyXWOHC8EzuXjPReEy/R
+         5rLAqTP6DCdXpeL6wqEpKVG8oOURgKb0Z5QmSlG3zZxwM7vSBKSdBjb3mJ81M0v519f9
+         iJvcg+NrBcQ2zCdAvZLWRViRE04uCDAzc9lSfZsey9sxC+coy64RLUxDs5FB4x4wzbsN
+         l2J88YlilMp9xlkSZ0WPuRgm9KFCtdQ7mFnwa4aJpj2Eh2p52Ii8xGrz33Jl0dtaw+2c
+         XRRjeBeNpp3F8pUIMYVe/LqUkBf8oHnvpKuQYB8WSrZE193IxKzHLcMr69qp0tOZuL02
+         MAkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUU69Y+sJbJNv1CUsmS43P6bT2tuyxlasrPPUiCW7PnANtgtmev1DnfJK8ITP+i4nbd1uGpyLhMYd1CL+Xtu30+tBFBWSlv+7Gp+5N2hJcd+0aZgby7PrysfZ1Xn9eKu/Eg9Tuat3ag30g=
+X-Gm-Message-State: AOJu0YxAXwCvLvwkwCd840vy3UpDrIlmXP2zpJGsNivbzSpLN14hYlDc
+	Y6VGl3FhFei5gXILI3KFyQZIbot/nPD32sOOejag2prTRsEdlFLf
+X-Google-Smtp-Source: AGHT+IERzKT6ecipwoJu1Z+lrbemytWDosmvEMrqC5CfWS5gLeUzk4VxGRn1IuPLY4snAEp9Aa/hYw==
+X-Received: by 2002:a17:902:64c2:b0:1dd:2eed:52a5 with SMTP id y2-20020a17090264c200b001dd2eed52a5mr6903295pli.37.1714915433499;
+        Sun, 05 May 2024 06:23:53 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id jb13-20020a170903258d00b001ec4ed47ddesm6511645plb.86.2024.05.05.06.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 06:23:53 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistake in hmm_bo.c
+Date: Sun,  5 May 2024 19:08:44 +0545
+Message-Id: <20240505132345.135528-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 413/437] media/rc: convert to read/write iterators
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20240411153126.16201-1-axboe@kernel.dk>
- <20240411153126.16201-414-axboe@kernel.dk> <20240504133055.0ca70f7a@sal.lan>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20240504133055.0ca70f7a@sal.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/4/24 6:31 AM, Mauro Carvalho Chehab wrote:
-> Em Thu, 11 Apr 2024 09:19:13 -0600
-> Jens Axboe <axboe@kernel.dk> escreveu:
-> 
->> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> 
-> Please add a patch description to media patches. Also, please
-> c/c linux-media@vger.kernel.org, as otherwise patchwork.linuxtv.org
-> won't track it, and such patches will be silently ignored[1].
+codespell reported misspelled unchanged in hmm_bo.c at two places.
+This patch fixes the misspellings.
 
-Certainly, it's all just a RFC to get the full picture idea out in the
-open. Any individual patches/series will go out separately to the
-respective lists and maintainers, and it'll have actual commit message
-as well at that point.
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 095cd0ba8c21..b90efac771e2 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -288,7 +288,7 @@ static void __bo_take_off_handling(struct hmm_buffer_object *bo)
+ 		/* 3. when bo->prev != NULL && bo->next == NULL, bo is not a rbtree
+ 		 *	node, bo is the last element of the linked list after rbtree
+ 		 *	node, to take off this bo, we just need set the "prev/next"
+-		 *	pointers to NULL, the free rbtree stays unchaged
++		 *	pointers to NULL, the free rbtree stays unchanged
+ 		 */
+ 	} else if (bo->prev && !bo->next) {
+ 		bo->prev->next = NULL;
+@@ -296,7 +296,7 @@ static void __bo_take_off_handling(struct hmm_buffer_object *bo)
+ 		/* 4. when bo->prev != NULL && bo->next != NULL ,bo is not a rbtree
+ 		 *	node, bo is in the middle of the linked list after rbtree node,
+ 		 *	to take off this bo, we just set take the "prev/next" pointers
+-		 *	to NULL, the free rbtree stays unchaged
++		 *	to NULL, the free rbtree stays unchanged
+ 		 */
+ 	} else if (bo->prev && bo->next) {
+ 		bo->next->prev = bo->prev;
 -- 
-Jens Axboe
+2.34.1
 
 
