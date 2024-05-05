@@ -1,108 +1,122 @@
-Return-Path: <linux-media+bounces-10803-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10804-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDD78BC3B6
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 22:31:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 129CF8BC3B8
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 22:37:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FC5228359C
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 20:31:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51CDDB21A06
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 20:37:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB2DD76023;
-	Sun,  5 May 2024 20:31:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7E6D6D1B5;
+	Sun,  5 May 2024 20:37:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="UfQ6ajUK"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BOdXmn8r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678421DA22;
-	Sun,  5 May 2024 20:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29AB1E895
+	for <linux-media@vger.kernel.org>; Sun,  5 May 2024 20:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714941065; cv=none; b=NKyRKWXj+eYTNhy7E4LZF2DcC0H3qCUId+UmsImsGpmlMq1xXqgJMdoVKANuvh7bPnJusLykW8n/AkONyeXpMsUqbMg/uv9+3ZWNfqV4cqskaB4Pm2awVoBNqdU6ULh3MQKF1D6o1rkVNPqp61OR3NRwRVazZLxywfhe4NklxvU=
+	t=1714941421; cv=none; b=fXQMvgI6jqx2s9cnmYRBwM7HCZLWEyAIp5y2dxxNphn4Rg9C+N/ajvXaDw84xLi75/38JzgdJt20gCU6dIDuAzbomcBtPgREhzpq+7xnCCvgOqidSgdhURTUmq0ntFqP7Evln51FF1w325bKSu4NJ4JYlC4PlvGBn3VTglojtXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714941065; c=relaxed/simple;
-	bh=LsVx8cpGZ4aiXnbcdtdFjsafF8HGe3xu/guXdG44lpM=;
+	s=arc-20240116; t=1714941421; c=relaxed/simple;
+	bh=Mtzd4Os7fBWTVS5NQSYKifeZdKgfAvJOvhTDzhrmaes=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dgrjE5LrKV7N+P4aq1Rnk3u1jyuG7rb/CH78HxEd3CYurbX/dndbZ9jIUxYVIQhSPX9pC6SWqa9o0A8GXcBwVOm2u91MTyMugxg/QHMT9hd6MmRkzl7e9srbyZZfJk3eBjJhRTyu3JtEtWEysFM/EuBok9n9hlfrDnDbLXBofYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=UfQ6ajUK; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=5RAK72tlhDi40d79TYqG9Ma0z3H3FbbwyjJuCY2Mj0g=; b=UfQ6ajUKgstMS3HVj5tD2ob8VO
-	stYeg0HZNzZNfx4cYhUE7d0Scc8SqF1+moMBwFzuODitNrdwZpJZb47uoa530T3RPHmHdvRpbYjhS
-	Cv7MyQR3qW2lypos8PGtwndBWDLmiJsJnqaFLoWAH0NktoT3B1tkWoiWn2nVS28gzbs+fAo2qQTbw
-	2FOep8GKGHO+SqNuP6P0z0T/KamtEJ27/kG6GtUBxlK0dlEffF4UPW7O+asyiwGvX7QqdyZ7UTYcH
-	SK7bGmTeXoKeboHRTY5oplOGNkIIVSKCO7E2OSC1q5IwTKsim1m6ccbHnBYUgzQCfmpZc8gmFO9j6
-	7vuGcYvA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1s3iVY-00DHdX-14;
-	Sun, 05 May 2024 20:30:52 +0000
-Date: Sun, 5 May 2024 21:30:52 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>, keescook@chromium.org,
-	axboe@kernel.dk, christian.koenig@amd.com,
-	dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
-	jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, minhquangbui99@gmail.com,
-	sumit.semwal@linaro.org,
-	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Message-ID: <20240505203052.GJ2118490@ZenIV>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
- <CAHk-=whrSSNYVzTHNFDNGag_xcKuv=RaQUX8+n29kkic39DRuQ@mail.gmail.com>
- <20240505194603.GH2118490@ZenIV>
- <CAHk-=wipanX2KYbWvO5=5Zv9O3r8kA-tqBid0g3mLTCt_wt8OA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajmhSMUihSA3vk/IFOREXmYZWhQz4xVmebh6OSSTTim+VmVrDRtTPhFRNu+b7zClq+qR5MB9MbF3KyzVf2A6YkcjnudkegnSIJzOnzUxyPyb2ClR7VOTrgum57Gb9C8h72o32Q6OREf4gurjc/I3wnV+j8QlhQA5GJoDVXcE9uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BOdXmn8r; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0135363B;
+	Sun,  5 May 2024 22:36:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714941415;
+	bh=Mtzd4Os7fBWTVS5NQSYKifeZdKgfAvJOvhTDzhrmaes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BOdXmn8rT7VtQgLkqbqxUkrkVNsa6PXF123fvhjy816FgU8p4YqszTJw+Od/IdEt3
+	 s0BDJHVSrSMALQH8CZe6UU8Ue3Wl1PKoPUoy1nG04LdHMxu5mECqAbFewbf2HhlYFW
+	 43psCCzXjn/VEOjeNPNjGjePpYPjtevNM/EPKpcM=
+Date: Sun, 5 May 2024 23:36:48 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v1 0/9] media: vimc improvements
+Message-ID: <20240505203648.GA25270@pendragon.ideasonboard.com>
+References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wipanX2KYbWvO5=5Zv9O3r8kA-tqBid0g3mLTCt_wt8OA@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
 
-On Sun, May 05, 2024 at 01:03:07PM -0700, Linus Torvalds wrote:
-> On Sun, 5 May 2024 at 12:46, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > I've no problem with having epoll grab a reference, but if we make that
-> > a universal requirement ->poll() instances can rely upon,
+Hello,
+
+On Thu, Apr 25, 2024 at 02:57:32AM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> Al, we're note "making that a requirement".
+> This patch series cleans up and improves the vimc driver, with the end
+> goal of converting it to the V4L2 subdev active state API. The goal of
+> this exercise is to make the API used by a virtual test driver, to
+> increase test coverage.
 > 
-> It always has been.
+> The series starts with 4 random cleanups, to avoid unnecessary
+> iterations (1/9), constify structures (2/9 and 3/9) and rename a
+> weirdly-named enum (4/9). Patch 5/9 then centralizes the subdev
+> internal_ops initialization to prepare for the switch to the active
+> state API. The remaining patches (6/9 to 9/9) convert the vimc entities
+> to the new API one by one.
+> 
+> The result has been tested using the libcamera unit tests, which make
+> extensive use of the vimc driver, as well as with v4l2-compliance. The
+> latter reports 4 errors, but they occur already with the latest stage
+> master branch.
 
-Argh.   We keep talking past each other.
+Any comment about this patch series ? Shuah, do you plan to give it a
+look ? If you don't have much time for vimc these days that's OK, I can
+work with Kieran to get the patches reviewed.
 
-0.	special-cased ->f_count rule for ->poll() is a wart and it's
-better to get rid of it.
+On a related note, I would like to modify the MC pipeline of the vimc
+driver to make it look more like a real ISP. This would help with unit
+testing and compliance testing in libcamera. I briefly discussed this
+with Hans on IRC who had no objection. If anyone has any issue or
+concern with this plan, I would appreciate if you could let me know.
 
-1.	fs/eventpoll.c is a steaming pile of shit and I'd be glad to see
-git rm taken to it.  Short of that, by all means, let's grab reference
-in there around the call of vfs_poll() (see (0)).
+> Laurent Pinchart (9):
+>   media: vimc: Don't iterate over single pad
+>   media: vimc: Constify vimc_ent_type structures
+>   media: vimc: Constify the ent_config array
+>   media: vimc: scaler: Rename vic_sca_pad enum to vimc_scaler_pad
+>   media: vimc: Centralize subdev internal_ops initialization
+>   media: vimc: Initialize subdev active state
+>   media: vimc: sensor: Use subdev active state
+>   media: vimc: debayer: Use subdev active state
+>   media: vimc: scaler: Use subdev active state
+> 
+>  .../media/test-drivers/vimc/vimc-capture.c    |   2 +-
+>  drivers/media/test-drivers/vimc/vimc-common.c |  25 ++-
+>  drivers/media/test-drivers/vimc/vimc-common.h |  14 +-
+>  drivers/media/test-drivers/vimc/vimc-core.c   |   2 +-
+>  .../media/test-drivers/vimc/vimc-debayer.c    | 197 ++++++++----------
+>  drivers/media/test-drivers/vimc/vimc-lens.c   |   5 +-
+>  drivers/media/test-drivers/vimc/vimc-scaler.c | 134 +++++-------
+>  drivers/media/test-drivers/vimc/vimc-sensor.c | 125 +++++------
+>  8 files changed, 236 insertions(+), 268 deletions(-)
+> 
+> 
+> base-commit: e42a204f0519a2540f1507ac2798be2aeaa76bee
 
-2. 	having ->poll() instances grab extra references to file passed
-to them is not something that should be encouraged; there's a plenty
-of potential problems, and "caller has it pinned, so we are fine with
-grabbing extra refs" is nowhere near enough to eliminate those.
+-- 
+Regards,
 
-3.	dma-buf uses of get_file() are probably safe (epoll shite aside),
-but they do look fishy.  That has nothing to do with epoll.
+Laurent Pinchart
 
