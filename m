@@ -1,83 +1,62 @@
-Return-Path: <linux-media+bounces-10776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56888BBF1F
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 05:29:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09658BBF97
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 09:24:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E309CB20B83
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 03:29:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 876641F216CB
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2024 07:24:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7911860;
-	Sun,  5 May 2024 03:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8B66FBF;
+	Sun,  5 May 2024 07:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nE5Me4Xl"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="e7a2bOpQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C5117C2;
-	Sun,  5 May 2024 03:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338C14430;
+	Sun,  5 May 2024 07:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714879782; cv=none; b=H7WIJZxLDN5OVrHJdzDCV0qD9/vl+JdIP3u0qnbnZLlP1E7fjGJbYJvuT+L2mfvUO1AfTYhHP7qbIrT5FpE6+NB41YDC/aUn3EYhiRe8YKD8rkqJJjGE9/f7ExX94CIWpQ0xMw72x5I2NuxrfkcGQiPFL1jAtYO3NgSdD0z9xKU=
+	t=1714893866; cv=none; b=rboKUbVNmML/TW1UiPTIBbcgTT2oxJWduAdKkjvXaRaxGtA3rVc1ZpaEZ53ClEBwjRdEeO5sdVTFVwIU5UcLFTjfPa5PKtMMfqv3cxtGczALho4+4+3Roi4Qxy3yn7Ao1lrzYngrzYkxoNWgWA43mhtfoeWVXAgFD0azTCdWWQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714879782; c=relaxed/simple;
-	bh=4i0Oujjns/PW7PTcWJ+RumP3mTxmEGwuf9DHk12FuN0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nv3X2rXoYdofmZIFeR2S+X/JxNwoDmKS3XIms6xm7PH9vF50tWzosX1y+p4Oa2Hz3NrezArPMIMz0/BGGvYRvUHvx5yHaOk2cpS8u8YltansUaG2OWbR3rNbFBtunObpENqNczy3wsNrNWEWcPw570HzODvzQrGRWxPMf2R7pHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nE5Me4Xl; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-23d3d092a1bso340887fac.1;
-        Sat, 04 May 2024 20:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714879780; x=1715484580; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2YoXNPfWEXlDGV6z3+1F8Nm/sflOvF+RNEkcMkhPNqA=;
-        b=nE5Me4XlXJdW7nXSo8Net9fttaP5g3hU1HYSKAGfM0ZmJKfl1LsdY9CNIQwh+S5y5Y
-         6H+UXpn7tmpVokC4kku8YKS61WWVVGtXjQro79nJB22EehnEwaNABtlgIKMRdjAWKuNf
-         tWcXvnl2hFxU3DDhwwtK2L5qZ1dK5JP8IjexwVutjPHDhKKjhiv/JAgoUA2oLEISJR+B
-         gYJpBTW2n6qN4zRxtFpJFTFyYDkm5bRtYbjYEgMzoNWzhUDLTYxaqxmAiLydq1Z1qnFc
-         cw3L7hjFm9GydKZmY1DSZ7jiDzZrUiR0qNjwIKNf3hyUrvpihwJ2ZrnvhUtfC+F+clOG
-         UiEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714879780; x=1715484580;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2YoXNPfWEXlDGV6z3+1F8Nm/sflOvF+RNEkcMkhPNqA=;
-        b=Hu/96pW27FGZCQTMGEe5HJPdNO3XzncWkSLuo0OMJrHwUlGZpzHyOVsijq1Agr8eMG
-         3rxBZhptEkufrYfnhR4+URiHcv7+g+krfy0CoWAIVY/m7lbRfvqAxGPTimmZadAq0/xx
-         X5piDj9atz+Ij13ENOVnpoez1UOkPwQ3eccoEmaNBHzDSX89MG1RySBt5+Jt5D2YkK0R
-         qSEbrXx+v4Hg0Kl7UK09Me7/gZ8AXjljGuEGqKuS+QlqSkBNw6rQvgIWjBsvNhmLPf0L
-         P/a3vMahh8w84zCLYwBD29OSGGZCON4pJ+tzkn5PapZu7Bu7LI1+R/WBm0Mp24rVQghq
-         vOjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFXeOv2J87ypLVY01Dz88678hX3KhQErY+fto4wBjphYgDLRNrUkxPYwz006LDkn8ksIY82O+mjjzGHxhZFDYUxql9JwzCbRRuLmd7Xo1B3rxcnkrNxFRrJaxjap1lr4CX4Gg4L4/j2Ps=
-X-Gm-Message-State: AOJu0YxPvbu/mckpKJDZvFbE0g3R1nmXmglFrRSRe87owCO0SVbUoXw5
-	nAQJFKHzCOc6rk1MVQK0LfI3wRpWL50m4jqR7D9tJvzJomJMP0LF
-X-Google-Smtp-Source: AGHT+IGgYyTHvEoeGNOUKKiSnusw8L7aboGNcu3Rc8CQOJQ5HVKXu1tfogFDqqKmbBC+bzbIrZ1XMg==
-X-Received: by 2002:a05:6870:508:b0:23c:7b6d:38d7 with SMTP id j8-20020a056870050800b0023c7b6d38d7mr8139676oao.36.1714879779645;
-        Sat, 04 May 2024 20:29:39 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id w11-20020aa7858b000000b006eceb4cb828sm5384732pfn.180.2024.05.04.20.29.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 20:29:39 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistake in ia_css_eed1_8.host.c
-Date: Sun,  5 May 2024 09:14:30 +0545
-Message-Id: <20240505032931.133879-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1714893866; c=relaxed/simple;
+	bh=MOWx9PMjovRITw6DYoO+/7nH9pLJzDASajlevipqP2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qbSRCwfUko7DMhl9pFV7Zh8DqI2dVHXynmkEHZnpK9BBqLr2Tp3WfdMLveUqOjgEqGc1x21MuoQEWH018gREYpu4SbOKgKQwXSHbH0jJHNrodZSbLhINOTfgSbopP/xh0tSlFeX/5QEL4tPQtROCiod1Pi99AR5MI8S/+rH+c9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=e7a2bOpQ; arc=none smtp.client-ip=80.12.242.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from localhost.localdomain ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id 3WEJstpJiUMqY3WEJsdYuL; Sun, 05 May 2024 09:24:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1714893855;
+	bh=ARbxTy58EQYluvEH4/oGZHENQAGLJeF+Yi1IYCHP7nI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=e7a2bOpQaoP0syn2kk0u7X9gkkEkeODWWbHn4U2kd9QjXONmzFwLmKzP1Wz+CWuBP
+	 rhiVB2Ns++Y8MubfJ1wRgQarQ79D7cR5Sa1vmfVxP2r74zPXy+7rMmpNiqiMSQRpJg
+	 XNWXRQTA79zzs0c36I5kRte0HGZN/I4yn9VArEQ8D/jrg8Is2PXZkmrG62kO1o4UfT
+	 0nK8ghzfcrXFLJOWAQiMBhjOeVl+tbAp/vQPRckJQuaS9Ke9g3mpyzgAED4AZvv5ws
+	 hG/9BdueMK+6ZifepzdJxTUgoUJmjy7eBqJ35kvXcG85IV6DZq6kbfIzMD2R1aZGpZ
+	 w1azK8EQhUVRw==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 05 May 2024 09:24:15 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: i2c: tvp5150: Constify some structures
+Date: Sun,  5 May 2024 09:24:02 +0200
+Message-ID: <119b3ec62e6305c83ffadc7f40cbda9fc3d5be11.1714893773.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,28 +65,49 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-codespell reported misspelled calculating in
-ia_css_eed1_8.host.c. This patch fixes the misspellings.
+'vbi_ram_default' and 'tvp5150_config' are not modified in this diver
+and are only used as a const struct.
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+Constifying these structures moves some data to a read-only section, so
+increase overall security.
+
+On a x86_64, with allmodconfig:
+Before:
+   text	   data	    bss	    dec	    hex	filename
+  57197	   2936	     36	  60169	   eb09	drivers/media/i2c/tvp5150.o
+
+After:
+   text	   data	    bss	    dec	    hex	filename
+  57517	   2608	     36	  60161	   eb01	drivers/media/i2c/tvp5150.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/tvp5150.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-index bfea78171f7c..e4fc90f88e24 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-@@ -161,7 +161,7 @@ ia_css_eed1_8_vmem_encode(
- 		assert(fcinv_x[j] > fcinv_x[j - 1]);
- 	}
+diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+index 64b91aa3c82a..0fe6a37bdb7f 100644
+--- a/drivers/media/i2c/tvp5150.c
++++ b/drivers/media/i2c/tvp5150.c
+@@ -514,7 +514,7 @@ struct i2c_vbi_ram_value {
+  * and so on. There are 16 possible locations from 0 to 15.
+  */
  
--	/* The implementation of the calulating 1/x is based on the availability
-+	/* The implementation of the calculating 1/x is based on the availability
- 	 * of the OP_vec_shuffle16 operation.
- 	 * A 64 element vector is split up in 4 blocks of 16 element. Each array is copied to
- 	 * a vector 4 times, (starting at 0, 16, 32 and 48). All array elements are copied or
+-static struct i2c_vbi_ram_value vbi_ram_default[] = {
++static const struct i2c_vbi_ram_value vbi_ram_default[] = {
+ 
+ 	/*
+ 	 * FIXME: Current api doesn't handle all VBI types, those not
+@@ -1812,7 +1812,7 @@ static const struct regmap_access_table tvp5150_readable_table = {
+ 	.n_yes_ranges = ARRAY_SIZE(tvp5150_readable_ranges),
+ };
+ 
+-static struct regmap_config tvp5150_config = {
++static const struct regmap_config tvp5150_config = {
+ 	.reg_bits = 8,
+ 	.val_bits = 8,
+ 	.max_register = 0xff,
 -- 
-2.34.1
+2.45.0
 
 
