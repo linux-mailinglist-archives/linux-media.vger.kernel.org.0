@@ -1,171 +1,280 @@
-Return-Path: <linux-media+bounces-10818-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7268BC4DA
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 02:29:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF75A8BC5BA
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 04:22:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 143BD1F21C9C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 00:29:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D20131C2124C
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 02:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7052BA926;
-	Mon,  6 May 2024 00:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F7740847;
+	Mon,  6 May 2024 02:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="YJtQ3EPk"
+	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="N4fZW90r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2081.outbound.protection.outlook.com [40.107.21.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388051FA3
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 00:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714955363; cv=none; b=amdjZlEd9uL95Vqnf5g2KOPaeDxaJ7sXErt5CrwFAqbsQOnVPa+OHU/JWMRrp6C3xErnWb3HEBuRiFCTZetry3ymsafa6Egp4X0Lf+I9x/GJiYft9gQS64hlfSpFlZ+XdcLRoFIk0ziwrLEXCTjEUcIGUWp/byorKPVdZeq0SDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714955363; c=relaxed/simple;
-	bh=7p83fI6SjhbSz9whdN8AjeYm5Iaq6UXmW/wjThWyv6k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AAWjX8293zTbaAmEyft0kizg66fM9t2PYfgBojhot8AeYJu5rnPMVdXiJ25kOIMOc9lnV/Y2Kj9J+A/w4kUc/db6GW5oO+X0b+hzEU/LUbFku2KuhsqLo1Ht6YWtz1pUXhNFPzU7I8EfvZMqTByqdzeIUDu/7LYKQhq6vY/hofI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=YJtQ3EPk; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2b273cbbdfdso973566a91.1
-        for <linux-media@vger.kernel.org>; Sun, 05 May 2024 17:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1714955361; x=1715560161; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sTixdwfAlIVssw/yTwe1uZ1trqj6K9Ho7zGTIsCsG3k=;
-        b=YJtQ3EPk7IxrNvgo8weclRLgIUIWkSOI2Uep1o1M/rk9e0dB+mVfcDL2Ra/RKgbRaV
-         4yD0nNAz17zHnC1JbqzasjATt3Y4kUqFfBfl4uDx/zyyAwmCgdWBqfnXG64JOZ3VVasD
-         TpWrwpoJPMZ1aCGn4xBszZrjTzvv5gHLPW4FLW7M2xKyeRN3dmeqwv7P7Qzj6PulULEp
-         iKKq9LW6PdJR11ebmc1NoRMdfQ6vYQYYHA7xQiZMqlhAGok5r3mf8gMd5KZKadxtoFqx
-         EMNG1nXwcBwffehAbXoAJ9b4BN0JZNUl2iEcpz1iMRyOz+EEFNblqZD7QukB/0M0HXcx
-         nJhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714955361; x=1715560161;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sTixdwfAlIVssw/yTwe1uZ1trqj6K9Ho7zGTIsCsG3k=;
-        b=F58Jf3eOXbcFP44OX1eTaVz9pxgaleCxj4SFeXXvvZQNEyeayR48ZzkOmg9AIEtCxG
-         RArkp4YVtxvHEkC1UZNTI6LATrUtwe0AjP0Tu0a3/rOhj7LxiSzTMvuSSxFVzFElB+rd
-         Jhv6c5rMMWmvESp6EDOQ9tfVBsaIHe71ov2qGfX2zsnyBI2Hv9tIpuGrQ1OABgn1Ma0S
-         hJ72nllbIgahormRG03z0gdGyHnqTbpEmGz/hZhCJabpt72h2Ye7x9BWDzeCV+iTtmrn
-         EsXqTCaHUgI0eKC5IYzgFbRDYiaxAnhToXOiYgVlDwB2Z7KgfPACSoxs2QfEbjYjnMUa
-         2zMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAlC+ep/zj9wdWEv4cSboBSq2a4dG+x5yGK2RYUGa83Cwksxs4piBuUojOvDZWR703UBsRGGV98edtUiHuwSkHgRTOcwrs+31m0EY=
-X-Gm-Message-State: AOJu0YzTQeNRBvYLBXhA9tUn2lQT9/MU+oUbmgFONJtT2Lp24FYPbEaG
-	ZaR/omSULqABZHV/ScIX5BCO3AMuSm37oTipfgh9LUN24BMEtLFXFKOZIVb9Lws=
-X-Google-Smtp-Source: AGHT+IFapiyynwMzWBFC3qoHSlJe6Vp0gcSIQLTrnjL4T2m4HyoHAt77UaMOEYoyby7VMZX56YX6rQ==
-X-Received: by 2002:a17:90a:d30a:b0:2aa:c2ba:3758 with SMTP id p10-20020a17090ad30a00b002aac2ba3758mr8212757pju.42.1714955361360;
-        Sun, 05 May 2024 17:29:21 -0700 (PDT)
-Received: from [192.168.1.15] (174-21-160-85.tukw.qwest.net. [174.21.160.85])
-        by smtp.gmail.com with ESMTPSA id h4-20020a17090a710400b002b1314ba8c0sm8708252pjk.57.2024.05.05.17.29.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 May 2024 17:29:20 -0700 (PDT)
-Message-ID: <306cf793-6f96-4a22-aca0-53c0ccefc0a1@davidwei.uk>
-Date: Sun, 5 May 2024 17:29:18 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4C13E470;
+	Mon,  6 May 2024 02:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714962124; cv=fail; b=NRSCJFKn2ZIdnCJAmS6CvX0mV9IpdnXy0bRMm68GGEGl6eoWis8TfLVz+jxv5vVoMNHP+RzMom6Xqs4YQ/ZPfN2W6ZXLBpHIzhwZwvNbTD9o18pSeZC3wClXyjjBGIVLkApROjWbTCP7v08jcMa4zp5/ONlQVea4Ilum6Fnqh1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714962124; c=relaxed/simple;
+	bh=0PCM8gp9qfnH3019bGE0gw8iqAZ6sCGR/2IbDfXD8O8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YXtC5/pMYnTR1kCXfOtVyxK7x/hB/kknYm3NhEbkWXbMZfS13refU7VDMCMtxbA9sHwGCbqpGXkU7Hy23zvHg16CkRXtnOhzGc7iGHNZw5XfEE+zdVaQP7Dr87iNLDfbzjpVqbaQ/oXKsNXryHwviW/hQfW0CKe5nsJQftT9zi4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=N4fZW90r; arc=fail smtp.client-ip=40.107.21.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fltqQH+GjTPUoBwrwq68p9RiSCru7sVk8kuuiQmzBqOlaGa4avj3Nlmyrt3RCqcUmxxiOi7XDhdwJreZXviqWJaMjsNfwcaZllhNFKvzX4dp84fD1nM2f90q4CIkX0Mk6Q3ZuA5W2TX6PA3lyT0JvaWZrw2LsLr0lOSCbjqesRSS7wmL1NFU8LPJjD3lh7oRua2bhW6MgV78ooKFauZLFS1yRFszArNPJSzKtUWZJ1DQxEEvphW5QBrz+HPQJImQodDYLsL7gqmD8QCJOLlapJ/6WZ1Ofi9V8X/PEiek5thtlh/4Fjtd+DjspxmSYjAq2Zs+51ynLd5vbnqLJLpz7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6zhkXUW5x7iolAlo4Bi5d3PLFdmZQ544fgRhnBoTV+U=;
+ b=NE2ENuzbJCDMS0RVX0iTcW80LAN7tgjNE6Ucg7ePYizpNESFS5r+19LmncwI8mYpm2IKWJYk7I+qFvRMJJ8Qa2oZXmZfFTD8+6DMErBh39UYbLLcDS0cnzIDWjr2LiN9xk9vSKQo/TI2qko2ixjQjkAqSn561I9qSz6FAf+BHh2nMwq4qCToBaEirONd9njNmxHxJ127pryEoq/KLlM7p/85bvHbT0s5EQQLeEQFei5WpOSrQjYk5UwTwNZXJh0azUQwXFjcpXLSQv+xD886UxoPZr/vlptyStRpcoqmo5ndurYcQ21c7lFh11e0ZBL90oU6bOS3TRYB6k2lZBFTNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6zhkXUW5x7iolAlo4Bi5d3PLFdmZQ544fgRhnBoTV+U=;
+ b=N4fZW90rXpnGdnP2jlna2wlN3tm2mwLtbzOKlmhRC34AEyEmr/lD3kgPXVBmWRdfY/H+Va8r0J1roCACN9tDLc1KWaXjrUWI7Xk1h0DaRL+XMOi0wWYS4nxxoo8U+rihFaTWnDQPiJ8+vXMpLVV+DOOZ0V/J2s7asdj2jM7RwjI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
+ by PA2PR04MB10185.eurprd04.prod.outlook.com (2603:10a6:102:401::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
+ 2024 02:21:58 +0000
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::8589:eb00:ecf3:b4ca]) by PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::8589:eb00:ecf3:b4ca%6]) with mapi id 15.20.7544.041; Mon, 6 May 2024
+ 02:21:58 +0000
+Message-ID: <5fbe3159-8ded-4d56-a778-db65d029b77a@oss.nxp.com>
+Date: Mon, 6 May 2024 10:28:01 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: v4l2-ctrls: Add average qp control
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Ming Qian <ming.qian@nxp.com>,
+ mchehab@kernel.org
+Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+ imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240329092352.2648837-1-ming.qian@nxp.com>
+ <25a33db9-3bc1-4d90-83d4-0bdbea9bc5d8@xs4all.nl>
+ <46ea74867fee6f0dbefb4c2d24a682d15beb41e7.camel@ndufresne.ca>
+Content-Language: en-US
+From: ming qian <ming.qian@oss.nxp.com>
+In-Reply-To: <46ea74867fee6f0dbefb4c2d24a682d15beb41e7.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR02CA0019.apcprd02.prod.outlook.com
+ (2603:1096:4:195::13) To PAXPR04MB8254.eurprd04.prod.outlook.com
+ (2603:10a6:102:1cd::24)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-Content-Language: en-GB
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com>
- <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <ZjH1hO8qJgOqNKub@infradead.org>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <ZjH1hO8qJgOqNKub@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|PA2PR04MB10185:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49c6fc8c-4d81-44c9-fa8a-08dc6d734e72
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OFU2aHRKc0dTTi9MZW81amF5RVpLeU1veWQ1UVloUmx6Tm1DRnFFeDVHRk5t?=
+ =?utf-8?B?V0REN0U3WTdPaDlhaGdJN3JUV1pTQjRvRVFmRDYyVTNsSnBvcEdUdWNKeFJZ?=
+ =?utf-8?B?anQ0cGxkWGRwblNrSWR4cVpDRUVRSlRGL3dQb1RDYTRVQ1QzT0xSeWgvSnAv?=
+ =?utf-8?B?SStPVEd3VUNCck5rV1hHUFV2SU9keWtWdlZtK3lTb04rdUJKNHVaQ2U3azVR?=
+ =?utf-8?B?eWNwT0JDeUQ0SGJxelErS1hCNlJxUklBWElHUGM2SXZwQUd2RWxvTmM1TFpX?=
+ =?utf-8?B?MkJJUEZzTEdqQlUyVlFacWVwVnY1RkUwNHZKLzhOcDRSdG1LakZXcVp1ZXRT?=
+ =?utf-8?B?dVRnRjQ3VzkzNFNRczJMajlZcHdRbmNRNFluZWtLNlI1Z2FKTlVIWnlKWXUz?=
+ =?utf-8?B?K1ZvWGMrK3Z0NU5lTktYTDA2UHpmNzZEeTFlV0xJRlBxSDhvV21PTjFLQ1ky?=
+ =?utf-8?B?RDNjbHIzVzNoSHlJaXE1QllCaFhDMjk0TFVmUGR3VVZ2VjZ5L01PZ1BBR0RW?=
+ =?utf-8?B?YTdXQjMvQXorUFpXL0w0UGtqM3NKQTJyUlJYMXhaQklWWi9VdlNVdkJibmlK?=
+ =?utf-8?B?Y3N1RVF1ZWF1blJYUDRDQ0MwM0tTTG9WUzVnZ3lzMTRHcXpVM0hwS20yMEgy?=
+ =?utf-8?B?bndVU3RZYytXMllXUW5PbkYycDBBWE82bk1MRU55aG9MUGdrWE5VV0t2d2Uw?=
+ =?utf-8?B?c3NEQldyYkdzR1F5dGlLM1M1QzVhZnphL0NKRjh1SThqSE9ZN042a0hmcGFy?=
+ =?utf-8?B?bmh6NWRqVnBrUTZZMTJ6SWFKVHEzOEdudjRqMWJ3dGRwSmtjRWMvemxQTDZZ?=
+ =?utf-8?B?Y2d0NHFPM2FVR1JxZXJKbDhZOCtMMFhSVHYyeU9IMFFmUDlTUkJyN2NhVkph?=
+ =?utf-8?B?NXQ1QnRlQk5KbUtERmRmbXhITXdFc1pEckJIUnVzZWY1WFIvbXorR0ZCTlVI?=
+ =?utf-8?B?Mlp5SkRCdm5WRUJFS1NmR3lZNVNTWGF5OEFKRTR5emFDNmtqVi8rcGNhZ2g1?=
+ =?utf-8?B?MHRIaGkxMndwanF0bUhwZVJjZVg0cURzZGlVamVWTzBWQ2dNWFZreHRQUGRj?=
+ =?utf-8?B?NFdWT2VjY21xazNoNHJXV1hGRE9URTE1bWU2UnNuMk9rcDlJWFFmWmJBVm1J?=
+ =?utf-8?B?cE9WYUlzR1BDbG9tNElacE9Cb0VLcU5ETGFmbHJxMHlpWEw4bTVTczJ6eTVN?=
+ =?utf-8?B?eElSOGNjMlYzdHM4Tnp2ZFY4YnowaXNwUGMzWFBNUHdQcTBJbXhKRkdqMjBH?=
+ =?utf-8?B?SDNtSmFnOG9uV2l1eTJZaVhmRUl1M1JGa2Y0VmVPNXlBVEhvL0tyTHE0alBO?=
+ =?utf-8?B?c3dLdHloN3NFa20zeUV2emZVdTZiYmZDZVpxYnpSSWFZOTlqbUVpV1VTdDhK?=
+ =?utf-8?B?bTlHd2JENWsrbWNQdUFpTkV6TVhSbGVIZmR3by9rTWxqYmg1c2Noa0MwQ3g0?=
+ =?utf-8?B?ek1DQUc4RjNyRUZMZnpZU043THppblgzRkdubDVVSVdnUVpzL1IwL3BQajg3?=
+ =?utf-8?B?cS9TK1VLMzhrMis3UHUzQWY3MmdhN2NIbHZBSFZqM0kvZ3lKQnBUL3QvbUp3?=
+ =?utf-8?B?TDdSSjBua3RsUXE1eGw3enFJQXdoOVNMR0w2RzZuY0JnVThCQUhZcGdiU3Y3?=
+ =?utf-8?B?YXNxVkFFdXBxbHQ5K0RSVFIzMUNhV0g2M25VV0RYc0dtZU5IOGJXakdKZ1Iv?=
+ =?utf-8?B?R3JGb0kwVmJFYlc1MVZkZUFSSmtpb2J5bHE5V09CSU1PSTY4VElvU1hnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UkdZWHFQNTRONEVqeW1jZlM0K3ZudDg4cHd3REcrR3EyVnQwTzk4NHhZZ0JD?=
+ =?utf-8?B?R25Vc2x5YTNyK25PUTNoanQ0djBEWFp1VXQ4SUUrM0p3VitxdzRRR0FrdmE5?=
+ =?utf-8?B?TGVZMUNqSU5UMUJxaDRNMTRxUzVxeWVCRXF4eUNNSmw5Y1U4UDQ2emJJdTQ0?=
+ =?utf-8?B?OEFrOVowMXFmbGVXODA2MU9oa1pieUlwNU94T1BIeGx5MHpHbTh5MGdXQllS?=
+ =?utf-8?B?akVxbjBIcTk4c0l1MjZHMkxBbkNVNVJBNkxpVDFwYzgyTFczZklsanhZbUF0?=
+ =?utf-8?B?MDg0NHBsM3BFSVJZcHJlYzljUStBWEE4YWlpQ0I0WDZIM1NGbnRYMm5NNXRs?=
+ =?utf-8?B?QUpLeWNjbXlzSWsxelJ3Q2ZSZ1RyRk9Pb0EyaDZrcDlhZU12TUJYTWFTUVF3?=
+ =?utf-8?B?QXRza0czaDFqQkJZR2hnaHVVVFBOQjNzWFZSdWJSZjVob3UvNUVhWHFDeGQx?=
+ =?utf-8?B?cXRPSEM0R0dBYncvY1JobzdhYUd6Wjlmbko2SHczeGs1ZU55RnM5QkJBL3JQ?=
+ =?utf-8?B?NGdHdnhUOWcyMlNCY3ByNHRVMDZaZVc5RVNGRWFoWk9qbGk4dE5PWEVGdGhz?=
+ =?utf-8?B?aTFwUThQNkZFSFZwQUN4ZXY0WmtNRmZKNi9OeE1rTEkrVzI3RVpSTVlQK2sv?=
+ =?utf-8?B?dmNEM2pEdzJOUWtvbjhRbjZqTmtnc2txVnVFZHR4aFkyd0lnVXhIb0xGSkdT?=
+ =?utf-8?B?Y04yRWRNemY3dHRYWTJRNmMyRXNEaU9BNHUwaGxZRkRXdXdKTnBlOGdKN1NP?=
+ =?utf-8?B?RUZxU3I3SEJhTFdkUkxiZEwzdWU2NWZCR0trbE5vLzc4OHVGYk9pQ0VSSFZs?=
+ =?utf-8?B?QTZUN296bG01N09Ob1JEdi9FNTVFVlRBanN4R0EyNzBrSmZoTlg0eE9FNi85?=
+ =?utf-8?B?eFRYZTV0WStabkRQTURTRHZzSDhFbVJpa3hoY2w1SStTTDJTV1A4TnJ6ZVJO?=
+ =?utf-8?B?UndleUl4SG1nQ3JBRXJhSHdUZVVvNEg5QnF4Yll6THA4aytDblZrK3plNTRk?=
+ =?utf-8?B?aldwM200TndBRVBMQUpXUXJybCtzMjZSR3dBc1FvdmYrRGlTdndRRWJrWEYx?=
+ =?utf-8?B?SW5Qd2d0Q3VRbjlSTk5abm94SEdIMWtSTWRFcFVvbGtERkF3ejdmRDVKdWg0?=
+ =?utf-8?B?cTRtRk93Szd5QzJ1WDVXZEFjVVpzV00yYTFqMTFkcFRBUkFVOUtxKzNQa0Vq?=
+ =?utf-8?B?N0tkOUFrZkltUjUxbCtHWm1rWEJISHJEVDJWaW1DTjJMZmJpdTlHYWZGWXI3?=
+ =?utf-8?B?czh2b1huZGd5ZkdDZWFRRXZESkNvektVcGdUVXZoNTlFSHQrMW16d0RKUVcv?=
+ =?utf-8?B?THE1a2xIQmxrZjFjRlcyL3phK3Q0aEJiOGFEUEt3VnVUYks3WVN2d1l2K0J2?=
+ =?utf-8?B?SnZZemNxKzFPeWhQVnlqdlB2U1krTVRYVmNPMDIyKzY0ZlV5K0pPalhKRzkr?=
+ =?utf-8?B?NXpiZnVrMFJlRGJTRmx2N09pSkFTUGlDTnlsYXJCQ21NVWJCaUJXdFh3cG93?=
+ =?utf-8?B?UlhqaktLWWNrcG9DNldjRC9ldDdzV3JUZjdjcmlZb1IrOEl3TS8vaVlCLzFC?=
+ =?utf-8?B?b2ttNUlJWWdXeUhQQjlTYS9wQ2RnMHdUM1ZMZGlLdHovWGZaQTMrNXNZeDA1?=
+ =?utf-8?B?dU5YZ2xmcEhlT2NBdnZhbWRKa2F3NXI2YU9nUXE4ZmZ2L3BjYWNsUDA1elh1?=
+ =?utf-8?B?VVNVMEJLYUN6b0dHSStiTytFZVJLOUNKQUNFYVpTcU1Mc1ZiSlpBSk5BQVZX?=
+ =?utf-8?B?bFpNc2cyYnNhVTdFbk04bit4Qm82RHRNZFA1bzNKTmhWOTNvRFJUMnpqTkRj?=
+ =?utf-8?B?QkpUa3RCKzJLd3JjSVRCQ3AvWmZvYmE2emRkT1R5UGk4d1ArbldJZGN2UXUy?=
+ =?utf-8?B?dTRNWHJYa0lpRTUzR1RHL080WUI1WHVhcWZ5SW5iQ2lvQkJUYlNITUVOakFo?=
+ =?utf-8?B?UFEzU05teVY4MW4xekQ3TXdjYVdjQW90ck1aZytmeXNMK2Y3TVhFcjRlT2Jl?=
+ =?utf-8?B?ZVp3eUhabmg3aWhoOXEzODc1Y3pkWkp5N2xnS0t6YVM5aHJXNmlLNldpRDdt?=
+ =?utf-8?B?U1Q5bkV2K3IyQnhnZDh6UnhURXpoRHg5YUlYY2JTM3kzTFl2U1RqN2tZc3NW?=
+ =?utf-8?Q?bJsdVajL/JS0OjGrY/7kfo1Js?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49c6fc8c-4d81-44c9-fa8a-08dc6d734e72
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 02:21:58.7598
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EtwZVyzpqvPh5ERI+KwrutypsOBWJ6SBkh2JKF/b/6hjZAk5Tk0MNy1575mn/kOMxBvGtg3nwK+Eat5QM1qNXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10185
 
-On 2024-05-01 00:55, Christoph Hellwig wrote:
-> On Fri, Apr 26, 2024 at 05:17:52PM -0700, David Wei wrote:
->> On 2024-04-02 5:20 pm, Mina Almasry wrote:
->>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
->>>   */
->>>  typedef unsigned long __bitwise netmem_ref;
->>>  
->>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
->>> +{
->>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
+Hi Nicolas,
+
+> Le mercredi 24 avril 2024 à 12:03 +0200, Hans Verkuil a écrit :
+>> On 29/03/2024 10:23, Ming Qian wrote:
+>>> Add a control V4L2_CID_MPEG_VIDEO_AVERAGE_QP to report the average qp
+>>> value of current encoded frame.
+>>>
+>>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>>> ---
+>>>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++++
+>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 5 +++++
+>>>   include/uapi/linux/v4l2-controls.h                        | 2 ++
+>>>   3 files changed, 11 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> index 2a165ae063fb..cef20b3f54ca 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> @@ -1653,6 +1653,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>>>       Quantization parameter for a P frame for FWHT. Valid range: from 1
+>>>       to 31.
+>>>   
+>>> +``V4L2_CID_MPEG_VIDEO_AVERAGE_QP (integer)``
+>>> +    This read-only control returns the average qp value of the currently
+>>> +    encoded frame. Applicable to the H264 and HEVC encoders.
 >>
->> I am guessing you added this to try and speed up the fast path? It's
->> overly restrictive for us since we do not need dmabuf necessarily. I
->> spent a bit too much time wondering why things aren't working only to
->> find this :(
+>> qp -> QP
+>>
+>> Why is this applicable to H264/HEVC only? I think it is fine for any codec.
 > 
-> So what else do you need?  I was assured last round that nothing but
-> dmabuf and potentially the huge page case (that really just is the page
-> provider) would get added.
+> Same question, though we should document the range, which will differ per-
+> codecs. We should also document to always use the specified range, rather then a
+> HW custom range. This way we don't endup with issues we have hit with other ill-
+> defined controls.
+> 
+> Nicolas
 
-I'm using userspace memory so having this gated behind
-CONFIG_DMA_SHARED_BUFFER doesn't make sense for us.
+Thanks for the tip, I will add a description of the value range in V3
+patch.
+
 
 > 
 >>
-> ---end quoted text---
+>> This needs to document that the value applies to the last dequeued buffer
+>> (VIDIOC_DQBUF).
+>>
+>>> +
+>>>   .. raw:: latex
+>>>   
+>>>       \normalsize
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> index 8696eb1cdd61..88e86e4e539d 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> @@ -972,6 +972,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>   	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frames";
+>>>   	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+>>>   	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
+>>> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:			return "Average QP value";
+>>
+>> value -> Value
+>>
+>> Also move it up two lines so that it follows V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES
+>> rather than FWHT controls.
+>>
+>>>   
+>>>   	/* VPX controls */
+>>>   	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
+>>> @@ -1507,6 +1508,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>>   		*max = 0xffffffffffffLL;
+>>>   		*step = 1;
+>>>   		break;
+>>> +	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:
+>>> +		*type = V4L2_CTRL_TYPE_INTEGER;
+>>> +		*flags |= V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY;
+>>
+>> Drop the volatile flag, this isn't a volatile value.
+>>
+>>> +		break;
+>>>   	case V4L2_CID_PIXEL_RATE:
+>>>   		*type = V4L2_CTRL_TYPE_INTEGER64;
+>>>   		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>>> index 99c3f5e99da7..974fd254e573 100644
+>>> --- a/include/uapi/linux/v4l2-controls.h
+>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>> @@ -898,6 +898,8 @@ enum v4l2_mpeg_video_av1_level {
+>>>   	V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 = 23
+>>>   };
+>>>   
+>>> +#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
+>>> +
+>>>   /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+>>>   #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000)
+>>>   #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_CODEC_CX2341X_BASE+0)
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+> 
 
