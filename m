@@ -1,180 +1,189 @@
-Return-Path: <linux-media+bounces-10865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10866-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F328BCD82
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:11:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4948BCDA9
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:20:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D06851F2373C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:11:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 198201C22EBE
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EBF143897;
-	Mon,  6 May 2024 12:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580A1144D03;
+	Mon,  6 May 2024 12:19:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hizm2dS6"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XUSbYx4H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135F7143889
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 12:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA111448DD;
+	Mon,  6 May 2024 12:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714997474; cv=none; b=sPXpcQS+XigUEZyTMydELBRrxO2L89C5Z8wn56SVWbj0o2EVC/lA/LP1r0aDTwYn/rVpsio6YZq1DzO/+3J6FXXPalZZurv9jhdFzORdEW4Bk1tRdFwoSqLhaG6abLy6B0depiFLHXdm+cCsE5UGxn8Q8ny6abAWiBG6wzXQJ0k=
+	t=1714997991; cv=none; b=ETcYbO3qnBiptzMAX7Z1cQcxgSAQbW+8JCDLt/LbZhCKJOldP6qpiLhOtH1CqdZHJTj6l+1Bo2Wsf7PNK6AiOXTRARy+hiHpkOOUE4knCwpU12Xa8QqREX866Qat15gEsLB+fXx4I5HAbfLpkpyZgbk7vUS5iw/fajaRG2+NqC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714997474; c=relaxed/simple;
-	bh=hMaHou4gqCFuSSxSjTamh579wUtltQG2UlKG9gC+8FY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ns0kM8mo6HK1/9PCwvPz6Z0qo5L6YOA1f3oUWGbTmBJTjW6uhVAdv9LBwTW/hFhbjeZwzZ17fgbCpezut8kQuEPA2lC23lJaUOEDQXjf2fq8RLi0bhVuyNvheCfgLbqz+Qp8Tl3Z68K4vohUqGLSWqFbUCcRts1m/oXMVriwukA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hizm2dS6; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714997472;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WSfOAhrFUm53Kqin9+YfTRe0LHiAcFIiQAaaSKoiif8=;
-	b=Hizm2dS6hKYoDQlDBdSDPIkBi55wp9uhmGe6AQne2GMVjCGxKJBhvMQK2fX7xC5lV3u8Ke
-	EA3mGfJ+T0RH8AucaHl3Git8okk8+08KVqTn1dSQG0ZreayZmYmnKJPQn+3fCvMCw5OBsd
-	hr7QuR0kJPOu+Cp6J4fE1n4W6CmDpxg=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-16-Ja5513xdOxinQ16phWRl_A-1; Mon, 06 May 2024 08:11:10 -0400
-X-MC-Unique: Ja5513xdOxinQ16phWRl_A-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-51f0d924685so1787236e87.0
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 05:11:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714997469; x=1715602269;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WSfOAhrFUm53Kqin9+YfTRe0LHiAcFIiQAaaSKoiif8=;
-        b=gxexo8JL3a0PpQ9Xlvtin7JEf0/Gv0KTUMB6LAxpDt1TPUp4Eud30khXD40Ljq3WH0
-         gVSLymglv9rBb8wlT1Crzvkf0kMuws/6k4sLl6fx8mL5iC81Ttz3yzIK6KVkxw1VCiwQ
-         HLEHvLJWIFZece6d4raV5huwoykmn6S3HFQXVDAlELYN+PuRvWPaf7TN3gkDC8GVZGN1
-         Id6v4phW5vKEki6SLNPD1mVAWdnq0a8hpgSYhVQVP5dWrg2KaggX9th+6q5sjy1o0Qkc
-         G6p4Vt2xc1yhr8b3/Brc1zk+RW0+AbuL6sWIAVSLy2HeqSy9vgNzpqnkL0/Hv66pSu0p
-         +zBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMXrhlXlmJI/07mJnSq94lYf/5fDDnqI7CWeINy4nUAUrR6EmfRkqjGnym98wIa5fYVKCgrUNNArmAu4fD5TW000Ifjr5BCeTkAv8=
-X-Gm-Message-State: AOJu0YzkLkt6ZQ52e7M1Huu0A7PtpMshe4hNRRhA+b7BzNg6+t/d2oFZ
-	G7gT9afjCV0FS1a1i2iBLK9n2jFUrvAhOtX7S7XYIIQ0OTl8lHjzZ3utKwAkgUkM35p3faKihKY
-	30UwqHL4c+jNSROnG34MS712rSHlv++PdnTAOmU83+UNjTYCSj5opk+YMkcpS
-X-Received: by 2002:a05:6512:3f21:b0:51f:5d1a:b320 with SMTP id y33-20020a0565123f2100b0051f5d1ab320mr8765216lfa.68.1714997469277;
-        Mon, 06 May 2024 05:11:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEp4bcHitMTSdTCl9aCNeXV3I621ghOgDSk6RE5J+9JJSbX/V6SpGWsuuHMuUKGZd320jEJ5A==
-X-Received: by 2002:a05:6512:3f21:b0:51f:5d1a:b320 with SMTP id y33-20020a0565123f2100b0051f5d1ab320mr8765187lfa.68.1714997468807;
-        Mon, 06 May 2024 05:11:08 -0700 (PDT)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id l12-20020a1709066b8c00b00a59c0ecd559sm2003340ejr.112.2024.05.06.05.11.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 May 2024 05:11:08 -0700 (PDT)
-Message-ID: <d0821bab-be2e-4476-82e8-8b363a951e50@redhat.com>
-Date: Mon, 6 May 2024 14:11:07 +0200
+	s=arc-20240116; t=1714997991; c=relaxed/simple;
+	bh=5tzxuQy/Sc130uJtXTuS6YDupNdmZuu5qUUDZ/PBHSg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kjV5PR21HLBeG9QoYsWL35IPNbjNhjketHz/z0kVBFYAXYaMVoUQ9+yWq9gzp7fwMRd7brI5TuQOobEyVwtiMlGMonCNOpOwZ/qzCO3HcsOdwwLTKF4skUMr8flaogvvz+kPipIAjf4lE2F0QS2hx5XUedmnlr72NUD3que4Izc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XUSbYx4H; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 446Bj2f2023094;
+	Mon, 6 May 2024 12:19:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=nRyyw+SZ71PHJ3tu5yZw2UYFtbgA4oG13DexLq9NL24=; b=XU
+	SbYx4H0egcYzl6kYvswf72ncVubUJ8kpO5FXzYhvtU3t66qEIQFFb0FTG0b/oolw
+	VVxT1urBtyg9muhtFhEeHt1Ay/dukqNDOHbsWA2vPUNZGw0T8MjsM9/T9A8IoJUd
+	bxRGBfnl/fJS5NAZlc2GSwZ36DhRWohv6h0syPveyM/UWcqpu1bSWkHIIbRT8cfB
+	XtqHRT+/4chQK6WBO0M0l6VgWPtBa1RW9yHsJycFrwbyWz3e2cIbIeKr+1cuzhXb
+	YFOKdcv0xJh8BHnEiORs+iT34Msb+ieGsxUbUlOVhI0X8ZCjnvMBFn4thdiG31+h
+	VFWNmtmaWzUQ7caASDew==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xwcm4kg8y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 May 2024 12:19:44 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 446CJga0019755
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 6 May 2024 12:19:42 GMT
+Received: from [10.216.21.139] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 6 May 2024
+ 05:19:38 -0700
+Message-ID: <3e522515-f7ba-461f-1af2-2e22b143981b@quicinc.com>
+Date: Mon, 6 May 2024 17:49:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-To: Maxime Ripard <mripard@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Milan Zamazal <mzamazal@redhat.com>,
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <20240506-dazzling-nippy-rhino-eabccd@houat>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 3/3] media: venus: add msm8998 support
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O Donoghue
+	<bryan.odonoghue@linaro.org>
+CC: MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media
+	<linux-media@vger.kernel.org>,
+        DT <devicetree@vger.kernel.org>,
+        "Pierre-Hugues Husson" <phhusson@freebox.fr>,
+        Arnaud Vrac <avrac@freebox.fr>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+References: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
+ <9844c940-21b1-42af-9448-62a2d5ffadb7@freebox.fr>
 Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240506-dazzling-nippy-rhino-eabccd@houat>
-Content-Type: text/plain; charset=UTF-8
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <9844c940-21b1-42af-9448-62a2d5ffadb7@freebox.fr>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fvsPxR0PEXFhFNVtgb0P7v23boBsHB6v
+X-Proofpoint-GUID: fvsPxR0PEXFhFNVtgb0P7v23boBsHB6v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-06_07,2024-05-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ clxscore=1011 lowpriorityscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405060085
 
-Hi Maxime,
+Hi Marc,
 
-On 5/6/24 2:05 PM, Maxime Ripard wrote:
-> Hi,
+On 4/30/2024 9:04 PM, Marc Gonzalez wrote:
+> From: Pierre-Hugues Husson <phhusson@freebox.fr>
 > 
-> On Mon, May 06, 2024 at 01:49:17PM GMT, Hans de Goede wrote:
->> Hi dma-buf maintainers, et.al.,
->>
->> Various people have been working on making complex/MIPI cameras work OOTB
->> with mainline Linux kernels and an opensource userspace stack.
->>
->> The generic solution adds a software ISP (for Debayering and 3A) to
->> libcamera. Libcamera's API guarantees that buffers handed to applications
->> using it are dma-bufs so that these can be passed to e.g. a video encoder.
->>
->> In order to meet this API guarantee the libcamera software ISP allocates
->> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
->> the Fedora COPR repo for the PoC of this:
->> https://hansdegoede.dreamwidth.org/28153.html
+> Add the missing bits for msm8998 support.
 > 
-> For the record, we're also considering using them for ARM KMS devices,
-> so it would be better if the solution wasn't only considering v4l2
-> devices.
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
 > 
->> I have added a simple udev rule to give physically present users access
->> to the dma_heap-s:
->>
->> KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
->>
->> (and on Rasperry Pi devices any users in the video group get access)
->>
->> This was just a quick fix for the PoC. Now that we are ready to move out
->> of the PoC phase and start actually integrating this into distributions
->> the question becomes if this is an acceptable solution; or if we need some
->> other way to deal with this ?
->>
->> Specifically the question is if this will have any negative security
->> implications? I can certainly see this being used to do some sort of
->> denial of service attack on the system (1). This is especially true for
->> the cma heap which generally speaking is a limited resource.
-> 
-> There's plenty of other ways to exhaust CMA, like allocating too much
-> KMS or v4l2 buffers. I'm not sure we should consider dma-heaps
-> differently than those if it's part of our threat model.
-
-Ack.
-
->> But devices tagged for uaccess are only opened up to users who are 
->> physcially present behind the machine and those can just hit
->> the powerbutton, so I don't believe that any *on purpose* DOS is part of
->> the thread model. 
-> 
-> How would that work for headless devices?
-
-The uaccess tag solution does not work for headless devices, but it
-also should not hurt any headless scenarios.
-
-Headless devices could use something like the video group solution
-(dma_heap group?) which Raspberry Pi is using and them make sure that
-any services which need access run as a user in that group.
-
-This can co-exist with uaccess tags since those use ACLs not classic Unix
-permissions.
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index ce206b7097541..42e0c580e093d 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -587,6 +587,47 @@ static const struct venus_resources msm8996_res = {
+>  	.fwname = "qcom/venus-4.2/venus.mbn",
+>  };
+>  
+> +static const struct freq_tbl msm8998_freq_table[] = {
+> +	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+> +	{  972000, 520000000 },	/* 4k UHD @ 30 */
+> +	{  489600, 346666667 },	/* 1080p @ 60 */
+> +	{  244800, 150000000 },	/* 1080p @ 30 */
+> +	{  108000,  75000000 },	/* 720p @ 30 */
+> +};
+Can we reuse the table from 8996 since they are exactly same ?
 
 Regards,
-
-Hans
-
-
+Vikash
+> +
+> +/*
+> + * https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi
+> + */
+> +static const struct reg_val msm8998_reg_preset[] = {
+> +	{ 0x80124, 0x00000003 },
+> +	{ 0x80550, 0x01111111 },
+> +	{ 0x80560, 0x01111111 },
+> +	{ 0x80568, 0x01111111 },
+> +	{ 0x80570, 0x01111111 },
+> +	{ 0x80580, 0x01111111 },
+> +	{ 0x80588, 0x01111111 },
+> +	{ 0xe2010, 0x00000000 },
+> +};
+> +
+> +static const struct venus_resources msm8998_res = {
+> +	.freq_tbl = msm8998_freq_table,
+> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
+> +	.reg_tbl = msm8998_reg_preset,
+> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
+> +	.clks = { "core", "iface", "bus", "mbus" },
+> +	.clks_num = 4,
+> +	.vcodec0_clks = { "core" },
+> +	.vcodec1_clks = { "core" },
+> +	.vcodec_clks_num = 1,
+> +	.max_load = 2563200,
+> +	.hfi_version = HFI_VERSION_3XX,
+> +	.vmem_id = VIDC_RESOURCE_NONE,
+> +	.vmem_size = 0,
+> +	.vmem_addr = 0,
+> +	.dma_mask = 0xddc00000 - 1,
+> +	.fwname = "qcom/venus-4.4/venus.mbn",
+> +};
+> +
+>  static const struct freq_tbl sdm660_freq_table[] = {
+>  	{ 979200, 518400000 },
+>  	{ 489600, 441600000 },
+> @@ -893,6 +934,7 @@ static const struct venus_resources sc7280_res = {
+>  static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
 
