@@ -1,168 +1,116 @@
-Return-Path: <linux-media+bounces-10833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F438BC927
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:10:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2CD8BC92B
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:10:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D5781C2149E
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:10:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AC6E1C2145A
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:10:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 553C4140E22;
-	Mon,  6 May 2024 08:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mSuLoJ0z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8C4140E22;
+	Mon,  6 May 2024 08:10:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B5142ABE;
-	Mon,  6 May 2024 08:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37927456;
+	Mon,  6 May 2024 08:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714983008; cv=none; b=RmzgGP9yHmNQIc98ANF++/rmY91XYyx0G6IFIMYHIfHNgQ18YC4beBMPild0zyKtbDdrcFxYaSEDfRrC34tmApMaXyvsSbUaFb8MJSgYimWqkVL0gEJ0HblzDuco5HAPNjG91QQ5sJlhlqtPaVwwxnQHj6zZImKP/OvBMW+8pLc=
+	t=1714983037; cv=none; b=J6l573RVxXWx869+BXfdPUmeaG4YpxjaLNLAAexea4ODblI0z/JvaiJ8PauMU8kG5heWmP6HivZP9cupNotlIVsV5gBpUk59E0pbHcOiSmV1VnPCzjK1+W926pNEhlJmqLgvGD/MD39F/8s+5t/itJjRjWEc4QhCzn0blgG6M7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714983008; c=relaxed/simple;
-	bh=uueVkEXQte2dtsPHgPjLO2lMWWjMZz5UrumdaJwjjz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DjWuZtQAEOB9JGNHDAm+k8hwi33ddnJcLVt5FPUaIxQF9XeYSh0JeVsZKyPvyl7cQJcH3LS0MAN++nXzjwIVKUqiGtjvvV5FTUmAmtWSqLFGUP6PTmIL1OD7vLNM6WMFx4slSMousIlNm3vISf1YSewjXHvdmpVm1LlnxpWVzHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mSuLoJ0z; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 324301014;
-	Mon,  6 May 2024 10:10:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714983003;
-	bh=uueVkEXQte2dtsPHgPjLO2lMWWjMZz5UrumdaJwjjz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mSuLoJ0z6YXctAxIM1W5cNm8PteGGG2eQY2xpEUxJjdNImsPZtOOwr7IM6shbbNP6
-	 BHQWP4XW1c3iYUnAxbRwpSQ78yGoIslrVEfUBwScCs4rftj6w/gC7eFr0aHCdk0rdX
-	 3H9qIW6brzsD8/3QKGxY9ANw7cOGHV+zct/DaErk=
-Date: Mon, 6 May 2024 10:10:00 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 06/11] media: adv748x-csi2: Implement enum_mbus_codes
-Message-ID: <lj7mhgt62wzkdoqdforp7dyztwyn5xiz4jwjrxsqjkfq5aeqo5@t2g7o5dd6ual>
-References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
- <20240503155127.105235-7-jacopo.mondi@ideasonboard.com>
- <20240505210740.GD23227@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1714983037; c=relaxed/simple;
+	bh=qyZ9PKKgJWGrc2qyQNNFBv/ntY78R/FCw42GAtBxQ8s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jW+HeXiWaBRCP92R44ObWFHiBFTeFCFugg/AHeYR+0tHfyu9PfGrKLNVHHAwyb751+4OMckt9XBLuxJbduKF8GlGBIMufTb+kpcT8CkafUSERPp6AEKyUp2Boq7+IUZ8gsfqvC398n7tpQ9Cr3dryVrvBy3b/QsYTsToYvykWSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-61816fc256dso15424457b3.0;
+        Mon, 06 May 2024 01:10:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714983034; x=1715587834;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o2QE62R3nwlo/YjkO4pqNT7mQ4PBo4s92oTndNe4V8U=;
+        b=DKpinsWtCMcZ5qDnHrFcksmAGBp8uAcN8NDdP8QP7pU7Eq+BSzfjC/2uf7JgFXCdAx
+         Oy8Mq6kdG6nk6o+VYRbWtMKZQncXEctLvhcwewAMqCD+utDQZ9vn0CXcVywYvo11vuC1
+         dNXHmt0lrYX2/UnRK6mGW0zqFnIgLKyOLCK4WQKqedEH1cw4a7LCCCv145Kku1eMFK2m
+         AMVMS1Vl0cNhKsUvIXzemv6zWfa4S1CNtK2JyThVaHDDyO99fgbudyKWMliMLNl66KT5
+         +e1PIhwUpx0YUGzZDADwGy9QhkdjCy7tkrunEGq1HpKZ3923H0j65rXybhtpiT5+SXzO
+         CGcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVG3T+2B1r5iSB0CaoLX6GQK+TbZoVsN++8ZRKB0vMVvYcexx3ylLZFSwTeq/rZyAVD2Ffdbt0nE6a6X9ATHGF2sEjPUPViNETxr5yJbuLf0+wjx5Gvxz6bMGn7afd1cH5eGzmSYV4KiFHVsEcJmg==
+X-Gm-Message-State: AOJu0Yz062fpGQQrc4uJKlpoop5cFvD5qpmoaez+9ApeNXeOnW/Vi3rj
+	w7Hepr5hkdcrZyf0pTUEoD/knk1ksXCJ9VvTvPGM3JNZU/HJYYyjL59+NT5G
+X-Google-Smtp-Source: AGHT+IE3kCDRksyIVyPDcxu1MXRorwHdT3VT8RsZCtDGyS85lSCsGlurehSSRY8aCy5FlXbQz8qLEQ==
+X-Received: by 2002:a81:8397:0:b0:61b:330d:bcee with SMTP id t145-20020a818397000000b0061b330dbceemr8473524ywf.18.1714983033721;
+        Mon, 06 May 2024 01:10:33 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id u30-20020a81b61e000000b0062036e4c8c2sm975252ywh.51.2024.05.06.01.10.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 May 2024 01:10:32 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-61bee45d035so17683147b3.1;
+        Mon, 06 May 2024 01:10:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUDaEEPnGJKCRiKca5cfMHf7m/MzCAZIWRLLoJCnIx7GwXxbt3WSLurQ4S8ykJ/K3+/YM/qjcTUtg7/a3z/rLkmlg6Yd1wIqrbv1abXf4SXXI/eMbwACqIJI9dKY4h3DYgtyoVaCQn0FEcXhICiMg==
+X-Received: by 2002:a81:4c52:0:b0:618:5b27:e12b with SMTP id
+ z79-20020a814c52000000b006185b27e12bmr8822386ywa.7.1714983032367; Mon, 06 May
+ 2024 01:10:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240505210740.GD23227@pendragon.ideasonboard.com>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-5-jacopo.mondi@ideasonboard.com> <20240503180321.GK3927860@ragnatech.se>
+ <hicrcteav2thufxnlfbukmt23svoomiw6c2p3ngkg55z7e3bo5@l7f5chrf3lsk>
+In-Reply-To: <hicrcteav2thufxnlfbukmt23svoomiw6c2p3ngkg55z7e3bo5@l7f5chrf3lsk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 May 2024 10:10:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV2KvdgWPooHxnxaGwriaqDSZ0JH_Qq_0bDGMgccFbgPg@mail.gmail.com>
+Message-ID: <CAMuHMdV2KvdgWPooHxnxaGwriaqDSZ0JH_Qq_0bDGMgccFbgPg@mail.gmail.com>
+Subject: Re: [PATCH 04/11] media: rcar-csi2: Use the subdev active state
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent
+Hi Jacopo,
 
-On Mon, May 06, 2024 at 12:07:40AM GMT, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Mon, May 6, 2024 at 9:25=E2=80=AFAM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+> On Fri, May 03, 2024 at 08:03:21PM GMT, Niklas S=C3=B6derlund wrote:
+> > Renesas Salvator-X 2nd version board based on r8a77965
+> > 0;root@arm64:~
+> > arm64 ~ # echo wkbfirytku $$; rm -fr /tmp/vin-capture; echo ygxezpiinz =
+$?
+> > echo wkbfirytku $$; rm -fr /tmp/vin-capture; echo ygxezpiinz $?
 >
-> Thank you for the patch.
->
-> On Fri, May 03, 2024 at 05:51:21PM +0200, Jacopo Mondi wrote:
-> > Define a list of supported mbus codes for the TXA and TXB CSI-2
-> > transmitters and implement the enum_mbus_code operation.
->
-> The commit message should explain why, not just what. Explaining why the
+> What are these random strings in test logs ? (out of curiosity)
 
-Should I explain why the driver has to implement enum_mbus_codes ?
+They are sync patterns from Niklas' automated testing framework,
+to sync console output and test progress.
 
-> formats for TXA and TXB differ would also be useful.
+Gr{oetje,eeting}s,
 
-ok
+                        Geert
 
->
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 35 ++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > index 9da7f6742a2b..219417b319a6 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > @@ -21,6 +21,18 @@ static const struct v4l2_mbus_framefmt adv748x_csi2_default_fmt = {
-> >  	.field = V4L2_FIELD_NONE,
-> >  };
-> >
-> > +static const unsigned int adv748x_csi2_txa_fmts[] = {
-> > +	MEDIA_BUS_FMT_YUYV8_1X16,
-> > +	MEDIA_BUS_FMT_YUYV10_1X20,
->
-> CSI-2 uses UYVY, not YUYV.
->
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-As this a recurring comment in the series (rightfully, I'm not
-questioning that) how does it work with existing test scripts assuming
-YUYV ? The same question could be asked about the issue Niklas had: is
-changing what pad an operation is allowed to be called on legit ?
-
-My answer would be yes, otherwise we'll be forever stuck, but I would
-like to check, especially with Niklas which maintains vin-tests.
-
-> > +	MEDIA_BUS_FMT_RGB565_1X16,
-> > +	MEDIA_BUS_FMT_RGB666_1X18,
-> > +	MEDIA_BUS_FMT_RGB888_1X24,
-> > +};
-> > +
-> > +static const unsigned int adv748x_csi2_txb_fmts[] = {
-> > +	MEDIA_BUS_FMT_YUYV8_1X16,
-> > +};
-> > +
-> >  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
-> >  {
-> >  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
-> > @@ -146,6 +158,28 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
-> >   * But we must support setting the pad formats for format propagation.
-> >   */
-> >
-> > +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
-> > +				       struct v4l2_subdev_state *sd_state,
-> > +				       struct v4l2_subdev_mbus_code_enum *code)
-> > +{
-> > +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> > +	const unsigned int *codes = is_txa(tx) ?
-> > +				    adv748x_csi2_txa_fmts :
-> > +				    adv748x_csi2_txb_fmts;
-> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
-> > +
-> > +	if (code->pad != ADV748X_CSI2_SOURCE)
-> > +		return -EINVAL;
-> > +
-> > +	if (code->index >= num_fmts)
-> > +		return -EINVAL;
-> > +
-> > +	code->code = codes[code->index];
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static struct v4l2_mbus_framefmt *
-> >  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
-> >  			    struct v4l2_subdev_state *sd_state,
-> > @@ -235,6 +269,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
-> >  }
-> >
-> >  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
-> > +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
-> >  	.get_fmt = adv748x_csi2_get_format,
-> >  	.set_fmt = adv748x_csi2_set_format,
-> >  	.get_mbus_config = adv748x_csi2_get_mbus_config,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
