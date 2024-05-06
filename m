@@ -1,138 +1,133 @@
-Return-Path: <linux-media+bounces-10820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10821-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18A58BC610
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 05:07:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72C28BC717
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:42:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF9DFB20FE9
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 03:07:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0DF2B2098F
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 05:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F418F40855;
-	Mon,  6 May 2024 03:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824F7482CD;
+	Mon,  6 May 2024 05:42:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIouoH7g"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wya50mj1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C5533D0
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 03:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB6B18E3F;
+	Mon,  6 May 2024 05:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714964848; cv=none; b=GwE9SxCSvwPW4jSkpUTOBSzv7aqkUcpmj0zZF4R96Ny5BgvR1we0lMGTYzrfpI0GSba+J0KDxn/AN7LQAjX9SaVOJpiluZa1pknrH7/lSXbCJTsrkkioChYkUiQWqtoB+2p+7vLwuJicsznzLzr3BJUP6PScUv6Nf73GKxyze6E=
+	t=1714974135; cv=none; b=OaGTxm2vH0G6ZNZFat7te4m7Bu/54/Cuykaz46vUmF22AQlduzTowXwp8L6OE8Q4I4W+H4JO5+smb6ov+v4RJ6oG+gZvAiL0950uYb3sYOePUXrh+pJDCB3ENk2MF1q6T4H2UdyjV4LxcXqjITRg0oJPAlPkWKE2jXPtTAcHdmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714964848; c=relaxed/simple;
-	bh=VDpugAxNEAxXQFaDCnDp/TT9UD6Rnb2h1LmCWDYJ670=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=TXJ/feaMk7qJQqeZIT62ik0KkD8OTyeTkwTu7M1F89ekJvC04FRyCi4izrYs2gkIINyWkH6q6ZUIjaIbsoxNvbZZp2WgslAb2uTXHPO6TJWYJ2miroA4rl6qJXZeGvC9MIME0xwHe4osxHWqN4Byyx4CG0TE1Nx5mxijHWXl9aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIouoH7g; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714964847; x=1746500847;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=VDpugAxNEAxXQFaDCnDp/TT9UD6Rnb2h1LmCWDYJ670=;
-  b=LIouoH7gqwqXowhV5S4KyBju7B27q5mU+98dM6Xz9tfYH2U8HIyPEUq9
-   nquriDZJhDcydqeduDHa2vYQnKmolGjFbpmFeuQlULL+Wtr5XEiHFZImY
-   fNqTsT31jWEWgLZ+BSnghyeQcJ3+Mz48eZKroW+QgBPhxEYgD+6/EuuTX
-   NVxcNnmbupcemxKL67oM2DxosgYFHWW966UXhW2tZtUOlmzMcQr5IX9De
-   FORGHuCKv+Wkm8cCS4d9pmONhzOzbeZyjGLaoSaAOKWiVwp3/1HCqwvXK
-   gbl3G0wCV4EsjtYoSQUW73AolRq+c97SNw6XIK1PyUdJyGv9fq1MSk4MN
-   Q==;
-X-CSE-ConnectionGUID: 7LWvRqPeTuSXQduCGmclMg==
-X-CSE-MsgGUID: dhQahMniRBGXWMvegW6nIA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10816895"
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="10816895"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 20:07:26 -0700
-X-CSE-ConnectionGUID: 6v+Y0J4JSveFGo6hlutokQ==
-X-CSE-MsgGUID: alunLnauTfm3rX6hkNisTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="65456885"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orviesa001.jf.intel.com with ESMTP; 05 May 2024 20:07:26 -0700
-Subject: Re: [PATCH 1/1] media: ov2740: Add event support for controls
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
-References: <20240502100240.1585378-1-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <5078e1ac-d352-7f10-394f-c25ec6e172be@linux.intel.com>
-Date: Mon, 6 May 2024 11:07:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1714974135; c=relaxed/simple;
+	bh=I2gC6db5W94sY/Nje6LL1nITZWWBOZMxi+knIFHED6s=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=UvMQmlhLKvdHGlBBg8TCa14jezH48ag0BQBrqfdT38e4IVMzP1F/zo5Z2CdK2KQ1vbcVPb5yGJQsxXv/2au1TkORoVZ0tjQwgSBFIpNAHPQP8r/cHZ5H5xxKkATkJPm5UeffTjpBpTTjM8XLRmYJ6Gu/yvwXzEyUDPDSPUW9VSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wya50mj1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4465A4Lf017862;
+	Mon, 6 May 2024 05:42:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=RGbz+d0cSA3C
+	BWhPN/b2OFxYrWV8839GXBNsImCm8Pc=; b=Wya50mj1KnX6ccahnifyzXdisUuL
+	+xP92gPC6WOf/FjIhHCwI3+u+RfDKLlGgdMGr1bb/WX1erW4CXuGr8+dWcvuIUBc
+	lqfBT/68/Qd11HcRt2K26JBR09U5diBtS/IsMU2NJVIj+vqyY+535vx1JWabhLYb
+	SztttNjUrm3vlnvtQuaYNAjqi7g56burw9rJuBs1foVcZlwM2LV5Onp6+TwDlwgg
+	oGJgHhMgqdu7+HKVsw+J1LgU8do/N5RNm9BkQPyBPJZ6o2MeJyH4G4cChW6ey24g
+	HHf/KMTzk1D76hOYI8VGe972PN+3QxX5WeMoEnPrFbmdAp9NrZO//WXIrA==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xwe6rtn64-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 May 2024 05:42:09 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 4465g5sP025075;
+	Mon, 6 May 2024 05:42:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3xwe3kdgcb-1;
+	Mon, 06 May 2024 05:42:05 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4465g5Pe025062;
+	Mon, 6 May 2024 05:42:05 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 4465g5M6025061;
+	Mon, 06 May 2024 05:42:05 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+	id E7B843040; Mon,  6 May 2024 11:12:03 +0530 (+0530)
+From: "Agarwal, Dikshita" <dikshita@qti.qualcomm.com>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>, stable@vger.kernel.org
+Subject: [PATCH v2] media: venus: fix use after free in vdec_close
+Date: Mon,  6 May 2024 11:11:50 +0530
+Message-Id: <1714974110-19175-1-git-send-email-dikshita@qti.qualcomm.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Q_PPJDu1W2ORzfZaGO6JQq3JHjkm95gE
+X-Proofpoint-GUID: Q_PPJDu1W2ORzfZaGO6JQq3JHjkm95gE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-06_02,2024-05-03_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ clxscore=1011 mlxscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2405060033
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20240502100240.1585378-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-Sakari,
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Thanks for the patch.
+There appears to be a possible use after free with vdec_close().
+The firmware will add buffer release work to the work queue through
+HFI callbacks as a normal part of decoding. Randomly closing the
+decoder device from userspace during normal decoding can incur
+a read after free for inst.
 
-On 5/2/24 6:02 PM, Sakari Ailus wrote:
-> The driver supports controls. Therefore, add support for control events.
-> This makes the driver pass v4l2-compliance, too.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index 57906df7be4e..3e3f958db256 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -13,6 +13,7 @@
->  #include <linux/regmap.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
->  #include <media/v4l2-fwnode.h>
->  
->  #define OV2740_LINK_FREQ_360MHZ		360000000ULL
-> @@ -1100,7 +1101,13 @@ static const struct v4l2_subdev_pad_ops ov2740_pad_ops = {
->  	.enum_frame_size = ov2740_enum_frame_size,
->  };
->  
-> +static const struct v4l2_subdev_core_ops ov2740_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
->  static const struct v4l2_subdev_ops ov2740_subdev_ops = {
-> +	.core = &ov2740_core_ops,
->  	.video = &ov2740_video_ops,
->  	.pad = &ov2740_pad_ops,
->  };
-> @@ -1364,7 +1371,8 @@ static int ov2740_probe(struct i2c_client *client)
->  	}
->  
->  	ov2740->sd.state_lock = ov2740->ctrl_handler.lock;
-> -	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +		V4L2_SUBDEV_FL_HAS_EVENTS;
->  	ov2740->sd.entity.ops = &ov2740_subdev_entity_ops;
->  	ov2740->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  	ov2740->pad.flags = MEDIA_PAD_FL_SOURCE;
-> 
+Fix it by cancelling the work in vdec_close.
 
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Cc: stable@vger.kernel.org
+Fixes: af2c3834c ("media: venus: adding core part and helper functions")
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Changes since v1:
+- Added fixes and stable tags
 
+ drivers/media/platform/qcom/venus/vdec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 29130a9..56f8a25 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1747,6 +1747,7 @@ static int vdec_close(struct file *file)
+ 
+ 	vdec_pm_get(inst);
+ 
++	cancel_work_sync(&inst->delayed_process_work);
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	vdec_ctrl_deinit(inst);
 -- 
-Best regards,
-Bingbu Cao
+2.7.4
+
 
