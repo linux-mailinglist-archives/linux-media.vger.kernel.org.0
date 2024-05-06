@@ -1,46 +1,80 @@
-Return-Path: <linux-media+bounces-10884-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1BC8BD00C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:23:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C79598BCFA2
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:04:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 969501F20F7C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:23:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 545E91F22821
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:04:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E76513D8A7;
-	Mon,  6 May 2024 14:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08CBA81AA7;
+	Mon,  6 May 2024 14:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZrKQo4LL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hdazetS1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m19731107.qiye.163.com (mail-m19731107.qiye.163.com [220.197.31.107])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657A513D882;
-	Mon,  6 May 2024 14:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB2881721
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 14:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715005216; cv=none; b=qtzmFVqQOHmnvyNIMMBx6ADXQ3Yv0r08QbvvAX5Fa1OKZm0Q9FDc7vtsj/vVSMFiQFhtmXC/q1cHKfRUSxH7RiyH5wqVLiUuHADchNbSfa5Crq978mF627cRA481n1s9/LzPEbIPHWJi33Uev1AbV9+Yn4733h8IYn8veqiqIWs=
+	t=1715004233; cv=none; b=kTA1G+jTa0phWGKMEI9S+O85iAgXMQzscnUzokMNCIVG6R4MZJCduPhVNqxLLEFFBcS7K9iJJuDMD5AUCKN7I2fXg/TY949i5N+TjaQLMooUTdtotGXSSbnppsBOV4G4OBzSAPMz85XkVTewYIc80nNDLXIFHiz2XvO/1S84mUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715005216; c=relaxed/simple;
-	bh=pyfAwvjWpp9yO49mvYPG4/3Ctuy4s/rdglAXCFfPT4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FnK1Vjgls9XuajwTmkrglwmzh18IH694vYebh31X4dP8vae4f8iBp7etw3W/eGeSvhRxRfVn/y+cMoagozp0LOiBUKNBEwUAK2V+0oAYewqSWcaXkbSwCJnhnPnfby40EVpgeywcZ7ARj52eUX+gQCMv/8dMsq9pds+0PgpMObQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=ZrKQo4LL; arc=none smtp.client-ip=220.197.31.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-DKIM-Signature: a=rsa-sha256;
-	b=ZrKQo4LLpXHMy8d4LXYD5iTRkQxizuI2VtgsgE+tJYIizoDN242zSfeuyZB6BxBPQMhQ7sm0BOLRbctDuuDGN2P8iej4bSnj/drKmF3/FNT3RqhqTyIlvpEtD8A/Fe6P9zFf5Mb0Hkg6Vj8aO4luGZv0MwCJTidSzkGU/cgb2Ro=;
-	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=GJuF3hTrQtUJMZ2uZFlEfERKTqM4rnSOLJVMQPzCloc=;
-	h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 739F18404C4;
-	Mon,  6 May 2024 16:23:00 +0800 (CST)
-Message-ID: <ed035e25-dd9e-4041-b413-7511544d0aba@rock-chips.com>
-Date: Mon, 6 May 2024 16:22:46 +0800
+	s=arc-20240116; t=1715004233; c=relaxed/simple;
+	bh=QdBWMUSn7gZXmXCHj2RcAdJODiJKBW/D4uMUKrPsQ9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=icnQrtTz8ReAfL0Mvp8geLptmagQY/ek9/zhXfZNnPKIgspRihurAOJpUz42K41VQ0IvLCI94bMPrXdaNoHXBLz0oU0yo2RKXEfXm/6SgGkavJ/jMoSBW7dHX1elJKbdjXAr88/WZC0K0U+2RhwGMPlvxOtYNvmnr5ZR+muAHEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hdazetS1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715004216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oa4YbBmlzkI63abCw2z4fEd9n5o3yLiXeNXHymLCUuE=;
+	b=hdazetS1rh6Zk14lxWk+K3D7bTBbAyDxuxvav+EeuWJhbvBJeddS+KnjOKA65zFrsoMVUY
+	+iRCSSI+1pEejgdHdJy1N2HzNGI2sv83gq5rjAyl+O9ttcTtfTDI4PraM8HTGsvgzg+2Tn
+	qpfIc01/+e87uxRWJ8uKLPpGt+P/xcs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-696-0I0r0MRkNdSAowhmkqHb3Q-1; Mon, 06 May 2024 10:01:52 -0400
+X-MC-Unique: 0I0r0MRkNdSAowhmkqHb3Q-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-572ad77d634so666913a12.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 07:01:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715004104; x=1715608904;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oa4YbBmlzkI63abCw2z4fEd9n5o3yLiXeNXHymLCUuE=;
+        b=EKnvvBmwZpGPx7UdYvmw3D3Ntcyx9ZfF+rzUJjgGyPZUqZUsZ60XUQXVEx5WThElz+
+         hr9hLtocJt5laRjwIW7vdYVXjGcXlSuNljztXiBruFqwUeyfJlQuKdzE6HCl4PRl18fd
+         7b6EowHi2qeqc1JWLp5UVR48qqg06yWJ8QgMqp1u42bFL/LOIETDJSVxMYxmruwP5tQA
+         zF0qV66u1Csd4S/Yol91HGZIzhh5x/slLkihxnWGswCc9mpegZD3Kprcpblk80ULptP0
+         348cVjMP3dUjuP6OePBGmOIPTAYrJwJXSYg72Vchkwsy6LZupErLX8NE6/9zV90Z1agT
+         ab7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXFtEqF1sEylI8WXMx/XmSkwFJq5YtYxKfFcebDESMMFnn7VUfROz4up7rVymZ7EQK5W3PxfHc8Z/G46yif5IVGZFr4VC9mzNWkmzo=
+X-Gm-Message-State: AOJu0YyDy9GgmZY6kn9GyWnbtsvs164WQQDEwiYrK25arCc+v5QCvUqt
+	FXQ8/q8W7VN3p5FAmckm3TSJ5GD83YlZoXJgQeIXIGng0N8eBagmfG0xwtu6sCwe/orxF+FGovX
+	ZiplrdSQQ/vX24Q2j27NAhmgXn8r+Pgp/wiun77hANBcrM7SPonHXFtQKb+BB
+X-Received: by 2002:a50:9513:0:b0:570:5b70:3407 with SMTP id u19-20020a509513000000b005705b703407mr8444047eda.10.1715004104181;
+        Mon, 06 May 2024 07:01:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqtTHezMetmGx7QkF/7UHxNmAFJAxewY94xyi4UnLpcMz8eE3WVuF2BLvBhkQkOqr8E1iw4Q==
+X-Received: by 2002:a50:9513:0:b0:570:5b70:3407 with SMTP id u19-20020a509513000000b005705b703407mr8444031eda.10.1715004103794;
+        Mon, 06 May 2024 07:01:43 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id z5-20020aa7c645000000b00572b0a44e42sm5224207edr.26.2024.05.06.07.01.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 May 2024 07:01:43 -0700 (PDT)
+Message-ID: <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com>
+Date: Mon, 6 May 2024 16:01:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,101 +82,114 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
- <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
- <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
- <20240506-eccentric-wren-of-peace-819aad@houat>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Maxime Ripard <mripard@redhat.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat>
+ <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
 Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlNTFZOGhpJGk5ITU1IGUlVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
-	tLWQY+
-X-HM-Tid: 0a8f4cffc4c703a4kunm739f18404c4
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PEk6STo6DDMDFBdDQhojTDg#
-	DkgaCQNVSlVKTEpPQkNITENJS09JVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
-	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
 
-Hi Maxime,
+Hi Sima,
 
-On 5/6/24 15:59, Maxime Ripard wrote:
-> Hi Andy,
+On 5/6/24 3:38 PM, Daniel Vetter wrote:
+> On Mon, May 06, 2024 at 02:05:12PM +0200, Maxime Ripard wrote:
+>> Hi,
+>>
+>> On Mon, May 06, 2024 at 01:49:17PM GMT, Hans de Goede wrote:
+>>> Hi dma-buf maintainers, et.al.,
+>>>
+>>> Various people have been working on making complex/MIPI cameras work OOTB
+>>> with mainline Linux kernels and an opensource userspace stack.
+>>>
+>>> The generic solution adds a software ISP (for Debayering and 3A) to
+>>> libcamera. Libcamera's API guarantees that buffers handed to applications
+>>> using it are dma-bufs so that these can be passed to e.g. a video encoder.
+>>>
+>>> In order to meet this API guarantee the libcamera software ISP allocates
+>>> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+>>> the Fedora COPR repo for the PoC of this:
+>>> https://hansdegoede.dreamwidth.org/28153.html
+>>
+>> For the record, we're also considering using them for ARM KMS devices,
+>> so it would be better if the solution wasn't only considering v4l2
+>> devices.
+>>
+>>> I have added a simple udev rule to give physically present users access
+>>> to the dma_heap-s:
+>>>
+>>> KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
+>>>
+>>> (and on Rasperry Pi devices any users in the video group get access)
+>>>
+>>> This was just a quick fix for the PoC. Now that we are ready to move out
+>>> of the PoC phase and start actually integrating this into distributions
+>>> the question becomes if this is an acceptable solution; or if we need some
+>>> other way to deal with this ?
+>>>
+>>> Specifically the question is if this will have any negative security
+>>> implications? I can certainly see this being used to do some sort of
+>>> denial of service attack on the system (1). This is especially true for
+>>> the cma heap which generally speaking is a limited resource.
+>>
+>> There's plenty of other ways to exhaust CMA, like allocating too much
+>> KMS or v4l2 buffers. I'm not sure we should consider dma-heaps
+>> differently than those if it's part of our threat model.
 > 
-> Thanks a lot for giving it a try
+> So generally for an arm soc where your display needs cma, your render node
+> doesn't. And user applications only have access to the later, while only
+> the compositor gets a kms fd through logind. At least in drm aside from
+> vc4 there's really no render driver that just gives you access to cma and
+> allows you to exhaust that, you need to be a compositor with drm master
+> access to the display.
 > 
-> All the issues you raised in your review are fixed.
-> 
-> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
->> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
->> the following error:
->> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
->> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
->> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
->> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
->> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
->> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
->> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
->> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
->> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
->> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
->> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
->> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
->> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
->> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
->> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
->> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
->> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
->> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
-> 
-> Which kind of display are you testing with? The only reason it could do
-> so is if the display claim it doesn't support RGB in its EDID which is
-> contradicting the HDMI spec. Are you using an Analog display by any
-> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
+> Which means we're mostly protected against bad applications, and that's
+> not a threat the "user physically sits in front of the machine accounts
+> for", and which giving cma access to everyone would open up. And with
+> flathub/snaps/... this is very much an issue.
 
-It is because there is something wrong(I still don't know why) with the DDC on my board.
-It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
-will return 0.
+I agree that bad applications are an issue, but not for the flathub / snaps
+case. Flatpacks / snaps run sandboxed and don't have access to a full /dev
+so those should not be able to open /dev/dma_heap/* independent of
+the ACLs on /dev/dma_heap/*. The plan is for cameras using the
+libcamera software ISP to always be accessed through pipewire and
+the camera portal, so in this case pipewere is taking the place of
+the compositor in your kms vs render node example.
 
-and in function
+So this reduces the problem to bad apps packaged by regular distributions
+and if any of those misbehave the distros should fix that.
 
-drm_helper_probe_single_connector_modes:
+So I think that for the denial of service side allowing physical
+present users (but not sandboxed apps running as those users) to
+access /dev/dma_heap/* should be ok.
 
-         count = drm_helper_probe_get_modes(connector);
+My bigger worry is if dma_heap (u)dma-bufs can be abused in other
+ways then causing a denial of service.
 
-         if (count == 0 && (connector->status == connector_status_connected ||
-                            connector->status == connector_status_unknown)) {
-                 count = drm_add_modes_noedid(connector, 1024, 768);
+I guess that the answer there is that causing other security issues
+should not be possible ?
 
-                 /*
-                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-                  * Link CTS specifies that 640x480 (the official "failsafe"
-                  * mode) needs to be the default if there's no EDID.
-                  */
-                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-                         drm_set_preferred_mode(connector, 640, 480);
-         }
-drm_add_modes_noedid will not initialize display_info.
+Regards,
 
-> 
-> Maxime
+Hans
+
 
