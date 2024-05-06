@@ -1,140 +1,91 @@
-Return-Path: <linux-media+bounces-10826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47E58BC7BA
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:43:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3BE8BC7DD
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0183A1C2108C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 06:43:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80E691C21256
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 06:53:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD4143BBE8;
-	Mon,  6 May 2024 06:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFB34F5F9;
+	Mon,  6 May 2024 06:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Z4uuakRL"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="HVgPopCz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0483FB89
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 06:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38D24EB23;
+	Mon,  6 May 2024 06:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714977777; cv=none; b=dz82dNrulbdEOxlLiHxb4lN8v/gaJc+pMoPL7P+Wz0DSIZtCLF8ZlHAQfgsz6BsKDkdQb9n6awmkk5MZhWgVe33WPVrfjT4khxKdU+Nj6aDPmJZTpgKoCX4sxhrha6uuo1C+2ybMtMMn2y+2CeP1kwohw6sMmZ6cvTLUwyjxLGM=
+	t=1714978388; cv=none; b=mz+/GJGmW4N+FZ75Hwb+cYoAeqRr+AmIPBWxaeCNmXxb+r2d7ZU5GaUJEsGdSHfDx/Ge9R+6EfHGX0/AAcv6LD13y9p5KlmhvRWdxVBenfK8ztp+kSei578r3NQ0IVWK3MtXMwcfebhuosXjcuDiLG88FMKOrVGX27Maqnv0VKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714977777; c=relaxed/simple;
-	bh=nex5O26cUvAvL3ka+pH6k2XQgsIMPgOT9DOa+Q4eIYc=;
+	s=arc-20240116; t=1714978388; c=relaxed/simple;
+	bh=Dy66GOaQxrCaDynaoClMZVGXzDzZMqaoN+1OXSlX9Xg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ci9ZwWJgpOa1tkIqM8FGRQ4Af0SZ2K2HmqzGhZ2fz4HosZfhX+jYf/3MpkW/JO8MIfCHYhDCMyIVIvJPEIQqs/zFa7lLvYvy06NKP/vPW2P9wEuiuMGVQAUHI2nSZWgzmPnBCuT6o3Baqz5sCxfKzhQ4NLKrp4vP/0Caxw8QExk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Z4uuakRL; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=nex5
-	O26cUvAvL3ka+pH6k2XQgsIMPgOT9DOa+Q4eIYc=; b=Z4uuakRLyv7KSGYPTT7m
-	MuYfaHe1nqGM17oxgLVuu4q9ChLRtwKKQzYtzoIjPR//VBzkUsIejui5P+3G0X33
-	qhOlKEAmmX+NENH3rMa0iVuVC3fTAFWNIS3AlMMVn4N6FUA3uXJEjmSLVoww1dyv
-	amYnXNi+1INy/AX+1GoqwOQB6XcjJBDC0XIhpUmxgB+rOUrXMFIKSfSiGUw8fHrX
-	+Ko0GXbAAmb0Rk4wtumIpSjhSeXl731BeGtvqQbAAEZTnDYr6PeKiBHp61p18hhP
-	kCvt24ztwGey0itKcRQ8JBiQh5isGyrptcSO+4QNCvvQ/4L2mHHY3kxMDlF79agU
-	RQ==
-Received: (qmail 84243 invoked from network); 6 May 2024 08:42:49 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 May 2024 08:42:49 +0200
-X-UD-Smtp-Session: l3s3148p1@olqJYMMX5rMgAwDPXzrfAO1ieDVkyUqz
-Date: Mon, 6 May 2024 08:42:45 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>, 
-	Peter Rosin <peda@axentia.se>, Peter Korsgaard <peter.korsgaard@barco.com>, 
-	Michael Hennerich <michael.hennerich@analog.com>, Vadim Pasternak <vadimp@nvidia.com>, 
-	Michael Shych <michaelsh@nvidia.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jacopo Mondi <jacopo+renesas@jmondi.org>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, "open list:AMD KFD" <dri-devel@lists.freedesktop.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	linux-media@vger.kernel.org, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH] i2c: mux: Remove class argument from
- i2c_mux_add_adapter()
-Message-ID: <vu3vfpw24hl6obm7smbgxja2xho4jebg5onehnio5av25vxut5@7oldfkfgrszo>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>, 
-	Peter Rosin <peda@axentia.se>, Peter Korsgaard <peter.korsgaard@barco.com>, 
-	Michael Hennerich <michael.hennerich@analog.com>, Vadim Pasternak <vadimp@nvidia.com>, 
-	Michael Shych <michaelsh@nvidia.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jacopo Mondi <jacopo+renesas@jmondi.org>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, "open list:AMD KFD" <dri-devel@lists.freedesktop.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	linux-media@vger.kernel.org, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uhuWh9CfMaiV/GAIYwI1QAo0FfATQf7HKkruloWUIKw7jMXdw8xJzQt0VypqqHFJmvALP+Go8pa/bRL+Y1I9dwIv+kawjQlBNnElG/WQ+M8N3IlEZijzQLRrZxTOvY2oXVUsM7LqT8QpbHSqOekl85QtgtWw3DP1ORV/EZai8qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=HVgPopCz; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from fedor-21d0 (unknown [5.228.116.47])
+	by mail.ispras.ru (Postfix) with ESMTPSA id D128840769D5;
+	Mon,  6 May 2024 06:52:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru D128840769D5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1714978376;
+	bh=EwcyDJdNTrTep2VJgQcoEYJczFdF5PJ0OxkRi2D2QSQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HVgPopCzwZafYnLSZgHdpcikZS1YufZHSp084ZfpvrRSz4N6jayBI6+FhTaWcSN+E
+	 AGxhcMK1YH0vOee3JKJz/Csl+7M7TfPY/sgIz9v8rPyrUK9K7NCp67ksSwakGaPmP+
+	 Or7pT76bA9Yg9g7jus8fRotbxXPHuXR46nskXj4w=
+Date: Mon, 6 May 2024 09:52:50 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	lvc-project@linuxtesting.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com, 
+	linux-fsdevel@vger.kernel.org, Zhiguo Jiang <justinjiang@vivo.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Subject: Re: [lvc-project] [PATCH] [RFC] dma-buf: fix race condition between
+ poll and close
+Message-ID: <20240506-6128db77520dbf887927bd4d-pchelkin@ispras.ru>
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+ <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+ <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+ <d5866bd9-299c-45be-93ac-98960de1c91e@yandex.ru>
+ <a87d7ef8-2c59-4dc5-ba0a-b821d1effc72@amd.com>
+ <5c8345ee-011a-4fa7-8326-84f40daf2f2c@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cucy77nhppbompf7"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c8345ee-011a-4fa7-8326-84f40daf2f2c@yandex.ru>
 
+On Fri, 03. May 14:08, Dmitry Antipov wrote:
+> On 5/3/24 11:18 AM, Christian König wrote:
+> 
+> > Attached is a compile only tested patch, please verify if it fixes your problem.
+> 
+> LGTM, and this is similar to get_file() in __pollwait() and fput() in
+> free_poll_entry() used in implementation of poll(). Please resubmit to
+> linux-fsdevel@ including the following:
+> 
+> Reported-by: syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5d4cb6b4409edfd18646
+> Tested-by: Dmitry Antipov <dmantipov@yandex.ru>
 
---cucy77nhppbompf7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess the problem is addressed by commit 4efaa5acf0a1 ("epoll: be better
+about file lifetimes") which was pushed upstream just before v6.9-rc7.
 
-On Thu, Apr 18, 2024 at 10:55:39PM +0200, Heiner Kallweit wrote:
-> 99a741aa7a2d ("i2c: mux: gpio: remove support for class-based device
-> instantiation") removed the last call to i2c_mux_add_adapter() with a
-> non-null class argument. Therefore the class argument can be removed.
->=20
-> Note: Class-based device instantiation is a legacy mechanism which
-> shouldn't be used in new code, so we can rule out that this argument
-> may be needed again in the future.
->=20
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-
-For the record, I will apply this patch once Andi sends me his pull
-request because there is a dependency in there.
-
-
---cucy77nhppbompf7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmY4e+UACgkQFA3kzBSg
-KbajMQ//Q/eB+kl4FeNpZjryYfjnQ7n7O6UoNwhSom4I8yNSwsKuW11uPlGO2Ykv
-5F/GZy+exfdQ03lNIncbhnFhn+qj4JdtIku4B0HblNyL4tsKdrauWA8FDb21YFgT
-HefvU0OcO1l+mMiPzltii0dvuXs2m3PH/5WCM+n6Sh8lBQUIemGiJrM0yG9OD9en
-6XgXkxzWrEKpAW+Yla5gFGDV5UmAAll4LnOM9rprGITyUzIFoADcl/TcDDFneYkS
-Z1YA/m4ehqKBXgUb8NcLS1yBOf2Eed5aXoHDMxxr03j1NqybJR0RXPLVW2YSwZYU
-R8cfUZcGlUDUlCYQDx9HWMHp4MOiWGGduqVJfiBZobN6pC/m2Os1JNBP0eSt8kNF
-zekrJRHyAGHqS0ehNCFczwERgVwFZ3f+8t0xsuXSTHEwbfjKfvIUTl46L9mvc62X
-ctdf641RagBedgTryHAThhO2SCDxjj9Z6SgUYipo5b8+voaf2yDf9n4dIXhkn1Li
-aU42xlq2DiL03xPumEY7GGUL89z8AnNygp8YlBHcMS+rAIAVn4McvHmj9fmBpkQf
-x10yvP1qUCgj9cq1C4zHT/gycf6tNG8wDutxWFKvHIUH0KPKYGaXRQ8O0+uy3VNy
-qqLtPqBcMyciJtbwDnjAlKNwbPMeWIDZe2qTyd56g7ZAmXrrhBg=
-=crMB
------END PGP SIGNATURE-----
-
---cucy77nhppbompf7--
+Link: https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
 
