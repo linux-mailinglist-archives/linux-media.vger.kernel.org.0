@@ -1,135 +1,204 @@
-Return-Path: <linux-media+bounces-10859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A768BCCE3
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:34:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C368BCCEA
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:37:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75A7BB228CE
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 11:33:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAE2A28378E
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 11:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4786143874;
-	Mon,  6 May 2024 11:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E2F143727;
+	Mon,  6 May 2024 11:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="haYAWO22";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bAdQMvMn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfhigh6-smtp.messagingengine.com (wfhigh6-smtp.messagingengine.com [64.147.123.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D42214262C
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 11:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB3139FF4;
+	Mon,  6 May 2024 11:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714995215; cv=none; b=VlCeYT4US30PnsPzAGnALICVHc7qxH0Re+/NKtAsjlq/Ju7Hx1GEdFWNbIFo/P5jsP9+/fwACccyIbAl/Fur/cBQPzGFvWvwA4zRAMvXHdLcfBfuf3f9MfyB5SU/w0aSt0EteN0SRkwuq/WXZgdOomIukBllknup4glxCp2fKgg=
+	t=1714995457; cv=none; b=s02xA6YHy5W1gA75YjG/HVUOcJ/b+ZNLlNWzIv8UpM4EBLH1CQi07I7xhni052k9LUG6m0RgtxHfHsZoG6jX1MJ1594aHsHD3LPNEgz5qk1RdfJqn2GKqaEY773cqI195zUvRwFyVu+oFIJi78AKaeltlHxYEW5k6DkXTCnrbPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714995215; c=relaxed/simple;
-	bh=C5NmYIuRTv8ie8SMiHYjVuqlIBLqzEtjHATdklrZadQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=oyymhkT3Ohw7kbQuoVwQnc74TmE7qdVz9deEE/iBx4/EzOOjd/NqGeOWu/dn8TakIVv83gm9vJ307iWF2XApGFRtXW0AOIcuh5ur8yumLw76kLzPjMhbo5iWClXYjC8P4T9elMgeTA/KsjrTyqrBJOmiaBmiahK5iOo4hEupsWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8373C4AF63;
-	Mon,  6 May 2024 11:33:33 +0000 (UTC)
-Message-ID: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
-Date: Mon, 6 May 2024 13:33:32 +0200
+	s=arc-20240116; t=1714995457; c=relaxed/simple;
+	bh=IL52Qh3CpOKISjo/G+zib0XNtVS9052Zkh5wZvGhKEY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ryUjVtVtAWfb0eZiTxoYj+7+vMebNLt4Qnix8sLTqTFcaO0Ng7j1Y+PrG4AWT2ZkZsIazHVBlTbE2+vY3hcB4uZ62oqqe1l43prcf6ERGuEHA+B5383R7SvPUqtVQ0IguRS6GZ3FAPtXHd7zDfSPuF5zMJtKEbx3oM9lMgShpI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=haYAWO22; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bAdQMvMn; arc=none smtp.client-ip=64.147.123.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 4BCF7180013F;
+	Mon,  6 May 2024 07:37:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 06 May 2024 07:37:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1714995452;
+	 x=1715081852; bh=kILgmZX+igP54Fj8GwI7Umkzb1nVGrcQEa87X+pv/Fc=; b=
+	haYAWO22K4Lj2tJtAa+zmJofYHwLFPvhFpIyDaFDh9OjYkISBV/oGsQIp9gZ1C/n
+	8vqRJzvm8SKRuLB5zXsD5PW3G4fbDErcY+SlDbWHsrg7ip9Ly5FVaYCsQTP/2moH
+	gZfJu+oBwlcIRPLRGoDcWdN1S2kOKSO0i3XtyBqBE48wpbf6w5fKY71lY9WzWu0G
+	2U8J7XVmvG6wzmv99YoUMEBh8sgrT+5x0F35+NqthzTpoLApIMnEDEtD4hmY8/Wp
+	e0Juea1XIw+VapviyRXR+wcLjv7xSo03GSpdsm/nCLtuajL74eD1rtCvWeJ+LWI7
+	ET8vq72QIqC2kKrIzRLNiA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1714995452; x=
+	1715081852; bh=kILgmZX+igP54Fj8GwI7Umkzb1nVGrcQEa87X+pv/Fc=; b=b
+	AdQMvMnKmCMxVdgdc032YwcchRT3dJ/EcQZYA3/QW/OftCdhXWg98KX7MiUoat39
+	Piw3VEK5kmeKR1YGqSeCL+l10p9qyfb4BNgj1Ytf8BXiOXhq39AEzopjI4jO9Ofi
+	GoJVgRoPJGTp10/vkqnrFJAx1ApzEZaC3F2RaZ9Uw/OHk/k1Wm6EevDRhTAUFOQi
+	5lvoVbYswxl7kCSVRv6N5LoraHfEkpPkA7TiuekhMn5wm63lNdHHs8pk6iDxnZ+f
+	VT+LlvL5b62phxtFwj3RzXjI3JgfZpwtXQWxJX4lHlJQ02Un1ITDqbGmT2H3qXQt
+	7FiMJLxrRijwfL4zTW+jQ==
+X-ME-Sender: <xms:_MA4Zp-O_q8uYAQEuBCHmlWS9cBXCYEDHIcqMrH8PQGk8ECeJR9EmA>
+    <xme:_MA4ZtuvD0i5XwSdhimnfGH6DEl4oHYToH4Q2vpXVsIVvLAQO7AaUABF5ZKL5dFpm
+    Gi-WRiGJFqZazyqIpo>
+X-ME-Received: <xmr:_MA4ZnD68MW0nr1zljp875noeSyNZrKLZVUwqyA3Wyo9UEW_6oRZD39GRLd3JyZM4wumW5Ca3TqJPhkgDTC5RpnxmGK6zGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddviedggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:_MA4ZtetvgyZuOUAWYVk5FwoHLZE4yah0I6G7BHereXqAaLrQcqpdw>
+    <xmx:_MA4ZuPy1q1e_wftmpJQXn1XYoUNx-PKP2z3DuQXM-JPI-LEJ2QNCA>
+    <xmx:_MA4Zvn452bSHLDM32xzp48ufzdBGutvxcK3KqXrlTjkKPW3ru-5XA>
+    <xmx:_MA4ZotJniCexeGoGBXzF0OwYuzda8ESx8uHY7cyJtVRVdFgcTHFbQ>
+    <xmx:_MA4ZtfmAC3gnZo-kMcw1UfbXfB2I1KWjKwZAEi2FREVk2T8GEnxa8KU>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 May 2024 07:37:31 -0400 (EDT)
+Date: Mon, 6 May 2024 13:37:30 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 07/11] media: adv748x-csi2: Validate the image format
+Message-ID: <20240506113730.GA1017753@ragnatech.se>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-8-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240503155127.105235-8-jacopo.mondi@ideasonboard.com>
 
-Hi all,
+Hi Jacopo,
 
-We will organize another Media Summit on Monday September 16th to coincide with
-the Open Source Summit Europe in Vienna:
+Thanks for your work.
 
-https://events.linuxfoundation.org/open-source-summit-europe/
+On 2024-05-03 17:51:22 +0200, Jacopo Mondi wrote:
+> The adv748x-csi2 driver configures the CSI-2 transmitter to
+> automatically infer the image stream format from the connected
+> frontend (HDMI or AFE).
+> 
+> Setting a new format on the subdevice hence does not actually control
+> the CSI-2 output format, but it's only there for the purpose of
+> pipeline validation.
+> 
+> However, there is currently no validation that the supplied media bus
+> code is valid and supported by the device.
+> 
+> With the introduction of enum_mbus_codes a list of supported format is
+> now available, use it to validate that the supplied format is correct
+> and use the default YUYV8 one if that's not the case.
 
-Avnet Silica has very kindly offered to host this summit at their Vienna
-office, which is about 35 minutes by public transport from the OSSE venue.
+With the update tests for the change in patch 4 I hit multiple issues 
+with this patch for CVBS capture.
 
-Location:
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/adv748x/adv748x-csi2.c | 27 +++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> index 219417b319a6..1aae6467ca62 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> @@ -215,6 +215,23 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx,
+> +					 unsigned int code)
+> +{
+> +	const unsigned int *codes = is_txa(tx) ?
+> +				    adv748x_csi2_txa_fmts :
+> +				    adv748x_csi2_txb_fmts;
+> +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
+> +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
+> +
+> +	for (unsigned int i = 0; i < num_fmts; i++) {
+> +		if (codes[i] == code)
+> +			return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
+>  				   struct v4l2_subdev_state *sd_state,
+>  				   struct v4l2_subdev_format *sdformat)
+> @@ -222,7 +239,15 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
+>  	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+>  	struct adv748x_state *state = tx->state;
+>  	struct v4l2_mbus_framefmt *mbusformat;
+> -	int ret = 0;
+> +	int ret;
+> +
+> +	/*
+> +	 * Make sure the format is supported, if not default it to
+> +	 * YUYV8 as it's supported by both TXes.
+> +	 */
+> +	ret = adv748x_csi2_is_fmt_supported(tx, sdformat->format.code);
+> +	if (ret)
+> +		sdformat->format.code = MEDIA_BUS_FMT_YUYV8_1X16;
 
-https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+If adv748x_csi2_is_fmt_supported() returns non-zero you default to 
+MEDIA_BUS_FMT_YUYV8_1X16, which is fine. But the non-zero return code is 
+propagated at the end of this function and to user-space falling the 
+IOCTL.
 
-The meeting room can hold 18 people and has video conferencing support (MS Teams).
+Fixing that I hit another issue that kind of shows we need this format 
+validation ;-)
 
-That said, I want to keep remote participation to a minimum. This yearly summit is meant
-for active media developers to meet up face-to-face and to discuss media subsystem issues.
-But if you are an active media developer, but are not able to attend in person, then this
-is an option.
+The TXB entity only supports MEDIA_BUS_FMT_YUYV8_1X16 formats, the AFE 
+entity only outputs MEDIA_BUS_FMT_UYVY8_2X8... So with format validation 
+in place it becomes impossible to connect AFE to TXB and breaking CBVS 
+capture on Gen3. As a hack I added MEDIA_BUS_FMT_UYVY8_2X8 support to 
+TXB and I can again capture CVBS with patch 1-8 applied.
 
-If you have a topic that you want to discuss, just 'Reply All' to this announcement.
-It would be very much appreciated if you can also add a guesstimate of the time
-you need for your topic.
+>  
+>  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
+>  						 sdformat->which);
+> -- 
+> 2.44.0
+> 
 
-If you want to attend the meeting (either in person or remote), then send an email to me
-directly. Since the number of seats is limited, I may have to put people on a waiting list.
-Please let me know sooner rather than later (ideally by mid-July) so I have a good idea
-what to expect.
-
-Priority goes to presenters and the core media maintainers. If multiple people of the same
-company want to attend, then I may ask to limit attendance to one or two people.
-
-It is hard to predict how many people want to attend, so I'll see how it goes.
-
-Regards,
-
-	Hans
+-- 
+Kind Regards,
+Niklas Söderlund
 
