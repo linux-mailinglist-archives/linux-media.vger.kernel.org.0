@@ -1,73 +1,74 @@
-Return-Path: <linux-media+bounces-10877-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392138BCF69
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:48:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF1F8BCF6E
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:48:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBAB8287401
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:48:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1A2B1F21DAE
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6BD7FBBD;
-	Mon,  6 May 2024 13:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFF7780C03;
+	Mon,  6 May 2024 13:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="3PACTyXy"
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="tHmY2rea"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77BD7BB0A
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE80A7FBBE
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715003312; cv=none; b=DW7k7BaFiw1Yi2/HFWgZW1HJ+mqCqSEivQzukLGGqJdDDgKdnitzjOwjmvEfFWKu+iUA4UM03+nY5ost6QFj23bL9ZeR2fil0n9X9AJ21m0bRfiJgIyzuC9V4dMWDJa5Gv4EfniG1DlfJw6BTvYtXcIKhMDeCVS3PckNIdQ4raQ=
+	t=1715003313; cv=none; b=ZD2JucLyfq2uBeXITmq80x6Wud2+bpmSUx0P0yVY1wZU04hnxh6Hhdn69SVTmjB5OALR6BcsmNWvnZBcs/ReuEoJMnWYTY71ufePsmMO3MqAGHxjNYnKSHapH5aCeSoMJsJTx9P9TZNot8yFowuAepnxQQkkSZkzr6ypu4GCCSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715003312; c=relaxed/simple;
-	bh=/QiOmbDA0s51k+/GZk9L3TVkYAJe99suGA6XGSKHexI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=uhGoqISSwUEoZB5/luiXcrJld+yIw3AqQ6ounf0Y5cx/sePRJV/m4VA+PxIwSYKp3rm8/7i6ChGW6TuPC+wHW6oqlthWrs3w54rX/Cltf4ZVy5sT03IJ9gS2cGeYNLZeI2EXXUY+xNqPl5AuFA/QAKYtS88Fktx2YcBOOc609F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=3PACTyXy; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1715003313; c=relaxed/simple;
+	bh=KkTKkbItVaoNaebdlZbTplZomRRkcshA7Z5iO0bO4bU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kW81Op/iPuY20kzPNsT3sTAuMVwE7bx6PVR1t3eZBeTDJ7DzXJToZBAM35rgmfpH9MHB7ZjqMwJiAGas3lOAz2kRXfyO/kZD+5kAFj8PZeZkkAmFqIg/e4uK8Efb8VPle2RyNZ8vxrUyWnq9Z+9IeJb6umFg4xtCaFSnZ7etNvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=tHmY2rea; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41b7a26326eso13882525e9.3
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 06:48:29 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51f1bf83f06so2317534e87.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 06:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1715003308; x=1715608108; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QpQZF9S049qXGJvc94Xj+0DMMhtpV0sTvcQBUS5iK1E=;
-        b=3PACTyXyMLYPy6SwaF1T/motN6j6GofuV+CLPsz2Yrd1i6q4qzhQWyaJ5StMMM5Btx
-         DkBOFHF5nyoLG/G1dLboanuh+AIWD360dCvy/SbwZhV+iTQUOgq9pmUoplk6Xhl+Dl0Z
-         ux/1OnQYv+qDrpRP6Iqqz6oF6IUFfg8yQ0NTXGt2NT2FQgQTFAtbw5TUbbCGMmS+RHgP
-         YQJmRhcqzwJvDJrJUR3PZWcsrg4EJ39z/3Coi5/kuRrOK+iihWjmcJQjLp+XggqMMOGy
-         9iP4+NecfS1IJUgSaWSCs8NnGGKqaWjtRkTKAjRRQgbKRtZjzMMVsrg4DorBETP2FCM5
-         9W0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715003308; x=1715608108;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1715003309; x=1715608109; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=QpQZF9S049qXGJvc94Xj+0DMMhtpV0sTvcQBUS5iK1E=;
-        b=K9J75bmY0ifUurUwLIqQCRLuiWjYp2cryIgmWMAkdbmCoPvHxJKS5fjNoNvOBHV6pu
-         GQftebvAuU6hel+o55smHpcHWbtyZkn84GKk6GPN8AJ9F7VCOGeoD0BgvwUOOqoGdqGU
-         tmC0tiNaRiOvogpTPSIFJyUi42q0pRHASNCJL9CFcjzNpArh+TCFWsiOZQRG0pI1WouE
-         f1XmlBvFWImYN+nJU2PFlb6zcV57pXEpPuQ3pddKfnr8FGWW/0Xg9/zT7sxTXLV4JKWv
-         wMnjCQUP2rj14HNUNDf+fVuJhBkRi40SecCb6CvH8ExqP8tCJ6jgZ80C6nVQQDP4PMgO
-         B6fw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMvb3z5w0XjD95PF10JAe9n0BmcS7+5TGN6u62V+PXr68L2pekntRB7tzdXoYuEXMR9V51COARwsv6Juf5H8Ix2ANEUA9HcrWS83Q=
-X-Gm-Message-State: AOJu0Yzh6PRkDW+27GkYVwl2KHyQJHFNRwlkPOjVlSLAh48LZuNkO1xC
-	nQDyALAOmEY46SVHY2y/0PHV+PLn1qsVAWzFMgN1sN7AEI+YSEGWAB2zWVrpt70=
-X-Google-Smtp-Source: AGHT+IEbrCHCg7Aa7QTpevRKQ/4P9BaGRheKpe1Dh9lR+//YS6OPAFLfJidV2fmkiuzYW0Z+wW9MDA==
-X-Received: by 2002:a05:600c:3b8f:b0:41a:821b:37f7 with SMTP id n15-20020a05600c3b8f00b0041a821b37f7mr7461206wms.27.1715003308031;
+        bh=jmr0hfgWJAF/7VHtSyTJsAvmgssCMuwvQVaPUW5EW3A=;
+        b=tHmY2rea40SZGtV3urQvOGojFdJ84Xu2RZLL7uYIwm+t7JvRW474Qx0Su5oetg4It0
+         18KAGe4Y8tlBcRjiV5XgdXxyJndv/j3uTLWqHk4Dmz5cH1JgWvC8YFWTLja1AKPhe88K
+         ZXClSkDJ7oxWjP8VGljiBnSfLw1AYluOJsVbLo4VAHJ9Gl1tjeabS16FXom1IN2EK3Bf
+         JGG725cs41wGhilnK8WrrVfuuh6lDOCTo38lg3Lp5xwJ5wrKKU65VDm8ViGc0JpK8lnT
+         DWrIW+jrBXX4T11g8zdTxkOqSdLFPaLEZZh19T8s7WIPMFFlcr287OnSd4hbPwWC4bhq
+         H7Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715003309; x=1715608109;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jmr0hfgWJAF/7VHtSyTJsAvmgssCMuwvQVaPUW5EW3A=;
+        b=ES73qn3VawzEhQyMZk+AVR1lHzMSAs378x5ZKmlrOFNxjfkzAP4oDWk1QtdA1oE88A
+         hFFRbL8F/iSx8AQwCOpfFyicIlFqoQH1iQBloffqE8T+F6xeboS87iAcMQejB8ResGMo
+         uuqXhiHbaaQEvtpkyMZADmR+qi5cqmp7fKKqKDhNladzCCuCz28ZwKIfH3UHX2YQPh9A
+         E2y0mPd0BaT/CU3eGXXwk34a+3dpvhrjnD8eJkOm0TmJ613mhh+MeqyT3T+sNvRwTqof
+         F97+5ECgyd1WLQow4EgeRFa6vUfqvYvlJ9YDDCsN+GIs8Y03Ut4QHAh1JTlpFlTnIIs1
+         qOww==
+X-Forwarded-Encrypted: i=1; AJvYcCUqQSulb4HrLb+I2Lvb14QzFEI5emJ4dd4HmvMPoYD7l9/Co0JAQ6Be7log1V/YzCZlisFotjb60+2pR9z0gLnQZmry8KY5CfY/8FQ=
+X-Gm-Message-State: AOJu0Yye6XFn9j/lqI+4NwrTVQvDf8YAuZO4ROl1LxTbufOs4Asww5VN
+	EZUjWWSZgMWUKTe8xayFEAh6B7lKMW50rW5AxwirjhES4R/00122BFdKBzySeZI=
+X-Google-Smtp-Source: AGHT+IEHDHR77wZC2Yk5IorPluWW0YYOwrto2AB7fQsL46fWUFMec9hqmWFCuw9eYy7Pr6Rv+wJhcg==
+X-Received: by 2002:a2e:a550:0:b0:2e0:12f1:f827 with SMTP id e16-20020a2ea550000000b002e012f1f827mr8328144ljn.43.1715003308828;
         Mon, 06 May 2024 06:48:28 -0700 (PDT)
 Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id je8-20020a05600c1f8800b0041bf28aa11dsm16131973wmb.42.2024.05.06.06.48.27
+        by smtp.gmail.com with ESMTPSA id je8-20020a05600c1f8800b0041bf28aa11dsm16131973wmb.42.2024.05.06.06.48.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 May 2024 06:48:27 -0700 (PDT)
-Message-ID: <72860c1d-7434-4be6-8c1d-9ea177602802@freebox.fr>
-Date: Mon, 6 May 2024 15:44:04 +0200
+        Mon, 06 May 2024 06:48:28 -0700 (PDT)
+Message-ID: <b3047c0c-16de-4426-a781-fa9239c42856@freebox.fr>
+Date: Mon, 6 May 2024 15:45:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,8 +76,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: [PATCH v3 1/3] dt-bindings: media: add qcom,msm8998-venus
 From: Marc Gonzalez <mgonzalez@freebox.fr>
-Subject: [PATCH v3 0/3] Add support for qcom msm8998-venus (HW vdec / venc)
 To: Bjorn Andersson <andersson@kernel.org>,
  Jeffrey Hugo <quic_jhugo@quicinc.com>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -89,26 +90,37 @@ Cc: MSM <linux-arm-msm@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
+References: <72860c1d-7434-4be6-8c1d-9ea177602802@freebox.fr>
 Content-Language: en-US
+In-Reply-To: <72860c1d-7434-4be6-8c1d-9ea177602802@freebox.fr>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Changes in v3
-- Add Reviewed-by tags for patch 1
-- Align msm8998_freq_table to downstream code
+msm8998 has the same video encode/decode accelerator as msm8996.
 
-Marc Gonzalez (1):
-  dt-bindings: media: add qcom,msm8998-venus
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+---
+ Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Pierre-Hugues Husson (2):
-  arm64: dts: qcom: msm8998: add venus node
-  media: venus: add msm8998 support
-
- Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml |  4 ++-
- arch/arm64/boot/dts/qcom/msm8998.dtsi                           | 48 +++++++++++++++++++++++++++++
- drivers/media/platform/qcom/venus/core.c                        | 48 +++++++++++++++++++++++++++++
- 3 files changed, 99 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+index 3a4d817e544e2..56c16458e3bb4 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+@@ -18,7 +18,9 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: qcom,msm8996-venus
++    enum:
++      - qcom,msm8996-venus
++      - qcom,msm8998-venus
+ 
+   power-domains:
+     maxItems: 1
 -- 
 2.34.1
+
 
