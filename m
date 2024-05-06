@@ -1,216 +1,144 @@
-Return-Path: <linux-media+bounces-10911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF1C8BD326
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 18:50:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A2D8BD408
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 19:46:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9008C1F252FC
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:50:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79EDA281412
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 17:46:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8EBA157490;
-	Mon,  6 May 2024 16:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DADB0158204;
+	Mon,  6 May 2024 17:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oVQAHzlT"
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="H+Au6r4F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E72156C5F;
-	Mon,  6 May 2024 16:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF602156962;
+	Mon,  6 May 2024 17:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715014216; cv=none; b=tIvtXGQlKh/1d+uo0jNTBcHStK7txwd1YpvQuOrlOzZA2qE7iAF0294jv44u51RDpNzv+Uy5ujkmksX+CJIKPSnPNKDLqVSod9Wwlb3jFSd28qQRr3BwP+1Cb1zwHTn5cNagZ+eTSJFI5Dd/a+k0bgnOpCX5X5D4/A2QuxS/XiY=
+	t=1715017585; cv=none; b=KuLtLGu+wD3/tg2frBWuUwB0pS4MHFGV1oKoclmIBjbnx8zytQAyBW9xv0+6cq4TAE5J2aTID6Ikb7/MxJYI2BtXDCh4qqblu3MDUx48/aWda3DQnqnHg04CDOgA0y+ztVq9cpfop/UHPLc7PgvkMOla90Q6kPJrGLlTGKAF7AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715014216; c=relaxed/simple;
-	bh=VuFXNZgdAKJuryKD7E/q9YCVYH4lU+It/urqthlBLt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r1xnAn7XekqQSU5yUKtD+1i5fEx61H6lrrIhFXOxubRUATW71Kz52REthKqrKAoEqw1V5ECheIUgVQd8V7nU8tU2j8SArokUf1/O7DeBdk7XXSsmVCHn6dVa2vWWpdlKgcKHdw+qAq/tq1+c4ZnKBbRUfHV6XqsQ/6tp0eOj6u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oVQAHzlT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B780114D;
-	Mon,  6 May 2024 18:50:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715014200;
-	bh=VuFXNZgdAKJuryKD7E/q9YCVYH4lU+It/urqthlBLt4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oVQAHzlTwe+3wvAA9SPd9d4WwINw8rHNElGP1FEbNMdye9LvsULylqBAGeY8J0ZG8
-	 eHhALVwVYzBk7pl7LJUAL0HF1w2GxN5wP3zZTs7cRXeea68LQ+q77NTECVpM9IV1zi
-	 o8agMlWkF/vU05oBep8cg6XXPCZhT4Fqlt7HuDb4=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 11/11] media: max9286: Use frame interval from subdev state
-Date: Mon,  6 May 2024 18:49:39 +0200
-Message-ID: <20240506164941.110389-12-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
-References: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1715017585; c=relaxed/simple;
+	bh=vqnYuRDE7YAdIfHB4y1v8PCKhpIU6Ck4Nohhh0+FmK0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tpmTVM1JBBPxFiGEnppm8trlczDr+Sv+rczRjZZ0n2Id4X+a0agWSll8zFN2B4FgEq18R3kAsnsr8eynG4e/LcG5xRrtSQYzPfzv+ew2GAcIN6pp4DfKfcGbec93ZXqTKAgZb3KhaBFjFYG8PaWHWDJ2eXf7+V0QCE8LVT4UsCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=H+Au6r4F; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=xw3p/mu9rqf4LynApLZg3ICv4KBQ9pI/cT8ZAvWfrvU=; b=H+Au6r4F4x1Z85+DNGjlJceQt6
+	VaCVEcT4DEiGQbGVDh4OFym0kKFZBd86s6uXoJpPJTol6iKXqn0LG0HyJx8lIh8EDuo+2i5hrqN2O
+	vk8Qm3pQwBYOe4xDEpVSHAJ94SfEJi+QIlADWRgaZl2lxVH8SKQJpWHxqdqPKPehOFIM8Su38HTbz
+	tZmG9bvQ+46+S74+Tc+2yjeIEhU2KGEf6hYY0sJQDTqbdzLZTPufeLvN5VPgkNTHPOYPIkOVO0+81
+	syykN+b+56a1Khj1sPfDj2zaRMDolfZReWyrBPwwCMLHxuCZrQqarp8odXqr9D7+gq22C7zDhtgFs
+	CDqB8Lqc9X0g5Di3lkjVsfjGTFg7PxYd9cX9RXsShaBKDeLBvJeTRzcKI1+KkmZWflxdWQiL7szBw
+	xvayOxyIs7UU8VHV51kSkC6VEOl3cP9Ch3jcC1obaPYpZYp8zP/YEf1lCPpQ6pc093IgCA0JBFcfa
+	tXQCy/UeOaoa1sQS6m4mY1a7;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1s42Pk-00A49V-1t;
+	Mon, 06 May 2024 17:46:12 +0000
+Message-ID: <501ead34-d79f-442e-9b9a-ecd694b3015c@samba.org>
+Date: Mon, 6 May 2024 19:46:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?] [io-uring?]
+ general protection fault in __ep_remove)
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>
+Cc: Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
+ Bui Quang Minh <minhquangbui99@gmail.com>,
+ Christian Brauner <brauner@kernel.org>,
+ syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+References: <0000000000002d631f0615918f1e@google.com>
+ <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+ <202405031110.6F47982593@keescook>
+ <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
+ <202405031207.9D62DA4973@keescook>
+ <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
+ <202405031237.B6B8379@keescook> <202405031325.B8979870B@keescook>
+ <20240503211109.GX2118490@ZenIV>
+ <CAHk-=wj0de-P2Q=Gz2uyrWBHagT25arLbN0Lyg=U6fT7psKnQA@mail.gmail.com>
+Content-Language: en-US, de-DE
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <CAHk-=wj0de-P2Q=Gz2uyrWBHagT25arLbN0Lyg=U6fT7psKnQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use the frame interval stored in the subdev state instead of storing
-a copy in the driver private structure.
+Am 03.05.24 um 23:24 schrieb Linus Torvalds:
+> On Fri, 3 May 2024 at 14:11, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>>
+>> What we need is
+>>          * promise that ep_item_poll() won't happen after eventpoll_release_file().
+>> AFAICS, we do have that.
+>>          * ->poll() not playing silly buggers.
+> 
+> No. That is not enough at all.
+> 
+> Because even with perfectly normal "->poll()", and even with the
+> ep_item_poll() happening *before* eventpoll_release_file(), you have
+> this trivial race:
+> 
+>    ep_item_poll()
+>       ->poll()
+> 
+> and *between* those two operations, another CPU does "close()", and
+> that causes eventpoll_release_file() to be called, and now f_count
+> goes down to zero while ->poll() is running.
+> 
+> So you do need to increment the file count around the ->poll() call, I feel.
+> 
+> Or, alternatively, you'd need to serialize with
+> eventpoll_release_file(), but that would need to be some sleeping lock
+> held over the ->poll() call.
+> 
+>> As it is, dma_buf ->poll() is very suspicious regardless of that
+>> mess - it can grab reference to file for unspecified interval.
+> 
+> I think that's actually much preferable to what epoll does, which is
+> to keep using files without having reference counts to them (and then
+> relying on magically not racing with eventpoll_release_file().
 
-Initialize the frame interval to the special case 0/0 that in the
-max9286 driver represents automatic handling of frame sync.
+I think it's a very important detail that epoll does not take
+real references. Otherwise an application level 'close()' on a socket
+would not trigger a tcp disconnect, when an fd is still registered with
+epoll.
 
-During the startup phase, configure register 0x01 to use automatic
-frame sync, to match the subdev state initialiation, instead of calling
-max9286_set_fsync_period() which now requires a 'state' argument.
+I noticed that some parts of Samba currently rely on this when I tried
+to convert tevent from epoll to IORING_OP_POLL_ADD (which takes a longer term reference)
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 59 +++++++++++++++++++------------------
- 1 file changed, 31 insertions(+), 28 deletions(-)
+And I guess there will be other applications also relying on the current epoll
+behavior. That a closed fs automatically removes itself from epoll.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 7fad190cd9b3..6930a98c8965 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -197,8 +197,6 @@ struct max9286_priv {
- 	struct v4l2_ctrl *pixelrate_ctrl;
- 	unsigned int pixelrate;
- 
--	struct v4l2_fract interval;
--
- 	unsigned int nsources;
- 	unsigned int source_mask;
- 	unsigned int route_mask;
-@@ -571,11 +569,14 @@ static void max9286_set_video_format(struct max9286_priv *priv,
- 		      MAX9286_INVVS | MAX9286_HVSRC_D14);
- }
- 
--static void max9286_set_fsync_period(struct max9286_priv *priv)
-+static void max9286_set_fsync_period(struct max9286_priv *priv,
-+				     struct v4l2_subdev_state *state)
- {
-+	const struct v4l2_fract *interval;
- 	u32 fsync;
- 
--	if (!priv->interval.numerator || !priv->interval.denominator) {
-+	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
-+	if (!interval->numerator || !interval->denominator) {
- 		/*
- 		 * Special case, a null interval enables automatic FRAMESYNC
- 		 * mode. FRAMESYNC is taken from the slowest link.
-@@ -591,8 +592,8 @@ static void max9286_set_fsync_period(struct max9286_priv *priv)
- 	 * The FRAMESYNC generator is configured with a period expressed as a
- 	 * number of PCLK periods.
- 	 */
--	fsync = div_u64((u64)priv->pixelrate * priv->interval.numerator,
--			priv->interval.denominator);
-+	fsync = div_u64((u64)priv->pixelrate * interval->numerator,
-+			interval->denominator);
- 
- 	dev_dbg(&priv->client->dev, "fsync period %u (pclk %u)\n", fsync,
- 		priv->pixelrate);
-@@ -801,7 +802,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
- 		format = v4l2_subdev_state_get_format(state, MAX9286_SRC_PAD);
- 
- 		max9286_set_video_format(priv, format);
--		max9286_set_fsync_period(priv);
-+		max9286_set_fsync_period(priv, state);
- 
- 		/*
- 		 * The frame sync between cameras is transmitted across the
-@@ -874,19 +875,11 @@ static int max9286_get_frame_interval(struct v4l2_subdev *sd,
- 				      struct v4l2_subdev_state *sd_state,
- 				      struct v4l2_subdev_frame_interval *interval)
- {
--	struct max9286_priv *priv = sd_to_max9286(sd);
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	if (interval->pad != MAX9286_SRC_PAD)
- 		return -EINVAL;
- 
--	interval->interval = priv->interval;
-+	interval->interval = *v4l2_subdev_state_get_interval(sd_state,
-+							     interval->pad);
- 
- 	return 0;
- }
-@@ -895,19 +888,11 @@ static int max9286_set_frame_interval(struct v4l2_subdev *sd,
- 				      struct v4l2_subdev_state *sd_state,
- 				      struct v4l2_subdev_frame_interval *interval)
- {
--	struct max9286_priv *priv = sd_to_max9286(sd);
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	if (interval->pad != MAX9286_SRC_PAD)
- 		return -EINVAL;
- 
--	priv->interval = interval->interval;
-+	*v4l2_subdev_state_get_interval(sd_state,
-+					interval->pad) = interval->interval;
- 
- 	return 0;
- }
-@@ -993,9 +978,21 @@ static const struct v4l2_mbus_framefmt max9286_default_format = {
- static int max9286_init_state(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_state *state)
- {
-+	struct v4l2_fract *interval;
-+
- 	for (unsigned int i = 0; i < MAX9286_N_PADS; i++)
- 		*v4l2_subdev_state_get_format(state, i) = max9286_default_format;
- 
-+	/*
-+	 * Special case: a null interval enables automatic FRAMESYNC mode.
-+	 *
-+	 * FRAMESYNC is taken from the slowest link. See register 0x01
-+	 * configuration.
-+	 */
-+	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
-+	interval->numerator = 0;
-+	interval->denominator = 0;
-+
- 	return 0;
- }
- 
-@@ -1142,7 +1139,13 @@ static int max9286_setup(struct max9286_priv *priv)
- 	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
- 
- 	max9286_set_video_format(priv, &max9286_default_format);
--	max9286_set_fsync_period(priv);
-+
-+	/*
-+	 * Use automatic FRAMESYNC mode. FRAMESYNC is taken from the slowest
-+	 * link.
-+	 */
-+	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-+				  MAX9286_FSYNCMETH_AUTO);
- 
- 	cfg = max9286_read(priv, 0x1c);
- 	if (cfg < 0)
--- 
-2.44.0
+A short term reference just around ->poll() might be fine,
+but please no reference via EPOLL_CTL_ADD.
+
+Changing that can cause security problems in user space.
+
+I haven't followed all details of this thread,
+please ignore me if that's all clear already :-)
+
+Thanks!
+metze
+
 
 
