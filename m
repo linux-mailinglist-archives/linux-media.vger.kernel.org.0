@@ -1,133 +1,133 @@
-Return-Path: <linux-media+bounces-10821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72C28BC717
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:42:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8C38BC72F
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:56:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0DF2B2098F
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 05:42:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8F571F21AE1
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 05:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824F7482CD;
-	Mon,  6 May 2024 05:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D630F481D0;
+	Mon,  6 May 2024 05:56:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wya50mj1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fat3NDdf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB6B18E3F;
-	Mon,  6 May 2024 05:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809D047F4A
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 05:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714974135; cv=none; b=OaGTxm2vH0G6ZNZFat7te4m7Bu/54/Cuykaz46vUmF22AQlduzTowXwp8L6OE8Q4I4W+H4JO5+smb6ov+v4RJ6oG+gZvAiL0950uYb3sYOePUXrh+pJDCB3ENk2MF1q6T4H2UdyjV4LxcXqjITRg0oJPAlPkWKE2jXPtTAcHdmU=
+	t=1714974990; cv=none; b=mPcjyz2M3mhpfcI/GT3B64ZulM/rQxPSgy9d+ZYBrwGPuwKrkDEyaqT/qkRNGEofp+ygwHVWoisgDPiB82AhicMNkPXy7R1rGOwTXoriAx2xIrSFermZLPV8pju4nqMmdcs62e7yNw7yq3CSyzwj8Fdx56ZDn64yzLIQCVkEcfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714974135; c=relaxed/simple;
-	bh=I2gC6db5W94sY/Nje6LL1nITZWWBOZMxi+knIFHED6s=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=UvMQmlhLKvdHGlBBg8TCa14jezH48ag0BQBrqfdT38e4IVMzP1F/zo5Z2CdK2KQ1vbcVPb5yGJQsxXv/2au1TkORoVZ0tjQwgSBFIpNAHPQP8r/cHZ5H5xxKkATkJPm5UeffTjpBpTTjM8XLRmYJ6Gu/yvwXzEyUDPDSPUW9VSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wya50mj1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4465A4Lf017862;
-	Mon, 6 May 2024 05:42:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=RGbz+d0cSA3C
-	BWhPN/b2OFxYrWV8839GXBNsImCm8Pc=; b=Wya50mj1KnX6ccahnifyzXdisUuL
-	+xP92gPC6WOf/FjIhHCwI3+u+RfDKLlGgdMGr1bb/WX1erW4CXuGr8+dWcvuIUBc
-	lqfBT/68/Qd11HcRt2K26JBR09U5diBtS/IsMU2NJVIj+vqyY+535vx1JWabhLYb
-	SztttNjUrm3vlnvtQuaYNAjqi7g56burw9rJuBs1foVcZlwM2LV5Onp6+TwDlwgg
-	oGJgHhMgqdu7+HKVsw+J1LgU8do/N5RNm9BkQPyBPJZ6o2MeJyH4G4cChW6ey24g
-	HHf/KMTzk1D76hOYI8VGe972PN+3QxX5WeMoEnPrFbmdAp9NrZO//WXIrA==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xwe6rtn64-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 May 2024 05:42:09 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 4465g5sP025075;
-	Mon, 6 May 2024 05:42:05 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3xwe3kdgcb-1;
-	Mon, 06 May 2024 05:42:05 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4465g5Pe025062;
-	Mon, 6 May 2024 05:42:05 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 4465g5M6025061;
-	Mon, 06 May 2024 05:42:05 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-	id E7B843040; Mon,  6 May 2024 11:12:03 +0530 (+0530)
-From: "Agarwal, Dikshita" <dikshita@qti.qualcomm.com>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>, stable@vger.kernel.org
-Subject: [PATCH v2] media: venus: fix use after free in vdec_close
-Date: Mon,  6 May 2024 11:11:50 +0530
-Message-Id: <1714974110-19175-1-git-send-email-dikshita@qti.qualcomm.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Q_PPJDu1W2ORzfZaGO6JQq3JHjkm95gE
-X-Proofpoint-GUID: Q_PPJDu1W2ORzfZaGO6JQq3JHjkm95gE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-06_02,2024-05-03_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- clxscore=1011 mlxscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2404010003 definitions=main-2405060033
+	s=arc-20240116; t=1714974990; c=relaxed/simple;
+	bh=C98g/I9JwAn/FiEJehpiwSZuPG7z1VmWJumqJd2jVIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WfrKGsMkcs2BxceWIZRMicHGKVOhurjyp1w+6T4/K9M1CNxh+Gdasr9pBCadqZVyg4DYk7emGgttqMD9B/zNyWDp5gTQ6KIaFDlrgIbkyzgyxnSyWU4/5m3CzuDasAc+9foszroTvCrDU8VEizXy12ATxqrvUHRYPh4yd+geKz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fat3NDdf; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34e28e32ea4so1248940f8f.2
+        for <linux-media@vger.kernel.org>; Sun, 05 May 2024 22:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714974987; x=1715579787; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Amm02fq7NCfmTtk6L7AfZpPCsk2Km8qi+JGCzLzXu7o=;
+        b=Fat3NDdfgQO5Uovhv0SFs3SuBNFllqxU9o77ZnmSx+d+iDmeO8Gp2rgaQ0VPp4797h
+         ECQrSBJaS7e7q+qsh/xFbM4zqNJ51AXHdiQUrgadALh+RvtNTzNBiQR5893pzsfYWfQ8
+         Zy/fgmzRm8sa2q1x8LJoj7AkXFtS60dnXYBWL6L6bS7EKfwKT7HeJ/JHqcWjON75ytui
+         m15FOavX8bYNjgClEYKKzTuOSbUzFFzUV89gvJ6tvgEIjd8KVg4RKP3Mv3NfNbN1OkKK
+         qnwgm/w00iP1Oojdd1ptRyk3sofpNz9nASe+k7ctJ9CyP5JZndnrfJhsuAukRA1W0KkN
+         EuYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714974987; x=1715579787;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Amm02fq7NCfmTtk6L7AfZpPCsk2Km8qi+JGCzLzXu7o=;
+        b=JOigjdHvbDJBPO/8l4kJUGnwDYt6Y7nRklNfsthm8yLRS60HiaHP9KabAAn/9th4Si
+         lV5Rq8O36P3/ujezdxvmue96fP1MHocSPL+ZpOLP55E6uB+XWGQ+/o4sbeOrN7Ml6vGc
+         0wquIWPj79OaP25IrauwFTSh9nrXvKPkYE/x/OcGGs6D6yO4sU87fSFbaxet46JDzIjc
+         23Ws5Oejen7Aj1yzBzuK7GQZwma8osR70QvMV7aQJmmoXmaoFP1UUTMi5u5a7uJwpUF4
+         9eYjDAlkxcQc+0029gEhrQpV5kshcaL9E7Z3nzVWiIAgfi/WAQDDtQg9Hw4UT36Lgg71
+         BLcw==
+X-Gm-Message-State: AOJu0Yxu5J5k1QaILc5PNEuW08vbi2G9mBwxwY2jUSU779hqir90NmNV
+	kW5/7OSM7Nc7i1kH7Wl/tddJqu99VQOJq3gCe/ocS1bilOKyhSv11Ie+jNNa1SM=
+X-Google-Smtp-Source: AGHT+IF15LEAmFnFZc6hllsBxmGfTZhsSLdPkM0eCGoPq7Zi7WEgl/1fO9BxJNrh0pUNpfo8Xm4/OQ==
+X-Received: by 2002:adf:e0ca:0:b0:34f:10f6:b2ce with SMTP id m10-20020adfe0ca000000b0034f10f6b2cemr1972114wri.38.1714974986673;
+        Sun, 05 May 2024 22:56:26 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id s20-20020adfa294000000b0034e285d818dsm9828017wra.32.2024.05.05.22.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 22:56:26 -0700 (PDT)
+Date: Mon, 6 May 2024 08:56:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Johannes Stezenbach <js@linuxtv.org>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [bug report] [PATCH] dvb: b2c2/flexcop driver refactoring part
+ 2: add modular Flexcop driver
+Message-ID: <4caa1870-900b-4d61-a707-c98b6010068e@moroto.mountain>
+References: <e42e10a1-f414-40c1-a804-36bc67270088@moroto.mountain>
+ <ZjaZj9Eo838SQAp8@linuxtv.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZjaZj9Eo838SQAp8@linuxtv.org>
 
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+On Sat, May 04, 2024 at 10:24:47PM +0200, Johannes Stezenbach wrote:
+> Hi Dan,
+> 
+> On Sat, May 04, 2024 at 02:24:21PM +0300, Dan Carpenter wrote:
+> > [ This patch is 19 years old now...  :P  Sorry!  - dan ]
+> > 
+> > Commit 2add87a95068 ("[PATCH] dvb: b2c2/flexcop driver refactoring
+> > part 2: add modular Flexcop driver") from May 16, 2005 (linux-next),
+> > leads to the following Smatch static checker warning:
+> 
+> I think the patches were from Patrick and misattributed because
+> I was too stupid to operate git correctly at the time.
+> 
+> > 	drivers/media/usb/b2c2/flexcop-usb.c:199 flexcop_usb_memory_req()
+> > 	warn: iterator 'i' not incremented
+> 
+> > --> 199         for (i = 0; i < len;) {
+> > 
+> > No i++.
+> 
+> >     208                 ret = flexcop_usb_v8_memory_req(fc_usb, req,
+> >     209                         page_start + (addr / V8_MEMORY_PAGE_SIZE),
+> >     210                         (addr & V8_MEMORY_PAGE_MASK) |
+> >     211                                 (V8_MEMORY_EXTENDED*extended),
+> >     212                         &buf[i], pagechunk);
+> >                                 ^^^^^^^^
+> > I think adding an i++ doesn't make sense.  Are we really writing a byte
+> > at a time?
+> C> 
+> >     213 
+> >     214                 if (ret < 0)
+> >     215                         return ret;
+> >     216                 addr += pagechunk;
+> >     217                 len -= pagechunk;
+> >     218         }
+> 
+> The loop is weird, but I guess it worked because the len -= pagechunk
+> would have terminated the loop and supposedly there was only one
+> iteration ever. I doubt anyone has hardware to test it, so don't
+> change it. Well, I certainly won't touch it, you can do it if you want.
 
-There appears to be a possible use after free with vdec_close().
-The firmware will add buffer release work to the work queue through
-HFI callbacks as a normal part of decoding. Randomly closing the
-decoder device from userspace during normal decoding can incur
-a read after free for inst.
+Nah.  It's fine.  If you don't know, then I for sure don't know.
 
-Fix it by cancelling the work in vdec_close.
-
-Cc: stable@vger.kernel.org
-Fixes: af2c3834c ("media: venus: adding core part and helper functions")
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
-Changes since v1:
-- Added fixes and stable tags
-
- drivers/media/platform/qcom/venus/vdec.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 29130a9..56f8a25 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1747,6 +1747,7 @@ static int vdec_close(struct file *file)
- 
- 	vdec_pm_get(inst);
- 
-+	cancel_work_sync(&inst->delayed_process_work);
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
- 	vdec_ctrl_deinit(inst);
--- 
-2.7.4
+regards,
+dan carpenter
 
 
