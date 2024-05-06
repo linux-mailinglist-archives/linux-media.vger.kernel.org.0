@@ -1,150 +1,117 @@
-Return-Path: <linux-media+bounces-10868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635958BCDC2
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:24:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B248BCDFC
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:31:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86FEE1C234F9
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:24:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59E351C236AA
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:31:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49052143C5A;
-	Mon,  6 May 2024 12:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269ECE570;
+	Mon,  6 May 2024 12:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="J4Sdfzf+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rYInCtaq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D611143897
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 12:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF09E748F
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 12:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714998234; cv=none; b=HDJb6rKTmnqeKZHB1tG3t/wVJDAxQ1O4/OqfO0/zxFfNixIIW+9JopgZX+d2vBYpA3jNpvD/ZVYoDbDV8zkVfqPtumKq9NlkCsz0mniHZ518uNAPkGUPnh5EwseWYk7JYsWAkdctxubtKEOIj/NvMIgOlTqyHjSCKIm+n9dFGnw=
+	t=1714998682; cv=none; b=j9tpY/AKFwVPm7v3tmOesnz2pu07dLqtuB9MSYfVKXJvEs9oDUh5Ht0Zy7sATDHuy6KW91r8tyK6xE4AaRrDo6BIeRC3Vk5EPjlI4ilxBrYCSh1y/71J1sB1OlvxHRmvl/DqIZiRPXKFJpt+4TwVtzeTSABlVBNwAqqqGO7OxzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714998234; c=relaxed/simple;
-	bh=lCeN5/qj6q6vJSmEiKVBWOtCMx5sNu2IArRIsx3u2Ng=;
+	s=arc-20240116; t=1714998682; c=relaxed/simple;
+	bh=qWM2RZUGde1tsBjc3avRsd95bxYM4lG5+oU8+/RS30g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZX8nyCuvVOfJvzExV0jdJ7g6L77fUAez5YG2GhTiD/IuWtpEVKe++8cHnITxEDrBNZc+OsudgI5inTuyGs1nH9K1VSmsrwS/aanz4luU8D894PgJdTQ9jFyQpNlfosB4pgH5nwkelKQ3rRxnbS6s52VM6YpP3G6JJFarAiSr3vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=J4Sdfzf+; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34cb2bf85easo148881f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 05:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1714998231; x=1715603031; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hJvxbNUxeULloPkLJE9SsjERpdsUIXxRxn2yKsRsSwc=;
-        b=J4Sdfzf+sNHeQZbjLlHQkxe+vBV/CqtEKZIE21zHs5BZaP4fVUooE839QXHepk/ae4
-         POXW3MdM2YM0mL7+kPF0sFDjddZ6ZqJgjPLk5O1FAQ9LQ6NuGoI/6ghK9qafc9p5r5/q
-         eIF9aflCGGZxuDwFxBa6ppO8Igf343ne8trek=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714998231; x=1715603031;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hJvxbNUxeULloPkLJE9SsjERpdsUIXxRxn2yKsRsSwc=;
-        b=k91r+yg/mskNCkgVFwiT0wXRWiYIS6ol1elss3AWi5J5P29Jcmllnoat+mxhOgF+1C
-         sM0KhuxSfekI4uClHJ4yAP6h55eMCjYC+aqKF3AWLka7AdNrvXOGFE4VhZp2C4P8zCf+
-         0ZmT8GzMhWBETPx321LzfIKOPr/UA2rZPHisOvmJSIN7OsznyUMsLlIqv2/mA5hM3Gn6
-         xWbnGRJIf7fGd16WQksQzFMQcOpwPcARC10B8zku0OnZcguzY+mRmwDHTlj8rtyp9IlN
-         V8FFVkAEvo04eh7luk51wc+wrre4jjkdL+lX9Y+37HIM8WjNk5wl5nQaSOI84yjHp9ZU
-         mVHA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+x0SYD/67Oum8e07tofxdRU9otLqVvUBfIcNRj+pkyONfachDj/mIxZy6vECiTCPQLmglMLWeIS3Zf5uq1MQP/O54r4ZYWJzONbo=
-X-Gm-Message-State: AOJu0YzxJp7sBRcyECN26UTocN3dIrIij0YSoTgnAy0p33avr5lUBJ2X
-	NLUI7hZMVqwqX3WlgnrHQKJVJMhoj41ZWviIUOQKncRpyJP/TEkf2OqI2hSuQTI=
-X-Google-Smtp-Source: AGHT+IGuUvBtI5rIVLpD2XOZICwCS9IQtrXwLWSsF2oFAMcsXQKy2Upppe1zQ4rIa9wWPmT5P5GIew==
-X-Received: by 2002:a05:600c:3b02:b0:41a:c4fe:b0a5 with SMTP id m2-20020a05600c3b0200b0041ac4feb0a5mr6970105wms.4.1714998231468;
-        Mon, 06 May 2024 05:23:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05600c4f9100b0041668162b45sm19554882wmq.26.2024.05.06.05.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 05:23:50 -0700 (PDT)
-Date: Mon, 6 May 2024 14:23:48 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
-	Bui Quang Minh <minhquangbui99@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	io-uring@vger.kernel.org, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
-Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
- [io-uring?] general protection fault in __ep_remove)
-Message-ID: <ZjjL1GjSMMMcxdsc@phenom.ffwll.local>
-Mail-Followup-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
-	Bui Quang Minh <minhquangbui99@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	io-uring@vger.kernel.org, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
-References: <202405031110.6F47982593@keescook>
- <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
- <202405031207.9D62DA4973@keescook>
- <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
- <202405031237.B6B8379@keescook>
- <202405031325.B8979870B@keescook>
- <20240503211109.GX2118490@ZenIV>
- <20240503213625.GA2118490@ZenIV>
- <CAHk-=wgRphONC5NBagypZpgriCUtztU7LCC9BzGZDEjWQbSVWQ@mail.gmail.com>
- <20240503215303.GC2118490@ZenIV>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qlp8P2HlVhJmtrqXkK8l3iFQLRSfAkl0ottbN3DhXuXQp/1uwwOD/PRkU8m/7/y+VZ2evsKQ0ZG+QHnyY8yYmQ63zCOCYLApkc0EwUhXlAzDItUgaRN/2Bb0lk7JuqVCI6rkRFPZ7RFAxzcYXP0Ph3VUUulVXYHJgrr7LxEtrYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rYInCtaq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A5B7899;
+	Mon,  6 May 2024 14:31:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714998677;
+	bh=qWM2RZUGde1tsBjc3avRsd95bxYM4lG5+oU8+/RS30g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rYInCtaqhS2jzLzcdT3saRYWf7Qi+8qobCYZ10Ue0HbuzWn8INyUiF/CY0D/xs6D1
+	 gf3d56ZvKj9qQ+/eHWKVnDRbfAbscUtDXGg9RpdqaXFdf+uuSVmYEP3k0u3J8qgHuz
+	 g6Ikc7TQdCL0y90PDAkvKOi1rCilD1ArzPlW47As=
+Date: Mon, 6 May 2024 15:31:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <20240506123111.GA29108@pendragon.ideasonboard.com>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240503215303.GC2118490@ZenIV>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+In-Reply-To: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
 
-On Fri, May 03, 2024 at 10:53:03PM +0100, Al Viro wrote:
-> On Fri, May 03, 2024 at 02:42:22PM -0700, Linus Torvalds wrote:
-> > On Fri, 3 May 2024 at 14:36, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > >
-> > > ... the last part is no-go - poll_wait() must be able to grab a reference
-> > > (well, the callback in it must)
-> > 
-> > Yeah. I really think that *poll* itself is doing everything right. It
-> > knows that it's called with a file pointer with a reference, and it
-> > adds its own references as needed.
-> 
-> Not really.  Note that select's __pollwait() does *NOT* leave a reference
-> at the mercy of driver - it's stuck into poll_table_entry->filp and
-> the poll_freewait() knows how to take those out.
-> 
-> 
-> dmabuf does something very different - it grabs the damn thing into
-> its private data structures and for all we know it could keep it for
-> a few hours, until some even materializes.
+Hi Hans,
 
-dma_fence must complete in reasonable amount of time, where "reasonable"
-is roughly in line with other i/o (including the option that there's
-timeouts if the hw's gone busted).
+On Mon, May 06, 2024 at 01:33:32PM +0200, Hans Verkuil wrote:
+> Hi all,
+> 
+> We will organize another Media Summit on Monday September 16th to coincide with
+> the Open Source Summit Europe in Vienna:
+> 
+> https://events.linuxfoundation.org/open-source-summit-europe/
+> 
+> Avnet Silica has very kindly offered to host this summit at their Vienna
+> office, which is about 35 minutes by public transport from the OSSE venue.
 
-So definitely not hours (aside from driver bugs when things go really
-wrong ofc), but more like a few seconds in a worst case scenario.
--Sima
+A big thank you to Avnet !
+
+> 
+> Location:
+> 
+> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+> 
+> The meeting room can hold 18 people and has video conferencing support (MS Teams).
+> 
+> That said, I want to keep remote participation to a minimum. This yearly summit is meant
+> for active media developers to meet up face-to-face and to discuss media subsystem issues.
+> But if you are an active media developer, but are not able to attend in person, then this
+> is an option.
+> 
+> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
+> It would be very much appreciated if you can also add a guesstimate of the time
+> you need for your topic.
+
+With the recently merged support for streams in the subdev API, I would
+like to discuss the next steps we plan for subdevs, state, and usage of
+the media controller device to submit requests.
+
+> If you want to attend the meeting (either in person or remote), then send an email to me
+> directly. Since the number of seats is limited, I may have to put people on a waiting list.
+> Please let me know sooner rather than later (ideally by mid-July) so I have a good idea
+> what to expect.
+> 
+> Priority goes to presenters and the core media maintainers. If multiple people of the same
+> company want to attend, then I may ask to limit attendance to one or two people.
+> 
+> It is hard to predict how many people want to attend, so I'll see how it goes.
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
 
