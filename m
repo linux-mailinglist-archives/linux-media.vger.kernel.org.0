@@ -1,127 +1,168 @@
-Return-Path: <linux-media+bounces-10832-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10833-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BB78BC901
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:03:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F438BC927
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:10:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 935E61F223FE
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:03:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D5781C2149E
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 08:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07791422D0;
-	Mon,  6 May 2024 07:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 553C4140E22;
+	Mon,  6 May 2024 08:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cc2PEqMg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mSuLoJ0z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6A014532C;
-	Mon,  6 May 2024 07:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B5142ABE;
+	Mon,  6 May 2024 08:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714982390; cv=none; b=t64ncfZCDDWnaT/zRYQxn//1efFQfaHROpNgr1OBeQ1BEc5uoekIDBnulypZpdm6j6x/eUuS5aFXuxeb87Kk/Dyx4l4srBPydV9LJfq5veIWglW57ZLhnDeiptGWzkhh8XyzsPwia4n6h43DSOJphalYLSqoWyCL0nWM+y0C+qY=
+	t=1714983008; cv=none; b=RmzgGP9yHmNQIc98ANF++/rmY91XYyx0G6IFIMYHIfHNgQ18YC4beBMPild0zyKtbDdrcFxYaSEDfRrC34tmApMaXyvsSbUaFb8MJSgYimWqkVL0gEJ0HblzDuco5HAPNjG91QQ5sJlhlqtPaVwwxnQHj6zZImKP/OvBMW+8pLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714982390; c=relaxed/simple;
-	bh=kXDv39J5t7+acyzhkvD/8KkU35rQ6ddgsltaOx/5nD0=;
+	s=arc-20240116; t=1714983008; c=relaxed/simple;
+	bh=uueVkEXQte2dtsPHgPjLO2lMWWjMZz5UrumdaJwjjz0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jzxoWMoQJzaIBUC7R7Z7vzIT+3witxWtjVdMYM7lZ8ZtEt+ur9J/3K834C8sJFNzRf3wgXfXDdEr5r4ckZdyb+L014pJiVhSz5sRNFFrpTKVv4SYygTY5u0MZP2Qoaghq1lFlkvIWxMwMeB3mZpISp4S2kk9Ep8CLJOb/DBqhiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cc2PEqMg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633A4C116B1;
-	Mon,  6 May 2024 07:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714982389;
-	bh=kXDv39J5t7+acyzhkvD/8KkU35rQ6ddgsltaOx/5nD0=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=DjWuZtQAEOB9JGNHDAm+k8hwi33ddnJcLVt5FPUaIxQF9XeYSh0JeVsZKyPvyl7cQJcH3LS0MAN++nXzjwIVKUqiGtjvvV5FTUmAmtWSqLFGUP6PTmIL1OD7vLNM6WMFx4slSMousIlNm3vISf1YSewjXHvdmpVm1LlnxpWVzHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mSuLoJ0z; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 324301014;
+	Mon,  6 May 2024 10:10:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714983003;
+	bh=uueVkEXQte2dtsPHgPjLO2lMWWjMZz5UrumdaJwjjz0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cc2PEqMgbdM9UjJMlXDzTrgq5i2alAxqGMK3tmB0AzkrkGRM1wGDkVcKTYqKgaDDu
-	 AjUM3T0lEL+Pa2M8sCJnKJ9g61Sj7+BIaeMydEea1CVjZF4J4uBqC1AvaBGWUEG/8u
-	 wsjXUs1UwexHcGMQuigbb5LfrnekMtA7pjvOCVqfID/ew3m98UD/Q4gyiNPQN+zC+l
-	 rrA3D0A36BeKUlYpMj3DUJJ+iRhmRuDnHLpvnY09HflG0TW7f/uCsrAQ3vX45W28lB
-	 jHLyx94A51D6IsFrKMwEiC5vvO0LFM5KpukPbkkP4e3UJjvgfor5eBGRZMSgce0oPy
-	 rcgySN8F6YU5w==
-Date: Mon, 6 May 2024 09:59:46 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Andy Yan <andy.yan@rock-chips.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-Message-ID: <20240506-eccentric-wren-of-peace-819aad@houat>
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
- <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
- <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
+	b=mSuLoJ0z6YXctAxIM1W5cNm8PteGGG2eQY2xpEUxJjdNImsPZtOOwr7IM6shbbNP6
+	 BHQWP4XW1c3iYUnAxbRwpSQ78yGoIslrVEfUBwScCs4rftj6w/gC7eFr0aHCdk0rdX
+	 3H9qIW6brzsD8/3QKGxY9ANw7cOGHV+zct/DaErk=
+Date: Mon, 6 May 2024 10:10:00 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 06/11] media: adv748x-csi2: Implement enum_mbus_codes
+Message-ID: <lj7mhgt62wzkdoqdforp7dyztwyn5xiz4jwjrxsqjkfq5aeqo5@t2g7o5dd6ual>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-7-jacopo.mondi@ideasonboard.com>
+ <20240505210740.GD23227@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="v4sajugv7aqwu3jz"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
+In-Reply-To: <20240505210740.GD23227@pendragon.ideasonboard.com>
 
+Hi Laurent
 
---v4sajugv7aqwu3jz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, May 06, 2024 at 12:07:40AM GMT, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Fri, May 03, 2024 at 05:51:21PM +0200, Jacopo Mondi wrote:
+> > Define a list of supported mbus codes for the TXA and TXB CSI-2
+> > transmitters and implement the enum_mbus_code operation.
+>
+> The commit message should explain why, not just what. Explaining why the
 
-Hi Andy,
+Should I explain why the driver has to implement enum_mbus_codes ?
 
-Thanks a lot for giving it a try
+> formats for TXA and TXB differ would also be useful.
 
-All the issues you raised in your review are fixed.
+ok
 
-On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
-> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
-> the following error:
-> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
-> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
-> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
-> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
-> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
-> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
-> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
-> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
-> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
-> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
-> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
-> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
-> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
-> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
-> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
-> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
-> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
-> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
+>
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 35 ++++++++++++++++++++++++
+> >  1 file changed, 35 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > index 9da7f6742a2b..219417b319a6 100644
+> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > @@ -21,6 +21,18 @@ static const struct v4l2_mbus_framefmt adv748x_csi2_default_fmt = {
+> >  	.field = V4L2_FIELD_NONE,
+> >  };
+> >
+> > +static const unsigned int adv748x_csi2_txa_fmts[] = {
+> > +	MEDIA_BUS_FMT_YUYV8_1X16,
+> > +	MEDIA_BUS_FMT_YUYV10_1X20,
+>
+> CSI-2 uses UYVY, not YUYV.
+>
 
-Which kind of display are you testing with? The only reason it could do
-so is if the display claim it doesn't support RGB in its EDID which is
-contradicting the HDMI spec. Are you using an Analog display by any
-chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
+As this a recurring comment in the series (rightfully, I'm not
+questioning that) how does it work with existing test scripts assuming
+YUYV ? The same question could be asked about the issue Niklas had: is
+changing what pad an operation is allowed to be called on legit ?
 
-Maxime
+My answer would be yes, otherwise we'll be forever stuck, but I would
+like to check, especially with Niklas which maintains vin-tests.
 
---v4sajugv7aqwu3jz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjiN8gAKCRAnX84Zoj2+
-dj7PAXsF7+5aPmDPt0ja154YvieqqvYikRBh9/V5pDrDw3cYprK2R83EgS3cBHli
-wJnpqsYBf0ew1rxNKgDWA+diKWge0oHO2I7Ul+ScFLDcuz23NHCYlB74/qNhIWaY
-8yng08R+LA==
-=WFGm
------END PGP SIGNATURE-----
-
---v4sajugv7aqwu3jz--
+> > +	MEDIA_BUS_FMT_RGB565_1X16,
+> > +	MEDIA_BUS_FMT_RGB666_1X18,
+> > +	MEDIA_BUS_FMT_RGB888_1X24,
+> > +};
+> > +
+> > +static const unsigned int adv748x_csi2_txb_fmts[] = {
+> > +	MEDIA_BUS_FMT_YUYV8_1X16,
+> > +};
+> > +
+> >  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
+> >  {
+> >  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
+> > @@ -146,6 +158,28 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
+> >   * But we must support setting the pad formats for format propagation.
+> >   */
+> >
+> > +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> > +				       struct v4l2_subdev_state *sd_state,
+> > +				       struct v4l2_subdev_mbus_code_enum *code)
+> > +{
+> > +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+> > +	const unsigned int *codes = is_txa(tx) ?
+> > +				    adv748x_csi2_txa_fmts :
+> > +				    adv748x_csi2_txb_fmts;
+> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
+> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
+> > +
+> > +	if (code->pad != ADV748X_CSI2_SOURCE)
+> > +		return -EINVAL;
+> > +
+> > +	if (code->index >= num_fmts)
+> > +		return -EINVAL;
+> > +
+> > +	code->code = codes[code->index];
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static struct v4l2_mbus_framefmt *
+> >  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
+> >  			    struct v4l2_subdev_state *sd_state,
+> > @@ -235,6 +269,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+> >  }
+> >
+> >  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
+> > +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
+> >  	.get_fmt = adv748x_csi2_get_format,
+> >  	.set_fmt = adv748x_csi2_set_format,
+> >  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
