@@ -1,61 +1,112 @@
-Return-Path: <linux-media+bounces-10875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D308BCEF3
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:32:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95E78BCF4E
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:42:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D70728168F
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:32:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D005284E1A
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:42:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7AB768E1;
-	Mon,  6 May 2024 13:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68FE577F2F;
+	Mon,  6 May 2024 13:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="qlAV/ZPO"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="bCio00bX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AA874BF8
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFDE78C6B
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715002338; cv=none; b=b/GDyal4XKfAGo2KDzRkQq+byHoEtugYfHgMZNLLC7Bsn3Go4B147DKWes9EQm/3Ki+ZqCAdIyEGWG3f9SssBZY57WF3Djnl8mMDbFX3IbMmomGgwhZpbwKxIOe0gAFCHeFl/QZc6b1k3Mktcf85C/TM5bJr/DcoHUHxDEjNY58=
+	t=1715002710; cv=none; b=c4dISx2KFuhFP1AJyuq8I2AVtlG0Ljz55V3SyU0GcIfu3x2KrXCtAjwzsVG9dtB1+jVpazVra7KveU9mDfgZX8jU/v87q7DJKgdTbVfcnOoMwJa9mEAL2vpK4BVdn/9MKEmwdlbuh2mReBJdO1Tyg8283OaYPs6UNavJ2DPTO9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715002338; c=relaxed/simple;
-	bh=YUVeOkEffwSanAcKqJ1yyzLfBixOP8DxrqwKgUpZ+FM=;
+	s=arc-20240116; t=1715002710; c=relaxed/simple;
+	bh=It9OpP6gC8bm5/vZVTQBOX1m6p9O8bYlAf/OdYb0psI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BsRBN6OdXCdIDn9hmzRmeYtg7d7rhBJjJaH8Nh5UdsencaFlC30p6agZmldRsOe9rQacUJQTtmsF55AmmLUEviUc//M8GM9inWwLZFpcYkQAH+85Qw+R7/6hovo5w/eNbLsAEYyzw2eo3OKHGkWxRIZrDapGj+Qy+zZKHQwucR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=qlAV/ZPO; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1715002327; bh=YUVeOkEffwSanAcKqJ1yyzLfBixOP8DxrqwKgUpZ+FM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qlAV/ZPOOYQrTFfknqFTa0gc5mBQg9IhaQck9srQ5123EfeT/M4s1WKUKUjh6sY1n
-	 6E6r2Jh/kx2+J8CTL9/+oKAlOrlbwTKuOuO74v6aFIkbWKlGqJIEVjtzgPnpMAb3kt
-	 q35XxVtuKvhvsQvZdgFb5Mryun5dFqNiBIKwdoUoQBI0qwlLneLCQ5kFAt1mBehRwN
-	 5ynv7vAlCJmqtYr4xw7aI1aNB3YtZUrwBZ5M62RBLji1UwvyPxudoN6YKxyukaKpRf
-	 xe2ZaokFpM3t93cKV418y9v/JP7BNUOs83KX5BAbeFElfsskDhjGJWIew8xzsuF1e2
-	 zRiJVAuIcgrhA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 81A901000C2; Mon,  6 May 2024 14:32:07 +0100 (BST)
-Date: Mon, 6 May 2024 14:32:07 +0100
-From: Sean Young <sean@mess.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-Message-ID: <Zjjb1-DFhSYx9HU7@gofer.mess.org>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqkhbTrn9UpzTS/0U/Xg4gJ/0C1kmuL3GjF3oRF/0OQeA5uHbF6DfDUuzTtrSprjP+tBV3aeHNfisX4MFao5FXPioFiD+OklO823c14KKmUglVUJCcXpj81jeDUFinc4uN+wuzunrMrnK/2ymFw5klcJSLuGS3cJ32YUYliwGSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=bCio00bX; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-34e6aaa4f51so195631f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 06:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1715002707; x=1715607507; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=05pEfdeTjP/gT4q1VDqtZ2Mm8b7W7bMEgQ0JTj2r+x4=;
+        b=bCio00bXGx0rOEGQgsW+cyXPMAEaUjZkVmv9Z7YAHR6pj3cpRxYr/aru5n6RBrblc6
+         h1G6rCGNRQlyim87RXhMzcGeG5Ngc1NIMellFQdSoDyeKM5PWa+s8u5Fh1f6BqVclRl8
+         Wb9qkrOeAGjMnjxHIA9olZ0LbNav8fYqSWbR8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715002707; x=1715607507;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=05pEfdeTjP/gT4q1VDqtZ2Mm8b7W7bMEgQ0JTj2r+x4=;
+        b=lAl/U/aXFKGetP421l1H8KfC4rHo0iG6sMW7i2rdzXtDuyypn4aOGovPDkv+Gg0mKD
+         lCz2B61Q4Hy98YRHdCAQ6fsQ2nawf95tsX68EDbU4nd9i6lAzPQslqfyJW3v5XHORFuO
+         A/CboHbtjeViSwkpQYmhFTcQ/RsCa3d1i6sDloo48QfxMmyaSVuxgQChkypva+aN/YSo
+         ROWpgNwm9g/2oD/EuVCiJ1bijNBE+kkNgseb/rbVMyYgFmVZFen4LUS1PnQIRYIJlpcS
+         vRHEKkqnfuiz/Wijzo4svftUnj2W8gg6q7VDT0kBceeQYi0vICb7GTt/NEOwAts1wIF5
+         ZBdA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5PoxUM5UfesOsi4ecW8a0vKB4EZWTiTkUiKRdq3vvQ9h/LBioEIIM2tcguvcTxgezZowhBgIUvQ+dOTFmtbeVHImEDPp8vkBDaY4=
+X-Gm-Message-State: AOJu0YzBACtzHpAA/IkqhHNMy5uVKbW90n5rIXi2Q5f6ywmjQlfd8qy9
+	0+d1RA6MaZi+w6p2T9FClaQUNc+ufQ9ZrV7mJnwinZF9OFZHb/xiReF0zB8+Pwo=
+X-Google-Smtp-Source: AGHT+IH7ayM64/spWVTg0bt9PNCN0djXyEwU/JmnpSrNT6A7B8ioiDdqWIOL0raGgmZcVRIsEpla+w==
+X-Received: by 2002:a05:600c:46cf:b0:41a:bb50:92bb with SMTP id q15-20020a05600c46cf00b0041abb5092bbmr7391993wmo.0.1715002707370;
+        Mon, 06 May 2024 06:38:27 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id z5-20020a05600c0a0500b0041bd85cd3f2sm16051523wmp.19.2024.05.06.06.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 06:38:26 -0700 (PDT)
+Date: Mon, 6 May 2024 15:38:24 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	Robert Mader <robert.mader@collabora.com>,
+	Sebastien Bacher <sebastien.bacher@canonical.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Milan Zamazal <mzamazal@redhat.com>,
+	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	Robert Mader <robert.mader@collabora.com>,
+	Sebastien Bacher <sebastien.bacher@canonical.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Milan Zamazal <mzamazal@redhat.com>,
+	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,47 +115,90 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+In-Reply-To: <20240506-dazzling-nippy-rhino-eabccd@houat>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On Mon, May 06, 2024 at 01:33:32PM +0200, Hans Verkuil wrote:
-> Hi all,
+On Mon, May 06, 2024 at 02:05:12PM +0200, Maxime Ripard wrote:
+> Hi,
 > 
-> We will organize another Media Summit on Monday September 16th to coincide with
-> the Open Source Summit Europe in Vienna:
+> On Mon, May 06, 2024 at 01:49:17PM GMT, Hans de Goede wrote:
+> > Hi dma-buf maintainers, et.al.,
+> > 
+> > Various people have been working on making complex/MIPI cameras work OOTB
+> > with mainline Linux kernels and an opensource userspace stack.
+> > 
+> > The generic solution adds a software ISP (for Debayering and 3A) to
+> > libcamera. Libcamera's API guarantees that buffers handed to applications
+> > using it are dma-bufs so that these can be passed to e.g. a video encoder.
+> > 
+> > In order to meet this API guarantee the libcamera software ISP allocates
+> > dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+> > the Fedora COPR repo for the PoC of this:
+> > https://hansdegoede.dreamwidth.org/28153.html
 > 
-> https://events.linuxfoundation.org/open-source-summit-europe/
+> For the record, we're also considering using them for ARM KMS devices,
+> so it would be better if the solution wasn't only considering v4l2
+> devices.
 > 
-> Avnet Silica has very kindly offered to host this summit at their Vienna
-> office, which is about 35 minutes by public transport from the OSSE venue.
+> > I have added a simple udev rule to give physically present users access
+> > to the dma_heap-s:
+> > 
+> > KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
+> > 
+> > (and on Rasperry Pi devices any users in the video group get access)
+> > 
+> > This was just a quick fix for the PoC. Now that we are ready to move out
+> > of the PoC phase and start actually integrating this into distributions
+> > the question becomes if this is an acceptable solution; or if we need some
+> > other way to deal with this ?
+> > 
+> > Specifically the question is if this will have any negative security
+> > implications? I can certainly see this being used to do some sort of
+> > denial of service attack on the system (1). This is especially true for
+> > the cma heap which generally speaking is a limited resource.
 > 
-> Location:
-> 
-> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
-> 
-> The meeting room can hold 18 people and has video conferencing support (MS Teams).
-> 
-> That said, I want to keep remote participation to a minimum. This yearly summit is meant
-> for active media developers to meet up face-to-face and to discuss media subsystem issues.
-> But if you are an active media developer, but are not able to attend in person, then this
-> is an option.
-> 
-> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
-> It would be very much appreciated if you can also add a guesstimate of the time
-> you need for your topic.
+> There's plenty of other ways to exhaust CMA, like allocating too much
+> KMS or v4l2 buffers. I'm not sure we should consider dma-heaps
+> differently than those if it's part of our threat model.
 
-So I've been working away on new tooling for infrared and it's nearing
-completion. I'd like to talk about:
+So generally for an arm soc where your display needs cma, your render node
+doesn't. And user applications only have access to the later, while only
+the compositor gets a kms fd through logind. At least in drm aside from
+vc4 there's really no render driver that just gives you access to cma and
+allows you to exhaust that, you need to be a compositor with drm master
+access to the display.
 
- - What it is and what it can do (love to hear any feedback of course)
- - Where is should be hosted? (I hope gitlab fdo, who do I ask)
- - What needs to be in place for a release?
- - This tool replaces ir-ctl and ir-keytable. How we phase them out?
+Which means we're mostly protected against bad applications, and that's
+not a threat the "user physically sits in front of the machine accounts
+for", and which giving cma access to everyone would open up. And with
+flathub/snaps/... this is very much an issue.
 
-I hope we can do this in 30 minutes and I should be able to attend in person.
+So you need more, either:
 
-Alternatively we can also discuss this over email so I don't want to bump
-more important things.
+- cgroups limits on dma-buf and dma-buf heaps. This has been bikeshedded
+  for years and is just not really moving.
+
+- An allocator service which checks whether you're allowed to allocate
+  these special buffers. Android does that through binder.
+
+Probably also some way to nuke applications that refuse to release buffers
+when they're no longer the right application. cgroups is a lot more
+convenient for that.
+-Sima
+
+> > But devices tagged for uaccess are only opened up to users who are 
+> > physcially present behind the machine and those can just hit
+> > the powerbutton, so I don't believe that any *on purpose* DOS is part of
+> > the thread model. 
+> 
+> How would that work for headless devices?
+> 
+> Maxime
 
 
-Sean
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
