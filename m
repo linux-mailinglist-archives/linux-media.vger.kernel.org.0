@@ -1,163 +1,216 @@
-Return-Path: <linux-media+bounces-10885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3346A8BD04F
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:30:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 895CE8BD068
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD589282A6C
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:30:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC65E1C23BBE
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9129F13BC04;
-	Mon,  6 May 2024 14:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB840393;
+	Mon,  6 May 2024 14:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CDmUm03g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MXr4YFCR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B9213D2BC;
-	Mon,  6 May 2024 14:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE815099A;
+	Mon,  6 May 2024 14:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715005791; cv=none; b=MsSBjz3HiZAlfroygYbKHzIJuMO35WdhcLstObn/rJxviWN0XhhGjDH0NPchFOjkKE63HdD9WjkJ1UcQS4tlU50FFGZH+7ibCQ8SUUuQL/NNqMHGd60U7z458za883mugwYN5P07n+UAJYqQZPE/EOqq9cDMbWqHIoTn456nbiU=
+	t=1715006171; cv=none; b=NHOebLlIZkHcvVssKehcq6tCHmKm+rAXRP3EL5Uip+Piin+/zkGVzfP8cmjNMuAUblRI3tuxu2mvFqSWd3PLJbrDafX1pgVV8uUnssX0C758947fgcTgxjhSWzzeSj0ToB20JLtAvXF4jc5P6p4tTuxYfZC2vnUElQnuD6JpW6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715005791; c=relaxed/simple;
-	bh=yTlY3cXJWgxA77cPCojHL92hb0JWShOiyiNH6acL9vQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CltvTkmKdlcPNXwfS1KUJ63TrAuFQJE8Y89Yoqv9CaAqcTB6kNReajUtbCaLOHYAPaIBM/xeNPGbIlELlJ9BReb2npcDPfBJ9eED2bBIn+IwDT36jg5TujDMfyurR/BDFFGrps2wB25sKAEoFzwVI5Y/D2WnZ86oM5xsCOiDYg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CDmUm03g; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41dc9f98e8dso24159865e9.1;
-        Mon, 06 May 2024 07:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715005788; x=1715610588; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P7R2UF48atqv/gEumi+l7V+7dd7ac8J8DMLbixRpr6s=;
-        b=CDmUm03gDyBEmRV/wgQNUm07zfonxwQhKgLcCJNcO4yxPR1qE5g+j1w/u/Jem403Oe
-         Zpvk2RPhGWcMVKF6jMKwpPiuuUeWOF4T00WWNzFj6goIdx2xczgC30e3uWgRPvnCFCO1
-         I/bG4pXKB/3a3ALRwJMcPUAx04s/JZK9Mm9+11rPhzN9f5zopi5JxGIhWArvbjDe7g6r
-         TkJVp7bjOGM5G4UBsHwCx85ffiUX6I3VXduSe3dHj9Fww/zWae0Xn6sWDbT8gIWd8tz6
-         iyZ4uztzVVKdbXhgx8PQasShBSASyqmmXdMnf9yic3juzEFDO/orO5la75veKFPtXz0s
-         YMWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715005788; x=1715610588;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P7R2UF48atqv/gEumi+l7V+7dd7ac8J8DMLbixRpr6s=;
-        b=Pd9G5DmpTr7anUJHJ9qYpVyDUuL97hwEcrkG5TrUtWol3HB85dTp7aUSG7QcDZTE15
-         85LyEgQrfqRyxK9Rf6q3CLGOLKsfhUwrGIvN8lgfVNz4F+TjWKkA+0u8qvVMz1nslsMr
-         ZR0e/vXxeLBm+TWuDv6Z7NQHuoYVWT9WIOxlFDueYbQLrQDrMrB1eGexfPub6diGVAEd
-         GR952/xBakEoU1YMI7HBmg2gniHvjXnwg5nsh2eL/KBbr/dPNvFLzhLWVeQhMRv1wqxr
-         AoU8ShsJ4MOO3XqMWSEuAQEG5wVpWQNZfeJwD/KC2aI1u8xE2f0Uder+T+ejiqR5nexe
-         NdFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWIFQ+JSUQNy6OM8RR1b1Gm9nvgfr0wE2VqRbj0lywTvrLUYM2EIZO7WVah75ZsmXaM6nEThIQn2OjngecnICU1x+CeAM7n4AlYLXm19uYWVuuFVIeNy/7l6t5mzIgxbnI4rKtxTdt5vU6EcIsPDKX0BKhz7yXGuPRxxHxU75DCRAHIORGMM0JFSuWcYiGzxZcGBX8GlR63HQ1N4+HcYndH0Q=
-X-Gm-Message-State: AOJu0YweweVxKcH+D0TxJ7bMBzTcDS6uBcQRw+yj6MhvSiTm98pEsBht
-	SdFTrxx8eWkcpdM2tycqI+DnZ8/04H3F8Xa9PFvSj8gcdNHS1KkU
-X-Google-Smtp-Source: AGHT+IH+uilrYBzdDMiE5k3XA1ozo74RVRh9CEWscdREfkRqL3c1m4xxcjh8Y/GbZ1wlL8KfoUDDPg==
-X-Received: by 2002:adf:efc9:0:b0:34c:e6ca:b844 with SMTP id i9-20020adfefc9000000b0034ce6cab844mr8581498wrp.10.1715005787486;
-        Mon, 06 May 2024 07:29:47 -0700 (PDT)
-Received: from [192.168.178.25] ([185.254.126.157])
-        by smtp.gmail.com with ESMTPSA id dn2-20020a0560000c0200b0034e14d59f07sm10890219wrb.73.2024.05.06.07.29.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 May 2024 07:29:46 -0700 (PDT)
-Message-ID: <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
-Date: Mon, 6 May 2024 16:29:44 +0200
+	s=arc-20240116; t=1715006171; c=relaxed/simple;
+	bh=pkdKN+1fY2dN38j1PzxqJ9iloSTgSvrPtJJ5zJ6mdWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mEQF8frv56kJNMaXahgW4W+i5V9AOBM6/OZf1Dhdt2sbtkihjNv74peW/UHC6HWCbt2OOnUrAmv6dxx9MNFVPZALzaCQd0rBtJGn00vg18eD9JoIrXJNZoEZTr8Nk37t2rqdju6YZFqd7yncSmiJ66RciXr9KxW62feBfO4544U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MXr4YFCR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E2DEDC9;
+	Mon,  6 May 2024 16:36:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715006164;
+	bh=pkdKN+1fY2dN38j1PzxqJ9iloSTgSvrPtJJ5zJ6mdWM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MXr4YFCR0k/atTGIOYDUerxxrSDmBbszD7kPLTgquHaRGGfx8M5drrrJN2f27MV5l
+	 qTNUhvh4tCakq1SPUcCfBniqlCRYzHg9cfU1Qb3zhhjbT+Jyjw7S3vzwKRaHLcYsrW
+	 lZPgzkbFDFpbPr3TeEWiIxwimSJD0LzRNXTV8eJM=
+Date: Mon, 6 May 2024 16:36:01 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 07/11] media: adv748x-csi2: Validate the image format
+Message-ID: <jh5eeatxmbqrllo5ff4bi22xsrfqibcw7j74ug6oycmvxg5sxg@rqccohyfouqa>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-8-jacopo.mondi@ideasonboard.com>
+ <20240506113730.GA1017753@ragnatech.se>
+ <xcvfc2rphz52r6vyexlmjdqwmsudlu4urx2ngn3g55hmsh44yf@nw4rwfresuy7>
+ <20240506141201.GE720810@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org,
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- minhquangbui99@gmail.com, sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240506141201.GE720810@ragnatech.se>
 
-Am 04.05.24 um 20:20 schrieb Linus Torvalds:
-> On Sat, 4 May 2024 at 08:32, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->> Lookie here, the fundamental issue is that epoll can call '->poll()'
->> on a file descriptor that is being closed concurrently.
-> Thinking some more about this, and replying to myself...
->
-> Actually, I wonder if we could *really* fix this by simply moving the
-> eventpoll_release() to where it really belongs.
->
-> If we did it in file_close_fd_locked(),  it would actually make a
-> *lot* more sense. Particularly since eventpoll actually uses this:
->
->      struct epoll_filefd {
->          struct file *file;
->          int fd;
->      } __packed;
->
-> ie it doesn't just use the 'struct file *', it uses the 'fd' itself
-> (for ep_find()).
->
-> (Strictly speaking, it should also have a pointer to the 'struct
-> files_struct' to make the 'int fd' be meaningful).
+Hi Niklas
 
-While I completely agree on this I unfortunately have to ruin the idea.
+On Mon, May 06, 2024 at 04:12:01PM GMT, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> On 2024-05-06 15:21:30 +0200, Jacopo Mondi wrote:
+> > Hi Niklas
+> >
+> > On Mon, May 06, 2024 at 01:37:30PM GMT, Niklas Söderlund wrote:
+> > > Hi Jacopo,
+> > >
+> > > Thanks for your work.
+> > >
+> > > On 2024-05-03 17:51:22 +0200, Jacopo Mondi wrote:
+> > > > The adv748x-csi2 driver configures the CSI-2 transmitter to
+> > > > automatically infer the image stream format from the connected
+> > > > frontend (HDMI or AFE).
+> > > >
+> > > > Setting a new format on the subdevice hence does not actually control
+> > > > the CSI-2 output format, but it's only there for the purpose of
+> > > > pipeline validation.
+> > > >
+> > > > However, there is currently no validation that the supplied media bus
+> > > > code is valid and supported by the device.
+> > > >
+> > > > With the introduction of enum_mbus_codes a list of supported format is
+> > > > now available, use it to validate that the supplied format is correct
+> > > > and use the default YUYV8 one if that's not the case.
+> > >
+> > > With the update tests for the change in patch 4 I hit multiple issues
+> > > with this patch for CVBS capture.
+> > >
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > ---
+> > > >  drivers/media/i2c/adv748x/adv748x-csi2.c | 27 +++++++++++++++++++++++-
+> > > >  1 file changed, 26 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > index 219417b319a6..1aae6467ca62 100644
+> > > > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > @@ -215,6 +215,23 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static int adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx,
+> > > > +					 unsigned int code)
+> > > > +{
+> > > > +	const unsigned int *codes = is_txa(tx) ?
+> > > > +				    adv748x_csi2_txa_fmts :
+> > > > +				    adv748x_csi2_txb_fmts;
+> > > > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
+> > > > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
+> > > > +
+> > > > +	for (unsigned int i = 0; i < num_fmts; i++) {
+> > > > +		if (codes[i] == code)
+> > > > +			return 0;
+> > > > +	}
+> > > > +
+> > > > +	return -EINVAL;
+> > > > +}
+> > > > +
+> > > >  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
+> > > >  				   struct v4l2_subdev_state *sd_state,
+> > > >  				   struct v4l2_subdev_format *sdformat)
+> > > > @@ -222,7 +239,15 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
+> > > >  	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+> > > >  	struct adv748x_state *state = tx->state;
+> > > >  	struct v4l2_mbus_framefmt *mbusformat;
+> > > > -	int ret = 0;
+> > > > +	int ret;
+> > > > +
+> > > > +	/*
+> > > > +	 * Make sure the format is supported, if not default it to
+> > > > +	 * YUYV8 as it's supported by both TXes.
+> > > > +	 */
+> > > > +	ret = adv748x_csi2_is_fmt_supported(tx, sdformat->format.code);
+> > > > +	if (ret)
+> > > > +		sdformat->format.code = MEDIA_BUS_FMT_YUYV8_1X16;
+> > >
+> > > If adv748x_csi2_is_fmt_supported() returns non-zero you default to
+> > > MEDIA_BUS_FMT_YUYV8_1X16, which is fine. But the non-zero return code is
+> > > propagated at the end of this function and to user-space falling the
+> > > IOCTL.
+> >
+> > Ouch, I think in my tests the error message got ignored
+> >
+> > >
+> > > Fixing that I hit another issue that kind of shows we need this format
+> > > validation ;-)
+> > >
+> > > The TXB entity only supports MEDIA_BUS_FMT_YUYV8_1X16 formats, the AFE
+> > > entity only outputs MEDIA_BUS_FMT_UYVY8_2X8... So with format validation
+> > > in place it becomes impossible to connect AFE to TXB and breaking CBVS
+> > > capture on Gen3. As a hack I added MEDIA_BUS_FMT_UYVY8_2X8 support to
+> > > TXB and I can again capture CVBS with patch 1-8 applied.
+> >
+> > Thanks for testing analog capture, I don't have a setup to easily do
+> > so.
+>
+> You can test it with the pattern generator on any Gen3 board.
+>
 
-Before we had KCMP some people relied on the strange behavior of 
-eventpoll to compare struct files when the fd is the same.
+ah well
 
-I just recently suggested that solution to somebody at AMD as a 
-workaround when KCMP is disabled because of security hardening and I'm 
-pretty sure I've seen it somewhere else as well.
+> >
+> > Should we make the AFE front-end produce 1X16 instead ? The format is
+> > only used between the AFE and TXs after all, changing it shouldn't
+> > have any implication on the interoperability with other devices.
+>
+> Not sure, the list of formats supported by each entity in the ADV748x is
+> added by patch 'media: adv748x-csi2: Implement enum_mbus_codes' in this
+> series.
 
-So when we change that it would break (undocumented?) UAPI behavior.
+> Where did the list come from?
 
-Regards,
-Christian.
+From the chip datasheet ?
+Section 9.7 "MIPI Ouput format"
+
+>What formats do the AFE support?
+
+The AFE doesn't really "support" any format in my understanding. It
+connects to one of the two TXes with an internal processing pipeline,
+and the TX transmits the received video stream on the serial bus.
+
+> Why is the formats supported different between TXA and TXB ?
+
+You should ask the chip producer :)
 
 >
-> IOW, eventpoll already considers the file _descriptor_ relevant, not
-> just the file pointer, and that's destroyed at *close* time, not at
-> 'fput()' time.
+> > >
+> > > >
+> > > >  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
+> > > >  						 sdformat->which);
+> > > > --
+> > > > 2.44.0
+> > > >
+> > >
+> > > --
+> > > Kind Regards,
+> > > Niklas Söderlund
 >
-> Yeah, yeah, the locking situation in file_close_fd_locked() is a bit
-> inconvenient, but if we can solve that, it would solve the problem in
-> a fundamentally different way: remove the ep iterm before the
-> file->f_count has actually been decremented, so the whole "race with
-> fput()" would just go away entirely.
+> --
+> Kind Regards,
+> Niklas Söderlund
 >
-> I dunno. I think that would be the right thing to do, but I wouldn't
-> be surprised if some disgusting eventpoll user then might depend on
-> the current situation where the eventpoll thing stays around even
-> after the close() if you have another copy of the file open.
->
->               Linus
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
 
