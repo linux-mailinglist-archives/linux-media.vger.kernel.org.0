@@ -1,176 +1,123 @@
-Return-Path: <linux-media+bounces-10873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10874-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88148BCEDD
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:21:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E8E8BCEE4
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:24:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4A6A281E57
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:21:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FD4FB2604E
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8DD33981;
-	Mon,  6 May 2024 13:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBAC7640D;
+	Mon,  6 May 2024 13:24:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dL2t7WIp"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E9l3B8S5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7E5FBF0;
-	Mon,  6 May 2024 13:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67365FBF0
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715001697; cv=none; b=VJLJrE7j19G/jGnTe6/3COAnZy9Ou5axaAn6R54kMDol6OcV3poBOSy5K7H48W+5hP1vE+51Wl2Y/o4EffeV7PY81m6i5ziMFO9To5arqcypik2op7zvWgi6rrg1mjGjpegipR7NzVbWjVHCUH1IjuJK9eGiK4wVMuwO09EA/6E=
+	t=1715001886; cv=none; b=NXgibQVFRK58ONjJfl6X1aT7kTtRpi6ktaR2dbKEXgtISMXVCGV/5JQjqKZ/hIqJbsGqLu3vooX4whGQS8W86EY0Q6YeEVIkFS8jyASArjtlFcDXS08bJmsSo5TBPKUpzhkIjwoNT+GA63rU6+IrsnkRTkH5iSelc3IhftW5GVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715001697; c=relaxed/simple;
-	bh=NvXRF6I6+zv57QlmCKIyd5rDTKcg+GJ1rhcW13v8WnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7s6Z5KKswCmY+k+4Zd17zyZ4PX5/RhYygGbHA+bHRpeOzYUgO3RkKWD0rBMGmn7SeEaBYuTni6wKXWh5qxfedtvFM+uZ6DVU9vNcMQvKsG+cy9lttR7V7jbs3uz2LLzXNxG4mrZxZBmATbktzcqXdKdEW0JLgR+/KdVa9EAer0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dL2t7WIp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F983C55;
-	Mon,  6 May 2024 15:21:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715001691;
-	bh=NvXRF6I6+zv57QlmCKIyd5rDTKcg+GJ1rhcW13v8WnY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dL2t7WIpZoXcEiJ7/BqvZAxdAOy7z2ML6npQQiDkbimTttDDjDq3AAuSb5h9uE+wZ
-	 qWVqoADDgk8XO6wscm2su15/HhVaq1ELWdlWP7A2iHXJ/2WsF3Pq1Zdkoi1JrT8sJ2
-	 EmMndBGvSNd8liuf3C6hnGDG1dOJZtT0aGswGbD4=
-Date: Mon, 6 May 2024 15:21:30 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 07/11] media: adv748x-csi2: Validate the image format
-Message-ID: <xcvfc2rphz52r6vyexlmjdqwmsudlu4urx2ngn3g55hmsh44yf@nw4rwfresuy7>
-References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
- <20240503155127.105235-8-jacopo.mondi@ideasonboard.com>
- <20240506113730.GA1017753@ragnatech.se>
+	s=arc-20240116; t=1715001886; c=relaxed/simple;
+	bh=wBXIQh8JxI2Qoff7jjHr3mB2opuQCagrVYee0cBvRkk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NwoPBwfrfengDvbucq1F9KaHplB59wee4uX4NOPFvyM0Apu9mK6/s47HDW5eIdsMGvvmiBedgz0GlSdClMgvQFEwm3Ndj28XnhHc5QTJBFz8vObP/1V/TjRtigwVEv9CYURow5mkg1bCLfVs3m8KqyFFHgybyez4iqyM6spDHes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E9l3B8S5; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715001884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=rc5Kn55HjDU/gZmXaMC3fz6jBero5yHEEf4aTOkRClM=;
+	b=E9l3B8S5PDixG5yqr4NFSsI7eL7cPDmnaV2D4VvhS3zuRH+Fb+Q5F+2Ea7IMp3fg7unvNV
+	Q3pNksVJpdrqKPyVLoqbkJfpQwH2ZK261dZ03y0F6qxe2EX+kdTQXmYC77SI/DwMgW7Drz
+	5YLBTovoNAJWubY2eH+g8XpmIEFcdzI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-356-avHw5Fz1PW-7-PAb9tfyzw-1; Mon, 06 May 2024 09:24:40 -0400
+X-MC-Unique: avHw5Fz1PW-7-PAb9tfyzw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37687800C8A;
+	Mon,  6 May 2024 13:24:40 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.193.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 62838C13FA1;
+	Mon,  6 May 2024 13:24:39 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: ov2740: Ensure proper reset sequence on probe()
+Date: Mon,  6 May 2024 15:24:38 +0200
+Message-ID: <20240506132438.278920-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240506113730.GA1017753@ragnatech.se>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-Hi Niklas
+Before this commit on probe() the driver would do:
 
-On Mon, May 06, 2024 at 01:37:30PM GMT, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your work.
->
-> On 2024-05-03 17:51:22 +0200, Jacopo Mondi wrote:
-> > The adv748x-csi2 driver configures the CSI-2 transmitter to
-> > automatically infer the image stream format from the connected
-> > frontend (HDMI or AFE).
-> >
-> > Setting a new format on the subdevice hence does not actually control
-> > the CSI-2 output format, but it's only there for the purpose of
-> > pipeline validation.
-> >
-> > However, there is currently no validation that the supplied media bus
-> > code is valid and supported by the device.
-> >
-> > With the introduction of enum_mbus_codes a list of supported format is
-> > now available, use it to validate that the supplied format is correct
-> > and use the default YUYV8 one if that's not the case.
->
-> With the update tests for the change in patch 4 I hit multiple issues
-> with this patch for CVBS capture.
->
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 27 +++++++++++++++++++++++-
-> >  1 file changed, 26 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > index 219417b319a6..1aae6467ca62 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > @@ -215,6 +215,23 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >
-> > +static int adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx,
-> > +					 unsigned int code)
-> > +{
-> > +	const unsigned int *codes = is_txa(tx) ?
-> > +				    adv748x_csi2_txa_fmts :
-> > +				    adv748x_csi2_txb_fmts;
-> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
-> > +
-> > +	for (unsigned int i = 0; i < num_fmts; i++) {
-> > +		if (codes[i] == code)
-> > +			return 0;
-> > +	}
-> > +
-> > +	return -EINVAL;
-> > +}
-> > +
-> >  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
-> >  				   struct v4l2_subdev_state *sd_state,
-> >  				   struct v4l2_subdev_format *sdformat)
-> > @@ -222,7 +239,15 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
-> >  	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> >  	struct adv748x_state *state = tx->state;
-> >  	struct v4l2_mbus_framefmt *mbusformat;
-> > -	int ret = 0;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Make sure the format is supported, if not default it to
-> > +	 * YUYV8 as it's supported by both TXes.
-> > +	 */
-> > +	ret = adv748x_csi2_is_fmt_supported(tx, sdformat->format.code);
-> > +	if (ret)
-> > +		sdformat->format.code = MEDIA_BUS_FMT_YUYV8_1X16;
->
-> If adv748x_csi2_is_fmt_supported() returns non-zero you default to
-> MEDIA_BUS_FMT_YUYV8_1X16, which is fine. But the non-zero return code is
-> propagated at the end of this function and to user-space falling the
-> IOCTL.
+reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
+reset=0                // from resume()
+msleep(20)             // from resume()
 
-Ouch, I think in my tests the error message got ignored
+So if reset was 0 before getting the GPIO the reset line would only be
+driven high for a very short time and sometimes there would be errors
+reading the id register afterwards.
 
->
-> Fixing that I hit another issue that kind of shows we need this format
-> validation ;-)
->
-> The TXB entity only supports MEDIA_BUS_FMT_YUYV8_1X16 formats, the AFE
-> entity only outputs MEDIA_BUS_FMT_UYVY8_2X8... So with format validation
-> in place it becomes impossible to connect AFE to TXB and breaking CBVS
-> capture on Gen3. As a hack I added MEDIA_BUS_FMT_UYVY8_2X8 support to
-> TXB and I can again capture CVBS with patch 1-8 applied.
+Add a msleep(20) after getting the reset line to ensure the sensor is
+properly reset:
 
-Thanks for testing analog capture, I don't have a setup to easily do
-so.
+reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
+msleep(20)             // from probe()
+reset=0                // from resume()
+msleep(20)             // from resume()
 
-Should we make the AFE front-end produce 1X16 instead ? The format is
-only used between the AFE and TXs after all, changing it shouldn't
-have any implication on the interoperability with other devices.
->
-> >
-> >  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
-> >  						 sdformat->which);
-> > --
-> > 2.44.0
-> >
->
-> --
-> Kind Regards,
-> Niklas Söderlund
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/i2c/ov2740.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 57906df7be4e..c48dbcde9877 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -1333,9 +1333,16 @@ static int ov2740_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, ret, "failed to check HW configuration\n");
+ 
+ 	ov2740->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(ov2740->reset_gpio))
++	if (IS_ERR(ov2740->reset_gpio)) {
+ 		return dev_err_probe(dev, PTR_ERR(ov2740->reset_gpio),
+ 				     "failed to get reset GPIO\n");
++	} else if (ov2740->reset_gpio) {
++		/*
++		 * Ensure reset is asserted for at least 20 ms before
++		 * ov2740_resume() deasserts it.
++		 */
++		msleep(20);
++	}
+ 
+ 	ov2740->clk = devm_clk_get_optional(dev, "clk");
+ 	if (IS_ERR(ov2740->clk))
+-- 
+2.44.0
+
 
