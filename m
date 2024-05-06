@@ -1,140 +1,130 @@
-Return-Path: <linux-media+bounces-10830-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10831-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A248BC86B
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 09:34:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76AE8BC895
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 09:50:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B0C21F20FCD
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:34:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6270B282332
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:50:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E95014037E;
-	Mon,  6 May 2024 07:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 160DB1411CE;
+	Mon,  6 May 2024 07:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOQe5kMT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daqEwQT7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE1D127E3B;
-	Mon,  6 May 2024 07:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB43140E25;
+	Mon,  6 May 2024 07:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980839; cv=none; b=nrN45KreTq99WaIWRgaad4Pfuq6utEM0STu5LZiWIa8oMIencsFqyM0rRqaY00CV6XI/PvpT4zhzQ44psq58I5yKLkwDO6+EvWe3r1Qcc9WEzYZ/34vMIBLGkauFd/36bfHHbUYxJjFbF99T5PkjKVRveCdgocnGzvLfLsZHC1c=
+	t=1714981799; cv=none; b=lvC51foFER5bktyXlnSdksLiQKXmVZvEib42bRI7aIqWjsZ3ObHpWE5qbrKgTaWbx6CxAc6kH/TO73OO7B035ASg6Ez93iwxrHWkh6dmmUBahegPkFwxlvRCplXnePD5WJuwGda9d0wIAsZ4+HTqlgzuMlhkFiKElh5GWJU+GAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980839; c=relaxed/simple;
-	bh=6XLNTdDOjYZV+7BSZ8kYvHCZIOmfDSjbk8qhhZ/HN98=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tDKt+BtRhAI004FqlSStLGoZEBtvjt9ENFDROytLkZU1gHO5r9eHDcebIhoDVQobLlK5v29xYEtShdxO5etZGOqmKMBKhbnVDMaUIzay7cOVG5W/+Q9vw7h0ZMql0UQ70NVDSmjldQwqC1NJzopEczregH/Yjc2+0ry/IEgIwVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOQe5kMT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6B6C116B1;
-	Mon,  6 May 2024 07:33:54 +0000 (UTC)
+	s=arc-20240116; t=1714981799; c=relaxed/simple;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mP+0V5Nciich5v9G25JJMwZdk+9oDBgYN0ciZAwQf6xlAbUlOsNLvaxGT/Kfzmk8Ncq5XrcrEvYWS9OT/DiUkQ9hPfDOQRfpz/id3byc1vStuCaGw7GKkIpMsUXcBHcMSdkQQEQ8g/nOvJ6RVXFP9m2I2fd6Cwk4yqZBQfX8pXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daqEwQT7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2080C116B1;
+	Mon,  6 May 2024 07:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714980838;
-	bh=6XLNTdDOjYZV+7BSZ8kYvHCZIOmfDSjbk8qhhZ/HN98=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oOQe5kMTblXJZ1LDCM4efVpiMDYgCPv9n4nmCcDqnsOCcoINVq/I8EYAU70iCFESU
-	 6iRbzA2fucAjcO4Y5v6Yh2RRUPXk/8yO4g4fkYljfz3F/4/LbZ2pbgkZSifQOrwzVC
-	 DtWG0CFNb6tksiEkIm5+/UYWKdX8v8U13M4r2QBkjzaofiVVlpJkpwxj07SOAqkZRE
-	 6xOGO2bCXFxCEsIwMXyiqQ0RV3T57ab8R9Osjqn4vmqKNNNvWHqitQ9FcBwi1sXgWj
-	 20UeGVq3oC1PLysvApckZumwIPjFquUgyomPXJQEKXIbKkqjh91BLyr40SOK5hmuTw
-	 9DPLK1r/TcoYA==
-Message-ID: <94e7366f-e791-4abf-b20d-4c7a1eed3b48@kernel.org>
-Date: Mon, 6 May 2024 09:33:52 +0200
+	s=k20201202; t=1714981799;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=daqEwQT72wzzVhhxaadbP0J7TfhVeGtkoDLVZBhP67FR+IrIX9JHHo5CMTt+aeT2o
+	 5fctJhDPhApWE6WV6FdDfuDqZFLm63Lonzwveroz2A3WUVGRjCWfv1GO6DdiUYCSbs
+	 iWg8thDix9w6nDLLjKVHPRm89YVBA4CgH0uwE1o98twpcLoR4sDWHKbJwpSFoGTtmq
+	 GoO1+LeN1pys+rFLW30DL8rfeo7kPYlTewsrNBRffJy23vjB7xLjIes4dwzyF78zzR
+	 gP65FY8VYbf5uWYIqxCQemcDrv9wvkDIWZa8F0plLIKNXcPQoze93iXeAwJoUTo+m7
+	 u0qAt/aGZx7Og==
+Date: Mon, 6 May 2024 09:49:56 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+Message-ID: <20240506-elated-cheetah-of-awe-bd10cb@houat>
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+ <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: venus: fix use after free in vdec_close
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1714975133-1777-1-git-send-email-quic_dikshita@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <1714975133-1777-1-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 06/05/2024 07:58, Dikshita Agarwal wrote:
-> There appears to be a possible use after free with vdec_close().
-> The firmware will add buffer release work to the work queue through
-> HFI callbacks as a normal part of decoding. Randomly closing the
-> decoder device from userspace during normal decoding can incur
-> a read after free for inst.
-> 
-> Fix it by cancelling the work in vdec_close.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: af2c3834c ("media: venus: adding core part and helper functions")
-
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
-This is written in your instruction - go/upstream - so be sure you
-always follow it fully.
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5r5gd5hzylmqbla5"
+Content-Disposition: inline
+In-Reply-To: <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 
 
-Best regards,
-Krzysztof
+--5r5gd5hzylmqbla5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
+
+On Sat, Apr 27, 2024 at 06:12:26PM GMT, Andy Yan wrote:
+> On 4/23/24 18:45, Maxime Ripard wrote:
+> > The new HDMI connector infrastructure allows to remove some boilerplate,
+> > especially to generate infoframes. Let's switch to it.
+> >=20
+> > Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> > Acked-by: Heiko Stuebner <heiko@sntech.de>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/rockchip/Kconfig     |   1 +
+> >   drivers/gpu/drm/rockchip/inno_hdmi.c | 143 +++++++++++++-------------=
+---------
+> >   2 files changed, 53 insertions(+), 91 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchi=
+p/Kconfig
+> > index 4c7072e6e34e..e2ec20c2e2eb 100644
+> > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > @@ -72,10 +72,11 @@ config ROCKCHIP_DW_MIPI_DSI
+> >   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+> >   	  select this option.
+> >   config ROCKCHIP_INNO_HDMI
+> >   	bool "Rockchip specific extensions for Innosilicon HDMI"
+> > +	depends on
+>=20
+> Is this supposed to be  DRM_DISPLAY_HDMI_STATE_HELPER whith you introduce=
+d in PATCH 04/28?
+> I couldn't find any place where  DRM_HDMI_STATE_HELPER is defined.
+
+Yes, it was a typo indeed. I've fixed it in the next version.
+
+Thanks!
+Maxime
+
+--5r5gd5hzylmqbla5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjiLowAKCRAnX84Zoj2+
+dhERAX4hDKKQK0zUSiy8s+7HxdEWgMiPtGfXL1zjlOPBVdxa0oBEfrdf0wSgA6ZC
+GvcBlYYBfiq7TVSrJMvpZnnDzUsshI7PPYS7GaVjK5IcPqxFB7jgVDcNihybvsg/
+4zQYJv8UYA==
+=CFE1
+-----END PGP SIGNATURE-----
+
+--5r5gd5hzylmqbla5--
 
