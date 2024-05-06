@@ -1,143 +1,135 @@
-Return-Path: <linux-media+bounces-10852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FAD8BCBAC
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:09:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7E58BCBFB
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 301381F234F8
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:09:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCBFB1F225DA
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:26:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE18142E83;
-	Mon,  6 May 2024 10:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83A114290F;
+	Mon,  6 May 2024 10:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S5l+aU/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07131428F9
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 10:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49E843AA5
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 10:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714990183; cv=none; b=JFYG+gZOYMrTy37u5keVtxk3oo95zfm7hYyjEeWzOJkoAMVh9WCBpctUbNYEHeWbiiVNGhXDDh6T+5oiR2KIyfJguL/iQn5Ja3qUXLqQB1sGnZTqndCylROQ1kRSPaylravAlKoE9xdRcKWJ056ZyIBbgVuZPlDlp8XSBcB5eJQ=
+	t=1714991161; cv=none; b=kaPkmBCPzOD2CM1jCjotvXiEZtWmjoEQGzV16prGltf5Lxa7fN4c8J8RapYR4T7iLmJpVVZnGmmgefC/WV9oEhqv4LjzqRkIVWiDm7Y/rTHE2t/vjafu/3gIZjaCEUxju8STknSOaFPip/xOsGnIkgU+9CAtpvP5tahd9thBgWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714990183; c=relaxed/simple;
-	bh=sc4dQtEAfnQj5rxyw3IQe51eRThK+58/lD6QUvIRLzE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KvfhnBdGKvEYa+R1+J1njUbOJ9Gw/sp4SfMB//UjHW4vCBrSpmt946Ia0BSTOgek5WXswoMXJN4AQByTqa90/W9+ig8/rUh/vIxA1wzGHMq5XX0FKShR/K363brxlZ2YB6nuWDPVhIINTx2mWPx7FovDTxAof9BIwMbjWcsmNrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s3vHn-0000s6-40; Mon, 06 May 2024 12:09:31 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s3vHk-00GFK1-QH; Mon, 06 May 2024 12:09:28 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s3vHk-00GfuB-2I;
-	Mon, 06 May 2024 12:09:28 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	kernel@pengutronix.de,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] media: bcm2835-unicam: Convert to platform remove callback returning void
-Date: Mon,  6 May 2024 12:09:16 +0200
-Message-ID: <20240506100917.1544174-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1714991161; c=relaxed/simple;
+	bh=n1RXK8PRBumr7Cq4eyUxGTgGPR5PK0w81QRMXZNvDgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sx+Gr3/q4Zu7X5+fMPkmJEyC3iePYlE+nN1+H3QEXb7m5/O4fqMLXl7sjnfph9HD1LHThnC7C4bFC04C6O8yTM9mi8MMLvpN282nLO9H8CzIGAZuX7Spw78i5GUByrNWJu6PsjZj+NMIqDJT7l8983yIHVmxRKvHOOnQ3rgh0L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S5l+aU/O; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41dc9f98e8dso22494835e9.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 03:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714991158; x=1715595958; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MqztIhrDR9HC7lP+81EAWPGKzTvE0svV34mJctlOoNg=;
+        b=S5l+aU/O1TbOhhRwMy6jHOWI0Bkxb7N2kkbRK0VMYr79PhTtp9/zxqbRkHxT5dt1/h
+         IyHSVDYCW5VNu/xE58g+EIpH0QNbWSyYmVwCBs/0ytXcZv4Wpd8WIVGZb35kGgMeY03K
+         66sT5VxRaCVgW2FUucx+e6PHpmZoGfSLyZAjUx1/QicvewxNjDC7gfx/vIzTBKkr0Iz2
+         cCMU5+F5b904XXUHB7OuXCN1KOmLCt1HD/WGvPGDMBoKIK7hRTUQV1XCHrAYLUae09N0
+         P0CyUKMuuFkV9RKo4KiyjRPoVby8SFzyEunRF0rn9346SfpgCDS4MwwPl69SkKmZY96I
+         RJKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714991158; x=1715595958;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MqztIhrDR9HC7lP+81EAWPGKzTvE0svV34mJctlOoNg=;
+        b=S+wPoLdQJ0a5pfku4yRvpYkdwOgU9y3xjuEAumOKdVx14THhXoUXmeQ+VOn+d+87hk
+         82pQ8uytLxrCqH7+HTmR3a5uDOKRp3gQOaWX6ZuG6mft/0kQ79A3RClbyDlRCNVWNG5b
+         bKWOoP2ATlpHI0xD2XvteNq/aLnt+k6su7pyhEbby6/r9ptBQrQhggdawbI+1xQfWpg5
+         rktSPB1y1e690oEz+KFDWXBEQhsns+gHZrxMApVx9ZHqc3WMq4tqbtdeimTqlMKUwlGn
+         tT2F44CXBRxyLzALyqvq8QJNUnyr5Iy9wupc70qVKHyTVzXEqM8lJjyQb/YdACouyNxl
+         c62A==
+X-Forwarded-Encrypted: i=1; AJvYcCUw7JZz4XMV0z1c1q5RijURkuwcdTqt494oepto4NW+vN2EGVg/G7/NWKB/z58UVrz2apVDYjf49HN84a602NgYAdkXjqMiiXwLojA=
+X-Gm-Message-State: AOJu0Ywv36zUTiIjiJFK5d7cAuw2dM3fFmQotrATDChu4XWBzTbQbXJW
+	rYnmwk37NLAdaf/cXt/ZZG/UK7e/xfskdCYQZhiUtXhHCz8Sn181mOJTwME0TGo=
+X-Google-Smtp-Source: AGHT+IHOLVwBDFR0EUE4X7BqnBPhVbSRb3vyCDe9DkuBfXIisPyXPVqyyVT8KZlJSXWpQ8sV4pDLvw==
+X-Received: by 2002:a05:600c:4508:b0:417:eb5d:281b with SMTP id t8-20020a05600c450800b00417eb5d281bmr11469960wmo.17.1714991158177;
+        Mon, 06 May 2024 03:25:58 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id g20-20020a05600c311400b0041bf685921dsm15561933wmo.0.2024.05.06.03.25.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 May 2024 03:25:57 -0700 (PDT)
+Message-ID: <12daeed1-0075-4a6c-bd02-dc70a0c0d721@linaro.org>
+Date: Mon, 6 May 2024 11:25:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2186; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=sc4dQtEAfnQj5rxyw3IQe51eRThK+58/lD6QUvIRLzE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmOKxO0YAGQ2PPEMcmnI9lTYMat8pqiVhBxzJSZ wNZycMxzYuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZjisTgAKCRCPgPtYfRL+ Tq98B/45y2SIU04i21BEoe6CrHYvdlYRmhLYKbaJ86xPn+/YgN4HAaRiINfPu4M+KgwHoyxx+Zv mG5q8eYxc2Tc3EDJlX2UnvwM2EnPRku9DrdxC15w6boMSJ1NP2c6M7Kr9goQHB/MJWUt5YfyH2P u4RCyotF6x7B2x0mdRTiESHTlthELVdpbNPB+Ezafj+83Xu85cB2F3t9wtlyWerUpkle/GIMl0r X3FItSckyZr/FBviShYQeRfG0FJe61r3bwvgVel93iCCAojhKbG4PfrtOw6JqcPrQ8ZlZfMDmS5 Y7i68IlyslqL4WDCwn3oUdruZwmCU+h5RcSpOz0e8SbJbzNm
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Add support for qcom msm8998-venus (HW vdec /
+ venc)
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+ Bjorn Andersson <andersson@kernel.org>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: MSM <linux-arm-msm@vger.kernel.org>,
+ linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
+ <f5b9c8d5-d8ed-4dd1-9cd6-fb016d84cbd5@freebox.fr>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <f5b9c8d5-d8ed-4dd1-9cd6-fb016d84cbd5@freebox.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+On 06/05/2024 10:57, Marc Gonzalez wrote:
+> On 30/04/2024 17:28, Marc Gonzalez wrote:
+> 
+>> Changes in v2
+>> - Add Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> for patches 2 & 3
+>> - Replace qcom,msm8998-venus.yaml (copy of qcom,msm8996-venus.yaml) with item in qcom,msm8996-venus.yaml
+>>
+>> Marc Gonzalez (3):
+>>    dt-bindings: media: add qcom,msm8998-venus
+>>    arm64: dts: qcom: msm8998: add venus node
+>>    media: venus: add MSM8998 support
+>>
+>>   Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml |  4 ++-
+>>   arch/arm64/boot/dts/qcom/msm8998.dtsi                           | 48 +++++++++++++++++++++++++++++
+>>   drivers/media/platform/qcom/venus/core.c                        | 42 +++++++++++++++++++++++++
+>>   3 files changed, 93 insertions(+), 1 deletion(-)
+> 
+> Not sure what's holding up this series?
+> Can it be merged before the 6.10 merge window opens?
+> (Whose tree is it supposed to go through?)
+> 
+> Been working on this feature since Feb 19 with
+> [RFC WIP PATCH] venus: add qcom,no-low-power property
+> (First try turned out to be incorrect)
+> 
+> Regards
+> 
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+Vikash, Stan.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+I think this is ready to go, can we get an Acked-by so Hans can do the 
+merge ?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-Hello,
-
-this driver appeared in next-20240506. Given that I want to change struct
-platform_driver::remove after the merge-window for v6.10 closes, it would be
-great if this patch went in together with commit creating the drivers.
-
-Thanks
-Uwe
-
- drivers/media/platform/broadcom/bcm2835-unicam.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index 3c7878d8d79b..b11bcec5b225 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -2704,7 +2704,7 @@ static int unicam_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int unicam_remove(struct platform_device *pdev)
-+static void unicam_remove(struct platform_device *pdev)
- {
- 	struct unicam_device *unicam = platform_get_drvdata(pdev);
- 
-@@ -2718,8 +2718,6 @@ static int unicam_remove(struct platform_device *pdev)
- 	unicam_put(unicam);
- 
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id unicam_of_match[] = {
-@@ -2730,7 +2728,7 @@ MODULE_DEVICE_TABLE(of, unicam_of_match);
- 
- static struct platform_driver unicam_driver = {
- 	.probe		= unicam_probe,
--	.remove		= unicam_remove,
-+	.remove_new	= unicam_remove,
- 	.driver = {
- 		.name	= UNICAM_MODULE_NAME,
- 		.pm	= pm_ptr(&unicam_pm_ops),
--- 
-2.43.0
-
+bod
 
