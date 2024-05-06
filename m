@@ -1,123 +1,110 @@
-Return-Path: <linux-media+bounces-10874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E8E8BCEE4
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:24:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D308BCEF3
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 15:32:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FD4FB2604E
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:24:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D70728168F
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBAC7640D;
-	Mon,  6 May 2024 13:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7AB768E1;
+	Mon,  6 May 2024 13:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E9l3B8S5"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="qlAV/ZPO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67365FBF0
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AA874BF8
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 13:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715001886; cv=none; b=NXgibQVFRK58ONjJfl6X1aT7kTtRpi6ktaR2dbKEXgtISMXVCGV/5JQjqKZ/hIqJbsGqLu3vooX4whGQS8W86EY0Q6YeEVIkFS8jyASArjtlFcDXS08bJmsSo5TBPKUpzhkIjwoNT+GA63rU6+IrsnkRTkH5iSelc3IhftW5GVw=
+	t=1715002338; cv=none; b=b/GDyal4XKfAGo2KDzRkQq+byHoEtugYfHgMZNLLC7Bsn3Go4B147DKWes9EQm/3Ki+ZqCAdIyEGWG3f9SssBZY57WF3Djnl8mMDbFX3IbMmomGgwhZpbwKxIOe0gAFCHeFl/QZc6b1k3Mktcf85C/TM5bJr/DcoHUHxDEjNY58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715001886; c=relaxed/simple;
-	bh=wBXIQh8JxI2Qoff7jjHr3mB2opuQCagrVYee0cBvRkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NwoPBwfrfengDvbucq1F9KaHplB59wee4uX4NOPFvyM0Apu9mK6/s47HDW5eIdsMGvvmiBedgz0GlSdClMgvQFEwm3Ndj28XnhHc5QTJBFz8vObP/1V/TjRtigwVEv9CYURow5mkg1bCLfVs3m8KqyFFHgybyez4iqyM6spDHes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E9l3B8S5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715001884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=rc5Kn55HjDU/gZmXaMC3fz6jBero5yHEEf4aTOkRClM=;
-	b=E9l3B8S5PDixG5yqr4NFSsI7eL7cPDmnaV2D4VvhS3zuRH+Fb+Q5F+2Ea7IMp3fg7unvNV
-	Q3pNksVJpdrqKPyVLoqbkJfpQwH2ZK261dZ03y0F6qxe2EX+kdTQXmYC77SI/DwMgW7Drz
-	5YLBTovoNAJWubY2eH+g8XpmIEFcdzI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-356-avHw5Fz1PW-7-PAb9tfyzw-1; Mon, 06 May 2024 09:24:40 -0400
-X-MC-Unique: avHw5Fz1PW-7-PAb9tfyzw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37687800C8A;
-	Mon,  6 May 2024 13:24:40 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.193.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 62838C13FA1;
-	Mon,  6 May 2024 13:24:39 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+	s=arc-20240116; t=1715002338; c=relaxed/simple;
+	bh=YUVeOkEffwSanAcKqJ1yyzLfBixOP8DxrqwKgUpZ+FM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BsRBN6OdXCdIDn9hmzRmeYtg7d7rhBJjJaH8Nh5UdsencaFlC30p6agZmldRsOe9rQacUJQTtmsF55AmmLUEviUc//M8GM9inWwLZFpcYkQAH+85Qw+R7/6hovo5w/eNbLsAEYyzw2eo3OKHGkWxRIZrDapGj+Qy+zZKHQwucR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=qlAV/ZPO; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1715002327; bh=YUVeOkEffwSanAcKqJ1yyzLfBixOP8DxrqwKgUpZ+FM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qlAV/ZPOOYQrTFfknqFTa0gc5mBQg9IhaQck9srQ5123EfeT/M4s1WKUKUjh6sY1n
+	 6E6r2Jh/kx2+J8CTL9/+oKAlOrlbwTKuOuO74v6aFIkbWKlGqJIEVjtzgPnpMAb3kt
+	 q35XxVtuKvhvsQvZdgFb5Mryun5dFqNiBIKwdoUoQBI0qwlLneLCQ5kFAt1mBehRwN
+	 5ynv7vAlCJmqtYr4xw7aI1aNB3YtZUrwBZ5M62RBLji1UwvyPxudoN6YKxyukaKpRf
+	 xe2ZaokFpM3t93cKV418y9v/JP7BNUOs83KX5BAbeFElfsskDhjGJWIew8xzsuF1e2
+	 zRiJVAuIcgrhA==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 81A901000C2; Mon,  6 May 2024 14:32:07 +0100 (BST)
+Date: Mon, 6 May 2024 14:32:07 +0100
+From: Sean Young <sean@mess.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: ov2740: Ensure proper reset sequence on probe()
-Date: Mon,  6 May 2024 15:24:38 +0200
-Message-ID: <20240506132438.278920-1-hdegoede@redhat.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <Zjjb1-DFhSYx9HU7@gofer.mess.org>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
 
-Before this commit on probe() the driver would do:
+On Mon, May 06, 2024 at 01:33:32PM +0200, Hans Verkuil wrote:
+> Hi all,
+> 
+> We will organize another Media Summit on Monday September 16th to coincide with
+> the Open Source Summit Europe in Vienna:
+> 
+> https://events.linuxfoundation.org/open-source-summit-europe/
+> 
+> Avnet Silica has very kindly offered to host this summit at their Vienna
+> office, which is about 35 minutes by public transport from the OSSE venue.
+> 
+> Location:
+> 
+> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
+> 
+> The meeting room can hold 18 people and has video conferencing support (MS Teams).
+> 
+> That said, I want to keep remote participation to a minimum. This yearly summit is meant
+> for active media developers to meet up face-to-face and to discuss media subsystem issues.
+> But if you are an active media developer, but are not able to attend in person, then this
+> is an option.
+> 
+> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
+> It would be very much appreciated if you can also add a guesstimate of the time
+> you need for your topic.
 
-reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
-reset=0                // from resume()
-msleep(20)             // from resume()
+So I've been working away on new tooling for infrared and it's nearing
+completion. I'd like to talk about:
 
-So if reset was 0 before getting the GPIO the reset line would only be
-driven high for a very short time and sometimes there would be errors
-reading the id register afterwards.
+ - What it is and what it can do (love to hear any feedback of course)
+ - Where is should be hosted? (I hope gitlab fdo, who do I ask)
+ - What needs to be in place for a release?
+ - This tool replaces ir-ctl and ir-keytable. How we phase them out?
 
-Add a msleep(20) after getting the reset line to ensure the sensor is
-properly reset:
+I hope we can do this in 30 minutes and I should be able to attend in person.
 
-reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
-msleep(20)             // from probe()
-reset=0                // from resume()
-msleep(20)             // from resume()
+Alternatively we can also discuss this over email so I don't want to bump
+more important things.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/ov2740.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 57906df7be4e..c48dbcde9877 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1333,9 +1333,16 @@ static int ov2740_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, ret, "failed to check HW configuration\n");
- 
- 	ov2740->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(ov2740->reset_gpio))
-+	if (IS_ERR(ov2740->reset_gpio)) {
- 		return dev_err_probe(dev, PTR_ERR(ov2740->reset_gpio),
- 				     "failed to get reset GPIO\n");
-+	} else if (ov2740->reset_gpio) {
-+		/*
-+		 * Ensure reset is asserted for at least 20 ms before
-+		 * ov2740_resume() deasserts it.
-+		 */
-+		msleep(20);
-+	}
- 
- 	ov2740->clk = devm_clk_get_optional(dev, "clk");
- 	if (IS_ERR(ov2740->clk))
--- 
-2.44.0
-
+Sean
 
