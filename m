@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-10829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0771B8BC85F
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 09:30:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A248BC86B
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 09:34:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38AFE1C2139A
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:29:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B0C21F20FCD
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 07:34:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E839140394;
-	Mon,  6 May 2024 07:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E95014037E;
+	Mon,  6 May 2024 07:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BaU9iNFQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOQe5kMT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A413E462;
-	Mon,  6 May 2024 07:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE1D127E3B;
+	Mon,  6 May 2024 07:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980586; cv=none; b=G9bS9a6bZM4GslA/GCq3cQ46+t0wH0NALOjhQ0H+RCtpzwIbVF2+p/xXajfyn5zmCEWKJHODilnTYHRkBbmvu+7e0Ibf/7WBooamq0AIVaKrWyWdxh3eE7LoW4HVuurK8DiHdJUTI7lALjR9+roKPSfyUabJY0bp6k7xXmRCvRk=
+	t=1714980839; cv=none; b=nrN45KreTq99WaIWRgaad4Pfuq6utEM0STu5LZiWIa8oMIencsFqyM0rRqaY00CV6XI/PvpT4zhzQ44psq58I5yKLkwDO6+EvWe3r1Qcc9WEzYZ/34vMIBLGkauFd/36bfHHbUYxJjFbF99T5PkjKVRveCdgocnGzvLfLsZHC1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980586; c=relaxed/simple;
-	bh=D1h8pUmOwKsNaWYOi257hysxPzor5JJbmUYKk4lxQ44=;
+	s=arc-20240116; t=1714980839; c=relaxed/simple;
+	bh=6XLNTdDOjYZV+7BSZ8kYvHCZIOmfDSjbk8qhhZ/HN98=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PN/Q5yEMpHCQZiutRpgpjF6pzVz1nfPQ6YPgLWjNup0Yfg2NueBpZzDumLkxQh9hRhEFMrS9gpJF4vnVxCpd8UwwpPh+45GqS0jl9lWQd0tN+VlRH2kS6nijsdZo231OtPTQ83TiJGUcstZSltA2IG0TS6k82C+rSLYjYi//d6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BaU9iNFQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF84C4AF18;
-	Mon,  6 May 2024 07:29:42 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tDKt+BtRhAI004FqlSStLGoZEBtvjt9ENFDROytLkZU1gHO5r9eHDcebIhoDVQobLlK5v29xYEtShdxO5etZGOqmKMBKhbnVDMaUIzay7cOVG5W/+Q9vw7h0ZMql0UQ70NVDSmjldQwqC1NJzopEczregH/Yjc2+0ry/IEgIwVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOQe5kMT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6B6C116B1;
+	Mon,  6 May 2024 07:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714980586;
-	bh=D1h8pUmOwKsNaWYOi257hysxPzor5JJbmUYKk4lxQ44=;
+	s=k20201202; t=1714980838;
+	bh=6XLNTdDOjYZV+7BSZ8kYvHCZIOmfDSjbk8qhhZ/HN98=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BaU9iNFQ7FDdCOrN9keUCVFeRcbuerjszA28A7pqsOpmdO3KGSvBijQ67gXAjxB+J
-	 j72EQGz4VBczlEqjOHtrKZ8aX+mcl5+Vi8EIM9gOImS6deKfKoBI4jmx76xboRaAwm
-	 vw5e/Rv7Z2FAUYlu3e/78GOehSuu9jfY3FACASaWIiXtzK3gXtXFzCxQ6lIuMhw4ra
-	 SstnDKMqNGZySOYqFkpj639aCYsLEUrNgYofi9kQlYMqZ5rVIS6ohOQ/3dIGO2stwQ
-	 2CTq6w9pT7Wzz1VAC86ah7jWRgEWyww1zkphTWeVdLgNzYMbx/LQHue3l898KoI+Pt
-	 wRcQkpEnWDCTQ==
-Message-ID: <fc326a36-a0ef-4304-9f02-8183aa031e1c@kernel.org>
-Date: Mon, 6 May 2024 09:29:40 +0200
+	b=oOQe5kMTblXJZ1LDCM4efVpiMDYgCPv9n4nmCcDqnsOCcoINVq/I8EYAU70iCFESU
+	 6iRbzA2fucAjcO4Y5v6Yh2RRUPXk/8yO4g4fkYljfz3F/4/LbZ2pbgkZSifQOrwzVC
+	 DtWG0CFNb6tksiEkIm5+/UYWKdX8v8U13M4r2QBkjzaofiVVlpJkpwxj07SOAqkZRE
+	 6xOGO2bCXFxCEsIwMXyiqQ0RV3T57ab8R9Osjqn4vmqKNNNvWHqitQ9FcBwi1sXgWj
+	 20UeGVq3oC1PLysvApckZumwIPjFquUgyomPXJQEKXIbKkqjh91BLyr40SOK5hmuTw
+	 9DPLK1r/TcoYA==
+Message-ID: <94e7366f-e791-4abf-b20d-4c7a1eed3b48@kernel.org>
+Date: Mon, 6 May 2024 09:33:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,20 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: venus: flush all buffers in output plane
- streamoff
+Subject: Re: [PATCH v3] media: venus: fix use after free in vdec_close
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
 Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Stanimir Varbanov <stanimir.varbanov@linaro.org>,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <1704867134-5522-1-git-send-email-quic_dikshita@quicinc.com>
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <1714975133-1777-1-git-send-email-quic_dikshita@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,36 +108,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <1704867134-5522-1-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1714975133-1777-1-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/01/2024 07:12, Dikshita Agarwal wrote:
-> For scenarios, when source change is followed by VIDIOC_STREAMOFF
-> on output plane, driver should discard any queued OUTPUT
-> buffers, which are not decoded or dequeued.
-> Flush with HFI_FLUSH_INPUT does not have any actual impact.
-> So, fix it, by invoking HFI_FLUSH_ALL, which will flush all
-> queued buffers.
+On 06/05/2024 07:58, Dikshita Agarwal wrote:
+> There appears to be a possible use after free with vdec_close().
+> The firmware will add buffer release work to the work queue through
+> HFI callbacks as a normal part of decoding. Randomly closing the
+> decoder device from userspace during normal decoding can incur
+> a read after free for inst.
 > 
-> Fixes: 85872f861d4c ("media: venus: Mark last capture buffer")
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Fix it by cancelling the work in vdec_close.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: af2c3834c ("media: venus: adding core part and helper functions")
 
-This is a friendly reminder during the review process.
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
 
-It looks like you received a tag and forgot to add it.
+This is written in your instruction - go/upstream - so be sure you
+always follow it fully.
 
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
 
 Best regards,
 Krzysztof
