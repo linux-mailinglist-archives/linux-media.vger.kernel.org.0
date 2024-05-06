@@ -1,135 +1,116 @@
-Return-Path: <linux-media+bounces-10853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7E58BCBFB
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:26:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CD58BCC0B
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:32:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCBFB1F225DA
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:26:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 329D31C213B5
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 10:32:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83A114290F;
-	Mon,  6 May 2024 10:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB904204B;
+	Mon,  6 May 2024 10:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S5l+aU/O"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JkVmeUyA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49E843AA5
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 10:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4A663B8;
+	Mon,  6 May 2024 10:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714991161; cv=none; b=kaPkmBCPzOD2CM1jCjotvXiEZtWmjoEQGzV16prGltf5Lxa7fN4c8J8RapYR4T7iLmJpVVZnGmmgefC/WV9oEhqv4LjzqRkIVWiDm7Y/rTHE2t/vjafu/3gIZjaCEUxju8STknSOaFPip/xOsGnIkgU+9CAtpvP5tahd9thBgWo=
+	t=1714991566; cv=none; b=qcCi0CcvDOpydm0pw43fjybzZ2ffKyxGrGkxFcML6TEBvfXVnfy2sHcqKYOq5zFZyUVk6bloeraRNElj5FaqsXQHK3EGuAmLqnMIY0wRDJoKjPpgyuaxbuwEMDEVk0cAH+bvfkNXIB7hT3EeB/qAJDqYfI8u+aNeVXevBqcaZHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714991161; c=relaxed/simple;
-	bh=n1RXK8PRBumr7Cq4eyUxGTgGPR5PK0w81QRMXZNvDgc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sx+Gr3/q4Zu7X5+fMPkmJEyC3iePYlE+nN1+H3QEXb7m5/O4fqMLXl7sjnfph9HD1LHThnC7C4bFC04C6O8yTM9mi8MMLvpN282nLO9H8CzIGAZuX7Spw78i5GUByrNWJu6PsjZj+NMIqDJT7l8983yIHVmxRKvHOOnQ3rgh0L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S5l+aU/O; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41dc9f98e8dso22494835e9.1
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 03:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714991158; x=1715595958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MqztIhrDR9HC7lP+81EAWPGKzTvE0svV34mJctlOoNg=;
-        b=S5l+aU/O1TbOhhRwMy6jHOWI0Bkxb7N2kkbRK0VMYr79PhTtp9/zxqbRkHxT5dt1/h
-         IyHSVDYCW5VNu/xE58g+EIpH0QNbWSyYmVwCBs/0ytXcZv4Wpd8WIVGZb35kGgMeY03K
-         66sT5VxRaCVgW2FUucx+e6PHpmZoGfSLyZAjUx1/QicvewxNjDC7gfx/vIzTBKkr0Iz2
-         cCMU5+F5b904XXUHB7OuXCN1KOmLCt1HD/WGvPGDMBoKIK7hRTUQV1XCHrAYLUae09N0
-         P0CyUKMuuFkV9RKo4KiyjRPoVby8SFzyEunRF0rn9346SfpgCDS4MwwPl69SkKmZY96I
-         RJKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714991158; x=1715595958;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MqztIhrDR9HC7lP+81EAWPGKzTvE0svV34mJctlOoNg=;
-        b=S+wPoLdQJ0a5pfku4yRvpYkdwOgU9y3xjuEAumOKdVx14THhXoUXmeQ+VOn+d+87hk
-         82pQ8uytLxrCqH7+HTmR3a5uDOKRp3gQOaWX6ZuG6mft/0kQ79A3RClbyDlRCNVWNG5b
-         bKWOoP2ATlpHI0xD2XvteNq/aLnt+k6su7pyhEbby6/r9ptBQrQhggdawbI+1xQfWpg5
-         rktSPB1y1e690oEz+KFDWXBEQhsns+gHZrxMApVx9ZHqc3WMq4tqbtdeimTqlMKUwlGn
-         tT2F44CXBRxyLzALyqvq8QJNUnyr5Iy9wupc70qVKHyTVzXEqM8lJjyQb/YdACouyNxl
-         c62A==
-X-Forwarded-Encrypted: i=1; AJvYcCUw7JZz4XMV0z1c1q5RijURkuwcdTqt494oepto4NW+vN2EGVg/G7/NWKB/z58UVrz2apVDYjf49HN84a602NgYAdkXjqMiiXwLojA=
-X-Gm-Message-State: AOJu0Ywv36zUTiIjiJFK5d7cAuw2dM3fFmQotrATDChu4XWBzTbQbXJW
-	rYnmwk37NLAdaf/cXt/ZZG/UK7e/xfskdCYQZhiUtXhHCz8Sn181mOJTwME0TGo=
-X-Google-Smtp-Source: AGHT+IHOLVwBDFR0EUE4X7BqnBPhVbSRb3vyCDe9DkuBfXIisPyXPVqyyVT8KZlJSXWpQ8sV4pDLvw==
-X-Received: by 2002:a05:600c:4508:b0:417:eb5d:281b with SMTP id t8-20020a05600c450800b00417eb5d281bmr11469960wmo.17.1714991158177;
-        Mon, 06 May 2024 03:25:58 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id g20-20020a05600c311400b0041bf685921dsm15561933wmo.0.2024.05.06.03.25.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 May 2024 03:25:57 -0700 (PDT)
-Message-ID: <12daeed1-0075-4a6c-bd02-dc70a0c0d721@linaro.org>
-Date: Mon, 6 May 2024 11:25:56 +0100
+	s=arc-20240116; t=1714991566; c=relaxed/simple;
+	bh=vzwdjVTQkvZ4ndBkerQm7ZkaiaPAagOhRhf1UKOdVSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cwg6Iftn0j8yfupCu+EgG9gR4L2vYFPAOlsrJqZdE8L12Z64focqMcJSRre6ozqDjWkoVH0UjAbdlxHSnA76iLO/Lqfp8m33jkmjre23ZebwUIXhVMR+TGYbdDTIMt6MuvYTj7Y+LeXFyJQERE4MKHjqqOl9nxMrQH0XHPnus5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JkVmeUyA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FD2882E;
+	Mon,  6 May 2024 12:32:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714991559;
+	bh=vzwdjVTQkvZ4ndBkerQm7ZkaiaPAagOhRhf1UKOdVSg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JkVmeUyAbQLgo/bdRwYotdZuQ5M66zZNVMas9VIooyl7pXTxp8ASQStVjIeEqxkib
+	 YQRxehHWpoDQFm8+4fV9JMNIb7l5IF09JuWjP59t7dTZoXQ7DjpF18ih9g0MUQvfk1
+	 g/rNZU2DLqJK89v6rL2rIQtNXsOasNenxXufQbow=
+Date: Mon, 6 May 2024 13:32:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 11/11] media: max9286: Use frame interval from subdev
+ state
+Message-ID: <20240506103232.GA21429@pendragon.ideasonboard.com>
+References: <20240503155127.105235-1-jacopo.mondi@ideasonboard.com>
+ <20240503155127.105235-12-jacopo.mondi@ideasonboard.com>
+ <20240505213611.GI23227@pendragon.ideasonboard.com>
+ <4oanq2grddcqyoqu3phsf5vudpnm76q2xcnra4ygcq7akkfzty@uccgntq2zvcb>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Add support for qcom msm8998-venus (HW vdec /
- venc)
-To: Marc Gonzalez <mgonzalez@freebox.fr>,
- Bjorn Andersson <andersson@kernel.org>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
- <f5b9c8d5-d8ed-4dd1-9cd6-fb016d84cbd5@freebox.fr>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <f5b9c8d5-d8ed-4dd1-9cd6-fb016d84cbd5@freebox.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4oanq2grddcqyoqu3phsf5vudpnm76q2xcnra4ygcq7akkfzty@uccgntq2zvcb>
 
-On 06/05/2024 10:57, Marc Gonzalez wrote:
-> On 30/04/2024 17:28, Marc Gonzalez wrote:
+On Mon, May 06, 2024 at 11:37:13AM +0200, Jacopo Mondi wrote:
+> On Mon, May 06, 2024 at 12:36:11AM GMT, Laurent Pinchart wrote:
+> > On Fri, May 03, 2024 at 05:51:26PM +0200, Jacopo Mondi wrote:
+> > > Use the frame interval stored in the subdev state instead of storing
+> > > a copy in the driver private structure.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > ---
+> > >  drivers/media/i2c/max9286.c | 52 +++++++++++++++++--------------------
+> > >  1 file changed, 24 insertions(+), 28 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > index cc7ee35560fc..4ddbc247395f 100644
+> > > --- a/drivers/media/i2c/max9286.c
+> > > +++ b/drivers/media/i2c/max9286.c
+> > > @@ -197,8 +197,6 @@ struct max9286_priv {
+> > >  	struct v4l2_ctrl *pixelrate_ctrl;
+> > >  	unsigned int pixelrate;
+> > >
+> > > -	struct v4l2_fract interval;
+> > > -
+> > >  	unsigned int nsources;
+> > >  	unsigned int source_mask;
+> > >  	unsigned int route_mask;
+> > > @@ -571,11 +569,14 @@ static void max9286_set_video_format(struct max9286_priv *priv,
+> > >  		      MAX9286_INVVS | MAX9286_HVSRC_D14);
+> > >  }
+> > >
+> > > -static void max9286_set_fsync_period(struct max9286_priv *priv)
+> > > +static void max9286_set_fsync_period(struct max9286_priv *priv,
+> > > +				     struct v4l2_subdev_state *state)
+> > >  {
+> > > +	struct v4l2_fract *interval;
+> >
+> > const
 > 
->> Changes in v2
->> - Add Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> for patches 2 & 3
->> - Replace qcom,msm8998-venus.yaml (copy of qcom,msm8996-venus.yaml) with item in qcom,msm8996-venus.yaml
->>
->> Marc Gonzalez (3):
->>    dt-bindings: media: add qcom,msm8998-venus
->>    arm64: dts: qcom: msm8998: add venus node
->>    media: venus: add MSM8998 support
->>
->>   Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml |  4 ++-
->>   arch/arm64/boot/dts/qcom/msm8998.dtsi                           | 48 +++++++++++++++++++++++++++++
->>   drivers/media/platform/qcom/venus/core.c                        | 42 +++++++++++++++++++++++++
->>   3 files changed, 93 insertions(+), 1 deletion(-)
-> 
-> Not sure what's holding up this series?
-> Can it be merged before the 6.10 merge window opens?
-> (Whose tree is it supposed to go through?)
-> 
-> Been working on this feature since Feb 19 with
-> [RFC WIP PATCH] venus: add qcom,no-low-power property
-> (First try turned out to be incorrect)
-> 
-> Regards
-> 
+> ../drivers/media/i2c/max9286.c:993:29: error: assignment of member ‘numerator’ in read-only object
+>   993 |         interval->numerator = 0;
 
-Vikash, Stan.
+That's the .init_state() implementation. There you can't make it const,
+but in max9286_set_fsync_period() it should be fine.
 
-I think this is ready to go, can we get an Acked-by so Hans can do the 
-merge ?
+-- 
+Regards,
 
----
-bod
+Laurent Pinchart
 
