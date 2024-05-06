@@ -1,135 +1,201 @@
-Return-Path: <linux-media+bounces-10888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D568BD072
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:39:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF808BD08B
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 16:43:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 239A31F23E16
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:39:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF60E1C2456D
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:43:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB5D153504;
-	Mon,  6 May 2024 14:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F941153583;
+	Mon,  6 May 2024 14:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ka6OY6yZ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BEwhDDqT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129731534E8;
-	Mon,  6 May 2024 14:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E5A1534F9;
+	Mon,  6 May 2024 14:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715006337; cv=none; b=Waef2V6j3D4Hn9s1H8sNpdDzVRVZJ7ukpj/NZqMUPnBgGy0NQ/VWXVYc5m4EBRSXMPLFmeS120drqBBPfJIaeY4xKvgd7ASjRJ2pYLPFvr9ugZluHLaOGpPpE9L6dzeYFDoGbCBNNfVePzy0/R0RISsUOKfwpUZ+k4n1/LUvHw0=
+	t=1715006621; cv=none; b=shv8TDNxp+gx347w1PQi3Ua78GpQMFQC/mG7LnWn6u0i6GeDg8NIA02o0RLxHFb1kqfmpyJQ+Zt4Q8N8NLh6BaRhweZlUzHXK92bm5RCNgtJ0Ugz4btDo/n9vEaUOT/kbrMJWeEMx3uWU3ClMxCjJV4XRrduF5mJp0ZyS1SpAIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715006337; c=relaxed/simple;
-	bh=27tHSW1zl7ehj6fVxvf4O5x37/NDiU0iDr5TcXznQAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KH7aLKf4WdRjhDh6EBQoQqqLWrNa4qRr0ZTZell0cQAMLttraIR4N+EhUY4tul0kYja9kvG9XW+48ASUYBiMifEEV28KA3xmkiCP0tTgbJt1FWFEGxWhnLs1zF7J4etnXJgPCmzQzxtBZHAiLIKkZbB0Vtemd847nlHffLPjQyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ka6OY6yZ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715006334;
-	bh=27tHSW1zl7ehj6fVxvf4O5x37/NDiU0iDr5TcXznQAQ=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=Ka6OY6yZfrHN6wP/B4YWxipAoFoi4Gv2tqTmEd/8d+1NsD0nmxJS9fg566Yje1GWu
-	 Ov6JBpMQ6fIf+G1MtReBJd+Yisz9KbLOUplNZX6oa8ATXWh1DQxmCKyslvXX8xYBuX
-	 f0yVrQUcqvtEK1waV2VSjhhsvyqcRZhxu6j3vJxXdEFTSt3BEON7TTN250+4gdW2j2
-	 ZGbNtR/J0mMe7HZFeYYZZaDTWJ5wRQuR3OxdAWV6Igx9Gk2v1UetPWZG/svFB+TIq8
-	 +O6SExrzXZFBwYs32v5f4ZlRlZCgul90qSSsZXG8Ubxk2JkJ7oHqyIL+Xz77oGpywA
-	 MgQEiWHCdS+0A==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E804E3781107;
-	Mon,  6 May 2024 14:38:53 +0000 (UTC)
-Message-ID: <c747a5e6-e3f2-4bea-87e2-92b71501db9a@collabora.com>
-Date: Mon, 6 May 2024 16:38:53 +0200
+	s=arc-20240116; t=1715006621; c=relaxed/simple;
+	bh=y647dMzPrxRgvSF4A0OcIoVEWcf6Sx+yOBZLZfTDR3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dyQK3BHdZiNKEnut03nrr/lrpwR1vqhZ7XFVY8CpxT2CWR3qwrvDJzWOe3Goyv4IiPMdLAzH+dIbKLKGlEjetL7R6smhDEcLsVOgFvjKKoo5jnYEuLEZ1rhGxqstkPhJqPaoLgnl81Ze8wJHioQIVEKj62o+DBcis8muOuYVuAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BEwhDDqT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 446DvusS020742;
+	Mon, 6 May 2024 14:43:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=g12AKeQZADDNahrrQPOiEakptlKeLPwOThbL5Jv4l8g=; b=BE
+	whDDqT5vX9cQRNYC+6GErOyrAvRq8w+PfVx/qhb/t3nPUzsJ5U14DMSue/OK2SeC
+	dE42PqDXF638rt2TcCbsqgCjn9sjqFMeJSrumUFbpLLv0cKy5n1baMHW+2b+qLn3
+	UiT+Hi0HgVKel518e5g18EKrMG92ifzgEDnwHiT0vIJsQsyyRYDcSlhMYPD7uxZs
+	IYpxqK51d0VrdCkoPBB9xc57fUad4otGK/6Ra/NK+rqCTLRAgu+JP9YD4uQVB0sk
+	ZCAmxe6+E5tPicwCZAkSXWOMwxcG4A5R9tsa0c54BS7C4i8U/9BNr44DaMURM28e
+	MJUUWxCj7pXUKSbR9fFg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xxwqdrgb7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 May 2024 14:43:33 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 446EhV9F007230
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 6 May 2024 14:43:31 GMT
+Received: from [10.216.21.139] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 6 May 2024
+ 07:43:26 -0700
+Message-ID: <803b267b-9171-8234-aa3a-fba0d738a64d@quicinc.com>
+Date: Mon, 6 May 2024 20:13:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: verisilicon: AV1: Be more fexible on postproc
- capabilities
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, mchehab@kernel.org, heiko@sntech.de
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20240328093439.18712-1-benjamin.gaignard@collabora.com>
- <e4d01c27aa976c44e0b7122e39111be062a4deb4.camel@ndufresne.ca>
- <ebbe249f-bce6-4e81-969f-c63ab4b063f3@collabora.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 3/3] media: venus: add msm8998 support
 Content-Language: en-US
-In-Reply-To: <ebbe249f-bce6-4e81-969f-c63ab4b063f3@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Marc Gonzalez <mgonzalez@freebox.fr>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O Donoghue
+	<bryan.odonoghue@linaro.org>
+CC: MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media
+	<linux-media@vger.kernel.org>,
+        DT <devicetree@vger.kernel.org>,
+        "Pierre-Hugues Husson" <phhusson@freebox.fr>,
+        Arnaud Vrac <avrac@freebox.fr>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+References: <72860c1d-7434-4be6-8c1d-9ea177602802@freebox.fr>
+ <14bda891-5035-433c-888e-b3c330eeffaf@freebox.fr>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <14bda891-5035-433c-888e-b3c330eeffaf@freebox.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: K-3p3HzHPEijfjl9gscegYAPl73NYKGi
+X-Proofpoint-GUID: K-3p3HzHPEijfjl9gscegYAPl73NYKGi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-06_09,2024-05-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ adultscore=0 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2405060101
 
 
-Le 05/04/2024 à 10:17, Benjamin Gaignard a écrit :
->
-> Le 04/04/2024 à 19:59, Nicolas Dufresne a écrit :
->> Hi,
->>
->> Le jeudi 28 mars 2024 à 10:34 +0100, Benjamin Gaignard a écrit :
->>> RK3588 post-processor block is able to convert 10 bits streams
->>> into 8 bits pixels format.
->> Does it come with any HDR to SDR capabilities ? cause stripping off 2 
->> bits means
->> that tone mapping will cause a lot of banding as it won't have the 
->> expected
->> precision. I'm simply trying to make up the big portrait so we don't 
->> just offer
->> yet another foot gun. But perhaps its fine to offer this, its just 
->> that we don't
->> have a mechanism to report which pixel format in the selection will 
->> cause data
->> lost.
->
-> No it just to enable post-processor capabilities like we have already 
-> for G2/HEVC.
-> Since it is a post-processor pixel format it will be enumerated after 
-> V4L2_PIX_FMT_NV15_4L4
-> so it will update to userland to decide to use it or not.
+On 5/6/2024 7:17 PM, Marc Gonzalez wrote:
+> From: Pierre-Hugues Husson <phhusson@freebox.fr>
+> 
+> Add the missing bits for msm8998 support.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
+> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index ce206b7097541..064120127cb86 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -554,6 +554,9 @@ static const struct venus_resources msm8916_res = {
+>  	.fwname = "qcom/venus-1.8/venus.mbn",
+>  };
+>  
+> +/*
+> + * https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blame/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8996-v3.dtsi#L403-414
+> + */
+There is no need to add the link to downstream code in comments. Please remove them.
 
-Gentle ping,
 Regards,
-Benjamin
-
->
-> Benjamin
->
->>
->> Nicolas
->>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> Fixes: 003afda97c65 ("media: verisilicon: Enable AV1 decoder on 
->>> rk3588")
->>> ---
->>>   drivers/media/platform/verisilicon/rockchip_vpu_hw.c | 1 -
->>>   1 file changed, 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c 
->>> b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> index f97527670783..964122e7c355 100644
->>> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> @@ -82,7 +82,6 @@ static const struct hantro_fmt 
->>> rockchip_vpu981_postproc_fmts[] = {
->>>       {
->>>           .fourcc = V4L2_PIX_FMT_NV12,
->>>           .codec_mode = HANTRO_MODE_NONE,
->>> -        .match_depth = true,
->>>           .postprocessed = true,
->>>           .frmsize = {
->>>               .min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>
+Vikash
+>  static const struct freq_tbl msm8996_freq_table[] = {
+>  	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
+>  	{  972000, 520000000 },	/* 4k UHD @ 30 */
+> @@ -587,6 +590,50 @@ static const struct venus_resources msm8996_res = {
+>  	.fwname = "qcom/venus-4.2/venus.mbn",
+>  };
+>  
+> +/*
+> + * https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi#L42-53
+> + */
+> +static const struct freq_tbl msm8998_freq_table[] = {
+> +	{ 1944000, 465000000 },	/* 4k UHD @ 60 (decode only) */
+> +	{  972000, 465000000 },	/* 4k UHD @ 30 */
+> +	{  489600, 360000000 },	/* 1080p @ 60 */
+> +	{  244800, 186000000 },	/* 1080p @ 30 */
+> +	{  108000, 100000000 },	/* 720p @ 30 */
+> +};
+> +
+> +/*
+> + * https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blob/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8998-vidc.dtsi#L29-37
+> + */
+> +static const struct reg_val msm8998_reg_preset[] = {
+> +	{ 0x80124, 0x00000003 },
+> +	{ 0x80550, 0x01111111 },
+> +	{ 0x80560, 0x01111111 },
+> +	{ 0x80568, 0x01111111 },
+> +	{ 0x80570, 0x01111111 },
+> +	{ 0x80580, 0x01111111 },
+> +	{ 0x80588, 0x01111111 },
+> +	{ 0xe2010, 0x00000000 },
+> +};
+> +
+> +static const struct venus_resources msm8998_res = {
+> +	.freq_tbl = msm8998_freq_table,
+> +	.freq_tbl_size = ARRAY_SIZE(msm8998_freq_table),
+> +	.reg_tbl = msm8998_reg_preset,
+> +	.reg_tbl_size = ARRAY_SIZE(msm8998_reg_preset),
+> +	.clks = { "core", "iface", "bus", "mbus" },
+> +	.clks_num = 4,
+> +	.vcodec0_clks = { "core" },
+> +	.vcodec1_clks = { "core" },
+> +	.vcodec_clks_num = 1,
+> +	.max_load = 2563200,
+> +	.hfi_version = HFI_VERSION_3XX,
+> +	.vmem_id = VIDC_RESOURCE_NONE,
+> +	.vmem_size = 0,
+> +	.vmem_addr = 0,
+> +	.dma_mask = 0xddc00000 - 1,
+> +	.fwname = "qcom/venus-4.4/venus.mbn",
+> +};
+> +
+>  static const struct freq_tbl sdm660_freq_table[] = {
+>  	{ 979200, 518400000 },
+>  	{ 489600, 441600000 },
+> @@ -893,6 +940,7 @@ static const struct venus_resources sc7280_res = {
+>  static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> +	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
 
