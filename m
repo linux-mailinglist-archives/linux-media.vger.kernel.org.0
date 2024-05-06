@@ -1,72 +1,71 @@
-Return-Path: <linux-media+bounces-10925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F200A8BD562
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 21:25:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC33E8BD6A1
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 23:10:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37794B2306B
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 19:25:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55BCD284274
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 21:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 825C7159587;
-	Mon,  6 May 2024 19:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2EF715CD42;
+	Mon,  6 May 2024 21:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KQaDgD0R"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ti5kdVUC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AA51591FC
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 19:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B808C158D7B
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 21:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715023491; cv=none; b=qfrDQkqnxaQzKBZSpD8nK+/jRipbURvVzn+uk8HnhmU48YYWdbtBPzC8kPRYaO3UTeX9ZdveI5Cn7OYCAnq7i5Pushth4IPQ9M8I1lYmUJXfcoK6s1DCU7GK9MwiWNCMqSuC8P8Wi+QLMoLoUK4J2BQB+b+qYk/XfF1uusuLUaE=
+	t=1715029832; cv=none; b=UINL48nCIOFyZCBUS2+UdGFn8rr6B5Da9rmTuWppQUQJbOFrRUS3oJmC/FVbY1EN5SKza+GSAlV0fvusGIeVKbm7me5F27Q8zqVaGwSbQ6ivVKs27kgaTfd/0YAvWciMUNb7k7IdM83/LarAdPhc/+5lYQs3Dv/RAp28C7VhJk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715023491; c=relaxed/simple;
-	bh=2UHWC2bxvJRpPIbR8NMDLC+df/QxdRgc5rfe62kBZfA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MoqPQZ0XRyFqyMO1W5ekNufy8cm1SR1tCNDK8Id3AvSD+7420XLrTmn/nfBDZl1eSVwGQXaYIesXVGDjihkNjwDWZEldxY0BGefToljUnr3EuVWbzjlYl9cuyOT7Uahiz7Lvx/p7qVRKfHm/uX2TFVXe4/e/bTEW8w6Rq0y1yDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KQaDgD0R; arc=none smtp.client-ip=209.85.167.177
+	s=arc-20240116; t=1715029832; c=relaxed/simple;
+	bh=hlKSh3+fVOYGLqDRFhNN2z7IDlVFYJiY/t1NMzneb+s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bhZ+Sf6bVtl8pcizOJWYLM/qKN2RFOQf4NxhGtSx0unblFNQXQHQozMaX+qEbiW29Q0uDKoqozqNhxzekkhrsBJwQuu9br6wZG0rt74XueYionUcXZTycYcdhOIWOdv4Onk80Hhz0W/yfn6LNmDo1hTdkTl8Ut2x7kzqQzef4dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ti5kdVUC; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c956282db1so1414057b6e.3
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 12:24:50 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7928c5cb640so230742585a.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 14:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715023490; x=1715628290; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=raDFNcDQUrEtJLVjBh+B3qIrZSUwTfQ8a/Tp6m6/klY=;
-        b=KQaDgD0RMrnKCLWYW/tQ40vUmqBXHTxVUikTQ2THRo4LQdbsAVTFw6q4b3VRAm+/h0
-         e33fBydjIJC8WLu++VdlUv7PvQFWgi86cUsAQT13hz719D6n8pro4vMGrYLkviy90M4C
-         ZHLb9ZqrhE/S863I9aymXEytFU0sKm/j7td8U=
+        d=chromium.org; s=google; t=1715029828; x=1715634628; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJlz3tHuOCtShrTLnbsBX1r1HOOY5sBoGqISo2aDg5g=;
+        b=Ti5kdVUC9xXZOHSyp/F0NmfrWMF67MVVgdwsipcX2pKQCF6HdqoQPMVZ1FeCJjjboX
+         U9ulxGej8qLL1Qc3Eel96jO2KEtTm8RBd7ZHpvrFUorGvU07dnKqIZmZFxZvAO7osooi
+         r9eWruWdg0uyFNHZ3oTWS1L8QvZEokS9bFMiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715023490; x=1715628290;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=raDFNcDQUrEtJLVjBh+B3qIrZSUwTfQ8a/Tp6m6/klY=;
-        b=mWuKY1WG0kvAfVAT8zdlyIHAxEUQk904nWoN9/HnaMOPe4UH75XJuLQJJh565KlYkQ
-         w1l70TaorMvoWO0DZ6BPmwy4xbqWbcMWWCsmv/kqa0ojpfL0WoncZMtCUhlZU6mnxQT1
-         s0KDZkYwpk9mFyZKskcynJDTzAQMBJgn0y7802tOz72FRz64Jcbpqwti9Bk5xwRkiKiM
-         7CFpnaqmH653guNyVsJ/76iZnPTyQWFNi27SZ9GZOcZrFrOZnIOoZyQh1moNyRlnyoZ0
-         BeQW1k26G6IsJxo0czPuzuM+smDCHCjTL2t30IZY1AV2cHZDNkr9D+UDcRkFgZ4tW1In
-         h5Lw==
-X-Gm-Message-State: AOJu0Yw0rtNh9J2cRAXnKbIZk+X1AgH7uarO1mvUnf9P3gM1uISVWDjA
-	NYfd7S/v2bkFErjuclIXkfVEE75GKU1+cAFKRio4yRUqpGUiTBJNDWdbjdDcbg==
-X-Google-Smtp-Source: AGHT+IFkAi80BKvF8PjygfQV1vvybXcizCZQWAbOTCI4v5z2AeP2XUkBEmlpXEhtlrpvoxrfTZ4Amg==
-X-Received: by 2002:a05:6808:258:b0:3c9:6acd:c626 with SMTP id m24-20020a056808025800b003c96acdc626mr4930719oie.46.1715023489673;
-        Mon, 06 May 2024 12:24:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715029828; x=1715634628;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HJlz3tHuOCtShrTLnbsBX1r1HOOY5sBoGqISo2aDg5g=;
+        b=ttWyvEaRTmRyu73ELmjKdKc9AZ+jDYd/m/SjjtuTOqJNWhYLKqwrgEFF32yP0rE8TO
+         lQlIRChOJDhnJIP9OFdG8MKvVGbgd4GqDuEKIDdb80Wgtq2hIyoZG1/GrQ4wfI9vvJV8
+         I2Pb8/r3frhdYuKOHFeolpbSPNnBCwe9VOGtaCvWYnFqgx+1E01I4Ksi2ml2QWNhijf9
+         UtUnzT1ptfnEs35T8FOfdJr1aOA02aePFXItfStHBwnzMJ8GZ2ozKUZpANiDsmmSSeBL
+         L0P8ytOCqGElPkwbFSl8T/gqnl1Hxx/anY5QlGApSbK/9SBEGouWXw8/5HU2IHy+W/eh
+         sV8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUUyfBvq5XLBb/GEepbNk623mGVISBDNbk/X3xRfw1oJzq2ZZZyOd4rq//igd3NAJaLBPkLaEyNo62PzU8I4zo4zpEFmFAtAvBVEsE=
+X-Gm-Message-State: AOJu0Yw5yxrqnf/OS0Hp4IA9/KDM8rjzKu8unzj7BbJwbXAD8pc2ip1e
+	GL0slhnMnSlb6XG5NagkMMtfDWWqw0jedWnLYpOt0gjotnjlN6wX/F9fnPpwSA==
+X-Google-Smtp-Source: AGHT+IFqXcvbB+ZXiX7sQ5ikGKKxOv5UTqaRx5oADWm5KdYHjiCmw8tdCy4Ec0oH5QsjMbZl9k8Kkw==
+X-Received: by 2002:ae9:c316:0:b0:790:ed33:5b91 with SMTP id n22-20020ae9c316000000b00790ed335b91mr12288745qkg.56.1715029828406;
+        Mon, 06 May 2024 14:10:28 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id ch9-20020a05622a40c900b00436e193f408sm5439870qtb.28.2024.05.06.12.24.48
+        by smtp.gmail.com with ESMTPSA id pa20-20020a05620a831400b0078f13e59dc9sm4224921qkn.102.2024.05.06.14.10.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 12:24:48 -0700 (PDT)
+        Mon, 06 May 2024 14:10:27 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 06 May 2024 19:24:47 +0000
-Subject: [PATCH v2 2/2] media: bcm2835-unicam: Do not print error when irq
- not found
+Subject: [PATCH 0/5] media: Fix some cocci locks warnings
+Date: Mon, 06 May 2024 21:10:25 +0000
+Message-Id: <20240506-cocci-locks-v1-0-a67952fe5d19@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,48 +74,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-fix-broad-v2-2-e6a2a5c0d609@chromium.org>
-References: <20240506-fix-broad-v2-0-e6a2a5c0d609@chromium.org>
-In-Reply-To: <20240506-fix-broad-v2-0-e6a2a5c0d609@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
-Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Hans Verkuil <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAEJHOWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwMz3eT85ORM3Zz85Oxi3dQ0oyTzxGQzS2PDVCWgjoKi1LTMCrBp0bG
+ 1tQA7SIPqXQAAAA==
+To: Andy Walls <awalls@md.metrocast.net>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Young <sean@mess.org>, 
+ Jarod Wilson <jarod@redhat.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-platform_get_irq() already prints an error for us.
+After this set is merged, there are no preceding lock warnings.
 
-Fix this cocci warning:
-drivers/media/platform/broadcom/bcm2835-unicam.c:2664:2-9: line 2664 is redundant because platform_get_irq() already prints an error
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/broadcom/bcm2835-unicam.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Ricardo Ribalda (5):
+      media: ivtv: Factor out schedule functions
+      media: imon: Fix race getting ictx->lock
+      media: dvb-frontends/stv090x: Refactor tuner_i2c_lock
+      media: go7007: Refactor Adlink PCI-MPG24 i2c mutex
+      media: drivers/media/dvb-core: Refactor dvb_frontend_open
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index 60c0fe956c58..0b2729bf4a36 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -2660,10 +2660,8 @@ static int unicam_probe(struct platform_device *pdev)
- 	}
- 
- 	ret = platform_get_irq(pdev, 0);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "No IRQ resource\n");
-+	if (ret < 0)
- 		goto err_unicam_put;
--	}
- 
- 	ret = devm_request_irq(&pdev->dev, ret, unicam_isr, 0,
- 			       "unicam_capture0", unicam);
+ drivers/media/dvb-core/dvb_frontend.c | 116 ++++++++++++++++++++--------------
+ drivers/media/dvb-frontends/stv090x.c |  37 ++++++-----
+ drivers/media/pci/ivtv/ivtv-fileops.c |  66 +++++++++++--------
+ drivers/media/rc/imon.c               |   5 +-
+ drivers/media/usb/go7007/go7007-i2c.c |  30 +++++----
+ 5 files changed, 149 insertions(+), 105 deletions(-)
+---
+base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
+change-id: 20240506-cocci-locks-ef2b7ac6931e
 
+Best regards,
 -- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+Ricardo Ribalda <ribalda@chromium.org>
 
 
