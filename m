@@ -1,156 +1,150 @@
-Return-Path: <linux-media+bounces-10867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10868-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23648BCDB7
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:22:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635958BCDC2
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 14:24:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 870B41F251EE
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:22:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86FEE1C234F9
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 12:24:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E204B143C51;
-	Mon,  6 May 2024 12:22:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49052143C5A;
+	Mon,  6 May 2024 12:23:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k0eHOyo5"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="J4Sdfzf+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC440143899;
-	Mon,  6 May 2024 12:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D611143897
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 12:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714998136; cv=none; b=kNP2xCnZ9Ya1DBCYPgwtUfAWaa0B531zo78tWkCys7QW74BFuy1cs/EGGSz82iU51cB39EtfQAnOL7imkQJ+2aesba3Ube78NRfNwlnDUAZXKWtjvMBcptfsUGoHBz2dAtdOvlTr55e4FoPlV+z0HfPsMKJuVZMeioxDmvLHdW8=
+	t=1714998234; cv=none; b=HDJb6rKTmnqeKZHB1tG3t/wVJDAxQ1O4/OqfO0/zxFfNixIIW+9JopgZX+d2vBYpA3jNpvD/ZVYoDbDV8zkVfqPtumKq9NlkCsz0mniHZ518uNAPkGUPnh5EwseWYk7JYsWAkdctxubtKEOIj/NvMIgOlTqyHjSCKIm+n9dFGnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714998136; c=relaxed/simple;
-	bh=vzd6/g0j/LKpzRJ0n5NOO5gT3MBm83kOUuJoCDjo1YE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=BUXBf4GOJ3iXnTezLmRbNEuQQDT8ySZre2+zvttydrHJ1YCRY2nN9I60GmC9EBKxdwKBub8ex3vmnKGlAMAc4Ck2qXBjIv2eYzkU+HzpPeJf3e/Nflt6z/J+soYcYTw3vifACkNwQd9n2wGTBSkXCVIwY6An7kmyLkas0yxg+YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=k0eHOyo5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 446BoaQr013364;
-	Mon, 6 May 2024 12:22:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Dia/565uBgwal8VAh3McJ3ZZl+6Ufop3qtDDWi4EWFs=; b=k0
-	eHOyo52uxrjZGsrpx3TME8nV3Nhcwhn0pIVNhxT0HIqVKi3XufocvoJGzTn2b5be
-	PUdaBhxR1Eozk8QbFHmya0pswa7pqd36rc2jjE8HuSQr82grtnyolASBoQ83olza
-	8oPBRbKEUIRIfb7AyRESl6CkpcYtPcAlPxOq4JpZrkMCmJaVtr/LaPXGABVNs5T6
-	jUNGaOq23mRXzOP5VJn+E31yMdw+7kqmv+MLbfvHseGff33/UKVkYWvHdakmKNWD
-	INvVvwDcF2JzoOTDdd6gcL38mRgnMMgfuCl9QkgCtfplR/81Em03ISEnQ/G3w7AS
-	jcU9il/4gGDiK+N5tAjA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xxt6n0n68-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 May 2024 12:22:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 446CM8t4002182
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 6 May 2024 12:22:08 GMT
-Received: from [10.216.21.139] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 6 May 2024
- 05:22:04 -0700
-Message-ID: <0bce5d7c-8133-f3c7-55af-c5b8f89a5371@quicinc.com>
-Date: Mon, 6 May 2024 17:52:01 +0530
+	s=arc-20240116; t=1714998234; c=relaxed/simple;
+	bh=lCeN5/qj6q6vJSmEiKVBWOtCMx5sNu2IArRIsx3u2Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZX8nyCuvVOfJvzExV0jdJ7g6L77fUAez5YG2GhTiD/IuWtpEVKe++8cHnITxEDrBNZc+OsudgI5inTuyGs1nH9K1VSmsrwS/aanz4luU8D894PgJdTQ9jFyQpNlfosB4pgH5nwkelKQ3rRxnbS6s52VM6YpP3G6JJFarAiSr3vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=J4Sdfzf+; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34cb2bf85easo148881f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 05:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1714998231; x=1715603031; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hJvxbNUxeULloPkLJE9SsjERpdsUIXxRxn2yKsRsSwc=;
+        b=J4Sdfzf+sNHeQZbjLlHQkxe+vBV/CqtEKZIE21zHs5BZaP4fVUooE839QXHepk/ae4
+         POXW3MdM2YM0mL7+kPF0sFDjddZ6ZqJgjPLk5O1FAQ9LQ6NuGoI/6ghK9qafc9p5r5/q
+         eIF9aflCGGZxuDwFxBa6ppO8Igf343ne8trek=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714998231; x=1715603031;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hJvxbNUxeULloPkLJE9SsjERpdsUIXxRxn2yKsRsSwc=;
+        b=k91r+yg/mskNCkgVFwiT0wXRWiYIS6ol1elss3AWi5J5P29Jcmllnoat+mxhOgF+1C
+         sM0KhuxSfekI4uClHJ4yAP6h55eMCjYC+aqKF3AWLka7AdNrvXOGFE4VhZp2C4P8zCf+
+         0ZmT8GzMhWBETPx321LzfIKOPr/UA2rZPHisOvmJSIN7OsznyUMsLlIqv2/mA5hM3Gn6
+         xWbnGRJIf7fGd16WQksQzFMQcOpwPcARC10B8zku0OnZcguzY+mRmwDHTlj8rtyp9IlN
+         V8FFVkAEvo04eh7luk51wc+wrre4jjkdL+lX9Y+37HIM8WjNk5wl5nQaSOI84yjHp9ZU
+         mVHA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+x0SYD/67Oum8e07tofxdRU9otLqVvUBfIcNRj+pkyONfachDj/mIxZy6vECiTCPQLmglMLWeIS3Zf5uq1MQP/O54r4ZYWJzONbo=
+X-Gm-Message-State: AOJu0YzxJp7sBRcyECN26UTocN3dIrIij0YSoTgnAy0p33avr5lUBJ2X
+	NLUI7hZMVqwqX3WlgnrHQKJVJMhoj41ZWviIUOQKncRpyJP/TEkf2OqI2hSuQTI=
+X-Google-Smtp-Source: AGHT+IGuUvBtI5rIVLpD2XOZICwCS9IQtrXwLWSsF2oFAMcsXQKy2Upppe1zQ4rIa9wWPmT5P5GIew==
+X-Received: by 2002:a05:600c:3b02:b0:41a:c4fe:b0a5 with SMTP id m2-20020a05600c3b0200b0041ac4feb0a5mr6970105wms.4.1714998231468;
+        Mon, 06 May 2024 05:23:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id n17-20020a05600c4f9100b0041668162b45sm19554882wmq.26.2024.05.06.05.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 05:23:50 -0700 (PDT)
+Date: Mon, 6 May 2024 14:23:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
+	Bui Quang Minh <minhquangbui99@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+	io-uring@vger.kernel.org, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
+ [io-uring?] general protection fault in __ep_remove)
+Message-ID: <ZjjL1GjSMMMcxdsc@phenom.ffwll.local>
+Mail-Followup-To: Al Viro <viro@zeniv.linux.org.uk>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
+	Bui Quang Minh <minhquangbui99@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+	io-uring@vger.kernel.org, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+References: <202405031110.6F47982593@keescook>
+ <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
+ <202405031207.9D62DA4973@keescook>
+ <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
+ <202405031237.B6B8379@keescook>
+ <202405031325.B8979870B@keescook>
+ <20240503211109.GX2118490@ZenIV>
+ <20240503213625.GA2118490@ZenIV>
+ <CAHk-=wgRphONC5NBagypZpgriCUtztU7LCC9BzGZDEjWQbSVWQ@mail.gmail.com>
+ <20240503215303.GC2118490@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 0/3] Add support for qcom msm8998-venus (HW vdec /
- venc)
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Marc Gonzalez
-	<mgonzalez@freebox.fr>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Jeffrey Hugo
-	<quic_jhugo@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Stanimir
- Varbanov" <stanimir.k.varbanov@gmail.com>
-CC: MSM <linux-arm-msm@vger.kernel.org>,
-        linux-media
-	<linux-media@vger.kernel.org>,
-        DT <devicetree@vger.kernel.org>,
-        "Pierre-Hugues Husson" <phhusson@freebox.fr>,
-        Arnaud Vrac <avrac@freebox.fr>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-References: <ff646f97-68e3-4fef-9b56-2bd98f0cbe7d@freebox.fr>
- <f5b9c8d5-d8ed-4dd1-9cd6-fb016d84cbd5@freebox.fr>
- <12daeed1-0075-4a6c-bd02-dc70a0c0d721@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <12daeed1-0075-4a6c-bd02-dc70a0c0d721@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: kTyPJ44fUyPfx9de_HpB-uPgdamB-N6N
-X-Proofpoint-ORIG-GUID: kTyPJ44fUyPfx9de_HpB-uPgdamB-N6N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-06_07,2024-05-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxlogscore=999
- spamscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- adultscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2404010003 definitions=main-2405060085
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240503215303.GC2118490@ZenIV>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-
-On 5/6/2024 3:55 PM, Bryan O'Donoghue wrote:
-> On 06/05/2024 10:57, Marc Gonzalez wrote:
->> On 30/04/2024 17:28, Marc Gonzalez wrote:
->>
->>> Changes in v2
->>> - Add Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> for patches
->>> 2 & 3
->>> - Replace qcom,msm8998-venus.yaml (copy of qcom,msm8996-venus.yaml) with item
->>> in qcom,msm8996-venus.yaml
->>>
->>> Marc Gonzalez (3):
->>>    dt-bindings: media: add qcom,msm8998-venus
->>>    arm64: dts: qcom: msm8998: add venus node
->>>    media: venus: add MSM8998 support
->>>
->>>   Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml |  4 ++-
->>>   arch/arm64/boot/dts/qcom/msm8998.dtsi                           | 48
->>> +++++++++++++++++++++++++++++
->>>   drivers/media/platform/qcom/venus/core.c                        | 42
->>> +++++++++++++++++++++++++
->>>   3 files changed, 93 insertions(+), 1 deletion(-)
->>
->> Not sure what's holding up this series?
->> Can it be merged before the 6.10 merge window opens?
->> (Whose tree is it supposed to go through?)
->>
->> Been working on this feature since Feb 19 with
->> [RFC WIP PATCH] venus: add qcom,no-low-power property
->> (First try turned out to be incorrect)
->>
->> Regards
->>
+On Fri, May 03, 2024 at 10:53:03PM +0100, Al Viro wrote:
+> On Fri, May 03, 2024 at 02:42:22PM -0700, Linus Torvalds wrote:
+> > On Fri, 3 May 2024 at 14:36, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > >
+> > > ... the last part is no-go - poll_wait() must be able to grab a reference
+> > > (well, the callback in it must)
+> > 
+> > Yeah. I really think that *poll* itself is doing everything right. It
+> > knows that it's called with a file pointer with a reference, and it
+> > adds its own references as needed.
 > 
-> Vikash, Stan.
+> Not really.  Note that select's __pollwait() does *NOT* leave a reference
+> at the mercy of driver - it's stuck into poll_table_entry->filp and
+> the poll_freewait() knows how to take those out.
 > 
-> I think this is ready to go, can we get an Acked-by so Hans can do the merge ?
-Thanks Marc/Bryan for getting this through and getting rid of that hack
-"no-low-power".
+> 
+> dmabuf does something very different - it grabs the damn thing into
+> its private data structures and for all we know it could keep it for
+> a few hours, until some even materializes.
 
-There is a minor comment in patch 3/3, otherwise looks good.
+dma_fence must complete in reasonable amount of time, where "reasonable"
+is roughly in line with other i/o (including the option that there's
+timeouts if the hw's gone busted).
 
-Regards,
-Vikash
+So definitely not hours (aside from driver bugs when things go really
+wrong ofc), but more like a few seconds in a worst case scenario.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
