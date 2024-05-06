@@ -1,117 +1,153 @@
-Return-Path: <linux-media+bounces-10861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A61B8BCD03
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:41:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B988BCD2A
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 13:49:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B87562833B2
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 11:41:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 039E0B20B08
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2024 11:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D6B7143883;
-	Mon,  6 May 2024 11:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E81514386B;
+	Mon,  6 May 2024 11:49:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HHL/aBf7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="du7BYsxk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C34D144317
-	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 11:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B70142E87
+	for <linux-media@vger.kernel.org>; Mon,  6 May 2024 11:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714995639; cv=none; b=YDsDnqCksPeNmUcXzdPUkldtBrSYYH3SgGsu2b6SZW0tn/CStUv5yf3Ary2V13v9UQpTgvfQldd8jXpaxYqajnWuCPjdMS7er4Kzw/sW3rmUJPgEHLwdgTfyljdEiYQo5xSbra4sDVprtLiiKl6q12O1eO+wxQtiGbAOTCQyB98=
+	t=1714996164; cv=none; b=aEFZsTL0v1dcRfOLTlqAqPFOGltteoynfBi6ZUvZVRyulA3irOc+HCXpgfFide0Yf5oLLUaxpgtiGzlQ6/zNUEf2XbfXaT5X09SAO1d4GXQyJrU2FQkfJhhEHGUNA/xXaScOWFX8xPCQQxNsN7jt+BgQ2qhp91VHz3qiqHKcdJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714995639; c=relaxed/simple;
-	bh=7zoplLiS++xk273t6rSGnzo9VZLOzRmbo7Vl7Ki8K7k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kkylHQwNhsY0thO0on5x6FAdrz76xBAhwyc+d7kqZowBAlWPymDDi9RxhvN8eY7i7w/wEZHi4Zf4Jb/3uCezEA8IhhT8AonpLGBha5GAmMXPQWZkkvuOPWHbyNVuQ0haYfAJ9uCrbm9W2Q3N7x/PIwYV5WVlKqd+Bl3mN0T2DPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HHL/aBf7; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7928c5be3deso161570985a.0
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 04:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714995637; x=1715600437; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wh4vkBLLxYFzXoHShbtMs2G5QtmnN5qPEuo2IpVPXDc=;
-        b=HHL/aBf7O1PanfHL4+W71FWbCN1BcvdkfwMgCixyMBE0EP5ucr0ywkbzzzl9ot7tXo
-         bfI7P2CgNEhkiazM/nxJJYMKJfRurA0QFyrkaA5+Tsx5yjElH51elbt2ysmiOUAC7pjZ
-         Miwyvfo0WTUGBLPFGmljLW/GTGjO0fhi57+mY=
+	s=arc-20240116; t=1714996164; c=relaxed/simple;
+	bh=dMc0/sjIPX+UuUh0qQzR0/ivpU5f1U0fp43I0bJLaik=;
+	h=Message-ID:Date:MIME-Version:Cc:From:Subject:To:Content-Type; b=QRyxHXKJz29BOMk9wI7CpCUu9GJeQ5RygoNfZLAzKcrtFc5m0h38HUbA/Y19pgdES3HxzZf40+zw5OyfWOlSEXRnBYLMfosSr1pJ4dfZH0LujdGoYUKC8D+jpVDV3v2e/nwGVqo4TG/ZWT1swBYzG9baTBnuPBPm7Paa84KnQCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=du7BYsxk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714996162;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UVOjuGHnijX2tGdsGbh2K5EBK8PBebK05w8A7S2lTKk=;
+	b=du7BYsxkpiNgHIwIJBDVSKypIGOSDF8zUmSYd1e2DMu4O/JJHX6inkJ0AlsE+kanagNNTe
+	TtAGxeNzl3c89lKHwH92fZKf06DR9qtHHlWZ1pZlKt86L+I4CZM8Q4o5ZckrfGY5DYwcg2
+	ILMrY4HgnEYXv2yw3YvKwgPY4wQOP7U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-185-yFB6pgdGPDmwDPTJ-9s-bA-1; Mon, 06 May 2024 07:49:20 -0400
+X-MC-Unique: yFB6pgdGPDmwDPTJ-9s-bA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a524b774e39so177199266b.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 04:49:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714995637; x=1715600437;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wh4vkBLLxYFzXoHShbtMs2G5QtmnN5qPEuo2IpVPXDc=;
-        b=ThF3BW7JFOQ5wzrm33bS9JxOdMGogGZLLr/wN/bMZeH7Z7dBGO43O4Uz2eAZG2atLM
-         kFjp0oYDqqtvQHq5ojHnwbT5b9sL7e/6+EoWeWmigrHG5Go2ZBhipTqTXcXqdNMWLaG9
-         9xlN8ERwui1tdZtqesXiY0bguNnior9SsdzY2CpyrpyxpNi899tHWNDFIZbPUZvKtIyA
-         n2Cyc75x+hGL8NAMWCMWD5YPe8JWKK2ZdkWks9jmHJokPLrqDsJlDZV6peWwpog10nHn
-         XJwsFN7GCCcSRKNsYS2MP+6lBfSVxhBmZs6B4x0nCuvKgQ+iVXnljMtUzfxBHRiDt1Zd
-         nnpA==
-X-Gm-Message-State: AOJu0YxPoBJVrtO6R5jWizn/Ti7yAADd3VPQTVw81P8MPMhb37qcAGYZ
-	qJSHdpuxgOQ4UKhiIKjYFVWb27uV1/+qMos0e7IhqokdCw48++OY1RYcBOhri/P0d398DsT0UGA
-	=
-X-Google-Smtp-Source: AGHT+IFVCyCyNMh8MnhoOBDVAtvWN+xZxJXFfs9ZCtifAAodSiVlkTwQ5djWjD8/0c7nl8wKB+R0CQ==
-X-Received: by 2002:a05:620a:2441:b0:790:f42f:cdbe with SMTP id h1-20020a05620a244100b00790f42fcdbemr13150952qkn.9.1714995637020;
-        Mon, 06 May 2024 04:40:37 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id u15-20020a05620a022f00b0079295719bacsm1171604qkm.43.2024.05.06.04.40.35
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1714996159; x=1715600959;
+        h=content-transfer-encoding:to:subject:from:cc:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UVOjuGHnijX2tGdsGbh2K5EBK8PBebK05w8A7S2lTKk=;
+        b=Kf7eMm1dmk7EdqzCXeeiUV2Afj8nRPrtyxLHOdoKdUGyeK1IrqkLuvY0vXpAxRKZ4d
+         BO2l4HdIexFZvT9qoRG0/y/rB0auotskkOeAE0Y9ka6Lp+GZH9htNOmn1WJktqzWNlX6
+         e+0SpSPVAOLtTXLYIo3NEg8fs33q5ayxZ7VNfKpTZxPAgVkPlI35M0n/4c+2wK7j6f9C
+         ocublFyrRnH7vQG3Qt1/Ghlfg2yrDVTwoLyt9WW9L6i/lMV7fMEIGiXleGOKWZmXbMxi
+         F9H+LTSymxsBsLE1dhcTld+WGzKn4JoQtTyTMotDpfcb2UkK+TagNT2tg4erZxIzDxUV
+         XsQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCRASUV2bQjxuV4x/cjAG0dbzy4EXiWeA4CC1rwGuUssrGy0OIuWO900V5N5W+FXG608KrXT6yCk13DhiWWXZA8EZOw8dqC6RLgKk=
+X-Gm-Message-State: AOJu0YxXGjnnXYh/9JLqX2iAHBbn9i9N5SYb3H4Alcf2tVbL7hdUpBeA
+	NrmZuug7AzoH72jBwpt631SUy/LZ9amwNja2/d5yxTMwDJKv6gDIBZTMH0Gi4L551m0GdXkswa9
+	fdEAyKmEVolPI5eBBqbDeJ5KAatwetuD1iKRrFHJ9nSKEHA14TIkKpi5i4CYa
+X-Received: by 2002:a17:906:f59d:b0:a59:aa7a:3b16 with SMTP id cm29-20020a170906f59d00b00a59aa7a3b16mr5438591ejd.4.1714996159601;
+        Mon, 06 May 2024 04:49:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE/BF449P6oYtXTLNlNFAmroU8YxK+dtUwmZhtwQBPNCYWIPRiuWpV7/MJdB0SdzgHMSrhNTw==
+X-Received: by 2002:a17:906:f59d:b0:a59:aa7a:3b16 with SMTP id cm29-20020a170906f59d00b00a59aa7a3b16mr5438572ejd.4.1714996159209;
+        Mon, 06 May 2024 04:49:19 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id ze15-20020a170906ef8f00b00a59ae3efb03sm2667510ejb.3.2024.05.06.04.49.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 May 2024 04:40:36 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7928c5be3deso161569085a.0
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 04:40:35 -0700 (PDT)
-X-Received: by 2002:ad4:5f8e:0:b0:6a0:ceaf:c6cd with SMTP id
- jp14-20020ad45f8e000000b006a0ceafc6cdmr11775991qvb.33.1714995635356; Mon, 06
- May 2024 04:40:35 -0700 (PDT)
+        Mon, 06 May 2024 04:49:18 -0700 (PDT)
+Message-ID: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+Date: Mon, 6 May 2024 13:49:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
-In-Reply-To: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 6 May 2024 13:40:22 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuKf_osmsaua6B8O=14F35Z+H=foEHDY8YCxu3PWzX1PQ@mail.gmail.com>
-Message-ID: <CANiDSCuKf_osmsaua6B8O=14F35Z+H=foEHDY8YCxu3PWzX1PQ@mail.gmail.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+Cc: Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans
+Hi dma-buf maintainers, et.al.,
 
-Thanks for organizing this
+Various people have been working on making complex/MIPI cameras work OOTB
+with mainline Linux kernels and an opensource userspace stack.
 
-On Mon, 6 May 2024 at 13:33, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+The generic solution adds a software ISP (for Debayering and 3A) to
+libcamera. Libcamera's API guarantees that buffers handed to applications
+using it are dma-bufs so that these can be passed to e.g. a video encoder.
 
->
-> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
-> It would be very much appreciated if you can also add a guesstimate of the time
-> you need for your topic.
+In order to meet this API guarantee the libcamera software ISP allocates
+dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+the Fedora COPR repo for the PoC of this:
+https://hansdegoede.dreamwidth.org/28153.html
+
+I have added a simple udev rule to give physically present users access
+to the dma_heap-s:
+
+KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
+
+(and on Rasperry Pi devices any users in the video group get access)
+
+This was just a quick fix for the PoC. Now that we are ready to move out
+of the PoC phase and start actually integrating this into distributions
+the question becomes if this is an acceptable solution; or if we need some
+other way to deal with this ?
+
+Specifically the question is if this will have any negative security
+implications? I can certainly see this being used to do some sort of
+denial of service attack on the system (1). This is especially true for
+the cma heap which generally speaking is a limited resource.
+
+But devices tagged for uaccess are only opened up to users who are 
+physcially present behind the machine and those can just hit
+the powerbutton, so I don't believe that any *on purpose* DOS is part of
+the thread model. Any accidental DOS would be a userspace stack bug.
+
+Do you foresee any other negative security implications from allowing
+physically present non root users to create (u)dma-bufs ?
+
+Regards,
+
+Hans
 
 
-I would like to talk about media-ci and the multi-committer model.
-
-I am planning to attend in person and I think we will need around 1
-hour for this topic
-
-Best regards!
+1) There are some limits in drivers/dma-buf/udmabuf.c and distributions
+could narrow these.
 
 
-
--- 
-Ricardo Ribalda
 
