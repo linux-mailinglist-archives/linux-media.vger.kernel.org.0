@@ -1,196 +1,130 @@
-Return-Path: <linux-media+bounces-10959-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10960-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469A58BDAA7
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 07:25:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D563C8BDAC7
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 07:49:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1378285315
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 05:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 873B02835B5
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 05:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C74506BB5E;
-	Tue,  7 May 2024 05:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFDE76BFAA;
+	Tue,  7 May 2024 05:49:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GQTFJMPy"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a+Nmix+m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59613D0BD;
-	Tue,  7 May 2024 05:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BFC6BB20
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 05:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715059523; cv=none; b=sUSmf71HGxB1y78GtXOO0uR2utpxR6tLnovHzYQKLRFSA9TDHzivr9WzXqH37hRj3HvjN1bYsWX2vLzPfg3tP6JMlNjrgJv6b/iK9ZfAKbUFCnyx4Zdw3DzfvqpnsJs/+WA6/sbA+Fl77MgEUDBQGvZKvgm0gcfXKTHpIaKqX8s=
+	t=1715060941; cv=none; b=j8mOLa5OTxUYwuPjSjcZdxp4NdDlaoSB9/rK71gDnTeUTiJJ/52lS+nEkAVwZkSoQ1Kqg1QraMHGDzBoU2Vn86o2nixpuCJjqw8XqxGrm0Mra6SFRBQiK+wpMaXIbyFAxyxwQF66MMNYjGomUum+rm6nnT4K+JVAhTIHpXnZW6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715059523; c=relaxed/simple;
-	bh=Lz9upKnBUWSJCR3radsm+C5q/ZD++lGHXzZbSNDY3Jc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=thLnSrIBIZ6B798XXk0rnSQQxlPw66poijIQ0ayEG4TMVUdydD5aREBtZM7688zl+qD32m0EsrakNCboL7luTc5ZxYa6AzFTAI8EIQBydLTL3RXTpT0EXG4zMumg8TAdCqkgtfSz2xccR/GH0TEpVJ9VeAOojURHHOPw4c0KbYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GQTFJMPy; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6f45f1179c3so1868136b3a.3;
-        Mon, 06 May 2024 22:25:21 -0700 (PDT)
+	s=arc-20240116; t=1715060941; c=relaxed/simple;
+	bh=t9dlTbe/g3KLA1ET9Kw6/A9Q290HN8s2xc765G74PTM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mgjer4gtOcjrTEoAQJ2vjyyQ99hKpmr3hoOL0rgZzbbs2SIOL4/e9EeBa1DDBOHkZ0WSgT1cnI6UQ1oJd44+NDsXH1ALRJWAdSNCFNkWDmWD71t/GBFjY0YmHt9aHvNxwenojMZvTHzCxJSW6sf1HXwnLtd2m6dp+AGbkv/eJoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a+Nmix+m; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-434c695ec3dso9750261cf.0
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 22:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715059521; x=1715664321; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
-        b=GQTFJMPyJvWhVAMxZ3EoPKFdbuGzAlfArcsSDVHj3fi+FWsGf8X4EtdcAr/71WFQcT
-         vpoGpbJGTZUl4HjBxJC0LsAfgu1AIKjOWzVuKRmezqnmhSV/l9TdS6026t+VGyWzyCXS
-         iBscroP/vSuaMfBeEdpS9ZOoDKeWexl0LQpodlEUNUAKVtQy/4wfDfbYp/W6gmKnPfYj
-         nyxt9/ZDQUPRKMsch/a9jNqE/sbMHMS03ufQEFKYrF4fyUrmLIJj7MYbq8CTU1HLV6Fi
-         F1YQoN0UhubVrsEaOO+ryTd3zqpPs2JDVCZJQUT+FgBDc7JAy1WyoRRoIlabX5fqUzym
-         FDAw==
+        d=chromium.org; s=google; t=1715060938; x=1715665738; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ScA+j2xCyUKjc8/wOZ7cPsy5eXfk/e1HUYeZcCY1FUM=;
+        b=a+Nmix+mB3kC04Tj5kGDoeSW8n8re8zXuZmab+zkpdR5FxWknZTOZQNR2hm6UFUhpi
+         WqfOXoiXNcJgzsA/KMacW06/BFKDev3kspOFwoQWId0PAi/OPvbqpo4K4RRQGFGB7+AW
+         AAIU/BUbSjIXlZHvUui1jggZkkD6xrBQgUaas=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715059521; x=1715664321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
-        b=Kd31m4z5NJ0ak3b+h6bLFzLaHDjEg4YcJGqEI4HQXeWP6gHUBCL3Yt9Ij7sx5/refc
-         StERAX4tN+3R2BEnUzR3RA3pVRftHDEGpEI1oQCyQofrt5I5Bqu4q9jnG7qeCEsUzAaJ
-         z7oBCtLAyEdvzSCJ992Ua6Lhhcd5mDepbVoyptCP+zo3+L7cg9Gji3KtdIt1Y7PY7laO
-         5ecOIk4PsnN+s2rigE1IqqYW8uJDSlex/0r5xePFm3RwgueqshDcgAf0BvkjZHU9riro
-         ijuTlDgehMDLQrM/bTikg+5x3AcVhUMe3IFWF7vvn49lETMUEq3/7bn1887z50D897jc
-         jigw==
-X-Forwarded-Encrypted: i=1; AJvYcCVk8T5rxvW0OcZiGM6P+U30v0KIkizu/JxZCSWRWEpYWiITsnPEGRvdbEEEXraaPelrTyMlnBzjaeMCeh2xuKuqTfSWkvhgthb3ut7UqWVgrrI9cVruAt0jFX/sb7JBwR5NqeWkwTVzN+8=
-X-Gm-Message-State: AOJu0YymR4YJjWDKw4iG5iyjZcQ30gI0g2jRAKWlxkRlFYiRHEQyKSgJ
-	dmNfdRCn1CnyiEaDIFne0pO0h1C5zU70JzT+OYDe2MBTbHPMfogD
-X-Google-Smtp-Source: AGHT+IEXAeBUuXaJ5L39BPGwF3v+uLqY+hCMwjgssXQL5Lk+kDguAle74Rzr9m631YM+fytEf0u6EA==
-X-Received: by 2002:a05:6a00:3910:b0:6f3:86ac:5eae with SMTP id fh16-20020a056a00391000b006f386ac5eaemr14548559pfb.28.1715059520934;
-        Mon, 06 May 2024 22:25:20 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id it21-20020a056a00459500b006f4401df6c9sm8276063pfb.113.2024.05.06.22.25.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 22:25:20 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hpa@redhat.com,
-	hverkuil-cisco@xs4all.nl,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistakes in sh_css_sp.c
-Date: Tue,  7 May 2024 11:10:12 +0545
-Message-Id: <20240507052512.7296-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1715060938; x=1715665738;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ScA+j2xCyUKjc8/wOZ7cPsy5eXfk/e1HUYeZcCY1FUM=;
+        b=Gr8uc7f96AfFxCiKh/N35+DNjXUnDqgFIBqpjmgK1jLBYJotCZnMYFdxlUNpXbEpz1
+         U32+ZEq+h6elYvvkjWS6ukI85IYE9ELdWvZzhjcO61YZn7y/vl4CcLOBdifDLB7odWlt
+         OTW52dXQ5QPghM3IIon/YGYGorTSpE+HG8RErTzFip5AHHa72P/mE9YKkzxAsoge0Txa
+         dWSH11B7WzEtKI2MB0jlp84nRy0jXyDg1/X8+nqYSJFKy6iyVg/iKijUupFTT91ZNlvY
+         uW0tQQ0L1CDP0iuMieVYjOfIO+9JdQ5mUZ+ASGWx5+ITAFw6JPWiex3axSLEIBeyMBd7
+         hjgQ==
+X-Gm-Message-State: AOJu0YxsJmY4JgiF2/Os7vg4oTSms6/z4lnpljMqVWs/RNh+DDhhe6L1
+	aUVNbTfmK4FkYFaTaNO9cwxYRuR8HgsqL84Ygj0smvU/xJMza/UNL5vmCBaAn09oRKqUNiOkaMU
+	=
+X-Google-Smtp-Source: AGHT+IGRA0UftC9APlWeQRQa+ODWD0jX46RoI14lu1QeGZjDEndl3EuNb9WucQzuqR+5w9ISD2FzNA==
+X-Received: by 2002:a05:622a:4cf:b0:43a:c4e8:cb8c with SMTP id q15-20020a05622a04cf00b0043ac4e8cb8cmr13275069qtx.64.1715060938412;
+        Mon, 06 May 2024 22:48:58 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com. [209.85.219.48])
+        by smtp.gmail.com with ESMTPSA id gd23-20020a05622a5c1700b004365ab2894asm6055128qtb.51.2024.05.06.22.48.57
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 May 2024 22:48:58 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a0f889877cso10480466d6.1
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2024 22:48:57 -0700 (PDT)
+X-Received: by 2002:a05:6214:21c1:b0:6a0:d312:2c75 with SMTP id
+ d1-20020a05621421c100b006a0d3122c75mr12869939qvh.64.1715060937316; Mon, 06
+ May 2024 22:48:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240505174033.9163-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240505174033.9163-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 7 May 2024 14:48:40 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DUKXMkHfGYT-VVfXtFRH42BxwOzKnTBDFaGU7syeRAxA@mail.gmail.com>
+Message-ID: <CAAFQd5DUKXMkHfGYT-VVfXtFRH42BxwOzKnTBDFaGU7syeRAxA@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: core: Drop unneeded forward declaration
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Codespell reported misspelled fields,suppress,separately and offset in
-file sh_css_sp.c. This patch fixes the misspellings.
+On Mon, May 6, 2024 at 2:40=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+>
+> The static __enqueue_in_driver() function is forward-declared
+> needlessly, as it isn't called before its definition. Drop the forward
+> declaration.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index cd7f5a3fecaa..9da89290c954 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1038,7 +1038,7 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 	if (binary->info->sp.pipeline.mode == IA_CSS_BINARY_MODE_PREVIEW &&
- 	    (binary->vf_downscale_log2 > 0)) {
- 		/* TODO: Remove this after preview output decimation is fixed
--		 * by configuring out&vf info fiels properly */
-+		 * by configuring out&vf info fields properly */
- 		sh_css_sp_stage.frames.out[0].info.padded_width
- 		<<= binary->vf_downscale_log2;
- 		sh_css_sp_stage.frames.out[0].info.res.width
-@@ -1333,7 +1333,7 @@ bool sh_css_write_host2sp_command(enum host2sp_commands host2sp_command)
- 			      host2sp_command)
- 			      / sizeof(int);
- 	enum host2sp_commands last_cmd = host2sp_cmd_error;
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 
- 	/* Previous command must be handled by SP (by design) */
- 	last_cmd = load_sp_array_uint(host_sp_com, offset);
-@@ -1351,7 +1351,7 @@ sh_css_read_host2sp_command(void)
- 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
- 	unsigned int offset = (unsigned int)offsetof(struct host_sp_communication, host2sp_command)
- 	/ sizeof(int);
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 	return (enum host2sp_commands)load_sp_array_uint(host_sp_com, offset);
- }
- 
-@@ -1359,7 +1359,7 @@ sh_css_read_host2sp_command(void)
-  * Frame data is no longer part of the sp_stage structure but part of a
-  * separate structure. The aim is to make the sp_data struct static
-  * (it defines a pipeline) and that the dynamic (per frame) data is stored
-- * separetly.
-+ * separately.
-  *
-  * This function must be called first every where were you start constructing
-  * a new pipeline by defining one or more stages with use of variable
-@@ -1372,7 +1372,7 @@ sh_css_init_host2sp_frame_data(void)
- 	/* Clean table */
- 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 	/*
- 	 * rvanimme: don't clean it to save static frame info line ref_in
- 	 * ref_out, and tnr_frames. Once this static data is in a
-@@ -1551,7 +1551,7 @@ ia_css_pipe_set_irq_mask(struct ia_css_pipe *pipe,
- 	 * - different assert for Linux and Windows
- 	 */
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 
- 	IA_CSS_LOG("or_mask=%x, and_mask=%x", or_mask, and_mask);
- 	event_irq_mask.or_mask  = (uint16_t)or_mask;
-@@ -1580,7 +1580,7 @@ ia_css_event_get_irq_mask(const struct ia_css_pipe *pipe,
- 	struct sh_css_event_irq_mask event_irq_mask;
- 	unsigned int pipe_num;
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 
- 	IA_CSS_ENTER_LEAVE("");
- 
-@@ -1630,7 +1630,7 @@ sh_css_sp_start_isp(void)
- 	if (sp_running)
- 		return;
- 
--	(void)HIVE_ADDR_sp_sw_state; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_sp_sw_state; /* Suppress warnings in CRUN */
- 
- 	/* no longer here, sp started immediately */
- 	/*ia_css_debug_pipe_graph_dump_epilogue();*/
-@@ -1669,7 +1669,7 @@ ia_css_isp_has_started(void)
- {
- 	const struct ia_css_fw_info *fw = &sh_css_sp_fw;
- 	unsigned int HIVE_ADDR_ia_css_ispctrl_sp_isp_started = fw->info.sp.isp_started;
--	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppress warnings in CRUN */
- 
- 	return (bool)load_sp_uint(ia_css_ispctrl_sp_isp_started);
- }
-@@ -1724,7 +1724,7 @@ sh_css_sp_set_dma_sw_reg(int dma_id,
- 	sw_reg =
- 	    sh_css_sp_group.debug.dma_sw_reg;
- 
--	/* get the offest of the target bit */
-+	/* get the offset of the target bit */
- 	bit_offset = (8 * request_type) + channel_id;
- 
- 	/* clear the value of the target bit */
--- 
-2.34.1
+Best,
+Tomasz
 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/me=
+dia/common/videobuf2/videobuf2-core.c
+> index 358f1fe42975..0217392fcc0d 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -199,7 +199,6 @@ module_param(debug, int, 0644);
+>  })
+>
+>  static void __vb2_queue_cancel(struct vb2_queue *q);
+> -static void __enqueue_in_driver(struct vb2_buffer *vb);
+>
+>  static const char *vb2_state_name(enum vb2_buffer_state s)
+>  {
+>
+> base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
