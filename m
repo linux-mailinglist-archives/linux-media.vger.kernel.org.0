@@ -1,185 +1,182 @@
-Return-Path: <linux-media+bounces-11095-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11096-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314D18BEAFE
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 20:00:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A30E98BEB10
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 20:04:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A14F31F21773
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 18:00:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D15951C243A7
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 18:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C4016C87D;
-	Tue,  7 May 2024 18:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD1C16D320;
+	Tue,  7 May 2024 18:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GXDI3QbS"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="eo+YnCWO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F3915ECC6
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 18:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A3116C864
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 18:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715104850; cv=none; b=ohr0ZAohb6f/W59tEkKRa7+oYNxR4S/2M78IEBISPR2wx1bERFWJ7RynNS/DePpNOw3IVCSDzDZEeQJNr+dFRYf8n9TSdDCzQI4IpkfFaiRdEucHAkTIWO/7vjzDyR/QVDxk4q3w3TshAhh0yW/Np7Drc8SQM8yMAuuitcI19l0=
+	t=1715105067; cv=none; b=G68R6f4UIotwVjGXl/Xh+VZfuuwCjKieBeVyOyToTTVK5Ch7gATOjIME2FP8BpojAj22ethp4+KNc6hDQDLp2aRxslUER9iXS2Qil9CTIbuoAuAwY4YhVkHPWwr9/69V4z5cfAYC0yrp+i67DLS64J2YHOS/A46WPlqUzUBj4Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715104850; c=relaxed/simple;
-	bh=SrBJtaDxX4rLGSaJtZXCxh87ShbEo2DG2RkklX3dRTo=;
+	s=arc-20240116; t=1715105067; c=relaxed/simple;
+	bh=bAeC75xvNb+JauaCbjaxHSxSCPq7tnqY5BqL0SZHYRw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E6ddNw3PW5pDuOm0k7FHIf3ah/kL/bZ/RFmVMmPmVxHp8y1FkCQBChqk3yw1uFmgWA8IOrECwHwHyjGR1TMcJlNXqYcZhhfp0b/vA/C0fDGZpjMdaUpnXVYrvAHtMECBYqonfmPKCBeQ/TtRs4jm/im5InmMLtbJtF2kRMz6TTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GXDI3QbS; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-deb99fa47c3so1921756276.2
-        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 11:00:48 -0700 (PDT)
+	 To:Cc:Content-Type; b=Id/ecTtLnkDdg46VDhv1Lo/LSKQeHEeT97kFV5aty8G0kvSfmQRe1m1/8XYWJI8zTuu4UiX9QQAb7EGdxkRIf5M2vjhhFwVHGST1nBlFKE44UgAteCOv9m3cRrpAqHB0ONy5sOh7h8LF2zvlVcd5aher6SpqUn7L1OWsLERhzpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=eo+YnCWO; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5af609de0d2so314667eaf.2
+        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 11:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715104847; x=1715709647; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HL+ln2vLAazbLqwL47bYmOmnDjxG1bXnX9QaBIaL77Y=;
-        b=GXDI3QbSYwRk8FIum8s2zKXXVIWecjGyLuvqA01wpk2fSUTgfAvlt000rReq3Z+fyC
-         xMquVe9bnNoDKCAMgBy1n9OKFrop8oI3u9TDPCpCCJJQceJFTgjkpcSqAX5a+MXYmXPv
-         4Wb3zTyg64xXJtBoTMHtmcFX204kj+2SWPGD2FjcQi25kvkRWRuxoYV2IyvHOzaxh2U8
-         IBzwJVM75XJv6t7mdYQD+tnH0d23bdOHC+K0EDMLQvo2A0eTBFFZM9TONfzuXjfVTEKo
-         juuX1eWXVxuhy+erZUuFnbbxlhF5aaw5GD/ehlyF4kbHylkAZ89j8hzSDyAI5Lsmigcl
-         PvTg==
+        d=ffwll.ch; s=google; t=1715105065; x=1715709865; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmWheXdPpQuPLWl1RiMEbt0Eg1z181/dlD8IMNrkg1o=;
+        b=eo+YnCWOylpYuKvM7GG0ZejU8v4QEDQ1r73vBdA99OHLl2GcaygX80XSd9UDYeJfvk
+         3sDUd7+rkuhuYRoyrZ7S9Gw/e7g3GEgmha28eVvySJRUQiF3GIXqcuEPD2tknRAKTjIV
+         YAuGOVeB9P/q7P5b3e00HC/xqHRlFGb2HMO08=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715104847; x=1715709647;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HL+ln2vLAazbLqwL47bYmOmnDjxG1bXnX9QaBIaL77Y=;
-        b=XFVzIi4rpmOrsOZf4oJxBoWz+BSqTPTwzkhWnsHBcVPsjdIexfJmRJ3espOEuEva97
-         m/Tlb8xYDOTMkx0CGK0jS4Wn3gEg18OQ2T2OmNFlAx77/Y3sRlBmjMCPEFPDwFf21pT4
-         jNaUm3s5vGd/cWdiV+V+CAYE1ainEiolPaKgzWvGlK+vixJzXnu8WruTamSifBFXMv7y
-         FnHikhSHif3MlAQL0WDIU4QjWDzQXdywPAlOP22sKV+4x6WrmksSBIu3tBhTQwgjoW0n
-         2rIOIydXhQ5WiGlW+HANbBCGCzgNoPIXVYqnjG4/PXUAbNSC/Fpce0/xMncLNJc/CUzl
-         0j5A==
-X-Forwarded-Encrypted: i=1; AJvYcCW/py5wZ6l8DxwFR4zqdrv9sWK4HQ73gNmrbM1SMJTLUOEveGFY7YKyMmX4owvS8D2dwqeUuo0/GTm2eccDtYziJxp35DVhntTYAyw=
-X-Gm-Message-State: AOJu0YyHdoZqZCxJcLrKdFISlQMTbXYS7dBWK+gX/hawYamYuOUmeHmq
-	ZLGG9zqHfh+IGy1Ieq2NfhyMwN5H1QauOwIM//g0V9brVpgeGZ8u7+cvo23CinqLSpMOXnokdjA
-	ShhehyPJPYCPhiXZU3CgRXsvPvnaoywjWXuF7
-X-Google-Smtp-Source: AGHT+IGIGFru+LOx4cY9EsrZp/X/+zrxiy5UoCJnZGTW/H4TVQQOuIByLlX2TxCmmFQ9x8W3Bkc7Lsm3wP/ljInKJtk=
-X-Received: by 2002:a25:e303:0:b0:de6:327:fa2 with SMTP id 3f1490d57ef6-debb9d6cdbcmr404346276.8.1715104847273;
- Tue, 07 May 2024 11:00:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715105065; x=1715709865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YmWheXdPpQuPLWl1RiMEbt0Eg1z181/dlD8IMNrkg1o=;
+        b=tZO3e59/3bbIe+sDgLzvjV554eA8Y08kjaQO59+M2fgQ9apokE/BKVhtQ6beMWvKgI
+         idnInIikSo/OxfALofz9Y0nlRHfSKZUDseCA9w95L0OT25SVqPJ/FbirbFrLJeVd7PVT
+         oo9qZWotrdpJ371Ew4QNR+exHtT5bhcIc3SQhZT7kUPSVi8pzyhkl0WJDjy/mv2L88eg
+         arzsSlVaifnC4jyfXkYIsdXTS+iSUQ49tWeCztGXj8yzycX8RF9AWE3/Yt0XgN4LEI7r
+         zGUqd0ojTGMd+ZfuNymrMEMK1rpbFzPIXfDb5EVEW6vSCMSehTDqTzRiiJn8pyWqGsrM
+         /2Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8DWSh9yc8dvAh7XmlMmNYK/zaR8EGtLy4JPSxFdQhcGHc2NHt5Hbq+rn4DGkvggmGAbYWmzof/gsdflZYxP2I6LyYeHg0lVyH6Og=
+X-Gm-Message-State: AOJu0YwGHiuK73wMP42J4Fs+oxz7RHkaVtNuwTqYq6MYMlxsqnYvWL2z
+	JaGRHjT+uJqv3OJ+MM56WvTorBrGS35m3as+gb4SChNE31BimX/pnVuRHsiZF5ajm92qNbtmxBv
+	Vici7/jHDcwf+OlbeByzEl0QoN9uJrhQxJ0ZFYA==
+X-Google-Smtp-Source: AGHT+IHmrwrHAXCxOJC+DssE4b3IrYE7fedfWDlb1+phM010DsU5X6/lJatnzj106ycVmmtXnenEsbtAWj3Yy2ck3IU=
+X-Received: by 2002:a05:6870:239a:b0:22e:dfbc:4aae with SMTP id
+ 586e51a60fabf-240980ba70cmr376610fac.2.1715105064951; Tue, 07 May 2024
+ 11:04:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com> <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
- <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com> <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
- <CABdmKX3Zu8LihAFjMuUHx4xzZoqgmY7OKdyVz-D26gM-LECn6A@mail.gmail.com>
- <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com> <83605228-92ee-b666-d894-1c145af2e5ab@quicinc.com>
- <CABdmKX2MWU9-9YN46PXx-Jy-O9CHMv8hCkvArd7BbWUBs=GPnw@mail.gmail.com>
- <8915fcc1-d8f1-48c2-9e51-65159aaa5a3b@amd.com> <ZjovD5WaWjknd-qv@phenom.ffwll.local>
- <44b08793-cf44-4cbd-a3bb-583af351ab9e@amd.com>
-In-Reply-To: <44b08793-cf44-4cbd-a3bb-583af351ab9e@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 7 May 2024 11:00:35 -0700
-Message-ID: <CABdmKX3SpOk4BQU6i31r8jHc1f-o8sz7rXgtRyhTQZ4GJYHH=Q@mail.gmail.com>
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Charan Teja Kalla <quic_charante@quicinc.com>, zhiguojiang <justinjiang@vivo.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <202405031110.6F47982593@keescook> <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV> <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner> <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com> <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
+ <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
+In-Reply-To: <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 7 May 2024 20:04:13 +0200
+Message-ID: <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
+ file lifetimes
+To: Linus Torvalds <torvalds@linux-foundation.org>, Simon Ser <contact@emersion.fr>, 
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
+	axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 7, 2024 at 7:04=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
->
-> Am 07.05.24 um 15:39 schrieb Daniel Vetter:
-> > On Tue, May 07, 2024 at 12:10:07PM +0200, Christian K=C3=B6nig wrote:
-> >> Am 06.05.24 um 21:04 schrieb T.J. Mercier:
-> >>> On Mon, May 6, 2024 at 2:30=E2=80=AFAM Charan Teja Kalla
-> >>> <quic_charante@quicinc.com> wrote:
-> >>>> Hi TJ,
-> >>>>
-> >>>> Seems I have got answers from [1], where it is agreed upon epoll() i=
-s
-> >>>> the source of issue.
-> >>>>
-> >>>> Thanks a lot for the discussion.
-> >>>>
-> >>>> [1] https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google=
-.com/
-> >>>>
-> >>>> Thanks
-> >>>> Charan
-> >>> Oh man, quite a set of threads on this over the weekend. Thanks for t=
-he link.
-> >> Yeah and it also has some interesting side conclusion: We should proba=
-bly
-> >> tell people to stop using DMA-buf with epoll.
-> >>
-> >> The background is that the mutex approach epoll uses to make files dis=
-appear
-> >> from the interest list on close results in the fact that each file can=
- only
-> >> be part of a single epoll at a time.
-> >>
-> >> Now since DMA-buf is build around the idea that we share the buffer
-> >> representation as file between processes it means that only one proces=
-s at a
-> >> time can use epoll with each DMA-buf.
-> >>
-> >> So for example if a window manager uses epoll everything is fine. If a
-> >> client is using epoll everything is fine as well. But if *both* use ep=
-oll at
-> >> the same time it won't work.
-> >>
-> >> This can lead to rather funny and hard to debug combinations of failur=
-es and
-> >> I think we need to document this limitation and explicitly point it ou=
-t.
-> > Ok, I tested this with a small C program, and you're mixing things up.
-> > Here's what I got
+On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
+> On Tue, 7 May 2024 at 04:03, Daniel Vetter <daniel@ffwll.ch> wrote:
 > >
-> > - You cannot add a file twice to the same epoll file/fd. So that part i=
-s
-> >    correct, and also my understanding from reading the kernel code.
-> >
-> > - You can add the same file to two different epoll file instaces. Which
-> >    means it's totally fine to use epoll on a dma_buf in different proce=
-sses
-> >    like both in the compositor and in clients.
+> > It's really annoying that on some distros/builds we don't have that, and
+> > for gpu driver stack reasons we _really_ need to know whether a fd is the
+> > same as another, due to some messy uniqueness requirements on buffer
+> > objects various drivers have.
 >
-> Ah! Than I misunderstood that comment in the discussion. Thanks for
-> clarifying that.
+> It's sad that such a simple thing would require two other horrid
+> models (EPOLL or KCMP).
 >
-> >
-> > - Substantially more entertaining, you can nest epoll instances, and e.=
-g.
-> >    add a 2nd epoll file as an event to the first one. That way you can =
-add
-> >    the same file to both epoll fds, and so end up with the same file
-> >    essentially being added twice to the top-level epoll file. So even
-> >    within one application there's no real issue when e.g. different
-> >    userspace drivers all want to use epoll on the same fd, because you =
-can
-> >    just throw in another level of epoll and it's fine again and you won=
-'t
-> >    get an EEXISTS on EPOLL_CTL_ADD.
-> >
-> >    But I also don't think we have this issue right now anywhere, since =
-it's
-> >    kinda a general epoll issue that happens with any duplicated file.
+> There'[s a reason that KCMP is a config option - *some* of that is
+> horrible code - but the "compare file descriptors for equality" is not
+> that reason.
 >
-> I actually have been telling people to (ab)use the epoll behavior to
-> check if two file descriptors point to the same underlying file when
-> KCMP isn't available.
+> Note that KCMP really is a broken mess. It's also a potential security
+> hole, even for the simple things, because of how it ends up comparing
+> kernel pointers (ie it doesn't just say "same file descriptor", it
+> gives an ordering of them, so you can use KCMP to sort things in
+> kernel space).
 >
-> Some environments (Android?) disable KCMP because they see it as
-> security problem.
+> And yes, it orders them after obfuscating the pointer, but it's still
+> not something I would consider sane as a baseline interface. It was
+> designed for checkpoint-restore, it's the wrong thing to use for some
+> "are these file descriptors the same".
 >
-Didn't know about this so I checked. Our kernel has CONFIG_KCMP, but
-seccomp does look like it's blocking kcmp for apps.
-https://cs.android.com/android/platform/superproject/main/+/main:bionic/lib=
-c/SYSCALLS.TXT
+> The same argument goes for using EPOLL for that. Disgusting hack.
+>
+> Just what are the requirements for the GPU stack? Is one of the file
+> descriptors "trusted", IOW, you know what kind it is?
+>
+> Because dammit, it's *so* easy to do. You could just add a core DRM
+> ioctl for it. Literally just
+>
+>         struct fd f1 = fdget(fd1);
+>         struct fd f2 = fdget(fd2);
+>         int same;
+>
+>         same = f1.file && f1.file == f2.file;
+>         fdput(fd1);
+>         fdput(fd2);
+>         return same;
+>
+> where the only question is if you also woudl want to deal with O_PATH
+> fd's, in which case the "fdget()" would be "fdget_raw()".
+>
+> Honestly, adding some DRM ioctl for this sounds hacky, but it sounds
+> less hacky than relying on EPOLL or KCMP.
+
+Well, in slightly more code (because it's part of the "import this
+dma-buf/dma-fence/whatever fd into a driver object" ioctl) this is what we
+do.
+
+The issue is that there's generic userspace (like compositors) that sees
+these things fly by and would also like to know whether the other side
+they receive them from is doing nasty stuff/buggy/evil. And they don't
+have access to the device drm fd (since those are a handful of layers away
+behind the opengl/vulkan userspace drivers even if the compositor could get
+at them, and in some cases not even that).
+
+So if we do this in drm we'd essentially have to create a special
+drm_compare_files chardev, put the ioctl there and then tell everyone to
+make that thing world-accessible.
+
+Which is just too close to a real syscall that it's offensive, and hey
+kcmp does what we want already (but unfortunately also way more). So we
+rejected adding that to drm. But we did think about it.
+
+> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
+> too, if this is possibly a more common thing. and not just DRM wants
+> it.
+>
+> Would something like that work for you?
+
+Yes.
+
+Adding Simon and Pekka as two of the usual suspects for this kind of
+stuff. Also example code (the int return value is just so that callers know
+when kcmp isn't available, they all only care about equality):
+
+https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
+-Sima
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
