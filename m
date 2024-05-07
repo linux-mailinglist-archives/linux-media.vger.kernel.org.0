@@ -1,128 +1,166 @@
-Return-Path: <linux-media+bounces-10969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3E28BDCF9
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 10:12:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B2F8BDDC0
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 11:07:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BB48B219C0
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 08:12:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1C2A281475
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 09:06:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B71A13C910;
-	Tue,  7 May 2024 08:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E9AC14D6EF;
+	Tue,  7 May 2024 09:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJbTFCeX"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JYFHBhHO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224DB13C808;
-	Tue,  7 May 2024 08:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C6614D2BB;
+	Tue,  7 May 2024 09:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715069491; cv=none; b=IUyqazdWZ0Si9YMb0XITifVDMI4LcJzUktXyDP9Ox2MRApL4Bg+Ldy6J0M5tV04LniuY5h9syKvTrzqxF9t7QwzCL5jQ/my0JQnw9+qebvIhRNux0dUjbdnjppF7jnVlNKwE6ABLSOgYU/HQnkJws4vg66YGqay1glY7A996G14=
+	t=1715072813; cv=none; b=J0NnwFoeKdihOUM8zw7LMoYV0G7ZZukgI4hcHOxDZS/fooLKZT+9qRh/zujMh/neQ0fPAbNIxquz1Qc+x2Vcp2I6gvC6nJHt4zf8360sjVidBGvFru3+btuNxf7Ot3NJK2lpXpewcXVCdSvoc+Y/nN4Ud5vFqpn8erAQa495KEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715069491; c=relaxed/simple;
-	bh=uma4ShckrABuf9MAliQQWYRx5NoqTx28b4HzRVSFuJE=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=qoGz5mXgFVpi0I28ozUud4X1jnU72BczktjHEgxDTvcfO5FzQpc7udLOjHK3T7KnH3xiB2H4WOLle5mOHPuzBGUziM8DNE1Av3LKyvcSzE/+WMN9YLXFRhDiQlvuKzk1ZQYy1osIV5q7MolFJfB/JoBxBtlPgSk3cL3LgIdp5h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NJbTFCeX; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-518931f8d23so2773458e87.3;
-        Tue, 07 May 2024 01:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715069488; x=1715674288; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4HsiX+8mOqfVlwa1GKvO6P2/nQCW9Ffe/NVggRPUcEE=;
-        b=NJbTFCeXUX9r8PEYJyUC2HUsKQf2SqhwuErZfZqsUCa6aMdWHZ801KmHzX9xsVUDZv
-         iQk91O6jUuhaCHAceCDUeKU7n5CVHGq3imZFhL+kuS/NRBlV/CFmYbiW7tcdvMEXIAqv
-         /gqYxCTC4TBBt53RPQ36xsO6NxnZDtrrnGV1LFChvjJe7D3kPckLAp/olI70a4757XFs
-         bfxAiZ6od0YPdKbGe+OgaVXWqBryPJrXcg4JvBsIU5r7NBWFTF4iwQuyC+p+Ab0+EUGK
-         VnfBgZ2rphu/THFcSzfAzmXvM9Dmj4rSFukPEiGJ4RVFWh5/Gyl4Wbx0zvpTc/MxIaeK
-         XfzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715069488; x=1715674288;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4HsiX+8mOqfVlwa1GKvO6P2/nQCW9Ffe/NVggRPUcEE=;
-        b=eKmoiGtMydJvEz2LWmPeyUhs9+viJbzhHrUDC1ZFiJS5Uexm5guMwApF5N1cmoM3nP
-         HmC0r4PCg10Lsvz3CIEe1+R2MttwjJIB0GG9jkRabQvaAN5B0+Nl3xdlgu7hE+qzDMtT
-         z1MfQmmNEjkOgb7z0tn+YHE1CQLvHB4ai1B2g4ps6+RsYZvO0S9suBIwPO6nFpBHkXt6
-         +QOAbFzSKgU+7RLU2FXZ/7jm5rUuQdbtEj3Ts6UZe75aa3zdg98SeAslBRczhsIjkMu4
-         gNQpLzPv355xyL6GsCQi4bAtnehFpsQRFA9eOclsq1wkNpgVLwifWwmJBQasPBHMeFJH
-         VwSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMk2Z1rtOkjT2+uYGKWdDMD5yZ7uH3xm9sp9uREYqkAHyaPKKy9h/Lres0DDKs90e3/zoOp85Dgmqwnpx1IAxFpf4NmkOKRLI7FWsfhrxIpOQTrGr46TJZsG0bDQpqfipOAOZi4ndfinVR/msgPA==
-X-Gm-Message-State: AOJu0YxYQnyPTyj9Mkp5Uua+MBzQFlxMqBYYwBK23dkZ6WY5UwS6pfpN
-	tP4HsSu36JqYdYpC4E5p82DLFeaMwjmfKuqzNf4pF6rduYJsW3I4IJt7Bw==
-X-Google-Smtp-Source: AGHT+IG+luarxA+5V5k6jUquzNRm+OSczXzuDL2LwrJwdrTuUCv0EsK84+7PjPqrtqLHmHnFRd9b/Q==
-X-Received: by 2002:a05:6512:7c:b0:51b:223f:ac47 with SMTP id i28-20020a056512007c00b0051b223fac47mr8025424lfo.41.1715069487662;
-        Tue, 07 May 2024 01:11:27 -0700 (PDT)
-Received: from [192.168.1.105] ([31.173.80.156])
-        by smtp.gmail.com with ESMTPSA id y6-20020a0565123f0600b0051e16048adesm1983975lfa.48.2024.05.07.01.11.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 01:11:27 -0700 (PDT)
-Subject: Re: [PATCH] media: renesas: vsp1: Fix _irqsave and _irq mix
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <8b532593-1e06-2378-280c-47951ad51453@gmail.com>
-Date: Tue, 7 May 2024 11:11:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1715072813; c=relaxed/simple;
+	bh=wtw7hSmGwmn0lTDQ6W66pWog4VJFwb4uJMUZaQunLfc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iB3iY+TYFECktOT9ApP0cIwFbaNcERhnbbZhVKPk3iBp6pLahhlgwy8yNfc7wAtTr76/TydyjZYNY/HIrCHfW5FrkQZPwj1VTUrifg/+ojNEF0YwSanIuAZr2OXxUSpUrWcAF8yy06o3nXsAZ9o9nKYcRL16V4WUq+h0HVBnH1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JYFHBhHO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4477AhYb021187;
+	Tue, 7 May 2024 09:06:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=PHmJ/5M+D6CDuJkqzi+AHStULaSwVRigZYyaLMi9Q8I=; b=JY
+	FHBhHOUlGC0kxkVD0/KQYGuBXzOdG8TtoPoSs+wLrwFgsXlQC6sW3RNoqLAz2lzV
+	daKBGFdOUof7BKHuj5lUjnnpHK9JGvKHc7cSkQP5ClNUOHEFEtAorC5lyKl+GZ65
+	Y6VJSlTOxvK8B+FsPdPVBb8QMkJGU5oITCb17kdaG2YcmQNPgGil37yyaq8qTDNv
+	Cpi7pVlpECEvT/7NO3i7oHPgVcGw2SwrJfFvhVjy2EbT/ydjToRXbkAfNqrcrm1t
+	g0i9F9wxCcRdWpiYRYV7ApW3P/P8lFHToK/4m+c/ndBajHOK/gjSYjctGjmGCHtF
+	AulGaPnq3fYPJkJxdBGw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xyfhv089b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 May 2024 09:06:45 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44796ikr026009
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 7 May 2024 09:06:44 GMT
+Received: from [10.216.21.139] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
+ 02:06:39 -0700
+Message-ID: <62d4798d-51d1-94a0-da52-9804dea33be8@quicinc.com>
+Date: Tue, 7 May 2024 14:36:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 3/3] media: venus: add msm8998 support
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Marc Gonzalez
+	<mgonzalez@freebox.fr>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Jeffrey Hugo
+	<quic_jhugo@quicinc.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Stanimir
+ Varbanov" <stanimir.k.varbanov@gmail.com>
+CC: MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media
+	<linux-media@vger.kernel.org>,
+        DT <devicetree@vger.kernel.org>,
+        "Pierre-Hugues Husson" <phhusson@freebox.fr>,
+        Arnaud Vrac <avrac@freebox.fr>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+References: <72860c1d-7434-4be6-8c1d-9ea177602802@freebox.fr>
+ <14bda891-5035-433c-888e-b3c330eeffaf@freebox.fr>
+ <803b267b-9171-8234-aa3a-fba0d738a64d@quicinc.com>
+ <4349e7ea-380d-4c91-83be-d74983e2cdb0@freebox.fr>
+ <ddd78134-6f04-4ef6-a3fa-4a2932d81165@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <ddd78134-6f04-4ef6-a3fa-4a2932d81165@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Of4D8YoLuNRC1a6fvDaRnljK63YMWE2B
+X-Proofpoint-ORIG-GUID: Of4D8YoLuNRC1a6fvDaRnljK63YMWE2B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-07_03,2024-05-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405070062
 
-On 5/5/24 8:45 PM, Laurent Pinchart wrote:
 
-> The histogram support mixes _irqsave and _irq, causing the following
-> smatch warning:
+On 5/6/2024 9:27 PM, Bryan O'Donoghue wrote:
+> On 06/05/2024 15:51, Marc Gonzalez wrote:
+>> On 06/05/2024 16:43, Vikash Garodia wrote:
+>>
+>>> On 5/6/2024 7:17 PM, Marc Gonzalez wrote:
+>>>
+>>>> From: Pierre-Hugues Husson <phhusson@freebox.fr>
+>>>>
+>>>> Add the missing bits for msm8998 support.
+>>>>
+>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>> Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
+>>>> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
+>>>> ---
+>>>>   drivers/media/platform/qcom/venus/core.c | 48
+>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 48 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/platform/qcom/venus/core.c
+>>>> b/drivers/media/platform/qcom/venus/core.c
+>>>> index ce206b7097541..064120127cb86 100644
+>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>>> @@ -554,6 +554,9 @@ static const struct venus_resources msm8916_res = {
+>>>>       .fwname = "qcom/venus-1.8/venus.mbn",
+>>>>   };
+>>>>   +/*
+>>>> + *
+>>>> https://git.codelinaro.org/clo/la/kernel/msm-4.4/-/blame/caf_migration/kernel.lnx.4.4.r38-rel/arch/arm/boot/dts/qcom/msm8996-v3.dtsi#L403-414
+>>>> + */
+>>>
+>>> There is no need to add the link to downstream code in comments. Please
+>>> remove them.
+>>
+>> They are needed somewhere, to double check the values.
+>> Otherwise, it's just voodoo programming.
+>>
+>> If not in the code, then maybe in the commit message?
+>>
+>> Since qcom doesn't publish datasheets, downstream code
+>> is the best we've got.
+>>
+>> Regards
+>>
 > 
->      drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming()
->      warn: mixing irqsave and irq
+> Commit message is a good idea.
 > 
-> The histo_stop_streaming() calls spin_lock_irqsave() followed by
-> wait_event_lock_irq(). The former hints that interrupts may be disabled
-> by the caller, while the latter reenables interrupts unconditionally.
-> This doesn't cause any real bug, as the function is always called with
-> interrupts enabled, but the pattern is still in correct.
+> Do that.
+I am good with this, incase you are waiting for a confirmation from my end.
 
-   Incorrect? :-)
-
-> Fix the problem by using spin_lock_irq() instead of spin_lock_irqsave()
-> in histo_stop_streaming(). While at it, switch to spin_lock_irq() and
-> spin_lock() as appropriate elsewhere.
-> 
-> Fixes: 99362e32332b ("[media] v4l: vsp1: Add histogram support")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/linux-renesas-soc/164d74ff-312c-468f-be64-afa7182cd2f4@moroto.mountain/
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 ++++++++-----------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-> index 71155282ca11..cd1c8778662e 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-[...]
-
-MBR, Sergey
+Regards,
+Vikash
 
