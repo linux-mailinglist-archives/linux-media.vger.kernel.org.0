@@ -1,139 +1,206 @@
-Return-Path: <linux-media+bounces-11109-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11110-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24888BEE86
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 23:03:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2AD8BF303
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 02:03:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D71501C20C75
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 21:03:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 613A71C21805
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 00:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F8473194;
-	Tue,  7 May 2024 21:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22E54130E46;
+	Tue,  7 May 2024 23:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="kLgbb4QD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F375823F
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 21:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1537FBA3
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 23:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715115804; cv=none; b=dzwMUgId4nohFciGzSlFwDDyq0JJqUPMTSwm8HnwPhqe9yOLGny7djx1XszLwPBQ62HTKAc3N61UNccJ2qX2RIIxa6aHJxOU0F1l4EmH1DXy4dVeCBZT0pW/C1ewo5rY5bVlZmY6a1E5FFhO1gQXpQktbIw9Bb3WHtPjriGwJeY=
+	t=1715124772; cv=none; b=hBcQp+OWaHz8DYfMBqrHZbibXjxVbmhHBcmAZWPgzCCzqcQUcjSGzJcKGa9cfmtn3HGrKPnAgf4VFcn8W073/cq/8/iryVUsfW08Qsv8yzxFs3XDNKCqVlfPjCNKVENZw3So/TJjyZkyjArYliBqn10um64mqRJ4w9ptW59ha2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715115804; c=relaxed/simple;
-	bh=3rX9T5lNLNXBgcO0+M3qrprf2vCsbTOm/nlDTBm/9Cg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=tYEYQaRd1S2eiy+pFfPKAmCKpfH7YXudr00xWlvvSXDPORUc9jQPQxhNa/11bX8uKRmafXClwT7BXz/2cGP7yAuKvfZ04mnTvArnaLCovvDhEIfdqifwa6vlt57eDT6tVzMtx5EccoljzwD/PseQ+uR/F1ESfJXCKlhJAyOAyc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-48-bRehh-PWPia-pmBo6oqoQQ-1; Tue, 07 May 2024 22:03:13 +0100
-X-MC-Unique: bRehh-PWPia-pmBo6oqoQQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 7 May
- 2024 22:02:42 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 7 May 2024 22:02:42 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christian Brauner' <brauner@kernel.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-CC: Al Viro <viro@zeniv.linux.org.uk>, "keescook@chromium.org"
-	<keescook@chromium.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>, "jack@suse.cz"
-	<jack@suse.cz>, "laura@labbott.name" <laura@labbott.name>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"minhquangbui99@gmail.com" <minhquangbui99@gmail.com>,
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com"
-	<syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	"syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>
-Subject: RE: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Thread-Topic: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Thread-Index: AQHan5G+Cj1Mu87oOkmAjOj4WUTDELGMO/+w
-Date: Tue, 7 May 2024 21:02:41 +0000
-Message-ID: <052a735f433348b48a53b3d15183398a@AcuMS.aculab.com>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
- <20240505-gelehnt-anfahren-8250b487da2c@brauner>
- <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
- <20240506-injizieren-administration-f5900157566a@brauner>
-In-Reply-To: <20240506-injizieren-administration-f5900157566a@brauner>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1715124772; c=relaxed/simple;
+	bh=S2uBTZg89QC23t/2WuaFpXUGHgJQVwlXA9YYtSljwBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dtRxho3X/N3f4kFgQNqb4KrUJ72Vu1CadG7LN0M670c5p++5JnP/otpvOkzm/5TkpC3D79N5tdiIQ3xvMYxVgy1sZnk0VxgnaieHVEWHk4GWzdEPac450hQjKjNqrnOaAW+aRlUD70fUZLib6cGmcE6jBeHyg6xv+3/0vQ7O0oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=kLgbb4QD; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-79291262dc2so354396385a.2
+        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 16:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1715124768; x=1715729568; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP7hm5cgGIFObZwmlEXmT4H6ZLJ5hLejs2qh73QUpsY=;
+        b=kLgbb4QDiYjjhbVyqnASJTqYVBMpFZOu0trzJrO++O0tgH216w9YbqRM7XZIqXipzP
+         DU7LaKiHJo+E9DfRMOf3yG/lgGvIKPfZegBXl5VnL64GTcnVXxbA2wVHsGQ+Grsyo0fc
+         eSCOy1wI0RHUjdPVCTMH8wp2yDyyMFvV/XUHhkbTPNutQ72aqilYR3nVWDQQVwt5D1z2
+         CKQtLDYFc1SFzbSLM1F6oA/FT669ybhGR9UhqpSu7S/9p/Y0yeuCrv1BtOQGkQuoiPKM
+         IRDQC38DkPdYqATOLE4nt7CYXbckLb/80m/t3XhzxmOZ+VOgARatj3XQtpjCKsgKUATY
+         kZXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715124768; x=1715729568;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cP7hm5cgGIFObZwmlEXmT4H6ZLJ5hLejs2qh73QUpsY=;
+        b=li4PUFg0MQ0yGiZlymlvdmaM/iGX+Of8PSV1TKS/7vKK4yo+UxCUoh9/omhZ7H1Zdx
+         ed1OwKL8LGG3MvN62HEijDdj+bR5K6YdYhDiJ/koL7dpBnsn4h2JNv5lIePzLz8Bhk4U
+         mfNVFrmIcReY5B5VKDkooUU+zXFt2+VOUw/d8M8vTBRSCUwEkorxkL3fuUFNCwozflc0
+         mRH+tWtQMxiTOOeCiY/OOGbsV0B5J1eHqYW00sQk+8ox0QOARoNh9mpv1Rhx34/K/8k4
+         wnEZnYzwKBAaVHf/YKF/CHWjL9CttWtNO65Ll55x5riQ0oVLHMhEIn50Lo81ilJy3VHO
+         WQSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIbz/BVoHNXf6RMf8cMCQMhj994xznEMJoUB+VAKvJ3mey1U1VjDVguT4cUcKT3eo6F/5UI3UYsjKjHugtVoXvmzqUpuBDalZ/pvE=
+X-Gm-Message-State: AOJu0Yzh6u6jfnoZEv/dWSk9zgTje5OZ33/7Al5q90H6DIRvW4qjEOMO
+	Z4e7rv3ntSnImlKHAM9MpVpw4wZtBZaZgrq/4DjBTz0LqZf0obN+Ny14wW1o+bI=
+X-Google-Smtp-Source: AGHT+IHk+yKjIhj9AR797n1JaOj9Z/2rWjQRz+xGELrz6+y3H07eSktk/E/cHfzwS8PtlVFgYI8C4w==
+X-Received: by 2002:a05:622a:60c:b0:434:b593:2d25 with SMTP id d75a77b69052e-43dbf0b35e3mr10728951cf.66.1715124768502;
+        Tue, 07 May 2024 16:32:48 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id fb20-20020a05622a481400b00434efa0feaasm6953842qtb.1.2024.05.07.16.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 16:32:48 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1s4UIh-0003NT-Cq;
+	Tue, 07 May 2024 20:32:47 -0300
+Date: Tue, 7 May 2024 20:32:47 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240507233247.GK4718@ziepe.ca>
+References: <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+ <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca>
+ <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
 
-RnJvbTogQ2hyaXN0aWFuIEJyYXVuZXINCj4gU2VudDogMDYgTWF5IDIwMjQgMDk6NDUNCj4gDQo+
-ID4gVGhlIGZhY3QgaXMsIGl0J3Mgbm90IGRtYS1idWYgdGhhdCBpcyB2aW9sYXRpbmcgYW55IHJ1
-bGVzLiBJdCdzIGVwb2xsLg0KPiANCj4gSSBhZ3JlZSB0aGF0IGVwb2xsKCkgbm90IHRha2luZyBh
-IHJlZmVyZW5jZSBvbiB0aGUgZmlsZSBpcyBhdCBsZWFzdA0KPiB1bmV4cGVjdGVkIGFuZCBjb250
-cmFkaWN0cyB0aGUgdXN1YWwgY29kZSBwYXR0ZXJucyBmb3IgdGhlIHNha2Ugb2YNCj4gcGVyZm9y
-bWFuY2UgYW5kIHRoYXQgaXQgdmVyeSBsaWtlbHkgaXMgdGhlIGNhc2UgdGhhdCBtb3N0IGNhbGxl
-cnMgb2YNCj4gZl9vcC0+cG9sbCgpIGRvbid0IGtub3cgdGhpcy4NCj4gDQo+IE5vdGUsIEkgY2xl
-YXJ5IHdyb3RlIHVwdGhyZWFkIHRoYXQgSSdtIG9rIHRvIGRvIGl0IGxpa2UgeW91IHN1Z2dlc3Rl
-ZA0KPiBidXQgcmFpc2VkIHR3byBjb25jZXJucyBhKSB0aGVyZSdzIGN1cnJlbnRseSBvbmx5IG9u
-ZSBpbnN0YW5jZSBvZg0KPiBwcm9sb25nZWQgQGZpbGUgbGlmZXRpbWUgaW4gZl9vcC0+cG9sbCgp
-IGFmYWljdCBhbmQgYikgdGhhdCB0aGVyZSdzDQo+IHBvc3NpYmx5IGdvaW5nIHRvIGJlIHNvbWUg
-cGVyZm9ybWFuY2UgaW1wYWN0IG9uIGVwb2xsKCkuDQo+IA0KPiBTbyBpdCdzIGF0IGxlYXN0IHdv
-cnRoIGRpc2N1c3Npbmcgd2hhdCdzIG1vcmUgaW1wb3J0YW50IGJlY2F1c2UgZXBvbGwoKQ0KPiBp
-cyB2ZXJ5IHdpZGVseSB1c2VkIGFuZCBpdCdzIG5vdCB0aGF0IHdlIGhhdmVuJ3QgZmF2b3JlZCBw
-ZXJmb3JtYW5jZQ0KPiBiZWZvcmUuDQo+IA0KPiBCdXQgeW91J3ZlIGFscmVhZHkgc2FpZCB0aGF0
-IHlvdSBhcmVuJ3QgY29uY2VybmVkIHdpdGggcGVyZm9ybWFuY2Ugb24NCj4gZXBvbGwoKSB1cHRo
-cmVhZC4gU28gYWZhaWN0IHRoZW4gdGhlcmUncyByZWFsbHkgbm90IGEgbG90IG1vcmUgdG8NCj4g
-ZGlzY3VzcyBvdGhlciB0aGFuIHRha2UgdGhlIHBhdGNoIGFuZCBzZWUgd2hldGhlciB3ZSBnZXQg
-YW55IGNvbXBsYWludHMuDQoNClN1cmVseSB0aGVyZSBpc24ndCBhIHByb2JsZW0gd2l0aCBlcG9s
-bCBob2xkaW5nIGEgcmVmZXJlbmNlIHRvIHRoZSBmaWxlDQpzdHJ1Y3R1cmUgLSBpdCBpc24ndCBy
-ZWFsbHkgYW55IGRpZmZlcmVudCB0byBhIGR1cCgpLg0KDQonQWxsJyB0aGF0IG5lZWRzIHRvIGhh
-cHBlbiBpcyB0aGF0IHRoZSAnbWFnaWMnIHRoYXQgbWFrZXMgZXBvbGwoKSByZW1vdmUNCmZpbGVz
-IG9uIHRoZSBsYXN0IGZwdXQgaGFwcGVuIHdoZW4gdGhlIGNsb3NlIGlzIGRvbmUuDQpJJ20gc3Vy
-ZSB0aGVyZSBhcmUgaG9ycmlkIGxvY2tpbmcgaXNzdWVzIGl0IHRoYXQgY29kZSAoc2VwYXJhdGUg
-ZnJvbQ0KaXQgY2FsbGluZyAtPnBvbGwoKSBhZnRlciAtPnJlbGVhc2UoKSkgZWcgaWYgeW91IGNh
-bGwgY2xvc2UoKSBjb25jdXJyZW50bHkNCndpdGggRVBPTExfQ1RMX0FERC4NCg0KSSdtIG5vdCBh
-dCBhbGwgc3VyZSBpdCB3b3VsZCBoYXZlIG1hdHRlcmVkIGlmIGVwb2xsIGtlcHQgdGhlIGZpbGUg
-b3Blbi4NCkJ1dCBpdCBjYW4ndCBkbyB0aGF0IGJlY2F1c2UgaXQgaXMgZG9jdW1lbnRlZCBub3Qg
-dG8uDQpBcyB3ZWxsIGFzIHBvbGwvc2VsZWN0IGhvbGRpbmcgYSByZWZlcmVuY2UgdG8gYWxsIHRo
-ZWlyIGZkIGZvciB0aGUgZHVyYXRpb24NCm9mIHRoZSBzeXN0ZW0gY2FsbCwgYSBzdWNjZXNzZnVs
-IG1tYXAoKSBob2xkcyBhIHJlZmVyZW5jZSB1bnRpbCB0aGUgcGFnZXMNCmFyZSBhbGwgdW5tYXBw
-ZWQgLSB1c3VhbGx5IGJ5IHByb2Nlc3MgZXhpdC4NCg0KV2UgKGRheWpvYikgaGF2ZSBjb2RlIHRo
-YXQgdXNlcyBlcG9sbCgpIHRvIG1vbml0b3IgbGFyZ2UgbnVtYmVycyBvZiBVRFANCnNvY2tldHMu
-IEkgd2FzIGRvaW5nIHNvbWUgdGVzdHMgKHRyeWluZyB0bykgcmVjZWl2ZSBSVFAgKGF1ZGlvKSBk
-YXRhDQpjb25jdXJyZW50bHkgb24gMTAwMDAgc29ja2V0cyB3aXRoIHR5cGljYWxseSBvbmUgcGFj
-a2V0IGV2ZXJ5IDIwbXMuDQpUaGVyZSBhcmUgMTAwMDAgYXNzb2NpYXRlZCBSQ1RQIHNvY2tldHMg
-dGhhdCBhcmUgdXN1YWxseSBpZGxlLg0KQSBtb3JlIG5vcm1hbCBsaW1pdCB3b3VsZCBiZSAxMDAw
-IFJUUCBzb2NrZXRzLg0KQWxsIHRoZSBkYXRhIG5lZWRzIHRvIGdvIGludG8gYSBzaW5nbGUgKG11
-bHRpdGhyZWFkZWQpIHByb2Nlc3MuDQpKdXN0IGdldHRpbmcgYWxsIHRoZSBwYWNrZXRzIHF1ZXVl
-ZCBvbiB0aGUgc29ja2V0cyB3YXMgbm9uLXRyaXZpYWwuDQplcG9sbCBpcyBhYm91dCB0aGUgb25s
-eSB3YXkgdG8gYWN0dWFsbHkgcmVhZCB0aGUgZGF0YS4NCihUaGF0IG5lZWRlZCBtdWx0aXBsZSBl
-cG9sbCBmZCBzbyBlYWNoIHRocmVhZCBjb3VsZCBwcm9jZXNzIGFsbA0KdGhlIGV2ZW50cyBmcm9t
-IG9uZSBlcG9sbCBmZCB0aGVuIGxvb2sgZm9yIGFub3RoZXIgdW5wcm9jZXNzZWQgZmQuKQ0KDQoJ
-RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
-dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
-OTczODYgKFdhbGVzKQ0K
+On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
+> On 5/7/24 18:56, Jason Gunthorpe wrote:
+> > On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+> > > On 5/7/24 17:48, Jason Gunthorpe wrote:
+> > > > On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+> > > > 
+> > > > > 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+> > > > > think in the past you said it's a uapi you don't link but in the face
+> > > > > of this pushback you may want to reconsider.
+> > > > 
+> > > > dmabuf does not force a uapi, you can acquire your pages however you
+> > > > want and wrap them up in a dmabuf. No uapi at all.
+> > > > 
+> > > > The point is that dmabuf already provides ops that do basically what
+> > > > is needed here. We don't need ops calling ops just because dmabuf's
+> > > > ops are not understsood or not perfect. Fixup dmabuf.
+> > > 
+> > > Those ops, for example, are used to efficiently return used buffers
+> > > back to the kernel, which is uapi, I don't see how dmabuf can be
+> > > fixed up to cover it.
+> > 
+> > Sure, but that doesn't mean you can't use dma buf for the other parts
+> > of the flow. The per-page lifetime is a different topic than the
+> > refcounting and access of the entire bulk of memory.
+> 
+> Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+> is, the rest is resolving uptr -> pages, and passing it to page pool in
+> a convenient to page pool format (net_iov).
 
+I'm not going to pretend to know about page pool details, but dmabuf
+is the way to get the bulk of pages into a pool within the net stack's
+allocator and keep that bulk properly refcounted while.
+
+An object like dmabuf is needed for the general case because there are
+not going to be per-page references or otherwise available.
+
+What you seem to want is to alter how the actual allocation flow works
+from that bulk of memory and delay the free. It seems like a different
+topic to me, and honestly hacking into the allocator free function
+seems a bit weird..
+
+Jason
 
