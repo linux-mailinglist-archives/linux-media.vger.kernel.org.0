@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-10945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7204A8BD896
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 02:26:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600058BD89C
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 02:26:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 935EDB23389
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 00:26:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC731B23777
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 00:26:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B37A928;
-	Tue,  7 May 2024 00:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B66C148;
+	Tue,  7 May 2024 00:25:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="gm67OccF"
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="ZKbJBGTU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F55E389
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA1964F
 	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 00:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715041534; cv=none; b=B+JTTxApN6ZLuamlR6Ez75WLTBp93YkiyaSgFvGqJHOlu5S3Oi9JPmquHBeZRyKmxdVs7VsXr2XFd0VH+pJEASZs2dzJ4KI7DqJflBtw4jL97r40HLpjhoBzi73Ilr0Jv8bn17qFr4w9IcxGco9W61CyHwvV6XzuDX9i09JN0LI=
+	t=1715041535; cv=none; b=et1+HztmDGb9HFPp9lqDl63bsm1p/BdsC7l6HiDUi/vgSEtrUynXKi7d91h9qi8crg2FjwD77nxalhQPkNN0dHfWuTFZeL3C77lntSHVsut2OFw0WIRivIrtqnq8ikKCyDodnKb2OYEswYukR2MPM3qV1YEjQZgXbK5fppRcjqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715041534; c=relaxed/simple;
-	bh=TYjgjKXafUWqDcFg/VAUrExwUY7VyLxVCeUPBAiTVio=;
+	s=arc-20240116; t=1715041535; c=relaxed/simple;
+	bh=LaNN/PknjqydjKNNPsTzYiJPGt4QOhMA66QdgMdurls=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QMUxQ5KHme2Zr+E3VCLSPIfYnww9mGWPLdo35XPY14Wu8x29D4dbb+HSaTr3w49/1MTj7aFi7GMUyq44HLQnt/i6nc/nz6zFzmbVjNQOi2SBy9lO4boIYe31rJGWZ7XU3r6p9smpiL6rGLDp+A/t/ltIz8M+TBb9edp4+qbjYGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=gm67OccF; arc=none smtp.client-ip=212.227.17.20
+	 MIME-Version; b=TrCE9nWEoGgEAEW0WNaSVsl0sU0q2knh4ztVG8p94+BMTYzyVDI3DmsqVztI72TL8g3zqWylHNwB+LDSHMPrP9dMs4VKrFWZ/aADTe4cz9oBzCcokyOLp7dYg58UNmvKtsPoWxV4IiBhrMs4JgyGw34F1jTVEL8Fc9G39IEhigQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=ZKbJBGTU; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nurfuerspam.de;
 	s=s31663417; t=1715041529; x=1715646329; i=herdler@nurfuerspam.de;
-	bh=sHiG/LHz5ilh6w4se0jNWjm0J+ARPrwvJ3UBMjE/ADQ=;
+	bh=W+nkUDSEvEFnaJ3eDxJ+5qJ/Vs37FG016keg0LXj9SM=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=gm67OccFUoideISqhCR6XFINqK2/OHg1G8a0vPSzvDCI0OqtgwZMuR9kUslDF411
-	 zCatnGyWiAMOKP1yxO5cRWRbVZUHHPLt+pXhhB1N6Wt1C+Z2zyV+bkLfF0yBOmZvw
-	 QWLe36mtkI3f7D+AGRiUETwmHZE1Bt2F8ZllmcoQPlgHDarwecqrvcR5MvsNzP9Nj
-	 WLDsW7mkIVfqRN9zZUrDnK4wXHJslSdNkgRFD6RtEk3nZlbtkJNA2nrb38vzGq3Ee
-	 gAws34/lMDyMzKLaXBhrOJR0pI1eiJYjoSv3L0wkh2W3NAzxjL8eWdF2XQpcvLgof
-	 5DY8rgRTJcXwbHLzuw==
+	b=ZKbJBGTURpP4vbk7k5yEzTwQLNVacb7REDIA1ksUI3s3kx9uqbO9wq1oXDYO+g3P
+	 IVOu3m+iMtWfhYhYx4cXgDA/2pqInak7wRKbofgFx1QAB/TvUB1K5FTdwHto215Dk
+	 Rh2Oil1sNmvqflxJrIVzzCl8CE/2LnYiYYdkU6tmY6NeOXCsR/JeFdxmEL447JXZ+
+	 SnjblLP0lxQXyTRbXMSdo3sPudi5CEnk0RFhjruzbClenU3A++EGOgWbVf7iGIPP1
+	 pONIyU34RXlym/sc6+716iuRlTfsuiQTjXGJRLcR41xxXEyHLvwlyRseBk+x1Zh76
+	 3HfQRPUfLMMtOH5wZQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([185.101.174.109]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1OXT-1skFvu1qLD-012scm; Tue, 07
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mkpap-1sTp0o2ur9-00mJi4; Tue, 07
  May 2024 02:25:29 +0200
 From: Stefan Herdler <herdler@nurfuerspam.de>
 To: hverkuil-cisco@xs4all.nl
@@ -54,9 +54,9 @@ Cc: linux-media@vger.kernel.org,
 	smoch@web.de,
 	tmn505@gmail.com,
 	vinschen@redhat.com
-Subject: [PATCH 17/21] media: av7110: coding style fixes: variable types
-Date: Tue,  7 May 2024 02:24:56 +0200
-Message-Id: <20240507002500.81867-18-herdler@nurfuerspam.de>
+Subject: [PATCH 18/21] media: av7110: coding style fixes: miscellaneous
+Date: Tue,  7 May 2024 02:24:57 +0200
+Message-Id: <20240507002500.81867-19-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20240507002500.81867-1-herdler@nurfuerspam.de>
 References: <20240507002500.81867-1-herdler@nurfuerspam.de>
@@ -67,180 +67,71 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MKi3i80oHKPsLayfvauw1qyeWnwBsH0ByR/Q+QIJVG2aCBzYCUY
- SStwjOdSB2/z8/qLHPCIds8n3eoUb97m9+4wVKmXQiC0h5ziUkcsvCPf2YcsZL+ZdKTZ+2r
- aSqSj0xZ/SGmYcR48MTrr57u3BoFAPv5X+C3xb1Q3FpSuma8P9pqa4UVfQ5/m2GBeKIx0bu
- fc6G4CTxqvupI4Ilp9cpQ==
+X-Provags-ID: V03:K1:4a0/PcX9wBE32Kcp5OdYyKFN+RFGyk7bw7HKjIY+pZR9Hz19kR9
+ a1fMGq22Wg+823lrD5InkEkNl8tEMv/ouKX+P3iMBpNVNEAXA3GGO0ryQVKKh8DA/a8VzWG
+ 014LuV8GuQ/Y/4+58loHFG/8zuIhT+5xfqaF8foXFruqroBzMmamLkmW3LZQZGLFjzuu7UO
+ QExBZ/FcdRCry4Asv9ObQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:6AHejE+96yk=;G57c6MKth9UPEk8BI79y2hJcnG6
- bm/Hdh2VpPSU0zLAldgoY5HYlpJ+Oh2R7oJQZh69aGWx+Jit7cA+4DxPFIptWCcWEn/mqazGt
- 5rONNNZt6U/gQV/LMkUFAogSYOajCj3sAnHbi9rjl0IRCCXb8n/rauW7waHpxIRuqWPKWaxFc
- ShN/6cObz2CFOc0x0zSoGpX4VtLgtYkdQTgKYgX2N1qjBMm49Wcu6jNv0iMj/y7Wcc+yUk0bA
- asN48oFZ2WmD6Wp8Vwrw/F+oTboEhEgTcepMukmDpG/K2xmX+/HL4CcMWoAEWiGB7OSeOLlW9
- wKsCaxWS/pJAfBnQXXBnCGXCF2DkFmVIkCDSxn/MSqr/scA2LPfzUPBJktcJ5WKZMKA02TS0D
- Rqo+6PEr6GYvy5Q5FwpV+xP5PUeXDp4fFqVuaRElc78c9o102L8CBW3WJvl52I0okKovKbREo
- Mcp39jve8tgHTcdSR9W/Hw8oc+bHZtHf5Q4Z4joTrOzIGH+wc+renoq7ja5azD7TjcgUPdM8l
- qT3SH9gQ+U7Vi4pCUqGEfkLxnuRuExvwKzBkLxlBELdZZaOIkp59Z880DpxSwSCCznN7D3/vH
- cVri4sKUOiXb0TTRdWAGRn2bgQybaomKRESbzLKAgRBlVM93dR2dM8vW2GK6fo0hFxF+JxlOq
- LJ6LrVyKHep5d4wiZC+ImoHyhdhYYvL2pTEwS/W+lgFmJuf+x1IJfQOZNJlzQhVBtqhaXN3LX
- WosPzFxJ1ru+o/FC+Epinn+Os7fRCJNVsuEbkYyqu4kIHnTL04J0ENSPXS0JS9DCeYsOEFy7u
- 46TT9W08J/eIcpI4Jw7W6ae095fxFzeyVZW5SIVvGA7qA=
+UI-OutboundReport: notjunk:1;M01:P0:9qpuTHPv5L8=;QZlIEIfhciWCc+NNXHdlOJ2nNg8
+ nsBD4OzP54v0nT9D4b2b1PbIxca78ngXZbzpcgkVko3qjJB9Wbc293XvVdcDmQeHMBGCsf3XM
+ sqVX6gOl/Tl4iMUmPzyQINlduTKKeWfYYmmWYB3sEsDtNzxJpnp4Zo2FlxX5/VudeNJkdaCG9
+ 9EzxEVmAtK0NReMX+0tdpwbh9QRxKTU40VUWLYOOHjJKrmQg2qtwlPSvNxDfL+8S0AB9TeCnP
+ vqQMijS5HM5Sj3IIlheZsYf1xRtFLbeUq2948+RLPxbOauF7lbhmplL58FEXgCPLRLed9qBHR
+ zBGOF7tyzMpn0j7SF9PDLEkrJ4PQZNs1RXfSjx4vwadtKGmTYfTtyyC9G/DerJwKKcfogTN5Z
+ FZXV57iDzHIhi/BRonkF3/wSghRjeoiFMRwIaDnW21vzM1hfFJ3agQQgB8HW1QLHdSwGpBFtJ
+ mwN/dgrXaQvIyd0vFssTvdeF/E6rTubNM8piUW44wR9UswfbCr9tKYfnx5E2zK5LybFx8X3/Q
+ LLhHR56Uj8uYGhsfZUxr8GSfITWChnJGm3rjLhmuL1O7CE0nFCSGcR2Pf8TQzB+5tMpgjm38y
+ JOkytSe+bsQ6kzy4hHNkW9pChOGzpDAz9dlLmVjzFwLrSVgQiBFsost7geyMxNZbK+xXPo3JL
+ u+Okvvgc9H1ZiimVv3RN7zm9Ytx2RYtlAF+o3ye4i82XKwP4fTNsm2tTnShsVz2N35rr+RB/j
+ uzJMxHmhYnnv1Zpa3xSDF1hGUOd/ki7Db/dGhSzhDmvNXp9fdtOPY+7l/Uig3+mukIL0oi2ZY
+ IKLbNX7fgxAroWaXmykdj6vioUuZygjs57KkLZWkxmmIw=
 
 This patch fixes the following checkpatch warnings:
 
-CHECK:PREFER_KERNEL_TYPES: Prefer kernel type 's32' over 'int32_t'
-CHECK:PREFER_KERNEL_TYPES: Prefer kernel type 'u64' over 'uint64_t'
-WARNING:UNNECESSARY_INT: Prefer 'long' over 'long int' as the int is unnec=
-essary
-WARNING:UNSPECIFIED_INT: Prefer 'unsigned int' to bare use of 'unsigned'
+WARNING:OOM_MESSAGE: Possible unnecessary 'out of memory' message
+CHECK:MACRO_ARG_REUSE: Macro argument reuse 'fe_func' - possible side-effe=
+cts?
+
+The MACRO_ARG_REUSE isn't really fixed but marked as intentional.
+The comment is visible in the checkpatch warning.
 
 Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 =2D--
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-
-CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
-Will be fixes in:
-[PATCH 21/21] media: av7110: coding style fixes: avoid_externs
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-
- drivers/staging/media/av7110/av7110.c    |  4 ++--
- drivers/staging/media/av7110/av7110.h    |  2 +-
- drivers/staging/media/av7110/av7110_av.c | 12 ++++++------
- drivers/staging/media/av7110/av7110_av.h |  2 +-
- 4 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/media/av7110/av7110.c       | 2 +-
+ drivers/staging/media/av7110/av7110_ipack.c | 4 +---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media=
 /av7110/av7110.c
-index 42b5d049e..14c512fdf 100644
+index 14c512fdf..30e2e6e65 100644
 =2D-- a/drivers/staging/media/av7110/av7110.c
 +++ b/drivers/staging/media/av7110/av7110.c
-@@ -1094,7 +1094,7 @@ static void restart_feeds(struct av7110 *av7110)
- }
+@@ -108,7 +108,7 @@ static int av7110_num;
+ 		av7110_copy =3D fe_func; \
+ 		fe_func =3D av7110_func; \
+ 	} \
+-}
++}    /* Macro argument reuse of 'fe_func' is intentional! */
 
- static int dvb_get_stc(struct dmx_demux *demux, unsigned int num,
--		       uint64_t *stc, unsigned int *base)
-+		       u64 *stc, unsigned int *base)
+ static void init_av7110_av(struct av7110 *av7110)
  {
- 	int ret;
- 	u16 fwstc[4];
-@@ -1183,7 +1183,7 @@ static int stop_ts_capture(struct av7110 *budget)
-
- static int start_ts_capture(struct av7110 *budget)
+diff --git a/drivers/staging/media/av7110/av7110_ipack.c b/drivers/staging=
+/media/av7110/av7110_ipack.c
+index c41a233e1..9631aae71 100644
+=2D-- a/drivers/staging/media/av7110/av7110_ipack.c
++++ b/drivers/staging/media/av7110/av7110_ipack.c
+@@ -23,10 +23,8 @@ int av7110_ipack_init(struct ipack *p, int size,
+ 		      void (*func)(u8 *buf, int size, void *priv))
  {
--	unsigned y;
-+	unsigned int y;
-
- 	dprintk(2, "budget: %p\n", budget);
-
-diff --git a/drivers/staging/media/av7110/av7110.h b/drivers/staging/media=
-/av7110/av7110.h
-index 1cfe13df6..3f6b88f0f 100644
-=2D-- a/drivers/staging/media/av7110/av7110.h
-+++ b/drivers/staging/media/av7110/av7110.h
-@@ -58,7 +58,7 @@ enum av7110_video_mode {
- struct av7110_p2t {
- 	u8		  pes[TS_SIZE];
- 	u8		  counter;
--	long int	  pos;
-+	long		  pos;
- 	int		  frags;
- 	struct dvb_demux_feed *feed;
- };
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/me=
-dia/av7110/av7110_av.c
-index 3e0db8e9a..a408e10fb 100644
-=2D-- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -71,7 +71,7 @@
- #define PIECE_RATE	 0x40
- #define SEAM_SPLICE	 0x20
-
--static void p_to_t(u8 const *buf, long int length, u16 pid,
-+static void p_to_t(u8 const *buf, long length, u16 pid,
- 		   u8 *counter, struct dvb_demux_feed *feed);
- static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 =
-*buf, size_t len);
-
-@@ -585,7 +585,7 @@ static void clear_p2t(struct av7110_p2t *p)
- 	p->frags =3D 0;
- }
-
--static int find_pes_header(u8 const *buf, long int length, int *frags)
-+static int find_pes_header(u8 const *buf, long length, int *frags)
- {
- 	int c =3D 0;
- 	int found =3D 0;
-@@ -634,7 +634,7 @@ static int find_pes_header(u8 const *buf, long int len=
-gth, int *frags)
- 	return c;
- }
-
--void av7110_p2t_write(u8 const *buf, long int length, u16 pid, struct av7=
-110_p2t *p)
-+void av7110_p2t_write(u8 const *buf, long length, u16 pid, struct av7110_=
-p2t *p)
- {
- 	int c, c2, l, add;
- 	int check, rest;
-@@ -763,7 +763,7 @@ static int write_ts_header2(u16 pid, u8 *counter, int =
-pes_start, u8 *buf, u8 len
- 	return c;
- }
-
--static void p_to_t(u8 const *buf, long int length, u16 pid, u8 *counter,
-+static void p_to_t(u8 const *buf, long length, u16 pid, u8 *counter,
- 		   struct dvb_demux_feed *feed)
- {
- 	int l, pes_start;
-@@ -1023,7 +1023,7 @@ static u8 iframe_header[] =3D { 0x00, 0x00, 0x01, 0x=
-e0, 0x00, 0x00, 0x80, 0x00, 0x
-
- static int play_iframe(struct av7110 *av7110, char __user *buf, unsigned =
-int len, int nonblock)
- {
--	unsigned i, n;
-+	unsigned int i, n;
- 	int progressive =3D 0;
- 	int match =3D 0;
-
-@@ -1090,7 +1090,7 @@ static int play_iframe(struct av7110 *av7110, char _=
-_user *buf, unsigned int len
- #ifdef CONFIG_COMPAT
- struct compat_video_still_picture {
- 	compat_uptr_t iFrame;
--	int32_t size;
-+	s32 size;
- };
-
- #define VIDEO_STILLPICTURE32 _IOW('o', 30, struct compat_video_still_pict=
-ure)
-diff --git a/drivers/staging/media/av7110/av7110_av.h b/drivers/staging/me=
-dia/av7110/av7110_av.h
-index ce0f9945d..f1c5c26c6 100644
-=2D-- a/drivers/staging/media/av7110/av7110_av.h
-+++ b/drivers/staging/media/av7110/av7110_av.h
-@@ -21,7 +21,7 @@ extern int av7110_av_start_play(struct av7110 *av7110, i=
-nt av);
- extern void dvb_video_add_event(struct av7110 *av7110, struct video_event=
- *event);
-
- extern void av7110_p2t_init(struct av7110_p2t *p, struct dvb_demux_feed *=
-feed);
--extern void av7110_p2t_write(u8 const *buf, long int length, u16 pid, str=
-uct av7110_p2t *p);
-+extern void av7110_p2t_write(u8 const *buf, long length, u16 pid, struct =
-av7110_p2t *p);
-
- extern int av7110_av_register(struct av7110 *av7110);
- extern void av7110_av_unregister(struct av7110 *av7110);
+ 	p->buf =3D vmalloc(size);
+-	if (!p->buf) {
+-		printk(KERN_WARNING "Couldn't allocate memory for ipack\n");
++	if (!p->buf)
+ 		return -ENOMEM;
+-	}
+ 	p->size =3D size;
+ 	p->func =3D func;
+ 	p->repack_subids =3D 0;
 =2D-
 2.34.0
 
