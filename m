@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-11064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932BF8BE8D8
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 18:27:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 175F98BE90F
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 18:32:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B61DB1C23B1A
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 16:27:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C0B5B21016
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 16:27:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070F716C849;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC61116C69B;
 	Tue,  7 May 2024 16:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cWb0KdD7"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XxRE+I/T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E75B16C699
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 16:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B5816C434
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 16:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715099232; cv=none; b=O/90ipn5UFiE1vIT8i9aqrNFKw462hoUemsl9hxfsP2Az8n67vym+41lHhVr4X+ueskqJkviiBPFwbeTgqU3QFv9ZhmyPx4OC6qaU0hL2lg/qwiiFxVTzoPyW89txS0iqD5iAXSob2IdLveL6DEWsfR4Ur401C1Z+MH9IebL7MI=
+	t=1715099233; cv=none; b=Gkr1P2kk1VQtxzWxUBk0tVpV1GCD76d3o2o9QVBs4hcQ0o02/QsRxeD2PO2eE+grewXyHovGqEkTEHjtRSPOPHfIt7HbwDqx+Mt4h4PGrlpcehR3AChH4CUZAu7+KUTewTGsRx4m/KsggyLcxBhHfbWpkz2r36NvnVzAXWK9FsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715099232; c=relaxed/simple;
-	bh=VGC9CnUyFz8kv+JZWidTOhc2UDTBbVKz2PNoIhdJ06Y=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SXA8RmtKnXTTN+Ucdab/5mDFkgME4eXxqebWFBBPbydQOixC9pqrMi7j3EYxaJITeHx0resuN2fjgTifQ8i+OtXW2XE0Sgrc6ArM49b6AFifQFPu5MLBxJO6ZJG7/sBmizNuPqH4gIKvBGBlNIf92lHtQGoUFQFIFDWsbfZypEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cWb0KdD7; arc=none smtp.client-ip=209.85.160.176
+	s=arc-20240116; t=1715099233; c=relaxed/simple;
+	bh=znTu4kcBZIJ40DAZAzE4ZarYw+mhmMYgFA8GYOICILk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KuQVBEND0tONHGzQjLggSE4NdQzcuDktJfArroWpgW88uHnFAScdOq100J+yV1Su/EAMSOq1Hx6xZNMaiSdVWcLKbUKGhnrk/3JOEehxkKuzL7ALJcGvs8LbPRZitHpwtkSQGo0i8dzOlstUs4+MPxwcD6N3uBoYuWjmgcoy+mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XxRE+I/T; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-43ab8e0f435so10271671cf.1
-        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 09:27:10 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-43cff222427so13955391cf.3
+        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 09:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715099229; x=1715704029; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxHRNPAJkNGXFeTpFgZu5yemut+3Fc0PUQDHkrsHV9o=;
-        b=cWb0KdD782Pf7q7tPoPGpqIC8SJZ2oQLXH2lu8gvX6Fh0Y+sbdGg2CrnxvbrFJJR8h
-         uvDcfT/9wfAXkkVBwHIdsp2zJb1O7kOoAhIUaN4A9ezvuwhgkJjGhA38cIbm18c2kWWu
-         WZx1oPbJfNXMnOw/o/OBTDtvMXVQVS3eYrsWQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715099229; x=1715704029;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1715099231; x=1715704031; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UxHRNPAJkNGXFeTpFgZu5yemut+3Fc0PUQDHkrsHV9o=;
-        b=AYNMq/EteiVcYjwUrX25s6UGwMFvyEmaQxD3n0vtU4lyKH0dE2v/MyOi0m34Bdaz8N
-         yP17bkRY41G2clM0GbWeNH02A2LmVGhdNMox75jdBWevioODCbhn7SLuL9Ojp/RHX7om
-         qjrvxcS31Q3A36v90uIFRq4iaWGGRa7Il3VcTI/W/kA2iz0O5Xn/43aWwmv/88YbRg4A
-         E6LkdBUeiViuKwdxxwfmYK5aCADUGCt5ELFsqkBngOCmuxTojqeyi53G2GwJnJAeSETa
-         WmZubtus/e1lvs1CXDSi2q3WV/RXvYhEhOsZqvi/ZH72hcPCLTrxtuEHIvGJ78XgCBjp
-         PboQ==
-X-Gm-Message-State: AOJu0YxW7E5HIPWyIgJROzRmnSzu8QQqcfAwVPF+/UzZGlL1GGBmgEGY
-	5DCc1WSoPhEUqdJY6wJoRm14qcWdmq3xjfhJXw8dFhW3xuZwWISXUcqyrkNNoQ==
-X-Google-Smtp-Source: AGHT+IEbCKVIytotFiw/S98pMAUHUpO5m1BQr4muXIsWjbovYNwc/sq5NLE4mvzdInjV597D8/ogJQ==
-X-Received: by 2002:a05:622a:181d:b0:437:a10c:3794 with SMTP id d75a77b69052e-43dbed1595fmr2832521cf.18.1715099229229;
-        Tue, 07 May 2024 09:27:09 -0700 (PDT)
+        bh=XvJOy5lJ/u6e9yHF9m7H/WFxuEXKyxfgmG432+rwWPs=;
+        b=XxRE+I/TVdkqbZ70usqG6oIolpD7Sj1GI79dpPrxojndgCxNE+f3K4rMKKp8kAloPI
+         xre8gfimtXQ3UyvB9XzsGI1YzMX9GjUk2eo3Tjjy5/K1mJV8rdIWoM/2LXzeFkJmrtD4
+         JnmiYRf9UYJ8zhJolP5zKBVR8EUE66AeQ9nY0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715099231; x=1715704031;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XvJOy5lJ/u6e9yHF9m7H/WFxuEXKyxfgmG432+rwWPs=;
+        b=C5zETEPcGqB8qBn/0QfyC/ftM4+Zs0nNcqsLCwnMTXVlcr/0XpkXlIX8gNpJa+EKlO
+         iwxVBFC4dBco4aItfN73weUVYmiozXBQPdmBJCLBlY0HJq6k6D5ZS6t0QY8MfBsVeBnM
+         q5XVNBjR7nokzJyLDQCREe6Lb3UuNMjROl46dEP906bATzSwlwmDiGEe4It/JJiPAYnT
+         tzFL5biKBiBmFHwrmFy5efFPRMnmQXNvFt3jHOGaVn1y0NLDFvqE64006i1z4SWV9/Zh
+         lErXXkFCcrRPNMmgVhjizuz73G3dmGpRKKnIaAOn6ECvXiXKsHxQTRrzEpcZGQ4DYtim
+         L6og==
+X-Gm-Message-State: AOJu0YymY1UclLh0IjSd7rZn4pjMGThTDXeSpqLyx3FXvF1/IHfNUfC2
+	pxZHUWfJCY9CgLWWv5NVQVicOYQ7/9Gf3XuJM5Axcrr6iRx7B49facSp+9qyxg==
+X-Google-Smtp-Source: AGHT+IH7wfmDbfR6Z2qEtq3pMk9IgeemDK1hAb5WzD+t2OuchV1RCwEJOdhdz0vPw5QCvormiuhN7g==
+X-Received: by 2002:ac8:5882:0:b0:437:c024:73f3 with SMTP id d75a77b69052e-43dbef87227mr2207121cf.44.1715099230572;
+        Tue, 07 May 2024 09:27:10 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id hf23-20020a05622a609700b0043d1fc9b7d9sm4160597qtb.48.2024.05.07.09.27.08
+        by smtp.gmail.com with ESMTPSA id hf23-20020a05622a609700b0043d1fc9b7d9sm4160597qtb.48.2024.05.07.09.27.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 09:27:08 -0700 (PDT)
+        Tue, 07 May 2024 09:27:09 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2 00/18] media: Fix the last set of coccinelle warnings
-Date: Tue, 07 May 2024 16:27:05 +0000
-Message-Id: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+Date: Tue, 07 May 2024 16:27:06 +0000
+Subject: [PATCH v2 01/18] media: allegro: nal-hevc: Refactor
+ nal_hevc_sub_layer_hrd_parameters
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,9 +75,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFlWOmYC/3WNQQ6CMBBFr0Jmbc20qYKuuIdh0ZQpTCLUTJVAS
- O9uZe/yveS/v0MiYUpwr3YQWjhxnAuYUwV+dPNAivvCYNBYvGCtfPSeVXjS6kTcpm6uwdo1pLE
- hKKuXUOD1KD66wiOnd5TtOFj0z/5vLVqhss4a7Y0OPV5bP0qc+DOdowzQ5Zy/W0KKRLEAAAA=
+Message-Id: <20240507-cocci-flexarray-v2-1-7aea262cf065@chromium.org>
+References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+In-Reply-To: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
 To: Michael Tretter <m.tretter@pengutronix.de>, 
  Pengutronix Kernel Team <kernel@pengutronix.de>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -92,59 +94,84 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-With this set we are done with all the cocci warning/errors.
+Replace all the single elements arrays with the element itself.
+
+Pahole shows the same padding and alignment for x86 and arm in both
+situations.
+
+This fixes this cocci warning:
+drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Changes in v2:
-- Fix build error in ppc for siano
-- Link to v1: https://lore.kernel.org/r/20240507-cocci-flexarray-v1-0-4a421c21fd06@chromium.org
+ drivers/media/platform/allegro-dvt/allegro-core.c |  6 +++---
+ drivers/media/platform/allegro-dvt/nal-hevc.c     | 11 +++--------
+ drivers/media/platform/allegro-dvt/nal-hevc.h     |  6 +++---
+ 3 files changed, 9 insertions(+), 14 deletions(-)
 
----
-Ricardo Ribalda (18):
-      media: allegro: nal-hevc: Refactor nal_hevc_sub_layer_hrd_parameters
-      media: xilinx: Refactor struct xvip_dma
-      media: dvb-frontend/mxl5xx: Refactor struct MBIN_FILE_T
-      media: dvb-frontend/mxl5xx: Use flex array for MBIN_SEGMENT_T
-      media: pci: cx18: Use flex arrays for struct cx18_scb
-      media: siano: Refactor struct sms_msg_data
-      media: siano: Remove unused structures
-      media: siano: Use flex arrays for sms_firmware
-      media: venus: Remove unused structs
-      media: venus: Use flex array for hfi_session_release_buffer_pkt
-      media: venus: Refactor struct hfi_uncompressed_plane_info
-      media: venus: Refactor struct hfi_session_get_property_pkt
-      media: venus: Refactor struct hfi_uncompressed_format_supported
-      media: venus: Refactor hfi_session_empty_buffer_uncompressed_plane0_pkt
-      media: venus: Refactor hfi_session_empty_buffer_compressed_pkt
-      media: venus: Refactor hfi_sys_get_property_pkt
-      media: venus: Refactor hfi_session_fill_buffer_pkt
-      media: venus: Refactor hfi_buffer_alloc_mode_supported
+diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+index da61f9beb6b4..369bd88cc0ae 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-core.c
++++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+@@ -1852,14 +1852,14 @@ static ssize_t allegro_hevc_write_sps(struct allegro_channel *channel,
+ 	hrd->dpb_output_delay_length_minus1 = 30;
+ 
+ 	hrd->bit_rate_scale = ffs(channel->bitrate_peak) - 6;
+-	hrd->vcl_hrd[0].bit_rate_value_minus1[0] =
++	hrd->vcl_hrd[0].bit_rate_value_minus1 =
+ 		(channel->bitrate_peak >> (6 + hrd->bit_rate_scale)) - 1;
+ 
+ 	cpb_size = v4l2_ctrl_g_ctrl(channel->mpeg_video_cpb_size) * 1000;
+ 	hrd->cpb_size_scale = ffs(cpb_size) - 4;
+-	hrd->vcl_hrd[0].cpb_size_value_minus1[0] = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
++	hrd->vcl_hrd[0].cpb_size_value_minus1 = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
+ 
+-	hrd->vcl_hrd[0].cbr_flag[0] = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
++	hrd->vcl_hrd[0].cbr_flag = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+ 
+ 	size = nal_hevc_write_sps(&dev->plat_dev->dev, dest, n, sps);
+ 
+diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/nal-hevc.c
+index 9cdf2756e0a3..575089522df5 100644
+--- a/drivers/media/platform/allegro-dvt/nal-hevc.c
++++ b/drivers/media/platform/allegro-dvt/nal-hevc.c
+@@ -210,14 +210,9 @@ static void nal_hevc_rbsp_vps(struct rbsp *rbsp, struct nal_hevc_vps *vps)
+ static void nal_hevc_rbsp_sub_layer_hrd_parameters(struct rbsp *rbsp,
+ 						   struct nal_hevc_sub_layer_hrd_parameters *hrd)
+ {
+-	unsigned int i;
+-	unsigned int cpb_cnt = 1;
+-
+-	for (i = 0; i < cpb_cnt; i++) {
+-		rbsp_uev(rbsp, &hrd->bit_rate_value_minus1[i]);
+-		rbsp_uev(rbsp, &hrd->cpb_size_value_minus1[i]);
+-		rbsp_bit(rbsp, &hrd->cbr_flag[i]);
+-	}
++	rbsp_uev(rbsp, &hrd->bit_rate_value_minus1);
++	rbsp_uev(rbsp, &hrd->cpb_size_value_minus1);
++	rbsp_bit(rbsp, &hrd->cbr_flag);
+ }
+ 
+ static void nal_hevc_rbsp_hrd_parameters(struct rbsp *rbsp,
+diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h b/drivers/media/platform/allegro-dvt/nal-hevc.h
+index eb46f12aae80..afa7a9d7d654 100644
+--- a/drivers/media/platform/allegro-dvt/nal-hevc.h
++++ b/drivers/media/platform/allegro-dvt/nal-hevc.h
+@@ -97,9 +97,9 @@ struct nal_hevc_vps {
+ };
+ 
+ struct nal_hevc_sub_layer_hrd_parameters {
+-	unsigned int bit_rate_value_minus1[1];
+-	unsigned int cpb_size_value_minus1[1];
+-	unsigned int cbr_flag[1];
++	unsigned int bit_rate_value_minus1;
++	unsigned int cpb_size_value_minus1;
++	unsigned int cbr_flag;
+ };
+ 
+ struct nal_hevc_hrd_parameters {
 
- drivers/media/common/siano/smscoreapi.c           | 10 ++---
- drivers/media/common/siano/smscoreapi.h           | 18 +--------
- drivers/media/common/siano/smsdvb-main.c          |  4 +-
- drivers/media/common/siano/smsendian.c            |  8 ++--
- drivers/media/dvb-frontends/mxl5xx.c              |  2 +-
- drivers/media/dvb-frontends/mxl5xx_defs.h         |  4 +-
- drivers/media/pci/cx18/cx18-scb.h                 |  2 +-
- drivers/media/platform/allegro-dvt/allegro-core.c |  6 +--
- drivers/media/platform/allegro-dvt/nal-hevc.c     | 11 ++----
- drivers/media/platform/allegro-dvt/nal-hevc.h     |  6 +--
- drivers/media/platform/qcom/venus/hfi_cmds.c      | 16 ++++----
- drivers/media/platform/qcom/venus/hfi_cmds.h      | 46 +++++------------------
- drivers/media/platform/qcom/venus/hfi_helper.h    | 45 ++--------------------
- drivers/media/platform/qcom/venus/hfi_parser.c    |  2 +-
- drivers/media/platform/qcom/venus/hfi_venus.c     |  2 +-
- drivers/media/platform/xilinx/xilinx-dma.c        |  4 +-
- drivers/media/platform/xilinx/xilinx-dma.h        |  2 +-
- 17 files changed, 53 insertions(+), 135 deletions(-)
----
-base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
-change-id: 20240507-cocci-flexarray-9a807a8e108e
-
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.45.0.rc1.225.g2a3ae87e7f-goog
 
 
