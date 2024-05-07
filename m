@@ -1,205 +1,139 @@
-Return-Path: <linux-media+bounces-11108-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11109-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685CC8BEDF5
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 22:19:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B24888BEE86
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 23:03:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF4051F21828
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 20:19:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D71501C20C75
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 21:03:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FFF6187343;
-	Tue,  7 May 2024 20:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nv2J1IvM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F8473194;
+	Tue,  7 May 2024 21:03:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76057187326;
-	Tue,  7 May 2024 20:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F375823F
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 21:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715113170; cv=none; b=nmb339VsB4jkpkWKV+fxqhVZHbXQPEGs8RXMKkUdAQ+zX7x0pvrkGbZxIc5U9IaGpKd19yPueb1lUFxELjuJK+Kkg1fpMe4O1SPQmm0o37hfMEMFtUuLiKGApnv4N3deUU+srFCuzsPcA4Hy1dy9YYEdaNH3DV9Z/WzxOUZXtm0=
+	t=1715115804; cv=none; b=dzwMUgId4nohFciGzSlFwDDyq0JJqUPMTSwm8HnwPhqe9yOLGny7djx1XszLwPBQ62HTKAc3N61UNccJ2qX2RIIxa6aHJxOU0F1l4EmH1DXy4dVeCBZT0pW/C1ewo5rY5bVlZmY6a1E5FFhO1gQXpQktbIw9Bb3WHtPjriGwJeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715113170; c=relaxed/simple;
-	bh=7VcWNQALsFe86OTtMTrHEkMm3JW99PlcgO+5WvkqT58=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mFCXVvKPAgWFWMuS9tFe8UkdOkiYU6PljOk3ogum2A1SwSP+KIvnnXwnGZdgHZgYyWyXY0azCmg8J2nxmxJDHY0snBuDfX4V7vQKQJDkM5BNr3M6EjqrnNH1B0hr8NgX87wvaaYKDdEQycZIqasOs35sbAVTWfHjQZNhTVTK9R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nv2J1IvM; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-43ae9962c17so10773481cf.3;
-        Tue, 07 May 2024 13:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715113168; x=1715717968; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=es6kOeqxgl2y45OhjVGBF/iXix85aXMFVxnvsRCztrQ=;
-        b=Nv2J1IvMVYqxajjiL1jyR5xAqOD3eXj2jeoJwK5f+a5GJjr0Mew+A3Xj0rOvhxLuNF
-         VItGJSLcyvmooQtD+QKmjnR2Koo+Lz9fLly7MkZK68pJFhs2sCDFU5T45Wy3N/xZdGWu
-         4eEha6ctGANnYNH9yNjC7/1X3m1r9p2fGS76rHxOrdHlaPuH+gf8WWFRFmkX6VBEIJCv
-         dWyTvQFG4sZ1spOvkaoYz7F4/A+0bfN7FqOF1DGqzezUQ8RbXdxAjGzeZXv+Pwu5XBHL
-         U6RYcp2UjeY9V2eneuA9xxKk7rRZC4N89ElM9oErzArXmGVUqa8dv3T1uOSgqAsgs2Oc
-         HCRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715113168; x=1715717968;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=es6kOeqxgl2y45OhjVGBF/iXix85aXMFVxnvsRCztrQ=;
-        b=uSUsFX3I+yOPT6/F+XflofDLtprjAPjsNUnQBPQ/maXmx8tab/Ydq2BVc2W/aFmk4Y
-         WZMXRjTEUm2Ic4JPfuXv4W1qqnjW9M0PmMxSMZi09C+mYxXYQE2JsfB3u3To4OH3RyUW
-         vhvA6VkxmT0vBzRTxDZR9fvvUHlpsac8+kwJTSGwQt0xK0EkZJU4R7Es5+KvQtz/Q4RZ
-         4IGSeaG7aQNivvM+2Hn812kDhSjZMJ+hpY+O6oeAyv036dy6vv6eQnq8nqAJLaVvILJj
-         gQ/LMGZVz4SKbUihuOfiofDqf7QBnU8J5O7H7gXOr0pweD5SXSY6Yls+ZyYzM9QOvg2v
-         8B3g==
-X-Forwarded-Encrypted: i=1; AJvYcCX/qFbdHnOM0YCHpyOqcvssOCN/2JNidFSAASj3SrfxxRYKIOjwlmAvOgUd2eb5nxghZu0JuHg+RzPPPXhoczG0+iYFFcuLw5BamSJLSs4yvmVbTD1vfFk9KcIJkn5sQ4F9r0jL4L34QtM=
-X-Gm-Message-State: AOJu0YzyXQotqP0MuHtPyZKUkmLj0CTPLsrh40zfsnTDM1G0RCF7k5Qe
-	m9gDGCUuc/Xry1MWTNbBIBVahKnahyb+AYGUmuki03BdIDmQLjak+9F5nTAYPNde4WKxhcxO4sH
-	DsWI9m8LuQaOdjOMSoHw4UQDRL/w=
-X-Google-Smtp-Source: AGHT+IGjQYEmujwDqITllarXLP0VSc4Xwa06HzUYmRdr1deTa3vLo/f8zZvGJuZm3wydGhy1EMQyC+TW2MVkAkeMlMU=
-X-Received: by 2002:a05:622a:2990:b0:43a:e248:12d3 with SMTP id
- d75a77b69052e-43dbec0da59mr11066911cf.14.1715113168226; Tue, 07 May 2024
- 13:19:28 -0700 (PDT)
+	s=arc-20240116; t=1715115804; c=relaxed/simple;
+	bh=3rX9T5lNLNXBgcO0+M3qrprf2vCsbTOm/nlDTBm/9Cg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=tYEYQaRd1S2eiy+pFfPKAmCKpfH7YXudr00xWlvvSXDPORUc9jQPQxhNa/11bX8uKRmafXClwT7BXz/2cGP7yAuKvfZ04mnTvArnaLCovvDhEIfdqifwa6vlt57eDT6tVzMtx5EccoljzwD/PseQ+uR/F1ESfJXCKlhJAyOAyc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-48-bRehh-PWPia-pmBo6oqoQQ-1; Tue, 07 May 2024 22:03:13 +0100
+X-MC-Unique: bRehh-PWPia-pmBo6oqoQQ-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 7 May
+ 2024 22:02:42 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Tue, 7 May 2024 22:02:42 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christian Brauner' <brauner@kernel.org>, Linus Torvalds
+	<torvalds@linux-foundation.org>
+CC: Al Viro <viro@zeniv.linux.org.uk>, "keescook@chromium.org"
+	<keescook@chromium.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>, "jack@suse.cz"
+	<jack@suse.cz>, "laura@labbott.name" <laura@labbott.name>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"minhquangbui99@gmail.com" <minhquangbui99@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com"
+	<syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+	"syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>
+Subject: RE: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Thread-Topic: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Thread-Index: AQHan5G+Cj1Mu87oOkmAjOj4WUTDELGMO/+w
+Date: Tue, 7 May 2024 21:02:41 +0000
+Message-ID: <052a735f433348b48a53b3d15183398a@AcuMS.aculab.com>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
+ <20240505-gelehnt-anfahren-8250b487da2c@brauner>
+ <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
+ <20240506-injizieren-administration-f5900157566a@brauner>
+In-Reply-To: <20240506-injizieren-administration-f5900157566a@brauner>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com> <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
- <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com> <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
- <CABdmKX3Zu8LihAFjMuUHx4xzZoqgmY7OKdyVz-D26gM-LECn6A@mail.gmail.com>
- <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com> <83605228-92ee-b666-d894-1c145af2e5ab@quicinc.com>
- <CABdmKX2MWU9-9YN46PXx-Jy-O9CHMv8hCkvArd7BbWUBs=GPnw@mail.gmail.com>
- <8915fcc1-d8f1-48c2-9e51-65159aaa5a3b@amd.com> <ZjovD5WaWjknd-qv@phenom.ffwll.local>
- <44b08793-cf44-4cbd-a3bb-583af351ab9e@amd.com> <CABdmKX3SpOk4BQU6i31r8jHc1f-o8sz7rXgtRyhTQZ4GJYHH=Q@mail.gmail.com>
-In-Reply-To: <CABdmKX3SpOk4BQU6i31r8jHc1f-o8sz7rXgtRyhTQZ4GJYHH=Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 7 May 2024 13:19:15 -0700
-Message-ID: <CAF6AEGvZTc10nfjEZHWXXYa5AVSNQCOgXsY4H05fcsFkTsdzFg@mail.gmail.com>
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Charan Teja Kalla <quic_charante@quicinc.com>, zhiguojiang <justinjiang@vivo.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Tue, May 7, 2024 at 11:17=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Tue, May 7, 2024 at 7:04=E2=80=AFAM Christian K=C3=B6nig <christian.ko=
-enig@amd.com> wrote:
-> >
-> > Am 07.05.24 um 15:39 schrieb Daniel Vetter:
-> > > On Tue, May 07, 2024 at 12:10:07PM +0200, Christian K=C3=B6nig wrote:
-> > >> Am 06.05.24 um 21:04 schrieb T.J. Mercier:
-> > >>> On Mon, May 6, 2024 at 2:30=E2=80=AFAM Charan Teja Kalla
-> > >>> <quic_charante@quicinc.com> wrote:
-> > >>>> Hi TJ,
-> > >>>>
-> > >>>> Seems I have got answers from [1], where it is agreed upon epoll()=
- is
-> > >>>> the source of issue.
-> > >>>>
-> > >>>> Thanks a lot for the discussion.
-> > >>>>
-> > >>>> [1] https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@goog=
-le.com/
-> > >>>>
-> > >>>> Thanks
-> > >>>> Charan
-> > >>> Oh man, quite a set of threads on this over the weekend. Thanks for=
- the link.
-> > >> Yeah and it also has some interesting side conclusion: We should pro=
-bably
-> > >> tell people to stop using DMA-buf with epoll.
-> > >>
-> > >> The background is that the mutex approach epoll uses to make files d=
-isappear
-> > >> from the interest list on close results in the fact that each file c=
-an only
-> > >> be part of a single epoll at a time.
-> > >>
-> > >> Now since DMA-buf is build around the idea that we share the buffer
-> > >> representation as file between processes it means that only one proc=
-ess at a
-> > >> time can use epoll with each DMA-buf.
-> > >>
-> > >> So for example if a window manager uses epoll everything is fine. If=
- a
-> > >> client is using epoll everything is fine as well. But if *both* use =
-epoll at
-> > >> the same time it won't work.
-> > >>
-> > >> This can lead to rather funny and hard to debug combinations of fail=
-ures and
-> > >> I think we need to document this limitation and explicitly point it =
-out.
-> > > Ok, I tested this with a small C program, and you're mixing things up=
-.
-> > > Here's what I got
-> > >
-> > > - You cannot add a file twice to the same epoll file/fd. So that part=
- is
-> > >    correct, and also my understanding from reading the kernel code.
-> > >
-> > > - You can add the same file to two different epoll file instaces. Whi=
-ch
-> > >    means it's totally fine to use epoll on a dma_buf in different pro=
-cesses
-> > >    like both in the compositor and in clients.
-> >
-> > Ah! Than I misunderstood that comment in the discussion. Thanks for
-> > clarifying that.
-> >
-> > >
-> > > - Substantially more entertaining, you can nest epoll instances, and =
-e.g.
-> > >    add a 2nd epoll file as an event to the first one. That way you ca=
-n add
-> > >    the same file to both epoll fds, and so end up with the same file
-> > >    essentially being added twice to the top-level epoll file. So even
-> > >    within one application there's no real issue when e.g. different
-> > >    userspace drivers all want to use epoll on the same fd, because yo=
-u can
-> > >    just throw in another level of epoll and it's fine again and you w=
-on't
-> > >    get an EEXISTS on EPOLL_CTL_ADD.
-> > >
-> > >    But I also don't think we have this issue right now anywhere, sinc=
-e it's
-> > >    kinda a general epoll issue that happens with any duplicated file.
-> >
-> > I actually have been telling people to (ab)use the epoll behavior to
-> > check if two file descriptors point to the same underlying file when
-> > KCMP isn't available.
-> >
-> > Some environments (Android?) disable KCMP because they see it as
-> > security problem.
-> >
-> Didn't know about this so I checked. Our kernel has CONFIG_KCMP, but
-> seccomp does look like it's blocking kcmp for apps.
-> https://cs.android.com/android/platform/superproject/main/+/main:bionic/l=
-ibc/SYSCALLS.TXT
+RnJvbTogQ2hyaXN0aWFuIEJyYXVuZXINCj4gU2VudDogMDYgTWF5IDIwMjQgMDk6NDUNCj4gDQo+
+ID4gVGhlIGZhY3QgaXMsIGl0J3Mgbm90IGRtYS1idWYgdGhhdCBpcyB2aW9sYXRpbmcgYW55IHJ1
+bGVzLiBJdCdzIGVwb2xsLg0KPiANCj4gSSBhZ3JlZSB0aGF0IGVwb2xsKCkgbm90IHRha2luZyBh
+IHJlZmVyZW5jZSBvbiB0aGUgZmlsZSBpcyBhdCBsZWFzdA0KPiB1bmV4cGVjdGVkIGFuZCBjb250
+cmFkaWN0cyB0aGUgdXN1YWwgY29kZSBwYXR0ZXJucyBmb3IgdGhlIHNha2Ugb2YNCj4gcGVyZm9y
+bWFuY2UgYW5kIHRoYXQgaXQgdmVyeSBsaWtlbHkgaXMgdGhlIGNhc2UgdGhhdCBtb3N0IGNhbGxl
+cnMgb2YNCj4gZl9vcC0+cG9sbCgpIGRvbid0IGtub3cgdGhpcy4NCj4gDQo+IE5vdGUsIEkgY2xl
+YXJ5IHdyb3RlIHVwdGhyZWFkIHRoYXQgSSdtIG9rIHRvIGRvIGl0IGxpa2UgeW91IHN1Z2dlc3Rl
+ZA0KPiBidXQgcmFpc2VkIHR3byBjb25jZXJucyBhKSB0aGVyZSdzIGN1cnJlbnRseSBvbmx5IG9u
+ZSBpbnN0YW5jZSBvZg0KPiBwcm9sb25nZWQgQGZpbGUgbGlmZXRpbWUgaW4gZl9vcC0+cG9sbCgp
+IGFmYWljdCBhbmQgYikgdGhhdCB0aGVyZSdzDQo+IHBvc3NpYmx5IGdvaW5nIHRvIGJlIHNvbWUg
+cGVyZm9ybWFuY2UgaW1wYWN0IG9uIGVwb2xsKCkuDQo+IA0KPiBTbyBpdCdzIGF0IGxlYXN0IHdv
+cnRoIGRpc2N1c3Npbmcgd2hhdCdzIG1vcmUgaW1wb3J0YW50IGJlY2F1c2UgZXBvbGwoKQ0KPiBp
+cyB2ZXJ5IHdpZGVseSB1c2VkIGFuZCBpdCdzIG5vdCB0aGF0IHdlIGhhdmVuJ3QgZmF2b3JlZCBw
+ZXJmb3JtYW5jZQ0KPiBiZWZvcmUuDQo+IA0KPiBCdXQgeW91J3ZlIGFscmVhZHkgc2FpZCB0aGF0
+IHlvdSBhcmVuJ3QgY29uY2VybmVkIHdpdGggcGVyZm9ybWFuY2Ugb24NCj4gZXBvbGwoKSB1cHRo
+cmVhZC4gU28gYWZhaWN0IHRoZW4gdGhlcmUncyByZWFsbHkgbm90IGEgbG90IG1vcmUgdG8NCj4g
+ZGlzY3VzcyBvdGhlciB0aGFuIHRha2UgdGhlIHBhdGNoIGFuZCBzZWUgd2hldGhlciB3ZSBnZXQg
+YW55IGNvbXBsYWludHMuDQoNClN1cmVseSB0aGVyZSBpc24ndCBhIHByb2JsZW0gd2l0aCBlcG9s
+bCBob2xkaW5nIGEgcmVmZXJlbmNlIHRvIHRoZSBmaWxlDQpzdHJ1Y3R1cmUgLSBpdCBpc24ndCBy
+ZWFsbHkgYW55IGRpZmZlcmVudCB0byBhIGR1cCgpLg0KDQonQWxsJyB0aGF0IG5lZWRzIHRvIGhh
+cHBlbiBpcyB0aGF0IHRoZSAnbWFnaWMnIHRoYXQgbWFrZXMgZXBvbGwoKSByZW1vdmUNCmZpbGVz
+IG9uIHRoZSBsYXN0IGZwdXQgaGFwcGVuIHdoZW4gdGhlIGNsb3NlIGlzIGRvbmUuDQpJJ20gc3Vy
+ZSB0aGVyZSBhcmUgaG9ycmlkIGxvY2tpbmcgaXNzdWVzIGl0IHRoYXQgY29kZSAoc2VwYXJhdGUg
+ZnJvbQ0KaXQgY2FsbGluZyAtPnBvbGwoKSBhZnRlciAtPnJlbGVhc2UoKSkgZWcgaWYgeW91IGNh
+bGwgY2xvc2UoKSBjb25jdXJyZW50bHkNCndpdGggRVBPTExfQ1RMX0FERC4NCg0KSSdtIG5vdCBh
+dCBhbGwgc3VyZSBpdCB3b3VsZCBoYXZlIG1hdHRlcmVkIGlmIGVwb2xsIGtlcHQgdGhlIGZpbGUg
+b3Blbi4NCkJ1dCBpdCBjYW4ndCBkbyB0aGF0IGJlY2F1c2UgaXQgaXMgZG9jdW1lbnRlZCBub3Qg
+dG8uDQpBcyB3ZWxsIGFzIHBvbGwvc2VsZWN0IGhvbGRpbmcgYSByZWZlcmVuY2UgdG8gYWxsIHRo
+ZWlyIGZkIGZvciB0aGUgZHVyYXRpb24NCm9mIHRoZSBzeXN0ZW0gY2FsbCwgYSBzdWNjZXNzZnVs
+IG1tYXAoKSBob2xkcyBhIHJlZmVyZW5jZSB1bnRpbCB0aGUgcGFnZXMNCmFyZSBhbGwgdW5tYXBw
+ZWQgLSB1c3VhbGx5IGJ5IHByb2Nlc3MgZXhpdC4NCg0KV2UgKGRheWpvYikgaGF2ZSBjb2RlIHRo
+YXQgdXNlcyBlcG9sbCgpIHRvIG1vbml0b3IgbGFyZ2UgbnVtYmVycyBvZiBVRFANCnNvY2tldHMu
+IEkgd2FzIGRvaW5nIHNvbWUgdGVzdHMgKHRyeWluZyB0bykgcmVjZWl2ZSBSVFAgKGF1ZGlvKSBk
+YXRhDQpjb25jdXJyZW50bHkgb24gMTAwMDAgc29ja2V0cyB3aXRoIHR5cGljYWxseSBvbmUgcGFj
+a2V0IGV2ZXJ5IDIwbXMuDQpUaGVyZSBhcmUgMTAwMDAgYXNzb2NpYXRlZCBSQ1RQIHNvY2tldHMg
+dGhhdCBhcmUgdXN1YWxseSBpZGxlLg0KQSBtb3JlIG5vcm1hbCBsaW1pdCB3b3VsZCBiZSAxMDAw
+IFJUUCBzb2NrZXRzLg0KQWxsIHRoZSBkYXRhIG5lZWRzIHRvIGdvIGludG8gYSBzaW5nbGUgKG11
+bHRpdGhyZWFkZWQpIHByb2Nlc3MuDQpKdXN0IGdldHRpbmcgYWxsIHRoZSBwYWNrZXRzIHF1ZXVl
+ZCBvbiB0aGUgc29ja2V0cyB3YXMgbm9uLXRyaXZpYWwuDQplcG9sbCBpcyBhYm91dCB0aGUgb25s
+eSB3YXkgdG8gYWN0dWFsbHkgcmVhZCB0aGUgZGF0YS4NCihUaGF0IG5lZWRlZCBtdWx0aXBsZSBl
+cG9sbCBmZCBzbyBlYWNoIHRocmVhZCBjb3VsZCBwcm9jZXNzIGFsbA0KdGhlIGV2ZW50cyBmcm9t
+IG9uZSBlcG9sbCBmZCB0aGVuIGxvb2sgZm9yIGFub3RoZXIgdW5wcm9jZXNzZWQgZmQuKQ0KDQoJ
+RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-Getting a bit off the original topic, but fwiw this is what CrOS did
-for CONFIG_KCMP:
-
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/=
-3501193
-
-Ie. allow the kcmp syscall, but block type =3D=3D KCMP_SYSVSEM, which was
-the more specific thing that android wanted to block.
-
-BR,
--R
 
