@@ -1,174 +1,188 @@
-Return-Path: <linux-media+bounces-11035-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11036-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1E48BE481
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 15:43:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E59E8BE4D2
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 15:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 427CE288BE3
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 13:43:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 614FC1C219DE
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 13:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2CA915F414;
-	Tue,  7 May 2024 13:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8C2A15F3E1;
+	Tue,  7 May 2024 13:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="jdduwpQ+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jzavlGvx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139DD15E217
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 13:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD8E15E1E6;
+	Tue,  7 May 2024 13:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715089174; cv=none; b=fj+nRIvmvNiCNjN4emqhO2/PfkVf52sLSC69aII+/ObdixnvMKmQHTn91KlRhSdEXPthgghm5etmkQdhgDiEpZ9vm+bDdDVjhV4YJGNfL0wjXAykd72BOUL293tpwtR8LI1CKT0TlvHJjyE7sNzkY1kDJI1A8D0SN2QoWw7l3lM=
+	t=1715089929; cv=none; b=CzsIASrA1Q7TEq/ZEx1PioFyLJgWR7/e77NudfxTKd8zmmH3B0Vr7uH1Xa4sfFirUEc3ldEJkkB/8CYzzVWZnM0efYw2rAH1pHlKBl7H//ZKZnB7vMt95ug66/Da72brwraLqidftR1aQ+vlZdEWV2i0aXPvutkifiIumqDbiXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715089174; c=relaxed/simple;
-	bh=wtfbGydj7hoFOdn1oKPiMmXA1U1DIaBi6ccHNQcK9Hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HuhWXh1XkIZKArFU39SMyLWpFFTtUyaqHhgxsNDnaUi+Bryr+ekEVAJkiYPcujgOgnb3r6WSzRz99Gwq8GPPG2cYoavApBAvbhz0pT0R65D9SqUjto/1bHVeW5Dl3iODHrUt1iNWd4MuDsRPYBjd3g4Z9ZVLHA+iRqokM7U7grc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=jdduwpQ+; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-34cba0d9a3eso240481f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 06:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1715089170; x=1715693970; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/ueNO6VgphQOXA5uS4/0Wfhc/WsOURk1MmZZT9vU18=;
-        b=jdduwpQ+GlEAIKH6qKFRFaWkStoC37BzPkJjkOo8yrOKJgBlw+/vmuS+llpPPI+r5K
-         IWh/Bi0AZqGvXC2dGcxJqCdME1VG2ffqaDHrZmBj2uzx7eGQkQHImo+l4IaNsVx/O5q+
-         3+uwuZFuJXVbJK7nmLl8CsaAQeT/SZ97VP5j0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715089170; x=1715693970;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M/ueNO6VgphQOXA5uS4/0Wfhc/WsOURk1MmZZT9vU18=;
-        b=H1hSRKEgCmrs/2ZsLDEsMWx9BP/XqfqfCP7aQutyCpXzCAK7nQ3TcMpikxgSK/sp5n
-         cq/62FxrveKNIk76eNnvaaVHNngG1lXE1Hzady9Nkl0YOHEhVJb5g7p3oUwMkeQ2pBeL
-         tBT4BQWcjJxU4u2g8yhBCn2CUOB8BMDI8BCXqYnZsj+k5vnF51JnSuD7dnPdukW+nHY3
-         /8AnQTwOWZp/XVQ/vQomK0k8UWEiAC/NW4eHvgB5C/vy9ldTF+2dTTBy8dXoww+Wk70v
-         uwG6VFCWOr7GYnZacriCa379zJxIc1XuvcIO3A2CF68ISGxHYLIvYrXitqA1BPmnwYBX
-         8A2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWOUZZbNwiWbgWsis/3cYv1oZqUH5723rdYDIWeUdOUIpiMNMViMg2b8JkQkpg+wpsi3gHXqfhJOZqhg2msp21/CdIuLgxtwRw/pjM=
-X-Gm-Message-State: AOJu0YylTa8eDibV5XdhuLO6d1AfNWIymrxDHP56V/JWXusf+Bk4eDSC
-	scbizigut5fPnHBMj0uXM/m0aWtS5xmTKVl09LaN7Sl+a36n/zlDrUND28vZBpY=
-X-Google-Smtp-Source: AGHT+IFFkAJxLxOoCG8nFFCsSuXqv/YiZ7tcMHz5O7ctQR4tHzkmXOo+SmkFGR5DkNaIUKepBhk//Q==
-X-Received: by 2002:a05:600c:5118:b0:418:9941:ca28 with SMTP id o24-20020a05600c511800b004189941ca28mr9213068wms.2.1715089170283;
-        Tue, 07 May 2024 06:39:30 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h18-20020a056000001200b0034c78001f6asm12974839wrx.109.2024.05.07.06.39.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 06:39:29 -0700 (PDT)
-Date: Tue, 7 May 2024 15:39:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>,
-	Charan Teja Kalla <quic_charante@quicinc.com>,
-	zhiguojiang <justinjiang@vivo.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-Message-ID: <ZjovD5WaWjknd-qv@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Charan Teja Kalla <quic_charante@quicinc.com>,
-	zhiguojiang <justinjiang@vivo.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
- <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
- <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
- <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
- <CABdmKX3Zu8LihAFjMuUHx4xzZoqgmY7OKdyVz-D26gM-LECn6A@mail.gmail.com>
- <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com>
- <83605228-92ee-b666-d894-1c145af2e5ab@quicinc.com>
- <CABdmKX2MWU9-9YN46PXx-Jy-O9CHMv8hCkvArd7BbWUBs=GPnw@mail.gmail.com>
- <8915fcc1-d8f1-48c2-9e51-65159aaa5a3b@amd.com>
+	s=arc-20240116; t=1715089929; c=relaxed/simple;
+	bh=1viqNXMtyS8ANOoHlnhSLYHsZNS1uTC/6gJNg0lRhBY=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=CEs4yW4XwUnCEYZJjSh6YoFWc/G3fyTeHJMTmglnLBInwZcy4ufHpEnk8Zen/IMgyIi7h6/rIyQ4BKeHTzSNWqsvXV0EhWO1wwTM6enQFTa7Rgn5wKF7DtwQSFAgfbuneEFkZHxduY1JYnyuAgm25w3o9Zd64wByyNkuGr2GzvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jzavlGvx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C494C1153;
+	Tue,  7 May 2024 15:52:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715089922;
+	bh=1viqNXMtyS8ANOoHlnhSLYHsZNS1uTC/6gJNg0lRhBY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=jzavlGvx4lh1DiBGck4sP2l6Dl3jQl2f20ewoIx8jtVaNFhhD/qYEl8sSXIGYprqg
+	 lN65xlh4Iufamd1eii+xNsHD+jVqGZSy7FA2f7nDarzg8jeY63JU+Cl6EJmZPl2fS7
+	 Lo+7JRg3jqvh+D5woQAsh6WWsKOt18JqAL+RYN6E=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8915fcc1-d8f1-48c2-9e51-65159aaa5a3b@amd.com>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: renesas: vsp1: Fix _irqsave and _irq mix
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-renesas-soc@vger.kernel.org
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-media@vger.kernel.org
+Date: Tue, 07 May 2024 14:52:02 +0100
+Message-ID: <171508992219.1857112.13838063056229211868@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Tue, May 07, 2024 at 12:10:07PM +0200, Christian König wrote:
-> Am 06.05.24 um 21:04 schrieb T.J. Mercier:
-> > On Mon, May 6, 2024 at 2:30 AM Charan Teja Kalla
-> > <quic_charante@quicinc.com> wrote:
-> > > Hi TJ,
-> > > 
-> > > Seems I have got answers from [1], where it is agreed upon epoll() is
-> > > the source of issue.
-> > > 
-> > > Thanks a lot for the discussion.
-> > > 
-> > > [1] https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
-> > > 
-> > > Thanks
-> > > Charan
-> > Oh man, quite a set of threads on this over the weekend. Thanks for the link.
-> 
-> Yeah and it also has some interesting side conclusion: We should probably
-> tell people to stop using DMA-buf with epoll.
-> 
-> The background is that the mutex approach epoll uses to make files disappear
-> from the interest list on close results in the fact that each file can only
-> be part of a single epoll at a time.
-> 
-> Now since DMA-buf is build around the idea that we share the buffer
-> representation as file between processes it means that only one process at a
-> time can use epoll with each DMA-buf.
-> 
-> So for example if a window manager uses epoll everything is fine. If a
-> client is using epoll everything is fine as well. But if *both* use epoll at
-> the same time it won't work.
-> 
-> This can lead to rather funny and hard to debug combinations of failures and
-> I think we need to document this limitation and explicitly point it out.
+Quoting Laurent Pinchart (2024-05-05 18:45:44)
+> The histogram support mixes _irqsave and _irq, causing the following
+> smatch warning:
+>=20
+>      drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_stre=
+aming()
+>      warn: mixing irqsave and irq
+>=20
+> The histo_stop_streaming() calls spin_lock_irqsave() followed by
+> wait_event_lock_irq(). The former hints that interrupts may be disabled
+> by the caller, while the latter reenables interrupts unconditionally.
+> This doesn't cause any real bug, as the function is always called with
+> interrupts enabled, but the pattern is still in correct.
+>=20
+> Fix the problem by using spin_lock_irq() instead of spin_lock_irqsave()
+> in histo_stop_streaming(). While at it, switch to spin_lock_irq() and
+> spin_lock() as appropriate elsewhere.
 
-Ok, I tested this with a small C program, and you're mixing things up.
-Here's what I got
 
-- You cannot add a file twice to the same epoll file/fd. So that part is
-  correct, and also my understanding from reading the kernel code.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-- You can add the same file to two different epoll file instaces. Which
-  means it's totally fine to use epoll on a dma_buf in different processes
-  like both in the compositor and in clients.
-
-- Substantially more entertaining, you can nest epoll instances, and e.g.
-  add a 2nd epoll file as an event to the first one. That way you can add
-  the same file to both epoll fds, and so end up with the same file
-  essentially being added twice to the top-level epoll file. So even
-  within one application there's no real issue when e.g. different
-  userspace drivers all want to use epoll on the same fd, because you can
-  just throw in another level of epoll and it's fine again and you won't
-  get an EEXISTS on EPOLL_CTL_ADD.
-
-  But I also don't think we have this issue right now anywhere, since it's
-  kinda a general epoll issue that happens with any duplicated file.
-
-So I don't think there's any reasons to recommend against using epoll on
-dma-buf fd (or sync_file or drm_syncobj or any of the sharing primitives
-we have really).
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Fixes: 99362e32332b ("[media] v4l: vsp1: Add histogram support")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/linux-renesas-soc/164d74ff-312c-468f-be64=
+-afa7182cd2f4@moroto.mountain/
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 ++++++++-----------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/m=
+edia/platform/renesas/vsp1/vsp1_histo.c
+> index 71155282ca11..cd1c8778662e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> @@ -36,9 +36,8 @@ struct vsp1_histogram_buffer *
+>  vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
+>  {
+>         struct vsp1_histogram_buffer *buf =3D NULL;
+> -       unsigned long flags;
+> =20
+> -       spin_lock_irqsave(&histo->irqlock, flags);
+> +       spin_lock(&histo->irqlock);
+> =20
+>         if (list_empty(&histo->irqqueue))
+>                 goto done;
+> @@ -49,7 +48,7 @@ vsp1_histogram_buffer_get(struct vsp1_histogram *histo)
+>         histo->readout =3D true;
+> =20
+>  done:
+> -       spin_unlock_irqrestore(&histo->irqlock, flags);
+> +       spin_unlock(&histo->irqlock);
+>         return buf;
+>  }
+> =20
+> @@ -58,7 +57,6 @@ void vsp1_histogram_buffer_complete(struct vsp1_histogr=
+am *histo,
+>                                     size_t size)
+>  {
+>         struct vsp1_pipeline *pipe =3D histo->entity.pipe;
+> -       unsigned long flags;
+> =20
+>         /*
+>          * The pipeline pointer is guaranteed to be valid as this functio=
+n is
+> @@ -70,10 +68,10 @@ void vsp1_histogram_buffer_complete(struct vsp1_histo=
+gram *histo,
+>         vb2_set_plane_payload(&buf->buf.vb2_buf, 0, size);
+>         vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
+> =20
+> -       spin_lock_irqsave(&histo->irqlock, flags);
+> +       spin_lock(&histo->irqlock);
+>         histo->readout =3D false;
+>         wake_up(&histo->wait_queue);
+> -       spin_unlock_irqrestore(&histo->irqlock, flags);
+> +       spin_unlock(&histo->irqlock);
+>  }
+> =20
+>  /* ---------------------------------------------------------------------=
+--------
+> @@ -124,11 +122,10 @@ static void histo_buffer_queue(struct vb2_buffer *v=
+b)
+>         struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+>         struct vsp1_histogram *histo =3D vb2_get_drv_priv(vb->vb2_queue);
+>         struct vsp1_histogram_buffer *buf =3D to_vsp1_histogram_buffer(vb=
+uf);
+> -       unsigned long flags;
+> =20
+> -       spin_lock_irqsave(&histo->irqlock, flags);
+> +       spin_lock_irq(&histo->irqlock);
+>         list_add_tail(&buf->queue, &histo->irqqueue);
+> -       spin_unlock_irqrestore(&histo->irqlock, flags);
+> +       spin_unlock_irq(&histo->irqlock);
+>  }
+> =20
+>  static int histo_start_streaming(struct vb2_queue *vq, unsigned int coun=
+t)
+> @@ -140,9 +137,8 @@ static void histo_stop_streaming(struct vb2_queue *vq)
+>  {
+>         struct vsp1_histogram *histo =3D vb2_get_drv_priv(vq);
+>         struct vsp1_histogram_buffer *buffer;
+> -       unsigned long flags;
+> =20
+> -       spin_lock_irqsave(&histo->irqlock, flags);
+> +       spin_lock_irq(&histo->irqlock);
+> =20
+>         /* Remove all buffers from the IRQ queue. */
+>         list_for_each_entry(buffer, &histo->irqqueue, queue)
+> @@ -152,7 +148,7 @@ static void histo_stop_streaming(struct vb2_queue *vq)
+>         /* Wait for the buffer being read out (if any) to complete. */
+>         wait_event_lock_irq(histo->wait_queue, !histo->readout, histo->ir=
+qlock);
+> =20
+> -       spin_unlock_irqrestore(&histo->irqlock, flags);
+> +       spin_unlock_irq(&histo->irqlock);
+>  }
+> =20
+>  static const struct vb2_ops histo_video_queue_qops =3D {
+>=20
+> base-commit: e695668af8523b059127dfa8b261c76e7c9cde10
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
 
