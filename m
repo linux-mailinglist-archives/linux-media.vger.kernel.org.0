@@ -1,128 +1,156 @@
-Return-Path: <linux-media+bounces-11027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11033-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B878BE3FE
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 15:29:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95C38BE45C
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 15:40:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F77028716E
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 13:29:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2110F1F27D5A
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 13:40:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D295D17BB36;
-	Tue,  7 May 2024 13:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BFCD16D309;
+	Tue,  7 May 2024 13:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="garPljce"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U/ZtlBcD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB32816F85B
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 13:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC5916C86A
+	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 13:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715087929; cv=none; b=XNvetHaIi3aGKIEfbVi6NU2I+GXWCvXtJsGydQpB9AC+cC47DuELFlGKRSgQ3mTCrLH1u0At4YLvrqmByqra9fEyRpGKudHBO0OYLXz8UQ5CLFjfIAQ25512gDSjEHVbzgA3CSx26znWwi32ynQkaODp/2aSnASPJd3E7/UMn5Y=
+	t=1715088744; cv=none; b=XrQp5kARtDJr53ntJ10gjW71cuv+BBjHWmNty0YyGAwLSRLO0uCEi3VDE5L9BIcIPaarfUs9L+1qyWuv6/bhOnXfePQvggUXgMpOGbFZyeDTeYXN1DTegpoVa2mgbNF3Fh+7v5g4YlkpLjcc24xgM/3x+1cv0sYzEV75q3OJ4wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715087929; c=relaxed/simple;
-	bh=xx+wxFNs3ZuqK7Hxds/mLdbM5HIFghI8UQG5DaBamLQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DAqMtgQYVK3RuQsml70ZmOQbHYT/HK0ox8OJfWF5kLFVmVrEZ978QxoDAXXxc3ozwBX46wd2H+CW9i5dbwWotiiDJPEqyLU1ftzaK1S/HROMIOvl5vNyqPOln6ozQfLa9QLDsLT8VTT3xWwdT9gKAj2+9vX0STacxtZjVSPIuWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=garPljce; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7928c5be3deso250384385a.0
-        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 06:18:47 -0700 (PDT)
+	s=arc-20240116; t=1715088744; c=relaxed/simple;
+	bh=UJlF2bhHHChbK6u5/+NFiBJBntvOiOhalI3jj92AG7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHTXWCL+5pki6YHQPmyHFEa5K9Vs7rl8szIXJ3CCfL3ToTRdJb1OFfTO45179+v1o1RWWih/pabrB7vjXG+sjz4Wjs+t086rGKOv95MTroaiTcH1H0fo1qQky8igVt6DTuz2k3aJWithadr8ODOfTYRq4+SnbL/CMCMhiL8OHaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U/ZtlBcD; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e3e18c240fso11508011fa.0
+        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 06:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715087926; x=1715692726; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=24yjDTHuOCF+C8SbX9O7bVVIA87jnk99ezK2b/3Gma4=;
-        b=garPljcecjdkN6g8mvA+SMMfsdgqxokHgqjgJwXYDnh+7+6pxUpSAk0DUlD95uevNs
-         TCt/3xTog5KdLlcGfUR/zheJUzVyYhjYmnE6SQaQP9+qsMZI+sQILhIXBVQG+OLCt7+I
-         RnDymbMwEyyBe148rcabRZCSHfxiCz58EKJPk=
+        d=linaro.org; s=google; t=1715088741; x=1715693541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=huJibqJN85r8uyZHaWnhr5W8KxIdUNVSaNrUGy1RNcA=;
+        b=U/ZtlBcDMKQwr+oxdoDKvKuQAfz/338KvF5K7MizbQYLET5G6KLOA2qNQXC/1nGyHR
+         GxZ8UzFM9KzoJOB+Qbr3FEYqi28C5l7cERzs1z3jK2UPT0S9xViJDXogz3+8QcdUJFyM
+         tRzXsjFVD5qb/ixF3Kt9LMKzgb9fyBP8vEco50tLty34vKexEM2TzXeku81NX/I0zEHZ
+         yZjCab5cvE8kBXj/sBEAtHr2pSV9dMhqb8EzxP0D3PJFtv/TUPBGQ4yt90xFd5IK3O3U
+         cDgYZKpj6FfSxeY5Binj66HBJG2tAki/0oKtZyC87ITvr0u27wBkyBTDeWfnPTAhg+z0
+         mVwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715087926; x=1715692726;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=24yjDTHuOCF+C8SbX9O7bVVIA87jnk99ezK2b/3Gma4=;
-        b=kazxyLSWG0oYPeselmCl6Ebu4cac0x7SDYddgu0O525h8NgcC3VpnwN9rLi+ZdXZN4
-         ePTAMBaATN2+ZdJN4r7l7mGhhGKJZHYVO0qcumWWPtrEymeGeNfGSQJudg1sb4XlN0oz
-         /e+2GHB2ZciKnddWtUznTz1BuDPRgVm57CsmqnlGGtXq4DD5P7ZfNaMZ8F+LvoVd/XP6
-         75apYsofuTTXiAHhK+PHfEpbmHjd6nMuTmIJpJ1jisW6DYHjCYvBQodY5E2skIlMffNK
-         1W7OdFMpwNRvN2qGB/+Bpgy1+0e3zBSwRFq4hGXpqbYFoZZiWg3G6jPbtUHsJEfMF7Vl
-         1rEw==
-X-Gm-Message-State: AOJu0YzEc0ySmua4m/n5bEtZ3Rg3T/DBpPdpTtchWdmvj4//G83WeoAZ
-	Krk/VKr5a2Gq7vbfSzQQ08aTrtV4SnikEz7RevDRCCu4i7DNcTcD3Gu2rKPzJw==
-X-Google-Smtp-Source: AGHT+IE6WEUHWsRpAsJ5BK3gENbuRTlCVd8egHvgiFgdym5FLM6gUWkr0leru0COMDpv6wPoQvFI8w==
-X-Received: by 2002:a05:6214:d6a:b0:6a0:c903:7243 with SMTP id 10-20020a0562140d6a00b006a0c9037243mr17142784qvs.55.1715087926638;
-        Tue, 07 May 2024 06:18:46 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id t15-20020a05621405cf00b006a0d19c3139sm4655105qvz.118.2024.05.07.06.18.46
+        d=1e100.net; s=20230601; t=1715088741; x=1715693541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=huJibqJN85r8uyZHaWnhr5W8KxIdUNVSaNrUGy1RNcA=;
+        b=jvlPuWP7vpULPmnrxmYszDpG2RVCeAMtVJLF2rKt5x4h+BVpMYfa+Nx/WCIjwupsyd
+         FBYAifpcB4ympljRtJHc9Me5lSiAyKInd69CXAUPY0xN9k80AkrF3pRZu1wGyAhBxbAi
+         j9NaGwmeUzF3tuJfmeIYfqsOnAjs4olfeswCZLQCZwJidddf+tZFglsGt5h4OHfGB5j/
+         ilNX8MZACUX19X+LiTRam41iCzeFeEotQ/hzeRu/+8Nd5GgrtFhVKKKD66S1lb5pnh23
+         OPb/3cUFHg7MHmOqICFTyiwS3COi7pJbJM27uaN7c+eIeM9Y6GUJqfipdlu+kXuxVs1p
+         wKhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVpoT0ARh4XUXN92+beifmSOSrMxCosKwm0LqwWg1S58JPJpom6pHGvEWDnK/+i98TNHIbdC+gTMbn4K3X7QgxlkMM220f7hkg67no=
+X-Gm-Message-State: AOJu0YzY/74/gWLrTA8e3V4PZrsKkq1yIBJH4B7/iesi/40J0Yz5/1aX
+	uobG17Qqtc7HC2YtF2SEUP7ghpE7gUF6ZaRuHTbpJghY5MxCwYBktKgdheRlqD0=
+X-Google-Smtp-Source: AGHT+IGD/JeQgTpquE7MLFJE26/XO1UVjUN5TKpuK/IVcoLAzeSx3fB3SA/M1rPKsXsUuic7yU+dKQ==
+X-Received: by 2002:a05:651c:20a:b0:2df:dea1:5378 with SMTP id y10-20020a05651c020a00b002dfdea15378mr10307465ljn.16.1715088740904;
+        Tue, 07 May 2024 06:32:20 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+        by smtp.gmail.com with ESMTPSA id i6-20020a2ea366000000b002e2b229d8d5sm1403183ljn.83.2024.05.07.06.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 06:18:46 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 07 May 2024 13:18:44 +0000
-Subject: [PATCH 18/18] media: venus: Refactor
- hfi_buffer_alloc_mode_supported
+        Tue, 07 May 2024 06:32:20 -0700 (PDT)
+Date: Tue, 7 May 2024 16:32:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Lennart Poettering <mzxreary@0pointer.de>, 
+	Robert Mader <robert.mader@collabora.com>, Sebastien Bacher <sebastien.bacher@canonical.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>, 
+	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240507-cocci-flexarray-v1-18-4a421c21fd06@chromium.org>
-References: <20240507-cocci-flexarray-v1-0-4a421c21fd06@chromium.org>
-In-Reply-To: <20240507-cocci-flexarray-v1-0-4a421c21fd06@chromium.org>
-To: Michael Tretter <m.tretter@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>, Andy Walls <awalls@md.metrocast.net>, 
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
 
-Replace the old style single element array at the end of the struct with
-a flex array.
+On Mon, May 06, 2024 at 01:49:17PM +0200, Hans de Goede wrote:
+> Hi dma-buf maintainers, et.al.,
+> 
+> Various people have been working on making complex/MIPI cameras work OOTB
+> with mainline Linux kernels and an opensource userspace stack.
+> 
+> The generic solution adds a software ISP (for Debayering and 3A) to
+> libcamera. Libcamera's API guarantees that buffers handed to applications
+> using it are dma-bufs so that these can be passed to e.g. a video encoder.
+> 
+> In order to meet this API guarantee the libcamera software ISP allocates
+> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+> the Fedora COPR repo for the PoC of this:
+> https://hansdegoede.dreamwidth.org/28153.html
 
-The code does not allocate this structure, so the size change should not
-be a problem.
+Is there any reason for allocating DMA buffers for libcamera through
+/dev/dma_heap/ rather than allocating them via corresponding media
+device and then giving them away to DRM / VPU / etc?
 
-This fixes the following cocci warning:
-drivers/media/platform/qcom/venus/hfi_helper.h:1233:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+At least this should solve the permission usecase: if the app can open
+camera device, it can allocate a buffer.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/platform/qcom/venus/hfi_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index dee439ea4d2e..9545c964a428 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -1230,7 +1230,7 @@ struct hfi_interlace_format_supported {
- struct hfi_buffer_alloc_mode_supported {
- 	u32 buffer_type;
- 	u32 num_entries;
--	u32 data[1];
-+	u32 data[];
- };
- 
- struct hfi_metadata_pass_through {
+> I have added a simple udev rule to give physically present users access
+> to the dma_heap-s:
+> 
+> KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
+> 
+> (and on Rasperry Pi devices any users in the video group get access)
+> 
+> This was just a quick fix for the PoC. Now that we are ready to move out
+> of the PoC phase and start actually integrating this into distributions
+> the question becomes if this is an acceptable solution; or if we need some
+> other way to deal with this ?
+> 
+> Specifically the question is if this will have any negative security
+> implications? I can certainly see this being used to do some sort of
+> denial of service attack on the system (1). This is especially true for
+> the cma heap which generally speaking is a limited resource.
+> 
+> But devices tagged for uaccess are only opened up to users who are 
+> physcially present behind the machine and those can just hit
+> the powerbutton, so I don't believe that any *on purpose* DOS is part of
+> the thread model. Any accidental DOS would be a userspace stack bug.
+> 
+> Do you foresee any other negative security implications from allowing
+> physically present non root users to create (u)dma-bufs ?
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 1) There are some limits in drivers/dma-buf/udmabuf.c and distributions
+> could narrow these.
+> 
+> 
 
 -- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
-
+With best wishes
+Dmitry
 
