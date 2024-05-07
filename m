@@ -1,148 +1,128 @@
-Return-Path: <linux-media+bounces-10975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-10969-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52708BDEF4
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 11:52:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3E28BDCF9
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 10:12:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B649281F9F
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 09:52:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BB48B219C0
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 08:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1929F14D714;
-	Tue,  7 May 2024 09:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B71A13C910;
+	Tue,  7 May 2024 08:11:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="QD7wbqQE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJbTFCeX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m127102.qiye.163.com (mail-m127102.qiye.163.com [115.236.127.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D25C4F894;
-	Tue,  7 May 2024 09:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224DB13C808;
+	Tue,  7 May 2024 08:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715075419; cv=none; b=MxKgRwFrOD/Ze9XSPTsjnkJvhGfxSr19l3KDsTYNAJUGKX/dKpvWeqN9Df7hs4iaBRN2qOBi6gm7tt+Eiv38Mb58hw+AL8nPl8OE2Pd1OMqgVXs+K5bqd9rroD5qv2RQgclYLe1YW83hgeghQJptP2TThwrb5D0cFwugnS697cw=
+	t=1715069491; cv=none; b=IUyqazdWZ0Si9YMb0XITifVDMI4LcJzUktXyDP9Ox2MRApL4Bg+Ldy6J0M5tV04LniuY5h9syKvTrzqxF9t7QwzCL5jQ/my0JQnw9+qebvIhRNux0dUjbdnjppF7jnVlNKwE6ABLSOgYU/HQnkJws4vg66YGqay1glY7A996G14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715075419; c=relaxed/simple;
-	bh=ik7otHDJmq2Tk97tlY36+mTtqzuQS3rBj0pENGE7aBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PJCsjIKQqE27y3Iu847eLjKy+iumqt1TEoBRkvwJL4tWFp6AC9QGPLsqhDFZRhxBrTGvNFtQpbJYlY5F9ImiCbc3GjvHFlqrHxDK7UhX8T0bb7LI/3ESZDWBZlxFWKhQNCcNoOvYBI3YZ5CVytHK1qDZkf1I1EcORo77PlhHlgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=QD7wbqQE; arc=none smtp.client-ip=115.236.127.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-DKIM-Signature: a=rsa-sha256;
-	b=QD7wbqQEud+fYkWN/Q7FNR38iFCkbtRNXWfbUQA1u9rbZv3g9C98+Wzdl3+GV215VkPYS6py3dmniAu6pIJctsBM81fUogbc5cjAt7i1ME65s2FeYSU/Ufljs3Vjd/rMOc+TwXoH+7cXFdwVG3Q8lZEcWSVgCH7IfjHZ4AFko/c=;
-	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=HAJvQdLYmyL3qiXfsvwfss35CTvFlv7T9/m66zcsIFU=;
-	h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id B408A8401F9;
-	Tue,  7 May 2024 09:32:16 +0800 (CST)
-Message-ID: <d1f29354-c187-46b9-a167-7a54762ecfa0@rock-chips.com>
-Date: Tue, 7 May 2024 09:32:16 +0800
+	s=arc-20240116; t=1715069491; c=relaxed/simple;
+	bh=uma4ShckrABuf9MAliQQWYRx5NoqTx28b4HzRVSFuJE=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=qoGz5mXgFVpi0I28ozUud4X1jnU72BczktjHEgxDTvcfO5FzQpc7udLOjHK3T7KnH3xiB2H4WOLle5mOHPuzBGUziM8DNE1Av3LKyvcSzE/+WMN9YLXFRhDiQlvuKzk1ZQYy1osIV5q7MolFJfB/JoBxBtlPgSk3cL3LgIdp5h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NJbTFCeX; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-518931f8d23so2773458e87.3;
+        Tue, 07 May 2024 01:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715069488; x=1715674288; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4HsiX+8mOqfVlwa1GKvO6P2/nQCW9Ffe/NVggRPUcEE=;
+        b=NJbTFCeXUX9r8PEYJyUC2HUsKQf2SqhwuErZfZqsUCa6aMdWHZ801KmHzX9xsVUDZv
+         iQk91O6jUuhaCHAceCDUeKU7n5CVHGq3imZFhL+kuS/NRBlV/CFmYbiW7tcdvMEXIAqv
+         /gqYxCTC4TBBt53RPQ36xsO6NxnZDtrrnGV1LFChvjJe7D3kPckLAp/olI70a4757XFs
+         bfxAiZ6od0YPdKbGe+OgaVXWqBryPJrXcg4JvBsIU5r7NBWFTF4iwQuyC+p+Ab0+EUGK
+         VnfBgZ2rphu/THFcSzfAzmXvM9Dmj4rSFukPEiGJ4RVFWh5/Gyl4Wbx0zvpTc/MxIaeK
+         XfzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715069488; x=1715674288;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4HsiX+8mOqfVlwa1GKvO6P2/nQCW9Ffe/NVggRPUcEE=;
+        b=eKmoiGtMydJvEz2LWmPeyUhs9+viJbzhHrUDC1ZFiJS5Uexm5guMwApF5N1cmoM3nP
+         HmC0r4PCg10Lsvz3CIEe1+R2MttwjJIB0GG9jkRabQvaAN5B0+Nl3xdlgu7hE+qzDMtT
+         z1MfQmmNEjkOgb7z0tn+YHE1CQLvHB4ai1B2g4ps6+RsYZvO0S9suBIwPO6nFpBHkXt6
+         +QOAbFzSKgU+7RLU2FXZ/7jm5rUuQdbtEj3Ts6UZe75aa3zdg98SeAslBRczhsIjkMu4
+         gNQpLzPv355xyL6GsCQi4bAtnehFpsQRFA9eOclsq1wkNpgVLwifWwmJBQasPBHMeFJH
+         VwSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXMk2Z1rtOkjT2+uYGKWdDMD5yZ7uH3xm9sp9uREYqkAHyaPKKy9h/Lres0DDKs90e3/zoOp85Dgmqwnpx1IAxFpf4NmkOKRLI7FWsfhrxIpOQTrGr46TJZsG0bDQpqfipOAOZi4ndfinVR/msgPA==
+X-Gm-Message-State: AOJu0YxYQnyPTyj9Mkp5Uua+MBzQFlxMqBYYwBK23dkZ6WY5UwS6pfpN
+	tP4HsSu36JqYdYpC4E5p82DLFeaMwjmfKuqzNf4pF6rduYJsW3I4IJt7Bw==
+X-Google-Smtp-Source: AGHT+IG+luarxA+5V5k6jUquzNRm+OSczXzuDL2LwrJwdrTuUCv0EsK84+7PjPqrtqLHmHnFRd9b/Q==
+X-Received: by 2002:a05:6512:7c:b0:51b:223f:ac47 with SMTP id i28-20020a056512007c00b0051b223fac47mr8025424lfo.41.1715069487662;
+        Tue, 07 May 2024 01:11:27 -0700 (PDT)
+Received: from [192.168.1.105] ([31.173.80.156])
+        by smtp.gmail.com with ESMTPSA id y6-20020a0565123f0600b0051e16048adesm1983975lfa.48.2024.05.07.01.11.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 May 2024 01:11:27 -0700 (PDT)
+Subject: Re: [PATCH] media: renesas: vsp1: Fix _irqsave and _irq mix
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+References: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <8b532593-1e06-2378-280c-47951ad51453@gmail.com>
+Date: Tue, 7 May 2024 11:11:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
- <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
- <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
- <20240506-eccentric-wren-of-peace-819aad@houat>
+In-Reply-To: <20240505174544.18359-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUpDQ1ZPGkJITk1NTB1OSxlVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
-	tLWQY+
-X-HM-Tid: 0a8f50ae181203a4kunmb408a8401f9
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pxg6GSo6MTMDCBVKDi8yNTQW
-	OC8KFE9VSlVKTEpOS09OTkhDSU9MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
-	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
 
-Hi Maxime,
+On 5/5/24 8:45 PM, Laurent Pinchart wrote:
 
-On 5/6/24 15:59, Maxime Ripard wrote:
-> Hi Andy,
+> The histogram support mixes _irqsave and _irq, causing the following
+> smatch warning:
 > 
-> Thanks a lot for giving it a try
+>      drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming()
+>      warn: mixing irqsave and irq
 > 
-> All the issues you raised in your review are fixed.
+> The histo_stop_streaming() calls spin_lock_irqsave() followed by
+> wait_event_lock_irq(). The former hints that interrupts may be disabled
+> by the caller, while the latter reenables interrupts unconditionally.
+> This doesn't cause any real bug, as the function is always called with
+> interrupts enabled, but the pattern is still in correct.
+
+   Incorrect? :-)
+
+> Fix the problem by using spin_lock_irq() instead of spin_lock_irqsave()
+> in histo_stop_streaming(). While at it, switch to spin_lock_irq() and
+> spin_lock() as appropriate elsewhere.
 > 
-> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
->> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
->> the following error:
->> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
->> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
->> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
->> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
->> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
->> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
->> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
->> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
->> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
->> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
->> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
->> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
->> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
->> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
->> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
->> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
->> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
->> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
+> Fixes: 99362e32332b ("[media] v4l: vsp1: Add histogram support")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/linux-renesas-soc/164d74ff-312c-468f-be64-afa7182cd2f4@moroto.mountain/
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 20 ++++++++-----------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
 > 
-> Which kind of display are you testing with? The only reason it could do
-> so is if the display claim it doesn't support RGB in its EDID which is
-> contradicting the HDMI spec. Are you using an Analog display by any
-> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
-> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> index 71155282ca11..cd1c8778662e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+[...]
 
-It is because there is something wrong(I still don't know why) with the DDC on my board.
-It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
-will return 0.
-
-and in function
-
-drm_helper_probe_single_connector_modes:
-
-         count = drm_helper_probe_get_modes(connector);
-
-         if (count == 0 && (connector->status == connector_status_connected ||
-                            connector->status == connector_status_unknown)) {
-                 count = drm_add_modes_noedid(connector, 1024, 768);
-
-                 /*
-                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-                  * Link CTS specifies that 640x480 (the official "failsafe"
-                  * mode) needs to be the default if there's no EDID.
-                  */
-                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-                         drm_set_preferred_mode(connector, 640, 480);
-         }
-drm_add_modes_noedid will not initialize display_info.
-
-> Maxime
+MBR, Sergey
 
