@@ -1,311 +1,184 @@
-Return-Path: <linux-media+bounces-11057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7998BE805
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 17:58:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C7C8BE852
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 18:08:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11825283170
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 15:58:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BDDD28E989
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2024 16:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB8CC16E866;
-	Tue,  7 May 2024 15:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EF516EC18;
+	Tue,  7 May 2024 16:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TCru0/+z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y846Owug"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF316DEBA
-	for <linux-media@vger.kernel.org>; Tue,  7 May 2024 15:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C670616E89D;
+	Tue,  7 May 2024 16:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097335; cv=none; b=hD04+5wHmEagl74fsTMsYOz4y6bPM76z2AsA2HVk4ZkL1HmX6noecjVQg64+kuHffto9UyHcP05EW9ZntDU7TLy4U8th1SnH9zzwqzc/Flsmi4/u9Ur6dZCfttKjLf5zrX2DIk5caDuGiWUo4yNzN6pX5PzuTkV+kkIY80OINhs=
+	t=1715097910; cv=none; b=Iew4z9Z0ZTY6Sd2OAJlJD9L9iOhQGdUDzbXORXvjZ1CInd53MmCJA3D8uv7SefnCqwnJwNbs5375QlgB1PkLbYbXrmZv8PupQGMJfzUeBrIPRWEQAvxBUMnPnlbmrF9lPkCECfxXVpeWbS0y0FshXyShgLy6gRfmZpJsbcaklGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715097335; c=relaxed/simple;
-	bh=xEcmnpU369b9UbodcK91onG3cerNjrz47wYsAWXpcjY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=j2FUIrolTXlK5Bc0YEizzlh/51AvFt/FOiShVXjZrGCoN1gbaKFG+M4o+3P+kahhGrpyEUqwRv3ygw7Net3i//r0pUbD+gSDAhJiTV/TwnKQI9Mc1IwYMNWBP6EwAWMZ2q9F31FMJhbyspkTe4kk+uIKjPNkQ34u3mb871SHhrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TCru0/+z; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--panikiel.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-346c08df987so1911734f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 07 May 2024 08:55:32 -0700 (PDT)
+	s=arc-20240116; t=1715097910; c=relaxed/simple;
+	bh=sA2umYUzVqo4sIQG3H0UoFRjYkGw+DSiOpJ4aIgmcyA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gk71p9ab2kB5O6oCIe62kGbuKYL55eKR9Mdj+PXqTfGtzfBy7WqVE00MVaFXofaJrvF7Gnt5S7xUrEL1EJo2buMdDmpecGOI4BZMztNF0oUTtSYtKAddZzvw4Qyf/dkA1PTt4fQp8g2vbq5GgJuv2kKbKR4x4luTnUJpvfYJsAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y846Owug; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so37140121fa.3;
+        Tue, 07 May 2024 09:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715097331; x=1715702131; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yXS5VajCSTK3v9W31Qq62RjCeYKSVh+QNoTBnWyhQpY=;
-        b=TCru0/+zfMSwxfaRLWWqqR0tBPyg8Bmbp/xShKtsNC+/V162ZANaPl4FiCTGKMwP/l
-         HXojihqTJRRFVnn1FODroSWJ5D820PblbnWbU1TftvArRauNb5JwJjhuzYhZijZUS/Ld
-         oq70M9btdblBMTPVY3Zal2V8U/IX+GNW55HEylbtgALbapEXTo6xROdY2cp7MJZP/YSd
-         H0jrhUY/ven0B5C6R4iyVUryTvNBEUVx56Q6sn/+w1kqO1lcX01fgq7AOnTv/sObT3nb
-         Wb+l0HhRtHzToNety7yjabu5hwshv4BC2zg+dFitCKMhJk2oNOO7/sr7N93z0uwlzXgT
-         t/jA==
+        d=gmail.com; s=20230601; t=1715097907; x=1715702707; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PSQgqNCjfPNhMe7ojJ0nUJfRe4KU5PbZ7UhYGgtrTLA=;
+        b=Y846Owug7hdoFWqIK7Z9zcq2lfrc0oVzS/k38PJ95hQaZKFmt6oBRhJhFaJ+V9e25M
+         XRLDf6Mp6GoJvxmPYlZWRSCLcE+O5xmtHzJ5MRdDm5dK2WrEDq4nwpJmUdimoUNh5Zek
+         oFv9eurtzT4Dau/7gLz9cuwSK4tvjRAlJsgO9/SR2BM8bOld4S+zsEjFCoC7uSTnqHf1
+         gXrUumK3ED8mBnEDsv2WswtmmSCJZVTEqEw4G7AJWbOulLuEAqi8XY/Wc4tI4VlovWPf
+         kkwVzW26ZoWZi55JwvmZTMJSDu9wGcu0505BTs5zF9QpivvFZv/l/tDx1xZn5EfHsrnw
+         bGCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715097331; x=1715702131;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yXS5VajCSTK3v9W31Qq62RjCeYKSVh+QNoTBnWyhQpY=;
-        b=Zg76PYIjGfamw+lJKGBK/H2NKXQZZgKA0bCOD1+FynScCcM+mvYhgYaevFIa1UoJjQ
-         RX8G19G3Ad86YaVOeeh38b5uFnpJX3SAzvoYEbDDyyz/IFGjfTZGLgWeHKwUq7Q8m26j
-         u6kwLklUjyZ7Jf3NVOYfxigISGnyUnu0lJ8Mm9FzU+bYP3O8vVjdwPBJwAUXMc5e6C8I
-         icPGpt6wC7jGZcXshrDYD55G6FdcPE2h9iW+dBetAbOQRVfFiq0gF18WLLlMNavC7tgJ
-         /mDEUgj1gyjT/bfYMUQKXidnT4u744Uc37JQMCG4k/7Eja0RGIdPWW3K2/NMTqN9A7jl
-         DCBg==
-X-Forwarded-Encrypted: i=1; AJvYcCV+EdWHV18mQYd30Y0gInG9CQ+F0lawYaHlgb4Pz9CBwdVKqxhBNotmpbmptqNvc16ycC2Sc+M7bzd3xW2BDPWJivU+ZnIBiQ/sHEo=
-X-Gm-Message-State: AOJu0Yx09xZ/bOUGv9bHIz+4cshGkatb5845BKJ6UKg0SwZ2mDGnw7E1
-	8Mu+yu60jbmqvp7KoMwG3eollZLlSGU+E6CCTj/JN+sdMCTSxrXAO5f2x6HdQC84XFUuXql8IAJ
-	tPQy+qUqqnQ==
-X-Google-Smtp-Source: AGHT+IEOC3rOHQV8YVJAKI1i9P3AoSJkILWdGHZJdDgg4sdQ1vQUA5cL0b88ZoFM3DAb5X37SFDTdxDsbHrrgA==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:6000:912:b0:34d:71ca:82fb with SMTP
- id ffacd0b85a97d-34f81747f25mr7345f8f.2.1715097331600; Tue, 07 May 2024
- 08:55:31 -0700 (PDT)
-Date: Tue,  7 May 2024 15:54:13 +0000
-In-Reply-To: <20240507155413.266057-1-panikiel@google.com>
+        d=1e100.net; s=20230601; t=1715097907; x=1715702707;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PSQgqNCjfPNhMe7ojJ0nUJfRe4KU5PbZ7UhYGgtrTLA=;
+        b=u3LuwZV+xaTGkgxcnK/3fYCgYd6CGB/jiYq+Xy2o9J0mwFIwUVXvjrCLqIl4goLBi8
+         ZOn1p6gzEgcHaC1M9tN9sk0jTfVe0VzLqVT4MgZMSWVUcxRQZ4Bbu8sd63a+nmvicTyC
+         zzOvusEoQzK1d84UggRVshRSns1tT4k70ifSaIHH5hI2tuzKJ2NzdUZsBSSfAcfJl8VU
+         vsUVmWClhTeD9pOyOpKz+VyIzMm6VlDfgB5J+xK1N6kHO6gH8E/Uedfy3etWsmng23U5
+         3KmTtzV0gXIKPOAUr3Xkp9JLK4xw+bzgha7wkMgwpy4397AkPFVIp29rzpWIx8/6F+UD
+         rG8A==
+X-Forwarded-Encrypted: i=1; AJvYcCU6QK/gxVO4+escKphijfZj/EyIQmt4OzSQwN0lh+ERswUiezQ+xnca8JCQOpZrh0ykuYDutlbRWtywPeDbG7WTI/eGCCDMlTtf4PRcDarlkeNvwQBMb+RImLC153pQhplZsb80GGYy65lseRSl0JYFgokvG1AVlLcpCoUDukEM1FySCBrCdLersfIF+ESfgWo9mJVkeHpGo+z/EeiPsmOs9afB60gp9D52Pz+0DBOINo2joYXftHIhtL3nLIbdJz0FmRAZVnL8TlZVF+98S1u6gSFDZ0y5Dbot+smApBI5gzHDEB0abgPjPfMPjKbVEKoQlSpncVBua5F6ZU1xM6O3A6jxBzA/OgPRlL6RQzE6URfsttm0ufZLbrbFwaSqmZ3p09EzepkyWE0W6sy9PM/SOJQt8vISGWLAfbyXl6tZTUFFLyHrEGw2ZPrTLoZsEjObIYAdRLcODf16VugSLzQ2KffoNkGqG/DCjGM+fg==
+X-Gm-Message-State: AOJu0YySpL3ndg5lii/8OAgDlS9rugtuRGtp0rA6KH8+g23Wn68JrH7P
+	QUzLkoPAmV/g3ClH7ecmy1NhccJhHVDWXFXIkAmkmS7Ypud+OG1kCAnoIliF
+X-Google-Smtp-Source: AGHT+IGNn8GJzZkbQWg++AR3CoLJpjM4EU80rGYnW6RmraNNFb9jJOD55eI48eU1CcAelZqaFIYOUA==
+X-Received: by 2002:a2e:bc13:0:b0:2da:9ed:9b43 with SMTP id 38308e7fff4ca-2e447085614mr353561fa.31.1715097906664;
+        Tue, 07 May 2024 09:05:06 -0700 (PDT)
+Received: from [192.168.42.69] ([85.255.235.91])
+        by smtp.gmail.com with ESMTPSA id bd13-20020a05600c1f0d00b0041c012ca327sm20235666wmb.45.2024.05.07.09.05.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 May 2024 09:05:05 -0700 (PDT)
+Message-ID: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+Date: Tue, 7 May 2024 17:05:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240507155413.266057-1-panikiel@google.com>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240507155413.266057-11-panikiel@google.com>
-Subject: [PATCH v3 10/10] ARM: dts: chameleonv3: Add video device nodes
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, robh+dt@kernel.org, 
-	tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, 
-	"=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>,
+ Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-3-almasrymina@google.com>
+ <ZjH1QaSSQ98mw158@infradead.org>
+ <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+ <ZjjHUh1eINPg1wkn@infradead.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <ZjjHUh1eINPg1wkn@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add device nodes for the video system present on the Chameleon v3.
-It consists of six video interfaces and two Intel DisplayPort receivers.
+On 5/6/24 13:04, Christoph Hellwig wrote:
+> On Fri, May 03, 2024 at 01:10:44PM -0700, Mina Almasry wrote:
+>> Is the concern still that folks may be able to hook proprietary stuff
+>> into this like you mentioned before[1]?
+> 
+> That is on concern.  The other is that people will do stupid stuff
 
-Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
----
- .../socfpga/socfpga_arria10_chameleonv3.dts   | 194 ++++++++++++++++++
- 1 file changed, 194 insertions(+)
+We're not now banning all virtual function tables because there is
+a chance someone might probably conceivably do perhaps something
+proprietary, aren't we? Let's just patch up all ways they might
+use it if there is any left.
 
-diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dt=
-s b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-index 422d00cd4c74..daafcc14e8cc 100644
---- a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-+++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
-@@ -10,6 +10,200 @@ / {
- 	compatible =3D "google,chameleon-v3", "enclustra,mercury-aa1",
- 		     "altr,socfpga-arria10", "altr,socfpga";
-=20
-+	soc {
-+		video0: video@c0060500 {
-+			compatible =3D "google,chv3-video-it-1.0";
-+			reg =3D <0xc0060500 0x100>,
-+			      <0xc0060f20 0x10>;
-+			interrupts =3D <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
-+		};
-+
-+		video_mst0: video@c0060600 {
-+			compatible =3D "google,chv3-video-dp-1.0";
-+			reg =3D <0xc0060600 0x100>,
-+			      <0xc0060f30 0x10>;
-+			interrupts =3D <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				video_mst0_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_0>;
-+				};
-+			};
-+		};
-+
-+		video_mst1: video@c0060700 {
-+			compatible =3D "google,chv3-video-dp-1.0";
-+			reg =3D <0xc0060700 0x100>,
-+			      <0xc0060f40 0x10>;
-+			interrupts =3D <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				video_mst1_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_1>;
-+				};
-+			};
-+		};
-+
-+		video_mst2: video@c0060800 {
-+			compatible =3D "google,chv3-video-dp-1.0";
-+			reg =3D <0xc0060800 0x100>,
-+			      <0xc0060f50 0x10>;
-+			interrupts =3D <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				video_mst2_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_2>;
-+				};
-+			};
-+		};
-+
-+		video_mst3: video@c0060900 {
-+			compatible =3D "google,chv3-video-dp-1.0";
-+			reg =3D <0xc0060900 0x100>,
-+			      <0xc0060f60 0x10>;
-+			interrupts =3D <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				video_mst3_0: endpoint {
-+					remote-endpoint =3D <&dprx_mst_3>;
-+				};
-+			};
-+		};
-+
-+		video_sst: video@c0060a00 {
-+			compatible =3D "google,chv3-video-dp-1.0";
-+			reg =3D <0xc0060a00 0x100>,
-+			      <0xc0060f70 0x10>;
-+			interrupts =3D <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			port {
-+				video_sst_0: endpoint {
-+					remote-endpoint =3D <&dprx_sst_0>;
-+				};
-+			};
-+		};
-+
-+		dprx_mst_irq: intc@c0060f80 {
-+			compatible =3D "altr,pio-1.0";
-+			reg =3D <0xc0060f80 0x10>;
-+			interrupts =3D <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-+			altr,interrupt-type =3D <IRQ_TYPE_EDGE_RISING>;
-+			#interrupt-cells =3D <2>;
-+			interrupt-controller;
-+		};
-+
-+		dprx_sst_irq: intc@c0060fe0 {
-+			compatible =3D "altr,pio-1.0";
-+			reg =3D <0xc0060fe0 0x10>;
-+			interrupts =3D <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-+			altr,interrupt-type =3D <IRQ_TYPE_EDGE_RISING>;
-+			#interrupt-cells =3D <2>;
-+			interrupt-controller;
-+		};
-+
-+		dprx_mst: dp-receiver@c0062000 {
-+			compatible =3D "intel,dprx-20.0.1";
-+			reg =3D <0xc0062000 0x800>;
-+			interrupt-parent =3D <&dprx_mst_irq>;
-+			interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-+
-+			ports {
-+				#address-cells =3D <1>;
-+				#size-cells =3D <0>;
-+
-+				port@0 {
-+					reg =3D <0>;
-+					dprx_mst_in: endpoint {
-+						remote-endpoint =3D <&dp_input_mst_0>;
-+						data-lanes =3D <0 1 2 3>;
-+						link-frequencies =3D /bits/ 64 <1620000000 2700000000
-+									      5400000000 8100000000>;
-+						multi-stream-support;
-+					};
-+				};
-+
-+				port@1 {
-+					reg =3D <1>;
-+					dprx_mst_0: endpoint {
-+						remote-endpoint =3D <&video_mst0_0>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg =3D <2>;
-+					dprx_mst_1: endpoint {
-+						remote-endpoint =3D <&video_mst1_0>;
-+					};
-+				};
-+
-+				port@3 {
-+					reg =3D <3>;
-+					dprx_mst_2: endpoint {
-+						remote-endpoint =3D <&video_mst2_0>;
-+					};
-+				};
-+
-+				port@4 {
-+					reg =3D <4>;
-+					dprx_mst_3: endpoint {
-+						remote-endpoint =3D <&video_mst3_0>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dprx_sst: dp-receiver@c0064000 {
-+			compatible =3D "intel,dprx-20.0.1";
-+			reg =3D <0xc0064000 0x800>;
-+			interrupt-parent =3D <&dprx_sst_irq>;
-+			interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-+
-+			ports {
-+				#address-cells =3D <1>;
-+				#size-cells =3D <0>;
-+
-+				port@0 {
-+					reg =3D <0>;
-+					dprx_sst_in: endpoint {
-+						remote-endpoint =3D <&dp_input_sst_0>;
-+						data-lanes =3D <0 1 2 3>;
-+						link-frequencies =3D /bits/ 64 <1620000000 2700000000
-+									      5400000000 8100000000>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg =3D <1>;
-+					dprx_sst_0: endpoint {
-+						remote-endpoint =3D <&video_sst_0>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+
-+	dp-input-mst {
-+		compatible =3D "dp-connector";
-+		type =3D "full-size";
-+
-+		port {
-+			dp_input_mst_0: endpoint {
-+				remote-endpoint =3D <&dprx_mst_in>;
-+			};
-+		};
-+	};
-+
-+	dp-input-sst {
-+		compatible =3D "dp-connector";
-+		type =3D "full-size";
-+
-+		port {
-+			dp_input_sst_0: endpoint {
-+				remote-endpoint =3D <&dprx_sst_in>;
-+			};
-+		};
-+	};
-+
- 	aliases {
- 		serial0 =3D &uart0;
- 		i2c0 =3D &i2c0;
---=20
-2.45.0.rc1.225.g2a3ae87e7f-goog
+> even in tree if you give them enough rope, and they should not have
+> that rope when the only sensible options are page/folio based kernel
+> memory (incuding large/huge folios) and dmabuf.
 
+I believe there is at least one deep confusion here, considering you
+previously mentioned Keith's pre-mapping patches. The "hooks" are not
+that about in what format you pass memory, it's arguably the least
+interesting part for page pool, more or less it'd circulate whatever
+is given. It's more of how to have a better control over buffer lifetime
+and implement a buffer pool passing data to users and empty buffers
+back.
+It's a different from storage where a user passes a buffer before it
+initiates a read, data is sent by the other socket end. TCP devmem
+uses dmabuf, io_uring keeps pages (of normal user memory).
+
+
+>> cp net/core/page_pool.c net/core/dmabuf_pool.c
+>>
+>> and then modify it such that the net stack maintains 2 page_pools?
+>> There are a lot of cons to that:
+> 
+> No.  Just have branches for page based vs dmabuf in a few places.
+> 
+
+-- 
+Pavel Begunkov
 
