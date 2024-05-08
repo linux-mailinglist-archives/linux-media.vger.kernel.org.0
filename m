@@ -1,104 +1,195 @@
-Return-Path: <linux-media+bounces-11133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D858BF901
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:48:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839668BF916
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:54:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18082817BA
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:47:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90F531C2097F
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C16E537E3;
-	Wed,  8 May 2024 08:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6DA8537E3;
+	Wed,  8 May 2024 08:54:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5073C3613C
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 08:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7BB3EA9C
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 08:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715158073; cv=none; b=obE34T7evC75Cvs1g3NSwBy4f/jd2P5El3jJ87i//blaK0Iz0ZYVecwN1rczKT0AymC1M+tXxcJ7TYeJHjSZOzxndmnn2lYmzV+DAuGyVAgfz2IxV1uxo9Hq4d6zTLYHcWaPgO6B56tr+zOAJriMX7TD7TU3NbgTmR7SYRJpbuY=
+	t=1715158445; cv=none; b=Qx7TuHjsjGJdvgjwunbrqUZRkN6qzWbr1l2Na8HrVAAUcKxV41Evj4mad0Eiye6xdzdYVmfKOUiOQFy26iVYA2ULc+dVEHpyPXsEeCAETFT5TgAvuBg51/2SrKTSYWrhEmYD4eoaDBK/of6sPT817Fezd6DL4FSr4WjPKeJ1qE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715158073; c=relaxed/simple;
-	bh=+k4fFRK3ntPuUO9itZTxjmTMtQDmF173NLmL5XtqYL4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=Vd1NihyqpsRG03vJ4fJPF02u7BY553io6Sfcl4lHly/tPSp+SVQ0/znVBIdmJPkXjI6TaqWw80I+76xNObGOA4hP3HyVLmtef06wfq4lkB30ZmWQuvRoWDgqpz94trbdfKAP5he1+zAYsA+O43rdP9mMcGalGI1UU71/z+nX4Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-29-05uJX4YSMKKtp074SKxZbg-1; Wed, 08 May 2024 09:47:43 +0100
-X-MC-Unique: 05uJX4YSMKKtp074SKxZbg-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 8 May
- 2024 09:47:12 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 8 May 2024 09:47:12 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Linus Torvalds' <torvalds@linux-foundation.org>, Stefan Metzmacher
-	<metze@samba.org>
-CC: Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <keescook@chromium.org>,
-	"Jens Axboe" <axboe@kernel.dk>, Bui Quang Minh <minhquangbui99@gmail.com>,
-	"Christian Brauner" <brauner@kernel.org>, syzbot
-	<syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>, "jack@suse.cz"
-	<jack@suse.cz>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "syzkaller-bugs@googlegroups.com"
-	<syzkaller-bugs@googlegroups.com>, Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Laura
- Abbott" <laura@labbott.name>
-Subject: RE: get_file() unsafe under epoll (was Re: [syzbot] [fs?] [io-uring?]
- general protection fault in __ep_remove)
-Thread-Topic: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
- [io-uring?] general protection fault in __ep_remove)
-Thread-Index: AQHan+G0osQPVpGyjEu2UGFetalDzbGNBmXA
-Date: Wed, 8 May 2024 08:47:12 +0000
-Message-ID: <e9d29d433fde4ebba38830010597f642@AcuMS.aculab.com>
-References: <0000000000002d631f0615918f1e@google.com>
- <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
- <202405031110.6F47982593@keescook>
- <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
- <202405031207.9D62DA4973@keescook>
- <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
- <202405031237.B6B8379@keescook> <202405031325.B8979870B@keescook>
- <20240503211109.GX2118490@ZenIV>
- <CAHk-=wj0de-P2Q=Gz2uyrWBHagT25arLbN0Lyg=U6fT7psKnQA@mail.gmail.com>
- <501ead34-d79f-442e-9b9a-ecd694b3015c@samba.org>
- <CAHk-=whBVkwFryz5-DOAxNKYOy5RwPpQkZHQSs1Oe806Xo6yeg@mail.gmail.com>
-In-Reply-To: <CAHk-=whBVkwFryz5-DOAxNKYOy5RwPpQkZHQSs1Oe806Xo6yeg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1715158445; c=relaxed/simple;
+	bh=pflO7IhFdkN0vZOy11haWgFFUMQUG7T+bleZpLFH1m4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8eJruWh2vFZTiVTqHInd2QkXFgxoaeF6z7utp5FffU3J+y9fMlwt5OokDl+XN8JmfJyPTT7+qFjzvfAUAF0gNrCJU4RsN+Mgcrs9YxCx11XiU5QBpi/k0qCQAJBO9i7kd0X5eTf06dSFcNnBfE2ZBSvbB/UdOmZB7o2dO5I/O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1s4d3M-0001lz-IY; Wed, 08 May 2024 10:53:32 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1s4d3I-000F6P-1y; Wed, 08 May 2024 10:53:28 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1s4d3H-000Z3P-36;
+	Wed, 08 May 2024 10:53:27 +0200
+Date: Wed, 8 May 2024 10:53:27 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 01/18] media: allegro: nal-hevc: Refactor
+ nal_hevc_sub_layer_hrd_parameters
+Message-ID: <Zjs9h40l9gfaiOei@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+ <20240507-cocci-flexarray-v2-1-7aea262cf065@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240507-cocci-flexarray-v2-1-7aea262cf065@chromium.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMDYgTWF5IDIwMjQgMTk6MTgNCi4uLg0KPiBX
-aGljaCBpcyB3aHkgSSBhcHBsaWVkIHRoZSBtaW5pbWFsIHBhdGNoIGZvciBqdXN0ICJyZWZjb3Vu
-dCBvdmVyDQo+IHZmc19wb2xsKCkiLCBhbmQgYW0ganVzdCBtZW50aW9uaW5nIG15IHN1Z2dlc3Rp
-b24gaW4gdGhlIGhvcGUgdGhhdA0KPiBzb21lIGVhZ2VyIGJlYXZlciB3b3VsZCBsaWtlIHRvIHNl
-ZSBob3cgcGFpbmZ1bCBpdCB3b3VsZCBkbyB0byBtYWtlDQo+IHRoZSBiaWdnZXIgc3VyZ2VyeS4u
-Lg0KDQpJIHdvbmRlciBpZiBJIGNhbiB3b3JrIG91dCBob3cgaXQgKGRvZXNuJ3QpIGN1cnJlbnRs
-eSB3b3JrLi4uDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJy
-YW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lz
-dHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
+On Tue, 07 May 2024 16:27:06 +0000, Ricardo Ribalda wrote:
+> Replace all the single elements arrays with the element itself.
+> 
+> Pahole shows the same padding and alignment for x86 and arm in both
+> situations.
+> 
+> This fixes this cocci warning:
+> drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
+Thanks for the patch.
+
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/allegro-dvt/allegro-core.c |  6 +++---
+>  drivers/media/platform/allegro-dvt/nal-hevc.c     | 11 +++--------
+>  drivers/media/platform/allegro-dvt/nal-hevc.h     |  6 +++---
+>  3 files changed, 9 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+> index da61f9beb6b4..369bd88cc0ae 100644
+> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
+> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+> @@ -1852,14 +1852,14 @@ static ssize_t allegro_hevc_write_sps(struct allegro_channel *channel,
+>  	hrd->dpb_output_delay_length_minus1 = 30;
+>  
+>  	hrd->bit_rate_scale = ffs(channel->bitrate_peak) - 6;
+> -	hrd->vcl_hrd[0].bit_rate_value_minus1[0] =
+> +	hrd->vcl_hrd[0].bit_rate_value_minus1 =
+>  		(channel->bitrate_peak >> (6 + hrd->bit_rate_scale)) - 1;
+>  
+>  	cpb_size = v4l2_ctrl_g_ctrl(channel->mpeg_video_cpb_size) * 1000;
+>  	hrd->cpb_size_scale = ffs(cpb_size) - 4;
+> -	hrd->vcl_hrd[0].cpb_size_value_minus1[0] = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
+> +	hrd->vcl_hrd[0].cpb_size_value_minus1 = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
+>  
+> -	hrd->vcl_hrd[0].cbr_flag[0] = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+> +	hrd->vcl_hrd[0].cbr_flag = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+>  
+>  	size = nal_hevc_write_sps(&dev->plat_dev->dev, dest, n, sps);
+>  
+> diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/nal-hevc.c
+> index 9cdf2756e0a3..575089522df5 100644
+> --- a/drivers/media/platform/allegro-dvt/nal-hevc.c
+> +++ b/drivers/media/platform/allegro-dvt/nal-hevc.c
+> @@ -210,14 +210,9 @@ static void nal_hevc_rbsp_vps(struct rbsp *rbsp, struct nal_hevc_vps *vps)
+>  static void nal_hevc_rbsp_sub_layer_hrd_parameters(struct rbsp *rbsp,
+>  						   struct nal_hevc_sub_layer_hrd_parameters *hrd)
+>  {
+> -	unsigned int i;
+> -	unsigned int cpb_cnt = 1;
+> -
+> -	for (i = 0; i < cpb_cnt; i++) {
+> -		rbsp_uev(rbsp, &hrd->bit_rate_value_minus1[i]);
+> -		rbsp_uev(rbsp, &hrd->cpb_size_value_minus1[i]);
+> -		rbsp_bit(rbsp, &hrd->cbr_flag[i]);
+> -	}
+> +	rbsp_uev(rbsp, &hrd->bit_rate_value_minus1);
+> +	rbsp_uev(rbsp, &hrd->cpb_size_value_minus1);
+> +	rbsp_bit(rbsp, &hrd->cbr_flag);
+>  }
+>  
+>  static void nal_hevc_rbsp_hrd_parameters(struct rbsp *rbsp,
+> diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h b/drivers/media/platform/allegro-dvt/nal-hevc.h
+> index eb46f12aae80..afa7a9d7d654 100644
+> --- a/drivers/media/platform/allegro-dvt/nal-hevc.h
+> +++ b/drivers/media/platform/allegro-dvt/nal-hevc.h
+> @@ -97,9 +97,9 @@ struct nal_hevc_vps {
+>  };
+>  
+>  struct nal_hevc_sub_layer_hrd_parameters {
+> -	unsigned int bit_rate_value_minus1[1];
+> -	unsigned int cpb_size_value_minus1[1];
+> -	unsigned int cbr_flag[1];
+> +	unsigned int bit_rate_value_minus1;
+> +	unsigned int cpb_size_value_minus1;
+> +	unsigned int cbr_flag;
+
+The struct is modeled after the specification in ITU-T H.265, which
+defines the fields as arrays. It's a limitation of the current
+implementation that only a single element is supported.
+
+Maybe replacing the hard coded values with a constant would be more
+appropriate to document this limitation.
+
+Michael
+
+>  };
+>  
+>  struct nal_hevc_hrd_parameters {
+> 
+> -- 
+> 2.45.0.rc1.225.g2a3ae87e7f-goog
+> 
+> 
 
