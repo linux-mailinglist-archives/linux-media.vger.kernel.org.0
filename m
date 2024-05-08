@@ -1,161 +1,283 @@
-Return-Path: <linux-media+bounces-11118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11119-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89A88BF6D0
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:16:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 817C18BF6DB
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:17:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D1771F229E9
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 07:16:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A59121C21CF2
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 07:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB7426291;
-	Wed,  8 May 2024 07:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5812BB0F;
+	Wed,  8 May 2024 07:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="MroJbJ8q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E8617C72
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 07:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EC31F937
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 07:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715152568; cv=none; b=s+ko+bBHAYjh7tceWkayeSx2oI+dIwDsuEWiYKbq6KLmgi1dYMDjnyFZcuAtG956kiCWLmGYQ3ZTGHUo+/qzVcyN0vineZDVa3ixcA+aS1077k/yoIBD5QtuyfYwuEh+8KtjXVyM8tY8gjfX6oZJPjljhaBpXjgD3dwKpt22zMQ=
+	t=1715152613; cv=none; b=OF0G1wyPUmIhFiaqwXcNIS0mpDQkwUnUzVJ4lNVZuyZ+dWtcpRx6k/MTHAP0HxlU4EOV5BhgLE1uacYQM16NksfKzJJtEBqKPIpk79nYPJluwFhpT95SWYDf80H+d6SsSvBVoSnf55oxGPFiDdzuuQWuQ+DW9OyKasbKTFoubfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715152568; c=relaxed/simple;
-	bh=UDENUauYcDZv4zL3gUFMeaCPIfDS8LDfZweQ2C6bFnY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lDM9LjrpUhHdg2GBDRF7azoAUuX6eMi3HkawxK6r2LeEHhRqYP6lQJ35fj29OxvSbQ6/tBe90Dg0r32ZstQRsQ9uPXnAAjcysAh8Gm/ZMF3LMs328Aik9rNL751t+uCAQ1vWnSwXgr/J2RJn69hXk5v3vKLIB4f0P8qT3tGh+E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF41C113CC;
-	Wed,  8 May 2024 07:16:06 +0000 (UTC)
-Message-ID: <b536fa94-9799-4f18-a0fa-ea59094035b2@xs4all.nl>
-Date: Wed, 8 May 2024 09:16:04 +0200
+	s=arc-20240116; t=1715152613; c=relaxed/simple;
+	bh=f0m34QhDPAosJyYZmjdMVXrVYo1qtPAsG7RWUe2/wXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PEsnbgqLBqLYLaifTC0+hXHi1DAVLmAvOj/p4sSHQTUExocM/Ne7vuEkuqyi7er9rsxBv5lTeMt9p6ZrykNDEp/TbBLvLv+HJQwtN7aUCYayHMo55uH0oaOz+QBVYb16BsQ+cClsxtO19ItRktDjSLAKW2anJePJNrOg6ncOiKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=MroJbJ8q; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a59cac06ec3so80475466b.0
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 00:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1715152610; x=1715757410; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CeBqT9Zed0z1jUGrfvGp1XN4J6QgdBnyIkuy1n0h3cY=;
+        b=MroJbJ8qrt1lWtQl9CkIOA2S2/0/Rhz+N8DSshEjcDJkwLiOBB10BYEH8HBRVgEogf
+         aproeU1tIF8tqQahdssZIDdOG5v17aE1qXU1Efu55FGbbP739+/7KY5q49fLqgFTZdy9
+         E3mqH2mJI76tWpPg8ek0CnV201zdpFmeUQeyQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715152610; x=1715757410;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CeBqT9Zed0z1jUGrfvGp1XN4J6QgdBnyIkuy1n0h3cY=;
+        b=BGi1JyB3dgJbcBMvMdM1gZvVDVxWnmON1eMTmYEuXU9ioIdkjsdBHdMh3SvIXvbRr2
+         WYEgoMkG1yVju8e7OB7E+ykiN+ZEAX6patKRwpUI+lyd73DKDjQfYAvNS5ipB/HtGFHd
+         mRN6wXhnNlUF1IkkZgtyI2uRdqkYpF9w7/RbfXvYBio7yBbdo6E+EB8skYutWC2Dd+1q
+         eGFHLQUqHwnoryvf/19N88bsnr7sJFX/yjupbe87jS1TBwi0sfb2xHvGJgLl0kn1jaRI
+         8+cDr6qTQVbnhfST15H8MCzAa/P9BG34XIcdDWO3WbFQDDzy4frXuIjYLgvi4gKZ/gdS
+         TUzg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYIMoHuUtEl0ZFAzmkWnokChoIMQ7F2p3UaoGs5UxJly3fnxXiduJ62dD3R3ptjf3cUrUCYXokvq01nyW2X2rbBiuSg8pOd5s6I34=
+X-Gm-Message-State: AOJu0YzaNsrsaZ1hVfYBFDeWI78B65tPPA7WYGyVHhFNJd75Uu+X6rDq
+	verFGedA6I3NEuGzAKpASk+mySO6O2J+mQnfBHdlLtYcPWQoyATq9NVCmn+wh0Y=
+X-Google-Smtp-Source: AGHT+IHGhXCUeVIYLmH7Uo4M9BmI6iPWf/Ls31PQQRWTBdNBS6P3e6HNMCsyKMnZNizlrV6npyfCDA==
+X-Received: by 2002:a05:6402:378a:b0:572:d841:1189 with SMTP id 4fb4d7f45d1cf-5731da624efmr899529a12.3.1715152610093;
+        Wed, 08 May 2024 00:16:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05640205d200b00572f0438b02sm4124571edx.6.2024.05.08.00.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 00:16:49 -0700 (PDT)
+Date: Wed, 8 May 2024 09:16:46 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+References: <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca>
+ <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-Content-Language: en-US, nl
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <ZjnMzhoWrt8E0wPJ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ZjnMzhoWrt8E0wPJ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240507233247.GK4718@ziepe.ca>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On 07/05/2024 08:40, Tommaso Merciai wrote:
-> Hi Hans,
-> Thanks for organizing this summit.
+On Tue, May 07, 2024 at 08:32:47PM -0300, Jason Gunthorpe wrote:
+> On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
+> > On 5/7/24 18:56, Jason Gunthorpe wrote:
+> > > On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+> > > > On 5/7/24 17:48, Jason Gunthorpe wrote:
+> > > > > On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+> > > > > 
+> > > > > > 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+> > > > > > think in the past you said it's a uapi you don't link but in the face
+> > > > > > of this pushback you may want to reconsider.
+> > > > > 
+> > > > > dmabuf does not force a uapi, you can acquire your pages however you
+> > > > > want and wrap them up in a dmabuf. No uapi at all.
+> > > > > 
+> > > > > The point is that dmabuf already provides ops that do basically what
+> > > > > is needed here. We don't need ops calling ops just because dmabuf's
+> > > > > ops are not understsood or not perfect. Fixup dmabuf.
+> > > > 
+> > > > Those ops, for example, are used to efficiently return used buffers
+> > > > back to the kernel, which is uapi, I don't see how dmabuf can be
+> > > > fixed up to cover it.
+> > > 
+> > > Sure, but that doesn't mean you can't use dma buf for the other parts
+> > > of the flow. The per-page lifetime is a different topic than the
+> > > refcounting and access of the entire bulk of memory.
+> > 
+> > Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+> > is, the rest is resolving uptr -> pages, and passing it to page pool in
+> > a convenient to page pool format (net_iov).
 > 
-> On Mon, May 06, 2024 at 01:33:32PM +0200, Hans Verkuil wrote:
->> Hi all,
->>
->> We will organize another Media Summit on Monday September 16th to coincide with
->> the Open Source Summit Europe in Vienna:
->>
->> https://events.linuxfoundation.org/open-source-summit-europe/
->>
->> Avnet Silica has very kindly offered to host this summit at their Vienna
->> office, which is about 35 minutes by public transport from the OSSE venue.
->>
->> Location:
->>
->> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
->>
->> The meeting room can hold 18 people and has video conferencing support (MS Teams).
->>
->> That said, I want to keep remote participation to a minimum. This yearly summit is meant
->> for active media developers to meet up face-to-face and to discuss media subsystem issues.
->> But if you are an active media developer, but are not able to attend in person, then this
->> is an option.
->>
->> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
->> It would be very much appreciated if you can also add a guesstimate of the time
->> you need for your topic.
->>
->> If you want to attend the meeting (either in person or remote), then send an email to me
->> directly. Since the number of seats is limited, I may have to put people on a waiting list.
->> Please let me know sooner rather than later (ideally by mid-July) so I have a good idea
->> what to expect.
->>
->> Priority goes to presenters and the core media maintainers. If multiple people of the same
->> company want to attend, then I may ask to limit attendance to one or two people.
+> I'm not going to pretend to know about page pool details, but dmabuf
+> is the way to get the bulk of pages into a pool within the net stack's
+> allocator and keep that bulk properly refcounted while.
 > 
-> If is possible Martin and me from Avnet Silica we are planning to attend in person the meeting.
-> We are working on some topics to present.
-
-That should be possible! Esp. since you are hosting this event :-)
-
-Regards,
-
-	Hans
-
+> An object like dmabuf is needed for the general case because there are
+> not going to be per-page references or otherwise available.
 > 
-> Thanks in advance,
-> Tommaso
-> 
->>
->> It is hard to predict how many people want to attend, so I'll see how it goes.
->>
->> Regards,
->>
->> 	Hans
->>
+> What you seem to want is to alter how the actual allocation flow works
+> from that bulk of memory and delay the free. It seems like a different
+> topic to me, and honestly hacking into the allocator free function
+> seems a bit weird..
 
+Also I don't see how it's an argument against dma-buf as the interface for
+all these, because e.g. ttm internally does have a page pool because
+depending upon allocator, that's indeed beneficial. Other drm drivers have
+more buffer-based concepts for opportunistically memory around, usually
+by marking buffers that are just kept as cache as purgeable (which is a
+concept that goes all the way to opengl/vulkan).
+
+But these are all internals of the dma-buf exporter, the dma-buf api users
+don't ever need to care.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
