@@ -1,224 +1,190 @@
-Return-Path: <linux-media+bounces-11165-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11166-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960618C01FB
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 18:32:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43988C0282
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 19:02:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B99351C224B0
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:32:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5023F1F252C8
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 17:02:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F8F4C91;
-	Wed,  8 May 2024 16:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D440D1CAA9;
+	Wed,  8 May 2024 17:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="d999NY9F"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnynkGDj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C259622
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 16:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A327D3D6D;
+	Wed,  8 May 2024 17:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715185922; cv=none; b=TCZzjDBSukmrnZCF6jwdCCGJJirMAi5UYoS3bO9MhvDRvNSuiNB95Z0E2RSoEeq36Lzp9CAwkTU7/Ci/gr0hFtRb/VBBC4I/3RdMenQ48U6N0cJNe5N4aATcJ5qe4EvqPz8CKZYhW7s+HYReuvM1efoEhwxlzrB+qzebxqsJELs=
+	t=1715187731; cv=none; b=UxH8eXHBHkuj34qgT9p99MVGWvI9rFKZIQSpHRWj2u5yGaKNOE9ALmtlXSBVUGvFHl+slDS2KsaSxQ1Pxav6CmQAfGTeMiEvnEg6oWQz67APrU6zUEqaECrcK8A9VROX+QD/V5IMkl9sC7Z6cmAQnIPWvM0arrFxqTS7I+TqFto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715185922; c=relaxed/simple;
-	bh=HyI7CfR13ETlHE8vYoaiB6VcQcpejXw10JAvJm1BG8k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e8UG1TaOoUiwXWp0QA9kR7IEkK91Gi2HrDXJHVoDqmMdEYdVY21sg2GhU+epYJjnvQFgqbylc1r7w0gcToILGVinwxyAl5Q3Q4PUHga3xPqaxhDtZCFS5/wAdtnQs6bA0qo7cMldH3f0CLzLGgHQX3U/+zDhxNgXAEqj8ZUpLBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=d999NY9F; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-de46b113a5dso4609112276.3
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 09:31:59 -0700 (PDT)
+	s=arc-20240116; t=1715187731; c=relaxed/simple;
+	bh=RJTd0DFSkwcgQXADy0NPRv8wgTOjMh4ljQ8AnIpUJ68=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l2oy45pIPoxI6s7jE2GHb4Fw9dOipddjkUxShixpx5G0Yt5PhU0P3Odnpvc/w2rhN/bTnjouPGPa1ePzx27ZaEf7BbMKTsiXd0iFIxYyH7pXPjFZts52pQ2qIg6swO+0Pnan+sqU0eI0Bjz2AJ3Kc7q6AMwUMT2q7d8FP96Q7ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnynkGDj; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a599af16934so1168471766b.1;
+        Wed, 08 May 2024 10:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1715185918; x=1715790718; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IpqvT/s3hJi/m2NA6vxsDVwPdDU6A01/xZePHqulLGs=;
-        b=d999NY9FedIIIfmjQe7VOeVqo4FZn5382/nd66m1q1iSE5u/tRSawUSkSDCtoAGQuX
-         S6nDtwPsZLMOsGpGshhCWJsS+ceUt6MTOPlsAKTA0vwtXmHTEQqaZa5j5h6w4UgW3DRY
-         HGGPkwVGLyYCt17z7fVMgeOmTiSKRcdauRAVi/tOuvT+fMk6fCwH0Iurg/HQX9T0IXyv
-         DzBnLjW1oyGJhpPSqiyj7txetNy1otSbNGuNLTgIaMQvaO0Qn5WeYkfi/ecFysB98HYt
-         cvaS6xQhW1XRCaCpcli8T7bmxCiC1i5oxArZALaDjKtyByeGQz/NdCM/UtpXMFuvUQMy
-         xmlw==
+        d=gmail.com; s=20230601; t=1715187728; x=1715792528; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
+        b=OnynkGDjg0vGkDGdSEon5d0xDjiqrzpioqZiHuL0Nag9NOdtNmLL3NPjDyUSxO/8Zh
+         Sl+gc5S7CVBd88KtjhJXiNeDchtVDDGKv6H/SAE6+GLdMr1ysapTuwr7Pr4/78062sv7
+         U1lM4WybzDoSe5R2r24p9NH3yIBvBq9+pDtp0CzFHUBmR/pJCTQiP0KU5gSlQeVFN4rX
+         IZgnJ+Sil5bIFR5pjfTpMuErMJKV2AJwbjhVuPdWn6lEcT1GnlbKS3hG7EdRBqH91WIf
+         QZNhxXRNenOywRA9FMky14JAU1+sR83V/REHv91nu+Q82sjYZhD1WE/rxIzMUY0c6uZX
+         cirQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715185918; x=1715790718;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IpqvT/s3hJi/m2NA6vxsDVwPdDU6A01/xZePHqulLGs=;
-        b=QeY0Z75i8c+BcfLSGmO3FLp8n9HipJFv1SQaqNpmY5SzV1woQOQY5LisBzjAtlOclc
-         9yd2SNaxlr2oJ2QJqf7QamjKVTAQHUp3nl/myNUrnIPrHqZI5WxHV6lVBxCtUA+cpC6d
-         nUqtWeV+gjiU6qGH/mJjLLzAQXPW1WxTOwkx6N2m8u73tzdGaCv6H8/UzpWoa2Zxt00v
-         oFWPt0vvkdcFfrTvZUbIJIAg+4MmJj6ecLEunPtCz/WIisURXRPLn/SzBAYhmtjjK20U
-         X0H0DUnaBM9MCSRQU9/TZa1F+xOW5XCTi2eOFmnaGuo8HlBA15uBJgQmigtVMy5z9JoL
-         N2Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCWpKL9SJCmTGvqOlillQMnaYPKrgF8M8a5n9iw8iRFwH6TA1XcjBVQ0/JkIkRFTFvtoh5G4nr8LbvJGDDCicQCl3Lc8MffwI4MmeBI=
-X-Gm-Message-State: AOJu0YybkKDfMUqpxHssIVVgV4t3NjOZuNK0X5V2JUJKCjNNaAQMrx5X
-	HSMVIJvaFnaQd1sUgBldM2TBINNfp5Vzjb/EoffcjA50CicOiSNPKp06l8GLeamx5XeYJdrQC/m
-	C2OUfK/n5KzcUNh+OBM7bVgLj033uCB9Elbgdzg==
-X-Google-Smtp-Source: AGHT+IH/MU4b0lEqMztmXKc3H0f61MliNMwFr4dmluuoJ6iRqo65l2GtQDlm9o8wIkIkn7RbcEzlRSKc//Wn7bWSkeI=
-X-Received: by 2002:a25:b184:0:b0:de5:8816:2d1c with SMTP id
- 3f1490d57ef6-debb9e53cebmr3094653276.65.1715185918279; Wed, 08 May 2024
- 09:31:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715187728; x=1715792528;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
+        b=bmsFr1k1KAJQ7Q3VUl8EgsqIvJ4zlhHOTlJAFPNLqOfUOXUaUNjsa4FJ1cck1yIQ/E
+         qgmHYmaTf3bnH7E8vdW1sX2XKBWzJwT6Vg9cgxlyaHkrDKKvC0WKN8ncxsvQz9cdkJDk
+         DrragEDQ550BH3PcG5acaNQoJjjC8/zRHXiko+XZXNecX8+XWK5MOYMAqrCMjk7DxLdg
+         2GCWkLgDr274wq25oI/vkS1fmr1ikW6ZzDULYq0htd5k1lSi9uQP3PDDHOAbZh1XJmzK
+         KCVC7AwCLecgS/Gz+ocUG8uGMav5V7rYwdMSi4eKqqtKIpyXLTi6KsDmUWEYwIY2ZHnP
+         BeZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpZDVMJVxmnosHfPGBUJMOY92ouCL7Dc7PEjsoGbREL1ZbBeSsordAD3mlP+0KGUAYo+xo+Z9CsdgRakUKWjkHXcs71G8S5O568Ki8JmyxizvHh2iqX+jmRSaQzHEiORYPR1UfuO8sfXG2unlshuu/BJvLBJ8yIhZukc3/RxrWKs2sUGBjENu0x9D+3+drv9jU6aty54HCvgwcyDXEEBOqIcuvylKvAPKGT9S8upE+KcSriQ6rjbTOpn86kI3OOQEK88UemXG2lsRnLMoKd3u9+Bep3b16RXRt/hiCNxLLvG9xfuN1rAAax2y8pbjCS+inxRjmwjJUNArkS3Guza5x69y5Rm3ApBxxizEcjyOLZ1gy0ZeT8E8Xv6/4ARSX3IKjjs0Gy5vfZossSp54rsDPqP3ZMSc+rNPULtkfQ3PIg/Us2jH7h1bPsZzDGqB9brrPJ/237rk0AKogMHh80g3k+ugvK9gOGVMWetnLavzm68pQBEPoP6iaq4QQAVmu1aEpk9QdQg==
+X-Gm-Message-State: AOJu0Yyj11/IJlgWqJLmmpp73awguVVf+GMiNUelEDHixyVS4C+4Of5W
+	MZeZKY7W70ZMHk5kmHJiaRKhShh5qBSlDiuepajjS5JyNVNG+1JV
+X-Google-Smtp-Source: AGHT+IGnIbHLe2S57apepPi+KOdstUOemuaNblSGc79A9OnsYp187XWHNbGjxYPqzEX3412l6BXKTQ==
+X-Received: by 2002:a17:907:7286:b0:a59:bacc:b07f with SMTP id a640c23a62f3a-a59fb9d6452mr265356266b.52.1715187727754;
+        Wed, 08 May 2024 10:02:07 -0700 (PDT)
+Received: from [192.168.42.40] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id n18-20020a170906841200b00a59a8a5dd15sm5634228ejx.206.2024.05.08.10.02.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 10:02:07 -0700 (PDT)
+Message-ID: <8ced4c49-d153-40fb-9e62-0a5784cfa864@gmail.com>
+Date: Wed, 8 May 2024 18:02:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org>
- <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
- <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org> <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
-In-Reply-To: <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 8 May 2024 17:31:39 +0100
-Message-ID: <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, "Paul J. Murphy" <paul.j.murphy@intel.com>, 
-	Martina Krasteva <quic_mkrastev@quicinc.com>, 
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca> <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
+ <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
+ <ZjufddNVJs5Csaix@infradead.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <ZjufddNVJs5Csaix@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo and Bryan
+On 5/8/24 16:51, Christoph Hellwig wrote:
+> On Wed, May 08, 2024 at 12:35:52PM +0100, Pavel Begunkov wrote:
+>>> all these, because e.g. ttm internally does have a page pool because
+>>> depending upon allocator, that's indeed beneficial. Other drm drivers have
+>>> more buffer-based concepts for opportunistically memory around, usually
+>>> by marking buffers that are just kept as cache as purgeable (which is a
+>>> concept that goes all the way to opengl/vulkan).
+>>
+>> Because in this case it solves nothing and helps with nothing, quite
+>> the opposite. Just as well we can ask why NVMe doesn't wrap user pages
+>> into a dmabuf while doing IO.
+> 
+> You seem to confused totally unrelated things.
+>
+> For short-term pins, that is pin_user_pages without FOLL_LONGTERM there
+> would never be any point in using a dmabuf as the pin is transient.  For
+> long-term pin dmabufs in the block layer absolutely make sense, and I
 
-On Wed, 8 May 2024 at 13:43, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> Hi Bryan
->
-> On Wed, May 08, 2024 at 01:30:31PM GMT, Bryan O'Donoghue wrote:
-> > On 08/05/2024 09:02, Jacopo Mondi wrote:
-> > > Hi Bryan
-> > >
-> > > On Mon, May 06, 2024 at 11:38:26PM GMT, Bryan O'Donoghue wrote:
-> > > > Currently we have the following algorithm to calculate what value should be
-> > > > written to the exposure control of imx412.
-> > > >
-> > > > lpfr = imx412->vblank + imx412->cur_mode->height;
-> > > > shutter = lpfr - exposure;
-> > > >
-> > > > The 'shutter' value is given to IMX412_REG_EXPOSURE_CIT however, the above
-> > > > algorithm will result in the value given to IMX412_REG_EXPOSURE_CIT
-> > > > decreasing as the requested exposure value from user-space goes up.
-> > > >
-> > > > e.g.
-> > > > [ 2255.713989] imx412 20-001a: Received exp 1608, analog gain 0
-> > > > [ 2255.714002] imx412 20-001a: Set exp 1608, analog gain 0, shutter 1938, lpfr 3546
-> > > > [ 2256.302770] imx412 20-001a: Received exp 2586, analog gain 100
-> > > > [ 2256.302800] imx412 20-001a: Set exp 2586, analog gain 100, shutter 960, lpfr 3546
-> > > > [ 2256.753755] imx412 20-001a: Received exp 3524, analog gain 110
-> > > > [ 2256.753772] imx412 20-001a: Set exp 3524, analog gain 110, shutter 22, lpfr 3546
-> > > >
-> > > > This behaviour results in the image having less exposure as the requested
-> > > > exposure value from user-space increases.
-> > > >
-> > > > Other sensor drivers such as ov5675, imx218, hid556 and others take the
-> > > > requested exposure value and directly.
-> > >
-> > > has the phrase been truncated or is it me reading it wrong ?
-> >
-> > Sod's law says no matter how many times you send yourself a patch before
-> > sending it to LKML you'll find a typo ~ 2 seconds after reading your patch
-> > on LKML.
-> >
->
-> Sounds familiar enough
->
-> >
-> > > > Looking at the range of imx sensors, it appears this particular error has
-> > > > been replicated a number of times but, I haven't so far really drilled into
-> > > > each sensor.
-> > >
-> > > Ouch, what other driver have the same issue ?
-> >
-> > So without data sheet or sensor its hard to say if these are correct or
-> > incorrect, it's the same basic calculation though.
-> >
-> > drivers/media/i2c/imx334.c::imx334_update_exp_gain()
-> >
-> >         lpfr = imx334->vblank + imx334->cur_mode->height;
-> >         shutter = lpfr - exposure;
-> >
-> >         ret = imx334_write_reg(imx334, IMX334_REG_SHUTTER, 3, shutter);
-> >
-> >
-> > drivers/media/i2c/imx335.c::imx335_update_exp_gain()
-> >
-> >         lpfr = imx335->vblank + imx335->cur_mode->height;
-> >         shutter = lpfr - exposure;
-> >
-> >         ret = imx335_write_reg(imx335, IMX334_REG_SHUTTER, 3, shutter);
-> >
-> >
-> > Looking again I'm inclined to believe the imx334/imx335 stuff is probably
-> > correct for those sensors, got copied to imx412/imx577 and misapplied to the
-> > EXPOSURE control in imx412.
-> >
->
-> Without datasheet/devices it really is hard to tell. Cargo cult at
-> play most probably.
+Well, the example fell flat, but you don't use dmabuf when there are
+no upsides from using it. For instance, when you already have pinned
+pages, you're going to use pages, and there are no other refcounting
+concerns. Unless there is an advantage of dmabufs over FOLL_LONGTERM
+that I don't know about when used with normal user pages.
 
-For reference certainly imx327/290/462 which are all siblings in the
-Sony Starvis family do calculate exposure as
-exposure = 1 frame period - (SHS1 + 1) * (1H period)
-So 0 = max exposure and bigger values are shorter exposure time.
+> wish io_uring would have just implemented them from the start instead of
+> the current fixed buffers that are not quite as useful by not
+> pre-mapping DMA and not supporting P2P.
 
-I'm not saying that the imx412 driver is right in doing this as well,
-but it seems there is a trend with the Sony Starvis family to program
-exposure in this different manner. Don't discount it as wrong for all
-drivers!
+fdget(dmabuf) would be horrible, I assume that's not the suggestion.
+But then it's really about kernel internals, and theoretically can
+be patched to wrap user pages into a dmabuf and pass it in. The tricky
+part is how that "pass it in" should looks like. Keith tried to cover
+both pre-mapping and p2p by registering dmabuf and passing the mapped
+addresses in an iter IIRC.
 
-  Dave
+Anyway, this discussion should better move from to block/fs lists,
+if there is any interest.
 
-> >
-> > > > - ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, shutter);
-> > > > + ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, exposure);
-> > >
-> > > No datasheet here, can you confirm the IMX412_REG_EXPOSURE_CIT
-> > > register is actually in lines ?
-> >
-> >
-> > Looks like.
-> >
-> > From downstream "coarseIntgTimeAddr"
-> >
-> > imx577_sensor.xml
-> >     <coarseIntgTimeAddr>0x0202</coarseIntgTimeAddr>
-> >
-> > imx586/imx586_sensor.cpp
-> > pRegSettingsInfo->regSetting[regCount].registerAddr  =
-> > pExposureData->pRegInfo->coarseIntgTimeAddr + 1;
-> >
-> > pRegSettingsInfo->regSetting[regCount].registerData  = (lineCount & 0xFF);
-> >
-> > > Apart from that, as the CID_EXPOSURE control limit are correctly
-> > > updated when a new VBLANK is set by taking into account the exposure
-> > > margins, I think writing the control value to the register is the
-> > > right thing to do (if the register is in lines of course)
-> > >
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >
-> > > Thanks
-> > >    j
-> > >
-> >
-> > If that's good enough I'll fix the typo and apply your RB.
->
-> Sure
->
-> Thanks
->   j
->
-> >
-> > ---
-> > bod
-> >
->
+-- 
+Pavel Begunkov
 
