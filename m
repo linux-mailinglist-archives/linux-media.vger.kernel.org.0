@@ -1,106 +1,128 @@
-Return-Path: <linux-media+bounces-11111-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11112-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710698BF43F
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 03:48:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B3A8BF4BE
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 04:52:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F79AB21BCA
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 01:48:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 591241F22184
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 02:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E7E9441;
-	Wed,  8 May 2024 01:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82194134A6;
+	Wed,  8 May 2024 02:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="id37CP6Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6468F55
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 01:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EFB35228;
+	Wed,  8 May 2024 02:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715132912; cv=none; b=qk86TB1W9io3baP8kOY1/3oiaHq2+Ny5rr5k5sOb7E9aEt0CJSGkoIwSVErY/2WoPiJcrwrjqp4Az+wDG+/J3amtK3QV5QFOy1zi2c6/6zc4CLSe2mDvv1n5sy4Yf0EmL291H0wDee+DelZ9AZTWyoxBb4EwCOORRMVCtlNylRA=
+	t=1715136742; cv=none; b=XPaSiv5BSBH+5dcTXoKWjFlBFZGqDcxb00iFylQNpcld/18vfSMnV2i2OuVvEpikf2A5dQAIVBuH1rGTfVrR2BGxh4h1sAaB03JDaVFI/VV70KQvW5dcIyIThR+SdkywPxzBDfhfe5lJkGdZztj++TaOKXckjj/PO2WiOOYifb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715132912; c=relaxed/simple;
-	bh=87n6VkMJuCQNljGV2rIqV3YYq+1UB1KxYLJZTVhypZ4=;
-	h=Date:From:To:Subject:Message-Id; b=uM8+gL7Mow8BitQIS9Pr0qc6E0I6rGUP3fMHFtU/dmiBYP745DLnyqvY3bm9RlcQA6TgtfYYk+dDNTP6KRbS91nieVIOyQyfHuBwDOMrmJC52x550VkUSvM6zvkL4mmK3HgZjZyQRjH0riBSaPppjnMJdTx78SEO87c2bHnu/Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574CBC2BBFC
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 01:48:30 +0000 (UTC)
-Date: Wed, 08 May 2024 03:48:28 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240508014830.574CBC2BBFC@smtp.kernel.org>
+	s=arc-20240116; t=1715136742; c=relaxed/simple;
+	bh=tsvoE3t4+nq4hodQWrfVGpaWSOPtMpX3lIjRqCsujEM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OSez/8QrUIQlecBVaAEWrqoOeFovNyjU+upkAfSyt/e8BzIfNwBMyXiIbLNSJe99wGMIg84ZWO6iBzB5uzM4CTLQ28T80FlAvKBV8H1q3LiWUy1Swq6rYf0dfvTXnl3CLmhU6JSYVR6uVrKj0/rXx4c6yMn+qF9vDeKMXvm41PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=id37CP6Y; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1715136732;
+	bh=geZdhczy5v3XzQr5jvBujPytnWZIYj7CXxZvY/BFYqI=; l=2046;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=id37CP6YkKhYhgqRjFkjxptdViRINuLDgWY5XIHLuHlIhDH9AC9VsZ+J1yccfFJrv
+	 VkRI2G2LrRGX4SIGLWHBCtzdqNKOvZgXI4hEBfoQhNnV9gKI6oZTOIK7dgPc2SN2RK
+	 8eVufmhDN2MGPgOpycCoGD002U59IN1gLig1DWa7ENX4fkPlLui3IfZCSW+HO8evDy
+	 lyG5DpHAqXbURTHsvX/zjij+OIiM4wXxfDONJlHeVss5VdeRzLwUTmZlGB96A14VaV
+	 Ut3MFWHdXY7zvzyzwJtV19qE6agbi+HGvpheUtP2bV7jBx+tkpRerBjcqop3cP+50H
+	 oRZ4FaMCf5Wzw==
+Received: from 192.168.10.46
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(3885196:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Wed, 08 May 2024 10:51:52 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 May 2024
+ 10:51:51 +0800
+Received: from linuxcarl2.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Wed, 8 May 2024 10:51:51 +0800
+From: <cy_huang@richtek.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: Daniel Scally <djrscally@gmail.com>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois
+	<jeanmichel.hautbois@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, ChiYuan Huang <cy_huang@richtek.com>
+Subject: [PATCH] media: v4l: async: Fix NULL pointer when v4l2 flash subdev binding
+Date: Wed, 8 May 2024 10:51:49 +0800
+Message-ID: <e2f9f2b7b7de956d70b8567a2ab285409fff988b.1715136478.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Results of the daily build of media_tree:
+In v4l2_async_create_ancillary_links(), if v4l2 async notifier is
+created from v4l2 device, the v4l2 flash subdev async binding will enter
+the logic to create media link. Due to the subdev of notifier is NULL,
+this will cause NULL pointer to access the subdev entity. Therefore, add
+the check to bypass it.
 
-date:			Wed May  8 03:00:20 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	e695668af8523b059127dfa8b261c76e7c9cde10
-v4l-utils git hash:	dd049328e5282f478ba543a50dcb14618782abbb
-edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6ca969c7ab8b77f81356fa1dac1a6dab22c33121
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+Fixes: aa4faf6eb271 ("media: v4l2-async: Create links during v4l2_async_match_notify()")
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+Hi,
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+  I'm trying to bind the v4l2 subdev for flashlight testing. It seems
+some logic in v4l2 asynd binding is incorrect.
 
-date:			Wed May  8 03:14:33 CEST 2024
-virtme-64: WARNINGS: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 4
+From the change, I modified vim2m as the test driver to bind mt6370 flashlight.
 
-date:			Wed May  8 03:47:27 CEST 2024
+Here's the backtrace log.
 
-Detailed results are available here:
+ vim2m soc:vim2m: bound [white:flash-2]
+ Unable to handle kernel NULL pointer dereference at virtual address 0000000000000058
+ ......skipping
+ Call trace:
+  media_create_ancillary_link+0x48/0xd8 [mc]
+  v4l2_async_match_notify+0x17c/0x208 [v4l2_async]
+  v4l2_async_register_subdev+0xb8/0x1d0 [v4l2_async]
+  __v4l2_flash_init.part.0+0x3b4/0x4b0 [v4l2_flash_led_class]
+  v4l2_flash_init+0x28/0x48 [v4l2_flash_led_class]
+  mt6370_led_probe+0x348/0x690 [leds_mt6370_flash]
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+After tracing the code, it will let the subdev labeled as F_LENS or
+F_FLASH function to create media link. To prevent the NULL pointer
+issue, the simplest way is add a check when 'n->sd' is NULL and bypass
+the later media link creataion.
+---
+ drivers/media/v4l2-core/v4l2-async.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Detailed regression test results are available here:
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 3ec323bd528b..9d3161c51954 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -324,6 +324,9 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+ 	    sd->entity.function != MEDIA_ENT_F_FLASH)
+ 		return 0;
+ 
++	if (!n->sd)
++		return 0;
++
+ 	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+ 
+ #endif
+-- 
+2.34.1
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
