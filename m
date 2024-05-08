@@ -1,135 +1,188 @@
-Return-Path: <linux-media+bounces-11137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11138-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515B78BF957
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 11:11:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A37A28BFAB0
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 12:16:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A23A284129
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:11:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57B39285747
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:16:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7394B7319A;
-	Wed,  8 May 2024 09:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DE8881ACB;
+	Wed,  8 May 2024 10:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1ElVR4F"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEEC5467A
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 09:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759F081AA2;
+	Wed,  8 May 2024 10:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715159464; cv=none; b=mjIVBSQjdHzLjgkfY0Kzcnp4yiYoXuRW1ozUQXe95Ag8/3PyqTpqO41xyQ79es0xqyf4AZUCpn9C9077diwCtnFCs6gv/ZCWNN+LmIkS4F20jSuDcaoWkYx6hv4DzlbFpwKVe2se3rwS0MuQumv9rCVld5eHXwIbt+ILtiFsHBo=
+	t=1715162945; cv=none; b=DMufwDfTuz5VSi2fWEAEK8sQ+VGcogoDGtusoCEc6j8gr1CFq54sdexvz17giT53M1K7tYEeuRBNYwp2tiXDUlCIciJgEZElvXxNMx9WdJ3EIBlJkg/ahoHyukAq6c624wrEXzZ181Kpvh9aV4A4YPWoFmfiA5sRKP8c1Opy9jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715159464; c=relaxed/simple;
-	bh=VyhZU53agr/R5KARGrgS1W7XcjydzEtIXRD1HXr7pEg=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=iXrF3/Y9ynMd/zQX1Y6xve/TUx43aKOI1MYtp4kq6LfIm55rbJzgaf6mbESFAPqMy9novQoUTMLsd6j0jKm1O7n0semHqIxOjr8boathixO4bZE5UDKHbhTOhfmvy9raxBdZydzvDlDonk0aNb1eHe8ZtN1UyM7qxT9z5+v1ja4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 838A7C113CC
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 09:11:03 +0000 (UTC)
-Message-ID: <25daeee8-f7ef-4595-b2e9-7e4d80ce3f1d@xs4all.nl>
-Date: Wed, 8 May 2024 11:11:01 +0200
+	s=arc-20240116; t=1715162945; c=relaxed/simple;
+	bh=yrabQPbPYvR+JPoitoyg+9RDRV3056ERK0Y8S6+be2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MP4Kfr7Cq8o8REf3FFAXYolEGs74xDmdSopmZ5QbiyG+fStMHonKdIhOG0xexibBfARno75xqZjqQt3Toz1EXzKm3Y2EGhNZrqfYrjLgF5pC6H/Caq0/QMuxStRA+JAkOzQhP0uhXMcIy6OLMQ/MU/vXpTJg32vdb5Do4lWzb84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1ElVR4F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85A84C113CC;
+	Wed,  8 May 2024 10:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715162945;
+	bh=yrabQPbPYvR+JPoitoyg+9RDRV3056ERK0Y8S6+be2M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g1ElVR4FITT9TalGvuJbfFMESgGVWUWwPh+Jiuy91aSKwAstAfiXyTFlhWpH9rlSj
+	 kfIlOoOJuqfDvOjLN8emFmJHFevm1IH96irYRz+bm+AeV/W55Qd9olPzuGmF9V5muE
+	 pK/1XrE8w15gD5I30PJqCcNALy57CVi2E1HdM889nC0xP/jJoaExLQShGX7lbyi/eh
+	 d+g9d5hbZklc3NXzwARwXdQTzR4cOV7VSYrk3XdlkoSZ9zHOCSHa/wS2X3cAfEkvXt
+	 9fgjkNU9JXabQi2jcGskzOm9saN/97+mE1laXFfa/OtQxkb4aV/+BHhS2K0ZDaDOTM
+	 mD01Fvs9jdnhQ==
+Date: Wed, 8 May 2024 12:08:57 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk, christian.koenig@amd.com, 
+	dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
+ about file lifetimes
+Message-ID: <20240508-risse-fehlpass-895202f594fd@brauner>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for v6.10] media: v4l2-ctrls: drop unnecessary locking that
- caused potential deadlock
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
 
-When logging the control values through VIDIOC_LOG_STATUS you could
-get into a potential deadlock situation in the vivid driver:
+On Mon, May 06, 2024 at 04:29:44PM +0200, Christian König wrote:
+> Am 04.05.24 um 20:20 schrieb Linus Torvalds:
+> > On Sat, 4 May 2024 at 08:32, Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > > Lookie here, the fundamental issue is that epoll can call '->poll()'
+> > > on a file descriptor that is being closed concurrently.
+> > Thinking some more about this, and replying to myself...
+> > 
+> > Actually, I wonder if we could *really* fix this by simply moving the
+> > eventpoll_release() to where it really belongs.
+> > 
+> > If we did it in file_close_fd_locked(),  it would actually make a
+> > *lot* more sense. Particularly since eventpoll actually uses this:
+> > 
+> >      struct epoll_filefd {
+> >          struct file *file;
+> >          int fd;
+> >      } __packed;
+> > 
+> > ie it doesn't just use the 'struct file *', it uses the 'fd' itself
+> > (for ep_find()).
+> > 
+> > (Strictly speaking, it should also have a pointer to the 'struct
+> > files_struct' to make the 'int fd' be meaningful).
+> 
+> While I completely agree on this I unfortunately have to ruin the idea.
+> 
+> Before we had KCMP some people relied on the strange behavior of eventpoll
+> to compare struct files when the fd is the same.
+> 
+> I just recently suggested that solution to somebody at AMD as a workaround
+> when KCMP is disabled because of security hardening and I'm pretty sure I've
+> seen it somewhere else as well.
+> 
+> So when we change that it would break (undocumented?) UAPI behavior.
 
-[Wed May  8 10:02:06 2024]  Possible unsafe locking scenario:
+I've worked on that a bit yesterday and I learned new things about epoll
+and ran into some limitations.
 
-[Wed May  8 10:02:06 2024]        CPU0                    CPU1
-[Wed May  8 10:02:06 2024]        ----                    ----
-[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1620:(hdl_vid_cap)->_lock);
-[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1608:(hdl_user_vid)->_lock);
-[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1620:(hdl_vid_cap)->_lock);
-[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1608:(hdl_user_vid)->_lock);
+Like, what happens if process P1 has a file descriptor registered in an
+epoll instance and now P1 forks and creates P2. So every file that P1
+maintains gets copied into a new file descriptor table for P2. And the
+same file descriptors refer to the same files for both P1 and P2.
 
-That's because both the main control handler was locked and the
-inner control handler containing the control that you want to log.
+So there's two interesting cases here:
 
-In this particular case there is no need to lock the inner control
-handler since it is guaranteed that that handler won't delete controls
-unexpectedly.
+(1) P2 explicitly removes the file descriptor from the epoll instance
+    via epoll_ctl(EPOLL_CTL_DEL). That removal affects both P1 and P2
+    since the <fd, file> pair is only registered once and it isn't
+    marked whether it belongs to P1 and P2 fdtable.
 
-Fixes: 9801b5b28c692 ("media: v4l2-ctrls: show all owned controls in log_status")
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 4 ----
- 1 file changed, 4 deletions(-)
+    So effectively fork()ing with epoll creates a weird shared state
+    where removal of file descriptors that were registered before the
+    fork() affects both child and parent.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index c59dd691f79f6..4e6748bd419cf 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -2518,11 +2518,7 @@ static void log_ctrl(const struct v4l2_ctrl_handler *hdl,
+    I found that surprising even though I've worked with epoll quite
+    extensively in low-level userspace.
 
- 	pr_info("%s%s%s: ", prefix, colon, ctrl->name);
+(2) P2 doesn't close it's file descriptors. It just exits. Since removal
+    of the file descriptor from the epoll instance isn't done during
+    close() but during last fput() P1's epoll state remains unaffected
+    by P2's sloppy exit because P1 still holds references to all files
+    in its fdtable.
 
--	if (ctrl->handler != hdl)
--		v4l2_ctrl_lock(ctrl);
- 	ctrl->type_ops->log(ctrl);
--	if (ctrl->handler != hdl)
--		v4l2_ctrl_unlock(ctrl);
+    (Sidenote, if one ends up adding every more duped-fds into epoll
+    instance that one doesn't explicitly close and all of them refer to
+    the same file wouldn't one just be allocating new epitems that
+    are kept around for a really long time?)
 
- 	if (ctrl->flags & (V4L2_CTRL_FLAG_INACTIVE |
- 			   V4L2_CTRL_FLAG_GRABBED |
--- 
-2.43.0
+So if the removal of the fd would now be done during close() or during
+exit_files() when we call close_files() and since there's currently no
+way of differentiating whether P1 or P2 own that fd it would mean that
+(2) collapses into (1) and we'd always alter (1)'s epoll state. That
+would be a UAPI break.
 
+So say we record the fdtable to get ownership of that file descriptor so
+P2 doesn't close anything in (2) that really belongs to P1 to fix that
+problem.
+
+But afaict, that would break another possible use-case. Namely, where P1
+creates an epoll instance and registeres fds and then fork()s to create
+P2. Now P1 can exit and P2 takes over the epoll loop of P1. This
+wouldn't work anymore because P1 would deregister all fds it owns in
+that epoll instance during exit. I didn't see an immediate nice way of
+fixing that issue.
+
+But note that taking over an epoll loop from the parent doesn't work
+reliably for some file descriptors. Consider man signalfd(2):
+
+   epoll(7) semantics
+       If a process adds (via epoll_ctl(2)) a signalfd file descriptor to an epoll(7) instance,
+       then epoll_wait(2) returns events only for signals sent to that process.  In particular,
+       if  the process then uses fork(2) to create a child process, then the child will be able
+       to read(2) signals that  are  sent  to  it  using  the  signalfd  file  descriptor,  but
+       epoll_wait(2)  will  not  indicate  that the signalfd file descriptor is ready.  In this
+       scenario, a possible workaround is that after the fork(2), the child process  can  close
+       the  signalfd  file descriptor that it inherited from the parent process and then create
+       another signalfd file descriptor and add it to the epoll instance.   Alternatively,  the
+       parent and the child could delay creating their (separate) signalfd file descriptors and
+       adding them to the epoll instance until after the call to fork(2).
+
+So effectively P1 opens a signalfd and registers it in an epoll
+instance. Then it fork()s and creates P2. Now both P1 and P2 call
+epoll_wait(). Since signalfds are always relative to the caller and P1
+did call signalfd_poll() to register the callback only P1 can get
+events. So P2 can't take over signalfds in that epoll loop.
+
+Honestly, the inheritance semantics of epoll across fork() seem pretty
+wonky and it would've been better if an epoll fd inherited across
+would've returned ESTALE or EINVAL or something. And if that inheritance
+of epoll instances would really be a big use-case there'd be some
+explicit way to enable this.
 
