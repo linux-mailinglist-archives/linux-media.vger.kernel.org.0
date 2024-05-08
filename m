@@ -1,292 +1,135 @@
-Return-Path: <linux-media+bounces-11136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11137-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3665D8BF953
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 11:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515B78BF957
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 11:11:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF71C283C35
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:11:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A23A284129
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:11:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46789745ED;
-	Wed,  8 May 2024 09:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bX0bqgBf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7394B7319A;
+	Wed,  8 May 2024 09:11:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038585467A;
-	Wed,  8 May 2024 09:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715159452; cv=fail; b=C3Pp3MJgaZaOL6rk96IF5pH/iNSNOV0Tp5y9j8w+Giohe8yJ3aP7dGeEMKZ2dwrJzqYiwmRPYFJpCkMrWTe2ymSGXtdupXCUShc20KOur2STFZaBeU5OIiX0jMXwQe2iokthGf1z3puwDuehtU5MxBRJ5q6VcPYkqgdcyYckBfA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715159452; c=relaxed/simple;
-	bh=02WweL0DaLOS4y2Bo4Q3EZ8A/11Dlp5zqGur+e0Ashs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kvM8sCGoYLHBW6KR1sgXYJIJp/uXK82Tz5BNQanlnNgQu+hPZY/7UDxvK1wuc6JypMKG7gX6eSAaGpgKDYTAKiDxBHuP/m+Y4qvmOpKkJk7h7fb6FPG234c8pRRJbW+rDUbPKIAjGDHzI/oD3BdTWdy7bUYUCbEMObjPlxgkbag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bX0bqgBf; arc=fail smtp.client-ip=40.107.220.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=My5qhxAmzVmdgBh79qKVHVfMdJznU7H4jbVf33VvRviwNZasSFZ4kljcBllCYda8j8eQ3X7onCR2xjKB7iJA33MS0ZSFXHwt05q8XUJBF5Q4xXPWF1YzLzYhcsqDbF+2PjOLznUxwDr1R9ZLCDb5ufh7PEq2G91Xqgw/ya8hSMnsa7yQpRiVboQnMQPwHR9d6ngd4HfQLhuzXZv1y2jTQl3b2Gj9cZBhUk/7esOM17nqYXIqoWzzIFp8mjfCWomDmGk5owr+9fokbwdUhNNnnctJA2YFYL3um+vw8toxL2C+LsgAXEIOlORtTRp9t7fOgGx0OaQSN/EkTBGO2LS7Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UU6nmZFAcOIP94F1tbjaYt199MHcED5hdIHfXhKNcMQ=;
- b=IJL8VItat2AzvOlXG0PxNdGucQlU6vpCLAlEoVuHE+Xsi5UDasZ4yk9L2TklnneB4JKgfG70HHL7e9mHcYx8uCcN6WfM5s0JE7KrrSl4vGhbo+CrVU09m5qpBadLGRjP62ae2tE+IXVVJ0TI0ezuupChsrQP39LY9GOk+ZCkzbfMnSf3xsyl8gKXnIXrMJSCLnDg4+W9lvpGJaT+fbnizjPhT6BA4zIHwRQCnnYwkprlduT7OAIYjpTqX0PDngDMp/KnG5RiSvrmBEWsDX0ZKNWBoudCggqoZY7654/3YsndKr0Plis5GaT1ylWkwuTPWbqVyNRR4YWMuBy8K4BWUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UU6nmZFAcOIP94F1tbjaYt199MHcED5hdIHfXhKNcMQ=;
- b=bX0bqgBfVTGRRlZ2VTKzDrxJC7OoAjIDqc8KYgxNblspLyj8fu/q3jsTfSyqnqZ/9AJnyVuxbtucp2vlyns8Ek+skn4KUnYGfKBM3g1m8/2ZatadvPvYYXqrFCUxKWK5nK2h7LWdee0aVDRP45bCkw11P84lOTiAsnMmUBAQ6J4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB7823.namprd12.prod.outlook.com (2603:10b6:a03:4c9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.43; Wed, 8 May
- 2024 09:10:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7544.041; Wed, 8 May 2024
- 09:10:46 +0000
-Message-ID: <dab85d87-5b4d-400d-bf83-40008f053761@amd.com>
-Date: Wed, 8 May 2024 11:10:38 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Christian Brauner <brauner@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
- laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <d68417df-1493-421a-8558-879abe36d6fa@gmail.com>
- <20240508-unwiederholbar-abmarsch-1813370ad633@brauner>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240508-unwiederholbar-abmarsch-1813370ad633@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0291.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e7::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEEC5467A
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 09:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715159464; cv=none; b=mjIVBSQjdHzLjgkfY0Kzcnp4yiYoXuRW1ozUQXe95Ag8/3PyqTpqO41xyQ79es0xqyf4AZUCpn9C9077diwCtnFCs6gv/ZCWNN+LmIkS4F20jSuDcaoWkYx6hv4DzlbFpwKVe2se3rwS0MuQumv9rCVld5eHXwIbt+ILtiFsHBo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715159464; c=relaxed/simple;
+	bh=VyhZU53agr/R5KARGrgS1W7XcjydzEtIXRD1HXr7pEg=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=iXrF3/Y9ynMd/zQX1Y6xve/TUx43aKOI1MYtp4kq6LfIm55rbJzgaf6mbESFAPqMy9novQoUTMLsd6j0jKm1O7n0semHqIxOjr8boathixO4bZE5UDKHbhTOhfmvy9raxBdZydzvDlDonk0aNb1eHe8ZtN1UyM7qxT9z5+v1ja4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 838A7C113CC
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 09:11:03 +0000 (UTC)
+Message-ID: <25daeee8-f7ef-4595-b2e9-7e4d80ce3f1d@xs4all.nl>
+Date: Wed, 8 May 2024 11:11:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7823:EE_
-X-MS-Office365-Filtering-Correlation-Id: 838e5af2-23e5-4d11-bab1-08dc6f3ebeca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|7416005|366007|376005;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NjZrWkpCL0c1YXBYekpwUkdRRGlkWHRVSFJTMklHVTFJd1piejZZQVVhVlBB?=
- =?utf-8?B?Z1loSXduR1V1R1pXNWJXb3VFdnlnWDZaOGxsUzltWlZyMW5NUEFzWUlIT29a?=
- =?utf-8?B?ekFPa0w4T1hYaURXaFZLd2FUK0lQdm9OU2V6SS8rWVVXQ0hYc2VVNnNwdTBR?=
- =?utf-8?B?bDV3ZUErN2tJWlNkLzNpZC90blhoSmg2Y2xSODdEOWllNWxTaXo2ejU4S3p3?=
- =?utf-8?B?MzNOQU1ISUJFbHBmbjE5UUgzWGswa1EzaEQwWmdqOEIydG9KdGdxWVZ5dW1S?=
- =?utf-8?B?WlMreWUzMzZteEVDbTBZWjI2NGo2RWY5VkFJalg4SU93OGwwL1ZZZWFlN2l0?=
- =?utf-8?B?dDJuRE5nYUZVazErc2g2K3FrMnNWTmg1ZWltd0JyWWtObzZ2dXhObHVoK2sz?=
- =?utf-8?B?YllPbkhURW83bldPWFExVFVzV2lHQ0kycmhvWkZDNDBWSmNZNlpNOWdzZ2ND?=
- =?utf-8?B?YmljeDV2NGpPS3YrMk5LTU1rVUcxUTNScVppRTAzZGxFdzBlRnl1VkptVUo0?=
- =?utf-8?B?Q3BZUjhJT1FKYW1EbkhrbU0zRFhnWm85TVd3aWUvT0xqM21QNmpTRkRZT1dV?=
- =?utf-8?B?QmY4WVhNcHZYV2xWUWhEVHJlKzBMWHV0TFZ0cnJMeUpRdndtNWVBMDdaRHB1?=
- =?utf-8?B?RHVHM2NqVDlSU3ozdTdKak5KV3JlM05lbVNMNm1UTnd6SC8zNmdBWnpBV21n?=
- =?utf-8?B?L2ZMcVpBMTVyZGg2SlJhNUs5bm40bEZYaU1DZm1ub1NTODVyOVk4dFJaZzU3?=
- =?utf-8?B?Nk1MMW8xS1dBa3AxcGpSZlMrZE1FTTN4ays1TWJXd0k1cThwVDhKRVhPNXVs?=
- =?utf-8?B?MmZqcy9KSWxkSGd0UU5yREU3bzZFdW14ZUNEUTNDT3JHbWF2Um42djc1MTN1?=
- =?utf-8?B?YXRvNTVzSW5lSmpLTVdaRnlxeW5EN1d3REwxdlUrUFdkQWdDQmlKZHI2ekFQ?=
- =?utf-8?B?SVdqUVQybzRaU0Y0UCtmdFc0dXVIU3hxeGJFN3ZwTDhlT0Joc1RxczNhKzl5?=
- =?utf-8?B?eU1lWHQraGp3QmJjQ1lTNXFCQnoyZGE2VE1CV3RWODJxSytWVGN1QzdYemhI?=
- =?utf-8?B?UGM1ZllvMDFzUGhVcnNQR0lyNVpSaFZ6aDFmbmVkTnY3RWVwc2MwZC8vUFFL?=
- =?utf-8?B?eEJxNWNVWDBxM3lOblQyMUJzSzBqODRkWkhnejV6TlVkdGgzMUhxdXA2V054?=
- =?utf-8?B?VytvWHh3NmtVVEw3eS81RFhZS2tzRzExWEM1bWJpbHNySklRYUhaaDJQOWVt?=
- =?utf-8?B?R09MN0dXMlVDQ0pxSDh2amVBL0lSTVdvaENLbXFmVjNLbnhGeGhjeWJlaHo3?=
- =?utf-8?B?NzFFckVIR1huWFAwblZmMjhTRitKL2czUHVoSytzOHUrNk9xUDlpMnlsZDhr?=
- =?utf-8?B?UmhPd2ZHQUtzVVBWVlZ3RzFlQ2xVNWlaaS9uVkt1eTdpN2lnamtuMW1YWEZ4?=
- =?utf-8?B?cXpCd2xWVnBrZWNOTDNQWFJOZ1NhOXdqVi83MWVtQUx2WEdzWDRXSVlJblFI?=
- =?utf-8?B?ZHJQbk5HcVpaQXBWZnJSVlhvVFMvVTBjdDV5RHVBMnBYYXA5OXB4RkNndDQ5?=
- =?utf-8?B?VGhndGxpWCtXS01DMU9kbFZiTFNPYXIxemlyaEN1bHNsei8zZkh0Qy8xaVor?=
- =?utf-8?B?TEJRWlRUNk5nMnRpa2V5MHdwcWtjdGVCMXZFZXpJVko4UVNXSzNzdzdWSGxV?=
- =?utf-8?B?Rk5WOGVxYUhmbHVSYU9CUDlhNWVEMEV5UklRMlpJaGo4cm1sejVMM3V3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(366007)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bVJ1Skt5b3UxU0dsQUZqam5GRC9FWnEvODUxWGR6bFhGMk1pbE5QZkYyb0hY?=
- =?utf-8?B?TmVhRExrMkpIbG1hT2NaWFNsREJJN25HZnJYZWVTNUNlbFVNbkVCNkpEY0wy?=
- =?utf-8?B?YUFxWjc1aUQ1cisxUmxZWHhtTjJjUkFLWVhScFE2NWllOFd5S0tkYUV6TVph?=
- =?utf-8?B?MUlxKzZGUU5KblJrUk1PRVRNMTJ5Z3hUWVA3M1JQcnZZemNWVnp1NmwrNkxC?=
- =?utf-8?B?N1JDZTRzZTdJRFBEYjFObHlhcy95R3gvZWZPMjJ5bGgwSVUxTmk0T0pmaFB1?=
- =?utf-8?B?Y0pXZ1J4TFlnVGRBaVg0RkNGRzhmWHFOS3B0bzM5ekdUdU1UQWlwODlBeFhx?=
- =?utf-8?B?RXhCTXRybHQ4SXBORG11WC9vaW5qYXY3L2gyTVo3V3A4bGdUSTZXTy9OQ1d3?=
- =?utf-8?B?TjhRWDNtREgraTdaNC9SNHZ5VUY4NFk0eEZ6N2J5c0FqdHdmVXMxMjVkbW41?=
- =?utf-8?B?SGg0TlpscUtuMHdPSFU2RzdVUUZkYW5RT29iV0FldlZCYmdnZGRjODhiUDdF?=
- =?utf-8?B?YXFxY2l2RzFkWjJidkxZZXNOYmlLYUJ1ODFrdE0rOEVzdE0vbWtRVVlqb0Fr?=
- =?utf-8?B?M0RIa0crelVsVzdyaWtzdWh4Q1BON1VjZzRlU0ZhOEpueVlFd2FIck1GWUNG?=
- =?utf-8?B?WitFalhjc01YVDB4UWVuTC9TQnZTSVg0eWhKbmJ6TTVtYVhpb2t2SXdoWURu?=
- =?utf-8?B?dXFzREp2UnNNWFRsUko4RGE1LzA5TFkxUTRrVndNNzA5bDI0VEhDN2JhM0d1?=
- =?utf-8?B?TlQ0MXdYL0ZtZHhNS0pqRTJJaXI3S1F4eUhuUUJuZW1sMzA3U2tlTGRmbjM5?=
- =?utf-8?B?NXUvelBpWlYzOFAvZVR2MGZKR25vMzJ5emduU2xPdWZ1Q2NpLzg2SllEcnc0?=
- =?utf-8?B?V05WKzJ0S1pubWdQSi9UNHhYR3RrSGR4THZyRGhEM2psVWViWEFoTlp5UkVC?=
- =?utf-8?B?UkJESUZsOExQS1NZdUtDZ3J5U1A0WEtib0JCK1Y5cTVFYzNYVjZienpINmhM?=
- =?utf-8?B?NWtTTXFxUW1STFFMMXFDcE9YaXF4bjVFUXNBZ2xlL3hvSlZDdURzZU0zekVJ?=
- =?utf-8?B?UkN2dEx5VFc5YTRQU0cwQ0M1VlcvcmNYUFNnTmJpQy8rcktiOW1lZ1czdzZD?=
- =?utf-8?B?ZnpaZERHVDI3bTF1ajBzdXZ6R3FUL1gzNzNhRzhQOTdtSHJWaGpMM3RJOTNR?=
- =?utf-8?B?NCtIalFBclp3Nmh1NXltT2ZjbkQ5R2hrSmYrYkVZd3FXeDdyOHB3TnltUzFm?=
- =?utf-8?B?bWQ2UTZJR1hQT21nU3JHTXZaWERXME04KzRMU0lIU3VxUjhMeEdNWjFsMnNJ?=
- =?utf-8?B?WUphSzFlR0haS09PT3RQRUtHR2FTZXlCMW1mVmVDZGYybFowVEJUOU1VSDlj?=
- =?utf-8?B?MUo4eGFqOEZwZXdadC91SGNVKzBnQ3dtWHdENkR3eFhTQkVKYkZ6YWRaVXk4?=
- =?utf-8?B?R2lxSDlURnZLL29SeUlwTjJ2VjBNU2hSb2NNNTlaemNFdFp4MVd5TC9wdS9B?=
- =?utf-8?B?bTlCVnROV3RFQUxKZStqNG81TEZrNWxrYVVjYTFCNjNsUlFLb0xyUUl4R3Ru?=
- =?utf-8?B?V2Z0MFRDUVZCaTFVSUg5Z1hqczRLcnhBV2xIODdaWW12enJtaWR6dVAraU1D?=
- =?utf-8?B?NU1OUDFmNkx6bk00b0EzUmJDelFKOE9PeW1XN2dWdmF3MXNDNkkvL2U0eCtl?=
- =?utf-8?B?TVVmOGZKaEtrY2FKSjFiSFVCS3B1RER5Z05CR1djRVdyY2Y2eFYxNHE3ckpm?=
- =?utf-8?B?Sndiek01bVladDY1WVoweThqcUpqUDZ2UjIxKzdnTzFvTE8xMjZKV3l2VzZo?=
- =?utf-8?B?dUpzNDZyMnAxVGt6N21jRHlrY3BleCtTSXVsL3pubkZPaFBlbzJaM0lwbnlN?=
- =?utf-8?B?M3RFcFlSVmd0ZVQvQTNVV3R5c2k1a2xIamdxNHQ3NlJuS1VLakJIbXl5UVpa?=
- =?utf-8?B?Qko3TnIzN0s5TWpjSkRLSWFic0V3SGt6VWVnZjBpc1pxbEwwT0dkMXZmQnE3?=
- =?utf-8?B?cUxXUXgzRXNib05HL0VGekt0MVBkZGN4dmRaeDdCVkhxc3IvUlFNZmN6WTRT?=
- =?utf-8?B?Q0djRFdVS1dhU3VwSE51dEFWTzNySUFsMmhrUmxodVEzT1hWVG8zb1l0YUJZ?=
- =?utf-8?Q?muW53MlUTzB9DpdAdoXPoFCDA?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 838e5af2-23e5-4d11-bab1-08dc6f3ebeca
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 09:10:46.0356
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vovw0iRn1C7grfMVmfzmyZUXc6aEup11el3Tw+QGk91mpYGH+aCDh8Gq4Rbc1ksJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7823
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v6.10] media: v4l2-ctrls: drop unnecessary locking that
+ caused potential deadlock
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Am 08.05.24 um 10:23 schrieb Christian Brauner:
-> On Tue, May 07, 2024 at 07:45:02PM +0200, Christian König wrote:
->> Am 07.05.24 um 18:46 schrieb Linus Torvalds:
->>> On Tue, 7 May 2024 at 04:03, Daniel Vetter <daniel@ffwll.ch> wrote:
->>>> It's really annoying that on some distros/builds we don't have that, and
->>>> for gpu driver stack reasons we _really_ need to know whether a fd is the
->>>> same as another, due to some messy uniqueness requirements on buffer
->>>> objects various drivers have.
->>> It's sad that such a simple thing would require two other horrid
->>> models (EPOLL or KCMP).
->>>
->>> There'[s a reason that KCMP is a config option - *some* of that is
->>> horrible code - but the "compare file descriptors for equality" is not
->>> that reason.
->>>
->>> Note that KCMP really is a broken mess. It's also a potential security
->>> hole, even for the simple things, because of how it ends up comparing
->>> kernel pointers (ie it doesn't just say "same file descriptor", it
->>> gives an ordering of them, so you can use KCMP to sort things in
->>> kernel space).
->>>
->>> And yes, it orders them after obfuscating the pointer, but it's still
->>> not something I would consider sane as a baseline interface. It was
->>> designed for checkpoint-restore, it's the wrong thing to use for some
->>> "are these file descriptors the same".
->>>
->>> The same argument goes for using EPOLL for that. Disgusting hack.
->>>
->>> Just what are the requirements for the GPU stack? Is one of the file
->>> descriptors "trusted", IOW, you know what kind it is?
->>>
->>> Because dammit, it's *so* easy to do. You could just add a core DRM
->>> ioctl for it. Literally just
->>>
->>>           struct fd f1 = fdget(fd1);
->>>           struct fd f2 = fdget(fd2);
->>>           int same;
->>>
->>>           same = f1.file && f1.file == f2.file;
->>>           fdput(fd1);
->>>           fdput(fd2);
->>>           return same;
->>>
->>> where the only question is if you also woudl want to deal with O_PATH
->>> fd's, in which case the "fdget()" would be "fdget_raw()".
->>>
->>> Honestly, adding some DRM ioctl for this sounds hacky, but it sounds
->>> less hacky than relying on EPOLL or KCMP.
->>>
->>> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
->>> too, if this is possibly a more common thing. and not just DRM wants
->>> it.
->>>
->>> Would something like that work for you?
->> Well the generic approach yes, the DRM specific one maybe. IIRC we need to
->> be able to compare both DRM as well as DMA-buf file descriptors.
->>
->> The basic problem userspace tries to solve is that drivers might get the
->> same fd through two different code paths.
->>
->> For example application using OpenGL/Vulkan for rendering and VA-API for
->> video decoding/encoding at the same time.
->>
->> Both APIs get a fd which identifies the device to use. It can be the same,
->> but it doesn't have to.
->>
->> If it's the same device driver connection (or in kernel speak underlying
->> struct file) then you can optimize away importing and exporting of buffers
->> for example.
->>
->> Additional to that it makes cgroup accounting much easier because you don't
->> count things twice because they are shared etc...
-> One thing to keep in mind is that a generic VFS level comparing function
-> will only catch the obvious case where you have dup() equivalency as
-> outlined above by Linus. That's what most people are interested in and
-> that could easily replace most kcmp() use-cases for comparing fds.
->
-> But, of course there's the case where you have two file descriptors
-> referring to two different files that reference the same underlying
-> object (usually stashed in file->private_data).
->
-> For most cases that problem can ofc be solved by comparing the
-> underlying inode. But that doesn't work for drivers using the generic
-> anonymous inode infrastructure because it uses the same inode for
-> everything or for cases where the same underlying object can even be
-> represented by different inodes.
->
-> So for such cases a driver specific ioctl() to compare two fds will
-> be needed in addition to the generic helper.
+When logging the control values through VIDIOC_LOG_STATUS you could
+get into a potential deadlock situation in the vivid driver:
 
-At least for the DRM we already have some solution for that, see 
-drmGetPrimaryDeviceNameFromFd() for an example.
+[Wed May  8 10:02:06 2024]  Possible unsafe locking scenario:
 
-Basically the file->private_data is still something different, but we 
-use this to figure out if we have two file descriptors (with individual 
-struct files underneath) pointing to the same hw driver.
+[Wed May  8 10:02:06 2024]        CPU0                    CPU1
+[Wed May  8 10:02:06 2024]        ----                    ----
+[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1620:(hdl_vid_cap)->_lock);
+[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1608:(hdl_user_vid)->_lock);
+[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1620:(hdl_vid_cap)->_lock);
+[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1608:(hdl_user_vid)->_lock);
 
-This is important if you need to know if just importing/exporting of 
-DMA-buf handles between the two file descriptors is enough or if you 
-deal with two different hw devices and need to do stuff like format 
-conversion etc...
+That's because both the main control handler was locked and the
+inner control handler containing the control that you want to log.
 
-Regards,
-Christian.
+In this particular case there is no need to lock the inner control
+handler since it is guaranteed that that handler won't delete controls
+unexpectedly.
+
+Fixes: 9801b5b28c692 ("media: v4l2-ctrls: show all owned controls in log_status")
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/v4l2-core/v4l2-ctrls-core.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index c59dd691f79f6..4e6748bd419cf 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -2518,11 +2518,7 @@ static void log_ctrl(const struct v4l2_ctrl_handler *hdl,
+
+ 	pr_info("%s%s%s: ", prefix, colon, ctrl->name);
+
+-	if (ctrl->handler != hdl)
+-		v4l2_ctrl_lock(ctrl);
+ 	ctrl->type_ops->log(ctrl);
+-	if (ctrl->handler != hdl)
+-		v4l2_ctrl_unlock(ctrl);
+
+ 	if (ctrl->flags & (V4L2_CTRL_FLAG_INACTIVE |
+ 			   V4L2_CTRL_FLAG_GRABBED |
+-- 
+2.43.0
+
 
