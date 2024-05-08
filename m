@@ -1,214 +1,256 @@
-Return-Path: <linux-media+bounces-11154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987CC8C0144
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 17:44:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3808C0149
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 17:45:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F664288795
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 15:44:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9749C1F2794A
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 15:45:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A9A12A179;
-	Wed,  8 May 2024 15:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11FE212839E;
+	Wed,  8 May 2024 15:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4ZTjST2"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="dYcN+kxw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DB712839E;
-	Wed,  8 May 2024 15:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19561A2C05
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 15:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715183069; cv=none; b=pgUf66C8Lf1D7unmWJRCnNDRs2/JOayOWCM8KMXdYKn+Ta85NxYlDfNoKUR0cJMwxN4R5ALEQlwB2ZLKmYWHN3Bj16t5OSaWUlU4YeHBAni3js5UgIk2YLRFSihzkW/KChbjqN+eaXb9CaxbbmN1DHc5CyOij5CGsMRuPtuwslo=
+	t=1715183143; cv=none; b=j18xgiJfQEuM+TOm7yFsS49yZoPIahLQPYURQK7mAMMRF4oB2Yswc5ltTA7ItOntsuw4F1pddPvOZZtEteWKLkmMe7Xu7+1L7tg+iwJhPvVE/KW3bUI79detOBR/uFD9CQjirtXEfk2npWvs1Zqzt3ckuJ1YAVtUsW1K/DO6nyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715183069; c=relaxed/simple;
-	bh=kYkH3GQ8ASJnV40LkgFncEJhg6ZPhWJ+ixUSgcyTt5M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aOQ93AJoQw6Cs1FmKxHbg9fb7VnwFMaZ9SkbR0MfOEMXNB26OuTgzyIKC3MGa9xejYvn9b7hdbZFb4euMZEsO/hfsJSvU5TBLiV9pPzFzcq5Rw87htCOGcoCaNqM0LlYCpgonsGmTHHAJhJ0lena93W/pFIgTSa73BiVSAQHP9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4ZTjST2; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-572adaa172cso1944341a12.1;
-        Wed, 08 May 2024 08:44:27 -0700 (PDT)
+	s=arc-20240116; t=1715183143; c=relaxed/simple;
+	bh=Y3tAYnJhvWIsSCmSdE6nAn4Ex+kbs5Wn07R+879JUgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMtp+cX+YoWKiAeQoxZ5m7XWNFgK7AqS4n6J8sinKuLKteUWoig5OfuL6y38b2g7O0JsRDDbWeMNMTqmfCSBZLaXK9tE9ngdeT7y4hmUwSpySvEuBk9V8LKWhQmccPdMftKdFx6G9nFh3q613X8zSrJOJDryBOB+fGlTl2RiCB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=dYcN+kxw; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2e1e8c880ffso10267871fa.2
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 08:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715183066; x=1715787866; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qQJE9gf7KB48yGwLoojwH5ddpfi3k3r9Ytiu480CbPs=;
-        b=D4ZTjST2J0LHRW5zE/BvfGtWzm+6QcrPh2Q+5c8ON1LKBDNlFBzLEk7p8VbOSnIWwR
-         j4Qv4V22IL6WKC+o1s5cfrTDm6B+qYkCupM8OHnyWPlAzqFeE0BHTBXI4obems13Tl0+
-         JFnWOoC+wPywj6jd4t8RJl2WHtJdLFPkxHY7KtSVi3PwvuuTbU/WWZ2sEnIsIO7o8g0Z
-         w2GfZ2ObTAtHrKLLdrwGE+lvFdM59kLuGjC2Y6l8tvxQA1sGu8Nup/Ww3QNVdKuwGKnR
-         qem+kxllPsvuMWrWHIR0K9OiS6vK85lcOKDWFEXR9wYHSqIKDOjdoQaBrIKJ57edXOvu
-         Ah0A==
+        d=ffwll.ch; s=google; t=1715183140; x=1715787940; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zQT930nNUV1vsHVoX3P+3mBNNldXqcqQMqEjZfBnVWc=;
+        b=dYcN+kxwyl/LDgV8q+OrMUejOE3sF4If55u6Q4DDQuO14gEOV55VGR/v3fLGfCE3rl
+         lw2rtPdcATyCKO5vaNaFY08OhDf16opdJ+PsszPFheeppq49YFnXbBqayOigcfrNHsFH
+         s/B6i7hj0yh0wRUjuBjMjimgYxE6AmkVgfGFc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715183066; x=1715787866;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQJE9gf7KB48yGwLoojwH5ddpfi3k3r9Ytiu480CbPs=;
-        b=xKn9fEzlR7mg8j7NL5k0DvAlPdGSLfDILF4/wBSQ4aacEt/3L0Vy+1iUSnz0mKdJ4l
-         lXhT32coNKjtfdYpTc3r51QFrq+TdNMb8NQQGTZH62mqT6yiL8uUm/Fu0B/M6emSCv8o
-         pW8tG8qZIl/Ihj1PARrgHDHkAjJ8Ck5O/Yv0Kh6qxQTojgdvfVcouuSupSJ0UCA92/cm
-         JV2un8AhGyH+i4QtEOIB61CZm/NW62tiiVKupJUgYNmcmRyAli/G55xhjozogCiMzDEJ
-         NAY5h7+jBBq7ZHdndipQNXOsX04Hx8eBLLePfAqWtog7CuvQ16M16mc4c0+ogPtGoJJl
-         QiQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXvPfwewo6F8HQGVbxutB28KEooVEHRftnyGoKXD3PO/2xg12tE97L22k5cu+ksL7qPzixRlYBrNpliBWNpZtnSQrlI8rmopL/9ie1FlWNcqwZavg2sgqatuJb5L9rwzrzku05+J8yxeR6EkiIo+d03XdRkj+kYZlXPkPoua9i+MN1LKwMrYT9vJ1tsdlxiDQFV5Y9kjJa1PgOtFgAXwbIVBblCE0/o8W1VQu43jZl/lHXvXszxfrQ+QeeOiGO5lQsrPc90MSzkzpwbKVG1YqgjOBCi4BHN6i2Z6AzukjBTOj4VWY+I6ER9ZmjGnIn2Bmz4SjHn6hpv9Civ6XJ4rp8fXING7NSTVFoAi3MfJWzeGM6X/soIm1qzDYkn8/oWZq4dFimzqPRgxdUlc5RwIaWUlDzd3u0b723Gg/TYBPEVmTbnpbgJ/GY9+WDjM+D7emXJ/72NuxrWL5thCXqQEjzWHHfWLNMCWEfP5M91RFI9pL5w0MKLOVcekuX3fjYyHqZsoKx7+g==
-X-Gm-Message-State: AOJu0YytoznEv2AR4a6CWvCBsLQ+WYiZmRLhvwAT6ORu9uiEb0ZbGsPY
-	qSJdBfFwDX6fdspT676VHdpBuwZR59diRmkDdmK46XG8Sz4lYJuCEZK2FX6E
-X-Google-Smtp-Source: AGHT+IE5Nm674D55fDuDNAiohan1HsOJY3ZoiOdnVUCBNyXk04j1w8UnHxZIePZoq8yZeGceb/9ETQ==
-X-Received: by 2002:a05:6402:1bc6:b0:572:e81d:6e70 with SMTP id 4fb4d7f45d1cf-573328e4e6dmr20330a12.15.1715183065606;
-        Wed, 08 May 2024 08:44:25 -0700 (PDT)
-Received: from [192.168.42.40] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id er21-20020a056402449500b005726e5e8765sm7691323edb.3.2024.05.08.08.44.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 08:44:25 -0700 (PDT)
-Message-ID: <6f69694b-4281-45a6-92aa-d9d72b918df2@gmail.com>
-Date: Wed, 8 May 2024 16:44:32 +0100
+        d=1e100.net; s=20230601; t=1715183140; x=1715787940;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zQT930nNUV1vsHVoX3P+3mBNNldXqcqQMqEjZfBnVWc=;
+        b=bwBc+0dRz6Tn0xeMheBMGeouTvXllxfmROoGoViJI8DhTHw1Ru5HfAiZ8kvL4I0hPb
+         cctw2hMOuUPqshOMtef6lcaMmRr0oSjDYyqBe771SLKuvXW0ocEon0u2sWFLXbDgc1L/
+         Rjndt89qSzjjWj4IoA65WotN+X1xcFOYyh5H1XpMisc+FoRNP1EUoB6+oGCkzyJQwDkl
+         Wd2tgyJrGSgicaIps22MefNXPQUEVP8fWzkrw6nFDBu1SjVLYWz51YBQIpsGRBrW8yGq
+         XZU1eUoH4BQ7qUdFvRSDtp3u+huDrRaViy+AV6AOUOTWb7utj6IYT5P+DAa2qKjdDQS8
+         2SKA==
+X-Forwarded-Encrypted: i=1; AJvYcCULYdvTWMEYZ1iew2iV1g43s3kEw9yFZZ42xgTjfTDrnYlKAUEiDjz8CjdND+WP70nk6zWOnzTRendZzs2iMVk2IH9HWf+cIXcg5NI=
+X-Gm-Message-State: AOJu0Yy7t92Vlw9W4bOepz8uQlpXlGOUohN26RLxg2kpciutEXATQ8ZP
+	x4O58ooPQLZBhmGURciYbMJG9fWjFHKh89b/1163lW0I6XKB0Vbe9qeKwt86RVE=
+X-Google-Smtp-Source: AGHT+IElEidDiVjInarsAR7F2JpjTofgrb5PfDM8hUsyo09wsdL7lGXij8WK5Ptcrp9hokZm7DJwxg==
+X-Received: by 2002:ac2:5b84:0:b0:51f:6d6d:57b with SMTP id 2adb3069b0e04-5217d6346e2mr2041007e87.6.1715183139855;
+        Wed, 08 May 2024 08:45:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id cq27-20020a056402221b00b005727eb1ed6asm7672318edb.68.2024.05.08.08.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 08:45:39 -0700 (PDT)
+Date: Wed, 8 May 2024 17:45:37 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org,
+	axboe@kernel.dk, christian.koenig@amd.com,
+	dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+	jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, minhquangbui99@gmail.com,
+	sumit.semwal@linaro.org,
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
+ about file lifetimes
+Message-ID: <ZjueITUy0K8TP1WO@phenom.ffwll.local>
+Mail-Followup-To: Christian Brauner <brauner@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org,
+	axboe@kernel.dk, christian.koenig@amd.com,
+	dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+	jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, minhquangbui99@gmail.com,
+	sumit.semwal@linaro.org,
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
+ <20240508-risse-fehlpass-895202f594fd@brauner>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
- <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
- <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
- <20240507164838.GG4718@ziepe.ca>
- <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
- <20240507175644.GJ4718@ziepe.ca>
- <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
- <20240507233247.GK4718@ziepe.ca>
- <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
- <20240508142530.GR4718@ziepe.ca>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240508142530.GR4718@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240508-risse-fehlpass-895202f594fd@brauner>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On 5/8/24 15:25, Jason Gunthorpe wrote:
-> On Wed, May 08, 2024 at 12:30:07PM +0100, Pavel Begunkov wrote:
+On Wed, May 08, 2024 at 12:08:57PM +0200, Christian Brauner wrote:
+> On Mon, May 06, 2024 at 04:29:44PM +0200, Christian König wrote:
+> > Am 04.05.24 um 20:20 schrieb Linus Torvalds:
+> > > On Sat, 4 May 2024 at 08:32, Linus Torvalds
+> > > <torvalds@linux-foundation.org> wrote:
+> > > > Lookie here, the fundamental issue is that epoll can call '->poll()'
+> > > > on a file descriptor that is being closed concurrently.
+> > > Thinking some more about this, and replying to myself...
+> > > 
+> > > Actually, I wonder if we could *really* fix this by simply moving the
+> > > eventpoll_release() to where it really belongs.
+> > > 
+> > > If we did it in file_close_fd_locked(),  it would actually make a
+> > > *lot* more sense. Particularly since eventpoll actually uses this:
+> > > 
+> > >      struct epoll_filefd {
+> > >          struct file *file;
+> > >          int fd;
+> > >      } __packed;
+> > > 
+> > > ie it doesn't just use the 'struct file *', it uses the 'fd' itself
+> > > (for ep_find()).
+> > > 
+> > > (Strictly speaking, it should also have a pointer to the 'struct
+> > > files_struct' to make the 'int fd' be meaningful).
+> > 
+> > While I completely agree on this I unfortunately have to ruin the idea.
+> > 
+> > Before we had KCMP some people relied on the strange behavior of eventpoll
+> > to compare struct files when the fd is the same.
+> > 
+> > I just recently suggested that solution to somebody at AMD as a workaround
+> > when KCMP is disabled because of security hardening and I'm pretty sure I've
+> > seen it somewhere else as well.
+> > 
+> > So when we change that it would break (undocumented?) UAPI behavior.
 > 
->>> I'm not going to pretend to know about page pool details, but dmabuf
->>> is the way to get the bulk of pages into a pool within the net stack's
->>> allocator and keep that bulk properly refcounted while.> An object like
->>> dmabuf is needed for the general case because there are
->>> not going to be per-page references or otherwise available.
->>
->> They are already pinned, memory is owned by the provider, io_uring
->> in this case, and it should not be freed circumventing io_uring,
->> and at this stage calling release_pages() is not such a hassle,
->> especially comparing to introducing an additional object.
+> I've worked on that a bit yesterday and I learned new things about epoll
+> and ran into some limitations.
 > 
-> Something needs to co-ordinate when the net stack's allocator is done
-> with the bulk of pages and when io_uring and do the final
-> put_user_page() to free it. DMABUF is not an unreasonable choice for
-> this.
+> Like, what happens if process P1 has a file descriptor registered in an
+> epoll instance and now P1 forks and creates P2. So every file that P1
+> maintains gets copied into a new file descriptor table for P2. And the
+> same file descriptors refer to the same files for both P1 and P2.
 
-When a page pool dies notifies io_uring via the ->destroy callback.
-Vise versa, when io_uring wants to terminate zerocopy, it releases
-the interface queue, which kills the page pool, ending in
-->destroy again.
-  
->>> topic to me, and honestly hacking into the allocator free function
->>> seems a bit weird..
->>
->> Do you also think that DMA_BUF_IOCTL_SYNC is a weird hack, because
->> it "delays free" by pinning the dmabuf object and letting the user
->> read memory instead of copying it? I can find many examples
+So this is pretty similar to any other struct file that has resources
+hanging off the struct file instead of the underlying inode. Like drm
+chardev files, where all the buffers, gpu contexts and everything else
+hangs off the file and there's no other way to get at them (except when
+exporting to some explicitly meant-for-sharing file like dma-buf).
+
+If you fork() that it's utter hilarity, which is why absolutely everyone
+should set O_CLOEXEC on these. Or EPOLL_CLOEXEC for epoll_create.
+
+For the uapi issue you describe below my take would be that we should just
+try, and hope that everyone's been dutifully using O_CLOEXEC. But maybe
+I'm biased from the gpu world, where we've been hammering it in that
+"O_CLOEXEC or bust" mantra since well over a decade. Really the only valid
+use-case is something like systemd handing open files to a service, where
+it drops priviledges even well before the exec() call. But we can't switch
+around the defaults for any of these special open files with anything more
+than just a current seek position as state, since that breaks uapi.
+-Sima
+
 > 
-> It seems to me the flow you want is for the driver to allocate a page,
-> put it on a rx ring, process it through the netstack, and deliver it
-> to io_uring. io_uring would then sit on the allocation until userspace
-> it done and return it back to the netstack allocator.
-
-That's right, with a note that "driver allocating a page" is
-not a alloc_page() but grabbing a user page/frag  the user
-registered beforehand.
-
-> Hooking the free of the netstack allocator and then defering it seems
-
-FWIW, it's not about page pool's ->release_page, it's a slow
-path and in an ideal world wouldn't be called outside of tear
-down.
-
-> like a weird and indirect way to get there. Why can't io_uring just be
-> the entity that does the final free and not mess with the logic
-> allocator?
-
-Then the user has to do a syscall (e.g. via io_uring) to return pages,
-and there we'd need to care how to put the pages efficiently, i.e.
-hitting the page pool's fast path, e.g. by hoping napi is scheduled and
-scheduled for the CPU we're running on, or maybe transferring the pages
-to the right CPU first.
-
-Compare it with userspace putting pages into a ring, and the allocator
-taking from there when needed without any extra synchronisation and
-hassle just because it's a sole consumer.
+> So there's two interesting cases here:
+> 
+> (1) P2 explicitly removes the file descriptor from the epoll instance
+>     via epoll_ctl(EPOLL_CTL_DEL). That removal affects both P1 and P2
+>     since the <fd, file> pair is only registered once and it isn't
+>     marked whether it belongs to P1 and P2 fdtable.
+> 
+>     So effectively fork()ing with epoll creates a weird shared state
+>     where removal of file descriptors that were registered before the
+>     fork() affects both child and parent.
+> 
+>     I found that surprising even though I've worked with epoll quite
+>     extensively in low-level userspace.
+> 
+> (2) P2 doesn't close it's file descriptors. It just exits. Since removal
+>     of the file descriptor from the epoll instance isn't done during
+>     close() but during last fput() P1's epoll state remains unaffected
+>     by P2's sloppy exit because P1 still holds references to all files
+>     in its fdtable.
+> 
+>     (Sidenote, if one ends up adding every more duped-fds into epoll
+>     instance that one doesn't explicitly close and all of them refer to
+>     the same file wouldn't one just be allocating new epitems that
+>     are kept around for a really long time?)
+> 
+> So if the removal of the fd would now be done during close() or during
+> exit_files() when we call close_files() and since there's currently no
+> way of differentiating whether P1 or P2 own that fd it would mean that
+> (2) collapses into (1) and we'd always alter (1)'s epoll state. That
+> would be a UAPI break.
+> 
+> So say we record the fdtable to get ownership of that file descriptor so
+> P2 doesn't close anything in (2) that really belongs to P1 to fix that
+> problem.
+> 
+> But afaict, that would break another possible use-case. Namely, where P1
+> creates an epoll instance and registeres fds and then fork()s to create
+> P2. Now P1 can exit and P2 takes over the epoll loop of P1. This
+> wouldn't work anymore because P1 would deregister all fds it owns in
+> that epoll instance during exit. I didn't see an immediate nice way of
+> fixing that issue.
+> 
+> But note that taking over an epoll loop from the parent doesn't work
+> reliably for some file descriptors. Consider man signalfd(2):
+> 
+>    epoll(7) semantics
+>        If a process adds (via epoll_ctl(2)) a signalfd file descriptor to an epoll(7) instance,
+>        then epoll_wait(2) returns events only for signals sent to that process.  In particular,
+>        if  the process then uses fork(2) to create a child process, then the child will be able
+>        to read(2) signals that  are  sent  to  it  using  the  signalfd  file  descriptor,  but
+>        epoll_wait(2)  will  not  indicate  that the signalfd file descriptor is ready.  In this
+>        scenario, a possible workaround is that after the fork(2), the child process  can  close
+>        the  signalfd  file descriptor that it inherited from the parent process and then create
+>        another signalfd file descriptor and add it to the epoll instance.   Alternatively,  the
+>        parent and the child could delay creating their (separate) signalfd file descriptors and
+>        adding them to the epoll instance until after the call to fork(2).
+> 
+> So effectively P1 opens a signalfd and registers it in an epoll
+> instance. Then it fork()s and creates P2. Now both P1 and P2 call
+> epoll_wait(). Since signalfds are always relative to the caller and P1
+> did call signalfd_poll() to register the callback only P1 can get
+> events. So P2 can't take over signalfds in that epoll loop.
+> 
+> Honestly, the inheritance semantics of epoll across fork() seem pretty
+> wonky and it would've been better if an epoll fd inherited across
+> would've returned ESTALE or EINVAL or something. And if that inheritance
+> of epoll instances would really be a big use-case there'd be some
+> explicit way to enable this.
 
 -- 
-Pavel Begunkov
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
