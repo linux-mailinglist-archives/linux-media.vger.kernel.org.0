@@ -1,161 +1,197 @@
-Return-Path: <linux-media+bounces-11143-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11144-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8223D8BFD03
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 14:19:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A91338BFD1F
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 14:30:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F3B01F240DD
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 12:19:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E1761F24182
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 12:30:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E3B283CBA;
-	Wed,  8 May 2024 12:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F347854FA3;
+	Wed,  8 May 2024 12:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cGedhrWN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PQi4T/AR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187A87C097
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 12:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD23254BED
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 12:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715170756; cv=none; b=TJLbkffHtQfJP1bynrnfofWdHctSGNNCr/5EplngiVoRiBuXYSQNYu50GBiWMFzH+amQNBSkmH8b6vSJhyk2yb5p6nrXdE1izSGpy331QFqJiR2DFSOX2AJqmrC519h5CZzQwuyfDFEoaCIQAZzvy+j0yTi+GV08aHKffIKdkSc=
+	t=1715171436; cv=none; b=bBpGvYdpv3zYVgODv5BdTMtmz98d9KntMT4YOqr1iqx6CmJSVbVWTL1D9VQVMKGRAAAOEYP8D9xZoxJE6Ge9FeBJEFVOVo40Kiq42fmy6v/MbXbatbrDF7kuewQGRAjsGhGznTyEECc+29woLIGG8+76qpXC+zd4TceBltM3/1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715170756; c=relaxed/simple;
-	bh=nrFRPSsvbUzFt/WPtO/z5CXW81sab0fNEVzfklFIb18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=coXlOShmoXegyno4CcE6h54MWaf/ztZhlrRMghj8Pqnn0OVJ2iE9Hi4GSDVFfW1fZbtfWYX38FtlN1x/4MnxV8q+qSto8WDjDaoH976i4rQFImfhIx7/S20hlDE70shlT/BviKz8z/YJdDSZ7T3eVEHB/RCaVCYLY4ofhX1ytGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cGedhrWN; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a59c0a6415fso994925366b.1
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 05:19:14 -0700 (PDT)
+	s=arc-20240116; t=1715171436; c=relaxed/simple;
+	bh=TqVEqH1q0bDGKE0x+2yoDuOpG9nNPgui+nNL00aF/uI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cag0JzCD3NG7MuS815M2JqCh8Pv1wne9cenplb1KwGSF6hv1fLKXKzyYRXPG59pDBkfuPwatDwtWNTJg/ejS1OlqUvZcChCfMFev+9BiqLjAr/bTWr41AJY7sfKozs24QSu9Yk6ejOyEdACIFKSSWQGvp6VJk5OqTHx5EpgAqzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PQi4T/AR; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34e28e32ea4so3140321f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 05:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715170753; x=1715775553; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0iifRV02/55ePrfny4jLlnTG9mGSmMWNkn9IMixe1Bk=;
-        b=cGedhrWNa3hK0Ke5Qq4JGcwF167nmSI56D6kmMNGc2Q1FClLdbVqWHnHIvJjopGujH
-         f3E24AgvxEA6zehhDoglqVfAhYA8IGhyPEciGeAzP4FZaPrhZbYcG8Yp5ZfdJ6bt9QbY
-         QaGqv5pWJyehlErN9180lRpFCeCvzxCHa6GCUpbtK2r5dVIL1zh2WyvBOqTTF80u1liu
-         c8DPthi15+KdrqoEnXVzV4hAcUcelTjf5PpxGuwYgXWEiQgfQ+JB8pGPvl3lFJQ7NkrE
-         BAcCTQ3b2MWUHE6+7EqwrWruyHIH1ns8hNopgYjHfSo7YAwFpSMspP3eClodPo7A7cN7
-         rgAg==
+        d=linaro.org; s=google; t=1715171433; x=1715776233; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YYrKVOxVHFjhu1hOKK81DsZdjrvks2E1EPLM+0mit2E=;
+        b=PQi4T/AROhdnBwPvab+UgUX+n+e6okCPFBjUNFujIUafxj+NATgrOe9zZVra2wAeWy
+         EEqid6O6qxf1Upil4PatFngkjXrp1QEO/lZGYjxknyxxHoKYhbmdvQA2I2cNwOPdDLsN
+         EUbzC4JeUV7O/Zp3bPZp3TgA09MrJW2pXFrK7F1aCeZ4IqH97hUaWrWmldUQehEWW+sF
+         GEwYHjPOLoNy1VcqbOsq+6F4r565+qUX/65VFM41yXL6ynZp3o0qZGL997AKHC+pjjTK
+         8XqAIymTaEoRYpoxDnL7TPdjnaQcVMjwOAbxPQKN8gtr+W+bMHL62dW1UVr29OJYEkvQ
+         bLRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715170753; x=1715775553;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0iifRV02/55ePrfny4jLlnTG9mGSmMWNkn9IMixe1Bk=;
-        b=UMf+CDipq6FQXdefPwCYFJbThTGrYg6PzDsDt091gE1NpXNf25TQgrQxFwzDXAxt2Q
-         jd1U9L2aT2sxphPVg9ZQe0pcRVgKhtpATpiSoSA6A0MY3S8g3r+2QAqDQCQEpSN5y3kN
-         lBBHKfOtDEHKI/OtX0PJAkYM6fjA3w4Yj9QjB+llts2+W/R8VqfXXxFt7UFDd62pTI52
-         rqo8ynXYcsVkLY1BAzqRMQVgHEiJ7BvJ1PwWHegu/86igG6kqKKEfnDP5QnnYRZ9rxyj
-         nTwqa/OjIyj68U4zx57oGZnhZbPEkwaHTlXrLJlnrmnW7lXHLX40gaT8UUgaNM/hKtur
-         NQQw==
-X-Gm-Message-State: AOJu0YzlkyMzWxCZmZ8R3cyoBosN10PSI+4Vu7u/gVVTCTqbRAzBOWO2
-	KfFp7NO8YZpvHZVcT+gh6GnwDSZyGpODYRfxnZFZ7AZkHfdIjChd
-X-Google-Smtp-Source: AGHT+IGjBhIgvsGfEBX8M1vR2J72/UB3zgzZiT3nW+KDZ6ZU9EFsSvPHrrLLSIiAIYepYzTIx72Y+A==
-X-Received: by 2002:a17:907:7f8b:b0:a59:ae57:1658 with SMTP id a640c23a62f3a-a59fb94bee5mr206769266b.30.1715170752938;
-        Wed, 08 May 2024 05:19:12 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-118.cust.vodafonedsl.it. [188.217.50.118])
-        by smtp.gmail.com with ESMTPSA id d19-20020a17090648d300b00a5a06effd3fsm508874ejt.221.2024.05.08.05.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 05:19:12 -0700 (PDT)
-Date: Wed, 8 May 2024 14:19:10 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-Message-ID: <Zjttvsa+tnpRihwj@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <ZjnMzhoWrt8E0wPJ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <b536fa94-9799-4f18-a0fa-ea59094035b2@xs4all.nl>
+        d=1e100.net; s=20230601; t=1715171433; x=1715776233;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YYrKVOxVHFjhu1hOKK81DsZdjrvks2E1EPLM+0mit2E=;
+        b=UFlALacMZMnOBsQ22IBVZv7PkhkV3m2DIqP0/g21oOdL1+8zKH03lmSgsXFEa7OI0r
+         dpun1rBr4glGEzGMfWu9HJkade4Dor12vLbS/ll37OHwDXEQHhmseFdNGHIhMNVHRlMm
+         Fm19C5mhivylpc8UvMdZlVhPLPCh+v8OHKCQFLE79ZubGWVxoP0kVEFid6EyU4n/vFGQ
+         r49EB7R1FhHgr25XcvQlDEUCoiWjg5BHz9FsR9NC9yhpu2RRNkamCdkcwG4qx5YLCzC6
+         gckUcLvjDHBWMano2kPnQ70pWiwgzCrz5Cbg5142od114TYRJq36Y13+DMYZjYuOV/NX
+         /I5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUHwNMJdIQmZe+U5vTXAnhdIZj79CEPs5gaSuFwXYciUbl7w+4K7oFIYE+TqBbCpzS8qqAf9PkVhiBYWZ+0ja7xaTFmaueRyN79ZMc=
+X-Gm-Message-State: AOJu0Ywg0mAgNka3Vc9VrkDtd6TsU6k8SnWQxWalB3F2is2sCb36RBjc
+	vJjcS2bZ0VeowKSXSztT0fg4EaiPzf+w0kFgB1KxWBiYbj+2Zr8OsqeSYF4+VP4=
+X-Google-Smtp-Source: AGHT+IG8EbUGwi8/BfWn1wOtM+/v8DkGeYcRCIK9ljfep3i3RMp/IXmIHIzEQndnWf0PIELdTF3xFw==
+X-Received: by 2002:a5d:69ca:0:b0:34e:182f:62ed with SMTP id ffacd0b85a97d-34fcb3abb03mr2290407f8f.61.1715171432974;
+        Wed, 08 May 2024 05:30:32 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id t3-20020a05600001c300b0034df7313bf1sm15406607wrx.0.2024.05.08.05.30.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 05:30:32 -0700 (PDT)
+Message-ID: <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org>
+Date: Wed, 8 May 2024 13:30:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b536fa94-9799-4f18-a0fa-ea59094035b2@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Paul J. Murphy" <paul.j.murphy@intel.com>,
+ Martina Krasteva <quic_mkrastev@quicinc.com>,
+ Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org>
+ <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 08, 2024 at 09:16:04AM +0200, Hans Verkuil wrote:
-> On 07/05/2024 08:40, Tommaso Merciai wrote:
-> > Hi Hans,
-> > Thanks for organizing this summit.
-> > 
-> > On Mon, May 06, 2024 at 01:33:32PM +0200, Hans Verkuil wrote:
-> >> Hi all,
-> >>
-> >> We will organize another Media Summit on Monday September 16th to coincide with
-> >> the Open Source Summit Europe in Vienna:
-> >>
-> >> https://events.linuxfoundation.org/open-source-summit-europe/
-> >>
-> >> Avnet Silica has very kindly offered to host this summit at their Vienna
-> >> office, which is about 35 minutes by public transport from the OSSE venue.
-> >>
-> >> Location:
-> >>
-> >> https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
-> >>
-> >> The meeting room can hold 18 people and has video conferencing support (MS Teams).
-> >>
-> >> That said, I want to keep remote participation to a minimum. This yearly summit is meant
-> >> for active media developers to meet up face-to-face and to discuss media subsystem issues.
-> >> But if you are an active media developer, but are not able to attend in person, then this
-> >> is an option.
-> >>
-> >> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
-> >> It would be very much appreciated if you can also add a guesstimate of the time
-> >> you need for your topic.
-> >>
-> >> If you want to attend the meeting (either in person or remote), then send an email to me
-> >> directly. Since the number of seats is limited, I may have to put people on a waiting list.
-> >> Please let me know sooner rather than later (ideally by mid-July) so I have a good idea
-> >> what to expect.
-> >>
-> >> Priority goes to presenters and the core media maintainers. If multiple people of the same
-> >> company want to attend, then I may ask to limit attendance to one or two people.
-> > 
-> > If is possible Martin and me from Avnet Silica we are planning to attend in person the meeting.
-> > We are working on some topics to present.
+On 08/05/2024 09:02, Jacopo Mondi wrote:
+> Hi Bryan
 > 
-> That should be possible! Esp. since you are hosting this event :-)
+> On Mon, May 06, 2024 at 11:38:26PM GMT, Bryan O'Donoghue wrote:
+>> Currently we have the following algorithm to calculate what value should be
+>> written to the exposure control of imx412.
+>>
+>> lpfr = imx412->vblank + imx412->cur_mode->height;
+>> shutter = lpfr - exposure;
+>>
+>> The 'shutter' value is given to IMX412_REG_EXPOSURE_CIT however, the above
+>> algorithm will result in the value given to IMX412_REG_EXPOSURE_CIT
+>> decreasing as the requested exposure value from user-space goes up.
+>>
+>> e.g.
+>> [ 2255.713989] imx412 20-001a: Received exp 1608, analog gain 0
+>> [ 2255.714002] imx412 20-001a: Set exp 1608, analog gain 0, shutter 1938, lpfr 3546
+>> [ 2256.302770] imx412 20-001a: Received exp 2586, analog gain 100
+>> [ 2256.302800] imx412 20-001a: Set exp 2586, analog gain 100, shutter 960, lpfr 3546
+>> [ 2256.753755] imx412 20-001a: Received exp 3524, analog gain 110
+>> [ 2256.753772] imx412 20-001a: Set exp 3524, analog gain 110, shutter 22, lpfr 3546
+>>
+>> This behaviour results in the image having less exposure as the requested
+>> exposure value from user-space increases.
+>>
+>> Other sensor drivers such as ov5675, imx218, hid556 and others take the
+>> requested exposure value and directly.
+> 
+> has the phrase been truncated or is it me reading it wrong ?
 
-Thanks for the confirmation :)
+Sod's law says no matter how many times you send yourself a patch before 
+sending it to LKML you'll find a typo ~ 2 seconds after reading your 
+patch on LKML.
 
-Regards,
-Tommaso
 
+>> Looking at the range of imx sensors, it appears this particular error has
+>> been replicated a number of times but, I haven't so far really drilled into
+>> each sensor.
 > 
-> Regards,
+> Ouch, what other driver have the same issue ?
+
+So without data sheet or sensor its hard to say if these are correct or 
+incorrect, it's the same basic calculation though.
+
+drivers/media/i2c/imx334.c::imx334_update_exp_gain()
+
+         lpfr = imx334->vblank + imx334->cur_mode->height;
+         shutter = lpfr - exposure;
+
+         ret = imx334_write_reg(imx334, IMX334_REG_SHUTTER, 3, shutter);
+
+
+drivers/media/i2c/imx335.c::imx335_update_exp_gain()
+
+         lpfr = imx335->vblank + imx335->cur_mode->height;
+         shutter = lpfr - exposure;
+
+         ret = imx335_write_reg(imx335, IMX334_REG_SHUTTER, 3, shutter);
+
+
+Looking again I'm inclined to believe the imx334/imx335 stuff is 
+probably correct for those sensors, got copied to imx412/imx577 and 
+misapplied to the EXPOSURE control in imx412.
+
+
+>> -	ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, shutter);
+>> +	ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, exposure);
 > 
-> 	Hans
+> No datasheet here, can you confirm the IMX412_REG_EXPOSURE_CIT
+> register is actually in lines ?
+
+
+Looks like.
+
+ From downstream "coarseIntgTimeAddr"
+
+imx577_sensor.xml
+     <coarseIntgTimeAddr>0x0202</coarseIntgTimeAddr>
+
+imx586/imx586_sensor.cpp
+pRegSettingsInfo->regSetting[regCount].registerAddr  = 
+pExposureData->pRegInfo->coarseIntgTimeAddr + 1;
+
+pRegSettingsInfo->regSetting[regCount].registerData  = (lineCount & 0xFF);
+
+> Apart from that, as the CID_EXPOSURE control limit are correctly
+> updated when a new VBLANK is set by taking into account the exposure
+> margins, I think writing the control value to the register is the
+> right thing to do (if the register is in lines of course)
 > 
-> > 
-> > Thanks in advance,
-> > Tommaso
-> > 
-> >>
-> >> It is hard to predict how many people want to attend, so I'll see how it goes.
-> >>
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
+> Thanks
+>    j
+> 
+
+If that's good enough I'll fix the typo and apply your RB.
+
+---
+bod
+
 
