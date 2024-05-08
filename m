@@ -1,205 +1,258 @@
-Return-Path: <linux-media+bounces-11163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A28A8C01D3
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 18:19:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F728C01E6
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 18:23:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DBDD1C2234A
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:19:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B0BBB23713
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:23:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C5512A17E;
-	Wed,  8 May 2024 16:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9769A129E8E;
+	Wed,  8 May 2024 16:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GAffK5oY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JEhoibij"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3890C128801
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 16:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1F11F5F3;
+	Wed,  8 May 2024 16:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715185167; cv=none; b=s7e/x82Fw4ntS3EeN/TrIHKhYLzd/44ZEx5de+hU4ynu16ghIFP5HrTezvte9nc+rLBEsZYBagLTL8ZcbKtTMltGoxx+OPfBu6bXakZxZPgAJ2YrxmIjiN5otFrASBDl9hPmTv/kIajLzgoY5rNipEoGMs8316FKtQp1RpeOI3g=
+	t=1715185413; cv=none; b=sxyFSRbHgc5wcRNc7CQ/jIZIuaBNhz65DOs+KiK/iDtNplORwBdKevWxAVav4ULJAQjl5GfY6K5kVo+S26BTZEdaj2UmLRrTFcWuKgC+uCkIvxTBaUN62LLCHOQiAdk3fUmpWbxbLeCw+MLJPI3C5NL3pKD0z5IuXXoACwRGI2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715185167; c=relaxed/simple;
-	bh=EBgZslqy6XCFdm2svCR8wdSgwC1c5tdTUgjKXU1N4nc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YOoYtOizwkhhuxBvlGQssLpE6NQrSWCQpHkGFil3g6CkMQhiYg8kZoptIm3NbMwuevkfXuJVZxos7jAw6KLt36s5OoDrEWw6fgdJIyEKAGHqKq3tRpEavXiZ99cku4qWXgwYuMq1H3Nn5GmRsB6e/eQJPeBFQ6JOEfgLm0SKKOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=GAffK5oY; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59a352bbd9so196378366b.1
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 09:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1715185163; x=1715789963; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
-        b=GAffK5oYWr5Q3pwT2GGdyTX/VZ1TzEofweFABNg1+buE/XuVy01Ekvff4lC6jpaX5E
-         qtgdQZCDOmoIT5fEijq3C4aJoBI3TKrJK48S3s0OsiV6E27aGsH5K9QGclK9I3ZTbE8f
-         vC93LQfgD1pcl/Yi34lRPb7ONYbBXkjUzqRPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715185163; x=1715789963;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
-        b=PFgzkqrEbxQzguBxzmDmP0vDZWXfH+ja/e/AyI+Cq1hiBnmfYz3Z3V9BbaDtQG5RIb
-         0jj+g4FKAgmwTv1oGe6L29Y4dU6NvF+yD8G+bMBymATpKDfsgWwz5LvPPGUNJrdeUgou
-         y0P0vJOH5vWNfYj9RLG3vw804mBVxQ8h6F8rdP13gO0hTmFf3HAa0l7kUDurKzcJt3cF
-         KQgSxRnFpH/TLcYUMpYPhgOm4y4UyHYql9aDIz8u8nYSPN+qpXzpvgWa7Xcd2+MtxFmz
-         jXvZpJ1b3mp3f/VlW6erycY3F9q21QCx5AyONaELacWawmwePvVB4ygRQA1zS9ZUulvh
-         a02A==
-X-Forwarded-Encrypted: i=1; AJvYcCXgmMPJjm/KmAKpb+G2+trJddGV1zqEzrQTT0lWuOsHSI4iKmjoYp7OdQtmfyvUffhz3ErXg5jYqcX43hnEUNLb/iv2rtTzvl+mY7M=
-X-Gm-Message-State: AOJu0YxW98e6mAm0WVqH49zJSoGvRA/DI3qAULxVQEcltYu3nDQHSQjY
-	cFYm4a65y8W4vorGu1/EuEAk3re6NurmlIo23u/ONmLiOqcCLsJo2SV3AzUEwAar5vRgNbZtBrp
-	h48/Xrw==
-X-Google-Smtp-Source: AGHT+IHDH9v8HezKLcuwMfcve9GFJcTiX6H/CIpZVq2nSla6ab5syPf7sPj6Im6jHGdlqzKhyO9dTQ==
-X-Received: by 2002:a17:906:5f8b:b0:a58:7172:1ab0 with SMTP id a640c23a62f3a-a5a116691bbmr8240766b.16.1715185163417;
-        Wed, 08 May 2024 09:19:23 -0700 (PDT)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id z24-20020a170906669800b00a59bba83d7asm4825901ejo.209.2024.05.08.09.19.21
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 09:19:21 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a59ce1e8609so186745066b.0
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 09:19:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbew4/AKR2abfJ0euKtbX6nI2vTLWVwFYCfQSGumSnyjURXKqI/0ouXQZPd6/AFqNooUkz5xP8brKnyi6bQpuhfC/zGqgUV+H+/ko=
-X-Received: by 2002:a17:906:1c10:b0:a59:9c2f:c7d4 with SMTP id
- a640c23a62f3a-a5a1167be68mr9921366b.19.1715185161053; Wed, 08 May 2024
- 09:19:21 -0700 (PDT)
+	s=arc-20240116; t=1715185413; c=relaxed/simple;
+	bh=WelstoePjnDnRChpMtP24IlPVegDX/ryQMkZRwZ5JqI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=OSdnUEaJCC4M5nUp/dJ3R5u1T1Up5nA+qxgifKakbDaM4ieTjiAUGU3T7gGc2oJC76AqB4xlDhcKDM5OR6RICAJxJsWku5YtlnLg6JVUeTfau16O7r9DafB10o5ZkfktUEJWX3G3rFiQNy7+4EgnBCtFCCuld2fQQ2YTj0k9eC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JEhoibij; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 747DCFD6;
+	Wed,  8 May 2024 18:23:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715185405;
+	bh=WelstoePjnDnRChpMtP24IlPVegDX/ryQMkZRwZ5JqI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=JEhoibijttr1P6mbGqyI6W3jMX2iMVY/uW1eTQdZIiHiA5oLcdMfj4AgRHtcI7pvX
+	 El8fdo53IyKJXDQpdzVaqhfm55r/gJhjFB6HY7gggVCrM0iNM1tD10Gp08+xLiMkbJ
+	 Qwq1sQJdxhdJ4NyKjFEQcNZJiR7WNGagXpPcE9Xs=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook> <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV> <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner> <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com> <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com> <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 8 May 2024 09:19:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
-Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Simon Ser <contact@emersion.fr>, Pekka Paalanen <pekka.paalanen@collabora.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
-	axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
-	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
-	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: multipart/mixed; boundary="0000000000003fddda0617f3aa7b"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
+References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org> <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix> <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org> <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
+Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Paul J. Murphy <paul.j.murphy@intel.com>, Martina Krasteva <quic_mkrastev@quicinc.com>, Daniele Alessandrelli <daniele.alessandrelli@intel.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Date: Wed, 08 May 2024 17:23:25 +0100
+Message-ID: <171518540550.191612.743149233311332771@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
---0000000000003fddda0617f3aa7b
-Content-Type: text/plain; charset="UTF-8"
+Quoting Jacopo Mondi (2024-05-08 13:43:34)
+> Hi Bryan
+>=20
+> On Wed, May 08, 2024 at 01:30:31PM GMT, Bryan O'Donoghue wrote:
+> > On 08/05/2024 09:02, Jacopo Mondi wrote:
+> > > Hi Bryan
+> > >
+> > > On Mon, May 06, 2024 at 11:38:26PM GMT, Bryan O'Donoghue wrote:
+> > > > Currently we have the following algorithm to calculate what value s=
+hould be
+> > > > written to the exposure control of imx412.
+> > > >
+> > > > lpfr =3D imx412->vblank + imx412->cur_mode->height;
+> > > > shutter =3D lpfr - exposure;
+> > > >
+> > > > The 'shutter' value is given to IMX412_REG_EXPOSURE_CIT however, th=
+e above
+> > > > algorithm will result in the value given to IMX412_REG_EXPOSURE_CIT
+> > > > decreasing as the requested exposure value from user-space goes up.
+> > > >
+> > > > e.g.
+> > > > [ 2255.713989] imx412 20-001a: Received exp 1608, analog gain 0
+> > > > [ 2255.714002] imx412 20-001a: Set exp 1608, analog gain 0, shutter=
+ 1938, lpfr 3546
+> > > > [ 2256.302770] imx412 20-001a: Received exp 2586, analog gain 100
+> > > > [ 2256.302800] imx412 20-001a: Set exp 2586, analog gain 100, shutt=
+er 960, lpfr 3546
+> > > > [ 2256.753755] imx412 20-001a: Received exp 3524, analog gain 110
+> > > > [ 2256.753772] imx412 20-001a: Set exp 3524, analog gain 110, shutt=
+er 22, lpfr 3546
+> > > >
+> > > > This behaviour results in the image having less exposure as the req=
+uested
+> > > > exposure value from user-space increases.
+> > > >
+> > > > Other sensor drivers such as ov5675, imx218, hid556 and others take=
+ the
+> > > > requested exposure value and directly.
+> > >
+> > > has the phrase been truncated or is it me reading it wrong ?
+> >
+> > Sod's law says no matter how many times you send yourself a patch before
+> > sending it to LKML you'll find a typo ~ 2 seconds after reading your pa=
+tch
+> > on LKML.
+> >
+>=20
+> Sounds familiar enough
+>=20
+> >
+> > > > Looking at the range of imx sensors, it appears this particular err=
+or has
+> > > > been replicated a number of times but, I haven't so far really dril=
+led into
+> > > > each sensor.
+> > >
+> > > Ouch, what other driver have the same issue ?
+> >
+> > So without data sheet or sensor its hard to say if these are correct or
+> > incorrect, it's the same basic calculation though.
+> >
+> > drivers/media/i2c/imx334.c::imx334_update_exp_gain()
+> >
+> >         lpfr =3D imx334->vblank + imx334->cur_mode->height;
+> >         shutter =3D lpfr - exposure;
+> >
+> >         ret =3D imx334_write_reg(imx334, IMX334_REG_SHUTTER, 3, shutter=
+);
+> >
+> >
+> > drivers/media/i2c/imx335.c::imx335_update_exp_gain()
+> >
+> >         lpfr =3D imx335->vblank + imx335->cur_mode->height;
+> >         shutter =3D lpfr - exposure;
+> >
+> >         ret =3D imx335_write_reg(imx335, IMX334_REG_SHUTTER, 3, shutter=
+);
 
-On Tue, 7 May 2024 at 12:07, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
->
-> Doesn't that strike everybody as a *much* cleaner interface? I think
-> F_ISDUP would work very naturally indeed with F_DUPFD.
+Is this a copy / paste error (IMX334), or are you using a downstream/altern=
+ative
+driver?
 
-So since we already have two versions of F_DUPFD (the other being
-F_DUPFD_CLOEXEC) I decided that the best thing to do is to just extend
-on that existing naming pattern, and called it F_DUPFD_QUERY instead.
+Upstream implements this:
 
-I'm not married to the name, so if somebody hates it, feel free to
-argue otherwise.
+/**
+ * imx335_update_exp_gain() - Set updated exposure and gain
+ * @imx335: pointer to imx335 device
+ * @exposure: updated exposure value
+ * @gain: updated analog gain value
+ *
+ * Return: 0 if successful, error code otherwise.
+ */
+static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 =
+gain)
+{
+	u32 lpfr, shutter;
+	int ret;
 
-But with that, the suggested patch would end up looking something like
-the attached (I also re-ordered the existing "F_LINUX_SPECIFIC_BASE"
-users, since one of them was out of numerical order).
+	lpfr =3D imx335->vblank + imx335->cur_mode->height;
+	shutter =3D lpfr - exposure;
 
-This really feels like a very natural thing, and yes, the 'same_fd()'
-function in systemd that Christian also pointed at could use this very
-naturally.
+	dev_dbg(imx335->dev, "Set exp %u, analog gain %u, shutter %u, lpfr %u\n",
+		exposure, gain, shutter, lpfr);
 
-Also note that I obviously haven't tested this. Because obviously this
-is trivially correct and cannot possibly have any bugs. Right? RIGHT?
+	ret =3D imx335_write_reg(imx335, IMX335_REG_HOLD, 1, 1);
+	if (ret)
+		return ret;
 
-And yes, I did check - despite the odd jump in numbers, we've never
-had anything between F_NOTIFY (+2) and F_CANCELLK (+5).
+	ret =3D imx335_write_reg(imx335, IMX335_REG_LPFR, 3, lpfr);
+	if (ret)
+		goto error_release_group_hold;
 
-We added F_SETLEASE (+0) , F_GETLEASE (+1) and F_NOTIFY (+2) in
-2.4.0-test9 (roughly October 2000, I didn't dig deeper).
+	ret =3D imx335_write_reg(imx335, IMX335_REG_SHUTTER, 3, shutter);
+	if (ret)
+		goto error_release_group_hold;
 
-And then back in 2007 we suddenly jumped to F_CANCELLK (+5) in commit
-9b9d2ab4154a ("locks: add lock cancel command"). I don't know why 3/4
-were shunned.
+	ret =3D imx335_write_reg(imx335, IMX335_REG_AGAIN, 2, gain);
 
-After that we had 22d2b35b200f ("F_DUPFD_CLOEXEC implementation") add
-F_DUPFD_CLOEXEC (+6).
+error_release_group_hold:
+	imx335_write_reg(imx335, IMX335_REG_HOLD, 1, 0);
 
-I'd have loved to put F_DUPFD_QUERY next to it, but +5 and +7 are both used.
+	return ret;
+}
 
-                Linus
+> >
+> >
+> > Looking again I'm inclined to believe the imx334/imx335 stuff is probab=
+ly
+> > correct for those sensors, got copied to imx412/imx577 and misapplied t=
+o the
+> > EXPOSURE control in imx412.
 
---0000000000003fddda0617f3aa7b
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lvy090o10>
-X-Attachment-Id: f_lvy090o10
+We're directly using the IMX335 driver in mainline on the i.MX8MP (and
+also validated on Raspberry Pi 5). AGC is operational on both those
+platforms with the sensor, so I have no reason to believe there is any
+error in the upstream driver:
 
-IGZzL2ZjbnRsLmMgICAgICAgICAgICAgICAgIHwgMjMgKysrKysrKysrKysrKysrKysrKysrKysK
-IGluY2x1ZGUvdWFwaS9saW51eC9mY250bC5oIHwgMTQgKysrKysrKystLS0tLS0KIDIgZmlsZXMg
-Y2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9m
-cy9mY250bC5jIGIvZnMvZmNudGwuYwppbmRleCA1NGNjODVkMzMzOGUuLjFkZGI2M2Y3MDQ0NSAx
-MDA2NDQKLS0tIGEvZnMvZmNudGwuYworKysgYi9mcy9mY250bC5jCkBAIC0zMjcsNiArMzI3LDI1
-IEBAIHN0YXRpYyBsb25nIGZjbnRsX3NldF9yd19oaW50KHN0cnVjdCBmaWxlICpmaWxlLCB1bnNp
-Z25lZCBpbnQgY21kLAogCXJldHVybiAwOwogfQogCisvKgorICogSXMgdGhlIGZpbGUgZGVzY3Jp
-cHRvciBhIGR1cCBvZiB0aGUgZmlsZT8KKyAqLworc3RhdGljIGxvbmcgZl9kdXBmZF9xdWVyeShp
-bnQgZmQsIHN0cnVjdCBmaWxlICpmaWxwKQoreworCXN0cnVjdCBmZCBmID0gZmRnZXRfcmF3KGZk
-KTsKKworCS8qCisJICogV2UgY2FuIGRvIHRoZSAnZmRwdXQoKScgaW1tZWRpYXRlbHksIGFzIHRo
-ZSBvbmx5IHRoaW5nIHRoYXQKKwkgKiBtYXR0ZXJzIGlzIHRoZSBwb2ludGVyIHZhbHVlIHdoaWNo
-IGlzbid0IGNoYW5nZWQgYnkgdGhlIGZkcHV0LgorCSAqCisJICogVGVjaG5pY2FsbHkgd2UgZGlk
-bid0IG5lZWQgYSByZWYgYXQgYWxsLCBhbmQgJ2ZkZ2V0KCknIHdhcworCSAqIG92ZXJraWxsLCBi
-dXQgZ2l2ZW4gb3VyIGxvY2tsZXNzIGZpbGUgcG9pbnRlciBsb29rdXAsIHRoZQorCSAqIGFsdGVy
-bmF0aXZlcyBhcmUgY29tcGxpY2F0ZWQuCisJICovCisJZmRwdXQoZik7CisJcmV0dXJuIGYuZmls
-ZSA9PSBmaWxwOworfQorCiBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGlu
-dCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCQlzdHJ1Y3QgZmlsZSAqZmlscCkKIHsKQEAgLTM0
-Miw2ICszNjEsOSBAQCBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGludCBj
-bWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCWNhc2UgRl9EVVBGRF9DTE9FWEVDOgogCQllcnIgPSBm
-X2R1cGZkKGFyZ2ksIGZpbHAsIE9fQ0xPRVhFQyk7CiAJCWJyZWFrOworCWNhc2UgRl9EVVBGRF9R
-VUVSWToKKwkJZXJyID0gZl9kdXBmZF9xdWVyeShhcmdpLCBmaWxwKTsKKwkJYnJlYWs7CiAJY2Fz
-ZSBGX0dFVEZEOgogCQllcnIgPSBnZXRfY2xvc2Vfb25fZXhlYyhmZCkgPyBGRF9DTE9FWEVDIDog
-MDsKIAkJYnJlYWs7CkBAIC00NDYsNiArNDY4LDcgQEAgc3RhdGljIGludCBjaGVja19mY250bF9j
-bWQodW5zaWduZWQgY21kKQogCXN3aXRjaCAoY21kKSB7CiAJY2FzZSBGX0RVUEZEOgogCWNhc2Ug
-Rl9EVVBGRF9DTE9FWEVDOgorCWNhc2UgRl9EVVBGRF9RVUVSWToKIAljYXNlIEZfR0VURkQ6CiAJ
-Y2FzZSBGX1NFVEZEOgogCWNhc2UgRl9HRVRGTDoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9s
-aW51eC9mY250bC5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L2ZjbnRsLmgKaW5kZXggMjgyZTkwYWVi
-MTYzLi5jMGJjYzE4NWZhNDggMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5o
-CisrKyBiL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5oCkBAIC04LDYgKzgsMTQgQEAKICNkZWZp
-bmUgRl9TRVRMRUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMCkKICNkZWZpbmUgRl9HRVRM
-RUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMSkKIAorLyoKKyAqIFJlcXVlc3Qgbm9maWNh
-dGlvbnMgb24gYSBkaXJlY3RvcnkuCisgKiBTZWUgYmVsb3cgZm9yIGV2ZW50cyB0aGF0IG1heSBi
-ZSBub3RpZmllZC4KKyAqLworI2RlZmluZSBGX05PVElGWQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNF
-ICsgMikKKworI2RlZmluZSBGX0RVUEZEX1FVRVJZCShGX0xJTlVYX1NQRUNJRklDX0JBU0UgKyAz
-KQorCiAvKgogICogQ2FuY2VsIGEgYmxvY2tpbmcgcG9zaXggbG9jazsgaW50ZXJuYWwgdXNlIG9u
-bHkgdW50aWwgd2UgZXhwb3NlIGFuCiAgKiBhc3luY2hyb25vdXMgbG9jayBhcGkgdG8gdXNlcnNw
-YWNlOgpAQCAtMTcsMTIgKzI1LDYgQEAKIC8qIENyZWF0ZSBhIGZpbGUgZGVzY3JpcHRvciB3aXRo
-IEZEX0NMT0VYRUMgc2V0LiAqLwogI2RlZmluZSBGX0RVUEZEX0NMT0VYRUMJKEZfTElOVVhfU1BF
-Q0lGSUNfQkFTRSArIDYpCiAKLS8qCi0gKiBSZXF1ZXN0IG5vZmljYXRpb25zIG9uIGEgZGlyZWN0
-b3J5LgotICogU2VlIGJlbG93IGZvciBldmVudHMgdGhhdCBtYXkgYmUgbm90aWZpZWQuCi0gKi8K
-LSNkZWZpbmUgRl9OT1RJRlkJKEZfTElOVVhfU1BFQ0lGSUNfQkFTRSsyKQotCiAvKgogICogU2V0
-IGFuZCBnZXQgb2YgcGlwZSBwYWdlIHNpemUgYXJyYXkKICAqLwo=
---0000000000003fddda0617f3aa7b--
+ https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dr=
+ivers/media/i2c/imx335.c
+
+
+--
+Kieran
+
+
+> >
+>=20
+> Without datasheet/devices it really is hard to tell. Cargo cult at
+> play most probably.
+>=20
+> >
+> > > > - ret =3D imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, shut=
+ter);
+> > > > + ret =3D imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, expo=
+sure);
+> > >
+> > > No datasheet here, can you confirm the IMX412_REG_EXPOSURE_CIT
+> > > register is actually in lines ?
+> >
+> >
+> > Looks like.
+> >
+> > From downstream "coarseIntgTimeAddr"
+> >
+> > imx577_sensor.xml
+> >     <coarseIntgTimeAddr>0x0202</coarseIntgTimeAddr>
+> >
+> > imx586/imx586_sensor.cpp
+> > pRegSettingsInfo->regSetting[regCount].registerAddr  =3D
+> > pExposureData->pRegInfo->coarseIntgTimeAddr + 1;
+> >
+> > pRegSettingsInfo->regSetting[regCount].registerData  =3D (lineCount & 0=
+xFF);
+> >
+> > > Apart from that, as the CID_EXPOSURE control limit are correctly
+> > > updated when a new VBLANK is set by taking into account the exposure
+> > > margins, I think writing the control value to the register is the
+> > > right thing to do (if the register is in lines of course)
+> > >
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > >
+> > > Thanks
+> > >    j
+> > >
+> >
+> > If that's good enough I'll fix the typo and apply your RB.
+>=20
+> Sure
+>=20
+> Thanks
+>   j
+>=20
+> >
+> > ---
+> > bod
+> >
 
