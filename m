@@ -1,239 +1,212 @@
-Return-Path: <linux-media+bounces-11121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6768BF7E2
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 09:59:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8A38BF7E8
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:01:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6390283847
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 07:59:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC1D8B20F3F
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896C43E485;
-	Wed,  8 May 2024 07:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LZgDq/y/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BBF43D96D;
+	Wed,  8 May 2024 08:01:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2079.outbound.protection.outlook.com [40.107.244.79])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E74F1755A;
-	Wed,  8 May 2024 07:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715155179; cv=fail; b=FysHw4cdKHgFBVNzDSyp5aqFMxTeyC3mLLB398Gt8QKNnHFuJ0sbIjt1xv+fTpxTLDLA+pAXSOJ4zjc7ctSTXqxsMlR4JNEGcGNiSnDUJk0pc9Aht6m3FEprer/zuKCYMyePpstQplia53UFNIaoUxocHi4ErmiIgjnkmSNlHOE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715155179; c=relaxed/simple;
-	bh=AXdgSRF2K+o2216NHlc7e8dUMrJEgQlsycS+xV6w/64=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ErU7lwUKQPxGFAtViKoZw7sH4qGs3wCOvqT5bJzBvIfkIIXkOuQH6saqSSmwQV8M3shH8UaGz+8QllrcWQEI5Ng8X3jixO0zWaeTCNhVzg8jKKTCf0dvG9SBI8mYV8DxO1eWH+R1pxcks0iCqUXvEuip+SQJaVqnLYJxBZ5B/yc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LZgDq/y/; arc=fail smtp.client-ip=40.107.244.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YZfJFgcZJ2h6chrV4TdVOUs3VkAN4jGCmN3J9eI6bdE+pb3E+v5AsS5sNzLcJkomiPVwPypnbt7LYEn3Ix9qrYoMjdvjPUH6VS8R9aoGN9GuKTohq112YIxysaQdbPK3HCzWgh7ahsMnqzmIIxiZI4v7yKz3hSzcFze+Qlu1kq30Sv1X+33rHuyDiqvP6moir+pMUa0KcotHKksoomqeHTXKXkajHvBcdoqy2eYrrTZ9bY52KFpGvXJpVIYTeuen+k8DNQT8OaqAUbxJXxOsvY9zAN1EHSODcH9BqyrQgKbnLzlKRyF10XXTh2jojguCLxeoeJBuoKqk+2fi8vl7hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=COg2CIfxRuDWjHNCwTSk7LYGNIvP+L37qxDtElZrmwQ=;
- b=Cbw+d4uRGtocfaqfUUJppwqiLSwbDwvnK+P7L5lA6NuVLvP0O40HOa9cX8O8VtoHZLP8JltR/3nRLgf4h29FRIDddsNh8rF5gxvFqtQDiv9864i9fpt4GVc9qjzeyUmP2TBnJcWMAKHIBVoMNBBqPha1lM96UwAb+dfACFc0JH1HgTX2ir4C6PagGK0B+DlCJ2TeE9gwmjXZryP5lCrV/hsT3s1PBOW8RTUVArLcB87ULuF6YpZ+eUMoSWatl0ft/oFHAgFwluVLQc8UpkiZ5ZofaNtzZxHWEhLUfjspmJ6fpxxvxO4eQ7kvkdxnLz/eo4GkzMWT3ukjGI7/OQ4D0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=COg2CIfxRuDWjHNCwTSk7LYGNIvP+L37qxDtElZrmwQ=;
- b=LZgDq/y/cXOyY+RBTD8Bl+xOZhKJlQE5s8yQjSF/TZ3bqdAHqlZ6c0LBfeXF+6R2rRfae+l+dhBHwkXN/6amG2Y2WCz0osl3VTzpwSgYR0sEA/yuJK2s3+qtrcvt1oQcFt5xYe2DN1UOKfP8bCOo33cnVCq90sjZotlVdIfA/ho=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB7246.namprd12.prod.outlook.com (2603:10b6:806:2bc::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.43; Wed, 8 May
- 2024 07:59:35 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7544.041; Wed, 8 May 2024
- 07:59:35 +0000
-Message-ID: <e1a2d134-83a4-4833-939b-a53fe31553a4@amd.com>
-Date: Wed, 8 May 2024 09:59:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- keescook@chromium.org, axboe@kernel.dk, dri-devel@lists.freedesktop.org,
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- minhquangbui99@gmail.com, sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <d68417df-1493-421a-8558-879abe36d6fa@gmail.com>
- <36169520-56e4-4a01-a467-051a94c7f810@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <36169520-56e4-4a01-a467-051a94c7f810@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0013.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A5B364A5;
+	Wed,  8 May 2024 08:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715155264; cv=none; b=NP2C86hHDp4a2fnrEVLbpKO8uHTdvj+iRoWFORh0a5HHOrbzD1IShE9/1MLCIfVHdDOqqzQwnkuoz0ZSS4oBVuNr/tEFR9K503AvTo54Fw2pwkEHCOShwtOFa8f6zUNUpx1GZE4mu6VIo3v0LQjPxAbmWt2JxfABkxoUAxGgaf8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715155264; c=relaxed/simple;
+	bh=j9mtN/+qNGY7X5OKe3ZB4Qyoq6d53u32TUqoKjXORts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hVOcy7ngHzhE4v5Jp/AQookpIK8YBeTvDpl90CkgQ+fb9OHt1GiBp8Bhtg11SBElC+8gt88/Khd/8E8gQgwfUibIaAFjdQGqXeBr/PbdMQJ8gHsEXUPSF7OKm52qVmXycrhNc5lqRKwMy2faFPqAzUCMssgbhsa0idiENOHKPvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94F6BC113CC;
+	Wed,  8 May 2024 08:01:00 +0000 (UTC)
+Message-ID: <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+Date: Wed, 8 May 2024 10:00:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7246:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9a89be3-7906-4ab7-e658-08dc6f34cd03
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|7416005|376005|1800799015|366007|921011;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZDlGQTlra0tGRFFGcStQOUk1SS9odDFuOTR5aU1GWkdUNjhkajRLa2o3V0V1?=
- =?utf-8?B?VWxaK2JXckdiaGQzaXNtTEUxKzh3YXVRc2c0THNOcDVnY0pIdHZVNklXa3FN?=
- =?utf-8?B?SU9ocWFBaWo5eDBEK2VQU0t3RGc3YmY0ZmowTnFBZmhLZC9ydmFvQWZZanVH?=
- =?utf-8?B?bkRZb2dYcVhTdUFvMzBGV0t3K1I0VHpYL1lUUGFQVU9tSTJJbUJFYnd1d2x6?=
- =?utf-8?B?Z1hqQmlzR3gyckZmVnEvU1k1anlRa2ZYV3NwbGFGdElSTGV2UXlqOW80YWkw?=
- =?utf-8?B?b0EyRnArMytaNTJVMWpsV0FpMk1WL1cyTHlnWWlLdVFQelVLYkY1RWZJcXhL?=
- =?utf-8?B?MVNXdkRoRWtzc2JGQlJmeHhuYk5uQzZWRWZnSHRGd2JGRkpVWDh4cVhTVTFO?=
- =?utf-8?B?OEhNSm5mL2t2RmNFN1Z1eVBKeC91UnV2N05Ra2RFOThSUC9xN1RhWUkrSlNr?=
- =?utf-8?B?UmkxbnM4SzludU5HUkRSRTFOL3ppZUt5aWhUUWZEK3BEV25YU2dnY0QwVlpD?=
- =?utf-8?B?NVU2WE5jaVMvWkdETTlqMjlCZEJwNnZyeXArRzYzNzNXRjZ1MFBKVHdKUldq?=
- =?utf-8?B?YXcreGFBU3NjWEszOUlJUGFQLzUrWUVnNjF2d3RyWTZ6Ny9ocUEvSUpDc1dV?=
- =?utf-8?B?bDF0a0xFZkd4SS9VQU9iU1crc0VMb2ZMQ0tpMkFzcDM1bEN6ZFB3cDJBaTlT?=
- =?utf-8?B?aDJBaDBIR1BNVnRGYUFWWmw2RkRNZ3ozakNvSUtUSGdMUzhkYlZUQWRqVk1j?=
- =?utf-8?B?K2tzT05uZmNnU0kyVy9ZaHFYci9WN25oOGwrQUhOSGVuZEFrS1BzaFRqcXpQ?=
- =?utf-8?B?YXVxbXNrdGJkaHh6ZVY1aFBnZzRKaGlHRVU4QTdHTGEwc2YvQmpmSXFDbDlW?=
- =?utf-8?B?c21Uck9TL1BOdU82NlBSWnFlNUU0SWloQVFDVjdNbVRERUY5Ui9EbU5kVmh2?=
- =?utf-8?B?TC96Um9ndzdKMGU4VEIvdWJyNVVBdVNIQUpZaERZdEVXaVNqVDJTTjVCYXVV?=
- =?utf-8?B?YnNXK1F5dGdpQW5qWjFSaFpncjZ5RUc2a1R3akVUTDVxd1Z1ekhJTWl6Lyt6?=
- =?utf-8?B?bi9sOGN2enVKQW0vWGVwc21BdnJkN0dzQ3c0MlFnZFRFMVQ4QnY5a2lmZ2tP?=
- =?utf-8?B?eDZneTg0MlNvTEJxbWsrazIwKzJyck9wVlp4czBtSFJldytydVdsTytTenJ2?=
- =?utf-8?B?enNZSE5ieUUrMzhXeWpFSitiSTduK29JM0lVV3VZMjdGTW9HWXVZWWRlYWl3?=
- =?utf-8?B?VVFhK0JSSkxJUWVqc3YyRzFJUnpnaHM4c1hsdUxTQUNzcUtYMHVZZzI2M3dC?=
- =?utf-8?B?SlA5YThkWG5GTm9LVndEVElkZEw3M2hYdTFJWkVuWW1sNFk4UWV1QnorMUtU?=
- =?utf-8?B?ajRuRHlQWW11VkExd3k4cWVGTmh1SHZPMS96Wmw1YWJ5ekpEVUx4bjNYUy94?=
- =?utf-8?B?VDRXbGl0NWEzbDd0eXhDZ0hudDRFL2FzZmQ2MEdqZXR4aGIrM1M2c05OQ1BH?=
- =?utf-8?B?cHk4TUcyeE42WUNyRys4RERoWC9oaEMrdkt0QmdqRkgyUERRV1RPUEJ0a0ps?=
- =?utf-8?B?SHBFc1NicWNsK1ZhQXpYcU8yb2JoVHJLZVVtK2puT2hXWFgvRUM0blduVnl6?=
- =?utf-8?B?eWJTc3RwSEtLcE00VjZ0V3NvMmxNWFVQRGtIUFVzRDQ1TFE0VC9nb1hmbDBx?=
- =?utf-8?B?bkJWcDZCb2JwK0tqN1hWcGo1eUJaS2tOdzBONURPcGdrWjkwRUlQLzZvY1Qv?=
- =?utf-8?Q?dcBb6MJCI78iFv8D0lF/Ma1+G9Qrf+SZP8PAWj9?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VWpKS21QOUExMXZ4RmtDcW9QZkx4MHRMRmlKTmNGRU5hRWdRSkJjVEpoRVBF?=
- =?utf-8?B?Q25PWDFwR256ZmZrK3h4ZjV5R2cwbE5lS0xHSnBlNDI0L1FGbGxXeHYxR05T?=
- =?utf-8?B?TGY4SFBsQmJYVXBNR1lIZFgvQzRZQmpIUzJucXdhWjkyRi8ydVQ3TE1CSDVE?=
- =?utf-8?B?Mk1yNE1MRlBXRmtSN0NNVVNlMmpzc052OWk1ZDhhVnlIYjBDNHQybE5mZkg5?=
- =?utf-8?B?anY2ZE9qT2pRR0JhWFc5Z2x0QUpYc2NvdkhQUDJ3dHlNcDdqZzNpV3JGM09u?=
- =?utf-8?B?ZkUxWkZQLzNybWRRN0hWb05jYW1Rd2hYVU1VRDhxSS95dnBweUxMWFRjTmM1?=
- =?utf-8?B?UDZ5WlRGNVlUSkRWa2FTSzRGZGdlbjhKZVQ5dTRWdU03Z01yK25hQzc3VXVu?=
- =?utf-8?B?dVJCcklScjVZUHpwMEFaVVhTVjBmdlVGVlVaTDJUbVpwb1VnL2VaVlg2N3cv?=
- =?utf-8?B?Y3UyTWFZbDhlUzhUSS90VURNSHNBZmlHVVpZMVlYS3JHWVROc0tLNHBOSWor?=
- =?utf-8?B?aCtKYnFZVjB0c2FOSXd5dkE1akh0NHZzRVovMkVWc2dqQmNDODRYbnB2REJJ?=
- =?utf-8?B?ZUtmMTFKdVk1QjVQK1Bsdk1YMVlCdEtaMXNnamNMWW5LR3R3cDFOTmsxcWZN?=
- =?utf-8?B?SUs1VWhiU0ZCS255T01WTDUyMUU5OVVBR1RqcTFXbEw3YzBhdjlZK1lpUDJZ?=
- =?utf-8?B?eFFlY0EvOEtXT1RJT0QvTFdweGxnVXVYQWwxQ21PN2Zhb2J0a1oyZnlXL0NG?=
- =?utf-8?B?RXdKdXFsSkRvQWhQZWt0ckpZbVFJYWRnTk1rb1FnUUtRZWhncy8vMEFxN1Rq?=
- =?utf-8?B?YlRQVWIrZzRENUpjS3l5aWwxQlAyaE1HNkE2VUk3bVEyY2IybDFWYXF6aC84?=
- =?utf-8?B?K1pHQkw2TUlnWThjVThLRTgvdnpadXdvUlA2cmxEb241R0JWZjlTR2FKSHhs?=
- =?utf-8?B?bHFidTM3SUljQXprTnlSZ0I4SmhaUmYzcDgwMDVobkZqd0JGVHpRN1dWRTND?=
- =?utf-8?B?UUxtcFFtRUVGQ3RyMUtPZnVJaUdyR2ZGT0czTTJMeFIrMHRWMjlYajBwcUgr?=
- =?utf-8?B?SjlNQUlMOC90aER2YldYeFo2M0U0ZFQra1hnekE3aVYrZjU4ZjRaUFJaZVF5?=
- =?utf-8?B?UkRKT21XbWd5dllXNkdaZXVVMjhOTm1pTnJ4R1hnd1k4KzFrTGIrUi9INUc2?=
- =?utf-8?B?dk0xVG82YTNhKzdseHFCU3FLWWVCZGZOWmEwSEJmbTl1L0FFVUhacTFqMllL?=
- =?utf-8?B?elFNeTFSVjlORWRwcXBOYW40QTQzYTQ0M1ZuNW5NOHNKRGxhUjlGanpJR1Bj?=
- =?utf-8?B?MUdOeHlLWXdvbXdjZlNjRjkvVUh0SmRHbGxMdUZWT2pQeVhGTncwSXhWcGVH?=
- =?utf-8?B?aytqanBFY200UWdMcmR3dFY3aUdWb0w2Nk0rUXlNcGhqUExXSG5KVlJPSmdM?=
- =?utf-8?B?ZzFSK3RPRlB6M0JpQjBzK1pHQ2k4aS9mSWZETEFjL2Q5UFhWM05lSmlwcHhx?=
- =?utf-8?B?dkJ2Uk9hNjNmKzdHYk8vcGRoNFVtUnBMZXc3NSsraVZONWRpRE1aWkxCcnYy?=
- =?utf-8?B?OVdtN296U1Q3VWdJdjQxY0FHN3ZkbnQ1Z1J1YTdxamQ0dndpT2d2UDM5Wk5N?=
- =?utf-8?B?eEpCc2I0YThhV3dCNzFLdGg0SzZwSnJPWi8vZ1lrc1piMVdQM1FuWElEV0pS?=
- =?utf-8?B?WStTb2RLZ3pGV3F0VDRTRTRQOWhmNGFxRlNOdlhYU2tsc01OYkJoNkRNR3V3?=
- =?utf-8?B?TUhzaWM1dUdVUW53WG96eVRhbFBzWktxd1REYnJHYlpVenMrLzJLT3pvNEh3?=
- =?utf-8?B?ZVlpRk01bnprT2ZkdE5sMzhVb2kzMSt2S0VXK24zcmV4VWFoNjhxSUtLcTQ5?=
- =?utf-8?B?cjhiV2ZYYzhDcjJ2QVBYY1BLRDY4RUpxN1dQOFpLZW0xTklhaTlNRFRXMnkz?=
- =?utf-8?B?YlFEMFAvVS9WNzZnVVFHTUsyQXVENlVpbkhKMzFoT3haVk1jOSsvbnBaUlhE?=
- =?utf-8?B?RUN2NitjMCtZVkFKTjJORndFakNkZDRyTEc1UXhnVkYyMUpHcDNNUnoyMkxs?=
- =?utf-8?B?cWpJQlY4VE53cW4vZUR3WUVPd2VYQVlxYTlkZGdwbmZaY3lQYWxOTkFjNllZ?=
- =?utf-8?Q?tTIfINL8Vh0FFiHTeED4YpY/9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9a89be3-7906-4ab7-e658-08dc6f34cd03
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 07:59:34.9351
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a2gA26jfFrKEbRnELoY7OU3eW49vSLlb3fas4WRrOLNK8kdDeTbXPAzZyuaDLH8t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7246
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Content-Language: en-US, nl
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+ <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk> <20240430172752.20ffcd56@sal.lan>
+ <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk> <87sez0k661.wl-tiwai@suse.de>
+ <20240502095956.0a8c5b26@sal.lan> <20240502102643.4ee7f6c2@sal.lan>
+ <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
+ <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am 08.05.24 um 09:51 schrieb Michel Dänzer:
-> On 2024-05-07 19:45, Christian König wrote:
->> Am 07.05.24 um 18:46 schrieb Linus Torvalds:
->>> Just what are the requirements for the GPU stack? Is one of the file
->>> descriptors "trusted", IOW, you know what kind it is?
->>>
->>> Because dammit, it's *so* easy to do. You could just add a core DRM
->>> ioctl for it. Literally just
->>>
->>>           struct fd f1 = fdget(fd1);
->>>           struct fd f2 = fdget(fd2);
->>>           int same;
->>>
->>>           same = f1.file && f1.file == f2.file;
->>>           fdput(fd1);
->>>           fdput(fd2);
->>>           return same;
->>>
->>> where the only question is if you also woudl want to deal with O_PATH
->>> fd's, in which case the "fdget()" would be "fdget_raw()".
->>>
->>> Honestly, adding some DRM ioctl for this sounds hacky, but it sounds
->>> less hacky than relying on EPOLL or KCMP.
->>>
->>> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
->>> too, if this is possibly a more common thing. and not just DRM wants
->>> it.
->>>
->>> Would something like that work for you?
->> Well the generic approach yes, the DRM specific one maybe. IIRC we need to be able to compare both DRM as well as DMA-buf file descriptors.
+On 06/05/2024 10:49, Shengjiu Wang wrote:
+> On Fri, May 3, 2024 at 4:42 PM Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
 >>
->> The basic problem userspace tries to solve is that drivers might get the same fd through two different code paths.
+>> Em Fri, 3 May 2024 10:47:19 +0900
+>> Mark Brown <broonie@kernel.org> escreveu:
 >>
->> For example application using OpenGL/Vulkan for rendering and VA-API for video decoding/encoding at the same time.
+>>> On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab wrote:
+>>>> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+>>>
+>>>>> There are still time control associated with it, as audio and video
+>>>>> needs to be in sync. This is done by controlling the buffers size
+>>>>> and could be fine-tuned by checking when the buffer transfer is done.
+>>>
+>>> ...
+>>>
+>>>> Just complementing: on media, we do this per video buffer (or
+>>>> per half video buffer). A typical use case on cameras is to have
+>>>> buffers transferred 30 times per second, if the video was streamed
+>>>> at 30 frames per second.
+>>>
+>>> IIRC some big use case for this hardware was transcoding so there was a
+>>> desire to just go at whatever rate the hardware could support as there
+>>> is no interactive user consuming the output as it is generated.
 >>
->> Both APIs get a fd which identifies the device to use. It can be the same, but it doesn't have to.
+>> Indeed, codecs could be used to just do transcoding, but I would
+>> expect it to be a border use case. See, as the chipsets implementing
+>> codecs are typically the ones used on mobiles, I would expect that
+>> the major use cases to be to watch audio and video and to participate
+>> on audio/video conferences.
 >>
->> If it's the same device driver connection (or in kernel speak underlying struct file) then you can optimize away importing and exporting of buffers for example.
-> It's not just about optimization. Mesa needs to know this for correct tracking of GEM handles. If it guesses incorrectly, there can be misbehaviour.
+>> Going further, the codec API may end supporting not only transcoding
+>> (which is something that CPU can usually handle without too much
+>> processing) but also audio processing that may require more
+>> complex algorithms - even deep learning ones - like background noise
+>> removal, echo detection/removal, volume auto-gain, audio enhancement
+>> and such.
+>>
+>> On other words, the typical use cases will either have input
+>> or output being a physical hardware (microphone or speaker).
+>>
+> 
+> All, thanks for spending time to discuss, it seems we go back to
+> the start point of this topic again.
+> 
+> Our main request is that there is a hardware sample rate converter
+> on the chip, so users can use it in user space as a component like
+> software sample rate converter. It mostly may run as a gstreamer plugin.
+> so it is a memory to memory component.
+> 
+> I didn't find such API in ALSA for such purpose, the best option for this
+> in the kernel is the V4L2 memory to memory framework I found.
+> As Hans said it is well designed for memory to memory.
+> 
+> And I think audio is one of 'media'.  As I can see that part of Radio
+> function is in ALSA, part of Radio function is in V4L2. part of HDMI
+> function is in DRM, part of HDMI function is in ALSA...
+> So using V4L2 for audio is not new from this point of view.
+> 
+> Even now I still think V4L2 is the best option, but it looks like there
+> are a lot of rejects.  If develop a new ALSA-mem2mem, it is also
+> a duplication of code (bigger duplication that just add audio support
+> in V4L2 I think).
 
-Oh, yeah good point as well.
+After reading this thread I still believe that the mem2mem framework is
+a reasonable option, unless someone can come up with a method that is
+easy to implement in the alsa subsystem. From what I can tell from this
+discussion no such method exists.
 
-I think we can say in general that if two userspace driver libraries 
-would mess with the state of an fd at the same time without knowing of 
-each other bad things would happen.
+From the media side there are arguments that it adds extra maintenance
+load, which is true, but I believe that it is quite limited in practice.
+
+That said, perhaps we should make a statement that while we support the
+use of audio m2m drivers, this is only for simple m2m audio processing like
+this driver, specifically where there is a 1-to-1 mapping between input and
+output buffers. At this point we do not want to add audio codec support or
+similar complex audio processing.
+
+Part of the reason is that codecs are hard, and we already have our hands
+full with all the video codecs. Part of the reason is that the v4l2-mem2mem
+framework probably needs to be forked to make a more advanced version geared
+towards codecs since the current framework is too limiting for some of the
+things we want to do. It was really designed for scalers, deinterlacers, etc.
+and the codec support was added later.
+
+If we ever allow such complex audio processing devices, then we would have
+to have another discussion, and I believe that will only be possible if
+most of the maintenance load would be on the alsa subsystem where the audio
+experts are.
+
+So my proposal is to:
+
+1) add a clear statement to dev-audio-mem2mem.rst (patch 08/16) that only
+   simple audio devices with a 1-to-1 mapping of input to output buffer are
+   supported. Perhaps also in videodev2.h before struct v4l2_audio_format.
+
+2) I will experiment a bit trying to solve the main complaint about creating
+   new audio fourcc values and thus duplicating existing SNDRV_PCM_FORMAT_
+   values. I have some ideas for that.
+
+But I do not want to spend time on 2 until we agree that this is the way
+forward.
 
 Regards,
-Christian.
+
+	Hans
 
