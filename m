@@ -1,511 +1,205 @@
-Return-Path: <linux-media+bounces-11162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEA78C01CF
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 18:19:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A28A8C01D3
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 18:19:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58FD91F24949
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:19:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DBDD1C2234A
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E50F129E6F;
-	Wed,  8 May 2024 16:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C5512A17E;
+	Wed,  8 May 2024 16:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="b8dHW7tl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q6PvcId9"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GAffK5oY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F81292C3;
-	Wed,  8 May 2024 16:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3890C128801
+	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 16:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715185141; cv=none; b=aQmrPGLLo4INIW8nbqM1IOkgC0PI3T07BKYE2AKIaPtdiTiFuJQLP6HtyUJCSygDnpBDoA6HO4KkXVlCkxwPNyttAPHg95A0e9vrdpDkdvIf0jXbud1HZ4zx/hQLbh2/vW1FBST4tW7NwhIVr2qSAkn22bJGjoberGgbtHf0wfk=
+	t=1715185167; cv=none; b=s7e/x82Fw4ntS3EeN/TrIHKhYLzd/44ZEx5de+hU4ynu16ghIFP5HrTezvte9nc+rLBEsZYBagLTL8ZcbKtTMltGoxx+OPfBu6bXakZxZPgAJ2YrxmIjiN5otFrASBDl9hPmTv/kIajLzgoY5rNipEoGMs8316FKtQp1RpeOI3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715185141; c=relaxed/simple;
-	bh=N3CQDdFVCueBqQIyc1ocN4YNvIORBQiLjyGa5+uiDjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U55ISBfwyHwAfdQeSVNVxfb/25lvSfqcN9KhkdRgKWrIzno0pRn6lxvbXQtUvTwCvXJCEgVjTokjl7sCnzBeR+wvDRRSxwdpmm5raLf1wQ3HfV5xcyZqE5nXGVpMutTOJXEk35+X+zhee9fYcg9it+9AiUarFYs56BBjso/FtMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=b8dHW7tl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q6PvcId9; arc=none smtp.client-ip=64.147.123.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfout.west.internal (Postfix) with ESMTP id 782431C0012C;
-	Wed,  8 May 2024 12:18:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 08 May 2024 12:18:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1715185135;
-	 x=1715271535; bh=QVO0QpyHpJBR0v+HijpwDQwg8jxRphC6ekEGxJLz3tE=; b=
-	b8dHW7tlxCu/eZakfK5Z/d7j4OVZi7vcTs4O3+uKbEIkz6kyGojlpJtBhcKRmKto
-	cFhAH3H8+cPEKbVyVN5dIkIWAPFqkP/oCXBd9NsQS/j15TLbWo8URuZlLpwFgRCF
-	1yTmWBMh0flwklvDi7yWyMQrTNlnCoaavJtOvNfI9x+OBtThDQIDTOWrDb1TLCzH
-	rG/DlTSlizz9IJc9HaAlalwczysYPtzkuf6lilhXj3gAUVAxMNqXZAL1xLv4yX38
-	vHmF9WnURfQL3NpnhS80+6SlpBrQObDCbidO8r2Qzgd34aPFsFw1dO29f4I5dYWl
-	vdskYscYt/fMM8wuERczXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715185135; x=
-	1715271535; bh=QVO0QpyHpJBR0v+HijpwDQwg8jxRphC6ekEGxJLz3tE=; b=Q
-	6PvcId9+KcnWOH+ptKRUb7EevcMi5v1FELLp69kly5bU8pc6ay4LLAny1cBjhspQ
-	rCWyOXhU0clyyedgsAOAQf0E7rE9tL37pTHA9alB2rgq2CHPD7+//dpj3rci8LDz
-	vfZtsUXVK8aJO/OlhM51PprDygeny3apu52D+wg8HasQKPEuibJiXmY1taDfl/1j
-	luIwiOJAvkIxv9QdnDZfd1UFdypPlburBeuUUCLeCARZw9iUHoOsULSuMmztNCsC
-	lrayaYoTufNO08UQkzlfTyUznbdpqry7vncG0ixE800mmow6W7WyOWXfr9Tf6D5K
-	dr25LcgFLrfapVIGWqyKg==
-X-ME-Sender: <xms:7qU7ZmX_YNcCBtYrXri3JsCFTBQPmWlGlY2-Da0k7vrR4qXSfiddOw>
-    <xme:7qU7ZimY0yhCzfsIoLOof91nQISNRmXFcwzdVsF6iMeSGeayOFQjVzr4RzffQrGxJ
-    caFmclKMMgwOkZNCaI>
-X-ME-Received: <xmr:7qU7Zqb3-EezhTzYHS10rOnGuZwB9DItboEheoy5Q-G__O7ENbGjirzmiS0pf99p7wI-CimLXkhbmtuIl-VQKL7O1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeftddgleejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
-    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:7qU7ZtUBbNmWdSk1-_T5WTVQznUA0O_wIq0PRUCVjSwCUM6KksrA8g>
-    <xmx:7qU7ZgnqQT-770ArKfGr21ke8lpHMiztzG8RfRmPG5f8EnQGmCHWJQ>
-    <xmx:7qU7ZidYhzbg6XATnUWEjoTtQTB8748ZOL5UEeOLN9W6R8sxg3pbWg>
-    <xmx:7qU7ZiEkZVk90WHlTUVtby0I214WP2rUI6CsX94U04bR-xyjyRzMEQ>
-    <xmx:76U7Zq4VDefxdf-Rc2D_3VgsGti3KFtd_ihqW3GP71PaCpyCyhFvCgQT>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 May 2024 12:18:54 -0400 (EDT)
-Date: Wed, 8 May 2024 18:18:53 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 04/11] media: rcar-csi2: Use the subdev active state
-Message-ID: <20240508161853.GB2573154@ragnatech.se>
-References: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
- <20240506164941.110389-5-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1715185167; c=relaxed/simple;
+	bh=EBgZslqy6XCFdm2svCR8wdSgwC1c5tdTUgjKXU1N4nc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YOoYtOizwkhhuxBvlGQssLpE6NQrSWCQpHkGFil3g6CkMQhiYg8kZoptIm3NbMwuevkfXuJVZxos7jAw6KLt36s5OoDrEWw6fgdJIyEKAGHqKq3tRpEavXiZ99cku4qWXgwYuMq1H3Nn5GmRsB6e/eQJPeBFQ6JOEfgLm0SKKOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=GAffK5oY; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59a352bbd9so196378366b.1
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 09:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1715185163; x=1715789963; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
+        b=GAffK5oYWr5Q3pwT2GGdyTX/VZ1TzEofweFABNg1+buE/XuVy01Ekvff4lC6jpaX5E
+         qtgdQZCDOmoIT5fEijq3C4aJoBI3TKrJK48S3s0OsiV6E27aGsH5K9QGclK9I3ZTbE8f
+         vC93LQfgD1pcl/Yi34lRPb7ONYbBXkjUzqRPI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715185163; x=1715789963;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
+        b=PFgzkqrEbxQzguBxzmDmP0vDZWXfH+ja/e/AyI+Cq1hiBnmfYz3Z3V9BbaDtQG5RIb
+         0jj+g4FKAgmwTv1oGe6L29Y4dU6NvF+yD8G+bMBymATpKDfsgWwz5LvPPGUNJrdeUgou
+         y0P0vJOH5vWNfYj9RLG3vw804mBVxQ8h6F8rdP13gO0hTmFf3HAa0l7kUDurKzcJt3cF
+         KQgSxRnFpH/TLcYUMpYPhgOm4y4UyHYql9aDIz8u8nYSPN+qpXzpvgWa7Xcd2+MtxFmz
+         jXvZpJ1b3mp3f/VlW6erycY3F9q21QCx5AyONaELacWawmwePvVB4ygRQA1zS9ZUulvh
+         a02A==
+X-Forwarded-Encrypted: i=1; AJvYcCXgmMPJjm/KmAKpb+G2+trJddGV1zqEzrQTT0lWuOsHSI4iKmjoYp7OdQtmfyvUffhz3ErXg5jYqcX43hnEUNLb/iv2rtTzvl+mY7M=
+X-Gm-Message-State: AOJu0YxW98e6mAm0WVqH49zJSoGvRA/DI3qAULxVQEcltYu3nDQHSQjY
+	cFYm4a65y8W4vorGu1/EuEAk3re6NurmlIo23u/ONmLiOqcCLsJo2SV3AzUEwAar5vRgNbZtBrp
+	h48/Xrw==
+X-Google-Smtp-Source: AGHT+IHDH9v8HezKLcuwMfcve9GFJcTiX6H/CIpZVq2nSla6ab5syPf7sPj6Im6jHGdlqzKhyO9dTQ==
+X-Received: by 2002:a17:906:5f8b:b0:a58:7172:1ab0 with SMTP id a640c23a62f3a-a5a116691bbmr8240766b.16.1715185163417;
+        Wed, 08 May 2024 09:19:23 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id z24-20020a170906669800b00a59bba83d7asm4825901ejo.209.2024.05.08.09.19.21
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 09:19:21 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a59ce1e8609so186745066b.0
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 09:19:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWbew4/AKR2abfJ0euKtbX6nI2vTLWVwFYCfQSGumSnyjURXKqI/0ouXQZPd6/AFqNooUkz5xP8brKnyi6bQpuhfC/zGqgUV+H+/ko=
+X-Received: by 2002:a17:906:1c10:b0:a59:9c2f:c7d4 with SMTP id
+ a640c23a62f3a-a5a1167be68mr9921366b.19.1715185161053; Wed, 08 May 2024
+ 09:19:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240506164941.110389-5-jacopo.mondi@ideasonboard.com>
+References: <202405031110.6F47982593@keescook> <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV> <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner> <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com> <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
+ <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
+ <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com> <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 8 May 2024 09:19:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
+Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
+ file lifetimes
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Simon Ser <contact@emersion.fr>, Pekka Paalanen <pekka.paalanen@collabora.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
+	axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: multipart/mixed; boundary="0000000000003fddda0617f3aa7b"
 
-Hi Jacopo,
+--0000000000003fddda0617f3aa7b
+Content-Type: text/plain; charset="UTF-8"
 
-I really like this patch, the active state is a nice idea. It works as 
-expected on Gen3, but produces a NULL pointer dereference when booted on 
-Gen4.
+On Tue, 7 May 2024 at 12:07, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> That example thing shows that we shouldn't make it a FISAME ioctl - we
+> should make it a fcntl() instead, and it would just be a companion to
+> F_DUPFD.
+>
+> Doesn't that strike everybody as a *much* cleaner interface? I think
+> F_ISDUP would work very naturally indeed with F_DUPFD.
 
-[    0.547783] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000010
-[    0.548942] Mem abort info:
-[    0.549328]   ESR = 0x0000000096000044
-[    0.549813]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    0.550495]   SET = 0, FnV = 0
-[    0.550889]   EA = 0, S1PTW = 0
-[    0.551294]   FSC = 0x04: level 0 translation fault
-[    0.551919] Data abort info:
-[    0.552291]   ISV = 0, ISS = 0x00000044, ISS2 = 0x00000000
-[    0.552993]   CM = 0, WnR = 1, TnD = 0, TagAccess = 0
-[    0.553660]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[    0.554342] [0000000000000010] user address but active_mm is swapper
-[    0.555178] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
-[    0.555976] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.9.0-rc2-arm64-renesas-00321-gfba919e351c6 #123
-[    0.557150] Hardware name: Renesas White Hawk Single board based on r8a779g2 (DT)
-[    0.558093] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[    0.558971] pc : rcsi2_init_state+0x40/0x74
-[    0.559513] lr : rcsi2_init_state+0x40/0x74
-[    0.560043] sp : ffff80008258ba60
-[    0.560461] x29: ffff80008258ba60 x28: 0000000000000000 x27: ffff0006bf007538
-[    0.561365] x26: ffff000440cd54a0 x25: ffff000440cd5758 x24: ffff8000812dff08
-[    0.562265] x23: 0000043800000780 x22: 000000010000100a x21: 0000000000000008
-[    0.563166] x20: ffff000440924e00 x19: 0000000000000002 x18: ffffffffffffffff
-[    0.564066] x17: ffff00044244bc00 x16: 0000000000000100 x15: 0000000000000028
-[    0.564966] x14: 0000000000002104 x13: 0000000000000001 x12: 0000000000000001
-[    0.565866] x11: ffff800081af8390 x10: ffff800081a41808 x9 : ffff800082157000
-[    0.566766] x8 : 0000000000000004 x7 : ffff800081a41340 x6 : ffff80008210e110
-[    0.567667] x5 : ffff0004409d58f8 x4 : ffff800081ae3808 x3 : 0000000000000000
-[    0.568567] x2 : 0000000000000000 x1 : 0000000000000002 x0 : 0000000000000000
-[    0.569467] Call trace:
-[    0.569778]  rcsi2_init_state+0x40/0x74
-[    0.570264]  __v4l2_subdev_state_alloc+0x8c/0x110
-[    0.570862]  __v4l2_subdev_init_finalize+0x14/0x34
-[    0.571467]  rcsi2_probe+0x370/0x508
-[    0.571921]  platform_probe+0x64/0xbc
-[    0.572389]  really_probe+0xb8/0x294
-[    0.572843]  __driver_probe_device+0x74/0x124
-[    0.573394]  driver_probe_device+0x3c/0x15c
-[    0.573923]  __driver_attach+0xec/0x1c4
-[    0.574408]  bus_for_each_dev+0x74/0xcc
-[    0.574894]  driver_attach+0x20/0x28
-[    0.575347]  bus_add_driver+0xe0/0x1e0
-[    0.575821]  driver_register+0x58/0x114
-[    0.576307]  __platform_driver_register+0x24/0x2c
-[    0.576902]  rcar_csi2_pdrv_init+0x18/0x20
-[    0.577425]  do_one_initcall+0x80/0x2e8
-[    0.577912]  kernel_init_freeable+0x238/0x34c
-[    0.578462]  kernel_init+0x20/0x1c8
-[    0.578907]  ret_from_fork+0x10/0x20
-[    0.579366] Code: 2a1303e1 aa1403e0 52800002 97ff22d0 (a9017c1f) 
-[    0.580136] ---[ end trace 0000000000000000 ]---
-[    0.580736] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-[    0.581705] SMP: stopping secondary CPUs
-[    0.582205] Kernel Offset: disabled
-[    0.582645] CPU features: 0x0,00000003,80100528,4200700b
-[    0.583316] Memory Limit: none
-[    0.583703] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+So since we already have two versions of F_DUPFD (the other being
+F_DUPFD_CLOEXEC) I decided that the best thing to do is to just extend
+on that existing naming pattern, and called it F_DUPFD_QUERY instead.
 
-On 2024-05-06 18:49:32 +0200, Jacopo Mondi wrote:
-> Create the subdevice state with v4l2_subdev_init_finalize() and
-> implement the init_state() operation to guarantee the state is initialized.
-> 
-> Store the current image format in the subdev active state and remove it
-> from the driver private structure.
-> 
-> To guarantee the same image format is applied to all 4 source pads,
-> propagate the format from the sink pad to the sources, disallowing
-> changing format on a source pad.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/rcar-csi2.c | 138 +++++++++++----------
->  1 file changed, 75 insertions(+), 63 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> index 2d464e43a5be..7a9c4007386f 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -587,7 +587,8 @@ enum rcar_csi2_pads {
->  struct rcar_csi2_info {
->  	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
->  	int (*phy_post_init)(struct rcar_csi2 *priv);
-> -	int (*start_receiver)(struct rcar_csi2 *priv);
-> +	int (*start_receiver)(struct rcar_csi2 *priv,
-> +			      struct v4l2_subdev_state *state);
->  	void (*enter_standby)(struct rcar_csi2 *priv);
->  	const struct rcsi2_mbps_reg *hsfreqrange;
->  	unsigned int csi0clkfreqrange;
-> @@ -613,8 +614,6 @@ struct rcar_csi2 {
->  
->  	int channel_vc[4];
->  
-> -	struct mutex lock; /* Protects mf and stream_count. */
-> -	struct v4l2_mbus_framefmt mf;
->  	int stream_count;
->  
->  	bool cphy;
-> @@ -808,20 +807,25 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
->  	return 0;
->  }
->  
-> -static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
-> +static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
-> +				     struct v4l2_subdev_state *state)
->  {
->  	const struct rcar_csi2_format *format;
->  	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
-> +	const struct v4l2_mbus_framefmt *fmt;
->  	unsigned int lanes;
->  	unsigned int i;
->  	int mbps, ret;
->  
-> +	/* Use the format on the sink pad to compute the receiver config. */
-> +	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
-> +
->  	dev_dbg(priv->dev, "Input size (%ux%u%c)\n",
-> -		priv->mf.width, priv->mf.height,
-> -		priv->mf.field == V4L2_FIELD_NONE ? 'p' : 'i');
-> +		fmt->width, fmt->height,
-> +		fmt->field == V4L2_FIELD_NONE ? 'p' : 'i');
->  
->  	/* Code is validated in set_fmt. */
-> -	format = rcsi2_code_to_fmt(priv->mf.code);
-> +	format = rcsi2_code_to_fmt(fmt->code);
->  	if (!format)
->  		return -EINVAL;
->  
-> @@ -849,11 +853,11 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
->  			vcdt2 |= vcdt_part << ((i % 2) * 16);
->  	}
->  
-> -	if (priv->mf.field == V4L2_FIELD_ALTERNATE) {
-> +	if (fmt->field == V4L2_FIELD_ALTERNATE) {
->  		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
->  			| FLD_FLD_EN;
->  
-> -		if (priv->mf.height == 240)
-> +		if (fmt->height == 240)
->  			fld |= FLD_FLD_NUM(0);
->  		else
->  			fld |= FLD_FLD_NUM(1);
-> @@ -1049,15 +1053,18 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
->  	return 0;
->  }
->  
-> -static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
-> +static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
-> +				    struct v4l2_subdev_state *state)
->  {
->  	const struct rcar_csi2_format *format;
-> +	const struct v4l2_mbus_framefmt *fmt;
->  	unsigned int lanes;
->  	int msps;
->  	int ret;
->  
-> -	/* Calculate parameters */
-> -	format = rcsi2_code_to_fmt(priv->mf.code);
-> +	/* Use the format on the sink pad to compute the receiver config. */
-> +	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
-> +	format = rcsi2_code_to_fmt(fmt->code);
->  	if (!format)
->  		return -EINVAL;
->  
-> @@ -1114,7 +1121,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
->  	return 0;
->  }
->  
-> -static int rcsi2_start(struct rcar_csi2 *priv)
-> +static int rcsi2_start(struct rcar_csi2 *priv, struct v4l2_subdev_state *state)
->  {
->  	int ret;
->  
-> @@ -1122,7 +1129,7 @@ static int rcsi2_start(struct rcar_csi2 *priv)
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = priv->info->start_receiver(priv);
-> +	ret = priv->info->start_receiver(priv, state);
->  	if (ret) {
->  		rcsi2_enter_standby(priv);
->  		return ret;
-> @@ -1146,17 +1153,16 @@ static void rcsi2_stop(struct rcar_csi2 *priv)
->  static int rcsi2_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> +	struct v4l2_subdev_state *state;
->  	int ret = 0;
->  
-> -	mutex_lock(&priv->lock);
-> +	if (!priv->remote)
-> +		return -ENODEV;
->  
-> -	if (!priv->remote) {
-> -		ret = -ENODEV;
-> -		goto out;
-> -	}
-> +	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
->  
->  	if (enable && priv->stream_count == 0) {
-> -		ret = rcsi2_start(priv);
-> +		ret = rcsi2_start(priv, state);
->  		if (ret)
->  			goto out;
->  	} else if (!enable && priv->stream_count == 1) {
-> @@ -1165,49 +1171,26 @@ static int rcsi2_s_stream(struct v4l2_subdev *sd, int enable)
->  
->  	priv->stream_count += enable ? 1 : -1;
->  out:
-> -	mutex_unlock(&priv->lock);
-> +	v4l2_subdev_unlock_state(state);
->  
->  	return ret;
->  }
->  
->  static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> -				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_state *state,
->  				struct v4l2_subdev_format *format)
->  {
-> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> -	struct v4l2_mbus_framefmt *framefmt;
-> -
-> -	mutex_lock(&priv->lock);
-> +	if (format->pad > RCAR_CSI2_SINK)
-> +		return v4l2_subdev_get_fmt(sd, state, format);
->  
->  	if (!rcsi2_code_to_fmt(format->format.code))
->  		format->format.code = rcar_csi2_formats[0].code;
->  
-> -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		priv->mf = format->format;
-> -	} else {
-> -		framefmt = v4l2_subdev_state_get_format(sd_state, 0);
-> -		*framefmt = format->format;
-> -	}
-> -
-> -	mutex_unlock(&priv->lock);
-> -
-> -	return 0;
-> -}
-> -
-> -static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
-> -				struct v4l2_subdev_state *sd_state,
-> -				struct v4l2_subdev_format *format)
-> -{
-> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> -
-> -	mutex_lock(&priv->lock);
-> -
-> -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> -		format->format = priv->mf;
-> -	else
-> -		format->format = *v4l2_subdev_state_get_format(sd_state, 0);
-> +	*v4l2_subdev_state_get_format(state, format->pad) = format->format;
->  
-> -	mutex_unlock(&priv->lock);
-> +	/* Propagate the format to the source pads. */
-> +	for (unsigned int i = RCAR_CSI2_SOURCE_VC0; i < NR_OF_RCAR_CSI2_PAD; i++)
-> +		*v4l2_subdev_state_get_format(state, i) = format->format;
->  
->  	return 0;
->  }
-> @@ -1218,7 +1201,7 @@ static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
->  
->  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
->  	.set_fmt = rcsi2_set_pad_format,
-> -	.get_fmt = rcsi2_get_pad_format,
-> +	.get_fmt = v4l2_subdev_get_fmt,
->  };
->  
->  static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
-> @@ -1226,6 +1209,30 @@ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
->  	.pad	= &rcar_csi2_pad_ops,
->  };
->  
-> +static int rcsi2_init_state(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state)
-> +{
-> +	static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
-> +		.width		= 1920,
-> +		.height		= 1080,
-> +		.code		= MEDIA_BUS_FMT_RGB888_1X24,
-> +		.colorspace	= V4L2_COLORSPACE_SRGB,
-> +		.field		= V4L2_FIELD_NONE,
-> +		.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
-> +		.quantization	= V4L2_QUANTIZATION_DEFAULT,
-> +		.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
-> +	};
-> +
-> +	for (unsigned int i = RCAR_CSI2_SINK; i < NR_OF_RCAR_CSI2_PAD; i++)
-> +		*v4l2_subdev_state_get_format(state, i) = rcar_csi2_default_fmt;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops rcar_csi2_internal_ops = {
-> +	.init_state = rcsi2_init_state,
-> +};
-> +
->  static irqreturn_t rcsi2_irq(int irq, void *data)
->  {
->  	struct rcar_csi2 *priv = data;
-> @@ -1251,14 +1258,17 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
->  
->  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
->  {
-> +	struct v4l2_subdev_state *state;
->  	struct rcar_csi2 *priv = data;
->  
-> -	mutex_lock(&priv->lock);
-> +	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
-> +
->  	rcsi2_stop(priv);
->  	usleep_range(1000, 2000);
-> -	if (rcsi2_start(priv))
-> +	if (rcsi2_start(priv, state))
->  		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
-> -	mutex_unlock(&priv->lock);
-> +
-> +	v4l2_subdev_unlock_state(state);
->  
->  	return IRQ_HANDLED;
->  }
-> @@ -1870,23 +1880,23 @@ static int rcsi2_probe(struct platform_device *pdev)
->  
->  	priv->dev = &pdev->dev;
->  
-> -	mutex_init(&priv->lock);
->  	priv->stream_count = 0;
->  
->  	ret = rcsi2_probe_resources(priv, pdev);
->  	if (ret) {
->  		dev_err(priv->dev, "Failed to get resources\n");
-> -		goto error_mutex;
-> +		return ret;
->  	}
->  
->  	platform_set_drvdata(pdev, priv);
->  
->  	ret = rcsi2_parse_dt(priv);
->  	if (ret)
-> -		goto error_mutex;
-> +		return ret;
->  
->  	priv->subdev.owner = THIS_MODULE;
->  	priv->subdev.dev = &pdev->dev;
-> +	priv->subdev.internal_ops = &rcar_csi2_internal_ops;
->  	v4l2_subdev_init(&priv->subdev, &rcar_csi2_subdev_ops);
->  	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
->  	snprintf(priv->subdev.name, sizeof(priv->subdev.name), "%s %s",
-> @@ -1912,21 +1922,25 @@ static int rcsi2_probe(struct platform_device *pdev)
->  
->  	pm_runtime_enable(&pdev->dev);
->  
-> +	ret = v4l2_subdev_init_finalize(&priv->subdev);
-> +	if (ret)
-> +		goto error_pm_runtime;
-> +
->  	ret = v4l2_async_register_subdev(&priv->subdev);
->  	if (ret < 0)
-> -		goto error_pm_runtime;
-> +		goto error_subdev;
->  
->  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
->  
->  	return 0;
->  
-> +error_subdev:
-> +	v4l2_subdev_cleanup(&priv->subdev);
->  error_pm_runtime:
->  	pm_runtime_disable(&pdev->dev);
->  error_async:
->  	v4l2_async_nf_unregister(&priv->notifier);
->  	v4l2_async_nf_cleanup(&priv->notifier);
-> -error_mutex:
-> -	mutex_destroy(&priv->lock);
->  
->  	return ret;
->  }
-> @@ -1941,8 +1955,6 @@ static void rcsi2_remove(struct platform_device *pdev)
->  	v4l2_subdev_cleanup(&priv->subdev);
->  
->  	pm_runtime_disable(&pdev->dev);
-> -
-> -	mutex_destroy(&priv->lock);
->  }
->  
->  static struct platform_driver rcar_csi2_pdrv = {
-> -- 
-> 2.44.0
-> 
+I'm not married to the name, so if somebody hates it, feel free to
+argue otherwise.
 
--- 
-Kind Regards,
-Niklas Söderlund
+But with that, the suggested patch would end up looking something like
+the attached (I also re-ordered the existing "F_LINUX_SPECIFIC_BASE"
+users, since one of them was out of numerical order).
+
+This really feels like a very natural thing, and yes, the 'same_fd()'
+function in systemd that Christian also pointed at could use this very
+naturally.
+
+Also note that I obviously haven't tested this. Because obviously this
+is trivially correct and cannot possibly have any bugs. Right? RIGHT?
+
+And yes, I did check - despite the odd jump in numbers, we've never
+had anything between F_NOTIFY (+2) and F_CANCELLK (+5).
+
+We added F_SETLEASE (+0) , F_GETLEASE (+1) and F_NOTIFY (+2) in
+2.4.0-test9 (roughly October 2000, I didn't dig deeper).
+
+And then back in 2007 we suddenly jumped to F_CANCELLK (+5) in commit
+9b9d2ab4154a ("locks: add lock cancel command"). I don't know why 3/4
+were shunned.
+
+After that we had 22d2b35b200f ("F_DUPFD_CLOEXEC implementation") add
+F_DUPFD_CLOEXEC (+6).
+
+I'd have loved to put F_DUPFD_QUERY next to it, but +5 and +7 are both used.
+
+                Linus
+
+--0000000000003fddda0617f3aa7b
+Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lvy090o10>
+X-Attachment-Id: f_lvy090o10
+
+IGZzL2ZjbnRsLmMgICAgICAgICAgICAgICAgIHwgMjMgKysrKysrKysrKysrKysrKysrKysrKysK
+IGluY2x1ZGUvdWFwaS9saW51eC9mY250bC5oIHwgMTQgKysrKysrKystLS0tLS0KIDIgZmlsZXMg
+Y2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9m
+cy9mY250bC5jIGIvZnMvZmNudGwuYwppbmRleCA1NGNjODVkMzMzOGUuLjFkZGI2M2Y3MDQ0NSAx
+MDA2NDQKLS0tIGEvZnMvZmNudGwuYworKysgYi9mcy9mY250bC5jCkBAIC0zMjcsNiArMzI3LDI1
+IEBAIHN0YXRpYyBsb25nIGZjbnRsX3NldF9yd19oaW50KHN0cnVjdCBmaWxlICpmaWxlLCB1bnNp
+Z25lZCBpbnQgY21kLAogCXJldHVybiAwOwogfQogCisvKgorICogSXMgdGhlIGZpbGUgZGVzY3Jp
+cHRvciBhIGR1cCBvZiB0aGUgZmlsZT8KKyAqLworc3RhdGljIGxvbmcgZl9kdXBmZF9xdWVyeShp
+bnQgZmQsIHN0cnVjdCBmaWxlICpmaWxwKQoreworCXN0cnVjdCBmZCBmID0gZmRnZXRfcmF3KGZk
+KTsKKworCS8qCisJICogV2UgY2FuIGRvIHRoZSAnZmRwdXQoKScgaW1tZWRpYXRlbHksIGFzIHRo
+ZSBvbmx5IHRoaW5nIHRoYXQKKwkgKiBtYXR0ZXJzIGlzIHRoZSBwb2ludGVyIHZhbHVlIHdoaWNo
+IGlzbid0IGNoYW5nZWQgYnkgdGhlIGZkcHV0LgorCSAqCisJICogVGVjaG5pY2FsbHkgd2UgZGlk
+bid0IG5lZWQgYSByZWYgYXQgYWxsLCBhbmQgJ2ZkZ2V0KCknIHdhcworCSAqIG92ZXJraWxsLCBi
+dXQgZ2l2ZW4gb3VyIGxvY2tsZXNzIGZpbGUgcG9pbnRlciBsb29rdXAsIHRoZQorCSAqIGFsdGVy
+bmF0aXZlcyBhcmUgY29tcGxpY2F0ZWQuCisJICovCisJZmRwdXQoZik7CisJcmV0dXJuIGYuZmls
+ZSA9PSBmaWxwOworfQorCiBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGlu
+dCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCQlzdHJ1Y3QgZmlsZSAqZmlscCkKIHsKQEAgLTM0
+Miw2ICszNjEsOSBAQCBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGludCBj
+bWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCWNhc2UgRl9EVVBGRF9DTE9FWEVDOgogCQllcnIgPSBm
+X2R1cGZkKGFyZ2ksIGZpbHAsIE9fQ0xPRVhFQyk7CiAJCWJyZWFrOworCWNhc2UgRl9EVVBGRF9R
+VUVSWToKKwkJZXJyID0gZl9kdXBmZF9xdWVyeShhcmdpLCBmaWxwKTsKKwkJYnJlYWs7CiAJY2Fz
+ZSBGX0dFVEZEOgogCQllcnIgPSBnZXRfY2xvc2Vfb25fZXhlYyhmZCkgPyBGRF9DTE9FWEVDIDog
+MDsKIAkJYnJlYWs7CkBAIC00NDYsNiArNDY4LDcgQEAgc3RhdGljIGludCBjaGVja19mY250bF9j
+bWQodW5zaWduZWQgY21kKQogCXN3aXRjaCAoY21kKSB7CiAJY2FzZSBGX0RVUEZEOgogCWNhc2Ug
+Rl9EVVBGRF9DTE9FWEVDOgorCWNhc2UgRl9EVVBGRF9RVUVSWToKIAljYXNlIEZfR0VURkQ6CiAJ
+Y2FzZSBGX1NFVEZEOgogCWNhc2UgRl9HRVRGTDoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9s
+aW51eC9mY250bC5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L2ZjbnRsLmgKaW5kZXggMjgyZTkwYWVi
+MTYzLi5jMGJjYzE4NWZhNDggMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5o
+CisrKyBiL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5oCkBAIC04LDYgKzgsMTQgQEAKICNkZWZp
+bmUgRl9TRVRMRUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMCkKICNkZWZpbmUgRl9HRVRM
+RUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMSkKIAorLyoKKyAqIFJlcXVlc3Qgbm9maWNh
+dGlvbnMgb24gYSBkaXJlY3RvcnkuCisgKiBTZWUgYmVsb3cgZm9yIGV2ZW50cyB0aGF0IG1heSBi
+ZSBub3RpZmllZC4KKyAqLworI2RlZmluZSBGX05PVElGWQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNF
+ICsgMikKKworI2RlZmluZSBGX0RVUEZEX1FVRVJZCShGX0xJTlVYX1NQRUNJRklDX0JBU0UgKyAz
+KQorCiAvKgogICogQ2FuY2VsIGEgYmxvY2tpbmcgcG9zaXggbG9jazsgaW50ZXJuYWwgdXNlIG9u
+bHkgdW50aWwgd2UgZXhwb3NlIGFuCiAgKiBhc3luY2hyb25vdXMgbG9jayBhcGkgdG8gdXNlcnNw
+YWNlOgpAQCAtMTcsMTIgKzI1LDYgQEAKIC8qIENyZWF0ZSBhIGZpbGUgZGVzY3JpcHRvciB3aXRo
+IEZEX0NMT0VYRUMgc2V0LiAqLwogI2RlZmluZSBGX0RVUEZEX0NMT0VYRUMJKEZfTElOVVhfU1BF
+Q0lGSUNfQkFTRSArIDYpCiAKLS8qCi0gKiBSZXF1ZXN0IG5vZmljYXRpb25zIG9uIGEgZGlyZWN0
+b3J5LgotICogU2VlIGJlbG93IGZvciBldmVudHMgdGhhdCBtYXkgYmUgbm90aWZpZWQuCi0gKi8K
+LSNkZWZpbmUgRl9OT1RJRlkJKEZfTElOVVhfU1BFQ0lGSUNfQkFTRSsyKQotCiAvKgogICogU2V0
+IGFuZCBnZXQgb2YgcGlwZSBwYWdlIHNpemUgYXJyYXkKICAqLwo=
+--0000000000003fddda0617f3aa7b--
 
