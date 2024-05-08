@@ -1,185 +1,214 @@
-Return-Path: <linux-media+bounces-11171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C578F8C0561
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 22:12:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF558C0601
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 23:03:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33DBB1F224E5
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 20:12:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA413284492
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 21:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA68912BEA4;
-	Wed,  8 May 2024 20:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92F5B13175B;
+	Wed,  8 May 2024 21:02:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ftTVBurk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Uy3aoBW9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87B5912BF23;
-	Wed,  8 May 2024 20:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F2D130A58;
+	Wed,  8 May 2024 21:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715199130; cv=none; b=Sly57k4jCy6jYKzrsxNPRdLfnn0ciEW8NwZqGojV+CUO8wY5autxfCiDqtvz4yTUUYnh2khyS6Ak5HoE+2g9zEgqSJ2o8XSTJ4miszwELxRv/lUr0m/p4b0yZt+h4zWxkcR0aVai8WIo4jgdDNjYsHu/fpRswzE2Owh0vAJh1FM=
+	t=1715202179; cv=none; b=K/hJoDh0kL1VW3lr7p5YEJKy9WydoFsCvOxU6cvFIoRQJsymHGPGH4cdbP7tvRLWlzbA81i5YqODIgCIlWzUK9Nd66JeyCfzNGI/e6nny2Dx+jy4zx2GD8ihVw2QDsBxW7ZRRlj7vRFw0/CTp9TOyFE2SgUL8ieR2GCn584jHEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715199130; c=relaxed/simple;
-	bh=zIydT8YGTS5HHdhFvaY+z2IBXHjQb1KRzSYhyMGehm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jGWzrED/O5xLlAbpmtI6Av5jz5raxaGh57n04v08CNgSIsxvuEhSFeQAa2CzDxQWrnye2u39mcrWUJSHoL0JmXPpHskUtXYMDBjV5wqwq8GmDGe925+RXQ9h/Ipp5Ic3qzfqisahOb0cofIJJRk4LsemAsHjhTxzk173Jok6jbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ftTVBurk; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [192.168.49.54] (c-73-118-245-227.hsd1.wa.comcast.net [73.118.245.227])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 53C9B2083CB0;
-	Wed,  8 May 2024 13:12:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 53C9B2083CB0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1715199122;
-	bh=YQLVi+zPNdIy/0huyFzR9lAKIP+Jz+4FnUm+Tl+eDcA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ftTVBurkguwhKOiJhK1awfGao4KUzY3bAftTWFWq9LkQH3VQ7WP991P6AE9zwe41s
-	 RMvuQ0BxvO5trYbdHZZazQNmtSwcFlLoafwuffuXrwDd5CYh+2vixLqYJI55BXhKoX
-	 5zYejGwj46nmDpVRiLxKt37iz/NegfHOjWptLljg=
-Message-ID: <2654ad6e-66b7-4698-94da-892cc9d0802c@linux.microsoft.com>
-Date: Wed, 8 May 2024 13:12:00 -0700
+	s=arc-20240116; t=1715202179; c=relaxed/simple;
+	bh=7rRTIapHt6sGqrwX4oB+GqHFUHj6eUfnAVCac5/PhDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p096r9u9W14+JXbfbK7pzHl5rehpCVZWlSEu1AXQvtSd/+G+wm+ZsmAdyzdb2GsxIBPSi3M2D5zuCzcD9mTTUYDKnvdvx3zSmjRz4HDfOvXJyXQBSYA/de+UGXAzJEDFNdjc3dPo0eXHW2IH3DKQp1FIWB12/8B/AU63/UMnZcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uy3aoBW9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C3E716D4;
+	Wed,  8 May 2024 23:02:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715202171;
+	bh=7rRTIapHt6sGqrwX4oB+GqHFUHj6eUfnAVCac5/PhDo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uy3aoBW91sH8N54AwJDqdsYGSM+Ed4zvBTC1xtihs6TC36RqQgEX05xqD69sw1Nnk
+	 RUaVPOb/iHZQ48EcYHFTly7KWs2nWBvDmZvJJpThb+hDbXJXztdWzVYAYO8uWJ54iY
+	 BVW9ALL3OVq/jqq5rHBncIHdS2817aXG4qa1Smzo=
+Date: Thu, 9 May 2024 00:02:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 1/2] media: v4l2-subdev: Provide const-aware subdev
+ state accessors
+Message-ID: <20240508210245.GA13978@pendragon.ideasonboard.com>
+References: <20240507161907.27747-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240507161907.27747-2-laurent.pinchart+renesas@ideasonboard.com>
+ <ZjvIGDaAAGK0WJo1@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/12] drm/amdgpu, drm/radeon: Make I2C terminology
- more inclusive
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Evan Quan <evan.quan@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Candice Li <candice.li@amd.com>, Ran Sun <sunran001@208suo.com>,
- Alexander Richards <electrodeyt@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>, Heiner Kallweit <hkallweit1@gmail.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Samson Tam <samson.tam@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
- Sohaib Nadeem <sohaib.nadeem@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>, Alan Liu <haoping.liu@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Dillon Varone
- <dillon.varone@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Asad kamal <asad.kamal@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
- Ma Jun <Jun.Ma2@amd.com>, Darren Powell <darren.powell@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yifan Zhang <yifan1.zhang@amd.com>, Le Ma <Le.Ma@amd.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240503181333.2336999-1-eahariha@linux.microsoft.com>
- <20240503181333.2336999-2-eahariha@linux.microsoft.com>
- <0a6d4fa9-169f-425b-93d6-04314c617090@linux.microsoft.com>
- <CADnq5_NpxPM-FTcCchdBMRng=6xdM03s93XEX2_8fx44MRVYag@mail.gmail.com>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <CADnq5_NpxPM-FTcCchdBMRng=6xdM03s93XEX2_8fx44MRVYag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZjvIGDaAAGK0WJo1@valkosipuli.retiisi.eu>
 
-On 5/8/2024 7:53 AM, Alex Deucher wrote:
-> On Tue, May 7, 2024 at 2:32 PM Easwar Hariharan
-> <eahariha@linux.microsoft.com> wrote:
->>
->> On 5/3/2024 11:13 AM, Easwar Hariharan wrote:
->>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->>> with more appropriate terms. Inspired by and following on to Wolfram's
->>> series to fix drivers/i2c/[1], fix the terminology for users of
->>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>> in the specification.
->>>
->>> Compile tested, no functionality changes intended
->>>
->>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>>
->>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->>> ---
->>>  .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  |  8 +++---
->>>  drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 10 +++----
->>>  drivers/gpu/drm/amd/amdgpu/atombios_i2c.c     |  8 +++---
->>>  drivers/gpu/drm/amd/amdgpu/atombios_i2c.h     |  2 +-
->>>  drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    | 20 ++++++-------
->>>  .../gpu/drm/amd/display/dc/bios/bios_parser.c |  2 +-
->>>  .../drm/amd/display/dc/bios/bios_parser2.c    |  2 +-
->>>  .../drm/amd/display/dc/core/dc_link_exports.c |  4 +--
->>>  drivers/gpu/drm/amd/display/dc/dc.h           |  2 +-
->>>  drivers/gpu/drm/amd/display/dc/dce/dce_i2c.c  |  4 +--
->>>  .../display/include/grph_object_ctrl_defs.h   |  2 +-
->>>  drivers/gpu/drm/amd/include/atombios.h        |  2 +-
->>>  drivers/gpu/drm/amd/include/atomfirmware.h    | 26 ++++++++---------
->>>  .../powerplay/hwmgr/vega20_processpptables.c  |  4 +--
->>>  .../amd/pm/powerplay/inc/smu11_driver_if.h    |  2 +-
->>>  .../inc/pmfw_if/smu11_driver_if_arcturus.h    |  2 +-
->>>  .../inc/pmfw_if/smu11_driver_if_navi10.h      |  2 +-
->>>  .../pmfw_if/smu11_driver_if_sienna_cichlid.h  |  2 +-
->>>  .../inc/pmfw_if/smu13_driver_if_aldebaran.h   |  2 +-
->>>  .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  2 +-
->>>  .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  2 +-
->>>  .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  4 +--
->>>  .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |  8 +++---
->>>  drivers/gpu/drm/radeon/atombios.h             | 16 +++++------
->>>  drivers/gpu/drm/radeon/atombios_i2c.c         |  4 +--
->>>  drivers/gpu/drm/radeon/radeon_combios.c       | 28 +++++++++----------
->>>  drivers/gpu/drm/radeon/radeon_i2c.c           | 10 +++----
->>>  drivers/gpu/drm/radeon/radeon_mode.h          |  6 ++--
->>>  28 files changed, 93 insertions(+), 93 deletions(-)
->>>
->>
->> <snip>
->>
->> Hello Christian, Daniel, David, others,
->>
->> Could you re-review v2 since the feedback provided in v0 [1] has now been addressed? I can send v3 with
->> all other feedback and signoffs from the other maintainers incorporated when I have something for amdgpu
->> and radeon.
+On Wed, May 08, 2024 at 06:44:40PM +0000, Sakari Ailus wrote:
+> Hi Laurent,
 > 
-> This seems like a lot of churn.  Additionally, a bunch of these
-> headers are shared with other OSes, so it's possible some of the
-> changes may end up getting reverted accidently when we sync up or we
-> may add new headers in new code with the old nomenclature and then
-> we'd need to make sure to adjust it to make sure everything was
-> aligned again.  I would just as soon leave things as is, but I'm open
-> to acking them if there is a strong desire to update things.
+> Thanks for the update.
 > 
-> Alex
+> This is starting to look very nice. A few comments below...
 
-The way I see it, this is a small downpayment on the debt we have built up so far. Internship
-programs like LF Outreachy to get more underrepresented groups involved in open source are trying to 
-change the open source community culture to be more inclusive, but simultaneously rely on the culture
-being welcoming enough as well.
+Thanks :-)
 
-I do see the challenge involved in preserving the changes and ensuring no new code is added with
-outdated nomenclature (but see [1]), but culture changes one person at a time, and I'd encourage the community
-to do the work needed so we can move past our (mostly) inadvertent role in perpetuating it.
+> On Tue, May 07, 2024 at 07:19:06PM +0300, Laurent Pinchart wrote:
+> > It would be useful to mark instances of v4l2_subdev_state structures as
+> > const when code needs to access them read-only. This isn't currently
+> > possible, as the v4l2_subdev_state_get_*() accessor functions take a
+> > non-const pointer to the state.
+> > 
+> > Use _Generic() to provide two different versions of the accessors, for
+> > const and non-const states respectively. The former returns a const
+> > pointer to the requested format, rectangle or interval, implementing
+> > const-correctness. The latter returns a non-const pointer, preserving
+> > the current behaviour for drivers.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > Changes since v2:
+> > 
+> > - Specify types explicitly in _Generic() expression
+> > - Fix cast of value to const pointer
+> > 
+> > Changes since v1:
+> > 
+> > - Wrap the accessors with _Generic() using a single macro instead of
+> >   adding a _Generic() statement in each of them.
+> > ---
+> >  include/media/v4l2-subdev.h | 40 +++++++++++++++++++++++++------------
+> >  1 file changed, 27 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index e30c463d90e5..cd3e9e2ebe4d 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -1326,6 +1326,16 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+> >  #define __v4l2_subdev_state_gen_call(NAME, _1, ARG, ...)	\
+> >  	__v4l2_subdev_state_get_ ## NAME ## ARG
+> >  
+> > +/*
+> > + * A macro to constify the return value of the state accessors when the state
+> > + * parameter is const.
+> > + */
+> > +#define __v4l2_subdev_state_constify_call(state, value)				\
+> 
+> This function just changes the return value constness. How about calling it
+> e.g. __v4l2_subdev_state_constify_ret instead?
 
-That's my 2c (or your sub-unit currency of choice).
+Fine with me.
 
-Easwar
+> Either way,
+> 
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> > +	_Generic(state,								\
+> > +		const struct v4l2_subdev_state *: (const typeof(*(value)) *)(value), \
+> > +		struct v4l2_subdev_state *: (value)				\
+> > +	)
+> > +
+> >  /**
+> >   * v4l2_subdev_state_get_format() - Get pointer to a stream format
+> >   * @state: subdevice state
+> > @@ -1340,16 +1350,17 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+> >   */
+> >  /*
+> >   * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
+> > - * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
+> > + * two or three arguments. The purpose of the __v4l2_subdev_state_gen_call()
+> >   * macro below is to come up with the name of the function or macro to call,
+> >   * using the last two arguments (_stream and _pad). The selected function or
+> >   * macro is then called using the arguments specified by the caller. A similar
+> >   * arrangement is used for v4l2_subdev_state_crop() and
+> >   * v4l2_subdev_state_compose() below.
+> 
+> These function names are missing _get after the prefix.
+> 
+> Could you also add the interval function here, too?
+> 
+> The would fit well for a separate patch.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=49decddd39e5f6132ccd7d9fdc3d7c470b0061bb
+I'll drop the change above and will fix the whole paragraph in a
+separate patch.
+
+> >   */
+> > -#define v4l2_subdev_state_get_format(state, pad, ...)			\
+> > -	__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
+> > -		(state, pad, ##__VA_ARGS__)
+> > +#define v4l2_subdev_state_get_format(state, pad, ...)				\
+> > +	__v4l2_subdev_state_constify_call(state,				\
+> > +		__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
+> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
+> >  #define __v4l2_subdev_state_get_format_pad(state, pad)	\
+> >  	__v4l2_subdev_state_get_format(state, pad, 0)
+> >  struct v4l2_mbus_framefmt *
+> > @@ -1368,9 +1379,10 @@ __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> >   * For stream-unaware drivers the crop rectangle for the corresponding pad is
+> >   * returned. If the pad does not exist, NULL is returned.
+> >   */
+> > -#define v4l2_subdev_state_get_crop(state, pad, ...)			\
+> > -	__v4l2_subdev_state_gen_call(crop, ##__VA_ARGS__, , _pad)	\
+> > -		(state, pad, ##__VA_ARGS__)
+> > +#define v4l2_subdev_state_get_crop(state, pad, ...)				\
+> > +	__v4l2_subdev_state_constify_call(state,				\
+> > +		__v4l2_subdev_state_gen_call(crop, ##__VA_ARGS__, , _pad)	\
+> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
+> >  #define __v4l2_subdev_state_get_crop_pad(state, pad)	\
+> >  	__v4l2_subdev_state_get_crop(state, pad, 0)
+> >  struct v4l2_rect *
+> > @@ -1389,9 +1401,10 @@ __v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >   * For stream-unaware drivers the compose rectangle for the corresponding pad is
+> >   * returned. If the pad does not exist, NULL is returned.
+> >   */
+> > -#define v4l2_subdev_state_get_compose(state, pad, ...)			\
+> > -	__v4l2_subdev_state_gen_call(compose, ##__VA_ARGS__, , _pad)	\
+> > -		(state, pad, ##__VA_ARGS__)
+> > +#define v4l2_subdev_state_get_compose(state, pad, ...)				\
+> > +	__v4l2_subdev_state_constify_call(state,				\
+> > +		__v4l2_subdev_state_gen_call(compose, ##__VA_ARGS__, , _pad)	\
+> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
+> >  #define __v4l2_subdev_state_get_compose_pad(state, pad)	\
+> >  	__v4l2_subdev_state_get_compose(state, pad, 0)
+> >  struct v4l2_rect *
+> > @@ -1410,9 +1423,10 @@ __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+> >   * For stream-unaware drivers the frame interval for the corresponding pad is
+> >   * returned. If the pad does not exist, NULL is returned.
+> >   */
+> > -#define v4l2_subdev_state_get_interval(state, pad, ...)			\
+> > -	__v4l2_subdev_state_gen_call(interval, ##__VA_ARGS__, , _pad)	\
+> > -		(state, pad, ##__VA_ARGS__)
+> > +#define v4l2_subdev_state_get_interval(state, pad, ...)				\
+> > +	__v4l2_subdev_state_constify_call(state,				\
+> > +		__v4l2_subdev_state_gen_call(interval, ##__VA_ARGS__, , _pad)	\
+> > +			((struct v4l2_subdev_state *)state, pad, ##__VA_ARGS__))
+> >  #define __v4l2_subdev_state_get_interval_pad(state, pad)	\
+> >  	__v4l2_subdev_state_get_interval(state, pad, 0)
+> >  struct v4l2_fract *
+
+-- 
+Regards,
+
+Laurent Pinchart
 
