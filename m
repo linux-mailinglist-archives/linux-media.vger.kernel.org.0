@@ -1,144 +1,126 @@
-Return-Path: <linux-media+bounces-11116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB408BF5C4
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 07:55:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFD98BF63E
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:29:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF6BD1C230E5
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 05:55:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB8431F22FF7
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 06:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6727417BCD;
-	Wed,  8 May 2024 05:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204C91863C;
+	Wed,  8 May 2024 06:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyI3Q/ax"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="UeGH88wy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE4514AB0;
-	Wed,  8 May 2024 05:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF1D17BCD;
+	Wed,  8 May 2024 06:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715147713; cv=none; b=qLgYvedKfO+uDb9jYN4fHylA7vjKeIi8LZilJPc1xAyn1IOgNv6FtFr7/MxHQAsK2kYQdZV+nvzbkmkXPF8jKsxBZyFd7w6ofnDcYcFMp5LqFhnr17eFum499KoE+2c2PKvcaTloyOWPtlK9yOvWPKUhQ6ixpEnikJCHP96IeIQ=
+	t=1715149734; cv=none; b=h476j1HzZ27IkZiY3hqu/hfd+M9t/7C0WPyyII9GolJPDcYEl58I4gmBKlz7Ii0OspHGscuzGA8Jc+MGaJT8ALUXAaHwNMfWFFdqywroYBj5z8YWb6TO/av2JsLUUO9D+HtESk4ZNJg2fIDtnp5BQN9bp++8UW4Hypnvs+rL3k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715147713; c=relaxed/simple;
-	bh=lO89aVQfFs/6jUDErPkGkXAH9K4sksZShIR9DhCcgkI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e8ERk4tuTpXzhE1rxChbn9HTVjBW6sAzcLAoqwDNp+LahrWhXC9o6/SiW/MzOT9SLaaHQedggA3+j4son6fVBJrHgv1vrHOZOmqK4iDeu8kEzYMwxprbexTWF4perfXpnfBnjoNMUvWA7rdZDYRKD2wrmSK0uPy9bvIwWe+QJ2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TyI3Q/ax; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-34da04e44a2so2220844f8f.1;
-        Tue, 07 May 2024 22:55:11 -0700 (PDT)
+	s=arc-20240116; t=1715149734; c=relaxed/simple;
+	bh=ZkivE2M4A6Zyvz5uQplVcUGzvRnrZckW22dCP/IeN7A=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=QobxK/cyRp9oG1/H0q/bF5A9SdUTxAMTjT3PmqYISTKzYIRlbjsoaOb56geDBMjH3qqvHPf2z17qIOqtKsvvzRErorYrcbcNaIVerWSfD2XO69f0oq8rYeiHCCpzvWakF4FyPtltCMYdT7cpNp+c5TAYEq4mpcf1RzcN45ehX70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=UeGH88wy; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715147710; x=1715752510; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
-        b=TyI3Q/axaPMnsKWjrLW1k5s+i7XNf++8A5vw98l7hRFVSEHJclBPqXh3gF2ae4iN8y
-         X6llgcEJpqI+aVujppjMwj4twoMI5TtXBxQMV2J0nnX2wObShvSYk/wPLINjMsSCZIy0
-         lRPlrtQZB5OdN8TbbIeT5injUDcAkYp7zFa/pJEcWzZZbTFrtkMRd1OCIX8ILuLs9ys6
-         IMEATsFeifo/PK2wiORJY3VsCwtM78LIUKvdCEnrtjNbDxiKnuGpcTkz2Dxkgy/zbCgW
-         hHf4TZ8LsDwzCLNSP8hAXuoHvasnwemDFCeRLoOuk0X31x1H7Zz1jRFYceZtiExDRe3A
-         zpbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715147710; x=1715752510;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
-        b=aZuA6OsLh1yxlQBhwiEJbnzz8Q3CC/ef0ClhaR/hzZQqLcVSgN3lNCZjZmZoDfOpM7
-         JSwnWX9KEDFkHtemw6L9rvCi5KGyozGgiYkE3uCAUQRUv3Q6dxy/C8ZE1J43V2pcL8AE
-         5Q4gZdrcS2oiUO5lXW4hpMtJjYskoz2lqs+Iwid/LDQsGAZyi+23vng08/RK6IkgHVAj
-         h/ic733Mo1rE/CIY3TzUGLoOh8pOb/Q75jV1VCqQvsz1BNrONfodtViSlFcBNyizIVjy
-         x60WHrptoNYwmRmAaZzjSolRWiAioegqzFIVTLfOly7z8OEir0zddSK5dU230p3M1U8F
-         wUQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1A/o+3RGzPCNj1u5vkAz6k2z0VU3LrjfCmua/6s++RXjGrUbrvzSXwW7I+tzZtW5v74eZmxqO8QHq3/uqDFAbGTlVjomFzWzE7rnGsxO1no5QF/57Tas58ZC9ONhMRQ766G0xMmDtTfHN4puQGdqdtbQdefnqWSWNs5JIGFoDPrYdnJ/mn4VMJ8cV8jqSPhnB+jfRQVAqsei22XZwPmI6uE4=
-X-Gm-Message-State: AOJu0Yyy5ToTFjfHvkWiPD20ZN5dhpEpHL5YHMXJ0fos+0bQK6e3iW8F
-	QAhTILDBkfPZlTREGOx6+3CpEfvxN+lcI0/pil2nPq2vedUD/KX8
-X-Google-Smtp-Source: AGHT+IGmRYQwYE5GKCP4nHrkMb9CRMRKCaP4q6oTy76fGgGdxl/Be2mRpgRLYl8OhhNTkkldystArg==
-X-Received: by 2002:adf:f0c8:0:b0:34e:3cb3:6085 with SMTP id ffacd0b85a97d-34fca81043amr1370408f8f.62.1715147710492;
-        Tue, 07 May 2024 22:55:10 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id w6-20020adfcd06000000b0034dcb22d82fsm14415768wrm.20.2024.05.07.22.55.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 22:55:10 -0700 (PDT)
-Message-ID: <040b32b8-c4df-4121-bb0d-f0c6ee9e123d@gmail.com>
-Date: Wed, 8 May 2024 07:55:08 +0200
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=GRJaxWCDvD8J1e83T9v3/SNwP7m5MLl5o4fjEjGKSVI=;
+  b=UeGH88wyvXZW33eDF+AHzDEjJHgunrhImmEwvB0UqK8Xy1Ek/TPp3Pq/
+   RR+07i94R/ICRrIbuBvF+fdKSL6yTwGfDyszsiU9yR8v5R4etfG3gy569
+   W8Bot+RhvJ1fuRGwYdS9dGvj4730BtKh/ML+2VHsnE/eqliEb2c1Sw9AT
+   A=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.08,144,1712613600"; 
+   d="scan'208";a="164962999"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 08:28:42 +0200
+Date: Wed, 8 May 2024 08:28:42 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+cc: akari.ailus@linux.intel.com, dave.stevenson@raspberrypi.com, 
+    jacopo@jmondi.org, mchehab@kernel.org, linux-media@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, julia.lawall@inria.fr, 
+    skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
+Subject: Re: [PATCH] media: i2c: replacing of_node_put with
+ __free(device_node)
+In-Reply-To: <20240508054253.1568781-1-abdulrasaqolawani@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2405080828330.3563@hadrien>
+References: <20240508054253.1568781-1-abdulrasaqolawani@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- keescook@chromium.org, axboe@kernel.dk, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
- laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-Am 07.05.24 um 21:07 schrieb Linus Torvalds:
-> On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
->>
->>> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
->>> too, if this is possibly a more common thing. and not just DRM wants
->>> it.
->>>
->>> Would something like that work for you?
->> Yes.
->>
->> Adding Simon and Pekka as two of the usual suspects for this kind of
->> stuff. Also example code (the int return value is just so that callers know
->> when kcmp isn't available, they all only care about equality):
->>
->> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
->
-> Doesn't that strike everybody as a *much* cleaner interface? I think
-> F_ISDUP would work very naturally indeed with F_DUPFD.
->
-> Yes? No?
 
-Sounds absolutely sane to me.
 
-Christian.
+On Wed, 8 May 2024, Abdulrasaq Lawani wrote:
+
+> Replaced instance of of_node_put with __free(device_node)
+> and removed goto statement to protect against any memory leaks
+> due to future changes in control flow.
+
+The log message is not very understandable.  "to protect..." goes with
+__free, not with "removed goto statement".  I don't think "removed goto
+statement" is needed at all.
+
+julia
+
 
 >
->                         Linus
-
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 7e1ecdf2485f..d593dba092e3 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -1360,23 +1360,19 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY,
+>  	};
+> -	struct device_node *ep;
+> +	struct device_node *ep __free(device_node) = of_graph_get_endpoint_by_regs(np, 0, -1);
+>  	int ret;
+>
+> -	ep = of_graph_get_endpoint_by_regs(np, 0, -1);
+>  	if (!ep)
+>  		return -EINVAL;
+>
+>  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>  	if (ret)
+> -		goto out;
+> +		return ret;
+>
+>  	sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
+>  			      V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+>
+> -out:
+> -	of_node_put(ep);
+> -
+>  	return ret;
+>  }
+>
+> --
+> 2.34.1
+>
+>
 
