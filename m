@@ -1,200 +1,185 @@
-Return-Path: <linux-media+bounces-11150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7ED68BFFE8
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0968C007F
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 16:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E06AF1C20FD6
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 14:25:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5EDA21C21BB5
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 14:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E14888594C;
-	Wed,  8 May 2024 14:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4FD86AC9;
+	Wed,  8 May 2024 14:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PkSz5ZIr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U7yLjqRt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E61D85644
-	for <linux-media@vger.kernel.org>; Wed,  8 May 2024 14:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBD81A2C05;
+	Wed,  8 May 2024 14:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715178335; cv=none; b=M91Mz7S9NUiOa7hGF4d9sLW/MvKN5ZUzd86smyN/3UgnoXBze+9dF8Au/lyDwN5MvVY59oK6G0DfkWNahiuwQcYSFNdqou3mofI5Uh4K6JR5bFf1uSKy6URPGRQh6NLhOniiom0kB0x0XZk6oPoXtp0xFn0rDrErREMmpCtnyH4=
+	t=1715179994; cv=none; b=PmdMzzLvAKkJLnU0RyqX7I3KP41hqRYC9mWPO2QI0wb/tMP3eTHxvXXwpiOOzcZlWNRBTnoUhBcL5qAXl2ZoygheyAAE0STF49aoJIq3gm1NW4yFJFcqx9gYcmh2x3he9OScgJpDaLIWJGLTKaNw4i8UXRcPMTr3sWn+WvJ07p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715178335; c=relaxed/simple;
-	bh=4BjthKjlyBrv7qlqiwaK/PtT8pzCfUhJT3JhHavFgDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wuly9rerEquYBnImyv1wmkRtFyD5GpbA5NXzqlIuwASg71JSXTmAxUQXv8H/Riw6HzY8JIWs8obIJtv6V3exgMKAqn5PakSzXd4G5lDkEEWPsFBJLfW+7rsB0U5KagqULoWFD3BVuxVNtfPBMAPfd/dUryEDAtekais7PD/5wm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PkSz5ZIr; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5b22f818a24so1430640eaf.1
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 07:25:32 -0700 (PDT)
+	s=arc-20240116; t=1715179994; c=relaxed/simple;
+	bh=i7gM/7ceVH9GiM9FWWHzRT6IIxXyMDrp9l4NDFUyGpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eHybyXdr1wqlGiit1N6veHHqYLOWD0dl6ukXwzWZBBw0L9xt1GRH4ryDMZsaxSMcnFSs8X+SQapLrR8Y2uJ1j/qUyubt7maDC+x3yQ1qliKDPOjlKSzhJTS7jY+4vtm/tTqTrcF47f4i8gUmNv1hhYGVyY/jVntJtOQJHKEUTKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U7yLjqRt; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ed96772f92so32715835ad.0;
+        Wed, 08 May 2024 07:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1715178332; x=1715783132; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
-        b=PkSz5ZIrJA+JdKLTG1OfJOpsC3pIK9p0Yyyccg0hoyFx4nX+QslSRwMwI4DVdChRJP
-         izW8bkDiT9CPlsFn6NWC8ObqLmJqHdv9dPY0oT30ErifiuP39AlKPuvD7Yf+BkCaa7Sb
-         Te00sjo5KeKCTCzDG2Db1vLaDVs3d6arHQrZ1bw9QDP+92DwkxA9EYsv7pLYZJCoOqPF
-         uZtQ58ltzdg1IK0HMjEk0b7ojsbJFvvU8qgxGk4eLmdxoYaDj295d2YoNoZssCzplhTt
-         gIWCjBnmhmKaQvlqOK/z5YS7LMtFLbkb/MYrvH7dBUqJkFBFDaeqoCDz0sPa37MSs4wn
-         v6AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715178332; x=1715783132;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1715179993; x=1715784793; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
-        b=lBNqWzY6TgUXO0zCAuOSD3FZf15p9xYHnu5MSf3DF8nIvTYvLkjXJ2qxG71wCz8+WZ
-         QUvKmbtj/jpMxhFlFsoX7eOMCskSVkuOGS32evD14c5LsufRylB/x+wnjIk/Xx24EFvu
-         vfyexeCDzrfbIZHoZBNaVRmO0AFoQCvdXS6b9mIvFzmxDUfZov7Xx35kBP7Hv1LP6Go6
-         j++oeG+QqGT20cjeo/yFIupp+jhxm3+K0lTTqGaQNshpg31I8GHet1TnMApwroGCCNTz
-         Boor3s0xdTmMBLHeijq9u8tW1EZKfenaL0qsYBYiTHL9FzDKWdMw5VlA/+Ip9HS3FIVg
-         PfzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUPDNEIFsgs+5ISqLYrB3WI8F4oojojV+9tzbdE2HZG+gE9+hoyXgn6E3nW6s8lSwi85/qBDb1jI07VoCKQxGB016GaVuIHOHZL8c=
-X-Gm-Message-State: AOJu0YwGKKiFe35lh9I+MO3fruxxZqJIXL2ZhBKA1CI6Gd5WtwBW0CYI
-	n2k1qKDJ5xkatAx5yJJwnGEBecCyX/wVi0TYDkzFDLgoRyi6Xen4BwOlJC6iz5k=
-X-Google-Smtp-Source: AGHT+IHjV+YjcifEHKw5oQYkCNsBVkCIuACEQyUL/WL5v5GcAhnL6ouYxG09iM1YvQ+6Pe3rmrQdgA==
-X-Received: by 2002:a4a:8c24:0:b0:5aa:538a:ed60 with SMTP id 006d021491bc7-5b24d28fdb4mr2495842eaf.3.1715178331994;
-        Wed, 08 May 2024 07:25:31 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id o18-20020ac86992000000b0043d4245dd4csm4389539qtq.84.2024.05.08.07.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 07:25:31 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1s4iEc-0016QI-DE;
-	Wed, 08 May 2024 11:25:30 -0300
-Date: Wed, 8 May 2024 11:25:30 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>,
-	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Florian Westphal <fw@strlen.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Aleksander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
-	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-Message-ID: <20240508142530.GR4718@ziepe.ca>
-References: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
- <20240507161857.GA4718@ziepe.ca>
- <ZjpVfPqGNfE5N4bl@infradead.org>
- <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
- <20240507164838.GG4718@ziepe.ca>
- <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
- <20240507175644.GJ4718@ziepe.ca>
- <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
- <20240507233247.GK4718@ziepe.ca>
- <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
+        bh=8vhaN0DvnzEE7UFS6Z8+WhLp7dcxsndKh+qCCeMmpD4=;
+        b=U7yLjqRtQKqqdAd33VZJDPfeEcqw/m2dM6/xn7KJ8n8bmLZzzHbZdYPGdU5PSJVrqZ
+         Y1qwUPDlzdjFyzRtIe1ixjfgdwUY4nSYz1/GgAqIK80hX5fEs9AxXD0DM9oQpiKOf/L3
+         Q+n0UAbuj8jAl+wEVBwcaHwtqMAIaXb1tImf0KQNGAuBXz9hZdJBW3pOmN6sdiNENOLq
+         Yg3GcxQZINpjHEmcRudEIbaFddGz7bKsDcdBElHTwt0JHbM/j9tNqRnNcXUaVxbL9rY2
+         1N83cyciiHT8N9glyn0NZ41Nc+4hQjW0xBZvw3pDgi0L61yQZInf/Es1S+H97mINS1Pp
+         yqkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715179993; x=1715784793;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8vhaN0DvnzEE7UFS6Z8+WhLp7dcxsndKh+qCCeMmpD4=;
+        b=o5vZ6dXJTRtj/vQ+uPkC1JLujCmoNh3NsDBKHpR0IQB8/kflYk8Esnr+69Wd1EDfq0
+         OE6zkAFka8sVyR5fcPMIwdm4dIUMAPt8MYMYCanVifo/PUNiSsDY8DOsfDGh6MNTw5Cb
+         tT8JNA82RfyYmIa6oU0e/4zhMw4rNAT6RppJ+EjZoz/8O+4ZBhoOBm3vJfDZS1VkhX97
+         XP0rZ/BYys/fjJi1h7YkKve6B7eFd/lgJGM5WmHZJlLbgi8YqDiX9tJPmC/4UO7u8mYR
+         9pZ/IOeMOdsB9g+S06UbtmLvFImdDlhW84pBuyTxPDcwPk82Cupu1o35yTpUb/5KOAuk
+         bIDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxKvFb6MRVhZSmWa5LhHpKC4hwcq99/Uca8lvphgfZilTuUz4OV4kh49NKhxirKdoO3EMOuKoJJJDpv9tiPbYqNCxZT/sjyIYdP/VsUb10smQmdMwnJBI1JeLeyrXkYCj5nRUp3g/Q7weaVi5rsw7rxCrEUh/uqmMoDFO2LMG6+qWSk4J70qMMCUgWb8akxpgcFTDalo4NGYal3xdzT8jxUg==
+X-Gm-Message-State: AOJu0YxlrzZobEMPVzRj2HQnvfc8WolnooEn87JblYjZPbrppOpeO6xH
+	Sqoe1Kcc1Rz+HdBto1q+u/p7i6EORwfdMtV7K/ZKbcShmYvLgXEVQODcHzbVVK9UurnXkdphE3m
+	zzdolIbuAFNU668le4I6AVwPLZ4U=
+X-Google-Smtp-Source: AGHT+IGL3PYhnDLj6ks3jqYaCF3oC5CbXYK5TPhVcB57zpPxv4lXUjO9ZJm3pfZo093/G3vsqtu6vNgRmORCuwy8WGQ=
+X-Received: by 2002:a17:902:ec89:b0:1e2:a61d:905 with SMTP id
+ d9443c01a7336-1eeb078ef79mr30093575ad.63.1715179992582; Wed, 08 May 2024
+ 07:53:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
+References: <20240503181333.2336999-1-eahariha@linux.microsoft.com>
+ <20240503181333.2336999-2-eahariha@linux.microsoft.com> <0a6d4fa9-169f-425b-93d6-04314c617090@linux.microsoft.com>
+In-Reply-To: <0a6d4fa9-169f-425b-93d6-04314c617090@linux.microsoft.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 8 May 2024 10:53:00 -0400
+Message-ID: <CADnq5_NpxPM-FTcCchdBMRng=6xdM03s93XEX2_8fx44MRVYag@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] drm/amdgpu, drm/radeon: Make I2C terminology
+ more inclusive
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-gfx@lists.freedesktop.org>, 
+	"open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS" <intel-xe@lists.freedesktop.org>, 
+	"open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>, 
+	"open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, 
+	"open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>, 
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Evan Quan <evan.quan@amd.com>, 
+	Hawking Zhang <Hawking.Zhang@amd.com>, Candice Li <candice.li@amd.com>, 
+	Ran Sun <sunran001@208suo.com>, Alexander Richards <electrodeyt@gmail.com>, 
+	Wolfram Sang <wsa@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, 
+	Ruan Jinjie <ruanjinjie@huawei.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>, 
+	Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>, Alvin Lee <alvin.lee2@amd.com>, 
+	Sohaib Nadeem <sohaib.nadeem@amd.com>, Charlene Liu <charlene.liu@amd.com>, 
+	Tom Chung <chiahsuan.chung@amd.com>, Alan Liu <haoping.liu@amd.com>, 
+	Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, 
+	Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>, George Shen <george.shen@amd.com>, 
+	Aric Cyr <aric.cyr@amd.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, 
+	Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Dillon Varone <dillon.varone@amd.com>, 
+	Lijo Lazar <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>, 
+	Kenneth Feng <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
+	Darren Powell <darren.powell@amd.com>, Yang Wang <kevinyang.wang@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>, Le Ma <Le.Ma@amd.com>, 
+	"open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, Alex Deucher <alexander.deucher@amd.com>, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 08, 2024 at 12:30:07PM +0100, Pavel Begunkov wrote:
+On Tue, May 7, 2024 at 2:32=E2=80=AFPM Easwar Hariharan
+<eahariha@linux.microsoft.com> wrote:
+>
+> On 5/3/2024 11:13 AM, Easwar Hariharan wrote:
+> > I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/s=
+lave"
+> > with more appropriate terms. Inspired by and following on to Wolfram's
+> > series to fix drivers/i2c/[1], fix the terminology for users of
+> > I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+> > in the specification.
+> >
+> > Compile tested, no functionality changes intended
+> >
+> > [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang=
+-engineering.com/
+> >
+> > Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> > ---
+> >  .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  |  8 +++---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 10 +++----
+> >  drivers/gpu/drm/amd/amdgpu/atombios_i2c.c     |  8 +++---
+> >  drivers/gpu/drm/amd/amdgpu/atombios_i2c.h     |  2 +-
+> >  drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    | 20 ++++++-------
+> >  .../gpu/drm/amd/display/dc/bios/bios_parser.c |  2 +-
+> >  .../drm/amd/display/dc/bios/bios_parser2.c    |  2 +-
+> >  .../drm/amd/display/dc/core/dc_link_exports.c |  4 +--
+> >  drivers/gpu/drm/amd/display/dc/dc.h           |  2 +-
+> >  drivers/gpu/drm/amd/display/dc/dce/dce_i2c.c  |  4 +--
+> >  .../display/include/grph_object_ctrl_defs.h   |  2 +-
+> >  drivers/gpu/drm/amd/include/atombios.h        |  2 +-
+> >  drivers/gpu/drm/amd/include/atomfirmware.h    | 26 ++++++++---------
+> >  .../powerplay/hwmgr/vega20_processpptables.c  |  4 +--
+> >  .../amd/pm/powerplay/inc/smu11_driver_if.h    |  2 +-
+> >  .../inc/pmfw_if/smu11_driver_if_arcturus.h    |  2 +-
+> >  .../inc/pmfw_if/smu11_driver_if_navi10.h      |  2 +-
+> >  .../pmfw_if/smu11_driver_if_sienna_cichlid.h  |  2 +-
+> >  .../inc/pmfw_if/smu13_driver_if_aldebaran.h   |  2 +-
+> >  .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  2 +-
+> >  .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  2 +-
+> >  .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  4 +--
+> >  .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |  8 +++---
+> >  drivers/gpu/drm/radeon/atombios.h             | 16 +++++------
+> >  drivers/gpu/drm/radeon/atombios_i2c.c         |  4 +--
+> >  drivers/gpu/drm/radeon/radeon_combios.c       | 28 +++++++++----------
+> >  drivers/gpu/drm/radeon/radeon_i2c.c           | 10 +++----
+> >  drivers/gpu/drm/radeon/radeon_mode.h          |  6 ++--
+> >  28 files changed, 93 insertions(+), 93 deletions(-)
+> >
+>
+> <snip>
+>
+> Hello Christian, Daniel, David, others,
+>
+> Could you re-review v2 since the feedback provided in v0 [1] has now been=
+ addressed? I can send v3 with
+> all other feedback and signoffs from the other maintainers incorporated w=
+hen I have something for amdgpu
+> and radeon.
 
-> > I'm not going to pretend to know about page pool details, but dmabuf
-> > is the way to get the bulk of pages into a pool within the net stack's
-> > allocator and keep that bulk properly refcounted while.> An object like
-> > dmabuf is needed for the general case because there are
-> > not going to be per-page references or otherwise available.
-> 
-> They are already pinned, memory is owned by the provider, io_uring
-> in this case, and it should not be freed circumventing io_uring,
-> and at this stage calling release_pages() is not such a hassle,
-> especially comparing to introducing an additional object.
+This seems like a lot of churn.  Additionally, a bunch of these
+headers are shared with other OSes, so it's possible some of the
+changes may end up getting reverted accidently when we sync up or we
+may add new headers in new code with the old nomenclature and then
+we'd need to make sure to adjust it to make sure everything was
+aligned again.  I would just as soon leave things as is, but I'm open
+to acking them if there is a strong desire to update things.
 
-Something needs to co-ordinate when the net stack's allocator is done
-with the bulk of pages and when io_uring and do the final
-put_user_page() to free it. DMABUF is not an unreasonable choice for
-this.
-
-> > topic to me, and honestly hacking into the allocator free function
-> > seems a bit weird..
-> 
-> Do you also think that DMA_BUF_IOCTL_SYNC is a weird hack, because
-> it "delays free" by pinning the dmabuf object and letting the user
-> read memory instead of copying it? I can find many examples
-
-It seems to me the flow you want is for the driver to allocate a page,
-put it on a rx ring, process it through the netstack, and deliver it
-to io_uring. io_uring would then sit on the allocation until userspace
-it done and return it back to the netstack allocator.
-
-Hooking the free of the netstack allocator and then defering it seems
-like a weird and indirect way to get there. Why can't io_uring just be
-the entity that does the final free and not mess with the logic
-allocator?
-
-Jason
+Alex
 
