@@ -1,107 +1,173 @@
-Return-Path: <linux-media+bounces-11124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11A48BF81A
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:07:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5ECD8BF83C
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 10:14:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37FF41F21355
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:07:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6E471C21163
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 08:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A136548E8;
-	Wed,  8 May 2024 08:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAFEF40BE6;
+	Wed,  8 May 2024 08:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovjlFQ8u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdMWU51v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892D73D996;
-	Wed,  8 May 2024 08:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B543D96D;
+	Wed,  8 May 2024 08:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715155548; cv=none; b=gUA4aRxITZd7oDEdxlBRpMxk/DmBjL4TTiUeTLKb66W58rRa7zIb360ZApW4gQzohvotrVZezzuuJ8J4Uqv/4YRHrKSc5fbwrrQLUFkoCrJMzmBV2In+9kiXI6ggI/AR4nvHDFGOdnqtIEsDcoyAG2OEtBTNnacY9Q9eErixsoc=
+	t=1715156045; cv=none; b=UdpJYmLAup3ncp05TV6S/T5LT0rAkjdw1LlOuH7DGcRmPfCFP4Gm6LaET1Tu9HCBdyZOEQLeZyoDKq+cTACi3P/dggofDlrTAcVMXbmWgVY37LHe2e7Xp1WyQ2UOmJ84Rv+ri1fIOpuYgAUe9QktM6CCRJZQ96FYAZRq/ehzfz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715155548; c=relaxed/simple;
-	bh=hs3mKg+OQgaq+nvum86puw6d4BslQHZXpTBdAaPI+nY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOVVgRXU74IAjy6qW4BYvCmUgd2bmzblg8xvYMlT6HjnjcrGKzvNtZwJlJGl/gqvH9tRK7W8JYNTa/qH+BCtjOFCacdtZmF3M56AS9R0pr6zVynf4gHJvrlQk8jpsFNJxDReLEKaE/sBWNEAQMrjIfJxdd3NH/QYpSfK7KztlV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovjlFQ8u; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57027C4AF18;
-	Wed,  8 May 2024 08:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715155548;
-	bh=hs3mKg+OQgaq+nvum86puw6d4BslQHZXpTBdAaPI+nY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ovjlFQ8ukkRvL4ghs8zz4V4Kw25gMFTaKuE5sx+j5PMt25EqkuW7RedC1pfMLWx63
-	 QEOFtHNRBffi6eG8d4Mc8xu7/ZyYm2seS4ecvxSlxfPCTPsLhk5MqZ4Pugbnx9ygmJ
-	 ygElqYKrHzPHkKg9gGbFrHYd8hMkQbOsVRr/ndDF8RPm+r98qt4Kj+lyRf4fsULQpg
-	 HMs+r9d6EMaqu/xPzpW45mnmK24O45KOknIWxUeRCB4Cob5QR2kfh7BNtNmwrHvghE
-	 yU8xCwRc7djD6gRoEWtKEOpa2BXeXhzcE5Wh5AZUeXxQ0HUevyciP88YZ8/e6YgjI2
-	 tLmeOlFmOHC2Q==
-Date: Wed, 8 May 2024 10:05:40 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
-	axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
-	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
- about file lifetimes
-Message-ID: <20240508-gefangen-unberechenbar-96845bd61def@brauner>
-References: <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+	s=arc-20240116; t=1715156045; c=relaxed/simple;
+	bh=o6dYzqcug6bjp99QH0Xc2b/Mh3Ae4lgbbIbqMs9s1So=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oh3Wv60PYCNrWL8DeU+8+cxpLs8UR75geEpMBfGvwedwFTVP+WPcwLcqQl/lXzoVcw+W6TqUvz2QR4yQb/VjyateSFZtNIWXxeYjoj+iilryLMuFshwZhtjRBz1VE3Ma4ZQyDhyleoGdc3sDyO6joNBUpHSvmefHTzA79+NCARo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdMWU51v; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715156044; x=1746692044;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=o6dYzqcug6bjp99QH0Xc2b/Mh3Ae4lgbbIbqMs9s1So=;
+  b=SdMWU51vcGdHM1Fu0VptfM0VidftdSgDWsvc0BsKsSHeN+i0HOhv+3NQ
+   jWtgQs/iO+iBHgDVlM2SeWNdfHSVdMNN50UMoGKhKcRpdegG8POHMLQZM
+   8NkEWJx8eSqL62QCisRw4m1goj5isl5FG5KjlImYvjhZZwkv37PRpmaeG
+   5PXk49Kw/+lP0GdZF0rJ1Ss7U+A29rWw05C6rDLzPc0vgGkHmHVItMQMH
+   +Riyk5QekICnDombbGfBWShIO0jtRTQHJYqEH53cyMdx+dDhMA5EA4LNu
+   Nr3hLzR1F2FRwjAImnJo1+s0woqI3XRSTUyumWWIeHkebv91yG/D8jylW
+   A==;
+X-CSE-ConnectionGUID: zsA1Mx7nRme6e3JDu9f9Eg==
+X-CSE-MsgGUID: srTM+5bFQaO9GcL9da2dKA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="28474497"
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
+   d="scan'208";a="28474497"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:14:04 -0700
+X-CSE-ConnectionGUID: aABURBGITHyA0xz96lfbdA==
+X-CSE-MsgGUID: 8uRx8TfuRU256ZN4Nutk6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
+   d="scan'208";a="59662273"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:13:57 -0700
+Message-ID: <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+Date: Wed, 8 May 2024 10:13:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+ <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk> <20240430172752.20ffcd56@sal.lan>
+ <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk> <87sez0k661.wl-tiwai@suse.de>
+ <20240502095956.0a8c5b26@sal.lan> <20240502102643.4ee7f6c2@sal.lan>
+ <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
+ <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+ <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 07, 2024 at 12:07:10PM -0700, Linus Torvalds wrote:
-> On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
-> >
-> > > I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
-> > > too, if this is possibly a more common thing. and not just DRM wants
-> > > it.
-> > >
-> > > Would something like that work for you?
-> >
-> > Yes.
-> >
-> > Adding Simon and Pekka as two of the usual suspects for this kind of
-> > stuff. Also example code (the int return value is just so that callers know
-> > when kcmp isn't available, they all only care about equality):
-> >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
+On 5/8/2024 10:00 AM, Hans Verkuil wrote:
+> On 06/05/2024 10:49, Shengjiu Wang wrote:
+>> On Fri, May 3, 2024 at 4:42 PM Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+>>>
+>>> Em Fri, 3 May 2024 10:47:19 +0900
+>>> Mark Brown <broonie@kernel.org> escreveu:
+>>>
+>>>> On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab wrote:
+>>>>> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+>>>>
+>>>>>> There are still time control associated with it, as audio and video
+>>>>>> needs to be in sync. This is done by controlling the buffers size
+>>>>>> and could be fine-tuned by checking when the buffer transfer is done.
+>>>>
+>>>> ...
+>>>>
+>>>>> Just complementing: on media, we do this per video buffer (or
+>>>>> per half video buffer). A typical use case on cameras is to have
+>>>>> buffers transferred 30 times per second, if the video was streamed
+>>>>> at 30 frames per second.
+>>>>
+>>>> IIRC some big use case for this hardware was transcoding so there was a
+>>>> desire to just go at whatever rate the hardware could support as there
+>>>> is no interactive user consuming the output as it is generated.
+>>>
+>>> Indeed, codecs could be used to just do transcoding, but I would
+>>> expect it to be a border use case. See, as the chipsets implementing
+>>> codecs are typically the ones used on mobiles, I would expect that
+>>> the major use cases to be to watch audio and video and to participate
+>>> on audio/video conferences.
+>>>
+>>> Going further, the codec API may end supporting not only transcoding
+>>> (which is something that CPU can usually handle without too much
+>>> processing) but also audio processing that may require more
+>>> complex algorithms - even deep learning ones - like background noise
+>>> removal, echo detection/removal, volume auto-gain, audio enhancement
+>>> and such.
+>>>
+>>> On other words, the typical use cases will either have input
+>>> or output being a physical hardware (microphone or speaker).
+>>>
+>>
+>> All, thanks for spending time to discuss, it seems we go back to
+>> the start point of this topic again.
+>>
+>> Our main request is that there is a hardware sample rate converter
+>> on the chip, so users can use it in user space as a component like
+>> software sample rate converter. It mostly may run as a gstreamer plugin.
+>> so it is a memory to memory component.
+>>
+>> I didn't find such API in ALSA for such purpose, the best option for this
+>> in the kernel is the V4L2 memory to memory framework I found.
+>> As Hans said it is well designed for memory to memory.
+>>
+>> And I think audio is one of 'media'.  As I can see that part of Radio
+>> function is in ALSA, part of Radio function is in V4L2. part of HDMI
+>> function is in DRM, part of HDMI function is in ALSA...
+>> So using V4L2 for audio is not new from this point of view.
+>>
+>> Even now I still think V4L2 is the best option, but it looks like there
+>> are a lot of rejects.  If develop a new ALSA-mem2mem, it is also
+>> a duplication of code (bigger duplication that just add audio support
+>> in V4L2 I think).
 > 
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
+> After reading this thread I still believe that the mem2mem framework is
+> a reasonable option, unless someone can come up with a method that is
+> easy to implement in the alsa subsystem. From what I can tell from this
+> discussion no such method exists.
 > 
-> Doesn't that strike everybody as a *much* cleaner interface? I think
 
-+1
-See
-https://github.com/systemd/systemd/blob/a4f0e0da3573a10bc5404142be8799418760b1d1/src/basic/fd-util.c#L517
-that's another heavy user of this kind of functionality.
+Hi,
+
+my main question would be how is mem2mem use case different from 
+loopback exposing playback and capture frontends in user space with DSP 
+(or other piece of HW) in the middle?
+
+Amadeusz
+
 
