@@ -1,166 +1,123 @@
-Return-Path: <linux-media+bounces-11180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11181-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D288C069C
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 23:55:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27918C087B
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 02:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DBE81F2311E
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2024 21:55:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F1C2B219C7
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 00:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAAA713280F;
-	Wed,  8 May 2024 21:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1E5DDDA;
+	Thu,  9 May 2024 00:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Lngs/k/w"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HsVB4zK+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2ED82862;
-	Wed,  8 May 2024 21:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E207464
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 00:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715205302; cv=none; b=RtTCmU2t/JAPX8c0Y2JzE3dshOezY9afuQfIbiSUyvCBBohNeCFrrZJNeFVt+ieloUGSbEFjOX/fqktzPYE+4X0STVr4LqK8aoqPSOvGz/MtNwlUSqZjlbYls5T6RrZLFfmLs6w6Wr8segDhbKMyoTK1XZKsANTayuHf5fOZgg8=
+	t=1715214752; cv=none; b=KJb6fo2hkI1ZDCXUGSGeqqDV2X3lfnqclrnzx3bv1ajLqDgnRjaPvToyBPMpl5AyC/Zp0naFxL+f4h8oDdCY7nC9VUuATKTkJqHU1Au83psDfMWWpZQyzrcSfhLm+ZGdLOlYD5GM8Yu4jBwONJYee4uRZ5W6Cddzrg60NGddOkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715205302; c=relaxed/simple;
-	bh=dgQ14T7IWo3V5R5DFVrfrvyMq34UxkAK3satbMJu2i4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fuCFqUAs66vzFQNFlb8Ss2ilVBpnTP6G4ArbKZbA3ZXwP2yDfnjJ/A2vWn8Np6MC+Ks5W+j6rK2jKyvFj/JTAM89kYGWOEODBuShDAgQ+HWddKJqg83FPr4EWQNQwgFoOR0lCob+yXpORx3xvRvK+lPYIBvF7efwktuxji3+oLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Lngs/k/w; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF36616D4;
-	Wed,  8 May 2024 23:54:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715205295;
-	bh=dgQ14T7IWo3V5R5DFVrfrvyMq34UxkAK3satbMJu2i4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lngs/k/wwpmHemT1wGeOaMh+WqgUSB8rYzqf5OvEUah3M/U0kv8F3XMydwvtuCVcl
-	 jWEaWpSKHvzvqilNyrOh/tOZO5/TnzuKr2Bf0V6AX2d99MubyfSnv3vvnSX1AyISLw
-	 2tQ7lOlWezSB/rlPYm1nO6WD1iSd3Eb2VsCg4m2o=
-Date: Thu, 9 May 2024 00:54:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Lennart Poettering <mzxreary@0pointer.de>,
-	Robert Mader <robert.mader@collabora.com>,
-	Sebastien Bacher <sebastien.bacher@canonical.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Milan Zamazal <mzamazal@redhat.com>,
-	Maxime Ripard <mripard@redhat.com>,
-	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240508215450.GC24860@pendragon.ideasonboard.com>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
- <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
- <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
- <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <CAA8EJpr4bJUQt2T63_FZ=KHGEm4vixfpk3pMV9naABEONJfMmQ@mail.gmail.com>
- <20240507184049.GC20390@pendragon.ideasonboard.com>
- <CAA8EJpqLu5w7gnqtDyuDDQBd7AEROTd6LTYi8muzjToXmkKR3w@mail.gmail.com>
- <Zjs6Xt_W0VsY8wJc@phenom.ffwll.local>
+	s=arc-20240116; t=1715214752; c=relaxed/simple;
+	bh=T6DfjAKmCP4P7gljf1X/c/Is1kBU1uRxx+KhHzVTU74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lqsQYEEppA3rW3MA+wTcQZBDjpvrTaYQZuEVbm8OKp0qJyw6qVSfrl7AgbsBYCg3vQ3o6AmN+fnMftZwpY1KRObztnK5y7Q/S6xqfOwpO8Ndgbt5l376qqdAtd8B37iOcyF9dYuuVVKy3f+506wo0Z8YfZrsjkEx6wMvW4jZh/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HsVB4zK+; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-41b782405d5so3624505e9.2
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 17:32:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715214749; x=1715819549; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TKnK2bR4e/sf9zkj4k5cJS7AirdVOFFlSBIdz2Kq58o=;
+        b=HsVB4zK+tH1ktr1XindumEfzY4b06bsIAr/vgjYGyiRM1f1JnYYZlQOTpoOnuNIq4g
+         9NOH6sLEbmGHXKCz9xjbEfjpu2Ti6+5KVOADXEVKLSHwUaQsCkE2D176HbCiKFjbTnf9
+         rj+ZW6pioHVnknBUFwEt2jHpcccFAF6UQFEaqSP9VT57YiWzIS6tRR5CXMvKwOYBVT29
+         GePRRwdRoLLROqkYt8qHn5HAqDZi2q7J3JgRVjgOTtwxvf2uRmRCbLosO3DDxGLLfSaR
+         2bZz354EolKkiv+Y7j3Vkx+048Qd7NT1qDQrIpFwBWhIX5eckOf3nuRmM1/CFGD96Hlx
+         LcjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715214749; x=1715819549;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKnK2bR4e/sf9zkj4k5cJS7AirdVOFFlSBIdz2Kq58o=;
+        b=vWYYl221SgHqaAb2xw0g6BEz0e2bbepbPYE6OiUxs+par0IzcuWyHWbieJJjre/5O8
+         z3KahvWpLKw0MHvGlWM4HxYZiTM9DREHiu0coDYSlix+E4II4yKegk1ath1bxG5pBzn6
+         iKUKta95t3xGw/IEAfg3qK9aL5z08tk2Ut2KUcd9a8rztviWkP2Ix9UFrTZDeDTsMPjb
+         uppwkM3wEMYY47Hxnm7ri3zNcyzFwVUTuHqeSxwvInDYkiCWF//e79ymgRhBdvPFvBwY
+         6SncWRaLcoZnWsDJ6+wr43HAkfEGPbi6M3fVOucjHHkxomtpTXsXzCNTWnvzy/sclE+x
+         GjPw==
+X-Forwarded-Encrypted: i=1; AJvYcCXR6gNPHxVf4fNLh+xBakynJrz9jRK32vHAWy4HF6ca2p3oTlVs0igLqI0Ll8Xm8j3vG3YZYtY5wJpGFqvvJHAjde+gXr5A6fqHDxE=
+X-Gm-Message-State: AOJu0YwIOB9pV5UyCcBB26+3Fm1aExNwy1EOdHYHDrNfe4gZIWRca0J1
+	z18N0cFPWfOWhQ0lTyWKKs5UTNamUvd+MXPAILED+0cx3ByPl8GDcB3qxn38Mi0=
+X-Google-Smtp-Source: AGHT+IFhTLFcY/Cs5a/adjpOOYnjYCfR6iOR9IpjqCZyWjXtTiOiFCPiJs0TbWvsU2EG6+KqWeTdUw==
+X-Received: by 2002:a05:600c:46cf:b0:416:8efd:1645 with SMTP id 5b1f17b1804b1-41f71302d2amr37959545e9.7.1715214749152;
+        Wed, 08 May 2024 17:32:29 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f88208cb8sm39197045e9.47.2024.05.08.17.32.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 17:32:28 -0700 (PDT)
+Message-ID: <cef4bf31-35d9-4304-804d-5384018c0900@linaro.org>
+Date: Thu, 9 May 2024 01:32:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Zjs6Xt_W0VsY8wJc@phenom.ffwll.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Paul J. Murphy" <paul.j.murphy@intel.com>,
+ Martina Krasteva <quic_mkrastev@quicinc.com>,
+ Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org>
+ <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
+ <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org>
+ <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
+ <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 08, 2024 at 10:39:58AM +0200, Daniel Vetter wrote:
-> On Tue, May 07, 2024 at 10:59:42PM +0300, Dmitry Baryshkov wrote:
-> > On Tue, 7 May 2024 at 21:40, Laurent Pinchart wrote:
-> > > On Tue, May 07, 2024 at 06:19:18PM +0300, Dmitry Baryshkov wrote:
-> > > > On Tue, 7 May 2024 at 18:15, Bryan O'Donoghue wrote:
-> > > > > On 07/05/2024 16:09, Dmitry Baryshkov wrote:
-> > > > > > Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
-> > > > > > providing data to VPU or DRM, then you should be able to get the buffer
-> > > > > > from the data-consuming device.
-> > > > >
-> > > > > Because we don't necessarily know what the consuming device is, if any.
-> > > > >
-> > > > > Could be VPU, could be Zoom/Hangouts via pipewire, could for argument
-> > > > > sake be GPU or DSP.
-> > > > >
-> > > > > Also if we introduce a dependency on another device to allocate the
-> > > > > output buffers - say always taking the output buffer from the GPU, then
-> > > > > we've added another dependency which is more difficult to guarantee
-> > > > > across different arches.
-> > > >
-> > > > Yes. And it should be expected. It's a consumer who knows the
-> > > > restrictions on the buffer. As I wrote, Zoom/Hangouts should not
-> > > > require a DMA buffer at all.
-> > >
-> > > Why not ? If you want to capture to a buffer that you then compose on
-> > > the screen without copying data, dma-buf is the way to go. That's the
-> > > Linux solution for buffer sharing.
-> > 
-> > Yes. But it should be allocated by the DRM driver. As Sima wrote,
-> > there is no guarantee that the buffer allocated from dma-heaps is
-> > accessible to the GPU.
-> > 
-> > >
-> > > > Applications should be able to allocate
-> > > > the buffer out of the generic memory.
-> > >
-> > > If applications really want to copy data and degrade performance, they
-> > > are free to shoot themselves in the foot of course. Applications (or
-> > > compositors) need to support copying as a fallback in the worst case,
-> > > but all components should at least aim for the zero-copy case.
-> > 
-> > I'd say that they should aim for the optimal case. It might include
-> > both zero-copying access from another DMA master or simple software
-> > processing of some kind.
-> > 
-> > > > GPUs might also have different
-> > > > requirements. Consider GPUs with VRAM. It might be beneficial to
-> > > > allocate a buffer out of VRAM rather than generic DMA mem.
-> > >
-> > > Absolutely. For that we need a centralized device memory allocator in
-> > > userspace. An effort was started by James Jones in 2016, see [1]. It has
-> > > unfortunately stalled. If I didn't have a camera framework to develop, I
-> > > would try to tackle that issue :-)
-> > 
-> > I'll review the talk. However the fact that the effort has stalled
-> > most likely means that 'one fits them all' approach didn't really fly
-> > well. We have too many usecases.
-> 
-> I think there's two reasons:
-> 
-> - It's a really hard problem with many aspects. Where you need to allocate
->   the buffer is just one of the myriad of issues a common allocator needs
->   to solve.
+On 08/05/2024 17:31, Dave Stevenson wrote:
+> For reference certainly imx327/290/462 which are all siblings in the
+> Sony Starvis family do calculate exposure as
+> exposure = 1 frame period - (SHS1 + 1) * (1H period)
+> So 0 = max exposure and bigger values are shorter exposure time.
 
-The other large problem is picking up an optimal pixel format. I wonder
-if that could be decoupled from the allocation. That could help moving
-forward.
+ack
 
-> - Every linux-based os has their own solution for these, and the one that
->   suffers most has an entirely different one from everyone else: Android
->   uses binder services to allow apps to make these allocations, keep track
->   of them and make sure there's no abuse. And if there is, it can just
->   nuke the app.
+> I'm not saying that the imx412 driver is right in doing this as well,
+> but it seems there is a trend with the Sony Starvis family to program
+> exposure in this different manner. Don't discount it as wrong for all
+> drivers!
 
--- 
-Regards,
+Understood. For the record the rpi imx477 driver writes the CID value 
+provided by user-space.
 
-Laurent Pinchart
+https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/media/i2c/imx477.c#L1376
+
+With an exposure multiplier we don't support upstream at the moment. So, 
+I think this patch is the right fix after all.
+
+---
+bod
 
