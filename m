@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-11269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0AE8C1A21
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 01:58:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 257468C1A27
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 02:00:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A4321C22608
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 23:58:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D009F1F232B0
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 00:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83421130E40;
-	Thu,  9 May 2024 23:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2391F1311B0;
+	Fri, 10 May 2024 00:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dWBW+k/T"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="kBP0G5gd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B8C12DD82
-	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 23:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B342112EBE7
+	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 00:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715299107; cv=none; b=B+W6QW8cdwDijUN9gVcRAPAa37naPWAa55iPAZMuayfBhzHK+BTsFMXLH0MQZbrhhNlVCQvl4M/NA0Lf86PDqcYvGj6ffoph2ySaVtxaN7VRcGPsJIG9NujpmRLzMdkMvtf8gZNJ6wthYIXOoT3CAWPI84QQsHV3NTx1COFRDEk=
+	t=1715299203; cv=none; b=t1T+VXlnnS8calu92uuprlOA1TuEF1P85xnahbrogHILoBaDI5VnPKZgMxlmCsm00zEhif+9D7fyRjMRB2R3VXlWl+nvOEd5kskL1HqmjcNGZcrM9n7J9ArwcT6i7suAdQPXqMUpukv4HbpJO+t6hWiLfSP8lVRyC4qk3XV+nM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715299107; c=relaxed/simple;
-	bh=kb91QkRvN9QrSwYzW62IYyuQVgedafRInEn1oWI0YLI=;
+	s=arc-20240116; t=1715299203; c=relaxed/simple;
+	bh=n7znReOatkTCp/ojgNhGLxLQ8+ymQ1YvCj4wgmT2e+E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fTYi25pLEfnVRDycYhSHChsfupmF8e84vLlfAkwq9oW1Ddce+wK4jBR0C1OHmt2ZsHvLp4/7vT+tC6kyepPdhNlB96AhsUpqS48PPQR3uj0Je961HDIXYKlvjy+ZK3v9Q7TJSqKi45k++PYTFC0lTGYn4h0BisfeIVS4sXwd4wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dWBW+k/T; arc=none smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-34d8f6cfe5bso1045914f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 16:58:26 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=NWG7z0jI3peiq74gutxfg2tfFvJ7qMMvC/FXXaY3VATm832hbrki87zReCnWpp1lazkI71jFkDKNAZCH3c40EleGeJS5TYX8FnaSpmuOJ/vEOy1Q3kJwwu1BgoAHU0J+RXBDy75NhDiqg6nITmhBoA83g2gAIGT2HObxCsCxqxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=kBP0G5gd; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-41b79451153so10186045e9.2
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 17:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715299104; x=1715903904; darn=vger.kernel.org;
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1715299199; x=1715903999; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SmADRC8neGnr2C7Jsqx/otJ850xdxIBcAhILuBFUDCg=;
-        b=dWBW+k/TNwo8LuuHkQxU5wYLXOLt/5I72lVxDis3RHBb8LU2XwZIe6eSKmdRGakFAD
-         KjH6AZ19LbPFfqIGmwLRnRZA4i2pJHOE4+P7gN7mNxu2V326gtpthnf1Exkee14+WZkd
-         EEMm1R3qYacfRb8FiT2i7tpRIUzVyyJK+zAMkpXzxRZRZedpwAUAVNlmKNQVdQqNrNBx
-         nVF03+1R7bsvUn2B2bQvmochC6FdiV2/usvxv/JCR9Xcpp+Bp5jCXE0Nhi5FpaUzaCW+
-         5RMakz90XvOuSDhSzIkIvSKHTz1bVISoEgkrmXwWje+OX3hhpXgW66t2CysX6gG0Wueo
-         3dkg==
+        bh=ac8m1lg1I0T289VUpecDSdF94afPIFuxyWL4V464XBs=;
+        b=kBP0G5gdJmNzUc/OcxOB4V6kXjisAnOfrnJOY14xnFeEecyO4Ykp95nY+sgd4oHYVJ
+         JrSrv+KrdHueN0BengHG8VA3gGWPntC8HmzO4xU5yDYSmdcCa1wZhyA6GxCjNvYcuYX9
+         wQn74Iwq2ezNknWTY/z5y8ry7itm0e5byxAiD8vyuBUJOONVxqc7CyC8D03IXy7pizWW
+         vzoP41teAH1rznHA8X197U6S6UU+m8vK44BPfpyCCZa1luiWK7sOR1x27vpDqtRpRV74
+         XyCqFnGIXGsAUqKETMvJqJSU827Jm7Nc71lDEHVc8ByN/Q68joSr4AejnG4/aOz81VI9
+         Owsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715299104; x=1715903904;
+        d=1e100.net; s=20230601; t=1715299199; x=1715903999;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SmADRC8neGnr2C7Jsqx/otJ850xdxIBcAhILuBFUDCg=;
-        b=KjAoy1W/p3ZfFuUWAY4mcpmxHpKlLP1r2Djq0zv29tQRFN2f75Tpxph+1v/Fb63+38
-         ajZTA4Cc9uuP5KESwAJ8MrZ3+3LeuLEX/3RtyS3xEbS6IEPl2d4RwrteJJlEV9wNMQiu
-         JNu1Fz5Lie/Z+h5QRQoMpZbgdGDwChur49U3ROSt/Z1DgIImHqhtVzhS/OChueTkUhQn
-         edNDD7LSeW5RZar5Q6w16bQSgdtTf21S0E2LFl2ZxaNWhn/1n1UD5Hp/+B9Lgn6M437i
-         tUQNSg9kJSMI9BGkQykWaXL8InMvrkfH6gRWdhZP6GShMMKWzA94LxTGtNrmL+bpC+Ry
-         VsyA==
-X-Gm-Message-State: AOJu0YxBeOshXSjL1tmcCEfLxO4TnQhnxTp1ZvAMQVPB4DKvN0Hh1b+u
-	8CTQhWIK5q+/8hoESiHC/DX+9iDm9hkyHtetdR8RIUD5kEfXlCv8s+WMeHIvoCY=
-X-Google-Smtp-Source: AGHT+IFDwl+vsE63gkhGWvzP1kBHKBKxw0Cew31F/NUWgE8/55F44dsMw6lb8YVdGhvzJwmBNcwoSw==
-X-Received: by 2002:adf:ec01:0:b0:34c:5f6e:1720 with SMTP id ffacd0b85a97d-3504aa62d00mr589668f8f.60.1715299104660;
-        Thu, 09 May 2024 16:58:24 -0700 (PDT)
+        bh=ac8m1lg1I0T289VUpecDSdF94afPIFuxyWL4V464XBs=;
+        b=s9fwlA+eAFlQXGvFg8ZSutpO+/Tf3ccGSsioJE5QITGYLtALrKBdsDxjOf1PM23Raa
+         HRb0EG8zMAyLzfvaIR58thWQf5QAlFaekqcahPbLdvAKKGYE27T2O24s4XUOOM4aWJnL
+         L04ByivXBmXNF1X7Kt4UPSkUCcwMHXZ7tszlD46w9DjRGoKtR1XgrY18TX0ZzbOWJ0pP
+         21jLpbOkfFN7ZaFDRc8/0/T1/n1AuOFh2hhrTRRDGIL9obhYxlF0T4Laqs9HgzVlSnm9
+         lc46dmLTw1o5Yfdh1DMNczQccPYxGYeMRi4NC1Mn9N7dE2qLZhsuvi7BWHkRjMj309J9
+         XIkQ==
+X-Gm-Message-State: AOJu0Yx7sZC4gMKuPRCunaJmG3szNRGyEMTBVbji7W4d4fo60iCIlfK+
+	wiGgJ2+nylQtuhrYneRGiC2qE+fqwI9aJlKrFcO97yD4hD7pqNoAQH1rLiEJmFY=
+X-Google-Smtp-Source: AGHT+IG2PSyqS+bqV1WZloHrOnS1oEGY7MOpk1/VDvcVVtKw/Iui2AjmDMB4m7sMKJweAG7DjovZSg==
+X-Received: by 2002:a05:600c:35c2:b0:41b:cb18:e24b with SMTP id 5b1f17b1804b1-41feaa39167mr8110355e9.9.1715299199008;
+        Thu, 09 May 2024 16:59:59 -0700 (PDT)
 Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacf7esm2945702f8f.77.2024.05.09.16.58.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f86e7e340sm77518495e9.0.2024.05.09.16.59.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 May 2024 16:58:24 -0700 (PDT)
-Message-ID: <6ddd92f2-5ba5-4832-b4a1-12c9918c091a@linaro.org>
-Date: Fri, 10 May 2024 00:58:22 +0100
+        Thu, 09 May 2024 16:59:58 -0700 (PDT)
+Message-ID: <43fec2ec-7192-4b2d-9af5-2073be1da3d1@nexus-software.ie>
+Date: Fri, 10 May 2024 00:59:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/18] media: venus: Refactor
- hfi_session_empty_buffer_uncompressed_plane0_pkt
+Subject: Re: [PATCH v2 15/18] media: venus: Refactor
+ hfi_session_empty_buffer_compressed_pkt
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Michael Tretter <m.tretter@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -92,19 +92,19 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
- <20240507-cocci-flexarray-v2-14-7aea262cf065@chromium.org>
+ <20240507-cocci-flexarray-v2-15-7aea262cf065@chromium.org>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240507-cocci-flexarray-v2-14-7aea262cf065@chromium.org>
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20240507-cocci-flexarray-v2-15-7aea262cf065@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 07/05/2024 17:27, Ricardo Ribalda wrote:
-> The single element array data[1] is never used. Replace it whit a
+> The single element array data[1] is never used. Replace it with a
 > padding field of the same size.
 > 
-> This fixes the following cocci error:
-> drivers/media/platform/qcom/venus/hfi_cmds.h:163:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> This fixes the following cocci warning:
+> drivers/media/platform/qcom/venus/hfi_cmds.h:146:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
@@ -112,10 +112,10 @@ On 07/05/2024 17:27, Ricardo Ribalda wrote:
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> index e1dd0ea2be1a..15271b3f2b49 100644
+> index 15271b3f2b49..02e9a073d0c1 100644
 > --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
 > +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> @@ -160,7 +160,7 @@ struct hfi_session_empty_buffer_uncompressed_plane0_pkt {
+> @@ -143,7 +143,7 @@ struct hfi_session_empty_buffer_compressed_pkt {
 >   	u32 input_tag;
 >   	u32 packet_buffer;
 >   	u32 extradata_buffer;
@@ -123,15 +123,21 @@ On 07/05/2024 17:27, Ricardo Ribalda wrote:
 > +	u32 padding;
 >   };
 >   
->   struct hfi_session_fill_buffer_pkt {
+>   struct hfi_session_empty_buffer_uncompressed_plane0_pkt {
 > 
 
-Its not padding - which is what we mean when we want to align something 
-to a boundary - its data that we don't currently use.
+Same comment as previous patch.
 
-Please retain the namespace and do data[1] -> data.
+`data` is what we use in this driver's namespace not padding and the 
+protocol structures enumerate the content of the payload as data not 
+padding.
 
-Once done.
+u32 data;
+
+Then
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+---
+bod
 
