@@ -1,141 +1,131 @@
-Return-Path: <linux-media+bounces-11262-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11263-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0628C19C0
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 01:06:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C838C19F3
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 01:35:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED69B1F23FCE
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 23:06:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9317B2145E
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 23:35:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0000B12D758;
-	Thu,  9 May 2024 23:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3193F12FF97;
+	Thu,  9 May 2024 23:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="StOp4TwT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FQ0dYwx/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46C786245;
-	Thu,  9 May 2024 23:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C761E1292C4
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 23:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715295978; cv=none; b=Y+Nqk2o6UN5xVYJlGwalmGcf9szlGspQEnr3OQS7Y0RA70Rhm9bRvu3pydnqyIxQ+6kSUyPnGQKhWb9113DsQUl7nF9xNB29NkgM4VdTKhP8/N2yibZMw7isgt4aGCeI5PZSYeAaHjn/SeP5cyLFK3IQMxs9Qw3TK+EdLK3j/9Q=
+	t=1715297747; cv=none; b=LEYv47DpEzpz4bS1eXSZjK0HaRWYybVzz6ogBpo7S03Cv/abIlwLl4DioMuROvFvgOe/bKsyBD2IfAK8ZBh50KN8Pu9IjWzqQ2tEq+E1U9Nstbxr29UJJ3gxnsp1KruKcwwAOtu1g2TviZyDA0zs/d1EnHO+xjPVonbcsE8LxX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715295978; c=relaxed/simple;
-	bh=OmUB9YDJ0kyiTgoYjtxQpv9XeDeHNTQIrS8WpnhiCDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jdl++YEGL4WcnWYEt6WEsEer/qi7b/ablBdpIgU2w37JF/OFYKr/tUrmSlm5QTomc+SVoWgbPZHHAPmErbbYEqCtl2geNw55qal9PR5wm3T2leQjlbP1L/yHBNPHhe+qCnB1H/W5m6T+kdmxlX6X6a7Fb1SkanGCBhMoF01WtKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=StOp4TwT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE5C81495;
-	Fri, 10 May 2024 01:06:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715295970;
-	bh=OmUB9YDJ0kyiTgoYjtxQpv9XeDeHNTQIrS8WpnhiCDw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=StOp4TwTectYXgA9wu6NypNiclIfTIm0VQokqfG0O/mTDZuersdTKO+eDggtI+9Nc
-	 aAKojj6MhS2ElCWtjmCl0tirMgBYxrSY/Iv4hNwyvV5U5VQq/sUvJAhAxNzZP+6KlT
-	 +apWWLc6Geo3z7vqQp+j7pYYsIGfcW38JrDwloRI=
-Date: Fri, 10 May 2024 02:06:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] media: renesas: rcar-csi2: Use the subdev
- active state
-Message-ID: <20240509230604.GC32013@pendragon.ideasonboard.com>
-References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
- <20240509205129.GD6407@pendragon.ideasonboard.com>
- <20240509224848.GV1385281@ragnatech.se>
+	s=arc-20240116; t=1715297747; c=relaxed/simple;
+	bh=ELfs6DERZG6TNlamGJTLy8QTFWYUxd9uDNBjBxfK1iA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L9NJsxk5ujjLPKNdzPEEmDbn76/URE9KKGWNa/wOPm1ozN1njzycvhia5tLvbIbnkJ/BcjzpbPOq7y9oTA+DcZqYxjSzIwG/N0AQAjPJwS3OzVibtQ5fuYe60V6z8GS95HHD7K+urqHFdqkXo3UeYXHzgwYcuwZiIHuIsSp6Ncw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FQ0dYwx/; arc=none smtp.client-ip=209.85.221.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-34db6a29a1eso1201725f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 16:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715297744; x=1715902544; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5/yUQhJCg2bpB7CcNZxnvaOz3QKtDIeiLjjPtlq976w=;
+        b=FQ0dYwx/Cilm+NVKwOf44WKdE3oJnqbYQ+Cw8SG9ZY7mKcsb+FkfzojcO32tRtH7o9
+         YCVJAHsXZr/3xJfZFT2DnXRFRsqPULHmxBdtowfluJdnh848Jtgz8q823gh52w4wumX2
+         Y2UAv331ARwu7d1FtiG7m6eJErlaICSwexVeMaFtovVrhgwkLqUDxOJhN/8Goe9r0rdT
+         QVleN4Zfsg/OAf/CKfv6L1+DP5hxq7OyTURT/DAwGO0KHYoyjnwqRdXbC00kt1nBib9s
+         DXHSnXgNT2YAse7Mael6s9dG2R/iw6ca0e9FV+bnhyzHKgF8FMvoUBSj8vEnSKggux5N
+         xpOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715297744; x=1715902544;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/yUQhJCg2bpB7CcNZxnvaOz3QKtDIeiLjjPtlq976w=;
+        b=m4UD2lzhW6oTsYBfj/cJVNVQJcaOlUFzeTzAbrXEI3k0/Tj2dXAawlQnc7K9DhViHX
+         pMl9NsprLsZ5gVh4p3fsqcRd/yXSnq5qp0v5kktNzXGKUumsgPONl1Fw/JflPlj4aVfI
+         W9pXrdX4t7W0uLQkDpDVglDdbjxnlKvkjiJoJDQKQ9xEQ4PfKte5hJZ51rzM+MIZy0Qa
+         0nn7U8lc7OLULryY77EepWijVUj9rqrcIOl8Amo/3u8AO0bAfFM80HMoF3VP5yLoV1Hv
+         RGbGLgToT9TO2/KMcky63mSUsWVJa/vk86RaNMdrBJB6DFfPAgz/Va/R64Vyj+a5ckuZ
+         4iYQ==
+X-Gm-Message-State: AOJu0YzIMWnjWN216PQz6iYq+iW+AyxjtY5apQVrfwCIqa8rwtb0TQbT
+	yP8+Z+oVJEwrA/JA4HS/7qC5XZaMQaCI7bHfgNwaQUGNCt41BOEVKTMpgXlaOvQ=
+X-Google-Smtp-Source: AGHT+IEJES8+m0SqiwzhJWGREAqkK7RFJd6ikeWx74xU9bLXc+bqZv0fVhCa9Z0A1S4zEkSWghS4/Q==
+X-Received: by 2002:adf:ef4c:0:b0:34c:f34e:68a9 with SMTP id ffacd0b85a97d-3504a62fef3mr746263f8f.11.1715297743844;
+        Thu, 09 May 2024 16:35:43 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baad02csm2870605f8f.67.2024.05.09.16.35.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 16:35:43 -0700 (PDT)
+Message-ID: <5eec6d69-badd-46f8-9da6-a578d5f7c3ba@linaro.org>
+Date: Fri, 10 May 2024 00:35:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240509224848.GV1385281@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/18] media: venus: Remove unused structs
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Andy Walls <awalls@md.metrocast.net>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+ <20240507-cocci-flexarray-v2-9-7aea262cf065@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240507-cocci-flexarray-v2-9-7aea262cf065@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 10, 2024 at 12:48:48AM +0200, Niklas Söderlund wrote:
-> On 2024-05-09 23:51:29 +0300, Laurent Pinchart wrote:
-> > On Thu, May 09, 2024 at 06:13:50PM +0200, Jacopo Mondi wrote:
-> > > v2->v3:
-> > > - rcar-csi2: Collect v2.2 of [4/11]
-> > > - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
-> > >   by the HDMI and Analog front ends;
-> > > - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
-> > >   active format on the source pad
-> > > - max9286: Apply the format to all pads to enforce all links to have the same
-> > >   format
-> > > - max9286: Remove max9286_set_fsync_period() from setup
-> > > 
-> > > v2->v1:
-> > >   - Remove "media: adv748x-csi2: Initialize subdev format"
-> > >   - Add "media: adv748x-afe: Use 1X16 media bus code"
-> > >   - Tested with CVBS
-> > >   - address comments from Laurent and Niklas
-> > > 
-> > > A branch is available at
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
-> > > jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream-prep
-> > > 
-> > > As a follow-up to the recently sent
-> > > "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
-> > > version collects some fixes and implement usage of the subdev active state
-> > > to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
-> > > 
-> > > Tested with GMSL on Eagle V3M
-> > > Tested with HDMI on Salvator-X
-> > > Tested with CVBS on Salvator-X
-> > > Boot tested on WhiteHawk V4H
-> > 
-> > Niklas, would you be able to runtime-test this on V4H ? The series is
-> > otherwise ready to be merged in my opinion.
+On 07/05/2024 17:27, Ricardo Ribalda wrote:
+> This structures are not used, and have a single element array at the end
+> of them. Remove them.
 > 
-> I have run-time tested this on Gen4 and it works as expected. I also 
-> tested on Gen2 and Gen3 and all looks good.
+> This fix the following cocci warnings:
+> drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Can I add your Tested-by ? :-)
+There's nothing inherently wrong with defining a protocol upfront in the 
+form of a structure for future expansion.
 
-> Patch 7 needs to be moved earlier in the series to avoid breaking git 
-> bisect, but that move causes no conflicts so should be easy. With that 
-> fixed I too think this is ready to be merged. Nice work Jacopo!
+These structures are documentary of the host <-> firmware interface and 
+are of use when implementing new features.
 
-I've reordered the patches in my tree already.
+I think these structures should just have the "[1] -> []" conversion 
+done and be retained instead.
 
-> > > Jacopo Mondi (11):
-> > >   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
-> > >   media: rcar-csi2: Disable runtime_pm in probe error
-> > >   media: rcar-csi2: Cleanup subdevice in remove()
-> > >   media: rcar-csi2: Use the subdev active state
-> > >   media: adv748x-csi2: Implement enum_mbus_codes
-> > >   media: adv748x-csi2: Validate the image format
-> > >   media: adv748x-csi2: Use the subdev active state
-> > >   media: adv748x-afe: Use 1X16 media bus code
-> > >   media: max9286: Fix enum_mbus_code
-> > >   media: max9286: Use the subdev active state
-> > >   media: max9286: Use frame interval from subdev state
-> > > 
-> > >  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
-> > >  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
-> > >  drivers/media/i2c/adv748x/adv748x.h           |   1 -
-> > >  drivers/media/i2c/max9286.c                   | 182 +++++++-----------
-> > >  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
-> > >  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
-> > >  6 files changed, 271 insertions(+), 232 deletions(-)
+---
+bod
 
--- 
-Regards,
-
-Laurent Pinchart
 
