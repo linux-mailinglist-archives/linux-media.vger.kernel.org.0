@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-11235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11237-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F0C8C14CB
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:34:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C288C14DA
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:39:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A230C1C20F43
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:34:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A86FBB222CB
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:39:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 454F073535;
-	Thu,  9 May 2024 18:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 915597F7C6;
+	Thu,  9 May 2024 18:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVFmwDd4"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sxDXrfqk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D15C2ED
-	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 18:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C92F7711E;
+	Thu,  9 May 2024 18:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715279638; cv=none; b=Ld8yWwRya98ZypENBZ7Ss2v93qdYfC+TZ01MOWgz4YlBQme3H1mFiaQlSHcSxbUxDnL0SurMu6w/+PYaNaL0EUG1ElZdRjxh3b3KOWrySX0uLDs5Bo3CVODSny+h5KxIeLfOYhmDpDGB5ZHzSlpiSXRTIE1hEPlckyw+euTHzrY=
+	t=1715279968; cv=none; b=CGH4haPL0JGqMuVpCvpfHPBRcpRUqQNvnLclE0VfsMZ1q8Q2ncEUhZHRwwN+7WlIzSE5vrigCYriOQATJl8PbFAwqqCciD+o6VQiAH2S5wPAWBrSB30QDfw6Kaq8vV/No4WDAW+2ESmuZ6ocXEQltIuarRaLQT/qj62ZGUYlTPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715279638; c=relaxed/simple;
-	bh=GBIngwQnBwInOu3pKMgdJPg7gzgsSk0bro3PQaaz/JM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MWTAH+r5pv8YIsxBaEuyKAHdxenIMLjahLd42GdTur3XWBxnyzqZ2j/wO70SnBzd8hRtsEhXSKIRvwJh+OsJACHjCAZMpl9AJtHS2MjIPKeG3cEsvtXCslE2sRhsE95nKnt5fcezxJ3kay3FjvMtmFqWBEu6MZwq6b1vp50AtEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVFmwDd4; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715279637; x=1746815637;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GBIngwQnBwInOu3pKMgdJPg7gzgsSk0bro3PQaaz/JM=;
-  b=cVFmwDd4mZdcdk1DhfvcfyDjH/RWCl9KG1D9eXcNFy+rH5203nvGhdUe
-   6ZNMQ9rq7MaA1ygaT+ONo0Z29JxUMIiLK4AYHgUbLwVCt/tl9mBscOhlw
-   S1cpZb3eOaGlxF7G0w7eqSbpCAs7kk2bBfNvK4ZRw/F4GXD1ZZPQfb8jv
-   1viyg1ZtbBB7ZzJv+9GHCks9e/KO6wTlAnPSwLysr11sRd3h9Qsnx7sny
-   KKGoLOAESqblta/h56cvG2HZVSLAdq836nB57PLJZarI/F8DICd8MFNd7
-   AggbHaxwZkuTKClS1TtszluX0lzrET3ryzotndLAeexZPK1Pv0o0YPX8c
-   A==;
-X-CSE-ConnectionGUID: rTMYcWChS+mFX8XhOMlqVw==
-X-CSE-MsgGUID: ax2fNHAgRO6HaHuLAe+r6Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15054709"
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="15054709"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 11:33:56 -0700
-X-CSE-ConnectionGUID: 1lflmClqQsirNbG3IBuZkQ==
-X-CSE-MsgGUID: lyGCoOSPTcijxN2my1qgWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="29294262"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 11:33:55 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0EB4E11F9C0;
-	Thu,  9 May 2024 21:33:52 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1s58aV-003vLI-39;
-	Thu, 09 May 2024 21:33:51 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: [PATCH 1/1] media: intel/ipu6: Don't print user-triggerable errors to kernel log
-Date: Thu,  9 May 2024 21:33:41 +0300
-Message-Id: <20240509183341.935400-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1715279968; c=relaxed/simple;
+	bh=YFk7gfrCyhRUbiaBKEU6P8eXBw7FlSAj1nozW8WnlUo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tuENfi07cQrQAjF3hQom9Ru8jfG1BjEM3+9eE1GyxcJ03ys34dzCGKINEHmOzX59Ynp5jHK2m/hw0kDEa8Mo0DcJIcABgJksTvTk5XQSIfajjFg1XlX2toQiWwb2Nmw/NnejzoUVg33gBdDfqW/ag6jRlCzDWtibWj+IbCjb1Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sxDXrfqk; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 449Icp2o059675;
+	Thu, 9 May 2024 13:38:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1715279931;
+	bh=+EBsg+MBavvoLe4uw8H9uyV1BuH7NSV3Xnw72/49t8I=;
+	h=From:To:CC:Subject:Date;
+	b=sxDXrfqk2zVS185lviPF7OTRtVV01UEs9crR72p8RdzBPcT22jZrNj9t59nfysEq6
+	 8MaHm48CW1GzF1Oq1gt25Z9E9yjnhnFbAhckDFzKc3Zi6nUMYCGfSlF7YhOIYqzElE
+	 kvSi6wRGSPj92mlySBa3ecplabnAzPPHf7mIWmzE=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 449Icpqc028334
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 9 May 2024 13:38:51 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 9
+ May 2024 13:38:51 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 9 May 2024 13:38:50 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 449Ico8E003719;
+	Thu, 9 May 2024 13:38:50 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
+        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+        <adobriyan@gmail.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>, <jani.nikula@intel.com>,
+        <linux-rockchip@lists.infradead.org>
+Subject: [PATCH v7 0/8] [PATCH v7 0/8] Add V4L2 M2M Driver for E5010 JPEG Encoder
+Date: Fri, 10 May 2024 00:08:49 +0530
+Message-ID: <20240509183849.4060521-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,64 +81,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Use dev_dbg() for printing messages on user-triggerable coditions that
-have no relation to driver or hardware issues.
+This adds support for V4L2 M2M based driver for E5010 JPEG Encoder
+which is a stateful JPEG encoder from Imagination technologies
+and is present in TI AM62A SoC.
 
-Fixes: 3c1dfb5a69cf ("media: intel/ipu6: input system video nodes and buffer queues")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+While adding support for it, following additional framework changes were
+made:
+ - Moved reference quantization and huffman tables provided in
+   ITU-T-REC-T.81 to v4l2-jpeg.c as suggested in mailing list [1].
+ - Add macros to round to closest integer (either higher or lower) while
+   rounding in order of 2.
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index 11cd2c977abe..40a8ebfcfce2 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -34,7 +34,7 @@ static int queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
- 	if (!*num_planes) {
- 		sizes[0] = size;
- 	} else if (sizes[0] < size) {
--		dev_err(dev, "%s: queue setup: size %u < %u\n",
-+		dev_dbg(dev, "%s: queue setup: size %u < %u\n",
- 			av->vdev.name, sizes[0], size);
- 		return -EINVAL;
- 	}
-@@ -359,7 +359,7 @@ static void buf_queue(struct vb2_buffer *vb)
- 	 */
- 	ret = buffer_list_get(stream, &bl);
- 	if (ret < 0) {
--		dev_warn(dev, "No buffers available\n");
-+		dev_dbg(dev, "No buffers available\n");
- 		goto out;
- 	}
- 
-@@ -426,7 +426,7 @@ static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
- 
- 	if (format.width != ipu6_isys_get_frame_width(av) ||
- 	    format.height != ipu6_isys_get_frame_height(av)) {
--		dev_err(dev, "wrong width or height %ux%u (%ux%u expected)\n",
-+		dev_dbg(dev, "wrong width or height %ux%u (%ux%u expected)\n",
- 			ipu6_isys_get_frame_width(av),
- 			ipu6_isys_get_frame_height(av), format.width,
- 			format.height);
-@@ -521,13 +521,13 @@ static int start_streaming(struct vb2_queue *q, unsigned int count)
- 
- 	ret = ipu6_isys_setup_video(av, &source_entity, &nr_queues);
- 	if (ret < 0) {
--		dev_err(dev, "failed to setup video\n");
-+		dev_dbg(dev, "failed to setup video\n");
- 		goto out_return_buffers;
- 	}
- 
- 	ret = ipu6_isys_link_fmt_validate(aq);
- 	if (ret) {
--		dev_err(dev,
-+		dev_dbg(dev,
- 			"%s: link format validation failed (%d)\n",
- 			av->vdev.name, ret);
- 		goto out_pipeline_stop;
+v4l2-compliance test :
+Link: https://gist.github.com/devarsht/1f039c631ca953a57f405cfce1b69e49
+
+E5010 JPEG Encoder Manual tests :
+
+Performance:
+Link: https://gist.github.com/devarsht/c40672944fd71c9a53ab55adbfd9e28b
+
+Functionality:
+Link: https://gist.github.com/devarsht/8e88fcaabff016bb2bac83d89c9d23ce
+
+Compression Quality:
+Link: https://gist.github.com/devarsht/cbcc7cd97e8c48ba1486caa2b7884655
+
+Multi Instance:
+Link: https://gist.github.com/devarsht/22c2fca08cd3441fb40f2c7a4cebc95a
+
+Crop support:
+Link: https://gist.github.com/devarsht/de6f5142f678bb1a5338abfd9f814abd
+
+Runtime PM:
+Link: https://gist.github.com/devarsht/70cd95d4440ddc678489d93885ddd4dd
+
+[1]: 
+https://lore.kernel.org/all/de46aefe-36da-4e1a-b4fa-b375b2749181@xs4all.nl/
+
+Changelog:
+V6->V7:
+ - Fix cropping support
+ - Move reference huffman and quantization tables to v4l2-jpeg.c
+ - Fix suspend/resume use-case
+
+Patch-Diff between the series :
+
+V3->V4 Range diff :
+https://gist.github.com/devarsht/22a744d999080de6e813bcfb5a596272
+
+V4->V5 Range diff :
+https://gist.github.com/devarsht/298790af819f299a0a05fec89371097b
+
+V5->V6 Range diff :
+https://gist.github.com/devarsht/c89180ac2b0d2814614f2b59d0705c19
+
+V6->V7 Range diff :
+https://gist.github.com/devarsht/1db185b1e187eaf397e9e4c37066777e
+
+Previous patch series:
+V2: https://lore.kernel.org/all/20230727112546.2201995-1-devarsht@ti.com/
+V3: https://lore.kernel.org/all/20230816152210.4080779-1-devarsht@ti.com/
+V4: https://lore.kernel.org/all/20240205114239.924697-1-devarsht@ti.com/
+V5: https://lore.kernel.org/all/20240215134641.3381478-1-devarsht@ti.com/
+V6: https://lore.kernel.org/all/20240228141140.3530612-1-devarsht@ti.com/
+
+Devarsh Thakkar (8):
+  media: dt-bindings: Add Imagination E5010 JPEG Encoder
+  media: imagination: Add E5010 JPEG Encoder driver
+  media: v4l2-jpeg: Export reference quantization and huffman tables
+  media: imagination: Use exported tables from v4l2-jpeg core
+  media: verisilcon : Use exported tables from v4l2-jpeg for hantro
+    codec
+  math.h Add macros to round to closest specified power of 2
+  media: imagination: Round to closest multiple for cropping region
+  gpu: ipu-v3: Use generic macro for rounding to nearest multiple
+
+ .../bindings/media/img,e5010-jpeg-enc.yaml    |   75 +
+ MAINTAINERS                                   |    7 +
+ drivers/gpu/ipu-v3/ipu-image-convert.c        |    4 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/imagination/Kconfig    |   12 +
+ drivers/media/platform/imagination/Makefile   |    3 +
+ .../platform/imagination/e5010-core-regs.h    |  585 ++++++
+ .../platform/imagination/e5010-jpeg-enc-hw.c  |  267 +++
+ .../platform/imagination/e5010-jpeg-enc-hw.h  |   42 +
+ .../platform/imagination/e5010-jpeg-enc.c     | 1646 +++++++++++++++++
+ .../platform/imagination/e5010-jpeg-enc.h     |  168 ++
+ .../platform/imagination/e5010-mmu-regs.h     |  311 ++++
+ .../media/platform/verisilicon/hantro_jpeg.c  |  128 +-
+ drivers/media/v4l2-core/v4l2-jpeg.c           |  162 +-
+ include/linux/math.h                          |   36 +
+ include/media/v4l2-jpeg.h                     |   11 +
+ 17 files changed, 3341 insertions(+), 118 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+ create mode 100644 drivers/media/platform/imagination/Kconfig
+ create mode 100644 drivers/media/platform/imagination/Makefile
+ create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
+ create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
+
 -- 
-2.39.2
+2.39.1
 
 
