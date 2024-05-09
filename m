@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-11257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063AC8C198A
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 00:42:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BD78C198C
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 00:44:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D9141C21AEE
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 22:42:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C13D1C21EE4
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 22:44:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 898FD12D1F6;
-	Thu,  9 May 2024 22:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A725B12D209;
+	Thu,  9 May 2024 22:44:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XwR2m+i+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NoKA++8Y"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Gclsw9K8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="br8MMyBm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8DC770E0;
-	Thu,  9 May 2024 22:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC48770E0;
+	Thu,  9 May 2024 22:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715294547; cv=none; b=rETgwULOAUsFo/gdwKjO9XKKKIiKeaQWXTzr8zlTfe7kZs6fVyGITOsQtIGwFPbNY2TBkyp9F1Y43nfNQAZwYG5twWg+umYpBpMVGia1JYJuqH9EVIpWeuu+bTBfdzk9VHr1LMuanR7Rl6ZbEogF5zho9AfDh15bcUxj7x2j7pQ=
+	t=1715294643; cv=none; b=JJZuE2GtRGa7sfS8VB2TuBeqecu/p/I28lHuf3o1KClEtCUaxmSr2H6vvnOw8WJ3FUUDSBwMoM7jb6k0qDdYqHIoahA1i7rzwaMTcRCFMVbm0iiZL283KI+9JRX586hynhp9iEFr4H0qhWc+O2VRrtyM+64HTvRWZaf+iT9/U9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715294547; c=relaxed/simple;
-	bh=SJjvQ6MgCLY6xSbYnnRouloxy33T1dJZcZdAOA0GeN8=;
+	s=arc-20240116; t=1715294643; c=relaxed/simple;
+	bh=wzPffF9SfX5JI4cMvxJ4SkKp1pMGIz7XCsUHDbT/1ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m48LABMju6fA9Fp79x9JCARY1Xai5Ol+wThPJ5o0/Fr2u5k0E7ELXflaC3XpL+/HgSR3SQv+mShPdrVB7MKFdhJjU1BkWYKp1qTBFwycMwJ3f0xVtlofHsHAgPAOrTF0SHcsvro+TglTQm/mEPZwXQzMc4ZleI8lTy0wK+b2ZHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XwR2m+i+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NoKA++8Y; arc=none smtp.client-ip=103.168.172.149
+	 Content-Type:Content-Disposition:In-Reply-To; b=L3zPfHUMoKk56MZt/bfLcO9cfRbob4JB+0yNKSJEX3TbtwSkPP+iuV/2ASKSC5oAMWft5+O6Fcfo5NVygRu506cnb8PxSGhSJftxFVLADHbKqSMDtU3JytzsL5K0dtrlZQ5k7l6LjFI0hNUIzPqvm8MINS5IpEyX1X6eyinU08c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Gclsw9K8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=br8MMyBm; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfout.nyi.internal (Postfix) with ESMTP id D987C1380E5A;
-	Thu,  9 May 2024 18:42:23 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 09 May 2024 18:42:23 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id AF08211400D4;
+	Thu,  9 May 2024 18:44:00 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 09 May 2024 18:44:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1715294543;
-	 x=1715380943; bh=9HvRFMpvUUEM4wRwjImHIB9DA55GsP9CgJOPKl3b39U=; b=
-	XwR2m+i+wqvayRpbXLMJKAGCkoysi13uJxC5D3HfjbX7hyXsuSac0aHGpjEY9ExV
-	PrOLTcqV7GJ9XrXKlu2gAHsUP8mXLJxAmaFQq/bkj5lWsVSht8W+CDlQLg5PkJi6
-	kaK0d1TRUsQmLSubMdxEhScknaKEV50YQNLofnx5iGVeStA0GR1fnI2YdL5UMew7
-	+3KNx/kKA8SkMwBseAYGlxP/cH1uEubnk3X1ZZiaVmrPTkDqLDoO9nX0PAmmV+ei
-	jKeQRVCdQs9TGJeWBrVELKuE12l1xM7fQNzY5VFC2ZEEvCALHHh1hANbaXYJhM6+
-	7XUjl+1VN47ewKwTD0N/0w==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715294640;
+	 x=1715381040; bh=dunrG/NqGGx4y/rWE3h0EDx8tfHhJ/M+ZCHoODBBz24=; b=
+	Gclsw9K8mU8teyDgWo7eQm3NGyaT6nJq0HgjrwqOjtmn9QmGlQCFCI9sT3FcthTF
+	81lGoevMEkNH5Cfi503wTIUIYHyta+cWrt5mReD4JexA1o12f+ahv0evOuxLWYdI
+	mac4V+tc7l8wzNfeHgiuc3UlTQYXptBD5k1Xw90PuS9TQYK+X9ARYSqNql3T0Yyo
+	ybM7mDti4z3YKTiTD5ACaKtGM9b0Z/UexN15XcqfhMsKCa54Kpd36nyw99TpyGbj
+	+YNGpzm1m2L7bjSlWcNK4S+1sRQzYdFoXXf5psDeazgiYvXMldaej8q0pYIHxst8
+	UT8OQdudE/RaJFrh1M8lsA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715294543; x=
-	1715380943; bh=9HvRFMpvUUEM4wRwjImHIB9DA55GsP9CgJOPKl3b39U=; b=N
-	oKA++8YfXbgmyNKbpy8PcUSfqIhxDNtM8GMLbmHDLv3e5R+Cf6/3QmThjVB7B3Ma
-	Th+Pux8OaE6eoN/yvAypcnbBAm1wAtWO/QB80lq18z4NI3zzxQgXn6hGtDz88/U1
-	im8H7okIeLrdpdp5Bpd70Te7LtzTlSau5OvLsSNy21lAa5ucH1PYm+Wuy7IelC+c
-	CGcg0zriIPqxTZ0APrrTgeEOy1ewZTiOLQV3VodTFLBqfbR82KM8xahusEaSIfpD
-	XcBdR0WbRBKn1Let+mwSes0BaviyAKZLUfGVkCEgxybFi1BOKe+zzCpGMb+8YwBy
-	YmLZPqAbowwTfBe5cVu6A==
-X-ME-Sender: <xms:T1E9ZhISCSIfuu7FgA8cj16p1LZjUksqa4SeMnG8aaHHlqJRh6wckw>
-    <xme:T1E9ZtL5pjAhpVmqcbd6Tnu7o5mOEdCyLLfoYThRbS3iMikzG-pK7xAF4v9B5Qy2V
-    yTzIFkT78XhkFXvICE>
-X-ME-Received: <xmr:T1E9Zptigxy8SNiGZvOqQtUhDWV9Bu2QsRw48YskFVSXgEjlqwzIrY9EszuZch_gJYQ3kxymJWCPqYu0DpRiciqc0RTzrdo>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715294640; x=
+	1715381040; bh=dunrG/NqGGx4y/rWE3h0EDx8tfHhJ/M+ZCHoODBBz24=; b=b
+	r8MMyBm0HnMnJaQpCIqf21/ygZ9xVDEvjwQv5MOgvVxKTCC+qOUTOmcsDM3gYN/c
+	VamWhnXlMIz1hNZPcwiriVw1FmgBuQePq3XPqftKRpSnk0mFW1G8bN7Mls7oQIk8
+	SaVUdnHaKKYsa3j/uzFXebDD/7r8gzoVG8g9uq2iMooz+pmtY4SUQ7Q3O4lUEV70
+	uF6fBsFI1SDZV//LYPA1emjJlRE7H+Ifcz/cuqBNHK0excAYPGE7b1yBMwdDXcON
+	uF4gB9ZYcSo+n1rL3UGREX1YxiazugaP8agZ1kz58DyHLaOnZjRmXeC2aYJFf9ih
+	mAVHuvZ04XBS63pHXZKww==
+X-ME-Sender: <xms:sFE9ZtbJTODCtchV9QaXeBNGfMd89HBIQ1V5avGqca-BmulhQZ1vvg>
+    <xme:sFE9ZkZQRmufCFeTgjLJUx0zOfkTuibLKAcg0sY_jzhDsmvJNnxvemp-u0aRx4XYA
+    _LA0p2IV7qSqghhjwQ>
+X-ME-Received: <xmr:sFE9Zv9p94TlyaGuAkRtfsQ8_aphYPCBcYwAUjY5CobeXTFxaPEdODjTnjLF40oIGWYF782G1qudqKznuJ2Jw7kv_Fj8-lk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeffedgudefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -72,17 +72,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeffedgudefucetufdoteggod
     lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
     gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
     ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    hrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
     rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:T1E9ZiaqT8RRrKO0Uynh1NwTIIIwC3Yb3FVuBhDgLBrMyl_1ejzkCA>
-    <xmx:T1E9ZoZaFTT2TY2NEjFfmL4isobqBftKP8f2MC9qzMzoLEvgtHBNOw>
-    <xmx:T1E9ZmCL2oRfsEx946YAwx-iQh2zGKIfhdpPP55eunIrBjgGcQ8KgA>
-    <xmx:T1E9ZmYpYxmKwS33IMlIMTJ2vZzH70KT9ETQ1q-Kar8ayVyHa4RbTQ>
-    <xmx:T1E9Zo6c6o3UV_OCJG6FkYKf6CAj4hldX1VvWRup11mALtDd71qf8hAb>
+X-ME-Proxy: <xmx:sFE9ZrqnigS_rmaGTDbAY6MGmApMsb9L4mCkP8h78-JBlf8cYVs8MA>
+    <xmx:sFE9ZopKdqnQV2kDHnHa6yD9tlctYQZ665g3hGb1KBA0nAxP-mKPig>
+    <xmx:sFE9ZhRVdFKKaZpha5Fs-pCVnpSYJHrgcte6gj3-gSLbkvAk0reITg>
+    <xmx:sFE9ZgrDBdm96vCsyq0fIvAR92RPZpyOL2gKz8ACy_kbW25Jv0TKMg>
+    <xmx:sFE9ZgJ4nFs4kQeavPg9GbixU0ixmRgIlsM8uq1CjRg3rdDgumxE_7QH>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 May 2024 18:42:23 -0400 (EDT)
-Date: Fri, 10 May 2024 00:42:21 +0200
+ 9 May 2024 18:44:00 -0400 (EDT)
+Date: Fri, 10 May 2024 00:43:58 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -90,10 +90,10 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 06/11] media: adv748x-csi2: Validate the image format
-Message-ID: <20240509224221.GS1385281@ragnatech.se>
+Subject: Re: [PATCH v3 05/11] media: adv748x-csi2: Implement enum_mbus_codes
+Message-ID: <20240509224358.GT1385281@ragnatech.se>
 References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
- <20240509161403.111789-7-jacopo.mondi@ideasonboard.com>
+ <20240509161403.111789-6-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,82 +103,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240509161403.111789-7-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240509161403.111789-6-jacopo.mondi@ideasonboard.com>
 
 Hi Jacopo,
 
-Thanks for your work.
+Thanks for your patch.
 
-On 2024-05-09 18:13:56 +0200, Jacopo Mondi wrote:
-> The adv748x-csi2 driver configures the CSI-2 transmitter to
-> automatically infer the image stream format from the connected
-> frontend (HDMI or AFE).
+On 2024-05-09 18:13:55 +0200, Jacopo Mondi wrote:
+> Define a list of supported mbus codes for the TXA and TXB CSI-2
+> transmitters and implement the enum_mbus_code operation.
 > 
-> Setting a new format on the subdevice hence does not actually control
-> the CSI-2 output format, but it's only there for the purpose of
-> pipeline validation.
-> 
-> However, there is currently no validation that the supplied media bus
-> code is valid and supported by the device.
-> 
-> With the introduction of enum_mbus_codes a list of supported format is
-> now available, use it to validate that the supplied format is correct
-> and use the default UYVY8 one if that's not the case.
+> The TXB transmitter only support YUV422 while the TXA one supports
+> multiple formats as reported by the chip's manual in section 9.7.
+> but the HDMI and AFE subdevices only provide RGB888 and YUV422, so only
+> list those ones here.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-With the reordering of patches to avoid breaking bisect talked about in 
-patch 8/11 fixed.
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/media/i2c/adv748x/adv748x-csi2.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  drivers/media/i2c/adv748x/adv748x-csi2.c | 45 ++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
 > 
 > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 29b18b6c8b0e..0cdb397d9e0a 100644
+> index 5b265b722394..29b18b6c8b0e 100644
 > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
 > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -218,6 +218,22 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
-> 
-> +static bool adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx, u32 code)
+> @@ -14,6 +14,15 @@
+>  
+>  #include "adv748x.h"
+>  
+> +static const unsigned int adv748x_csi2_txa_fmts[] = {
+> +	MEDIA_BUS_FMT_UYVY8_1X16,
+> +	MEDIA_BUS_FMT_RGB888_1X24,
+> +};
+> +
+> +static const unsigned int adv748x_csi2_txb_fmts[] = {
+> +	MEDIA_BUS_FMT_UYVY8_1X16,
+> +};
+> +
+>  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
+>  {
+>  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
+> @@ -139,6 +148,41 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
+>   * But we must support setting the pad formats for format propagation.
+>   */
+>  
+> +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> +				       struct v4l2_subdev_state *sd_state,
+> +				       struct v4l2_subdev_mbus_code_enum *code)
 > +{
+> +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
 > +	const unsigned int *codes = is_txa(tx) ?
 > +				    adv748x_csi2_txa_fmts :
 > +				    adv748x_csi2_txb_fmts;
 > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
 > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
 > +
-> +	for (unsigned int i = 0; i < num_fmts; i++) {
-> +		if (codes[i] == code)
-> +			return true;
+> +	/*
+> +	 * The format available on the source pad is the one applied on the sink
+> +	 * pad.
+> +	 */
+> +	if (code->pad == ADV748X_CSI2_SOURCE) {
+> +		struct v4l2_mbus_framefmt *fmt;
+> +
+> +		if (code->index)
+> +			return -EINVAL;
+> +
+> +		fmt = v4l2_subdev_state_get_format(sd_state, ADV748X_CSI2_SINK);
+> +		code->code = fmt->code;
+> +
+> +		return 0;
 > +	}
 > +
-> +	return false;
+> +	if (code->index >= num_fmts)
+> +		return -EINVAL;
+> +
+> +	code->code = codes[code->index];
+> +
+> +	return 0;
 > +}
 > +
->  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_state *sd_state,
->  				   struct v4l2_subdev_format *sdformat)
-> @@ -227,6 +243,13 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
->  	struct v4l2_mbus_framefmt *mbusformat;
->  	int ret = 0;
-> 
-> +	/*
-> +	 * Make sure the format is supported, if not default it to
-> +	 * UYVY8 as it's supported by both TXes.
-> +	 */
-> +	if (!adv748x_csi2_is_fmt_supported(tx, sdformat->format.code))
-> +		sdformat->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
-> +
->  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
->  						 sdformat->which);
->  	if (!mbusformat)
-> --
+>  static struct v4l2_mbus_framefmt *
+>  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
+>  			    struct v4l2_subdev_state *sd_state,
+> @@ -228,6 +272,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+>  }
+>  
+>  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
+> +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
+>  	.get_fmt = adv748x_csi2_get_format,
+>  	.set_fmt = adv748x_csi2_set_format,
+>  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+> -- 
 > 2.44.0
 > 
 
