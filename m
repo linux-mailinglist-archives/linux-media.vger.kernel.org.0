@@ -1,58 +1,99 @@
-Return-Path: <linux-media+bounces-11250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4D58C17F7
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 22:52:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF3E8C189A
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 23:46:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB599B24A40
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:52:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A9D11F23D12
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 21:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F17A84D08;
-	Thu,  9 May 2024 20:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C21141292FF;
+	Thu,  9 May 2024 21:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l7+kZshC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="j3iNkNix";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DBpp18BA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fhigh2-smtp.messagingengine.com (fhigh2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0013853A7;
-	Thu,  9 May 2024 20:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C295B85C65;
+	Thu,  9 May 2024 21:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715287902; cv=none; b=WU5AgjLnHsfeyQL1s6/ly4778/lkfTJMluTsjyDUVL/Z10s7q8JlV9CO3euG1K4H2ikJ2Ji6JgJ4BeDBUoxlDC4p5pZ8/k9Ai0zxKh8loP4BMDTgtB8LKrg15ZU1pGqyLudJJ7KhKhDqCkvqBluYb8OHJc9ITy8qlyq5XS5irT8=
+	t=1715291157; cv=none; b=SwqGxkIdmKvV2D9n2CtPhf725IcytBOuaWvOsa6THbt0lmfv6qYHXA0yV/HOnWH1l1dd/tm3At8BQYHYKeYV2lGqTTDJo7FSslzRT2ciOCOLBiKJhXGb7a2dvskX2xxjIFFJtNvbvUOKDj4aLGIEWmFp8X8NQ8eEdpuKYgvYOBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715287902; c=relaxed/simple;
-	bh=brmS5eA2lD06qOEDIGoxgpLO/ESC2PwB78prXCz8emE=;
+	s=arc-20240116; t=1715291157; c=relaxed/simple;
+	bh=UqFJ955UHqpI7wFMbX38PiaJALQUlzrO3jxFReZZcEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdXZAoR1llvx5Nr9rEkRgXqDvstOAliiZkzxjbqiCU8wViSi9UIBpSj9QuJofH3Tivd29gF+Svy2yrwJbLC9e1aTs1NQH2EiVJWZYb2td3Nk8BCzT55DShA2QQbGpKUnE5H3R2UvqJruVSlR8NEDwgrXovhXcAIZjMM48l8rGVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l7+kZshC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CF153D5;
-	Thu,  9 May 2024 22:51:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715287895;
-	bh=brmS5eA2lD06qOEDIGoxgpLO/ESC2PwB78prXCz8emE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l7+kZshC61eqp4m8+VTRMtk8Su8jwKsAe9ZAB3jawtCVDT6GIK1RkHiyKSd2OYDbi
-	 8bIYsNyOUfAWwgocR195jmjSlA2eHfoIeaayeFqhpQkdNJGd8Vvut76O9TnrwvrAKl
-	 BHp8Z/Y/Vxo42HVgqptE3wcEVMV2dlZQAT5m/ue4=
-Date: Thu, 9 May 2024 23:51:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xu+0m7iCgLonxAN9+KxOkKzlfuKQeKSCnB9f17czpSyH0lqcnzmUmAhmEDg2LV4Q2NNRfaxIoQuvhTSDFP05FvOPS+fFoX2WsnH5ru9zekA/QRs7Jg+KoywlKWDsudzQedL5HrK5aVyC0/jb7Wf0WsbPlUOPEhBj154EAgER4bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=j3iNkNix; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DBpp18BA; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 5AA551140153;
+	Thu,  9 May 2024 17:45:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 09 May 2024 17:45:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715291151;
+	 x=1715377551; bh=sthv21qXke2meUnVcWoreiN/68zNzQvNCvuRC1Qny1U=; b=
+	j3iNkNixlh2NKLLiH/NKY8UTcXkCdZfswzyJ04yVpvejGbysZSwhwdil8pBThrU+
+	4sc5llUHlvyUITwPErSkjGtJxJr8wt5bGX7/NTqhL3Sv/9xc/q1TRgXlxfmFVUo+
+	ENBBm5WoxFs/qlFqtHqOsfbugiDz/LDlQ1Ueupdh5gQbLsMyg4tP31KhMveLrfoE
+	J3dZeIHUygh0dxb/wgsCWTSM5hYs5Nmgmwy9krHoVHVA4Hq/BXMEJV4LtisLt9d9
+	RQwHBXqhJtGAgQjLcmOIqRTE4pgJJ+A9S2MelGPhTNOBFcGfo16+Cd3DRV/IUq8f
+	xH62u7TVStDgMAHy4mOq9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715291151; x=
+	1715377551; bh=sthv21qXke2meUnVcWoreiN/68zNzQvNCvuRC1Qny1U=; b=D
+	Bpp18BAlUejZY3L03zqgoIHmJIflKMPrLcIKtoSUxKjk9XfDJM+y7zbgm8ElIDML
+	6UTeP4yKhbKtZ2K7jK4cmAn1Qu6Kblcz4ZUttL0GBxofI+Z/F8DiyeAsqyR687i6
+	pi/kPmFLLBM/48xt5sKP8NO2Th+zYYT/hHrwd32ZpW4zcOK2ycI6JRH1f9EbZWJx
+	/xopXVHE1X0YFukwGZu2j7ogG3HUORS3y1bbaQ5YHwoOYAeazHDgcnzO4yzTmRJh
+	cXcNk/PSAgiJqSkUCM57UQWKYz1r0ivPfPQ/PsuPIGodFcqeSuoZ1AfdNUlepUsQ
+	8LsdZ/oc/jP8RnW4SV3FA==
+X-ME-Sender: <xms:D0Q9ZkHyFUaxS2Cvgq7P9QGVnNofeWuVcqe8nzNSiglgHx6QwEZ_hA>
+    <xme:D0Q9ZtWn4IipiHIiTpeSYNvOv3BY1-C5XvcWorhpqRZmCAgcOhV-_Xh5W4-UpY_yO
+    vFFC8tYV62nQ4tiWmw>
+X-ME-Received: <xmr:D0Q9ZuIrLYR_YIsyq131Q0XFK4i88Y1J1bSbHrxAwJfXQyfuH_Qb-Bc3klrMf2cRmhLp2huOIschLdCqaCF_5Hoh7QtGuaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeffedgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:D0Q9ZmEn5JF9mGNmSTaCDQyr_dOV1DHiA3RRszAaHNVDcyvM6K7BKQ>
+    <xmx:D0Q9ZqWuNcGDkvZfN7tGSF8Ct8E3H4TwUaVxGzwXacvuHiAfDVn7VQ>
+    <xmx:D0Q9ZpM2xhWqvaf6_y0OODyB60OBYVgXv4MTy-Q_kYkmVXxqezDwgQ>
+    <xmx:D0Q9Zh3gjpbZu2G9XBlgNloIredql4iVQrHRoFgtmNah1QidIniWSQ>
+    <xmx:D0Q9ZlHRR2GajMMQbeOVxjvMb67PWIC68u9yVc9Qxjxb3tFuFwIk8ggu>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 May 2024 17:45:50 -0400 (EDT)
+Date: Thu, 9 May 2024 23:45:49 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] media: renesas: rcar-csi2: Use the subdev
- active state
-Message-ID: <20240509205129.GD6407@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 08/11] media: adv748x-afe: Use 1X16 media bus code
+Message-ID: <20240509214549.GM1385281@ragnatech.se>
 References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+ <20240509161403.111789-9-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,67 +102,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240509161403.111789-9-jacopo.mondi@ideasonboard.com>
 
-Hello,
+Hi Jacopo,
 
-On Thu, May 09, 2024 at 06:13:50PM +0200, Jacopo Mondi wrote:
-> v2->v3:
-> - rcar-csi2: Collect v2.2 of [4/11]
-> - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
->   by the HDMI and Analog front ends;
-> - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
->   active format on the source pad
-> - max9286: Apply the format to all pads to enforce all links to have the same
->   format
-> - max9286: Remove max9286_set_fsync_period() from setup
-> 
-> v2->v1:
->   - Remove "media: adv748x-csi2: Initialize subdev format"
->   - Add "media: adv748x-afe: Use 1X16 media bus code"
->   - Tested with CVBS
->   - address comments from Laurent and Niklas
-> 
-> A branch is available at
-> https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
-> jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream-prep
-> 
-> As a follow-up to the recently sent
-> "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
-> version collects some fixes and implement usage of the subdev active state
-> to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
-> 
-> Tested with GMSL on Eagle V3M
-> Tested with HDMI on Salvator-X
-> Tested with CVBS on Salvator-X
-> Boot tested on WhiteHawk V4H
+Thanks for your work.
 
-Niklas, would you be able to runtime-test this on V4H ? The series is
-otherwise ready to be merged in my opinion.
-
-> Jacopo Mondi (11):
->   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
->   media: rcar-csi2: Disable runtime_pm in probe error
->   media: rcar-csi2: Cleanup subdevice in remove()
->   media: rcar-csi2: Use the subdev active state
->   media: adv748x-csi2: Implement enum_mbus_codes
->   media: adv748x-csi2: Validate the image format
->   media: adv748x-csi2: Use the subdev active state
->   media: adv748x-afe: Use 1X16 media bus code
->   media: max9286: Fix enum_mbus_code
->   media: max9286: Use the subdev active state
->   media: max9286: Use frame interval from subdev state
+On 2024-05-09 18:13:58 +0200, Jacopo Mondi wrote:
+> Now that the adv748x CSI-2 transmitter driver validates the supported
+> formats, it is required for subdevices along the pipeline to produce
+> and consume the same media bus codes.
 > 
->  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
->  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
->  drivers/media/i2c/adv748x/adv748x.h           |   1 -
->  drivers/media/i2c/max9286.c                   | 182 +++++++-----------
->  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
->  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
->  6 files changed, 271 insertions(+), 232 deletions(-)
+> The adv748x analog front end driver use the 2X8 variant of the UYVY8
+> media bus code, while the CSI-2 transmitter use the 1X16 variant, which
+> is the correct one to use for the serial bus.
+> 
+> Make the adv748x afe use the 1X16 format variant to maintain the
+> pipeline validation correct.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Can you move this patch earlier in the series, before "media: 
+adv748x-csi2: Validate the image format". Else capture from AFE is 
+broken between that patch and this one for no reason.
+
+There is no conflict in reordering the patches and it allows for future 
+bisects to work more smoothly.
+
+With the ordering of patches fixed,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/i2c/adv748x/adv748x-afe.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
+> index 50d9fbadbe38..5edb3295dc58 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-afe.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-afe.c
+> @@ -114,7 +114,7 @@ static void adv748x_afe_fill_format(struct adv748x_afe *afe,
+>  {
+>  	memset(fmt, 0, sizeof(*fmt));
+>  
+> -	fmt->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> +	fmt->code = MEDIA_BUS_FMT_UYVY8_1X16;
+>  	fmt->colorspace = V4L2_COLORSPACE_SMPTE170M;
+>  	fmt->field = V4L2_FIELD_ALTERNATE;
+>  
+> @@ -337,7 +337,7 @@ static int adv748x_afe_enum_mbus_code(struct v4l2_subdev *sd,
+>  	if (code->index != 0)
+>  		return -EINVAL;
+>  
+> -	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> +	code->code = MEDIA_BUS_FMT_UYVY8_1X16;
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.44.0
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
 
