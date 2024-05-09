@@ -1,146 +1,142 @@
-Return-Path: <linux-media+bounces-11234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11235-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B308C14C2
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0C8C14CB
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:34:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 852841C21F24
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:29:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A230C1C20F43
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:34:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0212C7711F;
-	Thu,  9 May 2024 18:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 454F073535;
+	Thu,  9 May 2024 18:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="FdchrSAS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVFmwDd4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E5770E1;
-	Thu,  9 May 2024 18:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715279389; cv=pass; b=IvRJx/FpwXoMbF8OmRfRw8sJNENbZb4AQQO44hk1UkCwN6cXCqw8YEndMJ35SmrhvMYcLF8H9pBmxmWDB7Ls6oquXlA/upvMB/fs17nVR0C6klWEhIFcMijpnwi6MsqW9MRYOgXLXbWXLqUBJRH4S2+hxw/sbV+tO8xZvXYaiwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715279389; c=relaxed/simple;
-	bh=xKq66k9kPjJ+VzOyPj7asf7Nx4wqGSb0f1mA1w7C8nY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hbarwh++Jq+TOJA4fPjd7/leyJTjxcPjcHok7xR/PHYk2sdVkP2XrAifuYK9+x9VGhmf2PrDj3v/NSwhjdq7sqFR2vQEFzUhGOW0sWiABM3iwJle1cOpo6UMaOcr9AL0JzkWVaacKqmsOLRrg6hkoyfarWSotwrCiQDOcSq/8Gk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=FdchrSAS; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Vb0sy3YRKz49Pwn;
-	Thu,  9 May 2024 21:29:42 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1715279384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7A4xPDEgAQQdMdt52bCRjKFOBSibDEcEKYLBHN2iw5E=;
-	b=FdchrSAS/rkEX7K4SCLBSmv4gsvA9kEgIr6ZlVRFo7Ty7yWLoTnyDeRd505V9OfhOo7ig6
-	dYcbJBEucAERnmbsNRJNNDcBx8ezW69VKUos6mPiJCfkEvlXxFxjy/cbbcDxsg7oWwBiQK
-	+0IMojFOzu2cNwx2zCA1sNCKYzAClI6zpMnFz8ntM7uOu2PYqw/5Hs8TaHH9hYobkgnraG
-	CLpYBBGzxZOTpmSLOuzk//FnIXOuvzn6/hBqPoex3UXfYDTcN6OCMiWOtttAfFGImlVlfF
-	ynQU/RIu3WIGO1780pllahfLdzf414NJXhvN86caexRN+ZMdh8hwhfEcF5d/yA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1715279384; a=rsa-sha256;
-	cv=none;
-	b=d2Y/U8geglk/aao9oANk7ZuwFu2+3cBPXZYAnm6kUVXYYcbaYatFCB8qmNCZ2sk93eY7LQ
-	myj04ct8F/Uw04gtP4PWkL7lFhwXQid3OeF4L5tPiGK57AtyUAGeHoBjOxIClVX5xWoFxp
-	RV3FkTAN0niqiikA/NYCgqEbiTXAWkCk59V5oSmPYwJ37mCohPKI67y4Q9xw+D60bDWcEX
-	Wc/ATDSPfmaQU2oxWJJyEeVzD8fSHtUiUJDZ2pnoss6nODLBX8m8N7aqz9I2Twsq+IcA41
-	418yqi2KFRnlTRVvEzXk7NMsKysiKvfKh10Up9P9zA0Jl/ukgiItHn7vQrM1SQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1715279384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7A4xPDEgAQQdMdt52bCRjKFOBSibDEcEKYLBHN2iw5E=;
-	b=e2tcMHI7+kyoQS3stRFo3OSo0rbnruwnqXWwdOlmjJ7spynxNiWwu7V0mXc/K1yDCeoWgd
-	rXavGj70o3XPy0p6Z8a5+tJBbttkIBuCFKNu65aiV6RCYkvGG7Cd9QVMMJu34iKbAAiuUm
-	PzkgHF9eNi/RHJFoolPnPHdahzAAXRrtNoPHzbWu1YYcWVgHyXZv//A+ewu6UrRP6yuDHw
-	UTr3O2evOmGlF8ih7nkFZP1x/OmYH3hB23oECUlUCYRmPbSQ0mmAUY3uxu4c9doq0LfEDk
-	0Rq7bTj1l+cEr3oyXG5mMWB9vU4/Jp99JNC5rfdtQ0BH5cWToY3R4+jnZH7b2g==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1897D634C93;
-	Thu,  9 May 2024 21:29:42 +0300 (EEST)
-Date: Thu, 9 May 2024 18:29:41 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 1/3] media: v4l2-subdev: Fix
- v4l2_subdev_state_get_format() documentation
-Message-ID: <Zj0WFQo0cHReRCcU@valkosipuli.retiisi.eu>
-References: <20240508214045.24716-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240508214045.24716-2-laurent.pinchart+renesas@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D15C2ED
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 18:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715279638; cv=none; b=Ld8yWwRya98ZypENBZ7Ss2v93qdYfC+TZ01MOWgz4YlBQme3H1mFiaQlSHcSxbUxDnL0SurMu6w/+PYaNaL0EUG1ElZdRjxh3b3KOWrySX0uLDs5Bo3CVODSny+h5KxIeLfOYhmDpDGB5ZHzSlpiSXRTIE1hEPlckyw+euTHzrY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715279638; c=relaxed/simple;
+	bh=GBIngwQnBwInOu3pKMgdJPg7gzgsSk0bro3PQaaz/JM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MWTAH+r5pv8YIsxBaEuyKAHdxenIMLjahLd42GdTur3XWBxnyzqZ2j/wO70SnBzd8hRtsEhXSKIRvwJh+OsJACHjCAZMpl9AJtHS2MjIPKeG3cEsvtXCslE2sRhsE95nKnt5fcezxJ3kay3FjvMtmFqWBEu6MZwq6b1vp50AtEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVFmwDd4; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715279637; x=1746815637;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GBIngwQnBwInOu3pKMgdJPg7gzgsSk0bro3PQaaz/JM=;
+  b=cVFmwDd4mZdcdk1DhfvcfyDjH/RWCl9KG1D9eXcNFy+rH5203nvGhdUe
+   6ZNMQ9rq7MaA1ygaT+ONo0Z29JxUMIiLK4AYHgUbLwVCt/tl9mBscOhlw
+   S1cpZb3eOaGlxF7G0w7eqSbpCAs7kk2bBfNvK4ZRw/F4GXD1ZZPQfb8jv
+   1viyg1ZtbBB7ZzJv+9GHCks9e/KO6wTlAnPSwLysr11sRd3h9Qsnx7sny
+   KKGoLOAESqblta/h56cvG2HZVSLAdq836nB57PLJZarI/F8DICd8MFNd7
+   AggbHaxwZkuTKClS1TtszluX0lzrET3ryzotndLAeexZPK1Pv0o0YPX8c
+   A==;
+X-CSE-ConnectionGUID: rTMYcWChS+mFX8XhOMlqVw==
+X-CSE-MsgGUID: ax2fNHAgRO6HaHuLAe+r6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15054709"
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
+   d="scan'208";a="15054709"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 11:33:56 -0700
+X-CSE-ConnectionGUID: 1lflmClqQsirNbG3IBuZkQ==
+X-CSE-MsgGUID: lyGCoOSPTcijxN2my1qgWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
+   d="scan'208";a="29294262"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 11:33:55 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0EB4E11F9C0;
+	Thu,  9 May 2024 21:33:52 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1s58aV-003vLI-39;
+	Thu, 09 May 2024 21:33:51 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>
+Subject: [PATCH 1/1] media: intel/ipu6: Don't print user-triggerable errors to kernel log
+Date: Thu,  9 May 2024 21:33:41 +0300
+Message-Id: <20240509183341.935400-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240508214045.24716-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+Use dev_dbg() for printing messages on user-triggerable coditions that
+have no relation to driver or hardware issues.
 
-Thanks for posting this.
+Fixes: 3c1dfb5a69cf ("media: intel/ipu6: input system video nodes and buffer queues")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-On Thu, May 09, 2024 at 12:40:43AM +0300, Laurent Pinchart wrote:
-> The documentation of the v4l2_subdev_state_get_format() macro
-> incorrectly references __v4l2_subdev_state_get_format() instead of
-> __v4l2_subdev_state_gen_call(). Fix it, and also update the list of
-> similar macros to add the missing v4l2_subdev_state_get_interval().
-> 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  include/media/v4l2-subdev.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index e30c463d90e5..b25b6e97ecbd 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1340,12 +1340,12 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
->   */
->  /*
->   * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
-> - * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
-> + * two or three arguments. The purpose of the __v4l2_subdev_state_gen_call()
->   * macro below is to come up with the name of the function or macro to call,
-
-You could drop "below" here, too: the macro definition is above the text.
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
->   * using the last two arguments (_stream and _pad). The selected function or
->   * macro is then called using the arguments specified by the caller. A similar
-> - * arrangement is used for v4l2_subdev_state_crop() and
-> - * v4l2_subdev_state_compose() below.
-> + * arrangement is used for v4l2_subdev_state_crop(), v4l2_subdev_state_compose()
-> + * and v4l2_subdev_state_get_interval() below.
->   */
->  #define v4l2_subdev_state_get_format(state, pad, ...)			\
->  	__v4l2_subdev_state_gen_call(format, ##__VA_ARGS__, , _pad)	\
-
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index 11cd2c977abe..40a8ebfcfce2 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -34,7 +34,7 @@ static int queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+ 	if (!*num_planes) {
+ 		sizes[0] = size;
+ 	} else if (sizes[0] < size) {
+-		dev_err(dev, "%s: queue setup: size %u < %u\n",
++		dev_dbg(dev, "%s: queue setup: size %u < %u\n",
+ 			av->vdev.name, sizes[0], size);
+ 		return -EINVAL;
+ 	}
+@@ -359,7 +359,7 @@ static void buf_queue(struct vb2_buffer *vb)
+ 	 */
+ 	ret = buffer_list_get(stream, &bl);
+ 	if (ret < 0) {
+-		dev_warn(dev, "No buffers available\n");
++		dev_dbg(dev, "No buffers available\n");
+ 		goto out;
+ 	}
+ 
+@@ -426,7 +426,7 @@ static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
+ 
+ 	if (format.width != ipu6_isys_get_frame_width(av) ||
+ 	    format.height != ipu6_isys_get_frame_height(av)) {
+-		dev_err(dev, "wrong width or height %ux%u (%ux%u expected)\n",
++		dev_dbg(dev, "wrong width or height %ux%u (%ux%u expected)\n",
+ 			ipu6_isys_get_frame_width(av),
+ 			ipu6_isys_get_frame_height(av), format.width,
+ 			format.height);
+@@ -521,13 +521,13 @@ static int start_streaming(struct vb2_queue *q, unsigned int count)
+ 
+ 	ret = ipu6_isys_setup_video(av, &source_entity, &nr_queues);
+ 	if (ret < 0) {
+-		dev_err(dev, "failed to setup video\n");
++		dev_dbg(dev, "failed to setup video\n");
+ 		goto out_return_buffers;
+ 	}
+ 
+ 	ret = ipu6_isys_link_fmt_validate(aq);
+ 	if (ret) {
+-		dev_err(dev,
++		dev_dbg(dev,
+ 			"%s: link format validation failed (%d)\n",
+ 			av->vdev.name, ret);
+ 		goto out_pipeline_stop;
 -- 
-Sakari Ailus
+2.39.2
+
 
