@@ -1,58 +1,59 @@
-Return-Path: <linux-media+bounces-11212-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11213-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12668C1093
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 15:44:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83278C1097
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 15:45:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FDF3281376
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 13:44:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17A151C2090D
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 13:45:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D35D15B0FC;
-	Thu,  9 May 2024 13:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C1A1158DC5;
+	Thu,  9 May 2024 13:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AUAJ67o4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u3ROnZao"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C115B12A;
-	Thu,  9 May 2024 13:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A4213FFC;
+	Thu,  9 May 2024 13:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715262248; cv=none; b=PdrtDrj7hAHuGT7QaM0b/+XZ17GXH5vyeTsS3j7xpbFRp1JF+V/lf0RmMKcjciP7XJ4f6vE6O9EVZGjGCooQNfZVfkuQ2lSBQVH6X08c1q36GqqkodgFiqd9iJOfQMYwfQYLh3P+wsFETGL8zCDFvc9rxyYG1kpZUpaXr9kFsJU=
+	t=1715262318; cv=none; b=pORNGXEyo0HANMVVpLhk+yzdlA26xua94Iuk4pYPnDacqE0kUuQ1KLQdgPRD4A0zudKiDFueBSDsR1Qc4Lp2vXPri24UBp3a56jMZXzIXFPoaZ/gl3phGJ0oQvbP79/T6CDpN6Q5iavRTH5uACp87jbVc2iHP8aGI9IOfdKQjIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715262248; c=relaxed/simple;
-	bh=Mjokrgg/UIv00zAPfdFTgzK5gB6F8fZQaw15dNMQajc=;
+	s=arc-20240116; t=1715262318; c=relaxed/simple;
+	bh=iBD2voLkMHj5Txx/NoJwbL4oXMCSq/lyuyEjGtn52XA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pC3l5qwZvGZeLjk3QNK5nMdR+dmxNFWHnnF+Z94f5E4QEsXLJz12ER2hsZuYAE5qRLItmdniHEQINRW5XXK0QKJk36sIZ+pmTM1SwZh+l2Seo1K/+aoJFvFguXpg5IV5oy3COkesbe3CF79LA+NedOX196xZg1vuyhgYISmsPjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AUAJ67o4; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=QDHZw5ObDCWCRGF1iWdAgrAhaSJjDgJcCBUSDUBHOSSvXvixy4PxPp86Lwk5Eff25pQLEoGmKCtzybl9jmKPWd592+EMlEi3U008XkfP97QfeH+8MaFeOUhnjkDMHKc3/PqHP+9Jxak5TqtLERgCIHzelLiKcwTvodckbuv3Swc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u3ROnZao; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFCA32320;
-	Thu,  9 May 2024 15:44:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAFE92320;
+	Thu,  9 May 2024 15:45:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715262242;
-	bh=Mjokrgg/UIv00zAPfdFTgzK5gB6F8fZQaw15dNMQajc=;
+	s=mail; t=1715262312;
+	bh=iBD2voLkMHj5Txx/NoJwbL4oXMCSq/lyuyEjGtn52XA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AUAJ67o4e0DsbL2BtQNAbn2zkRkjKRgyT+MR1Qk7JJhh6gkc7yH5qxjkT/HdQJ2wI
-	 hM2S5Us3LjkTcbR7dU3LQyLKygXcwwhzlESsHzgoqw785dN31dbk0s+fCUpQC2OKJl
-	 cqIey/RiUY305IFDZHfjBzvnPJ2WgU4AJMQPWHnQ=
-Date: Thu, 9 May 2024 15:44:02 +0200
+	b=u3ROnZaoJE8wEHQ8iurLz0+tP4kTAVsXKrTjb40vX9Y/Y9as1RYuLILLn895Zgk/M
+	 02hJ0YJFsUma082woOqEEesLGAtVM8ug1SrxTKapXyrOt1Z3FyLTW5Dvyrwg/HQXik
+	 o2Z+jMG2Pe6vMKShnAyXYKp5QsTwHLo0lUdRLtTQ=
+Date: Thu, 9 May 2024 15:45:11 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 05/11] media: adv748x-csi2: Implement enum_mbus_codes
-Message-ID: <kr5uw6s2ornpovbdtdrosrx4relwpldf4ee7gfy24cuxl55alw@f2i4itou6iiv>
+Subject: Re: [PATCH v2 11/11] media: max9286: Use frame interval from subdev
+ state
+Message-ID: <tpsahgk63xcjnmcpwwqvlw25jw2s3jblz3vku5txixchkojeqq@njeai33hlwyp>
 References: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
- <20240506164941.110389-6-jacopo.mondi@ideasonboard.com>
- <20240509124249.GB17123@pendragon.ideasonboard.com>
+ <20240506164941.110389-12-jacopo.mondi@ideasonboard.com>
+ <20240509125122.GF17123@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,175 +62,177 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240509124249.GB17123@pendragon.ideasonboard.com>
+In-Reply-To: <20240509125122.GF17123@pendragon.ideasonboard.com>
 
 Hi Laurent
 
-On Thu, May 09, 2024 at 03:42:49PM GMT, Laurent Pinchart wrote:
+On Thu, May 09, 2024 at 03:51:22PM GMT, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
 > Thank you for the patch.
 >
-> On Mon, May 06, 2024 at 06:49:33PM +0200, Jacopo Mondi wrote:
-> > Define a list of supported mbus codes for the TXA and TXB CSI-2
-> > transmitters and implement the enum_mbus_code operation.
+> On Mon, May 06, 2024 at 06:49:39PM +0200, Jacopo Mondi wrote:
+> > Use the frame interval stored in the subdev state instead of storing
+> > a copy in the driver private structure.
 > >
-> > The TXB transmitter only support YUV422 while the TXA one supports
-> > multiple formats as reported by the chip's manual in section 9.7.
+> > Initialize the frame interval to the special case 0/0 that in the
+> > max9286 driver represents automatic handling of frame sync.
 > >
+> > During the startup phase, configure register 0x01 to use automatic
+> > frame sync, to match the subdev state initialiation, instead of calling
+> > max9286_set_fsync_period() which now requires a 'state' argument.
+>
+> Given that max9286_set_fsync_period() will be called at stream start
+> time, is there a need to set the register in max9286_setup() ? If so,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> If not, you can drop it.
+>
+
+Ok, I removed it initially then re-introduced in v2
+
 > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > > ---
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c | 35 ++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
+> >  drivers/media/i2c/max9286.c | 59 +++++++++++++++++++------------------
+> >  1 file changed, 31 insertions(+), 28 deletions(-)
 > >
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > index 5b265b722394..4fd6d3a681d5 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > @@ -14,6 +14,18 @@
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index 7fad190cd9b3..6930a98c8965 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -197,8 +197,6 @@ struct max9286_priv {
+> >  	struct v4l2_ctrl *pixelrate_ctrl;
+> >  	unsigned int pixelrate;
 > >
-> >  #include "adv748x.h"
-> >
-> > +static const unsigned int adv748x_csi2_txa_fmts[] = {
-> > +	MEDIA_BUS_FMT_UYVY8_1X16,
-> > +	MEDIA_BUS_FMT_UYVY10_1X20,
-> > +	MEDIA_BUS_FMT_RGB565_1X16,
-> > +	MEDIA_BUS_FMT_RGB666_1X18,
-> > +	MEDIA_BUS_FMT_RGB888_1X24,
-> > +};
-> > +
-> > +static const unsigned int adv748x_csi2_txb_fmts[] = {
-> > +	MEDIA_BUS_FMT_UYVY8_1X16,
-> > +};
-> > +
-> >  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
-> >  {
-> >  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
-> > @@ -139,6 +151,28 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
-> >   * But we must support setting the pad formats for format propagation.
-> >   */
-> >
-> > +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
-> > +				       struct v4l2_subdev_state *sd_state,
-> > +				       struct v4l2_subdev_mbus_code_enum *code)
-> > +{
-> > +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> > +	const unsigned int *codes = is_txa(tx) ?
-> > +				    adv748x_csi2_txa_fmts :
-> > +				    adv748x_csi2_txb_fmts;
-> > +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> > +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
-> > +
-> > +	if (code->pad != ADV748X_CSI2_SOURCE)
-> > +		return -EINVAL;
->
-> Any reason to not support enumeration of formats on the sink pad ?
->
-> it modify the format between the sink and source pads ? If not, I think
-> this function should be implemented as
->
-> 	if (code->pad == ADV748X_CSI2_SINK) {
-> 		if (code->index >= num_fmts)
-> 			return -EINVAL;
->
-> 		code->code = codes[code->index];
-
-I don't think this is correct. The formats I have listed in
-adv748x_csi2_txa_fmts and adv748x_csi2_txb_fmts are the CSI-2 output
-formats, not the ones accepted on the sink side of the CSI-2 TX
-
-The CSI-2 TX sink pads connects to either the HDMI or AFE subdevices.
-The media link represents the internal processing pipeline between the
-two frontends and the TXes. The formats accepted on the TX sinks are
-then the formats that can be produced by the HDMI/Analog sources the
-adv748x is connected to ?
-
-> 	} else {
-> 		const struct v4l2_msbu_framefmt *fmt;
->
-> 		if (code->index > 0)
-> 			return -EINVAL;
->
-> 		/*
-> 		 * The device doesn't modify formats, the same media bus code is
-
-At the same time the device seems capable of performing format
-conversion, but the driver configures it in pass-through mode.
-
-Now, given this configuration, it seems that whatever format is
-produced by the HDMI/Analog front-end is reproduced on the CSI-2 Tx
-source side. However the two frontends only list
-
-static int adv748x_hdmi_enum_mbus_code(struct v4l2_subdev *sd,
-				  struct v4l2_subdev_state *sd_state,
-				  struct v4l2_subdev_mbus_code_enum *code)
-{
-	if (code->index != 0)
-		return -EINVAL;
-
-	code->code = MEDIA_BUS_FMT_RGB888_1X24;
-
-	return 0;
-}
-
-
-static int adv748x_afe_enum_mbus_code(struct v4l2_subdev *sd,
-				      struct v4l2_subdev_state *sd_state,
-				      struct v4l2_subdev_mbus_code_enum *code)
-{
-	if (code->index != 0)
-		return -EINVAL;
-
-	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
-
-	return 0;
-}
-
-While I presume many more formats would be possible.
-
-In facts (for analog):
-The video standards supported by the video processor include PAL B/PAL
-D/PAL I/PAL G/PAL H, PAL 60, PAL M, PAL N, PAL Nc, NTSC M/NTSC J, NTSC
-4.43, and SECAM B/SECAM D/SECAM G/SECAM K/SECAM L. The ADV748x can
-automatically detect the input video standard and process it
-accordingly.
-
-I presume the HDMI standard support more formats than just RGB888 ?
-
-So, as I was not sure on how to handle this, and enumerating formats
-on the sink pads (which represent an internal bus connection) was of
-little value, I decided to only allow format enumeration on the CSI-2
-source pads, as the supported formats are well described by the chip
-manual.
-
-What do you think ?
-
-> 		 * used on the sink and source.
-> 		 */
-> 		fmt = v4l2_subdev_state_get_format(sd_state, ADV748X_CSI2_SINK);
-> 		code->code = fmt->code;
-> 	}
->
-> > +
-> > +	if (code->index >= num_fmts)
-> > +		return -EINVAL;
-> > +
-> > +	code->code = codes[code->index];
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static struct v4l2_mbus_framefmt *
-> >  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
-> >  			    struct v4l2_subdev_state *sd_state,
-> > @@ -228,6 +262,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+> > -	struct v4l2_fract interval;
+> > -
+> >  	unsigned int nsources;
+> >  	unsigned int source_mask;
+> >  	unsigned int route_mask;
+> > @@ -571,11 +569,14 @@ static void max9286_set_video_format(struct max9286_priv *priv,
+> >  		      MAX9286_INVVS | MAX9286_HVSRC_D14);
 > >  }
 > >
-> >  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
-> > +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
-> >  	.get_fmt = adv748x_csi2_get_format,
-> >  	.set_fmt = adv748x_csi2_set_format,
-> >  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+> > -static void max9286_set_fsync_period(struct max9286_priv *priv)
+> > +static void max9286_set_fsync_period(struct max9286_priv *priv,
+> > +				     struct v4l2_subdev_state *state)
+>
+> Depending on whether this series or "media: v4l2-subdev: Provide
+> const-aware subdev state accessors" gets merged first, this argument
+> could be const :-) No need to address that for now and add a dependency.
+>
+> >  {
+> > +	const struct v4l2_fract *interval;
+> >  	u32 fsync;
+> >
+> > -	if (!priv->interval.numerator || !priv->interval.denominator) {
+> > +	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
+> > +	if (!interval->numerator || !interval->denominator) {
+> >  		/*
+> >  		 * Special case, a null interval enables automatic FRAMESYNC
+> >  		 * mode. FRAMESYNC is taken from the slowest link.
+> > @@ -591,8 +592,8 @@ static void max9286_set_fsync_period(struct max9286_priv *priv)
+> >  	 * The FRAMESYNC generator is configured with a period expressed as a
+> >  	 * number of PCLK periods.
+> >  	 */
+> > -	fsync = div_u64((u64)priv->pixelrate * priv->interval.numerator,
+> > -			priv->interval.denominator);
+> > +	fsync = div_u64((u64)priv->pixelrate * interval->numerator,
+> > +			interval->denominator);
+> >
+> >  	dev_dbg(&priv->client->dev, "fsync period %u (pclk %u)\n", fsync,
+> >  		priv->pixelrate);
+> > @@ -801,7 +802,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> >  		format = v4l2_subdev_state_get_format(state, MAX9286_SRC_PAD);
+> >
+> >  		max9286_set_video_format(priv, format);
+> > -		max9286_set_fsync_period(priv);
+> > +		max9286_set_fsync_period(priv, state);
+> >
+> >  		/*
+> >  		 * The frame sync between cameras is transmitted across the
+> > @@ -874,19 +875,11 @@ static int max9286_get_frame_interval(struct v4l2_subdev *sd,
+> >  				      struct v4l2_subdev_state *sd_state,
+> >  				      struct v4l2_subdev_frame_interval *interval)
+> >  {
+> > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > -
+> > -	/*
+> > -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+> > -	 * subdev active state API.
+> > -	 */
+> > -	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > -		return -EINVAL;
+> > -
+> >  	if (interval->pad != MAX9286_SRC_PAD)
+> >  		return -EINVAL;
+> >
+> > -	interval->interval = priv->interval;
+> > +	interval->interval = *v4l2_subdev_state_get_interval(sd_state,
+> > +							     interval->pad);
+> >
+> >  	return 0;
+> >  }
+> > @@ -895,19 +888,11 @@ static int max9286_set_frame_interval(struct v4l2_subdev *sd,
+> >  				      struct v4l2_subdev_state *sd_state,
+> >  				      struct v4l2_subdev_frame_interval *interval)
+> >  {
+> > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > -
+> > -	/*
+> > -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+> > -	 * subdev active state API.
+> > -	 */
+> > -	if (interval->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > -		return -EINVAL;
+> > -
+> >  	if (interval->pad != MAX9286_SRC_PAD)
+> >  		return -EINVAL;
+> >
+> > -	priv->interval = interval->interval;
+> > +	*v4l2_subdev_state_get_interval(sd_state,
+> > +					interval->pad) = interval->interval;
+> >
+> >  	return 0;
+> >  }
+> > @@ -993,9 +978,21 @@ static const struct v4l2_mbus_framefmt max9286_default_format = {
+> >  static int max9286_init_state(struct v4l2_subdev *sd,
+> >  			      struct v4l2_subdev_state *state)
+> >  {
+> > +	struct v4l2_fract *interval;
+> > +
+> >  	for (unsigned int i = 0; i < MAX9286_N_PADS; i++)
+> >  		*v4l2_subdev_state_get_format(state, i) = max9286_default_format;
+> >
+> > +	/*
+> > +	 * Special case: a null interval enables automatic FRAMESYNC mode.
+> > +	 *
+> > +	 * FRAMESYNC is taken from the slowest link. See register 0x01
+> > +	 * configuration.
+> > +	 */
+> > +	interval = v4l2_subdev_state_get_interval(state, MAX9286_SRC_PAD);
+> > +	interval->numerator = 0;
+> > +	interval->denominator = 0;
+> > +
+> >  	return 0;
+> >  }
+> >
+> > @@ -1142,7 +1139,13 @@ static int max9286_setup(struct max9286_priv *priv)
+> >  	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
+> >
+> >  	max9286_set_video_format(priv, &max9286_default_format);
+> > -	max9286_set_fsync_period(priv);
+> > +
+> > +	/*
+> > +	 * Use automatic FRAMESYNC mode. FRAMESYNC is taken from the slowest
+> > +	 * link.
+> > +	 */
+> > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > +				  MAX9286_FSYNCMETH_AUTO);
+> >
+> >  	cfg = max9286_read(priv, 0x1c);
+> >  	if (cfg < 0)
 >
 > --
 > Regards,
