@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-11248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11249-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16D78C17CD
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 22:45:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 005768C17D4
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 22:47:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BD67B23F1D
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:45:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A5B71F219E6
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85BDB80617;
-	Thu,  9 May 2024 20:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D4C580632;
+	Thu,  9 May 2024 20:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p+sC52s+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vWnkJyyl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97247F7F5;
-	Thu,  9 May 2024 20:45:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897214C618;
+	Thu,  9 May 2024 20:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715287510; cv=none; b=Tja/4pmosgPSp1N4VTTgflb7fjbYbED9MnBIUnlBF62Y/3ghsFeRCcxFFBTvEhDFf9O62FU+Xb1wP/XlAlH8yMlG5Rbyf8W+GFXfGKxrVpsHpHU00+9fSjLJG7yx5YY2FLbB3/wYuzmuSZuKhfe1hnzHT7mM0OPbR2V4JAdCGEk=
+	t=1715287630; cv=none; b=C3C0MRGc/rmwzb2L3sNdT9zLTQ7TBlwq7+0Txz+1JYD39OmEK+K4hST7UPlNmoQUVMZR9fM+LkwwW8Zvkzd4AVNpRsrv3Gj6L4wTO0GtQ1wAjiY1UP1Z5kmRz9tCfeQno7K+SbfZF+I38KQo3OnuMuOzKPZLsjEptEtaMOPFfs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715287510; c=relaxed/simple;
-	bh=atfK6CgaXFdCrhae+pcigKkKQ5+RSaXvkEmd01pFayw=;
+	s=arc-20240116; t=1715287630; c=relaxed/simple;
+	bh=xKLia566UdcHjC2rbSKlX+6W/7h3PBtaF+IZjD82wiQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qktvO2O9asXyp5a+WRK8JGQVgqa83flqFgeVk3zs67FhB7DS5Ec+n4CiWsg+C2j7Oh3vDdMDbxDCyTBBgvxXtq2CzVfEB5OFc1Ubrnl9I9X03zdrhey4UDt1ifQdJvoWWPtu7jig0vuJf9RuUvBCWWoVbFcidUVMY8U2CLQUyL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p+sC52s+; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQTePJdJaUnWj/jmjYZzOMwBQnnm7fhBiyMIgibOLDb9h7F8LsTgoJnIcfirQ7eiiXdXMlGFZUCxwN77MG7mmdNGHJ3VlkWoqhPUNGgQ0JMN8HalpO2JEYwl/9LHRG/E5JIlHFTh9Qz3UpWW5azYihFTiGw1N0ND/AuDmR+P8Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vWnkJyyl; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A573C2320;
-	Thu,  9 May 2024 22:45:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54DA22320;
+	Thu,  9 May 2024 22:47:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715287501;
-	bh=atfK6CgaXFdCrhae+pcigKkKQ5+RSaXvkEmd01pFayw=;
+	s=mail; t=1715287622;
+	bh=xKLia566UdcHjC2rbSKlX+6W/7h3PBtaF+IZjD82wiQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p+sC52s+C4bcdcL3DJ6CNquPNXOJSOuWuxtGWQoDCxMpCJr3RT5fRHN6UKl0LG+60
-	 gIuREP5ceNptn6X7mjxiGH+pQAEmn3dLlKpBjWY4HVeTrSQFnCghWc4KX/Q6d4vMPS
-	 ohGEbzT7oX3OL1MIA41oI2nExaQEfge1Vk32A5Kw=
-Date: Thu, 9 May 2024 23:44:56 +0300
+	b=vWnkJyylMZXheW7WI610EEIfgHZOxPMg5oZSV4tK+4uK79i4Dj207u8ThgMvCvGaq
+	 /NQuQabA9q/bF5rlFBzeWArAY/A3YZPXUlsxQ2LtgYXWFqMaqXMMC0ngGIT1qeap1Z
+	 V2ibt+QMUB9FGcGNpPvcQ+yASzEIpZS0ZyVIYefk=
+Date: Thu, 9 May 2024 23:46:56 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
@@ -49,10 +49,10 @@ Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 05/11] media: adv748x-csi2: Implement enum_mbus_codes
-Message-ID: <20240509204456.GB6407@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 10/11] media: max9286: Use the subdev active state
+Message-ID: <20240509204656.GC6407@pendragon.ideasonboard.com>
 References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
- <20240509161403.111789-6-jacopo.mondi@ideasonboard.com>
+ <20240509161403.111789-11-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,99 +61,299 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240509161403.111789-6-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240509161403.111789-11-jacopo.mondi@ideasonboard.com>
 
 Hi Jacopo,
 
 Thank you for the patch.
 
-On Thu, May 09, 2024 at 06:13:55PM +0200, Jacopo Mondi wrote:
-> Define a list of supported mbus codes for the TXA and TXB CSI-2
-> transmitters and implement the enum_mbus_code operation.
+On Thu, May 09, 2024 at 06:14:00PM +0200, Jacopo Mondi wrote:
+> Use the subdev active state in the max9286 driver to store the
+> image format.
 > 
-> The TXB transmitter only support YUV422 while the TXA one supports
-> multiple formats as reported by the chip's manual in section 9.7.
-> but the HDMI and AFE subdevices only provide RGB888 and YUV422, so only
-> list those ones here.
+> Replace the .open() function call with the .init_state() one and
+> simplify the set/get_pad_fmt() operations.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/media/i2c/adv748x/adv748x-csi2.c | 45 ++++++++++++++++++++++++
->  1 file changed, 45 insertions(+)
+>  drivers/media/i2c/max9286.c | 130 ++++++++++++------------------------
+>  1 file changed, 44 insertions(+), 86 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 5b265b722394..29b18b6c8b0e 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -14,6 +14,15 @@
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 5321238cad60..8c75756c945c 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -19,7 +19,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-mux.h>
+>  #include <linux/module.h>
+> -#include <linux/mutex.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+> @@ -198,12 +197,8 @@ struct max9286_priv {
+>  	struct v4l2_ctrl *pixelrate_ctrl;
+>  	unsigned int pixelrate;
 >  
->  #include "adv748x.h"
+> -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+>  	struct v4l2_fract interval;
 >  
-> +static const unsigned int adv748x_csi2_txa_fmts[] = {
-> +	MEDIA_BUS_FMT_UYVY8_1X16,
-> +	MEDIA_BUS_FMT_RGB888_1X24,
-> +};
-> +
-> +static const unsigned int adv748x_csi2_txb_fmts[] = {
-> +	MEDIA_BUS_FMT_UYVY8_1X16,
-> +};
-> +
->  int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
+> -	/* Protects controls and fmt structures */
+> -	struct mutex mutex;
+> -
+>  	unsigned int nsources;
+>  	unsigned int source_mask;
+>  	unsigned int route_mask;
+> @@ -788,19 +783,22 @@ static void max9286_v4l2_notifier_unregister(struct max9286_priv *priv)
+>  static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
 >  {
->  	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
-> @@ -139,6 +148,41 @@ static const struct v4l2_subdev_video_ops adv748x_csi2_video_ops = {
->   * But we must support setting the pad formats for format propagation.
->   */
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	struct v4l2_subdev_state *state;
+>  	struct max9286_source *source;
+>  	unsigned int i;
+>  	bool sync = false;
+> -	int ret;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
 >  
-> +static int adv748x_csi2_enum_mbus_code(struct v4l2_subdev *sd,
-> +				       struct v4l2_subdev_state *sd_state,
-> +				       struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
-> +	const unsigned int *codes = is_txa(tx) ?
-> +				    adv748x_csi2_txa_fmts :
-> +				    adv748x_csi2_txb_fmts;
-> +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
+>  	if (enable) {
+>  		const struct v4l2_mbus_framefmt *format;
+>  
+>  		/*
+> -		 * Get the format from the first used sink pad, as all sink
+> -		 * formats must be identical.
+> +		 * Get the format from the source pad, as all formats must be
+> +		 * identical.
+>  		 */
+> -		format = &priv->fmt[__ffs(priv->bound_sources)];
+> +		format = v4l2_subdev_state_get_format(state, MAX9286_SRC_PAD);
+>  
+>  		max9286_set_video_format(priv, format);
+>  		max9286_set_fsync_period(priv);
+> @@ -816,12 +814,12 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  		for_each_source(priv, source) {
+>  			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
+>  			if (ret)
+> -				return ret;
+> +				goto unlock;
+>  		}
+>  
+>  		ret = max9286_check_video_links(priv);
+>  		if (ret)
+> -			return ret;
+> +			goto unlock;
+>  
+>  		/*
+>  		 * Wait until frame synchronization is locked.
+> @@ -842,7 +840,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  		if (!sync) {
+>  			dev_err(&priv->client->dev,
+>  				"Failed to get frame synchronization\n");
+> -			return -EXDEV; /* Invalid cross-device link */
+> +			ret = -EXDEV; /* Invalid cross-device link */
+> +			goto unlock;
+>  		}
+>  
+>  		/*
+> @@ -865,7 +864,10 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  		max9286_i2c_mux_close(priv);
+>  	}
+>  
+> -	return 0;
+> +unlock:
+> +	v4l2_subdev_unlock_state(state);
 > +
-> +	/*
-> +	 * The format available on the source pad is the one applied on the sink
-> +	 * pad.
-> +	 */
-> +	if (code->pad == ADV748X_CSI2_SOURCE) {
-> +		struct v4l2_mbus_framefmt *fmt;
-> +
-> +		if (code->index)
-> +			return -EINVAL;
-> +
-> +		fmt = v4l2_subdev_state_get_format(sd_state, ADV748X_CSI2_SINK);
-> +		code->code = fmt->code;
-> +
-> +		return 0;
-> +	}
-> +
-> +	if (code->index >= num_fmts)
-> +		return -EINVAL;
-> +
-> +	code->code = codes[code->index];
-> +
-> +	return 0;
-> +}
-> +
->  static struct v4l2_mbus_framefmt *
->  adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_state *sd_state,
-> @@ -228,6 +272,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+> +	return ret;
 >  }
 >  
->  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
-> +	.enum_mbus_code = adv748x_csi2_enum_mbus_code,
->  	.get_fmt = adv748x_csi2_get_format,
->  	.set_fmt = adv748x_csi2_set_format,
->  	.get_mbus_config = adv748x_csi2_get_mbus_config,
+>  static int max9286_get_frame_interval(struct v4l2_subdev *sd,
+> @@ -922,31 +924,20 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static struct v4l2_mbus_framefmt *
+> -max9286_get_pad_format(struct max9286_priv *priv,
+> -		       struct v4l2_subdev_state *sd_state,
+> -		       unsigned int pad, u32 which)
+> -{
+> -	switch (which) {
+> -	case V4L2_SUBDEV_FORMAT_TRY:
+> -		return v4l2_subdev_state_get_format(sd_state, pad);
+> -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return &priv->fmt[pad];
+> -	default:
+> -		return NULL;
+> -	}
+> -}
+> -
+>  static int max9286_set_fmt(struct v4l2_subdev *sd,
+> -			   struct v4l2_subdev_state *sd_state,
+> +			   struct v4l2_subdev_state *state,
+>  			   struct v4l2_subdev_format *format)
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+> -	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	struct max9286_source *source;
+>  	unsigned int i;
+>  
+> +	/*
+> +	 * Disable setting format on the source pad: format is propagated
+> +	 * from the sinks.
+> +	 */
+>  	if (format->pad == MAX9286_SRC_PAD)
+> -		return -EINVAL;
+> +		return v4l2_subdev_get_fmt(sd, state, format);
+>  
+>  	/* Validate the format. */
+>  	for (i = 0; i < ARRAY_SIZE(max9286_formats); ++i) {
+> @@ -957,42 +948,16 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	if (i == ARRAY_SIZE(max9286_formats))
+>  		format->format.code = max9286_formats[0].code;
+>  
+> -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
+> -					 format->which);
+> -	if (!cfg_fmt)
+> -		return -EINVAL;
+> -
+> -	mutex_lock(&priv->mutex);
+> -	*cfg_fmt = format->format;
+> -	mutex_unlock(&priv->mutex);
+> -
+> -	return 0;
+> -}
+> -
+> -static int max9286_get_fmt(struct v4l2_subdev *sd,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   struct v4l2_subdev_format *format)
+> -{
+> -	struct max9286_priv *priv = sd_to_max9286(sd);
+> -	struct v4l2_mbus_framefmt *cfg_fmt;
+> -	unsigned int pad = format->pad;
+> -
+>  	/*
+> -	 * Multiplexed Stream Support: Support link validation by returning the
+> -	 * format of the first bound link. All links must have the same format,
+> -	 * as we do not support mixing and matching of cameras connected to the
+> -	 * max9286.
+> +	 * Apply the same format on all the other pad as all links must have the
+> +	 * same format.
+>  	 */
+> -	if (pad == MAX9286_SRC_PAD)
+> -		pad = __ffs(priv->bound_sources);
+> -
+> -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
+> -	if (!cfg_fmt)
+> -		return -EINVAL;
+> +	for_each_source(priv, source) {
+> +		unsigned int index = to_index(priv, source);
+>  
+> -	mutex_lock(&priv->mutex);
+> -	format->format = *cfg_fmt;
+> -	mutex_unlock(&priv->mutex);
+> +		*v4l2_subdev_state_get_format(state, index) = format->format;
+> +	}
+
+With a blank line here,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +	*v4l2_subdev_state_get_format(state, MAX9286_SRC_PAD) = format->format;
+>  
+>  	return 0;
+>  }
+> @@ -1003,7 +968,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
+>  
+>  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+> -	.get_fmt	= max9286_get_fmt,
+> +	.get_fmt	= v4l2_subdev_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+>  	.get_frame_interval = max9286_get_frame_interval,
+>  	.set_frame_interval = max9286_set_frame_interval,
+> @@ -1025,26 +990,17 @@ static const struct v4l2_mbus_framefmt max9286_default_format = {
+>  	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+>  };
+>  
+> -static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
+> +static int max9286_init_state(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *state)
+>  {
+> -	*fmt = max9286_default_format;
+> -}
+> -
+> -static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+> -{
+> -	struct v4l2_mbus_framefmt *format;
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < MAX9286_N_SINKS; i++) {
+> -		format = v4l2_subdev_state_get_format(fh->state, i);
+> -		max9286_init_format(format);
+> -	}
+> +	for (unsigned int i = 0; i < MAX9286_N_PADS; i++)
+> +		*v4l2_subdev_state_get_format(state, i) = max9286_default_format;
+>  
+>  	return 0;
+>  }
+>  
+>  static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> -	.open = max9286_open,
+> +	.init_state = max9286_init_state,
+>  };
+>  
+>  static const struct media_entity_operations max9286_media_ops = {
+> @@ -1079,10 +1035,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	}
+>  
+>  	/* Configure V4L2 for the MAX9286 itself */
+> -
+> -	for (i = 0; i < MAX9286_N_SINKS; i++)
+> -		max9286_init_format(&priv->fmt[i]);
+> -
+>  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+>  	priv->sd.internal_ops = &max9286_subdev_internal_ops;
+>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> @@ -1109,14 +1061,21 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	if (ret)
+>  		goto err_async;
+>  
+> +	priv->sd.state_lock = priv->ctrls.lock;
+> +	ret = v4l2_subdev_init_finalize(&priv->sd);
+> +	if (ret)
+> +		goto err_async;
+> +
+>  	ret = v4l2_async_register_subdev(&priv->sd);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Unable to register subdevice\n");
+> -		goto err_async;
+> +		goto err_subdev;
+>  	}
+>  
+>  	return 0;
+>  
+> +err_subdev:
+> +	v4l2_subdev_cleanup(&priv->sd);
+>  err_async:
+>  	v4l2_ctrl_handler_free(&priv->ctrls);
+>  	max9286_v4l2_notifier_unregister(priv);
+> @@ -1126,6 +1085,7 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  
+>  static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>  {
+> +	v4l2_subdev_cleanup(&priv->sd);
+>  	v4l2_ctrl_handler_free(&priv->ctrls);
+>  	v4l2_async_unregister_subdev(&priv->sd);
+>  	max9286_v4l2_notifier_unregister(priv);
+> @@ -1629,8 +1589,6 @@ static int max9286_probe(struct i2c_client *client)
+>  	if (!priv)
+>  		return -ENOMEM;
+>  
+> -	mutex_init(&priv->mutex);
+> -
+>  	priv->client = client;
+>  
+>  	/* GPIO values default to high */
 
 -- 
 Regards,
