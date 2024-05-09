@@ -1,219 +1,250 @@
-Return-Path: <linux-media+bounces-11209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3F18C0FF6
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 14:53:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC898C102A
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 15:12:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1B5B1F23C0F
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 12:53:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9108A285077
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 13:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09C09147C83;
-	Thu,  9 May 2024 12:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01ED1514D8;
+	Thu,  9 May 2024 13:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="poGlvMif"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pXJ/9+dd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8717417579
-	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 12:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AD36E60E;
+	Thu,  9 May 2024 13:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715259193; cv=none; b=aVpR5qhKADoG7pT7dp1hYF5vFpQsk/lVfbxV3Fs4WGb0Cxh9ws0OBAfhpTWkwVx9QQKJJs+dTzFcFVRl2jUUAIW/NbA+729egfR191iiBAXQ4wF9wxQD6879cFzpDsn8JO9bxB+NeThpbqfTEeEtBBxGPXy4F6ztAZJjD29LcR0=
+	t=1715260321; cv=none; b=AhOUQSZr/V0MZWwe0CVyE+xcVt4rVjPDTjL8+oeYy8EVLfyNRENef8SvvxpKbQaBUB1eQg7wK/NMNRqzMFVy7R8nB+dJAzSs2t6296aOf3BxPPOzacbnOuE0fG6CD9EHxfGsDKcvw3kDW2BFRbP6AphaAiTsHOwnSmEl6qEK3uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715259193; c=relaxed/simple;
-	bh=tHJUV8jemlCBNR0e9dyQ6K2sM3GE6d2f862tqmw8smw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YIEAOVq6qfbUd4AXh8ngOqrVL3OgNQHDQK/FjpsHjLX2fHYasgcOIaPtkOkfHraY49O0DDkZdvAapntpKURAXfuCl2DOXxPhEsttp7cbWj795nNVj9bWKR/72WRGmcIAa/KWwg4COcOrxDnHsRZJOQGAJyFlkiifd802ii30tEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=poGlvMif; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-41c7ac71996so6043795e9.3
-        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 05:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715259190; x=1715863990; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=psmu9THAqsGOKJL0eF6J9cwaZgQkJwTOQ1cnvhZ/MDc=;
-        b=poGlvMifEmbkA+gNMbrdSSnnUH2Rrt9YZyT/XQFGLDOfe9cdozqvVdlqrcg6pTZFB6
-         gEkb1Q4Cal3j+FVDiHx4xrhf15UFkqvnaYmkUmtzKkNUq5Fju9pRsED626aTS0kDhDu8
-         99Q6EtiW475CCRSZUsGfuVSug270vpb35U07P3QIwSKH/ImQNab6Ki3q6GMiQqeCLfpe
-         2fc9sEvp7NKPcx5Dl+BOeb9KZa17SlI/KSngRwJnB7UVxFKyV1ayXiNxUaCF/KW6OUCS
-         w3XBam4IIDiHpzKmudQeakhbd76N0RzuoExMEY4fdZmiP5hOdLCWtRUJvsVHu93xtDz8
-         O6mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715259190; x=1715863990;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=psmu9THAqsGOKJL0eF6J9cwaZgQkJwTOQ1cnvhZ/MDc=;
-        b=G30X5W25Go1o3afWplKt7GuW4rzJThjnFZY1nbPaicoDs1yfVOCPRB368c51VkNQCe
-         TYfoGIUXlXW0lYvCJpiHNi402bP7TTh5Fq/CCizoxi7jFJufAafdsmfWDHM2sRAbPkKa
-         9RwJFIzJUSXiH3bNxvj1pGU0/n65kM7AXRa7W0IY1yCS9irdSiaXnUFV9R4IcuSAOFQ9
-         vUR8W/DZdYqvTnXCM/wrtpS9ncRUIp62Xh33YXgsgV274eOEsmyrBGEMxH/p9H003yrL
-         UzghvK2IgS9oBABakXgN8mEAdfBbU5vyxKl38PbFRwRPP3wDXezCkok2kEOYQPBZjy/S
-         dngw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdul1yCpx7hlv0lnCDXIU/bIciC34kd6+Q4+1Wg6Ed43jMJ8opOGR0tfeJbd4VTgZz+yXQPOVk2CS2AkIXbW/Mp3+bNJ74betBvzY=
-X-Gm-Message-State: AOJu0Yy2ChH01WuQ46Hk1/2aZYxdNnXd6lBMh4mVMGHWmKuZW+dz8TUp
-	FuMknl0aguK0ejK23jhiZWcnVRCms2oSYRa7y3NncSL3q1mjZGjsTqjgfU8OsJ0=
-X-Google-Smtp-Source: AGHT+IEt0Gt7AfywVRXND++7a2GFpREKsqIdQ+FWSI0zCgsC5v88rnKoatYR7kECZuQT2qkjfB/c+w==
-X-Received: by 2002:a05:600c:46ca:b0:41c:7bd:5a84 with SMTP id 5b1f17b1804b1-41f71bc9fa4mr47777675e9.17.1715259189896;
-        Thu, 09 May 2024 05:53:09 -0700 (PDT)
-Received: from [127.0.0.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe9011sm25058525e9.7.2024.05.09.05.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 05:53:09 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Thu, 09 May 2024 13:53:07 +0100
-Subject: [PATCH v3] media: i2c: Fix imx412 exposure control
+	s=arc-20240116; t=1715260321; c=relaxed/simple;
+	bh=/Qf/mWz+XXKW+lRjNx0M2dtOW6zFa+kGKme1+eNWgvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sCjoQqi7cmh6H1pqinC5Gn4iv0Tw6W5Udho56aA6mfy8NtcoMcFY1fSxXlxNaSJrU8JTVMHDEahHxh+Z2EUfVbQ41qfVwdnuHkVoOdkcDVcCJB9WbgwTdOalu8VFq4HvgQZF4gZ1i6hUzfypXxhk5d3o5HHOKjSeHQghJcwpy2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pXJ/9+dd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F22C12320;
+	Thu,  9 May 2024 15:11:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715260314;
+	bh=/Qf/mWz+XXKW+lRjNx0M2dtOW6zFa+kGKme1+eNWgvo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pXJ/9+ddUTg8fVznnGsBLwp99o2SsqGRp6FhKxW8R9TmhB55NWPrlS3UCKFrzhG0Z
+	 /G1Uv2hONeDi758QtbxmRicCyWsLltF3+fmcyPV3/ICTh2XwkjwYdj66os+/5kmo4t
+	 FKDJxi+cHMxqkrQ3ggtaqaBE498moLS1Yb6Jz8Do=
+Date: Thu, 9 May 2024 16:11:48 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+	niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 5/6] media: max9286: Move format to subdev state
+Message-ID: <20240509131148.GA21069@pendragon.ideasonboard.com>
+References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
+ <20211216174746.147233-6-jacopo+renesas@jmondi.org>
+ <Ybv4mnk/x3kBX74k@pendragon.ideasonboard.com>
+ <Ybv/c/yDOCj563XB@pendragon.ideasonboard.com>
+ <20211217141128.jfwgymso2admkfv5@uno.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240509-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v3-1-3f7e15ddc280@linaro.org>
-X-B4-Tracking: v=1; b=H4sIADLHPGYC/63OMW7DMAwF0KsEmstCkmU57ZR7BBnkmHIIxFIhK
- oaKwHcvk627N/4//MenYiyErL4PT1VwJaacJHQfB3W9hTQj0CRZWW2d7rWH0cGd0qNBwlbhGhZ
- maKZjWBbOd6BUcS6hyozcUJEr0NL6YYBIDaKJiF4P2jujxPgpKPXbP18k34hrLr/vd1bzaveSV
- wMG3NiFL2f9OOHxJGOh5M9cZvWiV7srZ4Wz6H0f9WDjMf7jtm37A1yHPPl6AQAA
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- "Paul J. Murphy" <paul.j.murphy@intel.com>, 
- Martina Krasteva <quic_mkrastev@quicinc.com>, 
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-X-Mailer: b4 0.13-dev-26615
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211217141128.jfwgymso2admkfv5@uno.localdomain>
 
-Currently we have the following algorithm to calculate what value should be
-written to the exposure control of imx412.
+Hi Jacopo,
 
-lpfr = imx412->vblank + imx412->cur_mode->height;
-shutter = lpfr - exposure;
+On Fri, Dec 17, 2021 at 03:11:28PM +0100, Jacopo Mondi wrote:
+> On Fri, Dec 17, 2021 at 05:09:39AM +0200, Laurent Pinchart wrote:
+> > On Fri, Dec 17, 2021 at 04:40:26AM +0200, Laurent Pinchart wrote:
+> > > On Thu, Dec 16, 2021 at 06:47:45PM +0100, Jacopo Mondi wrote:
+> > > > Move format handling to the v4l2_subdev state and store it per
+> > > > (pad, stream) combination.
+> > > >
+> > > > Now that the image format is stored in the subdev state, it can be
+> > > > accessed through v4l2_subdev_get_fmt() instead of open-coding it.
+> > >
+> > > It could still be good to move this to the beginning of the series, in
+> > > order to merge the patch with 01/38 to 06/38 from the muxed streams
+> > > series (which will be submitted standalone in a v11).
+> > >
+> > > This patch looks good to me otherwise.
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > Not quite yet actually :-)
+> >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/max9286.c | 86 ++++++++++++-------------------------
+> > > >  1 file changed, 27 insertions(+), 59 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > > index 5d728fa23f01..aa7cb7c10fc0 100644
+> > > > --- a/drivers/media/i2c/max9286.c
+> > > > +++ b/drivers/media/i2c/max9286.c
+> > > > @@ -174,8 +174,6 @@ struct max9286_priv {
+> > > >  	struct v4l2_ctrl_handler ctrls;
+> > > >  	struct v4l2_ctrl *pixelrate;
+> > > >
+> > > > -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> > > > -
+> > > >  	/* Protects controls and fmt structures */
+> > > >  	struct mutex mutex;
+> > > >
+> > > > @@ -828,28 +826,17 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > -static struct v4l2_mbus_framefmt *
+> > > > -max9286_get_pad_format(struct max9286_priv *priv,
+> > > > -		       struct v4l2_subdev_state *sd_state,
+> > > > -		       unsigned int pad, u32 which)
+> > > > -{
+> > > > -	switch (which) {
+> > > > -	case V4L2_SUBDEV_FORMAT_TRY:
+> > > > -		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
+> > > > -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > > > -		return &priv->fmt[pad];
+> > > > -	default:
+> > > > -		return NULL;
+> > > > -	}
+> > > > -}
+> > > > -
+> > > >  static int max9286_set_fmt(struct v4l2_subdev *sd,
+> > > > -			   struct v4l2_subdev_state *sd_state,
+> > > > +			   struct v4l2_subdev_state *state,
+> > > >  			   struct v4l2_subdev_format *format)
+> > > >  {
+> > > > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > -	struct v4l2_mbus_framefmt *cfg_fmt;
+> > > > +	struct v4l2_mbus_framefmt *fmt;
+> > > > +	int ret = 0;
+> > > >
+> > > > +	/*
+> > > > +	 * Refuse to set format on the multiplexed source pad.
+> > > > +	 * Format is propagated from sinks streams to source streams.
+> > > > +	 */
+> > > >  	if (format->pad == MAX9286_SRC_PAD)
+> > > >  		return -EINVAL;
+> >
+> > We should return v4l2_subdev_get_fmt() now.
+> 
+> I might have missed the reason.
+> 
+> The current documentation says
+> 
+> EINVAL
+> The struct v4l2_subdev_format pad references a non-existing pad,
+> 
+> Should this be changd to "non-existing or invalid pad" ?
 
-The 'shutter' value is given to IMX412_REG_EXPOSURE_CIT however, the above
-algorithm will result in the value given to IMX412_REG_EXPOSURE_CIT
-decreasing as the requested exposure value from user-space goes up.
+I don't think so. Setting the format is meant to be valid on any pad,
+even pads that have a fixed format. "Non-existing" seems enough to me.
+What would you envision "invalid pad" to cover ?
 
-e.g.
-[ 2255.713989] imx412 20-001a: Received exp 1608, analog gain 0
-[ 2255.714002] imx412 20-001a: Set exp 1608, analog gain 0, shutter 1938, lpfr 3546
-[ 2256.302770] imx412 20-001a: Received exp 2586, analog gain 100
-[ 2256.302800] imx412 20-001a: Set exp 2586, analog gain 100, shutter 960, lpfr 3546
-[ 2256.753755] imx412 20-001a: Received exp 3524, analog gain 110
-[ 2256.753772] imx412 20-001a: Set exp 3524, analog gain 110, shutter 22, lpfr 3546
+> > > >
+> > > > @@ -865,44 +852,28 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> > > >  		break;
+> > > >  	}
+> > > >
+> > > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
+> > > > -					 format->which);
+> > > > -	if (!cfg_fmt)
+> > > > -		return -EINVAL;
+> > > > -
+> > > > -	mutex_lock(&priv->mutex);
+> > > > -	*cfg_fmt = format->format;
+> > > > -	mutex_unlock(&priv->mutex);
+> > > > -
+> > > > -	return 0;
+> > > > -}
+> > > > -
+> > > > -static int max9286_get_fmt(struct v4l2_subdev *sd,
+> > > > -			   struct v4l2_subdev_state *sd_state,
+> > > > -			   struct v4l2_subdev_format *format)
+> > > > -{
+> > > > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > -	struct v4l2_mbus_framefmt *cfg_fmt;
+> > > > -	unsigned int pad = format->pad;
+> > > > -
+> > > > -	/*
+> > > > -	 * Multiplexed Stream Support: Support link validation by returning the
+> > > > -	 * format of the first bound link. All links must have the same format,
+> > > > -	 * as we do not support mixing and matching of cameras connected to the
+> > > > -	 * max9286.
+> > > > -	 */
+> > > > -	if (pad == MAX9286_SRC_PAD)
+> > > > -		pad = __ffs(priv->bound_sources);
+> > > > +	v4l2_subdev_lock_state(state);
+> > > > +	fmt = v4l2_state_get_stream_format(state, format->pad,
+> > > > +					   format->stream);
+> > > > +	if (!fmt) {
+> > > > +		ret = -EINVAL;
+> > > > +		goto out;
+> > > > +	}
+> > > > +	*fmt = format->format;
+> > > >
+> > > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
+> > > > -	if (!cfg_fmt)
+> > > > -		return -EINVAL;
+> > > > +	/* Propagate format to the other end of the route. */
+> > > > +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+> > > > +							   format->stream);
+> > > > +	if (!fmt) {
+> > > > +		ret = -EINVAL;
+> > > > +		goto out;
+> > > > +	}
+> > > > +	*fmt = format->format;
+> > > >
+> > > > -	mutex_lock(&priv->mutex);
+> > > > -	format->format = *cfg_fmt;
+> > > > -	mutex_unlock(&priv->mutex);
+> > > > +out:
+> > > > +	v4l2_subdev_unlock_state(state);
+> > > >
+> > > > -	return 0;
+> > > > +	return ret;
+> > > >  }
+> > > >
+> > > >  static int max9286_routing_validate(struct max9286_priv *priv,
+> > > > @@ -1052,7 +1023,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
+> > > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> > > >  	.init_cfg	= max9286_init_cfg,
+> > > >  	.enum_mbus_code = max9286_enum_mbus_code,
+> > > > -	.get_fmt	= max9286_get_fmt,
+> > > > +	.get_fmt	= v4l2_subdev_get_fmt,
+> > > >  	.set_fmt	= max9286_set_fmt,
+> > > >  	.set_routing	= max9286_set_routing,
+> > > >  };
+> > > > @@ -1092,9 +1063,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> > > >
+> > > >  	/* Configure V4L2 for the MAX9286 itself */
+> > > >
+> > > > -	for (i = 0; i < MAX9286_N_SINKS; i++)
+> > > > -		priv->fmt[i] = max9286_default_format;
+> > > > -
+> > > >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+> > > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > > >  			  V4L2_SUBDEV_FL_MULTIPLEXED;
 
-This behaviour results in the image having less exposure as the requested
-exposure value from user-space increases.
-
-Other sensor drivers such as ov5675, imx218, hid556 and others take the
-requested exposure value and use the value directly.
-
-Take the example of the above cited sensor drivers and directly apply the
-requested exposure value from user-space. The 'lpfr' variable still
-functions as before but the 'shutter' variable can be dispensed with as a
-result.
-
-Once done a similar run of the test application requesting higher exposure
-looks like this, with 'exp' written directly to the sensor.
-
-[  133.207884] imx412 20-001a: Received exp 1608, analog gain 0
-[  133.207899] imx412 20-001a: Set exp 1608, analog gain 0, lpfr 3546
-[  133.905309] imx412 20-001a: Received exp 2844, analog gain 100
-[  133.905344] imx412 20-001a: Set exp 2844, analog gain 100, lpfr 3546
-[  134.241705] imx412 20-001a: Received exp 3524, analog gain 110
-[  134.241775] imx412 20-001a: Set exp 3524, analog gain 110, lpfr 3546
-
-The result is then setting the sensor exposure to lower values results in
-darker, less exposure images and vice versa with higher exposure values.
-
-Fixes: 9214e86c0cc1 ("media: i2c: Add imx412 camera sensor driver")
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # qrb5165-rb5/imx577
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
-Using libcamera/SoftISP on a Qualcomm RB5 with the imx577 sensor I found
-that unlike on other platforms such as the Lenovo x13s/ov5675 the image was
-constantly getting darker and darker.
-
-At first I assumed a bug in SoftISP but, looking into the code it appeared
-SoftISP was requesting higher and higher exposure values which resulted in
-the image getting progressively darker.
-
-To my mind the software contract between user-space and kernel should be
-increasing exposure requests always meant higher exposure but, to be
-certain I asked around on IRC.
-
-Those polled agreed in principle that the software contract was consistent
-across sensors.
-
-Looking at the range of imx sensors, it appears this particular error has
-been replicated a number of times but, I haven't so far really drilled into
-each sensor.
-
-As a first pass I'm submitting the fix for the sensor I have but, I expect
-if this fix is acceptable upstream it should be pushed to most of the imx
-sensors with what seems to be copy/paste code for the exposure.
----
-Changes in v3:
-- Fixes non sequitur in commit log
-- Applies RB from Jacopo and Gjorgji
-- Link to v2: https://lore.kernel.org/r/20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org
-
-Changes in v2:
-- Fix typo in patch 42 -> 412
-- Link to v1: https://lore.kernel.org/r/20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v1-1-4b3a9426bde8@linaro.org
----
- drivers/media/i2c/imx412.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index 0efce329525e4..7d1f7af0a9dff 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -542,14 +542,13 @@ static int imx412_update_controls(struct imx412 *imx412,
-  */
- static int imx412_update_exp_gain(struct imx412 *imx412, u32 exposure, u32 gain)
- {
--	u32 lpfr, shutter;
-+	u32 lpfr;
- 	int ret;
- 
- 	lpfr = imx412->vblank + imx412->cur_mode->height;
--	shutter = lpfr - exposure;
- 
--	dev_dbg(imx412->dev, "Set exp %u, analog gain %u, shutter %u, lpfr %u",
--		exposure, gain, shutter, lpfr);
-+	dev_dbg(imx412->dev, "Set exp %u, analog gain %u, lpfr %u",
-+		exposure, gain, lpfr);
- 
- 	ret = imx412_write_reg(imx412, IMX412_REG_HOLD, 1, 1);
- 	if (ret)
-@@ -559,7 +558,7 @@ static int imx412_update_exp_gain(struct imx412 *imx412, u32 exposure, u32 gain)
- 	if (ret)
- 		goto error_release_group_hold;
- 
--	ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, shutter);
-+	ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, exposure);
- 	if (ret)
- 		goto error_release_group_hold;
- 
-
----
-base-commit: ff3959189f1b97e99497183d76ab9b007bec4c88
-change-id: 20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-f1fee6070641
-
-Best regards,
 -- 
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Regards,
 
+Laurent Pinchart
 
