@@ -1,143 +1,211 @@
-Return-Path: <linux-media+bounces-11204-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11205-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B178C0FD7
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 14:44:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F77E8C0FD8
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 14:44:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 875A01C2299F
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 12:44:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E83DD283122
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 12:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65CE213B7BD;
-	Thu,  9 May 2024 12:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YJ1HUIjm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA271474DF;
+	Thu,  9 May 2024 12:44:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CF613AD33;
-	Thu,  9 May 2024 12:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FDF13B7BD;
+	Thu,  9 May 2024 12:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715258653; cv=none; b=ElERHnKXoR0CffkbtNFNh0P17m+CC6IFlOxoyy/wCwM2P4eFh12wJU6uOzACVEJZ6/mmYOQHOlxc/2ggMt9yoZrsxxrMmbHkCc7Wcwui/PWay3XIgqL4Z21ws41DEs5DiSaEVIVr/Kdd2OMxeByr5yojZyNyBBEU0mH+r+VRyeU=
+	t=1715258665; cv=none; b=bYswjcLLqmi3ZcAp8srVjde/sB49/pRAGsbGKoVJ1OTDX0xKmie3kYpRwHgWgaDy4AKMQQ/aZZX/W2VTpJ0idM5+MVlyfDI3hvyvbTzcYxAvW49srIuUsYAuTaR+S7PUOfAoKkbEsEa+Km0ETwrlrANTKlIL047O1w+HG2Bal6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715258653; c=relaxed/simple;
-	bh=2cldxy1wla8V7r0jOtmy/Bsgn82hXzNqb9iSuhKy8uQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T5T2VTDQSMYJfkWG4XY3S9CyX7lY3D8hTkgtVTldswoO3ivewKUiMIHX0tSEg4jcpIIVNINuNUnM9XmWIhRlKFel+qGjgtvWTpyeq8p2FT3JyjI0//CNpf1iQn2LY0X2HSo7hiwhEYpo1syYol9x0RGnAnr5c77IAL93DryLg7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YJ1HUIjm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3478AB3;
-	Thu,  9 May 2024 14:44:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715258647;
-	bh=2cldxy1wla8V7r0jOtmy/Bsgn82hXzNqb9iSuhKy8uQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YJ1HUIjmgiwnYouozyU79UaPe+4VZJ12/VT66kufVO7p1eAZfOG1SKtXMbdHMj/cN
-	 UWdVIaSbm0sRaQSL7LJtZlziD8XG5VNp8UJ3+ZCxGIIZoqojbjnUHlnqw/uklo1C4R
-	 jHInKJLAAFSgOb7I8cpLulE8RvW2UGl1Az77wcGw=
-Date: Thu, 9 May 2024 15:44:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/11] media: adv748x-csi2: Validate the image format
-Message-ID: <20240509124401.GC17123@pendragon.ideasonboard.com>
-References: <20240506164941.110389-1-jacopo.mondi@ideasonboard.com>
- <20240506164941.110389-7-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1715258665; c=relaxed/simple;
+	bh=R73MtKD/rDP3asltM0O7fwSxQBJPsPSHFdmUHkI6Pbo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R7z9ZZDGcuSwLh3yPveMKuKowzjiPq7KbDVCx+8KLVZviXzIFCJk60TRVs5mA+x9eXhgQsHF9zTOgoXvIfEa6oMcUoms/5jeQ94jWu9f4WD5dD7SdOl9pBc0mcdDqaoRN38lMizFWrXx/wAUhxGvcumxwGbg2mdOqrAGaUEvrKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VZs7X3gqnzvXf1;
+	Thu,  9 May 2024 20:40:56 +0800 (CST)
+Received: from dggpeml500012.china.huawei.com (unknown [7.185.36.15])
+	by mail.maildlp.com (Postfix) with ESMTPS id E0D4E18007B;
+	Thu,  9 May 2024 20:44:17 +0800 (CST)
+Received: from localhost.localdomain (10.67.175.61) by
+ dggpeml500012.china.huawei.com (7.185.36.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 9 May 2024 20:44:17 +0800
+From: Zheng Yejian <zhengyejian1@huawei.com>
+To: <sean@mess.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<mchehab@kernel.org>, <zhengyejian1@huawei.com>
+Subject: [PATCH v3] media: dvb-usb: Fix unexpected infinite loop in dvb_usb_read_remote_control()
+Date: Thu, 9 May 2024 20:44:14 +0800
+Message-ID: <20240509124414.1392304-1-zhengyejian1@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <ZjTPqR3_EhbNU-fm@gofer.mess.org>
+References: <ZjTPqR3_EhbNU-fm@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240506164941.110389-7-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500012.china.huawei.com (7.185.36.15)
 
-Hi Jacopo,
+Infinite log printing occurs during fuzz test:
 
-Thank you for the patch.
+  rc rc1: DViCO FusionHDTV DVB-T USB (LGZ201) as ...
+  ...
+  dvb-usb: schedule remote query interval to 100 msecs.
+  dvb-usb: DViCO FusionHDTV DVB-T USB (LGZ201) successfully initialized ...
+  dvb-usb: bulk message failed: -22 (1/0)
+  dvb-usb: bulk message failed: -22 (1/0)
+  dvb-usb: bulk message failed: -22 (1/0)
+  ...
+  dvb-usb: bulk message failed: -22 (1/0)
 
-On Mon, May 06, 2024 at 06:49:34PM +0200, Jacopo Mondi wrote:
-> The adv748x-csi2 driver configures the CSI-2 transmitter to
-> automatically infer the image stream format from the connected
-> frontend (HDMI or AFE).
-> 
-> Setting a new format on the subdevice hence does not actually control
-> the CSI-2 output format, but it's only there for the purpose of
-> pipeline validation.
-> 
-> However, there is currently no validation that the supplied media bus
-> code is valid and supported by the device.
-> 
-> With the introduction of enum_mbus_codes a list of supported format is
-> now available, use it to validate that the supplied format is correct
-> and use the default UYVY8 one if that's not the case.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv748x/adv748x-csi2.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 4fd6d3a681d5..3f22dc426d7a 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -208,6 +208,23 @@ static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static bool adv748x_csi2_is_fmt_supported(struct adv748x_csi2 *tx,
-> +					  unsigned int code)
+Looking into the codes, there is a loop in dvb_usb_read_remote_control(),
+that is in rc_core_dvb_usb_remote_init() create a work that will call
+dvb_usb_read_remote_control(), and this work will reschedule itself at
+'rc_interval' intervals to recursively call dvb_usb_read_remote_control(),
+see following code snippet:
 
-u32 code to match the data type from the format structure.
+  rc_core_dvb_usb_remote_init() {
+    ...
+    INIT_DELAYED_WORK(&d->rc_query_work, dvb_usb_read_remote_control);
+    schedule_delayed_work(&d->rc_query_work,
+                          msecs_to_jiffies(rc_interval));
+    ...
+  }
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  dvb_usb_read_remote_control() {
+    ...
+    err = d->props.rc.core.rc_query(d);
+    if (err)
+      err(...)  // Did not return even if query failed
+    schedule_delayed_work(&d->rc_query_work,
+                          msecs_to_jiffies(rc_interval));
+  }
 
-> +{
-> +	const unsigned int *codes = is_txa(tx) ?
-> +				    adv748x_csi2_txa_fmts :
-> +				    adv748x_csi2_txb_fmts;
-> +	size_t num_fmts = is_txa(tx) ? ARRAY_SIZE(adv748x_csi2_txa_fmts)
-> +				     : ARRAY_SIZE(adv748x_csi2_txb_fmts);
-> +
-> +	for (unsigned int i = 0; i < num_fmts; i++) {
-> +		if (codes[i] == code)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_state *sd_state,
->  				   struct v4l2_subdev_format *sdformat)
-> @@ -217,6 +234,13 @@ static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
->  	struct v4l2_mbus_framefmt *mbusformat;
->  	int ret = 0;
->  
-> +	/*
-> +	 * Make sure the format is supported, if not default it to
-> +	 * UYVY8 as it's supported by both TXes.
-> +	 */
-> +	if (!adv748x_csi2_is_fmt_supported(tx, sdformat->format.code))
-> +		sdformat->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
-> +
->  	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
->  						 sdformat->which);
->  	if (!mbusformat)
+When the infinite log printing occurs, the query callback
+'d->props.rc.core.rc_query' is cxusb_rc_query(). And the log is due to
+the failure of finding a valid 'generic_bulk_ctrl_endpoint'
+in usb_bulk_msg(), see following code snippet:
 
+  cxusb_rc_query() {
+    cxusb_ctrl_msg() {
+      dvb_usb_generic_rw() {
+        ret = usb_bulk_msg(d->udev, usb_sndbulkpipe(d->udev,
+                           d->props.generic_bulk_ctrl_endpoint),...);
+        if (ret)
+          err("bulk message failed: %d (%d/%d)",ret,wlen,actlen);
+          ...
+      }
+  ...
+  }
+
+By analyzing the corresponding USB descriptor, it shows that the
+bNumEndpoints is 0 in its interface descriptor, but
+the 'generic_bulk_ctrl_endpoint' is 1, that means user don't configure
+a valid endpoint for 'generic_bulk_ctrl_endpoint', therefore this
+'invalid' USB device should be rejected before it calls into
+dvb_usb_read_remote_control().
+
+To fix it, we need to add endpoint check for 'generic_bulk_ctrl_endpoint'.
+And as Sean suggested, the same check and clear halts should be done for
+'generic_bulk_ctrl_endpoint_response'. So introduce
+dvb_usb_check_bulk_endpoint() to do it for both of them.
+
+Fixes: 4d43e13f723e ("V4L/DVB (4643): Multi-input patch for DVB-USB device")
+Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
+---
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 35 +++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 4 deletions(-)
+
+v3:
+ - Fix following warning:
+   drivers/media/usb/dvb-usb/dvb-usb-init.c:133:9: warning: 'adap' may be used uninitialized [-Wmaybe-uninitialized]
+   Link: https://lore.kernel.org/all/ZjTPqR3_EhbNU-fm@gofer.mess.org/
+
+v2:
+ - As Sean suggested, check endpoint and clear halt for both
+   'generic_bulk_ctrl_endpoint' and 'generic_bulk_ctrl_endpoint_response'
+   with the new introduced dvb_usb_check_bulk_endpoint();
+   Link: https://lore.kernel.org/all/ZjCl97Ww6NrzJQCB@gofer.mess.org/
+   Link: https://lore.kernel.org/all/ZjC7rXU7ViaH60_S@gofer.mess.org/
+ - Add Fixes tag.
+ - Link: https://lore.kernel.org/all/20240430104137.1014471-1-zhengyejian1@huawei.com/
+
+v1:
+ - Link: https://lore.kernel.org/all/20240412135256.1546051-1-zhengyejian1@huawei.com/
+
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index fbf58012becd..22d83ac18eb7 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -23,11 +23,40 @@ static int dvb_usb_force_pid_filter_usage;
+ module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
+ MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
+ 
++static int dvb_usb_check_bulk_endpoint(struct dvb_usb_device *d, u8 endpoint)
++{
++	if (endpoint) {
++		int ret;
++
++		ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
++		if (ret)
++			return ret;
++		ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
++		if (ret)
++			return ret;
++	}
++	return 0;
++}
++
++static void dvb_usb_clear_halt(struct dvb_usb_device *d, u8 endpoint)
++{
++	if (endpoint) {
++		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
++		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
++	}
++}
++
+ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ {
+ 	struct dvb_usb_adapter *adap;
+ 	int ret, n, o;
+ 
++	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint);
++	if (ret)
++		return ret;
++	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint_response);
++	if (ret)
++		return ret;
+ 	for (n = 0; n < d->props.num_adapters; n++) {
+ 		adap = &d->adapter[n];
+ 		adap->dev = d;
+@@ -103,10 +132,8 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ 	 * when reloading the driver w/o replugging the device
+ 	 * sometimes a timeout occurs, this helps
+ 	 */
+-	if (d->props.generic_bulk_ctrl_endpoint != 0) {
+-		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+-		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
+-	}
++	dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint);
++	dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint_response);
+ 
+ 	return 0;
+ 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
 
