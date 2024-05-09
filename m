@@ -1,123 +1,106 @@
-Return-Path: <linux-media+bounces-11181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27918C087B
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 02:32:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC388C0946
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 03:48:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F1C2B219C7
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 00:32:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1D321C21172
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 01:48:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1E5DDDA;
-	Thu,  9 May 2024 00:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HsVB4zK+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B7F13B5B3;
+	Thu,  9 May 2024 01:48:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E207464
-	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 00:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908A92C184
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 01:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715214752; cv=none; b=KJb6fo2hkI1ZDCXUGSGeqqDV2X3lfnqclrnzx3bv1ajLqDgnRjaPvToyBPMpl5AyC/Zp0naFxL+f4h8oDdCY7nC9VUuATKTkJqHU1Au83psDfMWWpZQyzrcSfhLm+ZGdLOlYD5GM8Yu4jBwONJYee4uRZ5W6Cddzrg60NGddOkk=
+	t=1715219288; cv=none; b=hP+reyszPO41RoyUAc8lPA7ClfodAIqaplxFklvwuCmKaVbav3lWgVAPTU1u9H9iMTsOp7aLRJHCZ4uOuW+IzgJOxZDhCwSTTHbc8egNhbTLBVibVQXLFv52Ff8tIR+Bk+CbyTi0Rh5LpZISuuNXaB+8cc4yVNOjWB/a1GYiBmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715214752; c=relaxed/simple;
-	bh=T6DfjAKmCP4P7gljf1X/c/Is1kBU1uRxx+KhHzVTU74=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lqsQYEEppA3rW3MA+wTcQZBDjpvrTaYQZuEVbm8OKp0qJyw6qVSfrl7AgbsBYCg3vQ3o6AmN+fnMftZwpY1KRObztnK5y7Q/S6xqfOwpO8Ndgbt5l376qqdAtd8B37iOcyF9dYuuVVKy3f+506wo0Z8YfZrsjkEx6wMvW4jZh/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HsVB4zK+; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-41b782405d5so3624505e9.2
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2024 17:32:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715214749; x=1715819549; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TKnK2bR4e/sf9zkj4k5cJS7AirdVOFFlSBIdz2Kq58o=;
-        b=HsVB4zK+tH1ktr1XindumEfzY4b06bsIAr/vgjYGyiRM1f1JnYYZlQOTpoOnuNIq4g
-         9NOH6sLEbmGHXKCz9xjbEfjpu2Ti6+5KVOADXEVKLSHwUaQsCkE2D176HbCiKFjbTnf9
-         rj+ZW6pioHVnknBUFwEt2jHpcccFAF6UQFEaqSP9VT57YiWzIS6tRR5CXMvKwOYBVT29
-         GePRRwdRoLLROqkYt8qHn5HAqDZi2q7J3JgRVjgOTtwxvf2uRmRCbLosO3DDxGLLfSaR
-         2bZz354EolKkiv+Y7j3Vkx+048Qd7NT1qDQrIpFwBWhIX5eckOf3nuRmM1/CFGD96Hlx
-         LcjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715214749; x=1715819549;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TKnK2bR4e/sf9zkj4k5cJS7AirdVOFFlSBIdz2Kq58o=;
-        b=vWYYl221SgHqaAb2xw0g6BEz0e2bbepbPYE6OiUxs+par0IzcuWyHWbieJJjre/5O8
-         z3KahvWpLKw0MHvGlWM4HxYZiTM9DREHiu0coDYSlix+E4II4yKegk1ath1bxG5pBzn6
-         iKUKta95t3xGw/IEAfg3qK9aL5z08tk2Ut2KUcd9a8rztviWkP2Ix9UFrTZDeDTsMPjb
-         uppwkM3wEMYY47Hxnm7ri3zNcyzFwVUTuHqeSxwvInDYkiCWF//e79ymgRhBdvPFvBwY
-         6SncWRaLcoZnWsDJ6+wr43HAkfEGPbi6M3fVOucjHHkxomtpTXsXzCNTWnvzy/sclE+x
-         GjPw==
-X-Forwarded-Encrypted: i=1; AJvYcCXR6gNPHxVf4fNLh+xBakynJrz9jRK32vHAWy4HF6ca2p3oTlVs0igLqI0Ll8Xm8j3vG3YZYtY5wJpGFqvvJHAjde+gXr5A6fqHDxE=
-X-Gm-Message-State: AOJu0YwIOB9pV5UyCcBB26+3Fm1aExNwy1EOdHYHDrNfe4gZIWRca0J1
-	z18N0cFPWfOWhQ0lTyWKKs5UTNamUvd+MXPAILED+0cx3ByPl8GDcB3qxn38Mi0=
-X-Google-Smtp-Source: AGHT+IFhTLFcY/Cs5a/adjpOOYnjYCfR6iOR9IpjqCZyWjXtTiOiFCPiJs0TbWvsU2EG6+KqWeTdUw==
-X-Received: by 2002:a05:600c:46cf:b0:416:8efd:1645 with SMTP id 5b1f17b1804b1-41f71302d2amr37959545e9.7.1715214749152;
-        Wed, 08 May 2024 17:32:29 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f88208cb8sm39197045e9.47.2024.05.08.17.32.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 17:32:28 -0700 (PDT)
-Message-ID: <cef4bf31-35d9-4304-804d-5384018c0900@linaro.org>
-Date: Thu, 9 May 2024 01:32:27 +0100
+	s=arc-20240116; t=1715219288; c=relaxed/simple;
+	bh=JRm2qoAx3FhKyNWHyypFl6KrcTkdzO3I4n7A9l2MmQ0=;
+	h=Date:From:To:Subject:Message-Id; b=hAMy5IeeppLNvfXrQqbXrWOsqFaIpFEDqI5ME40IB2E3x49aJf+evnh/x15y1Zuh2pQOtYpj9k5rFVn9h4vhXpGXJ+q87dlpSpyify3S+beKr6ZAnPXvkNa8NycOxiwamd/QJ3cX+dPz3KbEqsWbyczG2xhGepn9P5YxhkQn7Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3EC1C113CC
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 01:48:07 +0000 (UTC)
+Date: Thu, 09 May 2024 03:48:05 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20240509014807.B3EC1C113CC@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Paul J. Murphy" <paul.j.murphy@intel.com>,
- Martina Krasteva <quic_mkrastev@quicinc.com>,
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org>
- <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
- <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org>
- <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
- <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 08/05/2024 17:31, Dave Stevenson wrote:
-> For reference certainly imx327/290/462 which are all siblings in the
-> Sony Starvis family do calculate exposure as
-> exposure = 1 frame period - (SHS1 + 1) * (1H period)
-> So 0 = max exposure and bigger values are shorter exposure time.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-ack
+Results of the daily build of media_tree:
 
-> I'm not saying that the imx412 driver is right in doing this as well,
-> but it seems there is a trend with the Sony Starvis family to program
-> exposure in this different manner. Don't discount it as wrong for all
-> drivers!
+date:			Thu May  9 03:00:21 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	48259b90973718d2277db27b5e510f0fe957eaa0
+v4l-utils git hash:	7d7c5d2973f0891c5289dcd33fb8e6a84ac9c91e
+edid-decode git hash:	3d635499e4aca3319f0796ba787213c981c5a770
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8639-gff1cc4d4
+sparse version:		v0.5.0-8639-gff1cc4d4
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6ca969c7ab8b77f81356fa1dac1a6dab22c33121
+host hardware:		x86_64
+host os:		6.5.0-26-generic
 
-Understood. For the record the rpi imx477 driver writes the CID value 
-provided by user-space.
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/media/i2c/imx477.c#L1376
+date:			Thu May  9 03:14:29 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
 
-With an exposure multiplier we don't support upstream at the moment. So, 
-I think this patch is the right fix after all.
+date:			Thu May  9 03:47:05 CEST 2024
 
----
-bod
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
