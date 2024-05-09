@@ -1,254 +1,142 @@
-Return-Path: <linux-media+bounces-11188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25098C0C38
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 10:03:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBEC8C0D73
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 11:23:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FD53B219F4
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 08:03:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DF871F21B55
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 09:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8D9F149C7B;
-	Thu,  9 May 2024 08:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D183814A622;
+	Thu,  9 May 2024 09:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RKodWD+8"
+	dkim=pass (2048-bit key) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="eYUdyphX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8777F13C801;
-	Thu,  9 May 2024 08:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B5A14A096
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 09:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715241787; cv=none; b=r4BGKqWa2ZCH82v/nyeJE9AuGcScJAYDk0Hv0w5wGW149bQHAzAHLsmDpVxH7pytFhAKMNHwLlYrNDIP8Br3b8wWRSgWfj+f36S4weXcKDY3eNHjuhBg3kNfi0ocOOZtf9FQWnqtmwD4Xpvlei9G6qFKUzDcvDW32x7atLviB8k=
+	t=1715246612; cv=none; b=K4a5XpEL18Q8rUPQTZflZXMo3El8ihZr9dKNB41NKYxyTOfxnDy48FGHww1fVloRQlGJVTYMw9ASjPzdOlitYCxHcLDA0jW3DHa5GNNZWsikGHVMj2n4YZZkieUP/AefpabQPMlvU1/mH4VUmef+hI0/N89x2g3kLMEPMte58Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715241787; c=relaxed/simple;
-	bh=I1OFlDPB3x1MLexdV4dOjh5/WuhdJZ0HGMth6t6JB0k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=cyDDmyVb9x5i12HKfkn866me3YMGFBTS1UkNFsB8O2EEovAtFeNO0dA1KJ2iYKZSnrrvk90mjrBvzhCoj3L40jBAsceoorSRkaE8J+J7lIK071lZ0QjcJxSFP9CjZGbhneYtwY+594/9RNMfrOxmce6iJ2LAAHvneN5VreImB4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RKodWD+8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4491aeu1006702;
-	Thu, 9 May 2024 08:02:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=EgtIBDiLumFpzI8bUyIqv2b0EqtIT+G7D85y0k0QyQ4=; b=RK
-	odWD+8oPjNlN3e1Kxk/X2G+xr+jIOErC+HuK8lhIoRE/fNt6y07u6SQKOPX8K0HV
-	sFjHMrERJANFhotaj3PYN5r6Dm7q//lflA57xQ9nrQtaKM6V+V34IceBPon33Qr+
-	Y98Uc3nKIzYB7JTA7ucDXeVVBl6gepPeLDmLKfSDVzPYj9W34BMNRwsr/0cd3jca
-	znVo6+1uKzVD3cX0m0hUxw3yWlayjsh27l8ZH1ezsRm4/F10UKE+BrSEtUrz9wRZ
-	g4TDcyNCxz1PB5Gm/DmHuUL0grPJ+3G3giRIX4Psui4yrJ+k6jb85WmWi32KunPh
-	Quuo7Usg4ThgKq9bwWXQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y07wftc1g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 May 2024 08:02:51 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44982mx8025542
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 9 May 2024 08:02:48 GMT
-Received: from [10.251.44.50] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 May 2024
- 01:02:45 -0700
-Message-ID: <3b5b7c00-6c51-4ff0-92c7-e288d04465ed@quicinc.com>
-Date: Thu, 9 May 2024 11:02:43 +0300
+	s=arc-20240116; t=1715246612; c=relaxed/simple;
+	bh=nCxyHA4H0zlDgKUBRKhP1uHW5cceyxKQ1uLbmFwQQPk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=FnMwLn9G2TLsnV5qyGnNc9W8QUKeTfWzjNPuXaH22g0x78yexoq0vTWHLk4RPO9ugC3vxU5MwJ1nil3vVqBgwv7BDC1H51V3uDPPCKQfZpmM92XvTnlPfh2AOuLkisttoP3e/UwObyvOJSbUirRqRaoDMSz9D3tsVRnVEohdG8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=none smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b=eYUdyphX; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fooishbar.org
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a1548d65e0so2240956d6.0
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 02:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1715246609; x=1715851409; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nCxyHA4H0zlDgKUBRKhP1uHW5cceyxKQ1uLbmFwQQPk=;
+        b=eYUdyphXQ2ZTF7qd1pDipbmkAzjobeKUCUb8TlN/ddMY9UHA0BFeUZUFiZcWy//i5d
+         Aa8+swrjNgaXU0kPCh8Y7hsgsJELnbKadZgl4i5OKC7cntZ71vEFN536g3MIn+BkFKWP
+         pdFE18c2RYwr3FUS+sE3wq3dll038MRpPvhLsO4voBedBO55HJhq9PFjpoX7m9eVQL62
+         MLY5pX6mlw1Nstg2Bapb7fRULaide+wUu9ucBQLA4GWaXw84MbR8P7Nn8z5WwyO03jb8
+         oFSGn0kSvdUOHOelB8nwXVZ3xos3clE1OijEIuPEG50C9z9OZRi+88fdV6bZi8jYvOSG
+         IIyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715246609; x=1715851409;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCxyHA4H0zlDgKUBRKhP1uHW5cceyxKQ1uLbmFwQQPk=;
+        b=o38ADXRD/4M/Gso6HZxoHt2LqGP+V62ET8SQqHhgON+ypq0/eRoEpRv+6RZUJKSZeM
+         Ujsf9guGnRC8Tf6RZhHAUjbxWtEpKgeelvFtVRr5JvmV0bS8xPon/3BnhpPU5IMxXD+t
+         N1TzQCfPcRU9Qfu/JMrqJyMEqfobQY+EOxQvvOPgrmJd9bHKXB+N1GNYfFakNiQdm6jV
+         Q0ZLydppWT99nfbsV/Se6sSw2Ssw+DNnevMGASUKjZ2FgJgFbBIbWDNGAw9DhAgsqv8c
+         ePmh79SjGuQxVt9JpZ4T2ZZZpQ4vP5wNuLlVzLBdz7+m3Yb49qpC4EVsG0GIy7Ir2q2j
+         fGmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmWP15wN+QCqQ4mRmznAAemUKuTDrrZtzp+j+YhaMI4wv2cTqWniQ89pDLWot4A/Ik373Ya83ZaVTbiInK5LCy2IuJCMdT6dpxPm4=
+X-Gm-Message-State: AOJu0YyCCUuHo9D918rTbNZxiHgvgk38A8zGdWoGrmu4yYsWBeD86JyA
+	RAxyUdO+TOxSBpiv5hJ49mwgmlrzTl0FbeTNhINSsKoKASDvelvDYkRpwTqOwKquIo944iTswHU
+	RjeHSSp5mmWDgxmEDPv86SvYZYr7SL9aQynHJWg==
+X-Google-Smtp-Source: AGHT+IF6PhCgk1o7f4b1gc4aesQqVT1tyRMXdb/II5WaUUVRVGN+oa4txBNRnx7jzplgxY+HJ/x6UmsSdSVG8eSyBMk=
+X-Received: by 2002:a05:6214:1cc2:b0:6a0:d32d:79d with SMTP id
+ 6a1803df08f44-6a1514dfd79mr58597296d6.56.1715246609461; Thu, 09 May 2024
+ 02:23:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: i2c: Fix imx412 exposure control
-Content-Language: en-US
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Martina Krasteva
-	<quic_mkrastev@quicinc.com>,
-        Daniele Alessandrelli
-	<daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240506-b4-linux-next-camss-x13s-mmsol-integration-in-test-imx577-fix-v2-1-2e665f072f8f@linaro.org>
- <dvyed4grpazqk7a3tz6dqwpkd76ghtrt4euinxt3kycdeh63ez@ljgfjsfhypix>
- <20a0300a-ac16-456c-840a-e272f49050a8@linaro.org>
- <bppn2qglcya3xbfy7uey5cgybyanxthhweqv7foojwi5rvqwmk@temzdedvecfe>
- <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
-From: "Gjorgji Rosikopulos (Consultant)" <quic_grosikop@quicinc.com>
-In-Reply-To: <CAPY8ntAJJu8RM66xFr4dGWtZJVhsjjXEecT5=YKBVr+0hVL9+w@mail.gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat> <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+ <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com> <ZjoNTw-TkPnnWLTG@phenom.ffwll.local>
+ <CAPj87rN3uSZoHpWLSQqz1SW9YMZNj9fkoA_EDEE_bzv-Tw8tSw@mail.gmail.com>
+ <Zjs42PGvilLlF0Cg@phenom.ffwll.local> <CAPj87rN-wSbGSAoB8y3MXCS20_MAQvfpWSeUKYR6XzQ+Oh0FZA@mail.gmail.com>
+ <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+In-Reply-To: <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 9 May 2024 10:23:16 +0100
+Message-ID: <CAPj87rPywSjKLrv00N-0SrkDndPdYGCBeveO0adh4xGCp20h9g@mail.gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Daniel Stone <daniel@fooishbar.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Lennart Poettering <mzxreary@0pointer.de>, Robert Mader <robert.mader@collabora.com>, 
+	Sebastien Bacher <sebastien.bacher@canonical.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Milan Zamazal <mzamazal@redhat.com>, 
+	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ZZAD7AnOlTi8AiFbOZ7o9DZUZkpaoHOW
-X-Proofpoint-ORIG-GUID: ZZAD7AnOlTi8AiFbOZ7o9DZUZkpaoHOW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-09_03,2024-05-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 phishscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 malwarescore=0 mlxlogscore=915
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
- definitions=main-2405090052
 
-Hi Dave,
+Hi,
 
-On 5/8/2024 7:31 PM, Dave Stevenson wrote:
-> Hi Jacopo and Bryan
-> 
-> On Wed, 8 May 2024 at 13:43, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->>
->> Hi Bryan
->>
->> On Wed, May 08, 2024 at 01:30:31PM GMT, Bryan O'Donoghue wrote:
->>> On 08/05/2024 09:02, Jacopo Mondi wrote:
->>>> Hi Bryan
->>>>
->>>> On Mon, May 06, 2024 at 11:38:26PM GMT, Bryan O'Donoghue wrote:
->>>>> Currently we have the following algorithm to calculate what value should be
->>>>> written to the exposure control of imx412.
->>>>>
->>>>> lpfr = imx412->vblank + imx412->cur_mode->height;
->>>>> shutter = lpfr - exposure;
->>>>>
->>>>> The 'shutter' value is given to IMX412_REG_EXPOSURE_CIT however, the above
->>>>> algorithm will result in the value given to IMX412_REG_EXPOSURE_CIT
->>>>> decreasing as the requested exposure value from user-space goes up.
->>>>>
->>>>> e.g.
->>>>> [ 2255.713989] imx412 20-001a: Received exp 1608, analog gain 0
->>>>> [ 2255.714002] imx412 20-001a: Set exp 1608, analog gain 0, shutter 1938, lpfr 3546
->>>>> [ 2256.302770] imx412 20-001a: Received exp 2586, analog gain 100
->>>>> [ 2256.302800] imx412 20-001a: Set exp 2586, analog gain 100, shutter 960, lpfr 3546
->>>>> [ 2256.753755] imx412 20-001a: Received exp 3524, analog gain 110
->>>>> [ 2256.753772] imx412 20-001a: Set exp 3524, analog gain 110, shutter 22, lpfr 3546
->>>>>
->>>>> This behaviour results in the image having less exposure as the requested
->>>>> exposure value from user-space increases.
->>>>>
->>>>> Other sensor drivers such as ov5675, imx218, hid556 and others take the
->>>>> requested exposure value and directly.
->>>>
->>>> has the phrase been truncated or is it me reading it wrong ?
->>>
->>> Sod's law says no matter how many times you send yourself a patch before
->>> sending it to LKML you'll find a typo ~ 2 seconds after reading your patch
->>> on LKML.
->>>
->>
->> Sounds familiar enough
->>
->>>
->>>>> Looking at the range of imx sensors, it appears this particular error has
->>>>> been replicated a number of times but, I haven't so far really drilled into
->>>>> each sensor.
->>>>
->>>> Ouch, what other driver have the same issue ?
->>>
->>> So without data sheet or sensor its hard to say if these are correct or
->>> incorrect, it's the same basic calculation though.
->>>
->>> drivers/media/i2c/imx334.c::imx334_update_exp_gain()
->>>
->>>         lpfr = imx334->vblank + imx334->cur_mode->height;
->>>         shutter = lpfr - exposure;
->>>
->>>         ret = imx334_write_reg(imx334, IMX334_REG_SHUTTER, 3, shutter);
->>>
->>>
->>> drivers/media/i2c/imx335.c::imx335_update_exp_gain()
->>>
->>>         lpfr = imx335->vblank + imx335->cur_mode->height;
->>>         shutter = lpfr - exposure;
->>>
->>>         ret = imx335_write_reg(imx335, IMX334_REG_SHUTTER, 3, shutter);
->>>
->>>
->>> Looking again I'm inclined to believe the imx334/imx335 stuff is probably
->>> correct for those sensors, got copied to imx412/imx577 and misapplied to the
->>> EXPOSURE control in imx412.
->>>
->>
->> Without datasheet/devices it really is hard to tell. Cargo cult at
->> play most probably.
-> 
-> For reference certainly imx327/290/462 which are all siblings in the
-> Sony Starvis family do calculate exposure as
-> exposure = 1 frame period - (SHS1 + 1) * (1H period)
-> So 0 = max exposure and bigger values are shorter exposure time.
-> 
-> I'm not saying that the imx412 driver is right in doing this as well,
-> but it seems there is a trend with the Sony Starvis family to program
-> exposure in this different manner. Don't discount it as wrong for all
-> drivers!
+On Wed, 8 May 2024 at 16:49, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, May 08, 2024 at 09:38:33AM +0100, Daniel Stone wrote:
+> > Right now, if your platform requires CMA for display, then the app
+> > needs access to the GPU render node and the display node too, in order
+> > to allocate buffers which the compositor can scan out directly. If it
+> > only has access to the render nodes and not the display node, it won't
+> > be able to allocate correctly, so its content will need a composition
+> > pass, i.e. performance penalty for sandboxing. But if it can allocate
+> > correctly, then hey, it can exhaust CMA just like heaps can.
+> >
+> > Personally I think we'd be better off just allowing access and
+> > figuring out cgroups later. It's not like the OOM story is great
+> > generally, and hey, you can get there with just render nodes ...
+>
+> Imo the right fix is to ask the compositor to allocate the buffers in this
+> case, and then maybe have some kind of revoke/purge behaviour on these
+> buffers. Compositor has an actual idea of who's a candidate for direct
+> scanout after all, not the app. Or well at least force migrate the memory
+> from cma to shmem.
+>
+> If you only whack cgroups on this issue you're still stuck in the world
+> where either all apps together can ddos the display or no one can
+> realistically direct scanout.
 
-Yes we are observing the same, the sensors which are not for mobile
-market (and not have anything to do with smia leftover). The exposure
-is set using the similar or the same calculation which you have posted.
+Mmm, back to DRI2. I can't say I'm wildly enthused about that, not
+least because a client using GPU/codec/etc for those buffers would
+have to communicate its requirements (alignment etc) forward to the
+compositor in order for the compositor to allocate for it. Obviously
+passing the constraints etc around isn't a solved problem yet, but it
+is at least contained down in clients rather than making it back and
+forth between client and compositor.
 
-~Gjorgji
+I'm extremely not-wild about the compositor migrating memory from CMA
+to shmem behind the client's back, and tbh I'm not sure how that would
+even work if the client has it pinned through whatever API it's
+imported into.
 
-> 
->   Dave
-> 
->>>
->>>>> - ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, shutter);
->>>>> + ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, exposure);
->>>>
->>>> No datasheet here, can you confirm the IMX412_REG_EXPOSURE_CIT
->>>> register is actually in lines ?
->>>
->>>
->>> Looks like.
->>>
->>> From downstream "coarseIntgTimeAddr"
->>>
->>> imx577_sensor.xml
->>>     <coarseIntgTimeAddr>0x0202</coarseIntgTimeAddr>
->>>
->>> imx586/imx586_sensor.cpp
->>> pRegSettingsInfo->regSetting[regCount].registerAddr  =
->>> pExposureData->pRegInfo->coarseIntgTimeAddr + 1;
->>>
->>> pRegSettingsInfo->regSetting[regCount].registerData  = (lineCount & 0xFF);
->>>
->>>> Apart from that, as the CID_EXPOSURE control limit are correctly
->>>> updated when a new VBLANK is set by taking into account the exposure
->>>> margins, I think writing the control value to the register is the
->>>> right thing to do (if the register is in lines of course)
->>>>
->>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>
->>>> Thanks
->>>>    j
->>>>
->>>
->>> If that's good enough I'll fix the typo and apply your RB.
->>
->> Sure
->>
->> Thanks
->>   j
->>
->>>
->>> ---
->>> bod
->>>
->>
-> 
+Anyway, like Laurent says, if we're deciding that heaps can't be used
+by generic apps (unlike DRM/V4L2/etc), then we need gralloc.
+
+Cheers,
+Daniel
 
