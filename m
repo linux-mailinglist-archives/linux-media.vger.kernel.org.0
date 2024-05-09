@@ -1,132 +1,119 @@
-Return-Path: <linux-media+bounces-11219-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682718C124E
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 17:53:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE368C127A
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:14:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 225C728355B
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 15:53:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E695F1F223B9
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 16:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52D0D16F825;
-	Thu,  9 May 2024 15:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 617A116F850;
+	Thu,  9 May 2024 16:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ss1I03+E"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e1M32LjQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70553F8E2
-	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 15:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D3816F838;
+	Thu,  9 May 2024 16:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715270025; cv=none; b=l5V8NWiRoXzuo+vFUKUnG2SyNy3JZ/44IUD3eKA5y0QW9q8+FcfDqaD2cOUDuZQ9jBnjcKIEbSPjYDnXoStWDR2pFO00si66GODLmQ+YDxHK9HQrtq9ryeXhSf5BuepoZSmhC3+3AHsfwX3Vy2oClO551jHFZwgB9/TPgweXpHU=
+	t=1715271261; cv=none; b=ID96d9BNgCUsMEaWd/qe6dQ0ZIMNtP/BALOd75wD3kVw9TlwIyrFOukN/3ekCtLgXEfrKwgP3RlzBq6hfAyPfAERvszpCQNTrGYG6BEs6bIFczSjJILw/CjFvGmLhkw6CFS1TfCZTD2kVmi7FDBW7kJ2hJDjk2Wu/mwb0SweR6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715270025; c=relaxed/simple;
-	bh=mA/fCF0Hyf2s0C0NAXcut1RdJ0/A1Vl70kRKZc0yNVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ATIodpqDzm5+wov6cVBFU/hINqU0bviAKVv5nGZ4AEy49MUgt9UFQoqgRjmMl63F52jv/JfT9a/WdJDc3KyPuA2PSQn47vqrBjEWsaVbEoBd+CwN3TPbh5epjYVQ2bWHKUDsBQ5dPxC9uC9hHDfJW1iK1fPswStqxPyE6sssYb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Ss1I03+E; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59cdd185b9so385507666b.1
-        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 08:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1715270022; x=1715874822; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=38BuvpIpkB3oaxq+zw4VsWBKcS3P81IEjFcYuWVYCpU=;
-        b=Ss1I03+E85fSICh41UgaRHWiCIFBuab0IG22+6BqtsNzkDH7hfj+xrGms8xQnl9NjR
-         RwoK05e4RC5BSu2aHk+pfInGklpIDkHr/GdjBbdmYjmptx1TJ5pnx1RKtAnRLbjnnGRT
-         5fwELF1z9fgo7R/M1eYot4fqNt1ZcU3M4ouM0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715270022; x=1715874822;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=38BuvpIpkB3oaxq+zw4VsWBKcS3P81IEjFcYuWVYCpU=;
-        b=gk4aa8a9P2W0iW6IVyIemYVeyYzWJLYlK9fd/n1eS8bXv0K3bt83u880mEplpb485f
-         ly1E/jGB04s/Yy2j5OFv/BhqGxENjKYzsQhFrjiuyKYJm/pewRNt6b7I2pXOxch2KPMQ
-         Q9qqTgOXnJzCbgpA1qaG7oeZJ0jA9QVSGj2xA5bR+2mUz8RCsIqdVK51OydtgDeIPssN
-         AEaBlgn7dexoxEz6BA7vOQpipfsGJi3IEqFHdqx9G2rleAIKYOSt5tpkeKb0/2KQguoy
-         L2DaWbJre1VAyBaKS2KLfVKDnVZu0Y0VNTErz8A87Mi7gtYVQ9wKfI7IFRJ4Wl4w9BcF
-         3lAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbP7wXLeIZ8vof7qYplIlxCRwuJJNoLGaQ7ca7h9odxsYdDWbzHBZitH83f/GuUzyotBPn2ga/IDXPaR5DQJjFLKC74yHJT4uGmOw=
-X-Gm-Message-State: AOJu0Yx7lrs5v5yhyhn9YsJmzkZ6wODWeys5EHHDGzUa7xG3L7Bwg2ns
-	c9+9gm6NgePs0IituLJsemjCvbtxUIFAI7nBq5vJkPhYlsxx/KH01mbOeaQ5rSEiYzImlDH80Li
-	5OujJ+A==
-X-Google-Smtp-Source: AGHT+IGg7Pw0dXnWuo29E1WqivAuQEWbLcC+m1eZiuPd2s7lNpcDWZsOGtvrAYG4C0Kzoigx6+9ouw==
-X-Received: by 2002:a17:906:d8a7:b0:a5a:f0f:e385 with SMTP id a640c23a62f3a-a5a2d292aa0mr6494866b.24.1715270021858;
-        Thu, 09 May 2024 08:53:41 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a179c7fc4sm87150766b.135.2024.05.09.08.53.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 May 2024 08:53:41 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-572c65cea55so1890786a12.0
-        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 08:53:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW8RDzyjCuMExCWtwqLjwmGOP7GsSnEETESO8P4gqcqHSqDQ7P3I0lv942+4dgvISMMHOq+GXu+ar+oByhtMHv2HbSzV8fFrsCPXHs=
-X-Received: by 2002:a17:906:19d0:b0:a59:fb06:5d35 with SMTP id
- a640c23a62f3a-a5a1156665fmr240732966b.8.1715269716628; Thu, 09 May 2024
- 08:48:36 -0700 (PDT)
+	s=arc-20240116; t=1715271261; c=relaxed/simple;
+	bh=8oBxZuB2ADwJUDUwHXhuRa2dcgBavevXYZYrTSbtaQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qiJWObxhyRpj+8DJjuf0wMKSCX/LP1l781MS/B1qLVzL0/JmRk1EVEiG1jz+LMBdNJ3vsU+o1hBxZMPjRGDTVJk1V7mNcJDy03z2I83H6a0FNkwdGozOwvBvH15KcJvEKWVGmTsp7me3wgAr8feFs61S1s9uS/lsIDuz0iRXT34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e1M32LjQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E5EE524;
+	Thu,  9 May 2024 18:14:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715271254;
+	bh=8oBxZuB2ADwJUDUwHXhuRa2dcgBavevXYZYrTSbtaQU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=e1M32LjQa7vAksKwCV4yPJJml3QPmAgHEPWznbcZ6hLVRvrF6n7cfSEujwc2JV9sV
+	 qviXkeBv54JFMD6XytoL3KDA2hm68noSvrulDwbnl+t9nHaYTz74kF3bmSpVHi+5JI
+	 D6fgWOgKX8b2ZyfJ2Shjirwu+ieRQGagukboiqTg=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 00/11] media: renesas: rcar-csi2: Use the subdev active state
+Date: Thu,  9 May 2024 18:13:50 +0200
+Message-ID: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com> <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
- <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
- <CAHk-=wjmC+coFdA_k6_JODD8_bvad=H4pn4yGREqOTm+eMB+rg@mail.gmail.com> <20240509-kutschieren-tacker-c3968b8d3853@brauner>
-In-Reply-To: <20240509-kutschieren-tacker-c3968b8d3853@brauner>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 9 May 2024 08:48:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgKdWwdVUvjSNLL-ne9ezQN=BrwN34Kq38_=9yF8c03uA@mail.gmail.com>
-Message-ID: <CAHk-=wgKdWwdVUvjSNLL-ne9ezQN=BrwN34Kq38_=9yF8c03uA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Christian Brauner <brauner@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk, 
-	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
-	linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
-	syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 9 May 2024 at 04:39, Christian Brauner <brauner@kernel.org> wrote:
->
-> Not worth it without someone explaining in detail why imho. First pass
-> should be to try and replace kcmp() in scenarios where it's obviously
-> not needed or overkill.
+v2->v3:
+- rcar-csi2: Collect v2.2 of [4/11]
+- adv748x: enum_mbus_code: reduce the number of formats to the ones supported
+  by the HDMI and Analog front ends;
+- adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
+  active format on the source pad
+- max9286: Apply the format to all pads to enforce all links to have the same
+  format
+- max9286: Remove max9286_set_fsync_period() from setup
 
-Ack.
+v2->v1:
+  - Remove "media: adv748x-csi2: Initialize subdev format"
+  - Add "media: adv748x-afe: Use 1X16 media bus code"
+  - Tested with CVBS
+  - address comments from Laurent and Niklas
 
-> I've added a CLASS(fd_raw) in a preliminary patch since we'll need that
-> anyway which means that your comparison patch becomes even simpler imho.
-> I've also added a selftest patch:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.misc
+A branch is available at
+https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
+jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream-prep
 
-LGTM.
+As a follow-up to the recently sent
+"media: renesas: rcar-csi2: Support multiple streams" series, this smaller
+version collects some fixes and implement usage of the subdev active state
+to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
 
-Maybe worth adding an explicit test for "open same file, but two
-separate opens, F_DUPFD_QUERY returns 0? Just to clarify the "it's not
-testing the file on the filesystem for equality, but the file pointer
-itself".
+Tested with GMSL on Eagle V3M
+Tested with HDMI on Salvator-X
+Tested with CVBS on Salvator-X
+Boot tested on WhiteHawk V4H
 
-             Linus
+
+Jacopo Mondi (11):
+  media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+  media: rcar-csi2: Disable runtime_pm in probe error
+  media: rcar-csi2: Cleanup subdevice in remove()
+  media: rcar-csi2: Use the subdev active state
+  media: adv748x-csi2: Implement enum_mbus_codes
+  media: adv748x-csi2: Validate the image format
+  media: adv748x-csi2: Use the subdev active state
+  media: adv748x-afe: Use 1X16 media bus code
+  media: max9286: Fix enum_mbus_code
+  media: max9286: Use the subdev active state
+  media: max9286: Use frame interval from subdev state
+
+ drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
+ drivers/media/i2c/adv748x/adv748x.h           |   1 -
+ drivers/media/i2c/max9286.c                   | 182 +++++++-----------
+ drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+ 6 files changed, 271 insertions(+), 232 deletions(-)
+
+--
+2.44.0
+
 
