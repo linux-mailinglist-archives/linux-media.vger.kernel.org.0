@@ -1,120 +1,231 @@
-Return-Path: <linux-media+bounces-11244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421418C14EE
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:41:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A08918C1509
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 20:50:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 736CA1C21015
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:41:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 556E6282DB5
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 18:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4E177113;
-	Thu,  9 May 2024 18:40:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D4CD7E0F1;
+	Thu,  9 May 2024 18:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="l4O12OvF"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HrqPP4tO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624EE7F464;
-	Thu,  9 May 2024 18:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCCC1A2C35
+	for <linux-media@vger.kernel.org>; Thu,  9 May 2024 18:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715280025; cv=none; b=Mnip7EOASOJopHr8stijz/z4x4YmwNy4AZEGea1vZALcQOyfK7JlqMcG9h6EtSCJDb3QFMMsJNyDLePmdsJ79ACuErrbtKf3qlTUf9Nn7JnXKWnUPhOJ4TzaCjosgH4tCwrImj+FLn2f2QYbK6YVwq0NMLxH0JfolA0LDyzPc+s=
+	t=1715280629; cv=none; b=Yo0wOpC186Gzc1RpQ6tP1qQkR3lzMsVUwzS5vSwTDvp9pyO6R3H4c8JZG5yB2W+SOtrHUFYQTX5bYB7KBq6aj5MFp0pKtjki3FPMFWYx2QsZEk6Su1R1szjALZ1fVfr7W8H5Rl5m6dtn3Nro/tz5NZrjUzSgdXKdr9OOORJfm6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715280025; c=relaxed/simple;
-	bh=KyiYvMhETDO/noTBCSz8ORoc9EKNT/4TwTv3zc5evPk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rwygd8pF3vNpqomGhsNYqFStct5H3ysvUbCxy1Pp5NvY2XmSMvLKqpndSBNIxQmtRChmocjO8D4szNJ/gCTOSErJVaIQS9FYly1V5AhaUVuBlxFSrJuv+qfS35qWMEDFPKnGeXxrO/Cfq1n8+ozOAg+UGGSknvRuIAqtVj9exSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=l4O12OvF; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 449IeCwH059877;
-	Thu, 9 May 2024 13:40:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1715280012;
-	bh=aMNcaysqDJDn+h1D5ugEv/Q4TocmhRT2g7o4pHDXixo=;
-	h=From:To:CC:Subject:Date;
-	b=l4O12OvFcUPsy8dMLaXN0DGXhKBtkvcCCBIzSVNQLeejlbIbypSyde7w63neEf3UN
-	 w8MuW4kx4Bvg2A6JnMhOxMW/tk0DZ/P/iDeniKChGtU4oLrfrUPp5ZZqdiH09HpsmK
-	 2Wu9xoAL9qCQSQ27Y3i16FP+nfurCTA7iEAc1254=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 449IeCLN070670
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 9 May 2024 13:40:12 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 9
- May 2024 13:40:11 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 9 May 2024 13:40:11 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 449IeBEc006178;
-	Thu, 9 May 2024 13:40:11 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
-        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-        <adobriyan@gmail.com>, <jani.nikula@intel.com>
-Subject: [PATCH v7 8/8] gpu: ipu-v3: Use generic macro for rounding to nearest multiple
-Date: Fri, 10 May 2024 00:10:10 +0530
-Message-ID: <20240509184010.4065359-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+	s=arc-20240116; t=1715280629; c=relaxed/simple;
+	bh=4QzClZ1gRVtyCX7YdwhFlyPn+GYCunj82D3LkrwSRjw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=I5DEUWm2M6atC3Z2dsABc/ko+5DgnO7iBbL3HSnnN6gFqYy3sLfJnhglb8JYScDD7jXkF+6fK3w/s00WkGST6ZAgGU+57mS2ywyRbM7Xo3yfbLJqByI81oLH++zfcovIvXEnDndhmp2MdS+AQeGqQpz/5BsVq1lanmNNAkQwJak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HrqPP4tO; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5ac61cf3fffso520927eaf.3
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 11:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715280627; x=1715885427; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rKMjOnnO0WYipffLPmzjc4/xyv9Lp/0n3YbamfBbS/w=;
+        b=HrqPP4tO0pjCuyJ0UpFov/IbG+6Y58zLkW1hAPyPgBbwddfcnzaTdsb5egJn2+t5sq
+         bDFw/8thD1YtR/nzIWr3KG6TW9Se6OPVwLrafg8o4jPmODuyOxsrlOBB22dr3GSq9xM4
+         fTZyYyyT+BacFTkGGHVBq7I/Tg3zbLRaOtVf0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715280627; x=1715885427;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rKMjOnnO0WYipffLPmzjc4/xyv9Lp/0n3YbamfBbS/w=;
+        b=dClZxEEHQeo8zhu/VovUQJCxBjtMf360R1OVV8EauqXpv7O9rGbt1FKARIIl5QLbw8
+         Cd+uQFHd1u27Qkjsq4VfMNVrDk3AowYBEL0W2UU+PIemblDwAhSe+IYPdZrUjI+OVWVE
+         GfEMbsz2FYtaLt0iWAAVJAQuAAIT3eQbvlJbOtFwTfhfzeMPBK50MWBQdZSOM25LL1Wn
+         NIJXNQNrzurOCCm4mZoHjR6wP5K2klDkoo7l8ekgKXfAlmNM3TprKQ1O/J7mScRMaJmX
+         LDoFUVmjlQ8k9N8wLfUgFILiXdhprd6IlgRdH4nFTVHQ3C5jKde8LDJQ0DDCi47fkOw9
+         sQ8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ1UV8QcHK9UtAXtAyuhOiqbag7uC/7ghwptdjeYon7nfFZIogxGObldgda+YRfOrcv8rvKAjIG/FI79JhGALnSYR7KogbBMCgSlA=
+X-Gm-Message-State: AOJu0YxdOVX4EJF6mC06i8C7DFlK44na13rYs4cj9mqgizC3/rT57bdc
+	gAagG7uV6LNh9Q2VeNcufSlr+R5DH+KNZfu2E4ImwWYO4y1STLIMsm8McAL6wjr7ag1BxVuUkKn
+	ypg==
+X-Google-Smtp-Source: AGHT+IGsX+PsFmTShEeE6PztdmKzzFC7u+AQGWwdTD68veQwE78vbP82tikOHRcpsajRFq90yL1Xyg==
+X-Received: by 2002:a4a:58d2:0:b0:5b2:a5b:a88b with SMTP id 006d021491bc7-5b2818f542cmr384776eaf.2.1715280627402;
+        Thu, 09 May 2024 11:50:27 -0700 (PDT)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com. [209.85.167.171])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5b281c11c07sm45222eaf.28.2024.05.09.11.50.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 11:50:27 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c996526c69so243788b6e.1
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2024 11:50:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVT6f98L7nI3E5mZJyMFqw1aEsqDpDiHyjcu+TN2QasZF6JV6S915i9CllOf/J4xjrkQhAQM0Q//NM/bD6cj6iTxHM9WddAyRfG+RM=
+X-Received: by 2002:aca:190e:0:b0:3c9:7aef:403 with SMTP id
+ 5614622812f47-3c99706bb87mr458934b6e.26.1715280626326; Thu, 09 May 2024
+ 11:50:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+ <20240507-cocci-flexarray-v2-1-7aea262cf065@chromium.org> <Zjs9h40l9gfaiOei@pengutronix.de>
+In-Reply-To: <Zjs9h40l9gfaiOei@pengutronix.de>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 9 May 2024 20:50:14 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvon2eW4aHk8JD2_GDR9hG1FBhgbCOEZ+W2RC2HHsXM5A@mail.gmail.com>
+Message-ID: <CANiDSCvon2eW4aHk8JD2_GDR9hG1FBhgbCOEZ+W2RC2HHsXM5A@mail.gmail.com>
+Subject: Re: [PATCH v2 01/18] media: allegro: nal-hevc: Refactor nal_hevc_sub_layer_hrd_parameters
+To: Michael Tretter <m.tretter@pengutronix.de>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
+	Andy Walls <awalls@md.metrocast.net>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 
-Use generic macro round_closest_up for rounding to nearest multiple instead
-of using local function.
+Hi Michael
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V1->V6 (No change, patch introduced in V7)
----
- drivers/gpu/ipu-v3/ipu-image-convert.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On Wed, 8 May 2024 at 10:53, Michael Tretter <m.tretter@pengutronix.de> wrote:
+>
+> On Tue, 07 May 2024 16:27:06 +0000, Ricardo Ribalda wrote:
+> > Replace all the single elements arrays with the element itself.
+> >
+> > Pahole shows the same padding and alignment for x86 and arm in both
+> > situations.
+> >
+> > This fixes this cocci warning:
+> > drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+>
+> Thanks for the patch.
+>
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/platform/allegro-dvt/allegro-core.c |  6 +++---
+> >  drivers/media/platform/allegro-dvt/nal-hevc.c     | 11 +++--------
+> >  drivers/media/platform/allegro-dvt/nal-hevc.h     |  6 +++---
+> >  3 files changed, 9 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+> > index da61f9beb6b4..369bd88cc0ae 100644
+> > --- a/drivers/media/platform/allegro-dvt/allegro-core.c
+> > +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+> > @@ -1852,14 +1852,14 @@ static ssize_t allegro_hevc_write_sps(struct allegro_channel *channel,
+> >       hrd->dpb_output_delay_length_minus1 = 30;
+> >
+> >       hrd->bit_rate_scale = ffs(channel->bitrate_peak) - 6;
+> > -     hrd->vcl_hrd[0].bit_rate_value_minus1[0] =
+> > +     hrd->vcl_hrd[0].bit_rate_value_minus1 =
+> >               (channel->bitrate_peak >> (6 + hrd->bit_rate_scale)) - 1;
+> >
+> >       cpb_size = v4l2_ctrl_g_ctrl(channel->mpeg_video_cpb_size) * 1000;
+> >       hrd->cpb_size_scale = ffs(cpb_size) - 4;
+> > -     hrd->vcl_hrd[0].cpb_size_value_minus1[0] = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
+> > +     hrd->vcl_hrd[0].cpb_size_value_minus1 = (cpb_size >> (4 + hrd->cpb_size_scale)) - 1;
+> >
+> > -     hrd->vcl_hrd[0].cbr_flag[0] = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+> > +     hrd->vcl_hrd[0].cbr_flag = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+> >
+> >       size = nal_hevc_write_sps(&dev->plat_dev->dev, dest, n, sps);
+> >
+> > diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/nal-hevc.c
+> > index 9cdf2756e0a3..575089522df5 100644
+> > --- a/drivers/media/platform/allegro-dvt/nal-hevc.c
+> > +++ b/drivers/media/platform/allegro-dvt/nal-hevc.c
+> > @@ -210,14 +210,9 @@ static void nal_hevc_rbsp_vps(struct rbsp *rbsp, struct nal_hevc_vps *vps)
+> >  static void nal_hevc_rbsp_sub_layer_hrd_parameters(struct rbsp *rbsp,
+> >                                                  struct nal_hevc_sub_layer_hrd_parameters *hrd)
+> >  {
+> > -     unsigned int i;
+> > -     unsigned int cpb_cnt = 1;
+> > -
+> > -     for (i = 0; i < cpb_cnt; i++) {
+> > -             rbsp_uev(rbsp, &hrd->bit_rate_value_minus1[i]);
+> > -             rbsp_uev(rbsp, &hrd->cpb_size_value_minus1[i]);
+> > -             rbsp_bit(rbsp, &hrd->cbr_flag[i]);
+> > -     }
+> > +     rbsp_uev(rbsp, &hrd->bit_rate_value_minus1);
+> > +     rbsp_uev(rbsp, &hrd->cpb_size_value_minus1);
+> > +     rbsp_bit(rbsp, &hrd->cbr_flag);
+> >  }
+> >
+> >  static void nal_hevc_rbsp_hrd_parameters(struct rbsp *rbsp,
+> > diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h b/drivers/media/platform/allegro-dvt/nal-hevc.h
+> > index eb46f12aae80..afa7a9d7d654 100644
+> > --- a/drivers/media/platform/allegro-dvt/nal-hevc.h
+> > +++ b/drivers/media/platform/allegro-dvt/nal-hevc.h
+> > @@ -97,9 +97,9 @@ struct nal_hevc_vps {
+> >  };
+> >
+> >  struct nal_hevc_sub_layer_hrd_parameters {
+> > -     unsigned int bit_rate_value_minus1[1];
+> > -     unsigned int cpb_size_value_minus1[1];
+> > -     unsigned int cbr_flag[1];
+> > +     unsigned int bit_rate_value_minus1;
+> > +     unsigned int cpb_size_value_minus1;
+> > +     unsigned int cbr_flag;
+>
+> The struct is modeled after the specification in ITU-T H.265, which
+> defines the fields as arrays. It's a limitation of the current
+> implementation that only a single element is supported.
+>
+> Maybe replacing the hard coded values with a constant would be more
+> appropriate to document this limitation.
 
-diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-index 841316582ea9..5192a8b5c02c 100644
---- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-+++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-@@ -477,8 +477,6 @@ static int calc_image_resize_coefficients(struct ipu_image_convert_ctx *ctx,
- 	return 0;
- }
- 
--#define round_closest(x, y) round_down((x) + (y)/2, (y))
--
- /*
-  * Find the best aligned seam position for the given column / row index.
-  * Rotation and image offsets are out of scope.
-@@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
- 		 * The closest input sample position that we could actually
- 		 * start the input tile at, 19.13 fixed point.
- 		 */
--		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
-+		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
- 		/* Convert 19.13 fixed point to integer */
- 		in_pos_rounded = in_pos_aligned / 8192U;
- 
--- 
-2.39.1
+A define seems to convince coccinelle of our intentions :). I will
+upload the fix in v3
 
+diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h
+b/drivers/media/platform/allegro-dvt/nal-hevc.h
+index eb46f12aae80..361e2f55c254 100644
+--- a/drivers/media/platform/allegro-dvt/nal-hevc.h
++++ b/drivers/media/platform/allegro-dvt/nal-hevc.h
+@@ -96,10 +96,11 @@ struct nal_hevc_vps {
+        unsigned int extension_data_flag;
+ };
+
++#define N_HRD_PARAMS 1
+ struct nal_hevc_sub_layer_hrd_parameters {
+-       unsigned int bit_rate_value_minus1[1];
+-       unsigned int cpb_size_value_minus1[1];
+-       unsigned int cbr_flag[1];
++       unsigned int bit_rate_value_minus1[N_HRD_PARAMS];
++       unsigned int cpb_size_value_minus1[N_HRD_PARAMS];
++       unsigned int cbr_flag[N_HRD_PARAMS];
+ };
+
+ struct nal_hevc_hrd_parameters {
+
+
+Thanks.
+
+
+>
+> Michael
+>
+> >  };
+> >
+> >  struct nal_hevc_hrd_parameters {
+> >
+> > --
+> > 2.45.0.rc1.225.g2a3ae87e7f-goog
+> >
+> >
+
+
+
+--
+Ricardo Ribalda
 
