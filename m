@@ -1,271 +1,460 @@
-Return-Path: <linux-media+bounces-11195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11196-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01158C0E52
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 12:44:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C138C0EB1
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 13:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66EF328171A
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 10:44:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6DF31C21DF3
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2024 11:07:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2368412F582;
-	Thu,  9 May 2024 10:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D047131180;
+	Thu,  9 May 2024 11:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kjfls3lh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QV9t8lRT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1307C3715E;
-	Thu,  9 May 2024 10:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B42813049F;
+	Thu,  9 May 2024 11:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715251457; cv=none; b=ijLnYLEHnu6O0ST0Xpu+tokvKSMvUW4n65Hbnbmt69hV+gmNobRsHWIB9IQ6wzv2qlHjI8nXEQoa4Gj386sP+ex/j283DAYkujyKrbkYt1fM+MTqXnkHfBMK9QrDycC7wk2/VVojzhuRRc46mlA5fihFPmfrs40C1R1PF7yMpOg=
+	t=1715252830; cv=none; b=Lw8ySUwL0jAT7A53ss4IyHiS69tApQ5h+PS1nQi4LI0PkMz1RnajEx8mSxPNUyQ7POGW+F6VKrq6lTfacMYEXCqfqSuxvbqQrXwSM1gF7sKix3g66z3RUVkkGGo836MswXjo0nx18ChKei6DPIfPnPtaI6IsyR8Y4x8Cy0tRMRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715251457; c=relaxed/simple;
-	bh=ALKJ9if8SMqpg8avRAb+V90+7Tr+oiNFq36asciKBCc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pUMpE0SgnCzCpCr3t0ivOq+s5idEiN37psadWONNYm4gXD+U9uq8k9v1HeNEj/WijgnP+oPBRHPvqw6b0OtLNdxRt+EUZxuzY/HmzV8w7DjfmP1efjMo3xmiSX0DRAGCzeO+ISkPSHRnhC96OdP56xFUtZQiIrz7ntCUVvDU/oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kjfls3lh; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-36c846689d1so3171055ab.0;
-        Thu, 09 May 2024 03:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715251455; x=1715856255; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aCRj3t+xdNp1rsUvPmVB9uy83J7LGPcYV6vSNcPVNyA=;
-        b=Kjfls3lhyl85VB4xOVBKdfuIuw4/YM3aUUmY6Q6u9ozkO8wDXZSlBws2MFQJrHlZhD
-         HQh2F5jEJiE7D5jCGyFB/BpakMLGSaFvNPeRHy28uXfHVl6ojZ01eGqPjoctElA4ESBo
-         eUtgPC+o8MKo7FL6wvERL+becBpEUJHWtS7WzUZvKH5W7OqS/2OQsi0fRfSeMR1ITRcK
-         EVPpN9BSB9/B4iA/nuHVbh51bjD4Si++2ecYMK/jkSMILXCgdSz191ijCEE7HRoL0ZnZ
-         ohlBwVGtlKgrbtMukMrKD2PVEey9R28TMb3KNpnKZz0X2xEtGz+tJI5XyTloK3HweHmI
-         wLiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715251455; x=1715856255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aCRj3t+xdNp1rsUvPmVB9uy83J7LGPcYV6vSNcPVNyA=;
-        b=GkhX7QrSKfAOV3A/TbkvEdBi12egIMJ+AcqAv51ViNXq1rRsyXFqSbddJqW/iH+PLi
-         jwQTaF4bjdhouk7W2LrnkQAFGo1MJpQpXxT/KIRJEFd+orVkqCinXnbP22rWQtspXkHK
-         kisbRe4+qpsthFDAdYUqCQSrwU9qXRW0j1Q+a/8ywCkgD/uAXl2AM991n/RGHnChd2h9
-         E/Ee1wKASVdZymboTNnfVEbAWcVvxNYfr4fJLX6ZshEpT88njJ/2j6H4+vRPkdJAW229
-         +jmXaGCR4YsJHBTz7y5IwmNhq9Ct/rkuZ45qDRaTI0LOXm1N8z2uSjcpb3rxkJJG3X9y
-         mfBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWom5TNtcVc+1Ys71jTr6MqYQkPx6s2mMFvbLuhjfqwGNPfbGP4zmh/Vv9UOV6LxFD9XsbeBcVfohI3qsa23mEv2nZLYMOYuOd12l0+Z4AxvOqWjthGasuIhPVeN3kNcvTzikPQ3Z6BY5U=
-X-Gm-Message-State: AOJu0YxWh5R6PMYFz80o9LRr/ZewuElsHe1KUFxxZds8vOPvN20Z+0SU
-	EaREsjcccIcLR43ZBD3AH5YuvLnhlwb6TRZ2poE6TE4a4yV7AMIAf4SqqD3g2/h5msQ/itoWeDP
-	EJTvnG9ZVYqG4Eab5kb5OtcilXLY=
-X-Google-Smtp-Source: AGHT+IEi/mVwQ3GL+NyJ0D7UrdEjzf34Nyjn6VriSq2HIBSrDOCD/y/fvG9wSq1Mnww5djhfR6VpTbDKb6eS+PLmC44=
-X-Received: by 2002:a05:6e02:1a08:b0:36c:a46:e018 with SMTP id
- e9e14a558f8ab-36caed5abd2mr53372115ab.24.1715251455116; Thu, 09 May 2024
- 03:44:15 -0700 (PDT)
+	s=arc-20240116; t=1715252830; c=relaxed/simple;
+	bh=GY8AUfBhmDsjEz6w/F/LBnRT/2PU6ZirUoDwS1tyYn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PENBOE5o+DCGYuu3GikZORo40gKSvgn6oXkrLx+YEzZoHqqABAZey0IlkmVtBXyO0kPF/+Kphb2axSmuTfoikwLQBW+GgvUhgiPkYx5ywehpH+mziM//wj7E3FWssi976SmIArfSQd4z0vffEYg/8Ju2EmNDsBM8CtYf/zfjLXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QV9t8lRT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4CB6FD6;
+	Thu,  9 May 2024 13:07:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715252822;
+	bh=GY8AUfBhmDsjEz6w/F/LBnRT/2PU6ZirUoDwS1tyYn8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QV9t8lRTZnbrUXEMZ0yc4gZ9YfjM1xpxUypQDw6KiNtNI3KSuKeZiZJbHbInqkCxD
+	 Dl3Q4CLlp9ME4plHOh1kTL894r6HC8MbLmfTSY/OzXZ87vCbIBsZd353ly5214MsI8
+	 4/FOHz71Bxv3Ll/a3UHw3P6gu9p4h+EY0y5c+M3c=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2.1 04/11] media: rcar-csi2: Use the subdev active state
+Date: Thu,  9 May 2024 13:06:51 +0200
+Message-ID: <20240509110652.43938-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240506164941.110389-5-jacopo.mondi@ideasonboard.com>
+References: <20240506164941.110389-5-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
- <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310> <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk>
- <20240430172752.20ffcd56@sal.lan> <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
- <87sez0k661.wl-tiwai@suse.de> <20240502095956.0a8c5b26@sal.lan>
- <20240502102643.4ee7f6c2@sal.lan> <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
- <20240503094225.47fe4836@sal.lan> <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
- <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl> <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
- <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
- <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com> <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
- <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
-In-Reply-To: <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 9 May 2024 18:44:03 +0800
-Message-ID: <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
-Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
-To: =?UTF-8?B?QW1hZGV1c3ogU8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
-	sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 9, 2024 at 6:28=E2=80=AFPM Amadeusz S=C5=82awi=C5=84ski
-<amadeuszx.slawinski@linux.intel.com> wrote:
->
-> On 5/9/2024 12:12 PM, Shengjiu Wang wrote:
-> > On Thu, May 9, 2024 at 5:50=E2=80=AFPM Amadeusz S=C5=82awi=C5=84ski
-> > <amadeuszx.slawinski@linux.intel.com> wrote:
-> >>
-> >> On 5/9/2024 11:36 AM, Shengjiu Wang wrote:
-> >>> On Wed, May 8, 2024 at 4:14=E2=80=AFPM Amadeusz S=C5=82awi=C5=84ski
-> >>> <amadeuszx.slawinski@linux.intel.com> wrote:
-> >>>>
-> >>>> On 5/8/2024 10:00 AM, Hans Verkuil wrote:
-> >>>>> On 06/05/2024 10:49, Shengjiu Wang wrote:
-> >>>>>> On Fri, May 3, 2024 at 4:42=E2=80=AFPM Mauro Carvalho Chehab <mche=
-hab@kernel.org> wrote:
-> >>>>>>>
-> >>>>>>> Em Fri, 3 May 2024 10:47:19 +0900
-> >>>>>>> Mark Brown <broonie@kernel.org> escreveu:
-> >>>>>>>
-> >>>>>>>> On Thu, May 02, 2024 at 10:26:43AM +0100, Mauro Carvalho Chehab =
-wrote:
-> >>>>>>>>> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> >>>>>>>>
-> >>>>>>>>>> There are still time control associated with it, as audio and =
-video
-> >>>>>>>>>> needs to be in sync. This is done by controlling the buffers s=
-ize
-> >>>>>>>>>> and could be fine-tuned by checking when the buffer transfer i=
-s done.
-> >>>>>>>>
-> >>>>>>>> ...
-> >>>>>>>>
-> >>>>>>>>> Just complementing: on media, we do this per video buffer (or
-> >>>>>>>>> per half video buffer). A typical use case on cameras is to hav=
-e
-> >>>>>>>>> buffers transferred 30 times per second, if the video was strea=
-med
-> >>>>>>>>> at 30 frames per second.
-> >>>>>>>>
-> >>>>>>>> IIRC some big use case for this hardware was transcoding so ther=
-e was a
-> >>>>>>>> desire to just go at whatever rate the hardware could support as=
- there
-> >>>>>>>> is no interactive user consuming the output as it is generated.
-> >>>>>>>
-> >>>>>>> Indeed, codecs could be used to just do transcoding, but I would
-> >>>>>>> expect it to be a border use case. See, as the chipsets implement=
-ing
-> >>>>>>> codecs are typically the ones used on mobiles, I would expect tha=
-t
-> >>>>>>> the major use cases to be to watch audio and video and to partici=
-pate
-> >>>>>>> on audio/video conferences.
-> >>>>>>>
-> >>>>>>> Going further, the codec API may end supporting not only transcod=
-ing
-> >>>>>>> (which is something that CPU can usually handle without too much
-> >>>>>>> processing) but also audio processing that may require more
-> >>>>>>> complex algorithms - even deep learning ones - like background no=
-ise
-> >>>>>>> removal, echo detection/removal, volume auto-gain, audio enhancem=
-ent
-> >>>>>>> and such.
-> >>>>>>>
-> >>>>>>> On other words, the typical use cases will either have input
-> >>>>>>> or output being a physical hardware (microphone or speaker).
-> >>>>>>>
-> >>>>>>
-> >>>>>> All, thanks for spending time to discuss, it seems we go back to
-> >>>>>> the start point of this topic again.
-> >>>>>>
-> >>>>>> Our main request is that there is a hardware sample rate converter
-> >>>>>> on the chip, so users can use it in user space as a component like
-> >>>>>> software sample rate converter. It mostly may run as a gstreamer p=
-lugin.
-> >>>>>> so it is a memory to memory component.
-> >>>>>>
-> >>>>>> I didn't find such API in ALSA for such purpose, the best option f=
-or this
-> >>>>>> in the kernel is the V4L2 memory to memory framework I found.
-> >>>>>> As Hans said it is well designed for memory to memory.
-> >>>>>>
-> >>>>>> And I think audio is one of 'media'.  As I can see that part of Ra=
-dio
-> >>>>>> function is in ALSA, part of Radio function is in V4L2. part of HD=
-MI
-> >>>>>> function is in DRM, part of HDMI function is in ALSA...
-> >>>>>> So using V4L2 for audio is not new from this point of view.
-> >>>>>>
-> >>>>>> Even now I still think V4L2 is the best option, but it looks like =
-there
-> >>>>>> are a lot of rejects.  If develop a new ALSA-mem2mem, it is also
-> >>>>>> a duplication of code (bigger duplication that just add audio supp=
-ort
-> >>>>>> in V4L2 I think).
-> >>>>>
-> >>>>> After reading this thread I still believe that the mem2mem framewor=
-k is
-> >>>>> a reasonable option, unless someone can come up with a method that =
-is
-> >>>>> easy to implement in the alsa subsystem. From what I can tell from =
-this
-> >>>>> discussion no such method exists.
-> >>>>>
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>> my main question would be how is mem2mem use case different from
-> >>>> loopback exposing playback and capture frontends in user space with =
-DSP
-> >>>> (or other piece of HW) in the middle?
-> >>>>
-> >>> I think loopback has a timing control,  user need to feed data to pla=
-yback at a
-> >>> fixed time and get data from capture at a fixed time.  Otherwise ther=
-e
-> >>> is xrun in
-> >>> playback and capture.
-> >>>
-> >>> mem2mem case: there is no such timing control,  user feeds data to it
-> >>> then it generates output,  if user doesn't feed data, there is no xru=
-n.
-> >>> but mem2mem is just one of the components in the playback or capture
-> >>> pipeline, overall there is time control for whole pipeline,
-> >>>
-> >>
-> >> Have you looked at compress streams? If I remember correctly they are
-> >> not tied to time due to the fact that they can pass data in arbitrary
-> >> formats?
-> >>
-> >> From:
-> >> https://docs.kernel.org/sound/designs/compress-offload.html
-> >>
-> >> "No notion of underrun/overrun. Since the bytes written are compressed
-> >> in nature and data written/read doesn=E2=80=99t translate directly to =
-rendered
-> >> output in time, this does not deal with underrun/overrun and maybe dea=
-lt
-> >> in user-library"
-> >
-> > I checked the compress stream. mem2mem case is different with
-> > compress-offload case
-> >
-> > compress-offload case is a full pipeline,  the user sends a compress
-> > stream to it, then DSP decodes it and renders it to the speaker in real
-> > time.
-> >
-> > mem2mem is just like the decoder in the compress pipeline. which is
-> > one of the components in the pipeline.
->
-> I was thinking of loopback with endpoints using compress streams,
-> without physical endpoint, something like:
->
-> compress playback (to feed data from userspace) -> DSP (processing) ->
-> compress capture (send data back to userspace)
->
-> Unless I'm missing something, you should be able to process data as fast
-> as you can feed it and consume it in such case.
->
+Create the subdevice state with v4l2_subdev_init_finalize() and
+implement the init_state() operation to guarantee the state is initialized.
 
-Actually in the beginning I tried this,  but it did not work well.
-ALSA needs time control for playback and capture, playback and capture
-needs to synchronize.  Usually the playback and capture pipeline is
-independent in ALSA design,  but in this case, the playback and capture
-should synchronize, they are not independent.
+Store the current image format in the subdev active state and remove it
+from the driver private structure.
 
-Best regards
-Shengjiu Wang
+To guarantee the same image format is applied to all source pads,
+propagate the format from the sink pad to the sources, disallowing
+changing format on a source pad.
 
-> Amadeusz
+While at it, define an enum member for the number of pads supported by
+gen4 and store the number of active pads in the driver's private
+structure to handle both gen3 and gen4.
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+v2->v2.1
+
+- Fix gen4 issue reported by Niklas: store the number of pads in the
+  driver structure and use it when handling in init_state() and
+  set_pad_format() when applying a format to the source pads
+---
+ drivers/media/platform/renesas/rcar-csi2.c | 153 ++++++++++++---------
+ 1 file changed, 86 insertions(+), 67 deletions(-)
+
+diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+index 2d464e43a5be..8482b155522b 100644
+--- a/drivers/media/platform/renesas/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-csi2.c
+@@ -579,15 +579,17 @@ enum rcar_csi2_pads {
+ 	RCAR_CSI2_SINK,
+ 	RCAR_CSI2_SOURCE_VC0,
+ 	RCAR_CSI2_SOURCE_VC1,
++	NR_OF_RCAR_CSI2_ISP_PADS = RCAR_CSI2_SOURCE_VC1,
+ 	RCAR_CSI2_SOURCE_VC2,
+ 	RCAR_CSI2_SOURCE_VC3,
+-	NR_OF_RCAR_CSI2_PAD,
++	NR_OF_RCAR_CSI2_VIN_PADS,
+ };
+
+ struct rcar_csi2_info {
+ 	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
+ 	int (*phy_post_init)(struct rcar_csi2 *priv);
+-	int (*start_receiver)(struct rcar_csi2 *priv);
++	int (*start_receiver)(struct rcar_csi2 *priv,
++			      struct v4l2_subdev_state *state);
+ 	void (*enter_standby)(struct rcar_csi2 *priv);
+ 	const struct rcsi2_mbps_reg *hsfreqrange;
+ 	unsigned int csi0clkfreqrange;
+@@ -605,7 +607,8 @@ struct rcar_csi2 {
+ 	struct reset_control *rstc;
+
+ 	struct v4l2_subdev subdev;
+-	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
++	struct media_pad pads[NR_OF_RCAR_CSI2_VIN_PADS];
++	unsigned int num_pads;
+
+ 	struct v4l2_async_notifier notifier;
+ 	struct v4l2_subdev *remote;
+@@ -613,8 +616,6 @@ struct rcar_csi2 {
+
+ 	int channel_vc[4];
+
+-	struct mutex lock; /* Protects mf and stream_count. */
+-	struct v4l2_mbus_framefmt mf;
+ 	int stream_count;
+
+ 	bool cphy;
+@@ -808,20 +809,25 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+ 	return 0;
+ }
+
+-static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
++static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
++				     struct v4l2_subdev_state *state)
+ {
+ 	const struct rcar_csi2_format *format;
+ 	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
++	const struct v4l2_mbus_framefmt *fmt;
+ 	unsigned int lanes;
+ 	unsigned int i;
+ 	int mbps, ret;
+
++	/* Use the format on the sink pad to compute the receiver config. */
++	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
++
+ 	dev_dbg(priv->dev, "Input size (%ux%u%c)\n",
+-		priv->mf.width, priv->mf.height,
+-		priv->mf.field == V4L2_FIELD_NONE ? 'p' : 'i');
++		fmt->width, fmt->height,
++		fmt->field == V4L2_FIELD_NONE ? 'p' : 'i');
+
+ 	/* Code is validated in set_fmt. */
+-	format = rcsi2_code_to_fmt(priv->mf.code);
++	format = rcsi2_code_to_fmt(fmt->code);
+ 	if (!format)
+ 		return -EINVAL;
+
+@@ -849,11 +855,11 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
+ 			vcdt2 |= vcdt_part << ((i % 2) * 16);
+ 	}
+
+-	if (priv->mf.field == V4L2_FIELD_ALTERNATE) {
++	if (fmt->field == V4L2_FIELD_ALTERNATE) {
+ 		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
+ 			| FLD_FLD_EN;
+
+-		if (priv->mf.height == 240)
++		if (fmt->height == 240)
+ 			fld |= FLD_FLD_NUM(0);
+ 		else
+ 			fld |= FLD_FLD_NUM(1);
+@@ -1049,15 +1055,18 @@ static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
+ 	return 0;
+ }
+
+-static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
++static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv,
++				    struct v4l2_subdev_state *state)
+ {
+ 	const struct rcar_csi2_format *format;
++	const struct v4l2_mbus_framefmt *fmt;
+ 	unsigned int lanes;
+ 	int msps;
+ 	int ret;
+
+-	/* Calculate parameters */
+-	format = rcsi2_code_to_fmt(priv->mf.code);
++	/* Use the format on the sink pad to compute the receiver config. */
++	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
++	format = rcsi2_code_to_fmt(fmt->code);
+ 	if (!format)
+ 		return -EINVAL;
+
+@@ -1114,7 +1123,7 @@ static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
+ 	return 0;
+ }
+
+-static int rcsi2_start(struct rcar_csi2 *priv)
++static int rcsi2_start(struct rcar_csi2 *priv, struct v4l2_subdev_state *state)
+ {
+ 	int ret;
+
+@@ -1122,7 +1131,7 @@ static int rcsi2_start(struct rcar_csi2 *priv)
+ 	if (ret < 0)
+ 		return ret;
+
+-	ret = priv->info->start_receiver(priv);
++	ret = priv->info->start_receiver(priv, state);
+ 	if (ret) {
+ 		rcsi2_enter_standby(priv);
+ 		return ret;
+@@ -1146,17 +1155,16 @@ static void rcsi2_stop(struct rcar_csi2 *priv)
+ static int rcsi2_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct rcar_csi2 *priv = sd_to_csi2(sd);
++	struct v4l2_subdev_state *state;
+ 	int ret = 0;
+
+-	mutex_lock(&priv->lock);
++	if (!priv->remote)
++		return -ENODEV;
+
+-	if (!priv->remote) {
+-		ret = -ENODEV;
+-		goto out;
+-	}
++	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
+
+ 	if (enable && priv->stream_count == 0) {
+-		ret = rcsi2_start(priv);
++		ret = rcsi2_start(priv, state);
+ 		if (ret)
+ 			goto out;
+ 	} else if (!enable && priv->stream_count == 1) {
+@@ -1165,49 +1173,28 @@ static int rcsi2_s_stream(struct v4l2_subdev *sd, int enable)
+
+ 	priv->stream_count += enable ? 1 : -1;
+ out:
+-	mutex_unlock(&priv->lock);
++	v4l2_subdev_unlock_state(state);
+
+ 	return ret;
+ }
+
+ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+-				struct v4l2_subdev_state *sd_state,
++				struct v4l2_subdev_state *state,
+ 				struct v4l2_subdev_format *format)
+ {
+ 	struct rcar_csi2 *priv = sd_to_csi2(sd);
+-	struct v4l2_mbus_framefmt *framefmt;
+
+-	mutex_lock(&priv->lock);
++	if (format->pad > RCAR_CSI2_SINK)
++		return v4l2_subdev_get_fmt(sd, state, format);
+
+ 	if (!rcsi2_code_to_fmt(format->format.code))
+ 		format->format.code = rcar_csi2_formats[0].code;
+
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		priv->mf = format->format;
+-	} else {
+-		framefmt = v4l2_subdev_state_get_format(sd_state, 0);
+-		*framefmt = format->format;
+-	}
+-
+-	mutex_unlock(&priv->lock);
+-
+-	return 0;
+-}
+-
+-static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+-				struct v4l2_subdev_state *sd_state,
+-				struct v4l2_subdev_format *format)
+-{
+-	struct rcar_csi2 *priv = sd_to_csi2(sd);
+-
+-	mutex_lock(&priv->lock);
++	*v4l2_subdev_state_get_format(state, format->pad) = format->format;
+
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		format->format = priv->mf;
+-	else
+-		format->format = *v4l2_subdev_state_get_format(sd_state, 0);
+-
+-	mutex_unlock(&priv->lock);
++	/* Propagate the format to the source pads. */
++	for (unsigned int i = RCAR_CSI2_SOURCE_VC0; i < priv->num_pads; i++)
++		*v4l2_subdev_state_get_format(state, i) = format->format;
+
+ 	return 0;
+ }
+@@ -1218,7 +1205,7 @@ static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
+
+ static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+ 	.set_fmt = rcsi2_set_pad_format,
+-	.get_fmt = rcsi2_get_pad_format,
++	.get_fmt = v4l2_subdev_get_fmt,
+ };
+
+ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+@@ -1226,6 +1213,32 @@ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+ 	.pad	= &rcar_csi2_pad_ops,
+ };
+
++static int rcsi2_init_state(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state)
++{
++	struct rcar_csi2 *priv = sd_to_csi2(sd);
++
++	static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
++		.width		= 1920,
++		.height		= 1080,
++		.code		= MEDIA_BUS_FMT_RGB888_1X24,
++		.colorspace	= V4L2_COLORSPACE_SRGB,
++		.field		= V4L2_FIELD_NONE,
++		.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
++		.quantization	= V4L2_QUANTIZATION_DEFAULT,
++		.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
++	};
++
++	for (unsigned int i = RCAR_CSI2_SINK; i < priv->num_pads; i++)
++		*v4l2_subdev_state_get_format(state, i) = rcar_csi2_default_fmt;
++
++	return 0;
++}
++
++static const struct v4l2_subdev_internal_ops rcar_csi2_internal_ops = {
++	.init_state = rcsi2_init_state,
++};
++
+ static irqreturn_t rcsi2_irq(int irq, void *data)
+ {
+ 	struct rcar_csi2 *priv = data;
+@@ -1251,14 +1264,17 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
+
+ static irqreturn_t rcsi2_irq_thread(int irq, void *data)
+ {
++	struct v4l2_subdev_state *state;
+ 	struct rcar_csi2 *priv = data;
+
+-	mutex_lock(&priv->lock);
++	state = v4l2_subdev_lock_and_get_active_state(&priv->subdev);
++
+ 	rcsi2_stop(priv);
+ 	usleep_range(1000, 2000);
+-	if (rcsi2_start(priv))
++	if (rcsi2_start(priv, state))
+ 		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
+-	mutex_unlock(&priv->lock);
++
++	v4l2_subdev_unlock_state(state);
+
+ 	return IRQ_HANDLED;
+ }
+@@ -1851,7 +1867,7 @@ static int rcsi2_probe(struct platform_device *pdev)
+ {
+ 	const struct soc_device_attribute *attr;
+ 	struct rcar_csi2 *priv;
+-	unsigned int i, num_pads;
++	unsigned int i;
+ 	int ret;
+
+ 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+@@ -1870,23 +1886,23 @@ static int rcsi2_probe(struct platform_device *pdev)
+
+ 	priv->dev = &pdev->dev;
+
+-	mutex_init(&priv->lock);
+ 	priv->stream_count = 0;
+
+ 	ret = rcsi2_probe_resources(priv, pdev);
+ 	if (ret) {
+ 		dev_err(priv->dev, "Failed to get resources\n");
+-		goto error_mutex;
++		return ret;
+ 	}
+
+ 	platform_set_drvdata(pdev, priv);
+
+ 	ret = rcsi2_parse_dt(priv);
+ 	if (ret)
+-		goto error_mutex;
++		return ret;
+
+ 	priv->subdev.owner = THIS_MODULE;
+ 	priv->subdev.dev = &pdev->dev;
++	priv->subdev.internal_ops = &rcar_csi2_internal_ops;
+ 	v4l2_subdev_init(&priv->subdev, &rcar_csi2_subdev_ops);
+ 	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
+ 	snprintf(priv->subdev.name, sizeof(priv->subdev.name), "%s %s",
+@@ -1896,13 +1912,14 @@ static int rcsi2_probe(struct platform_device *pdev)
+ 	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+ 	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+
+-	num_pads = priv->info->use_isp ? 2 : NR_OF_RCAR_CSI2_PAD;
++	priv->num_pads = priv->info->use_isp ? NR_OF_RCAR_CSI2_ISP_PADS
++					     : NR_OF_RCAR_CSI2_VIN_PADS;
+
+ 	priv->pads[RCAR_CSI2_SINK].flags = MEDIA_PAD_FL_SINK;
+-	for (i = RCAR_CSI2_SOURCE_VC0; i < num_pads; i++)
++	for (i = RCAR_CSI2_SOURCE_VC0; i < priv->num_pads; i++)
+ 		priv->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+
+-	ret = media_entity_pads_init(&priv->subdev.entity, num_pads,
++	ret = media_entity_pads_init(&priv->subdev.entity, priv->num_pads,
+ 				     priv->pads);
+ 	if (ret)
+ 		goto error_async;
+@@ -1912,21 +1929,25 @@ static int rcsi2_probe(struct platform_device *pdev)
+
+ 	pm_runtime_enable(&pdev->dev);
+
++	ret = v4l2_subdev_init_finalize(&priv->subdev);
++	if (ret)
++		goto error_pm_runtime;
++
+ 	ret = v4l2_async_register_subdev(&priv->subdev);
+ 	if (ret < 0)
+-		goto error_pm_runtime;
++		goto error_subdev;
+
+ 	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+
+ 	return 0;
+
++error_subdev:
++	v4l2_subdev_cleanup(&priv->subdev);
+ error_pm_runtime:
+ 	pm_runtime_disable(&pdev->dev);
+ error_async:
+ 	v4l2_async_nf_unregister(&priv->notifier);
+ 	v4l2_async_nf_cleanup(&priv->notifier);
+-error_mutex:
+-	mutex_destroy(&priv->lock);
+
+ 	return ret;
+ }
+@@ -1941,8 +1962,6 @@ static void rcsi2_remove(struct platform_device *pdev)
+ 	v4l2_subdev_cleanup(&priv->subdev);
+
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	mutex_destroy(&priv->lock);
+ }
+
+ static struct platform_driver rcar_csi2_pdrv = {
+--
+2.44.0
+
 
