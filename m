@@ -1,111 +1,129 @@
-Return-Path: <linux-media+bounces-11352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0278C29F6
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 20:33:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAAF8C2B99
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 23:16:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E35A82821CF
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 18:33:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C78CE1F22470
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 21:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28BB13FB31;
-	Fri, 10 May 2024 18:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB6A13B5AB;
+	Fri, 10 May 2024 21:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z4M+5nsV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VV6lfcdM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D569817BA2
-	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 18:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7246450A93;
+	Fri, 10 May 2024 21:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715366004; cv=none; b=XAiUsVHYQ+uafmfUKLFZFbHQDKKxgplHSil+ShHfBqXFkorMKvgvva2KqN+97wWASav/8Zjoxv6n72tPio29vtVXcg1bSETe5SDIedOiwnwnn1dcBlZgTY4+RAvUET2cVnBzRKKEQOg8cyV3fpZUWTiigmIllQAckWy+jb5NhkY=
+	t=1715375775; cv=none; b=U24OP4iKFcdyEechwB1Y4Rctesn8rDuHyPppVi0yvYBiv4sV9CJB39aULYihMflJyLIPgg9eHjdTnxqOslxGw7rCJBM9ZwUNYHYqAoz+/sZ8oUYLF6xF9zmUNcCXnVgC8eSsVGu6melxg0cjyE/YgIQd08hPrYkixGzYnrY0I4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715366004; c=relaxed/simple;
-	bh=5V6NaaZJsb3ycOSB/8E9nepCSSYaU/wkp8KeojjJGqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c9Mv0AxqZ0xYtMGzRktLM6WsAz0zqYcyijkx4jbiAGNnpwC9ECztaGoflcluIHb3+cDuC0WsRhGQDRaDzAPjrgRiwbo2zUWiltn8gHua15NtZS8uiXEPEGSSOfeh9qNCideRoeTVh3ZTmZvF9YJeuTBOm2+FcCHotmkppqrdMc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z4M+5nsV; arc=none smtp.client-ip=209.85.221.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-34dc8d3fbf1so1748899f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 10 May 2024 11:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715366001; x=1715970801; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D6cf5OkTy8/ggWCcTx4t2j3ZHoM3l7oNZ1OwIDi3O6A=;
-        b=z4M+5nsV5hwX2MV34LO35CfbkZsVBzsz3rtzaoBk8rOXJsQuOwVU5f5i+3HN8B66kb
-         zY/ZK8iMd73HTFoLH33h9T3VqZjmYRyKt9tF1qetyA2DObj4ZjXBLkmK6Si6rT/iRcuq
-         jKDVIWoL9b1XSgcO2kRkS0aR0/95epIJ+lPNvWMH8o2Euk4P03F93qIm3cKfzLfAMKPR
-         GmUAHNPvNRh5fusf+aKUYcOamr9X76cHm+geaAsS5YvI3gZU5sfH95UzEWfR/0zpHNwv
-         qgB6/qOlqwnpCi0Fn+4pzWX2zi0xT3tJD2Ib0Uf55GzIz3SUlpjNU2ZHCCoMJHBEEQUG
-         bLQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715366001; x=1715970801;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D6cf5OkTy8/ggWCcTx4t2j3ZHoM3l7oNZ1OwIDi3O6A=;
-        b=nCakOSE8d16kZ1zmZMCjT4S9I3ZsLZhcI5g7B/tKHChE3QyOQSB8upfEJY7MECPBPw
-         QGupngXlOk+htOV3iztGVCumz+ejTbC3O7bk7qR5pgUhadjvxwDc3wnhU7AmUHPfLunR
-         kHh+LdcESByDuN+POtAsJkO0TR42UjVE/T5qfRGVtLqWwicLL9CC9EWB+gR6maFNrGi7
-         S1Ermydy674VMHZ09Tt1D5DbLBkPIm+nOWc8qKLMhGGar9MAjNzV8rSKhGkqiy2SweCZ
-         Bu6XMgjezg+lbK/ep7KjAV7DcoIowpRvOjE/9cINmoSeCyuLqApa5od+dmK94VUHKCk+
-         3sWg==
-X-Gm-Message-State: AOJu0Yxq28zCGEsGqY2xLDWW9eLa6HsscX8wR9Ww4tsAJnJoUHE8RxAA
-	pawFTmZza3Jw9nXaT4NC0QbW86xZdPTYddFLhCNTnmmkcJZaK2DlB9yhwSC094w=
-X-Google-Smtp-Source: AGHT+IElm2yB4cFYhA7Skzvf7EK7GSKMnjRoxe9T7mRmzwxlYpR9kULlphxmoxxXVATBTGiQuX7M1Q==
-X-Received: by 2002:a5d:554f:0:b0:34d:7a12:454b with SMTP id ffacd0b85a97d-3504a737a2amr2218343f8f.39.1715366001247;
-        Fri, 10 May 2024 11:33:21 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacef2sm5237210f8f.85.2024.05.10.11.33.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 May 2024 11:33:20 -0700 (PDT)
-Message-ID: <badf2bae-450a-4902-bdd7-651cf3f27725@linaro.org>
-Date: Fri, 10 May 2024 19:33:20 +0100
+	s=arc-20240116; t=1715375775; c=relaxed/simple;
+	bh=K6EhDqPaBDztZnvn/KM7LNk+8HMiGpLYxVSS9Ir0nE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tWFw9O8oGGNcvHfLSBGnTR43d6w/Yhwzlfsne8UE3zYdNd9HYiQG2jvA04/b+hp2NobMUcyhRHPe9unKk0sNrqfIvOndkUQR7ZgCuadR1FGr88Te9tYXoSiU9ufdfhUGeizui2RHe3OCWMuT7WY3jxSZUqBGanv//xFsGc3T2uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VV6lfcdM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C08C113CC;
+	Fri, 10 May 2024 21:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715375775;
+	bh=K6EhDqPaBDztZnvn/KM7LNk+8HMiGpLYxVSS9Ir0nE0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VV6lfcdMZ0TEjobmN5Nzgr3+3HR8pdRWF9d4Tnw0OacGPSKaGVHIlittLNo2vJrfJ
+	 WHLsw1Dx9SSdjnHP4Fhea7jUQT/K8F1xt0pv0S6o4tbO96gx8ONtXYiIxV8Ygv75/z
+	 cjjqP5ML5eRiwqhovQDS7Jn+mbuVBzCvMGuR3sY1ujFgSBscZGBPlVpB0GxKWihM+x
+	 oJby08HePcWDP3vAiw++HgLIOXapLAZhB5wBd8C6bIHJgBlLXLI9v5UD8iDVlG0OIJ
+	 JOPmRKvMgaHqPzMpyxQ/KyLFhe1F00hbYN+rFEm5Esg2qTTXN82HpuFrjbU1d95o1Y
+	 eE2aByExTAlpQ==
+Date: Fri, 10 May 2024 16:16:13 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
+	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org,
+	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+	mripard@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com
+Subject: Re: [PATCH v3 05/10] media: dt-bindings: video-interfaces: Support
+ DisplayPort MST
+Message-ID: <20240510211613.GA751688-robh@kernel.org>
+References: <20240507155413.266057-1-panikiel@google.com>
+ <20240507155413.266057-6-panikiel@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] Move camss version related defs in to resources
-To: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konrad.dybcio@linaro.org,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil-cisco@xs4all.nl, quic_hariramp@quicinc.com
-References: <20240411124543.199-1-quic_grosikop@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240411124543.199-1-quic_grosikop@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240507155413.266057-6-panikiel@google.com>
 
-On 11/04/2024 13:45, Gjorgji Rosikopulos wrote:
+On Tue, May 07, 2024 at 03:54:08PM +0000, Paweł Anikiel wrote:
+> Add a DisplayPort bus type and a multi-stream-support property
+> indicating whether the interface supports MST.
+> 
+> Signed-off-by: Paweł Anikiel <panikiel@google.com>
+> ---
+>  .../devicetree/bindings/media/video-interfaces.yaml        | 7 +++++++
+>  include/dt-bindings/media/video-interfaces.h               | 2 ++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> index 26e3e7d7c67b..7bf3a2c09a5b 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> @@ -94,6 +94,7 @@ properties:
+>        - 5 # Parallel
+>        - 6 # BT.656
+>        - 7 # DPI
+> +      - 8 # DisplayPort
+>      description:
+>        Data bus type.
+>  
+> @@ -217,4 +218,10 @@ properties:
+>        Whether the clock signal is used as clock (0) or strobe (1). Used with
+>        CCP2, for instance.
+>  
+> +  multi-stream-support:
 
-> Changes in V3:
-> - Incorporate missing changes in resources reported and fixed by
->    Bryan O'Donoghue <bryan.odonoghue@linaro.org> taken from the branch:
->    https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/sc8280xp-6.9-rc1-camss-resource-change-verification?ref_type=heads
-> - Added missing signed-off to the changes submitted by me.
-Took a little while to verify this series on the four reference 
-platforms on a reasonable base of -next or -stable.
+If MST is a known term for DP, then perhaps "dp-mst-support" for the 
+name. In any case, 'dp' should be in there somewhere.
 
-Here's the reference branch:
+> +    type: boolean
+> +    description:
+> +      Support transport of multiple independent streams. Used for
+> +      DisplayPort MST-capable interfaces.
 
-https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-stable-24-05-10--x13s-mmsol-integration-in-test-imx577-fix-rb3-gen1-debug?ref_type=heads
+Wouldn't this be implied by the devices at each end of the link? The 
+drivers for each device should really list out features supported for 
+the link. The mode used is then the union of those 2 lists with DT 
+properties only used when the union is not definitive.
 
-@Hans I'd be grateful if you can pull Gjorgji's series in at your 
-earliest convenience.
 
----
-bod
+> +
+>  additionalProperties: true
+> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
+> index 68ac4e05e37f..b236806f4482 100644
+> --- a/include/dt-bindings/media/video-interfaces.h
+> +++ b/include/dt-bindings/media/video-interfaces.h
+> @@ -12,5 +12,7 @@
+>  #define MEDIA_BUS_TYPE_CSI2_DPHY		4
+>  #define MEDIA_BUS_TYPE_PARALLEL			5
+>  #define MEDIA_BUS_TYPE_BT656			6
+> +#define MEDIA_BUS_TYPE_DPI			7
+> +#define MEDIA_BUS_TYPE_DISPLAYPORT		8
+>  
+>  #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+> -- 
+> 2.45.0.rc1.225.g2a3ae87e7f-goog
+> 
 
