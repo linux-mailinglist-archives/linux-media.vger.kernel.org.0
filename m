@@ -1,478 +1,270 @@
-Return-Path: <linux-media+bounces-11313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11314-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9738C22A0
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 12:58:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BD98C2335
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 13:23:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2268280E90
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 10:58:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C383E1C21388
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 11:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC4C616D317;
-	Fri, 10 May 2024 10:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E825516F8F9;
+	Fri, 10 May 2024 11:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="SA7UjkAQ"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="R7LoaXI2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11020002.outbound.protection.outlook.com [52.101.154.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8096F82C6C
-	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 10:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715338721; cv=none; b=XI6I+ADoVg8AaYmd4d06T02LMiul58rhL8vDQPntoPSBE8DJ4N4NEaNyuYsNqsOZRDEoupaWYdKGVb+THP5NiWatxugGYgggLiYfRaqwNuMAGetaN78rcOnzCsH8FZUX2OKYl73vOrpguyEfa5wrlGDX13KNlXWC6112CfXLqaY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715338721; c=relaxed/simple;
-	bh=VEbzNCuT1mFTYiXRZZ5heOjKQqqV1TmOK3nG9o78ebk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EjF58k9aNcurbErveyKcaUnLbgjp/CynDvq7U9zXG0O5fqO35vAh/sePQmnBzaj+7o0NjhKI0j2hS7b9Aqhq04aW92lKCnVXPWqYUf/P01TnqZ/QNBGHbq1brjrbQ+92Y8mlhZ2936yfZlMdNxw4wLaDwAe+j4A2tEJcihlboNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=SA7UjkAQ; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-de5acdb3838so2024849276.1
-        for <linux-media@vger.kernel.org>; Fri, 10 May 2024 03:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1715338717; x=1715943517; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BjnAlPfZY4TfujEcI3iV79jI4S+SSRIgUkbkJdjdqLw=;
-        b=SA7UjkAQC/ThzZo71IAdTlmdv/M1rjrt2Lno0X91r2swPBn8yBQasyKeVflUIDoas2
-         WLjS+aMDdnBcyfIICnmuhhqbqYD14V0W+ZJtWUXpW9nKzAL0kUq018Ak0qtKPzVrPbSU
-         Wqf3clEXmpVKhK8mLri5milJxqNktPx+irPEBHnP+vRSg4/X4J+m8ufIqg0xwiVGb2l3
-         hgGQ4b3/OJhGyCIn0u/KMFopLniTQKU1pjJu4joGN1IU5CLPjRCCCpzfm/ANLOkfFMYn
-         uphBxyhWsQKAsh4qpHOMsEAHVpQe876pOS/mSC7tMfLj9ZpkVtjmcDKIjPykwo7UZ3HL
-         do4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715338717; x=1715943517;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BjnAlPfZY4TfujEcI3iV79jI4S+SSRIgUkbkJdjdqLw=;
-        b=VX2K5fYSQPrm8GK3HdAHuDQ3SlpA+N0/s7vCdV6sFjvRD4Ylq6d4sKLZcQ+hrHXLBo
-         996kMUb6J0EM7rF9DhT/hSbJ/lAttyOzYv+wuZdpC+Ot3SMvifyye8LLqv8zZWvggDkO
-         AC2uRLGmejpaoZF23asKIL+kub5CwMtrM/cWK/2aEemwD91v8g4XOVNaL8Omde0ux9el
-         pOttW0GIMmPF/vgH1B/vMCSnKISSbD1vGk+QrwO5h1gIxPEyuayw+2duu9yW08RlXBmv
-         UCe1c5yU3gXLOblGFH3SMzC9NZHyscvHFsChyJjQpk1C0E4YGCg3ZrLcrLhxRxm2vNZn
-         Rc4g==
-X-Gm-Message-State: AOJu0Yw0bK8Hco5libVKClYpGgseApGmvOBdTjWhoVo1Qz4rzKeOmYeY
-	hnzvu+suYNc0Evkm6QmvRhSiMDGXegehJOiQvIm21fNB6zgGIq3xvXH+eE+QAcgtjoltzGOEDRz
-	SYFFNM9o75hmZjntgp4q9tCfmpwEhPCBJgeQhHkpjalUsKIhhq9k=
-X-Google-Smtp-Source: AGHT+IG0RfW7jflfPpLtgjWJw4ctWWL94YAeEPTFFUGo/ub0Rqa2ar/Qq2jR9xXFEG/WpPJRc9IzXfmXL0lC7gWsF0A=
-X-Received: by 2002:a5b:bc3:0:b0:dc6:cbb9:e with SMTP id 3f1490d57ef6-dee4f36015amr2132631276.41.1715338717286;
- Fri, 10 May 2024 03:58:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE55A16EC03;
+	Fri, 10 May 2024 11:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715340200; cv=fail; b=dh38eybe3nyyftjgyl85uNuPZW6wzVM3xZj/1znKQ7Bw909IzYVfvu5f/BlOMheGvH2fh4ocD5i3vDgtfBe2xaICerNyMphk8ShfDlB4LWCdy11oHkLYTCxi1bBSoQUxetNYtTuSYxIzKFSvQQAAVhl+dJHURJ75D5BWA5HAiRo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715340200; c=relaxed/simple;
+	bh=VHz8Gh0rws8q4fxgomrRdKZDopagKjaRVrkdrblU/Cg=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=G9aQdnNkqcfmrNG5ih5jDm9RmMSo4emWFfwBZhwXLr82e7qw03t3Cs3LqvAMRy7Or9fOF9AFt58gtJbUuzQK70sLwGKv+CbjJ3ZJmZf2tVml7PHDcFkjDnqqbg9CgGtO3j9YYbCo6MgX1lIP1mQ+lbZArW99pc9xisuk6GgR3XA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=R7LoaXI2; arc=fail smtp.client-ip=52.101.154.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ePBi3ey+OmMo3Pd+4sb9D4YnjMdazfCoU+DlEJuoI5XsDqi0Lskqc0ZmD5tSnUbkOtIKUpgLpLkotJxjZB7eRocMhZIlVXKeizRDjoEWnsq1fyRQAmBq4nHvjdhs9Bw4e495rMUvp2ZscnVacV7AOkhZDhi7aZmuX6wE5VAYhzO3anlNp1pzqKN/kRkZWEPTOaW8I0KxDyg377vXcKePOuUHsGeEMuI2LXVavN6wyD97prIAUxNjCurn6QV6W0XalvenQbmya9eBr4nkPKbM2qG7IQ5F+/gVMRsB4Vx59sYOKq78f7FUKxv6a4sUJClwPtzKk5z4GPw5qprQiiFhyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ttbqWb8CQdFC2vCP8Vb7/fgK41WsvKrXhCvQwaugk90=;
+ b=VZ+FfBrxcerRipW/oztLJhq9/lwdon4BkLqvQt1mhZF2ZejiEkGXw1N3FhmBQ9niypCW7o4x6weaiaW9vo9M/KC6+o7ZX/ShVVLtXaezk9Wi+z0+tE1KG3JvKQ/9scypprcf6anXd7ffPyHAJ/YvnsAV72jGxHerqEfK1ibqi+xaGrRLjloL+SnKZgF5fGXADX/g+JRbuNHI0YDPpiLhrqWXubwl3BCy2dNBFDBKYdANlKUrej02HMaIPE9cpCqx5nL7bn2UqdK3XXIwj8F0pUbOQdvD7QSlbEMI33H8HMzAMWjVRuPKiI6Vsxo0OIBFXUU8KqsMwWCy+fVqaSzSZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttbqWb8CQdFC2vCP8Vb7/fgK41WsvKrXhCvQwaugk90=;
+ b=R7LoaXI2ccmvt2jSPbgItIMabbUcSUQi5zpgjFfmg3pTx3mJzxQnTPqyURbsD2iCke/pUOCjEBRVs2p3YvO33owhQ/YEFefvUQkv6QeLfeJUE1CeMMQETpZCJG9nqRWF37O0E9YPtdD4MywNjjBUSLWtraF+xMMk30mNJju4yNo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from PS2P216MB1297.KORP216.PROD.OUTLOOK.COM (2603:1096:301:73::13)
+ by SL2P216MB2862.KORP216.PROD.OUTLOOK.COM (2603:1096:101:286::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.51; Fri, 10 May
+ 2024 11:23:02 +0000
+Received: from PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
+ ([fe80::ce88:bd2e:8caf:8004]) by PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
+ ([fe80::ce88:bd2e:8caf:8004%6]) with mapi id 15.20.7544.048; Fri, 10 May 2024
+ 11:23:02 +0000
+From: Jackson Lee <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	nicolas@ndufresne.ca,
+	sebastian.fricke@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hverkuil@xs4all.nl,
+	nas.chung@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com,
+	jackson.lee@chipsnmedia.com
+Subject: [RESEND PATCH v4 0/4] Add features to an existing driver
+Date: Fri, 10 May 2024 20:22:48 +0900
+Message-Id: <20240510112252.800-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0168.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:1b::7) To PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:301:73::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <PA6PR03MB1049647A33345EA7C1461EBFC80E72@PA6PR03MB10496.eurprd03.prod.outlook.com>
- <PA6PR03MB10496A3FF3ADC31B5C3D31DE980E72@PA6PR03MB10496.eurprd03.prod.outlook.com>
-In-Reply-To: <PA6PR03MB10496A3FF3ADC31B5C3D31DE980E72@PA6PR03MB10496.eurprd03.prod.outlook.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 10 May 2024 11:58:21 +0100
-Message-ID: <CAPY8ntCrOqULHF6bXo939PeTFvfmeP6wh9uy7jg+ntRQ9AEQ-Q@mail.gmail.com>
-Subject: Re: Reducing Decoding Delay with h264_v4l2m2m on raspberry pi Zero 2
- (bookwrom o.s.)
-To: Alessandro Longobardi <alessandro.longobardi@vrmedia.it>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Franco Tecchia <tecchia@vrmedia.it>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PS2P216MB1297:EE_|SL2P216MB2862:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ec24f19-96cf-447b-e5a7-08dc70e38dc7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|366007|376005|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sG0t7Aro9VnlX+5+/K9wEv9bIP2YA2raFROAZB35C9/Gcqj2t6UxVkMaHVSY?=
+ =?us-ascii?Q?8rkXQUL9J2X2KAg6U48odogOhT8MKQxMMzKQOxst2OoHWjQWmzIg90R2NSZP?=
+ =?us-ascii?Q?eXgeTZQNbgjz5wwEmdp5AcevsxUod2+B841bdWzBK4hTwyu78zakCL7ULbnF?=
+ =?us-ascii?Q?Uf6+9f+9MPg7q+m1g1aIh8AaKBDlGwRg4V5me7vMDPxbMvRjf+zJ6omYkNFG?=
+ =?us-ascii?Q?iBNXJbwma50fDEgeHtAwYZ2p52bNCL+QOHgdPC1NNbzv+teUe7MzrtsEzcwU?=
+ =?us-ascii?Q?OQzkdqjQpFTGVXDIi9EmwiVEblsXtIHnvMhltY2Rr+OTDnnKPWnGgGTQIkj6?=
+ =?us-ascii?Q?M76q5pyZVao4NEBMV1E0WHIalc9puW0aY8bNWqdg0BrYxfDM8nR59Z3+o0sP?=
+ =?us-ascii?Q?RfSlHRSCdooY7JVXgGALS0pTiRQ5F2FU3VpeQXO+GiIvJ7fY2aHRcR9qgrkc?=
+ =?us-ascii?Q?gyjU/D4GRSlG7I6epnvMa/gMwUce5IlU3klRHTDjWvP/orcTytLOkVOGfaiz?=
+ =?us-ascii?Q?o6Nflfx5SQxBcmWagrbNj9CE+jC0h1UV4cdXSJOhc4SZVmN4+vY8S6bB6MgM?=
+ =?us-ascii?Q?/ZwNWJG7ko+kLGploEAa0CyrsmZDAAd4wyPtxO3TURHf3jFTxkL8r88FNjLQ?=
+ =?us-ascii?Q?z/9fd98HrCsARmiKVSMdm27ThXifPUv2oNmAC3s/+Nxmz16v9/gyOTzqrtmE?=
+ =?us-ascii?Q?xHW7pOIk3ixzm0iFQhgTxq7zatxA/t/GAFJLvDy4ZJAtdLRKSpq3EAgBuW+/?=
+ =?us-ascii?Q?6R30f7zUUeBPb5oVHZauaPwvGiWroXFumiUnsmgTsTnVchce6NK6oeucBDpD?=
+ =?us-ascii?Q?H4fjoxsMbs6Un3K0xqXS4B67jJgbuZL78VClLr3NaNSx2VagErYXwUT9Lc+f?=
+ =?us-ascii?Q?VjO9rxSjLynyX/DY64spJ06x0dPA/MP6DLcF7BUGSKM0R2FTzUj0LbiXgIbK?=
+ =?us-ascii?Q?6MUbgHATlP/kZNjY2RyaUtfKrq0/rdw1i4BQk4WSZCjA4JCZs5WKpS39SHmT?=
+ =?us-ascii?Q?0o+8X3ixEKJQF5K1kHp5r5kX7ikoFagcVy38z7WiYOIqEU5L+nCGl6ewdAgM?=
+ =?us-ascii?Q?LxhfS+xllBaUQ1VuvjJcgvvczK51U2cK+mGsVG4PBqNldOww7hWrucPedHB9?=
+ =?us-ascii?Q?bN+C1cIVF54DxrpbyqkQ42pDOE8O5EakyYqD9V/ghMFmFVTanuor1pRKMFLA?=
+ =?us-ascii?Q?ZjC2OY0PCzQ+oyZR93JqYw9DcfnPwiL2EILqL2G9mYZGrml1+W1bgHNzWR+8?=
+ =?us-ascii?Q?8lgbNZ7B/CeEXNObkQwkcudSGvf/4zPgrtcNXxFQ0OOcknsjh8vL1DlJHJxi?=
+ =?us-ascii?Q?1qVWOhAAwOxrQ63V0Uq8sD/dTSnQblkYHsGvfvCEg/MN+Q=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PS2P216MB1297.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3xbW1jH+fef1EeCY6b/MyYaZ5M0jQVXFon5WACiK7nRMVWgpF8h860f///Aa?=
+ =?us-ascii?Q?spFMKwGfOz3hxJjGLm/cVqEpKjUcEpzopDavzBrnxu+i/qH5HNVkGCOGy0+W?=
+ =?us-ascii?Q?ekbGgwR+3J9zdnu2ObklkIHubdUOLSPBrMjhn8ynBezThSFLB9qZQEE541fu?=
+ =?us-ascii?Q?CJPeiaDde/BtInzzSq+t1QOQylbUoaLiO4zocK50PwcqlhsEgCs4uPuygvR+?=
+ =?us-ascii?Q?8jypdZdG3I9PPOq/6s3TXYZ+/UU0ZYY1myAXHoqr7dcd0Rt14jiGzG/bSCBx?=
+ =?us-ascii?Q?Iu1535FT9n3V2vmxuo1+7AJN3qWtxc76YgGh++JUsBcGE6QzFys90Z40cBW9?=
+ =?us-ascii?Q?3NWvEymrMZZvqYEqveoA0kpktVKnTjxtwYsgsZDmwOaLhvqXoEt5DTuCSzjo?=
+ =?us-ascii?Q?6I0BL88ZbadANrWM9Tk374TVD476a0zfourfIz2ZANyBSIo3lDnFzOZJ8l43?=
+ =?us-ascii?Q?Yuhj0ky/kuk6qdn/yXQhQoGqUXGfVeAFs6L4qdOwVArCPDTjDmq9C2gju+oc?=
+ =?us-ascii?Q?UC/Y2hiE+GD6dV5NJ8i1np7uiILIgNrx8gvsQW5i3xAsqXRyYoQUps82V1hg?=
+ =?us-ascii?Q?Ev8ebbXnKEt094fNDBwKuEoWERHIHaJrZuKdivfZLP7SkKAY+bQUjRnzPniy?=
+ =?us-ascii?Q?dH1NojMuzuFnbh6NaeyZ735f3TWlH1Acl40kfSN2EDOkoD+jU8gKZyrJFH6m?=
+ =?us-ascii?Q?2ZG5PukZdmJ7MS2EmNN2ct95bZlzFM8v0dAhF2bjQ+tPq2NAvObWsL95hYF/?=
+ =?us-ascii?Q?AVwp1MbZW2ZKf0pDnB852Ft4aeDTrp49fiCc19+VYWbkjegwEtalD6IiFW1b?=
+ =?us-ascii?Q?kgHpnjGhj/NY6DeqTgeLOyW/ZZL/rAVkXJIng5slcdTyfJcABtWUOvtOYAYD?=
+ =?us-ascii?Q?QE+Cl8JLBNdM/bbNbrQ5BcVgQE63BHKBubJ8Ozjg/JKI9X2IT5dQoUrAw0B6?=
+ =?us-ascii?Q?YI/rRTR32jnSBMtDiog/zWfMg17mwn2N4ygvU9djRjSdQM5aM6VR6peV6u6/?=
+ =?us-ascii?Q?kVLFMm8weQ82hK5cZgUN/GNdRGRd8gIpmt2l1FcpXRErsMfWmGA8AvKxgmmi?=
+ =?us-ascii?Q?VKQRlbX1FE5XKq7r11LuT0pnANsykJ3pHyw9Ij/WOYz2IdEmotc0ndClje9f?=
+ =?us-ascii?Q?iCpCG+tFzROQc8xIcfyHHrKmFDITpQAOSVvxhJcnu8u9lLF7fkUlOijm9SUu?=
+ =?us-ascii?Q?vS0+K5VjzCaFgFyH9idjiIEVO9OW4eBWJOipuMszhUeR9YwsR8veVC5TlXzD?=
+ =?us-ascii?Q?7KWWYH7cLaJqsYucOFrnzh0e/PEhg6qKBKPS+ZK0vSisj2gt8QXxObddRvp3?=
+ =?us-ascii?Q?M9hFCzYndQSZIj3vRfMTczkq5JlNRwVeIrCW/Zyce8tVRv3bvWCFGE4GFeKy?=
+ =?us-ascii?Q?/YLn/wlAl1O41s8DW7IeKN+Hjm8D3Qzuho6Sjam7nEIV+4IV5lq3h2p+ZblS?=
+ =?us-ascii?Q?FY/ebc6QLh/5jYseufeXnyxayDplbO6Mp5Hm38UoH6NXMed7xRPaigW2SurK?=
+ =?us-ascii?Q?Lu/Gv+Jc48UFlRtLzuRrIM4uqMXFrDT7pLOe3w6DAaWyiDXW/agm6/0tAXjj?=
+ =?us-ascii?Q?mACH49Wpdz58PEqmmwvDxLm8wInaEzySoh17eKU4v8FXwGzft1usIz3hATbj?=
+ =?us-ascii?Q?yg=3D=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ec24f19-96cf-447b-e5a7-08dc70e38dc7
+X-MS-Exchange-CrossTenant-AuthSource: PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2024 11:23:01.9619
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i00iaW73pkb9LFb5zT/QLl6/+Fg8WhegrxsYToS9JU6n/telCtm/KOvIuRXfMTiJxPzEqxS0T0pcQLKqNOFyg3hZwjTtl+KT7e4+XItaLos=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB2862
 
-Hi Alessandro
+From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
 
-On Fri, 10 May 2024 at 11:42, Alessandro Longobardi
-<alessandro.longobardi@vrmedia.it> wrote:
->
->
-> Hi,
-> I am using the h264_v4l2m2m decoder with libavcodec on a Raspberry Pi Zer=
-o 2 running Bookworm OS. My codec has the AV_CODEC_CAP_DELAY capability set=
-, which means "The decoder has a non-zero delay" (reference: https://ffmpeg=
-.org/doxygen/6.0/group__lavc__core.html#ga3f55f5bcfbb12e06c7cb1195028855e6)=
-. I have observed that the decoder stores N encoded frames before outputtin=
-g a decoded frame, and the value of N varies depending on the resolution, w=
-ith higher resolution leading to a larger N. It means i have a delay in dec=
-oding about N*time_per_frame (e.g., at 25 fps, time_per_frame=3D40 millisec=
-onds).
+The wave5 codec driver is a stateful encoder/decoder.
+The following patches is for supporting yuv422 inpuy format, supporting
+runtime suspend/resume feature and extra things.
 
-The bcm2835 stateful decoder driver isn't in mainline (yet), so this
-is the wrong place to be asking this question.
+v4l2-compliance results:
+========================
 
-I've also already responded to your email yesterday and your forum post[1].
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
 
-It looks like it is FFmpeg getting a little overeager in the number of
-buffers it allocates (20 on both OUTPUT and CAPTURE queues), and ends
-up trying to fill all buffers on one queue before looking at the other
-one, so decode becomes quite lumpy. Reduce the number of OUTPUT
-buffers to 2, and after waiting for the DPB to be full, decode latency
-is 1 frame (assuming no B-frames).
+Buffer ioctls:
+            warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+            warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+    test VIDIOC_EXPBUF: OK
+    test Requests: OK (Not Supported)
 
-  Dave
+Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 2
+Total for wave5-enc device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
 
-[1] https://forums.raspberrypi.com/viewtopic.php?t=3D370289
+Fluster test results:
+=====================
 
-> Is there a way to reduce this N value?
->
-> I am using an h624 1280x960 baseline streaming, I am observing that it st=
-ores internally 4 encoded frames before outputting a decoded one (check the=
- log below):
-> AV_CODEC_CAP_DELAY is set for the codec.
-> Codec Format: h264_v4l2m2m
-> [h264_mp4toannexb @ 0x68201020] The input looks like it is Annex B alread=
-y
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video1
-> [h264_v4l2m2m @ 0x68200490] driver 'unicam' on card 'unicam' in splane mo=
-de
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video0
-> [h264_v4l2m2m @ 0x68200490] driver 'unicam' on card 'unicam' in splane mo=
-de
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video31
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--encode_image' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video18
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--image_fx' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video12
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--isp' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video11
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--encode' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] v4l2 output format not supported
-> [h264_v4l2m2m @ 0x68200490] probing device /dev/video10
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--decode' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] Using device /dev/video10
-> [h264_v4l2m2m @ 0x68200490] driver 'bcm2835-codec' on card 'bcm2835-codec=
--decode' in mplane mode
-> [h264_v4l2m2m @ 0x68200490] requesting formats: output=3DH264 capture=3DY=
-U12
-> [h264_v4l2m2m @ 0x68200490] output: H264 16 buffers initialized: 0000x000=
-0, sizeimage 00524288, bytesperline 00000000
-> [h264_v4l2m2m @ 0x68200490] Driver 'bcm2835-codec': Quirks=3D0
-> [h264_v4l2m2m @ 0x68200490] Profile -99 <=3D 0 - check skipped
-> [h264_v4l2m2m @ 0x68200490] Format drm_prime chosen by get_format().
-> [h264_v4l2m2m @ 0x68200490] avctx requested=3D-1 ((null)) 0x0; get_format=
- requested=3D179 (drm_prime)
-> plane_id: 61
-> sending an encoded pkt, tot_pkts sent: 1
-> [h264_v4l2m2m @ 0x68200490] output set status ON OK
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00001 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-1 count=3D1
-> Execution time of decode_write: 4.303000 milliseconds
-> encoded pkt -> decoded frame: 7 millisecs
-> sending an encoded pkt, tot_pkts sent: 2
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00002 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-2 count=3D1
-> Execution time of decode_write: 0.648000 milliseconds
-> encoded pkt -> decoded frame: 4 millisecs
-> sending an encoded pkt, tot_pkts sent: 3
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00003 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-3 count=3D1
-> [h264_v4l2m2m @ 0x68200490] Dq event 5
-> [h264_v4l2m2m @ 0x68200490] V4L2 capture changed: alloc=3D0 (32x32) -> (1=
-280x960)
-> [h264_v4l2m2m @ 0x68200490] Source change: Fmt: YU12, SAR: 0/0, wxh 1280x=
-960 crop 1280x960 @ 0,0, reinit=3D1
-> [h264_v4l2m2m @ 0x68200490] capture: YU12 20 buffers initialized: 1280x09=
-60, sizeimage 01843200, bytesperline 00001280
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 0, ts=3D0.0000=
-00 count=3D1
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 1, ts=3D0.0000=
-00 count=3D2
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 2, ts=3D0.0000=
-00 count=3D3
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 3, ts=3D0.0000=
-00 count=3D4
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 4, ts=3D0.0000=
-00 count=3D5
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 5, ts=3D0.0000=
-00 count=3D6
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 6, ts=3D0.0000=
-00 count=3D7
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 7, ts=3D0.0000=
-00 count=3D8
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 8, ts=3D0.0000=
-00 count=3D9
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 9, ts=3D0.0000=
-00 count=3D10
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 10, ts=3D0.000=
-000 count=3D11
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 11, ts=3D0.000=
-000 count=3D12
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 12, ts=3D0.000=
-000 count=3D13
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 13, ts=3D0.000=
-000 count=3D14
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 14, ts=3D0.000=
-000 count=3D15
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 15, ts=3D0.000=
-000 count=3D16
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 16, ts=3D0.000=
-000 count=3D17
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 17, ts=3D0.000=
-000 count=3D18
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 18, ts=3D0.000=
-000 count=3D19
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 19, ts=3D0.000=
-000 count=3D20
-> [h264_v4l2m2m @ 0x68200490] capture set status ON OK
-> Execution time of decode_write: 70.186000 milliseconds
-> encoded pkt -> decoded frame: 72 millisecs
-> sending an encoded pkt, tot_pkts sent: 4
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00004 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-4 count=3D1
-> Execution time of decode_write: 0.636000 milliseconds
-> encoded pkt -> decoded frame: 30 millisecs
-> sending an encoded pkt, tot_pkts sent: 5
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 1, ts=3D0.0=
-00005 count=3D1
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 1, ts=3D0.00000=
-5 count=3D2
-> [h264_v4l2m2m @ 0x68200490] ff_v4l2_context_frames_set: HWFramesContext s=
-et to yuv420p, 1280x960
-> [h264_v4l2m2m @ 0x68200490] Decode running //////////////////////////////=
-///////////////////////////////////////////////////////////////////////////=
-/ =E2=86=90- FROME HERE I STARTS RECEIVING DECODED FRAME, THEN MY STREAMING=
- IS DELAYED OF 4 FRAMES.
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 1
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 0, ts=3D0.0000=
-01 count=3D20
-> Execution time of decode_write: 0.964000 milliseconds
-> //FROM NOW I AM GETTING EXACTLY ONE DECODED FRAME FOR EACH ENCODED PACKET=
- (AS EXPECTED)
-> encoded pkt -> decoded frame: 2 millisecs
-> sending an encoded pkt, tot_pkts sent: 6
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00006 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-6 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 2
-> h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 1, ts=3D0.0000=
-02 count=3D20
-> Execution time of decode_write: 1.181000 milliseconds
-> encoded pkt -> decoded frame: 3 millisecs
-> sending an encoded pkt, tot_pkts sent: 7
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00007 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-7 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 3
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 2, ts=3D0.0000=
-03 count=3D20
-> Execution time of decode_write: 0.883000 milliseconds
-> encoded pkt -> decoded frame: 2 millisecs
-> sending an encoded pkt, tot_pkts sent: 8
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00008 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-8 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 4
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 3, ts=3D0.0000=
-04 count=3D20
-> Execution time of decode_write: 42.602000 milliseconds
-> encoded pkt -> decoded frame: 44 millisecs
-> sending an encoded pkt, tot_pkts sent: 9
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00009 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00000=
-9 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 5
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 4, ts=3D0.0000=
-05 count=3D20
-> Execution time of decode_write: 0.948000 milliseconds
-> encoded pkt -> decoded frame: 7 millisecs
-> sending an encoded pkt, tot_pkts sent: 10
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00010 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-0 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 6
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 5, ts=3D0.0000=
-06 count=3D20
-> Execution time of decode_write: 0.993000 milliseconds
-> encoded pkt -> decoded frame: 2 millisecs
-> sending an encoded pkt, tot_pkts sent: 11
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00011 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-1 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 7
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 6, ts=3D0.0000=
-07 count=3D20
-> Execution time of decode_write: 1.356000 milliseconds
-> encoded pkt -> decoded frame: 4 millisecs
-> sending an encoded pkt, tot_pkts sent: 12
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00012 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-2 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 8
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 7, ts=3D0.0000=
-08 count=3D20
-> Execution time of decode_write: 15.023000 milliseconds
-> encoded pkt -> decoded frame: 21 millisecs
-> sending an encoded pkt, tot_pkts sent: 13
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00013 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-3 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 9
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 8, ts=3D0.0000=
-09 count=3D20
-> Execution time of decode_write: 18.632000 milliseconds
-> encoded pkt -> decoded frame: 27 millisecs
-> sending an encoded pkt, tot_pkts sent: 14
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00014 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-4 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 10
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 9, ts=3D0.0000=
-10 count=3D20
-> Execution time of decode_write: 8.249000 milliseconds
-> encoded pkt -> decoded frame: 12 millisecs
-> sending an encoded pkt, tot_pkts sent: 15
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00015 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-5 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 11
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 10, ts=3D0.000=
-011 count=3D20
-> Execution time of decode_write: 9.017000 milliseconds
-> encoded pkt -> decoded frame: 15 millisecs
-> sending an encoded pkt, tot_pkts sent: 16
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00016 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-6 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 12
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 11, ts=3D0.000=
-012 count=3D20
-> Execution time of decode_write: 0.882000 milliseconds
-> encoded pkt -> decoded frame: 2 millisecs
-> sending an encoded pkt, tot_pkts sent: 17
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00017 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-7 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 13
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 12, ts=3D0.000=
-013 count=3D20
-> Execution time of decode_write: 1.041000 milliseconds
-> encoded pkt -> decoded frame: 5 millisecs
-> sending an encoded pkt, tot_pkts sent: 18
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00018 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-8 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 14
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 13, ts=3D0.000=
-014 count=3D20
-> Execution time of decode_write: 0.865000 milliseconds
-> encoded pkt -> decoded frame: 3 millisecs
-> sending an encoded pkt, tot_pkts sent: 19
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00019 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00001=
-9 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 15
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 14, ts=3D0.000=
-015 count=3D20
-> Execution time of decode_write: 6.163000 milliseconds
-> encoded pkt -> decoded frame: 8 millisecs
-> sending an encoded pkt, tot_pkts sent: 20
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00020 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00002=
-0 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 16
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 15, ts=3D0.000=
-016 count=3D20
-> Execution time of decode_write: 3.917000 milliseconds
-> encoded pkt -> decoded frame: 8 millisecs
-> sending an encoded pkt, tot_pkts sent: 21
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00021 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00002=
-1 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 17
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 16, ts=3D0.000=
-017 count=3D20
-> Execution time of decode_write: 1.443000 milliseconds
-> encoded pkt -> decoded frame: 4 millisecs
-> sending an encoded pkt, tot_pkts sent: 22
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00022 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00002=
-2 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 18
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 17, ts=3D0.000=
-018 count=3D20
-> Execution time of decode_write: 10.558000 milliseconds
-> encoded pkt -> decoded frame: 13 millisecs
-> sending an encoded pkt, tot_pkts sent: 23
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00023 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00002=
-3 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 19
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 18, ts=3D0.000=
-019 count=3D20
-> Execution time of decode_write: 1.837000 milliseconds
-> encoded pkt -> decoded frame: 5 millisecs
-> sending an encoded pkt, tot_pkts sent: 24
-> [h264_v4l2m2m @ 0x68200490] --- output pre VIDIOC_QBUF: index 0, ts=3D0.0=
-00024 count=3D0
-> [h264_v4l2m2m @ 0x68200490] --- output VIDIOC_QBUF: index 0, ts=3D0.00002=
-4 count=3D1
-> frame received ! type: 0 ,keyframe: 0, tot frame decoded: 20
-> [h264_v4l2m2m @ 0x68200490] capture: Buffer requeue
-> [h264_v4l2m2m @ 0x68200490] --- capture VIDIOC_QBUF: index 19, ts=3D0.000=
-020 count=3D20
-> Execution time of decode_write: 1.110000 milliseconds
-> encoded pkt -> decoded frame: 3 millisecs
-> =E2=80=A6
->
-> Thank you,
-> Alessandro Longobardi
->
->
+Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 132/147 tests successfully               in 97.421 secs
+
+(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption, 
+ 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
+
+Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 77/135 tests successfully               in 37.233 secs
+
+(58 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
+
+Change since v3:
+=================
+
+* For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
+ - add Reviewed-By tag
+
+* For [PATCH v4 2/4] media: chips-media: wave5: Support runtime suspend/resume
+ - add Reviewed-By tag
+
+* For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage.
+ - modify the commit message
+ - define three framesize structures for decoder
+
+* For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder
+ - modify the commit message
+ - use the v4l2_format_info to calculate luma, chroma size
+
+Change since v2:
+=================
+
+* For [PATCH v3 0/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
+ - add the suggested _SHIFT suffix
+
+* For [PATCH v3 1/4] media: chips-media: wave5: Support runtime suspend/resume
+ - change a commit message
+
+* For [PATCH v3 2/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage
+ - add pix_fmt_type parameter into wave5_update_pix_fmt function
+ - add min/max width/height values into dec_fmt_list 
+
+Change since v1:
+=================
+
+* For [PATCH v2 0/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
+ - define a macro for register addresses
+
+* For [PATCH v2 1/4] media: chips-media: wave5: Support runtime suspend/resume
+ - add auto suspend/resume
+
+* For [PATCH v2 2/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage
+ - use helper functions to calculate bytesperline and sizeimage
+
+* For [PATCH v2 3/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder
+ - remove unnecessary codes
+
+Change since v0:
+=================
+The DEFAULT_SRC_SIZE macro was defined using multiple lines,
+To make a simple define, tab and multiple lines has been removed,
+The macro is defined using one line.
+
+Jackson.lee (4):
+  media: chips-media: wave5: Support SPS/PPS generation for each IDR
+  media: chips-media: wave5: Support runtime suspend/resume
+  media: chips-media: wave5: Use helpers to calculate bytesperline and
+    sizeimage.
+  media: chips-media: wave5: Support YUV422 raw pixel-formats on the
+    encoder.
+
+ .../platform/chips-media/wave5/wave5-helper.c |  24 ++
+ .../platform/chips-media/wave5/wave5-helper.h |   5 +
+ .../platform/chips-media/wave5/wave5-hw.c     |  23 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         | 312 +++++++-----------
+ .../chips-media/wave5/wave5-vpu-enc.c         | 300 +++++++++--------
+ .../platform/chips-media/wave5/wave5-vpu.c    |  43 +++
+ .../platform/chips-media/wave5/wave5-vpu.h    |   5 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  14 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
+ .../chips-media/wave5/wave5-vpuconfig.h       |  27 +-
+ .../media/platform/chips-media/wave5/wave5.h  |   3 +
+ 11 files changed, 414 insertions(+), 343 deletions(-)
+
+-- 
+2.43.0
+
 
