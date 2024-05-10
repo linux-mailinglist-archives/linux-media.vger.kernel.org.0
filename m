@@ -1,294 +1,196 @@
-Return-Path: <linux-media+bounces-11295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936ED8C1FD5
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 10:36:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A14E78C1FD8
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 10:36:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46DB728111B
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 08:36:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57BFE281317
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 08:36:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E359614E2D5;
-	Fri, 10 May 2024 08:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D297711A;
+	Fri, 10 May 2024 08:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ArI57i9P"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ikP/JuDt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UR89/jB+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF05339A;
-	Fri, 10 May 2024 08:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EAA5339A;
+	Fri, 10 May 2024 08:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715330168; cv=none; b=fAthpqLaULlhXcb/GKeS7FkmLbyusd8JBos2i50pRNThakCQwMGctaIESwbBWV875cRp2e5eCJPyYNc6GCt8woBZSENBwTmQUdSCh27DHvx1ogX6AaUrNh6GDkImpr6NtWjYa4aamnDIjsDn0ZwwAzPNGuna/YRSl63pD8heCZQ=
+	t=1715330191; cv=none; b=s8An6kw7inGZTkLk+F/ivmxTdq9mApJ9CK2Ws6ocwoXuT1dtAYOpFUYsDgiz0cXzFH9IK0qSKV8aM2gMcj5igMT6PbAVhRA9gUzLEGIUQi8LOdLRVpkacKIniWPbffSZV9DCIs1tQmMoVIC+sl5gOqxtYvyR0Vy+5XO9GQO/DBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715330168; c=relaxed/simple;
-	bh=lI1lGOZ9RI1/eyUcNREycfEb/0WeuZdNgh+3GoJSW0A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UqEST2et8AzA7HRE/4EwREEIJrtp6kEPZYuH5OpbX5e6GnHknFurd9Zn9rYrSHWIjXfqV+Vi+FmrUHSZO5NOLpCa/jG5vZoWftaO/RuJ2Sc1VxSManne0Nm39L5Vu/nwf/2VaqiKfxBC86+WBGKbZxuyLTfVARpmSPXNBMdwPwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ArI57i9P; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44A8Zpom019448;
-	Fri, 10 May 2024 03:35:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1715330151;
-	bh=d/qNR1qsf0Hsf2143R/H1eJXizH+QiDTPkRGkMidn9s=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=ArI57i9PJG4IjnRXoMNNQC4hcthNRa1ddCu5pv4xC7MKSsA+Na/YxX970YtaTiyEj
-	 /cHEYpnw6Ejg10hFXd5/WcBHozWV76atRAoAgGzuoU+CloJ2KkPbwM+4W57Lw7cnZu
-	 tQCLMv0C5be+AdQdm/ZEOtnwFdqsSgec18u763r8=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44A8Zo36126759
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 May 2024 03:35:50 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 10
- May 2024 03:35:50 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 10 May 2024 03:35:50 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44A8ZnK7078211;
-	Fri, 10 May 2024 03:35:50 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <ezequiel@vanguardiasur.com.ar>, <p.zabel@pengutronix.de>,
-        <linux-rockchip@lists.infradead.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>
-Subject: [PATCH RESEND v7 5/8] media: verisilcon : Use exported tables from v4l2-jpeg for hantro codec
-Date: Fri, 10 May 2024 14:05:49 +0530
-Message-ID: <20240510083549.1279670-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240510082603.1263256-1>
-References: <20240510082603.1263256-1>
+	s=arc-20240116; t=1715330191; c=relaxed/simple;
+	bh=4EmmVmCdCcj3oPIJdizath/cqKlFLflRxCu+gjzUh2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fnYGXtyKGY978OT+4/LbKsyroSJ2T5tHjwDP8arr1aI9gzA8+62vTiDtHMcsQNuuQwy7LlPpwvwIybt5VdSRrHm1K0vQFmqmxvbm8bUbgiLIgyLiUmTzflqVHb5OFio2acAT7rCpY2FN3j7o+4JrD9SooDw7vES4CCvkliFXKkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ikP/JuDt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UR89/jB+; arc=none smtp.client-ip=64.147.123.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 1ADB51800125;
+	Fri, 10 May 2024 04:36:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Fri, 10 May 2024 04:36:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715330185;
+	 x=1715416585; bh=Ls+CxiM7NWikyNdfD3XS/2SP5hZiLIC16I4srK3vDfo=; b=
+	ikP/JuDtAz0N8AStUfA94YlsljrEqmXZhU0YKZnd54iexLV135fs8B90XLmzw+J+
+	I3D7odqLaF/qY9ptthdoMefH8SU0lT9DSrx2rcwSQwm6BnXOcdqUlHCYZQg52iMO
+	F9wpWk1PhroTeINzvPZPUkYOyvVf3YPrTehHMDg6DLJVDUFymrDvHoTNp9ibXy3U
+	U98z4w3/toZ+LfoVioTcF9zW8iRUzZlGzaiu+lZ9rtixxdRaD9z1pxa3An2sfwUa
+	IK+ubew/qywM0RG5VgxFdklGPsKmsLbi4u8akTA/vsFW4dRBroxaoSAMW74Pd29f
+	gkWOZQzvPxXqQLZydFH+lA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715330185; x=
+	1715416585; bh=Ls+CxiM7NWikyNdfD3XS/2SP5hZiLIC16I4srK3vDfo=; b=U
+	R89/jB+/h+7e62rR4r2bOZH1SAKlXB+KMlkNKxb+KckW75/BOhvYTVM/pW0CsSxY
+	QAO0LcB3G2ovwIhNVJwGdf2euq68WBXgUs5pFEpvc3TJ5Kt+D/GLEsMpPjYn1pAu
+	NpjCxcHJbAFl4GN3rNfyoL3rI6yv6hQOMFXa5jlCogwhyeptbITtdKqrFw64LHFc
+	A9QgXKZBJqy0cg+gHShWaXFYqJbI7YE7Q854Squ/A1PmlgDKnUlv8Ym2wV/BPAgC
+	w5lJ9sbFJZGN9DBLOdzpjst5q3HKQC66P3vLI9iPfjupLVOXeSchfHzUrZ6ac7Dt
+	4Qly3gB/EHW854hlHC6ew==
+X-ME-Sender: <xms:idw9ZvjeqhnwJytaqLiWd7x7BI_r3UKqvm7Yulbjyy24LG78ti-aKg>
+    <xme:idw9ZsDbqVYNJs3D2aajxyb1pSZJHqEj7_nYPCGrqySNoLy_OQ67ePG3V4dfs7b_g
+    92qudMuQZlUgOD9wFE>
+X-ME-Received: <xmr:idw9ZvFoIY55_6-wskD6VQcYhYNIuh1hrErmwskPoqTKwK0sHInh5BUcuQrKrBwYzEYHgOw00eEeBzYl_FjoQPEHk2ixFbI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefkedgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudek
+    gefhhfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinh
+    epkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+    rghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
+    hgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:idw9ZsSgkYn4RPdSAEjb6pVH4bkV84eKaUZqkC6OgaN_2rO6uWTQOQ>
+    <xmx:idw9ZsxPZdIUozcWajj1HEL5lwEsZ194oGu5oMV_u4zFLBRGpD3u7w>
+    <xmx:idw9Zi7eypM5KG65a1b01F_zSzkOTpe0FcR4Kjb6H7ua1ZlBO8VilQ>
+    <xmx:idw9Zhx_A1qTIXJKVeuKYKOdM6FBmBxEwukuuSdiaJLqhVQ5un4tug>
+    <xmx:idw9ZvzVQdpQ3KhiQSoFqYnVQ00kSUv_nLy_fF7YXGdVu-KL0JIx4mMT>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 May 2024 04:36:24 -0400 (EDT)
+Date: Fri, 10 May 2024 10:36:22 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 00/11] media: renesas: rcar-csi2: Use the subdev
+ active state
+Message-ID: <20240510083622.GA2165064@ragnatech.se>
+References: <20240509161403.111789-1-jacopo.mondi@ideasonboard.com>
+ <20240509205129.GD6407@pendragon.ideasonboard.com>
+ <20240509224848.GV1385281@ragnatech.se>
+ <20240509230604.GC32013@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20240509230604.GC32013@pendragon.ideasonboard.com>
 
-Use v4l2-jpeg core API to import reference quantization and huffman tables
-used for JPEG Encoding.
+On 2024-05-10 02:06:04 +0300, Laurent Pinchart wrote:
+> On Fri, May 10, 2024 at 12:48:48AM +0200, Niklas Söderlund wrote:
+> > On 2024-05-09 23:51:29 +0300, Laurent Pinchart wrote:
+> > > On Thu, May 09, 2024 at 06:13:50PM +0200, Jacopo Mondi wrote:
+> > > > v2->v3:
+> > > > - rcar-csi2: Collect v2.2 of [4/11]
+> > > > - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
+> > > >   by the HDMI and Analog front ends;
+> > > > - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
+> > > >   active format on the source pad
+> > > > - max9286: Apply the format to all pads to enforce all links to have the same
+> > > >   format
+> > > > - max9286: Remove max9286_set_fsync_period() from setup
+> > > > 
+> > > > v2->v1:
+> > > >   - Remove "media: adv748x-csi2: Initialize subdev format"
+> > > >   - Add "media: adv748x-afe: Use 1X16 media bus code"
+> > > >   - Tested with CVBS
+> > > >   - address comments from Laurent and Niklas
+> > > > 
+> > > > A branch is available at
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
+> > > > jmondi/renesas-drivers-2024-04-23-v6.9-rc5/multistream-prep
+> > > > 
+> > > > As a follow-up to the recently sent
+> > > > "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
+> > > > version collects some fixes and implement usage of the subdev active state
+> > > > to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
+> > > > 
+> > > > Tested with GMSL on Eagle V3M
+> > > > Tested with HDMI on Salvator-X
+> > > > Tested with CVBS on Salvator-X
+> > > > Boot tested on WhiteHawk V4H
+> > > 
+> > > Niklas, would you be able to runtime-test this on V4H ? The series is
+> > > otherwise ready to be merged in my opinion.
+> > 
+> > I have run-time tested this on Gen4 and it works as expected. I also 
+> > tested on Gen2 and Gen3 and all looks good.
+> 
+> Can I add your Tested-by ? :-)
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V1->V6 (No change, patch introduced in V7)
----
- .../media/platform/verisilicon/hantro_jpeg.c  | 128 ++----------------
- 1 file changed, 14 insertions(+), 114 deletions(-)
+For patches 1-8,
 
-diff --git a/drivers/media/platform/verisilicon/hantro_jpeg.c b/drivers/media/platform/verisilicon/hantro_jpeg.c
-index d07b1b449b61..fa4e8ee92c05 100644
---- a/drivers/media/platform/verisilicon/hantro_jpeg.c
-+++ b/drivers/media/platform/verisilicon/hantro_jpeg.c
-@@ -11,6 +11,7 @@
- #include <linux/build_bug.h>
- #include <linux/kernel.h>
- #include <linux/string.h>
-+#include <media/v4l2-jpeg.h>
- #include "hantro_jpeg.h"
- #include "hantro.h"
- 
-@@ -24,42 +25,6 @@
- #define HUFF_CHROMA_DC_OFF	394
- #define HUFF_CHROMA_AC_OFF	427
- 
--/* Default tables from JPEG ITU-T.81
-- * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
-- */
--static const unsigned char luma_q_table[] = {
--	0x10, 0x0b, 0x0a, 0x10, 0x18, 0x28, 0x33, 0x3d,
--	0x0c, 0x0c, 0x0e, 0x13, 0x1a, 0x3a, 0x3c, 0x37,
--	0x0e, 0x0d, 0x10, 0x18, 0x28, 0x39, 0x45, 0x38,
--	0x0e, 0x11, 0x16, 0x1d, 0x33, 0x57, 0x50, 0x3e,
--	0x12, 0x16, 0x25, 0x38, 0x44, 0x6d, 0x67, 0x4d,
--	0x18, 0x23, 0x37, 0x40, 0x51, 0x68, 0x71, 0x5c,
--	0x31, 0x40, 0x4e, 0x57, 0x67, 0x79, 0x78, 0x65,
--	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0x63
--};
--
--static const unsigned char chroma_q_table[] = {
--	0x11, 0x12, 0x18, 0x2f, 0x63, 0x63, 0x63, 0x63,
--	0x12, 0x15, 0x1a, 0x42, 0x63, 0x63, 0x63, 0x63,
--	0x18, 0x1a, 0x38, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x2f, 0x42, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63
--};
--
--static const unsigned char zigzag[] = {
--	 0,  1,  8, 16,  9,  2,  3, 10,
--	17, 24, 32, 25, 18, 11,  4,  5,
--	12, 19, 26, 33, 40, 48, 41, 34,
--	27, 20, 13,  6,  7, 14, 21, 28,
--	35, 42, 49, 56, 57, 50, 43, 36,
--	29, 22, 15, 23, 30, 37, 44, 51,
--	58, 59, 52, 45, 38, 31, 39, 46,
--	53, 60, 61, 54, 47, 55, 62, 63
--};
--
- static const u32 hw_reorder[] = {
- 	 0,  8, 16, 24,  1,  9, 17, 25,
- 	32, 40, 48, 56, 33, 41, 49, 57,
-@@ -71,73 +36,6 @@ static const u32 hw_reorder[] = {
- 	38, 46, 54, 62, 39, 47, 55, 63
- };
- 
--/* Huffman tables are shared with CODA */
--static const unsigned char luma_dc_table[] = {
--	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
--	0x08, 0x09, 0x0a, 0x0b,
--};
--
--static const unsigned char chroma_dc_table[] = {
--	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
--	0x08, 0x09, 0x0a, 0x0b,
--};
--
--static const unsigned char luma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
--	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
--	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
--	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
--	0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
--	0x23, 0x42, 0xb1, 0xc1, 0x15, 0x52, 0xd1, 0xf0,
--	0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0a, 0x16,
--	0x17, 0x18, 0x19, 0x1a, 0x25, 0x26, 0x27, 0x28,
--	0x29, 0x2a, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
--	0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
--	0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
--	0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
--	0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79,
--	0x7a, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
--	0x8a, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
--	0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,
--	0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6,
--	0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3, 0xc4, 0xc5,
--	0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2, 0xd3, 0xd4,
--	0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe1, 0xe2,
--	0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea,
--	0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
--	0xf9, 0xfa,
--};
--
--static const unsigned char chroma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
--	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
--	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
--	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
--	0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
--	0xa1, 0xb1, 0xc1, 0x09, 0x23, 0x33, 0x52, 0xf0,
--	0x15, 0x62, 0x72, 0xd1, 0x0a, 0x16, 0x24, 0x34,
--	0xe1, 0x25, 0xf1, 0x17, 0x18, 0x19, 0x1a, 0x26,
--	0x27, 0x28, 0x29, 0x2a, 0x35, 0x36, 0x37, 0x38,
--	0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
--	0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
--	0x59, 0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
--	0x69, 0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
--	0x79, 0x7a, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
--	0x88, 0x89, 0x8a, 0x92, 0x93, 0x94, 0x95, 0x96,
--	0x97, 0x98, 0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5,
--	0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4,
--	0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3,
--	0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2,
--	0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda,
--	0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9,
--	0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
--	0xf9, 0xfa,
--};
--
- /* For simplicity, we keep a pre-formatted JPEG header,
-  * and we'll use fixed offsets to change the width, height
-  * quantization tables, etc.
-@@ -291,10 +189,11 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
- 		       const unsigned char *tab, int scale)
- {
- 	int i;
-+	const u8 *zigzag;
- 
--	BUILD_BUG_ON(ARRAY_SIZE(zigzag) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(hw_reorder) != JPEG_QUANT_SIZE);
- 
-+	v4l2_jpeg_get_zig_zag_scan(&zigzag);
- 	for (i = 0; i < JPEG_QUANT_SIZE; i++) {
- 		file_q_tab[i] = jpeg_scale_qp(tab[zigzag[i]], scale);
- 		reordered_q_tab[i] = jpeg_scale_qp(tab[hw_reorder[i]], scale);
-@@ -304,6 +203,7 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
- static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
- {
- 	int scale;
-+	const u8 *luma_q_table, *chroma_q_table;
- 
- 	/*
- 	 * Non-linear scaling factor:
-@@ -314,21 +214,23 @@ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
- 	else
- 		scale = 200 - 2 * ctx->quality;
- 
--	BUILD_BUG_ON(ARRAY_SIZE(luma_q_table) != JPEG_QUANT_SIZE);
--	BUILD_BUG_ON(ARRAY_SIZE(chroma_q_table) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_luma_qtable) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_chroma_qtable) != JPEG_QUANT_SIZE);
- 
-+	v4l2_jpeg_get_reference_quantization_tables(&luma_q_table, &chroma_q_table);
- 	jpeg_scale_quant_table(ctx->buffer + LUMA_QUANT_OFF,
--			       ctx->hw_luma_qtable, luma_q_table, scale);
-+			       ctx->hw_luma_qtable, (const unsigned char *)luma_q_table, scale);
- 	jpeg_scale_quant_table(ctx->buffer + CHROMA_QUANT_OFF,
--			       ctx->hw_chroma_qtable, chroma_q_table, scale);
-+			       ctx->hw_chroma_qtable, (const unsigned char *)chroma_q_table, scale);
- }
- 
- void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
- {
- 	char *buf = ctx->buffer;
-+	const u8 *luma_dc_table, *chroma_dc_table, *luma_ac_table, *chroma_ac_table;
- 
-+	v4l2_jpeg_get_reference_huffman_tables(&luma_dc_table,  &luma_ac_table, &chroma_dc_table,
-+					       &chroma_ac_table);
- 	memcpy(buf, hantro_jpeg_header,
- 	       sizeof(hantro_jpeg_header));
- 
-@@ -337,12 +239,10 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
- 	buf[WIDTH_OFF + 0] = ctx->width >> 8;
- 	buf[WIDTH_OFF + 1] = ctx->width;
- 
--	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, sizeof(luma_dc_table));
--	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, sizeof(luma_ac_table));
--	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table,
--	       sizeof(chroma_dc_table));
--	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table,
--	       sizeof(chroma_ac_table));
-+	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
-+	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
-+	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
-+	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
- 
- 	jpeg_set_quality(ctx);
- }
+Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+I'm afraid I don't have a turn-key setup to test max9286.
+
+> 
+> > Patch 7 needs to be moved earlier in the series to avoid breaking git 
+> > bisect, but that move causes no conflicts so should be easy. With that 
+> > fixed I too think this is ready to be merged. Nice work Jacopo!
+> 
+> I've reordered the patches in my tree already.
+> 
+> > > > Jacopo Mondi (11):
+> > > >   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+> > > >   media: rcar-csi2: Disable runtime_pm in probe error
+> > > >   media: rcar-csi2: Cleanup subdevice in remove()
+> > > >   media: rcar-csi2: Use the subdev active state
+> > > >   media: adv748x-csi2: Implement enum_mbus_codes
+> > > >   media: adv748x-csi2: Validate the image format
+> > > >   media: adv748x-csi2: Use the subdev active state
+> > > >   media: adv748x-afe: Use 1X16 media bus code
+> > > >   media: max9286: Fix enum_mbus_code
+> > > >   media: max9286: Use the subdev active state
+> > > >   media: max9286: Use frame interval from subdev state
+> > > > 
+> > > >  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
+> > > >  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
+> > > >  drivers/media/i2c/adv748x/adv748x.h           |   1 -
+> > > >  drivers/media/i2c/max9286.c                   | 182 +++++++-----------
+> > > >  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
+> > > >  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+> > > >  6 files changed, 271 insertions(+), 232 deletions(-)
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
 -- 
-2.39.1
-
+Kind Regards,
+Niklas Söderlund
 
