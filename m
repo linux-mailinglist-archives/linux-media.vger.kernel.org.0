@@ -1,134 +1,197 @@
-Return-Path: <linux-media+bounces-11306-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58E38C21BD
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 12:11:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F8A8C2190
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 12:05:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA5A51C224C9
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 10:11:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E3841F2172A
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 10:05:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB798165FC7;
-	Fri, 10 May 2024 10:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95DD2165FBE;
+	Fri, 10 May 2024 10:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="db7NsSpJ"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="PNfANvTY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QpmVqh4C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD7B15FA62;
-	Fri, 10 May 2024 10:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0AD1635B5;
+	Fri, 10 May 2024 10:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715335863; cv=none; b=gytQz1fbsTAc8wso96mZpSGvjLNrDd08E5AtVcjJxpBHKUf/nfOlz7rm4FgM/iKakE0HFnMZCuyzbcSMYTRhuinmXnZoD63ryReFKV6YhhZopeqxrBBUTSPW8bMT/grudIiqSitTL7kmfpmKWMOjDLSmnxj3YBRR3tO58CXHuZM=
+	t=1715335498; cv=none; b=aJGMrDtNDuKXipPAM9BWwArp2rwJMb/xTjqjifZDcdoLi0OW+3ErtLK50vLVjckiFg/ZGH7GaLN9/RC5Y3Rrjq0VtGcLJf94J8U7ArZuu1Hy3+troURz9QrJ/BH6Z5/bHFppGHLKzOTSKhia9m/u5JYvKPJd+pughjJX58aRAKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715335863; c=relaxed/simple;
-	bh=ZMLWh8Qj4mJWhLapzw2DXD+cmGmkXcA9W7KIGpEo4lg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VG5u/0iiCRcdG3weNcgbDuc4IUcfWdTydbNPwR4pTOFe/LFYHU67GjyI6GiL4X7fmhqQusJNKfn7bR//YuoHjA68jye8fkIbPR0pUvCe6MumXPQ01vSLXiVOUWNH0+o/kVUNugW51BGOipnPdnIYqT1UwbPJrwh4ssEgs9W/k1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=db7NsSpJ; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-792b8ebc4eeso127652085a.1;
-        Fri, 10 May 2024 03:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715335860; x=1715940660; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qmNXjtQqInK2DrYq2plkekwqQKtx06eUbKR+MF8j63Q=;
-        b=db7NsSpJH2tOG7yChlNBH/LBRRQep9N+MtF+GB/ZvweC1uzuuJtXi2JTYzzuGX6w7y
-         S9fTNepUcVNoz2QJ5PYxnnPz0EKUV78Gn/PAn1nS9Lzdpjvd/SUwm7HlWT9BGUTg2enD
-         8U8ro92siKdko6pPcYZdtMdizKfVSUjwUfBJp137azl24fDoIWq7hYq3i5X5kTX87imV
-         KPey2j9OyM3QZDHuqEOgeMrUvWBaclY+1MEOWTVpEKpfgGxPz9DI72YwuupyV0VgMqrE
-         1T3bU50HpknTkRXp1epMYw7Pzs/tfSvKOthk8BS1r5NRVbCT+fg4qMJYfztFSLL3FSkz
-         wtxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715335860; x=1715940660;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qmNXjtQqInK2DrYq2plkekwqQKtx06eUbKR+MF8j63Q=;
-        b=F4TYCZtEQf7Zma0l1nCap99615ID0q8KhLwu2vQr+fzsd9RLPksl3IQStOUVPyBQQY
-         8CiiSTRVwn884K6Iaq8DNE2vPKSBDq2FdnK/nX+bu+VHHf/5u1DC95BQ27T6izEwo4zF
-         yGqX644K5A3kw0C2PStaqB3BiDnB4xB9Z1y6Iq7UcTceKQTPa29wP4nR7F7iZ36j1uWY
-         T4Sgf5pI/XrX7eEPuu2qnx8BZLIEwtNRIygqh5Ih/F98X9LO1wcFu3cxrzE/USjJZTIG
-         cB9m29FMwUuK9IKsi9381QJfXlf2B/v7aHb8Qn2Co4/OKyDs5cTcbKIC+R4Hq7Nr654Y
-         lc4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWYITPveQXr1YvawrBfWERTK42wqGV5ITxCoEymCiBs95Y1+dGlTeqBkX31l3K2DaQIiJ8TtH/E4Hg8iZWJwEi/3kJG0oZGSOBZRV5jDNdMhGx8YrMWQSMIHtkzELe6FT0XD2EGsDH0yjY=
-X-Gm-Message-State: AOJu0YxEtJKRZWTWm1ra5BiBmcbbUQUPM1O0/i4l1Ky/Dj9/0WfTdfN2
-	zxATHLjL1hxd36bVca41GfP62H4GgX/WRViQWDXG3p4VzAmsXbaB
-X-Google-Smtp-Source: AGHT+IHx6PD8MXyuK4ND+nNLwcCP8oPAW9GAQy4H7bRXw63mJxSR03olceHdYeSFseK083XTIGi4yQ==
-X-Received: by 2002:a05:620a:a45:b0:790:e65f:915f with SMTP id af79cd13be357-792c75ac087mr225689585a.41.1715335860198;
-        Fri, 10 May 2024 03:11:00 -0700 (PDT)
-Received: from debug-VirtualBox.phub.net.cable.rogers.com (pool-174-114-162-125.cpe.net.cable.rogers.com. [174.114.162.125])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-792bf2fd1a6sm164060385a.91.2024.05.10.03.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 03:10:59 -0700 (PDT)
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	dave.stevenson@raspberrypi.com,
-	jacopo@jmondi.org,
-	mchehab@kernel.org,
-	julia.lawall@inria.fr
-Cc: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+	s=arc-20240116; t=1715335498; c=relaxed/simple;
+	bh=CC00sFgTDWC9SQHZN5vghkZaBNgbTN7QgEeV6BgEA48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oyEs8hzYGzsn9hCyqAE3FdRtvWf8UmHMgJqSBwZ9OHrfpKf24yTPHCSUCng6Q9ZPqbxPoyCqjZudOps2mTTQKmPfq1UHzxq5lKtUtZsHwVZzFY9ZCzDgx0cmJpLrnwhk6/6rcS8N9oq14VJ4DUqN5rEaKO5r3hq0BeyeavuLxZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=PNfANvTY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QpmVqh4C; arc=none smtp.client-ip=64.147.123.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 5B7911800103;
+	Fri, 10 May 2024 06:04:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Fri, 10 May 2024 06:04:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1715335493; x=1715421893; bh=ut
+	GzqHCYGLMkQ01p311OO4Yqbsn17yCC9KJUN2Gj224=; b=PNfANvTY6nEOpjyk/H
+	a+t0h+NAaxJpvY2V7QJdyoIYz4lpWmTWWW/W2YKj9/e4WIWPBr2WYbXin7ZC/+PP
+	/vl0AcksoJ9sbJHjNSlOoRJdYP0OXpRY4uLCDD3MjgWlGtw/7PpG78ze4h/wU12F
+	QbgBvNUwD80H29rm2FqbRq7n5Flg9mWG4QD3LsAyPWjwWBogZB8lzX2ZE9yWnWCU
+	JfPJOkD7jtai8y5PvtQtlocdk4COM1vq8ixr34EFp958Lkdo2mkj0CF9Ym7WNtq1
+	eSJPe4gogoCH2sm3aK8otw6fRVOW8d4zTbJlO2xX/ByWKIvTlLwV1U2X2uQphHaP
+	2VeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1715335493; x=1715421893; bh=utGzqHCYGLMkQ
+	01p311OO4Yqbsn17yCC9KJUN2Gj224=; b=QpmVqh4CyOc8KHOYLzUbS5PtRJRA+
+	cbpl3N39tBFJawxeTO7KN8B90f73rVzNNymdh7Y6cEm3t0G5lVXcdi+d6sF0yQyI
+	oL2rA0QT7DazqMpg1y70C5aVG0h+QavpJawA6C7cZML2WscvaJW+SBTsGL/YqGkZ
+	ub3H3uFFtByyZ7yLOxxPkilzxktohs3Cifw73e+xVLvJBQsoE8K2cqIPaVn44lcW
+	36TPj9w9QrrPq7YnlVolkeveL5BRnEd8BWqSH2MyahAZGFxsru8auJiQNp1kICPl
+	R8bKJPcf92an3yK2WIIpZZnMYWAgco5aXFuDpBz4Zo6Ff9bEKWBXUeV0w==
+X-ME-Sender: <xms:RfE9ZpTfBjRMJpnrAHgMiQb27Xd15VwB9wIzXUyl4ZedEuV4EUGXVA>
+    <xme:RfE9ZixGMhALpt7Enn7GGI2NvItszLWXQ9k3A8TgU5gz19jMLvdJKNKcEAMEDQ5ks
+    4ip6EH6xu0NkbMq-zU>
+X-ME-Received: <xmr:RfE9Zu3AY-ChwWzLGU5q9YPYzGMHy1ISoR7fkj8yeysolcEZAxVOCfArXZrne3r3FPVoOkWCsO-Ayzp5ROriEJcrWbJPSPu05UHn>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefkedgvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:RfE9ZhB_Lc-bgQOZG9HbF9fKW5Y-Im9Z5Fizkccpv5T78KQyyExvXQ>
+    <xmx:RfE9Zig-i1VBDeljf1oCNykv2oCC6M3nCDmVs1cj4bmrEiitinXWrw>
+    <xmx:RfE9ZloD6APSQjYwQeg7mEueCyrg6bZvUOBn-lO4b5ko-YyOhS3Hdg>
+    <xmx:RfE9ZtjaYbJTYRWtjf_nxzq959dkMSJFe8flR05v7sS-l5G0OBFgMw>
+    <xmx:RfE9ZpqgTVF8Xoqxab8ePOXZ9DKzqCrKR63A6x0xnD473-N2QEEnKDyG>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 May 2024 06:04:51 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com
-Subject: [PATCH] media: i2c: replacing of_node_put with __free(device_node)
-Date: Fri, 10 May 2024 06:03:24 -0400
-Message-Id: <20240510100324.5961-1-abdulrasaqolawani@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: staging: max96712: Store format in subdev active state
+Date: Fri, 10 May 2024 12:03:47 +0200
+Message-ID: <20240510100347.102392-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replaced instance of of_node_put with __free(device_node)
-to protect against any memory leaks due to future changes
-in control flow.
+Create and store the subdevice format in the subdevices active state.
+This change do not have a huge effect on the driver as it do not yet
+support changing the format.
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/i2c/ov5647.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Hello,
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 7e1ecdf2485f..d593dba092e3 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -1360,23 +1360,19 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
- 	struct v4l2_fwnode_endpoint bus_cfg = {
- 		.bus_type = V4L2_MBUS_CSI2_DPHY,
- 	};
--	struct device_node *ep;
-+	struct device_node *ep __free(device_node) = of_graph_get_endpoint_by_regs(np, 0, -1);
- 	int ret;
+This change is mostly to align all driver used in the R-Car VIN pipeline
+to use the same set of API and to make it easier to extend them in
+tandem going forward.
+
+This should be seen as a compliment to Jacopo's larger work in "[PATCH
+v3 00/11] media: renesas: rcar-csi2: Use the subdev active state" which
+updates other drivers in the VIN pipeline to use the active state.
+---
+ drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index c44145284aa1..2da65ccd2c57 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -242,21 +242,34 @@ static const struct v4l2_subdev_video_ops max96712_video_ops = {
+ 	.s_stream = max96712_s_stream,
+ };
  
--	ep = of_graph_get_endpoint_by_regs(np, 0, -1);
- 	if (!ep)
- 		return -EINVAL;
+-static int max96712_get_pad_format(struct v4l2_subdev *sd,
+-				   struct v4l2_subdev_state *sd_state,
+-				   struct v4l2_subdev_format *format)
++static int max96712_init_state(struct v4l2_subdev *sd,
++			       struct v4l2_subdev_state *state)
+ {
+-	format->format.width = 1920;
+-	format->format.height = 1080;
+-	format->format.code = MEDIA_BUS_FMT_RGB888_1X24;
+-	format->format.field = V4L2_FIELD_NONE;
++	static const struct v4l2_mbus_framefmt default_fmt = {
++		.width          = 1920,
++		.height         = 1080,
++		.code           = MEDIA_BUS_FMT_RGB888_1X24,
++		.colorspace     = V4L2_COLORSPACE_SRGB,
++		.field          = V4L2_FIELD_NONE,
++		.ycbcr_enc      = V4L2_YCBCR_ENC_DEFAULT,
++		.quantization   = V4L2_QUANTIZATION_DEFAULT,
++		.xfer_func      = V4L2_XFER_FUNC_DEFAULT,
++	};
++	struct v4l2_mbus_framefmt *fmt;
++
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	*fmt = default_fmt;
  
- 	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
- 	if (ret)
--		goto out;
-+		return ret;
- 
- 	sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
- 			      V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
- 
--out:
--	of_node_put(ep);
--
- 	return ret;
+ 	return 0;
  }
  
++static const struct v4l2_subdev_internal_ops max96712_internal_ops = {
++	.init_state = max96712_init_state,
++};
++
+ static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
+-	.get_fmt = max96712_get_pad_format,
+-	.set_fmt = max96712_get_pad_format,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = v4l2_subdev_get_fmt,
+ };
+ 
+ static const struct v4l2_subdev_ops max96712_subdev_ops = {
+@@ -293,6 +306,7 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 	long pixel_rate;
+ 	int ret;
+ 
++	priv->sd.internal_ops = &max96712_internal_ops;
+ 	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96712_subdev_ops);
+ 	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+@@ -324,6 +338,10 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 
+ 	v4l2_set_subdevdata(&priv->sd, priv);
+ 
++	ret = v4l2_subdev_init_finalize(&priv->sd);
++	if (ret)
++		goto error;
++
+ 	ret = v4l2_async_register_subdev(&priv->sd);
+ 	if (ret < 0) {
+ 		dev_err(&priv->client->dev, "Unable to register subdevice\n");
 -- 
-2.34.1
+2.45.0
 
 
