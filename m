@@ -1,85 +1,87 @@
-Return-Path: <linux-media+bounces-11333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11335-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C8E8C27BD
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 17:28:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D18C27D9
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 17:32:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7AC5F1C21D01
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:28:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5C5C1F214E9
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93492171E57;
-	Fri, 10 May 2024 15:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC46171E62;
+	Fri, 10 May 2024 15:29:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="faBOMB8o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0oBaUaS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103A2171E45
-	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 15:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C28117166C;
+	Fri, 10 May 2024 15:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715354864; cv=none; b=OhlWYnVNM1uDISf2UoBeKlKQFHoNQCnFjg/l4IwzvbRR4t4Q06Gzu8AoemzJtdM4IJcLBYlAkRTLrZaLlOJvtuEzqf8l9zVKxQISWoVBYTPR0XlpizHFnw0yauXv9B3+UAParS5qM1lvSXZvyqMIVm4MbbVgDAsE5PSy2Rs8i8I=
+	t=1715354943; cv=none; b=mpFO5yRKXLdmTifSPAyiHByF1lt2/61BL6dRSuNmyhx3USjAdcP2i2X+vsAWPmxhSR65lS4C1QW7D+rRJOGEVv2deY68gFrEwC4VtwtINpbSbwiUA92SIWzPYPdXTE/ybN3+fBCa6FmoP5twiJP0+VY/NTfrnLtFXIIiCYwO+y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715354864; c=relaxed/simple;
-	bh=Jzdc2H2hNULa1a9dJybZhyaGjAWp+NC8/yUTJ8Z3H5o=;
+	s=arc-20240116; t=1715354943; c=relaxed/simple;
+	bh=glm6K5/Xk0wjpLSBdU0Yd+zs1pppGMGVEKiFN3HdM7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qAZflcr487HSxwP3FfAuNkdGeZXksVCDA0RD2tgrEPSOFUCOZnl8bDpetxaYWO5jK2tCIV9nbh94pbqLgInQpD+Bn88u0ZxOoZz7EraoBIELYIYPhKTGnfLIbpywUZB/P/ceUdUS+tMjZUbeENsRuTfWFW5/cH3SxLYzjRcyg78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=faBOMB8o; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51fb14816f6so2688762e87.0
-        for <linux-media@vger.kernel.org>; Fri, 10 May 2024 08:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715354854; x=1715959654; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a5FOttH9EQLp2QP0x59iAJre7V/D35J8XRWRgV60AP8=;
-        b=faBOMB8o6QE81pOcKmx0/FRnSBMxxpDIhA0Wq/pd5m8P6lNAVaMjIL6AD0jAFA6FHS
-         hiP6IcpyjBUdLL0qg6Bd3liXJ8yZrUpQba38xyf3jXZ15YWgtjH35imQPJJOItmXXb88
-         UHW5TRX0b3HtZPDNBIcn5GKMYC01FUfXdpKdZ4qRMR7yrH93LALT369PYJF4nvsSvatX
-         mvt2bCzP6Td172qdgBNG1Q92K0Di4rORIWuCi0Ea2ox4iXhJJhT7NmIVEAWkcGDOoa7P
-         Rr1t5ObpwJ/egOVxY2cVbQU8510scxMk1xS+MRY60A1u4EJaYp48+v/Y0WJCG3DpgWGi
-         HoNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715354854; x=1715959654;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a5FOttH9EQLp2QP0x59iAJre7V/D35J8XRWRgV60AP8=;
-        b=LJDGpy0dLqi1BLZ5Z+JcaXbbac3sfZeBKG81rG+1T/S4F0U8K8CmrE25dUa9Cqha8Q
-         0CWMus8PYLQhchXOTOlvj20WVnRZ71tqPWFmYIousti8jqYncu6fjyCxv7KEwNtSjn8E
-         wjiFJ8krw6Ng8NsbbchhMDVGZF5GrS6g6DYcKLeo1PTFi3Gf/OyX9DjPN5qHp3N6+W0d
-         ofh+OQlf4Gq5+rD1ruZ4/RabC5q8wYF2xVv7wvjTsBLSb7BJcmgIrnU5gZwZsEwuY1hx
-         53mjwR3bSshcOhLJHQXzYgf+e1cWo61XeA9Dnfb72tXVAQvM+eHtf5/rhhHW37snbXZz
-         OPFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUp8GhpIOwJk3FzOV3tQDfG9Dmcl0lSzxjhIN3FacYSV8XAXfT99AILnt1FwEW8OwncUBWC9NqE+iUP9jKO7sn0ZKbewiJ+NjpCiE=
-X-Gm-Message-State: AOJu0YzHP6CsQzdXrlQbtDD1uHVSMkxfA97YJ+oEMAwg0OUX99GEFrf+
-	au+Xl84n/9/PpyI8fz8HZ0TFN8t9IPJCJuQ+kTjYr3ehQf9wwqJQ1Nyv6hNbhQM=
-X-Google-Smtp-Source: AGHT+IEMgujKR3JXFlI9/r1eu8jHtRxxNrK/qiE+3cimxYuBLDPv4NYPwk0taMgIyW3VjMHaTPlVFA==
-X-Received: by 2002:a19:a40f:0:b0:522:f6:9268 with SMTP id 2adb3069b0e04-5220fc7eed8mr1735865e87.31.1715354853669;
-        Fri, 10 May 2024 08:27:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d553sm195973166b.43.2024.05.10.08.27.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 08:27:33 -0700 (PDT)
-Date: Fri, 10 May 2024 18:27:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: ipu-bridge: fix error code in ipu_bridge_init()
-Message-ID: <4ade89f8-cbd3-4dbf-81fb-0e9a4269dc0f@moroto.mountain>
-References: <71dad56e-0e2f-48ba-90bc-75096112a1ba@moroto.mountain>
- <Zj46vpwTbfde4YX2@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QE+c6PJ3tqP3kwbbJ41gEL3HeJ4NU8DCbZju0mcHO77A+2WKgt0sUzIVyn1B/wAoehFhZfETvQy/Cip/C9JznKYSNdfFToYUd7FOacVH/ZNvTA+fAFwEwUhcn41gDa4N97W5Yexz5LqCBXGIqwoVtl3ywEWuqs3FMMoy1zSGIpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0oBaUaS; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715354943; x=1746890943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=glm6K5/Xk0wjpLSBdU0Yd+zs1pppGMGVEKiFN3HdM7c=;
+  b=V0oBaUaSq3vQI6HDPV+CA0n861nzJC4MGRiWQsUiRx0NcHb9icvRPJgs
+   apUVxpX+B8GJs6qBcDPizB740Qm3uu1jrZFMtop2fHJhQuBL42Wv0ZYn5
+   RfXarzGduYNhrQq01bHBMLvEiWQQ/2Cpug1PgWkHfy7jLZexlYAyK6Ndx
+   Sy5wE5yjJs97zHnYlYupx8X4wMGiHwIHO7wb6aL0STvRPhmptcqzFn17+
+   v185yoCnHeNJewDeuMmIV8VEDS/kFQvhR+1osCfJtxN8pZElIkw0dsjSl
+   zWkN8Xwq/erC1AG1rtJO4fqD7W4Xw9SbYQBKBlDa4uBYk7DuhHddWIUS5
+   w==;
+X-CSE-ConnectionGUID: slOd/0rbQv6iHU+LDk9rog==
+X-CSE-MsgGUID: eaxgiOpLSC2a3dsBtg7FnQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28825463"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
+   d="scan'208";a="28825463"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 08:29:03 -0700
+X-CSE-ConnectionGUID: ww4RHDtNREOiGbN3Z/4+6Q==
+X-CSE-MsgGUID: YuXYbDQITCqLG7bhB9KUqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
+   d="scan'208";a="29757874"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 08:28:56 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s5SB2-0000000695W-188w;
+	Fri, 10 May 2024 18:28:52 +0300
+Date: Fri, 10 May 2024 18:28:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+	sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org, adobriyan@gmail.com,
+	p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+	nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Message-ID: <Zj49M4ZwSChNRuXs@smile.fi.intel.com>
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com>
+ <87fruphf55.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,37 +90,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zj46vpwTbfde4YX2@smile.fi.intel.com>
+In-Reply-To: <87fruphf55.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, May 10, 2024 at 06:18:22PM +0300, Andy Shevchenko wrote:
-> On Fri, May 10, 2024 at 06:10:37PM +0300, Dan Carpenter wrote:
-> > Return -EINVAL if "bridge->n_sensors == 0".  Don't return success.
+On Fri, May 10, 2024 at 06:15:34PM +0300, Jani Nikula wrote:
+> On Fri, 10 May 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, May 10, 2024 at 12:09:52AM +0530, Devarsh Thakkar wrote:
+> >> Add macros to round to nearest specified power of 2.
+> >
+> > This is not what they are doing. For the above we already have macros defined.
+> >
+> >> Two macros are added :
+> >
+> > (Yes, after I wrapped to comment this line looks better on its own,
+> >  so whatever will be the first sentence, this line should be separated
+> >  from.)
+> >
+> >> round_closest_up and round_closest_down which round up to nearest multiple
+> >
+> > round_closest_up() and round_closest_down()
+> >
+> >
+> >> of 2 with a preference to round up or round down respectively if there are
+> >> two possible nearest values to the given number.
+> >
+> > You should reformulate, because AFAICS there is the crucial difference
+> > from these and existing round_*_pow_of_two().
 > 
-> ...
-> 
-> >  	ret = ipu_bridge_connect_sensors(bridge);
-> > -	if (ret || bridge->n_sensors == 0)
-> > +	if (ret || bridge->n_sensors == 0) {
-> > +		ret = ret ?: -EINVAL;
-> >  		goto err_unregister_ipu;
-> > +	}
-> 
-> I would split:
-> 
-> 	ret = ipu_bridge_connect_sensors(bridge);
-> 	if (ret)
-> 		goto err_unregister_ipu;
-> 
-> 	if (bridge->n_sensors == 0) {
-> 		ret = -EINVAL;
-> 		goto err_unregister_ipu;
-> 	}
+> Moreover, I think the naming of round_up() and round_down() should have
+> reflected the fact that they operate on powers of 2. It's unfortunate
+> that the difference to roundup() and rounddown() is just the underscore!
+> That's just a trap.
 
-It's always hard to know which way to go on these...  I wrote it that
-way in my first draft.  It's my prefered way as well but not everyone
-agrees.  I'll resend.
+FYI:
+https://stackoverflow.com/questions/58139219/difference-of-align-and-round-up-macro-in-the-linux-kernel
 
-regards,
-dan carpenter
+> So let's perhaps not repeat the same with round_closest_up() and
+> round_closest_down()?
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
