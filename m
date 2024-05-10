@@ -1,105 +1,201 @@
-Return-Path: <linux-media+bounces-11341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00AC8C2847
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 17:55:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C8F8C284F
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 17:56:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CCE8B25837
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:55:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0840A1F2499F
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E8B6172764;
-	Fri, 10 May 2024 15:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2307171E72;
+	Fri, 10 May 2024 15:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3EJexqL"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Ben3F4Mv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="epGMj0EV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD32912C49A;
-	Fri, 10 May 2024 15:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE14412C49A;
+	Fri, 10 May 2024 15:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715356527; cv=none; b=E9XzjwaHQPpL2IYy2a/vL4GtVkojul3kyFOxSw/nbjJTeNHD9MxKf96jpzWlXI9Hzstg4vXTj+syJck0avliYUqvyyv00gJhU2pxPMgkMAlyBjH2k1TjHzCivOBvJTmvDYnvBm4ybwPBlXHwoo6jn7dcC404scLXaHL+RWemn5s=
+	t=1715356598; cv=none; b=oM64IISzocv/ZYGTBbGWpjLmWzIiJsFsBCNvtWQnIQKKvGpB4r4EjuytEqIbfLaXwTOjRzVs/22E0nTl2iVxmlj6hmvPoUyoZyq1j12gzr44diCE2/H75psGdToOofF4wFSVodeK05ZRYfNY0b67EXlfvW69Kii8+iIxm3dQcVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715356527; c=relaxed/simple;
-	bh=j+PEZx8467CAXDutqvKyg1G+wTPrUXhPSpI3yRUttds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NI4+5FUgG5psGjQ4QWdi1KbMlB9/tLYBbBqlMASmjA8JvqUqq6EuUQkQePRqgNODwa3pth058ecyrNzV8w6raDAp/8K4kIGgarv+K+//x3boItegJy1mTP1r6lcJtLzA+TzFAYFWoocbb+hbrr36FAEmSSD+oIK0/yYUUpF5XYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3EJexqL; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715356526; x=1746892526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j+PEZx8467CAXDutqvKyg1G+wTPrUXhPSpI3yRUttds=;
-  b=a3EJexqLq9CD85OUp8dGYNvQUSFs7yaVCTv2JhFAhWRTcYLYj6PDSkh5
-   r9HRGGGLEzUOG3ytgk0aleoI05KBlqk7KJnTWz1O6Y9Wsp3LsB8wvCO0l
-   zQFBwp7qgHewerXiBASSAraBKwMHzRRFh1v/xf+evOwuLFbzZXlguZMVY
-   62O6we5WqvCq9ndEgzAsXosCyCHYWXlg2hAQXYt+EWmmT7+qeW+DqZzFt
-   O+t2MCUzhGrqXh/nbZZl/r7bSJTXINET+PLHU36yuAksOXQTH0kn97WGa
-   C73fZkk9ttaKW52Ls//h2pPFgolHcuDyVDt9Brvxr3rsShSiOd3gCYUHv
-   w==;
-X-CSE-ConnectionGUID: Ay0D0ftWT4Stikvob9tD9w==
-X-CSE-MsgGUID: O0V4t7U2TheHwv2J9t1w0w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15156304"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="15156304"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 08:55:25 -0700
-X-CSE-ConnectionGUID: whxk1HeLTWmDvmtnEXGwlQ==
-X-CSE-MsgGUID: eJFq66uXTs2bxZHOT4FK7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
-   d="scan'208";a="52869228"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 08:55:23 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s5Sae-000000069Ys-0KtG;
-	Fri, 10 May 2024 18:55:20 +0300
-Date: Fri, 10 May 2024 18:55:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	s=arc-20240116; t=1715356598; c=relaxed/simple;
+	bh=HiR8WfGbfSDYOJPjzZIbNONbwkpTYSokAc21z+JJGtg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ahgSASn7GYdc3Z/LN/AHYz1qFNTZLnW/9oWSoa1ffbw40J/gnX4P3lSl5mDrEvtq0hibEu8eS3zeUcaFa979CzuowTdto0Szn4j92TM+B99vmeQ8r4gmAhDH08POXZNiBGh6UTVq6t4QqVmQnYRdF6iO9/yAtrINe/LU7L5yys0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Ben3F4Mv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=epGMj0EV; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 270B111400BC;
+	Fri, 10 May 2024 11:56:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 10 May 2024 11:56:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1715356595; x=1715442995; bh=G9
+	LTBMDTS9PNUDj0pG4HKiQOlyw/9e+UGrHZ0u3qK20=; b=Ben3F4MvGALZwbVwkl
+	ZLrdHUW9w8LS7eN3o91aYtfM6W63az+QvjMp1L/xzMCBXJ1DAAbot3YV9uYSsb+6
+	0gOOd97NJFWYFFQrSrJ1umI+zTcI1BQ2FqDUrc5GHKipWoyBSi8gWOx6XkzbDAQy
+	IUZtGOUXMEPeHdU3Typ++oAIrKVJQ3H1wnRKA+wPCEqWy28WcY42HW3KUNEUNYW9
+	1ofhHwyL27vOK9oduiB5Bb6dGm96tplPhNrJmpefd0r8Vmu+zxa+A8WCTc2DBjQH
+	Ag6L4EW9LUpik7cDmzfCTiBPEEUq2qCVIDfHcaKj5OLYZdnP6hlG32wjTXZTrJ8k
+	3Pgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1715356595; x=1715442995; bh=G9LTBMDTS9PNU
+	Dj0pG4HKiQOlyw/9e+UGrHZ0u3qK20=; b=epGMj0EVpKIRh9dl7dSwxDYw6owZ9
+	JvlOt66/06/8f/sLwOdUIrVIxTnPczGxXmc7oMXuvvm90atDvF5CeS7iLWz02SaQ
+	7zApOku5edHlyiLy8Ghov6W1JzWM1inN9DQ2Aj10z/7+O4sjnXCx4zorhS2UC/G9
+	eshyQPJlme8MqHPCNQyyiNP9wQ63BRnTY8cfuNDfmXORIMa4faMP94S+3QSCmR27
+	ayXY4E2mfzQ00GK/zD2nqXRT/Yhd7536ZR5OM0tzy7yzJfeE0XbjB5biLLKd0Y8F
+	6KexNrrYEASqzXJ/90+QP9Tr3Y/H9Gyji973Z8YPu/Lc3woRGjzmbkyZw==
+X-ME-Sender: <xms:skM-ZnJ-Ri6plGj6BO6PNHsdcbzC5nCJntsWAzEGWXDoZVy5zxDc4g>
+    <xme:skM-ZrJerL4mHu26cPMx6-1SgG0GiF6vX-I11qS-01xDdzlIo8zjU9w6_8ma0XxQm
+    GppHc4v8-Yq35AMJc8>
+X-ME-Received: <xmr:skM-ZvuV8KtGcrRKfhQW9dE2JBToh2keif0oIQbKg-NjzslBGoWakfF34c8ma_UdalkYh63Y1M4eN5JloGJWyOKYgHWPReHCQHrj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefkedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:skM-ZgbKdo6ZXX95PJ6iegvnmyxB1VfM6gDImP_f50-QT78-sPBteg>
+    <xmx:skM-ZuYs4Q9II0Brku50t23BsXT8_aH4KuZTKfo_drsLxCB0uny13Q>
+    <xmx:skM-ZkBeJWp7oiQc3j1rLW5O49Ahnua1qNdIqq_t9RO2T_f1ZywA6A>
+    <xmx:skM-ZsYyNJq__D15GuzdHoVIoV2LBoau4Z4RdQ2FAkRKbbPKAsinww>
+    <xmx:s0M-ZgCBzzEXgGrnOHPkRcXzr8zybVYJBSCfVmDKJjoFuIQjsQyhG5jx>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 May 2024 11:56:33 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH v2] media: ipu-bridge: fix error code in ipu_bridge_init()
-Message-ID: <Zj5DZ4ORVfeCZSsV@smile.fi.intel.com>
-References: <f468c4ac-0629-41b5-b5d1-e26f70e44800@moroto.mountain>
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] media: staging: max96712: Store format in subdev active state
+Date: Fri, 10 May 2024 17:56:06 +0200
+Message-ID: <20240510155606.317507-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f468c4ac-0629-41b5-b5d1-e26f70e44800@moroto.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 10, 2024 at 06:43:31PM +0300, Dan Carpenter wrote:
-> Return -EINVAL if "bridge->n_sensors == 0".  Don't return success.
+Create and store the subdevice format in the subdevices active state.
+This change do not have a huge effect on the driver as it do not yet
+support changing the format.
 
-LGTM, but I leave the main Q "Is it really the error case?" to the maintainers.
-I would imagine the use case where either from the following may happen:
-1) the sensors are all new and not listed as supported;
-2) there no sensors connected for real.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+Hello,
 
-In both cases I don't see this as a critical error that we can't enumerate
-the bridge itself.
+This change is mostly to align all driver used in the R-Car VIN pipeline
+to use the same set of API and to make it easier to extend them in
+tandem going forward.
 
+This should be seen as a compliment to Jacopo's larger work in "[PATCH
+v3 00/11] media: renesas: rcar-csi2: Use the subdev active state" which
+updates other drivers in the VIN pipeline to use the active state.
+
+* Changes since v1
+- Use the control handler lock as the active state lock.
+---
+ drivers/staging/media/max96712/max96712.c | 37 +++++++++++++++++------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index c44145284aa1..3b302547aa4b 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -242,21 +242,34 @@ static const struct v4l2_subdev_video_ops max96712_video_ops = {
+ 	.s_stream = max96712_s_stream,
+ };
+ 
+-static int max96712_get_pad_format(struct v4l2_subdev *sd,
+-				   struct v4l2_subdev_state *sd_state,
+-				   struct v4l2_subdev_format *format)
++static int max96712_init_state(struct v4l2_subdev *sd,
++			       struct v4l2_subdev_state *state)
+ {
+-	format->format.width = 1920;
+-	format->format.height = 1080;
+-	format->format.code = MEDIA_BUS_FMT_RGB888_1X24;
+-	format->format.field = V4L2_FIELD_NONE;
++	static const struct v4l2_mbus_framefmt default_fmt = {
++		.width          = 1920,
++		.height         = 1080,
++		.code           = MEDIA_BUS_FMT_RGB888_1X24,
++		.colorspace     = V4L2_COLORSPACE_SRGB,
++		.field          = V4L2_FIELD_NONE,
++		.ycbcr_enc      = V4L2_YCBCR_ENC_DEFAULT,
++		.quantization   = V4L2_QUANTIZATION_DEFAULT,
++		.xfer_func      = V4L2_XFER_FUNC_DEFAULT,
++	};
++	struct v4l2_mbus_framefmt *fmt;
++
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	*fmt = default_fmt;
+ 
+ 	return 0;
+ }
+ 
++static const struct v4l2_subdev_internal_ops max96712_internal_ops = {
++	.init_state = max96712_init_state,
++};
++
+ static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
+-	.get_fmt = max96712_get_pad_format,
+-	.set_fmt = max96712_get_pad_format,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = v4l2_subdev_get_fmt,
+ };
+ 
+ static const struct v4l2_subdev_ops max96712_subdev_ops = {
+@@ -293,6 +306,7 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 	long pixel_rate;
+ 	int ret;
+ 
++	priv->sd.internal_ops = &max96712_internal_ops;
+ 	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96712_subdev_ops);
+ 	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+@@ -324,6 +338,11 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 
+ 	v4l2_set_subdevdata(&priv->sd, priv);
+ 
++	priv->sd.state_lock = priv->ctrl_handler.lock;
++	ret = v4l2_subdev_init_finalize(&priv->sd);
++	if (ret)
++		goto error;
++
+ 	ret = v4l2_async_register_subdev(&priv->sd);
+ 	if (ret < 0) {
+ 		dev_err(&priv->client->dev, "Unable to register subdevice\n");
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.45.0
 
 
