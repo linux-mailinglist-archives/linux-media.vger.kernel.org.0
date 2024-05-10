@@ -1,1658 +1,621 @@
-Return-Path: <linux-media+bounces-11357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19678C2CCF
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 01:10:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901E58C2CED
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 01:21:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA8AE1C2123E
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 23:10:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B35DF1C21507
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 23:21:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B04171E76;
-	Fri, 10 May 2024 23:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9018F177991;
+	Fri, 10 May 2024 23:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vbj37rku"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JFOFPfkt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893E213D250
-	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 23:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E42F171E4B
+	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 23:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715382598; cv=none; b=heOJRqTdTF3vEUj3G+e/fhBGtfjfVfqO50b3jCo5daVqa0XG97GALsCpUzWFRCct7Mm9ooG5Dl9ENI1/AHfXYZiIibgyRDxKyDFzjHn5RwURqN+s+PXEXdjmYCNjXFUUm4MKB1QQ3MTmD+brSAVCPtZgKAKg1bHNXCZ1+CoY8TI=
+	t=1715383296; cv=none; b=dJjFR4JEBMPriNQdJem+GnLoRzsiPe5YCGsbA+lfFvJZSWM5edWgkNo5N0Y+He+6bigY7LsPoPhHLr+/virNFKV778tbSiXX5q5ilM4XD7d1bwMy9SdS1Kl+cVa0/q7jqcMZPmAk4aHJasJJD3kVCCnebwguYKLJbB0EHN1B8+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715382598; c=relaxed/simple;
-	bh=cSM4axxYMtnONVF9XuVU10QMiSXRNcNxrSELB0FcBx8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B2Lu4tP+rM8UOwhahzVoO1pEnmLNm5/WklOcaeaiV2Tec8/n6rPkrwMsDlfYu1DEp+SpFASueWavWTv+YB/Un8nD/UMydqNfyuk4Ggkh3lzdLeXFGUETJAdeR2y7CPDyDOoFnbn4U2YHEwYOeJoQb1WCMY2qzcE66OSkfzhE5Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vbj37rku; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-41a72f3a20dso17861695e9.0
-        for <linux-media@vger.kernel.org>; Fri, 10 May 2024 16:09:53 -0700 (PDT)
+	s=arc-20240116; t=1715383296; c=relaxed/simple;
+	bh=XMufk7WiPlM9EPBWzeHbXz33CYeTSj6IQBbaUrSW0pw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=dsnJWrfQiGpXjt5ve8J874JBHl0n/wfudi6cfiG4S423KsGPPknyKWjzUeeliWrjlCXP+K0asSZZKrvgy0ZF2ArpWEIz2eZXJt+Ce0lEF5CFm3UR3v6RgkTfNo0Ugbja0TFRdOxY0oS1sCkERQrZiZRCJ6+kzy628RIEFdNF/P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JFOFPfkt; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-61e0949fc17so41101687b3.0
+        for <linux-media@vger.kernel.org>; Fri, 10 May 2024 16:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715382592; x=1715987392; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RIh2+xGCo7oxqcL0GkNdvQllzHY3/Jaxq1rzu8b5tDw=;
-        b=Vbj37rkua31lQ2cp9KFgZ8tZwxxSkzgUpseUuBU1RCxOLVAVgBLC2ws0dnAcwhSi0P
-         7QcvoEDV4vDRZtnSSHcTV5XcB84dVaOtPB+6XBEaKVSsDqhWk5v4HdBr2Dda8ipWNy+e
-         lI21wDTkIqXxa91HO57/iixkkDDWkU+Bj4j4ws9G4mMXehKoNPF/fvON9YVm453PC2D8
-         BTPciOmVte4po0fnRUsVM4LqE+I3/XSKD5/y+iJZI9hwcrFzPr8vtpjHv+4f3ox94VSC
-         9j1HNv4g4tLF9agm9LR2P/IWeXiOXAuuqdjR0mcCJ6OlDSOzBNIrajowsq2Jx1l8H4v1
-         RJOw==
+        d=google.com; s=20230601; t=1715383292; x=1715988092; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fbCOG4vKWSkf2yrHzC0IwofnDhVcpMt/NTe4S8ZF5tY=;
+        b=JFOFPfktKWfeM2zTFTCJS1ruqG1PWhyyEWfaelUwjdI/zfplYD4dmLtGgr/1/01ES7
+         VkX6p3BvxP59kahK71coefQnaWr6hkiAWwFxRabEwh6TRMcKlmT/XU9t47fA5ilUKHEg
+         pcniiiXACi8JRTBiqWDDWkD7/0aXOhk+A8nesQFLKWKLShN0jnqatd5bNatQb/o8EEln
+         mGjB9STh3bofBntn0QC3iJlj7DlFgdcXkw4x6dbC0tRao0/05LfNrW4vKVgQ2pM8sC3m
+         p33l6PYcoC3P0OhnMisc5rtQ3MotSNTe0Ey2lsOsfpwofcvFENqgRLAe6VwOQalmTbJz
+         Xtfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715382592; x=1715987392;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RIh2+xGCo7oxqcL0GkNdvQllzHY3/Jaxq1rzu8b5tDw=;
-        b=KfDfZmpLGSLZzyAoQ6RyTJMMpLe39+DA+4f2vx8YusRabUaVtudl9usHYtqygi9zKQ
-         4WEVqq3WRS/K6DICTN6IqWLBIALOZO2ylyDw3O3UJn0dbpDwGwziTKoOIiWRCMo+VVOG
-         1emWKr4yTobETphXdTjnfJA88VBZju/2ieJU9j9Ix1xR1SK2CngF5zDH1CHltvF9jW8E
-         sqDHEWvFTpAcktuEOzJ6cIceKpe5GPWrffr4egks8k16tquqTnWE8WJIEp6+FqKJXjhW
-         4Jr0JsiqdKP8glrDHmRB4rRV3/1M/lvCzWsGFUTnkEQPCTPdMwZGbcsDVWacWX+gmmRO
-         4UfA==
-X-Gm-Message-State: AOJu0YwkziEQO7ATBh+Z7y46hCuR8VniC0+UP42ih1CK9112T9MPzFm3
-	y0L3bZwubxVykuAbH5HWQEWjrUo6wVdx66k/IODq/QhRc54NCGlAEHMO/kF9J20=
-X-Google-Smtp-Source: AGHT+IFj2s1o59gRl1HcmpsfyJe9g6urCtjfWu6cTPuTLId66VwpCyvtvDIeIT2IhgSTM+fzAm4QJA==
-X-Received: by 2002:a05:600c:4ed0:b0:41c:14a4:7b05 with SMTP id 5b1f17b1804b1-41fea93af8cmr24456265e9.8.1715382591561;
-        Fri, 10 May 2024 16:09:51 -0700 (PDT)
-Received: from x13s-linux.nxsw.local ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4200a8e6846sm18264395e9.15.2024.05.10.16.09.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 16:09:51 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: quic_grosikop@quicinc.com,
-	rfoss@kernel.org,
-	todor.too@gmail.com,
-	hverkuil-cisco@xs4all.nl,
-	andersson@kernel.org,
-	konrad.dybcio@linaro.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	quic_hariramp@quicinc.com,
-	matti.lehtimaki@gmail.com,
-	Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v3.1] media: qcom: camss: Add per sub-device type resources
-Date: Sat, 11 May 2024 00:09:45 +0100
-Message-ID: <20240510230945.11750-1-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240411124543.199-2-quic_grosikop@quicinc.com>
-References: <20240411124543.199-2-quic_grosikop@quicinc.com>
+        d=1e100.net; s=20230601; t=1715383292; x=1715988092;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fbCOG4vKWSkf2yrHzC0IwofnDhVcpMt/NTe4S8ZF5tY=;
+        b=BDD4xr2pd08N2KbapIP6kyXlCNMX7yblMvvhd1vJBUswaa8RUWRAirvSZs0GFE3wxD
+         NursukTYDp+L1SKis01TZDveUSr9ITnO2ZViTn5myElUehw6Q0wQErdMvTA5p64LfCNb
+         zp6vv9zG0jyYcCmPTwhZrr/xkGxnP6ddM4EV1zgM7rOQ+9vbTXviF9R3W0ocFJiPRHRs
+         z/ggLI0NyPoDYS5j47vOicMcMFRPCpXPfPeHgtyEp54jYLJ6i5cwz606V5ATBesH/39k
+         X29xnJpL0vtdOP5VAPGSCCjL78Bo0xMBvW9gZlO+KH9RZ2cTpfDOtFpaoPFmWn/33MA7
+         LsSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbYC+m/ksEcELhjDf3vAlYKue1ZxTd4P9ZfdQ5EHxxAB6mkSlvziGzhk+ePal7OEDKCkU+pA0dui/U/j8GvZTlSRsG/leoD4SA6l0=
+X-Gm-Message-State: AOJu0YyscqaKl0zkvZD1LMPi8uwGAUuzOQFpLJUF5bq/NwuE8tXIwVQR
+	Rmvn7PftgqktRSHF3SFxBTn/aUt83TbtS1EQDyd19woRHdkQhCnqr8B3+ATg+PeEccPIp2G/i15
+	ebPkg2sPdm0Kr84LRLgn2Iw==
+X-Google-Smtp-Source: AGHT+IHbWJpIgkGxBv6ChhcNr7NDPddGn1PqJmWJwZZYsxsV8dZVyfkyubyxO3uACkjaFTM7GwqIl4aOo1r4kRuXOw==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:3428:1b4e:e75a:d31b])
+ (user=almasrymina job=sendgmr) by 2002:a05:690c:4508:b0:615:27b6:7624 with
+ SMTP id 00721157ae682-622affc6407mr10233717b3.6.1715383292570; Fri, 10 May
+ 2024 16:21:32 -0700 (PDT)
+Date: Fri, 10 May 2024 16:21:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.0.118.g7fe29c98d7-goog
+Message-ID: <20240510232128.1105145-1-almasrymina@google.com>
+Subject: [PATCH net-next v9 00/14] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
+v9:
+=3D=3D=3D
 
-Currently resources structure grows with additional parameters required for
-each sub-deivce. However each sub-device has some specific resources or
-configurations which need to be passed during the initialization.
+Major Changes:
+--------------
 
-This change adds per sub-device type structure to simplify the things
-and removes the magical void pointer to hw_ops.
+GVE queue API has been merged. Submitting this version as non-RFC after
+rebasing on top of the merged API, and dropped the out of tree queue API
+I was carrying on github. Addressed the little feedback v8 has received.
 
-Signed-off-by: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
-Signed-off-by: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../media/platform/qcom/camss/camss-csid.c    |  22 +-
- .../media/platform/qcom/camss/camss-csid.h    |   7 +-
- .../media/platform/qcom/camss/camss-csiphy.c  |  14 +-
- .../media/platform/qcom/camss/camss-csiphy.h  |   6 +-
- .../media/platform/qcom/camss/camss-vfe-17x.c |  10 +-
- .../media/platform/qcom/camss/camss-vfe-4-1.c |   4 +-
- .../media/platform/qcom/camss/camss-vfe-4-7.c |   6 +-
- .../media/platform/qcom/camss/camss-vfe-4-8.c |   6 +-
- .../platform/qcom/camss/camss-vfe-gen1.c      |   8 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |  54 ++-
- drivers/media/platform/qcom/camss/camss-vfe.h |  11 +-
- drivers/media/platform/qcom/camss/camss.c     | 381 ++++++++++++------
- drivers/media/platform/qcom/camss/camss.h     |  10 +-
- 13 files changed, 343 insertions(+), 196 deletions(-)
+Detailed changelog:
+------------------
+- Added new patch from David Wei to this series for
+  netdev_rx_queue_restart()
+- Fixed sparse error.
+- Removed CONFIG_ checks in netmem_is_net_iov()
+- Flipped skb->readable to skb->unreadable
+- Minor fixes to selftests & docs.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index eb27d69e89a16..d1a22e07fdb6c 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -202,7 +202,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 
- 		enable_irq(csid->irq);
- 
--		ret = csid->ops->reset(csid);
-+		ret = csid->res->hw_ops->reset(csid);
- 		if (ret < 0) {
- 			disable_irq(csid->irq);
- 			camss_disable_clocks(csid->nclocks, csid->clock);
-@@ -212,7 +212,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
- 			return ret;
- 		}
- 
--		csid->ops->hw_version(csid);
-+		csid->res->hw_ops->hw_version(csid);
- 	} else {
- 		disable_irq(csid->irq);
- 		camss_disable_clocks(csid->nclocks, csid->clock);
-@@ -253,7 +253,7 @@ static int csid_set_stream(struct v4l2_subdev *sd, int enable)
- 	}
- 
- 	if (csid->phy.need_vc_update) {
--		csid->ops->configure_stream(csid, enable);
-+		csid->res->hw_ops->configure_stream(csid, enable);
- 		csid->phy.need_vc_update = false;
- 	}
- 
-@@ -325,7 +325,7 @@ static void csid_try_format(struct csid_device *csid,
- 
- 			*fmt = *__csid_get_format(csid, sd_state,
- 						      MSM_CSID_PAD_SINK, which);
--			fmt->code = csid->ops->src_pad_code(csid, fmt->code, 0, code);
-+			fmt->code = csid->res->hw_ops->src_pad_code(csid, fmt->code, 0, code);
- 		} else {
- 			/* Test generator is enabled, set format on source */
- 			/* pad to allow test generator usage */
-@@ -375,8 +375,8 @@ static int csid_enum_mbus_code(struct v4l2_subdev *sd,
- 						     MSM_CSID_PAD_SINK,
- 						     code->which);
- 
--			code->code = csid->ops->src_pad_code(csid, sink_fmt->code,
--						       code->index, 0);
-+			code->code = csid->res->hw_ops->src_pad_code(csid, sink_fmt->code,
-+								     code->index, 0);
- 			if (!code->code)
- 				return -EINVAL;
- 		} else {
-@@ -529,7 +529,7 @@ static int csid_set_test_pattern(struct csid_device *csid, s32 value)
- 
- 	tg->enabled = !!value;
- 
--	return csid->ops->configure_testgen_pattern(csid, value);
-+	return csid->res->hw_ops->configure_testgen_pattern(csid, value);
- }
- 
- /*
-@@ -575,9 +575,9 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 
- 	csid->camss = camss;
- 	csid->id = id;
--	csid->ops = res->ops;
-+	csid->res = &res->csid;
- 
--	csid->ops->subdev_init(csid);
-+	csid->res->hw_ops->subdev_init(csid);
- 
- 	/* Memory */
- 
-@@ -605,7 +605,7 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 	csid->irq = ret;
- 	snprintf(csid->irq_name, sizeof(csid->irq_name), "%s_%s%d",
- 		 dev_name(dev), MSM_CSID_NAME, csid->id);
--	ret = devm_request_irq(dev, csid->irq, csid->ops->isr,
-+	ret = devm_request_irq(dev, csid->irq, csid->res->hw_ops->isr,
- 			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
- 			       csid->irq_name, csid);
- 	if (ret < 0) {
-@@ -899,5 +899,5 @@ void msm_csid_unregister_entity(struct csid_device *csid)
- 
- inline bool csid_is_lite(struct csid_device *csid)
- {
--	return csid->camss->res->csid_res[csid->id].is_lite;
-+	return csid->camss->res->csid_res[csid->id].csid.is_lite;
- }
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index fddccb69da13a..8d2971aa9ef8b 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -149,6 +149,11 @@ struct csid_hw_ops {
- 	void (*subdev_init)(struct csid_device *csid);
- };
- 
-+struct csid_subdev_resources {
-+	bool is_lite;
-+	const struct csid_hw_ops *hw_ops;
-+};
-+
- struct csid_device {
- 	struct camss *camss;
- 	u8 id;
-@@ -169,7 +174,7 @@ struct csid_device {
- 	struct v4l2_ctrl *testgen_mode;
- 	const struct csid_format *formats;
- 	unsigned int nformats;
--	const struct csid_hw_ops *ops;
-+	const struct csid_subdev_resources *res;
- };
- 
- struct camss_subdev_resources;
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index 45b3a8e5dea49..f26ddf1af9d42 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -216,9 +216,9 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
- 
- 		enable_irq(csiphy->irq);
- 
--		csiphy->ops->reset(csiphy);
-+		csiphy->res->hw_ops->reset(csiphy);
- 
--		csiphy->ops->hw_version_read(csiphy, dev);
-+		csiphy->res->hw_ops->hw_version_read(csiphy, dev);
- 	} else {
- 		disable_irq(csiphy->irq);
- 
-@@ -243,7 +243,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
- {
- 	struct csiphy_config *cfg = &csiphy->cfg;
- 	s64 link_freq;
--	u8 lane_mask = csiphy->ops->get_lane_mask(&cfg->csi2->lane_cfg);
-+	u8 lane_mask = csiphy->res->hw_ops->get_lane_mask(&cfg->csi2->lane_cfg);
- 	u8 bpp = csiphy_get_bpp(csiphy->formats, csiphy->nformats,
- 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-@@ -272,7 +272,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
- 		wmb();
- 	}
- 
--	csiphy->ops->lanes_enable(csiphy, cfg, link_freq, lane_mask);
-+	csiphy->res->hw_ops->lanes_enable(csiphy, cfg, link_freq, lane_mask);
- 
- 	return 0;
- }
-@@ -285,7 +285,7 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
-  */
- static void csiphy_stream_off(struct csiphy_device *csiphy)
- {
--	csiphy->ops->lanes_disable(csiphy, &csiphy->cfg);
-+	csiphy->res->hw_ops->lanes_disable(csiphy, &csiphy->cfg);
- }
- 
- 
-@@ -564,7 +564,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 	csiphy->camss = camss;
- 	csiphy->id = id;
- 	csiphy->cfg.combo_mode = 0;
--	csiphy->ops = res->ops;
-+	csiphy->res = &res->csiphy;
- 
- 	switch (camss->res->version) {
- 	case CAMSS_8x16:
-@@ -610,7 +610,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 	snprintf(csiphy->irq_name, sizeof(csiphy->irq_name), "%s_%s%d",
- 		 dev_name(dev), MSM_CSIPHY_NAME, csiphy->id);
- 
--	ret = devm_request_irq(dev, csiphy->irq, csiphy->ops->isr,
-+	ret = devm_request_irq(dev, csiphy->irq, csiphy->res->hw_ops->isr,
- 			       IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN,
- 			       csiphy->irq_name, csiphy);
- 	if (ret < 0) {
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-index c9b7fe82b1f0d..7bd68129ca498 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-@@ -63,6 +63,10 @@ struct csiphy_hw_ops {
- 	irqreturn_t (*isr)(int irq, void *dev);
- };
- 
-+struct csiphy_subdev_resources {
-+	const struct csiphy_hw_ops *hw_ops;
-+};
-+
- struct csiphy_device {
- 	struct camss *camss;
- 	u8 id;
-@@ -78,7 +82,7 @@ struct csiphy_device {
- 	u32 timer_clk_rate;
- 	struct csiphy_config cfg;
- 	struct v4l2_mbus_framefmt fmt[MSM_CSIPHY_PADS_NUM];
--	const struct csiphy_hw_ops *ops;
-+	const struct csiphy_subdev_resources *res;
- 	const struct csiphy_format *formats;
- 	unsigned int nformats;
- };
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-17x.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-index 795ac3815339a..380c99321030e 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-@@ -353,7 +353,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 	writel_relaxed(status0, vfe->base + VFE_IRQ_CLEAR_0);
- 	writel_relaxed(status1, vfe->base + VFE_IRQ_CLEAR_1);
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++) {
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++) {
- 		vfe_bus_status[i] = readl_relaxed(vfe->base + VFE_BUS_IRQ_STATUS(i));
- 		writel_relaxed(vfe_bus_status[i], vfe->base + VFE_BUS_IRQ_CLEAR(i));
- 	}
-@@ -367,11 +367,11 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 	if (status0 & STATUS_0_RESET_ACK)
- 		vfe->isr_ops.reset_ack(vfe);
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++)
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++)
- 		if (status0 & STATUS_0_RDI_REG_UPDATE(i))
- 			vfe->isr_ops.reg_update(vfe, i);
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++)
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++)
- 		if (status0 & STATUS_1_RDI_SOF(i))
- 			vfe->isr_ops.sof(vfe, i);
- 
-@@ -442,7 +442,7 @@ static int vfe_enable_output(struct vfe_line *line)
- {
- 	struct vfe_device *vfe = to_vfe(line);
- 	struct vfe_output *output = &line->output;
--	const struct vfe_hw_ops *ops = vfe->ops;
-+	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
- 	struct media_entity *sensor;
- 	unsigned long flags;
- 	unsigned int frame_skip = 0;
-@@ -560,7 +560,7 @@ static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&vfe->output_lock, flags);
--	vfe->ops->reg_update_clear(vfe, line_id);
-+	vfe->res->hw_ops->reg_update_clear(vfe, line_id);
- 
- 	output = &vfe->line[line_id].output;
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-index ef6b34c915df1..1bd3a6ef1d04d 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-4-1.c
-@@ -892,7 +892,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 	u32 value0, value1;
- 	int i, j;
- 
--	vfe->ops->isr_read(vfe, &value0, &value1);
-+	vfe->res->hw_ops->isr_read(vfe, &value0, &value1);
- 
- 	dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
- 		value0, value1);
-@@ -901,7 +901,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 		vfe->isr_ops.reset_ack(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_VIOLATION)
--		vfe->ops->violation_read(vfe);
-+		vfe->res->hw_ops->violation_read(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_BUS_BDG_HALT_ACK)
- 		vfe->isr_ops.halt_ack(vfe);
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-index 7655d22a9fda2..ce0719106bd34 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-4-7.c
-@@ -1050,7 +1050,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 	u32 value0, value1;
- 	int i, j;
- 
--	vfe->ops->isr_read(vfe, &value0, &value1);
-+	vfe->res->hw_ops->isr_read(vfe, &value0, &value1);
- 
- 	dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
- 		value0, value1);
-@@ -1059,12 +1059,12 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 		vfe->isr_ops.reset_ack(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_VIOLATION)
--		vfe->ops->violation_read(vfe);
-+		vfe->res->hw_ops->violation_read(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_BUS_BDG_HALT_ACK)
- 		vfe->isr_ops.halt_ack(vfe);
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++)
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++)
- 		if (value0 & VFE_0_IRQ_STATUS_0_line_n_REG_UPDATE(i))
- 			vfe->isr_ops.reg_update(vfe, i);
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-4-8.c b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-index f52fa30f3853e..6b59c8107a3c7 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-4-8.c
-@@ -980,7 +980,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 	u32 value0, value1;
- 	int i, j;
- 
--	vfe->ops->isr_read(vfe, &value0, &value1);
-+	vfe->res->hw_ops->isr_read(vfe, &value0, &value1);
- 
- 	dev_dbg(vfe->camss->dev, "VFE: status0 = 0x%08x, status1 = 0x%08x\n",
- 		value0, value1);
-@@ -989,12 +989,12 @@ static irqreturn_t vfe_isr(int irq, void *dev)
- 		vfe->isr_ops.reset_ack(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_VIOLATION)
--		vfe->ops->violation_read(vfe);
-+		vfe->res->hw_ops->violation_read(vfe);
- 
- 	if (value1 & VFE_0_IRQ_STATUS_1_BUS_BDG_HALT_ACK)
- 		vfe->isr_ops.halt_ack(vfe);
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++)
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++)
- 		if (value0 & VFE_0_IRQ_STATUS_0_line_n_REG_UPDATE(i))
- 			vfe->isr_ops.reg_update(vfe, i);
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-index 239d3d4ac6661..eb33c03df27e5 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-@@ -37,7 +37,7 @@ static int vfe_disable_output(struct vfe_line *line)
- {
- 	struct vfe_device *vfe = to_vfe(line);
- 	struct vfe_output *output = &line->output;
--	const struct vfe_hw_ops *ops = vfe->ops;
-+	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
- 	unsigned long flags;
- 	unsigned long time;
- 	unsigned int i;
-@@ -162,14 +162,14 @@ static void vfe_output_frame_drop(struct vfe_device *vfe,
- 		vfe->ops_gen1->wm_set_framedrop_pattern(vfe, output->wm_idx[i], drop_pattern);
- 	}
- 
--	vfe->ops->reg_update(vfe, container_of(output, struct vfe_line, output)->id);
-+	vfe->res->hw_ops->reg_update(vfe, container_of(output, struct vfe_line, output)->id);
- }
- 
- static int vfe_enable_output(struct vfe_line *line)
- {
- 	struct vfe_device *vfe = to_vfe(line);
- 	struct vfe_output *output = &line->output;
--	const struct vfe_hw_ops *ops = vfe->ops;
-+	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
- 	struct media_entity *sensor;
- 	unsigned long flags;
- 	unsigned int frame_skip = 0;
-@@ -545,7 +545,7 @@ static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&vfe->output_lock, flags);
--	vfe->ops->reg_update_clear(vfe, line_id);
-+	vfe->res->hw_ops->reg_update_clear(vfe, line_id);
- 
- 	output = &line->output;
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index d875237cf2443..459c70a4b3199 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -296,7 +296,7 @@ int vfe_reset(struct vfe_device *vfe)
- 
- 	reinit_completion(&vfe->reset_complete);
- 
--	vfe->ops->global_reset(vfe);
-+	vfe->res->hw_ops->global_reset(vfe);
- 
- 	time = wait_for_completion_timeout(&vfe->reset_complete,
- 		msecs_to_jiffies(VFE_RESET_TIMEOUT_MS));
-@@ -312,7 +312,7 @@ static void vfe_init_outputs(struct vfe_device *vfe)
- {
- 	int i;
- 
--	for (i = 0; i < vfe->line_num; i++) {
-+	for (i = 0; i < vfe->res->line_num; i++) {
- 		struct vfe_output *output = &vfe->line[i].output;
- 
- 		output->state = VFE_OUTPUT_OFF;
-@@ -421,7 +421,7 @@ static int vfe_disable_output(struct vfe_line *line)
- 
- 	spin_lock_irqsave(&vfe->output_lock, flags);
- 	for (i = 0; i < output->wm_num; i++)
--		vfe->ops->vfe_wm_stop(vfe, output->wm_idx[i]);
-+		vfe->res->hw_ops->vfe_wm_stop(vfe, output->wm_idx[i]);
- 	output->gen2.active_num = 0;
- 	spin_unlock_irqrestore(&vfe->output_lock, flags);
- 
-@@ -537,7 +537,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
- 	int i, j;
- 	int ret;
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++) {
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++) {
- 		ret = camss_get_pixel_clock(&vfe->line[i].subdev.entity,
- 					    &pixel_clock[i]);
- 		if (ret)
-@@ -551,7 +551,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
- 			u64 min_rate = 0;
- 			long rate;
- 
--			for (j = VFE_LINE_RDI0; j < vfe->line_num; j++) {
-+			for (j = VFE_LINE_RDI0; j < vfe->res->line_num; j++) {
- 				u32 tmp;
- 				u8 bpp;
- 
-@@ -618,7 +618,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
- 	int i, j;
- 	int ret;
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++) {
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++) {
- 		ret = camss_get_pixel_clock(&vfe->line[i].subdev.entity,
- 					    &pixel_clock[i]);
- 		if (ret)
-@@ -632,7 +632,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
- 			u64 min_rate = 0;
- 			unsigned long rate;
- 
--			for (j = VFE_LINE_RDI0; j < vfe->line_num; j++) {
-+			for (j = VFE_LINE_RDI0; j < vfe->res->line_num; j++) {
- 				u32 tmp;
- 				u8 bpp;
- 
-@@ -675,7 +675,7 @@ int vfe_get(struct vfe_device *vfe)
- 	mutex_lock(&vfe->power_lock);
- 
- 	if (vfe->power_count == 0) {
--		ret = vfe->ops->pm_domain_on(vfe);
-+		ret = vfe->res->hw_ops->pm_domain_on(vfe);
- 		if (ret < 0)
- 			goto error_pm_domain;
- 
-@@ -700,7 +700,7 @@ int vfe_get(struct vfe_device *vfe)
- 
- 		vfe_init_outputs(vfe);
- 
--		vfe->ops->hw_version(vfe);
-+		vfe->res->hw_ops->hw_version(vfe);
- 	} else {
- 		ret = vfe_check_clock_rates(vfe);
- 		if (ret < 0)
-@@ -718,7 +718,7 @@ int vfe_get(struct vfe_device *vfe)
- error_pm_runtime_get:
- 	pm_runtime_put_sync(vfe->camss->dev);
- error_domain_off:
--	vfe->ops->pm_domain_off(vfe);
-+	vfe->res->hw_ops->pm_domain_off(vfe);
- 
- error_pm_domain:
- 	mutex_unlock(&vfe->power_lock);
-@@ -740,11 +740,11 @@ void vfe_put(struct vfe_device *vfe)
- 	} else if (vfe->power_count == 1) {
- 		if (vfe->was_streaming) {
- 			vfe->was_streaming = 0;
--			vfe->ops->vfe_halt(vfe);
-+			vfe->res->hw_ops->vfe_halt(vfe);
- 		}
- 		camss_disable_clocks(vfe->nclocks, vfe->clock);
- 		pm_runtime_put_sync(vfe->camss->dev);
--		vfe->ops->pm_domain_off(vfe);
-+		vfe->res->hw_ops->pm_domain_off(vfe);
- 	}
- 
- 	vfe->power_count--;
-@@ -834,12 +834,12 @@ static int vfe_set_stream(struct v4l2_subdev *sd, int enable)
- 
- 	if (enable) {
- 		line->output.state = VFE_OUTPUT_RESERVED;
--		ret = vfe->ops->vfe_enable(line);
-+		ret = vfe->res->hw_ops->vfe_enable(line);
- 		if (ret < 0)
- 			dev_err(vfe->camss->dev,
- 				"Failed to enable vfe outputs\n");
- 	} else {
--		ret = vfe->ops->vfe_disable(line);
-+		ret = vfe->res->hw_ops->vfe_disable(line);
- 		if (ret < 0)
- 			dev_err(vfe->camss->dev,
- 				"Failed to disable vfe outputs\n");
-@@ -1376,23 +1376,24 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	int i, j;
- 	int ret;
- 
--	vfe->ops = res->ops;
--
--	if (!res->line_num)
-+	if (!res->vfe.line_num)
- 		return -EINVAL;
- 
-+	vfe->res = &res->vfe;
-+	vfe->res->hw_ops->subdev_init(dev, vfe);
-+
- 	/* Power domain */
- 
--	if (res->pd_name) {
-+	if (res->vfe.pd_name) {
- 		vfe->genpd = dev_pm_domain_attach_by_name(camss->dev,
--							  res->pd_name);
-+							  res->vfe.pd_name);
- 		if (IS_ERR(vfe->genpd)) {
- 			ret = PTR_ERR(vfe->genpd);
- 			return ret;
- 		}
- 	}
- 
--	if (!vfe->genpd && res->has_pd) {
-+	if (!vfe->genpd && res->vfe.has_pd) {
- 		/*
- 		 * Legacy magic index.
- 		 * Requires
-@@ -1409,9 +1410,6 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 			return PTR_ERR(vfe->genpd);
- 	}
- 
--	vfe->line_num = res->line_num;
--	vfe->ops->subdev_init(dev, vfe);
--
- 	/* Memory */
- 
- 	vfe->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
-@@ -1429,7 +1427,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	vfe->irq = ret;
- 	snprintf(vfe->irq_name, sizeof(vfe->irq_name), "%s_%s%d",
- 		 dev_name(dev), MSM_VFE_NAME, id);
--	ret = devm_request_irq(dev, vfe->irq, vfe->ops->isr,
-+	ret = devm_request_irq(dev, vfe->irq, vfe->res->hw_ops->isr,
- 			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
- 	if (ret < 0) {
- 		dev_err(dev, "request_irq failed: %d\n", ret);
-@@ -1488,7 +1486,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	vfe->id = id;
- 	vfe->reg_update = 0;
- 
--	for (i = VFE_LINE_RDI0; i < vfe->line_num; i++) {
-+	for (i = VFE_LINE_RDI0; i < vfe->res->line_num; i++) {
- 		struct vfe_line *l = &vfe->line[i];
- 
- 		l->video_out.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-@@ -1636,7 +1634,7 @@ int msm_vfe_register_entities(struct vfe_device *vfe,
- 	int ret;
- 	int i;
- 
--	for (i = 0; i < vfe->line_num; i++) {
-+	for (i = 0; i < vfe->res->line_num; i++) {
- 		char name[32];
- 
- 		sd = &vfe->line[i].subdev;
-@@ -1743,7 +1741,7 @@ void msm_vfe_unregister_entities(struct vfe_device *vfe)
- 	mutex_destroy(&vfe->power_lock);
- 	mutex_destroy(&vfe->stream_lock);
- 
--	for (i = 0; i < vfe->line_num; i++) {
-+	for (i = 0; i < vfe->res->line_num; i++) {
- 		struct v4l2_subdev *sd = &vfe->line[i].subdev;
- 		struct camss_video *video_out = &vfe->line[i].video_out;
- 
-@@ -1755,5 +1753,5 @@ void msm_vfe_unregister_entities(struct vfe_device *vfe)
- 
- bool vfe_is_lite(struct vfe_device *vfe)
- {
--	return vfe->camss->res->vfe_res[vfe->id].is_lite;
-+	return vfe->camss->res->vfe_res[vfe->id].vfe.is_lite;
- }
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
-index 0572c9b08e112..87fc159c48cc5 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.h
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.h
-@@ -126,6 +126,14 @@ struct vfe_isr_ops {
- 	void (*wm_done)(struct vfe_device *vfe, u8 wm);
- };
- 
-+struct vfe_subdev_resources {
-+	bool is_lite;
-+	u8 line_num;
-+	bool has_pd;
-+	char *pd_name;
-+	const struct vfe_hw_ops *hw_ops;
-+};
-+
- struct vfe_device {
- 	struct camss *camss;
- 	u8 id;
-@@ -143,10 +151,9 @@ struct vfe_device {
- 	spinlock_t output_lock;
- 	enum vfe_line_id wm_output_map[MSM_VFE_IMAGE_MASTERS_NUM];
- 	struct vfe_line line[VFE_LINE_NUM_MAX];
--	u8 line_num;
- 	u32 reg_update;
- 	u8 was_streaming;
--	const struct vfe_hw_ops *ops;
-+	const struct vfe_subdev_resources *res;
- 	const struct vfe_hw_ops_gen1 *ops_gen1;
- 	struct vfe_isr_ops isr_ops;
- 	struct camss_video_ops video_ops;
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 1923615f0eea7..34bac001073c0 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -43,7 +43,9 @@ static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 				{ 100000000, 200000000 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_2ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_2ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY1 */
-@@ -56,7 +58,9 @@ static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 				{ 100000000, 200000000 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_2ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_2ph_1_0
-+		}
- 	}
- };
- 
-@@ -76,7 +80,9 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_4_1,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_1
-+		}
- 	},
- 
- 	/* CSID1 */
-@@ -94,7 +100,9 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_4_1,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_1
-+		}
- 	},
- };
- 
-@@ -105,8 +113,7 @@ static const struct camss_subdev_resources ispif_res_8x16 = {
- 		   "csi1", "csi1_pix", "csi1_rdi" },
- 	.clock_for_reset = { "vfe0", "csi_vfe0" },
- 	.reg = { "ispif", "csi_clk_mux" },
--	.interrupt = { "ispif" }
--
-+	.interrupt = { "ispif" },
- };
- 
- static const struct camss_subdev_resources vfe_res_8x16[] = {
-@@ -128,8 +135,10 @@ static const struct camss_subdev_resources vfe_res_8x16[] = {
- 				{ 0 } },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.line_num = 3,
--		.ops = &vfe_ops_4_1
-+		.vfe = {
-+			.line_num = 3,
-+			.hw_ops = &vfe_ops_4_1
-+		}
- 	}
- };
- 
-@@ -144,7 +153,9 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY1 */
-@@ -157,7 +168,9 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY2 */
-@@ -170,7 +183,9 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy2", "csiphy2_clk_mux" },
- 		.interrupt = { "csiphy2" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	}
- };
- 
-@@ -190,7 +205,9 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID1 */
-@@ -208,7 +225,9 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID2 */
-@@ -226,7 +245,9 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID3 */
-@@ -244,7 +265,9 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	}
- };
- 
-@@ -257,7 +280,7 @@ static const struct camss_subdev_resources ispif_res_8x96 = {
- 		   "csi3", "csi3_pix", "csi3_rdi" },
- 	.clock_for_reset = { "vfe0", "csi_vfe0", "vfe1", "csi_vfe1" },
- 	.reg = { "ispif", "csi_clk_mux" },
--	.interrupt = { "ispif" }
-+	.interrupt = { "ispif" },
- };
- 
- static const struct camss_subdev_resources vfe_res_8x96[] = {
-@@ -277,9 +300,11 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_4_7
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_4_7
-+		}
- 	},
- 
- 	/* VFE1 */
-@@ -298,9 +323,11 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
- 				{ 0 } },
- 		.reg = { "vfe1" },
- 		.interrupt = { "vfe1" },
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_4_7
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_4_7
-+		}
- 	}
- };
- 
-@@ -317,7 +344,9 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY1 */
-@@ -332,7 +361,9 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY2 */
-@@ -347,7 +378,9 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csiphy2", "csiphy2_clk_mux" },
- 		.interrupt = { "csiphy2" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	}
- };
- 
-@@ -370,7 +403,9 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID1 */
-@@ -391,7 +426,9 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID2 */
-@@ -412,7 +449,9 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	},
- 
- 	/* CSID3 */
-@@ -433,7 +472,9 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
--		.ops = &csid_ops_4_7,
-+		.csid = {
-+			.hw_ops = &csid_ops_4_7
-+		}
- 	}
- };
- 
-@@ -446,7 +487,7 @@ static const struct camss_subdev_resources ispif_res_660 = {
- 		   "csi3", "csi3_pix", "csi3_rdi" },
- 	.clock_for_reset = { "vfe0", "csi_vfe0", "vfe1", "csi_vfe1" },
- 	.reg = { "ispif", "csi_clk_mux" },
--	.interrupt = { "ispif" }
-+	.interrupt = { "ispif" },
- };
- 
- static const struct camss_subdev_resources vfe_res_660[] = {
-@@ -469,9 +510,11 @@ static const struct camss_subdev_resources vfe_res_660[] = {
- 				{ 0 } },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_4_8
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_4_8
-+		}
- 	},
- 
- 	/* VFE1 */
-@@ -493,9 +536,11 @@ static const struct camss_subdev_resources vfe_res_660[] = {
- 				{ 0 } },
- 		.reg = { "vfe1" },
- 		.interrupt = { "vfe1" },
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_4_8
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_4_8
-+		}
- 	}
- };
- 
-@@ -516,7 +561,9 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy0" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY1 */
-@@ -535,7 +582,9 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy1" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY2 */
-@@ -554,7 +603,9 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy2" },
- 		.interrupt = { "csiphy2" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 
- 	/* CSIPHY3 */
-@@ -573,7 +624,9 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy3" },
- 		.interrupt = { "csiphy3" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	}
- };
- 
-@@ -596,7 +649,9 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 
- 	/* CSID1 */
-@@ -617,7 +672,9 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 
- 	/* CSID2 */
-@@ -638,8 +695,10 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	}
- };
- 
-@@ -662,9 +721,11 @@ static const struct camss_subdev_resources vfe_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.line_num = 4,
--		.has_pd = true,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 
- 	/* VFE1 */
-@@ -685,9 +746,11 @@ static const struct camss_subdev_resources vfe_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "vfe1" },
- 		.interrupt = { "vfe1" },
--		.line_num = 4,
--		.has_pd = true,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.has_pd = true,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 
- 	/* VFE-lite */
-@@ -707,9 +770,11 @@ static const struct camss_subdev_resources vfe_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "vfe_lite" },
- 		.interrupt = { "vfe_lite" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	}
- };
- 
-@@ -722,7 +787,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy0" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY1 */
- 	{
-@@ -732,7 +799,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy1" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY2 */
- 	{
-@@ -742,7 +811,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy2" },
- 		.interrupt = { "csiphy2" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY3 */
- 	{
-@@ -752,7 +823,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy3" },
- 		.interrupt = { "csiphy3" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY4 */
- 	{
-@@ -762,7 +835,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy4" },
- 		.interrupt = { "csiphy4" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY5 */
- 	{
-@@ -772,7 +847,9 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy5" },
- 		.interrupt = { "csiphy5" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	}
- };
- 
-@@ -788,7 +865,9 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID1 */
- 	{
-@@ -801,7 +880,9 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID2 */
- 	{
-@@ -813,8 +894,10 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID3 */
- 	{
-@@ -826,8 +909,10 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	}
- };
- 
-@@ -849,10 +934,12 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.pd_name = "ife0",
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_480
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.pd_name = "ife0",
-+			.hw_ops = &vfe_ops_480
-+		}
- 	},
- 	/* VFE1 */
- 	{
-@@ -871,10 +958,12 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "vfe1" },
- 		.interrupt = { "vfe1" },
--		.pd_name = "ife1",
--		.line_num = 3,
--		.has_pd = true,
--		.ops = &vfe_ops_480
-+		.vfe = {
-+			.line_num = 3,
-+			.has_pd = true,
-+			.pd_name = "ife1",
-+			.hw_ops = &vfe_ops_480
-+		}
- 	},
- 	/* VFE2 (lite) */
- 	{
-@@ -892,9 +981,11 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "vfe_lite0" },
- 		.interrupt = { "vfe_lite0" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_480
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_480
-+		}
- 	},
- 	/* VFE3 (lite) */
- 	{
-@@ -912,9 +1003,11 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "vfe_lite1" },
- 		.interrupt = { "vfe_lite1" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_480
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_480
-+		}
- 	},
- };
- 
-@@ -950,7 +1043,9 @@ static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy0" },
- 		.interrupt = { "csiphy0" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY1 */
- 	{
-@@ -960,7 +1055,9 @@ static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy1" },
- 		.interrupt = { "csiphy1" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY2 */
- 	{
-@@ -970,7 +1067,9 @@ static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy2" },
- 		.interrupt = { "csiphy2" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- 	/* CSIPHY3 */
- 	{
-@@ -980,7 +1079,9 @@ static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
- 				{ 300000000 } },
- 		.reg = { "csiphy3" },
- 		.interrupt = { "csiphy3" },
--		.ops = &csiphy_ops_3ph_1_0
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0
-+		}
- 	},
- };
- 
-@@ -995,7 +1096,9 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID1 */
- 	{
-@@ -1007,7 +1110,9 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID2 */
- 	{
-@@ -1019,7 +1124,9 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID3 */
- 	{
-@@ -1031,7 +1138,9 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID_LITE0 */
- 	{
-@@ -1042,8 +1151,10 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "csid0_lite" },
- 		.interrupt = { "csid0_lite" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID_LITE1 */
- 	{
-@@ -1054,8 +1165,10 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "csid1_lite" },
- 		.interrupt = { "csid1_lite" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID_LITE2 */
- 	{
-@@ -1066,8 +1179,10 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "csid2_lite" },
- 		.interrupt = { "csid2_lite" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	},
- 	/* CSID_LITE3 */
- 	{
-@@ -1078,8 +1193,10 @@ static const struct camss_subdev_resources csid_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "csid3_lite" },
- 		.interrupt = { "csid3_lite" },
--		.is_lite = true,
--		.ops = &csid_ops_gen2
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2
-+		}
- 	}
- };
- 
-@@ -1096,9 +1213,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "vfe0" },
- 		.interrupt = { "vfe0" },
--		.pd_name = "ife0",
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife0",
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE1 */
- 	{
-@@ -1112,9 +1231,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "vfe1" },
- 		.interrupt = { "vfe1" },
--		.pd_name = "ife1",
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife1",
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE2 */
- 	{
-@@ -1128,9 +1249,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "vfe2" },
- 		.interrupt = { "vfe2" },
--		.pd_name = "ife2",
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife2",
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE3 */
- 	{
-@@ -1144,9 +1267,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 0 }, },
- 		.reg = { "vfe3" },
- 		.interrupt = { "vfe3" },
--		.pd_name = "ife3",
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife3",
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE_LITE_0 */
- 	{
-@@ -1159,9 +1284,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 320000000, 400000000, 480000000, 600000000 }, },
- 		.reg = { "vfe_lite0" },
- 		.interrupt = { "vfe_lite0" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE_LITE_1 */
- 	{
-@@ -1174,9 +1301,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 320000000, 400000000, 480000000, 600000000 }, },
- 		.reg = { "vfe_lite1" },
- 		.interrupt = { "vfe_lite1" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE_LITE_2 */
- 	{
-@@ -1189,9 +1318,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 320000000, 400000000, 480000000, 600000000, }, },
- 		.reg = { "vfe_lite2" },
- 		.interrupt = { "vfe_lite2" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- 	/* VFE_LITE_3 */
- 	{
-@@ -1204,9 +1335,11 @@ static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
- 				{ 320000000, 400000000, 480000000, 600000000 }, },
- 		.reg = { "vfe_lite3" },
- 		.interrupt = { "vfe_lite3" },
--		.is_lite = true,
--		.line_num = 4,
--		.ops = &vfe_ops_170
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170
-+		}
- 	},
- };
- 
-@@ -1375,7 +1508,7 @@ int camss_pm_domain_on(struct camss *camss, int id)
- 	if (id < camss->res->vfe_num) {
- 		struct vfe_device *vfe = &camss->vfe[id];
- 
--		ret = vfe->ops->pm_domain_on(vfe);
-+		ret = vfe->res->hw_ops->pm_domain_on(vfe);
- 	}
- 
- 	return ret;
-@@ -1386,7 +1519,7 @@ void camss_pm_domain_off(struct camss *camss, int id)
- 	if (id < camss->res->vfe_num) {
- 		struct vfe_device *vfe = &camss->vfe[id];
- 
--		vfe->ops->pm_domain_off(vfe);
-+		vfe->res->hw_ops->pm_domain_off(vfe);
- 	}
- }
- 
-@@ -1628,7 +1761,7 @@ static int camss_register_entities(struct camss *camss)
- 
- 		for (i = 0; i < camss->ispif->line_num; i++)
- 			for (k = 0; k < camss->res->vfe_num; k++)
--				for (j = 0; j < camss->vfe[k].line_num; j++) {
-+				for (j = 0; j < camss->vfe[k].res->line_num; j++) {
- 					struct v4l2_subdev *ispif = &camss->ispif->line[i].subdev;
- 					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
- 
-@@ -1649,7 +1782,7 @@ static int camss_register_entities(struct camss *camss)
- 	} else {
- 		for (i = 0; i < camss->res->csid_num; i++)
- 			for (k = 0; k < camss->res->vfe_num; k++)
--				for (j = 0; j < camss->vfe[k].line_num; j++) {
-+				for (j = 0; j < camss->vfe[k].res->line_num; j++) {
- 					struct v4l2_subdev *csid = &camss->csid[i].subdev;
- 					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
- 
-@@ -1810,7 +1943,7 @@ static int camss_configure_pd(struct camss *camss)
- 
- 	/* count the # of VFEs which have flagged power-domain */
- 	for (vfepd_num = i = 0; i < camss->res->vfe_num; i++) {
--		if (res->vfe_res[i].has_pd)
-+		if (res->vfe_res[i].vfe.has_pd)
- 			vfepd_num++;
- 	}
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index ac15fe23a702e..e6d9fba646a10 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -48,11 +48,11 @@ struct camss_subdev_resources {
- 	u32 clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX];
- 	char *reg[CAMSS_RES_MAX];
- 	char *interrupt[CAMSS_RES_MAX];
--	char *pd_name;
--	u8 line_num;
--	bool has_pd;
--	bool is_lite;
--	const void *ops;
-+	union {
-+		struct csiphy_subdev_resources csiphy;
-+		struct csid_subdev_resources csid;
-+		struct vfe_subdev_resources vfe;
-+	};
- };
- 
- struct icc_bw_tbl {
--- 
-2.43.0
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
+
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+
+
+
+Jakub Kicinski (1):
+  net: page_pool: create hooks for custom page providers
+
+Mina Almasry (13):
+  netdev: add netdev_rx_queue_restart()
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: convert to use netmem
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+
+ Documentation/netlink/specs/netdev.yaml |  57 +++
+ Documentation/networking/devmem.rst     | 258 +++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/skbuff.h                  |  61 ++-
+ include/linux/skbuff_ref.h              |  11 +-
+ include/linux/socket.h                  |   1 +
+ include/net/devmem.h                    | 124 ++++++
+ include/net/netdev_rx_queue.h           |   5 +
+ include/net/netmem.h                    | 230 +++++++++-
+ include/net/page_pool/helpers.h         | 157 +++++--
+ include/net/page_pool/types.h           |  33 +-
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   5 +-
+ include/trace/events/page_pool.h        |  29 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  19 +
+ include/uapi/linux/uio.h                |  17 +
+ net/bpf/test_run.c                      |   5 +-
+ net/core/Makefile                       |   3 +-
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |   6 +-
+ net/core/devmem.c                       | 376 ++++++++++++++++
+ net/core/gro.c                          |   8 +-
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 107 +++++
+ net/core/netdev_rx_queue.c              |  74 ++++
+ net/core/page_pool.c                    | 364 +++++++++-------
+ net/core/skbuff.c                       |  83 +++-
+ net/core/sock.c                         |  61 +++
+ net/ipv4/esp4.c                         |   3 +-
+ net/ipv4/tcp.c                          | 254 ++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |  10 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   3 +-
+ net/packet/af_packet.c                  |   4 +-
+ tools/include/uapi/linux/netdev.h       |  19 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   5 +
+ tools/testing/selftests/net/ncdevmem.c  | 542 ++++++++++++++++++++++++
+ 46 files changed, 2756 insertions(+), 267 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 net/core/netdev_rx_queue.c
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.45.0.118.g7fe29c98d7-goog
 
 
