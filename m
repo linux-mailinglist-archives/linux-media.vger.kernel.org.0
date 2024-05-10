@@ -1,85 +1,77 @@
-Return-Path: <linux-media+bounces-11320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9C78C25F0
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:40:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF308C25F8
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 15:43:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 01001B2200D
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 13:40:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 223521F26E4A
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2024 13:43:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C763912CD8A;
-	Fri, 10 May 2024 13:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0766212C520;
+	Fri, 10 May 2024 13:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQBqv7iR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KD61kaEB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5DA12C80F;
-	Fri, 10 May 2024 13:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D526A7E58F
+	for <linux-media@vger.kernel.org>; Fri, 10 May 2024 13:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715348412; cv=none; b=X5VbAjlInWnbqedcsUOqzjRVdd05yLbqvJYo9Q986CZLABomGdMCMq9DQRpzKwHfjdTejGyEVR0gOvaUXiYFfxPfiWHANo4lnfSYaMe9KCEXKbK8JhMcd+GSctEVJCNy22yq5gv15n415ALS2v2icw7lSRuNM59VraPLLaxbRKU=
+	t=1715348618; cv=none; b=MbWspuOBkFqAhfumqMcLLoAezuZ32B+muVVycvvsZdFEZh1gYMyGk3e3bVAehC7njITEDChUqwRczuY35BohHqsdEP6jTa0Br4Zaw1nBZ966lX1UTWinplVCfoZKPzQku/cc6yP0kYrkgulL7snYDtzPJhxcoxpRklVRoUfcftw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715348412; c=relaxed/simple;
-	bh=1XGNUjPVitKhhjXuO83/2GVp0nYJ0Aeb9pCB5XMr1n4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UtTFctQfOdYrFaosMNtGlVjn8OKnWeL5KgxOyiJIb82pVcOdP2YEXq0f3U9SZZbXQ7CyOMy2aau/P3ld6HwZ5HIQOnTOOkDS0QosmERLxRHUk1lKE2T4LcbKTLstrZBZjDftTWD2Lfy5BeXowWcFMWtnPCtngsHW/b9+hEg52sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQBqv7iR; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2b2bc7b37bcso1834832a91.2;
-        Fri, 10 May 2024 06:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715348410; x=1715953210; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
-        b=MQBqv7iR9b/GCAYx3H8JNHap0meSYO95MUqBybNpW1cpmWcjXOkjSrfGcGyg09YF3T
-         lpS1br+VlL2/cFvUvAB3u31voAoyLzIOEIAJXJbJ3fBRndglJIUYPctFttrz5/hmfX2H
-         qKpjRlxbxijWeQdzw3tmmIoX/Sf6MGUhqLOSi/uTsy7EWKTEtWvHITwIy4e0rVVMmZfP
-         znrGwc3bCIVETF8z9yWMryzcOKUQS2MPfhwoTf0Ec7r0VY530Xnp5fvlyEFTrAgclmqM
-         wAjy98ntw1DOsyG6zH9xqe7yz4Ofo6BTCnJzxFFDtiC6ut+eXkQyh6b5EbBV4J5retE1
-         J6EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715348410; x=1715953210;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
-        b=BTKCwWPXc+hRLoT34o4ydu0zaYgRtZuJaIsjZw6sESc75kiIllKAaKcRhA22osOXof
-         kZgZzjEe34k4FcECK8K/9VUcxdNRnsfsAPuMiCghn4l0hHRE4V/L53qQ8WfHqc34sNY1
-         SeOCcSDJXMERJZQU/bhnGnhyNtwgmTFV/v07JgCbuH1poHmLDkcNU/FIsvlSxTAhtvOc
-         g/aIlJ6KP+D2KpPOojbR0mNQrf1s4IiUOA+TUJspXZbUmlbSDWwvKYAcctoAGwMkiMna
-         +Q3GKCzPpaDVZ3wfW0MuMHL3KP5/uzfPF7Zg9QFp4nKTRQEqNhYMNquHUjeEfYjWJM8G
-         u1qg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1LpS1kgpSwZRh24HbHtqr0shmsGFxzEaXgq++hXInceJnGlmkDW3jrDfYfObhZbNx6YGTCcref5/73SULzk8kPHJJJrqJQmW2fR2/K4KF6c9cBXX0DHOcU+CMGKMBy4dRhM5ffU5d7pU=
-X-Gm-Message-State: AOJu0YwWA6nTyK6YgVydhkwZVvuKX4nB64JT0xUYFgkbskomOvHY3PG0
-	ZDkYdbyjLfNqTIwKbEJgN1kORw4PlbIc/6+m8OiN1WnseAe1T+nQdXIbAjwz
-X-Google-Smtp-Source: AGHT+IFUrsug2vB+Pywt/1aiWlfZ+P8BRoZJhjnnpH2KLKhCUWHRA1t0jNHtItXsQrecDk+9Y0YsEg==
-X-Received: by 2002:a17:90a:9281:b0:2b2:b99f:4d5b with SMTP id 98e67ed59e1d1-2b6cc454828mr2539648a91.18.1715348409574;
-        Fri, 10 May 2024 06:40:09 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b628ca5109sm5074148a91.38.2024.05.10.06.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 06:40:09 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hpa@redhat.com,
-	andy.shevchenko@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	s=arc-20240116; t=1715348618; c=relaxed/simple;
+	bh=BoLQvBVJOoCjk+iZrCEftQdwEpUcH5Vtc6iOYEj5zqs=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=YcCy6w3XQuAiyc/C5pxnY/MqGGR0fiA2XTlqmxW3ySfdNJ00Z0gypDyDgT395+R6kUfdGGcUhcwtmu3AWwSs9aYsKK+M+Z4ysScwL05OHkW4q/G5Ev24d2Jfl/blkGZSCr/NT9YwQ0U6mC/LFprfh7lLwezXAkwKOXUhqgE63mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KD61kaEB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715348615;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EGPFRAm20EF2gNKmn5OIm+wKsmkKPz5p/hST/VOsK7U=;
+	b=KD61kaEBMUKk0D0NY3QIztfrlLY6w4nEBiA/oOaEqWlqev6tmJW3TCnZV0jpGAVKXr4uXq
+	0oy8FCSHmlKvbuhdZgT6FYtFDIQckNbM+FTKYyAy9AmEjxuYzNdPaB7XyladD0mE8vU6+s
+	l7Iz4G1fdMmffTyw4p5NiQeyQrYiLuI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-630-RkAVSjXyMYCP04LLMGCxHw-1; Fri, 10 May 2024 09:43:22 -0400
+X-MC-Unique: RkAVSjXyMYCP04LLMGCxHw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E746E800656;
+	Fri, 10 May 2024 13:43:21 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.45.224.245])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CDB475751BE;
+	Fri, 10 May 2024 13:43:18 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+To: virtio-dev@lists.oasis-open.org
+Cc: cohuck@redhat.com,
+	alex.bennee@linaro.org,
+	changyeon@google.com,
+	daniel.almeida@collabora.com,
+	mst@redhat.com,
+	virtio-comment@lists.oasis-open.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistakes in atomisp_platform.h
-Date: Fri, 10 May 2024 19:25:00 +0545
-Message-Id: <20240510134000.23848-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	eballetb@redhat.com,
+	gurchetansingh@google.com,
+	nicolas.dufresne@collabora.com,
+	acourbot@chromium.org,
+	Alexander.Gordeev@opensynergy.com,
+	Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH 0/1] virtio-media: Add device specification
+Date: Fri, 10 May 2024 15:43:16 +0200
+Message-ID: <20240510134317.3201746-1-aesteve@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,38 +79,63 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-Codespell reported misspelled streams and corresponding in
-atomisp_platform.h. This patch fixes the misspellings.
+Hi,
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- .../staging/media/atomisp/include/linux/atomisp_platform.h    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This a formal attempt of including virtio-media
+device specification.
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 487ef5846c24..9f55f0b65864 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -134,7 +134,7 @@ struct atomisp_platform_data {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple steams with different mipi data
-+ *  Sensor of external ISP can send multiple streams with different mipi data
-  * type in the same virtual channel. This information needs to come from the
-  * sensor or external ISP
-  */
-@@ -156,7 +156,7 @@ struct atomisp_input_stream_info {
- 	/*
- 	 * if more isys_configs is more than 0, sensor needs to configure the
- 	 * input format differently. width and height can be 0. If width and
--	 * height is not zero, then the corresponsing data needs to be set
-+	 * height is not zero, then the corresponding data needs to be set
- 	 */
- 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
- };
+Virtio-media came from a discussion on virtio-dev
+mailing list, which lead to presenting virtio-v4l2[1]
+specification as an alternative to virtio-video.
+
+Later, virtio-v4l2 was renamed to virtio-media[2]
+and published through:
+
+https://github.com/chromeos/virtio-media
+
+The repository above includes a guest V4L2 driver able
+to pass v4l2-compliance when proxying the vivid/vicodec
+virtual devices or an actual UVC camera using the
+crosvm V4L2 proxy device. Steps to reproduce are
+also detailed[3].
+
+There is some overlap with virtio-video in regards
+to which devices it can handle. However,
+as virtio-media will likely be the virtualization
+solution for ChromeOS (already landed into the chromeos
+organization) and possibly other Google projects for
+media devices, it would be desirable to include the
+specification in the next virtio release despite
+the aforementioned overlap.
+
+The device ID in this document differs from
+the ID in the virtio-media project repository.
+And it will probably need some discussion on which
+would be the correct definitive ID.
+
+Full PDF: https://drive.google.com/file/d/1PG1YxzbSvQHPphFhbUKyKKdvuwO6shyi/view?usp=sharing
+PDF with the media section only: https://drive.google.com/file/d/1Y7kAGzlUfl30VIUx9wQtz5sFTkWnBiyA/view?usp=sharing
+
+[1] https://mail.google.com/mail/u/0?ui=2&ik=73ebd65ebd&attid=0.1&permmsgid=msg-f:1767388565327924962&th=1887068940754ee2&view=att&disp=inline&realattid=f_libalimc0
+[2] https://www.mail-archive.com/virtio-dev@lists.oasis-open.org/msg12665.html
+[3] https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
+
+Albert Esteve (1):
+  virtio-media: Add virtio media device specification
+
+ conformance.tex                           |  13 +-
+ content.tex                               |   1 +
+ device-types/media/description.tex        | 574 ++++++++++++++++++++++
+ device-types/media/device-conformance.tex |  11 +
+ device-types/media/driver-conformance.tex |   9 +
+ 5 files changed, 604 insertions(+), 4 deletions(-)
+ create mode 100644 device-types/media/description.tex
+ create mode 100644 device-types/media/device-conformance.tex
+ create mode 100644 device-types/media/driver-conformance.tex
+
 -- 
-2.34.1
+2.44.0
 
 
