@@ -1,130 +1,121 @@
-Return-Path: <linux-media+bounces-11380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11381-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4078C32FF
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 19:49:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0598C3320
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 20:25:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38742B211CE
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 17:49:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FE7E1F21769
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 18:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2FC61C6A1;
-	Sat, 11 May 2024 17:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="lxV0qPuW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B219A1CABB;
+	Sat, 11 May 2024 18:25:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF017588;
-	Sat, 11 May 2024 17:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F87A1BC4F
+	for <linux-media@vger.kernel.org>; Sat, 11 May 2024 18:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715449784; cv=none; b=dVpp9tpZ+47j8Lt2Vy8wTy0ihffDjVskSHqtSR3GQFuA6wL67CWsuouHh54BmdQfNgUb58FT3Cr3MtsO8qWSmsngIu9QVi6vFFDCoctCqv89Qnx+N7kfV7o1K3JXVLdsW18ZT5zGAw8dMDJq0ZVt94IqzAU0mLoZ+nntfnpoFc4=
+	t=1715451945; cv=none; b=iVyTOukPLPiz0YPxEmMitwQsWigBNVEAwo6rxHCeNC2sQXpaRSGnet7CEgpFS1PtoXHq8RFJlhdMr7i/K3OqY39bnNBc/c8l/zTJDjk6wFKCfE+GJ3ETiynJEFmJP7+UEtK0+yBeen/tUJtCT7HiA5UvHyvdAyb4fjLWlyTMkCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715449784; c=relaxed/simple;
-	bh=UBBfH1HEmnpzIn7WkczNqddL1qrZ21c0QYZoSzFGQso=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MGSl9YBFBQ1hmHWAi1ZUJmQio68jq1HaevRPbDq9Rv9/8sQlZRmoNALFbZ8mTDV/sodP3WaH5ywyiIsYfII/pvszILoju/11ofmIL0M9gXBvjoKd8ThktSNS98o8wfjPqtaUTu9Qwb/G9qeuS6CgkUcc+hV7du9gRyLgF59Ik3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=lxV0qPuW; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44BHnQ8f013210;
-	Sat, 11 May 2024 12:49:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1715449766;
-	bh=4215bRTgwZdqG5KkXJIS7GulsBaMdC4XYJ8YcQUiUgk=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=lxV0qPuWTOU6SaCKezg3siI2giP8qdepUnCvfOSUUL+bEsDMjX6bpsSXj5G+14F56
-	 7HxFEEpj6wda3qzhPRVJZESuO0ljZgNSetf9IbJ9kP5qM7LT0Ju5DmhyQjpZKJToxC
-	 9aqF8RdjTTwrNX3wsH9Jld5tfsFkTKyXKQ4gm8EY=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44BHnQms031044
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 11 May 2024 12:49:26 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 11
- May 2024 12:49:26 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 11 May 2024 12:49:26 -0500
-Received: from [10.249.130.181] ([10.249.130.181])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44BHnEIi018005;
-	Sat, 11 May 2024 12:49:15 -0500
-Message-ID: <e8ae7dae-a39e-4e8d-a4ba-c720d40653e6@ti.com>
-Date: Sat, 11 May 2024 23:19:13 +0530
+	s=arc-20240116; t=1715451945; c=relaxed/simple;
+	bh=SQkRJ+POEYNpmaLKC5bXQukzr7BtcJy8mua2DhWEbtA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=IpyVraQYV2Hc8yK+09ImzJHwkq8HSfsPk/5F+TtwBLu7cwCX/SzjnZNKnfhyPE+PF5iDQ5IrbIUzYJUXACzwmvdV6xPga++bGMh62u7oskoz61b8/ythGlYgHZrGSnwjZcJqaQtgTDVUf1K/17PBalrN+lqL3Bvg16lXvosxBmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-7-hlD-hTv5PSKv4xd1znQCwQ-1; Sat, 11 May 2024 19:25:35 +0100
+X-MC-Unique: hlD-hTv5PSKv4xd1znQCwQ-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 11 May
+ 2024 19:25:02 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sat, 11 May 2024 19:25:02 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christian Brauner' <brauner@kernel.org>, Daniel Vetter <daniel@ffwll.ch>
+CC: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>, Al Viro
+	<viro@zeniv.linux.org.uk>, "keescook@chromium.org" <keescook@chromium.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, "christian.koenig@amd.com"
+	<christian.koenig@amd.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "jack@suse.cz" <jack@suse.cz>,
+	"laura@labbott.name" <laura@labbott.name>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "minhquangbui99@gmail.com"
+	<minhquangbui99@gmail.com>, "sumit.semwal@linaro.org"
+	<sumit.semwal@linaro.org>,
+	"syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com"
+	<syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+	"syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>
+Subject: RE: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
+ file lifetimes
+Thread-Topic: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
+ about file lifetimes
+Thread-Index: AQHaosiO/bmWtIycWUWbxqLWgzPstbGSV1Yw
+Date: Sat, 11 May 2024 18:25:02 +0000
+Message-ID: <b3e869996b554b57bf59a66cc10ac810@AcuMS.aculab.com>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
+ <20240508-risse-fehlpass-895202f594fd@brauner>
+ <ZjueITUy0K8TP1WO@phenom.ffwll.local>
+ <20240510-duzen-uhrmacher-141c9331f1bf@brauner>
+In-Reply-To: <20240510-duzen-uhrmacher-141c9331f1bf@brauner>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 8/8] gpu: ipu-v3: Use generic macro for rounding to
- nearest multiple
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
-        <gregkh@linuxfoundation.org>, <adobriyan@gmail.com>,
-        <jani.nikula@intel.com>
-References: <20240509184010.4065359-1-devarsht@ti.com>
- <Zj43WDlT1aFpgdVv@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <Zj43WDlT1aFpgdVv@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hi Andy,
+RnJvbTogQ2hyaXN0aWFuIEJyYXVuZXINCj4gU2VudDogMTAgTWF5IDIwMjQgMTE6NTUNCj4gDQo+
+ID4gRm9yIHRoZSB1YXBpIGlzc3VlIHlvdSBkZXNjcmliZSBiZWxvdyBteSB0YWtlIHdvdWxkIGJl
+IHRoYXQgd2Ugc2hvdWxkIGp1c3QNCj4gPiB0cnksIGFuZCBob3BlIHRoYXQgZXZlcnlvbmUncyBi
+ZWVuIGR1dGlmdWxseSB1c2luZyBPX0NMT0VYRUMuIEJ1dCBtYXliZQ0KPiA+IEknbSBiaWFzZWQg
+ZnJvbSB0aGUgZ3B1IHdvcmxkLCB3aGVyZSB3ZSd2ZSBiZWVuIGhhbW1lcmluZyBpdCBpbiB0aGF0
+DQo+ID4gIk9fQ0xPRVhFQyBvciBidXN0IiBtYW50cmEgc2luY2Ugd2VsbCBvdmVyIGEgZGVjYWRl
+LiBSZWFsbHkgdGhlIG9ubHkgdmFsaWQNCj4gDQo+IE9oLCB3ZSdyZSB2ZXJ5IG11Y2ggb24gdGhl
+IHNhbWUgcGFnZS4gQWxsIG5ldyBmaWxlIGRlc2NyaXB0b3IgdHlwZXMgdGhhdA0KPiBJJ3ZlIGFk
+ZGVkIG92ZXIgdGhlIHllYXJzIGFyZSBPX0NMT0VYRUMgYnkgZGVmYXVsdC4gSU9XLCB5b3UgbmVl
+ZCB0bw0KPiByZW1vdmUgT19DTE9FWEVDIGV4cGxpY2l0bHkgKHNlZSBwaWRmZCBhcyBhbiBleGFt
+cGxlKS4gQW5kIGltaG8sIGFueSBuZXcNCj4gZmQgdHlwZSB0aGF0J3MgYWRkZWQgc2hvdWxkIGp1
+c3QgYmUgT19DTE9FWEVDIGJ5IGRlZmF1bHQuDQoNCkZvciBmZCBhIHNoZWxsIHJlZGlyZWN0IGNy
+ZWF0ZXMgeW91IG1heSB3YW50IHNvIGJlIGFibGUgdG8gc2F5DQondGhpcyBmZCB3aWxsIGhhdmUg
+T19DTE9FWEVDIHNldCBhZnRlciB0aGUgbmV4dCBleGVjJy4NCkFsc28gKHBvc3NpYmx5KSBhIGZs
+YWcgdGhhdCBjYW4ndCBiZSBjbGVhcmVkIG9uY2Ugc2V0IGFuZCB0aGF0DQpnZXRzIGtlcHQgYnkg
+ZHVwKCkgZXRjLg0KQnV0IG1heWJlIHRoYXQgaXMgZXhjZXNzaXZlPw0KDQpJJ3ZlIGNlcnRhaW5s
+eSB1c2VkOg0KIyBpcCBuZXRucyBleGVjIG5zIGNvbW1hbmQgMzwvc3lzL2NsYXNzL25ldA0KaW4g
+b3JkZXIgdG8gYmUgYWJsZSB0byAoZWFzaWx5KSByZWFkIHN0YXR1cyBmb3IgaW50ZXJmYWNlcyBp
+biB0aGUNCmRlZmF1bHQgbmFtZXNwYWNlIGFuZCBhIHNwZWNpZmljIG5hbWVzcGFjZS4NClRoZSB3
+b3VsZCBiZSBoYXJkIGlmIHRoZSBPX0NMT0VYRUMgZmxhZyBoYWQgZ290IHNldCBieSBkZWZhdWx0
+Lg0KKEVzcGVjaWFsbHkgd2l0aG91dCBhIHNoZWxsIGJ1aWx0aW4gdG8gY2xlYXIgaXQuKQ0KDQoJ
+RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-Thanks for the quick review.
-
-On 10/05/24 20:33, Andy Shevchenko wrote:
-> On Fri, May 10, 2024 at 12:10:10AM +0530, Devarsh Thakkar wrote:
->> Use generic macro round_closest_up for rounding to nearest multiple instead
-> 
-> round_closest_up()
-> 
-> We refer to the functions as func().
-> 
-
-Agreed. Will fix commit msg to use round_closest_up()
-
->> of using local function.
-> 
-> ...
-> 
->> @@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
->>  		 * The closest input sample position that we could actually
->>  		 * start the input tile at, 19.13 fixed point.
->>  		 */
->> -		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
->> +		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
->>  		/* Convert 19.13 fixed point to integer */
->>  		in_pos_rounded = in_pos_aligned / 8192U;
-> 
-> Oh, these seems to be better to use either ALIGN*(), or PFN_*() / PAGE_*()
-> families of macros. What the semantic of 8192 is?
-> 
-
-As Laurent mentioned, it looks like the fractional part of the integer.
-But functionality wise, there is no change with the introduction of this
-patch. round_closest_up() does exactly the same thing as what the local
-function round_closest used to do before this patch.
-
-Regards
-Devarsh
 
