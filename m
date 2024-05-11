@@ -1,72 +1,135 @@
-Return-Path: <linux-media+bounces-11382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11383-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1158C3356
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 21:03:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6988C335C
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 21:09:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 712A7282281
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 19:03:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 82C6A1F219F7
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 19:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646AD1CD0C;
-	Sat, 11 May 2024 19:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA201CD39;
+	Sat, 11 May 2024 19:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=comcast.net header.i=@comcast.net header.b="OXFsvcLN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ftJpnVCV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from resqmta-h2p-567408.sys.comcast.net (resqmta-h2p-567408.sys.comcast.net [96.102.200.8])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B92366
-	for <linux-media@vger.kernel.org>; Sat, 11 May 2024 19:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.102.200.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4C428E8;
+	Sat, 11 May 2024 19:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715454186; cv=none; b=p6ncJ0qJs9OHIEVmBftBozuVLAsdKEfH6Pkyeba8AK/gdRO30EuAPlQiNg7VN9SVaDuvp5P6UzhpvZ1uZ21DxQDUzfJp/wykC255Jdc2Gxb/C3eMkjD450X3sjDDtMx911oi7kbfZZVYTBpBN4MoNE3BZTHOK1OEok4Wyv0za2M=
+	t=1715454577; cv=none; b=lHYy60EmgLTemc3VXkZMeaMtz5z/A7Nb2wFTRJVX/DvxLRrAYBJetIT06JTBNrzT47737BJ0wqI6Jy9ODYJFhPOl1eAm96m/qyUeCEUUERueS6wlfuyLwSWcopepkV3HU7ntpDrJhFFGQYVbYLn2Lav+/6xnJDmXXrO6iY/S0LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715454186; c=relaxed/simple;
-	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rnoF07wVEaUwpSfO4jaLyYV/OHiC/3OQGu1cdg49uJa79/dHu7h35mPI+RQUqDnIZLdPSIlo71nFpjk0lRuJmVYNSO7ERxvqfdGU0Jubx67fu7FaB3xgJ7cfilIW3kQeOSFuugnVkGmKCd/yNGz/CXyJNjr/QoSd4KHapzYFxoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comcast.net; spf=pass smtp.mailfrom=comcast.net; dkim=pass (2048-bit key) header.d=comcast.net header.i=@comcast.net header.b=OXFsvcLN; arc=none smtp.client-ip=96.102.200.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comcast.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=comcast.net
-Received: from resomta-h2p-554994.sys.comcast.net ([96.102.179.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by resqmta-h2p-567408.sys.comcast.net with ESMTPS
-	id 5rcXsMpqAaPnH5rxNsN7Cx; Sat, 11 May 2024 19:00:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
-	s=20190202a; t=1715454029;
-	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
-	h=Received:Received:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type:Xfinity-Spam-Result;
-	b=OXFsvcLNc1Utt3trD0HT4LvxChd22Dv5s6hedOjRoz3wEZlSN6gW6hdzTC1PabNme
-	 xn4a+2UXh8Sj6oUGrj6OtD+aulyDEyxu+OeUOyuOa7vQ44Zsz0LOrfYMI4mU4rdQVi
-	 yB7cx+6/ul477yyN4d02Uxvo8QkwOW56yHXxWjw3z7Q6Fs5wpdWuczlBrhk3Po92C9
-	 xEmswt4cTpXNQPGjPihCutfi4+KF/8u1Xad77qkMXGV+tsMEY7LPCmOKlpGihy/RSI
-	 X7QNjmCA/jz3YQZ1sq3y6ldww4NrOvZM6PlkjVlSnCQmZjmbHySRIZFRECsphvB66T
-	 6GiwR0vGNG/Sg==
-Received: from hp-i3.shibaya.lonestar.org ([73.29.228.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by resomta-h2p-554994.sys.comcast.net with ESMTPSA
-	id 5rxJsrlfn8D5o5rxLsi1dw; Sat, 11 May 2024 19:00:28 +0000
-Date: Sat, 11 May 2024 15:00:25 -0400
-From: "A. F. Cano" <afc54@comcast.net>
-To: linux-media@vger.kernel.org
-Subject: subscribe
-Message-ID: <Zj_ASYaOCnQEl5rw@hp-i3.shibaya.lonestar.org>
+	s=arc-20240116; t=1715454577; c=relaxed/simple;
+	bh=O5knfMimufzf45RWMUVmIYUOJjDJ+9Mmy+EmmGf9XEY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cL+bN2G88iHBv+tnf2tL9fsrIZReeSYShk/efQqSEoi2qvx5S2nEo2WiNuG9AirxjUzHqMF5vNMSziG3u99/RTymUs9+eMSujT11OM4kidM1YO4IqxbWDDaBQPYYToT7gbx6k0z21QRgI8KDYH4QJsv760UhgAYsgadvCrxlvsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ftJpnVCV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA09A114D;
+	Sat, 11 May 2024 21:09:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715454562;
+	bh=O5knfMimufzf45RWMUVmIYUOJjDJ+9Mmy+EmmGf9XEY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ftJpnVCV022EtyvdyVYIFaxhhe05xfhFcY69SSZLyOOFBPCZCnAUnpDsSzCgQszxx
+	 q2LhZaOHoJf8UPRedByFtj7PbQsTlHHIqBhs/JbKvcg/FnH5ViEyc9RSj5fxFrwqgj
+	 CmIwkY0hQRr00ZUJ09aeVHl5jWxyOzBP09JGyMIQ=
+Date: Sat, 11 May 2024 22:09:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: hi846: Fix V4L2_SUBDEV_FORMAT_TRY
+ get_selection()
+Message-ID: <20240511190919.GD17158@pendragon.ideasonboard.com>
+References: <20240509-fix-hi846-v1-1-1e19dc517be1@chromium.org>
+ <20240509193900.GA32013@pendragon.ideasonboard.com>
+ <CANiDSCsv8S68x7z+aV1PhbZ+5Ktr=86nYUXaNpb1w4q4y1v38Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-CMAE-Envelope: MS4xfMab/3OIWB7wm1LTbhnhIJkfgsdrhIw6MOcK4G8PFybzbl8a7C0iaZNHDVc/6+8acyf0Aqq5biE51kYlO5r6/bNKEirMcLhY5KByHAexAxyqawzQ4P8I
- rANekM4hoIZzf0uYxwS/x90m6lEu5U5e+C7XpSt2ncM3lOnKKSRwe+Rtf6SKSbKu6JVtH652GxQzUFZ/NrHBJtjFCluVV9NkwUU=
+In-Reply-To: <CANiDSCsv8S68x7z+aV1PhbZ+5Ktr=86nYUXaNpb1w4q4y1v38Q@mail.gmail.com>
 
-subscribe
+Hi Ricardo,
+
+On Sat, May 11, 2024 at 09:47:47AM +0200, Ricardo Ribalda wrote:
+> On Thu, 9 May 2024 at 21:39, Laurent Pinchart wrote:
+> > On Thu, May 09, 2024 at 05:05:55PM +0000, Ricardo Ribalda wrote:
+> > > The current code does not return anything to the user.
+> > >
+> > > Although the code looks a bit dangerous (using a pointer without
+> > > checking if it is valid), it should be fine. The code validates that
+> >
+> > I think you meant s/code/core/
+> 
+> Yes, sorry, fatty fingers :)
+> 
+> If you are planning to send a v5 of this
+> https://patchwork.linuxtv.org/project/linux-media/patch/20240508214045.24716-4-laurent.pinchart+renesas@ideasonboard.com/
+> 
+> Maybe you could include this patch there?
+
+Yes, I've already taken the patch in my tree. If Hans merges it to the
+stage tree I'll drop it, otherwise I'll include it in the pull request
+to avoid breaking CI.
+
+> I found the issue when the CI tested your series (eventhough it is not
+> caused by your series)
+> 
+> > > sel->pad has a valid value.
+> > >
+> > > Fix the following smatch error:
+> > > drivers/media/i2c/hi846.c:1854 hi846_get_selection() warn: statement has no effect 31
+> > >
+> > > Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera")
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > > ---
+> > > While running media-ci on the last patches there was a new sparse
+> > > warning:
+> > > https://gitlab.freedesktop.org/linux-media/users/patchwork/-/jobs/58524338/artifacts/external_file/junit/test-smatch.log.txt
+> > > ---
+> > >  drivers/media/i2c/hi846.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> > > index 9c565ec033d4..52d9ca68a86c 100644
+> > > --- a/drivers/media/i2c/hi846.c
+> > > +++ b/drivers/media/i2c/hi846.c
+> > > @@ -1851,7 +1851,7 @@ static int hi846_get_selection(struct v4l2_subdev *sd,
+> > >               mutex_lock(&hi846->mutex);
+> > >               switch (sel->which) {
+> > >               case V4L2_SUBDEV_FORMAT_TRY:
+> > > -                     v4l2_subdev_state_get_crop(sd_state, sel->pad);
+> > > +                     sel->r = *v4l2_subdev_state_get_crop(sd_state, sel->pad);
+> > >                       break;
+> > >               case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > >                       sel->r = hi846->cur_mode->crop;
+> > >
+> > > ---
+> > > base-commit: 48259b90973718d2277db27b5e510f0fe957eaa0
+> > > change-id: 20240509-fix-hi846-c3d77768622e
+
+-- 
+Regards,
+
+Laurent Pinchart
 
