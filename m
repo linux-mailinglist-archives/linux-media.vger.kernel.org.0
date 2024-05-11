@@ -1,121 +1,72 @@
-Return-Path: <linux-media+bounces-11381-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11382-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0598C3320
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 20:25:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1158C3356
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 21:03:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FE7E1F21769
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 18:25:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 712A7282281
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2024 19:03:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B219A1CABB;
-	Sat, 11 May 2024 18:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646AD1CD0C;
+	Sat, 11 May 2024 19:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=comcast.net header.i=@comcast.net header.b="OXFsvcLN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from resqmta-h2p-567408.sys.comcast.net (resqmta-h2p-567408.sys.comcast.net [96.102.200.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F87A1BC4F
-	for <linux-media@vger.kernel.org>; Sat, 11 May 2024 18:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B92366
+	for <linux-media@vger.kernel.org>; Sat, 11 May 2024 19:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.102.200.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715451945; cv=none; b=iVyTOukPLPiz0YPxEmMitwQsWigBNVEAwo6rxHCeNC2sQXpaRSGnet7CEgpFS1PtoXHq8RFJlhdMr7i/K3OqY39bnNBc/c8l/zTJDjk6wFKCfE+GJ3ETiynJEFmJP7+UEtK0+yBeen/tUJtCT7HiA5UvHyvdAyb4fjLWlyTMkCg=
+	t=1715454186; cv=none; b=p6ncJ0qJs9OHIEVmBftBozuVLAsdKEfH6Pkyeba8AK/gdRO30EuAPlQiNg7VN9SVaDuvp5P6UzhpvZ1uZ21DxQDUzfJp/wykC255Jdc2Gxb/C3eMkjD450X3sjDDtMx911oi7kbfZZVYTBpBN4MoNE3BZTHOK1OEok4Wyv0za2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715451945; c=relaxed/simple;
-	bh=SQkRJ+POEYNpmaLKC5bXQukzr7BtcJy8mua2DhWEbtA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=IpyVraQYV2Hc8yK+09ImzJHwkq8HSfsPk/5F+TtwBLu7cwCX/SzjnZNKnfhyPE+PF5iDQ5IrbIUzYJUXACzwmvdV6xPga++bGMh62u7oskoz61b8/ythGlYgHZrGSnwjZcJqaQtgTDVUf1K/17PBalrN+lqL3Bvg16lXvosxBmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-7-hlD-hTv5PSKv4xd1znQCwQ-1; Sat, 11 May 2024 19:25:35 +0100
-X-MC-Unique: hlD-hTv5PSKv4xd1znQCwQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 11 May
- 2024 19:25:02 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sat, 11 May 2024 19:25:02 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christian Brauner' <brauner@kernel.org>, Daniel Vetter <daniel@ffwll.ch>
-CC: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>, Al Viro
-	<viro@zeniv.linux.org.uk>, "keescook@chromium.org" <keescook@chromium.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "christian.koenig@amd.com"
-	<christian.koenig@amd.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "io-uring@vger.kernel.org"
-	<io-uring@vger.kernel.org>, "jack@suse.cz" <jack@suse.cz>,
-	"laura@labbott.name" <laura@labbott.name>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "minhquangbui99@gmail.com"
-	<minhquangbui99@gmail.com>, "sumit.semwal@linaro.org"
-	<sumit.semwal@linaro.org>,
-	"syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com"
-	<syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
-	"syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>
-Subject: RE: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-Thread-Topic: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
- about file lifetimes
-Thread-Index: AQHaosiO/bmWtIycWUWbxqLWgzPstbGSV1Yw
-Date: Sat, 11 May 2024 18:25:02 +0000
-Message-ID: <b3e869996b554b57bf59a66cc10ac810@AcuMS.aculab.com>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <20240508-risse-fehlpass-895202f594fd@brauner>
- <ZjueITUy0K8TP1WO@phenom.ffwll.local>
- <20240510-duzen-uhrmacher-141c9331f1bf@brauner>
-In-Reply-To: <20240510-duzen-uhrmacher-141c9331f1bf@brauner>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1715454186; c=relaxed/simple;
+	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rnoF07wVEaUwpSfO4jaLyYV/OHiC/3OQGu1cdg49uJa79/dHu7h35mPI+RQUqDnIZLdPSIlo71nFpjk0lRuJmVYNSO7ERxvqfdGU0Jubx67fu7FaB3xgJ7cfilIW3kQeOSFuugnVkGmKCd/yNGz/CXyJNjr/QoSd4KHapzYFxoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comcast.net; spf=pass smtp.mailfrom=comcast.net; dkim=pass (2048-bit key) header.d=comcast.net header.i=@comcast.net header.b=OXFsvcLN; arc=none smtp.client-ip=96.102.200.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comcast.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=comcast.net
+Received: from resomta-h2p-554994.sys.comcast.net ([96.102.179.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by resqmta-h2p-567408.sys.comcast.net with ESMTPS
+	id 5rcXsMpqAaPnH5rxNsN7Cx; Sat, 11 May 2024 19:00:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
+	s=20190202a; t=1715454029;
+	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+	h=Received:Received:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type:Xfinity-Spam-Result;
+	b=OXFsvcLNc1Utt3trD0HT4LvxChd22Dv5s6hedOjRoz3wEZlSN6gW6hdzTC1PabNme
+	 xn4a+2UXh8Sj6oUGrj6OtD+aulyDEyxu+OeUOyuOa7vQ44Zsz0LOrfYMI4mU4rdQVi
+	 yB7cx+6/ul477yyN4d02Uxvo8QkwOW56yHXxWjw3z7Q6Fs5wpdWuczlBrhk3Po92C9
+	 xEmswt4cTpXNQPGjPihCutfi4+KF/8u1Xad77qkMXGV+tsMEY7LPCmOKlpGihy/RSI
+	 X7QNjmCA/jz3YQZ1sq3y6ldww4NrOvZM6PlkjVlSnCQmZjmbHySRIZFRECsphvB66T
+	 6GiwR0vGNG/Sg==
+Received: from hp-i3.shibaya.lonestar.org ([73.29.228.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by resomta-h2p-554994.sys.comcast.net with ESMTPSA
+	id 5rxJsrlfn8D5o5rxLsi1dw; Sat, 11 May 2024 19:00:28 +0000
+Date: Sat, 11 May 2024 15:00:25 -0400
+From: "A. F. Cano" <afc54@comcast.net>
+To: linux-media@vger.kernel.org
+Subject: subscribe
+Message-ID: <Zj_ASYaOCnQEl5rw@hp-i3.shibaya.lonestar.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-CMAE-Envelope: MS4xfMab/3OIWB7wm1LTbhnhIJkfgsdrhIw6MOcK4G8PFybzbl8a7C0iaZNHDVc/6+8acyf0Aqq5biE51kYlO5r6/bNKEirMcLhY5KByHAexAxyqawzQ4P8I
+ rANekM4hoIZzf0uYxwS/x90m6lEu5U5e+C7XpSt2ncM3lOnKKSRwe+Rtf6SKSbKu6JVtH652GxQzUFZ/NrHBJtjFCluVV9NkwUU=
 
-RnJvbTogQ2hyaXN0aWFuIEJyYXVuZXINCj4gU2VudDogMTAgTWF5IDIwMjQgMTE6NTUNCj4gDQo+
-ID4gRm9yIHRoZSB1YXBpIGlzc3VlIHlvdSBkZXNjcmliZSBiZWxvdyBteSB0YWtlIHdvdWxkIGJl
-IHRoYXQgd2Ugc2hvdWxkIGp1c3QNCj4gPiB0cnksIGFuZCBob3BlIHRoYXQgZXZlcnlvbmUncyBi
-ZWVuIGR1dGlmdWxseSB1c2luZyBPX0NMT0VYRUMuIEJ1dCBtYXliZQ0KPiA+IEknbSBiaWFzZWQg
-ZnJvbSB0aGUgZ3B1IHdvcmxkLCB3aGVyZSB3ZSd2ZSBiZWVuIGhhbW1lcmluZyBpdCBpbiB0aGF0
-DQo+ID4gIk9fQ0xPRVhFQyBvciBidXN0IiBtYW50cmEgc2luY2Ugd2VsbCBvdmVyIGEgZGVjYWRl
-LiBSZWFsbHkgdGhlIG9ubHkgdmFsaWQNCj4gDQo+IE9oLCB3ZSdyZSB2ZXJ5IG11Y2ggb24gdGhl
-IHNhbWUgcGFnZS4gQWxsIG5ldyBmaWxlIGRlc2NyaXB0b3IgdHlwZXMgdGhhdA0KPiBJJ3ZlIGFk
-ZGVkIG92ZXIgdGhlIHllYXJzIGFyZSBPX0NMT0VYRUMgYnkgZGVmYXVsdC4gSU9XLCB5b3UgbmVl
-ZCB0bw0KPiByZW1vdmUgT19DTE9FWEVDIGV4cGxpY2l0bHkgKHNlZSBwaWRmZCBhcyBhbiBleGFt
-cGxlKS4gQW5kIGltaG8sIGFueSBuZXcNCj4gZmQgdHlwZSB0aGF0J3MgYWRkZWQgc2hvdWxkIGp1
-c3QgYmUgT19DTE9FWEVDIGJ5IGRlZmF1bHQuDQoNCkZvciBmZCBhIHNoZWxsIHJlZGlyZWN0IGNy
-ZWF0ZXMgeW91IG1heSB3YW50IHNvIGJlIGFibGUgdG8gc2F5DQondGhpcyBmZCB3aWxsIGhhdmUg
-T19DTE9FWEVDIHNldCBhZnRlciB0aGUgbmV4dCBleGVjJy4NCkFsc28gKHBvc3NpYmx5KSBhIGZs
-YWcgdGhhdCBjYW4ndCBiZSBjbGVhcmVkIG9uY2Ugc2V0IGFuZCB0aGF0DQpnZXRzIGtlcHQgYnkg
-ZHVwKCkgZXRjLg0KQnV0IG1heWJlIHRoYXQgaXMgZXhjZXNzaXZlPw0KDQpJJ3ZlIGNlcnRhaW5s
-eSB1c2VkOg0KIyBpcCBuZXRucyBleGVjIG5zIGNvbW1hbmQgMzwvc3lzL2NsYXNzL25ldA0KaW4g
-b3JkZXIgdG8gYmUgYWJsZSB0byAoZWFzaWx5KSByZWFkIHN0YXR1cyBmb3IgaW50ZXJmYWNlcyBp
-biB0aGUNCmRlZmF1bHQgbmFtZXNwYWNlIGFuZCBhIHNwZWNpZmljIG5hbWVzcGFjZS4NClRoZSB3
-b3VsZCBiZSBoYXJkIGlmIHRoZSBPX0NMT0VYRUMgZmxhZyBoYWQgZ290IHNldCBieSBkZWZhdWx0
-Lg0KKEVzcGVjaWFsbHkgd2l0aG91dCBhIHNoZWxsIGJ1aWx0aW4gdG8gY2xlYXIgaXQuKQ0KDQoJ
-RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
-dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
-OTczODYgKFdhbGVzKQ0K
-
+subscribe
 
