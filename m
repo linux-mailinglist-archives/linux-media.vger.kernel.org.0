@@ -1,184 +1,202 @@
-Return-Path: <linux-media+bounces-11405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A7C8C403B
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:57:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E3F8C40AF
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 14:26:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35755B2439B
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:57:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01FB11F215A6
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 12:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A4D14EC6A;
-	Mon, 13 May 2024 11:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 210F214F9C2;
+	Mon, 13 May 2024 12:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="4Gepqhfd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="glaItM3H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A1214D2BF;
-	Mon, 13 May 2024 11:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D1814F119;
+	Mon, 13 May 2024 12:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715601435; cv=none; b=MxtLR8/84audL5M0xAr+gMZK1orJ04kD2nMHb7k4RJZmIwc97F9V3ezDbXOR4yCYNOcv3JX7dB4m2jbMdbyadjLQUdogIzo5C48JxtRR+xO68tKg7YRUTv08oZVhbo/4rnvM9Pg5QgvjhckmGl4GBfXVuNLBw8PmOsHUntET5n0=
+	t=1715603167; cv=none; b=Mh3Jx/5CRU47wzrqkXeexVeHPTYZtQazieWl/fNWEeJrXUZsm6yOoAioxbD6W0EJDSTbrePp0IJ4ekJJDkEPCfzhWIaRsJ4OPP4dDIOF61mwToAbyeWi27cXgnyDvKk4H6d0f81MQHu+dPf9MQ4MQ85rHMH9vFnM8pfdL2ukMfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715601435; c=relaxed/simple;
-	bh=gkj7ADFos6l5cWzF4jMsneHUuiC9BdJSpao119CgJoI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bg9DrQ2LStUaCLpJm4cyMNGk6s82hGCh02dY0FQ5AYCbrpYgKjictEd74nweOagBGBUMkWGdaJl3Z4PF7aK60+pQfK8B2S9LwOTx8m1fYSQBh65KJ2rJTmTRv6UQfGtvpUJ1jfd/H1YSYD4TCdm2uy4i/6UjkHHeNcP7Dx8oTIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=4Gepqhfd; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 73F2D45B0;
-	Mon, 13 May 2024 13:57:00 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 73F2D45B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1715601420; bh=j1BGdJSrQwhI0X/hdv8Car7+iEb7cL0kjJvm7EbrSvY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=4GepqhfdG9gjmhGsoPQZ7RoVr8XpG2NnaStjEqTvwBKqqDznmE693CN2Qg4YIgpQQ
-	 fH2dF2D00yYFaGaufUdd9v4uwOPJY72zVAh8n/6+aFFCMIQ2D2KPbgpnjw+eZzZPy2
-	 U/CmlX2tYLZDDQiOuBzmg4jHz8JmVnERAV3LfZCs=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 13 May 2024 13:56:39 +0200 (CEST)
-Message-ID: <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
-Date: Mon, 13 May 2024 13:56:39 +0200
+	s=arc-20240116; t=1715603167; c=relaxed/simple;
+	bh=6Ufg9vC7DlIJTDux+Yrnokl43VALnRkBoch8swS93gE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iv2Pf2EUKRulcImZBPJ+VSRcv+wJ1jXHafsPjnuy2ApGx3iy60uvKy+QA/NLjUgqiniDJi0UmAP6ePtQyk4k2Io3VrWpcfjN8DeQA2An3LBU6E2h/dIj3pb+W7HVIwngXuhYzy2GtfwwbrNTDGdpgCSL3vhTkqXGCCYjWvGM+N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=glaItM3H; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715603166; x=1747139166;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=6Ufg9vC7DlIJTDux+Yrnokl43VALnRkBoch8swS93gE=;
+  b=glaItM3H+ZWgmptJ0P57kWohK/an32PMKLYrcnN8mTEeiZIPXwTbLpkX
+   ntBiwBYiV8fWB3gYczC/h9fYwatwZp1i5Cgi+/7CfwKUyo6+biKUEtNB+
+   I2u5xeoxUNEVpQJ0eINknmGBun5wbr4rGcPKpU2YbTHNLak4TBY7uyRH2
+   IIJm2TdObPSlZx6quJ7hHD3QFv07+uST2FWAA1WeFkHjb+mhagejwax8I
+   EHDmKQfpFmlimakmLpBq8Jf/b0oXiriu1y+NmiqTd7qtyFuKwoeSC+aDv
+   2OWnAeCTZNSEwfYa9l0cBk8kdyOcgoQEPnGkAlRB78wMyZ08kf76c4VsC
+   w==;
+X-CSE-ConnectionGUID: Yxds9kMBS32hpc7EXoxP6w==
+X-CSE-MsgGUID: mVhKWTPWRkGwwva4F6cb+A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="15325853"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="15325853"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 05:26:05 -0700
+X-CSE-ConnectionGUID: Fu3+mmGNTR6yS9mu5CxnuQ==
+X-CSE-MsgGUID: Rlm4/1I8TYOGnqKFYVgmzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="30277124"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 05:25:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s6Ukd-000000078C2-2xf1;
+	Mon, 13 May 2024 15:25:55 +0300
+Date: Mon, 13 May 2024 15:25:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+	sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org, adobriyan@gmail.com,
+	p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+	nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Message-ID: <ZkIG0-01pz632l4R@smile.fi.intel.com>
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com>
+ <87fruphf55.fsf@intel.com>
+ <5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com>
+ <ZkHWbS4raU_BPlpm@smile.fi.intel.com>
+ <6557050e-6b18-2628-cbab-1a811b2190ba@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.de>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
- <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
- <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk> <20240430172752.20ffcd56@sal.lan>
- <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk> <87sez0k661.wl-tiwai@suse.de>
- <20240502095956.0a8c5b26@sal.lan> <20240502102643.4ee7f6c2@sal.lan>
- <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
- <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
- <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
- <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
- <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
- <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
- <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
- <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
- <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
- <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6557050e-6b18-2628-cbab-1a811b2190ba@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 09. 05. 24 13:13, Jaroslav Kysela wrote:
-> On 09. 05. 24 12:44, Shengjiu Wang wrote:
->>>> mem2mem is just like the decoder in the compress pipeline. which is
->>>> one of the components in the pipeline.
->>>
->>> I was thinking of loopback with endpoints using compress streams,
->>> without physical endpoint, something like:
->>>
->>> compress playback (to feed data from userspace) -> DSP (processing) ->
->>> compress capture (send data back to userspace)
->>>
->>> Unless I'm missing something, you should be able to process data as fast
->>> as you can feed it and consume it in such case.
->>>
->>
->> Actually in the beginning I tried this,  but it did not work well.
->> ALSA needs time control for playback and capture, playback and capture
->> needs to synchronize.  Usually the playback and capture pipeline is
->> independent in ALSA design,  but in this case, the playback and capture
->> should synchronize, they are not independent.
+On Mon, May 13, 2024 at 04:55:58PM +0530, Devarsh Thakkar wrote:
+> On 13/05/24 14:29, Andy Shevchenko wrote:
+> > On Sat, May 11, 2024 at 11:11:14PM +0530, Devarsh Thakkar wrote:
+> >> On 10/05/24 20:45, Jani Nikula wrote:
+
+[...]
+
+> >>> Moreover, I think the naming of round_up() and round_down() should have
+> >>> reflected the fact that they operate on powers of 2. It's unfortunate
+> >>> that the difference to roundup() and rounddown() is just the underscore!
+> >>> That's just a trap.
+> >>>
+> >>> So let's perhaps not repeat the same with round_closest_up() and
+> >>> round_closest_down()?
+> >>
+> >> Yes the naming is inspired by existing macros i.e. round_up, round_down
+> >> (which round up/down to next pow of 2) and DIV_ROUND_CLOSEST (which
+> >> round the divided value to closest value) and there are already a lot of
+> >> users for these API's :
+> >>
+> >>   linux-next git:(heads/next-20240509) ✗ grep -nr round_up drivers | wc
+> >>     730    4261   74775
+> >>
+> >>   linux-next git:(heads/next-20240509) ✗ grep -nr round_down drivers | wc
+> >>     226    1293   22194
+> >>
+> >>  linux-next git:(heads/next-20240509) ✗ grep -nr DIV_ROUND_CLOSEST
+> >> drivers | wc
+> >>    1207    7461  111822
+> > 
+> > Side note, discover `git grep ...`: it's much much faster on Git index,
+> > than classic one on a working copy.
+> > 
+> >> so I thought to align with existing naming convention assuming
+> >> developers are already familiar with this.
+> >>
+> >> But if a wider consensus is to go with a newer naming convention then I
+> >> am open to it, although a challenge there would be to keep it short. For
+> >> e.g. this one is already 3 words, if we go with more explicit
+> >> "round_closest_up_pow_2" it looks quite long in my opinion :) .
+> > 
+> > You need properly name the macros. Again, round_up() / roundup() and
+> > roundup_pow_of_two() are three _different_ macros, and it's not clear
+> > why you can't use one of them in your case.
 > 
-> The core compress API core no strict timing constraints. You can eventually0
-> have two half-duplex compress devices, if you like to have really independent
-> mechanism. If something is missing in API, you can extend this API (like to
-> inform the user space that it's a producer/consumer processing without any
-> relation to the real time). I like this idea.
+> I can't use any of these because these macros either round up or round down,
+> whereas I want to round to closest value for the argument specified by the
+> user, be it achieved either by rounding up or rounding down depending upon
+> whichever makes the answer closer to the user-specified argument.
+> 
+> To make it clear, I have already included the examples in the macro
+> description [2], copying it here, maybe I can put the same examples in the
+> commit message too to avoid confusions :
+> 
+> round_closest_up(17, 4) = 16
+> round_closest_up(15, 4) = 16
+> round_closest_up(14, 4) = 16
+> 
+> round_closest_down(17, 4) = 16
+> round_closest_down(15, 4) = 16
+> round_closest_down(14, 4) = 12
+> 
+> Coming back to naming, this is as per existing convention used for naming
+> round_up, round_down (notice the `_` being used for macros working with pow of
+> 2) and DIV_ROUND_CLOSEST (notice the work `closest` used to specify the answer
+> to be nearest to specified value). Naming is a bit subjective, but I
+> personally don't think it is a good idea to go away with the existing naming
+> convention or go with longer names.
+> 
+> > The patch that changes those to a new one are doubtful to begin with.
+> > I.e. need a careful review on the arithmetics side of the change
+> > including HW capabilities of handling "closest" results.
+> 
+> This is already tested from my side, in-fact I have posted some of the results
+> in cover-letter with these macros [1] :
+> 
+> Regarding hardware capabilities, it uses existing round_up, round_down macros
+> underneath which are optimized to handle pow of 2 after modifying the user
+> provided argument using addition/subtraction and division, so I don't think it
+> should generally a problem with the hardware.
+> And I see other macros DIV_ROUND_CLOSEST [3] already using similar operations
+> i.e. addition/subtraction and division so don't think it should be a problem
+> to keep similar other macros in the same file.
 
-I was thinking more about this. If I am right, the mentioned use in gstreamer 
-is supposed to run the conversion (DSP) job in "one shot" (can be handled 
-using one system call like blocking ioctl).  The goal is just to offload the 
-CPU work to the DSP (co-processor). If there are no requirements for the 
-queuing, we can implement this ioctl in the compress ALSA API easily using the 
-data management through the dma-buf API. We can eventually define a new 
-direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so to allow 
-handle this new data scheme. The API may be extended later on real demand, of 
-course.
+Okay, thank you for elaborating. So, what I would expect in the new version of
+the series is that:
+- align naming (with the existing round*() macros)
+- add examples into commit message of the math.h patch
+- add test cases (you need to create lib/math_kunit.c for that)
+- elaborate in the commit message of the IPU3 change what you posted above
+  (some kind of a summary)
 
-Otherwise all pieces are already in the current ALSA compress API 
-(capabilities, params, enumeration). The realtime controls may be created 
-using ALSA control API.
-
-					Jaroslav
+> [1]:
+> https://gist.github.com/devarsht/de6f5142f678bb1a5338abfd9f814abd#file-v7_jpeg_encoder_crop_validation-L204
+> [2]: https://lore.kernel.org/all/20240509183952.4064331-1-devarsht@ti.com/
+> [3]: https://elixir.bootlin.com/linux/latest/source/include/linux/math.h#L86
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+With Best Regards,
+Andy Shevchenko
+
 
 
