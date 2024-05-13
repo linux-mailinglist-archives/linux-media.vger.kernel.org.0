@@ -1,83 +1,84 @@
-Return-Path: <linux-media+bounces-11401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E49D8C3F31
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 12:41:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C398C3F75
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07EC2B209D3
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 10:41:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 222F31F217D0
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573021527BD;
-	Mon, 13 May 2024 10:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A733314BFA2;
+	Mon, 13 May 2024 11:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hOxqNYRG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uJIFPuX9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDF6152501
-	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 10:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC7F149E16
+	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 11:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715596756; cv=none; b=MCY2QiOJV93IU6Z63fRJUYqrIj+FM0yv8+NdAQieKxePJyq7dysNVhiaLIdAHqFyEX2oyuoA/KFXrQbuAXQO5hrsT1NfupPvdCHqUYXeAh80DKvyXzIH+YHtOeOWdJAVdXTfYOWZdCIIds0fYuLtT6SS0m59+3o/34I15jHf3P0=
+	t=1715598445; cv=none; b=ODUMOOdXBP+bnmpQW+wfExtEVyH+F1ucKP3MOatpsgbHqFWAz6jJRk7j1YcdIQFLxxy4q674yDhdz66ishlYQnPOV3174Q7bO6/KI2ozhxDY/4z5Hwzm9AH/JxOpJ+V++qXrwnt24IVU0OGdkR06/HR7MLBQIB0+UfY8hibSMU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715596756; c=relaxed/simple;
-	bh=bO77ZRGvWIEiIfC7TMwMEcW0RLLTSTMSPZNgoIU1nDE=;
+	s=arc-20240116; t=1715598445; c=relaxed/simple;
+	bh=yGixI+iHGX3TPfXml7qxn2htJP1ksYMKCpPrGRjCsgU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZioGVagEZ+HjrGz2HnUl7ktyJn14QghoUxYwsuUdJi+uUtUtZ6Rbg0ZNC6SA5UeA2OSQGCdiDhwfIQWuSmFn12FQiScG7lSe3vILnIfNw0jpJctWgEIRouawg7/GJHrzLVqxYMO8L/wsE6tkTQGSjEEnwIwANHMB/a5RLQvn7jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hOxqNYRG; arc=none smtp.client-ip=209.85.166.43
+	 To:Cc:Content-Type; b=YuTu4TXIDP5wu4/aluVgv1hPpgrxoUOAC3Kx4UbCOalz551r+7m41iiMwgTN5fT+18qatc+9BDH7rJcJkgRWxX/cyiUX4UwMUbr8H+089jUOlLZEopATTQMPEwb0Gohf3TVl8BPx9B20Ub0ObQaH37FBN7fiwPqlNnKg38hksoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uJIFPuX9; arc=none smtp.client-ip=209.85.166.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7d9e70f388fso202337139f.2
-        for <linux-media@vger.kernel.org>; Mon, 13 May 2024 03:39:14 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7da37436e36so195323239f.0
+        for <linux-media@vger.kernel.org>; Mon, 13 May 2024 04:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715596754; x=1716201554; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1715598443; x=1716203243; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=buebxfvhrKsxWwmHpN8HIqeIzqJ1dJvpRSV41poUdTw=;
-        b=hOxqNYRGSsHd+8FFhTIku1RhY9FhCGSRa0bPhuX07H2yzx0ybN6AvZqj4xjSskhP4h
-         8wdHeOAnb9ryI1saRG5rHj3h+H9ZGfGchb2P0hckXMwFzkDFFifivpgoDOTDUmuuXFR+
-         DUfkIflWS2TkjibMovVai8twPJzhm3ooGiBfQOsvccnrc4iPo6Rdqwt85i9x/tLyNKDi
-         vDeoltKJTcBqH+/NfvciEyQWxCD2nkEyT6Ip22QRZfgcvRcz4u3yfr01fmiAw8U4INTb
-         kFmvdjGA5DiZ5B/skVWYtRQu9ou25Tu0kmZbK1q++YW8IIemQgVOkQwSnwtMM0lJbwVo
-         RXPA==
+        bh=xGQJNn0vnDN7oHpQ2fYIvhBcLWv6XEpScm6BqxW6Gn4=;
+        b=uJIFPuX9cC2kYiYBjXoyDCvDY5ovFnwkR8xHk8ZCZbyV907cCW6MgRDL3b1gMq4O81
+         TYyeqt+kMHIWJrjrtOYr7NfgQcf7ICLTTY7bi2NCGcBsctVtgKNzxgtTHNAQHDzxu8kq
+         azannFIZVjcwBThJ5xHlVKmTgwCUd8kaEHsv28IdAVSCpcnJeo6TUQ4cpe+RkgRGXnoR
+         Y/zC7GdEZSdgb+khJHBStnoImadGDaclt5GXnQm7KLwEpf6q00LjJzeFjjrvdv7+DRnm
+         f2RR18wFbCyi6cvTa94QrKfcaWrABul5PElHg8u6qcjoFcGn70AIkDuiXhCgMS3oqQb/
+         mUJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715596754; x=1716201554;
+        d=1e100.net; s=20230601; t=1715598443; x=1716203243;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=buebxfvhrKsxWwmHpN8HIqeIzqJ1dJvpRSV41poUdTw=;
-        b=m+Q7dFIPolHSKTe96RWTz9JoDyo/zNASEnYnjExdHDHBs8LBWijeuYk2gR9aa88gSj
-         qCWSeGOEm/q6qY3AaaQkuz0zWt8sw5bss5G1RYbjBoMZ8mAhhMakjLwjxpl8zyWRCf+e
-         2iXosacF4qNt90uf2NwcyjP/kXSliQxID37ZIgc2e3vSKnFDtlRJbAikxSie1r+MgfhQ
-         qYP4TzMUx1J03w1XiSj2nbQRNbrUd1bx+3T86/7Hz60yDe8ZOlbI4+F2y4XawHQHksXO
-         NUF2OJSDDxW0eiET1SJVwbIUDQt1pjSmx/k0UYORdWYH6iTQg1rewvFRFj1EVy1O03d/
-         cUHA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5BEwoBQ2GwRPR42SL0itQVn/kOT2Qpon/7A6ptQ+FNnuIFpR1xtg0GSilFCYxiAq5jOC/4/D2QE+JhJrWtGwRsWMe9e8hrJS5cro=
-X-Gm-Message-State: AOJu0YzUW2oJ4pKEkitjd+4Tu1c8dsXIX1MtRLF9G6wVx3hJN88XXOJc
-	ph/b+V/VgdiOIKlnRJwfWsKS4tS0YXRMGrRkaudFMHw37q/HU+YH890+YNtmPOEtvpNrO0LoS9y
-	52+ql9DmsFGCqGlo2hwN+25KKgcoPYtriF546+WCQXYBeu4St1n3u
-X-Google-Smtp-Source: AGHT+IGpxlYX8+VKGkmtPuAIMGxA5UAZbcx0MnAYFeFpA91msfpdz6rwOjVALAC61BpdL+rxCAb37kOiJezzIguf1p0=
-X-Received: by 2002:a5e:8e0b:0:b0:7de:e432:fd27 with SMTP id
- ca18e2360f4ac-7e1b5207a33mr1205090239f.13.1715596754196; Mon, 13 May 2024
- 03:39:14 -0700 (PDT)
+        bh=xGQJNn0vnDN7oHpQ2fYIvhBcLWv6XEpScm6BqxW6Gn4=;
+        b=VFfo1WPUNxPCRQV4u7lgsTetF1i4gmuayCfosQXgW0KKdZwkUd/kkm5R4VL1Shrq+S
+         Cy/sBXFcvT80Vlyy8LHDDuiC0KG/5BonRGLO390J3HwAhsf2NAwREG2TDVqOqnZUGYSm
+         +h6vECdigrkC+CKieokb+S8oBPU/DeLbkqcKuKAhv0Q8uQ1haXOAROPu9+CNIyvyNyj7
+         8EkjeYLaGu9g+ML5oYzVijd19m6vwxscTRlkIgw50BGuvS2P4U1kh21V6BsTbWFHumrP
+         xQjO2xdCweQ7rb6T4omtDk/ifgV/cG53UGzsODXL0iT900MGvO1iob/+f4XnfcJP2oih
+         9elg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJGpNJqUggn404Hmdfzv5AayyByEul1V/MLmyXIVPD1k6Cezqf6mARkWrnhlvpuLa3EwRRR+uA2TCWzir/3cpSjIxemGL3B4Mf5JU=
+X-Gm-Message-State: AOJu0YzyqtXfFn9URL9b2mzz3ZTpKdKBiqr7xs7UaeVHGgkmF3g2ojN8
+	UI5vpFoMnfFRG8drPgdiNxB/WWJ9B3wa5cBwK59KAktwcAA4++zuknAl8tNMfIhXA0L1fBHH2vI
+	E6C89+wP7+cUissr3owgXGpHPARfgnanTitWX
+X-Google-Smtp-Source: AGHT+IEiadjb+MTc+UlqC6N1rwvvjZDJnAlay8TfzRluxCwQz8iR/sX8wqL+TFk3/kNd86shQakjYT2DoztuTJ1C/LM=
+X-Received: by 2002:a05:6602:2992:b0:7da:bc23:ac16 with SMTP id
+ ca18e2360f4ac-7e1b520775bmr1054622539f.14.1715598442659; Mon, 13 May 2024
+ 04:07:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507155413.266057-1-panikiel@google.com> <20240507155413.266057-10-panikiel@google.com>
- <20240510212442.GA758313-robh@kernel.org>
-In-Reply-To: <20240510212442.GA758313-robh@kernel.org>
+References: <20240507155413.266057-1-panikiel@google.com> <20240507155413.266057-6-panikiel@google.com>
+ <20240510211613.GA751688-robh@kernel.org>
+In-Reply-To: <20240510211613.GA751688-robh@kernel.org>
 From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 13 May 2024 12:39:02 +0200
-Message-ID: <CAM5zL5qx06f7v-fEXRT1=dZ2s=Vo5eske2GrcMubf2ZuPFJ7mA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/10] media: dt-bindings: Add Intel Displayport RX IP
+Date: Mon, 13 May 2024 13:07:10 +0200
+Message-ID: <CAM5zL5oBA6Bkk=qAEjx7pvQ5cxa9MFHe9=T3AQMuKskzbjFrzw@mail.gmail.com>
+Subject: Re: [PATCH v3 05/10] media: dt-bindings: video-interfaces: Support
+ DisplayPort MST
 To: Rob Herring <robh@kernel.org>
 Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
 	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
@@ -89,216 +90,88 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 10, 2024 at 11:24=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+On Fri, May 10, 2024 at 11:16=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
 e:
 >
-> On Tue, May 07, 2024 at 03:54:12PM +0000, Pawe=C5=82 Anikiel wrote:
-> > Add dt binding for the Intel Displayport receiver FPGA IP.
-> > It is a part of the DisplayPort Intel FPGA IP Core, and supports
-> > DisplayPort 1.4, HBR3 video capture and Multi-Stream Transport.
-> >
-> > The user guide can be found here:
-> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
+> On Tue, May 07, 2024 at 03:54:08PM +0000, Pawe=C5=82 Anikiel wrote:
+> > Add a DisplayPort bus type and a multi-stream-support property
+> > indicating whether the interface supports MST.
 > >
 > > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
 > > ---
-> >  .../devicetree/bindings/media/intel,dprx.yaml | 172 ++++++++++++++++++
-> >  1 file changed, 172 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
-yaml
+> >  .../devicetree/bindings/media/video-interfaces.yaml        | 7 +++++++
+> >  include/dt-bindings/media/video-interfaces.h               | 2 ++
+> >  2 files changed, 9 insertions(+)
 > >
-> > diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/=
-Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > new file mode 100644
-> > index 000000000000..01bed858f746
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
-> > @@ -0,0 +1,172 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Intel DisplayPort RX IP
-> > +
-> > +maintainers:
-> > +  - Pawe=C5=82 Anikiel <panikiel@google.com>
-> > +
-> > +description: |
-> > +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA =
-IP
-> > +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
-> > +  capture and Multi-Stream Transport.
-> > +
-> > +  The IP features a large number of configuration parameters, found at=
-:
-> > +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-=
-3-20-0-1/sink-parameters.html
-> > +
-> > +  The following parameters have to be enabled:
-> > +    - Support DisplayPort sink
-> > +    - Enable GPU control
-> > +  The following parameters have to be set in the devicetree:
-> > +    - RX maximum link rate (using link-frequencies)
-> > +    - Maximum lane count (using data-lanes)
-> > +    - Support MST (using multi-stream-support)
-> > +    - Max stream count (inferred from the number of ports)
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: intel,dprx-20.0.1
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: MST virtual channel 0 or SST main link
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +
-> > +            properties:
-> > +              link-frequencies: true
-> > +
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                maxItems: 4
-> > +
-> > +              multi-stream-support: true
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +              - link-frequencies
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: MST virtual channel 0 or SST main link
+> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.y=
+aml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > index 26e3e7d7c67b..7bf3a2c09a5b 100644
+> > --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> > @@ -94,6 +94,7 @@ properties:
+> >        - 5 # Parallel
+> >        - 6 # BT.656
+> >        - 7 # DPI
+> > +      - 8 # DisplayPort
+> >      description:
+> >        Data bus type.
+> >
+> > @@ -217,4 +218,10 @@ properties:
+> >        Whether the clock signal is used as clock (0) or strobe (1). Use=
+d with
+> >        CCP2, for instance.
+> >
+> > +  multi-stream-support:
 >
-> How can port@0 also be "MST virtual channel 0 or SST main link"?
+> If MST is a known term for DP, then perhaps "dp-mst-support" for the
+> name. In any case, 'dp' should be in there somewhere.
 
-Sorry, I made a mistake. port@0 should be something like "Input port".
+I tried to keep the name generic, for the use case of some other bus
+with a similar feature, e.g. CSI-2 and virtual channels.
 
 >
+> > +    type: boolean
+> > +    description:
+> > +      Support transport of multiple independent streams. Used for
+> > +      DisplayPort MST-capable interfaces.
+>
+> Wouldn't this be implied by the devices at each end of the link?
+
+For the case of the Intel DP receiver, MST support is an IP
+configuration option which cannot be determined at probe time, so it
+needs to be read from DT. Having learned that the receiver should use
+properties from video-interfaces, I decided to put this property here.
+Do you think that's a good idea?
+
+> The drivers for each device should really list out features supported for
+> the link. The mode used is then the union of those 2 lists with DT
+> properties only used when the union is not definitive.
+
+The mode that actually gets used (MST vs non-MST) is negotiated during
+link setup as part of the DP protocol - the sink reports to the source
+if it supports MST, and it's up to the source's ability to enable MST
+or not.
+
+The property I'm adding here is only useful for the driver to know if
+the hw supports MST or not (in the case it can't determine it itself).
+
+>
+>
 > > +
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: MST virtual channel 1
-> > +
-> > +      port@3:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: MST virtual channel 2
-> > +
-> > +      port@4:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: MST virtual channel 3
-> > +
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    dp-receiver@c0062000 {
-> > +        compatible =3D "intel,dprx-20.0.1";
-> > +        reg =3D <0xc0062000 0x800>;
-> > +        interrupt-parent =3D <&dprx_mst_irq>;
-> > +        interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                dprx_mst_in: endpoint {
-> > +                    remote-endpoint =3D <&dp_input_mst_0>;
-> > +                    data-lanes =3D <0 1 2 3>;
-> > +                    link-frequencies =3D /bits/ 64 <1620000000 2700000=
-000
-> > +                                                  5400000000 810000000=
-0>;
-> > +                    multi-stream-support;
-> > +                };
-> > +            };
-> > +
-> > +            port@1 {
-> > +                reg =3D <1>;
-> > +                dprx_mst_0: endpoint {
-> > +                    remote-endpoint =3D <&video_mst0_0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@2 {
-> > +                reg =3D <2>;
-> > +                dprx_mst_1: endpoint {
-> > +                    remote-endpoint =3D <&video_mst1_0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@3 {
-> > +                reg =3D <3>;
-> > +                dprx_mst_2: endpoint {
-> > +                    remote-endpoint =3D <&video_mst2_0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@4 {
-> > +                reg =3D <4>;
-> > +                dprx_mst_3: endpoint {
-> > +                    remote-endpoint =3D <&video_mst3_0>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +  - |
-> > +    dp-receiver@c0064000 {
-> > +        compatible =3D "intel,dprx-20.0.1";
-> > +        reg =3D <0xc0064000 0x800>;
-> > +        interrupt-parent =3D <&dprx_sst_irq>;
-> > +        interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                dprx_sst_in: endpoint {
-> > +                    remote-endpoint =3D <&dp_input_sst_0>;
-> > +                    data-lanes =3D <0 1 2 3>;
-> > +                    link-frequencies =3D /bits/ 64 <1620000000 2700000=
-000
-> > +                                                  5400000000 810000000=
-0>;
-> > +                };
-> > +            };
-> > +
-> > +            port@1 {
-> > +                reg =3D <1>;
-> > +                dprx_sst_0: endpoint {
-> > +                    remote-endpoint =3D <&video_sst_0>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
+> >  additionalProperties: true
+> > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-=
+bindings/media/video-interfaces.h
+> > index 68ac4e05e37f..b236806f4482 100644
+> > --- a/include/dt-bindings/media/video-interfaces.h
+> > +++ b/include/dt-bindings/media/video-interfaces.h
+> > @@ -12,5 +12,7 @@
+> >  #define MEDIA_BUS_TYPE_CSI2_DPHY             4
+> >  #define MEDIA_BUS_TYPE_PARALLEL                      5
+> >  #define MEDIA_BUS_TYPE_BT656                 6
+> > +#define MEDIA_BUS_TYPE_DPI                   7
+> > +#define MEDIA_BUS_TYPE_DISPLAYPORT           8
+> >
+> >  #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
 > > --
 > > 2.45.0.rc1.225.g2a3ae87e7f-goog
 > >
