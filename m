@@ -1,181 +1,305 @@
-Return-Path: <linux-media+bounces-11400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1728C3E97
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 12:07:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E49D8C3F31
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 12:41:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65F71281429
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 10:07:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07EC2B209D3
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 10:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC71149DE0;
-	Mon, 13 May 2024 10:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 573021527BD;
+	Mon, 13 May 2024 10:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rxl+acGV"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hOxqNYRG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AF4148852
-	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 10:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDF6152501
+	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 10:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715594842; cv=none; b=RoZR8wsoOP7GEaDYhdtwa4KSgnfnxzC7JY2qNPntNn0caGvVawggeQLHTEkJ30Dq9n7qB5I8qlITL/J7TMkS0+hzUXXKRA+LNFUqeWmZ+Vh2C5xrmq4Wp6sQfhVSU1LONyT2IdJ71HgF/PgFSFkv+2p7eG6xTh3dANlzk1R4hTE=
+	t=1715596756; cv=none; b=MCY2QiOJV93IU6Z63fRJUYqrIj+FM0yv8+NdAQieKxePJyq7dysNVhiaLIdAHqFyEX2oyuoA/KFXrQbuAXQO5hrsT1NfupPvdCHqUYXeAh80DKvyXzIH+YHtOeOWdJAVdXTfYOWZdCIIds0fYuLtT6SS0m59+3o/34I15jHf3P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715594842; c=relaxed/simple;
-	bh=8VptnbFSc/ceUWaL1K+qIX10b+ia288RLpHWvE40RlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zb7NSTTf3qPvTsprvP9scjK6al52w3PwU1zGqIOsMfx0JQ0YBS1rhmf3FbakVdqvS8GxYGs1+JgXzwXN8xz9iDz0wwjgs88YzrZrVqPGqBsavnE0iJDfYH6T9ZB7khDV4qNHAvv9q1S9lIKvEYOnXtxdQJOexubAxPcS+YZOyRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rxl+acGV; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715594841; x=1747130841;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8VptnbFSc/ceUWaL1K+qIX10b+ia288RLpHWvE40RlA=;
-  b=Rxl+acGVp68WSJK16cggV7WWXZTULFAw64ZRrrGgIxpR9foP7FxvD8o1
-   ZYFLPTKCBdecECDk8D91OgNpSZLoN0STYGR/7t3oLpF0tQkvXg6wkUT9E
-   6GVbAmkmzAPEfHWKACYwV6/ldEDwkBrw/i53qDYFWcNqAZFWg5tlDE5DF
-   1qz050j8uaYzPqzxT0X/kE+BmL1MStbOJnRuAC1pVbYPyPIVMca8sCxoO
-   O6KUzkHNjugtsjT8fPm6qCYSrwiYSxkRDdUDI7QD41KGJrAvnOmG+k/6l
-   pSzTRd36XDqI5mFav9Qr1IUylnJQDAGNMnfHlomr88QpskbwGgSJcnEst
-   Q==;
-X-CSE-ConnectionGUID: /6ud6nEWQb6ZW8oHo7BwSQ==
-X-CSE-MsgGUID: AyOXVHHZSQS9Mxr5cTEVsw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22097022"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="22097022"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 03:07:20 -0700
-X-CSE-ConnectionGUID: hLIlnXrUR3GkVNdj7lWrcA==
-X-CSE-MsgGUID: ZnwwH1EJRsK1y+PCpX5+4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="30850060"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.213.18.189])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 03:07:19 -0700
-Date: Mon, 13 May 2024 12:07:16 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: ov2740: Ensure proper reset sequence on probe()
-Message-ID: <ZkHmVNloIZBY58d8@linux.intel.com>
-References: <20240506132438.278920-1-hdegoede@redhat.com>
- <Zjy2ksnLCvKuWv4u@linux.intel.com>
- <f74981e4-ad5c-415d-9f1a-d03a8194db25@redhat.com>
+	s=arc-20240116; t=1715596756; c=relaxed/simple;
+	bh=bO77ZRGvWIEiIfC7TMwMEcW0RLLTSTMSPZNgoIU1nDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZioGVagEZ+HjrGz2HnUl7ktyJn14QghoUxYwsuUdJi+uUtUtZ6Rbg0ZNC6SA5UeA2OSQGCdiDhwfIQWuSmFn12FQiScG7lSe3vILnIfNw0jpJctWgEIRouawg7/GJHrzLVqxYMO8L/wsE6tkTQGSjEEnwIwANHMB/a5RLQvn7jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hOxqNYRG; arc=none smtp.client-ip=209.85.166.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7d9e70f388fso202337139f.2
+        for <linux-media@vger.kernel.org>; Mon, 13 May 2024 03:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715596754; x=1716201554; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=buebxfvhrKsxWwmHpN8HIqeIzqJ1dJvpRSV41poUdTw=;
+        b=hOxqNYRGSsHd+8FFhTIku1RhY9FhCGSRa0bPhuX07H2yzx0ybN6AvZqj4xjSskhP4h
+         8wdHeOAnb9ryI1saRG5rHj3h+H9ZGfGchb2P0hckXMwFzkDFFifivpgoDOTDUmuuXFR+
+         DUfkIflWS2TkjibMovVai8twPJzhm3ooGiBfQOsvccnrc4iPo6Rdqwt85i9x/tLyNKDi
+         vDeoltKJTcBqH+/NfvciEyQWxCD2nkEyT6Ip22QRZfgcvRcz4u3yfr01fmiAw8U4INTb
+         kFmvdjGA5DiZ5B/skVWYtRQu9ou25Tu0kmZbK1q++YW8IIemQgVOkQwSnwtMM0lJbwVo
+         RXPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715596754; x=1716201554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=buebxfvhrKsxWwmHpN8HIqeIzqJ1dJvpRSV41poUdTw=;
+        b=m+Q7dFIPolHSKTe96RWTz9JoDyo/zNASEnYnjExdHDHBs8LBWijeuYk2gR9aa88gSj
+         qCWSeGOEm/q6qY3AaaQkuz0zWt8sw5bss5G1RYbjBoMZ8mAhhMakjLwjxpl8zyWRCf+e
+         2iXosacF4qNt90uf2NwcyjP/kXSliQxID37ZIgc2e3vSKnFDtlRJbAikxSie1r+MgfhQ
+         qYP4TzMUx1J03w1XiSj2nbQRNbrUd1bx+3T86/7Hz60yDe8ZOlbI4+F2y4XawHQHksXO
+         NUF2OJSDDxW0eiET1SJVwbIUDQt1pjSmx/k0UYORdWYH6iTQg1rewvFRFj1EVy1O03d/
+         cUHA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5BEwoBQ2GwRPR42SL0itQVn/kOT2Qpon/7A6ptQ+FNnuIFpR1xtg0GSilFCYxiAq5jOC/4/D2QE+JhJrWtGwRsWMe9e8hrJS5cro=
+X-Gm-Message-State: AOJu0YzUW2oJ4pKEkitjd+4Tu1c8dsXIX1MtRLF9G6wVx3hJN88XXOJc
+	ph/b+V/VgdiOIKlnRJwfWsKS4tS0YXRMGrRkaudFMHw37q/HU+YH890+YNtmPOEtvpNrO0LoS9y
+	52+ql9DmsFGCqGlo2hwN+25KKgcoPYtriF546+WCQXYBeu4St1n3u
+X-Google-Smtp-Source: AGHT+IGpxlYX8+VKGkmtPuAIMGxA5UAZbcx0MnAYFeFpA91msfpdz6rwOjVALAC61BpdL+rxCAb37kOiJezzIguf1p0=
+X-Received: by 2002:a5e:8e0b:0:b0:7de:e432:fd27 with SMTP id
+ ca18e2360f4ac-7e1b5207a33mr1205090239f.13.1715596754196; Mon, 13 May 2024
+ 03:39:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f74981e4-ad5c-415d-9f1a-d03a8194db25@redhat.com>
+References: <20240507155413.266057-1-panikiel@google.com> <20240507155413.266057-10-panikiel@google.com>
+ <20240510212442.GA758313-robh@kernel.org>
+In-Reply-To: <20240510212442.GA758313-robh@kernel.org>
+From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Date: Mon, 13 May 2024 12:39:02 +0200
+Message-ID: <CAM5zL5qx06f7v-fEXRT1=dZ2s=Vo5eske2GrcMubf2ZuPFJ7mA@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] media: dt-bindings: Add Intel Displayport RX IP
+To: Rob Herring <robh@kernel.org>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
+	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
+	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
+	mchehab@kernel.org, mripard@kernel.org, tzimmermann@suse.de, 
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans
+On Fri, May 10, 2024 at 11:24=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Tue, May 07, 2024 at 03:54:12PM +0000, Pawe=C5=82 Anikiel wrote:
+> > Add dt binding for the Intel Displayport receiver FPGA IP.
+> > It is a part of the DisplayPort Intel FPGA IP Core, and supports
+> > DisplayPort 1.4, HBR3 video capture and Multi-Stream Transport.
+> >
+> > The user guide can be found here:
+> > https://www.intel.com/programmable/technical-pdfs/683273.pdf
+> >
+> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
+> > ---
+> >  .../devicetree/bindings/media/intel,dprx.yaml | 172 ++++++++++++++++++
+> >  1 file changed, 172 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.=
+yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/intel,dprx.yaml b/=
+Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > new file mode 100644
+> > index 000000000000..01bed858f746
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/intel,dprx.yaml
+> > @@ -0,0 +1,172 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/intel,dprx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Intel DisplayPort RX IP
+> > +
+> > +maintainers:
+> > +  - Pawe=C5=82 Anikiel <panikiel@google.com>
+> > +
+> > +description: |
+> > +  The Intel Displayport RX IP is a part of the DisplayPort Intel FPGA =
+IP
+> > +  Core. It implements a DisplayPort 1.4 receiver capable of HBR3 video
+> > +  capture and Multi-Stream Transport.
+> > +
+> > +  The IP features a large number of configuration parameters, found at=
+:
+> > +  https://www.intel.com/content/www/us/en/docs/programmable/683273/23-=
+3-20-0-1/sink-parameters.html
+> > +
+> > +  The following parameters have to be enabled:
+> > +    - Support DisplayPort sink
+> > +    - Enable GPU control
+> > +  The following parameters have to be set in the devicetree:
+> > +    - RX maximum link rate (using link-frequencies)
+> > +    - Maximum lane count (using data-lanes)
+> > +    - Support MST (using multi-stream-support)
+> > +    - Max stream count (inferred from the number of ports)
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: intel,dprx-20.0.1
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: MST virtual channel 0 or SST main link
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: /schemas/media/video-interfaces.yaml#
+> > +
+> > +            properties:
+> > +              link-frequencies: true
+> > +
+> > +              data-lanes:
+> > +                minItems: 1
+> > +                maxItems: 4
+> > +
+> > +              multi-stream-support: true
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +              - link-frequencies
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: MST virtual channel 0 or SST main link
+>
+> How can port@0 also be "MST virtual channel 0 or SST main link"?
 
-On Thu, May 09, 2024 at 03:42:25PM +0200, Hans de Goede wrote:
-> Hi Stanislaw,
-> 
-> On 5/9/24 1:42 PM, Stanislaw Gruszka wrote:
-> > On Mon, May 06, 2024 at 03:24:38PM +0200, Hans de Goede wrote:
-> >> Before this commit on probe() the driver would do:
-> >>
-> >> reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
-> >> reset=0                // from resume()
-> >> msleep(20)             // from resume()
-> >>
-> >> So if reset was 0 before getting the GPIO the reset line would only be
-> >> driven high for a very short time and sometimes there would be errors
-> >> reading the id register afterwards.
-> >>
-> >> Add a msleep(20) after getting the reset line to ensure the sensor is
-> >> properly reset:
-> >>
-> >> reset=1                // from probe() calling gpiod_get(GPIOD_OUT_HIGH)
-> >> msleep(20)             // from probe()
-> >> reset=0                // from resume()
-> >> msleep(20)             // from resume()
-> >>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > 
-> > Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > 
-> > This fixes this issue:
-> > 
-> > [    7.742633] ov2740 i2c-INT3474:01: chip id mismatch: 2740 != 0
-> > [    7.742638] ov2740 i2c-INT3474:01: error -ENXIO: failed to find sensor
-> > 
-> > for me as well.
-> 
-> Thank you for testing.
-> 
-> However there is still the issue of the sensor not always starting to
-> stream reliably being discussed here:
-> 
-> https://github.com/intel/ipu6-drivers/issues/187
-> 
-> I have been thinking about this and I think that something like this
-> should fix this, can you give this a try (with the patch to disable
-> runtime-pm reverted) :
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index c48dbcde9877..58818bcfe086 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -1294,7 +1294,14 @@ static int ov2740_suspend(struct device *dev)
->  	struct ov2740 *ov2740 = to_ov2740(sd);
->  
->  	gpiod_set_value_cansleep(ov2740->reset_gpio, 1);
-> +	/*
-> +	 * Ensure reset is asserted for at least 20 ms before disabling the clk.
-> +	 * This also assures reset is properly asserted for 20 ms when a runtime
-> +	 * suspend is immediately followed by a runtime resume.
-> +	 */
-> +	msleep(20);
->  	clk_disable_unprepare(ov2740->clk);
-> +
->  	return 0;
->  }
->  
-> @@ -1308,6 +1315,9 @@ static int ov2740_resume(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> +	/* Give clk time to stabilize */
-> +	msleep(20);
-> +
->  	gpiod_set_value_cansleep(ov2740->reset_gpio, 0);
->  	msleep(20);
->  
-> 
-> Hopefully this will fix the start / stop stream issues when runtime
-> pm is enabled.
+Sorry, I made a mistake. port@0 should be something like "Input port".
 
-With the both patches I have quite good reproducible "chip id mismatch"
-problem. I test patch 1 and patch 2 separately and both of them together.
-Unfortunately non combination fixes the issues: mismatch and steam
-start and some other problems with ov2740 on my lenovo x1 laptop
-
-Looks previously I get good result with original patch just by sheer luck.
-Those are random problems and reuire more testing before confirmation
-of fix.
-
-So sadly I have to scratch result that original patch fixes chip mishmash id
-issue :-(
-
-Problems need to be properly debugged and require deeper investigation.
-
-Regards
-Stanislaw
-   
+>
+> > +
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: MST virtual channel 1
+> > +
+> > +      port@3:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: MST virtual channel 2
+> > +
+> > +      port@4:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: MST virtual channel 3
+> > +
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    dp-receiver@c0062000 {
+> > +        compatible =3D "intel,dprx-20.0.1";
+> > +        reg =3D <0xc0062000 0x800>;
+> > +        interrupt-parent =3D <&dprx_mst_irq>;
+> > +        interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +                dprx_mst_in: endpoint {
+> > +                    remote-endpoint =3D <&dp_input_mst_0>;
+> > +                    data-lanes =3D <0 1 2 3>;
+> > +                    link-frequencies =3D /bits/ 64 <1620000000 2700000=
+000
+> > +                                                  5400000000 810000000=
+0>;
+> > +                    multi-stream-support;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg =3D <1>;
+> > +                dprx_mst_0: endpoint {
+> > +                    remote-endpoint =3D <&video_mst0_0>;
+> > +                };
+> > +            };
+> > +
+> > +            port@2 {
+> > +                reg =3D <2>;
+> > +                dprx_mst_1: endpoint {
+> > +                    remote-endpoint =3D <&video_mst1_0>;
+> > +                };
+> > +            };
+> > +
+> > +            port@3 {
+> > +                reg =3D <3>;
+> > +                dprx_mst_2: endpoint {
+> > +                    remote-endpoint =3D <&video_mst2_0>;
+> > +                };
+> > +            };
+> > +
+> > +            port@4 {
+> > +                reg =3D <4>;
+> > +                dprx_mst_3: endpoint {
+> > +                    remote-endpoint =3D <&video_mst3_0>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +  - |
+> > +    dp-receiver@c0064000 {
+> > +        compatible =3D "intel,dprx-20.0.1";
+> > +        reg =3D <0xc0064000 0x800>;
+> > +        interrupt-parent =3D <&dprx_sst_irq>;
+> > +        interrupts =3D <0 IRQ_TYPE_EDGE_RISING>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +                dprx_sst_in: endpoint {
+> > +                    remote-endpoint =3D <&dp_input_sst_0>;
+> > +                    data-lanes =3D <0 1 2 3>;
+> > +                    link-frequencies =3D /bits/ 64 <1620000000 2700000=
+000
+> > +                                                  5400000000 810000000=
+0>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg =3D <1>;
+> > +                dprx_sst_0: endpoint {
+> > +                    remote-endpoint =3D <&video_sst_0>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > --
+> > 2.45.0.rc1.225.g2a3ae87e7f-goog
+> >
 
