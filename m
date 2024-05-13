@@ -1,178 +1,188 @@
-Return-Path: <linux-media+bounces-11402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11403-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C398C3F75
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:07:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C418C3FCA
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:26:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 222F31F217D0
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:07:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77CB81C21E62
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A733314BFA2;
-	Mon, 13 May 2024 11:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E55D14C5AF;
+	Mon, 13 May 2024 11:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uJIFPuX9"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mTVa941V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC7F149E16
-	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 11:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA9C146A8B;
+	Mon, 13 May 2024 11:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715598445; cv=none; b=ODUMOOdXBP+bnmpQW+wfExtEVyH+F1ucKP3MOatpsgbHqFWAz6jJRk7j1YcdIQFLxxy4q674yDhdz66ishlYQnPOV3174Q7bO6/KI2ozhxDY/4z5Hwzm9AH/JxOpJ+V++qXrwnt24IVU0OGdkR06/HR7MLBQIB0+UfY8hibSMU8=
+	t=1715599589; cv=none; b=Vhg6JYUELYKs6Lzx4xVuh3pzpzqFycVg50Slbet5wpNmP1avdXDOcXeEyLMzHzlvSW54WM3V+unJBBBBbQmn+jCFAdoOIjRkMf4IHPfSXBX06rJRwYJxe3t5mgIbDqj6/5lY+ObkHFLQhI2lqthMXP8g8z5ssrLbDc0t7gl+rFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715598445; c=relaxed/simple;
-	bh=yGixI+iHGX3TPfXml7qxn2htJP1ksYMKCpPrGRjCsgU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YuTu4TXIDP5wu4/aluVgv1hPpgrxoUOAC3Kx4UbCOalz551r+7m41iiMwgTN5fT+18qatc+9BDH7rJcJkgRWxX/cyiUX4UwMUbr8H+089jUOlLZEopATTQMPEwb0Gohf3TVl8BPx9B20Ub0ObQaH37FBN7fiwPqlNnKg38hksoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uJIFPuX9; arc=none smtp.client-ip=209.85.166.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7da37436e36so195323239f.0
-        for <linux-media@vger.kernel.org>; Mon, 13 May 2024 04:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715598443; x=1716203243; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xGQJNn0vnDN7oHpQ2fYIvhBcLWv6XEpScm6BqxW6Gn4=;
-        b=uJIFPuX9cC2kYiYBjXoyDCvDY5ovFnwkR8xHk8ZCZbyV907cCW6MgRDL3b1gMq4O81
-         TYyeqt+kMHIWJrjrtOYr7NfgQcf7ICLTTY7bi2NCGcBsctVtgKNzxgtTHNAQHDzxu8kq
-         azannFIZVjcwBThJ5xHlVKmTgwCUd8kaEHsv28IdAVSCpcnJeo6TUQ4cpe+RkgRGXnoR
-         Y/zC7GdEZSdgb+khJHBStnoImadGDaclt5GXnQm7KLwEpf6q00LjJzeFjjrvdv7+DRnm
-         f2RR18wFbCyi6cvTa94QrKfcaWrABul5PElHg8u6qcjoFcGn70AIkDuiXhCgMS3oqQb/
-         mUJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715598443; x=1716203243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xGQJNn0vnDN7oHpQ2fYIvhBcLWv6XEpScm6BqxW6Gn4=;
-        b=VFfo1WPUNxPCRQV4u7lgsTetF1i4gmuayCfosQXgW0KKdZwkUd/kkm5R4VL1Shrq+S
-         Cy/sBXFcvT80Vlyy8LHDDuiC0KG/5BonRGLO390J3HwAhsf2NAwREG2TDVqOqnZUGYSm
-         +h6vECdigrkC+CKieokb+S8oBPU/DeLbkqcKuKAhv0Q8uQ1haXOAROPu9+CNIyvyNyj7
-         8EkjeYLaGu9g+ML5oYzVijd19m6vwxscTRlkIgw50BGuvS2P4U1kh21V6BsTbWFHumrP
-         xQjO2xdCweQ7rb6T4omtDk/ifgV/cG53UGzsODXL0iT900MGvO1iob/+f4XnfcJP2oih
-         9elg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJGpNJqUggn404Hmdfzv5AayyByEul1V/MLmyXIVPD1k6Cezqf6mARkWrnhlvpuLa3EwRRR+uA2TCWzir/3cpSjIxemGL3B4Mf5JU=
-X-Gm-Message-State: AOJu0YzyqtXfFn9URL9b2mzz3ZTpKdKBiqr7xs7UaeVHGgkmF3g2ojN8
-	UI5vpFoMnfFRG8drPgdiNxB/WWJ9B3wa5cBwK59KAktwcAA4++zuknAl8tNMfIhXA0L1fBHH2vI
-	E6C89+wP7+cUissr3owgXGpHPARfgnanTitWX
-X-Google-Smtp-Source: AGHT+IEiadjb+MTc+UlqC6N1rwvvjZDJnAlay8TfzRluxCwQz8iR/sX8wqL+TFk3/kNd86shQakjYT2DoztuTJ1C/LM=
-X-Received: by 2002:a05:6602:2992:b0:7da:bc23:ac16 with SMTP id
- ca18e2360f4ac-7e1b520775bmr1054622539f.14.1715598442659; Mon, 13 May 2024
- 04:07:22 -0700 (PDT)
+	s=arc-20240116; t=1715599589; c=relaxed/simple;
+	bh=w6bXvTIiUpMD4wbwccXChfqc4hfumpC2Fp5Gf0Kx3Jw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TEroiBp62BSpSsif/2elBxKeYprLZTIlC6ZK3cbZvCSH/pcVDQAc2k3gDcgHB0nJBIG0JKU9QDBj9KPWV0bYmlzQwhX/nXC24/W2tIPPUTJdeLDG4pzrxd6nmNBxqiDAsvPU3R5ByGgjpmpreGpCdVSBSprYyMkki1XHmPgXCRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=mTVa941V; arc=none smtp.client-ip=198.47.23.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44DBQ7LZ120561;
+	Mon, 13 May 2024 06:26:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1715599567;
+	bh=eawYmx/H8bHfSzex1qDdS9vopfxAzhLAnG6LsubXIAc=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=mTVa941Vc+32qCU2A+G8gQGpQNJUVjif86p6HO5cP8Mjap69/1yYgiv2Hvg9CZwWI
+	 aKdBkNh7SOV+wtWX55ixUTiFFM1wj59EUiCSGs4JxanKU4ySbxUM7WGJAGLXRiK+0l
+	 sgqsnCoOrTwSe86OgZBWpV8Qt0XSJ18pD19cBJtA=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44DBQ7gs029885
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 13 May 2024 06:26:07 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 13
+ May 2024 06:26:07 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 13 May 2024 06:26:07 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44DBPxsB051978;
+	Mon, 13 May 2024 06:25:59 -0500
+Message-ID: <6557050e-6b18-2628-cbab-1a811b2190ba@ti.com>
+Date: Mon, 13 May 2024 16:55:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507155413.266057-1-panikiel@google.com> <20240507155413.266057-6-panikiel@google.com>
- <20240510211613.GA751688-robh@kernel.org>
-In-Reply-To: <20240510211613.GA751688-robh@kernel.org>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Mon, 13 May 2024 13:07:10 +0200
-Message-ID: <CAM5zL5oBA6Bkk=qAEjx7pvQ5cxa9MFHe9=T3AQMuKskzbjFrzw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/10] media: dt-bindings: video-interfaces: Support
- DisplayPort MST
-To: Rob Herring <robh@kernel.org>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org, 
-	daniel@ffwll.ch, dinguyen@kernel.org, hverkuil-cisco@xs4all.nl, 
-	krzysztof.kozlowski+dt@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mchehab@kernel.org, mripard@kernel.org, tzimmermann@suse.de, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Jani Nikula <jani.nikula@intel.com>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
+        <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
+        <gregkh@linuxfoundation.org>, <adobriyan@gmail.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
+        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com> <87fruphf55.fsf@intel.com>
+ <5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com>
+ <ZkHWbS4raU_BPlpm@smile.fi.intel.com>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <ZkHWbS4raU_BPlpm@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Fri, May 10, 2024 at 11:16=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
-e:
->
-> On Tue, May 07, 2024 at 03:54:08PM +0000, Pawe=C5=82 Anikiel wrote:
-> > Add a DisplayPort bus type and a multi-stream-support property
-> > indicating whether the interface supports MST.
-> >
-> > Signed-off-by: Pawe=C5=82 Anikiel <panikiel@google.com>
-> > ---
-> >  .../devicetree/bindings/media/video-interfaces.yaml        | 7 +++++++
-> >  include/dt-bindings/media/video-interfaces.h               | 2 ++
-> >  2 files changed, 9 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.y=
-aml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > index 26e3e7d7c67b..7bf3a2c09a5b 100644
-> > --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> > @@ -94,6 +94,7 @@ properties:
-> >        - 5 # Parallel
-> >        - 6 # BT.656
-> >        - 7 # DPI
-> > +      - 8 # DisplayPort
-> >      description:
-> >        Data bus type.
-> >
-> > @@ -217,4 +218,10 @@ properties:
-> >        Whether the clock signal is used as clock (0) or strobe (1). Use=
-d with
-> >        CCP2, for instance.
-> >
-> > +  multi-stream-support:
->
-> If MST is a known term for DP, then perhaps "dp-mst-support" for the
-> name. In any case, 'dp' should be in there somewhere.
+Hi Andy,
 
-I tried to keep the name generic, for the use case of some other bus
-with a similar feature, e.g. CSI-2 and virtual channels.
+On 13/05/24 14:29, Andy Shevchenko wrote:
+> On Sat, May 11, 2024 at 11:11:14PM +0530, Devarsh Thakkar wrote:
+>> On 10/05/24 20:45, Jani Nikula wrote:
+> 
+> [...]
+> 
+>>> Moreover, I think the naming of round_up() and round_down() should have
+>>> reflected the fact that they operate on powers of 2. It's unfortunate
+>>> that the difference to roundup() and rounddown() is just the underscore!
+>>> That's just a trap.
+>>>
+>>> So let's perhaps not repeat the same with round_closest_up() and
+>>> round_closest_down()?
+>>
+>> Yes the naming is inspired by existing macros i.e. round_up, round_down
+>> (which round up/down to next pow of 2) and DIV_ROUND_CLOSEST (which
+>> round the divided value to closest value) and there are already a lot of
+>> users for these API's :
+>>
+>>   linux-next git:(heads/next-20240509) ✗ grep -nr round_up drivers | wc
+>>     730    4261   74775
+>>
+>>   linux-next git:(heads/next-20240509) ✗ grep -nr round_down drivers | wc
+>>     226    1293   22194
+>>
+>>  linux-next git:(heads/next-20240509) ✗ grep -nr DIV_ROUND_CLOSEST
+>> drivers | wc
+>>    1207    7461  111822
+> 
+> Side note, discover `git grep ...`: it's much much faster on Git index,
+> than classic one on a working copy.
+> 
+>> so I thought to align with existing naming convention assuming
+>> developers are already familiar with this.
+>>
+>> But if a wider consensus is to go with a newer naming convention then I
+>> am open to it, although a challenge there would be to keep it short. For
+>> e.g. this one is already 3 words, if we go with more explicit
+>> "round_closest_up_pow_2" it looks quite long in my opinion :) .
+> 
+> You need properly name the macros. Again, round_up() / roundup() and
+> roundup_pow_of_two() are three _different_ macros, and it's not clear
+> why you can't use one of them in your case.
+> 
 
->
-> > +    type: boolean
-> > +    description:
-> > +      Support transport of multiple independent streams. Used for
-> > +      DisplayPort MST-capable interfaces.
->
-> Wouldn't this be implied by the devices at each end of the link?
+I can't use any of these because these macros either round up or round down,
+whereas I want to round to closest value for the argument specified by the
+user, be it achieved either by rounding up or rounding down depending upon
+whichever makes the answer closer to the user-specified argument.
 
-For the case of the Intel DP receiver, MST support is an IP
-configuration option which cannot be determined at probe time, so it
-needs to be read from DT. Having learned that the receiver should use
-properties from video-interfaces, I decided to put this property here.
-Do you think that's a good idea?
+To make it clear, I have already included the examples in the macro
+description [2], copying it here, maybe I can put the same examples in the
+commit message too to avoid confusions :
 
-> The drivers for each device should really list out features supported for
-> the link. The mode used is then the union of those 2 lists with DT
-> properties only used when the union is not definitive.
+round_closest_up(17, 4) = 16
+round_closest_up(15, 4) = 16
+round_closest_up(14, 4) = 16
 
-The mode that actually gets used (MST vs non-MST) is negotiated during
-link setup as part of the DP protocol - the sink reports to the source
-if it supports MST, and it's up to the source's ability to enable MST
-or not.
+round_closest_down(17, 4) = 16
+round_closest_down(15, 4) = 16
+round_closest_down(14, 4) = 12
 
-The property I'm adding here is only useful for the driver to know if
-the hw supports MST or not (in the case it can't determine it itself).
+Coming back to naming, this is as per existing convention used for naming
+round_up, round_down (notice the `_` being used for macros working with pow of
+2) and DIV_ROUND_CLOSEST (notice the work `closest` used to specify the answer
+to be nearest to specified value). Naming is a bit subjective, but I
+personally don't think it is a good idea to go away with the existing naming
+convention or go with longer names.
 
->
->
-> > +
-> >  additionalProperties: true
-> > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-=
-bindings/media/video-interfaces.h
-> > index 68ac4e05e37f..b236806f4482 100644
-> > --- a/include/dt-bindings/media/video-interfaces.h
-> > +++ b/include/dt-bindings/media/video-interfaces.h
-> > @@ -12,5 +12,7 @@
-> >  #define MEDIA_BUS_TYPE_CSI2_DPHY             4
-> >  #define MEDIA_BUS_TYPE_PARALLEL                      5
-> >  #define MEDIA_BUS_TYPE_BT656                 6
-> > +#define MEDIA_BUS_TYPE_DPI                   7
-> > +#define MEDIA_BUS_TYPE_DISPLAYPORT           8
-> >
-> >  #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
-> > --
-> > 2.45.0.rc1.225.g2a3ae87e7f-goog
-> >
+> The patch that changes those to a new one are doubtful to begin with.
+> I.e. need a careful review on the arithmetics side of the change
+> including HW capabilities of handling "closest" results.
+> 
+
+This is already tested from my side, in-fact I have posted some of the results
+in cover-letter with these macros [1] :
+
+Regarding hardware capabilities, it uses existing round_up, round_down macros
+underneath which are optimized to handle pow of 2 after modifying the user
+provided argument using addition/subtraction and division, so I don't think it
+should generally a problem with the hardware.
+And I see other macros DIV_ROUND_CLOSEST [3] already using similar operations
+i.e. addition/subtraction and division so don't think it should be a problem
+to keep similar other macros in the same file.
+
+[1]:
+https://gist.github.com/devarsht/de6f5142f678bb1a5338abfd9f814abd#file-v7_jpeg_encoder_crop_validation-L204
+[2]: https://lore.kernel.org/all/20240509183952.4064331-1-devarsht@ti.com/
+[3]: https://elixir.bootlin.com/linux/latest/source/include/linux/math.h#L86
+
+Regards
+Devarsh
 
