@@ -1,216 +1,168 @@
-Return-Path: <linux-media+bounces-11412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11414-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7955C8C428A
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 15:52:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 961408C42F3
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 16:14:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E567E1F21D8C
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:51:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B93F31C21648
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 14:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA6E153586;
-	Mon, 13 May 2024 13:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5E0153BC2;
+	Mon, 13 May 2024 14:14:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gSojXwqw"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XJO9XN5Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8C315357A
-	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 13:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB9815381E
+	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 14:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715608317; cv=none; b=TpNWzie1fYFwF3CIWGVOSblXyVIVbKwHLGSW485+8SDzXXs0HSwRKNX1ZieqwmruJD8tQbb1+F3PtVn6D8MBlMeFLZDJuAf7Zp8W5JkQRuoDNyeej2m+zQA16X89b82djb6rdujh20yTHVOOagfhtdB2ipK1UGsXUj5kHSnuWTU=
+	t=1715609647; cv=none; b=S0v3emaPS2Zash2cEINSnQI8qi6qKq8jMmfNnOodJ9Y0snRdLUvJzWc97ULh0jRLnUZrrzZWbjQMKE7ZBdeLsvvUwg28RUsTBHMiMMK1bxGsJScWJ1MGjwAJcEEUxCmEhXTRtshfTrvU54TFKXH3dKQM//giw1hV0iVCE/ONFEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715608317; c=relaxed/simple;
-	bh=6xbXeK6RMkAiWLJ1gsVT9jtjs/k/mcsJH+bQu2pNTS4=;
+	s=arc-20240116; t=1715609647; c=relaxed/simple;
+	bh=jlJal8SYd2i17p2UBb9eq6fm30hJKgO/pZI9iWerNak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enmC8hMvYAtu0aZM+kgdUMSEzRGaq34PNEw4OcDlxmYEw0w+4ghCY6q8UyeeYiCQp2t/uxybfGn84PZ95LYjtu9wzi7IoeVGSVadB1m21/b5Lxb+67zvSOvsHpQEeyWzUxQq2sMNnkcdlykO4ZVfeVMyepqPo0JfmxLNsFIjnjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gSojXwqw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715608314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6xbXeK6RMkAiWLJ1gsVT9jtjs/k/mcsJH+bQu2pNTS4=;
-	b=gSojXwqwVY1jEQsg5Kt9b0N6jWxv/3QRBRZDxTFZlASzFaGCNzE+40fmxd6rl5zFEVeeKH
-	D4bL1BwDGMiOjgq6h9KATGHf8wC+OHcmv/vRteH9+yQguIez+ZWo0N1E1L9ixlH2KPHvU9
-	u+wQFs2X9wu7u+GFWHyKu8VkdU6JG58=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-411-HRn8rwqIOby3aEUT4E2tVg-1; Mon, 13 May 2024 09:51:42 -0400
-X-MC-Unique: HRn8rwqIOby3aEUT4E2tVg-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-41fda32e6c0so20123645e9.1
-        for <linux-media@vger.kernel.org>; Mon, 13 May 2024 06:51:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715608301; x=1716213101;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6xbXeK6RMkAiWLJ1gsVT9jtjs/k/mcsJH+bQu2pNTS4=;
-        b=XEhtq4Vdx4KhWR6auwMuMYFbSlDsaaFNMrBLQ8Hk5YBw3GHyM5wrabD/d3xRWgeuXM
-         fqtrw3HZfOjVBWodypW6oW3RJ0PayXsGyi9t6/xkUKOFp65QjlDKNR913ItYT3AMNfpn
-         f8AiNryJdNQ9NcU728k8fl53WAc5VlvP5BOXGJgPDA8foZu9RXNqQy7dNt3L8wF0ba0g
-         kFyhjNNFt4ZUGymsYOPdbxcSgl4Jsr4gcBqcsnTJ1Ybrt2ZnM0m1k+NEOfBpNjZMjnNr
-         yasYeSU6awAZ0LdknMWHWoB192bORU87Pq11AsrwHjE6Zl4/u2Kb1wQSOcZApq8E/b16
-         JJ8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtmtQYQMVwj+zaykYXCFvnes6fM80kQk8wc1FQW/ENajmyGoaB1bw1LpHeoAZ4pk0eFI5z5/+LJZlTTsYWZyHgFtJrwokC7F0iwqo=
-X-Gm-Message-State: AOJu0YyIHxqkWLp4Pab/o7MEWsHTO8Ccx8KSR9HfzH9fEjQTxOQiJDt8
-	OTtmEtEZ6TWYkpTkahVVcvg0rsG98Y4B06iEBnmu3QdgStU+XQP/cOava3buoLKdxSIRw7egnS3
-	QsRHzhLYih2+vRN+exdYXNStF/z/MoXGX1izRmqzQxNtKQyUMnsL6QIEGrqEG
-X-Received: by 2002:a05:600c:4503:b0:41c:66:18c2 with SMTP id 5b1f17b1804b1-41fbc91f1admr118093435e9.4.1715608301592;
-        Mon, 13 May 2024 06:51:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF3xt0Nsv8kn1RExic6bD1rD9MWPXMCfQ+2DAexnAADlqxarPZXZC/0v7zIJ1i6X5T3B+TnhA==
-X-Received: by 2002:a05:600c:4503:b0:41c:66:18c2 with SMTP id 5b1f17b1804b1-41fbc91f1admr118093145e9.4.1715608301052;
-        Mon, 13 May 2024 06:51:41 -0700 (PDT)
-Received: from localhost ([193.32.126.216])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f882086f0sm194441255e9.42.2024.05.13.06.51.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 06:51:40 -0700 (PDT)
-Date: Mon, 13 May 2024 15:51:39 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Lennart Poettering <mzxreary@0pointer.de>, 
-	Robert Mader <robert.mader@collabora.com>, Sebastien Bacher <sebastien.bacher@canonical.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal <mzamazal@redhat.com>, 
-	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240513-auspicious-toucanet-from-heaven-f313af@penduick>
-References: <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
- <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
- <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
- <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
- <20240507183613.GB20390@pendragon.ideasonboard.com>
- <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
- <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
- <20240513-heretic-didactic-newt-1d6daf@penduick>
- <dacacb862275cd7a588c5fcc56fd6c1d85538d12.camel@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSboYG0tsRPgvrQHWNhbYkKUpCo8hcsgQz6jdpkdaDx9wjXLm6QdKVF9FCvRlMi0GW9SFaD6/hrw2Y7z5yhJeckIb7M8DGCsqTgWY8+8n5cBidR89YBZER6JLkMtOQFFOfb/gqMZY/eT7F2cFMGka1q1kyhSTLMRE9W2JQvYlVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XJO9XN5Q; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=jlJa
+	l8SYd2i17p2UBb9eq6fm30hJKgO/pZI9iWerNak=; b=XJO9XN5Q7CPiPUGC4vat
+	Lb8eZwOYw9kdc26MrFtTkkddag0HFeyIJ7qNTNsuz0+tt45Nd6puxrxtmLarm8xl
+	wlen9O8o8gtZQdvfnptxz0ngAZrpR+w2RVk//4X4HORXsj/+81kap2ns++XrNg0D
+	GyvZTHhI4kotws5rPjEXXn7qVSYh5loHD+pKWSifW2snnrD25lprGF6kF1Rz98ec
+	2Izw5FblLRz4e3w2RTlJFHiTHrrMeWYcG1E2OMmjNw1yGN9H1cCbYGq2BJegSQim
+	XmCFhMdKCVJEPNJ25Jaz0Kxs7rElzBYeNXysARUWQHT4LPGo2ucWb3+7XyjKoufW
+	cQ==
+Received: (qmail 2174713 invoked from network); 13 May 2024 16:14:01 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 May 2024 16:14:01 +0200
+X-UD-Smtp-Session: l3s3148p1@ino7f1YYqLZehhtP
+Date: Mon, 13 May 2024 16:14:00 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+	Peter Korsgaard <peter.korsgaard@barco.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Michael Shych <michaelsh@nvidia.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	"open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+	linux-media@vger.kernel.org,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH] i2c: mux: Remove class argument from
+ i2c_mux_add_adapter()
+Message-ID: <20240513141400.xgpy3euacuxj5i4b@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+	Peter Korsgaard <peter.korsgaard@barco.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Michael Shych <michaelsh@nvidia.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	"open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+	linux-media@vger.kernel.org,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="gfnnlgwuvedaduhe"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6wk7u7gqu25scqer"
 Content-Disposition: inline
-In-Reply-To: <dacacb862275cd7a588c5fcc56fd6c1d85538d12.camel@collabora.com>
+In-Reply-To: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
 
 
---gfnnlgwuvedaduhe
-Content-Type: text/plain; charset=iso-8859-1
+--6wk7u7gqu25scqer
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2024 at 09:42:00AM -0400, Nicolas Dufresne wrote:
-> Le lundi 13 mai 2024 =E0 10:29 +0200, Maxime Ripard a =E9crit=A0:
-> > On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
-> > > On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
-> > > > Hi,
-> > > >=20
-> > > > Le mardi 07 mai 2024 =E0 21:36 +0300, Laurent Pinchart a =E9crit=A0:
-> > > > > Shorter term, we have a problem to solve, and the best option we =
-have
-> > > > > found so far is to rely on dma-buf heaps as a backend for the fra=
-me
-> > > > > buffer allocatro helper in libcamera for the use case described a=
-bove.
-> > > > > This won't work in 100% of the cases, clearly. It's a stop-gap me=
-asure
-> > > > > until we can do better.
-> > > >=20
-> > > > Considering the security concerned raised on this thread with dmabu=
-f heap
-> > > > allocation not be restricted by quotas, you'd get what you want qui=
-ckly with
-> > > > memfd + udmabuf instead (which is accounted already).
-> > > >=20
-> > > > It was raised that distro don't enable udmabuf, but as stated there=
- by Hans, in
-> > > > any cases distro needs to take action to make the softISP works. Th=
-is
-> > > > alternative is easy and does not interfere in anyway with your futu=
-re plan or
-> > > > the libcamera API. You could even have both dmabuf heap (for Raspbi=
-an) and the
-> > > > safer memfd+udmabuf for the distro with security concerns.
-> > > >=20
-> > > > And for the long term plan, we can certainly get closer by fixing t=
-hat issue
-> > > > with accounting. This issue also applied to v4l2 io-ops, so it woul=
-d be nice to
-> > > > find common set of helpers to fix these exporters.
-> > >=20
-> > > Yeah if this is just for softisp, then memfd + udmabuf is also what I=
- was
-> > > about to suggest. Not just as a stopgap, but as the real official thi=
-ng.
-> > >=20
-> > > udmabuf does kinda allow you to pin memory, but we can easily fix tha=
-t by
-> > > adding the right accounting and then either let mlock rlimits or cgro=
-ups
-> > > kernel memory limits enforce good behavior.
-> >=20
-> > I think the main drawback with memfd is that it'll be broken for devices
-> > without an IOMMU, and while you said that it's uncommon for GPUs, it's
-> > definitely not for codecs and display engines.
+On Thu, Apr 18, 2024 at 10:55:39PM +0200, Heiner Kallweit wrote:
+> 99a741aa7a2d ("i2c: mux: gpio: remove support for class-based device
+> instantiation") removed the last call to i2c_mux_add_adapter() with a
+> non-null class argument. Therefore the class argument can be removed.
 >=20
-> In the context of libcamera, the allocation and the alignment done to the=
- video
-> frame is done completely blindly. In that context, there is a lot more th=
-en just
-> the allocation type that can go wrong and will lead to a memory copy. The=
- upside
-> of memfd, is that the read cache will help speeding up the copies if they=
- are
-> needed.
+> Note: Class-based device instantiation is a legacy mechanism which
+> shouldn't be used in new code, so we can rule out that this argument
+> may be needed again in the future.
+>=20
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-dma-heaps provide cacheable buffers too...
+Applied to for-next (meaning for 6.10), thanks!
 
-> Another important point is that this is only used if the application have=
-n't
-> provided frames. If your embedded application is non-generic, and you have
-> permissions to access the right heap, the application can solve your spec=
-ific
-> issue. But in the generic Linux space, Linux kernel API are just insuffic=
-ient
-> for the "just work" scenario.
 
-=2E.. but they also provide semantics around the memory buffers that no
-other allocation API do. There's at least the mediatek secure playback
-series and another one that I've started to work on to allocate ECC
-protected or unprotected buffers that are just the right use case for
-the heaps, and the target frameworks aren't.
-
-Maxime
-
---gfnnlgwuvedaduhe
+--6wk7u7gqu25scqer
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkIa5gAKCRAnX84Zoj2+
-dlyqAYCoIdBhaiIupDGiDmVKfDEt9/cV9y3QuHwExzzz+odc08XxanpDLhC/4cIf
-FcJLcccBfRYAupswMulv42u8OROCchpyREa3PpDTjkFm96zW5Xc+YaZZSPXMbb1J
-KrUsUpNdZg==
-=LHgA
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZCICgACgkQFA3kzBSg
+Kbbe8w//cwbm6f8+HGi4nQvOvL3JrgaLg4ZnhG9F8mVOVa0qOigbq9Xm63XB+Bwb
+eWOWzDsFfN5Pew2UN93LWZJ3hkdZE8swa5XePLn8N70E0nXGM6LtDdeWLp0Bcov6
+fhIHD7GumaCgsmE2Cb3Scl9W0RoGkd2SKhcglPZirYVHhzq+uxoESEf4+Xu4DuTS
+yUJymE20haysSkWQ0IU52CCl6O/ydL4TO8lhVFH2PtpMtsLfM4ABUHbFuYV9eObI
+I3kO4WDHRpw9YpBolhVL8gqolwYPvviv+ry9v7XuGmlZWCOty+gngCA42pvE5+Ns
+aenK/c5Q/eQ99qjZgbZr0Zg+NbsCyHW4/Ye+3AlkcwoGYXweaxEwssvpeODwoGLC
+Txjs1XzzE+c7OPPmjlLcLh0Hq9jKlqRzbFyF5834yLVb/Rqkx8eohrFDP5TSLlE2
+Lw1NoLgqYyXjX+OpU2ZWIl/rxM4EB1RAOgW2yaV5x+B+dAQwuKY7ilapSNNQQOGl
+bHKpuF462TB2eyrixx2Ns+IBT7CaCLYmxzV/QAW9VW9VPWSpjM5x8SiOSs/cE4zf
+w7FskHexCXqEMau+UCXP0htz+haZ2cZSdIVOYphXgNNzhRb/i0EQu9HMiDBBRZns
+gh4yy9eGV31++lc+iD8wFODnmjkbw+vDEvv980jTG7G2W7xqC+c=
+=dQwU
 -----END PGP SIGNATURE-----
 
---gfnnlgwuvedaduhe--
-
+--6wk7u7gqu25scqer--
 
