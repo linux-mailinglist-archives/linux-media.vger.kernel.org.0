@@ -1,164 +1,120 @@
-Return-Path: <linux-media+bounces-11411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11413-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DBA8C4262
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 15:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B508C42C3
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 16:01:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57F391F23E87
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:46:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAAF61F20F5D
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 14:01:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DA3153813;
-	Mon, 13 May 2024 13:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14EC9153587;
+	Mon, 13 May 2024 14:01:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O4TIXMfh"
+	dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b="aWKGTxcY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC96715359D;
-	Mon, 13 May 2024 13:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0661474BB
+	for <linux-media@vger.kernel.org>; Mon, 13 May 2024 14:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.41.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715607730; cv=none; b=N0h3r1aAsTrANKtl9ahHiOoPkS8YfZ0O7D3X3bfN4Ikr/2GslPIZoXzdsIwDpDMoauH4TmOhMI3zVlrvfiCRW2afDVhzG4Y7R8fWHSDUQHS8dvwOJAFqM3hTaBZJJptv8q5MJBZGPQIjUb5dm449neC5AD0uWqAcLwDsN4MtlZc=
+	t=1715608877; cv=none; b=s8HvbN0q9xobRMGcslEgNkENybEb/EC7Ycfujlv+vAQAeUV1fz/5W9vc/lYwS12+bDYzDSDGbDe+LOUdHBay1uI8ujUKvl7377TCdEuv4gSItvzSjRUWUoN1wyGssJCKNkPuDSg06Lk3laUYe55Ictg+w2WuL7UMiaJcXx0daaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715607730; c=relaxed/simple;
-	bh=g7hFnEia5voiR/AdbTlubgSrmLdAszS7Bi3Riyp0VbA=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dE3/hymDlBn+GJ/heO1XS85fXTFsWgfnnzEpExw1S8BcdQYkEOPeyBU+JtXkQ08N5a1oANMfyFcYE5eNbM+mBFgeYZtWBEFRxGn7A7rIu1BpMsD5kH6MIm0nPHcSs/hrLRB2jPt3zUHBDqr82Huto9szr6HJYKQLAxVYulRdd10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O4TIXMfh; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715607727;
-	bh=g7hFnEia5voiR/AdbTlubgSrmLdAszS7Bi3Riyp0VbA=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=O4TIXMfhYTAUhHgRvELChpeG6lzSc9I/IdBSDHZ3X/PGYZzpQ/tEWY5mrxcN0yLzw
-	 GUJSJnN1tVQb6XNsTeFvoswqpUR7ct5Z/SRbp3Tn/zv8KsQ2xdZ/jnjOBEqYeReeXb
-	 tsvNoKUL1tX2CUUTkplnMTIco+w8t15Kr8AJcyTWpTGkW0LMVeizHmQfshES6kB0/I
-	 TMYuzDoL8lSxGBqp9maFg9gyDQgVKvF7LGc+61mRYFjrYY696h+nW0ky1fvV8pL8ZZ
-	 Oz5XZNHOuQ2KGUWNGtxTY8HX5Q6aPxndId1ewus+DjRzELY+36yn23DbUNIqMr9hkR
-	 mNrTMdOnBg6ag==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 707C23782167;
-	Mon, 13 May 2024 13:42:04 +0000 (UTC)
-Message-ID: <dacacb862275cd7a588c5fcc56fd6c1d85538d12.camel@collabora.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
- users (udev uaccess tag) ?
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Maxime Ripard <mripard@redhat.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
- Poettering <mzxreary@0pointer.de>,  Robert Mader
- <robert.mader@collabora.com>, Sebastien Bacher
- <sebastien.bacher@canonical.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
- <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Date: Mon, 13 May 2024 09:42:00 -0400
-In-Reply-To: <20240513-heretic-didactic-newt-1d6daf@penduick>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
-	 <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
-	 <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
-	 <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
-	 <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
-	 <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
-	 <20240507183613.GB20390@pendragon.ideasonboard.com>
-	 <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
-	 <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
-	 <20240513-heretic-didactic-newt-1d6daf@penduick>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	s=arc-20240116; t=1715608877; c=relaxed/simple;
+	bh=rCp4a/BDWi17CHMvgY5xOFl3QoPKRxwfeBuT/Fb98Nk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FEz+eyHK6mdOXKUuTQPV0Pw/PtvnjFSFlqXQfI4bpmvm8+sj6i5iCz6acybrV0+80nSDAENujNR1euE/QvN5RcG5zslVbdhfyxpvfRhc93dDAhHneFaNhsKNfGks2wF730a0pCnQ6vbx1EzU7pSNaPhjI7CiKAWNXkgG1kbxJFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=emersion.fr; spf=pass smtp.mailfrom=emersion.fr; dkim=pass (2048-bit key) header.d=emersion.fr header.i=@emersion.fr header.b=aWKGTxcY; arc=none smtp.client-ip=185.70.41.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=emersion.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emersion.fr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+	s=protonmail3; t=1715608289; x=1715867489;
+	bh=rCp4a/BDWi17CHMvgY5xOFl3QoPKRxwfeBuT/Fb98Nk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=aWKGTxcY4wKQzfazyx23U28lrFiumZcz/zIWjprWPjlb+90HEZ3QinH0QcLZhB0w1
+	 AU+tYlAaAjNrUCRfki7nrcCXtQjCFzjBSva5vjijed5vbJr6GWsUQlPalvQJ5y97Rt
+	 hOddSllCePkYcy/13GUkJzkFK4K4f5X4V/AkRM+Oj/Fb5m4h9mGAeYfzGiElsKBUSS
+	 Ne2uofSfC78mYkVdNUrDxiZpK5IMOdrgD2qV6pT7wO7I5IoSJ2IVqiRfPQvcPeF5bg
+	 w4B9PkQd4Pt96uvhvTkfJt2RJUYEAKdGj4GKMpLuYSzLfAzHL6UWqPQV0ypt4Ie8yZ
+	 LS37it/d2kEgw==
+Date: Mon, 13 May 2024 13:51:23 +0000
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Cc: Daniel Stone <daniel@fooishbar.org>, Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Lennart Poettering <mzxreary@0pointer.de>, Robert Mader <robert.mader@collabora.com>, Sebastien Bacher <sebastien.bacher@canonical.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Milan Zamazal <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users (udev uaccess tag) ?
+Message-ID: <IXDM2ci-eGvU9RQkT6a52vcV66vr8d0ywbDRFY8gBjjNuMyv8RDgdJS0PvvfnKuPR1fXINPUjOBkKx4vIcshSb2Y11xd3DjfDQ-Np8VIFgQ=@emersion.fr>
+In-Reply-To: <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com> <20240506-dazzling-nippy-rhino-eabccd@houat> <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local> <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com> <ZjoNTw-TkPnnWLTG@phenom.ffwll.local> <CAPj87rN3uSZoHpWLSQqz1SW9YMZNj9fkoA_EDEE_bzv-Tw8tSw@mail.gmail.com> <Zjs42PGvilLlF0Cg@phenom.ffwll.local> <CAPj87rN-wSbGSAoB8y3MXCS20_MAQvfpWSeUKYR6XzQ+Oh0FZA@mail.gmail.com> <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: d2a6e70754ffedf294a79e2c65504e513c8e9b24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Le lundi 13 mai 2024 =C3=A0 10:29 +0200, Maxime Ripard a =C3=A9crit=C2=A0:
-> On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
-> > On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
-> > > Hi,
-> > >=20
-> > > Le mardi 07 mai 2024 =C3=A0 21:36 +0300, Laurent Pinchart a =C3=A9cri=
-t=C2=A0:
-> > > > Shorter term, we have a problem to solve, and the best option we ha=
-ve
-> > > > found so far is to rely on dma-buf heaps as a backend for the frame
-> > > > buffer allocatro helper in libcamera for the use case described abo=
-ve.
-> > > > This won't work in 100% of the cases, clearly. It's a stop-gap meas=
-ure
-> > > > until we can do better.
-> > >=20
-> > > Considering the security concerned raised on this thread with dmabuf =
-heap
-> > > allocation not be restricted by quotas, you'd get what you want quick=
-ly with
-> > > memfd + udmabuf instead (which is accounted already).
-> > >=20
-> > > It was raised that distro don't enable udmabuf, but as stated there b=
-y Hans, in
-> > > any cases distro needs to take action to make the softISP works. This
-> > > alternative is easy and does not interfere in anyway with your future=
- plan or
-> > > the libcamera API. You could even have both dmabuf heap (for Raspbian=
-) and the
-> > > safer memfd+udmabuf for the distro with security concerns.
-> > >=20
-> > > And for the long term plan, we can certainly get closer by fixing tha=
-t issue
-> > > with accounting. This issue also applied to v4l2 io-ops, so it would =
-be nice to
-> > > find common set of helpers to fix these exporters.
-> >=20
-> > Yeah if this is just for softisp, then memfd + udmabuf is also what I w=
-as
-> > about to suggest. Not just as a stopgap, but as the real official thing=
-.
-> >=20
-> > udmabuf does kinda allow you to pin memory, but we can easily fix that =
-by
-> > adding the right accounting and then either let mlock rlimits or cgroup=
-s
-> > kernel memory limits enforce good behavior.
+On Wednesday, May 8th, 2024 at 17:49, Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+
+> On Wed, May 08, 2024 at 09:38:33AM +0100, Daniel Stone wrote:
 >=20
-> I think the main drawback with memfd is that it'll be broken for devices
-> without an IOMMU, and while you said that it's uncommon for GPUs, it's
-> definitely not for codecs and display engines.
+> > On Wed, 8 May 2024 at 09:33, Daniel Vetter daniel@ffwll.ch wrote:
+> >=20
+> > > On Wed, May 08, 2024 at 06:46:53AM +0100, Daniel Stone wrote:
+> > >=20
+> > > > That would have the unfortunate side effect of making sandboxed app=
+s
+> > > > less efficient on some platforms, since they wouldn't be able to do
+> > > > direct scanout anymore ...
+> > >=20
+> > > I was assuming that everyone goes through pipewire, and ideally that =
+is
+> > > the only one that can even get at these special chardev.
+> > >=20
+> > > If pipewire is only for sandboxed apps then yeah this aint great :-/
+> >=20
+> > No, PipeWire is fine, I mean graphical apps.
+> >=20
+> > Right now, if your platform requires CMA for display, then the app
+> > needs access to the GPU render node and the display node too, in order
+> > to allocate buffers which the compositor can scan out directly. If it
+> > only has access to the render nodes and not the display node, it won't
+> > be able to allocate correctly, so its content will need a composition
+> > pass, i.e. performance penalty for sandboxing. But if it can allocate
+> > correctly, then hey, it can exhaust CMA just like heaps can.
+> >=20
+> > Personally I think we'd be better off just allowing access and
+> > figuring out cgroups later. It's not like the OOM story is great
+> > generally, and hey, you can get there with just render nodes ...
+>=20
+> Imo the right fix is to ask the compositor to allocate the buffers in thi=
+s
+> case, and then maybe have some kind of revoke/purge behaviour on these
+> buffers. Compositor has an actual idea of who's a candidate for direct
+> scanout after all, not the app. Or well at least force migrate the memory
+> from cma to shmem.
+>=20
+> If you only whack cgroups on this issue you're still stuck in the world
+> where either all apps together can ddos the display or no one can
+> realistically direct scanout.
+>=20
+> So yeah on the display side the problem isn't solved either, but we knew
+> that already.
 
-In the context of libcamera, the allocation and the alignment done to the v=
-ideo
-frame is done completely blindly. In that context, there is a lot more then=
- just
-the allocation type that can go wrong and will lead to a memory copy. The u=
-pside
-of memfd, is that the read cache will help speeding up the copies if they a=
-re
-needed.
+What makes scanout memory so special?
 
-Another important point is that this is only used if the application haven'=
-t
-provided frames. If your embedded application is non-generic, and you have
-permissions to access the right heap, the application can solve your specif=
-ic
-issue. But in the generic Linux space, Linux kernel API are just insufficie=
-nt
-for the "just work" scenario.
-
-Nicolas
+The way I see it, any kind of memory will always be a limited resource:
+regular programs can exhaust system memory, as well as GPU VRAM, as well
+as scanout memory. I think we need to have ways to limit/control/arbiter
+the allocations regardless, and I don't think scanout memory should be a
+special case here.
 
