@@ -1,103 +1,85 @@
-Return-Path: <linux-media+bounces-11417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0348C4388
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 16:55:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0AE8C438E
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 16:57:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2DDB1F22387
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 14:55:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE2DE286402
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 14:56:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20BD4C6D;
-	Mon, 13 May 2024 14:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50FFB4C89;
+	Mon, 13 May 2024 14:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GLlZAvFN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C4Dpco6P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B1B4A1A;
-	Mon, 13 May 2024 14:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C2D4C62;
+	Mon, 13 May 2024 14:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715612135; cv=none; b=gY/kpet0rCpz5QNp/f0mO+LtxQw5yIuqdeRZ+wQfuU3y0vKmxjijE7xEb46jtGrR6LoqbKoB7jjDQCoAuPTvm9HNWIiC6pzIT9xqP5G2gGOSfBw31grf6rNykZYicEoH3QDwqzA2fue5y+N77Jrq+Qtn6/futRnuwGXKC3HTyK0=
+	t=1715612212; cv=none; b=Fj2COOVzTKulOdVHHnyZyGm+Rw23FsL1f8E0o04SwFtjaPi7TpqrFZPTd5ZFBJ8HpA5hmfRffcXoeZ+1xUcsF2bTogYrS+d3FkFpObk3uJzeG4dTzAkOtUhBB3N2tUrYBuyhWEhxuADWGl74enGosyj2yUmDCtjPOYQzCobE4cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715612135; c=relaxed/simple;
-	bh=/zuMT5Y4ZRWt6Ev/Pe1bed+f3UqPLoYxack4eF1uwkE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rX4icDeevdWUvWsXtc1fG/81NhXJXIqorUTC5LxzkRbZi/LfW0VxLtsdpnOU/ofY18NcSVvq5iM6Pr2BeDsHhOWm9QSRuRWD3tCNMh5tsaVsyzxREbt8Yc+eoLB+ukuhPTM9sJL66ZYroza7k0VOix+HUDyXKNpCASk8Rnb1zhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GLlZAvFN; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715612132;
-	bh=/zuMT5Y4ZRWt6Ev/Pe1bed+f3UqPLoYxack4eF1uwkE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=GLlZAvFN/grbmJC42rwU4WfEUpGd/4bdKMD1jtecZnGh8Q5im5TXf75rOKBLjbV7f
-	 34cuinhwjH39OZcWptmvm5aRhocT3xZ2O7EtHADqQujXUHM02vkA6SJMwsg9gTCZWm
-	 n2+JuAeh35odoXSogxfm1o3DoH/FVWH2Mai8AYlJwvx72v6oyO0y6+ZoXNc9cTvVL5
-	 Pwrs+Do1xAKi0xSkutB6a7wTugBHP/hTwYzJ3CTiMxZEknEr03R2rzxs4R1MUemSp7
-	 go+qc+ZHMIT0/fnMvc742YgijHyrwRmtoYkZSZTUKugRnHnHlOWycP00rF9HANbj8A
-	 P8cjcBW7VYoXg==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 96BF8378217F;
-	Mon, 13 May 2024 14:55:30 +0000 (UTC)
-Message-ID: <d2876f64774d09db10ddae01f98889d542563507.camel@collabora.com>
-Subject: Re: [PATCH] media: verisilicon: AV1: Be more fexible on postproc
- capabilities
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org, 
-	heiko@sntech.de
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kernel@collabora.com
-Date: Mon, 13 May 2024 10:55:24 -0400
-In-Reply-To: <20240328093439.18712-1-benjamin.gaignard@collabora.com>
-References: <20240328093439.18712-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	s=arc-20240116; t=1715612212; c=relaxed/simple;
+	bh=rGiCLvhHEh+/H/8ISDwxe5vtFuzZZ3yJUHRruvrM/b4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jzFJkMGrDJ4izWwzUzVZovUTs9UrPuOVqLAVRhUh2LxyV/5b3UsLeP9ujF1xDryDSWBf7BsHHIyOy9ib0C52FkAStwW9AEQnIlr4e9VZwu8US5xi2gNsGF2KS49QiC88VY9mvHyX/SaXvejSfef+ti22YRQNPmM2RCa05bJ38KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C4Dpco6P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AE5C113CC;
+	Mon, 13 May 2024 14:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715612212;
+	bh=rGiCLvhHEh+/H/8ISDwxe5vtFuzZZ3yJUHRruvrM/b4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C4Dpco6PV3nzhhCiahoCIEl1yiz8vAQ1MSCzioNeX85ElySOJmV9/psFYCEABIdId
+	 ZFkaXDJm9opL3lPaos5t+tgB+OStyf+uPdFUTZoouOvDqCdArh7meQ/1YNwQbmEZ7K
+	 LfVs3rtL0ARv/EoiIJAEGxtgjzTRtWiLWRVMnufoWUjzxa7hEtmQLwOVuDUwXT8yLL
+	 Q5b8FpIllFhXrNPHd9Azx/GLL6gQZnocGR0zA2cuoX1GydoiCJ1G0L/wFI4vg5oklc
+	 zUfoTfn8RmZTJ41dzXjPc+5fdN3Q2ObuOqUx3FD7bN0oOJcz8csDYfjVC/1yLZI+bO
+	 cVjKEmGeS1TMg==
+Date: Mon, 13 May 2024 09:56:50 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: =?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>
+Cc: mchehab@kernel.org, airlied@gmail.com, mripard@kernel.org,
+	devicetree@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+	daniel@ffwll.ch, akpm@linux-foundation.org, conor+dt@kernel.org,
+	robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, dinguyen@kernel.org,
+	chromeos-krk-upstreaming@google.com,
+	maarten.lankhorst@linux.intel.com, linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de
+Subject: Re: [PATCH v3 05/10] media: dt-bindings: video-interfaces: Support
+ DisplayPort MST
+Message-ID: <171561220843.2594407.9178563306645965147.robh@kernel.org>
+References: <20240507155413.266057-1-panikiel@google.com>
+ <20240507155413.266057-6-panikiel@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240507155413.266057-6-panikiel@google.com>
 
-Le jeudi 28 mars 2024 =C3=A0 10:34 +0100, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> RK3588 post-processor block is able to convert 10 bits streams
-> into 8 bits pixels format.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: 003afda97c65 ("media: verisilicon: Enable AV1 decoder on rk3588")
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
+On Tue, 07 May 2024 15:54:08 +0000, Paweł Anikiel wrote:
+> Add a DisplayPort bus type and a multi-stream-support property
+> indicating whether the interface supports MST.
+> 
+> Signed-off-by: Paweł Anikiel <panikiel@google.com>
 > ---
->  drivers/media/platform/verisilicon/rockchip_vpu_hw.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drive=
-rs/media/platform/verisilicon/rockchip_vpu_hw.c
-> index f97527670783..964122e7c355 100644
-> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> @@ -82,7 +82,6 @@ static const struct hantro_fmt rockchip_vpu981_postproc=
-_fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> -		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D ROCKCHIP_VPU981_MIN_SIZE,
+>  .../devicetree/bindings/media/video-interfaces.yaml        | 7 +++++++
+>  include/dt-bindings/media/video-interfaces.h               | 2 ++
+>  2 files changed, 9 insertions(+)
+> 
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
