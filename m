@@ -1,65 +1,55 @@
-Return-Path: <linux-media+bounces-11404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CC38C4001
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:45:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A7C8C403B
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 13:57:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90A041F22B8B
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:45:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35755B2439B
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2024 11:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA7814D2BC;
-	Mon, 13 May 2024 11:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A4D14EC6A;
+	Mon, 13 May 2024 11:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="BovhxuMu"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="4Gepqhfd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C63014D28C;
-	Mon, 13 May 2024 11:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A1214D2BF;
+	Mon, 13 May 2024 11:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715600693; cv=none; b=tqNNf1PgwRO8JMSlfbxGhJy3V9IA1KRlmz8dEm23CU3D8PCpnACR2guKOXoqpqreCBpC4ZQkWI8AlpI35tZT6iSpzirU7J3rdtn3Fu5oLUnSwjGSxTxKC7jl6rE3gWvXG67XJzEFUXG82bN3s2fKt1EJxwiiutbx8SDKVpQn5es=
+	t=1715601435; cv=none; b=MxtLR8/84audL5M0xAr+gMZK1orJ04kD2nMHb7k4RJZmIwc97F9V3ezDbXOR4yCYNOcv3JX7dB4m2jbMdbyadjLQUdogIzo5C48JxtRR+xO68tKg7YRUTv08oZVhbo/4rnvM9Pg5QgvjhckmGl4GBfXVuNLBw8PmOsHUntET5n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715600693; c=relaxed/simple;
-	bh=1CuQwLvdXNIMjatSyuAeXJFxXLuB2HlU01UVZ00JRcw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Mi066UHY3BnTr9IwA+ZmmFmOZnPLqOSe65mpf5z6DddPDq1C8I0xAdrjL9m7lu5lSl7aWiU8O9TABjqUgRwoqXBGaW1qb6xJDGJXU3T6+rfve4WhRBOTqWuWSdtsYBvJHkGVlfyGPl2zxzMXactclunt3GZBNK95S1/KOnStUG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=BovhxuMu; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44D8Jhwc004753;
-	Mon, 13 May 2024 13:44:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=GIy0RxbMTa08PqVo24zPZgrWF7BfaDEsPdaCzmdxk98=; b=Bo
-	vhxuMuV0hdNvP/zLegqNG36p/iA9JicOtZuRxlzlo6ccvBDDCyR8eC8pDSUVdqZT
-	RJE2qM0semhXJU3iPUaWzQlzojCpr+nbWfTb9Zvvu4OSSIW9Ys7oxzczfsjt6dxN
-	Bt/dC/AbFaletetPm+hbOJaQGg9uSv3YjiAc/HDfAgSF08AKpboImrlDmJiHLlY5
-	tlNDl6RCEOguCt/J1uNZsVFUIfnGn52Md4cQMkGomJ1+IsXV5qr9ylQKiSuAvLEp
-	neooNM63TQBlk1wg3nCMvDp8h7VoNYrmjlba/8RwucyLbAfY+xz7N6sLjNaGo8bY
-	L0i3rtlsXD2zurhG/LEg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3y2kmhm4cm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 May 2024 13:44:30 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 663054002D;
-	Mon, 13 May 2024 13:44:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 151A321860D;
-	Mon, 13 May 2024 13:43:47 +0200 (CEST)
-Received: from [10.130.76.233] (10.130.76.233) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 13 May
- 2024 13:43:46 +0200
-Message-ID: <a688b2f2-d972-450a-9bec-2b506b58a21f@foss.st.com>
-Date: Mon, 13 May 2024 13:43:46 +0200
+	s=arc-20240116; t=1715601435; c=relaxed/simple;
+	bh=gkj7ADFos6l5cWzF4jMsneHUuiC9BdJSpao119CgJoI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bg9DrQ2LStUaCLpJm4cyMNGk6s82hGCh02dY0FQ5AYCbrpYgKjictEd74nweOagBGBUMkWGdaJl3Z4PF7aK60+pQfK8B2S9LwOTx8m1fYSQBh65KJ2rJTmTRv6UQfGtvpUJ1jfd/H1YSYD4TCdm2uy4i/6UjkHHeNcP7Dx8oTIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=4Gepqhfd; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 73F2D45B0;
+	Mon, 13 May 2024 13:57:00 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 73F2D45B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1715601420; bh=j1BGdJSrQwhI0X/hdv8Car7+iEb7cL0kjJvm7EbrSvY=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=4GepqhfdG9gjmhGsoPQZ7RoVr8XpG2NnaStjEqTvwBKqqDznmE693CN2Qg4YIgpQQ
+	 fH2dF2D00yYFaGaufUdd9v4uwOPJY72zVAh8n/6+aFFCMIQ2D2KPbgpnjw+eZzZPy2
+	 U/CmlX2tYLZDDQiOuBzmg4jHz8JmVnERAV3LfZCs=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon, 13 May 2024 13:56:39 +0200 (CEST)
+Message-ID: <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
+Date: Mon, 13 May 2024 13:56:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,166 +57,128 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 linux-next] media: i2c: st-mipid02: replace
- of_node_put() with __free
-To: R Sundar <prosunofficial@gmail.com>, <sylvain.petinot@foss.st.com>,
-        <mchehab@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <laurent.pinchart@ideasonboard.com>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <skhan@linuxfoundation.org>, <javier.carrasco.cruz@gmail.com>,
-        Julia Lawall
-	<julia.lawall@inria.fr>
-References: <20240429163736.11544-1-prosunofficial@gmail.com>
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
 Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20240429163736.11544-1-prosunofficial@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Jaroslav Kysela <perex@perex.cz>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.de>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+ <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk> <20240430172752.20ffcd56@sal.lan>
+ <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk> <87sez0k661.wl-tiwai@suse.de>
+ <20240502095956.0a8c5b26@sal.lan> <20240502102643.4ee7f6c2@sal.lan>
+ <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
+ <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+ <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+ <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+ <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
+ <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
+ <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
+ <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
+ <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
+ <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-13_08,2024-05-10_02,2023-05-22_02
 
-Hi,
-
-I took sometime to reflect on this. Currently I favor drivers consistency.
-Merging this patch as is would introduce some differences between the
-vgxy61 and other drivers that follow the 'of_node_put' flow, which I
-think is not an improvement.
-
-Now, this patch is certainly good. Would it be possible to extend it to
-all other drivers using the 'of_node_put' ?
-
-That would the consistency issue while improving code quality at the
-same time.
-
-Thank you.
-
-
-On 4/29/24 18:37, R Sundar wrote:
-> Use the new cleanup magic to replace of_node_put() with
-> __free(device_node) marking to auto release and to simplify the error
-> paths.
+On 09. 05. 24 13:13, Jaroslav Kysela wrote:
+> On 09. 05. 24 12:44, Shengjiu Wang wrote:
+>>>> mem2mem is just like the decoder in the compress pipeline. which is
+>>>> one of the components in the pipeline.
+>>>
+>>> I was thinking of loopback with endpoints using compress streams,
+>>> without physical endpoint, something like:
+>>>
+>>> compress playback (to feed data from userspace) -> DSP (processing) ->
+>>> compress capture (send data back to userspace)
+>>>
+>>> Unless I'm missing something, you should be able to process data as fast
+>>> as you can feed it and consume it in such case.
+>>>
+>>
+>> Actually in the beginning I tried this,  but it did not work well.
+>> ALSA needs time control for playback and capture, playback and capture
+>> needs to synchronize.  Usually the playback and capture pipeline is
+>> independent in ALSA design,  but in this case, the playback and capture
+>> should synchronize, they are not independent.
 > 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: R Sundar <prosunofficial@gmail.com>
-> ---
-> 
-> Changes since v1 - 
-> 
-> - Added missed out __free() marking in mipid02_parse_tx_ep().
-> - In mipid02_parse_tx_ep(), In error case, return value is always -EINVAL.  so
-> sending the -EINVAL instead of ret variable value. 
-> 
-> Link to v1 - https://lore.kernel.org/all/20240427095643.11486-1-prosunofficial@gmail.com/#t
-> 
->  drivers/media/i2c/st-mipid02.c | 37 +++++++++-------------------------
->  1 file changed, 9 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index f250640729ca..bd3cf94f8534 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -715,31 +715,28 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
->  	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
->  	struct i2c_client *client = bridge->i2c_client;
->  	struct v4l2_async_connection *asd;
-> -	struct device_node *ep_node;
->  	int ret;
->  
->  	/* parse rx (endpoint 0) */
-> -	ep_node = of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node,
-> -						0, 0);
-> +	struct device_node *ep_node __free(device_node) =
-> +		of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node, 0, 0);
->  	if (!ep_node) {
->  		dev_err(&client->dev, "unable to find port0 ep");
-> -		ret = -EINVAL;
-> -		goto error;
-> +		return -EINVAL;
->  	}
->  
->  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), &ep);
->  	if (ret) {
->  		dev_err(&client->dev, "Could not parse v4l2 endpoint %d\n",
->  			ret);
-> -		goto error_of_node_put;
-> +		return ret;
->  	}
->  
->  	/* do some sanity checks */
->  	if (ep.bus.mipi_csi2.num_data_lanes > 2) {
->  		dev_err(&client->dev, "max supported data lanes is 2 / got %d",
->  			ep.bus.mipi_csi2.num_data_lanes);
-> -		ret = -EINVAL;
-> -		goto error_of_node_put;
-> +		return -EINVAL;
->  	}
->  
->  	/* register it for later use */
-> @@ -750,7 +747,6 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
->  	asd = v4l2_async_nf_add_fwnode_remote(&bridge->notifier,
->  					      of_fwnode_handle(ep_node),
->  					      struct v4l2_async_connection);
-> -	of_node_put(ep_node);
->  
->  	if (IS_ERR(asd)) {
->  		dev_err(&client->dev, "fail to register asd to notifier %ld",
-> @@ -764,46 +760,31 @@ static int mipid02_parse_rx_ep(struct mipid02_dev *bridge)
->  		v4l2_async_nf_cleanup(&bridge->notifier);
->  
->  	return ret;
-> -
-> -error_of_node_put:
-> -	of_node_put(ep_node);
-> -error:
-> -
-> -	return ret;
->  }
->  
->  static int mipid02_parse_tx_ep(struct mipid02_dev *bridge)
->  {
->  	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_PARALLEL };
->  	struct i2c_client *client = bridge->i2c_client;
-> -	struct device_node *ep_node;
->  	int ret;
->  
->  	/* parse tx (endpoint 2) */
-> -	ep_node = of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node,
-> -						2, 0);
-> +	struct device_node *ep_node __free(device_node) =
-> +		of_graph_get_endpoint_by_regs(bridge->i2c_client->dev.of_node, 2, 0);
->  	if (!ep_node) {
->  		dev_err(&client->dev, "unable to find port1 ep");
-> -		ret = -EINVAL;
-> -		goto error;
-> +		return -EINVAL;
->  	}
->  
->  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), &ep);
->  	if (ret) {
->  		dev_err(&client->dev, "Could not parse v4l2 endpoint\n");
-> -		goto error_of_node_put;
-> +		return -EINVAL;
->  	}
->  
-> -	of_node_put(ep_node);
->  	bridge->tx = ep;
->  
->  	return 0;
-> -
-> -error_of_node_put:
-> -	of_node_put(ep_node);
-> -error:
-> -
-> -	return -EINVAL;
->  }
->  
->  static int mipid02_probe(struct i2c_client *client)
+> The core compress API core no strict timing constraints. You can eventually0
+> have two half-duplex compress devices, if you like to have really independent
+> mechanism. If something is missing in API, you can extend this API (like to
+> inform the user space that it's a producer/consumer processing without any
+> relation to the real time). I like this idea.
+
+I was thinking more about this. If I am right, the mentioned use in gstreamer 
+is supposed to run the conversion (DSP) job in "one shot" (can be handled 
+using one system call like blocking ioctl).  The goal is just to offload the 
+CPU work to the DSP (co-processor). If there are no requirements for the 
+queuing, we can implement this ioctl in the compress ALSA API easily using the 
+data management through the dma-buf API. We can eventually define a new 
+direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so to allow 
+handle this new data scheme. The API may be extended later on real demand, of 
+course.
+
+Otherwise all pieces are already in the current ALSA compress API 
+(capabilities, params, enumeration). The realtime controls may be created 
+using ALSA control API.
+
+					Jaroslav
 
 -- 
-Regards,
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
-Benjamin
 
