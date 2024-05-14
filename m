@@ -1,157 +1,155 @@
-Return-Path: <linux-media+bounces-11453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599FA8C5C3D
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 22:22:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DAF8C5C69
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 22:42:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CCBE1C221FB
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 20:22:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D25F01F218A8
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 20:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E58A181B9A;
-	Tue, 14 May 2024 20:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE54F1EA74;
+	Tue, 14 May 2024 20:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZF1wg4ws"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g1jd9tkR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A508C18132E
-	for <linux-media@vger.kernel.org>; Tue, 14 May 2024 20:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C27A365;
+	Tue, 14 May 2024 20:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715718153; cv=none; b=qZSmwLaAX37+WJu5dIForPOknbxF84SpNN8auaZWn+UkYhqrU7WwzIdqEvV/HJszk5EEtVjAWw9ZZuX5yNMfDVh2V9YAgdop2Tlvd0IBkz5jLBzv8Of7ER+kaIOPM0gZwIS/IlWa7bm+tyjRbfS/UEo/BTHWzPlx/kHgjMAK7QA=
+	t=1715719356; cv=none; b=bDxN+WPLHFgRpMmUSkr8zOlkMIEX+fjfyVOwsoQIL49dcz3xoTOlBhkL1YtgR9tupzQ7OmV/StNDAZ4hOfePTe5kiM6naI9Fur5o7WT6sMhOhTQlBMTlE8yfZudcNybTk07WzboSL8u3UNM0We0HnfTrq3x7JEjTE9Hz37mebr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715718153; c=relaxed/simple;
-	bh=d+VcjteYj9SNA9aGf0rBf0JG873t1FLnFV29qq/mXjI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aK07XbG9+ebOOPLncfD6YZeIOjHSvoC7GgE7VHyNieNPa3eacg3qTF+SQHMbcV//6kC8H1mXNJT4YdYMIzqSlrF9YOJAiHn8qWWhZH9ueyN1rHYeASagrstjtsqtEaDyMYbelWh8yY1bVmoyiJjM1UCv88fPEtoZ4x/WIuO/zDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZF1wg4ws; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-de603e3072dso6744564276.1
-        for <linux-media@vger.kernel.org>; Tue, 14 May 2024 13:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1715718150; x=1716322950; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=d+VcjteYj9SNA9aGf0rBf0JG873t1FLnFV29qq/mXjI=;
-        b=ZF1wg4wsOGgwZKVe0bSFdfwyENKqsBfsY3CcdSS5S6xw4sptc7LRW/Mxx1VL06k6Z6
-         Fy0ScD3vAT9/FpZuI7p3oIhH66S0AlnbzfWNN0+09CzanqBt1SS5qiPc/eLd6zRJwsEm
-         IuXL098LOUkjfE1JScXfaDkOhsVWoQduDaIzYNG7qv5SU0ISH6u0FY4u1YkUrp3YRCfh
-         BDkdu/HS+/dpQRrzajaDnI3mqAIQTURNAAV7JgujwUCLnR6FY1t8TYmWlKouY5uvwqyR
-         QUnztHFrdCpgIdsCBEdVll0vIPPrHpUqv2Wmz88fGWDrCfMQpJfneLsbH5coc0LQIuDq
-         thWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715718150; x=1716322950;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d+VcjteYj9SNA9aGf0rBf0JG873t1FLnFV29qq/mXjI=;
-        b=tVMFq9nCpX0kx92d2uKxdXFe8cFrm58gut0NFQUSST4UPIF3GJDo6QScDDGoYZy1io
-         EXgsse96JRCdwuubZ77kv2Lm4o8qZDvR0QE3KNvhiEdOaUXIrA8K4IP08z5CWkePz/3g
-         kkDHb3D0KCl6GjyM0SGp5b8gKDSJqF9mZOui3v8wzl7C/qo2MKMZeKHkvCpaaK/l7IZd
-         5ZrnV3RJhK2K+cN6o4M87leQu18xf9oiVVPqyAbJlW/lDX7Bikw1P5aMi4n8kIJH6fUF
-         kLNlzzwdMgeygZ7vDL+5pKB6uTHN0Tbe+ySnZBvH7svZJisGuTMZcNU3LecuuYgHcPyQ
-         R9fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVezQNo0LFzjtvILq6dGdh0CxCvzFNMUi0mYZAXwPucic96cdIocQr5RNwG+xCaFqVG+TBt/ky4VaNm+hrlBsIYXOqoz01ri1z73HE=
-X-Gm-Message-State: AOJu0YzfkNrIwt4LxN3HYoe56NcF+M1oRklhbfZ7Y5yvMCMbgJK+u58B
-	CQWUBsidhQy/gusysyK8H/KZ5hnd8CcCNq3dvJTcAleEXnMWkJfF6a3tv95NVy8=
-X-Google-Smtp-Source: AGHT+IGKbrei/hBF59KPSMuKtm8FOwgj1uruWeGRRZhnJ24IqE3wDufQHwIuC3NPjleyRye7SlHKsQ==
-X-Received: by 2002:a25:a322:0:b0:de1:2843:9465 with SMTP id 3f1490d57ef6-dee4f3089e4mr12934632276.30.1715718150626;
-        Tue, 14 May 2024 13:22:30 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:17:6448::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6a15f1ccd42sm56648326d6.91.2024.05.14.13.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 13:22:30 -0700 (PDT)
-Message-ID: <432f336e6d4b0666cfbb431591624d0e1fefd773.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 7/8] media: imagination: Round to closest multiple
- for cropping region
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Devarsh Thakkar <devarsht@ti.com>, Andy Shevchenko
-	 <andriy.shevchenko@linux.intel.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com,  sebastian.fricke@collabora.com,
- dri-devel@lists.freedesktop.org,  laurent.pinchart@ideasonboard.com,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com,  a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,  p-mantena@ti.com,
- vijayp@ti.com, andrzej.p@collabora.com, p.zabel@pengutronix.de, 
- airlied@gmail.com, daniel@ffwll.ch, akpm@linux-foundation.org, 
- gregkh@linuxfoundation.org, adobriyan@gmail.com, jani.nikula@intel.com
-Date: Tue, 14 May 2024 16:22:28 -0400
-In-Reply-To: <7e3ad816-6a2a-4e02-9b41-03a8562812ad@ti.com>
-References: <20240509184001.4064820-1-devarsht@ti.com>
-	 <Zj447ePSnccbj76v@smile.fi.intel.com>
-	 <7e3ad816-6a2a-4e02-9b41-03a8562812ad@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	s=arc-20240116; t=1715719356; c=relaxed/simple;
+	bh=sRKskYXnbDMTdnVd69iQ9BIfpmmR2Am8vZGZl3ZoXN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bjwLv/vmb3vmIf30QV2pdnDmHc6pSf1rld3etyNKNr4FTdAkNRrDsDAMwAeYc+wAG5vz7xiajO9paq3mWSaH2odMCpa1NvLxz2KAcLxtz84YdZMmAgdaRjRMpto5vLJ7JkKespkFR4ZpVYSV2A7sVhokVRWXXXWoibY0obOrn7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g1jd9tkR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EED227C;
+	Tue, 14 May 2024 22:42:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715719344;
+	bh=sRKskYXnbDMTdnVd69iQ9BIfpmmR2Am8vZGZl3ZoXN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g1jd9tkRfyqvU9Gw+I1xqhrRXrWM9ZBrC46Dz6Ad+zlccA7faY92a3N1c+MiojGsx
+	 ihWiDquADL23deZUdwviwXFnED5gB2LnHveH6LMaA1cL33+5NfvUSyADiAOPlPsDUj
+	 IeN0svCby4JyUUJDVWu+UsDm/LUR6nya/A2YUBr8=
+Date: Tue, 14 May 2024 23:42:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Maxime Ripard <mripard@redhat.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	Robert Mader <robert.mader@collabora.com>,
+	Sebastien Bacher <sebastien.bacher@canonical.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Milan Zamazal <mzamazal@redhat.com>,
+	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <20240514204223.GN32013@pendragon.ideasonboard.com>
+References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+ <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
+ <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
+ <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+ <20240507183613.GB20390@pendragon.ideasonboard.com>
+ <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
+ <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+ <20240513-heretic-didactic-newt-1d6daf@penduick>
+ <20240513083417.GA18630@pendragon.ideasonboard.com>
+ <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
 
-Le samedi 11 mai 2024 =C3=A0 22:38 +0530, Devarsh Thakkar a =C3=A9crit=C2=
-=A0:
-> Hi Andy,
->=20
-> Thanks for the quick review.
-> On 10/05/24 20:40, Andy Shevchenko wrote:
-> > On Fri, May 10, 2024 at 12:10:01AM +0530, Devarsh Thakkar wrote:
-> > > If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
-> > > (V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
-> > > multiple of requested value while updating the crop rectangle coordin=
-ates.
-> > >=20
-> > > Use the rounding macro which gives preference to rounding down in cas=
-e two
-> > > nearest values (high and low) are possible to raise the probability o=
-f
-> > > cropping rectangle falling inside the bound region.
-> >=20
-> > This is arguable. How do we know that the bigger range is supported?
-> > The safest side is to go smaller than bigger.
-> >=20
->=20
-> Yes and that's what the driver does when do when application passes
-> V4L2_SEL_FLAG_LE while doing the selection. If application does not
-> specify explicitly whether to round down or round up the cropping
-> parameters requested by it (i.e app is neither passing V4L2_SEL_FLAG_LE
-> nor V4L2_SEL_FLAG_GE flags), then it is preferred by driver to round the
-> cropping parameters to nearest possible value by either rounding down or
-> rounding up to align with hardware requirements.
->=20
-> For e.g. If requested width for cropping region is 127 and HW requires
-> width to be multiple of 64 then we would prefer to round it up to 128
-> rather than rounding down to a more distant value (i.e. 64), but if
-> requested cropping width is 129 then we would prefer to instead round it
-> down to 128. But if requested cropping width is 160 then there are two
-> nearest possible values 160 - 32 =3D 128 and 160 + 32 =3D 192 and in whic=
-h
-> case we prefer the smaller value as you suggested and that's why the
-> driver uses round_closest_down.
->=20
-> For any reason, if still the cropping rectangle falls beyond the bound
-> region, then driver will return out of range error (-ERANGE) to
-> application.
+On Mon, May 13, 2024 at 11:10:00AM -0400, Nicolas Dufresne wrote:
+> Le lundi 13 mai 2024 à 11:34 +0300, Laurent Pinchart a écrit :
+> > On Mon, May 13, 2024 at 10:29:22AM +0200, Maxime Ripard wrote:
+> > > On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
+> > > > On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > Le mardi 07 mai 2024 à 21:36 +0300, Laurent Pinchart a écrit :
+> > > > > > Shorter term, we have a problem to solve, and the best option we have
+> > > > > > found so far is to rely on dma-buf heaps as a backend for the frame
+> > > > > > buffer allocatro helper in libcamera for the use case described above.
+> > > > > > This won't work in 100% of the cases, clearly. It's a stop-gap measure
+> > > > > > until we can do better.
+> > > > > 
+> > > > > Considering the security concerned raised on this thread with dmabuf heap
+> > > > > allocation not be restricted by quotas, you'd get what you want quickly with
+> > > > > memfd + udmabuf instead (which is accounted already).
+> > > > > 
+> > > > > It was raised that distro don't enable udmabuf, but as stated there by Hans, in
+> > > > > any cases distro needs to take action to make the softISP works. This
+> > > > > alternative is easy and does not interfere in anyway with your future plan or
+> > > > > the libcamera API. You could even have both dmabuf heap (for Raspbian) and the
+> > > > > safer memfd+udmabuf for the distro with security concerns.
+> > > > > 
+> > > > > And for the long term plan, we can certainly get closer by fixing that issue
+> > > > > with accounting. This issue also applied to v4l2 io-ops, so it would be nice to
+> > > > > find common set of helpers to fix these exporters.
+> > > > 
+> > > > Yeah if this is just for softisp, then memfd + udmabuf is also what I was
+> > > > about to suggest. Not just as a stopgap, but as the real official thing.
+> > > > 
+> > > > udmabuf does kinda allow you to pin memory, but we can easily fix that by
+> > > > adding the right accounting and then either let mlock rlimits or cgroups
+> > > > kernel memory limits enforce good behavior.
+> > > 
+> > > I think the main drawback with memfd is that it'll be broken for devices
+> > > without an IOMMU, and while you said that it's uncommon for GPUs, it's
+> > > definitely not for codecs and display engines.
+> > 
+> > If the application wants to share buffers between the camera and a
+> > display engine or codec, it should arguably not use the libcamera
+> > FrameBufferAllocator, but allocate the buffers from the display or the
+> > encoder. memfd wouldn't be used in that case.
+> > 
+> > We need to eat our own dogfood though. If we want to push the
+> > responsibility for buffer allocation in the buffer sharing case to the
+> > application, we need to modify the cam application to do so when using
+> > the KMS backend.
+> 
+> Agreed, and the new dmabuf feedback on wayland can also be used on top of this.
+> 
+> You'll hit the same limitation as we hit in GStreamer, which is that KMS driver
+> only offer allocation for render buffers and most of them are missing allocators
+> for YUV buffers, even though they can import in these formats. (kms allocators,
+> except dumb, which has other issues, are format aware).
 
-I would appreciate if this change was based on specification text, meaning
-improving the next if that behaviour is undefined. We might not be able to =
-fix
-it everywhere, but we can recommend something.
+My experience on Arm platforms is that the KMS drivers offer allocation
+for scanout buffers, not render buffers, and mostly using the dumb
+allocator API. If the KMS device can scan out YUV natively, YUV buffer
+allocation should be supported. Am I missing something here ?
 
-Nicolas
+-- 
+Regards,
 
->=20
-> Regards
-> Devarsh
->=20
->=20
-
+Laurent Pinchart
 
