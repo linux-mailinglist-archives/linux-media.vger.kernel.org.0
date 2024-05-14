@@ -1,123 +1,134 @@
-Return-Path: <linux-media+bounces-11436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11437-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B6E8C4F10
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 12:33:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 935988C4F50
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 12:45:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 547A71C2042F
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 10:33:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B919281CA6
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 10:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E45139593;
-	Tue, 14 May 2024 09:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38EE513F421;
+	Tue, 14 May 2024 10:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ENsGStoM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sLrLZOA2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5BE139573;
-	Tue, 14 May 2024 09:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB296BFA8;
+	Tue, 14 May 2024 10:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715680265; cv=none; b=moAVMuiPUEX6o8OXymgKGiQed4IsEwUCCpBampPxrGFoXw0jt+7T9VFUdIcXvVcxMj6wo+WH6VDYM1+btZ+SRRyBF5+RVOWfY2azL/GlDvGI+iIp/sG+75uAxN/z/g7SS46YNjhG2SGHe7XLhXzDJ9SVpdDgJ4c66Fa3CMUhdh0=
+	t=1715681670; cv=none; b=OhTpKZbm7xCdmvl8SzwlcyegzMK1JB+/XxD20DbBJcjF9sW7+I6QB7xW1TFzb7I5qrNqo6T5vMV3HVN9Pog64ZTZyRVR4fao5aB2TxFuQFt/c0fGpTC2NaQURP76z7sifLqcjHf4MR7ESj4KL8c1cndIPrJ/wQm0DioIlpalC4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715680265; c=relaxed/simple;
-	bh=1ddMESPRbR/Tq3udfUb04EEVR0bcfeNGOe07JV2hApM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mk1KSsdMD/gwnHfCEL6pVZbrDL8eOIcLRJCmN8pnEfEg/VYgObzp2fw+4H1AhcJcM9PuTNLP0Y8NkCug847EuZBKnGrB40OOB66sJQ0nyHFdK7fcYN6te6y8ylKmVR7Z/CzaVHrBmPZhDoKAaRqEsSyDUQt0VieFj571CiBpolA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ENsGStoM; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44DNhu1V010098;
-	Tue, 14 May 2024 09:50:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=9Ca2lgPO30idUTxJE9jJD94U/9M5vevTe/e35F13yVY=;
- b=ENsGStoMm5TGxgoUWOrONQloYKZGLIrULxv5JytIdwrSBG3UBHfXJgbsJ3EmpXfB4GHH
- 9D4rn3ai0f6cQfL3YRxSGZ8YaJD4FpUsgKwGTY8yVkVA0YiV++EOuRpZBWeklxwPAUkG
- 48zLlhAKL4HqR2K+CJje3XVPD1wE2Z3Xj7vB37y9nHpSqgBlGddGBX64fskCwtf0wRDN
- DcmnAy/LGEvrcur/gsIphYllmXfh+D44CVZw8ltr0izk8ohacxuQLbjNBAkSyuOQXA8f
- 79fI/3a0lDZehALLb8A3VHJ4R9c6p7wNZRQWG74so9jrr3SrCx1zo8zjYlcsyBeOzCV0 Hw== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3y3twyrv35-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 May 2024 09:50:43 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 44E97a6q017298;
-	Tue, 14 May 2024 09:50:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3y1y46yj89-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 May 2024 09:50:42 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44E9ofNK020667;
-	Tue, 14 May 2024 09:50:41 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3y1y46yj7q-1;
-	Tue, 14 May 2024 09:50:41 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH v2] media: imx-pxp: fix ERR_PTR dereference in pxp_probe()
-Date: Tue, 14 May 2024 02:50:38 -0700
-Message-ID: <20240514095038.3464191-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1715681670; c=relaxed/simple;
+	bh=AJTZYpaGAZvZ9qTcyVYkjf6UB4DVz5QNTtQh4NrqSHk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bikoC3MrnCBmifg8bBmL483PiLBCAlySlPcBpAEF/4GDaPt4I310DqZIlhO0wBkw/Kubti7nQHWgxiAar8JtNNg7d4Sr+50Ua62DhLF+H6d2xf35lCrWzM3Fe7lh7xa91Ewrpq8QNmMbeZGYrI3Yvvai4/qyX6tIRHh/jWW+fXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sLrLZOA2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [10.91.1.31] (unknown [149.14.240.163])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 159FA22A;
+	Tue, 14 May 2024 12:14:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715681654;
+	bh=AJTZYpaGAZvZ9qTcyVYkjf6UB4DVz5QNTtQh4NrqSHk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sLrLZOA2CO694RBNyFaS7aT+ihrHBBoGdpMQMaByNMgcWlfR1s2e4rONXUFkFlYSN
+	 2iaAbH9rTbihLIk0fQY+qz/UwTjyb/pqNhEb1AUSJY3glGd3dl6WAX0h4X35CSbxQ+
+	 9Xa6AomL8g0r9MgmZKVT8vjG00ich9niDcwDQ6JA=
+Message-ID: <3ba30852-cb50-497e-8968-a29d0b9a1986@ideasonboard.com>
+Date: Tue, 14 May 2024 11:14:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-14_04,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- spamscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2405140069
-X-Proofpoint-GUID: oBgolkqJvJyd9dlzhQgK84oTp90jMzCq
-X-Proofpoint-ORIG-GUID: oBgolkqJvJyd9dlzhQgK84oTp90jMzCq
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: ipu-bridge: fix error code in ipu_bridge_init()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <f468c4ac-0629-41b5-b5d1-e26f70e44800@moroto.mountain>
+ <Zj5DZ4ORVfeCZSsV@smile.fi.intel.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <Zj5DZ4ORVfeCZSsV@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-devm_regmap_init_mmio() can fail, add a check and bail out in case of
-error.
+Hello
 
-Fixes: 4e5bd3fdbeb3 ("media: imx-pxp: convert to regmap")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is based on static analysis and only compile tested.
-v1->v2: fix error message, we dont need %d in dev_err_probe()
----
- drivers/media/platform/nxp/imx-pxp.c | 3 +++
- 1 file changed, 3 insertions(+)
+On 10/05/2024 16:55, Andy Shevchenko wrote:
+> On Fri, May 10, 2024 at 06:43:31PM +0300, Dan Carpenter wrote:
+>> Return -EINVAL if "bridge->n_sensors == 0".  Don't return success.
+> LGTM, but I leave the main Q "Is it really the error case?" to the maintainers.
+> I would imagine the use case where either from the following may happen:
+> 1) the sensors are all new and not listed as supported;
+> 2) there no sensors connected for real.
+>
+> In both cases I don't see this as a critical error that we can't enumerate
+> the bridge itself.
+>
+I have no strong feelings on this really. The CIO2 driver, before the bridge was a thing, didn't 
+treat a lack of connected endpoints as an error case and still completed probe if the 
+cio2_parse_firmware() function doesn't find any connected endpoints...but perhaps it should have 
+behaved this way all along. Is there value in having the cio2 device probed, but useless? I can't 
+think of any at the moment.
 
-diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index e62dc5c1a4ae..e4427e6487fb 100644
---- a/drivers/media/platform/nxp/imx-pxp.c
-+++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -1805,6 +1805,9 @@ static int pxp_probe(struct platform_device *pdev)
- 		return PTR_ERR(mmio);
- 	dev->regmap = devm_regmap_init_mmio(&pdev->dev, mmio,
- 					    &pxp_regmap_config);
-+	if (IS_ERR(dev->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->regmap),
-+				     "Failed to init regmap\n");
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
--- 
-2.39.3
+
+The patch contents themselves look good to me.
 
 
