@@ -1,284 +1,232 @@
-Return-Path: <linux-media+bounces-11469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11468-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67348C64E3
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 12:20:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41278C64DC
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 12:19:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AE6228584D
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 10:20:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E71F11C21DDC
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 10:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12B75FEF2;
-	Wed, 15 May 2024 10:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546AB5BAF0;
+	Wed, 15 May 2024 10:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="DK+gEtqm"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LuntKrpi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ic6aR64+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LuntKrpi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ic6aR64+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407875F876
-	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 10:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3808C5C603;
+	Wed, 15 May 2024 10:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715768395; cv=none; b=p21PB9tgYArU7IqHNa2AB65A6UJO/xpZ7/1jvAHX6lRabsudoDsN8uo+2WHbaEHqsOXEgeA6cnpzd3VOsin2YjnO8xIA1Z4Imy3af7lhB3+R5PBzmeRuetEqvhp1SFjlGFzJWUj9zufLD2uqoFggPS0vBTi0qykifV1AbfafosA=
+	t=1715768386; cv=none; b=OdKgxgoufBL21F0euW0HatBiNw0Waj6i0UePq/8uT9ck9bociDYXOMI5g5dNmZpapzrnYR4KsMJIXOoEc4VxRNiTnT14339E0Q0Zgs9cdkdFFXITfQm4f9hWq3Y+VN90bW7A8hd6woE0qI0NGxA4vuyCT97Rv1dHnAcGOVEaXrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715768395; c=relaxed/simple;
-	bh=+EMK6b7qfktIFvrX/yoLCEmiPgCxTGiziO7yYK3P3rU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=LHRwecfeBD6AYxEOvf2MGQYFmZSllmXGXXppMWmfVi6o5QNi8H4YsT8BOwrLYaDVGXWnD000Q2sAKSzokIw9TJrVv7R/kTf6DZhqXzNeSOALIz8G9h58K/I00Xi/+aVeHfcdV/kCGbHergfwIiAZeeFaYSgKPub52Kjt1Hoh0WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b=DK+gEtqm; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-572e48f91e9so1566819a12.0
-        for <linux-media@vger.kernel.org>; Wed, 15 May 2024 03:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1715768391; x=1716373191; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fdHvJkxYgHA+IRrFREj5QbL1lv8V1e57nVmevFIQbVs=;
-        b=DK+gEtqmkb0jZ/CHh7UFa0VObjCqX95pEIy9AVKWg8R9+uBAQeX1wq1kySemn5w3pJ
-         0k9SCtvjvzqxKGOAZKIQaSUiQlw/2yQ4e13tjG9Q+SL1gECZK5IzNkOCLLXybSi6QDmr
-         yUqNDnXq7FbT9kkRg3qgpIOdVsAmgeGaSzsfm2qyrDNgDJTa1YPWz8fhKcqKqGLu5lZu
-         TaTYgVSAMqtgIczhmzHNK2pu1kQqag85ESBXKoX+eVPkXy2wAFkr9UQGJRkCh8bRVbnA
-         Pbz/mZLWkbtj2rebXLzLoMhm+rQiiremoorBu9eXu0nPNa7FIhkhLZ6OLaoOfcZuNqtJ
-         WOoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715768391; x=1716373191;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fdHvJkxYgHA+IRrFREj5QbL1lv8V1e57nVmevFIQbVs=;
-        b=VMTAIniYQitSNfnifkjr6QHWxjoJIxG+SIL+AqG5knzhSvxODv1LdzJ7z/TBNFlVoZ
-         LK3fAsZBoe09wTcMN9b81z5pjKsZZD9tA3X/6a2gkLViDWAdB61ZYsEThG3S5apsurOi
-         51yhjReAkB1kTnRMLbnfPRQAIRRTbXmQeQ83iu0TQ/715FsXNSPo5UzBbBD3HtV8AKUh
-         kBBqjIydJqH9yHlCqrpe/NGiZqhsaPcarl1un2y3XWQKSPb2WtCBT0yKRHuQY2jruTkO
-         O1NayQvq05gg8O8vnVdy2+yTmj7a+ENqRx7Gq6ihFYXXut3CFmlsZ/IAh7ZtHkQp1+wU
-         Mo2A==
-X-Forwarded-Encrypted: i=1; AJvYcCX8aCPHzU+76WzQ8/4/oWVlhOqVk7w4EOcYeG9htLkaN6uvniUWnU52r9Ase6Yvhr1/oVbFn2pfyNvilCUZ5VrH/efxyOVKA2Y3I6Q=
-X-Gm-Message-State: AOJu0YzvCEGt1GpWyIaVKTiWxn8BX3SFTN/hCF9t957o1qqCPXj2IxUf
-	CPoRoBiwwYpmL2FfPTjkPLATceNK7itLOT+nzPPFQlMdlDG5BmreSk/uwx2Df/w=
-X-Google-Smtp-Source: AGHT+IHWaSA/H+4L2d0rsT1ymvAysPmXQv4l8zitT6YQF2Rw+C8vn0POfuJW4lu+DIxHSNpoY53xBA==
-X-Received: by 2002:a50:d59d:0:b0:572:7e7e:4296 with SMTP id 4fb4d7f45d1cf-5734d5c152dmr11481093a12.3.1715768391400;
-        Wed, 15 May 2024 03:19:51 -0700 (PDT)
-Received: from [192.168.0.245] ([62.73.69.208])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-574b18dff66sm6291338a12.27.2024.05.15.03.19.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 May 2024 03:19:50 -0700 (PDT)
-Message-ID: <f9a8f912-5cb7-4184-be2d-187052c04e2e@blackwall.org>
-Date: Wed, 15 May 2024 13:19:47 +0300
+	s=arc-20240116; t=1715768386; c=relaxed/simple;
+	bh=LydYnHrugQ9OPJ5Ef0+QRMSqn1tnC19RPVdPrv3zY/o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hmux/McgcBG+2KUkMpY45qxB42oFZJAkZF82dT5L3thzDhBpgJbzw/2Co8usOhqkxCvz8bUh6BS1I+OxELp027tv3hVO4Dlg60t2xZ1/91uYdxDJZxRBl52+UOLxZVofpOi/keHxwhpJQut4Gc5sqEqfeThLMzeggJf9tkhP9hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LuntKrpi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ic6aR64+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LuntKrpi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ic6aR64+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4719833A33;
+	Wed, 15 May 2024 10:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715768383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WcIX7aYgrF5z87fxeBmfRGYcPU8ynjCCVZypleGzlQ=;
+	b=LuntKrpiFO0c3TV3TilWxFY+6ACqhtdTjrgI9mEDVJnMIeh++UG6f7bnw6Nhnp96+Wq1jh
+	rkSEi4Tf8r/lJJFdQ2GNA7hDvLi40zf37RH/kkLnX26UOHz8TQj+p+TgPMmeCVloOlRLuH
+	uVbxQo7cy30DmknHdjS9cDBrgSpBiFk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715768383;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WcIX7aYgrF5z87fxeBmfRGYcPU8ynjCCVZypleGzlQ=;
+	b=Ic6aR64+5T59q/QkWj7My1F1gI0I76pVeHSGYkinZvkHxW1hsrkFisriLEYnbPuBfm5rhl
+	TpfNNAGQHtrBsfBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715768383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WcIX7aYgrF5z87fxeBmfRGYcPU8ynjCCVZypleGzlQ=;
+	b=LuntKrpiFO0c3TV3TilWxFY+6ACqhtdTjrgI9mEDVJnMIeh++UG6f7bnw6Nhnp96+Wq1jh
+	rkSEi4Tf8r/lJJFdQ2GNA7hDvLi40zf37RH/kkLnX26UOHz8TQj+p+TgPMmeCVloOlRLuH
+	uVbxQo7cy30DmknHdjS9cDBrgSpBiFk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715768383;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WcIX7aYgrF5z87fxeBmfRGYcPU8ynjCCVZypleGzlQ=;
+	b=Ic6aR64+5T59q/QkWj7My1F1gI0I76pVeHSGYkinZvkHxW1hsrkFisriLEYnbPuBfm5rhl
+	TpfNNAGQHtrBsfBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5BFB139B3;
+	Wed, 15 May 2024 10:19:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jrUhKz6MRGZoNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 May 2024 10:19:42 +0000
+Date: Wed, 15 May 2024 12:19:59 +0200
+Message-ID: <87o7975qcw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,	Shengjiu Wang
+ <shengjiu.wang@gmail.com>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Mauro Carvalho Chehab
+ <mchehab@kernel.org>,	Mark Brown <broonie@kernel.org>,	Sebastian Fricke
+ <sebastian.fricke@collabora.com>,	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	sakari.ailus@iki.fi,	tfiga@chromium.org,	m.szyprowski@samsung.com,
+	linux-media@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	Xiubo.Lee@gmail.com,	festevam@gmail.com,	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,	tiwai@suse.com,	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+In-Reply-To: <8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz>
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+	<20240430172752.20ffcd56@sal.lan>
+	<ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
+	<87sez0k661.wl-tiwai@suse.de>
+	<20240502095956.0a8c5b26@sal.lan>
+	<20240502102643.4ee7f6c2@sal.lan>
+	<ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
+	<20240503094225.47fe4836@sal.lan>
+	<CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+	<22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+	<51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+	<CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
+	<cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
+	<CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
+	<2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
+	<CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
+	<28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+	<850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
+	<c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl>
+	<8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to
- netdevice
-From: Nikolay Aleksandrov <razor@blackwall.org>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240510232128.1105145-1-almasrymina@google.com>
- <20240510232128.1105145-5-almasrymina@google.com>
- <59b1ec87-03dc-4336-8ce1-cb97e5abb7d6@blackwall.org>
-Content-Language: en-US
-In-Reply-To: <59b1ec87-03dc-4336-8ce1-cb97e5abb7d6@blackwall.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	FREEMAIL_CC(0.00)[xs4all.nl,gmail.com,linux.intel.com,kernel.org,collabora.com,nxp.com,iki.fi,chromium.org,samsung.com,vger.kernel.org,suse.com,alsa-project.org,lists.ozlabs.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-On 15/05/2024 13:01, Nikolay Aleksandrov wrote:
-> On 11/05/2024 02:21, Mina Almasry wrote:
->> Add a netdev_dmabuf_binding struct which represents the
->> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
->> rx queues on the netdevice. On the binding, the dma_buf_attach
->> & dma_buf_map_attachment will occur. The entries in the sg_table from
->> mapping will be inserted into a genpool to make it ready
->> for allocation.
->>
->> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
->> holds the dma-buf offset of the base of the chunk and the dma_addr of
->> the chunk. Both are needed to use allocations that come from this chunk.
->>
->> We create a new type that represents an allocation from the genpool:
->> net_iov. We setup the net_iov allocation size in the
->> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
->> allocated by the page pool and given to the drivers.
->>
->> The user can unbind the dmabuf from the netdevice by closing the netlink
->> socket that established the binding. We do this so that the binding is
->> automatically unbound even if the userspace process crashes.
->>
->> The binding and unbinding leaves an indicator in struct netdev_rx_queue
->> that the given queue is bound, but the binding doesn't take effect until
->> the driver actually reconfigures its queues, and re-initializes its page
->> pool.
->>
->> The netdev_dmabuf_binding struct is refcounted, and releases its
->> resources only when all the refs are released.
->>
->> Signed-off-by: Willem de Bruijn <willemb@google.com>
->> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
->> Signed-off-by: Mina Almasry <almasrymina@google.com>
->>
->> ---
->>
->> v9: https://lore.kernel.org/all/20240403002053.2376017-5-almasrymina@google.com/
->> - Removed net_devmem_restart_rx_queues and put it in its own patch
->>   (David).
->>
->> v8:
->> - move dmabuf_devmem_ops usage to later patch to avoid patch-by-patch
->>   build error.
->>
->> v7:
->> - Use IS_ERR() instead of IS_ERR_OR_NULL() for the dma_buf_get() return
->>   value.
->> - Changes netdev_* naming in devmem.c to net_devmem_* (Yunsheng).
->> - DMA_BIDIRECTIONAL -> DMA_FROM_DEVICE (Yunsheng).
->> - Added a comment around recovering of the old rx queue in
->>   net_devmem_restart_rx_queue(), and added freeing of old_mem if the
->>   restart of the old queue fails. (Yunsheng).
->> - Use kernel-family sock-priv (Jakub).
->> - Put pp_memory_provider_params in netdev_rx_queue instead of the
->>   dma-buf specific binding (Pavel & David).
->> - Move queue management ops to queue_mgmt_ops instead of netdev_ops
->>   (Jakub).
->> - Remove excess whitespaces (Jakub).
->> - Use genlmsg_iput (Jakub).
->>
->> v6:
->> - Validate rx queue index
->> - Refactor new functions into devmem.c (Pavel)
->>
->> v5:
->> - Renamed page_pool_iov to net_iov, and moved that support to devmem.h
->>   or netmem.h.
->>
->> v1:
->> - Introduce devmem.h instead of bloating netdevice.h (Jakub)
->> - ENOTSUPP -> EOPNOTSUPP (checkpatch.pl I think)
->> - Remove unneeded rcu protection for binding->list (rtnl protected)
->> - Removed extraneous err_binding_put: label.
->> - Removed dma_addr += len (Paolo).
->> - Don't override err on netdev_bind_dmabuf_to_queue failure.
->> - Rename devmem -> dmabuf (David).
->> - Add id to dmabuf binding (David/Stan).
->> - Fix missing xa_destroy bound_rq_list.
->> - Use queue api to reset bound RX queues (Jakub).
->> - Update netlink API for rx-queue type (tx/re) (Jakub).
->>
->> RFC v3:
->> - Support multi rx-queue binding
->>
->> ---
->>  Documentation/netlink/specs/netdev.yaml |   4 +
->>  include/net/devmem.h                    | 111 +++++++++++
->>  include/net/netdev_rx_queue.h           |   2 +
->>  include/net/netmem.h                    |  10 +
->>  include/net/page_pool/types.h           |   5 +
->>  net/core/Makefile                       |   2 +-
->>  net/core/dev.c                          |   3 +
->>  net/core/devmem.c                       | 254 ++++++++++++++++++++++++
->>  net/core/netdev-genl-gen.c              |   4 +
->>  net/core/netdev-genl-gen.h              |   4 +
->>  net/core/netdev-genl.c                  | 105 +++++++++-
->>  11 files changed, 501 insertions(+), 3 deletions(-)
->>  create mode 100644 include/net/devmem.h
->>  create mode 100644 net/core/devmem.c
->>
-> [snip]
->> +/* Protected by rtnl_lock() */
->> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
->> +
->> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
->> +{
->> +	struct netdev_rx_queue *rxq;
->> +	unsigned long xa_idx;
->> +	unsigned int rxq_idx;
->> +
->> +	if (!binding)
->> +		return;
->> +
->> +	if (binding->list.next)
->> +		list_del(&binding->list);
->> +
+On Wed, 15 May 2024 11:50:52 +0200,
+Jaroslav Kysela wrote:
 > 
-> minor nit:
-> In theory list.next can still be != null if it's poisoned (e.g. after del). You can
-> use the list api here (!list_empty(&binding->list) -> list_del_init(&binding->list))
-> if you initialize it in net_devmem_bind_dmabuf(), then you'll also get nice list
-> debugging.
+> On 15. 05. 24 11:17, Hans Verkuil wrote:
+> > Hi Jaroslav,
+> > 
+> > On 5/13/24 13:56, Jaroslav Kysela wrote:
+> >> On 09. 05. 24 13:13, Jaroslav Kysela wrote:
+> >>> On 09. 05. 24 12:44, Shengjiu Wang wrote:
+> >>>>>> mem2mem is just like the decoder in the compress pipeline. which is
+> >>>>>> one of the components in the pipeline.
+> >>>>> 
+> >>>>> I was thinking of loopback with endpoints using compress streams,
+> >>>>> without physical endpoint, something like:
+> >>>>> 
+> >>>>> compress playback (to feed data from userspace) -> DSP (processing) ->
+> >>>>> compress capture (send data back to userspace)
+> >>>>> 
+> >>>>> Unless I'm missing something, you should be able to process data as fast
+> >>>>> as you can feed it and consume it in such case.
+> >>>>> 
+> >>>> 
+> >>>> Actually in the beginning I tried this,  but it did not work well.
+> >>>> ALSA needs time control for playback and capture, playback and capture
+> >>>> needs to synchronize.  Usually the playback and capture pipeline is
+> >>>> independent in ALSA design,  but in this case, the playback and capture
+> >>>> should synchronize, they are not independent.
+> >>> 
+> >>> The core compress API core no strict timing constraints. You can eventually0
+> >>> have two half-duplex compress devices, if you like to have really independent
+> >>> mechanism. If something is missing in API, you can extend this API (like to
+> >>> inform the user space that it's a producer/consumer processing without any
+> >>> relation to the real time). I like this idea.
+> >> 
+> >> I was thinking more about this. If I am right, the mentioned use in gstreamer
+> >> is supposed to run the conversion (DSP) job in "one shot" (can be handled
+> >> using one system call like blocking ioctl).  The goal is just to offload the
+> >> CPU work to the DSP (co-processor). If there are no requirements for the
+> >> queuing, we can implement this ioctl in the compress ALSA API easily using the
+> >> data management through the dma-buf API. We can eventually define a new
+> >> direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so to allow
+> >> handle this new data scheme. The API may be extended later on real demand, of
+> >> course.
+> >> 
+> >> Otherwise all pieces are already in the current ALSA compress API
+> >> (capabilities, params, enumeration). The realtime controls may be created
+> >> using ALSA control API.
+> > 
+> > So does this mean that Shengjiu should attempt to use this ALSA approach first?
 > 
+> I've not seen any argument to use v4l2 mem2mem buffer scheme for this
+> data conversion forcefully. It looks like a simple job and ALSA APIs
+> may be extended for this simple purpose.
+> 
+> Shengjiu, what are your requirements for gstreamer support? Would be a
+> new blocking ioctl enough for the initial support in the compress ALSA
+> API?
 
-On second thought nevermind this, sorry for the noise.
+If it works with compress API, it'd be great, yeah.
+So, your idea is to open compress-offload devices for read and write,
+then and let them convert a la batch jobs without timing control?
 
->> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
->> +		if (rxq->mp_params.mp_priv == binding) {
->> +			/* We hold the rtnl_lock while binding/unbinding
->> +			 * dma-buf, so we can't race with another thread that
->> +			 * is also modifying this value. However, the page_pool
->> +			 * may read this config while it's creating its
->> +			 * rx-queues. WRITE_ONCE() here to match the
->> +			 * READ_ONCE() in the page_pool.
->> +			 */
->> +			WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
->> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
->> +
->> +			rxq_idx = get_netdev_rx_queue_index(rxq);
->> +
->> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
->> +		}
->> +	}
->> +
->> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
->> +
->> +	net_devmem_dmabuf_binding_put(binding);
->> +}
-> [snip]
-> 
-> Cheers,
->  Nik
-> 
+For full-duplex usages, we might need some more extensions, so that
+both read and write parameters can be synchronized.  (So far the
+compress stream is a unidirectional, and the runtime buffer for a
+single stream.)
 
+And the buffer management is based on the fixed size fragments.  I
+hope this doesn't matter much for the intended operation?
+
+
+thanks,
+
+Takashi
 
