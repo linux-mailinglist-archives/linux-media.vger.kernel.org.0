@@ -1,148 +1,146 @@
-Return-Path: <linux-media+bounces-11494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11495-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2898C6BA7
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 19:44:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0D38C6C50
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 20:44:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F7671F25357
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 17:44:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FFA21F233D5
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 18:44:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1585E4C3CD;
-	Wed, 15 May 2024 17:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A544815B0FE;
+	Wed, 15 May 2024 18:43:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora-corp-partner-google-com.20230601.gappssmtp.com header.i=@collabora-corp-partner-google-com.20230601.gappssmtp.com header.b="zvaT/PaO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dWzrHj4Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A802A3C489
-	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 17:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675EB158DDE
+	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 18:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715795044; cv=none; b=Clnony+9lPULlJv0FbfnKVqFfOUFCzlcG/qXrG20WzeVTehKtmBQfzJZe5Gv3OAd22JTi2Ob2psYQWyuh6fYtv5i30p7fgJYhFir45J9OxfaQpFgm85gMyFWzxwMXcskZGRhq5fOkU6ZmlxnlzWNhYzvKvC2/txyJpqu0g+NX1c=
+	t=1715798595; cv=none; b=Mw41vcmV3qy9T5mMX2VOU8jZaMhOFPjWClx/oicZkLME8JFhZowJ+V7Jw6RphZdX2BpR0O8Q2KyWVgt1NTtJSuQ7QVTSLhZCJ/7Fo31JHU5E864KhIcTaFk1+9QKUZBuUC0tUWlOnsqDQfVv9dsYvL9QX6C/CXk7YraI7VhpYH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715795044; c=relaxed/simple;
-	bh=8z5zmXb00dI33I9nYYn4QHL0CD+KmhO++F+VezLuwF8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bPXzxYKrvcgzQUdf2L+M2B58dP3TCPwYTBD8hH/5pnHHd0HBrxo8/YdabyYGNsCdqTMw6+ImQieAgWLmPlq098depHGWLgStV3/c8ppqn+4K2Ib0ekyxN56yYvtlztkW2ke6dlZHOChlOA3CyRhxjMHtCk0AbbCZ1/zrqfAqKV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=collabora.corp-partner.google.com; spf=pass smtp.mailfrom=collabora.corp-partner.google.com; dkim=pass (2048-bit key) header.d=collabora-corp-partner-google-com.20230601.gappssmtp.com header.i=@collabora-corp-partner-google-com.20230601.gappssmtp.com header.b=zvaT/PaO; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=collabora.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.corp-partner.google.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-43de92e234dso64228411cf.1
-        for <linux-media@vger.kernel.org>; Wed, 15 May 2024 10:44:02 -0700 (PDT)
+	s=arc-20240116; t=1715798595; c=relaxed/simple;
+	bh=EYw08SuW0XGtCkslQ7Pr4vhaF6oLwiqfmnivOAxBqiQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AaCdPDjq6lyJ0D+O7PrrCmG8+hRUnCp5Ue/CeJTuiXn4HVaJSd9dn5YCbcbLc2MVXWFPjv2z5GGQmDnnl04lKG5HeQrHMuagMS6PM57k/aF8K8k2zwNovUbdyrZK6uBO45c+dqfQI7WX2eJeQgp9GTed8HD8KTujegAiKpwWHVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dWzrHj4Y; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42012c85e61so302205e9.0
+        for <linux-media@vger.kernel.org>; Wed, 15 May 2024 11:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=collabora-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1715795041; x=1716399841; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E0amurYLWKaRKPa/iEdq5FcEnj0UswhFN3sKXOxoIEk=;
-        b=zvaT/PaOEtTVMH9d1boly9k+wpE9gg/o8LSGFFqrGt1MFanlcYlPE37yhnE1QLhkf5
-         6CPiCSMcD5H6Uiw0jDy4TkxDyLv6nvTiko0W7tB6xUcdp4OCjmZsxBTOIUme3V80cSMw
-         hko1vvI5LkULOMU1398lkffkJQU8kaFMtrAWPpiqHVnV5JL+wgPU9oSDloVeHFqn/bp6
-         8ZLtTQCh+Vc9kpOURnd7oOT8jhd40yNVmsWF7AyU4VgqnxoULMnHPAiwUBZRZf4dDVRN
-         s98LMyuQ6/QxyxFmzvAtSptpvgXrjL1R0RtnqrwGkWT+1KSfBJLh555kp8BlcO5nApnn
-         FT0g==
+        d=google.com; s=20230601; t=1715798592; x=1716403392; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EYw08SuW0XGtCkslQ7Pr4vhaF6oLwiqfmnivOAxBqiQ=;
+        b=dWzrHj4Y2991PncIntwkhPkWMMhAAX1lIgfjy2o2MPKqAMuU6XgQe+uwR6Gufu6T/+
+         yPGKhhTdYS/bGf1nsgdSvoINikyJDO0IvyattNTKKyt/Q4G6oixneiz4d9APMG/zqpTl
+         1f5AcNxGdRuDtRyzqVAxwy8fUnXmcnHSVUYLlXMslxUjEMm6XgorI/CwXdkirbFZdsSX
+         +wYBIU/OxfEyFJ840NfymnSS84X/fyEFtUOnxUAIyvL4dYqhDs0Y0iSc+Q6t3Mxu56mh
+         S4PzeD9Xy88eAsolnO1+ZSd+RN04vexRrRcBV5hyTqtijFFyq28zH/RTcxEOsy556Vkq
+         bi6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715795041; x=1716399841;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E0amurYLWKaRKPa/iEdq5FcEnj0UswhFN3sKXOxoIEk=;
-        b=STi1QnP8JgLQ5Op9PITO05PQFNnb6OgrJBdxffVDWxHaxeHbBsv6cmCS/BX/C+FKQQ
-         qyMP1HixVimD1/vFZm6K55WWYtS2oFEuHLwSt90sziYgESSXAXYLMawe/O31hzZBe1op
-         BNjp67i2c3Jjym2Rkypt9qOI/ZM8w4tY8TQm7ttZneKBsGtdG1D9ahmmj1jsiTvEHfM5
-         +TNJNVsHCondnMiQ9wfCgv78lwrtklOlO2RavLZY7ySkwx53JV2yD6lwheeTdwxD2/Tj
-         ddMxcJiRNmUjVSlsUodaMOsMzJ9m5J6fCSIHEw3Wnt8S9a6BIFs30HZgdIu3tsjnBwRb
-         DX1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVhCudtVcbrg0/HuC/IOS9X6iybEaZksO2hi/ZBxnJLFV+BuWmvaSCk3XLto8L+p1yyjkW0nOVX+6EArVZIkZjxgYzFKfe7UHyI5DI=
-X-Gm-Message-State: AOJu0YyKATrofNvX7fpDdRYth30cmhzxCKzQF1/zuB/Z32HmCdlu6tiE
-	XGzCUjdhSLi6MWUopzAKmz8zfqojL0ViRKGNOAR2PKkY96+w7qAJurYNVX9xals=
-X-Google-Smtp-Source: AGHT+IFtGcMXjpt3HsFnPe9OF16luEvqPVOtySj8IBH0wjxyNEhyn0setwNtXCb14ES3yOalUq8alQ==
-X-Received: by 2002:a05:622a:1a96:b0:43e:3943:4379 with SMTP id d75a77b69052e-43e39434693mr20225301cf.19.1715795041568;
-        Wed, 15 May 2024 10:44:01 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:17:5985::580])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43e3a57b396sm2575901cf.24.2024.05.15.10.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 10:44:00 -0700 (PDT)
-Message-ID: <a3428b0c352c24d43a2d458d41819fbf4b6cce0f.camel@collabora.corp-partner.google.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
- users (udev uaccess tag) ?
-From: nicolas.dufresne@collabora.corp-partner.google.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
- Poettering <mzxreary@0pointer.de>,  Robert Mader
- <robert.mader@collabora.com>, Sebastien Bacher
- <sebastien.bacher@canonical.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
- <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Date: Wed, 15 May 2024 13:43:58 -0400
-In-Reply-To: <20240514204223.GN32013@pendragon.ideasonboard.com>
-References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
-	 <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
-	 <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
-	 <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
-	 <20240507183613.GB20390@pendragon.ideasonboard.com>
-	 <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
-	 <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
-	 <20240513-heretic-didactic-newt-1d6daf@penduick>
-	 <20240513083417.GA18630@pendragon.ideasonboard.com>
-	 <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
-	 <20240514204223.GN32013@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+        d=1e100.net; s=20230601; t=1715798592; x=1716403392;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EYw08SuW0XGtCkslQ7Pr4vhaF6oLwiqfmnivOAxBqiQ=;
+        b=WOlUdgtfiWYuhpwTnjew+xx5x7CcZxyt1NH92f8cceumIDBe9X8ez36G9S8EjqWk6Z
+         ZsQqelC6gPvGomE1gY3//seC2kyt6SJ1KwvEM5S5r7N4dnB56GbuL9/vbwcYkzOtj5sx
+         oEVRs+2sa1Ugfa04NYVoCLdSE0bPj5oxpVCmfa25la1/EE1BqN+ZdZDCylXPQSQMez8n
+         of+e6jSA/8fk87y94Q3TWh0C6TN6NTBX7hjKOc7T3xzVQDMHWugMrxhG4i1wqbbMzkJ9
+         LNRMoEFJaJZQG6BHdq7YJAMtccUwHkK2feCKiExEGjCQ+4unW7AvIX5mq0hEL+doMyml
+         X20w==
+X-Forwarded-Encrypted: i=1; AJvYcCUR3PYc6dc/N6HtQg4feuMWe4davTlEWJXGW1nixQ7qyt+cd5yLptg0CWFG0OJL18h1AXFuk26xYJkEx8N6tI6JNOUmYi0E+lQcqK8=
+X-Gm-Message-State: AOJu0Yyrz3klY/uhmL0Au959ORmBBimfA/Xc/rnvAS9rDj8lpay2qzgO
+	9kJBH/h0vGNp1P87uEQAfFB676sxE7GQI09wsyKdcBqOKV2LJljHuIGtfMARHq3bEu7ooEM/n3f
+	B9Mck+7AQKt78VQNIJkJqs7U4HDfCn1fTbKE=
+X-Google-Smtp-Source: AGHT+IFXSyoRhWYZAyF4PDyMeovRDQKPGnBFuRGgfH4SBcREIVqL7zoHTwvnfnjWyp/GpdS9YamBKyr7G4+ZcxRuOuI=
+X-Received: by 2002:a05:600c:3d9a:b0:41f:a15d:2228 with SMTP id
+ 5b1f17b1804b1-4200ebea389mr9541355e9.0.1715798591515; Wed, 15 May 2024
+ 11:43:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 15 May 2024 11:42:58 -0700
+Message-ID: <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC related-flags
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le mardi 14 mai 2024 =C3=A0 23:42 +0300, Laurent Pinchart a =C3=A9crit=C2=
-=A0:
-> > You'll hit the same limitation as we hit in GStreamer, which is that KM=
-S driver
-> > only offer allocation for render buffers and most of them are missing a=
-llocators
-> > for YUV buffers, even though they can import in these formats. (kms all=
-ocators,
-> > except dumb, which has other issues, are format aware).
->=20
-> My experience on Arm platforms is that the KMS drivers offer allocation
-> for scanout buffers, not render buffers, and mostly using the dumb
-> allocator API. If the KMS device can scan out YUV natively, YUV buffer
-> allocation should be supported. Am I missing something here ?
+On Wed, May 15, 2024 at 6:57=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> This series is the follow-up of the discussion that John and I had a few
+> months ago here:
+>
+> https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqy=
+rroCMQ@mail.gmail.com/
+>
+> The initial problem we were discussing was that I'm currently working on
+> a platform which has a memory layout with ECC enabled. However, enabling
+> the ECC has a number of drawbacks on that platform: lower performance,
+> increased memory usage, etc. So for things like framebuffers, the
+> trade-off isn't great and thus there's a memory region with ECC disabled
+> to allocate from for such use cases.
+>
+> After a suggestion from John, I chose to start using heap allocations
+> flags to allow for userspace to ask for a particular ECC setup. This is
+> then backed by a new heap type that runs from reserved memory chunks
+> flagged as such, and the existing DT properties to specify the ECC
+> properties.
+>
+> We could also easily extend this mechanism to support more flags, or
+> through a new ioctl to discover which flags a given heap supports.
 
-There is two APIs, Dumb is the legacy allocation API, only used by display
-drivers indeed, and the API does not include a pixel format or a modifier. =
-The
-allocation of YUV buffer has been made through a small hack,=20
+Hey! Thanks for sending this along! I'm eager to see more heap related
+work being done upstream.
 
-  bpp =3D number of bits per component (of luma plane if multiple planes)
-  width =3D width
-  height =3D height * X
+The only thing that makes me a bit hesitant, is the introduction of
+allocation flags (as opposed to a uniquely specified/named "ecc"
+heap).
 
-Where X will vary, "3 / 2" is used for 420 subsampling, "2" for 422 and "3"=
- for
-444. It is far from idea, requires deep knowledge of each formats in the
-application and cannot allocate each planes seperatly.
+We did talk about this earlier, and my earlier press that only if the
+ECC flag was general enough to apply to the majority of heaps then it
+makes sense as a flag, and your patch here does apply it to all the
+heaps. So I don't have an objection.
 
-The second is to use the driver specific allocation API. This is then abstr=
-acted
-by GBM. This allows allocating render buffers with notably modifiers and/or=
- use
-cases. But no support for YUV formats or multi-planar formats.
+But it makes me a little nervous to add a new generic allocation flag
+for a feature most hardware doesn't support (yet, at least). So it's
+hard to weigh how common the actual usage will be across all the
+heaps.
 
-Nicolas
+I apologize as my worry is mostly born out of seeing vendors really
+push opaque feature flags in their old ion heaps, so in providing a
+flags argument, it was mostly intended as an escape hatch for
+obviously common attributes. So having the first be something that
+seems reasonable, but isn't actually that common makes me fret some.
+
+So again, not an objection, just something for folks to stew on to
+make sure this is really the right approach.
+
+Another thing to discuss, that I didn't see in your mail: Do we have
+an open-source user of this new flag?
+
+thanks
+-john
 
