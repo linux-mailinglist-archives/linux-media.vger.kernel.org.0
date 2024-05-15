@@ -1,55 +1,74 @@
-Return-Path: <linux-media+bounces-11465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5799C8C6437
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 11:51:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 891498C645D
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 11:54:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B50A1C22082
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 09:51:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 206001F23453
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 09:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9100459B4E;
-	Wed, 15 May 2024 09:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E630C5FEF2;
+	Wed, 15 May 2024 09:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="XFud24Jm"
+	dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="CyTK+oMk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A9D5914A;
-	Wed, 15 May 2024 09:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEC05A7AB
+	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 09:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715766690; cv=none; b=LiUi0s8tzigatzVFySMWsKkAq+NVjm+5LPVu38Gft6ZsoNmazE3m8mMDqRXkDeu+MOJTt8DNRC1eeaXPw89DYerRDtK2SCQFbHr17oErjWcpGZ1IWPSXZPZk8aUGKdRgxVOv/R+aC9AL6N+f3LANR7+ESQB1y0dTss+XQNMitr0=
+	t=1715766785; cv=none; b=cH4fG7CzzrK8pWMjPFeLGlcFiFYJFC5N42CgENJLQElNpCD8uCNAw3YMwwm94j6Vi21sVB7EcYi0rEshx+dv5Ikx8RWsKesGl4zJIv/YtryamN3Sg4BDcW6pAvCz704Hw+6AXPpz/C492s7eoXsmJGnj5Vf6ryPGVWC0xMWBGio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715766690; c=relaxed/simple;
-	bh=ttfeutQdvKt1fO9ijC8jxuhzhpf3MyB5FBUgAXuf/QQ=;
+	s=arc-20240116; t=1715766785; c=relaxed/simple;
+	bh=TsOk3vFqremJkiKTf83L+7lVwN7NONoMxe4kSI6IvYw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXfUDdOHEK+bpQB/NBERje3TksVe+FykxJKJwDjGx3PLoANnI5+IAedO5EwWdojDILw88NxUOxKTi0eSIWRAdLigMP0OeHyn8sFm2xXO3sYvgHk1o8hyeX4lih8LOWnQECFuvIuzZ4E4YTpM1IC1UM+KYDWK6E6UdoNBCDnZVrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=XFud24Jm; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 456C6468B;
-	Wed, 15 May 2024 11:51:16 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 456C6468B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1715766676; bh=vT8nC3Sd1lpj494LT25gLgQ5jDrJWqck31sbnO/PH3c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XFud24JmqaVhfeMX37yHAXQWzHJ1rDyGpC//TgSeJvkvY401QjqEVJOwIUpWBgpPC
-	 HsIWyOacyk30KEacKpSvQi/9P9cjVIdpPeMA0OAb1iKByT1rtMfREiF4J8g1BujGEA
-	 virCvykljku0PnsMmrzCKEGN4ZBSejhIrQ2SjB9U=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 15 May 2024 11:50:53 +0200 (CEST)
-Message-ID: <8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz>
-Date: Wed, 15 May 2024 11:50:52 +0200
+	 In-Reply-To:Content-Type; b=ANUsh0DDsu8IGzj7/gHjv4+UZfoHKVGosfLRSeZRSijz2zrYluauhw2lScgX39pNotGIltaa7DOUiNQG5jNP1AMON/Y0q10md/SrxfgdBjs3vSYVd91P8kmexke4Xe//ehxbGb7Zlx6d2oGdhLyikjMuVxYeErca8SdK7Iql7t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b=CyTK+oMk; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-572ba002a6bso1457728a12.1
+        for <linux-media@vger.kernel.org>; Wed, 15 May 2024 02:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1715766782; x=1716371582; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S1lmRXypy+tgqjJjCBelLKezDGdnEAnnPizIiNZdruM=;
+        b=CyTK+oMkbUZvJX+UEpXD2WFMSiEdaF9FbbEkHgrzxqIOXJh3IjX7fUED53WyhtfNCd
+         n2EIRkb6K9WTdMARS9VuK3lIcwCF+typcSHLH8KJGqwuPma5t+cvhe1NS61b8h6qwBS9
+         mwkIWHGaxIqTXF7Z16UhZF5rk3gXWnzQYKdn3/bSx+l9CaYvAZ7b1mGjre/zhtmIw1DR
+         RKNJlKAICoTaHxukGyzYNIJyvWGUzOle01tTAWgalCoZoqZ6ZcgK2yzNZGrfyW/vCVKi
+         Cqm3jpwjE0S+sh5WKfhm6aGR9HpoF3H7IOUypLZ8RwI1GxjJa/GYPwQbzgxCpJMUYCBL
+         n9Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715766782; x=1716371582;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1lmRXypy+tgqjJjCBelLKezDGdnEAnnPizIiNZdruM=;
+        b=STI3lunD+XGa4cW5viQKbzNXg/3RiMM0IQ08RA3vikWdglJlnPbLMj80PUtJrX6Sn9
+         8IMXJ5qyKosMdto9RH36hlp3DfJ3ecWQSy1KGYfjM5LRBeU+sVZlX5UcP9UwKFFMa0sF
+         TFpHHM0To2WNPzmNHPn3ktGxvpYQWs1tW7JNry6M+2g4hYcCd9xRLcvIEXsHNH1GKHjC
+         BQkcmOCriH7d0PuRHYmprlfGwQqH40KqQwR7/TvZ5mQ8CKZx7VytKslRRjJ/mxZ3aQi9
+         vBibJE5m5oUwXdcdXDKdJeCFYizKUspVRuoVKjtkABNIlpCEOlPveSJY+lVc/1N9kpRv
+         TJBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWx9D9FDIuqQYDl1IRgHUbqObKi/lIZffwZszsPjABiDHd8Q4IJ0S8gfGrpzlfbfbf+zuTDq/xoQZJEDz6yTF/QFu1+maGovPGrAs0=
+X-Gm-Message-State: AOJu0YxdFxHIS4ZICCHzZdHABZCKhFrQYMJPjB63mRWIEmUc1BGaV3ub
+	OV2OcgU1Lv9LVGRsKeDRqk1c/U+X7zqxIFG4fDBE8uF6AwKnRFFu4koXk2gNjCY=
+X-Google-Smtp-Source: AGHT+IHJ/nIQ9Mj+hR5RkGPoGTlj6+iE5Zdg+QT5yPe2HHYjGXYAnkxMww7zPjsNTDTMLKdw2VFCRA==
+X-Received: by 2002:a50:f699:0:b0:56e:f64:aaf6 with SMTP id 4fb4d7f45d1cf-5734d5c16dfmr11167023a12.5.1715766781663;
+        Wed, 15 May 2024 02:53:01 -0700 (PDT)
+Received: from [192.168.0.245] ([62.73.69.208])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733bebb687sm8592378a12.25.2024.05.15.02.52.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 May 2024 02:53:01 -0700 (PDT)
+Message-ID: <0e5007fb-2d95-4cbb-b0a6-baa0d20e9469@blackwall.org>
+Date: Wed, 15 May 2024 12:52:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,142 +76,179 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
-To: Hans Verkuil <hverkuil@xs4all.nl>, Shengjiu Wang
- <shengjiu.wang@gmail.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.de>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
- <20240430172752.20ffcd56@sal.lan> <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk>
- <87sez0k661.wl-tiwai@suse.de> <20240502095956.0a8c5b26@sal.lan>
- <20240502102643.4ee7f6c2@sal.lan> <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
- <20240503094225.47fe4836@sal.lan>
- <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
- <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
- <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
- <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
- <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
- <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
- <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
- <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
- <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
- <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
- <c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl>
-From: Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH net-next v9 12/14] net: add SO_DEVMEM_DONTNEED setsockopt
+ to release RX frags
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-13-almasrymina@google.com>
 Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20240510232128.1105145-13-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15. 05. 24 11:17, Hans Verkuil wrote:
-> Hi Jaroslav,
+On 11/05/2024 02:21, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for reuse.
 > 
-> On 5/13/24 13:56, Jaroslav Kysela wrote:
->> On 09. 05. 24 13:13, Jaroslav Kysela wrote:
->>> On 09. 05. 24 12:44, Shengjiu Wang wrote:
->>>>>> mem2mem is just like the decoder in the compress pipeline. which is
->>>>>> one of the components in the pipeline.
->>>>>
->>>>> I was thinking of loopback with endpoints using compress streams,
->>>>> without physical endpoint, something like:
->>>>>
->>>>> compress playback (to feed data from userspace) -> DSP (processing) ->
->>>>> compress capture (send data back to userspace)
->>>>>
->>>>> Unless I'm missing something, you should be able to process data as fast
->>>>> as you can feed it and consume it in such case.
->>>>>
->>>>
->>>> Actually in the beginning I tried this,  but it did not work well.
->>>> ALSA needs time control for playback and capture, playback and capture
->>>> needs to synchronize.  Usually the playback and capture pipeline is
->>>> independent in ALSA design,  but in this case, the playback and capture
->>>> should synchronize, they are not independent.
->>>
->>> The core compress API core no strict timing constraints. You can eventually0
->>> have two half-duplex compress devices, if you like to have really independent
->>> mechanism. If something is missing in API, you can extend this API (like to
->>> inform the user space that it's a producer/consumer processing without any
->>> relation to the real time). I like this idea.
->>
->> I was thinking more about this. If I am right, the mentioned use in gstreamer
->> is supposed to run the conversion (DSP) job in "one shot" (can be handled
->> using one system call like blocking ioctl).  The goal is just to offload the
->> CPU work to the DSP (co-processor). If there are no requirements for the
->> queuing, we can implement this ioctl in the compress ALSA API easily using the
->> data management through the dma-buf API. We can eventually define a new
->> direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so to allow
->> handle this new data scheme. The API may be extended later on real demand, of
->> course.
->>
->> Otherwise all pieces are already in the current ALSA compress API
->> (capabilities, params, enumeration). The realtime controls may be created
->> using ALSA control API.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 > 
-> So does this mean that Shengjiu should attempt to use this ALSA approach first?
+> ---
+> 
+> v7:
+> - Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
+> 
+> v6:
+> - Squash in locking optimizations from edumazet@google.com. With his
+>   changes we lock the xarray once per sock_devmem_dontneed operation
+>   rather than once per frag.
+> 
+> Changes in v1:
+> - devmemtoken -> dmabuf_token (David).
+> - Use napi_pp_put_page() for refcounting (Yunsheng).
+> - Fix build error with missing socket options on other asms.
+> 
+> ---
+>  arch/alpha/include/uapi/asm/socket.h  |  1 +
+>  arch/mips/include/uapi/asm/socket.h   |  1 +
+>  arch/parisc/include/uapi/asm/socket.h |  1 +
+>  arch/sparc/include/uapi/asm/socket.h  |  1 +
+>  include/uapi/asm-generic/socket.h     |  1 +
+>  include/uapi/linux/uio.h              |  4 ++
+>  net/core/sock.c                       | 61 +++++++++++++++++++++++++++
+>  7 files changed, 70 insertions(+)
+> 
+[snip]
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index 8d6e638b5426d..2edb988259e8d 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -124,6 +124,7 @@
+>  #include <linux/netdevice.h>
+>  #include <net/protocol.h>
+>  #include <linux/skbuff.h>
+> +#include <linux/skbuff_ref.h>
+>  #include <net/net_namespace.h>
+>  #include <net/request_sock.h>
+>  #include <net/sock.h>
+> @@ -1049,6 +1050,62 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_PAGE_POOL
+> +static noinline_for_stack int
+> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
+> +{
+> +	unsigned int num_tokens, i, j, k, netmem_num = 0;
+> +	struct dmabuf_token *tokens;
+> +	netmem_ref netmems[16];
+> +	int ret;
+> +
+> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
+> +		return -EBADF;
+> +
+> +	if (optlen % sizeof(struct dmabuf_token) ||
+> +	    optlen > sizeof(*tokens) * 128)
+> +		return -EINVAL;
+> +
+> +	tokens = kvmalloc_array(128, sizeof(*tokens), GFP_KERNEL);
+> +	if (!tokens)
+> +		return -ENOMEM;
+> +
+> +	num_tokens = optlen / sizeof(struct dmabuf_token);
+> +	if (copy_from_sockptr(tokens, optval, optlen))
+> +		return -EFAULT;
 
-I've not seen any argument to use v4l2 mem2mem buffer scheme for this data 
-conversion forcefully. It looks like a simple job and ALSA APIs may be 
-extended for this simple purpose.
+tokens isn't freed in this error case
 
-Shengjiu, what are your requirements for gstreamer support? Would be a new 
-blocking ioctl enough for the initial support in the compress ALSA API?
-
-						Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+> +
+> +	ret = 0;
+> +
+> +	xa_lock_bh(&sk->sk_user_frags);
+> +	for (i = 0; i < num_tokens; i++) {
+> +		for (j = 0; j < tokens[i].token_count; j++) {
+> +			netmem_ref netmem = (__force netmem_ref)__xa_erase(
+> +				&sk->sk_user_frags, tokens[i].token_start + j);
+> +
+> +			if (netmem &&
+> +			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
+> +				netmems[netmem_num++] = netmem;
+> +				if (netmem_num == ARRAY_SIZE(netmems)) {
+> +					xa_unlock_bh(&sk->sk_user_frags);
+> +					for (k = 0; k < netmem_num; k++)
+> +						WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
+> +					netmem_num = 0;
+> +					xa_lock_bh(&sk->sk_user_frags);
+> +				}
+> +				ret++;
+> +			}
+> +		}
+> +	}
+> +
+> +	xa_unlock_bh(&sk->sk_user_frags);
+> +	for (k = 0; k < netmem_num; k++)
+> +		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
+> +
+> +	kvfree(tokens);
+> +	return ret;
+> +}
+> +#endif
+> +
+>  void sockopt_lock_sock(struct sock *sk)
+>  {
+>  	/* When current->bpf_ctx is set, the setsockopt is called from
+> @@ -1200,6 +1257,10 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
+>  			ret = -EOPNOTSUPP;
+>  		return ret;
+>  		}
+> +#ifdef CONFIG_PAGE_POOL
+> +	case SO_DEVMEM_DONTNEED:
+> +		return sock_devmem_dontneed(sk, optval, optlen);
+> +#endif
+>  	}
+>  
+>  	sockopt_lock_sock(sk);
 
 
