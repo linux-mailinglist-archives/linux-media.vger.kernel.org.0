@@ -1,338 +1,239 @@
-Return-Path: <linux-media+bounces-11480-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8409B8C65B9
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 13:26:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED398C676D
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 15:35:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39E50283CE7
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 11:26:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC8FCB21AC4
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 13:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AEB76033;
-	Wed, 15 May 2024 11:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1200A85C6F;
+	Wed, 15 May 2024 13:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="XTraS+Ia"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QH1iQLTf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D626EB55;
-	Wed, 15 May 2024 11:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E444585C4E;
+	Wed, 15 May 2024 13:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715772331; cv=none; b=L8m1Eh8dOwyqYj9IAhgI4MsmzOii0UYlM0uPkplAYGWfmTFXxO8GgefnysU/ZwWck64DW0SSWNjE4rEEUnorD7Tk+xn+ED8Wgkl/BhSZHUSyQ6zLSurryAMcZ9GBgtxbroWvjZHR7jQYCWBzoSVCbtMTUXWdjcKCCowDMum9R9I=
+	t=1715780097; cv=none; b=t6lgLZGirKoV6pe1Axc1F/pby+czFZ8CDgYQRBGchF5pZskT86Ox+eMBQ6PDugtrLzdPSFB2QxkkrFBeP2pcm9j1nXakX7QHnjKpjH2XGH0SGk8vc4/LGzVJ3Q5OLiwXNIrzPq6yD+USsY45kU6+pVBYe8sAnxVKcC95ZupJOFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715772331; c=relaxed/simple;
-	bh=0LqFjAIjsAuQUoO9CBziVYMXRN16bN6eWv52dYNZA04=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cU5truB72YW63x+IfwXWtVOOE8YJzeeWO+vlXgsr0QP8kEmx8/wpG/BhWKq8Tj1Db8Efxa559+5LBrgk0209wzWUq70/+io/zH5VPElU8mH2itb+KQ/Pkqq4rAeM9/55/egi41xZyPeEeoYLMCWuxKfgPUu28wyH9jk+kXdwucU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=XTraS+Ia; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: d119445c12ad11efb92737409a0e9459-20240515
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=pRII+MwEMjc7IBIb7T65bLDNnOYGy8L1r5/7E1ySfEk=;
-	b=XTraS+Ia6U18kmDn890Uqw9sPEXJ3+G4x6Z4OJ9YFg2lLlvgPEoe4++0PR+c03dyKyqhMYz+VY56NyruHhFskQFY42k1jFiHTACtCglSm/Ws38y9HGTZcz3mLa3px67WfHumiqlHs6HYMJq8Z8NBDsplHWxfc/o9ZcI+EkdHJSk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:ffd7906c-23c2-49b4-90b3-c4a06efc92bb,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:82c5f88,CLOUDID:bb2ce383-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: d119445c12ad11efb92737409a0e9459-20240515
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 75818985; Wed, 15 May 2024 19:25:21 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 15 May 2024 19:25:20 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 15 May 2024 19:25:19 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, <christian.koenig@amd.com>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Andrew Morton <akpm@linux-foundation.org>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
-	<tjmercier@google.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Yong Wu <yong.wu@mediatek.com>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>, Joakim Bech
-	<joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, Pavel
- Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, Pekka Paalanen
-	<ppaalanen@gmail.com>, <willy@infradead.org>, Logan Gunthorpe
-	<logang@deltatee.com>, Daniel Vetter <daniel@ffwll.ch>,
-	<jianjiao.zeng@mediatek.com>, <kuohong.wang@mediatek.com>,
-	<youlin.pei@mediatek.com>
-Subject: [PATCH v5 9/9] dma_buf: heaps: restricted_heap_mtk: Add a new CMA heap
-Date: Wed, 15 May 2024 19:23:08 +0800
-Message-ID: <20240515112308.10171-10-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240515112308.10171-1-yong.wu@mediatek.com>
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
+	s=arc-20240116; t=1715780097; c=relaxed/simple;
+	bh=I+RNBBkXNRun6dwlq79VjFtLu9GasAAvP0Ewzfa3yQQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NxQcnTWyPbTbZrSXPPI+EG5ujjZciN+WA+GzYxGqwhHDZ9CoHuraStfJIqKPA7uiUQLRwgdy6p+bDDrrJ2B/8Xi30r3YAXi+1h/7XM6v8tAc5rbfimdxii7FrWadNYUm3a+5g7I9mvoZe0/BA1+s55lIKMxHEDKiVJrlYuatHr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QH1iQLTf; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-36c5d26045bso776215ab.0;
+        Wed, 15 May 2024 06:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715780095; x=1716384895; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qKaNiR2tHzqJJTEKvrwnceIlUex2fFxFPfEzvQnl9LY=;
+        b=QH1iQLTflmCophRmBFBBl4ukDwEbt/Ts73+w6sU2TexKo4VBBECHaBt2Ic0L8JMD44
+         p+zMQZaRqBdLfvcz1MkMB053v/DRG4BoMFsZRMmQ8lzJgWmMeQrQNA+6NY4PFNs+dGf6
+         pEbyVR4SJy6QvosK5RX1rfjXHCkzlkgC06/EhIqZguIlgY16ly/g2beiOKVseo7QBz8a
+         vQQ+JP5U5PW0N4C2LAwPPgTxZ+Cz4pb1EjXuXsUOVpa2Rhkat1wRTQ0Iv71kO41BUwGc
+         pI+ef2gsJ4Zpkc4zOIB1xeegM1n8NQu0ywRAytS6kZnDisnVyzH7kq5S+1EhX+FlkyFv
+         CDmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715780095; x=1716384895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qKaNiR2tHzqJJTEKvrwnceIlUex2fFxFPfEzvQnl9LY=;
+        b=EV/+EeDX/kaK1LYCmw65TsCC5C26odakQcPZBWVterPMTE9gp/9OAsP30EbZROk4xc
+         Tg2aEGXy46UDDqusYWd15pI8VEPA1CUDGC2MD4mohjspdS6Mog21wsO+sdcjHP/1ZoL+
+         uMBAeGyLawzJyfpkFgG2VQXljBClRIc1+HeOxH4PyaRyCChF6qk44cdwdVfSexKfdX+w
+         ku15KOMDUPA+gWcK2sIq0wEiJ24qxAYDaEl8lwSys9/8W1tpDtg6BO0EpsgyMROsLDrI
+         Zky6vxhzLaIq4YINflWPso+4E86y02asde2I2zM6pMFmmGpng1Fxhcf7mJ6P8hSZJ6I/
+         UxhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtOaxB5HJLtzv3TVxgdN13wJgU5KP/xEljUJA1cnHFfn+HmBLHL7HSjwjYWXmR8rRaLXk1PEPRybC86Dwf7DgsAhDYzKs8Q92ZlKechkrF9rThwF2BfcxcJ07SRihuWKRq5HEYn2Hvv3A=
+X-Gm-Message-State: AOJu0YxTb+q1oLrQf5mAov9H4wxnZu6yhi96kyvqfBR9U5SDtGCUQGwD
+	/ceDiaYvcf7SLICXBSLN7kNfWSkCHfDtHL7gJnReYmDtw1+hxRVN3nL7xdaM8TkbFsBwxxGzu5o
+	6VB0F8E61FpaF2L6J4P0M81th3AE=
+X-Google-Smtp-Source: AGHT+IHfRlOUxQoum9oYFbcfElme0a98PvIrTeymgurRG3pRPNQgq34N6O3Htci09zrMSFYrILhaT785x6RkUCQvVK8=
+X-Received: by 2002:a05:6e02:12cd:b0:36c:c536:80dd with SMTP id
+ e9e14a558f8ab-36cc536824dmr181987035ab.11.1715780095030; Wed, 15 May 2024
+ 06:34:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <87sez0k661.wl-tiwai@suse.de> <20240502095956.0a8c5b26@sal.lan>
+ <20240502102643.4ee7f6c2@sal.lan> <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk>
+ <20240503094225.47fe4836@sal.lan> <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+ <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl> <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+ <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
+ <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com> <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
+ <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com> <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
+ <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz> <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
+ <c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl> <8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz>
+ <87o7975qcw.wl-tiwai@suse.de> <e63ec6c8-7da7-4b87-b7ff-a71ff12dcfc1@perex.cz>
+In-Reply-To: <e63ec6c8-7da7-4b87-b7ff-a71ff12dcfc1@perex.cz>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 15 May 2024 21:34:43 +0800
+Message-ID: <CAA+D8AOj2ZkiSg2sXfQypg-xc4f8dMykENu5GoGMx6REGu+WBQ@mail.gmail.com>
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	=?UTF-8?B?QW1hZGV1c3ogU8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Create a new MediaTek CMA heap from the CMA reserved buffer.
+On Wed, May 15, 2024 at 6:46=E2=80=AFPM Jaroslav Kysela <perex@perex.cz> wr=
+ote:
+>
+> On 15. 05. 24 12:19, Takashi Iwai wrote:
+> > On Wed, 15 May 2024 11:50:52 +0200,
+> > Jaroslav Kysela wrote:
+> >>
+> >> On 15. 05. 24 11:17, Hans Verkuil wrote:
+> >>> Hi Jaroslav,
+> >>>
+> >>> On 5/13/24 13:56, Jaroslav Kysela wrote:
+> >>>> On 09. 05. 24 13:13, Jaroslav Kysela wrote:
+> >>>>> On 09. 05. 24 12:44, Shengjiu Wang wrote:
+> >>>>>>>> mem2mem is just like the decoder in the compress pipeline. which=
+ is
+> >>>>>>>> one of the components in the pipeline.
+> >>>>>>>
+> >>>>>>> I was thinking of loopback with endpoints using compress streams,
+> >>>>>>> without physical endpoint, something like:
+> >>>>>>>
+> >>>>>>> compress playback (to feed data from userspace) -> DSP (processin=
+g) ->
+> >>>>>>> compress capture (send data back to userspace)
+> >>>>>>>
+> >>>>>>> Unless I'm missing something, you should be able to process data =
+as fast
+> >>>>>>> as you can feed it and consume it in such case.
+> >>>>>>>
+> >>>>>>
+> >>>>>> Actually in the beginning I tried this,  but it did not work well.
+> >>>>>> ALSA needs time control for playback and capture, playback and cap=
+ture
+> >>>>>> needs to synchronize.  Usually the playback and capture pipeline i=
+s
+> >>>>>> independent in ALSA design,  but in this case, the playback and ca=
+pture
+> >>>>>> should synchronize, they are not independent.
+> >>>>>
+> >>>>> The core compress API core no strict timing constraints. You can ev=
+entually0
+> >>>>> have two half-duplex compress devices, if you like to have really i=
+ndependent
+> >>>>> mechanism. If something is missing in API, you can extend this API =
+(like to
+> >>>>> inform the user space that it's a producer/consumer processing with=
+out any
+> >>>>> relation to the real time). I like this idea.
+> >>>>
+> >>>> I was thinking more about this. If I am right, the mentioned use in =
+gstreamer
+> >>>> is supposed to run the conversion (DSP) job in "one shot" (can be ha=
+ndled
+> >>>> using one system call like blocking ioctl).  The goal is just to off=
+load the
+> >>>> CPU work to the DSP (co-processor). If there are no requirements for=
+ the
+> >>>> queuing, we can implement this ioctl in the compress ALSA API easily=
+ using the
+> >>>> data management through the dma-buf API. We can eventually define a =
+new
+> >>>> direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so=
+ to allow
+> >>>> handle this new data scheme. The API may be extended later on real d=
+emand, of
+> >>>> course.
+> >>>>
+> >>>> Otherwise all pieces are already in the current ALSA compress API
+> >>>> (capabilities, params, enumeration). The realtime controls may be cr=
+eated
+> >>>> using ALSA control API.
+> >>>
+> >>> So does this mean that Shengjiu should attempt to use this ALSA appro=
+ach first?
+> >>
+> >> I've not seen any argument to use v4l2 mem2mem buffer scheme for this
+> >> data conversion forcefully. It looks like a simple job and ALSA APIs
+> >> may be extended for this simple purpose.
+> >>
+> >> Shengjiu, what are your requirements for gstreamer support? Would be a
+> >> new blocking ioctl enough for the initial support in the compress ALSA
+> >> API?
+> >
+> > If it works with compress API, it'd be great, yeah.
+> > So, your idea is to open compress-offload devices for read and write,
+> > then and let them convert a la batch jobs without timing control?
+> >
+> > For full-duplex usages, we might need some more extensions, so that
+> > both read and write parameters can be synchronized.  (So far the
+> > compress stream is a unidirectional, and the runtime buffer for a
+> > single stream.)
+> >
+> > And the buffer management is based on the fixed size fragments.  I
+> > hope this doesn't matter much for the intended operation?
+>
+> It's a question, if the standard I/O is really required for this case. My
+> quick idea was to just implement a new "direction" for this job supportin=
+g
+> only one ioctl for the data processing which will execute the job in "one
+> shot" at the moment. The I/O may be handled through dma-buf API (which se=
+ems
+> to be standard nowadays for this purpose and allows future chaining).
+>
+> So something like:
+>
+> struct dsp_job {
+>     int source_fd;     /* dma-buf FD with source data - for dma_buf_get()=
+ */
+>     int target_fd;     /* dma-buf FD for target data - for dma_buf_get() =
+*/
+>     ... maybe some extra data size members here ...
+>     ... maybe some special parameters here ...
+> };
+>
+> #define SNDRV_COMPRESS_DSPJOB _IOWR('C', 0x60, struct dsp_job)
+>
+> This ioctl will be blocking (thus synced). My question is, if it's feasib=
+le
+> for gstreamer or not. For this particular case, if the rate conversion is
+> implemented in software, it will block the gstreamer data processing, too=
+.
+>
 
-In this heap, When the first allocating buffer, use cma_alloc to prepare
-whole the CMA range, then send its range to TEE to protect and manage.
-For the later allocating, we just adds the cma_used_size.
+Thanks.
 
-When SVP done, cma_release will release the buffer, then kernel may
-reuse it.
+I have several questions:
+1.  Compress API alway binds to a sound card.  Can we avoid that?
+     For ASRC, it is just one component,
 
-For the "CMA" restricted heap, "struct cma *cma" is a common property,
-not just for MediaTek, so put it into "struct restricted_heap" instead of
-our private data.
+2.  Compress API doesn't seem to support mmap().  Is this a problem
+     for sending and getting data to/from the driver?
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
- drivers/dma-buf/heaps/Kconfig               |   2 +-
- drivers/dma-buf/heaps/restricted_heap.h     |   4 +
- drivers/dma-buf/heaps/restricted_heap_mtk.c | 121 +++++++++++++++++++-
- 3 files changed, 123 insertions(+), 4 deletions(-)
+3. How does the user get output data from ASRC after each conversion?
+   it should happen every period.
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 84f748fb2856..58903bc62ac8 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -24,7 +24,7 @@ config DMABUF_HEAPS_RESTRICTED
- 
- config DMABUF_HEAPS_RESTRICTED_MTK
- 	bool "MediaTek DMA-BUF Restricted Heap"
--	depends on DMABUF_HEAPS_RESTRICTED && TEE=y
-+	depends on DMABUF_HEAPS_RESTRICTED && DMA_CMA && TEE=y
- 	help
- 	  Enable restricted dma-buf heaps for MediaTek platform. This heap is backed by
- 	  TEE client interfaces. If in doubt, say N.
-diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
-index 8cb9211093c5..7dec4b8a471b 100644
---- a/drivers/dma-buf/heaps/restricted_heap.h
-+++ b/drivers/dma-buf/heaps/restricted_heap.h
-@@ -23,6 +23,10 @@ struct restricted_heap {
- 
- 	const struct restricted_heap_ops *ops;
- 
-+	struct cma		*cma;
-+	unsigned long		cma_paddr;
-+	unsigned long		cma_size;
-+
- 	void			*priv_data;
- };
- 
-diff --git a/drivers/dma-buf/heaps/restricted_heap_mtk.c b/drivers/dma-buf/heaps/restricted_heap_mtk.c
-index e571eae719e0..6d8119828485 100644
---- a/drivers/dma-buf/heaps/restricted_heap_mtk.c
-+++ b/drivers/dma-buf/heaps/restricted_heap_mtk.c
-@@ -6,9 +6,11 @@
-  */
- #define pr_fmt(fmt)     "rheap_mtk: " fmt
- 
-+#include <linux/cma.h>
- #include <linux/dma-buf.h>
- #include <linux/err.h>
- #include <linux/module.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/slab.h>
- #include <linux/tee_drv.h>
- #include <linux/uuid.h>
-@@ -25,6 +27,13 @@ enum mtk_secure_mem_type {
- 	 * management is inside the TEE.
- 	 */
- 	MTK_SECURE_MEMORY_TYPE_CM_TZ	= 1,
-+	/*
-+	 * MediaTek dynamic chunk memory carved out from CMA.
-+	 * In normal case, the CMA could be used in kernel; When SVP start, we will
-+	 * allocate whole this CMA and pass whole the CMA PA and size into TEE to
-+	 * protect it, then the detail memory management also is inside the TEE.
-+	 */
-+	MTK_SECURE_MEMORY_TYPE_CM_CMA	= 2,
- };
- 
- /* This structure also is synchronized with tee, thus not use the phys_addr_t */
-@@ -40,7 +49,8 @@ enum mtk_secure_buffer_tee_cmd {
- 	 * [in]  value[0].a: The buffer size.
- 	 *       value[0].b: alignment.
- 	 * [in]  value[1].a: enum mtk_secure_mem_type.
--	 * [inout]
-+	 * [inout] [in]  value[2].a: pa base in cma case.
-+	 *               value[2].b: The buffer size in cma case.
- 	 *         [out] value[2].a: entry number of memory block.
- 	 *                           If this is 1, it means the memory is continuous.
- 	 *               value[2].b: buffer PA base.
-@@ -73,6 +83,9 @@ struct mtk_restricted_heap_data {
- 
- 	const enum mtk_secure_mem_type mem_type;
- 
-+	struct page		*cma_page;
-+	unsigned long		cma_used_size;
-+	struct mutex		lock; /* lock for cma_used_size */
- };
- 
- static int mtk_tee_ctx_match(struct tee_ioctl_version_data *ver, const void *data)
-@@ -173,6 +186,10 @@ static int mtk_tee_restrict_memory(struct restricted_heap *rheap, struct restric
- 	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
- 	params[1].u.value.a = data->mem_type;
- 	params[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT;
-+	if (rheap->cma && data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA) {
-+		params[2].u.value.a = rheap->cma_paddr;
-+		params[2].u.value.b = rheap->cma_size;
-+	}
- 	params[3].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
- 	ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
- 				   MTK_TZCMD_SECMEM_ZALLOC, params);
-@@ -265,6 +282,48 @@ mtk_restricted_memory_free(struct restricted_heap *rheap, struct restricted_buff
- {
- }
- 
-+static int mtk_restricted_memory_cma_allocate(struct restricted_heap *rheap,
-+					      struct restricted_buffer *buf)
-+{
-+	struct mtk_restricted_heap_data *data = rheap->priv_data;
-+	int ret = 0;
-+	/*
-+	 * Allocate CMA only when allocating buffer for the first time, and just
-+	 * increase cma_used_size at the other time, Actually the memory
-+	 * allocating is within the TEE.
-+	 */
-+	mutex_lock(&data->lock);
-+	if (!data->cma_used_size) {
-+		data->cma_page = cma_alloc(rheap->cma, rheap->cma_size >> PAGE_SHIFT,
-+					   get_order(PAGE_SIZE), false);
-+		if (!data->cma_page) {
-+			ret = -ENOMEM;
-+			goto out_unlock;
-+		}
-+	} else if (data->cma_used_size + buf->size > rheap->cma_size) {
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+	data->cma_used_size += buf->size;
-+
-+out_unlock:
-+	mutex_unlock(&data->lock);
-+	return ret;
-+}
-+
-+static void mtk_restricted_memory_cma_free(struct restricted_heap *rheap,
-+					   struct restricted_buffer *buf)
-+{
-+	struct mtk_restricted_heap_data *data = rheap->priv_data;
-+
-+	mutex_lock(&data->lock);
-+	data->cma_used_size -= buf->size;
-+	if (!data->cma_used_size)
-+		cma_release(rheap->cma, data->cma_page,
-+			    rheap->cma_size >> PAGE_SHIFT);
-+	mutex_unlock(&data->lock);
-+}
-+
- static int mtk_restricted_heap_init(struct restricted_heap *rheap)
- {
- 	struct mtk_restricted_heap_data *data = rheap->priv_data;
-@@ -286,21 +345,77 @@ static struct mtk_restricted_heap_data mtk_restricted_heap_data = {
- 	.mem_type		= MTK_SECURE_MEMORY_TYPE_CM_TZ,
- };
- 
-+static const struct restricted_heap_ops mtk_restricted_heap_ops_cma = {
-+	.heap_init		= mtk_restricted_heap_init,
-+	.alloc			= mtk_restricted_memory_cma_allocate,
-+	.free			= mtk_restricted_memory_cma_free,
-+	.restrict_buf		= mtk_tee_restrict_memory,
-+	.unrestrict_buf		= mtk_tee_unrestrict_memory,
-+};
-+
-+static struct mtk_restricted_heap_data mtk_restricted_heap_data_cma = {
-+	.mem_type		= MTK_SECURE_MEMORY_TYPE_CM_CMA,
-+};
-+
- static struct restricted_heap mtk_restricted_heaps[] = {
- 	{
- 		.name		= "restricted_mtk_cm",
- 		.ops		= &mtk_restricted_heap_ops,
- 		.priv_data	= &mtk_restricted_heap_data,
- 	},
-+	{
-+		.name		= "restricted_mtk_cma",
-+		.ops		= &mtk_restricted_heap_ops_cma,
-+		.priv_data	= &mtk_restricted_heap_data_cma,
-+	},
- };
- 
-+static int __init mtk_restricted_cma_init(struct reserved_mem *rmem)
-+{
-+	struct restricted_heap *rheap = mtk_restricted_heaps, *rheap_cma = NULL;
-+	struct mtk_restricted_heap_data *data;
-+	struct cma *cma;
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++) {
-+		data = rheap->priv_data;
-+		if (data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA) {
-+			rheap_cma = rheap;
-+			break;
-+		}
-+	}
-+	if (!rheap_cma)
-+		return -EINVAL;
-+
-+	ret = cma_init_reserved_mem(rmem->base, rmem->size, 0, rmem->name,
-+				    &cma);
-+	if (ret) {
-+		pr_err("%s: %s set up CMA fail. ret %d.\n", __func__, rmem->name, ret);
-+		return ret;
-+	}
-+
-+	rheap_cma->cma = cma;
-+	rheap_cma->cma_paddr = rmem->base;
-+	rheap_cma->cma_size = rmem->size;
-+	return 0;
-+}
-+
-+RESERVEDMEM_OF_DECLARE(restricted_cma, "mediatek,dynamic-restricted-region",
-+		       mtk_restricted_cma_init);
-+
- static int mtk_restricted_heap_initialize(void)
- {
- 	struct restricted_heap *rheap = mtk_restricted_heaps;
-+	struct mtk_restricted_heap_data *data;
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++)
--		restricted_heap_add(rheap);
-+	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++) {
-+		data = rheap->priv_data;
-+		if (data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA && !rheap->cma)
-+			continue;
-+		if (!restricted_heap_add(rheap))
-+			mutex_init(&data->lock);
-+	}
- 	return 0;
- }
- module_init(mtk_restricted_heap_initialize);
--- 
-2.25.1
-
+best regards
+Shengjiu Wang.
 
