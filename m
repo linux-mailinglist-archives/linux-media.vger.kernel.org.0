@@ -1,124 +1,106 @@
-Return-Path: <linux-media+bounces-11457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11458-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9968C5C83
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 22:53:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1268C5EF7
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 03:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B120E1C2177A
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2024 20:53:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E74A22829DB
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 01:49:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC2717BB0D;
-	Tue, 14 May 2024 20:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iXEz4+77"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3AF3B78D;
+	Wed, 15 May 2024 01:48:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FAD1DDD6;
-	Tue, 14 May 2024 20:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8931374FB
+	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 01:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715719972; cv=none; b=MQhzR/W3NWjsMMOlZ8GXUc9xs9F1xIO5cjMnTfXg5789W1oQLIyRo+MePJ6LFSEOuplXQYmX45H+5WONOSvCFmaVwZuaOcZAu0D447jcyEPYU8mfmaHHZEn/sx58H2wFSsW5K6snQCFSdsuncB5S0htwbM9U8UR1VmQwz+B2nc4=
+	t=1715737701; cv=none; b=RqZruz7J04hGFj3wvbYSjlTrm4ZBPWCYEZ1nNIO0CrPxnnEcxvtu2pGfc1AX4OxcMInl44GnLlAqAELf9GD8uDYyIdhgbY666Arwl3XDHYIB6j7zdltabIN1xVB11aH6ELAPLRAtVzWq7PO9H3wYebiI7Ko8ednRKTFU1216RkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715719972; c=relaxed/simple;
-	bh=qsQGlGLL57EANB+PD3QWFhzfQ0h2NlQAwY4ihQBaf84=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iWLvEDJ01rK9flMbKkB59Qm0ZwJiJUJ3ENPvFxfAplUqeiPbS5SJJXCtjgwPbZbOxnVvHgY1r5qaSrc9R1EKVpGA99aYsYdWNQE3ttI9Ffc1mRi0o+brmjRmwPzC3BVV3ClSprZ/CH88zO1vgwOYN8polQPhndWzs2tz9yB0h14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iXEz4+77; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715719969;
-	bh=qsQGlGLL57EANB+PD3QWFhzfQ0h2NlQAwY4ihQBaf84=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=iXEz4+77kjBQZcqLz2JN2TfJQ3s3IcQceYBD2VJL4NRlL/yj80BDCJBkJsBLXRu0L
-	 aJv9Njy0cFiflekirHQ0F6kNKlfzIW4P2nHOParnFoDnpXhn+V+tYR6KHPMib8bEwD
-	 SFJ7qPZi99LI5QScwrvueXarRnFbNLGsMcQH52XEdKJ54L0tpdlF5yRMEl1T/xhj92
-	 Pqgjiw4sX/f1THvCnxu/OsBTJFrPdQ2ZeQnSL+YXDRHdy8F/pGwt80r/FJ8XKzXsCC
-	 krLF/OfYAQFCCVdFDgVGBn8fZbOCGj6Ja+frzw6P7IRtqSZ+/pg6M2pK1zWM0Mxnub
-	 bmtwnmaNxkKQg==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9700B37810EF;
-	Tue, 14 May 2024 20:52:46 +0000 (UTC)
-Message-ID: <a3a5852587a3a463068b5d45e89e9624e50eb3fe.camel@collabora.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
- users (udev uaccess tag) ?
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
- Poettering <mzxreary@0pointer.de>,  Robert Mader
- <robert.mader@collabora.com>, Sebastien Bacher
- <sebastien.bacher@canonical.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
- <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Date: Tue, 14 May 2024 16:52:40 -0400
-In-Reply-To: <20240514204500.GO32013@pendragon.ideasonboard.com>
-References: 
-	<e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
-	 <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
-	 <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
-	 <20240507183613.GB20390@pendragon.ideasonboard.com>
-	 <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
-	 <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
-	 <20240513-heretic-didactic-newt-1d6daf@penduick>
-	 <dacacb862275cd7a588c5fcc56fd6c1d85538d12.camel@collabora.com>
-	 <20240513-auspicious-toucanet-from-heaven-f313af@penduick>
-	 <643c6d3da9c7f45c32e01dd7179681117557ed4d.camel@collabora.com>
-	 <20240514204500.GO32013@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	s=arc-20240116; t=1715737701; c=relaxed/simple;
+	bh=UL3uRd0e/1E9PDgDBsMMAAFNttUb965dlnkry3uSNAs=;
+	h=Date:From:To:Subject:Message-Id; b=h4uCvfOPV5E5zu7RRSnnfAYnPanL7tMNmQSjJaLLQApNLbuca7/RZQnUFDvRlLgN9qt7ya6DMC8RLR4J2YXLTsLp206Bt9W4Wa63eoUGN89Hp/Z1FLJoueINLVQJ4kAIuq08Jmm9oQZwb8t5h/DRaxRHIH01CbaAdgLoYHWvvx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24F8C2BD10
+	for <linux-media@vger.kernel.org>; Wed, 15 May 2024 01:48:20 +0000 (UTC)
+Date: Wed, 15 May 2024 03:48:18 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20240515014820.A24F8C2BD10@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Le mardi 14 mai 2024 =C3=A0 23:45 +0300, Laurent Pinchart a =C3=A9crit=C2=
-=A0:
-> > And finally, none of this fixes the issue that the heap allocation are =
-not being
-> > accounted properly and allow of an easy memory DoS. So uaccess should b=
-e granted
-> > with care, meaning that defaulting a "desktop" library to that, means i=
-t will
-> > most of the time not work at all.
->=20
-> I think that issue should be fixed, regardless of whether or not we end
-> up using dma heaps for libcamera. If we do use them, maybe there will be
-> a higher incentive for somebody involved in this conversation to tackle
-> that problem first :-) And maybe, as a result, the rest of the Linux
-> community will consider with a more open mind usage of dma heaps on
-> desktop systems.
+Results of the daily build of media_tree:
 
-The strict reality is that if libcamera offer no alternatives, some OS will
-enable it and reduce their security. I totally agree this issue needs to be
-fixed regardless of libcamera, or even dma heaps. DMABuf allocation should =
-be
-accounted and limited to quotas whether it comes from a GPU, Display, V4L2 =
-or
-other type of supported devices. I would also not recommend dropping your h=
-eap
-support (or preventing it from being merged) in libcamera.
+date:			Wed May 15 03:00:22 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	8771b7f31b7fff91a998e6afdb60650d4bac59a5
+v4l-utils git hash:	649f37341d935bc73c3f7854a7c67e98fe55a60e
+edid-decode git hash:	f4b0548cb4b4cdff7947be59ce795b23e60266ed
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8639-gff1cc4d4
+sparse version:		v0.5.0-8639-gff1cc4d4
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3e9c9a50a2489e266e13733b4caff417b4634d71
+host hardware:		x86_64
+host os:		6.5.0-26-generic
 
-Nicolas
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Wed May 15 03:14:13 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+
+date:			Wed May 15 03:47:18 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
