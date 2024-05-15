@@ -1,153 +1,154 @@
-Return-Path: <linux-media+bounces-11491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE378C6820
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 16:00:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2F28C683C
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 16:04:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5DA31F23F3F
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 14:00:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46C2D28169F
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2024 14:04:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 376C31422BC;
-	Wed, 15 May 2024 13:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D99613F422;
+	Wed, 15 May 2024 14:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwfJbMJr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZwY79/UJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE6C1420CC;
-	Wed, 15 May 2024 13:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AD06214D;
+	Wed, 15 May 2024 14:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715781487; cv=none; b=HQVnhEuWKx0IpOtHQC8Djt4NBwxrmJ3bSVwVpZh5+zsX85FNdkv+oj8fOkkexdr9vMic1qCOSQa91EB7yDNfKku9ZfPqGsBWzSFMByfVQ33qypD82WPi31EG4ze/ssqs90AGn8H6JJAgf5/JDxrO/LHBE4342TIxx11D1REyaTU=
+	t=1715781888; cv=none; b=f0kXX0kbCgmr2XGWNfVmE1CSwuw50CYvAm0dm8l8IfctBStPDVNqpWDq+okgU/mnSJn1ag66S8MVrVVh/Y0BJ2BZrFQMeqhDBlgiCS7y3zZGXlZe6AmyiErNl3ifoH18mwJCFVV+Ek6gvhPcyCTalNUmrrLvrfCzPFpnOhfLuMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715781487; c=relaxed/simple;
-	bh=N5UwfZ1hKMI6+ZrGSh9smBi+SvvW9VpZtds2AMuGHos=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=o8D51Wh/k2IJB0Y8ddDaI5l3C1gp2twFCqztAG+1lvm6GtrOp/o3qgZBx4ppqyh4BhqGfHSnHJ+aI/wNlc5eexL37L3MTXRNJya6tXKGiNd22AYt3eqGMlM7jSIdeJb8UrkIfdJizYNT8PvTsw/OaSZ1Cbk3vlcSMpiBGHtydnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwfJbMJr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE3B1C2BD11;
-	Wed, 15 May 2024 13:58:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715781487;
-	bh=N5UwfZ1hKMI6+ZrGSh9smBi+SvvW9VpZtds2AMuGHos=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=TwfJbMJr2eudO50gB4jtqCfWmhQ4amIjE1zaF6WRdIcpHwO5rxvJbZJuVPBjUSigc
-	 8TO0sFjBMWieujTeWTcuXI80s/WdCooRLCshP+Q/b0ITdjgasFFSNbNxExZovj+gwM
-	 MqxQyWjQ9L4GKUH5za52rqgOSxbjtXji1bS6WDBU09KLKF6xXnGxBua7W8KBwKwYTv
-	 kTyJG45a37w38lAwA6FHp1phbWKUmqeti4YPxDNtGMpGRIPOYhZd/GFlbyoIEyxavY
-	 r47jnKx51PjUmobjfH+JRFKkFOOn0ocJkOqbql9gO5OBozz9g9Hmqn6m9vT+dk6kVi
-	 oqdf60asXfERQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 May 2024 15:57:03 +0200
-Subject: [PATCH 8/8] dma-buf: heaps: carveout: Handle ECC flags
+	s=arc-20240116; t=1715781888; c=relaxed/simple;
+	bh=Is9J5YRpNzvklFE+cfQ23ylGaJ3nXqCLhHCxIrAy0f4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BpAEwhHXtgMQeJWvXRw0ezEYu/LT5OcgwXuuOFofMdjvTaJ5Nw2QPpLSzmUIyY1fWdoXzVz7KEn6//x3dhht+l/BY4Zqo6i+hPyD6S6oSdgfsLucSiIIhvyaZsPXube7zTTLI4b/MqxWjbYpfxh/d9SGhzPqbknJzvsgziOzr7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZwY79/UJ; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715781887; x=1747317887;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Is9J5YRpNzvklFE+cfQ23ylGaJ3nXqCLhHCxIrAy0f4=;
+  b=ZwY79/UJODTXIOszgPAvXlQCE2CI+RHkktzaQ6hozv8XtIR+cj7P++B/
+   Ukrtl1Knv2Hvs2pxJeTPV+IbK8jdFBCe0siPMBEiTak303RVReFZFue3Y
+   alUfMac48hun+x0VO7EYb8ZhJzs6u8yXHzFShYmK1PSGVlezPS3YSVcjP
+   k+PEfkKj5vj2/npxoJdWCWZz/RIiwxNLfSHNNwffplHLM2tdllH5y2gzY
+   mxqaSRt0wuiz6wZqS/3QVwtgnhsXCOkTfYwyROZ6Rmfq84rN60fRJmilV
+   XWxA8tXBOVs/PbZZCGDhDCqmKh/nrntH3zzQ2NJJBEjhvEQ/Ac27yJFed
+   A==;
+X-CSE-ConnectionGUID: +MS07ncgTK6Y9I9m1WYj9g==
+X-CSE-MsgGUID: EM2rUlSOTAiVu94RnD8guw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="23234031"
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="23234031"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 07:04:44 -0700
+X-CSE-ConnectionGUID: ureli23YTFOv+UNUpcaPtw==
+X-CSE-MsgGUID: 4mxvp+5zQbCHGtglpG+BDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,162,1712646000"; 
+   d="scan'208";a="35778478"
+Received: from wtcline-desk12.amr.corp.intel.com (HELO [10.125.108.49]) ([10.125.108.49])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 07:04:42 -0700
+Message-ID: <4170720a-f7bb-484e-9235-a8720cec92c1@linux.intel.com>
+Date: Wed, 15 May 2024 09:04:41 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-dma-buf-ecc-heap-v1-8-54cbbd049511@kernel.org>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
-In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2094; i=mripard@kernel.org;
- h=from:subject:message-id; bh=N5UwfZ1hKMI6+ZrGSh9smBi+SvvW9VpZtds2AMuGHos=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+wOVf9vPYLP0PMqdtrWoJ7LZR7Lp+cNXh60Z5vbwa
- D3c2HqlYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExkbh5jnYYCo0VUtc+Dd+uE
- 2daUX+142sf9ZzNr7g5joTNPPvPvWLjxoFSLysFas91tCT8vZjzoYaxmSWWJajqzSnUrN69XyMV
- 0Lukrn8/LlLqZ6FROnnTgt2SU9adC6ZaXZtJ3NbLWr572kQ0A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+To: Jaroslav Kysela <perex@perex.cz>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.de>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <20240430082112.jrovosb6lgblgpfg@basti-XPS-13-9310>
+ <ZjEEKyvb02CWz3l4@finisterre.sirena.org.uk> <20240430172752.20ffcd56@sal.lan>
+ <ZjGhPz-bokg6ZbDJ@finisterre.sirena.org.uk> <87sez0k661.wl-tiwai@suse.de>
+ <20240502095956.0a8c5b26@sal.lan> <20240502102643.4ee7f6c2@sal.lan>
+ <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
+ <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+ <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+ <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+ <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
+ <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
+ <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
+ <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
+ <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
+ <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Now that we have introduced ECC-related flags for the dma-heaps buffer
-allocations, let's honour these flags depending on the memory setup.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/carveout_heap.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-index 896ca67e6bd9..81b167785999 100644
---- a/drivers/dma-buf/heaps/carveout_heap.c
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -6,10 +6,11 @@
- #include <linux/of_reserved_mem.h>
- 
- struct carveout_heap_priv {
- 	struct dma_heap *heap;
- 	struct gen_pool *pool;
-+	bool ecc_enabled;
- };
- 
- struct carveout_heap_buffer_priv {
- 	struct mutex lock;
- 	struct list_head attachments;
-@@ -182,10 +183,16 @@ static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
- 	struct dma_buf *buf;
- 	dma_addr_t daddr;
- 	void *buffer;
- 	int ret;
- 
-+	if (!heap_priv->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (heap_priv->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-+		return ERR_PTR(-EINVAL);
-+
- 	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
- 	if (!buffer_priv)
- 		return ERR_PTR(-ENOMEM);
- 
- 	INIT_LIST_HEAD(&buffer_priv->attachments);
-@@ -235,20 +242,29 @@ static int __init carveout_heap_setup(struct device_node *node)
- 	const struct reserved_mem *rmem;
- 	struct carveout_heap_priv *priv;
- 	struct dma_heap *heap;
- 	struct gen_pool *pool;
- 	void *base;
-+	u32 val = 0;
- 	int ret;
- 
- 	rmem = of_reserved_mem_lookup(node);
- 	if (!rmem)
- 		return -EINVAL;
- 
- 	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	of_property_read_u32(node, "ecc-correction-bits", &val);
-+	if (val <= 0) {
-+		if (of_memory_get_ecc_correction_bits() > 0)
-+			priv->ecc_enabled = true;
-+	} else {
-+		priv->ecc_enabled = true;
-+	}
-+
- 	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
- 	if (!pool) {
- 		ret = -ENOMEM;
- 		goto err_cleanup_heap;
- 	}
+On 5/9/24 06:13, Jaroslav Kysela wrote:
+> On 09. 05. 24 12:44, Shengjiu Wang wrote:
+>>>> mem2mem is just like the decoder in the compress pipeline. which is
+>>>> one of the components in the pipeline.
+>>>
+>>> I was thinking of loopback with endpoints using compress streams,
+>>> without physical endpoint, something like:
+>>>
+>>> compress playback (to feed data from userspace) -> DSP (processing) ->
+>>> compress capture (send data back to userspace)
+>>>
+>>> Unless I'm missing something, you should be able to process data as fast
+>>> as you can feed it and consume it in such case.
+>>>
+>>
+>> Actually in the beginning I tried this,  but it did not work well.
+>> ALSA needs time control for playback and capture, playback and capture
+>> needs to synchronize.  Usually the playback and capture pipeline is
+>> independent in ALSA design,  but in this case, the playback and capture
+>> should synchronize, they are not independent.
+> 
+> The core compress API core no strict timing constraints. You can
+> eventually0 have two half-duplex compress devices, if you like to have
+> really independent mechanism. If something is missing in API, you can
+> extend this API (like to inform the user space that it's a
+> producer/consumer processing without any relation to the real time). I
+> like this idea.
 
--- 
-2.44.0
+The compress API was never intended to be used this way. It was meant to
+send compressed data to a DSP for rendering, and keep the host processor
+in a low-power state while the DSP local buffer was drained. There was
+no intent to do a loop back to the host, because that keeps the host in
+a high-power state and probably negates the power savings due to a DSP.
 
+The other problem with the loopback is that the compress stuff is
+usually a "Front-End" in ASoC/DPCM parlance, and we don't have a good
+way to do a loopback between Front-Ends. The entire framework is based
+on FEs being connected to BEs.
+
+One problem that I can see for ASRC is that it's not clear when the data
+will be completely processed on the "capture" stream when you stop the
+"playback" stream. There's a non-zero risk of having a truncated output
+or waiting for data that will never be generated.
+
+In other words, it might be possible to reuse/extend the compress API
+for a 'coprocessor' approach without any rendering to traditional
+interfaces, but it's uncharted territory.
 
