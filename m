@@ -1,269 +1,168 @@
-Return-Path: <linux-media+bounces-11515-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11516-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D758C740D
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 11:45:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7768C7440
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 11:59:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 464F9B25DA6
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 09:45:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E5C281CA4
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 09:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C8E14386C;
-	Thu, 16 May 2024 09:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A992143886;
+	Thu, 16 May 2024 09:59:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ba5TCAMY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qdf7UJxl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CF33FBA7;
-	Thu, 16 May 2024 09:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1AD14293;
+	Thu, 16 May 2024 09:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715852737; cv=none; b=A4oMDK8ABdeJD4y/2ZwPLdYM3mYYOsLe+9yAJcyrA2sHQncxpweIrN+cTTBFGP8Q6WisUauqv3s5bHIVGbqZL/VB0aE3Gw+I+Ya86DJZ1R8I48mRJczbKLdd/9S9BHItAM62hDHGaavgETy7YAkQmRWJkG2KZGpZSR0JECdewCo=
+	t=1715853578; cv=none; b=URhgKnDj7C6e+u6qIOSH9WYxC4ntPAB3zK+b/E9J7O7X1iePAzBW7rXY5vFsoecr/y79XN6lw2CAr5QKGbDIWfCz4CMuacoo8dLwpO6+tDo/fLqWIjKf/ZGNjpBWf0pA5kqMKTLN7a2EnoEUVas6tuIXNXwxKo00oIIhsn9tClw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715852737; c=relaxed/simple;
-	bh=yXCqhL29SVvT8WjrDeHNlvHXxEyfDjFKwsltPgc1BOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YvzVnWf96pHhfL6hRECYLNjNmx1eSlaGQvZOE+vOU3sMCi3RxgSV0oAv2THrH/jrxdpKeG1l1ABnlAjn3t724UrMAx0OJpvJweXkAw7wcjJElin5mjbMMeVvMnP8gwq/Z2Q7LQhGoidHr6vKwUeJUtPNXEhHA5aWAL5rtiGxA5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ba5TCAMY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58290C113CC;
-	Thu, 16 May 2024 09:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715852736;
-	bh=yXCqhL29SVvT8WjrDeHNlvHXxEyfDjFKwsltPgc1BOk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ba5TCAMYUEVuM1HddFl0N3gS+f6oX3izyFyLul6eetaKJMafh+e+7Viqp5sb7HNqG
-	 JTLMIiFC0eRSKkd+Y8l65cNK5FwB1B4WvIaoKTNusgD29wj/dSoQkb2CVPaobbkzV+
-	 oT2CLHsEwaLSyJ4sT9NxQJod5gJXsXs7/LKWj6SYgaOnaNLoYwZ8ci9sMh4omr0l/O
-	 sR3UslWLSnq1Bo8ZTc15qw1rNXRP2VriSlqYjdzr1JpYgm6wmWPo7nx1ScKhPWQcUt
-	 Pdkbr/wPIX5cnWl48RtbVW9zjxhVqPHVZLEpvAo3u7Hs8wXe0+g3ewoztFpHXqP3Ru
-	 MjyLNkPCTlpJQ==
-Date: Thu, 16 May 2024 11:45:33 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v13 15/28] drm/connector: hdmi: Compute bpc and format
- automatically
-Message-ID: <20240516-lean-smooth-bonobo-d7e198@penduick>
-References: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
- <20240507-kms-hdmi-connector-state-v13-15-8fafc5efe8be@kernel.org>
- <73944574.1631.18f6be1e78f.Coremail.andyshrk@163.com>
+	s=arc-20240116; t=1715853578; c=relaxed/simple;
+	bh=dK2WkFIc661KKKqOwvbtfh51Ajk+5fstyZfpRUmwN2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DB7zWJxUMACFXp/OostE/XDdixgx7qYzH8mzw15uwYFsqS2/1Rf8NYqsc05eN27RcXEkK4YzFvOxGn+ui+/m//puWZTKjxnw2reC5Se2psgnvBFJ4Dy2oCKEnoVJsAy1LysqL3XyFJA1t5xlk7RE3tmDqqRxfBNicM7x2mgyrrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qdf7UJxl; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1715853574;
+	bh=dK2WkFIc661KKKqOwvbtfh51Ajk+5fstyZfpRUmwN2M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qdf7UJxluJK7VRWEKILOAxaP85bTBG6aWspLroV80yixGNmF+YeHh3KaaEQ54GWC6
+	 MFF0PReIwv3Tb+NZgyCaVmHtAi2TIHYZT+rqfslChY2gL3EVI86K//FHPSmhH2y6Q+
+	 vVFgRpybXddrl63bTWXm80tWUPOem0I2PZuPyeBTtzYPePWnE+OthXuCDER7SRS7Tq
+	 ffehsgmYFMGtvzeASN5aAGEgVp4r1Xu3I4z+4NpQOMO61GgSYhxcUG6F4yXu5xOZfq
+	 efT0kxjT8MMuw2KFQu9vUPez1MN58/reCdKydoel5SrNhGiBH9FoOzAIFmZcpraHFk
+	 Qhs155mWVGxNA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BAD343780C13;
+	Thu, 16 May 2024 09:59:32 +0000 (UTC)
+Message-ID: <a1d91cee-e2e4-4310-a9b4-984626144ab2@collabora.com>
+Date: Thu, 16 May 2024 11:59:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="zvciie23y5uhhbzh"
-Content-Disposition: inline
-In-Reply-To: <73944574.1631.18f6be1e78f.Coremail.andyshrk@163.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ tjmercier@google.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Robin Murphy <robin.murphy@arm.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Joakim Bech <joakim.bech@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>, Pavel Machek <pavel@ucw.cz>,
+ Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
+ willy@infradead.org, Logan Gunthorpe <logang@deltatee.com>,
+ Daniel Vetter <daniel@ffwll.ch>, jianjiao.zeng@mediatek.com,
+ kuohong.wang@mediatek.com, youlin.pei@mediatek.com
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+ <20240515112308.10171-3-yong.wu@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240515112308.10171-3-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Il 15/05/24 13:23, Yong Wu ha scritto:
+> Introduce a FLAG for the restricted memory which means the memory is
+> protected by TEE or hypervisor, then it's inaccessiable for kernel.
+> 
+> Currently we don't use sg_dma_unmark_restricted, thus this interface
+> has not been added.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>   include/linux/scatterlist.h | 34 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 34 insertions(+)
+> 
+> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+> index 77df3d7b18a6..a6ad9018eca0 100644
+> --- a/include/linux/scatterlist.h
+> +++ b/include/linux/scatterlist.h
+> @@ -282,6 +282,7 @@ static inline void sg_unmark_end(struct scatterlist *sg)
+>   
+>   #define SG_DMA_BUS_ADDRESS	(1 << 0)
+>   #define SG_DMA_SWIOTLB		(1 << 1)
+> +#define SG_DMA_RESTRICTED	(2 << 1)
+
+I think you wanted to write (1 << 2) here :-)
+
+Cheers,
+Angelo
+
+>   
+>   /**
+>    * sg_dma_is_bus_address - Return whether a given segment was marked
+> @@ -352,6 +353,31 @@ static inline void sg_dma_mark_swiotlb(struct scatterlist *sg)
+>   	sg->dma_flags |= SG_DMA_SWIOTLB;
+>   }
+>   
+> +/**
+> + * sg_dma_mark_restricted - Mark the scatterlist for restricted buffer.
+> + * @sg:		SG entry
+> + *
+> + * Description:
+> + *   Marks a a scatterlist for the restricted buffer that may be inaccessiable
+> + *   in kernel if it is protected.
+> + */
+> +static inline void sg_dma_mark_restricted(struct scatterlist *sg)
+> +{
+> +	sg->dma_flags |= SG_DMA_RESTRICTED;
+> +}
+> +
+> +/**
+> + * sg_dma_is_restricted - Return whether the scatterlist was marked as restricted
+> + *                        buffer.
+> + * @sg:		SG entry
+> + *
+> + * Description:
+> + *   Returns true if the scatterlist was marked as restricted buffer.
+> + */
+> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
+> +{
+> +	return sg->dma_flags & SG_DMA_RESTRICTED;
+> +}
+>   #else
+>   
+>   static inline bool sg_dma_is_bus_address(struct scatterlist *sg)
+> @@ -372,6 +398,14 @@ static inline void sg_dma_mark_swiotlb(struct scatterlist *sg)
+>   {
+>   }
+>   
+> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline void sg_dma_mark_restrited(struct scatterlist *sg)
+> +{
+> +}
+>   #endif	/* CONFIG_NEED_SG_DMA_FLAGS */
+>   
+>   /**
 
 
---zvciie23y5uhhbzh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi again,
-
-On Sun, May 12, 2024 at 04:18:38PM +0800, Andy Yan wrote:
-> =E5=9C=A8 2024-05-07 21:17:33=EF=BC=8C"Maxime Ripard" <mripard@kernel.org=
-> =E5=86=99=E9=81=93=EF=BC=9A
-> >Now that we have all the infrastructure needed, we can add some code
-> >that will, for a given connector state and mode, compute the best output
-> >format and bpc.
-> >
-> >The algorithm is equivalent to the one already found in i915 and vc4.
-> >
-> >Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> >Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> >---
-> > drivers/gpu/drm/display/drm_hdmi_state_helper.c    | 199 ++++++++++++++=
-++++++-
-> > drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  25 ++-
-> > 2 files changed, 212 insertions(+), 12 deletions(-)
-> >
-> >diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/g=
-pu/drm/display/drm_hdmi_state_helper.c
-> >index 063421835dba..f20dcfecb6b8 100644
-> >--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> >@@ -1,9 +1,11 @@
-> > // SPDX-License-Identifier: MIT
-> >=20
-> > #include <drm/drm_atomic.h>
-> > #include <drm/drm_connector.h>
-> >+#include <drm/drm_edid.h>
-> >+#include <drm/drm_print.h>
-> >=20
-> > #include <drm/display/drm_hdmi_helper.h>
-> > #include <drm/display/drm_hdmi_state_helper.h>
-> >=20
-> > /**
-> >@@ -46,10 +48,112 @@ connector_state_get_mode(const struct drm_connector=
-_state *conn_state)
-> > 		return NULL;
-> >=20
-> > 	return &crtc_state->mode;
-> > }
-> >=20
-> >+static bool
-> >+sink_supports_format_bpc(const struct drm_connector *connector,
-> >+			 const struct drm_display_info *info,
-> >+			 const struct drm_display_mode *mode,
-> >+			 unsigned int format, unsigned int bpc)
-> >+{
-> >+	struct drm_device *dev =3D connector->dev;
-> >+	u8 vic =3D drm_match_cea_mode(mode);
-> >+
-> >+	/*
-> >+	 * CTA-861-F, section 5.4 - Color Coding & Quantization states
-> >+	 * that the bpc must be 8, 10, 12 or 16 except for the default
-> >+	 * 640x480 VIC1 where the value must be 8.
-> >+	 *
-> >+	 * The definition of default here is ambiguous but the spec
-> >+	 * refers to VIC1 being the default timing in several occasions
-> >+	 * so our understanding is that for the default timing (ie,
-> >+	 * VIC1), the bpc must be 8.
-> >+	 */
-> >+	if (vic =3D=3D 1 && bpc !=3D 8) {
-> >+		drm_dbg_kms(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> >+		return false;
-> >+	}
-> >+
-> >+	if (!info->is_hdmi &&
-> >+	    (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
-> >+		drm_dbg_kms(dev, "DVI Monitors require an RGB output at 8 bpc\n");
-> >+		return false;
-> >+	}
-> >+
-> >+	if (!(connector->hdmi.supported_formats & BIT(format))) {
-> >+		drm_dbg_kms(dev, "%s format unsupported by the connector.\n",
-> >+			    drm_hdmi_connector_get_output_format_name(format));
-> >+		return false;
-> >+	}
-> >+
-> >+	switch (format) {
-> >+	case HDMI_COLORSPACE_RGB:
-> >+		drm_dbg_kms(dev, "RGB Format, checking the constraints.\n");
-> >+
-> >+		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444)) {
-> >+			drm_dbg_kms(dev, "Sink doesn't support RGB.\n");
-> >+			return false;
-> >+		}
-> >+
-> As I reported in V12,  the HDMI output on my rk3036-kylin was lost after =
-apply this series.
-> This is because there is something wrong with the DDC on my board, the ed=
-id read always failed
-> on first bootup. That means inno_hdmi_connector_get_modes will return 0.
->=20
-> and in function drm_helper_probe_single_connector_modes:
->=20
->          count =3D drm_helper_probe_get_modes(connector);
->=20
->          if (count =3D=3D 0 && (connector->status =3D=3D connector_status=
-_connected ||
->                             connector->status =3D=3D connector_status_unk=
-nown)) {
->                  count =3D drm_add_modes_noedid(connector, 1024, 768);
->=20
->                  /*
->                   * Section 4.2.2.6 (EDID Corruption Detection) of the DP=
- 1.4a
->                   * Link CTS specifies that 640x480 (the official "failsa=
-fe"
->                   * mode) needs to be the default if there's no EDID.
->                   */
->                  if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_=
-DisplayPort)
->                          drm_set_preferred_mode(connector, 640, 480);
->          }
-> drm_add_modes_noedid will not initialize display_info. So the check about=
- display info will always failed here:
->=20
-> [    4.205368] rockchip-drm display-subsystem: [drm:drm_atomic_check_only=
-] checking (ptrval)
-> [    4.205410] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] [CRTC:35:crtc-0] mode changed
-> [    4.205439] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] [CRTC:35:crtc-0] enable changed
-> [    4.205464] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] [CRTC:35:crtc-0] active changed
-> [    4.205490] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
-> [    4.205517] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:=
-crtc-0]
-> [    4.205545] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] Trying with a 8 bpc output
-> [    4.205575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] Trying RGB output format
-> [    4.205670] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] RGB Format, checking the constraints.
-> [    4.205696] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] Sink doesn't support RGB.
-> [    4.205720] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] RGB output format not supported with 8 bpc
-> [    4.205747] rockchip-drm display-subsystem: [drm:drm_atomic_helper_con=
-nector_hdmi_check] Failed. No Format Supported for that bpc count.
-> [    4.205772] rockchip-drm display-subsystem: [drm:drm_atomic_helper_che=
-ck_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
-> [    4.205796] rockchip-drm display-subsystem: [drm:drm_atomic_check_only=
-] atomic driver check for (ptrval) failed: -22
->=20
-> My reply for your email in V12[0] was bounced, so I think you didn't read=
- it.
->=20
-> [0]https://patchwork.kernel.org/project/linux-rockchip/patch/20240423-kms=
--hdmi-connector-state-v12-27-3338e4c0b189@kernel.org/
-
-Indeed, I never received it, sorry.
-
-Thanks for looking into it, it's very valuable.
-
-I can see several things that interact and could go wrong:
-
-* The DDC readout should not fail like that. From a quick look at the
-  driver, I'm wondering if it's not due to the fact that the DDC
-  controller isn't powered until the first modeset happens. Since the
-  first get_modes call is done with the controller disabled, it's
-  probably not initialized enough yet. The first modeset then comes and
-  will initialize the controller enough for the subsequent get_modes to
-  work. Is it something you could look into?
-
-* drm_display_info not being filled to some sane default when there's no
-  EDID is indeed an issue. I can't be made generic, but the HDMI spec
-  provides us with some minimum requirements we can probably set in this
-  case (RGB supported, 8bpc supported, etc.) I'll work on that.
-
-Thanks again,
-Maxime
-
---zvciie23y5uhhbzh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkXVvQAKCRAnX84Zoj2+
-dhk4AYDogM4jEJWYBgXDz/9UjL6hM3e7hDiwpTPzxkObPEWZiK3oKr2a2v7jLuE5
-xTCqq9MBegJT2DFubE/fsL0xtq9L6tXFall+M0VLBe504G/qtrbBpVtz4xc3xqIJ
-KoTH3BOGyQ==
-=996h
------END PGP SIGNATURE-----
-
---zvciie23y5uhhbzh--
 
