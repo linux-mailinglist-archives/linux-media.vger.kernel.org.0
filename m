@@ -1,75 +1,73 @@
-Return-Path: <linux-media+bounces-11517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11518-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3488C747A
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:14:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C7F8C7485
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:18:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F4491F21335
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 10:14:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 471E01C22D12
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 10:18:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCD31143C6D;
-	Thu, 16 May 2024 10:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7CF6143C54;
+	Thu, 16 May 2024 10:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="hiEBmSY3"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="T6gfGK9B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E4414389A
-	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 10:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96753143754
+	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 10:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715854429; cv=none; b=LNj4oNcSq5ahzfhum4V2do8QIWLrvL2hEdTL3/dBkbc2gB6G3BGKk0gsh3v47VB/Jx2Mc+mbYMu+V2OkaTLKuE97znYgYrMRBQe2nwtZqDC37lrWyPj5aVnjyoU1wAZZoY0TyL84/tw5q5mdQTYoybJ4j0AZBx5zQcD7LjKTKT8=
+	t=1715854698; cv=none; b=Hlrjw8NczO8NRAxbvEwaG/XrPqRkyz519zZ9SjzJzLi0ZK0sX/SIhSAjDv+qlKLBoE72uYkGO/b/aJW4U3DV7c4XHL8xeQEvzaWUo1rVS4QBzrthf5l4PV+0e+zk/lcPoegOFO/HKmLlaal/XlXWVjslEizaEzs6JRPeC1pS+Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715854429; c=relaxed/simple;
-	bh=dOR/ny3pz9kfQwFcgXRjlCUW7XWcutqJSgnmykXQ5jo=;
+	s=arc-20240116; t=1715854698; c=relaxed/simple;
+	bh=/g8E/M0prGmmgcgPZCaW0A7ShyGn2zDAARpOKjGFQyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aNsnkxUo9U13WnCIS7WqQfADt9mNfhsPxkKzcCaAbKGrn1pZle8K3xlUrnCFDAD1KzdObZtHwjCeE580dDbLtwA4AvPv2d9DphQjxCT7F9IUK2q6olW6/odjCDTsbVRj3QLFp5KRMqV6n1/ktMlaF47ha00dFUxCVkkHC1GFe/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=hiEBmSY3; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=OuwYio+jcRM5gOWdOJJWeGkLvxTC7wtJuD808iDJI7oyd2GG7Vg4kwEP2Ly1JSPKJS1ASuhWp35uMeRXFhFg/psckWoq/4gJnf5uL7bzQ2YVt0JQVgUjRiHxK/wluThZMqHEottHADP3+Uq3vLMkie2zBIbBl5EyS8TJ3r6NlJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=T6gfGK9B; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34cb2bf85easo690710f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 03:13:45 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4200e4b7bcbso7848875e9.1
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 03:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1715854424; x=1716459224; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1715854695; x=1716459495; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PL3A+Lq5qsI8B7R3zJ6ATrmpbf8tbtcXF50Qd0vm4po=;
-        b=hiEBmSY3h9G5fPLQzk58uJBPgg9wd1ZwwYFfawHgGwYnJY8lfISunqZhX3lADkLaX3
-         9zWwdptLz25USHQlltXijTt+hxY0oJCJmTkwVg8cdgEJENdGXoCmt2xWIZnrlTWZPSEx
-         vCFV6W0Ue1fhk7IecLRsR51SaAFuGY/LlKlGw=
+        bh=8TJDXJKaQUdW/2WF0Ge4iVoqYkhg+zWynHOclwI6BcY=;
+        b=T6gfGK9Be9gQ/EHkLKIcki22nEipVxQQ0DqN+T5nK+nUqewlfZdePHmv7u49jAHs/h
+         lo2GyiBUTr8Fr5DsvXyqM83dvPDJPYFf7CIrQ3clkj3TKveczfsw1/QIHuBJgihSiowk
+         TZvYy/sM9ZBJw4cxSavlUSs2KfBcIV8S6R2qI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715854424; x=1716459224;
+        d=1e100.net; s=20230601; t=1715854695; x=1716459495;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PL3A+Lq5qsI8B7R3zJ6ATrmpbf8tbtcXF50Qd0vm4po=;
-        b=BYc8R+CcaXytVDKQbVjXNHXAkTsRlVpGgcz26iJ9Nw2PVF8bxUQ3xWh3mm1dOEKRoT
-         tMhK2qwEJLDoIdWFW09q9HBelhhyulbL0PmmiZ5meHm385ENLUusleFWINcNhoQ6Ybiv
-         x7cfCwi996dB00BhLp07GL8lzkRL7kTbE/Deta1F4iDs++Ki7mE0rd6/B0aJLfeGgRAU
-         8VLvJBweWpFHd3tDfC0Fm27GWRswLDuNI317Cr2yjjrTztyu4VQDumtd0n7KmbXs971T
-         qdTBNR0JyXLnCf2RpcgLhG30KImDf6fM7P1MiU8xp97qNHGzvQY4l/wfJ0kZZayiSi7Z
-         ZAew==
-X-Forwarded-Encrypted: i=1; AJvYcCWwyS/oNz01/Mu7FBP7PwMenILLGclSlfV9tFEDz4VI2zY6OzAfCs+O61WjzxshSpEFcZnh6ZOo6AC3IvXHIIb1KwB+vTSLFO2FvjM=
-X-Gm-Message-State: AOJu0Yy+eVRwNhN1lCxI4R6yfAoW9+MUHgPqFYjjTFrGFRY7n56bCYcm
-	dOORiPs69WidQRnmrpS8UguX8XBxTyxGP+Lp5esbvZAf0GdH0I0MjgAb/hf/wxQ=
-X-Google-Smtp-Source: AGHT+IFrOu2mAt7C1aMAaNxTCLbsYbd5mMBXhq9WratikDD42kzQoLe9iHoqPgFyU07inK7XLQ9rtw==
-X-Received: by 2002:a05:600c:19c8:b0:419:f241:6336 with SMTP id 5b1f17b1804b1-41fea928decmr132296285e9.1.1715854424390;
-        Thu, 16 May 2024 03:13:44 -0700 (PDT)
+        bh=8TJDXJKaQUdW/2WF0Ge4iVoqYkhg+zWynHOclwI6BcY=;
+        b=UuhFEIRvHe7TiqE/8x1OEN/o8W55vgE5tzzc5Dhd9WSdVZWQddBF7RvHJNozjyGzz7
+         87+on/EFGdA9BcPLbFVFNUGjZ1untUEOa5pC5pfdKLKc43j1kWz3MMqGc7rk66EiSFpB
+         b+RFVoRDfn53WFKlocyiPxtYvXxxq+2N/5URHwMEqJ4w85i4noeYKzYpSjf7V13MkMsw
+         IuVqNEn9I0Ff9eOAP/yWhhlSqCWhv/MO6P9PE8iEFZA9VKNIGjFHwJLplutRVmiFA7+p
+         jd9gnU8XkXwD6mF/xVYOTqhghK52i5ExOxvKTv1Jx1ck9ibjdnNWjYQgmeVBwAKRNnQT
+         PlRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNNaMZVaUmMI/CCH1qgnhagpYlVzGJWeao+FwyM/lR8OA5tnJiXykGUY30exlAAFp/pUoi9r1bg01RA+Pn5UkWSTDxyvbNIG1b9rU=
+X-Gm-Message-State: AOJu0Yx6j4pCPgN3dQRTiv5aKCMa7L0+863ZshRNxaPIHZlj38VL8xfB
+	Zffe0gp6HM0DvezS+97Btk2Un14TXhwnIQB80gcwiJlgAzwDs+zYRisDOLw4aD0=
+X-Google-Smtp-Source: AGHT+IG1TPzGwHl4apjazHkVeFsaJK8zkxRgSZYPHdggvbCW8ifvCjuF5EuKt5xYF73xI9ZzEUOQZA==
+X-Received: by 2002:a05:600c:5116:b0:418:ef65:4b11 with SMTP id 5b1f17b1804b1-41feac59e8amr154465585e9.2.1715854694962;
+        Thu, 16 May 2024 03:18:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f87b2653bsm298218605e9.4.2024.05.16.03.13.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4201088fe8csm183349845e9.32.2024.05.16.03.18.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 03:13:43 -0700 (PDT)
-Date: Thu, 16 May 2024 12:13:41 +0200
+        Thu, 16 May 2024 03:18:14 -0700 (PDT)
+Date: Thu, 16 May 2024 12:18:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maxime Ripard <mripard@redhat.com>,
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@redhat.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Brian Starkey <Brian.Starkey@arm.com>,
@@ -88,9 +86,8 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>,
 	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
 Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
  (udev uaccess tag) ?
-Message-ID: <ZkXcVVt_G3TEh2iP@phenom.ffwll.local>
-Mail-Followup-To: Simon Ser <contact@emersion.fr>,
-	Daniel Stone <daniel@fooishbar.org>,
+Message-ID: <ZkXdZBwPvZun33Fi@phenom.ffwll.local>
+Mail-Followup-To: Daniel Stone <daniel@fooishbar.org>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Maxime Ripard <mripard@redhat.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
@@ -118,7 +115,7 @@ References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
  <Zjs42PGvilLlF0Cg@phenom.ffwll.local>
  <CAPj87rN-wSbGSAoB8y3MXCS20_MAQvfpWSeUKYR6XzQ+Oh0FZA@mail.gmail.com>
  <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
- <IXDM2ci-eGvU9RQkT6a52vcV66vr8d0ywbDRFY8gBjjNuMyv8RDgdJS0PvvfnKuPR1fXINPUjOBkKx4vIcshSb2Y11xd3DjfDQ-Np8VIFgQ=@emersion.fr>
+ <CAPj87rPywSjKLrv00N-0SrkDndPdYGCBeveO0adh4xGCp20h9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -127,29 +124,14 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <IXDM2ci-eGvU9RQkT6a52vcV66vr8d0ywbDRFY8gBjjNuMyv8RDgdJS0PvvfnKuPR1fXINPUjOBkKx4vIcshSb2Y11xd3DjfDQ-Np8VIFgQ=@emersion.fr>
+In-Reply-To: <CAPj87rPywSjKLrv00N-0SrkDndPdYGCBeveO0adh4xGCp20h9g@mail.gmail.com>
 X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On Mon, May 13, 2024 at 01:51:23PM +0000, Simon Ser wrote:
-> On Wednesday, May 8th, 2024 at 17:49, Daniel Vetter <daniel@ffwll.ch> wrote:
+On Thu, May 09, 2024 at 10:23:16AM +0100, Daniel Stone wrote:
+> Hi,
 > 
+> On Wed, 8 May 2024 at 16:49, Daniel Vetter <daniel@ffwll.ch> wrote:
 > > On Wed, May 08, 2024 at 09:38:33AM +0100, Daniel Stone wrote:
-> > 
-> > > On Wed, 8 May 2024 at 09:33, Daniel Vetter daniel@ffwll.ch wrote:
-> > > 
-> > > > On Wed, May 08, 2024 at 06:46:53AM +0100, Daniel Stone wrote:
-> > > > 
-> > > > > That would have the unfortunate side effect of making sandboxed apps
-> > > > > less efficient on some platforms, since they wouldn't be able to do
-> > > > > direct scanout anymore ...
-> > > > 
-> > > > I was assuming that everyone goes through pipewire, and ideally that is
-> > > > the only one that can even get at these special chardev.
-> > > > 
-> > > > If pipewire is only for sandboxed apps then yeah this aint great :-/
-> > > 
-> > > No, PipeWire is fine, I mean graphical apps.
-> > > 
 > > > Right now, if your platform requires CMA for display, then the app
 > > > needs access to the GPU render node and the display node too, in order
 > > > to allocate buffers which the compositor can scan out directly. If it
@@ -157,60 +139,52 @@ On Mon, May 13, 2024 at 01:51:23PM +0000, Simon Ser wrote:
 > > > be able to allocate correctly, so its content will need a composition
 > > > pass, i.e. performance penalty for sandboxing. But if it can allocate
 > > > correctly, then hey, it can exhaust CMA just like heaps can.
-> > > 
+> > >
 > > > Personally I think we'd be better off just allowing access and
 > > > figuring out cgroups later. It's not like the OOM story is great
 > > > generally, and hey, you can get there with just render nodes ...
-> > 
+> >
 > > Imo the right fix is to ask the compositor to allocate the buffers in this
 > > case, and then maybe have some kind of revoke/purge behaviour on these
 > > buffers. Compositor has an actual idea of who's a candidate for direct
 > > scanout after all, not the app. Or well at least force migrate the memory
 > > from cma to shmem.
-> > 
+> >
 > > If you only whack cgroups on this issue you're still stuck in the world
 > > where either all apps together can ddos the display or no one can
 > > realistically direct scanout.
-> > 
-> > So yeah on the display side the problem isn't solved either, but we knew
-> > that already.
 > 
-> What makes scanout memory so special?
-> 
-> The way I see it, any kind of memory will always be a limited resource:
-> regular programs can exhaust system memory, as well as GPU VRAM, as well
-> as scanout memory. I think we need to have ways to limit/control/arbiter
-> the allocations regardless, and I don't think scanout memory should be a
-> special case here.
+> Mmm, back to DRI2. I can't say I'm wildly enthused about that, not
+> least because a client using GPU/codec/etc for those buffers would
+> have to communicate its requirements (alignment etc) forward to the
+> compositor in order for the compositor to allocate for it. Obviously
+> passing the constraints etc around isn't a solved problem yet, but it
+> is at least contained down in clients rather than making it back and
+> forth between client and compositor.
 
-(Long w/en and I caught a cold)
+I don't think you need the compositor to allocate the buffer from the
+requirements, you only need a protocol that a) allocates a buffer of a
+given size from a given heap and b) has some kinda of revoke provisions so
+that the compositor can claw back the memory again when it needs it.
 
-It's not scanout that's special, it's cma memory that's special. Because
-once you've allocated it, it's gone since it cannot be swapped out, and
-there's not a lot of it to go around. Which means even if we'd have
-cgroups for all the various gpu allocation heaps, you can't use cgroups to
-manage cma in a meaningful way:
+> I'm extremely not-wild about the compositor migrating memory from CMA
+> to shmem behind the client's back, and tbh I'm not sure how that would
+> even work if the client has it pinned through whatever API it's
+> imported into.
 
-- You set the cgroup limits so low for apps that it's guaranteed that the
-  compositor will always be able to allocate enough scanout memory for
-  it's need. That will be low enough that apps can never allocate scanout
-  buffers themselves.
+Other option is revoke on cma buffers that are allocated by clients, for
+the case the compositor needs it.
 
-- Or you set the limit high enough so that apps can allocate enough, which
-  means (as soon as you have more than just one app and not a totally
-  bonkers amount of cma) that the compositor might not be able to allocate
-  anymore.
+> Anyway, like Laurent says, if we're deciding that heaps can't be used
+> by generic apps (unlike DRM/V4L2/etc), then we need gralloc.
 
-It's kinda shit situation, which is also why you need the compositor to be
-able to revoke cma allocations it has handed to clients (like with drm
-leases).
+gralloc doesn't really fix this, it's just abstraction around how/where
+you allocate?
 
-Or we just keep the current yolo situation.
-
-For any other memory type than CMA most of the popular drivers at least
-implement swapping, which gives you a ton more flexibility in setting up
-limits in a way that actually work. But even there we'd need cgroups first
-to make sure things don't go wrong too badly in the face of evil apps ...
+Anyway the current plan is that we all pretend this issue of CMA allocated
+buffers don't exist and we let clients allocate without limits. Given that
+we don't even have cgroups to sort out the mess for anything else I
+wouldn't worry too much ...
 -Sima
 -- 
 Daniel Vetter
