@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-11555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CAA8C7653
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:29:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CADCF8C7654
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:29:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE828285AC1
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:29:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDD121C20E6F
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:29:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC541465B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F302A14E2D4;
 	Thu, 16 May 2024 12:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjcXRBNO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyEtTDr3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFE31465AF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B2814D71D
 	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 12:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715862350; cv=none; b=j0C8MXJtUi7AVJKcTy+xJQHctHDG+VeZr2XKCG1+ToW1fHrRGjTIyfLrtH7EOdj3Y60eFisgANM/a4O7QOIE/t9knKVFfbIILhQ2EAT/GHm6IovkWNVqNIdBaNOLhi/6ccQxvmd4mpatejTTGzVTjAYmZTtH+hprhg34gn5MJYM=
+	t=1715862351; cv=none; b=A5ZnMqX9Cy/+FCAIbkAFSA/ozLufgDxx1F4Dl2iOs+kb0peBkFCzKb2yKKmjiYwYwxdw8FCmStIIJoWrKIJC7i55xnNzRSyjzqgX7VgVS4boeWXLaRKixOt6mY4dkRb6OMSFeL4awDEZGUhtzwqf7OvjdnYNCBUFoZLzuw4JLsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715862350; c=relaxed/simple;
-	bh=Ju6xGaKV78HqFmzw9VxE/wG8MX2cO5OMSEQGa+MWeh8=;
+	s=arc-20240116; t=1715862351; c=relaxed/simple;
+	bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=T+M9s7bY9vH5ICZwAtH/SP7eNdl5RnZ46gMxpqv5igxUdtcsaW/fKuiN3C0FpXF1a5RyMYTXeS1Se8Rfa5w+ahE4x7DMdqZNGeqhX8iMDWrssPA1UwPyFaP0UToECCRr/K68RAuBb/rgLVplR+oHm1w1B0XrFnr7N59SscwhHFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjcXRBNO; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=m5kdzpEigeEtfNSYN4DDbd3XqOo4xcKRTpv1zHswieQKI0htQTpzCksuWvpM/L63am9ttZF8akEePGb22S0Pst/iLbp7vGdCbX2ZWLTtbiKSboso4tQCY72xrS88aD2ZJzgJ/redGUKu0jDcXP5SKowQd4XbdLM44cvlbDeQ/Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyEtTDr3; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715862349; x=1747398349;
+  t=1715862350; x=1747398350;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Ju6xGaKV78HqFmzw9VxE/wG8MX2cO5OMSEQGa+MWeh8=;
-  b=MjcXRBNOEaE9Q5YrER1N1lKYsXFbD1r0RKbuqE2U9nFwa9o/pHDLKF/I
-   oh6XEd32e1TfbC1Kbab4gll+Y2r5Fd66DqtGa/t2J8P2KrllWbwAeb111
-   cKuyHXFGjSmXlT0Mzvro61BN2xhoD/OE4SAbc43wz01z9DIXM5Y+Q7urq
-   ZeTQ+N6A9nSPuwQ1cwT5sHh3fZRXFN/zofgK2jmIGS3OJ+Huw5i5z50Ka
-   +i7OpO+lq1O0aVZsOkZFbrbJ9llyunBndAIcbyisy66mO2CnSfAcG+8zM
-   Nmjx0qzWG/vvLklA1PziINdqHKUIpFINTFjy/bn4+aexE2R10YF9Hw1Ib
-   Q==;
-X-CSE-ConnectionGUID: HjShEs5RSZyAPQ3WiS4ElA==
-X-CSE-MsgGUID: UQBZCx2oTq2yHyWe2YrpXQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="37345825"
+  bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
+  b=cyEtTDr3kQBINOJu0E7VTDZ/CKc7KX9Ro3nfsT35Zp6FBcg4g6bFPlBk
+   DnOMRSNfPgBdWWSJ+TPhnDCFdeRIjo3MwJ9BiChneh9jl/+AkAdDlwc+U
+   SwUbBmK+b3WyuMf+rMFq4Gdg4CQN64i18bxVsXdwCK2UTtr7xAA9AXM1n
+   ZFjI1DoLQbz+ZPmLAEXk6eThwWQN+BssluGGVC5w8wONYKCc7J/CkN4OX
+   82vnBlJUAlIKx0B1gdmPlN5VHM8NGwxGxTs84ukkO+RMPgYHQP+CjoTq5
+   mksWK9Od9WZmRUKfNh7dyNivv0Tw6PbVrnKeVMDq9ReRrJAefU6JT8Vz2
+   g==;
+X-CSE-ConnectionGUID: KV2G01wlRzCpnNQnoAkzNw==
+X-CSE-MsgGUID: 3zePZxdqTEag7rCed0pLTA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="37345831"
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="37345825"
+   d="scan'208";a="37345831"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:47 -0700
-X-CSE-ConnectionGUID: 7m9VI2JXTlKeqm3DFFRLEg==
-X-CSE-MsgGUID: PySK9fDvRLyEmIBqTCaaMA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:48 -0700
+X-CSE-ConnectionGUID: Zjq+hbiWRSubewhQCrfhXQ==
+X-CSE-MsgGUID: iiohblpHSJ2EGPbG1YdRQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="36290272"
+   d="scan'208";a="36290278"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:46 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:47 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BDCCA120D2E;
-	Thu, 16 May 2024 15:25:42 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 889D8120D3A;
+	Thu, 16 May 2024 15:25:43 +0300 (EEST)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	hverkuil@xs4all.nl,
 	laurent.pinchart@ideasonboard.com,
 	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v6 3/4] media: Documentation: Update link frequency driver documentation
-Date: Thu, 16 May 2024 15:25:38 +0300
-Message-Id: <20240516122539.30787-4-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 4/4] media: ivsc: csi: Obtain link frequency from the media pad
+Date: Thu, 16 May 2024 15:25:39 +0300
+Message-Id: <20240516122539.30787-5-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
 References: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
@@ -81,29 +81,179 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the get_mbus_config() as the means for conveying the link frequency
-towards the receiver drivers.
+Support the use of the media pad for obtaining the link frequency.
+Similarly, call the v4l2_get_link_freq() on the media pad, not on the
+remote's control handler.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/driver-api/media/tx-rx.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/pci/intel/ivsc/mei_csi.c | 72 +++++++++-----------------
+ 1 file changed, 25 insertions(+), 47 deletions(-)
 
-diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index 29d66a47b56e..eaf3d597fa1d 100644
---- a/Documentation/driver-api/media/tx-rx.rst
-+++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -49,6 +49,10 @@ Link frequency
- The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
- receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+index 89b582a221ab..621a6ee32e01 100644
+--- a/drivers/media/pci/intel/ivsc/mei_csi.c
++++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+@@ -35,8 +35,6 @@
  
-+On devices where the link frequency isn't configurable, the link_freq field of
-+struct v4l2_mbus_config is recommended over controls for conveying the link
-+frequency to the downstream driver in the pipeline.
-+
- ``.s_stream()`` callback
- ^^^^^^^^^^^^^^^^^^^^^^^^
+ #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
  
+-#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
+-
+ /* the 5s used here is based on experiment */
+ #define CSI_CMD_TIMEOUT (5 * HZ)
+ /* to setup CSI-2 link an extra delay needed and determined experimentally */
+@@ -121,12 +119,11 @@ struct mei_csi {
+ 	struct mutex lock;
+ 
+ 	struct v4l2_subdev subdev;
+-	struct v4l2_subdev *remote;
++	struct media_pad *remote;
+ 	struct v4l2_async_notifier notifier;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	struct v4l2_ctrl *freq_ctrl;
+ 	struct v4l2_ctrl *privacy_ctrl;
+-	unsigned int remote_pad;
+ 	/* start streaming or not */
+ 	int streaming;
+ 
+@@ -148,10 +145,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
+ 	.field = V4L2_FIELD_NONE,
+ };
+ 
+-static s64 link_freq_menu_items[] = {
+-	MEI_CSI_LINK_FREQ_400MHZ
+-};
+-
+ static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
+ {
+ 	return container_of(n, struct mei_csi, notifier);
+@@ -284,11 +277,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
+ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct mei_csi *csi = sd_to_csi(sd);
++	struct v4l2_subdev *remote_sd =
++		media_entity_to_v4l2_subdev(csi->remote->entity);
+ 	s64 freq;
+ 	int ret;
+ 
+ 	if (enable && csi->streaming == 0) {
+-		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
++		freq = v4l2_get_link_freq(csi->remote, 0, 0);
+ 		if (freq < 0) {
+ 			dev_err(&csi->cldev->dev,
+ 				"error %lld, invalid link_freq\n", freq);
+@@ -307,11 +302,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
+ 		if (ret < 0)
+ 			goto err_switch;
+ 
+-		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
++		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
+ 		if (ret)
+ 			goto err_switch;
+ 	} else if (!enable && csi->streaming == 1) {
+-		v4l2_subdev_call(csi->remote, video, s_stream, 0);
++		v4l2_subdev_call(remote_sd, video, s_stream, 0);
+ 
+ 		/* switch CSI-2 link to IVSC */
+ 		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
+@@ -468,34 +463,29 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
+-static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
++static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
++				   struct v4l2_mbus_config *mbus_config)
+ {
+-	struct mei_csi *csi = ctrl_to_csi(ctrl);
++	struct mei_csi *csi = sd_to_csi(sd);
++	unsigned int i;
+ 	s64 freq;
+ 
+-	if (ctrl->id == V4L2_CID_LINK_FREQ) {
+-		if (!csi->remote)
+-			return -EINVAL;
+-
+-		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
+-		if (freq < 0) {
+-			dev_err(&csi->cldev->dev,
+-				"error %lld, invalid link_freq\n", freq);
+-			return -EINVAL;
+-		}
+-
+-		link_freq_menu_items[0] = freq;
+-		ctrl->val = 0;
++	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
++	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
++		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
++	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
+ 
+-		return 0;
++	freq = v4l2_get_link_freq(csi->remote, 0, 0);
++	if (freq < 0) {
++		dev_err(&csi->cldev->dev,
++			"error %lld, invalid link_freq\n", freq);
++		return -EINVAL;
+ 	}
+ 
+-	return -EINVAL;
+-}
++	mbus_config->link_freq = csi->link_freq = freq;
+ 
+-static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
+-	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
+-};
++	return 0;
++}
+ 
+ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
+ 	.s_stream = mei_csi_set_stream,
+@@ -504,6 +494,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
+ static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
+ 	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = mei_csi_set_fmt,
++	.get_mbus_config = mei_csi_get_mbus_config,
+ };
+ 
+ static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
+@@ -531,8 +522,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
+ 	if (pad < 0)
+ 		return pad;
+ 
+-	csi->remote = subdev;
+-	csi->remote_pad = pad;
++	csi->remote = &subdev->entity.pads[pad];
+ 
+ 	return media_create_pad_link(&subdev->entity, pad,
+ 				     &csi->subdev.entity, CSI_PAD_SINK,
+@@ -556,26 +546,14 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
+ 
+ static int mei_csi_init_controls(struct mei_csi *csi)
+ {
+-	u32 max;
+ 	int ret;
+ 
+-	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
++	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
+ 	if (ret)
+ 		return ret;
+ 
+ 	csi->ctrl_handler.lock = &csi->lock;
+ 
+-	max = ARRAY_SIZE(link_freq_menu_items) - 1;
+-	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
+-						&mei_csi_ctrl_ops,
+-						V4L2_CID_LINK_FREQ,
+-						max,
+-						0,
+-						link_freq_menu_items);
+-	if (csi->freq_ctrl)
+-		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
+-					 V4L2_CTRL_FLAG_VOLATILE;
+-
+ 	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
+ 					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
+ 	if (csi->privacy_ctrl)
 -- 
 2.39.2
 
