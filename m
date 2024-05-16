@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-11567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CFE8C7A89
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 18:42:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AFE8C7A8C
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 18:42:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32E701F20F50
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 16:42:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BBA5AB22399
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 16:42:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83DEC747F;
-	Thu, 16 May 2024 16:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C4D1DFF3;
+	Thu, 16 May 2024 16:42:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b="QYOnM0cy"
+	dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b="WVMJ3I+/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573DD63BF
-	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 16:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04DC1DFE4
+	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 16:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715877736; cv=none; b=dTTeAMDNgWlgY2wKNtPglxx0rM72R0Qj7Ys+m0eeYCbop4rk9qUMv/6ITJonuGAoOvihSrHCyr9PTjdaSaOA82KWVx+KsrUEP3mgzR2JPQfANQs4jtNgs2Fg9dAl0XFIWlBHozaP2WmVMwBz3jigeCKzztTXEnA3CK5YFZViEwI=
+	t=1715877740; cv=none; b=HEL0L5MJMR1Qqeohh2SeGM4oGdItzxKnhZ0UJBtms8z3oHmheWIM5UMVg08jXSOnaOn5lw1Ao0o/Bo2Otut648VDvA53f5y+WNtRBPs4+uFkd+fHtdmE9vQCvc9y+/Q2ESN2H1glXLV1cCLM/d/FibhmWYQUsjdKf60OjzCrBPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715877736; c=relaxed/simple;
-	bh=alJQ6riM1LX9FIYE0B2o3uu7wFCy8RXzmTCI8lK6Om4=;
+	s=arc-20240116; t=1715877740; c=relaxed/simple;
+	bh=j04eimfjyUgU2H082lOSUcXZZ9IlONK3OkpU84cro0M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gkMamv4hXMyHGk9N3yhTCVoZfZu3Nd+TQIx7LRZzzagtiMwCC7gdyklgbZ4nomJ7ZPNPn3RDTER6TUC+AKIBDISBoYGHujw2stpR5BDt8WcnO3VCSrOZ4jon7WYUptO/9UHG6vtQSwzi2uDocyvn/1zeHzDjqU9HKNTdXFj9aj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com; spf=pass smtp.mailfrom=melexis.com; dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b=QYOnM0cy; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=r7gMkwkc+YXSbkSeUgNotU2D1ZWX0CzF8kWAliqGD8LKu3d1AUehXZQ+04KZiyz4SxgZ+gV8q7jR5B1Gs3nbMDW65rW4DYjkElzaoV0co8fNAJ3xaOpf0lZ3cSFqjk05nWyqpdkrlECfn+Hvy806Z7ZZpjfg6adHdz68uKjZyx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com; spf=pass smtp.mailfrom=melexis.com; dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b=WVMJ3I+/; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=melexis.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a59c5c9c6aeso346354666b.2
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 09:42:14 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-571ba432477so4098714a12.1
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 09:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=melexis.com; s=google; t=1715877733; x=1716482533; darn=vger.kernel.org;
+        d=melexis.com; s=google; t=1715877736; x=1716482536; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JJbbquUuFYlyR0DXePZ8R2GDsWo7iL9ZJhKoHm9Pgs8=;
-        b=QYOnM0cyiyTN2sysu8cgM1fx8e3m3xfG1aFoDIHbc/l/U4k0Z2FZ145oTlY1qx+Mtg
-         LYok9xzyr0G7kytWdfORE1m8T+tcy5COrJ5ePJEUPXW0lu/9IAWIY8bqyCdyojeEtGy/
-         6Ayld47Xh4oT37i4HaxBLfS5yaYFV6U6qR7Gudk/7ffvoZ2YmMygeU47LwinHmNcCD0e
-         EcCm5J8NFeWgI3tMMNshmWY3kJqVJcPlUXE2h+OGG6pTK3XEuWcc7EwCSygLwnUREbrX
-         9N8B31o8mk3umB7upEcGAk3yZxss3TwCnevvBWEZC3lo5zDbsO2ZbqQrcU+mqOIG2wXO
-         YUzg==
+        bh=BXTYAMw4Ajg6uSzD9GLExqk/KcGPmBaTriWW0Oj6lRg=;
+        b=WVMJ3I+/13wztsWUl/QUjePs5vIwtiVI84O3VibCdQ2kb31RUriCT4XLOji3Otqj2Z
+         5/zeGIgEze7pQjDqaahaY4OFon+WxreD+S8bpuhBVSmcnFEeZQ2YEI0T0xIMdKQcF8iu
+         SutK9Q9tuM1GF1Mvm72wBp5fdNBjTOb/l1pybZyubhHcWEFPidXYXG4L13Msc93kgd6x
+         PMzagJ7djEtcdN1m1xacJ7s8m5Jw3I9ng2YyrqEsm9Usu1awIJq528wvHlZZZiha4yja
+         toSaIsHBMcMTtQLN8nlW0mVw3j/WNGE4GUVHMwL2vJw9MS/0MaOm7V6RHgTg25otkIvW
+         Y7fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715877733; x=1716482533;
+        d=1e100.net; s=20230601; t=1715877736; x=1716482536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JJbbquUuFYlyR0DXePZ8R2GDsWo7iL9ZJhKoHm9Pgs8=;
-        b=D6KKrspaokOZSqLMpBCGNx44F43Vmyx7bZ8jwSUWA/W1cRZuRaGxAcryBlw2Jqv4MZ
-         mwOC3m7ntDIYf7Ccy/XDi6mZWtfjj3t8taVOrhBwcbxupgMEvGWS+VLo4CQyIEkxOCaH
-         DbkMaBgcMl4L8tHPmzz4IHtPxxPz3CnnRAH+ShXSK7AcTQm1g3KF3YaHQK9OtadXCG2Z
-         uKT+jCjeNLz+XmVtfjlahwiiUWXwQMKFVuMWNVvslSEeIwPktFDrHBtBLImxfHEt5bQa
-         FhIbCQFt+XCyQoVGx+TwmZnMRw+iar4HIwa38PgTmR/iDr6sXl89at2OY5rk+HOynubE
-         LSbg==
-X-Gm-Message-State: AOJu0Yy8s8V1Pe89rWmxLiCNJqJI45BITJxm16OFlD/QykBPRYcwoH3P
-	TEm8n6njfJlxiwwflbdI7KZCdaS1yHiHJ3YJVfi98Uvfg3WSUXPPCYPt3JKC5ycdxRfNQb28suM
-	AbgL2bcTn8NiUdslrE9IoCOibvuteviSCYbPW1evK5yh7RmyF5c5/vFOrYtkF2OUthrl87WyeMV
-	/K3qRxTOyJywqIHczX8lVu2qD4ehdUi9Wg3WM0Oglm
-X-Google-Smtp-Source: AGHT+IEoTmPYnnZUtQvyZDjO3o9XekoX/3nMH2nUsz5wDT97DiFeyV0y1NTyXq1UjUAZ37yTIg1z+Q==
-X-Received: by 2002:a17:906:da8d:b0:a58:ea85:9114 with SMTP id a640c23a62f3a-a5a2d672fb6mr1600297266b.50.1715877732754;
-        Thu, 16 May 2024 09:42:12 -0700 (PDT)
+        bh=BXTYAMw4Ajg6uSzD9GLExqk/KcGPmBaTriWW0Oj6lRg=;
+        b=j0P6Pje2ocZYxPS444VKCFKzqotHYsgNvZ3EgnqJWPM/Ys9voGORBH+BCKw4eJW7zb
+         PzCII0bbqm+Wwql4wmEUpiPcbn+exE5PPuM5cKCW+Y9hT9o2tT1YvSj2hQhFSt527Txi
+         qJyK0aM4tYPVCTCIsCrqdqLhxuiv9Ai9bguo0rAIz1hFsnHzurfYdhWuKaG0QMIC5Xml
+         Xcx9e5E1yWvu3NzBVuR2/4QzNrx8xDWkRG9hOIIzeGNSCLMPxBJS8aMEqwajDABrROve
+         sXGXne/5WAA1ljjldfbZw3Xlhv3SUE3G7/40++AeCKPqrefZBzbDImnNexweC/YTctdV
+         UwJw==
+X-Gm-Message-State: AOJu0Ywns+5InxeKex00WLOmfxQ7KaoWRYB4OFxYlHmSALWsA7xmp4sA
+	2S/D9JkzoGL82x4fCOvRnS6OlLJArz2Wa9LRguCNfU2T1OG0DM7GYxnxe3qqJM7aJbp9UDgQ9It
+	AIqa83ga21F27411B3dMhW/HnHhrKHSpTIfz7v3dOtBFEcsOCwV9aADvQQE5kFeSIstbfueuJOQ
+	PoRPleNRw6+I9x7/JetmI4+nVM3cCF8brFJtj0Gk+d
+X-Google-Smtp-Source: AGHT+IHnGdB75nuvKaKJ3eLN8yhVPH5jsKWtZ2nuM+gj65Hc9dZ3akCfwRxJwyB56JtMGr4Qa6gEMw==
+X-Received: by 2002:a17:906:40c:b0:a59:dd90:baeb with SMTP id a640c23a62f3a-a5a2d641583mr1389923666b.48.1715877736241;
+        Thu, 16 May 2024 09:42:16 -0700 (PDT)
 Received: from melexis ([91.192.181.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a178a9f0fsm995174566b.69.2024.05.16.09.42.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781cf60sm1011443666b.14.2024.05.16.09.42.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 09:42:12 -0700 (PDT)
+        Thu, 16 May 2024 09:42:16 -0700 (PDT)
 From: Volodymyr Kharuk <vkh@melexis.com>
 To: <linux-media@vger.kernel.org>
 Cc: Andrii Kyselov <ays@melexis.com>,
@@ -80,9 +80,9 @@ Cc: Andrii Kyselov <ays@melexis.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Volodymyr Kharuk <vkh@melexis.com>
-Subject: [PATCH v6 04/10] media: v4l: ctrls: Fill V4L2_CID_TOF_CLASS controls
-Date: Thu, 16 May 2024 19:41:49 +0300
-Message-Id: <69e2cb692e63f9cf1f347fcc10de5c634c8643bc.1715871189.git.vkh@melexis.com>
+Subject: [PATCH v6 05/10] media: Documentation: v4l: Add TOF class controls
+Date: Thu, 16 May 2024 19:41:50 +0300
+Message-Id: <6b0e58f60cbfe55a2c0fc14135d6453b53721f19.1715871189.git.vkh@melexis.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <cover.1715871189.git.vkh@melexis.com>
 References: <cover.1715871189.git.vkh@melexis.com>
@@ -94,60 +94,111 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Define names, flags and types of TOF controls. *dims* is driver specific.
-It also means, that it is not possible to use new_std for arrays.
+Add description about V4L2_CID_TOF_PHASE_SEQ, V4L2_CID_TOF_FMOD
+and V4L2_CID_TOF_TINT.
+Also updated MAINTAINERS with new ext-ctrls-tof file.
 
 Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
 Acked-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-defs.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../userspace-api/media/v4l/common.rst        |  1 +
+ .../userspace-api/media/v4l/ext-ctrls-tof.rst | 56 +++++++++++++++++++
+ MAINTAINERS                                   |  7 +++
+ 3 files changed, 64 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index db596cb43ad0..18085b800c32 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1252,6 +1252,13 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
- 	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
- 	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
+diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
+index ea0435182e44..1ea79e453066 100644
+--- a/Documentation/userspace-api/media/v4l/common.rst
++++ b/Documentation/userspace-api/media/v4l/common.rst
+@@ -52,6 +52,7 @@ applicable to all devices.
+     ext-ctrls-fm-rx
+     ext-ctrls-detect
+     ext-ctrls-colorimetry
++    ext-ctrls-tof
+     fourcc
+     format
+     planar-apis
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+new file mode 100644
+index 000000000000..fd8969d3d354
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+@@ -0,0 +1,56 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 +
-+	/* Time of light camera controls */
-+	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-+	case V4L2_CID_TOF_CLASS:	return "Time of Flight Camera Controls";
-+	case V4L2_CID_TOF_PHASE_SEQ:		return "TOF Phase Sequence";
-+	case V4L2_CID_TOF_FREQ_MOD:		return "TOF Frequency Modulation";
-+	case V4L2_CID_TOF_TIME_INTEGRATION:	return "TOF Time Integration";
- 	default:
- 		return NULL;
- 	}
-@@ -1463,6 +1470,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_DETECT_CLASS:
- 	case V4L2_CID_CODEC_STATELESS_CLASS:
- 	case V4L2_CID_COLORIMETRY_CLASS:
-+	case V4L2_CID_TOF_CLASS:
- 		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
- 		/* You can neither read nor write these */
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
-@@ -1614,6 +1622,18 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
- 		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
- 		break;
-+	case V4L2_CID_TOF_PHASE_SEQ:
-+		*type = V4L2_CTRL_TYPE_U16;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_TOF_FREQ_MOD:
-+		*type = V4L2_CTRL_TYPE_U32;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
-+	case V4L2_CID_TOF_TIME_INTEGRATION:
-+		*type = V4L2_CTRL_TYPE_U16;
-+		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-+		break;
- 	default:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		break;
++.. _tof-controls:
++
++***************************************
++Time of Flight Camera Control Reference
++***************************************
++
++The Time of Flight class includes controls for digital features
++of the TOF sensor.
++
++TOF sensor is a receiver chip. Each pixel in the sensor measures the travel time
++of light to that pixel and hence the distance to the object seen by that pixel.
++There are different types of TOF sensors. Direct TOF sensors (also known
++as Lidars) send a single pulse and measure direct time of flight.
++Another type of TOF is indirect TOF sensors, which emit continuous wave
++(could be radio or infrared) and then measure phase shift of reflected light.
++The sensor modulates outgoing light and then collects reflected photons
++as an electric charge with modulated pattern. Knowing the frequency of
++the pattern you can calculate the real distance.
++
++For more information about TOF sensors see
++`TOF <https://en.wikipedia.org/wiki/Time-of-flight_camera>`__ from Wikipedia.
++Also, there are other nice explanations from vendors about indirect TOF:
++`Microsoft <https://devblogs.microsoft.com/azure-depth-platform/understanding-indirect-tof-depth-sensing/>`__,
++`Melexis <https://media.melexis.com/-/media/files/documents/application-notes/time-of-flight-basics-application-note-melexis.pdf>`__,
++`TI <https://www.ti.com/lit/wp/sloa190b/sloa190b.pdf?ts=1657842732275&ref_url=https%253A%252F%252Fwww.google.com%252F>`__.
++
++.. _tof-control-id:
++
++Time of Flight Camera Control IDs
++=================================
++
++``V4L2_CID_TOF_CLASS (class)``
++    The TOF class descriptor. Calling :ref:`VIDIOC_QUERYCTRL` for
++    this control will return a description of this control class.
++
++``V4L2_CID_TOF_PHASE_SEQ (dynamic array u16)``
++    Change the shift between illumination and sampling for each phase
++    in degrees. The distance / amplitude (confidence) pictures are obtained
++    by merging 3..8 captures of the same scene using different phase shifts
++    (some TOF sensors use different frequency modulations).
++
++    The size of dynamic array specify the number of captures.
++    Also driver may decide whether V4L2_CID_TOF_FREQ_MOD and
++    V4L2_CID_TOF_TIME_INTEGRATION should change the number
++    of captures or rely on V4L2_CID_TOF_PHASE_SEQ control.
++    The maximum size of the array is driver specific.
++
++``V4L2_CID_TOF_FREQ_MOD (dynamic array u32)``
++    The control sets the modulation frequency (in Hz) for each phase.
++    The maximum array size is driver specific.
++
++``V4L2_CID_TOF_TIME_INTEGRATION (dynamic array u16)``
++    The control sets the integration time (in us) for each phase.
++    The maximum array size is driver specific.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef6be9d95143..de46c28bb3f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14012,6 +14012,13 @@ S:	Supported
+ W:	http://www.melexis.com
+ F:	drivers/iio/temperature/mlx90635.c
+ 
++MELEXIS MLX7502X DRIVER
++M:	Volodymyr Kharuk <vkh@melexis.com>
++L:	linux-media@vger.kernel.org
++S:	Supported
++W:	http://www.melexis.com
++F:	Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
++
+ MELFAS MIP4 TOUCHSCREEN DRIVER
+ M:	Sangwon Jee <jeesw@melfas.com>
+ S:	Supported
 -- 
 BR,
 Volodymyr Kharuk
