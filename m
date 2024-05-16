@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-11565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE7D8C7A85
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 18:42:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9748C7A87
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 18:42:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F5691F22935
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 16:42:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E2BD1F2208A
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 16:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC6ECA7A;
-	Thu, 16 May 2024 16:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9673C1DA58;
+	Thu, 16 May 2024 16:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b="R9GMsiK5"
+	dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b="oAHc1LLS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EB779FE
-	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 16:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC024C94
+	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 16:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715877729; cv=none; b=OmlTahjY1mqvcBDMP2DfJuECGioDRFefFo0ed4NDEBJZhY7hjtssafQsl6OcGrgJotUHolfZ0THIG6oKdC0WIREhEHuGwXhQMjubKsmaPOt7pXKDKznGT8o72qcE/QfiWEcL3m9PhuisR7j8TERP3RkkDvk5IaGZEpHfMiVNXFo=
+	t=1715877733; cv=none; b=bvbfmY81vU6QmuiThpj+1dFpuPr2K6plXwMt0BZ0SytbjusdOUSd5KB6vsJzcP4OcG5p4gLRN/Ga27sGYFaUSrssrviLab11IlIZiETmH3r1C1zqdqX+s5oG/Ou7RcLQEHt0KQjuP4zAMktM7hs6yqlW2x7oxeJxGpJkwOiLvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715877729; c=relaxed/simple;
-	bh=Pi637p/bTB0lkWkPF8F7Ynr0/P72arsieb2+Igg8v48=;
+	s=arc-20240116; t=1715877733; c=relaxed/simple;
+	bh=Z2Up8NdNWpwOPvHkVPSkQzmGpXgQHnv35kuhg72/dno=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=URiriRNSvakXSOYxz9p4GZif2SOUd7lNUsJryamwn2PdgZ6QprSb7OP0QOKZ6iqjVFFFq9p2Qv+rDt1EcLYeRpXe3NgZ8ktnn0rqMyGIg7S0WJDCkQ9OLZ2l1o6N8VzHPcDUNn4PWnH+Hca8cIzMzGuFGAMzhbnwF6CD/uixez8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com; spf=pass smtp.mailfrom=melexis.com; dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b=R9GMsiK5; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=f1/01oJlI9+XyXQkDUy5OotvivIArXFxPi0J4uaF2+mjG0dr/R6i7CBIi5/PXE9Z3lqawK1JWyFMnfddXjwRrfN9gqGmJJC8dxKcCsIhTmCV6TRz9zc+c8AQH5nApEP211jLTc5wqN4WR4oappVxT+KSl95neiqpA5ObdC2m94o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com; spf=pass smtp.mailfrom=melexis.com; dkim=pass (2048-bit key) header.d=melexis.com header.i=@melexis.com header.b=oAHc1LLS; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=melexis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=melexis.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a5a89787ea4so339240766b.2
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 09:42:07 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5723edf0ae5so3511559a12.0
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 09:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=melexis.com; s=google; t=1715877726; x=1716482526; darn=vger.kernel.org;
+        d=melexis.com; s=google; t=1715877730; x=1716482530; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ej6jwVDe49NxPVP2xZdB0Jv6xzX6u/ARkVFfi+swRno=;
-        b=R9GMsiK5Q0dLK8+BKlm9BCa6UHp0wm7YenAM2Yfhzup6SyE84zJOYr69ZCuDGtP+aJ
-         wDRkSOSSpIdrfeGP+i4jO1wFzxZI3RQyojKqHWC6TorG7pw/XmkIkOommpK4pMylDIJe
-         SzmnVC16NGXMTgbeCVvGzBSrtox0WjpY0+x9vcBcHhtNdxudNZN+n4BnJkZE47WiqPe7
-         spjHIbL+b7iI6Z9yQg9NBcd55FGj62E2TyEMYwakEazT5cvmFSWnjcWyH+YApljAGTrU
-         PoSjuk+3Tz5lA09ZOAiWMYWAKPYsz2gzlW6LMuOlJn7EHkb0Jpq2cmQnb/4dfyP1oCIX
-         YTRQ==
+        bh=Kd2BP40fUxe3iXqLrCdtO0arn/PW8G+mlzZObTv2eB8=;
+        b=oAHc1LLSmoXSGD5Ws95cutBHMTTVgPgKGmoXobH1ifSi9TyDBruyoFMvsZ+rGDb3DW
+         K3OJ2w6xWylpYEgjC9CsQPNWBIeqyhEyIyHzWPbbidKKEsU0WRHOtOJGLys1Zy0S5KBV
+         qNkno5UX4T9XG5hIeRMe2m3cx4v5hBsfa/sKsobd7RnS+DroX4IjAbB/AqIyb/LSmZ3h
+         pzMupe4hZk6ad9l2KYHmlogp8c4fhkBsmGZS3+aTGeNXKy68NSaWrTkiBAt6MwkPj51v
+         KGswV+REzG48fs0YzaBXNqOB/zTQYcBx4xrKh1+UwMh8RblbsmUGtxq8ko6wJq0Zyotv
+         fL0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715877726; x=1716482526;
+        d=1e100.net; s=20230601; t=1715877730; x=1716482530;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ej6jwVDe49NxPVP2xZdB0Jv6xzX6u/ARkVFfi+swRno=;
-        b=aISsYxO+wGGcuaengXTe1XrctPe0JF0oUQTNKHfHkYNTILWA2ufXF5qZWUisTtbFXJ
-         h9t9z0kCrJSnxG+pyUxcuv59EAe83JjOke+iDe1kmtrScg5K1ziIDsOf8/KjQmFH82ka
-         E0rZ+TBGS1OLrvBsSS/zcIhGh7+Xdihqj4kZW7D67pM/dZ/jaCUfF9W+xpYdljVHxXXb
-         N+Hrmh0Df5u7OTWqXguHdTLZM2HYTGxkzT3rN/nNNqO/3FohT4331RbS9EWRf4Su1ZHR
-         EbHCTg2sGAD5oZ++EoZKEf3GqwIIAGaiXevRcQoVZHrcse+fUeYvLaeX+RXV1WyyegqN
-         pe2A==
-X-Gm-Message-State: AOJu0YyEpnsgDzX2EppVD931wPauc+lhcARbLEWolQ3v8/LWXFO5bj0q
-	x3FWbsrM4tja9TGZjmwlJRYc/kJlWXm/rwHeqryPJmTj474XgKWeR7xUeRJpzxxvUL6ovNNegzc
-	yhl5saHgbSL5hSf+d7pyOLAUxhMFQ34gagp5uHdGN6LDKZd5DKXZlL10mLXjVs+90GfhOtWv1M0
-	HqrOATQRPHT5FHHPsyvebM3o/d4HdjHnuICYXR67nT
-X-Google-Smtp-Source: AGHT+IEEfjI8Kc3o+hOYjuRV9jGg7ljtuNIZI919I5rhvcttKVZf6MMDwbxs3mvjCURVZOJcAkI40A==
-X-Received: by 2002:a17:907:9455:b0:a59:b88c:2b2a with SMTP id a640c23a62f3a-a5a2d66a7cdmr1557549166b.50.1715877726633;
-        Thu, 16 May 2024 09:42:06 -0700 (PDT)
+        bh=Kd2BP40fUxe3iXqLrCdtO0arn/PW8G+mlzZObTv2eB8=;
+        b=vOkZBhpCKnjrnoNFhexf2KrBCzgZALF1RE/TiKl1FL4E8X6z/QdEZCxWH4vTGMXnm0
+         Z/kW/sMXJyANd77KFTy6vih98JUZ2QEbo0alvfztACUWWQOdxL8UZFTHIf8SNCfRt2gf
+         3A/HPiWkVics/NwJirimQXOXtamdJbT05iMjASLpJVXGRYfeqS7uFhPJ4yNPAar0sYlM
+         3jhKDly+WfnF2QaZYwwfom7fZCFj2G8qOIYnL6Yg9Rdm+JAdHVRzM/+6dAFZ2n4mlAfl
+         r3nnyN0GI8OE+n9Nz+vmLGQdkYOm0nibSEeEH/9uSsgdOq/3+1PY2lwxeTw9OwPYsky+
+         vPsA==
+X-Gm-Message-State: AOJu0Yy80p33nwWrDWBzhFvYup8LnI+OOlPR0b+ABN16pvoGhsZaLhZu
+	w6cVCmw4OW8s6H+ej4OXykaqfLMf5sxDL3PijuOAZSdTA3Uoatb0y91Ph6QNmNY2CHb8Iuz4auB
+	i6PRhPQyMSgbUsa0z6zwZIo1l53WQc5m8pVidy9uCNATpidXKE1UJf5xcFkurE57T5nwidSHJtZ
+	fLUF5qyPdDs9iokJEGtadxUWJ6sK5QKplNN3e9r9GF
+X-Google-Smtp-Source: AGHT+IFoBv4qFB8tusulro970FDf32Yd7hCImB/40oyR/6oHGniRsD3ojCeaDfGVwFWuKqLReE2xIg==
+X-Received: by 2002:a50:d791:0:b0:572:707f:1a99 with SMTP id 4fb4d7f45d1cf-5734d5d3747mr12697360a12.25.1715877729821;
+        Thu, 16 May 2024 09:42:09 -0700 (PDT)
 Received: from melexis ([91.192.181.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a8a55f2e8sm315276666b.126.2024.05.16.09.42.05
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733becfb83sm10694063a12.46.2024.05.16.09.42.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 09:42:06 -0700 (PDT)
+        Thu, 16 May 2024 09:42:09 -0700 (PDT)
 From: Volodymyr Kharuk <vkh@melexis.com>
 To: <linux-media@vger.kernel.org>
 Cc: Andrii Kyselov <ays@melexis.com>,
@@ -80,9 +80,9 @@ Cc: Andrii Kyselov <ays@melexis.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Volodymyr Kharuk <vkh@melexis.com>
-Subject: [PATCH v6 02/10] media: v4l: ctrls: Add camera trigger controls
-Date: Thu, 16 May 2024 19:41:47 +0300
-Message-Id: <fc393de60e5ef31352c354dcb1e2fc716e9fcf5a.1715871189.git.vkh@melexis.com>
+Subject: [PATCH v6 03/10] media: uapi: ctrls: Add Time of Flight class controls
+Date: Thu, 16 May 2024 19:41:48 +0300
+Message-Id: <d5e9801c3b081123a06bf73b52336bf6f48e69cb.1715871189.git.vkh@melexis.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <cover.1715871189.git.vkh@melexis.com>
 References: <cover.1715871189.git.vkh@melexis.com>
@@ -94,67 +94,44 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add V4L2_CID_CAMERA_TRIGGER_MODE as a menu item control to set
-trigger mode. Also proposed some standard modes.
-Another item is V4L2_CID_CAMERA_TRIGGER as a button to send
-trigger in V4L2_TRIGGER_MODE_INTERNAL mode.
+Define Time of Flight class controls.
+Also add most common TOF controls:
+ - phase sequence
+ - time integration
+ - frequency modulation
 
 Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+Acked-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-defs.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ include/uapi/linux/v4l2-controls.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 8696eb1cdd61..db596cb43ad0 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -611,6 +611,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		"Cyclic",
- 		NULL,
- 	};
-+	static const char * const camera_trigger_mode[] = {
-+		"Continuous",
-+		"Internal",
-+		"External",
-+		NULL,
-+	};
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 7901f40a1bd8..3ac204818bdf 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -30,6 +30,7 @@
+ #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
+ #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
+ #define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
++#define V4L2_CTRL_CLASS_TOF		0x00a60000	/* Time of flight camera controls */
  
- 	switch (id) {
- 	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
-@@ -750,6 +756,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		return camera_orientation;
- 	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
- 		return intra_refresh_period_type;
-+	case V4L2_CID_CAMERA_TRIGGER_MODE:
-+		return camera_trigger_mode;
- 	default:
- 		return NULL;
- 	}
-@@ -1086,6 +1094,8 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
- 	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
- 	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
-+	case V4L2_CID_CAMERA_TRIGGER:		return "Camera Trigger";
-+	case V4L2_CID_CAMERA_TRIGGER_MODE:	return "Camera Trigger Mode";
+ /* User-class control IDs */
  
- 	/* FM Radio Modulator controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1342,6 +1352,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_AUTO_FOCUS_START:
- 	case V4L2_CID_AUTO_FOCUS_STOP:
- 	case V4L2_CID_DO_WHITE_BALANCE:
-+	case V4L2_CID_CAMERA_TRIGGER:
- 		*type = V4L2_CTRL_TYPE_BUTTON;
- 		*flags |= V4L2_CTRL_FLAG_WRITE_ONLY |
- 			  V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
-@@ -1420,6 +1431,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_CAMERA_ORIENTATION:
- 	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
- 	case V4L2_CID_HDR_SENSOR_MODE:
-+	case V4L2_CID_CAMERA_TRIGGER_MODE:
- 		*type = V4L2_CTRL_TYPE_MENU;
- 		break;
- 	case V4L2_CID_LINK_FREQ:
+@@ -3499,6 +3500,13 @@ struct v4l2_ctrl_av1_film_grain {
+ 	__u8 reserved[4];
+ };
+ 
++#define V4L2_CID_TOF_CLASS_BASE		(V4L2_CTRL_CLASS_TOF | 0x900)
++#define V4L2_CID_TOF_CLASS		(V4L2_CTRL_CLASS_TOF | 1)
++
++#define V4L2_CID_TOF_PHASE_SEQ		(V4L2_CID_TOF_CLASS_BASE + 0)
++#define V4L2_CID_TOF_FREQ_MOD		(V4L2_CID_TOF_CLASS_BASE + 1)
++#define V4L2_CID_TOF_TIME_INTEGRATION	(V4L2_CID_TOF_CLASS_BASE + 2)
++
+ /* MPEG-compression definitions kept for backwards compatibility */
+ #ifndef __KERNEL__
+ #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
 -- 
 BR,
 Volodymyr Kharuk
