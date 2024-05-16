@@ -1,270 +1,418 @@
-Return-Path: <linux-media+bounces-11512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11513-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7E78C72A0
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 10:17:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83028C7309
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 10:41:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D3661C21841
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 08:17:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 863A0283DD8
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 08:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51E186267;
-	Thu, 16 May 2024 08:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C33142905;
+	Thu, 16 May 2024 08:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Dvn7rcxv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l8ZZo/Z4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A8F4501A;
-	Thu, 16 May 2024 08:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715847449; cv=fail; b=EEPbkEX+0MAOTiB4Biml6lRk8qOEhM/nsomn1LVeVyCW/KH9/gYeb9QvmH8DxtGpW8HkU/xQoOR3ibsoHxr6mRswPC/0RMpousIOeGgkTfDgSIrZ5DEbwCOSo9wakc9rvN9X2FcMYQhjkLyUYQqdQLuj3/DCpnHC7ixw4Qz7rAA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715847449; c=relaxed/simple;
-	bh=OUt/xieigBit3fAdZ5EabkAYGgfKEsnDCGanzOeJAUg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mo1A0+ZvOHKPYLowrDs1Go8/sFWtvwY94uIow6+Oi/QvahsKvj91JA/sOF+KZ552nNL0sqFtpO1zCiUYDyR3iBb+jPQ65sx6SkYGkY8J/jMmR/yjvkVVfXjvrHuiuethCjIc4zPM/ONjoQ2DNshM/Fve3VIHXgOI9QcY8k38McQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Dvn7rcxv; arc=fail smtp.client-ip=40.107.244.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FbKZCcrlL5R4rcYy0gVVZPIHBVFWhhm/HqsbgrrgEO13i2dPn0ZOtShGm2aG+KLjX4n0CCOuhGYT6mOgEKH0v0NKvKbpQxvqi+nYEw3VUUjvVZekoH6zxzA50dyvonuJFT+LbBdtKGgs2DDJM6Vh6VkYCRTX9y6JRS8TKAQnL7eLSs8JrDoRAy5ATAAepFJ0wzyi9Uizw8PEh/fvsqatw6FBbn8E4ThtS0bhOn/pDrtiRCPcuT9bDR7DxmPPrr54UrFr81m5It5YKlelgxuHAkjxv9IQCeZPuZIWZPm42LiNCAQRi9PoIvxi+X/SGvqUj3FUfHXpd2iyZs+dSrv98Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8+azLIRRDgAuQHkgqIunPWdxDv5P7+tRkVYiQ1DJ4UM=;
- b=KQRpWF6gJ1wmAbYn012Ldp8iTz6KVUjQLte7ugL0f1ph6XCDg6Rt2Jc+1TST6XqEpFzNMlGdaAyddQurNlPV5QYapEEEZkdZzlQKJzRA/yRzSutM+g5ajMN1UfC8znZcaiSmArDWqQeTeELSeRd+egSR12hxG80RuaPSCMALypnRwA88L+rYdlgPgl+PFl10yug6zqryJ/IV4d+fM9H9hb3MwS8t4HnZoOEXHTgzF/ddRb/99xQ2nmZl7DnGOM3iAYmv3mx0vQ4F7U4syBUt1+qQliLxZIEnr8hTbevUAdncRThbA6YmIG39Wy+gYSWQBXmx/WwRlNlceEJ4gEj6xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8+azLIRRDgAuQHkgqIunPWdxDv5P7+tRkVYiQ1DJ4UM=;
- b=Dvn7rcxvIR36UojGAFZ1jo9nCG7cRGzS9JO9paoOH+he4c11U9sGAhXLUeulIzr2bcwrviQI1IokPbGpN6q+aocSe9JFxqKtDEo7q+QSP7Ymquf5033vkB+bijsXnfELIOEutqkskq92o8hQfLJ3nC2HXSP4/vFsuIKtZRfF+jw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB6919.namprd12.prod.outlook.com (2603:10b6:806:24e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.28; Thu, 16 May
- 2024 08:17:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7587.025; Thu, 16 May 2024
- 08:17:23 +0000
-Message-ID: <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
-Date: Thu, 16 May 2024 10:17:13 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- tjmercier@google.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Joakim Bech <joakim.bech@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>, Pavel Machek <pavel@ucw.cz>,
- Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>,
- willy@infradead.org, Logan Gunthorpe <logang@deltatee.com>,
- Daniel Vetter <daniel@ffwll.ch>, jianjiao.zeng@mediatek.com,
- kuohong.wang@mediatek.com, youlin.pei@mediatek.com
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
- <20240515112308.10171-3-yong.wu@mediatek.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240515112308.10171-3-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR5P281CA0028.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f1::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E681411D8;
+	Thu, 16 May 2024 08:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715848878; cv=none; b=DTJJg/42OCp0YHTpsM9HuMoI/RFVeLtSIC5EdQst4GVydrJ1SNVCs1WBEoylsgYZgFK8kscin8cpc4LCCeqzvHK6gDAgSXXiTLyVB+445BGv2ojYTdNzYldp0XB6zfwYvxNtzeK0HPpXStAHHyQc+zoV+yclxYDQi6nXK2GGzYY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715848878; c=relaxed/simple;
+	bh=4KLkMCbZUKnHQ9N54Zv0Cup9+GEhrxn6Rra6jaeTtrE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NgBwjaL6WEOxdYNaBb8tyOp9WCiBmW0tiKDLmMTN2/e7DNYJrSEcbP7hiiAJOV+H0nS/qsmnJAXdrIPAMYVv9jRl/sqqqJm3XJZc3WYPE7SrLw7regZCDEBinAQUQhDejKRoJ1jGyhr4/SsA8YVs0rRN2NMEv6gBQCe8ApuX7TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l8ZZo/Z4; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1715848874;
+	bh=4KLkMCbZUKnHQ9N54Zv0Cup9+GEhrxn6Rra6jaeTtrE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=l8ZZo/Z49ch8G9srlc0FLz/sJXV1RZiKw5sq+1dYXYmU7D8DiBCD0JNLjOc5UsvZu
+	 dYYd8lWE9W68K+3bHk7iCd/DSQP7zxGWFHj3lIUfLtJ+og5/WmSqnCc8Sbds3rthwR
+	 cFh804GeelUBJ+CnaYcAqUwEyRzPU7Sp7SZNMoftXywxRvvlQdSK3PbvDQD/5k94+Z
+	 Qw7kje0aqZ4Lpa4nrzqrB1+XNeZ2PUVBgNo0baSWRxakQ59e0vzxAxweRvkh70IQ2j
+	 AHzzRPqQXw3dHgGVckP8DtveZfSrxzby+uwWg2NlExrCvTCAHog+7VzMFDZIyJErGl
+	 DLHdtbVO8fKQQ==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9FD90378218B;
+	Thu, 16 May 2024 08:41:13 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: verisilicon: Add reference buffers compression
+Date: Thu, 16 May 2024 10:41:07 +0200
+Message-Id: <20240516084107.37083-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e9e231d-7fe7-4221-66a4-08dc75809d15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UWl6SVNuR2lDcHpncXBJWW9HV1dQK0U3c3dRbkQ5YTBoV2R5YTB1cDljV21k?=
- =?utf-8?B?V2NQb2RFZ3haUlhoUnpMbDhpTmNIQkJrZDgvT1A0Ry81blNMRWNxT3IvNnI3?=
- =?utf-8?B?ckJITFZYcjlrOUUybnByY09SZDZibmVOL2RyQ1lmcHYvcmlZZXBYcEI5RVpM?=
- =?utf-8?B?ZHJVa25sY083dDZRK2d3QXpYeklLdzFnRnNBU2tuWlhSU1BFSHM4aFR6Z2h6?=
- =?utf-8?B?aG5qYmNXU3JwR0ZmTDM5cCtjM0krTitQVGVTR1FjSEFDUlNtYWgvZlNCWm1M?=
- =?utf-8?B?SkpXYi9zNkhYajR4RnVLbVlBRmhJd2hxOEM3dHJlaTBneGZjNnVXVW9rd1hC?=
- =?utf-8?B?UEFRY0RxRkpLWTVHcng5RjQyQ0hlQ05oaDdQR2NqL25qY2MxcnNtQlFiUk5i?=
- =?utf-8?B?YXgzdmhJTlVEVVI2aVE3dC9rVHY1dm9PQU9NcDU3aUdRMnQra1gvY2hMcmhT?=
- =?utf-8?B?Z05Uc2FGTGxpdTZQWmhQNmlOMVc1M2tHeUVBNjNTeUlrQVlLWjh4YzJIOVlw?=
- =?utf-8?B?Q0hHdHRLTlMyMEU5bXNIWW1KTXk3RjZITnlwbXZQNHNRQ0JkLzVxRFRzeExp?=
- =?utf-8?B?YTZleERQU2R1SE9tQmdHWFhXdU5xSkRHSnFqVUZOcm1MV3NVYVdoZjZSTGpE?=
- =?utf-8?B?eWllcDRYbWkydTZoeWxteWY3ZTY0RXF6bWt5L2JQcGxKR3Q1WldyVTB4SEor?=
- =?utf-8?B?V213OHIzemhlL3ZRYk1OZW9wTTEzaUNnalFPVjJOcHMzVWF2dnMzL3lUeHNP?=
- =?utf-8?B?dmY1Zk1pODVhQTAxR3FjaThpRXQ3UkFPTkRPRFlMdVB5U2p6aE8wSjdvZVp6?=
- =?utf-8?B?SUZDR0JGTnhQZDc4enl0c1VTYU8xaE52MGt0V2NBTDZYaUg4MWlUcm4wd2Jr?=
- =?utf-8?B?TDJjQmtHR2ZrTVAxcmVoS0Q1M0U3OHMvUHlTUzhRYnJmNXFlR0V3dTMxZTJq?=
- =?utf-8?B?MjNHME82emVrODVhbjJzNTFLSERqcGhrb2RLWUVnWkhZVE1SVmtYNEp3b0NO?=
- =?utf-8?B?ckpyZnQ1UktqNlJ4MjBzd2xIUTR1NnFBbmN5bzJRSmNYTUpqOWVIK25oQjF0?=
- =?utf-8?B?emZuMnlEV21GbGptQ2RUUUxWWXAwVjJ6NDZiSHlDWFQ2UUkrNlEyQVRJUEN3?=
- =?utf-8?B?dU1HbjBrWkpaNnpzQkhDMHkzTE1XSmdka21NMVFtS09EZ2xnN2wxM2IwQ3ZZ?=
- =?utf-8?B?OHlIU0RTc2ZKUGZCSzg1R3UwWTQ4UFM3UWRwb3RmRzZjdE5NSGhJSlpSU0xB?=
- =?utf-8?B?RmJlZ3MvZDZ5Yk16aytrRlIvRDBhOFRJQTFZenNjRkl3U3hvUFliaWpzVEVJ?=
- =?utf-8?B?RDdkNTBwd3dobGdJNk5ZVUl1c2tGYWJqQzFPUUgwdnk1UUJHSlhtdys1RFIv?=
- =?utf-8?B?ektpNkl0a0NFYnNPZVk3WlVCN2loTm1Za255aUlXajltMW1oZFRDc0NucEpi?=
- =?utf-8?B?Z1ZGVXFDTUIyeWJKZjl3NmUxWHVGd0FlcEF3WXpTMXFNalhTSTk0YlRhQmNU?=
- =?utf-8?B?dFpiSjBSZjlkTFRFVTZXS0xnbU0rOE0rOENXcW1NUkxheEY4SDZWdFM0VE4v?=
- =?utf-8?B?YWNwQ3BnVzMyN3dXUDhsTmQza1NiQ0MyV2F0bGk4VmVRQ053UXZZQ0xBTjlq?=
- =?utf-8?B?UkR1T3I2R1Q4TjBNc1FOUVNnSkNWaEErYlZqcC91eXNPT0JEQWZUMG9zSzZK?=
- =?utf-8?B?Sjk3NW9jdHlKclg5OWxuUUl0d3BsenJlYnNUYXI5TTl6UFYwakh6USt3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U3lPekRCYmwvWm4yVno3U0hKQ1pGNFlMRk4vV0N2MDQ4dXlTd1d2L1JiT25o?=
- =?utf-8?B?YmF4akF5SS92eTdzUVdKRThFcjM3NlpjL1lod2xPQkNDQldIUnVKZzNKYWJm?=
- =?utf-8?B?emJ4dEpnNTNVbSt2aWJiQit1NHpzUFJ4NS9MOW5qbUNNZ3gyeWdyTWQ2OWxE?=
- =?utf-8?B?K29SR1pscVlDWTUwNkdhZThMZDFZbFNEQ2FMN2tvUitZTjcrdVhoQzdNelJp?=
- =?utf-8?B?bzV4Z2hMMTVxRnJSelZvaHdVVUxVaHpjclIra0h4ekxjWCtzS1dGTWVaSEI3?=
- =?utf-8?B?SmNGeTJhSEhucDJIYjBSRFNvVi9OVGhiVjBlTHVFeVBMd2cyWFExTTZlQkQ1?=
- =?utf-8?B?SHNIZ3BFZWhuOWo1V0Z5K3dFRVZpWU5mMU1ueXA2ZkJUelRQczM3amFSMGpk?=
- =?utf-8?B?aG0zWTd3bys3S1ZBVy9NY241STZENVByY1ZZT2Nkb2FQUjJHQ1pqZ0Z0TUVQ?=
- =?utf-8?B?N29LZVFTa2xBZkd3dmFoUUwrQUg5YndDOTlxSFl3YWZaYVFkMmltTnJmVTBL?=
- =?utf-8?B?MklFdThaeWoxcDNTeEdSang4bHhpa2dHRFFwSlU2UHlNT1BlTkY1ZzRRMDNs?=
- =?utf-8?B?bVdTRGJkSlM4bHNrTWJtbklzZEIyQXdBRGNseEwxTUZsYWRBSFBIY2FxbFFH?=
- =?utf-8?B?alFra1NtMXpiaEEvZEFERCt1a2dlNUZwVi9HZisyTDBHZWo3bHlkTlpmWnFE?=
- =?utf-8?B?T09rU0JOUG1pUDZDUzZKRHFQVXB1UCtZZTVmbENGNllvYWN0TGtCVEFNVHgz?=
- =?utf-8?B?ZlQyQldlYkVxYlg0a3p2VnFhRk1admI5YWZyVnE2VkhoZENxNmo3N2RtaW1X?=
- =?utf-8?B?blR0SmdaSC9sbUlrYnBjV1Bxc2lCWE5FblNSZ2xhcnN0N3o0UmJjSTdRMWtn?=
- =?utf-8?B?eElBNGtBRWQ1cUdlaUk0cWxEdkdPZnBkQjlKSnhacHlNVWVKNFlhNExSZDUz?=
- =?utf-8?B?QUQxVVF6UVZOY1FqU0RvZGh1aHhzOVZvY3BCc1A1NSttaFI3bVNscVNtd0hB?=
- =?utf-8?B?Y1dla2crV2dPT3o0TFVLdDRMcUVNR2g3Z2taV0tyaStkVVZlV29GNzVlQzk2?=
- =?utf-8?B?VVJ5akRlUXkvajNaV3dUYWVqQ05GSnd6TUIrajdlQWpiYlp0eVZsUVlCQzdu?=
- =?utf-8?B?ZStNb1N3Y3NLOSswaUprdWV2cndzclRYNitXYTdYL3BUNkpLZEZZQTB0bEhz?=
- =?utf-8?B?SDlWZGFjdGVsek9hQ3Y5M0RrOHVzcmVhaHB0UlBDZ1NnYXYrVUxnRytXcU12?=
- =?utf-8?B?bFJ6ejhxR2I2bTNkMURxQUtVR3RsSndTcTlhcFhQL1IzVlNHeURNNXQxbzVt?=
- =?utf-8?B?Q1JwSjQwd3czQ1RZN3ZEamdRRldvL2g4VllqVXZTNE9vUmRKMXNqOVRGcnFj?=
- =?utf-8?B?enhTKzcxcFBjV291amg0RXhLWFV6NlFxZ2NiaW5yZmg0a0FwSUI5ZGtkcVMw?=
- =?utf-8?B?a3ZVTnBpMmdqdi9hVE4yR0RHMDRmVFhlQW5nSm0xOHRvOVJyYzgrOEVWVXlq?=
- =?utf-8?B?ZlZxbUtBdERBVHB1TW1TRHRqZDhya3FtVDIwQnNTL0diNUpVdWcrbE5XL29O?=
- =?utf-8?B?OHA2M1VLcEVjMVhYQTMxclVnOG9tdjE3b1pNcXM5RWdtSTJxQ1p2Q2tyS1Rk?=
- =?utf-8?B?NkV3REViUXVyU3hQbWpDRGJYQ2c4RnJjVVNLSWtiTk5IRDlDZDY4ZUxkNnF5?=
- =?utf-8?B?bm00NXFXT1RLVDRVcGZvTE5QSC9LS0FYaUdmVkw5aTU2TXZlcUFoVGppUDdO?=
- =?utf-8?B?Z2RDeXBrR1Fzc2N1SnVwVm00NzRBclJ4a2t0OFdMNFE1QjBHdGRvTHlHUGdt?=
- =?utf-8?B?VmVicEZpTVFXTUdFN01vVU14Qko5b05zdFA2RG1EZkV4bldwOVJWVHJIWldH?=
- =?utf-8?B?cHFQR3VkUzlKVHlaaC9PK3IrWkQ4a09INTlJWlZnc3N4eGlud0pMc0dnaFYw?=
- =?utf-8?B?WCtBQ2dvSlNOK21McVZEb29RRjRDeGVhV1kzWm54NDlZVjB5WCtLK0pMVkxL?=
- =?utf-8?B?bGdZY21jUXprZzNlT2xHZjVicE9lRWhQa1laS3MzSGo5WGZBQU1sS2d5UG9E?=
- =?utf-8?B?TjFneTVZdmNGczBrYW9xTy9ST2Vta2FFaHlTbEZrY0dRYWRQd3RLNnF4Qnpm?=
- =?utf-8?Q?i2y61XutfjVzBrFH7EIbgF2a+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e9e231d-7fe7-4221-66a4-08dc75809d15
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2024 08:17:23.2867
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E/3J65Vpjj8VR/q3lBtToWEE/e44ViWcRRQm415hEkXgXUyQHRW4Lf24FVTjTjs4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6919
+Content-Transfer-Encoding: 8bit
 
-Am 15.05.24 um 13:23 schrieb Yong Wu:
-> Introduce a FLAG for the restricted memory which means the memory is
-> protected by TEE or hypervisor, then it's inaccessiable for kernel.
->
-> Currently we don't use sg_dma_unmark_restricted, thus this interface
-> has not been added.
+Reference frame compression is a feature added in G2 decoder to compress
+frame buffers so that the bandwidth of storing/loading reference frames
+can be reduced, especially when the resolution of decoded stream is of
+high definition.
 
-Why should that be part of the scatterlist? It doesn't seem to affect 
-any of it's functionality.
+The impact of compressed frames is confirmed when using perf to monitor
+the number of memory accesses with or without compression feature.
+The following command
+perf stat -a -e imx8_ddr0/cycles/,imx8_ddr0/read-cycles/,imx8_ddr0/write-cycles/ gst-launch-1.0 filesrc location=Jockey_3840x2160_120fps_420_8bit_HEVC_RAW.hevc ! queue ! h265parse ! v4l2slh265dec ! video/x-raw,format=NV12 ! fakesink
 
-As far as I can see the scatterlist shouldn't be the transport of this 
-kind of information.
+give us these results
+without compression feature:
+Performance counter stats for 'system wide':
 
-Regards,
-Christian.
+        1711300345      imx8_ddr0/cycles/
+         892207924      imx8_ddr0/read-cycles/
+        1291785864      imx8_ddr0/write-cycles/
 
->
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->   include/linux/scatterlist.h | 34 ++++++++++++++++++++++++++++++++++
->   1 file changed, 34 insertions(+)
->
-> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-> index 77df3d7b18a6..a6ad9018eca0 100644
-> --- a/include/linux/scatterlist.h
-> +++ b/include/linux/scatterlist.h
-> @@ -282,6 +282,7 @@ static inline void sg_unmark_end(struct scatterlist *sg)
->   
->   #define SG_DMA_BUS_ADDRESS	(1 << 0)
->   #define SG_DMA_SWIOTLB		(1 << 1)
-> +#define SG_DMA_RESTRICTED	(2 << 1)
->   
->   /**
->    * sg_dma_is_bus_address - Return whether a given segment was marked
-> @@ -352,6 +353,31 @@ static inline void sg_dma_mark_swiotlb(struct scatterlist *sg)
->   	sg->dma_flags |= SG_DMA_SWIOTLB;
->   }
->   
-> +/**
-> + * sg_dma_mark_restricted - Mark the scatterlist for restricted buffer.
-> + * @sg:		SG entry
-> + *
-> + * Description:
-> + *   Marks a a scatterlist for the restricted buffer that may be inaccessiable
-> + *   in kernel if it is protected.
-> + */
-> +static inline void sg_dma_mark_restricted(struct scatterlist *sg)
-> +{
-> +	sg->dma_flags |= SG_DMA_RESTRICTED;
-> +}
-> +
-> +/**
-> + * sg_dma_is_restricted - Return whether the scatterlist was marked as restricted
-> + *                        buffer.
-> + * @sg:		SG entry
-> + *
-> + * Description:
-> + *   Returns true if the scatterlist was marked as restricted buffer.
-> + */
-> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
-> +{
-> +	return sg->dma_flags & SG_DMA_RESTRICTED;
-> +}
->   #else
->   
->   static inline bool sg_dma_is_bus_address(struct scatterlist *sg)
-> @@ -372,6 +398,14 @@ static inline void sg_dma_mark_swiotlb(struct scatterlist *sg)
->   {
->   }
->   
-> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
-> +{
-> +	return false;
-> +}
-> +
-> +static inline void sg_dma_mark_restrited(struct scatterlist *sg)
-> +{
-> +}
->   #endif	/* CONFIG_NEED_SG_DMA_FLAGS */
->   
->   /**
+      13.760048353 seconds time elapsed
+
+with compression feature:
+Performance counter stats for 'system wide':
+
+         274526799      imx8_ddr0/cycles/
+         453120194      imx8_ddr0/read-cycles/
+         833391434      imx8_ddr0/write-cycles/
+
+      18.257831534 seconds time elapsed
+
+As expected the number of read/write cycles are really lower when compression
+is used.
+
+Since storing compression data requires more memory a module
+parameter named 'hevc_use_compression' is used to enable/disable
+this feature and, by default, compression isn't used.
+
+Enabling compression feature means that decoder output frames
+are stored with a specific compression pixel format. Since this
+pixel format is unknown, this patch restrain compression feature
+usage to the cases where post-processor pixels formats (NV12 or NV15)
+are selected by the applications.
+
+Fluster compliance HEVC test suite score is still 141/147 after this patch.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+version 2:
+- Make 'bool hevc_use_compression' static
+- Add Kconfig to enable/disable the feature
+- Fix test command in commit message.
+
+ drivers/media/platform/verisilicon/Kconfig    |  8 ++++
+ .../media/platform/verisilicon/hantro_g2.c    | 35 +++++++++++++++++
+ .../platform/verisilicon/hantro_g2_hevc_dec.c | 20 ++++++++--
+ .../platform/verisilicon/hantro_g2_regs.h     |  4 ++
+ .../media/platform/verisilicon/hantro_hevc.c  |  8 ++++
+ .../media/platform/verisilicon/hantro_hw.h    | 39 +++++++++++++++++++
+ .../platform/verisilicon/hantro_postproc.c    |  6 ++-
+ 7 files changed, 116 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
+index 9a34d14c6e40..9adefb628d73 100644
+--- a/drivers/media/platform/verisilicon/Kconfig
++++ b/drivers/media/platform/verisilicon/Kconfig
+@@ -20,6 +20,14 @@ config VIDEO_HANTRO
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called hantro-vpu.
+ 
++config VIDEO_HANTRO_HEVC_RFC
++	bool "Use reference frame compression for HEVC"
++	depends on VIDEO_HANTRO
++	default n
++	help
++	  Enable reference frame compression feature for HEVC codec.
++	  It will use more memory but save bandwidth on memory bus.
++
+ config VIDEO_HANTRO_IMX8M
+ 	bool "Hantro VPU i.MX8M support"
+ 	depends on VIDEO_HANTRO
+diff --git a/drivers/media/platform/verisilicon/hantro_g2.c b/drivers/media/platform/verisilicon/hantro_g2.c
+index b880a6849d58..62ca91427360 100644
+--- a/drivers/media/platform/verisilicon/hantro_g2.c
++++ b/drivers/media/platform/verisilicon/hantro_g2.c
+@@ -9,6 +9,12 @@
+ #include "hantro_g2_regs.h"
+ 
+ #define G2_ALIGN	16
++#define CBS_SIZE	16	/* compression table size in bytes */
++#define CBS_LUMA	8	/* luminance CBS is composed of 1 8x8 coded block */
++#define CBS_CHROMA_W	(8 * 2)	/* chrominance CBS is composed of two 8x4 coded
++				 * blocks, with Cb CB first then Cr CB following
++				 */
++#define CBS_CHROMA_H	4
+ 
+ void hantro_g2_check_idle(struct hantro_dev *vpu)
+ {
+@@ -56,3 +62,32 @@ size_t hantro_g2_motion_vectors_offset(struct hantro_ctx *ctx)
+ 
+ 	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
+ }
++
++static size_t hantro_g2_mv_size(struct hantro_ctx *ctx)
++{
++	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
++	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
++	unsigned int pic_width_in_ctbs, pic_height_in_ctbs;
++	unsigned int max_log2_ctb_size;
++
++	max_log2_ctb_size = sps->log2_min_luma_coding_block_size_minus3 + 3 +
++			    sps->log2_diff_max_min_luma_coding_block_size;
++	pic_width_in_ctbs = (sps->pic_width_in_luma_samples +
++			    (1 << max_log2_ctb_size) - 1) >> max_log2_ctb_size;
++	pic_height_in_ctbs = (sps->pic_height_in_luma_samples + (1 << max_log2_ctb_size) - 1)
++			     >> max_log2_ctb_size;
++
++	return pic_width_in_ctbs * pic_height_in_ctbs * (1 << (2 * (max_log2_ctb_size - 4))) * 16;
++}
++
++size_t hantro_g2_luma_compress_offset(struct hantro_ctx *ctx)
++{
++	return hantro_g2_motion_vectors_offset(ctx) +
++	       hantro_g2_mv_size(ctx);
++}
++
++size_t hantro_g2_chroma_compress_offset(struct hantro_ctx *ctx)
++{
++	return hantro_g2_luma_compress_offset(ctx) +
++	       hantro_hevc_luma_compressed_size(ctx->dst_fmt.width, ctx->dst_fmt.height);
++}
+diff --git a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+index d3f8c33eb16c..85a44143b378 100644
+--- a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+@@ -367,11 +367,14 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
+ 	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+ 	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
++	dma_addr_t compress_luma_addr, compress_chroma_addr = 0;
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *vb2_dst;
+ 	struct hantro_decoded_buffer *dst;
+ 	size_t cr_offset = hantro_g2_chroma_offset(ctx);
+ 	size_t mv_offset = hantro_g2_motion_vectors_offset(ctx);
++	size_t compress_luma_offset = hantro_g2_luma_compress_offset(ctx);
++	size_t compress_chroma_offset = hantro_g2_chroma_compress_offset(ctx);
+ 	u32 max_ref_frames;
+ 	u16 dpb_longterm_e;
+ 	static const struct hantro_reg cur_poc[] = {
+@@ -445,6 +448,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 
+ 		chroma_addr = luma_addr + cr_offset;
+ 		mv_addr = luma_addr + mv_offset;
++		compress_luma_addr = luma_addr + compress_luma_offset;
++		compress_chroma_addr = luma_addr + compress_chroma_offset;
+ 
+ 		if (dpb[i].flags & V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
+ 			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
+@@ -452,6 +457,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
+ 		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
+ 		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
++		hantro_write_addr(vpu, G2_REF_COMP_LUMA_ADDR(i), compress_luma_addr);
++		hantro_write_addr(vpu, G2_REF_COMP_CHROMA_ADDR(i), compress_chroma_addr);
+ 	}
+ 
+ 	vb2_dst = hantro_get_dst_buf(ctx);
+@@ -465,19 +472,27 @@ static int set_ref(struct hantro_ctx *ctx)
+ 
+ 	chroma_addr = luma_addr + cr_offset;
+ 	mv_addr = luma_addr + mv_offset;
++	compress_luma_addr = luma_addr + compress_luma_offset;
++	compress_chroma_addr = luma_addr + compress_chroma_offset;
+ 
+ 	hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
+ 	hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
+-	hantro_write_addr(vpu, G2_REF_MV_ADDR(i++), mv_addr);
++	hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
++	hantro_write_addr(vpu, G2_REF_COMP_LUMA_ADDR(i), compress_luma_addr);
++	hantro_write_addr(vpu, G2_REF_COMP_CHROMA_ADDR(i++), compress_chroma_addr);
+ 
+ 	hantro_write_addr(vpu, G2_OUT_LUMA_ADDR, luma_addr);
+ 	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
+ 	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
++	hantro_write_addr(vpu, G2_OUT_COMP_LUMA_ADDR, compress_luma_addr);
++	hantro_write_addr(vpu, G2_OUT_COMP_CHROMA_ADDR, compress_chroma_addr);
+ 
+ 	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
+ 		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
+ 		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
+ 		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), 0);
++		hantro_write_addr(vpu, G2_REF_COMP_LUMA_ADDR(i), 0);
++		hantro_write_addr(vpu, G2_REF_COMP_CHROMA_ADDR(i), 0);
+ 	}
+ 
+ 	hantro_reg_write(vpu, &g2_refer_lterm_e, dpb_longterm_e);
+@@ -594,8 +609,7 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+ 	/* Don't disable output */
+ 	hantro_reg_write(vpu, &g2_out_dis, 0);
+ 
+-	/* Don't compress buffers */
+-	hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
++	hantro_reg_write(vpu, &g2_ref_compress_bypass, !ctx->hevc_dec.use_compression);
+ 
+ 	/* Bus width and max burst */
+ 	hantro_reg_write(vpu, &g2_buswidth, BUS_WIDTH_128);
+diff --git a/drivers/media/platform/verisilicon/hantro_g2_regs.h b/drivers/media/platform/verisilicon/hantro_g2_regs.h
+index 82606783591a..b943b1816db7 100644
+--- a/drivers/media/platform/verisilicon/hantro_g2_regs.h
++++ b/drivers/media/platform/verisilicon/hantro_g2_regs.h
+@@ -318,6 +318,10 @@
+ #define G2_TILE_BSD_ADDR		(G2_SWREG(183))
+ #define G2_DS_DST			(G2_SWREG(186))
+ #define G2_DS_DST_CHR			(G2_SWREG(188))
++#define G2_OUT_COMP_LUMA_ADDR		(G2_SWREG(190))
++#define G2_REF_COMP_LUMA_ADDR(i)	(G2_SWREG(192) + ((i) * 0x8))
++#define G2_OUT_COMP_CHROMA_ADDR		(G2_SWREG(224))
++#define G2_REF_COMP_CHROMA_ADDR(i)	(G2_SWREG(226) + ((i) * 0x8))
+ 
+ #define g2_strm_buffer_len	G2_DEC_REG(258, 0, 0xffffffff)
+ #define g2_strm_start_offset	G2_DEC_REG(259, 0, 0xffffffff)
+diff --git a/drivers/media/platform/verisilicon/hantro_hevc.c b/drivers/media/platform/verisilicon/hantro_hevc.c
+index 2c14330bc562..83cd12b0ddd6 100644
+--- a/drivers/media/platform/verisilicon/hantro_hevc.c
++++ b/drivers/media/platform/verisilicon/hantro_hevc.c
+@@ -25,6 +25,11 @@
+ #define MAX_TILE_COLS 20
+ #define MAX_TILE_ROWS 22
+ 
++static bool hevc_use_compression = IS_ENABLED(CONFIG_VIDEO_HANTRO_HEVC_RFC);
++module_param_named(hevc_use_compression, hevc_use_compression, bool, 0644);
++MODULE_PARM_DESC(hevc_use_compression,
++		 "Use reference frame compression for HEVC");
++
+ void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+@@ -275,5 +280,8 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+ 
+ 	hantro_hevc_ref_init(ctx);
+ 
++	hevc_dec->use_compression =
++		hevc_use_compression & hantro_needs_postproc(ctx, ctx->vpu_dst_fmt);
++
+ 	return 0;
+ }
+diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+index 7737320cc8cc..43d4ff637376 100644
+--- a/drivers/media/platform/verisilicon/hantro_hw.h
++++ b/drivers/media/platform/verisilicon/hantro_hw.h
+@@ -42,6 +42,14 @@
+ 
+ #define MAX_POSTPROC_BUFFERS	64
+ 
++#define G2_ALIGN	16
++#define CBS_SIZE	16	/* compression table size in bytes */
++#define CBS_LUMA	8	/* luminance CBS is composed of 1 8x8 coded block */
++#define CBS_CHROMA_W	(8 * 2)	/* chrominance CBS is composed of two 8x4 coded
++				 * blocks, with Cb CB first then Cr CB following
++				 */
++#define CBS_CHROMA_H	4
++
+ struct hantro_dev;
+ struct hantro_ctx;
+ struct hantro_buf;
+@@ -144,6 +152,7 @@ struct hantro_hevc_dec_ctrls {
+  * @ref_bufs_used:	Bitfield of used reference buffers
+  * @ctrls:		V4L2 controls attached to a run
+  * @num_tile_cols_allocated: number of allocated tiles
++ * @use_compression:	use reference buffer compression
+  */
+ struct hantro_hevc_dec_hw_ctx {
+ 	struct hantro_aux_buf tile_sizes;
+@@ -156,6 +165,7 @@ struct hantro_hevc_dec_hw_ctx {
+ 	u32 ref_bufs_used;
+ 	struct hantro_hevc_dec_ctrls ctrls;
+ 	unsigned int num_tile_cols_allocated;
++	bool use_compression;
+ };
+ 
+ /**
+@@ -510,6 +520,33 @@ hantro_hevc_mv_size(unsigned int width, unsigned int height)
+ 	return width * height / 16;
+ }
+ 
++static inline size_t
++hantro_hevc_luma_compressed_size(unsigned int width, unsigned int height)
++{
++	u32 pic_width_in_cbsy =
++		round_up((width + CBS_LUMA - 1) / CBS_LUMA, CBS_SIZE);
++	u32 pic_height_in_cbsy = (height + CBS_LUMA - 1) / CBS_LUMA;
++
++	return round_up(pic_width_in_cbsy * pic_height_in_cbsy, CBS_SIZE);
++}
++
++static inline size_t
++hantro_hevc_chroma_compressed_size(unsigned int width, unsigned int height)
++{
++	u32 pic_width_in_cbsc =
++		round_up((width + CBS_CHROMA_W - 1) / CBS_CHROMA_W, CBS_SIZE);
++	u32 pic_height_in_cbsc = (height / 2 + CBS_CHROMA_H - 1) / CBS_CHROMA_H;
++
++	return round_up(pic_width_in_cbsc * pic_height_in_cbsc, CBS_SIZE);
++}
++
++static inline size_t
++hantro_hevc_compressed_size(unsigned int width, unsigned int height)
++{
++	return hantro_hevc_luma_compressed_size(width, height) +
++	       hantro_hevc_chroma_compressed_size(width, height);
++}
++
+ static inline unsigned short hantro_av1_num_sbs(unsigned short dimension)
+ {
+ 	return DIV_ROUND_UP(dimension, 64);
+@@ -525,6 +562,8 @@ hantro_av1_mv_size(unsigned int width, unsigned int height)
+ 
+ size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx);
+ size_t hantro_g2_motion_vectors_offset(struct hantro_ctx *ctx);
++size_t hantro_g2_luma_compress_offset(struct hantro_ctx *ctx);
++size_t hantro_g2_chroma_compress_offset(struct hantro_ctx *ctx);
+ 
+ int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+ int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+index 41e93176300b..232c93eea7ee 100644
+--- a/drivers/media/platform/verisilicon/hantro_postproc.c
++++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+@@ -213,9 +213,13 @@ static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
+ 	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
+ 		buf_size += hantro_vp9_mv_size(pix_mp.width,
+ 					       pix_mp.height);
+-	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
++	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
+ 		buf_size += hantro_hevc_mv_size(pix_mp.width,
+ 						pix_mp.height);
++		if (ctx->hevc_dec.use_compression)
++			buf_size += hantro_hevc_compressed_size(pix_mp.width,
++								pix_mp.height);
++	}
+ 	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_AV1_FRAME)
+ 		buf_size += hantro_av1_mv_size(pix_mp.width,
+ 					       pix_mp.height);
+-- 
+2.40.1
 
 
