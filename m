@@ -1,155 +1,132 @@
-Return-Path: <linux-media+bounces-11551-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11552-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC38C7640
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:27:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BE98C7650
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:29:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C17691F20CEF
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:27:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74AD828675C
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:29:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA927156221;
-	Thu, 16 May 2024 12:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36B11465A1;
+	Thu, 16 May 2024 12:25:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jSjoRR0b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+lUzLzj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4461474A6;
-	Thu, 16 May 2024 12:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADF2146018
+	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 12:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715862119; cv=none; b=pHbEJbarqldN1CJYjoKVCL3UHGyvgbsrOC7YeTrk2SGzoMoHttEkMvPYTcNzwISSpssWMx8NtwCPJfupXes1iEH4G0P8Ve+3GkyqvyZlDs1gmymEkEcwDG4U/qPwZYfkky4Yj3ma4PgI51dLmuz5qJCVxLN5b0xmNE9TOxejtpw=
+	t=1715862347; cv=none; b=MAH4w5J1bTCyaxc2JzBvzuBpn5ev1Ki9PUAYdu/cNQb+ipu6lYSMKVrLk8C2hCxSftBbyIbf/AUsRmOupoF/eheeof8yRgq+qiYnNURZVbSr6ZGHcU9+MJL+hr4oazF6Q+V5r5Az11Pa2ICW3ynSw16kyiRE+7tunSg81GDzygk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715862119; c=relaxed/simple;
-	bh=og2Nqqaql9Pj5FhU3UnTUi0Dq2iCUYzxBGOkcdtvLyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LW4gZy92RgUkJGSphow/BBTM0xFWpo53V223SaIoRNa+BHvWP1yz/O6BfkPw+QbA6Td4Wd2fj0KGF6Vxh0MpzD/X3H7rjxWezLrJrfwO8bXFuvcBVoJeVYE0vorVhtcI038joFGsCxnQP2ZaMzezOkaZQyjCC/VY2GOu0NTUx1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jSjoRR0b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18360C2BD11;
-	Thu, 16 May 2024 12:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715862118;
-	bh=og2Nqqaql9Pj5FhU3UnTUi0Dq2iCUYzxBGOkcdtvLyI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jSjoRR0bdV7cvpZVVM41FV1kAcxVnP3ZkQ7KWgn7qAQaco1R7LaFpSWK+y53DTQHz
-	 Gbrr8X5h9mMRQNE1BLYdh52u5xgCdJM5Q97tEoX4NWBWZ/GDBLqATfRPPqyU3Y08d0
-	 ekRwpEKYYNDJ3oOKEQ2wEC1pJfgH5NSZYik1C/KHezwvSbnZgrsaTUQPz/XzFV3K7k
-	 Mif5MjrrWIyHQO4sx1x4qBDazGCUr4pyyvfg0McFPsTKDp3igMKJMy/BnYQi1OXoG6
-	 Ha6hCRXavz2UUhJmSzE+bZTYmbIF1IAikT7MTxPrXznj9BRKGKj9HOGrQWp7emJoYp
-	 xybjPdYK+PUjw==
-Date: Thu, 16 May 2024 14:21:45 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <20240516-truthful-fair-kudu-adb6df@penduick>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+	s=arc-20240116; t=1715862347; c=relaxed/simple;
+	bh=nRbkJen+ptzp+3ir5jSVWyig5FoCaHzN3+3FP13EZ6M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CLBni2oe5LaOKg0QjW6RDUyBBIqif84AEHzuwgcom8ikWD1S2N717CBzxQ1yv2pLJBCLt/LivLhr/Lb+PJJtK7aoltf8QN58wjzl9QZebJneZIyoLdbit6CntVegrHK2sQ9QSbP6AB0J9+7GOJ/zclM9Q+p0HthNvwq8IraPWLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+lUzLzj; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715862345; x=1747398345;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nRbkJen+ptzp+3ir5jSVWyig5FoCaHzN3+3FP13EZ6M=;
+  b=e+lUzLzjin3dCNQcjCtqQW4+CFaX5QKhkfi7xqR6AdIy21ayGTsBK2kE
+   H46XxHIWaf8tr4MvRgTpSSUSBKtmeSkMabgVJnl88F7yOkJgDbI5+bp2s
+   hE5KMtHyY9kk18ycLhT7/ssOl12zF1iX/WsXwxsauZ8cU6P+dM3PYLmaf
+   QhZsYJMpy1bWML1dwfl+CUYTioUS6QEj60a9jdpgmCivY2Ird2wMs2yWs
+   t89aU6nvPOmEfeM/uoLx2/iz3/Xw0t6kG5QMaq+Rjb1EJ/Hbu3VFJYept
+   ezhtBVAkfdlcS8MS3e2DNgiEiTLc7KOEiBwN8fOIvEwdr2HPS3woBxu9H
+   w==;
+X-CSE-ConnectionGUID: Z7rUPBlVTXGUDXjiUGq5KQ==
+X-CSE-MsgGUID: pe+RC0wATTqd+k+qAzpBfw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="37345809"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="37345809"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:45 -0700
+X-CSE-ConnectionGUID: jaRTbsWsTwC4PzgPMDLK4A==
+X-CSE-MsgGUID: KIdpyo5zT065QE56XYB0zg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="36290245"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:44 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 108A3120D04;
+	Thu, 16 May 2024 15:25:39 +0300 (EEST)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH v6 0/4] Use V4L2 mbus config for conveying MEI CSI link frequency
+Date: Thu, 16 May 2024 15:25:35 +0300
+Message-Id: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="npe44gq3m5hshith"
-Content-Disposition: inline
-In-Reply-To: <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+
+Hi folks,
+
+This set adds a few helpers for obtaining the link frequency from the V4L2
+mbus config for devices that don't need to provide an UAPI to change it,
+and finally add support for the Intel IVSC CSI device.
+
+since v5:
+
+- Only support pad-based operation with CONFIG_MEDIA_CONTROLLER (1st and
+  2nd patches).
+
+since v4:
+
+- Rework documentation a little.
+
+- Remove wrong alignment change in 2nd patch.
+
+- Move link_freq field after the type field in struct v4l2_mbus_config.
+
+since v3:
+
+- Add back missing ret I accidentally removed rather than moved to the 2nd
+  patch.
+
+since v2:
+
+- Switch to V4L2 mbus config for conveying the link frequency.
+
+since v1:
+
+- Add a new 64-bit integer control V4L2_CID_CUR_LINK_FREQ instead of
+  re-using V4L2_CID_LINK_FREQ.
+
+Sakari Ailus (4):
+  media: v4l: Support passing media pad argument to v4l2_get_link_freq()
+  media: v4l: Support obtaining link frequency via get_mbus_config
+  media: Documentation: Update link frequency driver documentation
+  media: ivsc: csi: Obtain link frequency from the media pad
+
+ Documentation/driver-api/media/tx-rx.rst |  4 ++
+ drivers/media/pci/intel/ivsc/mei_csi.c   | 72 ++++++++----------------
+ drivers/media/v4l2-core/v4l2-common.c    | 26 ++++++++-
+ include/media/v4l2-common.h              | 19 ++++++-
+ include/media/v4l2-mediabus.h            |  2 +
+ 5 files changed, 70 insertions(+), 53 deletions(-)
 
 
---npe44gq3m5hshith
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: 8771b7f31b7fff91a998e6afdb60650d4bac59a5
+-- 
+2.39.2
 
-Hi John,
-
-Thanks for your feedback
-
-On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> On Wed, May 15, 2024 at 6:57=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > This series is the follow-up of the discussion that John and I had a few
-> > months ago here:
-> >
-> > https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHq=
-qyrroCMQ@mail.gmail.com/
-> >
-> > The initial problem we were discussing was that I'm currently working on
-> > a platform which has a memory layout with ECC enabled. However, enabling
-> > the ECC has a number of drawbacks on that platform: lower performance,
-> > increased memory usage, etc. So for things like framebuffers, the
-> > trade-off isn't great and thus there's a memory region with ECC disabled
-> > to allocate from for such use cases.
-> >
-> > After a suggestion from John, I chose to start using heap allocations
-> > flags to allow for userspace to ask for a particular ECC setup. This is
-> > then backed by a new heap type that runs from reserved memory chunks
-> > flagged as such, and the existing DT properties to specify the ECC
-> > properties.
-> >
-> > We could also easily extend this mechanism to support more flags, or
-> > through a new ioctl to discover which flags a given heap supports.
->=20
-> Hey! Thanks for sending this along! I'm eager to see more heap related
-> work being done upstream.
->=20
-> The only thing that makes me a bit hesitant, is the introduction of
-> allocation flags (as opposed to a uniquely specified/named "ecc"
-> heap).
->=20
-> We did talk about this earlier, and my earlier press that only if the
-> ECC flag was general enough to apply to the majority of heaps then it
-> makes sense as a flag, and your patch here does apply it to all the
-> heaps. So I don't have an objection.
->=20
-> But it makes me a little nervous to add a new generic allocation flag
-> for a feature most hardware doesn't support (yet, at least). So it's
-> hard to weigh how common the actual usage will be across all the
-> heaps.
->=20
-> I apologize as my worry is mostly born out of seeing vendors really
-> push opaque feature flags in their old ion heaps, so in providing a
-> flags argument, it was mostly intended as an escape hatch for
-> obviously common attributes. So having the first be something that
-> seems reasonable, but isn't actually that common makes me fret some.
->=20
-> So again, not an objection, just something for folks to stew on to
-> make sure this is really the right approach.
-
-I understand your hesitation and concern :) Is there anything we could
-provide that would help moving the discussion forward?
-
-> Another thing to discuss, that I didn't see in your mail: Do we have
-> an open-source user of this new flag?
-
-Not at the moment. I guess it would be one of the things that would
-reduce your concerns, but is it a requirement?
-
-Thanks!
-Maxime
-
---npe44gq3m5hshith
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkX6VAAKCRAnX84Zoj2+
-dvFkAX4hPR+OmB6uyCvlMnPDpOA7eFAD+O5/7X+BRKTf5Cmdj+Cie8BhtyQAl7C8
-Hky2TnoBgM2pwhStelk3c11olIba3Ix/Pi7eLLvudC0t/wilucjcMDy5wbyzQGJw
-YksYgv+49Q==
-=UGuj
------END PGP SIGNATURE-----
-
---npe44gq3m5hshith--
 
