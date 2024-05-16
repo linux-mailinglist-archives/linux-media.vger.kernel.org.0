@@ -1,309 +1,155 @@
-Return-Path: <linux-media+bounces-11549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E635A8C763B
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:27:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC38C7640
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:27:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10C361C216A1
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:27:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C17691F20CEF
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:27:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE98F15532B;
-	Thu, 16 May 2024 12:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA927156221;
+	Thu, 16 May 2024 12:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="mFrZt/HD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jSjoRR0b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23413154BFF;
-	Thu, 16 May 2024 12:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4461474A6;
+	Thu, 16 May 2024 12:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715862109; cv=none; b=RlmHaHooPWeHf8U3yrhV8RvCMLVMz5wVq5aeD6twXNhh4rVLtJVbZv3/1ET6dtySf06e9xMp4ppgRLRO28Mp72ZeazIQxTUi1Ol9NF/uEPUSdNZJq4AQlRj/6ZfvN5H4/Upj+eWPzekdcVSJ6yVOHn8cNrD+ZwyS4hiORsdYoas=
+	t=1715862119; cv=none; b=pHbEJbarqldN1CJYjoKVCL3UHGyvgbsrOC7YeTrk2SGzoMoHttEkMvPYTcNzwISSpssWMx8NtwCPJfupXes1iEH4G0P8Ve+3GkyqvyZlDs1gmymEkEcwDG4U/qPwZYfkky4Yj3ma4PgI51dLmuz5qJCVxLN5b0xmNE9TOxejtpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715862109; c=relaxed/simple;
-	bh=2bGodGnGf5asJwDEHGcEkg4YL3orUzf3kbzsd7+Vt28=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MPHfyxnxwKe59kDGponL29whSAOfQ6tZGj9Y6F8j7u34Idwv+de30Ca3tUtW22wwiYZ6Fg23YPClVH6qoJDpMWiEnuY71dIQXxaWAMh2vb2OjYpI2D2RLzFoZzdezD75FU3eKzOFVpFRvaVMUT/JwNzC/CnkBKmfzV5P4qnxSlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=mFrZt/HD; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: db3a2aec137e11efb92737409a0e9459-20240516
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=UQkYraUh+VR3KSqY1bOqPlw2ThOBwrkSGU/3tYE6QxM=;
-	b=mFrZt/HDef9ZO8WWI1sMjwtcHcsF9i5n56JIGarJggvlAyGtzio520AZvsC69MVONY8vlPM77GRPke/8WnzZ67OdL/tihIAgRc40EMB2IpUJba3CtcmTWCNZj+E0WBWPwInHofHm4pMkzs355/Y6oYDXv00Ii9FzRlds8os3PaU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:b2c4a958-934b-46c2-93e7-4a170d39a088,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:82c5f88,CLOUDID:63547087-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: db3a2aec137e11efb92737409a0e9459-20240516
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 392386969; Thu, 16 May 2024 20:21:43 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 16 May 2024 20:21:42 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 16 May 2024 20:21:40 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Jeffrey Kardatzke <jkardatzke@google.com>,
-	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>, "Nicolas
- Dufresne" <nicolas.dufresne@collabora.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Sebastian Fricke
-	<sebastian.fricke@collabora.com>, Tomasz Figa <tfiga@chromium.org>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Marek Szyprowski
-	<m.szyprowski@samsung.com>
-CC: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
-	"Hsin-Yi Wang" <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	"Daniel Vetter" <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>,
-	"Brian Starkey" <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T
- . J . Mercier" <tjmercier@google.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v6,24/24] media: mediatek: vcodec: support vp9 svp decoder for mt8188
-Date: Thu, 16 May 2024 20:21:02 +0800
-Message-ID: <20240516122102.16379-25-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240516122102.16379-1-yunfei.dong@mediatek.com>
-References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+	s=arc-20240116; t=1715862119; c=relaxed/simple;
+	bh=og2Nqqaql9Pj5FhU3UnTUi0Dq2iCUYzxBGOkcdtvLyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LW4gZy92RgUkJGSphow/BBTM0xFWpo53V223SaIoRNa+BHvWP1yz/O6BfkPw+QbA6Td4Wd2fj0KGF6Vxh0MpzD/X3H7rjxWezLrJrfwO8bXFuvcBVoJeVYE0vorVhtcI038joFGsCxnQP2ZaMzezOkaZQyjCC/VY2GOu0NTUx1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jSjoRR0b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18360C2BD11;
+	Thu, 16 May 2024 12:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715862118;
+	bh=og2Nqqaql9Pj5FhU3UnTUi0Dq2iCUYzxBGOkcdtvLyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jSjoRR0bdV7cvpZVVM41FV1kAcxVnP3ZkQ7KWgn7qAQaco1R7LaFpSWK+y53DTQHz
+	 Gbrr8X5h9mMRQNE1BLYdh52u5xgCdJM5Q97tEoX4NWBWZ/GDBLqATfRPPqyU3Y08d0
+	 ekRwpEKYYNDJ3oOKEQ2wEC1pJfgH5NSZYik1C/KHezwvSbnZgrsaTUQPz/XzFV3K7k
+	 Mif5MjrrWIyHQO4sx1x4qBDazGCUr4pyyvfg0McFPsTKDp3igMKJMy/BnYQi1OXoG6
+	 Ha6hCRXavz2UUhJmSzE+bZTYmbIF1IAikT7MTxPrXznj9BRKGKj9HOGrQWp7emJoYp
+	 xybjPdYK+PUjw==
+Date: Thu, 16 May 2024 14:21:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: John Stultz <jstultz@google.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+Message-ID: <20240516-truthful-fair-kudu-adb6df@penduick>
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+ <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.657800-8.000000
-X-TMASE-MatchedRID: HoXpZE+zCqGvVT6bfkFW/gI0yP/uoH+DHgnyJJNAX/iHlDUCu0I+XO2V
-	VVLUIzQwF8NKa4AxCmAQpIoQW/1YOanYP7KwFAZ5cxGQfOZHrIeb/LTS0T1K1gqiCYa6w8tvQ09
-	1A4TyNprg7PmXyAh8kTPJqcmWDFTSh9pkVp8w2GGzI1v7J4hECryfV74eQpk+JLfQYoCQHFYeLm
-	tuLpfaHVC328Q62M/LPgtqcrmKGX5AJLhqw2sfjQKDWtq/hHcNfS0Ip2eEHnz3IzXlXlpamPoLR
-	4+zsDTtgUicvJ4MChlmkKAb78lpPCgFRdomK13NCZOaCXkIOrbiTN07XYlCmWEoVHihj+TK
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.657800-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	F4626B6E365A9173E1C350264DEA213655DFD8901F0433337935FCF6B5C850862000:8
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="npe44gq3m5hshith"
+Content-Disposition: inline
+In-Reply-To: <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
 
-From: Yilong Zhou <yilong.zhou@mediatek.com>
 
-Change vp9 driver to support secure video playback(svp) for
-mt8188. Need to map shared memory with optee interface and
-wait interrupt in optee-os.
+--npe44gq3m5hshith
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yilong Zhou <yilong.zhou@mediatek.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 91 ++++++++++++-------
- 1 file changed, 59 insertions(+), 32 deletions(-)
+Hi John,
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-index cf48d09b78d7..9f64661800af 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-@@ -141,6 +141,7 @@ struct vdec_vp9_slice_frame_counts {
-  * @skip:	skip counts.
-  * @y_mode:	Y prediction mode counts.
-  * @filter:	interpolation filter counts.
-+ * @mv_joint:	motion vector joint counts.
-  * @sign:	motion vector sign counts.
-  * @classes:	motion vector class counts.
-  * @class0:	motion vector class0 bit counts.
-@@ -804,6 +805,9 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *insta
- 	error_resilient_mode = HDR_FLAG(ERROR_RESILIENT);
- 	reset_frame_context = uh->reset_frame_context;
- 
-+	if (instance->ctx->is_secure_playback)
-+		return;
-+
- 	/*
- 	 * according to "6.2 Uncompressed header syntax" in
- 	 * "VP9 Bitstream & Decoding Process Specification",
-@@ -818,8 +822,7 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *insta
- 		 * 2 resets just the context specified in the frame header
- 		 * 3 resets all contexts
- 		 */
--		if (key_frame || error_resilient_mode ||
--		    reset_frame_context == 3) {
-+		if (key_frame || error_resilient_mode || reset_frame_context == 3) {
- 			/* use default table */
- 			for (i = 0; i < 4; i++)
- 				instance->dirty[i] = 0;
-@@ -1042,6 +1045,9 @@ static void vdec_vp9_slice_setup_seg_buffer(struct vdec_vp9_slice_instance *inst
- {
- 	struct vdec_vp9_slice_uncompressed_header *uh;
- 
-+	if (instance->ctx->is_secure_playback)
-+		return;
-+
- 	/* reset segment buffer */
- 	uh = &vsi->frame.uh;
- 	if (uh->frame_type == 0 ||
-@@ -1172,15 +1178,16 @@ static int vdec_vp9_slice_setup_lat(struct vdec_vp9_slice_instance *instance,
- 
- 	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
- 
--	/* setup prob/tile buffers for LAT */
--
--	ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
--	if (ret)
--		goto err;
-+	if (!instance->ctx->is_secure_playback) {
-+		/* setup prob/tile buffers for LAT */
-+		ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-+		if (ret)
-+			goto err;
- 
--	ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
--	if (ret)
--		goto err;
-+		ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-+		if (ret)
-+			goto err;
-+	}
- 
- 	return 0;
- 
-@@ -1599,7 +1606,8 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
- 		       pfc->seq, vsi->state.crc[4], vsi->state.crc[5],
- 		       vsi->state.crc[6], vsi->state.crc[7]);
- 
--	vdec_vp9_slice_update_prob(instance, vsi);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_update_prob(instance, vsi);
- 
- 	instance->width = vsi->frame.uh.frame_width;
- 	instance->height = vsi->frame.uh.frame_height;
-@@ -1632,7 +1640,8 @@ static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
- 		return -EAGAIN;
- 	}
- 
--	vdec_vp9_slice_update_prob(instance, vsi);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_update_prob(instance, vsi);
- 
- 	instance->width = vsi->frame.uh.frame_width;
- 	instance->height = vsi->frame.uh.frame_height;
-@@ -1694,8 +1703,13 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 		return -EINVAL;
- 
- 	/* update internal buffer's width/height */
--	instance->dpb[vb->index].width = w;
--	instance->dpb[vb->index].height = h;
-+	for (i = 0; i < vq->num_buffers; i++) {
-+		if (vb == vq->bufs[i]) {
-+			instance->dpb[i].width = w;
-+			instance->dpb[i].height = h;
-+			break;
-+		}
-+	}
- 
- 	/*
- 	 * get buffer's width/height from instance
-@@ -1779,7 +1793,8 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 	if (ret)
- 		goto err;
- 
--	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[1]);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[1]);
- 
- 	return 0;
- 
-@@ -1874,19 +1889,31 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_dec_ctx *ctx)
- 		goto error_vsi;
- 	}
- 	instance->init_vsi = vsi;
--	instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
--						       (u32)vsi->core_vsi);
--	if (!instance->core_vsi) {
--		mtk_vdec_err(ctx, "failed to get VP9 core vsi\n");
--		ret = -EINVAL;
--		goto error_vsi;
--	}
- 
--	instance->irq = 1;
-+	if (ctx->is_secure_playback) {
-+		instance->core_vsi =
-+			mtk_vcodec_dec_get_shm_buffer_va(ctx->dev->optee_private, MTK_VDEC_CORE,
-+							 OPTEE_DATA_INDEX);
-+		if (!instance->core_vsi) {
-+			mtk_vdec_err(ctx, "failed to get VP9 svp core vsi\n");
-+			ret = -EINVAL;
-+			goto error_vsi;
-+		}
-+		instance->irq = 0;
-+	} else {
-+		instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
-+							       (u32)vsi->core_vsi);
-+		if (!instance->core_vsi) {
-+			mtk_vdec_err(ctx, "failed to get VP9 normal core vsi\n");
-+			ret = -EINVAL;
-+			goto error_vsi;
-+		}
-+		instance->irq = 1;
- 
--	ret = vdec_vp9_slice_init_default_frame_ctx(instance);
--	if (ret)
--		goto error_default_frame_ctx;
-+		ret = vdec_vp9_slice_init_default_frame_ctx(instance);
-+		if (ret)
-+			goto error_default_frame_ctx;
-+	}
- 
- 	ctx->drv_handle = instance;
- 
-@@ -2101,9 +2128,12 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		       (unsigned long)pfc->vsi.trans.dma_addr,
- 		       (unsigned long)pfc->vsi.trans.dma_addr_end);
- 
--	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
--				       vsi->trans.dma_addr_end +
--				       ctx->msg_queue.wdma_addr.dma_addr);
-+	if (!instance->ctx->is_secure_playback) {
-+		vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-+		mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-+			       (unsigned long)pfc->vsi.trans.dma_addr_end);
-+	}
-+	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
- 	vdec_msg_queue_qbuf(&ctx->msg_queue.core_ctx, lat_buf);
- 
- 	return 0;
-@@ -2183,9 +2213,6 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 		goto err;
- 	}
- 
--	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
--	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
--		       (unsigned long)pfc->vsi.trans.dma_addr_end);
- 	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
- 	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
- 
--- 
-2.25.1
+Thanks for your feedback
 
+On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
+> On Wed, May 15, 2024 at 6:57=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > This series is the follow-up of the discussion that John and I had a few
+> > months ago here:
+> >
+> > https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHq=
+qyrroCMQ@mail.gmail.com/
+> >
+> > The initial problem we were discussing was that I'm currently working on
+> > a platform which has a memory layout with ECC enabled. However, enabling
+> > the ECC has a number of drawbacks on that platform: lower performance,
+> > increased memory usage, etc. So for things like framebuffers, the
+> > trade-off isn't great and thus there's a memory region with ECC disabled
+> > to allocate from for such use cases.
+> >
+> > After a suggestion from John, I chose to start using heap allocations
+> > flags to allow for userspace to ask for a particular ECC setup. This is
+> > then backed by a new heap type that runs from reserved memory chunks
+> > flagged as such, and the existing DT properties to specify the ECC
+> > properties.
+> >
+> > We could also easily extend this mechanism to support more flags, or
+> > through a new ioctl to discover which flags a given heap supports.
+>=20
+> Hey! Thanks for sending this along! I'm eager to see more heap related
+> work being done upstream.
+>=20
+> The only thing that makes me a bit hesitant, is the introduction of
+> allocation flags (as opposed to a uniquely specified/named "ecc"
+> heap).
+>=20
+> We did talk about this earlier, and my earlier press that only if the
+> ECC flag was general enough to apply to the majority of heaps then it
+> makes sense as a flag, and your patch here does apply it to all the
+> heaps. So I don't have an objection.
+>=20
+> But it makes me a little nervous to add a new generic allocation flag
+> for a feature most hardware doesn't support (yet, at least). So it's
+> hard to weigh how common the actual usage will be across all the
+> heaps.
+>=20
+> I apologize as my worry is mostly born out of seeing vendors really
+> push opaque feature flags in their old ion heaps, so in providing a
+> flags argument, it was mostly intended as an escape hatch for
+> obviously common attributes. So having the first be something that
+> seems reasonable, but isn't actually that common makes me fret some.
+>=20
+> So again, not an objection, just something for folks to stew on to
+> make sure this is really the right approach.
+
+I understand your hesitation and concern :) Is there anything we could
+provide that would help moving the discussion forward?
+
+> Another thing to discuss, that I didn't see in your mail: Do we have
+> an open-source user of this new flag?
+
+Not at the moment. I guess it would be one of the things that would
+reduce your concerns, but is it a requirement?
+
+Thanks!
+Maxime
+
+--npe44gq3m5hshith
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkX6VAAKCRAnX84Zoj2+
+dvFkAX4hPR+OmB6uyCvlMnPDpOA7eFAD+O5/7X+BRKTf5Cmdj+Cie8BhtyQAl7C8
+Hky2TnoBgM2pwhStelk3c11olIba3Ix/Pi7eLLvudC0t/wilucjcMDy5wbyzQGJw
+YksYgv+49Q==
+=UGuj
+-----END PGP SIGNATURE-----
+
+--npe44gq3m5hshith--
 
