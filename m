@@ -1,159 +1,231 @@
-Return-Path: <linux-media+bounces-11498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8E18C70B5
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 05:38:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DCC8C717D
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 07:55:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAAB41F2361B
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 03:38:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EA88281027
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 05:55:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7702A46A4;
-	Thu, 16 May 2024 03:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD3D21104;
+	Thu, 16 May 2024 05:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llxG7/7+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2134.outbound.protection.partner.outlook.cn [139.219.146.134])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6741829A9;
-	Thu, 16 May 2024 03:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.134
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715830687; cv=fail; b=sHyjIwieXrRx886KIQAgsxmK5K1Krp+WQ/zRmFH8e8By+OAagU4WWbBFJfQc7SE4UzzyUuKpAZFlRtE+ayEvRdCbuOgJqiWEMAbKpXNeofKtEh0Mt/kVBKHAN2Utr82XltUL4cqAy59t5t8PP8wC1WjYnRV6yB1kf5iNFBDmIlA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715830687; c=relaxed/simple;
-	bh=BkJ14CMcQphkmscFSi2q/oB6SeIh/XJSEUOIVquAWOc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=uE26IlXgQ+iPW2yKLd+m5GidkZ2ZmD9qCs+KWan3EK96TvBmJq24zhJBJaj1o7+FpD5sqo1v4vdkkf7somTYUe7P7EvVPNT9Xpb+QRXKJcvF+NskTrYQaSxzgTYdojF0XNzHvDS/WG9K+YnEZi2mf02tBpa6T5X9QYPw9UDqHe4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PVz1+YfmXuKRYlQuh2Kf6AoWkRdltjsZahtqdGiDxEsOfPy5lnBfgS0j177CeSiWi7Op7FDreL7XljLd7B24EzOokUuq37vmoazUj8iFReyYgvVkRbzB41rEqfA4wrVGvG/yhemUhyEjjc/YP9CoaVlshFXJfvvfs3t/Ia4aSr43LaUdNIA4gDMeSPFeVyLYG2q1eStG9pbNxmUbS9ydKn1UwpbMQomiZtJYkNqbvntVvPQJQNINo+dwWFpQWmkbgidsCzMb2Yitm0EE6BHJ5gNaPEn1oDp/CgBAqhxJEgAl2tUKrcIY53fxdQBpd57caAqY2k+SqqANUKWVl//WjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BkJ14CMcQphkmscFSi2q/oB6SeIh/XJSEUOIVquAWOc=;
- b=QkQ33pmTxjp7YcsoaZSJikrbx1hv9qtpReKAanOcj/ZLNZWDMFILDOV4oY4pMNfU1yC+buoWnFHDmWVizDrMjHjB+vabUk++iP+hbAkkowPX2b7MTXZ+qsqyvaGzU7pdNGT4AQb/rwDFwJDUmXyCAjc0GGgrH4l2E1sdKadZzLgWTANDsisa4ptOHZ32WIbUYDX4/8cYnvDPtO5Tqhx4m47I8JDvjXyGE46AGEZSrjrzuGw+92eLvJdEKrxuNDY1RvMOdn5qzhkdtdPWePjBQjNz4lr+FcXoc713t2X0zHykwhkVYBWhyOpoln0nd4x2T42HgHJj2UAn+iCzOfGcyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0861.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:26::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Thu, 16 May
- 2024 03:22:55 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::418f:9f1c:7cfc:d62]) by SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::418f:9f1c:7cfc:d62%4]) with mapi id 15.20.7472.044; Thu, 16 May 2024
- 03:22:54 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, Ming Qian <ming.qian@nxp.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
-	<mingjia.zhang@mediatek.com>, Marvin Lin <milkfafa@gmail.com>
-CC: Jack Zhu <jack.zhu@starfivetech.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>
-Subject:
- =?gb2312?B?u9i4tDogW1BBVENIIHY0IDAwLzEzXSBBZGQgSVNQIDNBIGZvciBTdGFyRml2?=
- =?gb2312?Q?e?=
-Thread-Topic: [PATCH v4 00/13] Add ISP 3A for StarFive
-Thread-Index: AQHahOSSW1bbawER3UK5wWwrskCi3LGZc20g
-Date: Thu, 16 May 2024 03:22:54 +0000
-Message-ID:
- <SHXPR01MB0671B72EA791E1F66DB03310F2ED2@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
-References: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
-In-Reply-To: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SHXPR01MB0671:EE_|SHXPR01MB0861:EE_
-x-ms-office365-filtering-correlation-id: 5f497bae-854c-4a3f-f7f3-08dc755779f5
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 1SOlv072WBOZkpzYvx+AObzW7CE161zJcn8AsvE5hrGWoqAYyG/3T7tMRrHVsXKLLtGFleQq1z7+69+uh+8ziSeUR9yfBGnlDpCvKKdzO4r34RJOcudXN7ZMGt6/OjK97b6pjDlndHQhguJKCqRdjrPGVz4LyVXpP1XFHB9PsdJTt0W9DnH67YXNs0JdiTnQRzdVBUnfOCqxfw4qai+7e0B9Qa+fTmXimMVvZIycPAYFOmNxbqG36+q3WjcDfhkj+ivlC6PiPqo33WGw7aUNjLm9bJIB8lsBb8JdwRJsQZSufJ3lIhqyTO40q6mOQM7SM01bHv7Y+d0rhm68myauc83rcDZ0pEgOba7WAfzTEq0MLMVoFuy6jOsePJwTV5KothgeWmxvYjUrvn6JpOorr28+Fg5A6B/ePznS/C8hEqHcaBNV7thi1WTAiGVf2yH+ikRDiHFEI9D0wROw/3VMyjPe0AG8IALik/NVzbpVfgCt0Wt4jO93N6fogNr2nr+/NWU9P47WxCowIM2E54Yb4zOM2H+pFJ9S6zX+hfW+7GKOEK17HlCe9LlR7vv507cqv4jQfzFfune+h75cCiuOKOKLQJliV10a0KFX+skJqpFJFEn6b5O0teR+B2AaHEACIokQV1QkeAAjxgnKBG8WsQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(41320700004)(1800799015)(921011)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?TncvU2NoUnZYYkkvMFQ5NktWV1o2RjJlaTcwR1VwMEN1ek1nRjBJUHUvR1JT?=
- =?gb2312?B?eXN5NzBlQmUxbGdkd3hqcVVMUmJzK3RPQURFelVKeWlucHliNEVPemU2R28z?=
- =?gb2312?B?SWpPQlErOVVKUXFHdHYrMlpZckVsWWk2Ny85d1l6dGs4ZEx2K3VnakpRQXQ3?=
- =?gb2312?B?ZE55SU41aXVoTGJKMFF1a2dSZHlLVFRtYmNCcDIwaFlFcVczU0U3NzF0VlA4?=
- =?gb2312?B?NXExeTlUVGdreHlqTFN4ODlvbUlCNzdLTmNGNnRhSVhpNmxtM0s0c3FndnpE?=
- =?gb2312?B?ZXljMVk2d3pkTUw0SWRXczVyN255ZEdkMU0rVm03MHp2S0ZsQ2w0VitJQmMr?=
- =?gb2312?B?U3hBZUd1cDJ0THJ4WTZMb2FFeDFxME5rTHBVMXdkVHk3STBTUVNzZ2tjTFkz?=
- =?gb2312?B?aXZiczZITHpYTDVDL0c4RkNaNWNjRE5tV3BCTW1YcE1DM1lVK2hzWHpjNE1B?=
- =?gb2312?B?MStzSmJ4dXhzSk90VUZYQjNhZXhlcDNKbmZ5WFUzVzhneUJzdmZHKzJ5T1lK?=
- =?gb2312?B?V1JlYmVPV3didVVkUVZxa1BpZDhrTXVDVlR3N3hhWnhZNVRNRG90bEg2SE5o?=
- =?gb2312?B?clJ4dDRTZm1yZzI3WTd6T0l3Uk1vK1N5NElGWUQwTFFYWGNLRHVNYTdEczlL?=
- =?gb2312?B?VXVWTUttb3IvUkhuUGYyNWxsYnNTQzhOSTZQemJwaUcwSXVUQjA5ZnFURmdC?=
- =?gb2312?B?ZGFsRkdVdWF6MzI3bnNRNzRNSEtZeDFLbnpnMXA4WXhUVjdtQUZNbUVHYzlX?=
- =?gb2312?B?ZStWM1NCOUpvMHp6YjZrQ0U3MzhRdzVHdmxCUjA2NmhITDVKd0FrT2g1NUh4?=
- =?gb2312?B?Sk9WaFhVb0lPOGhEM2VYVFJNbjBrVFNsV1pMdUd4Z3NPRXRrb0huVVNUcUMv?=
- =?gb2312?B?ckZnL1IxVmxtVkhHQlpqSitNR3R1WmI0QlByMEQ2NTBPZFoxb1Nadzl6QU9h?=
- =?gb2312?B?emtJcE15L3p0OFJidGpUR3NsdGYxNmNnVlpXOWlyd3pSbm8vdzE3S2U4anNR?=
- =?gb2312?B?c1RxdlRMcnFZd0E4WTdYdW12SlRKUnkra0ZiU3lXMXBiZ01QZFY0bHEvbzZ5?=
- =?gb2312?B?V21BT2x1WlZibUZVN0ovTEVBcU9HOUNGQmpTM012alhIdFhiZUlWTis1TnFZ?=
- =?gb2312?B?M3RKVC8vUm1pa0Q4WGhGR0N3U0NuRHltT283YUx6TzhOckhRR3NxOWszU3di?=
- =?gb2312?B?Y1Nkay9JNE1XeFVCTGhQcXJPYWNNNjRraGgxTHUzZXE2ZW9mZlhSNG9qZ1hY?=
- =?gb2312?B?R2xuUE9OTHpaWmhRNFB4UmVQak04ekxzdklYWVRSR0lqdHFBdmFjY3liZVRM?=
- =?gb2312?B?ZEpsMU11U3VnOUMvWWlPelI4a3hZVVVrVFAzamNwQndrMjliS2lWenBzdXVH?=
- =?gb2312?B?b2V4cDRaOXptN09pOVlhMnRKTFVEckMwbmlhNlpYLzFWR1U4bGY0elM5ZDE3?=
- =?gb2312?B?YW1zQ1JPMExSMUhCQzA5N3BSbnp5Wk9HVVR3bjZ6bElQU1VMQ2FZK0RPTWxB?=
- =?gb2312?B?WTBvQzB6SGFid0k2bDdValk3VzUrc0wvbks2OG0wSldBWWpFQXk4YSszSWtu?=
- =?gb2312?B?eU9NWUx5NDdSbWFPVFA2U1pwMm9WQzZpMmtpaDFpbm9WemMxSHVOVG5VdkEy?=
- =?gb2312?B?ZFYwYmVPNTM4R2dQdEdsSFg4WWpsZjI5dlkwTmp4L2FZOUxqeTlPd0NKbXBl?=
- =?gb2312?B?ZEg5OFN4NFZ1MU9kWWI1QW9MZVVhOWVpWGdnRmk1M0pLZmJRbUF5cDlmVDNW?=
- =?gb2312?B?Rnk4WXZJTWpFSTl5ZWcrVU9oRUo4NFFDSGdYOHA3WkcxcUcrbWQ1bjg2Wk01?=
- =?gb2312?B?OEtNMG5xcEJGUzVpWGxHV3ZMMHQ2U3B0VzdOZmZySlFuc1ArVzFpa0NWeGxS?=
- =?gb2312?B?anI4QVloY0djdnNYWGFKemF3cFdxcXJmRmtDOExja0locWhhWWJubjhFNnh3?=
- =?gb2312?B?SXlKK1EyQ3NQZnIxRGh0eUJ3RjRNVUdvVGpSR3hMQ1FWR2tPckcxbGJDK01H?=
- =?gb2312?B?NmR6b2lQRERjcldvUFpoazJZamVkWi9OczA4VFY2ZDUzQWhjVkpVZm93YlU0?=
- =?gb2312?B?YllWczhXSTJnUkY4M2Rhd3k2QmZjZmdmTVVwSFQ3NnZ1VVMydUdhU3RLMklv?=
- =?gb2312?B?LzN6dGRPRUxmQzRiUVJrelpzeXY0SmtBVm5IOUk3QVNVU25Lc1FlVEp5Sml0?=
- =?gb2312?B?Mmc9PQ==?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D611C695;
+	Thu, 16 May 2024 05:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715838940; cv=none; b=OEhBaPPJ3nDQuzhj26Wq5H3B7t4Agv/tYUvF1tky2pfK18Rp3tf2VD+cAGzLvr5E/t70d62hb3z6GG7JvEX72tsaExhtLz9cU3Ljg5WN5+jT5W1/iAgkv4h5nTjSYUfA20JV7bPLxga6KDBcs4BvOfho36OO+nK+76WjwLlkTIs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715838940; c=relaxed/simple;
+	bh=R58SNveZIj3aSv3Z2D6thaQAbSttnQhJAJZ3CW/vfFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gfFs1rqKisC1ZsieV+XKjJ/e9PjIlI4m8BqjTn0KJGj41Vn0/xOl9TesW8/lBfbgKdbZDKJv6dMnog5gx940wR4ls+ha5eiVygck665/dnGzbANMrkh4lewlh7GvFYNfiZ4WGLTAk9imRLrMCOC5qjoZs4qAJndcp5D0tQxCyyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llxG7/7+; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715838938; x=1747374938;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R58SNveZIj3aSv3Z2D6thaQAbSttnQhJAJZ3CW/vfFI=;
+  b=llxG7/7+HickZWY9G7Skorj8+bDX3z3CC5uYLoeHvUZyxRr0o9dfT17V
+   sllBFHkcOHn4iLHJvnWq6s3J2VZnFU3aPO3cpwB1JD37w3hpM0MPL1Pfv
+   ZxV5et/3t4BfIT7hI2aLaWUs73GX3HHKpTLnIUlKV3P1MrAmuSmwmhscc
+   gbTAyRM3Ucmu8byDHi10kkjt5a2nhGgg+9O+jK4r+oXQI+M9S2z5RGBuW
+   ymwK27Iwd94CGZxWlKqEUOMlr7rBMydKdQWys7exk3PMIwfsd9xIai65L
+   iqVYsGvoiVyNe7JgLGQL4s+O/ihLQ13xQ0mbEjaesYBwGVlT0WTczI8bf
+   w==;
+X-CSE-ConnectionGUID: epVkDTrJRYiUU46inOp3jg==
+X-CSE-MsgGUID: OY6DvdACQ1uN0AGk2ix7QQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11793745"
+X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
+   d="scan'208";a="11793745"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2024 22:55:37 -0700
+X-CSE-ConnectionGUID: P5KtU3vyTj62DIkhrBvbbg==
+X-CSE-MsgGUID: mRpI8vHgScSrDtXBQNQ8pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
+   d="scan'208";a="31434644"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 15 May 2024 22:55:33 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s7U5S-000Dgt-0P;
+	Thu, 16 May 2024 05:55:30 +0000
+Date: Thu, 16 May 2024 13:55:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
+Message-ID: <202405161341.XBePS2s0-lkp@intel.com>
+References: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f497bae-854c-4a3f-f7f3-08dc755779f5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2024 03:22:54.8075
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lesRa7K2STu64pl6ThFrxO6HDt2NVF+ZscbhEPlPJUC+zr/QpVihwNYus/PT9eC7AcV5Kato9/e+NadJBHruvhLAl+69mG5oduz2DzuAwSUxLFgGI3NxuPv25mqZ/Foc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0861
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
 
-SGksIE1hdXJvLCBIYW5zIGFuZCBMYXVyZW50DQoNCj4gVGhpcyBzZXJpZXMgaW1wbGVtZW50cyB0
-aGUgSVNQIDNBIGZ1bmN0aW9uIHRvIHRoZSBDYW1lcmEgU3Vic3lzdGVtIG9uDQo+IFN0YXJGaXZl
-DQo+IEpINzExMCBTb0MuIFRoZSBzZXJpZXMgaGFzIGJlZW4gdGVzdGVkIG9uIHRoZSBWaXNpb25G
-aXZlIDIgYm9hcmQuIEl0IHNob3VsZA0KPiBiZSBhcHBsaWVkIGFmdGVyIHRoZSBwYXRjaCBbMV1b
-Ml06DQo+IFsxXToNCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjQwMzExMTIwMzA5
-LjUzODktMS1jaGFuZ2h1YW5nLmxpYW5nQHN0YXJmaQ0KPiB2ZXRlY2guY29tLw0KPiBbMl06DQo+
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI0MDMxMjAyNDUyMC4xMTAyMi0xLWNoYW5n
-aHVhbmcubGlhbmdAc3Rhcg0KPiBmaXZldGVjaC5jb20vDQo+IA0KDQpDdXJyZW50bHkgdGhlIHBh
-dGNoIFsxXVsyXSBoYWQgYmVlbiBhcHBsaWVkLiBJZiB5b3UgaGF2ZSBmcmVlIHRpbWUsIHlvdSBj
-YW4gc3RhcnQNCnRvIHJldmlldyB0aGlzIHNlcmllcy4gSSBhbSBsb29raW5nIGZvcndhcmQgdG8g
-eW91ciByZXNwb25zZS4NCg0KQmVzdCBSZWdhcmRzLA0KQ2hhbmdodWFuZw0KDQo=
+Hi Maxime,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/dma-buf-heaps-Introduce-a-new-heap-for-reserved-memory/20240515-215850
+base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
+patch link:    https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-7-54cbbd049511%40kernel.org
+patch subject: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161341.XBePS2s0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_allocate':
+>> drivers/dma-buf/heaps/cma_heap.c:293:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
+     293 |                 return -EINVAL;
+         |                        ^
+   drivers/dma-buf/heaps/cma_heap.c:296:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
+     296 |                 return -EINVAL;
+         |                        ^
+   drivers/dma-buf/heaps/cma_heap.c: In function '__add_cma_heap':
+   drivers/dma-buf/heaps/cma_heap.c:386:13: error: implicit declaration of function 'of_memory_get_ecc_correction_bits' [-Werror=implicit-function-declaration]
+     386 |         if (of_memory_get_ecc_correction_bits() > 0)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +293 drivers/dma-buf/heaps/cma_heap.c
+
+   275	
+   276	static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+   277						 unsigned long len,
+   278						 unsigned long fd_flags,
+   279						 unsigned long heap_flags)
+   280	{
+   281		struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
+   282		struct cma_heap_buffer *buffer;
+   283		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+   284		size_t size = PAGE_ALIGN(len);
+   285		pgoff_t pagecount = size >> PAGE_SHIFT;
+   286		unsigned long align = get_order(size);
+   287		struct page *cma_pages;
+   288		struct dma_buf *dmabuf;
+   289		int ret = -ENOMEM;
+   290		pgoff_t pg;
+   291	
+   292		if (!cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
+ > 293			return -EINVAL;
+   294	
+   295		if (cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
+   296			return -EINVAL;
+   297	
+   298		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+   299		if (!buffer)
+   300			return ERR_PTR(-ENOMEM);
+   301	
+   302		INIT_LIST_HEAD(&buffer->attachments);
+   303		mutex_init(&buffer->lock);
+   304		buffer->len = size;
+   305	
+   306		if (align > CONFIG_CMA_ALIGNMENT)
+   307			align = CONFIG_CMA_ALIGNMENT;
+   308	
+   309		cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
+   310		if (!cma_pages)
+   311			goto free_buffer;
+   312	
+   313		/* Clear the cma pages */
+   314		if (PageHighMem(cma_pages)) {
+   315			unsigned long nr_clear_pages = pagecount;
+   316			struct page *page = cma_pages;
+   317	
+   318			while (nr_clear_pages > 0) {
+   319				void *vaddr = kmap_atomic(page);
+   320	
+   321				memset(vaddr, 0, PAGE_SIZE);
+   322				kunmap_atomic(vaddr);
+   323				/*
+   324				 * Avoid wasting time zeroing memory if the process
+   325				 * has been killed by by SIGKILL
+   326				 */
+   327				if (fatal_signal_pending(current))
+   328					goto free_cma;
+   329				page++;
+   330				nr_clear_pages--;
+   331			}
+   332		} else {
+   333			memset(page_address(cma_pages), 0, size);
+   334		}
+   335	
+   336		buffer->pages = kmalloc_array(pagecount, sizeof(*buffer->pages), GFP_KERNEL);
+   337		if (!buffer->pages) {
+   338			ret = -ENOMEM;
+   339			goto free_cma;
+   340		}
+   341	
+   342		for (pg = 0; pg < pagecount; pg++)
+   343			buffer->pages[pg] = &cma_pages[pg];
+   344	
+   345		buffer->cma_pages = cma_pages;
+   346		buffer->heap = cma_heap;
+   347		buffer->pagecount = pagecount;
+   348	
+   349		/* create the dmabuf */
+   350		exp_info.exp_name = dma_heap_get_name(heap);
+   351		exp_info.ops = &cma_heap_buf_ops;
+   352		exp_info.size = buffer->len;
+   353		exp_info.flags = fd_flags;
+   354		exp_info.priv = buffer;
+   355		dmabuf = dma_buf_export(&exp_info);
+   356		if (IS_ERR(dmabuf)) {
+   357			ret = PTR_ERR(dmabuf);
+   358			goto free_pages;
+   359		}
+   360		return dmabuf;
+   361	
+   362	free_pages:
+   363		kfree(buffer->pages);
+   364	free_cma:
+   365		cma_release(cma_heap->cma, cma_pages, pagecount);
+   366	free_buffer:
+   367		kfree(buffer);
+   368	
+   369		return ERR_PTR(ret);
+   370	}
+   371	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
