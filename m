@@ -1,143 +1,268 @@
-Return-Path: <linux-media+bounces-11525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C6E8C7533
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 13:27:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AFB8C75EB
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:21:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 019ED1C20FCE
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 11:27:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 594B2B20B8C
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5E31459FA;
-	Thu, 16 May 2024 11:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D3F4145FE3;
+	Thu, 16 May 2024 12:21:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DazUIU2R"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="oX1rFwxC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7704B1459E7;
-	Thu, 16 May 2024 11:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FA526AD0;
+	Thu, 16 May 2024 12:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715858852; cv=none; b=TCqacHq6oYveFSEUlQhjOH7QYOiboX9CCVn2AFOS9MFRqe6dPqLC0uzR0Ro5ICdApYkZh/uK8P0ELZeL3fYe8AlQrpRwQnovmsbepERk3Ko9J+ieoP7BWjx3/gGvumnEXccfBPxiyuvewK8g1Fqc6LSWPZzoSH3Z76//CVcKg/4=
+	t=1715862077; cv=none; b=sbFG2O1qSjmsA67JfBIjzeg3tYW32D6iFaAZAx3Gksq7ObvnyGcy3xh4uNzJWW7veBgvYN2jGg7UMKSmDtXqE4niMEvTvdOxagorgQQLaJQ5LqjQnwS9h3hPJa4ZrTCuvdeSA333RXE7v/4HXVD+VnjBrr0KPdTXWmSo/UIFS8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715858852; c=relaxed/simple;
-	bh=XWllrDJgXCsAZy9Z5sDYfrb6ed2DyF9I1Pdx9ZRRR5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJNZBe533gsuE5zK6DyAZQPb5jfhofPrdxaW6p7aInruPJb/OrqW9Q2qSCUIS4oSDSYhr7zGpzBaS/pumOwzQSU6frnQtP0Sd3xVkfrPnpRsP/eAuSbi1QpOe4nnI1qUVxq4k6s0KBwPGHntBwICsg1mp/8f/WgEwGJF2YWFmKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DazUIU2R; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F16227C;
-	Thu, 16 May 2024 13:27:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1715858840;
-	bh=XWllrDJgXCsAZy9Z5sDYfrb6ed2DyF9I1Pdx9ZRRR5A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DazUIU2RgiGQFEFJXxUSK4kgQ7916AjDz6UDMMDf0sUg66jj5Ief2/k3l4SiOJY1T
-	 rnHjgLlRS6wvNnIMFzrdrSkJHjaCdyXVUCwUf8P5s0pkAOp2ewDQr3QjnyAWqL8z+l
-	 1Zj0EfYQsxWsbAn5eGUALpLIoiKGKibN5/TJpyPQ=
-Date: Thu, 16 May 2024 14:27:20 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: nicolas.dufresne@collabora.corp-partner.google.com
-Cc: Maxime Ripard <mripard@redhat.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Lennart Poettering <mzxreary@0pointer.de>,
-	Robert Mader <robert.mader@collabora.com>,
-	Sebastien Bacher <sebastien.bacher@canonical.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Milan Zamazal <mzamazal@redhat.com>,
-	Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240516112720.GA12714@pendragon.ideasonboard.com>
-References: <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
- <20240507183613.GB20390@pendragon.ideasonboard.com>
- <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
- <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
- <20240513-heretic-didactic-newt-1d6daf@penduick>
- <20240513083417.GA18630@pendragon.ideasonboard.com>
- <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
- <20240514204223.GN32013@pendragon.ideasonboard.com>
- <a3428b0c352c24d43a2d458d41819fbf4b6cce0f.camel@collabora.corp-partner.google.com>
+	s=arc-20240116; t=1715862077; c=relaxed/simple;
+	bh=twsnA19yce/vLQHVoIbxjTMyA1o6jkohi8WPS/DWs88=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Is4Oy9cNuMvcW/kcBVQFI90oG/veTiW4Pv0CMXZFOYXUU/D1pgdKcEhtOBhnT4aV5+9sc1JbacrbjvV0adzdpU17lT9lUP4AjKdcj8UE0avT+uL+HMf9lxaGDhh8SaLYWScMtkDPuDukFlq2OJQm2YIi4MdcaZsQ6tET+apPkAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=oX1rFwxC; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: c77b1160137e11efb92737409a0e9459-20240516
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=FxoURd+7DdicAsZp6Obc64kWMKrH1ZdhW0yeI+412bo=;
+	b=oX1rFwxC6xYs8wBbLvjTJ/f/F1sKJxRZWQ22/yjqMQQWT5L6r6a715+QavxAVhYP3PrNR+J+nzJj9Nfk9lxIJlUF9imlOlzDc4wKxIJDLvtr4qBYEKhkGtWaWo2AfLFQasGE0lBCDokXBuAUxb0cBEZI6hz6ejOFn9kzhWSD3lM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:a40e379d-d61c-4694-8506-bcd342458ce5,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:82c5f88,CLOUDID:881fd792-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: c77b1160137e11efb92737409a0e9459-20240516
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+	(envelope-from <yunfei.dong@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 142435461; Thu, 16 May 2024 20:21:10 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 16 May 2024 20:21:07 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 16 May 2024 20:21:06 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Jeffrey Kardatzke <jkardatzke@google.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+	<nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>, "Nicolas
+ Dufresne" <nicolas.dufresne@collabora.com>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Sebastian Fricke
+	<sebastian.fricke@collabora.com>, Tomasz Figa <tfiga@chromium.org>, "Mauro
+ Carvalho Chehab" <mchehab@kernel.org>, Marek Szyprowski
+	<m.szyprowski@samsung.com>
+CC: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+	"Hsin-Yi Wang" <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+	"Daniel Vetter" <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
+ Dong <yunfei.dong@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	"Brian Starkey" <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T
+ . J . Mercier" <tjmercier@google.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v6,00/24] media: mediatek: add driver to support secure video decoder
+Date: Thu, 16 May 2024 20:20:38 +0800
+Message-ID: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a3428b0c352c24d43a2d458d41819fbf4b6cce0f.camel@collabora.corp-partner.google.com>
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--2.525400-8.000000
+X-TMASE-MatchedRID: QITTs0Q4iULtzSKzUmDUVwI0yP/uoH+DHgnyJJNAX/hGL0g1nVmkYTjh
+	cV1z6ih5WiaTAptjMRWkCf2vRV+wnagSz5LfW6gEtgGefYRQNetUNS+xp6iMXWsxtqQk3w552Fx
+	nSUK+m7/6scB2izTfK0mdI2aa3IoLfjm4FmbDbT0zw5Ejs3g1loab/1O/b86BknxabN/DinjEBp
+	jowVhUR9Gzq011f5lgCmjHXhV21s3GHadaRuAOv1z+axQLnAVBnp/1DQXYWrUR34ro7k23nYNaw
+	NhHLl62sC7QIHAmtIQgnvrgPYqDApQxl2LaGeYA7spMO3HwKCAxXH/dlhvLv8NNczdXNJoiFKP4
+	b2zaNX37+OrNHOBlyuv5q3xJofu6uafWgMhNYLlC4WIP7GtYLLqGBW9J0YqjCgNjqBgJU5MNMop
+	f6MGUQFSwGvCl8Crex941uW1B9Op9wUnSp+FsXh+WEMjoO9WWfS0Ip2eEHnz3IzXlXlpamPoLR4
+	+zsDTt+GYUedkXNWoXADxe84YEoo7Q0rMD985fLIwZeEGGR5d/AtGCJzTumc2YhbbKlG2xUnF/R
+	Asu5gOkOBPc9OLr6KXB9+VMLv+Q7kVCNKrk7cvyNp7g4PXe0BXsxz6ujBxUq1f8XSkHBUmNJXmE
+	MVvLtmcjFnImzvyS
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--2.525400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 15170411066990259493C61E6FD2C86217DBACA2787740452B30594821C292B52000:8
+X-MTK: N
 
-Hi Nicolas,
+The patch series used to enable secure video playback (SVP) on MediaTek
+hardware in the Linux kernel.
 
-On Wed, May 15, 2024 at 01:43:58PM -0400, nicolas.dufresne@collabora.corp-partner.google.com wrote:
-> Le mardi 14 mai 2024 à 23:42 +0300, Laurent Pinchart a écrit :
-> > > You'll hit the same limitation as we hit in GStreamer, which is that KMS driver
-> > > only offer allocation for render buffers and most of them are missing allocators
-> > > for YUV buffers, even though they can import in these formats. (kms allocators,
-> > > except dumb, which has other issues, are format aware).
-> > 
-> > My experience on Arm platforms is that the KMS drivers offer allocation
-> > for scanout buffers, not render buffers, and mostly using the dumb
-> > allocator API. If the KMS device can scan out YUV natively, YUV buffer
-> > allocation should be supported. Am I missing something here ?
-> 
-> There is two APIs, Dumb is the legacy allocation API, only used by display
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/user space).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
 
-Is it legacy only ? I understand the dumb buffers API to be officially
-supported, to allocate scanout buffers suitable for software rendering.
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
 
-> drivers indeed, and the API does not include a pixel format or a modifier. The
-> allocation of YUV buffer has been made through a small hack, 
-> 
->   bpp = number of bits per component (of luma plane if multiple planes)
->   width = width
->   height = height * X
-> 
-> Where X will vary, "3 / 2" is used for 420 subsampling, "2" for 422 and "3" for
-> 444. It is far from idea, requires deep knowledge of each formats in the
-> application
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
 
-I'm not sure I see that as an issue, but our experiences and uses cases
-may vary :-)
+This patch series is consists of four parts. The first is from Jeffrey,
+adding secure memory flag in v4l2 framework to support request secure
+buffer.
 
-> and cannot allocate each planes seperatly.
+The second and third parts are from John and T.J, adding some heap
+interfaces, then our kernel users could allocate buffer from special
+heap. The patch v1 is inside below dmabuf link.
+https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
+To avoid confusing, move them into vcodec patch set since we use the
+new interfaces directly.
 
-For semi-planar or planar formats, unless I'm mistaken, you can either
-allocate a single buffer and use it with appropriate offsets when
-constructing your framebuffer (with DRM_IOCTL_MODE_ADDFB2), or allocate
-one buffer per plane.
+The last part is mediatek video decoder driver, adding tee interface and
+decoder driver to support secure video playback.
 
-> The second is to use the driver specific allocation API. This is then abstracted
-> by GBM. This allows allocating render buffers with notably modifiers and/or use
-> cases. But no support for YUV formats or multi-planar formats.
+This patch set depends on "dma-buf: heaps: Add restricted heap"[1]
 
-GBM is the way to go for render buffers indeed. It has been designed
-with only graphics buffer management use cases in mind, so it's
-unfortunately not an option as a generic allocator, at least in its
-current form.
+[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=853380
+---
+Changed in v6:
+- fix review unreasonable logic for patch 2/3/23
+- add to support vp9 for patch 24
+
+Changed in v5:
+- fix merge conflict when rebase to latest media stage for patch 1/2
+- change allocate memory type to cma for patch 12
+- add to support av1 for patch 23
+
+Changed in v4:
+- change the driver according to maintainer advice for patch 1/2/3/4
+- replace secure with restricted for patch 1/2/3/4
+- fix svp decoder error for patch 21
+- add to support hevc for patch 22
+
+Changed in v3:
+- rewrite the cover-letter of this patch series
+- disable irq for svp mode
+- rebase the driver based on the latest media stage
+
+Changed in v2:
+- remove setting decoder mode and getting secure handle from decode
+- add Jeffrey's patch
+- add John and T.J's patch
+- getting secure flag with request buffer
+- fix some comments from patch v1
+---
+Jeffrey Kardatzke (4):
+  v4l2: add restricted memory flags
+  v4l2: handle restricted memory flags in queue setup
+  v4l2: verify restricted dmabufs are used in restricted queue
+  v4l: add documentation for restricted memory flag
+
+John Stultz (2):
+  dma-heap: Add proper kref handling on dma-buf heaps
+  dma-heap: Provide accessors so that in-kernel drivers can allocate
+    dmabufs from specific heaps
+
+T.J. Mercier (1):
+  dma-buf: heaps: Deduplicate docs and adopt common format
+
+Xiaoyong Lu (1):
+  media: mediatek: vcodec: support av1 svp decoder for mt8188
+
+Yilong Zhou (1):
+  media: mediatek: vcodec: support vp9 svp decoder for mt8188
+
+Yunfei Dong (15):
+  media: mediatek: vcodec: add tee client interface to communiate with
+    optee-os
+  media: mediatek: vcodec: allocate tee share memory
+  media: mediatek: vcodec: send share memory data to optee
+  media: mediatek: vcodec: initialize msg and vsi information
+  media: mediatek: vcodec: add interface to allocate/free secure memory
+  media: mediatek: vcodec: using shared memory as vsi address
+  media: mediatek: vcodec: Add capture format to support one plane
+    memory
+  media: mediatek: vcodec: Add one plane format
+  media: mediatek: vcodec: support one plane capture buffer
+  media: mediatek: vcodec: re-construct h264 driver to support svp mode
+  media: mediatek: vcodec: remove parse nal_info in kernel
+  media: mediatek: vcodec: disable wait interrupt for svp mode
+  media: mediatek: vcodec: support tee decoder
+  media: mediatek: vcodec: move vdec init interface to setup callback
+  media: mediatek: vcodec: support hevc svp for mt8188
+
+ .../userspace-api/media/v4l/buffer.rst        |  10 +-
+ .../media/v4l/pixfmt-reserved.rst             |   8 +
+ drivers/dma-buf/dma-heap.c                    | 139 +++++--
+ .../media/common/videobuf2/videobuf2-core.c   |  21 +
+ .../common/videobuf2/videobuf2-dma-contig.c   |   8 +
+ .../media/common/videobuf2/videobuf2-dma-sg.c |   8 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
+ .../media/platform/mediatek/vcodec/Kconfig    |   1 +
+ .../mediatek/vcodec/common/mtk_vcodec_util.c  | 122 +++++-
+ .../mediatek/vcodec/common/mtk_vcodec_util.h  |   3 +
+ .../platform/mediatek/vcodec/decoder/Makefile |   1 +
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 150 ++++---
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |   8 +
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   7 +
+ .../vcodec/decoder/mtk_vcodec_dec_hw.c        |  34 +-
+ .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 383 ++++++++++++++++++
+ .../vcodec/decoder/mtk_vcodec_dec_optee.h     | 156 +++++++
+ .../vcodec/decoder/mtk_vcodec_dec_pm.c        |   6 +-
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  35 +-
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c |  97 +++--
+ .../decoder/vdec/vdec_h264_req_common.c       |  18 +-
+ .../decoder/vdec/vdec_h264_req_multi_if.c     | 334 +++++++++------
+ .../decoder/vdec/vdec_hevc_req_multi_if.c     |  89 ++--
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |  91 +++--
+ .../mediatek/vcodec/decoder/vdec_drv_if.c     |   4 +-
+ .../mediatek/vcodec/decoder/vdec_msg_queue.c  |   9 +-
+ .../mediatek/vcodec/decoder/vdec_vpu_if.c     |  57 ++-
+ .../mediatek/vcodec/decoder/vdec_vpu_if.h     |   4 +
+ drivers/media/v4l2-core/v4l2-common.c         |   2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/linux/dma-heap.h                      |  29 +-
+ include/media/videobuf2-core.h                |   8 +-
+ include/uapi/linux/videodev2.h                |   3 +
+ 33 files changed, 1456 insertions(+), 394 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
 
