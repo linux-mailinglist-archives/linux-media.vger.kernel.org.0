@@ -1,183 +1,168 @@
-Return-Path: <linux-media+bounces-11522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11523-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993428C74E8
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:56:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B83508C750D
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 13:16:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DDE5B22C22
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 10:56:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6660B2844AA
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 11:16:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A128E145356;
-	Thu, 16 May 2024 10:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C41281459E5;
+	Thu, 16 May 2024 11:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Fz/smocq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NW36PcXO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6135D143898
-	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 10:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EF0145354
+	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 11:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715856994; cv=none; b=EVXoGOEJnZbAnUjeanmAEcu8TumjPZ8zbA4cju+XZCyXSiHFsSSndXweR/y4v5n/qdYYvAH7Ae6bV7FscLf2gGJ7Oq2OUVipPM1OK66VLfkAENF4H0bcr6Ra/gMzNMMgUoarkQ8i7w9HDeJN8N5gdyNHSjWeozoXW5m5z1hYRIw=
+	t=1715858159; cv=none; b=pZyhHeNKYFXygVsHAiJz67/AIBFTMd9tHMOn4ba01LJC+JJwMnSPlB/aanV7fQeMthfnNLj1qAbycNcfWdQl0oYXcjtXzTFCYwFNE4U18LlyawukdjUee+F6BveQ3PfwA19fR8FyH16GoPi/DoBVYx6jp4WxxW6t4q3iVBiDApY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715856994; c=relaxed/simple;
-	bh=BsLbCZn+JhmXnJxcv1qH56cu7tkHuVfRZhl7UEiWLEY=;
+	s=arc-20240116; t=1715858159; c=relaxed/simple;
+	bh=8FiDi3rSh8YbjIJWwXL4knvvjLdCTS7p5CuuEb5Phcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z7A6llBkbYXimA4kCAgK0dMXG4a/bw81Ja0ihM8S9X0YvyPgaJQEL0t6nuteJ0zauyihnmrDY9bHmhtAjwfeJnX2w9f0+c0EVARkIQGpweXiv9YDx4Yi5DV78L6t/s5ztIXYmLu4k/BSE5SEjAAdMKeVXdxNaX8npig2DsmiCAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Fz/smocq; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e52962dbcfso14711fa.2
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2024 03:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1715856990; x=1716461790; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYCaZIYD32X8OWqTmuj/FbQa01MUdFxdF5XvoFGLFW0=;
-        b=Fz/smocqGZqvipuDuJ5GR6bdGTERMK1Tq5TyxPLD9dJVMnK0ANHuWKWjfXeDvUYH2O
-         f8sJcJJc5Ru6hniW49DaMvZl9Oy/5jAIrwXyydOIuglZ+BJkcs6ayC5dX7fjZup4RCwb
-         AD122Vh1lt9tdDezNiNNvx3SlhhpsnenfDcJs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715856990; x=1716461790;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CYCaZIYD32X8OWqTmuj/FbQa01MUdFxdF5XvoFGLFW0=;
-        b=ief3MX49wwYeavF9RNkO60ukxjMB8bkMPloAXDLde04BQ4GwrDhQrCAWbXz+okAe/h
-         mWg/JlFVK5FaBiPZjH8iHljtr1EsGmXnju0r1YplkgUpCpw0nUskX3L9Rcomca+fyPD2
-         z19m4EnRKhvNiL07q7shRznOMx7hvxg9TdO+6mZODNWOVg8TsQ2G+4fSCwz3QsIv107F
-         IfVZGO3UuRbk2aIiRsiLdW5JLAjnvXdlDt/xmAI3FxEXPMjtueXm8ora1JTatmL+3sor
-         Lco7iUeUE1r46Ev8YLONXjthNePLRx8KI/e+2S0sPgf7ehapq0lXWbqgPV5NAn2g9pg/
-         KtrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgIFZ5wTOKvUqvUv6ILJtt6Psv80Yxugo702ZiCtM4CtnqlhRu+58P9qpKRc/EiJO8MFUOG4DKRNsf9/FNYtW+zySSmk22My6rInk=
-X-Gm-Message-State: AOJu0YwPhiT84fPhEq/y9HwOuC6ufagDPLCg2CfP3bLm/xhnwHPViO1u
-	iDZOhKtqKXehl7sCyeeZdI0Djr6jTAEbb0VYJSxqNgum/V5ggiN6lbYl91CK+c4=
-X-Google-Smtp-Source: AGHT+IEjj4yl40IXE4RuRX4OV/v0GH5bFkfz02Pq4c/NaDR61cTtFuwAhcTUObONlIdIlDgvDa0lTA==
-X-Received: by 2002:a2e:9b8b:0:b0:2e2:1647:8308 with SMTP id 38308e7fff4ca-2e51fd4b33emr121987831fa.2.1715856990407;
-        Thu, 16 May 2024 03:56:30 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-351c6f295e2sm6725490f8f.39.2024.05.16.03.56.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 03:56:29 -0700 (PDT)
-Date: Thu, 16 May 2024 12:56:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: John Stultz <jstultz@google.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <jstultz@google.com>,
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDPZUTe4wa3+iZwAnRPP/84EODO31ovM7iyWytQaGJShA8/PmCuK2htxvDZiWD1bnv1ksLrn3eYDZzfdWgwcl/CFe5LBFzGvu53Mqrwsex3pTJipQkbyIQZQscSPYZQW9Y9NwKC4oq9ROJ/YDOM8dUvX5or5Oggal3Naey8BBmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NW36PcXO; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715858157; x=1747394157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8FiDi3rSh8YbjIJWwXL4knvvjLdCTS7p5CuuEb5Phcs=;
+  b=NW36PcXOU4JL51tmC3JTqYFVuG6kbzYFCH9FXv+fRe7VbwKaKCs+dq0P
+   np7Jxgw5h2QkeWvGNhLYnkAwQQhDpIdcPBsGoi5+Zg0L7yw98i0gJQIyo
+   K59qhpT6V0gaarV+KvBI/IEWeV591tQ7/PpQY9hferJHWxPHneUItGK/L
+   TTAFW55D4d2EnTX3nB17dTPPzuwj5yNoYvoofT1okp7gfCzgFRb/a4KHV
+   VVnkTYfH14XP8V4NK8MNKv40cQtwWKwvKs5TN1INKr6axetUMgMUg+pzb
+   uSFJ3vle7KLA1own/razxIW0exDOGTeAspHojlG1NSl1ny76dxIk8OjOP
+   A==;
+X-CSE-ConnectionGUID: FwJLUfBWRtSBpYjNvS61Fg==
+X-CSE-MsgGUID: mwMMFDB7SKasuL1ALfdJdQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22564318"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="22564318"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 04:15:56 -0700
+X-CSE-ConnectionGUID: yHj1g9vhQvy6yBpLhbvw0g==
+X-CSE-MsgGUID: dMU429v1RKqrTvjpZ++YSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="31521944"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 16 May 2024 04:15:55 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s7Z5T-000EBT-2h;
+	Thu, 16 May 2024 11:15:51 +0000
+Date: Thu, 16 May 2024 19:15:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v5 1/4] media: v4l: Support passing media pad argument to
+ v4l2_get_link_freq()
+Message-ID: <202405161801.Muqsgsku-lkp@intel.com>
+References: <20240516070507.21735-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+In-Reply-To: <20240516070507.21735-2-sakari.ailus@linux.intel.com>
 
-On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> On Wed, May 15, 2024 at 6:57 AM Maxime Ripard <mripard@kernel.org> wrote:
-> > This series is the follow-up of the discussion that John and I had a few
-> > months ago here:
-> >
-> > https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqyrroCMQ@mail.gmail.com/
-> >
-> > The initial problem we were discussing was that I'm currently working on
-> > a platform which has a memory layout with ECC enabled. However, enabling
-> > the ECC has a number of drawbacks on that platform: lower performance,
-> > increased memory usage, etc. So for things like framebuffers, the
-> > trade-off isn't great and thus there's a memory region with ECC disabled
-> > to allocate from for such use cases.
-> >
-> > After a suggestion from John, I chose to start using heap allocations
-> > flags to allow for userspace to ask for a particular ECC setup. This is
-> > then backed by a new heap type that runs from reserved memory chunks
-> > flagged as such, and the existing DT properties to specify the ECC
-> > properties.
-> >
-> > We could also easily extend this mechanism to support more flags, or
-> > through a new ioctl to discover which flags a given heap supports.
-> 
-> Hey! Thanks for sending this along! I'm eager to see more heap related
-> work being done upstream.
-> 
-> The only thing that makes me a bit hesitant, is the introduction of
-> allocation flags (as opposed to a uniquely specified/named "ecc"
-> heap).
-> 
-> We did talk about this earlier, and my earlier press that only if the
-> ECC flag was general enough to apply to the majority of heaps then it
-> makes sense as a flag, and your patch here does apply it to all the
-> heaps. So I don't have an objection.
-> 
-> But it makes me a little nervous to add a new generic allocation flag
-> for a feature most hardware doesn't support (yet, at least). So it's
-> hard to weigh how common the actual usage will be across all the
-> heaps.
-> 
-> I apologize as my worry is mostly born out of seeing vendors really
-> push opaque feature flags in their old ion heaps, so in providing a
-> flags argument, it was mostly intended as an escape hatch for
-> obviously common attributes. So having the first be something that
-> seems reasonable, but isn't actually that common makes me fret some.
-> 
-> So again, not an objection, just something for folks to stew on to
-> make sure this is really the right approach.
+Hi Sakari,
 
-Another good reason to go with full heap names instead of opaque flags on
-existing heaps is that with the former we can use symlinks in sysfs to
-specify heaps, with the latter we need a new idea. We haven't yet gotten
-around to implement this anywhere, but it's been in the dma-buf/heap todo
-since forever, and I like it as a design approach. So would be a good idea
-to not toss it. With that display would have symlinks to cma-ecc and cma,
-and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for a
-SoC where the display needs contig memory for scanout.
+kernel test robot noticed the following build errors:
 
-> Another thing to discuss, that I didn't see in your mail: Do we have
-> an open-source user of this new flag?
+[auto build test ERROR on 8771b7f31b7fff91a998e6afdb60650d4bac59a5]
 
-I think one option might be to just start using these internally, but not
-sure the dma-api would understand a fallback cadence of allocators (afaik
-you can specify specific cma regions already, but that doesn't really
-covere the case where you can fall back to pages and iommu to remap to
-contig dma space) ... And I don't think abandonding the dma-api for
-allocating cma buffers is going to be a popular proposal.
--Sima
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Support-passing-media-pad-argument-to-v4l2_get_link_freq/20240516-150645
+base:   8771b7f31b7fff91a998e6afdb60650d4bac59a5
+patch link:    https://lore.kernel.org/r/20240516070507.21735-2-sakari.ailus%40linux.intel.com
+patch subject: [PATCH v5 1/4] media: v4l: Support passing media pad argument to v4l2_get_link_freq()
+config: i386-randconfig-006-20240516 (https://download.01.org/0day-ci/archive/20240516/202405161801.Muqsgsku-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161801.Muqsgsku-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405161801.Muqsgsku-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/v4l2-core/v4l2-common.c:510:7: error: no member named 'entity' in 'struct v4l2_subdev'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1110:49: note: expanded from macro 'media_entity_to_v4l2_subdev'
+    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      22 |                       "pointer type mismatch in container_of()");       \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:390:74: note: expanded from macro '__same_type'
+     390 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/media/v4l2-core/v4l2-common.c:510:7: error: no member named 'entity' in 'v4l2_subdev'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1110:3: note: expanded from macro 'media_entity_to_v4l2_subdev'
+    1110 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
+         |                 ^                                             ~~~~~~
+   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^              ~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                        ~~~~~~
+>> drivers/media/v4l2-core/v4l2-common.c:510:5: error: assigning to 'struct v4l2_subdev *' from incompatible type 'void'
+     510 |         sd = media_entity_to_v4l2_subdev(pad->entity);
+         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
+
+
+vim +510 drivers/media/v4l2-core/v4l2-common.c
+
+   504	
+   505	s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+   506				     unsigned int div)
+   507	{
+   508		struct v4l2_subdev *sd;
+   509	
+ > 510		sd = media_entity_to_v4l2_subdev(pad->entity);
+   511		if (!sd)
+   512			return -ENODEV;
+   513	
+   514		return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+   515	}
+   516	EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+   517	
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
