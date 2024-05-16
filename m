@@ -1,263 +1,260 @@
-Return-Path: <linux-media+bounces-11558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39888C76DB
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:49:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA378C78AF
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 16:51:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 35E531F21CD8
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:49:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 346D4282FAE
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37692146581;
-	Thu, 16 May 2024 12:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB8CD14B970;
+	Thu, 16 May 2024 14:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Krhiy3u7"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="C2tVvhB0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7825F145FE2;
-	Thu, 16 May 2024 12:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E46826ACA;
+	Thu, 16 May 2024 14:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715863746; cv=none; b=hBvplUrcsOBc4e8tQnlw/y2EZhyagmb8gZBcEqkKTRyUO1z2PJKkvOpfr9brJYwYIHDCbvd/bC2wMSdz+L5+SWVNSrQ4ojw1KavCj8k+2oAcAZCXiwG7PK7h8PuJEwe4x6boCXHE1WDbVSynr0puMPbkW9fTzhCXycVwsAc8SS0=
+	t=1715871076; cv=none; b=QX5HULTHOD+m3hUNQBIFRVecY0RZrfrmecUpxchcBrs/CcQjZvIu7VCNTCi/qmgNBwg27d03Wh3PdOKi4SJQa7mhF9ArGKbW2rw3HuT5r5bA2lU6cJ3H2n+86Fdu3HfJEY7HUc3iHCU+v/cLIr8I2LAotFynOoAs13bt36H/oz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715863746; c=relaxed/simple;
-	bh=/iRbkuVATe5k/WXAjHoSspHziFV+5t4MrNeTh/j+A4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=knIMioh9Hnf91igzm95MShV3+IseVJ+cSaPTx0QqC3XM6VW9VzA2pVgtEiFf1Ux28bkmWhW4PGGkaca7sMPIvPsLDa71IMd4hHRon0MSpa0ZXqsyDFFrCjIGcmEC275KW6vG1LqlcFnGjqMqpVjiPqla9ika9aBk850tbmr6uQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Krhiy3u7; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715863744; x=1747399744;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/iRbkuVATe5k/WXAjHoSspHziFV+5t4MrNeTh/j+A4I=;
-  b=Krhiy3u7NDhRNUF5+TZmznYTQ7/H3cqF+ntZsLe+oFBXmJbawYU3cwFA
-   5YWYZ88ZnCHUuNimcxktOK6xC7jXnPLfhpEdv5z4Ilx6VpXIVeU406EnM
-   dw5WBp9n1MyocWycR5abJAoIBMcdsduAa3UNFpkeq9LFl8ue4x2TMBqoX
-   HYLVE5tACPXCi109/ee5blnVmP8r5OxSLdEHhzqHzHNWYDADYIUe00qJN
-   lvQnsqHCRsvRLvWhKI/FT9qeOO45VyrWNIezt65hK4SD2h10+ywak5bew
-   PDUOggkvzNW5lAltfnClKuClWTTmyPOhDhLZMQTvpkjRTzGu2mrxzzvzn
-   w==;
-X-CSE-ConnectionGUID: krAWcV0JQ9ezdGXRhv+pRg==
-X-CSE-MsgGUID: 6o3v8RvmT7WBwz5y2rMwqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11835136"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="11835136"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:49:03 -0700
-X-CSE-ConnectionGUID: VGW6IyLTSF6Dv0zZz0FjKg==
-X-CSE-MsgGUID: h+5SZJRHSE2BXyiG3EgmAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="36150958"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 May 2024 05:48:59 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s7aXY-000EEo-1i;
-	Thu, 16 May 2024 12:48:56 +0000
-Date: Thu, 16 May 2024 20:48:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-Message-ID: <202405162048.CExrV8yy-lkp@intel.com>
-References: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
+	s=arc-20240116; t=1715871076; c=relaxed/simple;
+	bh=7+WGl4qwJpTyPTpUWeD6hXve1hktly7Kg58xogeIOJM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j3glNzebxq1Z8LzFLE85R4WornC+9rch/a1PB5+Ajt7zeOJvDUmCz0mJgMJhytEyFNOREWk2HsBhNggxNUqyN0NQOPOkce7QAJB4Rf93ZOik1bSBl5BHmI2uvAlfC6zjkan0a7WAGoyf3WlTNBx7zVNyRloN3e6tkR5jSItBg5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=C2tVvhB0; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id B313645B5;
+	Thu, 16 May 2024 16:51:01 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz B313645B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1715871062; bh=vd5m65i8q/dcDshCpdZxqE51XS5GvkCD5cFuKYkovLw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C2tVvhB04LcKiEIyl5kYj3qgRnwLPIYlK94nbSF4CO68fdWuv0ZZ1HmOH2JEoxKSH
+	 ahb6NKXAUk8Uc0uGjSX7hYLcvlkQMdTXX+u8ZxJ/J4q4ijnyrPN+YGKfBLnRZJ+lER
+	 YO2R4l4IkXKbO/9DfVyHkcw1//iNZMk7kjku+4w4=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu, 16 May 2024 16:50:40 +0200 (CEST)
+Message-ID: <3b9c9649-c657-4636-b4ef-31df82c58bba@perex.cz>
+Date: Thu, 16 May 2024 16:50:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, Takashi Iwai <tiwai@suse.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
+ <ZjRCJ2ZcmKOIo7_p@finisterre.sirena.org.uk> <20240503094225.47fe4836@sal.lan>
+ <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
+ <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
+ <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
+ <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
+ <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
+ <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
+ <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
+ <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
+ <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
+ <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
+ <c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl>
+ <8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz> <87o7975qcw.wl-tiwai@suse.de>
+ <e63ec6c8-7da7-4b87-b7ff-a71ff12dcfc1@perex.cz>
+ <a60ee3505e551f3def6cdd7c76942d0fd74bc656.camel@ndufresne.ca>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <a60ee3505e551f3def6cdd7c76942d0fd74bc656.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+On 15. 05. 24 22:33, Nicolas Dufresne wrote:
+> Hi,
+> 
+> GStreamer hat on ...
+> 
+> Le mercredi 15 mai 2024 à 12:46 +0200, Jaroslav Kysela a écrit :
+>> On 15. 05. 24 12:19, Takashi Iwai wrote:
+>>> On Wed, 15 May 2024 11:50:52 +0200,
+>>> Jaroslav Kysela wrote:
+>>>>
+>>>> On 15. 05. 24 11:17, Hans Verkuil wrote:
+>>>>> Hi Jaroslav,
+>>>>>
+>>>>> On 5/13/24 13:56, Jaroslav Kysela wrote:
+>>>>>> On 09. 05. 24 13:13, Jaroslav Kysela wrote:
+>>>>>>> On 09. 05. 24 12:44, Shengjiu Wang wrote:
+>>>>>>>>>> mem2mem is just like the decoder in the compress pipeline. which is
+>>>>>>>>>> one of the components in the pipeline.
+>>>>>>>>>
+>>>>>>>>> I was thinking of loopback with endpoints using compress streams,
+>>>>>>>>> without physical endpoint, something like:
+>>>>>>>>>
+>>>>>>>>> compress playback (to feed data from userspace) -> DSP (processing) ->
+>>>>>>>>> compress capture (send data back to userspace)
+>>>>>>>>>
+>>>>>>>>> Unless I'm missing something, you should be able to process data as fast
+>>>>>>>>> as you can feed it and consume it in such case.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Actually in the beginning I tried this,  but it did not work well.
+>>>>>>>> ALSA needs time control for playback and capture, playback and capture
+>>>>>>>> needs to synchronize.  Usually the playback and capture pipeline is
+>>>>>>>> independent in ALSA design,  but in this case, the playback and capture
+>>>>>>>> should synchronize, they are not independent.
+>>>>>>>
+>>>>>>> The core compress API core no strict timing constraints. You can eventually0
+>>>>>>> have two half-duplex compress devices, if you like to have really independent
+>>>>>>> mechanism. If something is missing in API, you can extend this API (like to
+>>>>>>> inform the user space that it's a producer/consumer processing without any
+>>>>>>> relation to the real time). I like this idea.
+>>>>>>
+>>>>>> I was thinking more about this. If I am right, the mentioned use in gstreamer
+>>>>>> is supposed to run the conversion (DSP) job in "one shot" (can be handled
+>>>>>> using one system call like blocking ioctl).  The goal is just to offload the
+>>>>>> CPU work to the DSP (co-processor). If there are no requirements for the
+>>>>>> queuing, we can implement this ioctl in the compress ALSA API easily using the
+>>>>>> data management through the dma-buf API. We can eventually define a new
+>>>>>> direction (enum snd_compr_direction) like SND_COMPRESS_CONVERT or so to allow
+>>>>>> handle this new data scheme. The API may be extended later on real demand, of
+>>>>>> course.
+>>>>>>
+>>>>>> Otherwise all pieces are already in the current ALSA compress API
+>>>>>> (capabilities, params, enumeration). The realtime controls may be created
+>>>>>> using ALSA control API.
+>>>>>
+>>>>> So does this mean that Shengjiu should attempt to use this ALSA approach first?
+>>>>
+>>>> I've not seen any argument to use v4l2 mem2mem buffer scheme for this
+>>>> data conversion forcefully. It looks like a simple job and ALSA APIs
+>>>> may be extended for this simple purpose.
+>>>>
+>>>> Shengjiu, what are your requirements for gstreamer support? Would be a
+>>>> new blocking ioctl enough for the initial support in the compress ALSA
+>>>> API?
+>>>
+>>> If it works with compress API, it'd be great, yeah.
+>>> So, your idea is to open compress-offload devices for read and write,
+>>> then and let them convert a la batch jobs without timing control?
+>>>
+>>> For full-duplex usages, we might need some more extensions, so that
+>>> both read and write parameters can be synchronized.  (So far the
+>>> compress stream is a unidirectional, and the runtime buffer for a
+>>> single stream.)
+>>>
+>>> And the buffer management is based on the fixed size fragments.  I
+>>> hope this doesn't matter much for the intended operation?
+>>
+>> It's a question, if the standard I/O is really required for this case. My
+>> quick idea was to just implement a new "direction" for this job supporting
+>> only one ioctl for the data processing which will execute the job in "one
+>> shot" at the moment. The I/O may be handled through dma-buf API (which seems
+>> to be standard nowadays for this purpose and allows future chaining).
+>>
+>> So something like:
+>>
+>> struct dsp_job {
+>>      int source_fd;     /* dma-buf FD with source data - for dma_buf_get() */
+>>      int target_fd;     /* dma-buf FD for target data - for dma_buf_get() */
+>>      ... maybe some extra data size members here ...
+>>      ... maybe some special parameters here ...
+>> };
+>>
+>> #define SNDRV_COMPRESS_DSPJOB _IOWR('C', 0x60, struct dsp_job)
+>>
+>> This ioctl will be blocking (thus synced). My question is, if it's feasible
+>> for gstreamer or not. For this particular case, if the rate conversion is
+>> implemented in software, it will block the gstreamer data processing, too.
+> 
+> Yes, GStreamer threading is using a push-back model, so blocking for the time of
+> the processing is fine. Note that the extra simplicity will suffer from ioctl()
+> latency.
+> 
+> In GFX, they solve this issue with fences. That allow setting up the next
+> operation in the chain before the data has been produced.
 
-kernel test robot noticed the following build errors:
+The fences look really nicely and seem more modern. It should be possible with 
+dma-buf/sync_file.c interface to handle multiple jobs simultaneously and share 
+the state between user space and kernel driver.
 
-[auto build test ERROR on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
+In this case, I think that two non-blocking ioctls should be enough - add a 
+new job with source/target dma buffers guarded by one fence and abort (flush) 
+all active jobs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/dma-buf-heaps-Introduce-a-new-heap-for-reserved-memory/20240515-215850
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-7-54cbbd049511%40kernel.org
-patch subject: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240516/202405162048.CExrV8yy-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405162048.CExrV8yy-lkp@intel.com/reproduce)
+I'll try to propose an API extension for the ALSA's compress API in the 
+linux-sound mailing list soon.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405162048.CExrV8yy-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_allocate':
-   drivers/dma-buf/heaps/cma_heap.c:293:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     293 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c:296:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     296 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c: In function '__add_cma_heap':
->> drivers/dma-buf/heaps/cma_heap.c:386:13: error: implicit declaration of function 'of_memory_get_ecc_correction_bits' [-Werror=implicit-function-declaration]
-     386 |         if (of_memory_get_ecc_correction_bits() > 0)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/of_memory_get_ecc_correction_bits +386 drivers/dma-buf/heaps/cma_heap.c
-
-   275	
-   276	static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-   277						 unsigned long len,
-   278						 unsigned long fd_flags,
-   279						 unsigned long heap_flags)
-   280	{
-   281		struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
-   282		struct cma_heap_buffer *buffer;
-   283		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-   284		size_t size = PAGE_ALIGN(len);
-   285		pgoff_t pagecount = size >> PAGE_SHIFT;
-   286		unsigned long align = get_order(size);
-   287		struct page *cma_pages;
-   288		struct dma_buf *dmabuf;
-   289		int ret = -ENOMEM;
-   290		pgoff_t pg;
-   291	
-   292		if (!cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
- > 293			return -EINVAL;
-   294	
-   295		if (cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-   296			return -EINVAL;
-   297	
-   298		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-   299		if (!buffer)
-   300			return ERR_PTR(-ENOMEM);
-   301	
-   302		INIT_LIST_HEAD(&buffer->attachments);
-   303		mutex_init(&buffer->lock);
-   304		buffer->len = size;
-   305	
-   306		if (align > CONFIG_CMA_ALIGNMENT)
-   307			align = CONFIG_CMA_ALIGNMENT;
-   308	
-   309		cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-   310		if (!cma_pages)
-   311			goto free_buffer;
-   312	
-   313		/* Clear the cma pages */
-   314		if (PageHighMem(cma_pages)) {
-   315			unsigned long nr_clear_pages = pagecount;
-   316			struct page *page = cma_pages;
-   317	
-   318			while (nr_clear_pages > 0) {
-   319				void *vaddr = kmap_atomic(page);
-   320	
-   321				memset(vaddr, 0, PAGE_SIZE);
-   322				kunmap_atomic(vaddr);
-   323				/*
-   324				 * Avoid wasting time zeroing memory if the process
-   325				 * has been killed by by SIGKILL
-   326				 */
-   327				if (fatal_signal_pending(current))
-   328					goto free_cma;
-   329				page++;
-   330				nr_clear_pages--;
-   331			}
-   332		} else {
-   333			memset(page_address(cma_pages), 0, size);
-   334		}
-   335	
-   336		buffer->pages = kmalloc_array(pagecount, sizeof(*buffer->pages), GFP_KERNEL);
-   337		if (!buffer->pages) {
-   338			ret = -ENOMEM;
-   339			goto free_cma;
-   340		}
-   341	
-   342		for (pg = 0; pg < pagecount; pg++)
-   343			buffer->pages[pg] = &cma_pages[pg];
-   344	
-   345		buffer->cma_pages = cma_pages;
-   346		buffer->heap = cma_heap;
-   347		buffer->pagecount = pagecount;
-   348	
-   349		/* create the dmabuf */
-   350		exp_info.exp_name = dma_heap_get_name(heap);
-   351		exp_info.ops = &cma_heap_buf_ops;
-   352		exp_info.size = buffer->len;
-   353		exp_info.flags = fd_flags;
-   354		exp_info.priv = buffer;
-   355		dmabuf = dma_buf_export(&exp_info);
-   356		if (IS_ERR(dmabuf)) {
-   357			ret = PTR_ERR(dmabuf);
-   358			goto free_pages;
-   359		}
-   360		return dmabuf;
-   361	
-   362	free_pages:
-   363		kfree(buffer->pages);
-   364	free_cma:
-   365		cma_release(cma_heap->cma, cma_pages, pagecount);
-   366	free_buffer:
-   367		kfree(buffer);
-   368	
-   369		return ERR_PTR(ret);
-   370	}
-   371	
-   372	static const struct dma_heap_ops cma_heap_ops = {
-   373		.allocate = cma_heap_allocate,
-   374	};
-   375	
-   376	static int __add_cma_heap(struct cma *cma, void *data)
-   377	{
-   378		struct cma_heap *cma_heap;
-   379		struct dma_heap_export_info exp_info;
-   380	
-   381		cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
-   382		if (!cma_heap)
-   383			return -ENOMEM;
-   384		cma_heap->cma = cma;
-   385	
- > 386		if (of_memory_get_ecc_correction_bits() > 0)
-   387			cma_heap->ecc_enabled = true;
-   388	
-   389		exp_info.name = cma_get_name(cma);
-   390		exp_info.ops = &cma_heap_ops;
-   391		exp_info.priv = cma_heap;
-   392	
-   393		cma_heap->heap = dma_heap_add(&exp_info);
-   394		if (IS_ERR(cma_heap->heap)) {
-   395			int ret = PTR_ERR(cma_heap->heap);
-   396	
-   397			kfree(cma_heap);
-   398			return ret;
-   399		}
-   400	
-   401		return 0;
-   402	}
-   403	
+					Jaroslav
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
 
