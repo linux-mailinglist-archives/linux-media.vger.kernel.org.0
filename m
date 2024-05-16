@@ -1,260 +1,173 @@
-Return-Path: <linux-media+bounces-11556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADCF8C7654
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:29:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0805A8C76A7
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 14:41:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDD121C20E6F
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:29:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 669EF1F21F5B
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2024 12:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F302A14E2D4;
-	Thu, 16 May 2024 12:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7F4D146005;
+	Thu, 16 May 2024 12:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyEtTDr3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HW+z3how"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B2814D71D
-	for <linux-media@vger.kernel.org>; Thu, 16 May 2024 12:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45ED77E763;
+	Thu, 16 May 2024 12:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715862351; cv=none; b=A5ZnMqX9Cy/+FCAIbkAFSA/ozLufgDxx1F4Dl2iOs+kb0peBkFCzKb2yKKmjiYwYwxdw8FCmStIIJoWrKIJC7i55xnNzRSyjzqgX7VgVS4boeWXLaRKixOt6mY4dkRb6OMSFeL4awDEZGUhtzwqf7OvjdnYNCBUFoZLzuw4JLsI=
+	t=1715863274; cv=none; b=sCMpH1WtJnH67XrPEFbJ5wfkGQglRckZ0oq4IxzUTljbe5FOwFNxr60VZw727ZxWLPKfgKntoEKS8Hb6tcMPi4eahTohTGVxgQlH5PopXlG6GkAtZtnFRzCxNucS/V15Ols1eiQ2d3IwrS5YK67zl4KBeUHuiv9DA9/vR1FwwKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715862351; c=relaxed/simple;
-	bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m5kdzpEigeEtfNSYN4DDbd3XqOo4xcKRTpv1zHswieQKI0htQTpzCksuWvpM/L63am9ttZF8akEePGb22S0Pst/iLbp7vGdCbX2ZWLTtbiKSboso4tQCY72xrS88aD2ZJzgJ/redGUKu0jDcXP5SKowQd4XbdLM44cvlbDeQ/Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyEtTDr3; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715862350; x=1747398350;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hcn/dK50gEK/5NTqbgKwv0j7YOdfsDhvTka+TY7vCjY=;
-  b=cyEtTDr3kQBINOJu0E7VTDZ/CKc7KX9Ro3nfsT35Zp6FBcg4g6bFPlBk
-   DnOMRSNfPgBdWWSJ+TPhnDCFdeRIjo3MwJ9BiChneh9jl/+AkAdDlwc+U
-   SwUbBmK+b3WyuMf+rMFq4Gdg4CQN64i18bxVsXdwCK2UTtr7xAA9AXM1n
-   ZFjI1DoLQbz+ZPmLAEXk6eThwWQN+BssluGGVC5w8wONYKCc7J/CkN4OX
-   82vnBlJUAlIKx0B1gdmPlN5VHM8NGwxGxTs84ukkO+RMPgYHQP+CjoTq5
-   mksWK9Od9WZmRUKfNh7dyNivv0Tw6PbVrnKeVMDq9ReRrJAefU6JT8Vz2
-   g==;
-X-CSE-ConnectionGUID: KV2G01wlRzCpnNQnoAkzNw==
-X-CSE-MsgGUID: 3zePZxdqTEag7rCed0pLTA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="37345831"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="37345831"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:48 -0700
-X-CSE-ConnectionGUID: Zjq+hbiWRSubewhQCrfhXQ==
-X-CSE-MsgGUID: iiohblpHSJ2EGPbG1YdRQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="36290278"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 05:25:47 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 889D8120D3A;
-	Thu, 16 May 2024 15:25:43 +0300 (EEST)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v6 4/4] media: ivsc: csi: Obtain link frequency from the media pad
-Date: Thu, 16 May 2024 15:25:39 +0300
-Message-Id: <20240516122539.30787-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
-References: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1715863274; c=relaxed/simple;
+	bh=eQHIiIL1ALm5PPVQ3Io9cb7gr9OV/haIlOC1+pSXKVU=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKs+aAP64TWRr6huehkCNnMS8/c/WSjJFAuYHOXlZKPZoWE2ucDOaNHk2vABxxnj2A0RuuJcVcGHz+OfsTVVhJoZTDDmJHENAFgTyLAuh0KI1Hq250X26TQl+xKZiZjXtBE9TBjwB5N+ACoVKud2qIXH4qVt17GfLyGuJAhEA+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HW+z3how; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51309C32786;
+	Thu, 16 May 2024 12:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715863273;
+	bh=eQHIiIL1ALm5PPVQ3Io9cb7gr9OV/haIlOC1+pSXKVU=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=HW+z3howijTGOOcAphkl82HP7uOZEOoSZva4jxoHROFt0mSevv4rTFk8gICxCfvk/
+	 7oNOzLU8oefihbItRwr2yBUhfYOVn7knvCS1vQMIROkobA1ZRdWkObtk3+lsksUT4Y
+	 M3/B++hwmb42oQvcuubJhZOt2q/FyH5cQAF8yG5h3uTmALEG/DbnWjc+FobKIRfsI1
+	 Cs1B0SiV4LAp4wu31y71LUjghKuTDhOfJJ6+Hw92G4aF7MxB93h1dc5w/eAY/7C6mj
+	 KUmU1fiFlJq/E7Qv/CWqyNgqqdUPZyQIy0FSYoUsmMByvMNnLzZbNmoG6R6lruvx5t
+	 ucCkeNHAJmgjw==
+Date: Thu, 16 May 2024 14:41:10 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+Message-ID: <20240516-melodic-quick-dalmatian-fa7b41@penduick>
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+ <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+ <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="suucgit7csl7uhjz"
+Content-Disposition: inline
+In-Reply-To: <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
 
-Support the use of the media pad for obtaining the link frequency.
-Similarly, call the v4l2_get_link_freq() on the media pad, not on the
-remote's control handler.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ivsc/mei_csi.c | 72 +++++++++-----------------
- 1 file changed, 25 insertions(+), 47 deletions(-)
+--suucgit7csl7uhjz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-index 89b582a221ab..621a6ee32e01 100644
---- a/drivers/media/pci/intel/ivsc/mei_csi.c
-+++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-@@ -35,8 +35,6 @@
- 
- #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
- 
--#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
--
- /* the 5s used here is based on experiment */
- #define CSI_CMD_TIMEOUT (5 * HZ)
- /* to setup CSI-2 link an extra delay needed and determined experimentally */
-@@ -121,12 +119,11 @@ struct mei_csi {
- 	struct mutex lock;
- 
- 	struct v4l2_subdev subdev;
--	struct v4l2_subdev *remote;
-+	struct media_pad *remote;
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *freq_ctrl;
- 	struct v4l2_ctrl *privacy_ctrl;
--	unsigned int remote_pad;
- 	/* start streaming or not */
- 	int streaming;
- 
-@@ -148,10 +145,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
- 	.field = V4L2_FIELD_NONE,
- };
- 
--static s64 link_freq_menu_items[] = {
--	MEI_CSI_LINK_FREQ_400MHZ
--};
--
- static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
- {
- 	return container_of(n, struct mei_csi, notifier);
-@@ -284,11 +277,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
- static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct mei_csi *csi = sd_to_csi(sd);
-+	struct v4l2_subdev *remote_sd =
-+		media_entity_to_v4l2_subdev(csi->remote->entity);
- 	s64 freq;
- 	int ret;
- 
- 	if (enable && csi->streaming == 0) {
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
-+		freq = v4l2_get_link_freq(csi->remote, 0, 0);
- 		if (freq < 0) {
- 			dev_err(&csi->cldev->dev,
- 				"error %lld, invalid link_freq\n", freq);
-@@ -307,11 +302,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
- 		if (ret < 0)
- 			goto err_switch;
- 
--		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
-+		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
- 		if (ret)
- 			goto err_switch;
- 	} else if (!enable && csi->streaming == 1) {
--		v4l2_subdev_call(csi->remote, video, s_stream, 0);
-+		v4l2_subdev_call(remote_sd, video, s_stream, 0);
- 
- 		/* switch CSI-2 link to IVSC */
- 		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
-@@ -468,34 +463,29 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-+static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-+				   struct v4l2_mbus_config *mbus_config)
- {
--	struct mei_csi *csi = ctrl_to_csi(ctrl);
-+	struct mei_csi *csi = sd_to_csi(sd);
-+	unsigned int i;
- 	s64 freq;
- 
--	if (ctrl->id == V4L2_CID_LINK_FREQ) {
--		if (!csi->remote)
--			return -EINVAL;
--
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
--		if (freq < 0) {
--			dev_err(&csi->cldev->dev,
--				"error %lld, invalid link_freq\n", freq);
--			return -EINVAL;
--		}
--
--		link_freq_menu_items[0] = freq;
--		ctrl->val = 0;
-+	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
-+	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
-+		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
-+	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
- 
--		return 0;
-+	freq = v4l2_get_link_freq(csi->remote, 0, 0);
-+	if (freq < 0) {
-+		dev_err(&csi->cldev->dev,
-+			"error %lld, invalid link_freq\n", freq);
-+		return -EINVAL;
- 	}
- 
--	return -EINVAL;
--}
-+	mbus_config->link_freq = csi->link_freq = freq;
- 
--static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
--	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
--};
-+	return 0;
-+}
- 
- static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- 	.s_stream = mei_csi_set_stream,
-@@ -504,6 +494,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = mei_csi_set_fmt,
-+	.get_mbus_config = mei_csi_get_mbus_config,
- };
- 
- static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
-@@ -531,8 +522,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
- 	if (pad < 0)
- 		return pad;
- 
--	csi->remote = subdev;
--	csi->remote_pad = pad;
-+	csi->remote = &subdev->entity.pads[pad];
- 
- 	return media_create_pad_link(&subdev->entity, pad,
- 				     &csi->subdev.entity, CSI_PAD_SINK,
-@@ -556,26 +546,14 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
- 
- static int mei_csi_init_controls(struct mei_csi *csi)
- {
--	u32 max;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
-+	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
- 	if (ret)
- 		return ret;
- 
- 	csi->ctrl_handler.lock = &csi->lock;
- 
--	max = ARRAY_SIZE(link_freq_menu_items) - 1;
--	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
--						&mei_csi_ctrl_ops,
--						V4L2_CID_LINK_FREQ,
--						max,
--						0,
--						link_freq_menu_items);
--	if (csi->freq_ctrl)
--		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
--					 V4L2_CTRL_FLAG_VOLATILE;
--
- 	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
- 					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
- 	if (csi->privacy_ctrl)
--- 
-2.39.2
+On Thu, May 16, 2024 at 12:56:27PM +0200, Daniel Vetter wrote:
+> On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
+> > On Wed, May 15, 2024 at 6:57=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
+rg> wrote:
+> > > This series is the follow-up of the discussion that John and I had a =
+few
+> > > months ago here:
+> > >
+> > > https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDH=
+HqqyrroCMQ@mail.gmail.com/
+> > >
+> > > The initial problem we were discussing was that I'm currently working=
+ on
+> > > a platform which has a memory layout with ECC enabled. However, enabl=
+ing
+> > > the ECC has a number of drawbacks on that platform: lower performance,
+> > > increased memory usage, etc. So for things like framebuffers, the
+> > > trade-off isn't great and thus there's a memory region with ECC disab=
+led
+> > > to allocate from for such use cases.
+> > >
+> > > After a suggestion from John, I chose to start using heap allocations
+> > > flags to allow for userspace to ask for a particular ECC setup. This =
+is
+> > > then backed by a new heap type that runs from reserved memory chunks
+> > > flagged as such, and the existing DT properties to specify the ECC
+> > > properties.
+> > >
+> > > We could also easily extend this mechanism to support more flags, or
+> > > through a new ioctl to discover which flags a given heap supports.
+> >=20
+> > Hey! Thanks for sending this along! I'm eager to see more heap related
+> > work being done upstream.
+> >=20
+> > The only thing that makes me a bit hesitant, is the introduction of
+> > allocation flags (as opposed to a uniquely specified/named "ecc"
+> > heap).
+> >=20
+> > We did talk about this earlier, and my earlier press that only if the
+> > ECC flag was general enough to apply to the majority of heaps then it
+> > makes sense as a flag, and your patch here does apply it to all the
+> > heaps. So I don't have an objection.
+> >=20
+> > But it makes me a little nervous to add a new generic allocation flag
+> > for a feature most hardware doesn't support (yet, at least). So it's
+> > hard to weigh how common the actual usage will be across all the
+> > heaps.
+> >=20
+> > I apologize as my worry is mostly born out of seeing vendors really
+> > push opaque feature flags in their old ion heaps, so in providing a
+> > flags argument, it was mostly intended as an escape hatch for
+> > obviously common attributes. So having the first be something that
+> > seems reasonable, but isn't actually that common makes me fret some.
+> >=20
+> > So again, not an objection, just something for folks to stew on to
+> > make sure this is really the right approach.
+>=20
+> Another good reason to go with full heap names instead of opaque flags on
+> existing heaps is that with the former we can use symlinks in sysfs to
+> specify heaps, with the latter we need a new idea. We haven't yet gotten
+> around to implement this anywhere, but it's been in the dma-buf/heap todo
+> since forever, and I like it as a design approach. So would be a good idea
+> to not toss it. With that display would have symlinks to cma-ecc and cma,
+> and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for a
+> SoC where the display needs contig memory for scanout.
 
+I guess it depends what we want to use the heaps for exactly. If we
+create a heap by type, then the number of heaps is going to explode and
+their name is going to be super weird and inconsistent.
+
+Using the ECC setup here as an example, it means that we would need to
+create system (with the default ECC setup for the system), system-ecc,
+system-no-ecc, cma, cma-ecc, cma-no-ecc.
+
+Let's say we introduce caching next. do we want to triple the number of
+heaps again?
+
+So I guess it all boils down to whether we want to consider heaps as
+allocators, and then we need the flags to fine-tune the attributes/exact
+semantics, or the combination of an allocator and the semantics which
+will make the number of heaps explode (and reduce their general
+usefulness, I guess).
+
+Maxime
+
+--suucgit7csl7uhjz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkX+5gAKCRAnX84Zoj2+
+dlm2AX4zDrlbmQnJLk98W+IofB6hK8ZzSAe2eROyf8ACySG5WHvFn9Thj2UsUYxC
+Y3jkMxEBgOqPayZCO59a/ow4sVm+Bk7F7/fvmM03D3EhW8fjpGGViti3Ap52OpI/
+YONnWKwxQA==
+=GS0k
+-----END PGP SIGNATURE-----
+
+--suucgit7csl7uhjz--
 
