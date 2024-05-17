@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-11594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9338C8550
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 13:11:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF018C855C
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 13:14:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76616281BA5
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 11:11:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45AE2281D18
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 11:14:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFBDE3BB20;
-	Fri, 17 May 2024 11:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A15A3D0B3;
+	Fri, 17 May 2024 11:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JqPQFdnU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QyLp6nQ4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FB33A28E
-	for <linux-media@vger.kernel.org>; Fri, 17 May 2024 11:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C413BB35
+	for <linux-media@vger.kernel.org>; Fri, 17 May 2024 11:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715944305; cv=none; b=cVTwXGHwW98IF1H5fv8zPi9g1HsyIyy/JcIhiZ1nXBd9DaREsQ1CDC+LT9/eFxvZZv99zsW67Ii8YgSf25ug3ukHrz9ozB1yviqxS8H0z91MsAihSHDiM3qv3xL2HQvPKHiAlCCHojWzGcdCEbbKeW7n98NB3FVyTH5JXJbdzUs=
+	t=1715944486; cv=none; b=f2cVOGrjCYTK1750b03T1PFl26zlMwU7upQHo4RymdOodib7saDdpHQu6WbLkmv3H8YoGAjMuLdyj6ntfQAdSiKtAPaQh340gBpZuD9pYvgX0D7jCCnwIhDMAoQUWFoRQiwBZLaEEqQkm4WqVVYHP37f4RoKZYMFqVnBxA7je5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715944305; c=relaxed/simple;
-	bh=bsHwyLU1JWlCeweRVx7mI9guSKJ9whpiVchqwNI2eUc=;
+	s=arc-20240116; t=1715944486; c=relaxed/simple;
+	bh=e+XAuOvAFUdi4IQ1zCN48vzga9sNnIJxS4aRTHETUoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IH9ZzGqPdml5CT/jjpT2O4527qzuB0oumDkO4QKEj/MsY5gjFW0ldmmzo3Wh/t8Fjeu7KVemU3/LVfrJtBhXLgSMEz/crHDphGkeYt2H0x+mnjhwL7ui0tt0hpgfIASC4Rrqy85isB0BgxA/rKVoz4b6kHJHaPPrvQ5C6eb3FRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JqPQFdnU; arc=none smtp.client-ip=209.85.216.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=sg4nHzB9yCkUzltkUt04hqz6uxYudm5lxhDh2OtD9ANfWjSfbZDqttwuTQ7tv+1jvEUEd8TW1dwBnqz7ppQ+tra9ucP0vBrdaJ590ooKP/X70sFkdOJTSFCsHpry+e1OMRipNA+3mwxaV/0D54o3wUgRjM2Q2Y54j+/CKC3+qfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QyLp6nQ4; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2b33d011e5dso39381a91.0
-        for <linux-media@vger.kernel.org>; Fri, 17 May 2024 04:11:43 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ee42b97b32so5327385ad.2
+        for <linux-media@vger.kernel.org>; Fri, 17 May 2024 04:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715944303; x=1716549103; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1715944484; x=1716549284; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1HywPLbaWJxCxiU/ZxKcyrVCr65pGTtmyNTRw7JGX4k=;
-        b=JqPQFdnUeuUyHcYjsa1Nq0muRlmTRA7Sx8sXN/66d+hEeupLROWNNDyi6nbSbML85u
-         NKLWufLgmB54vTSFWKcH7yIxLKUzmu7aGP/BaO0rPglG9zIPhMcCLxKdSjH+vcPT6NAr
-         NmS82tftktYwpR8meoTIRmS0zNKi+aCw3FV+8=
+        bh=+T7ld5gqG1mdDMHWhl5oUSJV/Cw5HIrwo5wbgyti6pU=;
+        b=QyLp6nQ4Bu75Q7gX4vTrvWS9Yqyzk3DpwEPcwKrgVjOsFmbrouHFaaSS44lq4FlSZZ
+         Zvd9meo1mJ/IATTEZKcFRxtUW0xbvuH38d7+nylq/h3QZvq2y53Zy8/5RGUnj9ewOaoE
+         E1BQBtIWQT/8Wx3+cHhC+y1C8kjtiixarxxmg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715944303; x=1716549103;
+        d=1e100.net; s=20230601; t=1715944484; x=1716549284;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1HywPLbaWJxCxiU/ZxKcyrVCr65pGTtmyNTRw7JGX4k=;
-        b=HWThVTBQeuJTWLlj8zXAGmKClu89jtUgpr0auuX+jugIcxpkS+bcQANktSlYT7vuOJ
-         dhVDbRrRupxg3AQVBRH5eTQiJ8u0RA2jdoeRM6mS71EEzbCMG/A1ik0f7bopYgMxD0SE
-         f3sIqziC3WERKsnBPbT9A1Cb7RYHvvEDGfLh1EwarsXN78LwYtYfjyoJD99/HxNh4bDh
-         Wj1Okv85kQvDf7W/oYOMB2jk9DnG4KQomPAK4PAT7p/qlDeB9+ipc6F35D3H0bMJxX1V
-         SA8xmp6Rqoh2jpi0tEczJgAkWTEHVoMEid4zaejaocwEIBvuIVjYJgwXUl4ZpPFKkN9v
-         Ncgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlIekb+0PCIGPIgHp87vq8yt/3PuRJoGoVXcy4ZtlfStzFBxsJUVZXg+GwtiDbxVCJDGnayfQIj+QANFIBwIUDqA0FkZLAU0ReAzw=
-X-Gm-Message-State: AOJu0YyfwTtXePK9/Pg/eW0ysZxqU0GoUzphJJZN0vS+pPnob6tgSVz1
-	PtyJATaWwlLUETi3XVfMLF4r6LzXJfnJJhu6qHNOjP7+HdflbdqaJxWtjyD89Q==
-X-Google-Smtp-Source: AGHT+IGp82lW8rEKRe/2329QyXgEfgDRdOm01kRBTSngU/uKtRNIX+mJ77MaRX5gICTaHbfLJS6nqQ==
-X-Received: by 2002:a17:90b:2351:b0:2b2:9783:d0ca with SMTP id 98e67ed59e1d1-2b6c71100b2mr30691251a91.12.1715944302624;
-        Fri, 17 May 2024 04:11:42 -0700 (PDT)
+        bh=+T7ld5gqG1mdDMHWhl5oUSJV/Cw5HIrwo5wbgyti6pU=;
+        b=oY34s0dKiXPBPBj8uTKgMaLqFe4zQvd0Fd92zmwmmZpdN4nBDo0urpR2c53jX3YcJe
+         k6RMxWYbgcoAKh9mESztNJF+z9GC/s1DJZ8zPpIZKCABzDu9O9Kxmbnd3VnLr5G65olc
+         dpq1qSGKPg7Js7hNDt56LsV/i2PiKxx9JqMLoXvP4KR5LJt5j5fZ+w9E7lh0LPs0NTeI
+         cmnPRr1KNStv/fZ/ugSgN46tYAMYEEaOdSXykKeweGwWk9MW4gjhXNmiZbGE3TPPTLAP
+         ySS5KVRFQv3lBpyVWuXLS8JeIdG0iCJrQEfpR1g1G3wf9BbzLjXklN6Y8SS6UKduF0LS
+         jv6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXqkqRa87Uq2/piBEjAE8fp21bT5Q98NcTUZRRzWPXrV8QE2KdaFU1zFtaJvDKBYyuI1kVz+qDR0XnGf395dHCFt8/SPZBTT5TbfNg=
+X-Gm-Message-State: AOJu0Yz5vTWw8O77WCtL3Ul+gcnvpd6JHixckNL2tj+oOiGpEla4ThM0
+	EUWt08B9EIHhHd+Y8PbncKUY+QAS0Fh4+nZYhhtooAokNC2WnzAnxWfV3vDa+Q==
+X-Google-Smtp-Source: AGHT+IEaPt70JwxdO5VUcFCcZklahFz3X0RNAqvQiTKvkWwiTLQmTlOPEbT2Ea+R41sDal38OV/tiA==
+X-Received: by 2002:a17:90a:7181:b0:2b2:ae4b:9e54 with SMTP id 98e67ed59e1d1-2b6cc772eadmr19985727a91.11.1715944483944;
+        Fri, 17 May 2024 04:14:43 -0700 (PDT)
 Received: from chromium.org (237.198.80.34.bc.googleusercontent.com. [34.80.198.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b6711661c0sm15236971a91.22.2024.05.17.04.11.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863cd9dsm17102271a91.12.2024.05.17.04.14.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 04:11:42 -0700 (PDT)
-Date: Fri, 17 May 2024 20:11:39 +0900
+        Fri, 17 May 2024 04:14:43 -0700 (PDT)
+Date: Fri, 17 May 2024 20:14:40 +0900
 From: Tomasz Figa <tfiga@chromium.org>
-To: Yunke Cao <yunkec@chromium.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: videobuf2-core: release all planes first
- in __prepare_dmabuf()
-Message-ID: <idyreh3tm33dappbaoek43urhr75jhcu44l6d67qszos42yhcp@mqxlfmdmryto>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Yunke Cao <yunkec@chromium.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: videobuf2-core: reverse the iteration
+ order in __vb2_buf_dmabuf_put
+Message-ID: <3zv3fq5w74frtrcoabtp7s24aob4lisehlwpr2uaj45g7oeoxl@qbz724nghogj>
 References: <20240403091306.1308878-1-yunkec@chromium.org>
- <20240403091306.1308878-2-yunkec@chromium.org>
+ <20240403091306.1308878-3-yunkec@chromium.org>
+ <9431abcf-15d8-4a86-b824-1243114055a7@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,187 +83,40 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403091306.1308878-2-yunkec@chromium.org>
+In-Reply-To: <9431abcf-15d8-4a86-b824-1243114055a7@xs4all.nl>
 
-Hi Yunke,
-
-On Wed, Apr 03, 2024 at 06:13:04PM +0900, Yunke Cao wrote:
-> The existing implementation, validating planes, checking if the planes
-> changed, releasing previous planes and reaquiring new planes all happens in
-> the same for loop.
+On Wed, Apr 24, 2024 at 12:24:24PM +0200, Hans Verkuil wrote:
+> On 03/04/2024 11:13, Yunke Cao wrote:
+> > Release the planes from num_planes - 1 to 0.
+> > 
+> > Signed-off-by: Yunke Cao <yunkec@chromium.org>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-core.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> > index 702f7b6f783a..a5368cef73bb 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > @@ -320,10 +320,10 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
+> >   */
+> >  static void __vb2_buf_dmabuf_put(struct vb2_buffer *vb)
+> >  {
+> > -	unsigned int plane;
+> > +	unsigned int i;
+> >  
+> > -	for (plane = 0; plane < vb->num_planes; ++plane)
+> > -		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
+> > +	for (i = 0; i < vb->num_planes; ++i)
+> > +		__vb2_plane_dmabuf_put(vb, &vb->planes[vb->num_planes - 1 - i]);
 > 
-> Split the for loop into 3 parts
-> 1. In the first for loop, validate planes and check if planes changed.
-> 2. Call __vb2_buf_dmabuf_put() to release all planes.
-> 3. In the second for loop, reaquire new planes.
+> This is a bit ugly. Why not just do:
 > 
-> Signed-off-by: Yunke Cao <yunkec@chromium.org>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 64 ++++++++++---------
->  1 file changed, 34 insertions(+), 30 deletions(-)
-> 
+> 	for (plane = vb->num_planes; plane; plane--)
+> 		__vb2_plane_dmabuf_put(vb, &vb->planes[plane - 1]);
 
-Thanks for the second revision and sorry for the delay. Please check my
-comments inline.
-
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index b6bf8f232f48..702f7b6f783a 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -1341,11 +1341,13 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  	for (plane = 0; plane < vb->num_planes; ++plane) {
->  		struct dma_buf *dbuf = dma_buf_get(planes[plane].m.fd);
->  
-> +		planes[plane].dbuf = dbuf;
-> +
->  		if (IS_ERR_OR_NULL(dbuf)) {
->  			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
->  				plane);
->  			ret = -EINVAL;
-> -			goto err;
-> +			goto err_put_dbuf;
-
-nit: Maybe err_put_planes, since we're cleaning up the planes[] array?
-
->  		}
->  
->  		/* use DMABUF size if length is not provided */
-> @@ -1356,17 +1358,14 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
->  				planes[plane].length, plane,
->  				vb->planes[plane].min_length);
-> -			dma_buf_put(dbuf);
->  			ret = -EINVAL;
-> -			goto err;
-> +			goto err_put_dbuf;
->  		}
->  
->  		/* Skip the plane if already verified */
->  		if (dbuf == vb->planes[plane].dbuf &&
-> -			vb->planes[plane].length == planes[plane].length) {
-> -			dma_buf_put(dbuf);
-> +		    vb->planes[plane].length == planes[plane].length)
->  			continue;
-> -		}
->  
->  		dprintk(q, 3, "buffer for plane %d changed\n", plane);
->  
-> @@ -1375,29 +1374,30 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  			vb->copied_timestamp = 0;
->  			call_void_vb_qop(vb, buf_cleanup, vb);
-
-Would it make sense to also move these two to the if (reacquired) part
-below, since they are done once for the entire vb?
-
->  		}
-> +	}
->  
-> -		/* Release previously acquired memory if present */
-> -		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
-> -		vb->planes[plane].bytesused = 0;
-> -		vb->planes[plane].length = 0;
-> -		vb->planes[plane].m.fd = 0;
-> -		vb->planes[plane].data_offset = 0;
-
-I don't see the code below setting the 4 fields above to zero. Is it
-intended?
-
-> +	if (reacquired) {
-> +		__vb2_buf_dmabuf_put(vb);
-> +
-> +		for (plane = 0; plane < vb->num_planes; ++plane) {
-> +			/* Acquire each plane's memory */
-> +			mem_priv = call_ptr_memop(attach_dmabuf,
-> +						  vb,
-> +						  q->alloc_devs[plane] ? : q->dev,
-> +						  planes[plane].dbuf,
-> +						  planes[plane].length);
-> +			if (IS_ERR(mem_priv)) {
-> +				dprintk(q, 1, "failed to attach dmabuf\n");
-> +				ret = PTR_ERR(mem_priv);
-> +				goto err_put_dbuf;
-
-Hmm, I think in this case we need to also clean up the partially acquired
-planes of vb.
-
-> +			}
->  
-> -		/* Acquire each plane's memory */
-> -		mem_priv = call_ptr_memop(attach_dmabuf,
-> -					  vb,
-> -					  q->alloc_devs[plane] ? : q->dev,
-> -					  dbuf,
-> -					  planes[plane].length);
-> -		if (IS_ERR(mem_priv)) {
-> -			dprintk(q, 1, "failed to attach dmabuf\n");
-> -			ret = PTR_ERR(mem_priv);
-> -			dma_buf_put(dbuf);
-> -			goto err;
-> +			vb->planes[plane].dbuf = planes[plane].dbuf;
-> +			vb->planes[plane].mem_priv = mem_priv;
->  		}
-> -
-> -		vb->planes[plane].dbuf = dbuf;
-> -		vb->planes[plane].mem_priv = mem_priv;
-> +	} else {
-> +		for (plane = 0; plane < vb->num_planes; ++plane)
-> +			dma_buf_put(planes[plane].dbuf);
->  	}
->  
->  	/*
-> @@ -1413,7 +1413,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  		if (ret) {
->  			dprintk(q, 1, "failed to map dmabuf for plane %d\n",
->  				plane);
-> -			goto err;
-> +			goto err_put_vb2_buf;
->  		}
->  		vb->planes[plane].dbuf_mapped = 1;
->  	}
-
-I think this entire loop can also go under the (reacquired) case, since
-(!reacquired) means that all the planes were identical (and thus are
-alreday mapped). Given that now we release all the planes in one go, we
-could even simplify it by dropping the dbuf_mapped check from the loop.
-
-> @@ -1437,7 +1437,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  		ret = call_vb_qop(vb, buf_init, vb);
->  		if (ret) {
->  			dprintk(q, 1, "buffer initialization failed\n");
-> -			goto err;
-> +			goto err_put_vb2_buf;
->  		}
->  	}
-
-Same for this block.
-
->  
-> @@ -1445,11 +1445,15 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
->  	if (ret) {
->  		dprintk(q, 1, "buffer preparation failed\n");
->  		call_void_vb_qop(vb, buf_cleanup, vb);
-> -		goto err;
-> +		goto err_put_vb2_buf;
->  	}
->  
->  	return 0;
-> -err:
-> +
-> +err_put_dbuf:
-> +	for (plane = 0; plane < vb->num_planes; ++plane)
-
-dma_buf_put() will throw a warning if the dmabuf pointer is NULL and just
-plain crash if IS_ERR(), so we shouldn't call it on array elements that we
-didn't succeed for.
-
-> +		dma_buf_put(planes[plane].dbuf);
-> +err_put_vb2_buf:
->  	/* In case of errors, release planes that were already acquired */
->  	__vb2_buf_dmabuf_put(vb);
-
-Actually, would it make sense to invert the order of clean-up steps here?
-In case if only the first loop fails, we don't really need to do anything with
-vb. Or am I missing something?
+How about making plane signed (since it's just a local variable) and
+avoiding any weird additions or subtractions?
 
 Best regards,
 Tomasz
