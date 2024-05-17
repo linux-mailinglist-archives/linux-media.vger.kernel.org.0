@@ -1,147 +1,150 @@
-Return-Path: <linux-media+bounces-11622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F8B8C8CF2
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 21:47:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5468B8C8D39
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 22:14:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 571131C21D0C
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 19:47:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1968628897E
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 20:14:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F4B12FF6D;
-	Fri, 17 May 2024 19:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FCA0140E55;
+	Fri, 17 May 2024 20:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5VViZNa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnPeFEJF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA4B321D;
-	Fri, 17 May 2024 19:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4B265F;
+	Fri, 17 May 2024 20:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715975223; cv=none; b=l685Unr32+hcdPs2tV4Do+DsApfZbVYI6GhuZ7rh01uVNycMCO0LKvSwGX28ljIumsnSBrZVKic1Ps7ybaaw732tG2Sr5XhOE9YterlpiCZfX9+m0C9HjR/rxOvi+egLX5sQ529DgpaQwq4Oqs8SWTc48cJ6XNW4MPNQXP8GRlY=
+	t=1715976880; cv=none; b=EcQMHa6R1u7TzicfGhKL70s1qM7924pLVkilFz0AUY/i3tZ316RfRWslhY/Q0WrbcW+PbUq8IpKwdcVb1zQJAsaA+YlXJo1e3sV5hylpQT5OuOl0nIy6BTN+B1HMbKIP63Zl85h58JjwjKz7BC4VCcLP7dwCVi6G5Jq+3yJQUyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715975223; c=relaxed/simple;
-	bh=mYLlTpnTpDEmQsXltTdIx4sqlrg4Hl9xHkNM0s1fy0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vuz3tMu4LlswA8K/eez6u+h3vfVBMqc1rvg0/N9gXLwvGKGGqJwwk7FzukM87Iy8u201yuZ3s5+CTc6j6oWiwPl5V4fzl4BmJ1DSXBm8/XyfExXddbh3aqw0rYleG/E8mwMS8X05kZcCWAzwHpYUt7nnjHxny9SfdLzCKmeakzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5VViZNa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF0E1C32786;
-	Fri, 17 May 2024 19:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715975223;
-	bh=mYLlTpnTpDEmQsXltTdIx4sqlrg4Hl9xHkNM0s1fy0M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=r5VViZNaJD299/LC4zW1acI+eecf6DVZb2k60LaVJUtXAhRFScONJOjh1Oy0KYM77
-	 MVag7DlaokMs8QVhqWSQDPla7+VJxpqx/3IqLiQnzm7cL6Rd8bS0iHhJP3cQ90qWxY
-	 peqdt2562p+1QdYOZmu+KBRnLmr6uyhbRkoEPGcKMBDNA8TJdomNzlO1Miog25STWo
-	 OBm/JWZxV16OY9VGyVsQIqzyqAIifLcnCREpKJKqIufWBOc61QdXIzuz2jvFtH8J27
-	 Np87QHXo7O64KPpoy9MonvGGjtXsQPtMKEL58el5XXw8Oe94p1KoQalqo+JM3nGTwz
-	 D/VRvdsRMSoRA==
-Date: Fri, 17 May 2024 20:46:57 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Gustavo Padovan <gus@collabora.com>
-Cc: linux-media@vger.kernel.org, "kernelci@lists.linux.dev"
- <kernelci@lists.linux.dev>, Denys Fedoryshchenko <denys.f@collabora.com>
-Subject: Re: linux-media checkout failing for KernelCI
-Message-ID: <20240517204657.7521cd6b@sal.lan>
-In-Reply-To: <20240517195627.28887c2b@sal.lan>
-References: <2b1ca3bb-c49a-ce2d-2d86-821dfa6854a4@collabora.com>
-	<dba299b0-df43-00f2-f5ec-2078eb8a63e8@collabora.com>
-	<20240517195627.28887c2b@sal.lan>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1715976880; c=relaxed/simple;
+	bh=CMo0WJMBF0rNZkT1/Sd8atUX0pOmKxbrbHh8DwrNGLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KYL2QI1OFasMfEMpuFZpGUPEUZW/45wj1BLc38VlWvODOWUpDfRvm5r1i+XHeD7fQRVtofW+U967NbGnaJj31V9txQUtaMG3EzxqV7bYDGsi3OWGNDYTAY8m9CL3Q9IlGhYckd9D+Am3bA75X2xv1oc1Wmw91Aha7igDeIo7za0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnPeFEJF; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715976879; x=1747512879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CMo0WJMBF0rNZkT1/Sd8atUX0pOmKxbrbHh8DwrNGLM=;
+  b=SnPeFEJF/Wq8eeLncbQick1leaqbI/KiQGFX+wFcJ9+hIz5wHlmO28+9
+   7wZIpnjiCnHUGhzDGkI/WlqtOqXaBUtLOgpRB3HxwfyZ2vAnMzT8juAx2
+   tTMoriFBT5lPTSOIFhZmxyILYy8W+V6uxQydGfBXinN0q7N1jUSBFVEd5
+   KpkHa/gIqnYzvUH+C6J65AeYmcs93xwhjstglNrWpYavlPBbZvKhzCGv+
+   ptWf5hOhBFfyfZxOJnNPp9xxcn2nbk4yjF6OMU8e2Ui+04ClDHIRBSJKS
+   42stdx06DN1j5eUvizPACU+khEMFnHtOjqoH8BeoFFwKMcKsVzuN20Fo+
+   Q==;
+X-CSE-ConnectionGUID: y2xfiRD3TyehnWHiQBXcGQ==
+X-CSE-MsgGUID: cj2/mlLoTZCD93xhVNqGbw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12363857"
+X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
+   d="scan'208";a="12363857"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 13:14:38 -0700
+X-CSE-ConnectionGUID: uQN1YsdERpalYkIRHbnWkw==
+X-CSE-MsgGUID: VzG7v7+/Rdy7n3ygv6cxLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
+   d="scan'208";a="62739448"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 13:14:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s83yG-00000008cHX-0b7U;
+	Fri, 17 May 2024 23:14:28 +0300
+Date: Fri, 17 May 2024 23:14:27 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+	airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+	laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+	andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
+	dlatypov@google.com
+Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
+Message-ID: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
+References: <20240517171532.748684-1-devarsht@ti.com>
+ <20240517173607.800549-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240517173607.800549-1-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Em Fri, 17 May 2024 19:56:27 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
+> From: Daniel Latypov <dlatypov@google.com>
+> 
+> Add basic test coverage for files that don't require any config options:
+> * part of math.h (what seem to be the most commonly used macros)
+> * gcd.c
+> * lcm.c
+> * int_sqrt.c
+> * reciprocal_div.c
+> (Ignored int_pow.c since it's a simple textbook algorithm.)
+> 
+> These tests aren't particularly interesting, but they
+> * provide short and simple examples of parameterized tests
+> * provide a place to add tests for any new files in this dir
+> * are written so adding new test cases to cover edge cases should be
+>   easy
+>   * looking at code coverage, we hit all the branches in the .c files
 
-> Em Fri, 17 May 2024 09:45:53 -0400
-> Gustavo Padovan <gus@collabora.com> escreveu:
-> 
-> > ...linuxtv-ci mailing-list rejected me for not being a member, so moving 
-> > to the media list.
-> > 
-> > On 5/17/24 09:41, Gustavo Padovan wrote:  
-> > >
-> > > Hi Media maintainers,
-> > >
-> > > We are struggling to use the media tree, in the same way we usually 
-> > > virtually all other trees in KernelCI. The following commands gives 
-> > > KernelCI a fatal error.
-> > >
-> > > git clone 
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > > cd linux
-> > > git remote add media https://git.linuxtv.org/media_tree.git
-> > > git remote update media
-> > > git fetch --tags https://git.linuxtv.org/media_tree.git
-> > > fatal: Couldn't find remote ref HEAD  
-> 
-> First of all, the best is to use, instead, media_stage.git, as this
-> contains the most recent patches. You should notice, however, that
-> we might need to rebase media_stage.git. That doesn't happen often,
-> but if you use it for CI, just in case, be sure that it will do a
-> 
-> 	git reset --hard FETCH_HEAD
-> 
-> To avoid potential problems if a rebase is needed.
-> 
-> We periodically update media_tree.git as well (which never rebases),
-> but the update is manual. I usually do it once per week between
-> -rc1 to -rc7, by the time I handle myself pull requests.
-> 
-> For CI, the best is to use media_stage.git.
-> 
-> -
-> 
-> With regards to merge/fetch, please use the git protocol
-> whenever possible, e. g.:
-> 
-> 	git://linuxtv.org/media_tree.git
-> 	git://linuxtv.org/media_stage.git
-> 
-> you may, alternatively use:
-> 
-> 	https://linuxtv.org/git/media_tree.git
-> 	https://linuxtv.org/git/media_stage.git
-> 
-> The 4 above url's are handled by git daemon.
-> 
-> If you use, instead:
-> 
-> 	https://git.linuxtv.org/media_tree.git
-> 
-> It will use cgit, which will try to do the right thing, but
-> results may not be consistent, as the main goal for cgit is to
-> provide a web visual interface (which is IMO a *lot* better than
-> what git??b provides).
-> 
-> The problem with https is that it may require a hook during
-> push time to update https references:
-> 
-> 	git update-server-info
+...
 
-I actually changed the setup today, removing the need of having
-such hook, and dropping it from all repositories there. Now,
-the https server (either via cgit or directly) shouldn't need it
-anymore.
+> [devarsht: Rebase to 6.9 and change license to GPL]
 
-I suspect that the problem of having HEAD outdated/broken from time
-to time should be gone now, and all 3 alternatives should work
-properly.
+I'm not sure that you may change license. It needs the author's confirmation.
 
-Please let me know if you find any issues.
+> ---
+> Changes since v6:
+> * Rebase to linux-next, change license to GPL as suggested by checkpatch.
 
-Regards,
-Mauro
+Note, checkpatch.pl is not false positives free. Be careful
+with what it suggests.
+
+> +#include <kunit/test.h>
+> +#include <linux/gcd.h>
+
+> +#include <linux/kernel.h>
+
+Do you know why this header is included?
+
+> +#include <linux/lcm.h>
+
++ math.h // obviously
++ module.h
+
+> +#include <linux/reciprocal_div.h>
+
++ types.h
+
+...
+
+Other than above, LGTM.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
