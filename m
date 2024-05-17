@@ -1,184 +1,238 @@
-Return-Path: <linux-media+bounces-11588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17AC8C8419
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 11:50:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C45638C8436
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 11:51:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6624C284E25
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 09:50:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5643B2269B
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 09:51:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EAD25778;
-	Fri, 17 May 2024 09:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 036AB381C7;
+	Fri, 17 May 2024 09:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="aJWfcreG"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aqPS27rf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ybHcdzif";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aqPS27rf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ybHcdzif"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11020002.outbound.protection.outlook.com [52.101.154.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DFA1EB48;
-	Fri, 17 May 2024 09:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.154.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715939395; cv=fail; b=GRzhE6C/jR2U6Z4VWrxHVXefk9RM1iaEVww45yhfioIkCo30lyD0nD0k313hB2a6zjK2F/iQT/pOmGcFZ3knWoPN4FirPwoB7rglut35roPKQBPOMDgPItqP62VQR/fIu+4w15wQ91SZ2AKGs6SjSu8LENXKSgqjoQRJh+gmjns=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715939395; c=relaxed/simple;
-	bh=8wixs9KktvKVLDwNnu/oWSpJyxfllMrAn8ulQMDCYRg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=u0YJ9csOo9L3qO9zFdnRQyAvIQXGTmBWvafAYs3Qw0V+isPQRuZEu8IcLsJ5d375AMFEi9RFxrHNkP3iB67OsuxCz3VbylvV5IPYUsUCFnCAYjkmzks5AtoA5l++GQK6SLV3NsMFGm3XHStf57HB/xXTBursCcd1PCiWqhDBWgE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=aJWfcreG; arc=fail smtp.client-ip=52.101.154.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kFNPvpuEaK5zCIO5R9m/8qJrDXt466ybg2yjg4GF6ToZwHdbCtLYPtKZypi7rl3akFBMZCd13MdK+t8xb0ljACF0ADwisuxiYPbq5oPIQ++e71MSVVclDUlZvenwlg/HhWFXIhXQaq80c+ElM2WDprUHkSVmXZM+Xy3SesEM/3UbP3in1eFfVcxUHNoGfaOb2JGSyM7nP2qs1+V9JVxnFjDYul2kCg2jzRENTdlwNwQ5VYnDlCRE3enmJ5s5v2Nvmh6MvX+DLF61tYtv0LLTOUoyUZs2wNlOQIdGIeawMqsqsUTkNK0hxeRwBon7w3MvqDd8g+32iwpTTWIbZDtJrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mT/z9Wm2coDk4CyO+OSPldqlfaO2Mdv/YQQ8LbBLbJ4=;
- b=HsorrB7WhyCV6T5DEOAWNpLST7J5WqOxXNzLOYTts2TYyPkxsYANSfnkPL8gyRli9dkbwA99iVvTZAbFHWydxJsDkrRTNWyyX8DK7R1dgxrNTCNptFpgm6BfSvmztiH7I8MPxWqkRxROitZDPJcQr4fIsEkpR8NhCxG6t3xiFIcnLvfx7X1o81r4mjpuR3pmQs3Dki3sQSvQZYScbSqezNar41aEhWLWcWWn1Tt1p/mdoxpVzCi97WhzTtzPc7yc2SLcbHzzFXTv+nIoIqoYr6pG+bk4g+wSISO9v5kCoE9728xoRKR+U2kvxihNRuySzU3jAtRGhVbSqtC3uHZdnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mT/z9Wm2coDk4CyO+OSPldqlfaO2Mdv/YQQ8LbBLbJ4=;
- b=aJWfcreGf/JgfzbnisIXHvgsV+56zf36Wwr2iW+GcwP/0ZevGNvx5IVzWiO/yNkpRSBlUJM9naH6QdfhAFIlUi/y2TwQDzn2zred+aLiyu7DrSwBIvNbHimyD3mgElS2NspZrhu4oH34KP6SWd6YzTo9eOR/5AzIAhezz4YEseA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- PU4P216MB1999.KORP216.PROD.OUTLOOK.COM (2603:1096:301:12d::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7587.30; Fri, 17 May 2024 09:49:49 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::8bac:533d:dbe5:ba28]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::8bac:533d:dbe5:ba28%7]) with mapi id 15.20.7587.028; Fri, 17 May 2024
- 09:49:49 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Nas Chung <nas.chung@chipsnmedia.com>
-Subject: [PATCH] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
-Date: Fri, 17 May 2024 18:49:40 +0900
-Message-Id: <20240517094940.1169-1-nas.chung@chipsnmedia.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SL2P216CA0175.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:1b::6) To SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:a::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DE724B34;
+	Fri, 17 May 2024 09:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715939427; cv=none; b=O4xq5yuQ28+cp3xEKAI3QWWFbn5Dz4WzUQ06C3sswhNsPfcYD0nUAQo4DY3xiKJ/9CP67P6kBucgLyilSJIHnHHE4z7dVnytfiqe2kCzDemJ75K8XyApr/EmTI4jF32HpI/km67OngFpVmeDJaW3/dsXEqtP5bqoE+JY67hRlyA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715939427; c=relaxed/simple;
+	bh=fH748Fp39+O/lxgUrh9rhN64OkwK7uTA4acwzoyb8i0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H+2+gI0oSJRdPj14eLzxvbVR6e79738QtYfx2VDCCdilIIM/OTo8vtzhzfPBWXiKyGsUIc7WXPbwVAAmubUiG0kDJFGsVMGCvyNX3JyVQyoiamOM6Zw9VXPjlDNVJ7yj4wamOw5KsKwikutUqe/wLB3Q9yiaghIbwEyOivewIKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aqPS27rf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ybHcdzif; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aqPS27rf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ybHcdzif; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6034E37344;
+	Fri, 17 May 2024 09:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715939422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8jfFpRbNQ4JylrNPf/Ju6XAY6qQjrc+0U9vxW7VwdqA=;
+	b=aqPS27rfYVOIlQYJQqRWN1OB2KuGqplKO0xASvAy99Em1LNhKAq/Z45rrmqOfomt6ymSXF
+	OiEv1bW+ZdpI213w3TR/RlpBxADCOtSoygZG2IWVCeRjyU7fk9xYWgYywcz+IS9+rfxp20
+	iBC1DT09pzE+KgT4PXFcXk6IVt2gReU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715939422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8jfFpRbNQ4JylrNPf/Ju6XAY6qQjrc+0U9vxW7VwdqA=;
+	b=ybHcdzifmrWaHz4fudlW6TywmF4wPptrNP5A3fPjgJZxiNP8yysPTURMY+P9YDVx2v+UNY
+	h72YrP3bBg//bVBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715939422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8jfFpRbNQ4JylrNPf/Ju6XAY6qQjrc+0U9vxW7VwdqA=;
+	b=aqPS27rfYVOIlQYJQqRWN1OB2KuGqplKO0xASvAy99Em1LNhKAq/Z45rrmqOfomt6ymSXF
+	OiEv1bW+ZdpI213w3TR/RlpBxADCOtSoygZG2IWVCeRjyU7fk9xYWgYywcz+IS9+rfxp20
+	iBC1DT09pzE+KgT4PXFcXk6IVt2gReU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715939422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8jfFpRbNQ4JylrNPf/Ju6XAY6qQjrc+0U9vxW7VwdqA=;
+	b=ybHcdzifmrWaHz4fudlW6TywmF4wPptrNP5A3fPjgJZxiNP8yysPTURMY+P9YDVx2v+UNY
+	h72YrP3bBg//bVBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DB2D13991;
+	Fri, 17 May 2024 09:50:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rHjlDV0oR2boBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 17 May 2024 09:50:21 +0000
+Date: Fri, 17 May 2024 11:50:38 +0200
+Message-ID: <87r0e0zs0h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers 
+ <mathieu.desnoyers@efficios.com>,
+	Linus Torvalds 
+ <torvalds@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	ath10k@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	linux-usb@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	linux-cifs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-hwmon@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-wpan@vger.kernel.org,
+	dev@openvswitch.org,
+	linux-s390@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	Julia 
+ Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of __assign_str()
+In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
+References: <20240516133454.681ba6a0@rorschach.local.home>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SL2P216MB1246:EE_|PU4P216MB1999:EE_
-X-MS-Office365-Filtering-Correlation-Id: e84c618b-d87f-494a-fb17-08dc7656b124
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|1800799015|52116005|376005|366007|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?o4UMcvbJ6ZoQq7fIXvlEkJa3zpWz2H4srUsOhHuRZTXAkGxVCqry8w5z2+1+?=
- =?us-ascii?Q?0+aZFKTD/tHGYo+c2F9jT5Urffc1FHOsjwoF4bjcKzIfYcI1KRQ6iO47xocV?=
- =?us-ascii?Q?lVXD//S0UFxvfFJLViWHHYuh4mX+5/cy84t4fxO0ftOk87sios+rUCwExB3W?=
- =?us-ascii?Q?kB0YrRyMy0vCMreVN9KCkc7L4xVx02T6C1t3Ekk6GMI7He5gMWNZHxFaUbaO?=
- =?us-ascii?Q?42nqzuq0IKTE7nVHsuJQxOt37cr8ut2/p75BxrCX6qH2RmytgyJZW/5q45zx?=
- =?us-ascii?Q?FutvblUbYGnpMohNpto7p4GMH70Z8Xse2SGORQaWfwL5uGeOc0bCm3yzmMgN?=
- =?us-ascii?Q?3bflvXRt0nC7HxTd7SlafzlM4dBoNx9ZGFH4E16eRnLKjl9YCkighzxeYpx0?=
- =?us-ascii?Q?2v0sq9GtKpfVaSUQQnSJaRZ5d4j5y17nMOiVnm33hD2IEHdM0HLBR4sipy4b?=
- =?us-ascii?Q?lNsnydo62xzMYF/WznaiuO5C4jvsbHRaNac0pEk1BY3k8bco80mnR3IWul2b?=
- =?us-ascii?Q?ixHM33QHcPxZNE0NRByxOhwr03ypIZu5c/B9eOeVWM7ceWMQZ+EhZklbuQLf?=
- =?us-ascii?Q?SqT7m+dyHTk8XGj4JmBuoFOGbHL4ktuoW3/JfF75kWJLDecajHQ1J/F05ivB?=
- =?us-ascii?Q?bUtC+IstZufaV3VjQog1O3TtuM7cAwHvfUkXhthMNENR9fu2vQ0UGLgqhFM5?=
- =?us-ascii?Q?oNpLa5kYRkGXq+DT0fAThoKUuCfli33NxTTz7Gqm+F5QMJmEgbaRfkIwQcP3?=
- =?us-ascii?Q?1fIPkIxbK6hr7QmPfySA/JjhsH2rdfrBj59L11yV0XesWjczv0J1ZDbd2Yjc?=
- =?us-ascii?Q?JK+xMLOwHuQNcczapmZfZqG1FqyWnQxZOk9vqnOhyljZjkXk4kh2A3CBqAZd?=
- =?us-ascii?Q?QjYLba3LgrbSxnPGJFmUHU8Vwzek2UjLDOZtdMY5T58uE+6kZbwuRowIKMBk?=
- =?us-ascii?Q?BEfizyx7sCIlM4mqK0/rcehAyV8pNgixOvl4Tp3dKLBkq8jodmhntS4UGLy0?=
- =?us-ascii?Q?21bn2VmY03HCnSDqRtGavwFCvLyYLx+NB4Okocja76WcnxLdn4iePWRTQKWG?=
- =?us-ascii?Q?/xv0HDzG8SbijF2NzgwsLFysWkagkeNgnlQ2WEz3XebSYtDHSHPutteBMbjl?=
- =?us-ascii?Q?SnUAfBIUfT8QluftmIkxn2On3qNaNyH1yiHrAPGYxKjPRIemyy+kUo40sfT8?=
- =?us-ascii?Q?sP92azFX80jMMkKd+7JeaUqkLY7sVNnuF5YSmhRHBZmdppZRWFlbH3TDD/Hj?=
- =?us-ascii?Q?vt/ga90vTgfAjnEHp6QiXxb2BxJZiT2Wtb6ozE4PBHDC1oA64c36Ke0gYDrh?=
- =?us-ascii?Q?G4A11Vhz6f/2povECMJIa8UaMZqQSnQek5aCxndQnrhUDA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(376005)(366007)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DtFQCw73f1f248XoGquBH9f6huJnvpCcgIn1UquwARt2GB2WuMfmzEa+mXOy?=
- =?us-ascii?Q?+S9BCqOEwiKqXU7z6Z13dDvgi5Qxl+eBOFUzK4APeVyQah/0RE/DjngRx+jW?=
- =?us-ascii?Q?0gGbu5PKFs78Fc3vMkMMc/mvepDPPD1LiTY5b/kRsoSR58p05mTurFSFNwFm?=
- =?us-ascii?Q?IaLMW1kXawsSL/ZF3aajYVOBpvAjrqKYeRUIYpuM2p+L1Y6zA6V+ajjdLWpt?=
- =?us-ascii?Q?omCcnfUqZW9CxNbW/vJ3qkrey/s2+Gi8bDnJJE5bHvsVCO2+MCgHLs5pDpc8?=
- =?us-ascii?Q?H+CDhTSHlyp3MOPbOLx4VmFmVfy/tWB/XvmNqOWBWUojtPTm9Djhl1WRVB96?=
- =?us-ascii?Q?k6mqp2IWANxVpupm955RtkrjW5MU2nRanjDu8QxYMiN0D2DigACZgSB5v8jX?=
- =?us-ascii?Q?TGe7c8HtauNPDDR17rYZGlApEQifODNvnjG/SZ6rLuOKSWrOZ75g1U9SwGop?=
- =?us-ascii?Q?qUn9omkrdEpRrPiuYLZO/aQTWtONmVtR0asOh4S7SQWbETTenFCWGVaDVjId?=
- =?us-ascii?Q?3HQLOqZ/kbgPRyDwT0W7Xk002R0O2dzNxNzdFIrRcD9CtHOu3u8VKq3GkGmH?=
- =?us-ascii?Q?1/6SogE+9tYCnPDzQgJURW7ARKhGQDF3p6CQHMdpreDVXuv6UFL8sOhSK9YS?=
- =?us-ascii?Q?98OdfAqkruTdnw4+qDX5o+UHEc7IoGHDIUR9rYUIImad7l2vljGqn68CAjDv?=
- =?us-ascii?Q?FUTQNBDEaDJWI9lYRZu+ekYiqGuobszGtNe/Iaix+Vqe6C2pfIExI5tEg+z9?=
- =?us-ascii?Q?KLVk3sH4SlXmRmP915sy2kfZ70d45JW4+msQd/BFtMriP9R8Gk4sD2UnD1O+?=
- =?us-ascii?Q?pgfFCpGO+geRbuinJnm56UzY4yphaLKf26imyRjrlyN2P0s0KOG0Eks79Oqa?=
- =?us-ascii?Q?fEJn+JcLT8WCltk+kg2o774LqNKLliRx9gE1++T4hLnSJpKdxWbCgiUcoDJu?=
- =?us-ascii?Q?qRub8YqvfVzS3AW9pmTfZeuIPA/FCjBthtsXMWiyIqmPFf0saeU6O2rNNj3G?=
- =?us-ascii?Q?IFWK5ZKXkofUS5T9408GiiO+MjMB0d09z1L+ADFPsMvxqAlMCEFILu+wYnhN?=
- =?us-ascii?Q?vNFKvfFW3jpmN4BH8F9mS2QYNziHXyZDsQCBqzqzlikL3h1MgV3TdSwv/XJ7?=
- =?us-ascii?Q?EOmK6iW1qcEqap2AAdv8U72DBQTPEdEa3s0LDazPyBMjPoy1/6DeFecw9f/9?=
- =?us-ascii?Q?40IIOMz8Q5p2AljBYWx2DncnrLrseGkLhL5geDUi3QQtE+EVSzhaMWOdoO7w?=
- =?us-ascii?Q?Y7FzQYhV8KUAst9pie+07xQ9levH7sBE1O3SQeemkmebd/9OkIOnI+dCwnk0?=
- =?us-ascii?Q?PiaBBCRzUOZJq/5hJBT1uMYJTK0fTIym0LJKYWrgJxX2VOF8SEVL5fYpUgjS?=
- =?us-ascii?Q?xUhtal6bj8ujCI5rVJWfOzopA1c59GvHMssUMku3tW+4qJZdn5pCplDoFOlu?=
- =?us-ascii?Q?hIsvFclCX5B69htSsC6aCu1DGaIquhL/feDVOdsMYfP+iPnfDg9Nuo1dix6V?=
- =?us-ascii?Q?4WIw8ldLyQprbdGAgAuj4aHw9uOGrkcFssJ1DQ5nVReGgIDsj48JLbwDUDq4?=
- =?us-ascii?Q?+cDyRhFhOFy+64jsJFtb5VM9lnqF6f0kbsNuNkhZJ71rGUmegLTEOjU2Zj7o?=
- =?us-ascii?Q?OQ=3D=3D?=
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e84c618b-d87f-494a-fb17-08dc7656b124
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2024 09:49:49.1778
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z2FKZS46gimDdbElxRQylk9MqOn5BSlnzYT5MmmX0z+pv5KJlL12kOHsWzK4GAISUHHa3dR21vN/V9QMRxeugDhwUfyNsM6oVYSeQ+QXz44=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1999
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RL6rcqepr6awpd9qb5xxedoiwq)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[efficios.com:email,inria.fr:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,goodmis.org:email,linux-foundation.org:email]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-We expect V4L2_TYPE_IS_CAPTURE() macro allow only CAPTURE type.
-But, Inverting OUTPUT type can allow undefined v4l2_buf_type.
-Check CAPTURE type directly instead of inverting OUTPUT type.
+On Thu, 16 May 2024 19:34:54 +0200,
+Steven Rostedt wrote:
+> 
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> [
+>    This is a treewide change. I will likely re-create this patch again in
+>    the second week of the merge window of v6.10 and submit it then. Hoping
+>    to keep the conflicts that it will cause to a minimum.
+> ]
+> 
+> With the rework of how the __string() handles dynamic strings where it
+> saves off the source string in field in the helper structure[1], the
+> assignment of that value to the trace event field is stored in the helper
+> value and does not need to be passed in again.
+> 
+> This means that with:
+> 
+>   __string(field, mystring)
+> 
+> Which use to be assigned with __assign_str(field, mystring), no longer
+> needs the second parameter and it is unused. With this, __assign_str()
+> will now only get a single parameter.
+> 
+> There's over 700 users of __assign_str() and because coccinelle does not
+> handle the TRACE_EVENT() macro I ended up using the following sed script:
+> 
+>   git grep -l __assign_str | while read a ; do
+>       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
+>       mv /tmp/test-file $a;
+>   done
+> 
+> I then searched for __assign_str() that did not end with ';' as those
+> were multi line assignments that the sed script above would fail to catch.
+> 
+> Note, the same updates will need to be done for:
+> 
+>   __assign_str_len()
+>   __assign_rel_str()
+>   __assign_rel_str_len()
+> 
+> I tested this with both an allmodconfig and an allyesconfig (build only for both).
+> 
+> [1] https://lore.kernel.org/linux-trace-kernel/20240222211442.634192653@goodmis.org/
+> 
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Julia Lawall <Julia.Lawall@inria.fr>
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
----
- include/uapi/linux/videodev2.h | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+For the sound part
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index fe6b67e83751..32b10e2b7695 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -171,7 +171,13 @@ enum v4l2_buf_type {
- 	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
- 	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
- 
--#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
-+#define V4L2_TYPE_IS_CAPTURE(type)				\
-+	((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE			\
-+	 || (type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
-+	 || (type) == V4L2_BUF_TYPE_VBI_CAPTURE			\
-+	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE		\
-+	 || (type) == V4L2_BUF_TYPE_SDR_CAPTURE			\
-+	 || (type) == V4L2_BUF_TYPE_META_CAPTURE)
- 
- enum v4l2_tuner_type {
- 	V4L2_TUNER_RADIO	     = 1,
--- 
-2.25.1
 
+thanks,
+
+Takashi
 
