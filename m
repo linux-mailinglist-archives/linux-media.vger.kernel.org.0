@@ -1,133 +1,211 @@
-Return-Path: <linux-media+bounces-11624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11625-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30D68C8D7A
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 22:54:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23AEB8C8EF0
+	for <lists+linux-media@lfdr.de>; Sat, 18 May 2024 02:39:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 54AB81F2281E
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2024 20:54:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A428C1F222D5
+	for <lists+linux-media@lfdr.de>; Sat, 18 May 2024 00:39:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C581411C1;
-	Fri, 17 May 2024 20:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42DAD4A2D;
+	Sat, 18 May 2024 00:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KebfwdfQ"
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="SV2zemg5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433E61A2C20
-	for <linux-media@vger.kernel.org>; Fri, 17 May 2024 20:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78831FAA
+	for <linux-media@vger.kernel.org>; Sat, 18 May 2024 00:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715979244; cv=none; b=dXbq/WaQMlbNV9hBeOqYyzsgvpwC6gtD3OOs7tBOj3oaM3mx+l6T/ic+NoUOeZpg040/7CDINlbQHHP24nSohQmsKYc8ILPvWiVpXoQhL4uDTyCf/WUmj5JLV3EbKwDd3Txa8pHcBwDylwVKQKTnmE584DSaBdBUmfKPaANLoQk=
+	t=1715992774; cv=none; b=Eiu3cFP/X1ntXJjMY+i8+ZMmoFmU0nsXmZyzufp2EDJ9xPMD9wSr7ncoHidG91Ep99mOKsGs2/jw5MWRP+x9Wqw/u4WjQsKSYyTWTnl/TQ3NrKWGFhWKGyr7O78+69L+hoWhS1cua2U604ka3NArLOzA0LRFbxVMIzgVBDMljKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715979244; c=relaxed/simple;
-	bh=vn13dLP5pRrsDv4NOdbcqGoQN2bmYpHdTGHpP55EB4g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WgEIBhm7ihwFzGGgHu66DWD1smbBIzdrKm2IoW4Pl80vnJqVg+jSfb9BYIeeQ7AUfjMdC+POT3iIcG59seE6NzS7Wm8u3o6PJ2SptNgF51O7/EXgRo2bUlr61hWR1VBvejC5+B4DJHVi65dz415g7rLT+czQMXHsjsfc1AWnG4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KebfwdfQ; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5724736770cso1020a12.1
-        for <linux-media@vger.kernel.org>; Fri, 17 May 2024 13:54:03 -0700 (PDT)
+	s=arc-20240116; t=1715992774; c=relaxed/simple;
+	bh=4V5YW8ORGMY45KRj8UEqSm59pF8Y+sc6mDeE+TSeGJM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gR0XZj2/WmS4MvBiLKw1GXzSCDiJcrJgPT82eDHsMLMpl9Qz/Q+D5vuMfznhDyOrcw2omaD/2y6VIkzQi1Rp8NCxzWtRY7DlOCw0SRI4yKqEotgIBOIO5dLRaoZy8F289FMS6FBNyBRuhdUDUyqt5qG3SjkE2nM83qQJhF009qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=SV2zemg5; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1edfc57ac0cso24917955ad.3
+        for <linux-media@vger.kernel.org>; Fri, 17 May 2024 17:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715979242; x=1716584042; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vn13dLP5pRrsDv4NOdbcqGoQN2bmYpHdTGHpP55EB4g=;
-        b=KebfwdfQ9jw4lmDSBqtGP/1C32uY6jtIJb28zWOaE7dLEtEgSkH+/iQ71SCIQxDrpK
-         5BtINpUfziZuB0krCCw6SJqk0uM8bKC1XWFVifm6zeS04duJhlMYsgPvuFQ02+P4+7Q7
-         TtOT0mTnU+QnD5SQ+mceO3IXzU7DR39npY3V6KnFsu22VxyFk+KC/+DciYd6AjTGm2xq
-         h8ha8JRWe78OIC8c8ANzkDac4FE+cauA1nBuiKLmw++Ws/QBCztmsa/akETc6HV0PgD+
-         LCDOaF5mTVqPIp3WOXXruIs+N4/P+fS3RjPRu61pJbRinL2AlkxnSz282Clo6s4JwKDU
-         4yZg==
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1715992772; x=1716597572; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p7Punv+O2VI5RKAkHRkhtEk7CBj9yRK2PJX5XN6bfhc=;
+        b=SV2zemg5NtIR3pbXcUpjQL4Nh2uV808bM0bYra4XbVqoECYENJz6/Yy1du6GUsBF1T
+         XjClNZyHgkq1IjzGsNu0VF4KSRcFvP8duWW93pNhihxONKxIBHEuEju184pzDGSNNupq
+         ib3YMvRdDHjiHmp2OxcZgusnPxfFWYkd34Nlw+eS/M5SIsLUf3Mrx9wPF3j4JbN0L51J
+         8Ns52iIbDMMJzhPw7VAE6tB2RCkaU9f1rM9auoIgPX19Bn4lqARdC5AzZbrjVYBG9xPX
+         cdNuEoJX1TmbwOv4k+7AFSI4ow5gFWRUrYzogvoH4IJNgoo7XBVgU2ba15ADfeNZaYsV
+         sGRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715979242; x=1716584042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vn13dLP5pRrsDv4NOdbcqGoQN2bmYpHdTGHpP55EB4g=;
-        b=QwofaY2RtzpQyhoykff66V9wc3dm3e5jLq7pY5YrGSl1YrLujl7041P+WN/XvrhinM
-         4/CR4RI3ThHx8spTXbpVVSyDHelsJUF7uP58rNe3hmg6RJqXRfIgoyPPAgPkCqxja8I3
-         GuKnvWwe5Ad20dqhlfsEYfWY053VOFS8tD6mx49EcYN0ZLoAgmTntjC5rc+EPSapZOB0
-         vyX8WfN9i5xY7JG0BXYwZ1c88CPHsH1MBzEPH1Yx7ApBoI8N2bUQIgJJuldaYAQeX4wa
-         cv/ImS1Qfw793CIXjs2XYB56vd3u1qXv7hhshkGBLQ8G3D3DNRR5Cw8o7QX62wjW1L0S
-         zbCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPYuAOpP0F2AwSqe+q6SgqC819zm2eLqsp6GraRc2DLmzxQ00rnLc1Z64v4SqVHqi6KtI8/tZeayEA+dCOptyaqM+lPLljsKCXIsE=
-X-Gm-Message-State: AOJu0YwpbdEqt/NoeHsGwUlkHVftjswT4Wxqf5kWKngUEG4Rgc9k6Mpt
-	GI7rCBnXDVbADbzhkwCz3dDSGCNig4W2SsI6EdipBsTH+SqlWC9KegDBEp3OaLFyqrTCv0w7Xm3
-	QFeyiVh283bPsa8k3Y/OsUvXY2k+hL6Um+Efv
-X-Google-Smtp-Source: AGHT+IFRAIfV54+Aa1LbyF88d23hN+YT1t2sexWDi9c3fyTst75D5FRNvAf6sgXSn3IVxUNlK5yurWk/GWDFHEMqw/c=
-X-Received: by 2002:a05:6402:2158:b0:573:438c:778d with SMTP id
- 4fb4d7f45d1cf-5752c3f15c3mr3670a12.1.1715979239492; Fri, 17 May 2024 13:53:59
- -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715992772; x=1716597572;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p7Punv+O2VI5RKAkHRkhtEk7CBj9yRK2PJX5XN6bfhc=;
+        b=obwD51yBYMjxM8KOZgc19SUTVA+YQNgCChTV+HjnaPQWEGnDSUYD7D9GiIFMqiPZWe
+         5m/ChORlHXL25FkZ1DJLZUNMJFUUxYnvqn6t7ISDGUTPRg7AZB1sInhh5nvhpmVGwzCi
+         +g65iPDYydtKf4QoGhRZMs9j/xP/eYIy/s5nTKRMsDbAXxBhl1YqXR8eUddVXSKOme3G
+         DMhxGWuqD7xinkzbbw01iKHJ2COxT8ewFsC7fkuk/NMtAy35HPcLMm+isdv7o4KEOP8P
+         BES3vCVICrZfV6nmchIIrfVEwZQnR8KgGTPSIJZB3uruH4XSOM50f7yhMzeT0JWqBd/4
+         vG7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXIA7HK721Zd01w+TRO4Z9G/241xzj3X5Aldi6XnxnEZ1/6GmYnXK7KLjYchrhvDiseybMinLfJWDFvGAhhFb8N1nkocfj26bUYMTo=
+X-Gm-Message-State: AOJu0YwE72fcDZlWAb50RwzI/vg0Xk/CQ8AlPxFiHD3X3wJs52tMF9qC
+	d+4bnBsPeFt6uUyXmx8EmUX8wHNvvu/xOZVucf1JtMsxvNZz3+dJs8/rzhf5MAk=
+X-Google-Smtp-Source: AGHT+IG2kizdOiSw0uylPEq0qK5Nujj1quEtxgB2wxc39/tXdkGx33RSfpvHjRCh3dNNGsAUN6Msjg==
+X-Received: by 2002:a05:6a00:1397:b0:6e6:89ad:1233 with SMTP id d2e1a72fcca58-6f4e02a6150mr30537733b3a.2.1715992772166;
+        Fri, 17 May 2024 17:39:32 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1156:1:1cbd:da2b:a9f2:881? ([2620:10d:c090:500::6:9fd9])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2bccsm16503658b3a.170.2024.05.17.17.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 May 2024 17:39:31 -0700 (PDT)
+Message-ID: <090be3c0-42e6-4b97-8b03-eb64b06a2911@davidwei.uk>
+Date: Fri, 17 May 2024 17:39:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240517171532.748684-1-devarsht@ti.com> <20240517173607.800549-1-devarsht@ti.com>
- <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-In-Reply-To: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Fri, 17 May 2024 13:53:47 -0700
-Message-ID: <CAGS_qxpCM=Aw1J_EVQPZv_nDy0zCp6JqxfQk5mGkV+5iCe1OZA@mail.gmail.com>
-Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com, 
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org, adobriyan@gmail.com, 
-	jani.nikula@intel.com, p.zabel@pengutronix.de, airlied@gmail.com, 
-	daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
-	laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com, 
-	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com, 
-	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com, 
-	nicolas@ndufresne.ca, davidgow@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 05/14] netdev: netdevice devmem allocator
+Content-Language: en-GB
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-6-almasrymina@google.com>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <20240510232128.1105145-6-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 17, 2024 at 1:14=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> > [devarsht: Rebase to 6.9 and change license to GPL]
->
-> I'm not sure that you may change license. It needs the author's confirmat=
-ion.
+On 2024-05-10 16:21, Mina Almasry wrote:
+> +/* This returns the absolute dma_addr_t calculated from
+> + * net_iov_owner(niov)->owner->base_dma_addr, not the page_pool-owned
+> + * niov->dma_addr.
+> + *
+> + * The absolute dma_addr_t is a dma_addr_t that is always uncompressed.
+> + *
+> + * The page_pool-owner niov->dma_addr is the absolute dma_addr compressed into
+> + * an unsigned long. Special handling is done when the unsigned long is 32-bit
+> + * but the dma_addr_t is 64-bit.
+> + *
+> + * In general code looking for the dma_addr_t should use net_iov_dma_addr(),
+> + * while page_pool code looking for the unsigned long dma_addr which mirrors
+> + * the field in struct page should use niov->dma_addr.
+> + */
+> +static inline dma_addr_t net_iov_dma_addr(const struct net_iov *niov)
+> +{
+> +	struct dmabuf_genpool_chunk_owner *owner = net_iov_owner(niov);
+> +
+> +	return owner->base_dma_addr +
+> +	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
+> +}
 
-Checking, this is referring to the MODULE_LICENSE, which used to be
-MODULE_LICENSE("GPL v2");
+This part feels like devmem TCP specific, yet the function is in
+netmem.h. Please consider moving it into devmem.{h,c} which makes it
+less likely that people not reading your comment will try using it.
 
-and is now
-MODULE_LICENSE("GPL");
-
-If checkpatch is suggesting that now, then changing it sounds good to me.
-
->
-> > ---
-> > Changes since v6:
-> > * Rebase to linux-next, change license to GPL as suggested by checkpatc=
-h.
->
-> Note, checkpatch.pl is not false positives free. Be careful
-> with what it suggests.
->
-> > +#include <kunit/test.h>
-> > +#include <linux/gcd.h>
->
-> > +#include <linux/kernel.h>
->
-> Do you know why this header is included?
-
-I think I had put it in the original before a lot of the work you did
-to split things out of kernel.h.
-I haven't had time to look apply this patch series locally yet, but
-I'd be pretty sure we can remove it without anything breaking.
-
-Thanks,
-Daniel
+> +
+> +static inline struct net_devmem_dmabuf_binding *
+> +net_iov_binding(const struct net_iov *niov)
+> +{
+> +	return net_iov_owner(niov)->binding;
+> +}
+> +
+>  /* netmem */
+>  
+>  /**
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index d82f92d7cf9ce..1f90e23a81441 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -54,6 +54,42 @@ void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+>  	kfree(binding);
+>  }
+>  
+> +struct net_iov *
+> +net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct dmabuf_genpool_chunk_owner *owner;
+> +	unsigned long dma_addr;
+> +	struct net_iov *niov;
+> +	ssize_t offset;
+> +	ssize_t index;
+> +
+> +	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
+> +					(void **)&owner);
+> +	if (!dma_addr)
+> +		return NULL;
+> +
+> +	offset = dma_addr - owner->base_dma_addr;
+> +	index = offset / PAGE_SIZE;
+> +	niov = &owner->niovs[index];
+> +
+> +	niov->dma_addr = 0;
+> +
+> +	net_devmem_dmabuf_binding_get(binding);
+> +
+> +	return niov;
+> +}
+> +
+> +void net_devmem_free_dmabuf(struct net_iov *niov)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
+> +	unsigned long dma_addr = net_iov_dma_addr(niov);
+> +
+> +	if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
+> +		gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+> +
+> +	net_devmem_dmabuf_binding_put(binding);
+> +}
+> +
+>  /* Protected by rtnl_lock() */
+>  static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
+>  
 
