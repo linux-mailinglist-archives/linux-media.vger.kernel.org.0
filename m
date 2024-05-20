@@ -1,152 +1,127 @@
-Return-Path: <linux-media+bounces-11653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B02C8C9C41
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 13:42:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B338C9CB4
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 13:54:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C39D1C219A4
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 11:42:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5A5B1F22651
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 11:54:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C994353E02;
-	Mon, 20 May 2024 11:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3B4353E3B;
+	Mon, 20 May 2024 11:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="VwFnbDv5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKKDURXJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786A154670;
-	Mon, 20 May 2024 11:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFEA5381D;
+	Mon, 20 May 2024 11:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716205317; cv=none; b=s0GiQev//8QVDKKQnSR0RMeVGkhlLwSsyD29qkIDKK3NyKm2D30B6ilJyKCs2vzevDkAWJorO8+X1Kpd1o14id+Ybqt5aW0rrT9UxS1ibvJOZaStUJ0uVWuwVq+7izoOaQ5A4zFpNvIHH1XeKYldbkEz0tslPCbgAGCUF51GQ+E=
+	t=1716206060; cv=none; b=NynKaHeZZjCzkLA1YhWrxTlxeIjW1Mx2iFcfJvE0OO5QCuIxCHVhXG2brEWUa2UVXzRZanReXnYONU0OVlWogBL+AUL/U3VPom8Qy8LENDoygfSRNjFWuItqyAllc7iVTHB7GygKQBOo83arThYBGxn2ekSNN7Cg2ZYdZjELaSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716205317; c=relaxed/simple;
-	bh=joCspknWNfA6tUqmGbvbm5iNnV9qpT6aM/THrk/lSA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iIZeEriwNFGt4XHBGaqcSEkooMhZrSKsS0UfG8xFQE6tsbmpOSx7+CYoBcIsSQIw3KCafvZGz6YURAevC0X9oRPyurI44lSa9JtSuhkX+6ra/x0OycD4PgyoENlpvvewaV8zFcG//hyhWUE74NvvMLi8Dve2QANtIi8JzBxKe8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=VwFnbDv5; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44KBfRqK032177;
-	Mon, 20 May 2024 06:41:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1716205287;
-	bh=a76NLsOqpAhT7UPR9aUmjJ2mg4WHgQRk5YjCt6+gAeM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=VwFnbDv5uflaIET3e5IHt6ObbQTtfqczMDLmIuuyRwkr+PMKbO6KDftOndM5S4Kk3
-	 EFwR2f0t4y5Ky2JyTwmRMBI0sbHzhh9dvO0Ycjr5fxMiFRZ9XSTBtBokTWcx6QxG/l
-	 jVwN1nNzquaUcJv4fRQ8FtcRR7Zo1D83GZB/SvXI=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44KBfRQV120258
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 20 May 2024 06:41:27 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 20
- May 2024 06:41:27 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 20 May 2024 06:41:26 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44KBfJ8A078373;
-	Mon, 20 May 2024 06:41:19 -0500
-Message-ID: <7b8cd37b-5b16-2d99-ab62-5d6876e6571c@ti.com>
-Date: Mon, 20 May 2024 17:11:18 +0530
+	s=arc-20240116; t=1716206060; c=relaxed/simple;
+	bh=6T/LxFwDsB4C2hzVBPcuFqDMYHoW8Lwuk7UjmrI9QgA=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=JwZvAYOcZPe8pRmchDLXMnIK7bPimJIrFdY1bRL7fl0P1KxXLyfzg/HW2mbZzylaZq6ijFTPzqT9itwnbJK/qUTnd3qFKwYKsjwgblQHbPHTmXKZ7g3NHUNw8rGoWh41eZbmzBxlBxhosQildPuzkYxQb+Yy43Iok7CrMnmPEDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKKDURXJ; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716206059; x=1747742059;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=6T/LxFwDsB4C2hzVBPcuFqDMYHoW8Lwuk7UjmrI9QgA=;
+  b=NKKDURXJbsyK6Aoz7WththbLZi/ahkE6TCBdNFPyLH3xBfzAKQEqzFyb
+   1rXQKkMO+tFRSdOfN7m3V2NrmW8hTEObT1OuO/fG1xMq2ZZrXfTBb3ljq
+   CTpydVYjPZpsgn5Yl6q27NN3pHtbOcEiUr+dzo0vBGPgMHwqJOYpXYIjP
+   91SCaqpQZGo+wLn8/nI50Uo7JkrMcMoT3MwOUK9kGtyE6oTbsZo7B99dr
+   A/KT5+ziXkjEoMzq0YqfrTBpxOXLb4sr+NOLdPuwlejjazCMbi7TFKvUR
+   1Oaq+owYgl1wUEKADY9KUfek6A50MDVKpZJKbffPZYbrmV28B+5RgjiPT
+   w==;
+X-CSE-ConnectionGUID: FjFjdSZ6QDiLP3pgY1Fzrg==
+X-CSE-MsgGUID: tYOrlzFvQyS1B1mwlY+qmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12548085"
+X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; 
+   d="scan'208";a="12548085"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 04:54:18 -0700
+X-CSE-ConnectionGUID: OQ0wOBEZSIOqHfbBhUgPSQ==
+X-CSE-MsgGUID: DUvUtQmjSwi8l+LY38rq8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; 
+   d="scan'208";a="32950757"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
+  by orviesa006.jf.intel.com with ESMTP; 20 May 2024 04:54:16 -0700
+Subject: Re: [PATCH] media: intel/ipu6: Fix some redundant resources freeing
+ in ipu6_pci_remove()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <33dbf7b5c1b1b94d64a13441b69e1ff976caaa62.1716198935.git.christophe.jaillet@wanadoo.fr>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <f622051b-7ccd-e261-a311-2073c293602e@linux.intel.com>
+Date: Mon, 20 May 2024 19:54:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
+In-Reply-To: <33dbf7b5c1b1b94d64a13441b69e1ff976caaa62.1716198935.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Latypov
-	<dlatypov@google.com>
-CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
-        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
-        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-References: <20240517171532.748684-1-devarsht@ti.com>
- <20240517173607.800549-1-devarsht@ti.com>
- <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
 
-Hi Andy, Daniel,
+Christophe,
 
-On 18/05/24 01:44, Andy Shevchenko wrote:
-> On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
-[..]
-> 
->> [devarsht: Rebase to 6.9 and change license to GPL]
-> 
-> I'm not sure that you may change license. It needs the author's confirmation.
-> 
+Thanks for the patch.
 
-As per latest licensing doc [1], It quotes that GPL  is same as GPL v2 and GPL
-v2 exists only for historical reasons as shared below :
-
-“GPL v2 Same as “GPL”. It exists for historic reasons."
-
-So I think it should be fine and more apt to use GPL. This is also highlighted
-in below commit:
-bf7fbeeae6db644ef5995085de2bc5c6121f8c8d module: Cure the MODULE_LICENSE "GPL"
-vs. "GPL v2" bogosity
-
->> ---
->> Changes since v6:
->> * Rebase to linux-next, change license to GPL as suggested by checkpatch.
+On 5/20/24 5:55 PM, Christophe JAILLET wrote:
+> pcim_iomap_regions() and pcim_enable_device() are used in the probe. So
+> the corresponding managed resources don't need to be freed explicitly in
+> the remove function.
 > 
-> Note, checkpatch.pl is not false positives free. Be careful
-> with what it suggests.
+> Remove the incorrect pci_release_regions() and pci_disable_device() calls.
 > 
->> +#include <kunit/test.h>
->> +#include <linux/gcd.h>
+> Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only
+> ---
+>  drivers/media/pci/intel/ipu6/ipu6.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
->> +#include <linux/kernel.h>
-> 
-> Do you know why this header is included?
-> 
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> index d2bebd208461..f587f609259d 100644
+> --- a/drivers/media/pci/intel/ipu6/ipu6.c
+> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> @@ -727,9 +727,6 @@ static void ipu6_pci_remove(struct pci_dev *pdev)
+>  	pm_runtime_forbid(&pdev->dev);
+>  	pm_runtime_get_noresume(&pdev->dev);
+>  
+> -	pci_release_regions(pdev);
+> -	pci_disable_device(pdev);
+> -
+>  	release_firmware(isp->cpd_fw);
+>  
+>  	ipu6_mmu_cleanup(psys_mmu);
+>
 
-It includes all the other required headers (including those you mentioned
-below), and header list is probably copied from other files in same directory.
-But it does suffice the requirements as I have verified the compilation.
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 
->> +#include <linux/lcm.h>
-> 
-> + math.h // obviously
-> + module.h
-> 
->> +#include <linux/reciprocal_div.h>
-> 
-> + types.h
-> 
-
-All the above headers are already included as part of kernel.h
-
-Kindly let me know if any queries.
-
-[1]: https://docs.kernel.org/process/license-rules.html
-
-Regards
-Devarsh
+-- 
+Best regards,
+Bingbu Cao
 
