@@ -1,303 +1,194 @@
-Return-Path: <linux-media+bounces-11698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11699-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED828CAC0C
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 12:22:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FDE8CAD5C
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 13:28:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1FBD1C21EB8
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 10:22:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48D69282981
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 11:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0CE84DED;
-	Tue, 21 May 2024 10:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8B2757EF;
+	Tue, 21 May 2024 11:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYZH3Kt3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d31k/vWT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCAC84D12;
-	Tue, 21 May 2024 10:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6A555E43;
+	Tue, 21 May 2024 11:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716286510; cv=none; b=rZcvbtgke9QwTJK6eZugsaMSvNl9O0DsEtR6svyyvRroaq83z7A+rUFxuzNz9tcGQj02zy2imkeWeX108Un/4JR2DIesZjPV4RDxCpvpThj9Sl1WCaR937nbWPQyTC63vVs4lbONsw6o+R9wnUVecMsK4Mse4B+4xXGCroRgoPw=
+	t=1716290912; cv=none; b=Ba3VUc6zRmhxFN04hDos5qJRQ7sv0rwV9BzjURO56xYWvtafS7bObG/4ZXImuRQr65t6EwvjA1Um/SqLIYdJOVt3kWTJBJsATN+3aor2AKNmzRo6UMNNeUUFCfwHqGmK+cbVc67rFDJEkyal0V/AhLCyFKFu10bVaU0Nst175zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716286510; c=relaxed/simple;
-	bh=zPGAazY1u9qYna183Z1tT1mvzEzSQ6HXQjNF0q4fp6A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rNboeM23G5OYjFxCXZEMR65m99BJba/EuxB/MKUI85IQCg3ibi8ETujhYM6/NVq/49VjFU5S1e+sc3ScDHzuToN5JN+q0nGdYluwS2CrliW0gT0zPIzsRVQdPwQjDhMl+U5/Anw01Bw//R6smdWvZcZxkhQAXMGCvACiq5BReyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYZH3Kt3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED04AC4AF09;
-	Tue, 21 May 2024 10:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716286510;
-	bh=zPGAazY1u9qYna183Z1tT1mvzEzSQ6HXQjNF0q4fp6A=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eYZH3Kt3iW748O+OqS1RwW42t9E8QhiOtXdGIFzlbFjOlJs0jNTeCFxfjP5QTfEkd
-	 xNjOWnExKisLjDQoPmWROZFeMYE8onNT9f7Mf2obhqnggW35/qNTCLAkoY6oagDCku
-	 hHUv/w/ZaMM/yFFqH0UeZwf34RlonzhT6Y/NrOwf52hDvie8WwIul3Fq5YtwHaiHfg
-	 WnPxLCF4AkuH8dH02BW/V10cCtEy8XY+YAxkPARSlE6zEMicn1+7XiFL48wmRtWvjV
-	 6zL8zs1URRRfMBdA71b1smIIeAuUTQu+xxGv3ouSinUKtsJPVVp6gpnsU0Ap0ErT3v
-	 4PAxZOh7A9/UQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 21 May 2024 12:14:01 +0200
-Subject: [PATCH v14 28/28] drm/sun4i: hdmi: Switch to HDMI connector
+	s=arc-20240116; t=1716290912; c=relaxed/simple;
+	bh=bu9mG/J79Ff9Zu/2l4MGoCMW5kuONCzPTI1mTCBFbqc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bHc+RR2peYAsViSWZ1vJ1WwE4CpbeSIwocRqe7umRluDjgGJH1Rc1fSbN8reM4NjuigqVn67lkeB/DqneepqaLXB6q0h/19BOoKpyFvJPvogVxYtxtrQYjNeOShGhaVmL9g85nG7yrMyZj1f4TlPr8hUFhUAP2KlJqpOfJ9mwwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d31k/vWT; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42011507a54so19585405e9.0;
+        Tue, 21 May 2024 04:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716290908; x=1716895708; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QCvn53QZqHKbd8wXZQruum5PyX2Xyujq+z5EaypRXU8=;
+        b=d31k/vWTuGTKp+v/JaFUWgrKmCkctIxs6h/sY9q83k387DfLGbX9GuFWjQa6+Fms3+
+         Jjo2SKFxYaYIYKUj1BKkcHdY9tN8uT9vNYivXnJLiBEymwHVxGcpq9SZjfjP64kwR6Sr
+         I19Akgs2BAduj+jnpIHcaYO8KDQmklnIo3ELrqCIRfoPBlljFtDFCdaR2u4KdmaADETg
+         t75Wzs/etb1R5Udr1ZE5+Ofx3odZqWylLhsa71UwVfnm9I59gqp5KDsavNmiKBKF4QLE
+         QrcuyoZEuNaxRf93y0BzgKa4ZMP/DI8Nk/16a3wVnW1ca/p7x/osLT7TZ6fFOJdcbku4
+         Utzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716290908; x=1716895708;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QCvn53QZqHKbd8wXZQruum5PyX2Xyujq+z5EaypRXU8=;
+        b=YpYaMKtEk3A0aMWlWHzpcXi1kLBtw7cOUVajzWHylnOGhqdtQWYoBqe2ZaQi3+c92V
+         NdLAVaZIDXvTos4Dh5JO+tCkaVG5HMmJNP3el1ZSyxrDENFDMYCBiBAhp4O1a+3wOAoH
+         2pSoEwL25Auun4Xd14rCcTZPOAtN6iEDbmOaSzZi2U8xhPmkBMld31ENRT9fuVZe4l0D
+         TeinizP9dkVVzSACZOh6Bod91uFsesvukY9pG2EovEn3HkMniHJCSIFltmKeqbm18uWy
+         ri16RemBK6HxqNaDkvi4kxEnvHaiwNg9LbzGvxzK31XfuIzk1HmLrzpsu33NA04T7mg3
+         BAbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcUp6OQQutS/qT/K6J1wQFtM1/LDqP9VRIFN1YPV1s9B8o4UL3hZmSIXNITPECLC+X/DmYVx+sS4bv1aC6AWYAEfbIGkpVZSUtS2VHJhdkD8UG0lQxIfWmpFXixxEZDRCFIgN7cjsZBUbb+W/yygFrq09XYZ0z4q9juyFOpYyPoB/nZ5OQMMlTIswmtIs=
+X-Gm-Message-State: AOJu0YxePyTEK/UBMMfRJgzD5vjuIG3gi7kgvoVOkBkfOttq+fwtOOXH
+	RtfwySIOlTpaXIrJlH/kwQvMaE7OYjRyE/RzXtpkdafmWT8I1wb0
+X-Google-Smtp-Source: AGHT+IFpeGZ9iCxLuTlFb+Vd1m76hVZ2lgoagmtHznB8dVhlERYFGSRgpPrkzrTynhee6VbDMgb7Rw==
+X-Received: by 2002:a05:600c:4f49:b0:420:12df:1f7e with SMTP id 5b1f17b1804b1-420e19e46d4mr76021715e9.9.1716290908433;
+        Tue, 21 May 2024 04:28:28 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe8f8asm460922885e9.10.2024.05.21.04.28.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 May 2024 04:28:27 -0700 (PDT)
+Message-ID: <473b5f9b-da6d-425b-93c0-5bb6bb49a9bc@gmail.com>
+Date: Tue, 21 May 2024 13:28:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/fence-array: Add flex array to
+ struct dma_fence_array
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org
+References: <d3204a5b4776553455c2cfb1def72f1dae0dba25.1716054403.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <d3204a5b4776553455c2cfb1def72f1dae0dba25.1716054403.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240521-kms-hdmi-connector-state-v14-28-51950db4fedb@kernel.org>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7714; i=mripard@kernel.org;
- h=from:subject:message-id; bh=zPGAazY1u9qYna183Z1tT1mvzEzSQ6HXQjNF0q4fp6A=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGk+xXcnHo/llls0N/XJ5pVTzlzk5r8UeF1m2zTfhl8LZ
- bgLRXc5d0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJ/NvJ2DA1Lf0E4875putP
- OFnxp/rmX9gs77dxgXvBtceeAgv+HNrbY9awLFwvNyL+b29eyfffixnrNKYmPb02OX/OcW/vTOe
- PL2aX2m2KeL43of3Bk7k3Qv0mnz7n4rRrRqbc6TXOUuHO1rOiAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+Am 18.05.24 um 19:47 schrieb Christophe JAILLET:
+> This is an effort to get rid of all multiplications from allocation
+> functions in order to prevent integer overflows [1][2].
+>
+> The "struct dma_fence_array" can be refactored to add a flex array in order
+> to have the "callback structures allocated behind the array" be more
+> explicit.
+>
+> Do so:
+>     - makes the code more readable and safer.
+>     - allows using __counted_by() for additional checks
+>     - avoids some pointer arithmetic in dma_fence_array_enable_signaling()
+>
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/160 [2]
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only.
+>
+> Also, I don't think that 'cb' is a great name and the associated kernel-doc
+> description could certainly be improved.
+> Any proposal welcomed :)
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/Kconfig          |  3 ++
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 81 +++++++++++++++++++++-------------
- 2 files changed, 54 insertions(+), 30 deletions(-)
+Ah, yes. That was also on my TODO list for a very long time.
 
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 4741d9f6544c..4037e085430e 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -16,10 +16,13 @@ config DRM_SUN4I
- if DRM_SUN4I
- 
- config DRM_SUN4I_HDMI
- 	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
- 	depends on ARM || COMPILE_TEST
-+	select DRM_DISPLAY_HDMI_HELPER
-+	select DRM_DISPLAY_HDMI_STATE_HELPER
-+	select DRM_DISPLAY_HELPER
- 	default DRM_SUN4I
- 	help
- 	  Choose this option if you have an Allwinner A10/A10s/A20/A31
- 	  SoC with an HDMI controller.
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 1c6cda2bfb14..0e652dd480c9 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -38,34 +38,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -84,18 +78,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -144,11 +142,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -197,23 +196,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -259,10 +261,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -280,15 +287,20 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
--	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -643,14 +655,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+> ---
+>   drivers/dma-buf/dma-fence-array.c | 10 ++++------
+>   include/linux/dma-fence-array.h   |  3 +++
+>   2 files changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+> index 9b3ce8948351..9c55afaca607 100644
+> --- a/drivers/dma-buf/dma-fence-array.c
+> +++ b/drivers/dma-buf/dma-fence-array.c
+> @@ -70,7 +70,7 @@ static void dma_fence_array_cb_func(struct dma_fence *f,
+>   static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+>   {
+>   	struct dma_fence_array *array = to_dma_fence_array(fence);
+> -	struct dma_fence_array_cb *cb = (void *)(&array[1]);
+> +	struct dma_fence_array_cb *cb = array->cb;
+>   	unsigned i;
+>   
+>   	for (i = 0; i < array->num_fences; ++i) {
+> @@ -168,22 +168,20 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+>   					       bool signal_on_any)
+>   {
+>   	struct dma_fence_array *array;
+> -	size_t size = sizeof(*array);
+>   
+>   	WARN_ON(!num_fences || !fences);
+>   
+> -	/* Allocate the callback structures behind the array. */
+> -	size += num_fences * sizeof(struct dma_fence_array_cb);
+> -	array = kzalloc(size, GFP_KERNEL);
+> +	array = kzalloc(struct_size(array, cb, num_fences), GFP_KERNEL);
+>   	if (!array)
+>   		return NULL;
+>   
+> +	array->num_fences = num_fences;
+> +
+>   	spin_lock_init(&array->lock);
+>   	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
+>   		       context, seqno);
+>   	init_irq_work(&array->work, irq_dma_fence_array_work);
+>   
+> -	array->num_fences = num_fences;
+>   	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+>   	array->fences = fences;
+>   
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index ec7f25def392..a793f9d5c73b 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -33,6 +33,7 @@ struct dma_fence_array_cb {
+>    * @num_pending: fences in the array still pending
+>    * @fences: array of the fences
+>    * @work: internal irq_work function
+> + * @cb: array of callback helpers
+>    */
+>   struct dma_fence_array {
+>   	struct dma_fence base;
+> @@ -43,6 +44,8 @@ struct dma_fence_array {
+>   	struct dma_fence **fences;
+>   
+>   	struct irq_work work;
+> +
+> +	struct dma_fence_array_cb cb[] __counted_by(num_fences);
 
--- 
-2.45.0
+Please name that callbacks, apart from that looks good to me.
+
+Regards,
+Christian.
+
+
+>   };
+>   
+>   /**
 
 
