@@ -1,287 +1,337 @@
-Return-Path: <linux-media+bounces-11708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2298CB2FF
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 19:38:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E758CB397
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 20:37:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1537528289B
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 17:38:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F601B20DB6
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 18:37:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DEF11487C4;
-	Tue, 21 May 2024 17:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D236148FF4;
+	Tue, 21 May 2024 18:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KKwXM+oy"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5XWZEw0w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2063.outbound.protection.outlook.com [40.107.94.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45522482D0
-	for <linux-media@vger.kernel.org>; Tue, 21 May 2024 17:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716313073; cv=none; b=gHPNn+ft0HoxQc8ucY5veuYbr74JROUIFrqVM/EH8uKf5jmQONywFvFF+aOjcmaSb1B6CdoYspfFeR4QgDL6WWhvcB6gYHgu0EmPu2QHZfqo+N/Q2oEv0wnYlSUZgTP3GMNsLvm8s0+sVRPd3msDmXOqRRpcOmjBIJcPLtojj08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716313073; c=relaxed/simple;
-	bh=9Z2IJRB5BE9yg+NKoqUCptIUQCXUW0WqDTrVapCxPAA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=adLxSdvEl8yEbpincDjNzq2mQNCdHAsdphm6vrc5ucVs36Fnhr0YSjqPage386mhOlMBk5E7EMqzmF5ukxwupx0N2Oc9+RPGQXKwnmqd0rVy3RjdffLR2r3rRO2KH19+G5zyKQ3KnHOpWoNtgUwjFiYdzwNucUWj9HzTRUbWhkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KKwXM+oy; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41fd5dc0439so35121865e9.0
-        for <linux-media@vger.kernel.org>; Tue, 21 May 2024 10:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716313070; x=1716917870; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=oTBotdZlBu0CAtWz80+2Z0RURHjFMppRN4GP/Il7qqE=;
-        b=KKwXM+oyfD9W8oxPOEhzqUkpUmsJOYqLPHuWjKCGGnAYZnWrsZdLToWoJQ8TWS7yQ6
-         pnZiKJlISEulGZGBYBUVfuQkSIE7Ey0o33HcGEmOo/VSifAxyOXpDDaHB7w0rZznkz82
-         sln37ODKpoBILieGETfeee6gvlk/yEAoxZTbNnBHCjBpt77xaX4hAURMVin2vq/yYL1i
-         h2D65yStdX3PjZ9vevITvBDA8QxMDby6LDqEsOofTfuIGL0k4O3vP083czVrBbZQIkc2
-         tA/kLyYj4V/wwTgbfwhN9eO9xVw5/zJm4WUWFZhSwIkQGppsox/2fAY6JksJZHB1crxH
-         WKXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716313070; x=1716917870;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oTBotdZlBu0CAtWz80+2Z0RURHjFMppRN4GP/Il7qqE=;
-        b=D2U+N4Chqd831pS+xJFaEj6ctGWKmmRTqUBgGhIOnrKBn4E9zf6qsSmTNBQtkN4RGZ
-         NKHqNwtbC4F9BtCi1FT7LHU+PthN/7F47s/QiQFyXY7ecQoqY1IwFI2jhfhJscDUn/QP
-         JgJkNA0PJrpvnKFTIfZwCm39yDWSCtW4XYpN0UHgWW5ND4CCTDVUPX9w8Ur1AA2voYz8
-         ngqcdQso5pqNfyH2eGvq+UdVEtW7/mqommqrIT1jFYcFB6hnkv6nl4JDyHSyfstkrKTh
-         VoOTt9A5amjIavS1NNte+LWbhjgSK7oKVf2iex4AOSieeb8qHBlKH2rCzLemcTHWmRHn
-         KWVg==
-X-Gm-Message-State: AOJu0YwZIDCORasCphYL0VTU9sm/hChnLUpDL5Yh/RQZ27BqNfhHhXeV
-	i0w60JzQr3PSuoIkZ3eBvW912J7UQbVUDnfsyy1PUJeVDg0Qc1tGreS2Nw1v6PI=
-X-Google-Smtp-Source: AGHT+IG7UaUVX/Ba2cvMeEsXYCybkc9fslKVMiS+qAEQq115fhmptSfr5lzygGAnpVcBJPjvfezZ7A==
-X-Received: by 2002:a05:600c:1913:b0:420:141d:994f with SMTP id 5b1f17b1804b1-420141d9a56mr223114665e9.18.1716313069722;
-        Tue, 21 May 2024 10:37:49 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe8f8asm471704455e9.10.2024.05.21.10.37.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 May 2024 10:37:49 -0700 (PDT)
-Message-ID: <2110ba34-658e-4d60-b524-2f5ead6c8d3e@linaro.org>
-Date: Tue, 21 May 2024 19:37:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12F8148317;
+	Tue, 21 May 2024 18:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716316632; cv=fail; b=tvgU4ReSj3nPzvkgIpFYyrhI4sBtn0j6ZjLeCZ3+wpooLfCfVgCyKHDC6weaRXXrINbbwlndD2tej1ONwpGGoqonsGpGbdXdvJkUF0y1+sUYxvLFO9xhnj5VTVvEG7d8Z3WR2f2lxh/AbkOr6Vhq1C7eDZOhq9EFo99mx8K7Uho=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716316632; c=relaxed/simple;
+	bh=VuPlzVxmKW6l6JxSM+pgmI8f2yhhvU/Nqg5J9JVfyfQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=vFciJZXWr+F1mqhd7pTU/Pj9vJZQruyFrbGF0xL2a8XMwLFpQkA6OR/yXHn24FTeySkD/gmPZfR6V0jyhw5kwF+oKT3AqzyaJkrRpnaj/PMaRrzJxyQx4kMj9kOAftg5atyHmfQbperRVbjpWuEkTZ2iIV2uNtQQ/BiiyP+ymSk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5XWZEw0w; arc=fail smtp.client-ip=40.107.94.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XdiH6pmzqWbxzWMQFHJ0I13489aNsiM/Mx5HtNaziHCxVZ2/+7U2OunXL+Vd7tBYAjf/VbVfDM/Cc6RNjK95r3Cg4UElJMpIZCeI07hzA6Xq8C5cC4pBgTDvUiUFTMx/fFdxlTiVQsUdLpnPuhLeGE3+82hj36oEqoc9qAmUQK5RZVYehTmOkuGuPpjScVPKOTYyhXkQ5F8fFAWDkudMU5hiOYUetB5bzsgnW3A4xi+JjBX5NKNMAuYXowexbq9LAj8GM5VdeSDnJ46HDE9lHtqlh1lkTyxseyQ4V1haKKVnFBxOmizknCPMDh53wwzHvtw3br5HUbmUOQZyUZWiqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K6/mx6bGHrUqhXAtKRG94+c9S8aT9dbM498RzyImKPY=;
+ b=QkFarlsQstNX0+bSEycqCUjPXW3oioWQCSpdkABoK546cS8qUvfgKT3XgSAJPBjbn4BG2gyknZ/YHoYW6/Cu/oqVcUXsh1zWaP+BZ13xtif3hf0QW+4NIZbYKnMx9wRfj9OfCi7FIPAuztnCwFqwQWPUT9ue9YHTbs/A5G0AW5QyW0vKftOLpyIaDyERvePZXUwSccg/FLDcKBe70Q8Iewm3Rk5AE0G4YbDbIBCqofqJCTf1hiB8fNdbzKKXJ0Ymelean4X9m0M/pmLpFxa4gUXt05X8mWHP3CbJCOj51wbwIkQLzjpgbSw+y7aoiXPUukqFgxJTOshpkjQ2I1EaMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K6/mx6bGHrUqhXAtKRG94+c9S8aT9dbM498RzyImKPY=;
+ b=5XWZEw0w0ftX9MfHAuehzQ2UmqDf/kqo/6vS9Q3Zwg7VR6bUnFsM4/RQN8701MI6rSmVQP95969yuBXBJUOQaljAApJ7HYssH2o9y0Q+Hgb1YXFGvI5OczHdPB0FXV3yspo4+QPlJwHJWPRTtGPeUhN+TF0HvHbakXNFcWl4Z3Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB6042.namprd12.prod.outlook.com (2603:10b6:208:3d6::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
+ 2024 18:37:06 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7587.030; Tue, 21 May 2024
+ 18:37:06 +0000
+Message-ID: <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+Date: Tue, 21 May 2024 20:36:55 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "jstultz@google.com" <jstultz@google.com>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
+ <Jianjiao.Zeng@mediatek.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ "pavel@ucw.cz" <pavel@ucw.cz>, "robin.murphy@arm.com"
+ <robin.murphy@arm.com>, "contact@emersion.fr" <contact@emersion.fr>,
+ "logang@deltatee.com" <logang@deltatee.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "jkardatzke@google.com" <jkardatzke@google.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
+ "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ =?UTF-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= <youlin.pei@mediatek.com>
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+ <20240515112308.10171-3-yong.wu@mediatek.com>
+ <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
+ <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0042.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
- binding
-To: Sylvain Petinot <sylvain.petinot@foss.st.com>,
- benjamin.mugnier@foss.st.com, mchehab@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240521162950.6987-1-sylvain.petinot@foss.st.com>
- <20240521162950.6987-2-sylvain.petinot@foss.st.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240521162950.6987-2-sylvain.petinot@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6042:EE_
+X-MS-Office365-Filtering-Correlation-Id: ced9a95c-6790-4313-df46-08dc79c503e5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|7416005|376005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TGNpQ2U5UHRVcHdJbDZEMytaOEZHU1gyWlZUejJ3NTR3Q1lvOG4yNlZRbzhy?=
+ =?utf-8?B?TldlcTFhU0pJanpBS1R5c0V3Vmd3Nm8xeVFqT0JvVC9jMDZ2a0pSbUI0R2Z2?=
+ =?utf-8?B?VHhLUDkrNTY1ZFVOMk5DYTlMT2lPZy8rWFFYL09BMVN0Y2FwK0wzSlFWQXRq?=
+ =?utf-8?B?WE1UbGxxenZJSnBrVjNvQW96TElET0dqYmw4UDd4azNaTkxLZ2JnaHo0YlBq?=
+ =?utf-8?B?ajlUSzZOc1hkczNnRXFINUN5L3NZUDl3M0J4OW1jZlJld25VazdJUVFKMVNY?=
+ =?utf-8?B?VytUQk9YOWpXTFlTTTVJUUl5SDdubWJoMTB5N1NUWU9IclJKaGJzd05tb21s?=
+ =?utf-8?B?NDlXMXBxMktJUTkxM0g1aVNhZmhjTkYxb00wVStTL1FsYUlWYW9oQXFUUEV5?=
+ =?utf-8?B?dWRuMzhzQXQxdGpjMEJWYW9FNGlkbnZKYisrcnpUbi9Hem9INFZyOGpHejZE?=
+ =?utf-8?B?dU1zN0kzc2dPQkVkUU9rU0VVU01ObVlRaC92bCtOY2phdWlCeHZyOERYdnd3?=
+ =?utf-8?B?ajQ1NjQ2dWJJdmh6SEppa2U3b0F0cGRrNHFyKzhJSXRmcHFseWlnZk91bUlF?=
+ =?utf-8?B?cGFLSnIrZmg1YmtWMnh3R0p3WGptZ0IwU3RxK21pTCsvRlloQjZObGlBVkZp?=
+ =?utf-8?B?dnlNWG5mTGpBbkdjUXd3eHFFbTBUT05heUVZdjF1MnFra3FhWWNFUFZTWHd2?=
+ =?utf-8?B?QzJmT0hZNVd2VnRoT1NML29Ebm5pbnhpdlNoT1dKa0VxbFNHTWlPRU1FVEVt?=
+ =?utf-8?B?TjYrZ3h2RXlGandjZUxEZDAzaGhBZFlBbUhNR1hqbHNqZjJsQ1JVZjhrVi9R?=
+ =?utf-8?B?aTRUb0svYmVDY25IY1FMUVVkMXZhREpGOW5OaURWd0sya1pQdHhpQjZseWxu?=
+ =?utf-8?B?VnBRR2h6OUtFVHc3VG5ybm1kaFBZNmZpemE1RTE2Z0dvQkpWbURORDBvK2ZQ?=
+ =?utf-8?B?MFo4S1RoZnBLKzhJb0FNUHpzMi9ZcmNNcy9HbEIxOU1zNU4wdG5uWk40cHBr?=
+ =?utf-8?B?K2NKTXhHSGMzZ0hYYXpIV3BYSGx4elU2dFYvcHVOMjdZVEZDN0pLQzdCbE5O?=
+ =?utf-8?B?S0luNTMwSnRCRjY1V2tYRXhxdVlBMHFRcFg2QUwzeXlyRS8ydUNsYlFkTnFV?=
+ =?utf-8?B?Zmw2T3R4QnMzMFRYVUsrcit3TTlqT3NaSzE4S0NtZDBrUTI1OG5nSFdjN0hQ?=
+ =?utf-8?B?Q2UvZFFmSXFGM3UxRDR5SUNRUGxGMXFEcWlVL2NpTjgwdDdQNWdLTStrNENv?=
+ =?utf-8?B?M05aNi9obFk3cEdaL1hMemY5RjI0WnZpUDgycDBRQ1JPc3hTcHQvL01SaUxt?=
+ =?utf-8?B?dWs3WlRmTjNzNEtML1NFK1RBSElEWnNwZHhnSHl6cnVjVWM2Z3Z5cnRhaGV2?=
+ =?utf-8?B?TDFYRWZySWphaUhKL0V3dU9kUCtWblVtWXNodkZPcnhUdERuK0tnNWs1M0ZS?=
+ =?utf-8?B?eHV6bGxpbTNVZnlZRDVxM1VQNmxIOWZaR1VhM0ZFK2lRZHNnckZseTRLQmg1?=
+ =?utf-8?B?MlgyNG1mOVlrb3c1dzZoYmx5cVBlWlZKUEs5WFE0ZENneVZUSjJ4TUdKS2FT?=
+ =?utf-8?B?T0FwVVc0M09FVkd2NGVmcklTUWdyRGQzenE5Y3U3L2F3cGUxSGsvVFA2ejFP?=
+ =?utf-8?B?OHpUSWQ2aXFtK2s0VENjbzl3UlByV3BHYXdFYU4xMEY0VHVxNnd3Tnp4UXkx?=
+ =?utf-8?B?ZndsRDJSL0g1NGhTR1ZoV2kwdlB0ZUJZSTRhSEZiK0xQekhvT01HTVZBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(7416005)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VHEwZDFFdkZsMVc5anNDVElGdHNJcTlpMG10UGRJMHBCOXhtTkI3UC8vc3NY?=
+ =?utf-8?B?Sm4zOHQwcjJ3NWpyajV2b1hQSGgzZEluc1diOFF6OEpjM2VaaTBzQTF5Ry94?=
+ =?utf-8?B?dGRCMlhCYjgrZ0d2d1I0TWl5T2htczY4OVFHWW5qaVEvTE9remF4K2ZsZ21a?=
+ =?utf-8?B?dEhyaHRFMFNvNzVXWDdxSFVkcXlwK0x2SENaN0RqUVF3NjE1bklzN1preWJR?=
+ =?utf-8?B?MEkwaU1ZZE9ORkloUkxFS2htSWxHSVpEWU9OY29KSmsrUy8zbyt2c0l4WW1j?=
+ =?utf-8?B?Mk81UEVYYmU1dHdXdUZsZUdJS0FKa1c1cVZxci95WHM1V3czQnREaFNUZk8z?=
+ =?utf-8?B?SFVoZUdnMXVWK3VvblNyY2tvNkZnWkpMNTVFZklKSCt4ZWQrdVJydEdabjRT?=
+ =?utf-8?B?WCtjT29FdkF2Qlp4N0xyNnpac1ErYlZ2ektMZk11Q3dQZGRBVzlZamxrcmo5?=
+ =?utf-8?B?dTJMVWQzQm5yRytBSVIwR2RsWE1LWjJRN1pnWkZCcXF0MkN4TjFBdmRlWmVP?=
+ =?utf-8?B?Y01NS2I4bzBXYU5jYTQ1MEVYcTBmaytaMW9aK3o5QXJIZWYybjZiYWNZMksz?=
+ =?utf-8?B?czZpT2w4emxYWncvT3BHTG9VNmxFNWZYdzVIT3Y2a2IxMnZUZVhzblY0UTFh?=
+ =?utf-8?B?LzVOSHhCcC9CUk8xaWdtdzNVOUJEY0ZwV3U3cUlZRERjQ0ttYUZIMlFNL2lT?=
+ =?utf-8?B?c2hLdk8rKzhkaXdFTCthbjJaSWFIQnpmaGMydTBnRlF2a1lLUTZ0bDhRWDlD?=
+ =?utf-8?B?eEZkSURvR25ZWWpXc3VIbWNQWlVOd0hoNzZsci96QnNvdFpPQWR1WFhwVXRM?=
+ =?utf-8?B?TzdKclN3VHpnMTN6Y0wzbDl3UDdEUDFNK3ZGZnI2K3laejZFVXJTaEtDdkhx?=
+ =?utf-8?B?WHRxMjZXSVUvM2ZaUmFEbXY2cnZYZXZqZ25nYkgzZWJUeVJWV0MzR3BSZUVR?=
+ =?utf-8?B?L3ZrcTloTGdDcEd1d0YxRStwNk5HRDhaV1I2SDJYUUdlUWkwK3doeERWNjEw?=
+ =?utf-8?B?dSsya0o5a3U3RTFYbGU5dWFscWtnRVRQdFhyd3lKK1prbE1JcklWVzg1WkVj?=
+ =?utf-8?B?VDNEZnJVWThJUndTbTl6Mzc4VDRRT2ZuY1ZIWi95UmphdndMSVhGRllCTnNj?=
+ =?utf-8?B?UlJWOGRCdVhaTVVYbFlRWTJhL25QTlJ1dllNYzFhU3dteStUVE1hUWpmcEJk?=
+ =?utf-8?B?RmQyeUN6RitqaVRpYzdnS2RQeUQyYTYzVCs0ZFp5WlVwdXJTSUNlVUxIaFdW?=
+ =?utf-8?B?T245QjN2RXZ4YWZlVDMvNG5JeHpUbEdtU0dCZ283bFJtM05BMTdUaXYwenBl?=
+ =?utf-8?B?dHRNT3BIRVl3RTZ2K1FCQ3hrY0pqUmxldFRqOEplQVA4WE0yL3M1OVZCQTN1?=
+ =?utf-8?B?SlVoV0VkL0dsS1hzQzZPUDNxbzhsTDdmNjU4YTZnVGJjV1hpd0oySS9tQ2w0?=
+ =?utf-8?B?dlptRmp3R3dieE82QXNMTW1wYVVnUlllM3B3OTdXTnBUVzVHOXpIblA2dlI5?=
+ =?utf-8?B?ZVVKZlBadmpxeWtmYXdtNlIwdUQ3L0ZpaWdvRWd2ZlVaU0ZPWVFHbllIeXU2?=
+ =?utf-8?B?c3FaZDV4aEsxY3NhQS9TOFJOWjZnOUVSckxWRW05c0VyWmk1WFJGNDVkQ0tp?=
+ =?utf-8?B?VjRLWnkzbkJCTlBrb29kUXdKNG45NE1QL2xPTkc4ZnVvbGN2ZTNObHFSK2Fy?=
+ =?utf-8?B?TmNtRTZDZDhSZFJvMEVqbTRWanI1bFJnWnA2VVBibXE3NzBqMUpOT0NRaFJQ?=
+ =?utf-8?B?Z3FOUGNTMWlybkd0SG1XblpuTnpwdm1DQ2hQbHFuMkxHUXFaQWNpRjlKVkJj?=
+ =?utf-8?B?OEx2SWpiZSsvSHQvK3g0MS9NMEY5L3dnRDNOTk16c1p1cVJpRHY5M09QdmVW?=
+ =?utf-8?B?ZHJuY3o1dmo0dCtzSjBpSFc2RkQ3Sys5NWNCM1FrRmdhN3dNT3BWNHJMdTJN?=
+ =?utf-8?B?WWtLd2F2b3VteTU5SEZQeXBJVy9xVzRrc0JHS29FdmhzVUcrZnFJb2I3WFlN?=
+ =?utf-8?B?a3VDWjN4SDJaYmh3d3JBR3ZOK0pFWEV0RU5SUW00aVI0Q3Y3RXcrNnk0d0ZP?=
+ =?utf-8?B?cVdScmoxczlWNUtrc0VzL1JNUkhvZit6VFN4N3Q0U04vemU3ZVRmMVdJSE8v?=
+ =?utf-8?Q?MAZqDYIm8kqIDrQSzDmSoXYJn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ced9a95c-6790-4313-df46-08dc79c503e5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 18:37:06.1908
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CK+Mws1giy/ArgtXpZMYsPN+MQjcmzNL+NFD5Eeyv9+No2enzGzwjQ23bZKC2QUY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6042
 
-On 21/05/2024 18:29, Sylvain Petinot wrote:
-> Add devicetree bindings Documentation for ST VD56G3 & ST VD66GY camera
-> sensors. Update MAINTAINERS file.
-> 
+Am 20.05.24 um 09:58 schrieb Yong Wu (吴勇):
+> On Thu, 2024-05-16 at 10:17 +0200, Christian König wrote:
+>>   	
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>   Am 15.05.24 um 13:23 schrieb Yong Wu:
+>>> Introduce a FLAG for the restricted memory which means the memory
+>> is
+>>> protected by TEE or hypervisor, then it's inaccessiable for kernel.
+>>>
+>>> Currently we don't use sg_dma_unmark_restricted, thus this
+>> interface
+>>> has not been added.
+>> Why should that be part of the scatterlist? It doesn't seem to
+>> affect
+>> any of it's functionality.
+>>
+>> As far as I can see the scatterlist shouldn't be the transport of
+>> this
+>> kind of information.
+> Thanks for the review. I will remove this.
+>
+> In our user scenario, DRM will import these buffers and check if this
+> is a restricted buffer. If yes, it will use secure GCE takes over.
+>
+> If this judgment is not suitable to be placed in scatterlist. I don't
+> know if it is ok to limit this inside dma-buf. Adding such an
+> interface:
+>
+> static bool dma_buf_is_restricted(struct dma_buf *dmabuf)
+> {
+> 	return !strncmp(dmabuf->exp_name, "restricted", 10);
+> }
 
-A nit, subject: drop second/last, redundant "binding". The "dt-bindings"
-prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+No, usually stuff like that doesn't belong into DMA buf either.
 
+Question here really is who controls the security status of the memory 
+backing the buffer?
 
-> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
-> ---
->  .../bindings/media/i2c/st,st-vd56g3.yaml      | 132 ++++++++++++++++++
->  MAINTAINERS                                   |   9 ++
->  2 files changed, 141 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
-> new file mode 100644
-> index 000000000000..22cb2557e311
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+In other words who tells the exporter that it should allocate and fill a 
+buffer with encrypted data?
 
-Why duplicated 'st'?
+If that is userspace then that is part of the format information and it 
+is also userspace who should tell the importer that it needs to work 
+with encrypted data.
 
-> @@ -0,0 +1,132 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2024 STMicroelectronics SA.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/st,st-vd56g3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: STMicroelectronics VD56G3 Global Shutter Image Sensor
-> +
-> +maintainers:
-> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
-> +
-> +description: |-
-> +  The STMicroelectronics VD56G3 is a 1.5 M pixel global shutter image sensor
+The kernel is intentionally not involved in stuff like that.
 
-This claims device is VD56G3, not ST-VD56G3.
-
-> +  with an active array size of 1124 x 1364 (portrait orientation). It is
-> +  programmable through I2C, the address is fixed to 0x10. The sensor output is
-> +  available via CSI-2, which is configured as either 1 or 2 data lanes. The
-> +  sensor provides 8 GPIOS that can be used for external LED signal
-> +  (synchronized with sensor integration periods)
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - st,st-vd56g3
-> +      - st,st-vd66gy
-> +    description:
-> +      Two variants are availables; VD56G3 is a monochrome sensor while VD66GY
-> +      is a colour variant.
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  vcore-supply:
-> +    description: Digital core power supply (1.15V)
-> +
-> +  vddio-supply:
-> +    description: Digital IO power supply (1.8V)
-> +
-> +  vana-supply:
-> +    description: Analog power supply (2.8V)
-> +
-> +  reset-gpios:
-> +    description: Sensor reset active low GPIO (XSHUTDOWN)
-> +    maxItems: 1
-> +
-> +  st,leds:
-> +    description:
-> +      Sensor's GPIOs used for external LED control. Signal being the enveloppe
-> +      of the integration time.
-
-More information is needed. GPIOs coming from LED or SoC? What's the
-meaning of values?
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 1
-> +    maxItems: 8
-> +    items:
-> +      minimum: 0
-> +      maximum: 7
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-
-missing additionalProperties: false
-
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 2
-> +            items:
-> +              enum: [1, 2]
+Regards,
+Christian.
 
 
-> +
-> +          link-frequencies:
-> +            minItems: 1
-
-maxItems is enough
-
-> +            maxItems: 1
-> +            items:
-> +              enum: [402000000, 750000000]
-> +
-> +          lane-polarities:
-> +            minItems: 1
-> +            maxItems: 3
-> +            description: Any lane can be inverted or not.
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - vcore-supply
-> +  - vddio-supply
-> +  - vana-supply
-> +  - reset-gpios
-> +  - port
-> +
-
-
-Not a video-interface-device.yaml type of device?
-
-Best regards,
-Krzysztof
+>
+> Thanks.
+>
+>> Regards,
+>> Christian.
+>>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> ---
+>>>    include/linux/scatterlist.h | 34
+>> ++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 34 insertions(+)
+>>>
+>>> diff --git a/include/linux/scatterlist.h
+>> b/include/linux/scatterlist.h
+>>> index 77df3d7b18a6..a6ad9018eca0 100644
+>>> --- a/include/linux/scatterlist.h
+>>> +++ b/include/linux/scatterlist.h
+>>> @@ -282,6 +282,7 @@ static inline void sg_unmark_end(struct
+>> scatterlist *sg)
+>>>    
+>>>    #define SG_DMA_BUS_ADDRESS(1 << 0)
+>>>    #define SG_DMA_SWIOTLB(1 << 1)
+>>> +#define SG_DMA_RESTRICTED(2 << 1)
+>>>    
+>>>    /**
+>>>     * sg_dma_is_bus_address - Return whether a given segment was
+>> marked
+>>> @@ -352,6 +353,31 @@ static inline void sg_dma_mark_swiotlb(struct
+>> scatterlist *sg)
+>>>    sg->dma_flags |= SG_DMA_SWIOTLB;
+>>>    }
+>>>    
+>>> +/**
+>>> + * sg_dma_mark_restricted - Mark the scatterlist for restricted
+>> buffer.
+>>> + * @sg:SG entry
+>>> + *
+>>> + * Description:
+>>> + *   Marks a a scatterlist for the restricted buffer that may be
+>> inaccessiable
+>>> + *   in kernel if it is protected.
+>>> + */
+>>> +static inline void sg_dma_mark_restricted(struct scatterlist *sg)
+>>> +{
+>>> +sg->dma_flags |= SG_DMA_RESTRICTED;
+>>> +}
+>>> +
+>>> +/**
+>>> + * sg_dma_is_restricted - Return whether the scatterlist was
+>> marked as restricted
+>>> + *                        buffer.
+>>> + * @sg:SG entry
+>>> + *
+>>> + * Description:
+>>> + *   Returns true if the scatterlist was marked as restricted
+>> buffer.
+>>> + */
+>>> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
+>>> +{
+>>> +return sg->dma_flags & SG_DMA_RESTRICTED;
+>>> +}
+>>>    #else
+>>>    
+>>>    static inline bool sg_dma_is_bus_address(struct scatterlist *sg)
+>>> @@ -372,6 +398,14 @@ static inline void sg_dma_mark_swiotlb(struct
+>> scatterlist *sg)
+>>>    {
+>>>    }
+>>>    
+>>> +static inline bool sg_dma_is_restricted(struct scatterlist *sg)
+>>> +{
+>>> +return false;
+>>> +}
+>>> +
+>>> +static inline void sg_dma_mark_restrited(struct scatterlist *sg)
+>>> +{
+>>> +}
+>>>    #endif/* CONFIG_NEED_SG_DMA_FLAGS */
+>>>    
+>>>    /**
+>>
 
 
