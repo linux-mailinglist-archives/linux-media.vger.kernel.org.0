@@ -1,107 +1,116 @@
-Return-Path: <linux-media+bounces-11664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB018CA289
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 21:05:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056188CA564
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 02:35:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA8441C2102B
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2024 19:05:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 819B9B22087
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2024 00:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A5C13956A;
-	Mon, 20 May 2024 19:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C528F47;
+	Tue, 21 May 2024 00:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="pVacRy8l"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PyC6e4pB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0F4137934;
-	Mon, 20 May 2024 19:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A02441F
+	for <linux-media@vger.kernel.org>; Tue, 21 May 2024 00:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716231904; cv=none; b=ALrLs41ra5FTESHzWIEnOipbIJ1tqbFctTiaksmMisrxFj06PNeCq8+HZJYCTh10F88Oj7JDVWYyDY5CYWby009VlAPfT+1DIeOmgVwN1dAugI8+yDRMx4Gf+QuAszRogDU1SmB0y2Gy+GdorZgh7oID8q87VWLr/svRSKM1goE=
+	t=1716251733; cv=none; b=OYbanrTfg7krO7T65TAzdqt7eL7iJp1AFexxXnRlK6/225SqYbu6qTp8n+G0eGcLQfdqVMAJvsojIwlbfEUlyD76K1UBgpVylzLMXR38b43n0+ISdyyiGW0ZQ9Qd665j/qowmRms55LoYEUW53XCiVvX9b65/cgsloCVViq6L7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716231904; c=relaxed/simple;
-	bh=Whkq+hKM/qmDNnBMj3dbzvPDG5j50Xp2GcuxKj7WaHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUZ+0yHUhkPA7BzqTVtJ8ioLK6Z0qcBsu4wcoO9oRFbDRNhC+75M8bw/i6cAZ45mdX3UgBYwC5H2tH7zTbmm+hnG/VJ5fEW5RIaQVrKcQz/NqWTtceVxdBP/6uDUyKaj1iQjcLA1JIKu+wIYyLU3vJAt7fm8AsG+tuOQQg1XkRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=pVacRy8l; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1716231898; bh=Whkq+hKM/qmDNnBMj3dbzvPDG5j50Xp2GcuxKj7WaHI=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=pVacRy8loO5jQ12YSQrnC47BXn66ePeAvKoHrFsTNZbUZuDE9I/8bc/37EdRZIQWN
-	 YJSS60cvLymNAglX+885beRZOfcbFcd8IxTR0nbDIJBtt2kVkGu2XfCUnR8pgUXis6
-	 ouo8co6qtt2wJAvS0kjSU1RuzrFrBuSb+cJmZbIE=
-Date: Mon, 20 May 2024 21:04:58 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, git@luigi311.com, 
-	linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, pavel@ucw.cz, 
-	phone-devel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v5 21/25] dt-bindings: media: imx258: Add binding for
- powerdown-gpio
-Message-ID: <6egxnvqjz4z57bwd7jeubikfiew2myjo74hw3x6dimcdm6nuq3@qnk2tliwfxps>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, git@luigi311.com, 
-	linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com, mchehab@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, pavel@ucw.cz, 
-	phone-devel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240501152442.1072627-1-git@luigi311.com>
- <20240501152442.1072627-22-git@luigi311.com>
- <ZkcV5xWZz2jCszxA@kekkonen.localdomain>
- <q5nbk3qcxsjsqp4mdyx5nlrn4oie6oynunwodm7r2nwtywc2ey@kxsgcatwt5b2>
- <CAPY8ntCfQvp9rCt=fqTFKYEOamLZwKmJDv9agxerQtDvsGKB0g@mail.gmail.com>
+	s=arc-20240116; t=1716251733; c=relaxed/simple;
+	bh=JcjQq3Y/hoDek6F5UoJex5CmssRYiAFOnlRMpLISlVM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cW7ETB9LRWQV4C8OIOeTkoB3cRs95qeP2neUy+gKaldN2B/X/UsQloaMsz7HXF0/lqCFtoAymf7RfzoK9ps0u8SLv90aBw76n5OyCvyk3SNle/2q/vzno8DOtTHTrTTibG3NXGoMA/BE7KZg75/NMqMVD+I7ozIX8thb3iE8GRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PyC6e4pB; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5238b5c07efso3773929e87.3
+        for <linux-media@vger.kernel.org>; Mon, 20 May 2024 17:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716251728; x=1716856528; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JcjQq3Y/hoDek6F5UoJex5CmssRYiAFOnlRMpLISlVM=;
+        b=PyC6e4pBbdOhfhnZQHCRH9zvnsTyuZUugNIpFDU0dxNR81cFQvGdchwuNzG2z/SJ8X
+         8pSW/H4wgOIm5Q5O1BnyKMvK9Usy4CEbAFAo1rpuOZOKgvihkSgCZmXT6y2/etg4aULM
+         L1QtoZgK+Pg4S0yoXF1qIUCdDHmQd8BeCKb2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716251728; x=1716856528;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JcjQq3Y/hoDek6F5UoJex5CmssRYiAFOnlRMpLISlVM=;
+        b=JnFNyIYPxFNDpw7lAyoASWz4v4mjn+CmgFwUPtlZCr0riv6Yz8grIdv+oPtIGq6Q5F
+         qfcd84XGuiuGhmgUc4KnAANRA6SBZc8Jjk5qamOERFJe7gBWQ/KfkAaztG8VPU8yEFId
+         bAKd1tqiebMfry7HDIJAoPjRaNmwfZT3zXO/hrWzNDlXhrQYzxQg/4E3CLpZa842oVwX
+         IrZQxumC2P7IxyG5JDBRpk6H3GIvq4f+Htv8O8giTeO8cEkebgdDx1Ymv0PIbimDbC0o
+         p//jUSGts4iSPJuRj1ZJGkGU0SswTvAe2fUDWYrLu95dfUcDZT1K/XadO53FEkF/j1/n
+         wggw==
+X-Forwarded-Encrypted: i=1; AJvYcCVKHg7pmgJO9rw2zGif6X7L5ed7DNR/f32j3yoH9izH7dc1iZwUsXBUODmfVUsQUqnZbybtleXA0UzXmoqpmVwgREE0n9e2VVf9EWg=
+X-Gm-Message-State: AOJu0YzHrnAQr4WL967gYr8eYuuDxdlvRr97/lnJV2fyWze2Dz/J55vl
+	w6xBdzKecOo99k1IRxopcWQ5xUEqZjYUKBdAE2rXVASQJBbEtv7BEQmJ0AB3rdj/XrStln3Z9Bk
+	=
+X-Google-Smtp-Source: AGHT+IH3rlH0F+YMEJLEataShLblqztmOkEvMCMxRUGAO9es/cWLs3k2MC6f6rYpMnu5mKqkOQRiQA==
+X-Received: by 2002:ac2:5e30:0:b0:523:8c7a:5f7 with SMTP id 2adb3069b0e04-5238c7a066emr9949678e87.6.1716251727833;
+        Mon, 20 May 2024 17:35:27 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ad59asm4518739e87.45.2024.05.20.17.35.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 May 2024 17:35:26 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51f174e316eso3950895e87.0
+        for <linux-media@vger.kernel.org>; Mon, 20 May 2024 17:35:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW4oK1ii1FmcWwF/lYa5z50XTMGck8ObOs2PJRpbQtK3rR4gJvOPmbChrLCz6Q4PEVz09E7/yfWZ1UVmrNdB4stDkBvOxeNn49fQAg=
+X-Received: by 2002:a05:6512:3d87:b0:523:a89f:aa64 with SMTP id
+ 2adb3069b0e04-523a89fab47mr12749993e87.20.1716251726185; Mon, 20 May 2024
+ 17:35:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPY8ntCfQvp9rCt=fqTFKYEOamLZwKmJDv9agxerQtDvsGKB0g@mail.gmail.com>
+References: <20230914145812.12851-1-hui.fang@nxp.com> <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
+ <353919fd-932e-5d81-6ac5-7b51117366cd@arm.com> <20230926065143.GB5606@lst.de>
+ <4d0f3de5-1d34-d998-cb55-7ce7bfaf3f49@arm.com> <20230926094616.GA14877@lst.de>
+ <06d476e5-ba85-1504-d69b-a8c1cf617d54@arm.com> <20231228074645.765yytb2a7hvz7ti@chromium.org>
+ <DB9PR04MB9284C2494A3A0799FBC187DD87E22@DB9PR04MB9284.eurprd04.prod.outlook.com>
+In-Reply-To: <DB9PR04MB9284C2494A3A0799FBC187DD87E22@DB9PR04MB9284.eurprd04.prod.outlook.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 21 May 2024 09:35:04 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DGdUCmtFPKuQAd83s9Mcy+_MdMhPJd1sqQkbmubH5wDg@mail.gmail.com>
+Message-ID: <CAAFQd5DGdUCmtFPKuQAd83s9Mcy+_MdMhPJd1sqQkbmubH5wDg@mail.gmail.com>
+Subject: Re: [EXT] Re: [PATCH] MA-21654 Use dma_alloc_pages in vb2_dma_sg_alloc_compacted
+To: Hui Fang <hui.fang@nxp.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
+	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Anle Pan <anle.pan@nxp.com>, 
+	Xuegang Liu <xuegang.liu@nxp.com>, "senozhatsky@chromium.org" <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dave,
-
-On Mon, May 20, 2024 at 02:20:28PM GMT, Dave Stevenson wrote:
-> Hi Ondřej
+On Mon, May 13, 2024 at 6:49=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wrote:
 >
-> [...]
-> 
-> From v3 [1] Luis reported testing dropping the powerdown-gpio on a PPP
-> and it working fine.
-> 
-> I linked to the IMX258 datasheet in the same thread[2], and that
-> datasheet does not include such a signal on the imx258 sensor itself.
-> 
-> If your module has a powerdown gpio, then you'll have to ask the
-> module vendor what it is actually connected to. Potentially it relates
-> to the VCM driver rather than the sensor.
+> On Dec. 28, 2023, 7:46 a.m. UTC, Tomasz Figa wrote:
+> > I have a crude (and untested) series of patches that extend
+> > dma_alloc_noncontiguous() with scatter-gather allocations according to =
+the
+> > new max_dma_segments parameter.
+>
+> Is the change merged? If merged, in which version, so I can test on my de=
+vice. Thanks!
 
-I've tested it in various ways (inverting the signal, etc.) and it doesn't
-seem to do anything. So these patches related to powerdown-gpio can
-be dropped.
-
-Kind regards,
-	o.
-
->   Dave
-> 
-> [1] https://www.spinics.net/lists/linux-media/msg252519.html
-> [2] https://www.spinics.net/lists/linux-media/msg252496.html
+Sadly nothing really came out of it. The code I posted was just a
+quick attempt to implement what was suggested in the thread and still
+has some open items, which need some follow up. Maybe I should just go
+ahead and post it as a proper RFC series instead.
 
