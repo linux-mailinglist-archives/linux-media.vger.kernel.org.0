@@ -1,137 +1,135 @@
-Return-Path: <linux-media+bounces-11731-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11732-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA7E8CC1A3
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 14:55:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E91A8CC1B2
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:02:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 396791C21D0B
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 12:55:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 603C41C21DF7
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330E882490;
-	Wed, 22 May 2024 12:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ADF813DBA0;
+	Wed, 22 May 2024 13:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SRIXtvL4"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UCBffbdq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF40EC7
-	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 12:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25F1757FD;
+	Wed, 22 May 2024 13:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716382505; cv=none; b=kyO6YmoyjTrxUEySpWPdieNzxKrUY4Zhfic7m9vaMgRzinaZws7lhIcwLeDPFszFI5ofDofn2DfBaJMprIUnNyqeZvRJ6rDi94nX60b4TmpTkiP9QstTSOYyrP3RczjBoBBDTetqPVFGNbCVyS3hHl+PnnJ0Sb5jikxHsNWKenA=
+	t=1716382953; cv=none; b=lE/tVFbJOWfKwx0f7Bxsl8PS633rMFVePONr6CAE6nSnTh19VSWIIyk5dEx0XTumtFXWwJZiru0Pw7XZmYnOOs+1HU3VohzHQhcefZxAu6yDyLZOfkxOOb0Skhu4mfp6Z1no0LIEPpDflc4OQomSawuE0A+6sG5eRlZPjcKlJHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716382505; c=relaxed/simple;
-	bh=BinNhgcEH42gS3lWUSSUP7U6VJyoBPjo0uHCGJBaX60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I6hZb+5avUksLvmZKJVKUrmoAnrXH7IpXeWZHTidISGlaO8atR9PPKbjnNnKM1G2o2MiJ06MdxFq+SOhR5aA5zX/NzBVn9dmbOR0DmoTxBf68A8jL72JYI4mzQ7zzZkaoZ8JcE7Bk5ZO0uuNHR0/TBMMAjlu9g1JDuAZGzCXSyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SRIXtvL4; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-69cb4a046dfso21392596d6.2
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 05:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1716382503; x=1716987303; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qRSyPLhJtHsuvnS9t5bdddtQaBryY+zRRpKLYbkoicI=;
-        b=SRIXtvL4/+op/Ozs+juw7HgT612PXGoyjLKRmE/usQ2zEfhKX2t+IdyYxQOJ/xpwhc
-         u/Ji8EXUlmNEggOdnMaArW0VJcjc6qAIyawtonvLb8fr3u+r9yt3wc2Ho19vwb3zRAR+
-         y8yd/XzWhjjw/PFkEkB75Z0kD8JNG0zh2VYls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716382503; x=1716987303;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qRSyPLhJtHsuvnS9t5bdddtQaBryY+zRRpKLYbkoicI=;
-        b=JOoTrrxs6kQaahMAt0QAsi6LcvZYpdXYMHb5ItEnnVOsnSh/iYN3B6cGlqtO2e7vkc
-         wpZEKzXWdOMKAhypYGrSUtFOvBnv7q7/kvrXYZzOF8Hikhz1Ijn7KHfe590wOEOf2Smu
-         Es7wngPnut3+sOJVNmGbaWMLHBepHqL2oulTzvbffvFkuRbwMm8SDUK4rPKOCG7dd+Si
-         pB0WzS1S79uAuuL4+T+KchLGUxVW+XqxjwdkFr4bETXs9O41RBI531Empqbr4g+UY7Vf
-         U0hv2MHGge+UPWxLQlKchumiRhtRBL+H3AGpF57QUIEa8wF8UTwbeIKHaBnLjd1OcbT6
-         WeOA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEPmb/hnxHFme8ZmVC1Qadan0SgxWiLeKwIXJqhcVGbASRUnXpYwq/Us212I3p2Qj1uvs2YZrrQJdp20vBR/lH+RQv1kVamIMGT4o=
-X-Gm-Message-State: AOJu0YxCqIiF43k83Z6ZWuElwu9V54hWCPInnideP9dMOGA+rEwhfXtF
-	mArdBMaJNlfjP+spUpyK/J//Sp5dHsj4vdQJ9rfoB3r3LVX/ykOZzBZi6q41MjYvlU17gteyZ3A
-	eNA==
-X-Google-Smtp-Source: AGHT+IGTM6p+stFx6nNbxtEOQWjUj7VJhAkMw029DdJ8bpoWBayMgTsH9AIjNdREYXBvE0Dim0yFjw==
-X-Received: by 2002:a05:6214:458b:b0:6ab:988:c7d5 with SMTP id 6a1803df08f44-6ab7f35f901mr19284906d6.26.1716382502735;
-        Wed, 22 May 2024 05:55:02 -0700 (PDT)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6a15f185491sm134505276d6.43.2024.05.22.05.55.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 05:55:02 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6a8691d724eso7788536d6.0
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 05:55:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWlgziL22nySprrC1xUVm6OCM3zil2h9hCZKJAfBJZn9KTXZiM6NxE65df8oHRU9hXkXEax0a0pyWehdSPVF1vGKMlmof08Udl5Bqw=
-X-Received: by 2002:a05:6214:3903:b0:6ab:6c2e:e425 with SMTP id
- 6a1803df08f44-6ab7f356954mr17023246d6.24.1716382501399; Wed, 22 May 2024
- 05:55:01 -0700 (PDT)
+	s=arc-20240116; t=1716382953; c=relaxed/simple;
+	bh=ItsWZl5G0QS+oyguQ25DhfIuHBh030DblZ9aQCQY95k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bsgYAbOUkEUpILVXaJp0iYwmD4j1HZYZo8vMprB2x/zv7TUtTpZhpic3XFwc/XiKtShDIgK079zLhaygvS39R0BEglBR0Po2O6JUWzDQ8tyzqI8ASaRb1YebsiV+yH0Rf4UARHlx/pVn/6ZTTEVmvDnlxKBIcpiH+Bueck/HPlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UCBffbdq; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716382950;
+	bh=ItsWZl5G0QS+oyguQ25DhfIuHBh030DblZ9aQCQY95k=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=UCBffbdq7PTT1pW6SE6MgvG+WM4DODVOJFjRzCDlbmQ1RJFvw62WNDMfgNRnxsfHH
+	 SWAWH8h1YU5krcMnQ3DhsE9bJ/gidkKGU1VvKgfFLQhwiXYY71y+quk5UqltVe3ZCq
+	 XYevBLhGL32zpU0s6iZYpRd0HX2Enw9yjUr2NPyt6S1uTSKpBiNFgCdkfe0ae2AEk5
+	 VeR8gsX4v6OEtpt291agBR5ADepRGvMZ/XAfvVrN2MrSB6V3di7ECXZtgtlobTDRca
+	 XgAoJjf8wt7PnhH2MG2gJXN4B7jPZcO42l4EPiDUQOC6fSuav+Yqu/n3o6d+bHFv1d
+	 rF0g+053IwU4w==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 63DBA37821AE;
+	Wed, 22 May 2024 13:02:27 +0000 (UTC)
+Message-ID: <656423737618913a19633b4b4c39e2e8de54546d.camel@collabora.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
+ users (udev uaccess tag) ?
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Simon Ser
+	 <contact@emersion.fr>
+Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
+ Poettering <mzxreary@0pointer.de>,  Robert Mader
+ <robert.mader@collabora.com>, Sebastien Bacher
+ <sebastien.bacher@canonical.com>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
+ <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Date: Wed, 22 May 2024 09:02:21 -0400
+In-Reply-To: <20240516112055.GB5253@pendragon.ideasonboard.com>
+References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+	 <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+	 <20240507183613.GB20390@pendragon.ideasonboard.com>
+	 <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
+	 <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+	 <20240513-heretic-didactic-newt-1d6daf@penduick>
+	 <20240513083417.GA18630@pendragon.ideasonboard.com>
+	 <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
+	 <20240514204223.GN32013@pendragon.ideasonboard.com>
+	 <ttHZ6_mxyApQbVuEg7V20i3gCZ0nCr26aymroG2zxHv3CMRAA6RqZsUxNY3eBiYjycfb1r1WQdyMTwJO_I38FsJQMHA_Zdiqbbjs_YJWKr8=@emersion.fr>
+	 <20240516112055.GB5253@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
- <20240507-cocci-flexarray-v2-10-7aea262cf065@chromium.org>
- <284a3096-cc2d-45bf-9075-fcd1bc60a599@linaro.org> <96593105-0ca3-43c7-86da-7a059cad287f@linaro.org>
-In-Reply-To: <96593105-0ca3-43c7-86da-7a059cad287f@linaro.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 22 May 2024 14:54:43 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtpSQWfe8Jj=L__kYJa74N7KnqMeaW0=cGzagMtBrHiUg@mail.gmail.com>
-Message-ID: <CANiDSCtpSQWfe8Jj=L__kYJa74N7KnqMeaW0=cGzagMtBrHiUg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/18] media: venus: Use flex array for hfi_session_release_buffer_pkt
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Michael Tretter <m.tretter@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
-	Andy Walls <awalls@md.metrocast.net>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Bryan
+Le jeudi 16 mai 2024 =C3=A0 14:20 +0300, Laurent Pinchart a =C3=A9crit=C2=
+=A0:
+> On Thu, May 16, 2024 at 07:00:31AM +0000, Simon Ser wrote:
+> > On Tuesday, May 14th, 2024 at 22:42, Laurent Pinchart wrote:
+> >=20
+> > > My experience on Arm platforms is that the KMS drivers offer allocati=
+on
+> > > for scanout buffers, not render buffers, and mostly using the dumb
+> > > allocator API. If the KMS device can scan out YUV natively, YUV buffe=
+r
+> > > allocation should be supported. Am I missing something here ?
+> >=20
+> > Note that dumb buffers are only intended for simple software-rendering
+> > use-cases. Anything more complicated (e.g. involving GPU rendering)
+> > should use another mechanism.
+>=20
+> Sure. Even if dumb buffers may work for GPU rendering in some cases,
+> there's no guarantee they will, so they shouldn't be used.
+>=20
+> My comment was related to scanout buffers, as I was puzzled by Nicolas
+> mentioning how "KMS drivers only offer allocation for render buffers".
+> On Arm platforms the render buffers are allocated on the GPU's DRM
+> device as far as I understand, while the KMS drivers allocate scanout
+> buffers using the dumb buffers API.
+>=20
 
+The message is getting distorted. I'm saying that not all supported formats=
+ have
+an allocation API in DRM/KMS drivers. Most YUV formats needed for media han=
+dling
+(GPU or scannout) are not supported.
 
-On Fri, 10 May 2024 at 02:10, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 10/05/2024 00:37, Bryan O'Donoghue wrote:
-> >> -    u32 buffer_info[1];
-> >> +    u32 buffer_info[];
-> >>   };
-> >>   struct hfi_session_release_resources_pkt {
-> >>
-> > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->
-> Oops no.
->
-> Please don't change the size of the structure.
+Nicolas
 
-In this case buffer_info[] is a real flexible array, so there is not
-much we can do.
+p.s. I feel like commenters thinks its evident for userspace application to=
+ know
+if they are doing scanout or GPU ... while in reality, they offload their
+allocated buffer to a compositor which will have to dynamically juggle betw=
+een
+these two with its own heuristic.
 
-The driver seems to only uses the structure to address memory. It is
-not allocating the structure or doing any calculations based on its
-size, so it should be fine (famous last words).
-
-If anyone has access to the hardware it would be great if they tested it :)
-
->
-> u32 buffer_info;
->
-> ---
-> bod
-
-
-
--- 
-Ricardo Ribalda
 
