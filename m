@@ -1,131 +1,145 @@
-Return-Path: <linux-media+bounces-11714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBAD8CBDB4
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:23:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4607E8CC00F
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:16:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A92EC1C21CD7
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 09:23:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 780311C21E1F
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C6680C03;
-	Wed, 22 May 2024 09:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42304824AA;
+	Wed, 22 May 2024 11:16:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fBNLWLEN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YY5D39vj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB50080628
-	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 09:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D881680C07;
+	Wed, 22 May 2024 11:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716369815; cv=none; b=XXJx4d22MKlSuQSfxtwraF9HtT6ZA+62VKMe+Tym/FVK5akBX0hARuKpsa2Ex6uFGggT/U2CXOExK/avCkLnEDsPjf4xidlw/ljL5UGQExJTWndUUmVi+hHrmTlUcBzYfVRU331TyjMocMudhM/Z2WAzRbmwmn4gVttBR4/O3AQ=
+	t=1716376595; cv=none; b=funwipJ/ovDwnwi45jUguxxS//GSeORv93HfAbsP5p6KmGSs2th9VhXHTPIbX1y4kWiI1BdCn2ue18Kw+1h7uM92mLr2E8Z1BQGbQF6TfTPMQVD3gWLNWdei/coTQf2M2TfoIiaXCOA8Bx1Q4O4x0uEffifBGubd4rMSrhXHw3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716369815; c=relaxed/simple;
-	bh=odJ0hFWlcsFxkYUX+bZg9URH7tzJA0vJ1p8L+ANWKgs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NgSKtGinW3vcn0fg9PQX6wJoU1on0vL7nNwM0rVnvqIxLZwnPTdLEkneE/gFCJHbTRHQDGqx78VweaoFTsKm/EbN23maF13cEPryIM8JON0quZGadZRdy6rP/6zifQhqBFk5DJPKepMPVoKxLKKemHfKaM1ZIPaee8+GzbT7yYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fBNLWLEN; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-420180b59b7so5011075e9.0
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 02:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716369812; x=1716974612; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JRjtoycu6QiYQPIcHAZ506CIemzizife0bP7oo/LEUE=;
-        b=fBNLWLENnPD+OTB14sTkFC/WdeeoMsiib9nbKmGOXQFrZcAkUHDs7pxZSlodulPr4Q
-         KzN/WgjC3vOAES0wQGQGJy4ukvGNu/3w2n7vF6dGafLJYynaGQ9CMOp9fFcR4wBSNGtW
-         hLuPDCmvC2oE1ul/Eh1WCBU8ah7APy7s7fiiQVh8/0ikHTYS8yrW+qjwQ2V7gshQ3dMK
-         f6GPgzlYQwssPYMm/0QQa82tA0w+G0SpDdVB7hqYJgtc6AS9lmajf32N8s/8z31NKmPh
-         f5JFOFMkd/tfkNmEHNruKR8EzfkO175c8dEOZBRZMoBQhsDzKPLqN+Co58U5OvvF0BnT
-         iXLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716369812; x=1716974612;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JRjtoycu6QiYQPIcHAZ506CIemzizife0bP7oo/LEUE=;
-        b=VVFMCMkcxJ9FJL8H/HzAiGUWzNmeHdvScTrSnxeThapKIl5T66LgvkZ//BxBf1OvQK
-         PzJdwWSiR68YufeofqKS7LQ490RVe0W2lpV42E8tYNo8sJxBckwF2McT+++rVo6XClvq
-         GT2EFsarTi31TbCYVWwNpfHcWynKGSignxbBJPOXJuLTDjhdpZxjtKRIGevkOy8E0PPa
-         BZ3tiStM3/ImRZ7IvUgIq86noWrVxu+TlsGHkMQo+9q9dmJTg20VVR0sGOyG17rqRz5b
-         OHXCRi0qW7obiCculBDk1tCh8GwO/id7/oxPbN7mK2xocdf7ZZzVGDpw91SoVeTHI7GJ
-         I8tg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcrLxVHkWjWmDkvWBFusJrk5pvO6JhkGjQL8AIGtDIln3VdLW9uf2BJqJ9pAut+yJ/LiSrfcPCaL5h0o5isWC2F5fUVKRRpP37vRI=
-X-Gm-Message-State: AOJu0YxfLAQNH5maNMB1LFGFjNMYej/8livTLVz0Jl75w1ShN7S/7lEI
-	ZSDmp4x4a4Z+Y4hbT46OGGxYDl8fzfoMMckbjKHEq8R01YpIDpLUTTR40SD9YcU=
-X-Google-Smtp-Source: AGHT+IGBRKl5DCZ+kljNpjZnc9YzdCw1hs2bWkudIcHS/AaEdVRmj8bHA3gNsPb+/c/8i/lsYuEbJQ==
-X-Received: by 2002:a05:600c:ac1:b0:41b:f359:2b53 with SMTP id 5b1f17b1804b1-420fd37f2f5mr9924295e9.37.1716369811860;
-        Wed, 22 May 2024 02:23:31 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42011d91edfsm402874715e9.44.2024.05.22.02.23.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 02:23:31 -0700 (PDT)
-Message-ID: <e9b8a423-9ee3-4f5d-a0a2-374603762127@baylibre.com>
-Date: Wed, 22 May 2024 11:23:28 +0200
+	s=arc-20240116; t=1716376595; c=relaxed/simple;
+	bh=q83AOrxhjHdDtbOcVJNIw+dm8Yj5lnBFmVhmfjLn9IA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBd+7x1ii0B5Moz/s6bzup7Ud3/unpm5UKl9L2+Edj4QogBDbs9DFshVi8zbq8HN9xk0b6W7JVq8gI1CXmAuBtpCISnUxd49BIPgo8qS47sis9oHWNFIw3yo6pPGRj0Tb6cCi+Z6yIBR+KT2+VcIHAeY96Ts7mG1WKBv8upwiHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YY5D39vj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED5DCD49;
+	Wed, 22 May 2024 13:16:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716376579;
+	bh=q83AOrxhjHdDtbOcVJNIw+dm8Yj5lnBFmVhmfjLn9IA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YY5D39vjYu90YM40AKH7ctfUmXDtAh3vruu9Dqw2jQ0NLNg+p6WrLmo9V7u80L71G
+	 ULiTQnW/MDSY/YmaYPNEkMMkY14OWGsTrZo+WvhbojfStattNgZP5ollUYzcsHdSof
+	 gSbVh5HKYAenHcnPeB8iJ3mhIXdBV6fvJtxyM+zw=
+Date: Wed, 22 May 2024 14:16:22 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
+	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6,04/24] v4l: add documentation for restricted memory
+ flag
+Message-ID: <20240522111622.GA31185@pendragon.ideasonboard.com>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-5-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-7-082b22186d4c@baylibre.com>
- <a693b696-92cf-48cf-8c9d-17aa7f182d98@collabora.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <a693b696-92cf-48cf-8c9d-17aa7f182d98@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240516122102.16379-5-yunfei.dong@mediatek.com>
 
+Hi Jefrey,
 
+Thank you for the patch.
 
-On 20/05/2024 12:27, AngeloGioacchino Del Regno wrote:
->> +int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
->> +{
->> +    unsigned long flags;
->> +    struct mt8365_afe_private *afe_priv = afe->platform_priv;
->> +
->> +    spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
->> +
->> +    adda_afe_on_ref_cnt--;
->> +    if (adda_afe_on_ref_cnt == 0)
->> +        regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
->> +                   AFE_ADDA_UL_DL_ADDA_AFE_ON,
->> +                   ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
->> +    else if (adda_afe_on_ref_cnt < 0)
->> +        adda_afe_on_ref_cnt = 0;
+On Thu, May 16, 2024 at 08:20:42PM +0800, Yunfei Dong wrote:
+> From: Jeffrey Kardatzke <jkardatzke@google.com>
 > 
-> Should we dev_warn() here? The refcount should never be less than zero - if it is,
-> then there's some issue somewhere that must be solved.
+> Adds documentation for V4L2_MEMORY_FLAG_RESTRICTED.
+> 
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  Documentation/userspace-api/media/v4l/buffer.rst | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> index 52bbee81c080..807e43bfed2b 100644
+> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> @@ -696,7 +696,7 @@ enum v4l2_memory
+>  
+>  .. _memory-flags:
+>  
+> -Memory Consistency Flags
+> +Memory Flags
+>  ------------------------
+>  
+>  .. raw:: latex
+> @@ -728,6 +728,14 @@ Memory Consistency Flags
+>  	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
+>  	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
+>  	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
+> +    * .. _`V4L2-MEMORY-FLAG-RESTRICTED`:
+> +
+> +      - ``V4L2_MEMORY_FLAG_RESTRICTED``
+> +      - 0x00000002
+> +      - The queued buffers are expected to be in restricted memory. If not, an
+> +	error will be returned. This flag can only be used with ``V4L2_MEMORY_DMABUF``.
+> +	Typically restricted buffers are allocated using a restricted dma-heap. This flag
+> +	can only be specified if the ``V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM`` is set.
 
-Ok to add dev_warn, but I also want to keep "adda_afe_on_ref_cnt = 0;" for robustness, even if it 
-shouldn't reach this case.
+Why is this flag needed ? Given that the usage model requires the V4L2
+device to be a dma buf importer, why would userspace set the
+V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag and pass a non-restricted
+buffer to the device ?
+
+The V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag also needs to be
+documented in the relevant section, I don't think that's done in this
+series.
+
+>  
+>  .. raw:: latex
+>  
 
 -- 
 Regards,
-Alexandre
+
+Laurent Pinchart
 
