@@ -1,145 +1,135 @@
-Return-Path: <linux-media+bounces-11715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4607E8CC00F
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:16:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CCC8CC02E
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:24:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 780311C21E1F
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:16:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1A771F219B3
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42304824AA;
-	Wed, 22 May 2024 11:16:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40B19824BF;
+	Wed, 22 May 2024 11:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YY5D39vj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hro65EgF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D881680C07;
-	Wed, 22 May 2024 11:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43218824AF
+	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 11:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716376595; cv=none; b=funwipJ/ovDwnwi45jUguxxS//GSeORv93HfAbsP5p6KmGSs2th9VhXHTPIbX1y4kWiI1BdCn2ue18Kw+1h7uM92mLr2E8Z1BQGbQF6TfTPMQVD3gWLNWdei/coTQf2M2TfoIiaXCOA8Bx1Q4O4x0uEffifBGubd4rMSrhXHw3c=
+	t=1716377057; cv=none; b=EycO0a01ZH6vNudMF/s0dmspZd0FBEzXvAg53C7bX2H2RMTe3MM0umrpmtm/XOoC0JEIr62kr4DQT3Ola7f170LSxFPYMr6YAhX3MZeh7HvfaxtX3CbYyUr8cBd4lkHw0JCuzvTzU0q3cjtKMBsNtV3s5vFFH4MPRA2BoCcmtrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716376595; c=relaxed/simple;
-	bh=q83AOrxhjHdDtbOcVJNIw+dm8Yj5lnBFmVhmfjLn9IA=;
+	s=arc-20240116; t=1716377057; c=relaxed/simple;
+	bh=CD8rCWu20B9y/mSC9WCDWFP2hk3RddKXI4OOnI1wydQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sBd+7x1ii0B5Moz/s6bzup7Ud3/unpm5UKl9L2+Edj4QogBDbs9DFshVi8zbq8HN9xk0b6W7JVq8gI1CXmAuBtpCISnUxd49BIPgo8qS47sis9oHWNFIw3yo6pPGRj0Tb6cCi+Z6yIBR+KT2+VcIHAeY96Ts7mG1WKBv8upwiHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YY5D39vj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED5DCD49;
-	Wed, 22 May 2024 13:16:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716376579;
-	bh=q83AOrxhjHdDtbOcVJNIw+dm8Yj5lnBFmVhmfjLn9IA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YY5D39vjYu90YM40AKH7ctfUmXDtAh3vruu9Dqw2jQ0NLNg+p6WrLmo9V7u80L71G
-	 ULiTQnW/MDSY/YmaYPNEkMMkY14OWGsTrZo+WvhbojfStattNgZP5ollUYzcsHdSof
-	 gSbVh5HKYAenHcnPeB8iJ3mhIXdBV6fvJtxyM+zw=
-Date: Wed, 22 May 2024 14:16:22 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
-	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v6,04/24] v4l: add documentation for restricted memory
- flag
-Message-ID: <20240522111622.GA31185@pendragon.ideasonboard.com>
-References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
- <20240516122102.16379-5-yunfei.dong@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NH3vHSAOj3vWiTnXEBT9WHjt3lViKNa5QGp5TdNqQf0OSyBqo78QdxsMHI0R6P0aQTvire7mgZMOsoQCDLuH+PQISwpEt3fmIKzeCEpKx1703A95H4YttakyPXBj0zXW/9FhJNnMoQoMZLHmCA4vfz8RIVj+HL57qYvoynHRrnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hro65EgF; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716377057; x=1747913057;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CD8rCWu20B9y/mSC9WCDWFP2hk3RddKXI4OOnI1wydQ=;
+  b=hro65EgFieDfbNgGxxjhse4Th6SoxbH5uhFWZ7658TAE44EODS3HZYE/
+   Uq4/nYl9WJjgIfXDjcKguCqx519qG3p0UkF6PTjBiJh40YXix+wcSG0Ee
+   bXB32tph7JIQFHm7DhO++U3wSFkmw0jdFKgl+Jfjrg6sl92TP87AyDwSw
+   C0gCmqPQMy7qVZIoBHanFEh9lji9Cw5b5lAb3nZCMO114kf+B6thQI09D
+   2/DuOJKFO/FaFxzXOzmQr8LOc99rE35ZapP9cOeRRoakOcqz18tTxNLVU
+   hz6RRWHbh2PI7zMuSjE4ZGpD57AC5Yl48wohGpTSzqP58Xzg4t8vNo4nT
+   w==;
+X-CSE-ConnectionGUID: hmZXArDGQ+qLT7YjU2YU6g==
+X-CSE-MsgGUID: wrJ9ArJESaGsa+UooZoXSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="23194886"
+X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
+   d="scan'208";a="23194886"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 04:24:16 -0700
+X-CSE-ConnectionGUID: LdKsxmfIQPqx+GlaxKJMDA==
+X-CSE-MsgGUID: TnsLCbH1SLq1SbhefbFCCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
+   d="scan'208";a="37735802"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 04:24:14 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2F44011F82A;
+	Wed, 22 May 2024 14:24:12 +0300 (EEST)
+Date: Wed, 22 May 2024 11:24:12 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Samuel Wein <sam@samwein.com>
+Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] Fix flags in X1 Yoga example. MEDIA_LNK_FL_DYNAMIC (0x4
+ in the link flag)  was removed in V4 Intel IPU6 and IPU6 input system
+ drivers. Added -V flag to media-ctl commands for X1 Yoga, lower-case v only
+ makes it verbose upper-case V sets the format.
+Message-ID: <Zk3V3B5-mX23VjJa@kekkonen.localdomain>
+References: <20240522080710.16922-1-sam@samwein.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240516122102.16379-5-yunfei.dong@mediatek.com>
+In-Reply-To: <20240522080710.16922-1-sam@samwein.com>
 
-Hi Jefrey,
+Hi Samuel,
 
-Thank you for the patch.
+Thanks for the patch.
 
-On Thu, May 16, 2024 at 08:20:42PM +0800, Yunfei Dong wrote:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
-> 
-> Adds documentation for V4L2_MEMORY_FLAG_RESTRICTED.
-> 
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Please try to keep the subject within 75 characters. I think most of the
+subject line should be part of the commit message which currently is
+missing. See the commit log for examples as well as
+Documentation/process/submitting-patches.rst .
+
+On Wed, May 22, 2024 at 08:07:51AM +0000, Samuel Wein wrote:
+> Signed-off-by: Samuel Wein <sam@samwein.com>
 > ---
->  Documentation/userspace-api/media/v4l/buffer.rst | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  Documentation/admin-guide/media/ipu6-isys.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-> index 52bbee81c080..807e43bfed2b 100644
-> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> @@ -696,7 +696,7 @@ enum v4l2_memory
+> diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
+> index 0721e920b5e6..c8704ff63b45 100644
+> --- a/Documentation/admin-guide/media/ipu6-isys.rst
+> +++ b/Documentation/admin-guide/media/ipu6-isys.rst
+> @@ -135,16 +135,16 @@ sensor ov2740 on Lenovo X1 Yoga laptop.
+>  .. code-block:: none
 >  
->  .. _memory-flags:
+>      media-ctl -l "\"ov2740 14-0036\":0 -> \"Intel IPU6 CSI2 1\":0[1]"
+> -    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\":0[5]"
+> -    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\":0[5]"
+> +    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\":0[1]"
+> +    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\":0[1]"
 >  
-> -Memory Consistency Flags
-> +Memory Flags
->  ------------------------
+>      # set routing
+>      media-ctl -v -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
 >  
->  .. raw:: latex
-> @@ -728,6 +728,14 @@ Memory Consistency Flags
->  	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
->  	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
->  	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
-> +    * .. _`V4L2-MEMORY-FLAG-RESTRICTED`:
-> +
-> +      - ``V4L2_MEMORY_FLAG_RESTRICTED``
-> +      - 0x00000002
-> +      - The queued buffers are expected to be in restricted memory. If not, an
-> +	error will be returned. This flag can only be used with ``V4L2_MEMORY_DMABUF``.
-> +	Typically restricted buffers are allocated using a restricted dma-heap. This flag
-> +	can only be specified if the ``V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM`` is set.
+> -    media-ctl -v "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
+> -    media-ctl -v "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
+> -    media-ctl -v "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
+> -    media-ctl -v "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
+> +    media-ctl -Vv "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
+> +    media-ctl -Vv "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
+> +    media-ctl -Vv "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
+> +    media-ctl -Vv "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
 
-Why is this flag needed ? Given that the usage model requires the V4L2
-device to be a dma buf importer, why would userspace set the
-V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag and pass a non-restricted
-buffer to the device ?
-
-The V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag also needs to be
-documented in the relevant section, I don't think that's done in this
-series.
+I'd drop the v option altoghether, -v was probably intended to be -V
+originally.
 
 >  
->  .. raw:: latex
->  
+>      CAPTURE_DEV=$(media-ctl -e "Intel IPU6 ISYS Capture 0")
+>      ./yavta --data-prefix -c100 -n5 -I -s1932x1092 --file=/tmp/frame-#.bin \
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
