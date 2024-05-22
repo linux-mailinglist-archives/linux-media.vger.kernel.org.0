@@ -1,61 +1,54 @@
-Return-Path: <linux-media+bounces-11711-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11712-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533C38CBC78
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 09:54:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C5F8CBCA4
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 10:08:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9FB11F2277E
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 07:54:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F29971C20FE4
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 08:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE867E79F;
-	Wed, 22 May 2024 07:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E117E56C;
+	Wed, 22 May 2024 08:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=samwein.com header.i=@samwein.com header.b="REea3sMh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20EF7E59A
-	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 07:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39659B65E
+	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 08:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716364481; cv=none; b=paF6x8saNQLLPTgHvVsbWjVuUfN2yLY/bBsBR1hlgN+qe5JfGRWXlI3Y7mBn0WjjliBMRUhWQapfIxNo2h0J5WeK6srYUBqbSEA9ZqKpCJtqaEC/rsyt9VdC931A9+IMj288uq5PKp/ObVakSsPm8Ioe0vB9hF4w02tH9WL+XyE=
+	t=1716365288; cv=none; b=iwluTxdxpUWv9UhMSUBos1UtwX5l2uM7n68mpsMIGI3umsJNcV8u9ByidFd5Qsad3FzFTWq69Vgt2brplPuYkcm1bMk4EMAlOyl5cm4Pp4knJs3zq4dz3Q5jwNMC27Nasi6Dd7/VeOK3lMQLKfqDprYqJNB4eAJmgpHVRtlrSKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716364481; c=relaxed/simple;
-	bh=SVntbTmQZEA3PKqs8A1qluZvBPdpd11OxVSUTFpHJGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rhi1x1auevKsDzKY4YbJY5GmIcYATCw30Oblf/KlBQY9OxYZ+fWoRlc93tu+LxSvxXoZerirJD4W9/AQGiJ9qxiAZZzFWyNoBQiwuPiH3oIeLgnSr45dVfgytlnMYVfuZQRc624816sSvOCMEl5Vt+3RwlwhCImPljjPqjeDjrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1s9gnz-0000y6-6g; Wed, 22 May 2024 09:54:35 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1s9gny-002Ulm-AQ; Wed, 22 May 2024 09:54:34 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1s9gny-007sjD-0l;
-	Wed, 22 May 2024 09:54:34 +0200
-Date: Wed, 22 May 2024 09:54:34 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Nas Chung <nas.chung@chipsnmedia.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
-Message-ID: <Zk2kunIzL0ylxHiH@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-References: <20240517094940.1169-1-nas.chung@chipsnmedia.com>
+	s=arc-20240116; t=1716365288; c=relaxed/simple;
+	bh=sDTAztFgeTDgNI/lV7aod8fZQ6HHeahRPgwWctRwUT8=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=anNcmYZiHqcAFTIgw0bEU/55mPSoQRMQNAPSS1Qo7FGbFaY6riiovl4XG7bQsCHO10fJodMn9JPVqPxoujXhtKZUYyJCJLRcpcpLZBSzno0YMAYFvIwtvIRuEF3tCuFpFLH+yGMQ6N2muHFdzTu/tphMSJccINNT6o+Y0B3cusc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=samwein.com; spf=pass smtp.mailfrom=samwein.com; dkim=pass (2048-bit key) header.d=samwein.com header.i=@samwein.com header.b=REea3sMh; arc=none smtp.client-ip=188.165.51.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=samwein.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samwein.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samwein.com;
+	s=protonmail2; t=1716365275; x=1716624475;
+	bh=3kw/TwD3MRsRzFbB1AVLRSRQej3KvNygx+QGkBFXWWk=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=REea3sMhrvEcyeGbr4un60YNYof4r9kXTS5S7xd80Vmwtq+xGtl8OYYY7IB2RcTv4
+	 N2CFzoialnght9rsDQsGfChmTPlwfPmsQyOj0vLf5w/UCrRCkCr866zZxQsoENf+YJ
+	 WHUR1ymuET+e/3vdp7t27dAVtD2sDtkoUiKXc15ih4IDtJwMKtkxO+LdRhmh0LlvtJ
+	 +fQ3Qn5nnxz8ho0hVQ5R1vog3x/UpxCByolnV//ZDrdMEfanTTHJEejMdrMwdWeCUH
+	 7D4egIJIQy6pz31J8HxFga5DfcTrD0pvyxKaldSp8k6tmZNbaFmEk8ZJKUqqa1W38/
+	 wDthckBzJntbw==
+Date: Wed, 22 May 2024 08:07:51 +0000
+To: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, bingbu.cao@linux.intel.com
+From: Samuel Wein <sam@samwein.com>
+Cc: Samuel Wein <sam@samwein.com>
+Subject: [PATCH] Fix flags in X1 Yoga example. MEDIA_LNK_FL_DYNAMIC (0x4 in the link flag)  was removed in V4 Intel IPU6 and IPU6 input system drivers. Added -V flag to media-ctl commands for X1 Yoga, lower-case v only makes it verbose upper-case V sets the format.
+Message-ID: <20240522080710.16922-1-sam@samwein.com>
+Feedback-ID: 2153553:user:proton
+X-Pm-Message-ID: 2cd6b2ea6678878f47deb9568a4c277f6ac66aec
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,65 +56,48 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240517094940.1169-1-nas.chung@chipsnmedia.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 17 May 2024 18:49:40 +0900, Nas Chung wrote:
-> We expect V4L2_TYPE_IS_CAPTURE() macro allow only CAPTURE type.
-> But, Inverting OUTPUT type can allow undefined v4l2_buf_type.
-> Check CAPTURE type directly instead of inverting OUTPUT type.
-> 
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> ---
->  include/uapi/linux/videodev2.h | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index fe6b67e83751..32b10e2b7695 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -171,7 +171,13 @@ enum v4l2_buf_type {
->  	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
->  	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
->  
-> -#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
-> +#define V4L2_TYPE_IS_CAPTURE(type)				\
-> +	((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE			\
-> +	 || (type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
-> +	 || (type) == V4L2_BUF_TYPE_VBI_CAPTURE			\
-> +	 || (type) == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE		\
-> +	 || (type) == V4L2_BUF_TYPE_SDR_CAPTURE			\
-> +	 || (type) == V4L2_BUF_TYPE_META_CAPTURE)
+Signed-off-by: Samuel Wein <sam@samwein.com>
+---
+ Documentation/admin-guide/media/ipu6-isys.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Maybe adding a V4L2_TYPE_IS_VALID(type) macro would be helpful to define
-TYPE_IS_CAPTURE as all valid types that are not OUTPUT:
+diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/=
+admin-guide/media/ipu6-isys.rst
+index 0721e920b5e6..c8704ff63b45 100644
+--- a/Documentation/admin-guide/media/ipu6-isys.rst
++++ b/Documentation/admin-guide/media/ipu6-isys.rst
+@@ -135,16 +135,16 @@ sensor ov2740 on Lenovo X1 Yoga laptop.
+ .. code-block:: none
+=20
+     media-ctl -l "\"ov2740 14-0036\":0 -> \"Intel IPU6 CSI2 1\":0[1]"
+-    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\"=
+:0[5]"
+-    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\"=
+:0[5]"
++    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\"=
+:0[1]"
++    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\"=
+:0[1]"
+=20
+     # set routing
+     media-ctl -v -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
+=20
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
++    media-ctl -Vv "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
++    media-ctl -Vv "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
++    media-ctl -Vv "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
++    media-ctl -Vv "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
+=20
+     CAPTURE_DEV=3D$(media-ctl -e "Intel IPU6 ISYS Capture 0")
+     ./yavta --data-prefix -c100 -n5 -I -s1932x1092 --file=3D/tmp/frame-#.b=
+in \
+--=20
+2.34.1
 
-	#define V4L2_TYPE_IS_VALID(type) \
-		((type) >= V4L2_BUF_TYPE_VIDEO_CAPTURE \
-		&& (type) <= V4L2_BUF_TYPE_META_OUTPUT)
 
-	#define V4L2_TYPE_IS_CAPTURE(type) \
-		(V4L2_TYPE_IS_VALID(type) && !V4L2_TYPE_IS_OUTPUT(type))
-
-This would avoid keeping the two explicit lists of OUTPUT and CAPTURE
-types.
-
-Michael
-
->  
->  enum v4l2_tuner_type {
->  	V4L2_TUNER_RADIO	     = 1,
-> -- 
-> 2.25.1
-> 
-> 
-> 
 
