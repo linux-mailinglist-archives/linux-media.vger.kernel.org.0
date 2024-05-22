@@ -1,204 +1,202 @@
-Return-Path: <linux-media+bounces-11736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FC18CC237
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:35:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2298CC460
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 17:47:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FB69B21FE4
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:35:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D2AE1C21F6F
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:47:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F65140381;
-	Wed, 22 May 2024 13:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C95413D63A;
+	Wed, 22 May 2024 15:47:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eMXd6peJ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="F4CHmBRK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEA413F44F
-	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 13:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6380E28EA;
+	Wed, 22 May 2024 15:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716384899; cv=none; b=eDfSYgFWLgK3Fr3q71cXyLQkD2lMk1pPU+WSUW13i3+CZO46aFz+tVsHV+jznM6EW+t7UAyxTxha8WGBzdciUIV0mp0s6UuE2PNbJkUa2Q/2f0yrO8AZ5+G7KBLeyzVPt62aafG/8JTJxAy2O0kUFeMAndv6vAt77VXAY5jkZPU=
+	t=1716392866; cv=none; b=aaQrglhmvLovKDI3c+cJSivaVKBgiAwZ9TMq7GFVuWmRnO/xu2gSn8KAGIcwjBBWGuoxnh6Hg9AmfHDL9XSkwtgunjEsRMa3xSyW0w2TPlVvZxZ2dB7D5m+C6t4nkQrTQ2boOcmtBIrXPoRg5gzhfm/XavNB7FwsSAzZgYLEkzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716384899; c=relaxed/simple;
-	bh=9csiwcmOfg3mSOV0xDC+NQzLfT9XUuA2G1lm9ivaPcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xwiv5MrsQD7umQ7wnYtpl3Z9dWCH9S4BrN5II5wFHtGi1+PHaTTQuYNnZbvdW8gW8oxOktrlWEApAkKjzQLKyro3MjXSaDG6Rl32sIoq5L5TlH+Jul3h8lOREn7E31FQpQ4yyU/wnovaIe1UDGhUnAxVWI7X6P+EhN3JiASvXHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eMXd6peJ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716384896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dUqK+C+8pYfPJIKtQMFJE42yDM9CCMGY3faQLsz8g6w=;
-	b=eMXd6peJ8uAJbBm8BoOMuw+XDpZ2u38VG+f7XJ4LW+WZbwxOq4B0ewWuJCePFzRXIl8o38
-	Ox3KEq3BvC6U91clMb+RSpvbuDqUsJnK8hQfv7M7iLevx/UeYe34Q8mx4sLKoiVvgGpR/d
-	VgMnji3cQNlUZ+QrdyUpbGqq96fXyeM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-0SYf7TlbPyekQbfInVM3Mw-1; Wed, 22 May 2024 09:34:55 -0400
-X-MC-Unique: 0SYf7TlbPyekQbfInVM3Mw-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-354de3c747bso394079f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 06:34:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716384894; x=1716989694;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dUqK+C+8pYfPJIKtQMFJE42yDM9CCMGY3faQLsz8g6w=;
-        b=BlAJHZezeiTjhqsqjTcy1XTd757Hk2N4PyYi8TYInpi/kea8KUCbmWp4NorHa/kQjT
-         uVY7Ft9LUHfY9RD1f0Mfn0DF6qjEur93l8VOboQ5zrU7Zwh+uVCMM7GdRbnONRW3VMFM
-         uoyOJvLSIbKKW9daiyJjPtP0W1at5pbOUA9cnmqrpavg6fQxaXWKYyf/fDDvWmdMvs/U
-         ZmjHqxNpKZh+eihK1dFdfL79ZLU2roo3CwTpLhlDtPQRv4Ro4K3Pty6WmvW60ZTor0Vn
-         Q7SNnNvEHwuRydsguv7kiCn0058SJR1DCorEHrMy0Qgsnm9tV4fhgJPqdtZ2KumJt9PF
-         ENPw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9JEeIlnYdbLcuFH4+OD+CcC/eXXvG0MyVFoknzkKQyxb3pgAuCt/B17acN07efA8AS5rFwVsUl/GTE2Qk/JZVR6qpNoPE/p9xaI4=
-X-Gm-Message-State: AOJu0YxttFdjB6xLxXsykJsqqyclgWaUx83kHcL2JKXh6V6MhmN+KiKw
-	ZFyZpc6dDftGSme7B+mG6DOqyknVm6oc/Js+BuH1w6fv0BMghk7o7FqNhgYJ07ZWobbzSwe7q7R
-	r2wcgdpAP08NXLRZEWai58KtReDbsYfsepBgC6LTpsQLIMSGQSBZRr9EbEWrH
-X-Received: by 2002:a05:6000:b8a:b0:34b:e446:3d4 with SMTP id ffacd0b85a97d-354d8da39demr1439954f8f.58.1716384893876;
-        Wed, 22 May 2024 06:34:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErtdZkkoK6JkxFwy4LNegEoex81yx9NccIdCSNk/jLtIVySlgXMJi/3cvC6sJfv/m8nqQrUw==
-X-Received: by 2002:a05:6000:b8a:b0:34b:e446:3d4 with SMTP id ffacd0b85a97d-354d8da39demr1439928f8f.58.1716384893361;
-        Wed, 22 May 2024 06:34:53 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-351b55b4655sm27866245f8f.76.2024.05.22.06.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 06:34:53 -0700 (PDT)
-Date: Wed, 22 May 2024 15:34:52 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Lennart Poettering <mzxreary@0pointer.de>, Robert Mader <robert.mader@collabora.com>, 
-	Sebastien Bacher <sebastien.bacher@canonical.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Milan Zamazal <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240522-thankful-cow-of-freedom-f0cbf8@houat>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <20240506-dazzling-nippy-rhino-eabccd@houat>
- <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+	s=arc-20240116; t=1716392866; c=relaxed/simple;
+	bh=Z4b6yAOm419MX7wPDVaKyHdQeVieRDgxocrRUfc/tls=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kkDFTlzoXl6J/IYT8DOCGSDU1nq9WeO90S8o9PRUoHy/AVmJ+hbWoa4FmyEzd2FCuhfAPZHMvz298/av0JPO3DT7Cski8TKKrUr3xB7kSo3uIr2zJax2Qxzmb6C2KoyUlOUBNN9pbhF9iXqMReJ9bx0D34dheCp5hgHxZu96JEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=F4CHmBRK; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44MDXFES009063;
+	Wed, 22 May 2024 15:47:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=f9u+nCP
+	C+UHzz1WIorUWxk8YUqmznhU63Uts/ePUqj4=; b=F4CHmBRKbYqf17etxOLagm4
+	iUsLc10bE3VB5M1NUgCD7Iz9P6SWuE7NCglcWKY3h+ReoB+uj2FvA6hIYjKY/bK7
+	FzfSYRvS2S4rC31qaNSNwjRsvIhEPI16Oo6i251LonMgXKAv5u4v+/fLXgNp7iI2
+	JY3zJfzmNWWhtNWpKKKgW7dZ+TNpDUpab/xj9mDL0vHMWjmtq5RBClP2TNNeyoqm
+	0/n8s1Yj/hyQKNW0ugt/o/M3cnRdIAGgqCSovkZqtc+2/3Mqu+IJkGizw8N3/JQX
+	l7GOxFod1FXm8wA87P3xXrvB39iPSjeR3MLX/ugLf+DhkYHjV1CKYMsxZBhrOMw=
+	=
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y6pqc9jm8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 May 2024 15:47:32 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44MFlUFn010548
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 May 2024 15:47:30 GMT
+Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 22 May 2024 08:47:27 -0700
+From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
+Subject: [PATCH v4 0/8] Move camss version related defs in to resources
+Date: Wed, 22 May 2024 18:46:51 +0300
+Message-ID: <20240522154659.510-1-quic_grosikop@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="hxnhtv33zytmu6lb"
-Content-Disposition: inline
-In-Reply-To: <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: McuxGJK1IvhHIB9GhJxPAIBF1XoesGTT
+X-Proofpoint-GUID: McuxGJK1IvhHIB9GhJxPAIBF1XoesGTT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-22_08,2024-05-22_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ spamscore=0 clxscore=1011 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405220107
 
+The different resources required for different camss soc versions are
+split in to two groups:
 
---hxnhtv33zytmu6lb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+1. Camss device related. In this group are all resources described
+in the device tree, clocks, regulators etc.
 
-Hi,
+2. Sub-device specific resources. In the initialization
+of the each sub-device, the version of camss is passed.
+Based on this version the sub-device adds: hw layer support,
+per pad formats, number of dma's etc.
 
-On Mon, May 06, 2024 at 03:38:24PM GMT, Daniel Vetter wrote:
-> On Mon, May 06, 2024 at 02:05:12PM +0200, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, May 06, 2024 at 01:49:17PM GMT, Hans de Goede wrote:
-> > > Hi dma-buf maintainers, et.al.,
-> > >=20
-> > > Various people have been working on making complex/MIPI cameras work =
-OOTB
-> > > with mainline Linux kernels and an opensource userspace stack.
-> > >=20
-> > > The generic solution adds a software ISP (for Debayering and 3A) to
-> > > libcamera. Libcamera's API guarantees that buffers handed to applicat=
-ions
-> > > using it are dma-bufs so that these can be passed to e.g. a video enc=
-oder.
-> > >=20
-> > > In order to meet this API guarantee the libcamera software ISP alloca=
-tes
-> > > dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
-> > > the Fedora COPR repo for the PoC of this:
-> > > https://hansdegoede.dreamwidth.org/28153.html
-> >=20
-> > For the record, we're also considering using them for ARM KMS devices,
-> > so it would be better if the solution wasn't only considering v4l2
-> > devices.
-> >=20
-> > > I have added a simple udev rule to give physically present users acce=
-ss
-> > > to the dma_heap-s:
-> > >=20
-> > > KERNEL=3D=3D"system", SUBSYSTEM=3D=3D"dma_heap", TAG+=3D"uaccess"
-> > >=20
-> > > (and on Rasperry Pi devices any users in the video group get access)
-> > >=20
-> > > This was just a quick fix for the PoC. Now that we are ready to move =
-out
-> > > of the PoC phase and start actually integrating this into distributio=
-ns
-> > > the question becomes if this is an acceptable solution; or if we need=
- some
-> > > other way to deal with this ?
-> > >=20
-> > > Specifically the question is if this will have any negative security
-> > > implications? I can certainly see this being used to do some sort of
-> > > denial of service attack on the system (1). This is especially true f=
-or
-> > > the cma heap which generally speaking is a limited resource.
-> >=20
-> > There's plenty of other ways to exhaust CMA, like allocating too much
-> > KMS or v4l2 buffers. I'm not sure we should consider dma-heaps
-> > differently than those if it's part of our threat model.
->=20
-> So generally for an arm soc where your display needs cma, your render node
-> doesn't. And user applications only have access to the later, while only
-> the compositor gets a kms fd through logind. At least in drm aside from
-> vc4 there's really no render driver that just gives you access to cma and
-> allows you to exhaust that, you need to be a compositor with drm master
-> access to the display.
->=20
-> Which means we're mostly protected against bad applications, and that's
-> not a threat the "user physically sits in front of the machine accounts
-> for", and which giving cma access to everyone would open up. And with
-> flathub/snaps/... this is very much an issue.
->=20
-> So you need more, either:
->=20
-> - cgroups limits on dma-buf and dma-buf heaps. This has been bikeshedded
->   for years and is just not really moving.
+The code for "1" group lives in camss.c. However the "2" group
+is spread across all sub-device implementations including video device.
 
-For reference, are you talking about:
+This kind of separation is not very convenient when adding new camss soc
+version. The reason is that you need to add support in all sub-device
+implementations.
 
-https://lore.kernel.org/r/20220502231944.3891435-1-tjmercier@google.com
+There were some improvements in this direction where some of the
+hw version related definitions were moved in to the "1". One
+example is attaching of the hw operations.
 
-Or has there been a new version of that recently?
+This series aim to improve the things more and add additional definitions
+in to the "1".
 
-Maxime
+What is included:
 
---hxnhtv33zytmu6lb
-Content-Type: application/pgp-signature; name="signature.asc"
+- Remove all format definitions from camss video. The will be passed
+  by the parent sub-device
 
------BEGIN PGP SIGNATURE-----
+- Make camss generic format definition mapping, containing mbus to
+  v4l2 mapping, mbus bpp and other required fields used by the
+  sub-device and video node.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZk30ewAKCRAnX84Zoj2+
-draWAYDLJIiS8Msi/y+wAUwHnzf1kXf7kVHqMhUIoYE8ndNmYlwqBzACVvj3PUVB
-N0AgXyoBfioOGDi7CM19X5rtjvPyTVNdo3UuTQN/8N35V28aULcBS8FlUqHm1UCO
-jZ9Oi4jvXA==
-=rT0Y
------END PGP SIGNATURE-----
+- Add per sub-device type union in the resources, different
+  sub-devices are using different resources, as an example: is_lite flag.
 
---hxnhtv33zytmu6lb--
+- Move camss link operation in to the resources. Currently one
+  function supports different topologies depending of the number
+  of devices. As hw version support increases this is not good
+  way of supporting different topologies.
+
+- Add parent device ops in to the resources. This resolves
+  inter-dependencies of vfe and csid. Csid requests the clocks
+  regulators etc from parent device instead calling directly vfe
+  functions.
+
+- Some cleanups in csid code for split the configuration of
+  RX and testgen and RDI.
+
+Changes in V4:
+- Updated first patch with once posted by Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+  for adding missing csiphy types in 8280xp resources.
+- Incorporate only cosmetic changes pointed by Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+  as agreed.
+- Add Reviewed-by and Tested-by tags form Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Changes in V3:
+- Incorporate missing changes in resources reported and fixed by
+  Bryan O'Donoghue <bryan.odonoghue@linaro.org> taken from the branch:
+  https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/sc8280xp-6.9-rc1-camss-resource-change-verification?ref_type=heads
+- Added missing signed-off to the changes submitted by me.
+
+Changes in V2:
+- Rebased on top of sc8280xp v6.
+- The change "Designate lite subdevices in resources" was dropped,
+  it was already merged in previous series.
+
+Atanas Filipov (1):
+  media: qcom: camss: Decompose register and link operations
+
+Milen Mitkov (2):
+  media: qcom: camss: Split testgen, RDI and RX for CSID 170
+  media: qcom: camss: Decouple VFE from CSID
+
+Radoslav Tsvetkov (5):
+  media: qcom: camss: Add per sub-device type resources
+  media: qcom: camss: Attach formats to VFE resources
+  media: qcom: camss: Attach formats to CSID resources
+  media: qcom: camss: Attach formats to CSIPHY resources
+  media: qcom: camss: Move format related functions
+
+ drivers/media/platform/qcom/camss/Makefile    |   1 +
+ .../platform/qcom/camss/camss-csid-4-1.c      | 132 +---
+ .../platform/qcom/camss/camss-csid-4-7.c      | 160 +----
+ .../platform/qcom/camss/camss-csid-gen2.c     | 410 ++++-------
+ .../media/platform/qcom/camss/camss-csid.c    | 512 ++++++++++++-
+ .../media/platform/qcom/camss/camss-csid.h    |  32 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  74 +-
+ .../media/platform/qcom/camss/camss-csiphy.h  |  23 +-
+ .../media/platform/qcom/camss/camss-format.c  |  91 +++
+ .../media/platform/qcom/camss/camss-format.h  |  62 ++
+ .../media/platform/qcom/camss/camss-vfe-17x.c |  10 +-
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   6 +-
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   6 +-
+ .../platform/qcom/camss/camss-vfe-gen1.c      |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c | 483 ++++++++-----
+ drivers/media/platform/qcom/camss/camss-vfe.h |  22 +-
+ .../media/platform/qcom/camss/camss-video.c   | 294 +-------
+ .../media/platform/qcom/camss/camss-video.h   |   4 +-
+ drivers/media/platform/qcom/camss/camss.c     | 678 +++++++++++++-----
+ drivers/media/platform/qcom/camss/camss.h     |  20 +-
+ 21 files changed, 1696 insertions(+), 1336 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-format.h
+
+-- 
+2.17.1
 
 
