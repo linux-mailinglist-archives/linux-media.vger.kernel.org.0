@@ -1,186 +1,235 @@
-Return-Path: <linux-media+bounces-11734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFAB8CC1F6
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:18:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1E88CC233
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:34:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B345B22A3C
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:18:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B57E2284A3D
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 004E113E046;
-	Wed, 22 May 2024 13:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BG8iZIx9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679C81411DA;
+	Wed, 22 May 2024 13:34:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D0113DDCF;
-	Wed, 22 May 2024 13:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C63140E2E;
+	Wed, 22 May 2024 13:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716383885; cv=none; b=cq9OkNRf2bJsjh3i/JVk2toVSKxdhgRfSGiMiMrSM8WYcOK2s6VaLToYjeOkpfqJI5sDW0ncnkH6ktdvkRwpXVM4bHQu3XRshgAVDT4i9ViDl0yecXGvg2byHR5ymMG5jXfmVCDbi6gSU16VgeEe/ltnobhZ2NtmapR1JnlKLhA=
+	t=1716384850; cv=none; b=h8KAo9NAF6WRNGGFHxA3RH275rq0sF3faEFPG73qrulqcVH7FxblksG7Cm+iNnCjnM8tn4xRELFB/FruU7ZPax8ItKrkCIGKhN1GNF6uSfSQrXRQwJBokwIU53B4idLgBT0ON6vftrxMDxJubY/wz9GDhugPxkLUcBn+8SnLwco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716383885; c=relaxed/simple;
-	bh=SS8NQ2qI1N6VAQAHONvDSqaVdH40rCdkvanu7fSkmF0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ILk34GVUWrqmk2fAL4IcHm9kWzL5J6iPugb5CW0QMqmIhmPhd1FEqkAxsx6DZ11yYhNbYG5oiyy1uD28y574aBTPZpJpWVnXKJLUFgIiBsch4XjUURWYbUwudi3lM1oU5chOKaTja/YIlyYOdN1xYWMXQXzZX6YknabHNnj9Nsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BG8iZIx9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BD6DC2BD11;
-	Wed, 22 May 2024 13:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716383884;
-	bh=SS8NQ2qI1N6VAQAHONvDSqaVdH40rCdkvanu7fSkmF0=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=BG8iZIx91+Ie+2UsCYkTy/GKOfYELHhEYG9HMdOpesEnWOabp0kTVznDXIVA1HeOk
-	 4/nStEikie+/W5UV4ZU97/qJ824apR9GTZuFG5RjJ95TP9+jUlMOtsDPv7JCdoIWet
-	 wZcoX7eDAn21xTdj3etJy7Dwig0uKWDBf1xQGU/rth/iGP4VpmBc+pSTzGVJ1cNVSw
-	 qsG/16620AK5euzv6NpNupJyY/cgPk+OTOybTXGrwJK+k13/11LELqH5b0ik0xxBF0
-	 s6hujDttQ9IQX3DVR7syIWfT8gIawnngFdoDvZd5jVBroroW2Q+PZkswDjPU6bBYOj
-	 bboTJaEGFX4FA==
-Date: Wed, 22 May 2024 15:18:02 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <20240522-coral-fennec-from-uranus-fb7263@houat>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+	s=arc-20240116; t=1716384850; c=relaxed/simple;
+	bh=TZP5dNki7jTzKxJ4a7RW9CQQzhAHTIb0RYx5kkokGQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VYJYiz5NkZp/RTChfXzpyXK6dVuPjFetpbolxnMsbXvTObRjcEDitkFlqgNVx8cXJMWK3h547K8jDIkLjWcsxEoggMgG1TBkn/nqP3I/sz/Qp8dOLPk64JOrh5zcFo8hGlfzD17ilwNspqaZ2MUuVdrmxSqp9R9eB4TNa913FyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 22 May
+ 2024 16:33:57 +0300
+Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 22 May
+ 2024 16:33:57 +0300
+Message-ID: <5b351cfa-6537-4e3d-9d5b-0435e4eceef9@fintech.ru>
+Date: Wed, 22 May 2024 06:33:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="hjuhspbk6bfp7v2t"
-Content-Disposition: inline
-In-Reply-To: <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
+ (2)
+Content-Language: en-US
+To: Nam Cao <namcao@linutronix.de>
+CC: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>,
+	<Larry.Finger@lwfinger.net>, <florian.c.schilhabel@googlemail.com>,
+	<gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+References: <000000000000809328060a8a4c1c@google.com>
+ <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+ <20240520171848.60Nzvv8y@linutronix.de>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <20240520171848.60Nzvv8y@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
+Hi,
 
---hjuhspbk6bfp7v2t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/20/24 10:18, Nam Cao wrote:
+> On Mon, May 20, 2024 at 07:46:41AM -0700, Nikita Zhandarovich wrote:
+>> Hi,
+>>
+>>> BUG: memory leak
+>>> unreferenced object 0xffff888107a5c000 (size 4096):
+>>>   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+>>>   hex dump (first 32 bytes):
+>>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>   backtrace:
+>>>     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+>>>     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+>>>     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+>>>     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+>>>     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+>>>     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+>>>     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+>>>     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+>>>     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+>>>     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+>>>     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+>>
+>> I am inclined to think that this issue might be false positive. During
+>> repro the device is initialized correctly, does some work and then
+>> exits, calling all required functions to clean things up
+>> (i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
+>> Kmemleak triggers disappear if you set longer intervals between
+>> scannning for them (obviously). And if all the things get cleared up
+>> when the device disconnects, isn't that correct and expected
+>> behaviour? Could the scanner just "lose track" of some of the objects
+>> here?
+>>
+>> Or am I missing something?
+> 
+> Possibly this is because the driver's probe function doesn't clean up
+> itself properly if it fails in the middle (e.g. due to the system running
+> out of memory and kmalloc() fails). These aren't easy to reproduce, because
+> you would need to make probing fails somehow.
+> 
+> Example fix: ac83631230f7 ("staging: r8712: Fix memory leak in
+> _r8712_init_xmit_priv()")
+> 
+> Best regards,
+> Nam
 
-On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
-> On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
-> > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch>=
- wrote:
-> > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > > > But it makes me a little nervous to add a new generic allocation fl=
-ag
-> > > > for a feature most hardware doesn't support (yet, at least). So it's
-> > > > hard to weigh how common the actual usage will be across all the
-> > > > heaps.
-> > > >
-> > > > I apologize as my worry is mostly born out of seeing vendors really
-> > > > push opaque feature flags in their old ion heaps, so in providing a
-> > > > flags argument, it was mostly intended as an escape hatch for
-> > > > obviously common attributes. So having the first be something that
-> > > > seems reasonable, but isn't actually that common makes me fret some.
-> > > >
-> > > > So again, not an objection, just something for folks to stew on to
-> > > > make sure this is really the right approach.
-> > >
-> > > Another good reason to go with full heap names instead of opaque flag=
-s on
-> > > existing heaps is that with the former we can use symlinks in sysfs to
-> > > specify heaps, with the latter we need a new idea. We haven't yet got=
-ten
-> > > around to implement this anywhere, but it's been in the dma-buf/heap =
-todo
-> > > since forever, and I like it as a design approach. So would be a good=
- idea
-> > > to not toss it. With that display would have symlinks to cma-ecc and =
-cma,
-> > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for=
- a
-> > > SoC where the display needs contig memory for scanout.
-> >=20
-> > So indeed that is a good point to keep in mind, but I also think it
-> > might re-inforce the choice of having ECC as a flag here.
-> >=20
-> > Since my understanding of the sysfs symlinks to heaps idea is about
-> > being able to figure out a common heap from a collection of devices,
-> > it's really about the ability for the driver to access the type of
-> > memory. If ECC is just an attribute of the type of memory (as in this
-> > patch series), it being on or off won't necessarily affect
-> > compatibility of the buffer with the device.  Similarly "uncached"
-> > seems more of an attribute of memory type and not a type itself.
-> > Hardware that can access non-contiguous "system" buffers can access
-> > uncached system buffers.
->=20
-> Yeah, but in graphics there's a wide band where "shit performance" is
-> defacto "not useable (as intended at least)".
+I did some more testing with the help of reproducer from [1].
+The way I see it, during repro leaks supposedly occur this way:
 
-Right, but "not useable" is still kind of usage dependent, which
-reinforces the need for flags (and possibly some way to discover what
-the heap supports).
+r871xu_drv_init() // probe starts
+	...
+	r8712_init_drv_sw() // success at init
+	...
+	/* this takes around 20-30 secs during which LEAKS appear.
+	They only appear if repro tries to connect another similar
+	device in a loop. With only a single iteration no leaks are
+	present. */
+	for (i = 0, offset = 0; i < 128; i += 8, offset++)
+		r8712_efuse_pg_packet_read(padapter, offset,
+				   &pdata[i]);
+	...
+	return 0; // probe succeeds
+...
+...
+r871xu_dev_remove() // device starts disconnecting
+	...	
+	r8712_free_drv_sw()
+		...
+		*/ clean up all the stuff that 'leaks'
+		_free_xmit_priv(&padapter->xmitpriv);
+		...
+	...
+...
 
-Like, if I just want to allocate a buffer for a single writeback frame,
-then I probably don't have the same requirements than a compositor that
-needs to output a frame at 120Hz.
+In short, I think that probe finishes fine (compared to an example you
+brought up). But it is the interference from an attempt to connect a
+similar device that throws off KMEMLEAK and triggers leaks. Currently I
+can't figure out what exactly occurs to confuse the sanitizer.
 
-The former probably doesn't care about the buffer attributes aside that
-it's accessible by the device. The latter probably can't make any kind
-of compromise over what kind of memory characteristics it uses.
+P.S.
+Test log during repro execution looks like this (please excuse some
+crude and lazy debug printing on my part) with some added comments:
 
-If we look into the current discussions we have, a compositor would
-probably need a buffer without ECC, non-secure, and probably wouldn't
-care about caching and being physically contiguous.
+syz: main: finished sleeping, starting repro
 
-Libcamera's SoftISP would probably require that the buffer is cacheable,
-non-secure, without ECC and might ask for physically contiguous buffers.
+// first process spawns, starts connecting device
 
-As we add more memory types / attributes, I think being able to discover
-and enforce a particular set of flags will be more and more important,
-even more so if we tie heaps to devices, because it just gives a hint
-about the memory being reachable from the device, but as you said, you
-can still get a buffer with shit performance that won't be what you
-want.
+syz: loop: pid 8532 			
+[ 7420.475276][ T8518] usb 1-1: new high-speed USB device number 8 using
+dummy_hcd
+[ 7421.060451][ T8518] usb 1-1: New USB device found, idVendor=083a,
+idProduct=c512, bcdDevice=cf.c8
+[ 7421.064860][ T8518] usb 1-1: New USB device strings: Mfr=1,
+Product=2, SerialNumber=3
+[ 7421.068964][ T8518] usb 1-1: Product: syz
+[ 7421.069828][ T8518] usb 1-1: Manufacturer: syz
+[ 7421.070776][ T8518] usb 1-1: SerialNumber: syz
+[ 7421.073606][ T8518] usb 1-1: config 0 descriptor??
+[ 7421.109353][ T8518] r8712u: register rtl8712_netdev_ops to netdev_ops
+[ 7421.110706][ T8518] usb 1-1: r8712u: USB_SPEED_HIGH with 0 endpoints
+[ 7421.112160][ T8518] usb 1-1: r8712u: starting step 4 init_drv_sw
+[ 7421.325368][ T8518] usb 1-1: r8712u: starting step 5 (efuze/eeprom etc)
+[ 7421.545164][ T8518] usb 1-1: r8712u: Boot from EEPROM: Autoload OK
+[ 7421.895138][ T8518] usb 1-1: r8712u: start read 128 efuse pg packets
 
-> So if we limit the symlink idea to just making sure zero-copy access is
-> possible, then we might not actually solve the real world problem we need
-> to solve. And so the symlinks become somewhat useless, and we need to
-> somewhere encode which flags you need to use with each symlink.
->=20
-> But I also see the argument that there's a bit a combinatorial explosion
-> possible. So I guess the question is where we want to handle it ...
->=20
-> Also wondering whether we should get the symlink/allocator idea off the
-> ground first, but given that that hasn't moved in a decade it might be too
-> much. But then the question is, what userspace are we going to use for all
-> these new heaps (or heaps with new flags)?
+// !!! syzbot repro spawns second process that tries to connect again
+// while r8712_efuse_pg_packet_read() in probe() is run in a loop.
 
-For ECC here, the compositors are the obvious target. Which loops backs
-into the discussion with John. Do you consider dma-buf code have the
-same uapi requirements as DRM?
+syz: loop: pid 8545
 
-Maxime
+// !!! now KMEMLEAK messages appear
 
---hjuhspbk6bfp7v2t
-Content-Type: application/pgp-signature; name="signature.asc"
+[ 7433.115796][ T8531] kmemleak: 12 new suspected memory leaks (see
+/sys/kernel/debug/kmemleak)
+BUG: memory leak
+unreferenced object 0xffff88814a019000 (size 4096):
+  comm "kworker/0:0", pid 8518, jiffies 4295679317
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 0):
+    [<ffffffff81687c97>] kmalloc_trace+0x297/0x310
+    [<ffffffff83f45fb7>] _r8712_init_xmit_priv+0x2b7/0x700
+    [<ffffffff83f40608>] r8712_init_drv_sw+0xc8/0x280
+    [<ffffffff83f3f15f>] r871xu_drv_init+0x20f/0xa80
+    [<ffffffff834c5a5e>] usb_probe_interface+0x16e/0x420
+    [<ffffffff82dd0168>] really_probe+0x138/0x3e0
+    [<ffffffff82dd04ee>] __driver_probe_device+0xce/0x1a0
+    [<ffffffff82dd05ff>] driver_probe_device+0x2f/0x130
+    [<ffffffff82dd0824>] __device_attach_driver+0x114/0x170
+    [<ffffffff82dccdb4>] bus_for_each_drv+0xc4/0x120
+    [<ffffffff82dcfef5>] __device_attach+0x165/0x260
+    [<ffffffff82dce617>] bus_probe_device+0xd7/0xe0
+    [<ffffffff82dcaef5>] device_add+0x935/0xc00
+    [<ffffffff834c23fc>] usb_set_configuration+0x81c/0xcd0
+    [<ffffffff834d64e7>] usb_generic_driver_probe+0x87/0xe0
+    [<ffffffff834c37c1>] usb_probe_device+0x81/0x220
 
------BEGIN PGP SIGNATURE-----
+...
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZk3whQAKCRAnX84Zoj2+
-dqWtAYDEzyt+3FSvODb9lRG7mNxDmuod5zqt8l6YWNV4pyI1NI0RiRJM5n2Ktxtl
-NQjg/b0BfRKprpRHNgDfswuVhX6aDRtUvWEDBIzM+/B02WVcs/nEEFFqbgS8OJ3g
-2elrGf/LOQ==
-=gNHz
------END PGP SIGNATURE-----
+// but 1st process is still going, finishing probe
 
---hjuhspbk6bfp7v2t--
+[ 7455.585251][ T8518] usb 1-1: r8712u: finished reading 128 packets
+[ 7455.588869][ T8518] usb 1-1: r8712u: CustomerID = 0x0000
+[ 7455.589726][ T8518] usb 1-1: r8712u: MAC Address from efuse =
+00:e0:4c:87:00:00
+[ 7455.591080][ T8518] usb 1-1: r8712u: starting to load fw
+[ 7455.591994][ T8518] usb 1-1: r8712u: Loading firmware from
+"rtlwifi/rtl8712u.bin"
+[ 7455.594094][ T8518] usb 1-1: r8712u: r871xu_drv_init ended well as probe
+
+// probe succeeds, device disconnects and frees all necessary objects
+// the very objects at risk as KMEMLEAK sees it.
+
+[ 7455.603027][ T8518] usb 1-1: USB disconnect, device number 8
+[ 7455.604359][ T8518] r871xu_dev_remove
+[ 7455.655251][ T8518] r8712_free_drv_sw
+[ 7455.655910][ T8518] _free_xmit_priv
+
+[1]
+Syzbot link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
+Original repro link:
+https://syzkaller.appspot.com/text?tag=ReproC&x=17a7c024e80000
+
+Best regards,
+Nikita
 
