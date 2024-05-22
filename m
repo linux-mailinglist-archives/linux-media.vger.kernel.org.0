@@ -1,169 +1,131 @@
-Return-Path: <linux-media+bounces-11713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07FB8CBD6F
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBAD8CBDB4
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 11:23:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 058CD1C2099B
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 09:02:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A92EC1C21CD7
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 09:23:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 579017FBBE;
-	Wed, 22 May 2024 09:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C6680C03;
+	Wed, 22 May 2024 09:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4+W7yQj"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fBNLWLEN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BE418EB1;
-	Wed, 22 May 2024 09:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB50080628
+	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 09:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716368571; cv=none; b=HrEM+egvLRthT+I8+/xrTq/XVXzxMwOT0A8rWtkOiMOS80CPsw//0/gxvWmbd8NYsysA6R0wMAA4MdVW5Ztjegv8iudhWuCjk27XXyob2ejlqIAd+L6+ZjMQaHaE2KWfCUybw0oHkeNCH2Nc5AIA9Ewlq358s6191IylHDyW0Qc=
+	t=1716369815; cv=none; b=XXJx4d22MKlSuQSfxtwraF9HtT6ZA+62VKMe+Tym/FVK5akBX0hARuKpsa2Ex6uFGggT/U2CXOExK/avCkLnEDsPjf4xidlw/ljL5UGQExJTWndUUmVi+hHrmTlUcBzYfVRU331TyjMocMudhM/Z2WAzRbmwmn4gVttBR4/O3AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716368571; c=relaxed/simple;
-	bh=df1Xo2E4oNV3Ik/iVOCYN6L6LPpEV5UloozS7oqR3Sg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kzRwhdYLZUpcXaQRIcpPRdyM3/cXm+ucylXRm3R6w8jdGi+TL8Lpy48VyfdB2hl6aWfulOB+XiRn2SHlCURRK+yrYyz9omh6i2DNtN935AZSSQIvyVQy4kwsgdab2cQjymdarKh4fjEPYY9ZarkJsgX8X9FDflEyQuA56YOJhto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4+W7yQj; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1eeabda8590so7962485ad.0;
-        Wed, 22 May 2024 02:02:47 -0700 (PDT)
+	s=arc-20240116; t=1716369815; c=relaxed/simple;
+	bh=odJ0hFWlcsFxkYUX+bZg9URH7tzJA0vJ1p8L+ANWKgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NgSKtGinW3vcn0fg9PQX6wJoU1on0vL7nNwM0rVnvqIxLZwnPTdLEkneE/gFCJHbTRHQDGqx78VweaoFTsKm/EbN23maF13cEPryIM8JON0quZGadZRdy6rP/6zifQhqBFk5DJPKepMPVoKxLKKemHfKaM1ZIPaee8+GzbT7yYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fBNLWLEN; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-420180b59b7so5011075e9.0
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 02:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716368566; x=1716973366; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nLNtBYttVOortE4drZbAdtdQ+c5yWCs8A7f+Kl7W60c=;
-        b=H4+W7yQj7Ep82CMdk0DSqjWuA+jd7e8oEORZw5+GEidBaKGkPxy1stTRE6qUhyT0Fj
-         aJZ51cmszUvbXyxdDyRaQ+KlVewiw/rzythgOVYWFTWRG+T7rzUZMBGrNbtKrfF7+g06
-         hlbXaj7TYxCB+V+/Gn8bVZOADojfJXVPEgsGlVdhp+FwaPTFooytIqVcS5qgnqSFV/KP
-         58BkddzkSgq43xhoGaBchn2VDglDHwJI2ypm050f3d2upixOnCkTUOnpWM2M38z5eBgx
-         qx1ulMiuHnO9/A2UinRUO2T0T/RatRqtdmqmATRcIXipRGbXE24J4LVL23uCYdhRPvED
-         nU8g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716369812; x=1716974612; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JRjtoycu6QiYQPIcHAZ506CIemzizife0bP7oo/LEUE=;
+        b=fBNLWLENnPD+OTB14sTkFC/WdeeoMsiib9nbKmGOXQFrZcAkUHDs7pxZSlodulPr4Q
+         KzN/WgjC3vOAES0wQGQGJy4ukvGNu/3w2n7vF6dGafLJYynaGQ9CMOp9fFcR4wBSNGtW
+         hLuPDCmvC2oE1ul/Eh1WCBU8ah7APy7s7fiiQVh8/0ikHTYS8yrW+qjwQ2V7gshQ3dMK
+         f6GPgzlYQwssPYMm/0QQa82tA0w+G0SpDdVB7hqYJgtc6AS9lmajf32N8s/8z31NKmPh
+         f5JFOFMkd/tfkNmEHNruKR8EzfkO175c8dEOZBRZMoBQhsDzKPLqN+Co58U5OvvF0BnT
+         iXLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716368566; x=1716973366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nLNtBYttVOortE4drZbAdtdQ+c5yWCs8A7f+Kl7W60c=;
-        b=pyyyIp/FiZKzRERLnotunFlZwBTpcMw/97pdZ4i3X/5G2j9eFpB6U/f+o5ehMj0sdF
-         pOttHpxut6Y9Qt7qwBjtq/OhYFXnf9vSnwbqpTe8x66SVe+wwT+ue16S8JRqK/NKBuDR
-         0ewVrtQFZ1R8eRZmATn1jDXOdTSNDxyuv/qHZgJ0EOoPMrttb7FurR20B2nD6LvCCOxj
-         qHxgHlwjr2TyAmClemK9ZTJG61O8daz3/0u9YRTedKameH8MyP8fgzN/ykXbOh5xA8uc
-         7JxAXpDVOGcJ/vfNch/C+lxA5G2FG/8EsVvcPquymX9y+fMycjFB9ixpjMeVEZsWnXeA
-         eJ7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Xgd5HO4hmgc3qfHaVRQ14oBMH/ofTdMzHq8txxiRQhf+hKt5YzPMisRU6E3XkWxqvHK8DarXDO9H5yXjA7NPww961RwUlFv7VUA=
-X-Gm-Message-State: AOJu0Yx8lcsY8848zdkCOXlW3Xom1W05Subi8sf5G4SnCHISOQioszPZ
-	1RfaPFaN60J5FfsqCl2rZRYr155mfVegi39ePNrPG2Oyj2fLgJIU
-X-Google-Smtp-Source: AGHT+IF29gJJxooGTt+9X3IuC3RscusZu+sJgvCtr+mjChH43A1gvSfHGvV2d3z6054ZVRbSW9iN0Q==
-X-Received: by 2002:a17:902:ecc7:b0:1f3:53c:32be with SMTP id d9443c01a7336-1f31c95c225mr15349755ad.2.1716368566546;
-        Wed, 22 May 2024 02:02:46 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bad819csm235033875ad.84.2024.05.22.02.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 02:02:46 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: sumit.semwal@linaro.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org,
-	benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com,
-	jstultz@google.com,
-	tjmercier@google.com,
-	christian.koenig@amd.com,
-	Barry Song <v-songbaohua@oppo.com>
-Subject: [RFC PATCH] dma-buf: align fd_flags and heap_flags with dma_heap_allocation_data
-Date: Wed, 22 May 2024 21:01:58 +1200
-Message-Id: <20240522090158.121797-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1716369812; x=1716974612;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JRjtoycu6QiYQPIcHAZ506CIemzizife0bP7oo/LEUE=;
+        b=VVFMCMkcxJ9FJL8H/HzAiGUWzNmeHdvScTrSnxeThapKIl5T66LgvkZ//BxBf1OvQK
+         PzJdwWSiR68YufeofqKS7LQ490RVe0W2lpV42E8tYNo8sJxBckwF2McT+++rVo6XClvq
+         GT2EFsarTi31TbCYVWwNpfHcWynKGSignxbBJPOXJuLTDjhdpZxjtKRIGevkOy8E0PPa
+         BZ3tiStM3/ImRZ7IvUgIq86noWrVxu+TlsGHkMQo+9q9dmJTg20VVR0sGOyG17rqRz5b
+         OHXCRi0qW7obiCculBDk1tCh8GwO/id7/oxPbN7mK2xocdf7ZZzVGDpw91SoVeTHI7GJ
+         I8tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcrLxVHkWjWmDkvWBFusJrk5pvO6JhkGjQL8AIGtDIln3VdLW9uf2BJqJ9pAut+yJ/LiSrfcPCaL5h0o5isWC2F5fUVKRRpP37vRI=
+X-Gm-Message-State: AOJu0YxfLAQNH5maNMB1LFGFjNMYej/8livTLVz0Jl75w1ShN7S/7lEI
+	ZSDmp4x4a4Z+Y4hbT46OGGxYDl8fzfoMMckbjKHEq8R01YpIDpLUTTR40SD9YcU=
+X-Google-Smtp-Source: AGHT+IGBRKl5DCZ+kljNpjZnc9YzdCw1hs2bWkudIcHS/AaEdVRmj8bHA3gNsPb+/c/8i/lsYuEbJQ==
+X-Received: by 2002:a05:600c:ac1:b0:41b:f359:2b53 with SMTP id 5b1f17b1804b1-420fd37f2f5mr9924295e9.37.1716369811860;
+        Wed, 22 May 2024 02:23:31 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42011d91edfsm402874715e9.44.2024.05.22.02.23.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 May 2024 02:23:31 -0700 (PDT)
+Message-ID: <e9b8a423-9ee3-4f5d-a0a2-374603762127@baylibre.com>
+Date: Wed, 22 May 2024 11:23:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
+ <20240226-audio-i350-v4-7-082b22186d4c@baylibre.com>
+ <a693b696-92cf-48cf-8c9d-17aa7f182d98@collabora.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <a693b696-92cf-48cf-8c9d-17aa7f182d98@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Barry Song <v-songbaohua@oppo.com>
 
-dma_heap_allocation_data defines the UAPI as follows:
 
- struct dma_heap_allocation_data {
-         __u64 len;
-         __u32 fd;
-         __u32 fd_flags;
-         __u64 heap_flags;
- };
+On 20/05/2024 12:27, AngeloGioacchino Del Regno wrote:
+>> +int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
+>> +{
+>> +    unsigned long flags;
+>> +    struct mt8365_afe_private *afe_priv = afe->platform_priv;
+>> +
+>> +    spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
+>> +
+>> +    adda_afe_on_ref_cnt--;
+>> +    if (adda_afe_on_ref_cnt == 0)
+>> +        regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
+>> +                   AFE_ADDA_UL_DL_ADDA_AFE_ON,
+>> +                   ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
+>> +    else if (adda_afe_on_ref_cnt < 0)
+>> +        adda_afe_on_ref_cnt = 0;
+> 
+> Should we dev_warn() here? The refcount should never be less than zero - if it is,
+> then there's some issue somewhere that must be solved.
 
-However, dma_heap_buffer_alloc() casts them into unsigned int. It's unclear
-whether this is intentional or what the purpose is, but it can be quite
-confusing for users.
+Ok to add dev_warn, but I also want to keep "adda_afe_on_ref_cnt = 0;" for robustness, even if it 
+shouldn't reach this case.
 
-Adding to the confusion, dma_heap_ops.allocate defines both of these as
-unsigned long. Fortunately, since dma_heap_ops is not part of the UAPI,
-it is less of a concern.
-
-struct dma_heap_ops {
-        struct dma_buf *(*allocate)(struct dma_heap *heap,
-                                    unsigned long len,
-                                    unsigned long fd_flags,
-                                    unsigned long heap_flags);
-};
-
-I am sending this RFC in hopes of clarifying these confusions.
-
-If the goal is to constrain both flags to 32 bits while ensuring the struct
-is aligned to 64 bits, it would have been more suitable to define
-dma_heap_allocation_data accordingly from the beginning, like so:
-
- struct dma_heap_allocation_data {
-         __u64 len;
-         __u32 fd;
-         __u32 fd_flags;
-         __u32 heap_flags;
-	 __u32 padding;
- };
-
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
----
- drivers/dma-buf/dma-heap.c    | 4 ++--
- include/uapi/linux/dma-heap.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 84ae708fafe7..2298ca5e112e 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -50,8 +50,8 @@ static struct class *dma_heap_class;
- static DEFINE_XARRAY_ALLOC(dma_heap_minors);
- 
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
--				 unsigned int fd_flags,
--				 unsigned int heap_flags)
-+				 u32 fd_flags,
-+				 u64 heap_flags)
- {
- 	struct dma_buf *dmabuf;
- 	int fd;
-diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
-index 6f84fa08e074..a4cf716a49fa 100644
---- a/include/uapi/linux/dma-heap.h
-+++ b/include/uapi/linux/dma-heap.h
-@@ -19,7 +19,7 @@
- #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
- 
- /* Currently no heap flags */
--#define DMA_HEAP_VALID_HEAP_FLAGS (0)
-+#define DMA_HEAP_VALID_HEAP_FLAGS (0ULL)
- 
- /**
-  * struct dma_heap_allocation_data - metadata passed from userspace for
 -- 
-2.34.1
-
+Regards,
+Alexandre
 
